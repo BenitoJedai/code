@@ -149,6 +149,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\ContentControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Control.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextBlock.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Image.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Panel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Primitives\TextBoxBase.cs" />

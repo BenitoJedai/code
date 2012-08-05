@@ -592,9 +592,9 @@ namespace xavalon.net
                                             firstpage += "</div>";
                                         }
 
-                                        firstpage += "<h4>";
+                                        firstpage += "<div>";
                                         firstpage += item;
-                                        firstpage += "</h4>";
+                                        firstpage += "</div>";
                                         firstpage += "\n";
 
                                         #region WithImage
@@ -621,13 +621,7 @@ namespace xavalon.net
                                         firstpage += "</div>";
 
                                         #region WithQR
-                                        var WithQR = Contains(item, ".htm");
-
-                                        WithQR |= Contains(item, ".apk");
-
-
-
-
+                                        var WithQR = Contains(item, ".apk");
 
                                         if (WithQR)
                                         {
