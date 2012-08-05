@@ -57,13 +57,22 @@ namespace AndroidEmailActivity.Activities
                       }
                   );
 
+                    // http://android.foxykeep.com/dev/how-to-add-autocompletion-to-an-edittext
                     return new EditText(this).With(
+                    //return new AutoCompleteTextView(this).With(
                        b =>
                        {
                            // http://developer.android.com/reference/android/text/InputType.html
                            // TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                            b.setInputType(inputType);
 
+                           //var a = new ArrayAdapter(
+                           //    this,
+                           //    android.R.layout.simple_dropdown_item_1line,
+                           //    new[] { "arvo.sulakatko@jsc-solutions.net", "example topic", "example text" }
+                           //);
+
+                           //b.setAdapter(a);
 
                            ll.addView(b);
                        }
@@ -72,8 +81,8 @@ namespace AndroidEmailActivity.Activities
             #endregion
 
 
-            var email = AddProperty("Enter from email address:", 0x00000020);
-            var subject = AddProperty("Enter email Subject:", 0x00000030);
+            var email = AddProperty("Enter from email address:", 0x00000020 | 0x00000001);
+            var subject = AddProperty("Enter email Subject:", 0x00000030 | 0x00000001);
             var text = AddProperty("Enter Text:", 1);
 
             this.imagepath = new TextView(this).With(
