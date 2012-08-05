@@ -47,6 +47,7 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
+    <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
