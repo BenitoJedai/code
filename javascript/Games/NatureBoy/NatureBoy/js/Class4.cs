@@ -422,8 +422,8 @@ namespace NatureBoy.js
             AnimateRoomChange =
                 ReadyToTeleport =>
                 {
-                    var Step1 = default(ScriptCoreLib.Shared.EventHandler);
-                    var Step2 = default(ScriptCoreLib.Shared.EventHandler);
+                    var Step1 = default(System.Action);
+                    var Step2 = default(System.Action);
                     var Step3 = default(Action);
 
                     Step1 =
