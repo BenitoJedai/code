@@ -873,7 +873,7 @@ namespace ScriptCoreLib.PHP.Net
         {
             get
             {
-                return (Entries == null).Or(Entries.Length == 0);
+                return (Entries == null) || (Entries.Length == 0);
             }
         }
 

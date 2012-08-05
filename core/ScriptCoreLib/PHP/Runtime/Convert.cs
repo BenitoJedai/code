@@ -64,7 +64,7 @@ namespace ScriptCoreLib.PHP.Runtime
                     if ((chr & 0x80) > 0)
                     {
                         chr <<= 1;
-                        while (((chr & 0x80) > 0).And(x <= 0xFF))
+                        while (((chr & 0x80) > 0) && (x <= 0xFF))
                         {
                             x <<= 8;
                             x += str[i];
@@ -152,7 +152,7 @@ namespace ScriptCoreLib.PHP.Runtime
                         bool p1 = p == 0xc2;
                         bool p2 = p == 0xc3;
 
-                        if (p1.Or(p2))
+                        if (p1 || (p2))
                         {
                             bUTF8 = true;
                         }

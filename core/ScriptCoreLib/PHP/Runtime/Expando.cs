@@ -212,7 +212,7 @@ namespace ScriptCoreLib.PHP.Runtime
             [Script(DefineAsStatic = true)]
             get
             {
-                return IsInteger.Or(IsDouble);
+                return IsInteger || (IsDouble);
             }
         }
 

@@ -650,14 +650,14 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
                     var s = m.Self;
 
-                    bool fString = s.IsString.And(bString);
-                    bool fBoolean = s.IsBoolean.And(bBoolean);
-                    bool fNumber = s.IsNumber.And(bNumber);
-                    bool fObject = s.IsObject.And(bObject);
-                    bool fFunction = s.IsFunction.And(bFunction);
-                    bool fVoid = s.IsUndefined.And(bVoid);
+                    bool fString = s.IsString && (bString);
+                    bool fBoolean = s.IsBoolean && (bBoolean);
+                    bool fNumber = s.IsNumber && (bNumber);
+                    bool fObject = s.IsObject && (bObject);
+                    bool fFunction = s.IsFunction && (bFunction);
+                    bool fVoid = s.IsUndefined && (bVoid);
 
-                    var v = fString.Or(fBoolean).Or(fNumber).Or(fObject).Or(fFunction).Or(fVoid);
+                    var v = fString || (fBoolean) || (fNumber) || (fObject) || (fFunction) || (fVoid);
 
                     if (v)
                         e.push(m);
