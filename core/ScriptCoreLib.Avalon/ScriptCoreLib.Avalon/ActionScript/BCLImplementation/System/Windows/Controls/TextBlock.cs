@@ -15,6 +15,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
     [Script(Implements = typeof(global::System.Windows.Controls.TextBlock))]
     internal class __TextBlock : __FrameworkElement
     {
+        // where is this used?
+        // Y:\jsc.svn\examples\actionscript\AvalonFlashLinqToObjects\AvalonFlashLinqToObjects\ApplicationCanvas.cs
+
         public readonly TextField InternalTextField;
         public readonly Sprite InternalTextFieldContainer;
 
