@@ -34,7 +34,7 @@ namespace AvalonLinqToObjects
             {
                 AcceptsReturn = true,
                 TextWrapping = System.Windows.TextWrapping.Wrap,
-                Width = 300,
+                Width = 500,
                 Height = 50,
                 Text = "_martin, mike, mac, ken, neo, zen, jay, morpheous, trinity, Agent Smith, _psycho",
             }.AttachTo(this).MoveTo(8, 8 + 32);
@@ -48,7 +48,7 @@ namespace AvalonLinqToObjects
 
             var filter = new TextBox
             {
-                Width = 300,
+                Width = 500,
                 Text = "psy",
             }.AttachTo(this).MoveTo(8, 8 + 32 + 50 + 8 + 16);
 
@@ -59,7 +59,7 @@ namespace AvalonLinqToObjects
 
             var filter2 = new TextBox
             {
-                Width = 300,
+                Width = 500,
                 Text = "a",
             }.AttachTo(this).MoveTo(8, 8 + 32 + 50 + 8 + 16 + 58);
 
@@ -78,9 +78,10 @@ namespace AvalonLinqToObjects
                 Background = Brushes.Transparent,
                 BorderThickness = new Thickness(0),
 
-                Width = 300,
+                Width = 500,
                 Height = 50,
                 Text = "?",
+                TextAlignment = System.Windows.TextAlignment.Right,
                 IsReadOnly = true,
             }.AttachTo(this).MoveTo(8, 8 + 32 + 50 + 8 + 16 + 58 + 58);
 
