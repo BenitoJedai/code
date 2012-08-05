@@ -122,8 +122,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             public bool MoveNext()
             {
-                if ((this.__1__state == 0).Or(
-                    this.__1__state == 2).Or(
+                if ((this.__1__state == 0) || (
+                    this.__1__state == 2) || (
                     this.__1__state == 4))
                 {
 

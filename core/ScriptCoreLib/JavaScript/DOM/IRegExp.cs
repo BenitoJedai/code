@@ -69,7 +69,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             string[] p = exec(v);
 
-            while ((p != null).And(a.length < 80))
+            while ((p != null) && (a.length < 80))
             {
                 a.push(p);
 
@@ -91,7 +91,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             string[] p = exec(v);
 
-            while ((p != null).And( a.length < 80))
+            while ((p != null) && ( a.length < 80))
             {
                 a.push(p[iGroup]);
 

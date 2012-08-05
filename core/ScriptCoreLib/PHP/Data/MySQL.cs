@@ -295,7 +295,7 @@ namespace ScriptCoreLib.PHP.Runtime
 
                 int counter = 0;
 
-                while ((bOk).And(counter < 16))
+                while ((bOk) && (counter < 16))
                 {
 
                     TReturn p = this.Read((TReturn)q.Clone());

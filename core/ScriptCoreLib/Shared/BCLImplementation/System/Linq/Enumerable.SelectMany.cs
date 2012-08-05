@@ -151,12 +151,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
                     var __1__state_eq_0 = this.__1__state == 0;
                     var __1__state_eq_3 = this.__1__state == 3;
 
-                    if (__1__state_eq_0.Or(__1__state_eq_3))
+                    if (__1__state_eq_0 || (__1__state_eq_3))
                     {
                         if (__1__state_eq_3)
                             Label_00AA = true;
 
-                        if (Label_00AA.Or(__1__state_eq_0))
+                        if (Label_00AA || (__1__state_eq_0))
                         {
                             if (!Label_00AA)
                             {
@@ -165,7 +165,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
                                 this.__1__state = 1;
                             }
 
-                            while (Label_00AA.Or(this.__7__wrap3a.MoveNext()))
+                            while (Label_00AA || (this.__7__wrap3a.MoveNext()))
                             {
                                 if (!Label_00AA)
                                 {
@@ -351,7 +351,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
                     this.__1__state = 1;
                 }
 
-                while (Label_00A4.Or(this.__7__wrap19.MoveNext()))
+                while (Label_00A4 || (this.__7__wrap19.MoveNext()))
                 {
                     if (!Label_00A4)
                     {

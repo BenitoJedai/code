@@ -84,7 +84,7 @@ namespace ScriptCoreLib.PHP
 
             echo("<pre style='padding: 8px;'>");
 
-            if ((e == null).Or(e == ""))
+            if ((e == null) || (e == ""))
                 echo("<i>No text</i>");
             else
             {

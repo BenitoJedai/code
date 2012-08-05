@@ -68,6 +68,8 @@ using ScriptCoreLib.Shared;
 //[assembly: InternalsVisibleTo("ScriptCoreLib.Ultra")]
 //[assembly: InternalsVisibleTo("ScriptCoreLib.Ultra.BCLImplementation")]
 [assembly: InternalsVisibleTo("jsc.meta")]
+
+[assembly: InternalsVisibleTo("TestSelectMany")]
 //[assembly: InternalsVisibleTo("ScriptCoreLib.Archive")]
 
 

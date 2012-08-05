@@ -13,7 +13,8 @@ namespace ScriptCoreLib.Shared.Query
     {
         public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)
         {
-            throw new NotImplementedException();
+            return source;
+            //throw new NotImplementedException();
 
         }
     }
