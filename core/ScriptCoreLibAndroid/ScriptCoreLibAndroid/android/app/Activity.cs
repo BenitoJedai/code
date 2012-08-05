@@ -25,8 +25,10 @@ namespace android.app
         }
 
 
-        public virtual void requestWindowFeature(int e)
+        // http://developer.android.com/reference/android/app/Activity.html#requestWindowFeature(int)
+        public virtual bool requestWindowFeature(int e)
         {
+            return default(bool);
         }
 
     }
