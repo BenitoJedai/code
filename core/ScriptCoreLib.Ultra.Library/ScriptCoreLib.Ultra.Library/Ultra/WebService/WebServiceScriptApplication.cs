@@ -71,6 +71,10 @@ namespace ScriptCoreLib.Ultra.WebService
             WriteLine(@"<link rel=""icon"" href=""" + WebApplicationIcon.Icon + @""" sizes=""32x32 96x96"" type=""image/vnd.microsoft.icon"" />");
             WriteLine(@"<link rel=""icon"" href=""" + WebApplicationIcon.Image + @""" sizes=""96x96"" type=""image/png"" />");
 
+            // http://developer.apple.com/library/safari/#documentation/appleapplications/reference/SafariHTMLRef/Articles/MetaTags.html
+            // http://www.viaboxxsystems.de/html-fullscreen-apps-for-the-ipad
+
+            WriteLine(@"<meta name='apple-mobile-web-app-capable' content='yes' />");
 
             //WriteLine(@"<link rel=""shortcut icon"" href=""favicon""  type=""image/x-icon"" />");
 
