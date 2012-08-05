@@ -23,6 +23,8 @@ namespace AndroidLegacyCraftActivity.Activities
     {
         protected override void onCreate(Bundle savedInstanceState)
         {
+            this.ApplicationFile = "index.htm";
+
             base.onCreate(savedInstanceState);
         }
     }

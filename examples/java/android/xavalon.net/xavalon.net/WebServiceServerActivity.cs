@@ -49,6 +49,25 @@ namespace xavalon.net
         public int height;
         public int width;
 
+
+        public string ApplicationFile = "Application.htm";
+
+//        [Script(OptimizedCode = @"
+//            
+////            View v = findViewById(android.R.id.view_id);
+////                v.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
+////            
+////         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+////         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+//         getWindow().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+//
+//            ")]
+//        public static void hidestatusbar()
+//        {
+//        }
+
+
+
         protected override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
@@ -56,12 +75,21 @@ namespace xavalon.net
             height = getWindowManager().getDefaultDisplay().getHeight();
             width = getWindowManager().getDefaultDisplay().getWidth();
 
-            //if (width > height)
-            //{
+            if (width > height)
+            {
+                //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+                getWindow().requestFeature(0x00000009);
+                //hidestatusbar();
+
+                // http://stackoverflow.com/questions/8469112/hide-ics-back-home-task-switcher-buttons
+                // http://developer.android.com/reference/android/view/View.OnSystemUiVisibilityChangeListener.html
+                // http://stackoverflow.com/questions/9131790/android-lights-out-mode-not-working
+                // http://baroqueworksdev.blogspot.com/2012/02/request-that-visibility-of.html
+            }
+
             this.ToFullscreen();
 
-            //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-            getWindow().requestFeature(0x00000009);
+    
 
             //actionBar = getActionBar();
             //actionBar.setBackgroundDrawable(null);
@@ -380,247 +408,257 @@ namespace xavalon.net
                 #endregion
 
 
-                Action Handler = Handler = delegate
-                {
-
-                    try
+                Action Handler =
+                    delegate
                     {
 
-
-                        string sAll = getStringFromInput(input);
-
-                        var i0 = sAll.IndexOf(" ", 0);
-                        var i1 = sAll.IndexOf(" ", i0 + 1);
-
-
-                        var path = ((java.lang.String)(object)sAll).substring(i0, i1);
-
-
-                        if (path.Length > 0)
-                            path = ((java.lang.String)(object)path).substring(2, path.Length);
-
-                        if (path.Length > 1)
+                        try
                         {
-                            var last = ((java.lang.String)(object)path).substring(path.Length - 1, path.Length);
 
-                            if (last == "/")
+
+                            string sAll = getStringFromInput(input);
+
+                            var i0 = sAll.IndexOf(" ", 0);
+                            var i1 = sAll.IndexOf(" ", i0 + 1);
+
+
+                            var path = ((java.lang.String)(object)sAll).substring(i0, i1);
+
+
+                            if (path.Length > 0)
+                                path = ((java.lang.String)(object)path).substring(2, path.Length);
+
+                            if (path.Length > 1)
                             {
-                                path = ((java.lang.String)(object)path).substring(0, path.Length - 1);
+                                var last = ((java.lang.String)(object)path).substring(path.Length - 1, path.Length);
 
+                                if (last == "/")
+                                {
+                                    path = ((java.lang.String)(object)path).substring(0, path.Length - 1);
+
+                                }
                             }
-                        }
 
-                        if (mycontext.width > mycontext.height)
-                            if (path == "")
-                                path = "Application.htm";
+                            if (mycontext.width > mycontext.height)
+                                if (path == "")
+                                    path = mycontext.ApplicationFile;
 
-                        Log.i("jsc get", path);
+                            Log.i("jsc get", path);
 
-                        var asset = openFileFromAssets(path, mycontext);
-
+                            var asset = openFileFromAssets(path, mycontext);
 
 
-                        if (asset != null)
-                        {
-                            if (Contains(path, ".gif"))
-                                send_stream(asset, "image/gif");
-                            if (Contains(path, ".htm"))
-                                send_stream(asset, "text/html");
+
+                            if (asset != null)
+                            {
+                                if (Contains(path, ".gif"))
+                                    send_stream(asset, "image/gif");
+                                if (Contains(path, ".htm"))
+                                    send_stream(asset, "text/html");
+                                else
+                                    send_stream(asset, "application/octet-stream");
+                            }
                             else
-                                send_stream(asset, "application/octet-stream");
-                        }
-                        else
-                        {
-                            string firstpage = "<body style='padding: 0; margin: 0;'>";
-
-
-                            Action<string, string> AttachQRToElement =
-                                (itemuri, Container) =>
-                                {
-                                    firstpage += "<script>";
-                                    firstpage += "\n";
-                                    firstpage += "var i = document.getElementById('";
-                                    firstpage += Container;
-                                    firstpage += "').appendChild( qr.image(";
-                                    firstpage += "\n";
-                                    firstpage += "{value:'";
-
-
-
-                                    firstpage += itemuri;
-                                    firstpage += "'}";
-                                    firstpage += "\n";
-                                    firstpage += "));";
-                                    firstpage += "\n";
-                                    firstpage += "</script>";
-
-                                };
-
-                            #region firstpage
-
-                            firstpage += "<script src='/qr.js'></script>";
-                            firstpage += "<center>";
-
-                            firstpage += "<div style='background-color: black; color: white; padding: 2em;'>";
-                            firstpage += "&laquo; Rotate your device to left to <b>launch</b>";
-                            firstpage += "</div>";
-
-                            firstpage += "<h1>";
-                            firstpage += path;
-                            firstpage += "</h1>";
-
-
-                            firstpage += "<div  id='newdevice'>";
-
-
-                            firstpage += "</div>";
-                            AttachQRToElement(mycontext.uri, "newdevice");
-
-
-
-
-                            firstpage += "<br />";
-
-                            firstpage += "<div>";
-                            firstpage += "Connect any other device on the same network to";
-                            firstpage += "</div>";
-
-                            firstpage += "\n";
-                            firstpage += "<div>";
-                            firstpage += "<code>";
-                            firstpage += mycontext.uri;
-                            firstpage += "</code>";
-                            firstpage += "</div>";
-                            firstpage += "\n";
-
-
-                            firstpage += "<div style='padding: 1em; margin: 0; overflow: auto;'>";
-
-
-
-
-
-
-                            var assets = mycontext.getResources().getAssets();
-
-                            var collection = assets.list(path);
-
-                            var index = 0;
-
-                            #region AtItem
-                            Action<string> AtItem =
-                                item =>
-                                {
-                                    index++;
-
-                                    if (!Contains(item, "."))
-                                    {
-                                        item += "/";
-                                    }
-
-                                    firstpage += "<div style='border-top: 0.3em solid black; padding: 1em; '>";
-
-
-                                    firstpage += "<a";
-                                    firstpage += " href='";
-                                    firstpage += item;
-                                    firstpage += "' id='item";
-                                    firstpage += ((object)index).ToString();
-                                    firstpage += "'";
-                                    firstpage += ">";
-
-                                    var path_preview = "assets.preview/";
-
-                                    path_preview += item;
-                                    path_preview += ".png";
-
-                                    var asset_preview = openFileFromAssets(path_preview, mycontext);
-                                    if (asset_preview != null)
-                                    {
-                                        firstpage += "<div>";
-                                        firstpage += "<img  src='";
-                                        firstpage += path_preview;
-                                        firstpage += "' />";
-                                        firstpage += "</div>";
-                                    }
-
-                                    firstpage += "<h4>";
-                                    firstpage += item;
-                                    firstpage += "</h4>";
-                                    firstpage += "\n";
-
-                                    var WithImage = Contains(item, ".gif");
-
-                                    WithImage |= Contains(item, ".png");
-
-                                    if (WithImage)
-                                    {
-                                        firstpage += "<div>";
-
-                                        firstpage += "<img src='";
-                                        firstpage += item;
-                                        firstpage += "' />";
-                                        firstpage += "</div>";
-
-                                    }
-
-                                    var WithQR = Contains(item, ".htm");
-
-                                    WithQR |= Contains(item, ".apk");
-
-
-
-
-                                    firstpage += "</a>";
-
-                                    firstpage += "</div>";
-
-                                    if (WithQR)
-                                    {
-                                        var ContainerID = "item";
-
-                                        ContainerID += ((object)index).ToString();
-
-                                        var itemuri = mycontext.uri + "/";
-                                        itemuri += item;
-
-                                        AttachQRToElement(itemuri, ContainerID);
-                                    }
-
-                                    firstpage += "\n";
-
-
-                                };
-                            #endregion
-
-                            foreach (var xitem in collection)
                             {
-                                AtItem(xitem);
+                                string firstpage = "<body style='padding: 0; margin: 0;'>";
+
+                                #region AttachQRToElement
+                                Action<string, string> AttachQRToElement =
+                                    (itemuri, Container) =>
+                                    {
+                                        firstpage += "<script>";
+                                        firstpage += "\n";
+                                        firstpage += "var i = document.getElementById('";
+                                        firstpage += Container;
+                                        firstpage += "').appendChild( qr.image(";
+                                        firstpage += "\n";
+                                        firstpage += "{value:'";
+
+
+
+                                        firstpage += itemuri;
+                                        firstpage += "'}";
+                                        firstpage += "\n";
+                                        firstpage += "));";
+                                        firstpage += "\n";
+                                        firstpage += "</script>";
+
+                                    };
+                                #endregion
+
+
+                                #region firstpage
+
+                                firstpage += "<script src='/qr.js'></script>";
+                                firstpage += "<center>";
+
+                                firstpage += "<div style='background-color: black; color: white; padding: 2em;'>";
+                                firstpage += "&laquo; Rotate your device to left to <b>launch</b>";
+                                firstpage += "</div>";
+
+                                firstpage += "<h1>";
+                                firstpage += path;
+                                firstpage += "</h1>";
+
+
+                                firstpage += "<div  id='newdevice'>";
+
+
+                                firstpage += "</div>";
+                                AttachQRToElement(mycontext.uri, "newdevice");
+
+
+
+
+                                firstpage += "<br />";
+
+                                firstpage += "<div>";
+                                firstpage += "Connect any other device on the same network to";
+                                firstpage += "</div>";
+
+                                firstpage += "\n";
+                                firstpage += "<div>";
+                                firstpage += "<code>";
+                                firstpage += mycontext.uri;
+                                firstpage += "</code>";
+                                firstpage += "</div>";
+                                firstpage += "\n";
+
+
+                                firstpage += "<div style='padding: 1em; margin: 0; overflow: hidden;'>";
+
+                                //ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden
+
+
+
+
+                                var assets = mycontext.getResources().getAssets();
+
+                                var collection = assets.list(path);
+
+                                var index = 0;
+
+                                #region AtItem
+                                Action<string> AtItem =
+                                    item =>
+                                    {
+                                        index++;
+
+                                        if (!Contains(item, "."))
+                                        {
+                                            item += "/";
+                                        }
+
+                                        firstpage += "<div style='border-top: 0.3em solid black; padding: 1em; '>";
+
+
+                                        firstpage += "<a";
+                                        firstpage += " href='";
+                                        firstpage += item;
+                                        firstpage += "' id='item";
+                                        firstpage += ((object)index).ToString();
+                                        firstpage += "'";
+                                        firstpage += ">";
+
+                                        var path_preview = "assets.preview/";
+
+                                        path_preview += item;
+                                        path_preview += ".png";
+
+                                        var asset_preview = openFileFromAssets(path_preview, mycontext);
+                                        if (asset_preview != null)
+                                        {
+                                            firstpage += "<div>";
+                                            firstpage += "<img  src='";
+                                            firstpage += path_preview;
+                                            firstpage += "' />";
+                                            firstpage += "</div>";
+                                        }
+
+                                        firstpage += "<h4>";
+                                        firstpage += item;
+                                        firstpage += "</h4>";
+                                        firstpage += "\n";
+
+                                        #region WithImage
+                                        var WithImage = Contains(item, ".gif");
+
+                                        WithImage |= Contains(item, ".png");
+
+                                        if (WithImage)
+                                        {
+                                            firstpage += "<div>";
+
+                                            firstpage += "<img src='";
+                                            firstpage += item;
+                                            firstpage += "' />";
+                                            firstpage += "</div>";
+
+                                        }
+                                        #endregion
+
+
+                                   
+                                        firstpage += "</a>";
+
+                                        firstpage += "</div>";
+
+                                        #region WithQR
+                                        var WithQR = Contains(item, ".htm");
+
+                                        WithQR |= Contains(item, ".apk");
+
+
+
+
+
+                                        if (WithQR)
+                                        {
+                                            var ContainerID = "item";
+
+                                            ContainerID += ((object)index).ToString();
+
+                                            var itemuri = mycontext.uri + "/";
+                                            itemuri += item;
+
+                                            AttachQRToElement(itemuri, ContainerID);
+                                        }
+                                        #endregion
+
+                                        firstpage += "\n";
+
+
+                                    };
+                                #endregion
+
+                                foreach (var xitem in collection)
+                                {
+                                    AtItem(xitem);
+                                }
+
+                                firstpage += "</center>";
+
+
+                                firstpage += "<pre>";
+                                firstpage += sAll;
+                                firstpage += "</pre>";
+
+                                firstpage += "</div>";
+                                firstpage += "</body>";
+
+                                send_text(firstpage);
+                                #endregion
+
                             }
 
-                            firstpage += "</center>";
-
-
-                            firstpage += "<pre>";
-                            firstpage += sAll;
-                            firstpage += "</pre>";
-
-                            firstpage += "</div>";
-                            firstpage += "</body>";
-
-                            send_text(firstpage);
-                            #endregion
+                            input.close();
+                            output.close();
+                        }
+                        catch
+                        {
 
                         }
-
-                        input.close();
-                        output.close();
-                    }
-                    catch
-                    {
-
-                    }
-                };
+                    };
 
                 var x = new XThread
                 {
