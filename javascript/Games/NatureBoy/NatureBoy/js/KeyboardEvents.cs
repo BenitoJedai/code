@@ -32,13 +32,13 @@ namespace NatureBoy.js
         }
 
         Dictionary<int, Action<IEvent>> Table;
+                
+        public event System.Action<IEvent> left;
+        public event System.Action<IEvent> right;
+        public event System.Action<IEvent> up;
+        public event System.Action<IEvent> down;
 
-        public event ScriptCoreLib.Shared.EventHandler<IEvent> left;
-        public event ScriptCoreLib.Shared.EventHandler<IEvent> right;
-        public event ScriptCoreLib.Shared.EventHandler<IEvent> up;
-        public event ScriptCoreLib.Shared.EventHandler<IEvent> down;
-
-        public static implicit operator ScriptCoreLib.Shared.EventHandler<IEvent>(KeyboardEvents e)
+        public static implicit operator System.Action<IEvent>(KeyboardEvents e)
         {
             return e.Dispatcher;
         }
