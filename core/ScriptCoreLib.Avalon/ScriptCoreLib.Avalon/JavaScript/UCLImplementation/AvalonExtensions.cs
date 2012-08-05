@@ -6,8 +6,10 @@ using System.Windows.Media;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using System.Windows;
 using ScriptCoreLib.JavaScript.BCLImplementation.System;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Avalon;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.UCLImplementation
 {
@@ -16,14 +18,48 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
 	{
 		public static AvalonSoundChannel ToSound(this string asset)
 		{
+            var a = new IHTMLAudio { src = asset, autobuffer = true };
+
+
+            a.AttachToDocument();
+            //a.style.display = IStyle.DisplayEnum.none;
+
 			// we can now use HTML5 audio element
-			return new AvalonSoundChannel();
+            var x = new AvalonSoundChannel
+            {
+
+                Start =
+                    delegate
+                    {
+                        a.play();
+                    },
+
+                Stop =
+                    delegate
+                    {
+                        a.pause();
+
+                    }
+            };
+
+            a.onended +=
+                delegate
+                {
+                    x.RaisePlaybackComplete();
+                };
+
+
+            return x;
 		}
 
 		public static AvalonSoundChannel PlaySound(this string asset)
 		{
 			// we can now use HTML5 audio element
-			return new AvalonSoundChannel();
+            var a = asset.ToSound();
+            
+            a.Start();
+
+            return a;
 		}
 
 		public static void NavigateTo(this Uri e, DependencyObject context)

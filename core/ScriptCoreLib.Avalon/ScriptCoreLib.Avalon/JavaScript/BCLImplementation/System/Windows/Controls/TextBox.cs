@@ -193,7 +193,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
                             p.removeChild(this.InternalTextField);
 
-                            Console.WriteLine("InternalSetAcceptsReturn!!");
+                            //Console.WriteLine("InternalSetAcceptsReturn!!");
                         }
 
                         // lets apply current font - probably is the default font...
@@ -327,8 +327,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                 var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
                 string _Color = (__Color)_SolidColorBrush.Color;
 
-
-                if (_SolidColorBrush.Color.A == 0)
+                var IsTransparent = __Color.Equals(__Colors.Transparent, _SolidColorBrush.Color);
+                if (IsTransparent)
                 {
                     _Color = "transparent";
                 }
@@ -389,7 +389,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
             t.Tick +=
                 delegate
                 {
-                    Check(); 
+                    Check();
                 };
 
             this.InternalGetTextField().onfocus +=
@@ -413,14 +413,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
             this.InternalGetTextField().onchange +=
                 delegate
                 {
-                    Check(); 
+                    Check();
                 };
 
 
             this.InternalGetTextField().onkeyup +=
              delegate
              {
-                 Check(); 
+                 Check();
              };
 
             this.InternalGetTextField().onkeydown +=

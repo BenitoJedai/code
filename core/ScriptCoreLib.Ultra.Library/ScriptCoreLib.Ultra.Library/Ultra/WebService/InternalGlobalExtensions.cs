@@ -6,6 +6,7 @@ using System.Web.Profile;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using System.Web;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
@@ -37,21 +38,53 @@ namespace ScriptCoreLib.Ultra.WebService
             return s.ToXMLString();
         }
 
+
         public static void InternalApplication_BeginRequest(InternalGlobal g)
         {
             var that = g.InternalApplication;
             var Context = that.Context;
 
-            if (InternalGlobalExtensions.FileExists(g))
+            var Path = Context.Request.Path;
+
+            var CurrentFile = g.ToCurrentFile();
+
+            if (CurrentFile != null)
             {
+                // http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
+
+
+                //// http://www.mombu.com/programming/xbase/t-outputcache-directive-vs-responsecachesetcacheability-624773.html
+                g.Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
+                g.Response.Cache.SetExpires(DateTime.Now.AddMinutes(15));
+
+                //g.EndRequest +=
+                //    (_s, _e) =>
+                //    {
+                Console.WriteLine("cache " + CurrentFile.Name);
+
+
+                //        // http://forums.asp.net/t/1123505.aspx
+                //        HttpApplication application = (HttpApplication)_s;
+                //        HttpContext context = application.Context;
+                //g.Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
+                //context.Response.AddHeader("pragma", "no-cache");
+                //g.Response.AddHeader("cache-control", "public");
+                g.Response.AddHeader("x-handler", "http://jsc-solutions.net");
+
+                // to root
+                Context.Response.WriteFile("/" + CurrentFile.Name);
+
+                that.CompleteRequest();
+
+                //context.Response.CacheControl = "no-cache";
+                //};
+
                 // fake lag
                 //if (that.Request.Path.EndsWith(".js"))
                 //    System.Threading.Thread.Sleep(1000);
-
                 return;
             }
 
-            var Path = Context.Request.Path;
 
 
             if (Path == "/favicon.ico")
@@ -62,7 +95,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 return;
             }
 
-         
+
 
             if (Path == "/robots.txt")
             {
@@ -321,11 +354,11 @@ namespace ScriptCoreLib.Ultra.WebService
 
             Write("<h2>Special pages</h2>");
 
-            Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/robots.txt'>/robots.txt</a>");
-            Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/xml'>/xml</a>");
-            Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/crossdomain.xml'>/crossdomain.xml</a>");
-            Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/favicon.ico'>/favicon.ico</a>");
-            Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/jsc'>/jsc</a>");
+            Write("<br /> " + "special page: " + "<a href='/robots.txt'>/robots.txt</a>");
+            Write("<br /> " + "special page: " + "<a href='/xml'>/xml</a>");
+            Write("<br /> " + "special page: " + "<a href='/crossdomain.xml'>/crossdomain.xml</a>");
+            Write("<br /> " + "special page: " + "<a href='/favicon.ico'>/favicon.ico</a>");
+            Write("<br /> " + "special page: " + "<a href='/jsc'>/jsc</a>");
 
             Write("<h2>WebMethods</h2>");
 
@@ -364,7 +397,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             foreach (var item in g.GetScriptApplications())
             {
-                Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> script application: " + item.TypeName);
+                Write("<br /> " + "<img  script application: " + item.TypeName);
 
                 foreach (var r in item.References)
                 {
@@ -380,7 +413,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             foreach (var item in g.GetFiles())
             {
-                Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' />" + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
+                Write("<br /> " + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
             }
 
 
