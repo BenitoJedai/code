@@ -10,10 +10,12 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace AvalonFlashLinqToObjects
+namespace AvalonLinqToObjects
 {
     public class ApplicationCanvas : Canvas
     {
+        // see also: Y:\jsc.svn\examples\actionscript\AvalonFlashLinqToObjects\AvalonFlashLinqToObjects\ApplicationCanvas.cs
+
         public readonly Rectangle r = new Rectangle();
 
         public ApplicationCanvas()
@@ -42,7 +44,7 @@ namespace AvalonFlashLinqToObjects
             var label2 = new TextBlock
             {
                 Text = "Enter a partial name to be found from the list above.",
-            }.AttachTo(this).MoveTo(8, 8 + 32  + 50 + 8);
+            }.AttachTo(this).MoveTo(8, 8 + 32 + 50 + 8);
 
             var filter = new TextBox
             {
@@ -72,7 +74,7 @@ namespace AvalonFlashLinqToObjects
             {
                 AcceptsReturn = true,
                 TextWrapping = System.Windows.TextWrapping.Wrap,
-                
+
                 Background = Brushes.Transparent,
                 BorderThickness = new Thickness(0),
 
