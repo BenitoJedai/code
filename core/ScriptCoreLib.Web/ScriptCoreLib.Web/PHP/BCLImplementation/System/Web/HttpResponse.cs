@@ -51,5 +51,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
         {
             // ?
         }
+
+        public __HttpCachePolicy Cache
+        {
+            get
+            {
+                return new __HttpCachePolicy { };
+            }
+        }
     }
 }
