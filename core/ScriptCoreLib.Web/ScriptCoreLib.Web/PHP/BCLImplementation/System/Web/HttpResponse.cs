@@ -49,7 +49,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
 
         public void WriteFile(string filename)
         {
-            // ?
+            var fp = Native.API.fopen(filename, "rb");
+
+            Native.API.fpassthru(fp);
         }
 
         public __HttpCachePolicy Cache

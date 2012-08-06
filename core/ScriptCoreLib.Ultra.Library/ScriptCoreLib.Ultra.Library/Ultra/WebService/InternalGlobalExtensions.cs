@@ -60,7 +60,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 //g.EndRequest +=
                 //    (_s, _e) =>
                 //    {
-                Console.WriteLine("cache " + CurrentFile.Name);
+                //Console.WriteLine("cache " + CurrentFile.Name);
 
 
                 //        // http://forums.asp.net/t/1123505.aspx

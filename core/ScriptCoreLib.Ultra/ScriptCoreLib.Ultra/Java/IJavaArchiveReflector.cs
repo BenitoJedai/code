@@ -355,7 +355,9 @@ namespace ScriptCoreLib.Java
                     {
                         if (fi.FieldType == typeof(int))
                         {
-                            yi.LiteralInt32 = (int)fi.GetRawConstantValue();
+                            var value = fi.GetRawConstantValue();
+                            if (value != null)
+                                yi.LiteralInt32 = (int)value;
                         }
 
                         if (fi.FieldType == typeof(string))
