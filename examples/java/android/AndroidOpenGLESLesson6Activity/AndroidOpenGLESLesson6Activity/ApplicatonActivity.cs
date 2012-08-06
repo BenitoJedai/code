@@ -408,7 +408,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         __WebGLRenderingContext __gl = new __WebGLRenderingContext();
         ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl ;
 
-
         public LessonSixRenderer(Context activityContext)
         {
             this.gl = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)(object)__gl;
