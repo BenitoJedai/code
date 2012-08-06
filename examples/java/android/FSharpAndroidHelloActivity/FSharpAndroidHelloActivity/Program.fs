@@ -2,6 +2,7 @@
 
 open android.app
 open android.widget
+open ScriptCoreLib.Android.Extensions
 
 type ApplicationActivity()  = 
     inherit Activity() 
@@ -16,8 +17,12 @@ type ApplicationActivity()  =
 
         let b = new Button(this)
 
-        do b.setText(("JSC / FSharp / Android" :> System.Object) :?> java.lang.CharSequence)
+        do b.setText("JSC / FSharp / Android")
 
+        b.AtClick(
+            fun v ->
+                do b.setText("clicked")
+        )
 
         do ll.addView(b)
 
