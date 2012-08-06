@@ -445,21 +445,21 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                         opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
                                 0, mCubePositions);
 
-                        gl.enableVertexAttribArray(mPositionHandle);
+                        gl.enableVertexAttribArray((uint)mPositionHandle);
 
                         // Pass in the color information
                         mCubeColors.position(0);
                         opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
                                 0, mCubeColors);
 
-                        gl.enableVertexAttribArray(mColorHandle);
+                        gl.enableVertexAttribArray((uint)mColorHandle);
 
                         // Pass in the normal information
                         mCubeNormals.position(0);
                         opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, (int)gl__.FLOAT, false,
                                 0, mCubeNormals);
 
-                        gl.enableVertexAttribArray(mNormalHandle);
+                        gl.enableVertexAttribArray((uint)mNormalHandle);
 
                         // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
                         // (which currently contains model * view).

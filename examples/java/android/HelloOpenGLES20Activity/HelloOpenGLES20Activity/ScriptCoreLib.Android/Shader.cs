@@ -138,9 +138,9 @@ namespace ScriptCoreLib.Android
             GLES20.glVertexAttribPointer(attribute, size, type, p4, p5, vertices);
         }
 
-        internal void enableVertexAttribArray(int p)
+        internal void enableVertexAttribArray(uint index)
         {
-            GLES20.glEnableVertexAttribArray(p);
+            GLES20.glEnableVertexAttribArray((int)index);
         }
 
         internal void drawArrays(uint mode, int first, int count)
@@ -233,6 +233,10 @@ namespace ScriptCoreLib.Android
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLUniformLocation))]
     public class __WebGLUniformLocation : __WebGLObject
     {
+        public static implicit operator __WebGLUniformLocation(ScriptCoreLib.JavaScript.WebGL.WebGLUniformLocation e)
+        {
+            return (__WebGLUniformLocation)(object)e;
+        }
     }
 
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLTexture))]
@@ -241,14 +245,21 @@ namespace ScriptCoreLib.Android
     }
 
 
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLProgram))]
     public class __WebGLProgram : __WebGLObject
     {
+        public static implicit operator ScriptCoreLib.JavaScript.WebGL.WebGLProgram(__WebGLProgram e)
+        {
+            return (ScriptCoreLib.JavaScript.WebGL.WebGLProgram)(object)e;
+        }
     }
 
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLShader))]
     public class __WebGLShader : __WebGLObject
     {
     }
 
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLObject))]
     public class __WebGLObject
     {
         public int value;
