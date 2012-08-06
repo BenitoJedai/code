@@ -52,22 +52,30 @@ namespace xavalon.net
 
         public string ApplicationFile = "Application.htm";
 
-//        [Script(OptimizedCode = @"
-//            
-////            View v = findViewById(android.R.id.view_id);
-////                v.setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
-////            
-////         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-////         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-//         getWindow().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-//
-//            ")]
-//        public static void hidestatusbar()
-//        {
-//        }
 
 
+        private const int HIDE_DELAY_MILLIS = 2000;
 
+        class HideLater : View.OnSystemUiVisibilityChangeListener, Runnable
+        {
+            public WebServiceServerActivity that;
+
+            public void run()
+            {
+                that.getWindow().getDecorView().setSystemUiVisibility(
+                                   View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LOW_PROFILE);
+            }
+
+            public void onSystemUiVisibilityChange(int value)
+            {
+                that.webview.postDelayed(
+                    this, HIDE_DELAY_MILLIS
+                );
+            }
+        }
+    
+
+        
         protected override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
@@ -75,19 +83,21 @@ namespace xavalon.net
             height = getWindowManager().getDefaultDisplay().getHeight();
             width = getWindowManager().getDefaultDisplay().getWidth();
 
-            if (width > height)
-            {
+            //if (width > height)
+            //{
                 //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-                getWindow().requestFeature(0x00000009);
-                //hidestatusbar();
+                getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+                this.ToFullscreen();
+
+      
+
 
                 // http://stackoverflow.com/questions/8469112/hide-ics-back-home-task-switcher-buttons
                 // http://developer.android.com/reference/android/view/View.OnSystemUiVisibilityChangeListener.html
                 // http://stackoverflow.com/questions/9131790/android-lights-out-mode-not-working
                 // http://baroqueworksdev.blogspot.com/2012/02/request-that-visibility-of.html
-            }
+            //}
 
-            this.ToFullscreen();
 
     
 
@@ -123,9 +133,9 @@ namespace xavalon.net
 
             this.webview = new WebView(this);
 
+            TryHideActionbar();
 
             setContentView(webview);
-
 
 
             webview.getSettings().setSupportZoom(true);
@@ -162,6 +172,22 @@ namespace xavalon.net
 //E/WindowManager(28519):         at android.view.ViewRootImpl.<init>(ViewRootImpl.java:374)
 
 
+        }
+
+        private void TryHideActionbar()
+        {
+            try
+            {
+                this.webview.setOnSystemUiVisibilityChangeListener(
+                    new HideLater { that = this }
+                    );
+                getWindow().getDecorView().setSystemUiVisibility(
+              View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            }
+            catch
+            {
+
+            }
         }
 
         public override void onCreateContextMenu(ContextMenu ContextMenu0, View View1, ContextMenu_ContextMenuInfo ContextMenu_ContextMenuInfo2)
