@@ -22,8 +22,8 @@ using ScriptCoreLib.Android;
 namespace AndroidOpenGLESLesson5Activity.Activities
 {
     using opengl = GLES20;
-    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using gl = __WebGLRenderingContext;
+    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using __gl = __WebGLRenderingContext;
     using f = System.Single;
 
     public class AndroidOpenGLESLesson5Activity : Activity
@@ -61,7 +61,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net");
         }
 
 
@@ -132,7 +132,8 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
         class LessonFiveRenderer : GLSurfaceView.Renderer
         {
-            __WebGLRenderingContext gl = new __WebGLRenderingContext();
+            
+
 
 
 
@@ -185,11 +186,14 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             /** This will be used to switch between blending mode and regular mode. */
             private bool mBlending = true;
 
-            /**
-             * Initialize the model data.
-             */
+            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+            ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
+
+
             public LessonFiveRenderer(Context activityContext)
             {
+                this.gl = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)(object)__gl;
+
                 mActivityContext = activityContext;
 
                 #region generateCubeData
@@ -318,25 +322,25 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 if (mBlending)
                 {
                     // No culling of back faces
-                    gl.disable(gl__.CULL_FACE);
+                    gl.disable(gl.CULL_FACE);
 
                     // No depth testing
-                    gl.disable(gl__.DEPTH_TEST);
+                    gl.disable(gl.DEPTH_TEST);
 
                     // Enable blending
-                    gl.enable(gl__.BLEND);
-                    gl.blendFunc(gl__.ONE, gl__.ONE);
+                    gl.enable(gl.BLEND);
+                    gl.blendFunc(gl.ONE, gl.ONE);
                 }
                 else
                 {
                     // Cull back faces
-                    gl.enable(gl__.CULL_FACE);
+                    gl.enable(gl.CULL_FACE);
 
                     // Enable depth testing
-                    gl.enable(gl__.DEPTH_TEST);
+                    gl.enable(gl.DEPTH_TEST);
 
                     // Disable blending
-                    gl.disable(gl__.BLEND);
+                    gl.disable(gl.BLEND);
                 }
             }
 
@@ -346,14 +350,14 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // No culling of back faces
-                gl.disable(gl__.CULL_FACE);
+                gl.disable(gl.CULL_FACE);
 
                 // No depth testing
-                gl.disable(gl__.DEPTH_TEST);
+                gl.disable(gl.DEPTH_TEST);
 
                 // Enable blending
-                gl.enable(gl__.BLEND);
-                gl.blendFunc(gl__.ONE, gl__.ONE);
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.ONE, gl.ONE);
                 //		GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
 
                 // Position the eye in front of the origin.
@@ -377,7 +381,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 
-                mProgramHandle = gl.createAndLinkProgram(
+                mProgramHandle = __gl.createAndLinkProgram(
                     new Shaders.colorVertexShader(),
                     new Shaders.colorFragmentShader(),
                      "a_Position", "a_Color"
@@ -406,11 +410,11 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             {
                 if (mBlending)
                 {
-                    gl.clear(gl__.COLOR_BUFFER_BIT);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
                 }
                 else
                 {
-                    gl.clear(gl__.COLOR_BUFFER_BIT | gl__.DEPTH_BUFFER_BIT);
+                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
                 }
 
                 // Do a complete rotation every 10 seconds.
@@ -431,14 +435,14 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                     {
                         // Pass in the position information
                         mCubePositions.position(0);
-                        GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
+                        GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl.FLOAT, false,
                                 0, mCubePositions);
 
                         gl.enableVertexAttribArray((uint)mPositionHandle);
 
                         // Pass in the color information
                         mCubeColors.position(0);
-                        GLES20.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
+                        GLES20.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl.FLOAT, false,
                                 0, mCubeColors);
 
                         gl.enableVertexAttribArray((uint)mColorHandle);
@@ -452,10 +456,10 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
                         // Pass in the combined matrix.
-                        gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                        __gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                         // Draw the cube.
-                        gl.drawArrays(gl__.TRIANGLES, 0, 36);
+                        gl.drawArrays(gl.TRIANGLES, 0, 36);
                     };
                 #endregion
 
