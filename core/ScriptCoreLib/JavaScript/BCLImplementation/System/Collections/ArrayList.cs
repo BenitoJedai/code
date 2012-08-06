@@ -24,6 +24,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 			return InternalList.indexOf(e);
 		}
 
+        public virtual void RemoveAt(int index)
+        {
+            this.InternalList.splice(index, 1);
+        }
+
 		public virtual int Count
 		{
 			get
@@ -57,5 +62,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 			return (object[])(object)this.InternalList.slice(0);
 		}
 
+        public virtual global::System.Array ToArray(Type type)
+        {
+            // we are really ignorant about types at this time
+            return (global::System.Array)(object)ToArray();
+        }
 	}
 }

@@ -10,6 +10,49 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Array))]
     internal class __Array
     {
+        [Script]
+        class __Enumerator : IEnumerator
+        {
+            public object[] Target;
+
+            object InternalCurrent;
+            int InternalIndex = -1;
+
+            #region __IEnumerator Members
+
+            public object Current
+            {
+                get { return InternalCurrent; }
+            }
+
+            public bool MoveNext()
+            {
+                InternalIndex++;
+
+                if (InternalIndex < Target.Length)
+                {
+                    InternalCurrent = Target[InternalIndex];
+                    return true;
+                }
+
+                InternalCurrent = null;
+                return false;
+            }
+
+            public void Reset()
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+        }
+
+        [Script(DefineAsStatic = true)]
+        public IEnumerator GetEnumerator()
+        {
+            return new __Enumerator { Target = (object[])(object)this };
+        }
+
 		public static int IndexOf<T>(T[] array, T value)
 		{
 			return ((IArray<T>)(object)(array)).indexOf(value);

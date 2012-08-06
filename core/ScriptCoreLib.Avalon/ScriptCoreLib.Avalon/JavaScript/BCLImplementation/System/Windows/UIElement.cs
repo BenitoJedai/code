@@ -145,6 +145,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                     {
                         e.PreventDefault();
 
+                        __Keyboard.Modifiers = ModifierKeys.None;
+
+                        if (e.shiftKey)
+                            __Keyboard.Modifiers |= ModifierKeys.Shift;
+
+                        if (e.ctrlKey)
+                            __Keyboard.Modifiers |= ModifierKeys.Control;
+
+                        if (e.altKey)
+                            __Keyboard.Modifiers |= ModifierKeys.Alt;
+
                         if (e.MouseButton == ScriptCoreLib.JavaScript.DOM.IEvent.MouseButtonEnum.Left)
                             value(this, (__MouseButtonEventArgs)e);
                     };
