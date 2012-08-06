@@ -21,8 +21,8 @@ namespace AndroidNuGetSQLiteActivity
 
             Console.WriteLine(c);
 
-            if (MessageBox.Show("Would you like to run this application on Android?", "my.jsc-solutions.net", MessageBoxButton.YesNo) == MessageBoxResult.No)
-                return;
+            //if (MessageBox.Show("Would you like to run this application on Android?", "my.jsc-solutions.net", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            //    return;
 
             global::jsc.AndroidLauncher.Launch(
                  typeof(AndroidNuGetSQLiteActivity.Activities.AndroidNuGetSQLiteActivity)
