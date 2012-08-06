@@ -68,10 +68,15 @@
     <Compile Include="..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
+      <Link>BCLImplementation\System\Action.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Func.cs">
+      <Link>BCLImplementation\System\Func.cs</Link>
+    </Compile>
     <Compile Include="BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Action.cs" />
     <Compile Include="BCLImplementation\System\Activator.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -174,7 +179,6 @@
     <Compile Include="BCLImplementation\System\Convert.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Func.cs" />
     <Compile Include="BCLImplementation\System\DateTime.cs">
       <SubType>Code</SubType>
     </Compile>

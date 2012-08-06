@@ -12,7 +12,7 @@ using java.lang;
 
 namespace TestCharSequenceAsStringAndConst.Activities
 {
-    class Foo
+    class XFoo
     {
         public static readonly int uu = 55;
 
@@ -29,7 +29,7 @@ namespace TestCharSequenceAsStringAndConst.Activities
     {
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 
-        Foo foo;
+        XFoo foo;
         Native.Foo nfoo;
 
         protected override void onCreate(Bundle savedInstanceState)

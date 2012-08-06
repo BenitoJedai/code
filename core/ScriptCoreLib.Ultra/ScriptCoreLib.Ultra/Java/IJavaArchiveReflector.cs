@@ -90,6 +90,11 @@ namespace ScriptCoreLib.Java
         public bool IsStatic;
         public bool IsFamily;
 
+        public bool IsLiteral;
+
+        public int LiteralInt32;
+        public string LiteralString;
+
         public JavaArchiveReflectorFieldInfo()
         {
 
@@ -332,14 +337,34 @@ namespace ScriptCoreLib.Java
 
                 for (int i = 0; i < f.Length; i++)
                 {
-                    y[i] = new JavaArchiveReflectorFieldInfo
-                    {
-                        FieldName = f[i].Name,
-                        FieldType = f[i].FieldType.FullName,
+                    var fi = f[i];
 
-                        IsStatic = f[i].IsStatic,
-                        IsFamily = f[i].IsFamily
+                    var yi = new JavaArchiveReflectorFieldInfo
+                    {
+                        FieldName = fi.Name,
+                        FieldType = fi.FieldType.FullName,
+
+                        IsStatic = fi.IsStatic,
+                        IsFamily = fi.IsFamily,
+                        IsLiteral = fi.IsLiteral,
+
+
                     };
+
+                    if (fi.IsLiteral)
+                    {
+                        if (fi.FieldType == typeof(int))
+                        {
+                            yi.LiteralInt32 = (int)fi.GetRawConstantValue();
+                        }
+
+                        if (fi.FieldType == typeof(string))
+                        {
+                            yi.LiteralString = (string)fi.GetRawConstantValue();
+                        }
+                    }
+
+                    y[i] = yi;
                 }
             }
 

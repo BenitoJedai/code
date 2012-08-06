@@ -87,6 +87,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             }
         }
 
+        public bool IsLiteral
+        {
+            get
+            {
+                return Modifier.isFinal(this.InternalField.getModifiers());
+            }
+        }
+
+        public object GetRawConstantValue()
+        {
+            var value = default(object);
+
+            try
+            {
+                value = this.InternalField.get(null);
+            }
+            catch
+            {
+            }
+            return value;
+        }
+
         public static bool operator ==(__FieldInfo a, __FieldInfo b)
         {
             return InternalIsEqual(a, b);
