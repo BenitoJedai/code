@@ -21,8 +21,7 @@ using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidOpenGLESLesson6Activity.Activities
 {
-    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using gl = __WebGLRenderingContext;
+    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using opengl = GLES20;
 
     #region R
@@ -117,7 +116,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
          );
 
 
-            this.ShowToast("http://my.jsc-solutions.net a");
+            this.ShowToast("http://my.jsc-solutions.net");
         }
 
 
@@ -159,27 +158,27 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
                     if (item == 0)
                     {
-                        filter = (int)gl__.NEAREST;
+                        filter = (int)gl.NEAREST;
                     }
                     else if (item == 1)
                     {
-                        filter = (int)gl__.LINEAR;
+                        filter = (int)gl.LINEAR;
                     }
                     else if (item == 2)
                     {
-                        filter = (int)gl__.NEAREST_MIPMAP_NEAREST;
+                        filter = (int)gl.NEAREST_MIPMAP_NEAREST;
                     }
                     else if (item == 3)
                     {
-                        filter = (int)gl__.NEAREST_MIPMAP_LINEAR;
+                        filter = (int)gl.NEAREST_MIPMAP_LINEAR;
                     }
                     else if (item == 4)
                     {
-                        filter = (int)gl__.LINEAR_MIPMAP_NEAREST;
+                        filter = (int)gl.LINEAR_MIPMAP_NEAREST;
                     }
                     else // if (item == 5)
                     {
-                        filter = (int)gl__.LINEAR_MIPMAP_LINEAR;
+                        filter = (int)gl.LINEAR_MIPMAP_LINEAR;
                     }
 
                     this.mRenderer.setMinFilter(filter);
@@ -202,11 +201,11 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
                     if (item == 0)
                     {
-                        filter = (int)gl__.NEAREST;
+                        filter = (int)gl.NEAREST;
                     }
                     else // if (item == 1)
                     {
-                        filter = (int)gl__.LINEAR;
+                        filter = (int)gl.LINEAR;
                     }
 
                     this.mRenderer.setMagFilter(filter);
@@ -406,13 +405,13 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         public /* volatile */ float mDeltaX;
         public /* volatile */ float mDeltaY;
 
-        __WebGLRenderingContext gl = new __WebGLRenderingContext();
-        ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl__ ;
+        __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+        ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl ;
 
 
         public LessonSixRenderer(Context activityContext)
         {
-            this.gl__ = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)(object)gl;
+            this.gl = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)(object)__gl;
 
             mActivityContext = activityContext;
 
@@ -666,16 +665,16 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
         {
             // Set the background clear color to black.
-            gl__.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
             // Use culling to remove back faces.
-            gl__.enable(gl__.CULL_FACE);
+            gl.enable(gl.CULL_FACE);
 
             // Enable depth testing
-            gl__.enable(gl__.DEPTH_TEST);
+            gl.enable(gl.DEPTH_TEST);
 
             // Enable texture mapping
-            gl__.enable(gl__.TEXTURE_2D);
+            gl.enable(gl.TEXTURE_2D);
 
             // Position the eye in front of the origin.
             float eyeX = 0.0f;
@@ -698,14 +697,14 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 
-            mProgramHandle = gl.createAndLinkProgram(
+            mProgramHandle = __gl.createAndLinkProgram(
                 new Shaders.per_pixel_tex_and_lightVertexShader(),
                 new Shaders.per_pixel_tex_and_lightFragmentShader(),
                 "a_Position", "a_Normal", "a_TexCoordinate"
             );
 
             // Define a simple shader program for our point.
-            mPointProgramHandle = gl.createAndLinkProgram(
+            mPointProgramHandle = __gl.createAndLinkProgram(
                 new Shaders.pointVertexShader(),
                 new Shaders.pointFragmentShader(),
                 "a_Position"
@@ -715,17 +714,17 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             #region loadTexture
             Func<android.graphics.Bitmap, ScriptCoreLib.JavaScript.WebGL.WebGLTexture> loadTexture = (bitmap) =>
             {
-                var textureHandle = gl__.createTexture();
+                var textureHandle = gl.createTexture();
 
                 // Bind to the texture in OpenGL
-                gl__.bindTexture(gl__.TEXTURE_2D, textureHandle);
+                gl.bindTexture(gl.TEXTURE_2D, textureHandle);
 
                 // Set filtering
-                gl__.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MIN_FILTER, (int)gl__.NEAREST);
-                gl__.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MAG_FILTER, (int)gl__.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.NEAREST);
 
                 // Load the bitmap into the bound texture.
-                GLUtils.texImage2D((int)gl__.TEXTURE_2D, 0, bitmap, 0);
+                GLUtils.texImage2D((int)gl.TEXTURE_2D, 0, bitmap, 0);
 
                 // Recycle the bitmap, since its data has been loaded into OpenGL.
                 bitmap.recycle();
@@ -747,7 +746,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                  )
              );
 
-            gl__.generateMipmap(gl__.TEXTURE_2D);
+            gl.generateMipmap(gl.TEXTURE_2D);
 
 
             mGrassDataHandle = loadTexture(
@@ -761,7 +760,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
               )
           );
 
-            gl__.generateMipmap(gl__.TEXTURE_2D);
+            gl.generateMipmap(gl.TEXTURE_2D);
 
             if (mQueuedMinFilter != 0)
             {
@@ -780,7 +779,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         public void onSurfaceChanged(GL10 glUnused, int width, int height)
         {
             // Set the OpenGL viewport to the same size as the surface.
-            gl__.viewport(0, 0, width, height);
+            gl.viewport(0, 0, width, height);
 
             // Create a new perspective projection matrix. The height will stay the same
             // while the width will vary as per aspect ratio.
@@ -798,7 +797,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
         public void onDrawFrame(GL10 glUnused)
         {
-            gl__.clear(gl__.COLOR_BUFFER_BIT | gl__.DEPTH_BUFFER_BIT);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
             // Do a complete rotation every 10 seconds.
             long time = SystemClock.uptimeMillis() % 10000L;
@@ -808,18 +807,18 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
             var program = mProgramHandle;
             // Set our per-vertex lighting program.
-            gl__.useProgram(program);
+            gl.useProgram(program);
 
 
             // Set program handles for cube drawing.
-            mMVPMatrixHandle = gl__.getUniformLocation(program, "u_MVPMatrix");
-            mMVMatrixHandle = gl__.getUniformLocation(program, "u_MVMatrix");
-            mLightPosHandle = gl__.getUniformLocation(program, "u_LightPos");
-            mTextureUniformHandle = gl__.getUniformLocation(program, "u_Texture");
+            mMVPMatrixHandle = gl.getUniformLocation(program, "u_MVPMatrix");
+            mMVMatrixHandle = gl.getUniformLocation(program, "u_MVMatrix");
+            mLightPosHandle = gl.getUniformLocation(program, "u_LightPos");
+            mTextureUniformHandle = gl.getUniformLocation(program, "u_Texture");
 
-            mPositionHandle = gl__.getAttribLocation(program, "a_Position");
-            mNormalHandle = gl__.getAttribLocation(program, "a_Normal");
-            mTextureCoordinateHandle = gl__.getAttribLocation(program, "a_TexCoordinate");
+            mPositionHandle = gl.getAttribLocation(program, "a_Position");
+            mNormalHandle = gl.getAttribLocation(program, "a_Normal");
+            mTextureCoordinateHandle = gl.getAttribLocation(program, "a_TexCoordinate");
 
             // Calculate position of the light. Rotate and then push into the distance.
             Matrix.setIdentityM(mLightModelMatrix, 0);
@@ -851,18 +850,18 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             java.lang.System.arraycopy(mTemporaryMatrix, 0, mModelMatrix, 0, 16);
 
             // Set the active texture unit to texture unit 0.
-            gl__.activeTexture(gl__.TEXTURE0);
+            gl.activeTexture(gl.TEXTURE0);
 
             // Bind the texture to this unit.
-            gl__.bindTexture(gl__.TEXTURE_2D, mBrickDataHandle);
+            gl.bindTexture(gl.TEXTURE_2D, mBrickDataHandle);
 
             // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-            gl__.uniform1i(mTextureUniformHandle, 0);
+            gl.uniform1i(mTextureUniformHandle, 0);
 
             // Pass in the texture coordinate information
             mCubeTextureCoordinates.position(0);
 
-            opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, (int)gl__.FLOAT, false,
+            opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, (int)gl.FLOAT, false,
                     0, mCubeTextureCoordinates);
 
             #region drawCube
@@ -871,24 +870,24 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                 {
                     // Pass in the position information
                     mCubePositions.position(0);
-                    opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
+                    opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl.FLOAT, false,
                             0, mCubePositions);
 
-                    gl__.enableVertexAttribArray((uint)mPositionHandle);
+                    gl.enableVertexAttribArray((uint)mPositionHandle);
 
                     // Pass in the normal information
                     mCubeNormals.position(0);
-                    opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, (int)gl__.FLOAT, false,
+                    opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, (int)gl.FLOAT, false,
                             0, mCubeNormals);
 
-                    gl__.enableVertexAttribArray((uint)mNormalHandle);
+                    gl.enableVertexAttribArray((uint)mNormalHandle);
 
                     // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
                     // (which currently contains model * view).
                     Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
 
                     // Pass in the modelview matrix.
-                    gl.uniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
+                    __gl.uniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
 
                     // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
                     // (which now contains model * view * projection).        
@@ -896,13 +895,13 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     java.lang.System.arraycopy(mTemporaryMatrix, 0, mMVPMatrix, 0, 16);
 
                     // Pass in the combined matrix.
-                    gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                    __gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                     // Pass in the light position in eye space.        
-                    gl__.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
+                    gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
 
                     // Draw the cube.k
-                    gl.drawArrays(gl__.TRIANGLES, 0, 36);
+                    gl.drawArrays(gl.TRIANGLES, 0, 36);
                 };
             #endregion
 
@@ -915,20 +914,20 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.rotateM(mModelMatrix, 0, slowAngleInDegrees, 0.0f, 1.0f, 0.0f);
 
             // Set the active texture unit to texture unit 0.
-            gl__.activeTexture(gl__.TEXTURE0);
+            gl.activeTexture(gl.TEXTURE0);
 
             // Bind the texture to this unit.
-            gl__.bindTexture(gl__.TEXTURE_2D, mGrassDataHandle);
+            gl.bindTexture(gl.TEXTURE_2D, mGrassDataHandle);
 
             // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-            gl__.uniform1i(mTextureUniformHandle, 0);
+            gl.uniform1i(mTextureUniformHandle, 0);
 
             // Pass in the texture coordinate information
             mCubeTextureCoordinatesForPlane.position(0);
-            opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, (int)gl__.FLOAT, false,
+            opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, (int)gl.FLOAT, false,
                     0, mCubeTextureCoordinatesForPlane);
 
-            gl__.enableVertexAttribArray((uint)mTextureCoordinateHandle);
+            gl.enableVertexAttribArray((uint)mTextureCoordinateHandle);
 
             drawCube();
 
@@ -937,28 +936,28 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Action drawLight =
                 delegate
                 {
-                    var pointMVPMatrixHandle = gl__.getUniformLocation(mPointProgramHandle, "u_MVPMatrix");
-                    var pointPositionHandle = gl__.getAttribLocation(mPointProgramHandle, "a_Position");
+                    var pointMVPMatrixHandle = gl.getUniformLocation(mPointProgramHandle, "u_MVPMatrix");
+                    var pointPositionHandle = gl.getAttribLocation(mPointProgramHandle, "a_Position");
 
                     // Pass in the position.
-                    gl__.vertexAttrib3f((uint)pointPositionHandle, mLightPosInModelSpace[0], mLightPosInModelSpace[1], mLightPosInModelSpace[2]);
+                    gl.vertexAttrib3f((uint)pointPositionHandle, mLightPosInModelSpace[0], mLightPosInModelSpace[1], mLightPosInModelSpace[2]);
 
                     // Since we are not using a buffer object, disable vertex arrays for this attribute.
-                    gl__.disableVertexAttribArray((uint)pointPositionHandle);
+                    gl.disableVertexAttribArray((uint)pointPositionHandle);
 
                     // Pass in the transformation matrix.
                     Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mLightModelMatrix, 0);
                     Matrix.multiplyMM(mTemporaryMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
                     java.lang.System.arraycopy(mTemporaryMatrix, 0, mMVPMatrix, 0, 16);
-                    gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                    __gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                     // Draw the point.
-                    gl__.drawArrays(gl__.POINTS, 0, 1);
+                    gl.drawArrays(gl.POINTS, 0, 1);
                 };
             #endregion
 
             // Draw a point to indicate the light.
-            gl__.useProgram(mPointProgramHandle);
+            gl.useProgram(mPointProgramHandle);
             drawLight();
         }
 
@@ -967,10 +966,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             if (mBrickDataHandle != null)
                 if (mGrassDataHandle != null)
                 {
-                    gl__.bindTexture(gl__.TEXTURE_2D, mBrickDataHandle);
-                    gl__.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MIN_FILTER, filter);
-                    gl__.bindTexture(gl__.TEXTURE_2D, mGrassDataHandle);
-                    gl__.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MIN_FILTER, filter);
+                    gl.bindTexture(gl.TEXTURE_2D, mBrickDataHandle);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
+                    gl.bindTexture(gl.TEXTURE_2D, mGrassDataHandle);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
 
                     return;
                 }
@@ -983,10 +982,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             if (mBrickDataHandle != null)
                 if (mGrassDataHandle != null)
                 {
-                    gl__.bindTexture(gl__.TEXTURE_2D, mBrickDataHandle);
-                    gl__.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MAG_FILTER, filter);
-                    gl__.bindTexture(gl__.TEXTURE_2D, mGrassDataHandle);
-                    gl__.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MAG_FILTER, filter);
+                    gl.bindTexture(gl.TEXTURE_2D, mBrickDataHandle);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
+                    gl.bindTexture(gl.TEXTURE_2D, mGrassDataHandle);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
 
                     return;
                 }
