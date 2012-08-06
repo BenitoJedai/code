@@ -43,7 +43,7 @@ namespace AndroidWifiNotificationActivity.Activities
             sv.addView(ll);
 
             var btn = new Button(this);
-            btn.setText((java.lang.CharSequence)(object)"wifi");
+            btn.setText("wifi");
 
             ll.addView(btn);
 
@@ -56,14 +56,14 @@ namespace AndroidWifiNotificationActivity.Activities
                 if (wifiNetInfo != null)
                     if (wifiNetInfo.isConnectedOrConnecting())
                     {
-                        btn.setText((java.lang.CharSequence)(object)"we are connected via WiFi");
+                        btn.setText("we are connected via WiFi");
                     }
 
                 if (mobileNetInfo != null)
                     if (mobileNetInfo.isAvailable())
                         if (mobileNetInfo.isConnected())
                         {
-                            btn.setText((java.lang.CharSequence)(object)" we are connected via mobile data (GPRS, 3G, etc.)");
+                            btn.setText(" we are connected via mobile data (GPRS, 3G, etc.)");
                         }
             }
 
@@ -176,7 +176,7 @@ namespace foo
 
     // android.intent.action.BOOT_COMPLETED
     //[IntentFilter(Action = Intent.ACTION_BOOT_COMPLETED)]
-    [IntentFilter(Action = "android.net.wifi.supplicant.CONNECTION_CHANGE")]
+    [IntentFilter(Action = android.net.wifi.WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)]
     public class AtConnectionChange : BroadcastReceiver
     {
         public override void onReceive(Context c, Intent i)
