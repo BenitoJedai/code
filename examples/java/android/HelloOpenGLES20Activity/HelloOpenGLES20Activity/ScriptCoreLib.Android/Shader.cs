@@ -221,6 +221,11 @@ namespace ScriptCoreLib.Android
         {
             GLES20.glBlendFunc(p, p_2);
         }
+
+        internal  void generateMipmap(int p)
+        {
+            GLES20.glGenerateMipmap(p);
+        }
     }
 
     public class __WebGLUniformLocation : __WebGLObject

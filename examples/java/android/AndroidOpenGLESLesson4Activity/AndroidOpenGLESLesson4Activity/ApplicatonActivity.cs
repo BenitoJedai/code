@@ -21,8 +21,10 @@ using ScriptCoreLib.Android;
 namespace AndroidOpenGLESLesson4Activity.Activities
 {
     using opengl = GLES20;
+    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using gl = __WebGLRenderingContext;
 
+    #region R
     [Script(IsNative = true)]
     public static class R
     {
@@ -32,6 +34,8 @@ namespace AndroidOpenGLESLesson4Activity.Activities
             public static int bumpy_bricks_public_domain;
         }
     }
+    #endregion
+
 
     public class AndroidOpenGLESLesson4Activity : Activity
     {
@@ -183,7 +187,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
             {
                 mActivityContext = activityContext;
 
-                // Define points for a cube.		
+                #region Define points for a cube.
 
                 // X, Y, Z
                 float[] cubePositionData =
@@ -404,6 +408,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
 				        1.0f, 1.0f,
 				        1.0f, 0.0f
 		        };
+                #endregion
 
                 // Initialize the buffers.
                 mCubePositions = ByteBuffer.allocateDirect(cubePositionData.Length * mBytesPerFloat)
@@ -429,13 +434,13 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // Use culling to remove back faces.
-                gl.enable(opengl.GL_CULL_FACE);
+                gl.enable((int)gl__.CULL_FACE);
 
                 // Enable depth testing
-                gl.enable(opengl.GL_DEPTH_TEST);
+                gl.enable((int)gl__.DEPTH_TEST);
 
                 // Enable texture mapping
-                gl.enable(opengl.GL_TEXTURE_2D);
+                gl.enable((int)gl__.TEXTURE_2D);
 
                 // Position the eye in front of the origin.
                 float eyeX = 0.0f;
@@ -477,39 +482,23 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                 );
 
                 #region loadTexture
-                Func< android.graphics.Bitmap, __WebGLTexture> loadTexture = ( bitmap) =>
+                Func<android.graphics.Bitmap, __WebGLTexture> loadTexture = (bitmap) =>
                {
-
-
-                   //int[] textureHandle = new int[1];
-
                    var textureHandle = gl.createTexture();
 
-                   //GLES20.glGenTextures(1, textureHandle, 0);
+                   // Bind to the texture in OpenGL
+                   gl.bindTexture((int)gl__.TEXTURE_2D, textureHandle);
 
-                   //if (textureHandle[0] != 0)
-                   //{
+                   // Set filtering
+                   gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MIN_FILTER, (int)gl__.NEAREST);
+                   gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MAG_FILTER, (int)gl__.NEAREST);
 
+                   // Load the bitmap into the bound texture.
+                   GLUtils.texImage2D((int)gl__.TEXTURE_2D, 0, bitmap, 0);
 
-                       // Bind to the texture in OpenGL
-                       gl.bindTexture(GLES20.GL_TEXTURE_2D, textureHandle);
+                   // Recycle the bitmap, since its data has been loaded into OpenGL.
+                   bitmap.recycle();
 
-                       // Set filtering
-                       gl.texParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-                       gl.texParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
-
-                       // Load the bitmap into the bound texture.
-                       GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-
-                       // Recycle the bitmap, since its data has been loaded into OpenGL.
-                       bitmap.recycle();
-                   //}
-
-                   //if (textureHandle[0] == 0)
-                   //{
-                   //    //throw new RuntimeException("Error loading texture.");
-                   //    throw null;
-                   //}
 
                    return textureHandle;
                };
@@ -521,7 +510,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                 // Load the texture
                 mTextureDataHandle = loadTexture(
                     android.graphics.BitmapFactory.decodeResource(
-                        mActivityContext.getResources(), 
+                        mActivityContext.getResources(),
                         R.drawable.bumpy_bricks_public_domain,
                         new android.graphics.BitmapFactory.Options
                         {
@@ -551,7 +540,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                gl.clear(opengl.GL_COLOR_BUFFER_BIT | opengl.GL_DEPTH_BUFFER_BIT);
+                gl.clear((int)gl__.COLOR_BUFFER_BIT | (int)gl__.DEPTH_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
@@ -572,10 +561,10 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                 mTextureCoordinateHandle = gl.getAttribLocation(mProgramHandle, "a_TexCoordinate");
 
                 // Set the active texture unit to texture unit 0.
-                gl.activeTexture(opengl.GL_TEXTURE0);
+                gl.activeTexture((int)gl__.TEXTURE0);
 
                 // Bind the texture to this unit.
-                gl.bindTexture(opengl.GL_TEXTURE_2D, mTextureDataHandle);
+                gl.bindTexture((int)gl__.TEXTURE_2D, mTextureDataHandle);
 
                 // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
                 gl.uniform1i(mTextureUniformHandle, 0);
@@ -595,21 +584,21 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                     {
                         // Pass in the position information
                         mCubePositions.position(0);
-                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, opengl.GL_FLOAT, false,
+                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
                                 0, mCubePositions);
 
                         gl.enableVertexAttribArray(mPositionHandle);
 
                         // Pass in the color information
                         mCubeColors.position(0);
-                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, opengl.GL_FLOAT, false,
+                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
                                 0, mCubeColors);
 
                         gl.enableVertexAttribArray(mColorHandle);
 
                         // Pass in the normal information
                         mCubeNormals.position(0);
-                        opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, opengl.GL_FLOAT, false,
+                        opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, (int)gl__.FLOAT, false,
                                 0, mCubeNormals);
 
                         gl.enableVertexAttribArray(mNormalHandle);
@@ -639,7 +628,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                         gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
 
                         // Draw the cube.
-                        gl.drawArrays(opengl.GL_TRIANGLES, 0, 36);
+                        gl.drawArrays((int)gl__.TRIANGLES, 0, 36);
                     };
                 #endregion
 
@@ -687,7 +676,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                         gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                         // Draw the point.
-                        gl.drawArrays(opengl.GL_POINTS, 0, 1);
+                        gl.drawArrays((int)gl__.POINTS, 0, 1);
                     };
                 #endregion
 
