@@ -21,6 +21,7 @@ using ScriptCoreLib.Android;
 namespace AndroidOpenGLESLesson3Activity.Activities
 {
     using opengl = GLES20;
+    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using gl = __WebGLRenderingContext;
 
     public class AndroidOpenGLESLesson3Activity : Activity
@@ -156,7 +157,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
              */
             public LessonThreeRenderer()
             {
-                // Define points for a cube.		
+                #region Define points for a cube.
 
                 // X, Y, Z
                 float[] cubePositionData =
@@ -321,6 +322,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
 				        0.0f, -1.0f, 0.0f,
 				        0.0f, -1.0f, 0.0f
 		        };
+                #endregion
 
                 // Initialize the buffers.
                 mCubePositions = ByteBuffer.allocateDirect(cubePositionData.Length * mBytesPerFloat)
@@ -343,10 +345,10 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // Use culling to remove back faces.
-                gl.enable(opengl.GL_CULL_FACE);
+                gl.enable((int)gl__.CULL_FACE);
 
                 // Enable depth testing
-                gl.enable(opengl.GL_DEPTH_TEST);
+                gl.enable((int)gl__.DEPTH_TEST);
 
                 // Position the eye in front of the origin.
                 float eyeX = 0.0f;
@@ -404,7 +406,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                gl.clear(opengl.GL_COLOR_BUFFER_BIT | opengl.GL_DEPTH_BUFFER_BIT);
+                gl.clear((int)gl__.COLOR_BUFFER_BIT | (int)gl__.DEPTH_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
@@ -437,21 +439,21 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                     {
                         // Pass in the position information
                         mCubePositions.position(0);
-                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, opengl.GL_FLOAT, false,
+                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
                                 0, mCubePositions);
 
                         gl.enableVertexAttribArray(mPositionHandle);
 
                         // Pass in the color information
                         mCubeColors.position(0);
-                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, opengl.GL_FLOAT, false,
+                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
                                 0, mCubeColors);
 
                         gl.enableVertexAttribArray(mColorHandle);
 
                         // Pass in the normal information
                         mCubeNormals.position(0);
-                        opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, opengl.GL_FLOAT, false,
+                        opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, (int)gl__.FLOAT, false,
                                 0, mCubeNormals);
 
                         gl.enableVertexAttribArray(mNormalHandle);
@@ -474,7 +476,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                         gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
 
                         // Draw the cube.
-                        gl.drawArrays(opengl.GL_TRIANGLES, 0, 36);
+                        gl.drawArrays((int)gl__.TRIANGLES, 0, 36);
                     };
                 #endregion
 
@@ -523,7 +525,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                         gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                         // Draw the point.
-                        gl.drawArrays(opengl.GL_POINTS, 0, 1);
+                        gl.drawArrays((int)gl__.POINTS, 0, 1);
                     };
                 #endregion
 

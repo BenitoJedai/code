@@ -21,6 +21,7 @@ using ScriptCoreLib.Android;
 namespace AndroidOpenGLESLesson1Activity.Activities
 {
     using opengl = GLES20;
+    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using gl = __WebGLRenderingContext;
 
     public class AndroidOpenGLESLesson1Activity : Activity
@@ -136,7 +137,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
              */
             public LessonOneRenderer()
             {
-                // Define points for equilateral triangles.
+                #region Define points for equilateral triangles.
 
                 // This triangle is red, green, and blue.
                 float[] triangle1VerticesData = {
@@ -176,6 +177,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 	            
 	            0.0f, 0.559016994f, 0.0f, 
 	            0.0f, 0.0f, 0.0f, 1.0f};
+                #endregion
 
                 // Initialize the buffers.
                 mTriangle1Vertices = ByteBuffer.allocateDirect(triangle1VerticesData.Length * mBytesPerFloat)
@@ -256,11 +258,42 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                gl.clear(opengl.GL_DEPTH_BUFFER_BIT | opengl.GL_COLOR_BUFFER_BIT);
+                gl.clear((int)gl__.DEPTH_BUFFER_BIT | (int)gl__.COLOR_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
                 float angleInDegrees = (360.0f / 10000.0f) * ((int)time);
+
+                #region drawTriangle
+                Action<FloatBuffer> drawTriangle =
+                    (FloatBuffer aTriangleBuffer) =>
+                    {
+                        // Pass in the position information
+                        aTriangleBuffer.position(mPositionOffset);
+                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
+                                mStrideBytes, aTriangleBuffer);
+
+                        gl.enableVertexAttribArray(mPositionHandle);
+
+                        // Pass in the color information
+                        aTriangleBuffer.position(mColorOffset);
+                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
+                                mStrideBytes, aTriangleBuffer);
+
+                        gl.enableVertexAttribArray(mColorHandle);
+
+                        // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
+                        // (which currently contains model * view).
+                        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+
+                        // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
+                        // (which now contains model * view * projection).
+                        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
+
+                        gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                        gl.drawArrays((int)gl__.TRIANGLES, 0, 3);
+                    };
+                #endregion
 
                 // Draw the triangle facing straight on.
                 Matrix.setIdentityM(mModelMatrix, 0);
@@ -280,39 +313,6 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                 Matrix.rotateM(mModelMatrix, 0, 90.0f, 0.0f, 1.0f, 0.0f);
                 Matrix.rotateM(mModelMatrix, 0, angleInDegrees, 0.0f, 0.0f, 1.0f);
                 drawTriangle(mTriangle3Vertices);
-            }
-
-            /**
-             * Draws a triangle from the given vertex data.
-             * 
-             * @param aTriangleBuffer The buffer containing the vertex data.
-             */
-            private void drawTriangle(FloatBuffer aTriangleBuffer)
-            {
-                // Pass in the position information
-                aTriangleBuffer.position(mPositionOffset);
-                opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, opengl.GL_FLOAT, false,
-                        mStrideBytes, aTriangleBuffer);
-
-                gl.enableVertexAttribArray(mPositionHandle);
-
-                // Pass in the color information
-                aTriangleBuffer.position(mColorOffset);
-                opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, opengl.GL_FLOAT, false,
-                        mStrideBytes, aTriangleBuffer);
-
-                gl.enableVertexAttribArray(mColorHandle);
-
-                // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
-                // (which currently contains model * view).
-                Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
-
-                // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
-                // (which now contains model * view * projection).
-                Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-
-                gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-                gl.drawArrays(opengl.GL_TRIANGLES, 0, 3);
             }
 
 

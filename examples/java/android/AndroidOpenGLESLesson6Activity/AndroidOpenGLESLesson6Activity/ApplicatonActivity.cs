@@ -21,9 +21,11 @@ using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidOpenGLESLesson6Activity.Activities
 {
+    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using gl = __WebGLRenderingContext;
     using opengl = GLES20;
 
+    #region R
     [Script(IsNative = true)]
     public static class R
     {
@@ -51,6 +53,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
         }
     }
+    #endregion
 
     public class AndroidOpenGLESLesson6Activity : Activity
     {
@@ -114,17 +117,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
          );
 
 
-            // Restore previous settings
-            if (savedInstanceState != null)
-            {
-                mMinSetting = savedInstanceState.getInt(MIN_SETTING, -1);
-                mMagSetting = savedInstanceState.getInt(MAG_SETTING, -1);
-
-                if (mMinSetting != -1) { setMinSetting(mMinSetting); }
-                if (mMagSetting != -1) { setMagSetting(mMagSetting); }
-            }
-
-
             this.ShowToast("http://jsc-solutions.net");
         }
 
@@ -155,89 +147,71 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
 
 
-
-        protected override void onSaveInstanceState(Bundle outState)
-        {
-            outState.putInt(MIN_SETTING, mMinSetting);
-            outState.putInt(MAG_SETTING, mMagSetting);
-        }
-
-        class setMinSettingHandler : Runnable
-        {
-            public AndroidOpenGLESLesson6Activity __this;
-            public int item;
-
-            public void run()
-            {
-                int filter;
-
-                if (item == 0)
-                {
-                    filter = opengl.GL_NEAREST;
-                }
-                else if (item == 1)
-                {
-                    filter = opengl.GL_LINEAR;
-                }
-                else if (item == 2)
-                {
-                    filter = opengl.GL_NEAREST_MIPMAP_NEAREST;
-                }
-                else if (item == 3)
-                {
-                    filter = opengl.GL_NEAREST_MIPMAP_LINEAR;
-                }
-                else if (item == 4)
-                {
-                    filter = opengl.GL_LINEAR_MIPMAP_NEAREST;
-                }
-                else // if (item == 5)
-                {
-                    filter = opengl.GL_LINEAR_MIPMAP_LINEAR;
-                }
-
-                __this.mRenderer.setMinFilter(filter);
-            }
-        }
-
+     
         private void setMinSetting(int item)
         {
             mMinSetting = item;
 
-            mGLSurfaceView.queueEvent(new setMinSettingHandler { __this = this, item = item }
+            mGLSurfaceView.queueEvent(
+                delegate
+                {
+                    int filter;
 
+                    if (item == 0)
+                    {
+                        filter = (int)gl__.NEAREST;
+                    }
+                    else if (item == 1)
+                    {
+                        filter = (int)gl__.LINEAR;
+                    }
+                    else if (item == 2)
+                    {
+                        filter = (int)gl__.NEAREST_MIPMAP_NEAREST;
+                    }
+                    else if (item == 3)
+                    {
+                        filter = (int)gl__.NEAREST_MIPMAP_LINEAR;
+                    }
+                    else if (item == 4)
+                    {
+                        filter = (int)gl__.LINEAR_MIPMAP_NEAREST;
+                    }
+                    else // if (item == 5)
+                    {
+                        filter = (int)gl__.LINEAR_MIPMAP_LINEAR;
+                    }
+
+                    this.mRenderer.setMinFilter(filter);
+                }
             );
         }
 
 
 
-        class setMagSettingHandler : Runnable
-        {
-            public AndroidOpenGLESLesson6Activity __this;
-            public int item;
-
-            public void run()
-            {
-                int filter;
-
-                if (item == 0)
-                {
-                    filter = opengl.GL_NEAREST;
-                }
-                else // if (item == 1)
-                {
-                    filter = opengl.GL_LINEAR;
-                }
-
-                __this.mRenderer.setMagFilter(filter);
-            }
-        }
+        
 
         private void setMagSetting(int item)
         {
             mMagSetting = item;
 
-            mGLSurfaceView.queueEvent(new setMagSettingHandler { __this = this, item = item });
+            mGLSurfaceView.queueEvent(
+                delegate
+                {
+                    int filter;
+
+                    if (item == 0)
+                    {
+                        filter = (int)gl__.NEAREST;
+                    }
+                    else // if (item == 1)
+                    {
+                        filter = (int)gl__.LINEAR;
+                    }
+
+                    this.mRenderer.setMagFilter(filter);
+                }
+            );
         }
 
         class lesson_six_min_filter_types_onclick : DialogInterface_OnClickListener
@@ -268,7 +242,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             if (id == MIN_DIALOG)
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle((CharSequence)(object)"Set GL_TEXTURE_MIN_FILTER");
+                builder.setTitle("Set GL_TEXTURE_MIN_FILTER");
 
                 var lesson_six_min_filter_types = new[] {
                     "GL_NEAREST",
@@ -291,7 +265,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             else if (id == MAG_DIALOG)
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle((CharSequence)(object)"Set GL_TEXTURE_MAG_FILTER");
+                builder.setTitle("Set GL_TEXTURE_MAG_FILTER");
 
                 var lesson_six_mag_filter_types = new string[]{
                     	        "GL_NEAREST",
@@ -326,6 +300,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
     public class LessonSixRenderer : GLSurfaceView.Renderer
     {
+        __WebGLRenderingContext gl = new __WebGLRenderingContext();
 
 
 
@@ -692,13 +667,13 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
             // Use culling to remove back faces.
-            gl.enable(opengl.GL_CULL_FACE);
+            gl.enable((int)gl__.CULL_FACE);
 
             // Enable depth testing
-            gl.enable(opengl.GL_DEPTH_TEST);
+            gl.enable((int)gl__.DEPTH_TEST);
 
             // Enable texture mapping
-            gl.enable(opengl.GL_TEXTURE_2D);
+            gl.enable((int)gl__.TEXTURE_2D);
 
             // Position the eye in front of the origin.
             float eyeX = 0.0f;
@@ -738,17 +713,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             #region loadTexture
             Func<android.graphics.Bitmap, __WebGLTexture> loadTexture = (bitmap) =>
             {
-
-
-                //int[] textureHandle = new int[1];
-
                 var textureHandle = gl.createTexture();
-
-                //GLES20.glGenTextures(1, textureHandle, 0);
-
-                //if (textureHandle[0] != 0)
-                //{
-
 
                 // Bind to the texture in OpenGL
                 gl.bindTexture(GLES20.GL_TEXTURE_2D, textureHandle);
@@ -759,16 +724,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
                 // Load the bitmap into the bound texture.
                 GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-
+                
                 // Recycle the bitmap, since its data has been loaded into OpenGL.
                 bitmap.recycle();
-                //}
-
-                //if (textureHandle[0] == 0)
-                //{
-                //    //throw new RuntimeException("Error loading texture.");
-                //    throw null;
-                //}
+               
 
                 return textureHandle;
             };
@@ -786,7 +745,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                  )
              );
 
-            opengl.glGenerateMipmap(opengl.GL_TEXTURE_2D);
+            gl.generateMipmap((int)gl__.TEXTURE_2D);
 
 
             mGrassDataHandle = loadTexture(
@@ -800,7 +759,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
               )
           );
 
-            opengl.glGenerateMipmap(opengl.GL_TEXTURE_2D);
+            gl.generateMipmap((int)gl__.TEXTURE_2D);
 
             if (mQueuedMinFilter != 0)
             {
@@ -834,11 +793,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
         }
 
-        __WebGLRenderingContext gl = new __WebGLRenderingContext();
 
         public void onDrawFrame(GL10 glUnused)
         {
-            gl.clear(opengl.GL_COLOR_BUFFER_BIT | opengl.GL_DEPTH_BUFFER_BIT);
+            gl.clear((int)gl__.COLOR_BUFFER_BIT | (int)gl__.DEPTH_BUFFER_BIT);
 
             // Do a complete rotation every 10 seconds.
             long time = SystemClock.uptimeMillis() % 10000L;
@@ -891,10 +849,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             java.lang.System.arraycopy(mTemporaryMatrix, 0, mModelMatrix, 0, 16);
 
             // Set the active texture unit to texture unit 0.
-            gl.activeTexture(opengl.GL_TEXTURE0);
+            gl.activeTexture((int)gl__.TEXTURE0);
 
             // Bind the texture to this unit.
-            gl.bindTexture(opengl.GL_TEXTURE_2D, mBrickDataHandle);
+            gl.bindTexture((int)gl__.TEXTURE_2D, mBrickDataHandle);
 
             // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
             gl.uniform1i(mTextureUniformHandle, 0);
@@ -902,7 +860,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             // Pass in the texture coordinate information
             mCubeTextureCoordinates.position(0);
 
-            opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, opengl.GL_FLOAT, false,
+            opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, (int)gl__.FLOAT, false,
                     0, mCubeTextureCoordinates);
 
             #region drawCube
@@ -911,14 +869,14 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                 {
                     // Pass in the position information
                     mCubePositions.position(0);
-                    opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, opengl.GL_FLOAT, false,
+                    opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
                             0, mCubePositions);
 
                     gl.enableVertexAttribArray(mPositionHandle);
 
                     // Pass in the normal information
                     mCubeNormals.position(0);
-                    opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, opengl.GL_FLOAT, false,
+                    opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, (int)gl__.FLOAT, false,
                             0, mCubeNormals);
 
                     gl.enableVertexAttribArray(mNormalHandle);
@@ -942,7 +900,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
 
                     // Draw the cube.k
-                    gl.drawArrays(opengl.GL_TRIANGLES, 0, 36);
+                    gl.drawArrays((int)gl__.TRIANGLES, 0, 36);
                 };
             #endregion
 
@@ -955,17 +913,17 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.rotateM(mModelMatrix, 0, slowAngleInDegrees, 0.0f, 1.0f, 0.0f);
 
             // Set the active texture unit to texture unit 0.
-            gl.activeTexture(opengl.GL_TEXTURE0);
+            gl.activeTexture((int)gl__.TEXTURE0);
 
             // Bind the texture to this unit.
-            gl.bindTexture(opengl.GL_TEXTURE_2D, mGrassDataHandle);
+            gl.bindTexture((int)gl__.TEXTURE_2D, mGrassDataHandle);
 
             // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
             gl.uniform1i(mTextureUniformHandle, 0);
 
             // Pass in the texture coordinate information
             mCubeTextureCoordinatesForPlane.position(0);
-            opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, opengl.GL_FLOAT, false,
+            opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, (int)gl__.FLOAT, false,
                     0, mCubeTextureCoordinatesForPlane);
 
             gl.enableVertexAttribArray(mTextureCoordinateHandle);
@@ -993,7 +951,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                     // Draw the point.
-                    gl.drawArrays(opengl.GL_POINTS, 0, 1);
+                    gl.drawArrays((int)gl__.POINTS, 0, 1);
                 };
             #endregion
 
@@ -1007,10 +965,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             if (mBrickDataHandle != null)
                 if (mGrassDataHandle != null)
                 {
-                    gl.bindTexture(opengl.GL_TEXTURE_2D, mBrickDataHandle);
-                    gl.texParameteri(opengl.GL_TEXTURE_2D, opengl.GL_TEXTURE_MIN_FILTER, filter);
-                    gl.bindTexture(opengl.GL_TEXTURE_2D, mGrassDataHandle);
-                    gl.texParameteri(opengl.GL_TEXTURE_2D, opengl.GL_TEXTURE_MIN_FILTER, filter);
+                    gl.bindTexture((int)gl__.TEXTURE_2D, mBrickDataHandle);
+                    gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MIN_FILTER, filter);
+                    gl.bindTexture((int)gl__.TEXTURE_2D, mGrassDataHandle);
+                    gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MIN_FILTER, filter);
 
                     return;
                 }
@@ -1023,10 +981,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             if (mBrickDataHandle != null)
                 if (mGrassDataHandle != null)
                 {
-                    gl.bindTexture(opengl.GL_TEXTURE_2D, mBrickDataHandle);
-                    gl.texParameteri(opengl.GL_TEXTURE_2D, opengl.GL_TEXTURE_MAG_FILTER, filter);
-                    gl.bindTexture(opengl.GL_TEXTURE_2D, mGrassDataHandle);
-                    gl.texParameteri(opengl.GL_TEXTURE_2D, opengl.GL_TEXTURE_MAG_FILTER, filter);
+                    gl.bindTexture((int)gl__.TEXTURE_2D, mBrickDataHandle);
+                    gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MAG_FILTER, filter);
+                    gl.bindTexture((int)gl__.TEXTURE_2D, mGrassDataHandle);
+                    gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MAG_FILTER, filter);
 
                     return;
                 }
@@ -1042,6 +1000,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
     public class LessonSixGLSurfaceView : GLSurfaceView
     {
+
         private LessonSixRenderer mRenderer;
 
         // Offsets for touch events	 
@@ -1055,11 +1014,18 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         {
         }
 
-        public LessonSixGLSurfaceView(Context context, AttributeSet attrs)
-            : base(context, attrs)
+
+        public LessonSixGLSurfaceView(Context context, android.util.AttributeSet a)
+            : base(context, a)
         {
+       //     Caused by: java.lang.NoSuchMethodException: <init> [class android.content.Context, interface android.util.AttributeSet]
+       //at java.lang.Class.getConstructorOrMethod(Class.java:460)
+       //at java.lang.Class.getConstructor(Class.java:431)
+       //at android.view.LayoutInflater.createView(LayoutInflater.java:561)
         }
 
+
+    
         public override bool onTouchEvent(MotionEvent e)
         {
             if (e != null)
