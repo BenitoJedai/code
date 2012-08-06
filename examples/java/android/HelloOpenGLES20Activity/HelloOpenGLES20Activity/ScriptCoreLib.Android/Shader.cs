@@ -46,6 +46,7 @@ namespace ScriptCoreLib.Android
 
     #region __WebGLRenderingContext
 
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext))]
     public class __WebGLRenderingContext
     {
         // let's try to mimic WebGL api and see how far we get
@@ -126,9 +127,10 @@ namespace ScriptCoreLib.Android
             GLES20.glLinkProgram(programObject.value);
         }
 
-        internal void clear(int p)
+        internal void clear(uint mask)
         {
-            GLES20.glClear(p);
+
+            GLES20.glClear((int)mask);
         }
 
         internal void vertexAttribPointer(int attribute, int size, int type, bool p4, int p5, java.nio.FloatBuffer vertices)
@@ -141,9 +143,9 @@ namespace ScriptCoreLib.Android
             GLES20.glEnableVertexAttribArray(p);
         }
 
-        internal void drawArrays(int p1, int p2, int p3)
+        internal void drawArrays(uint mode, int first, int count)
         {
-            GLES20.glDrawArrays(p1, p2, p3);
+            GLES20.glDrawArrays((int)mode, first, count);
         }
 
         internal __WebGLShader createShader(int shaderType)
@@ -171,14 +173,14 @@ namespace ScriptCoreLib.Android
             GLES20.glAttachShader(program.value, vertexShader.value);
         }
 
-        internal void enable(int p)
+        internal void enable(uint cap)
         {
-            GLES20.glEnable(p);
+            GLES20.glEnable((int)cap);
         }
 
-        internal void disable(int p)
+        internal void disable(uint cap)
         {
-            GLES20.glDisable(p);
+            GLES20.glDisable((int)cap);
         }
 
         internal void disableVertexAttribArray(int pointPositionHandle)
@@ -191,9 +193,9 @@ namespace ScriptCoreLib.Android
             GLES20.glVertexAttrib3f(pointPositionHandle, p1, p2, p3);
         }
 
-        internal void texParameteri(int h, int x, int y)
+        internal void texParameteri(uint target, uint pname, int param)
         {
-            GLES20.glTexParameteri(h, x, y);
+            GLES20.glTexParameteri((int)target, (int)pname, param);
         }
 
         internal __WebGLTexture createTexture()
@@ -205,33 +207,35 @@ namespace ScriptCoreLib.Android
             return new __WebGLTexture { value = textureHandle[0] };
         }
 
-        internal void bindTexture(int p, __WebGLTexture textureHandle)
+        internal void bindTexture(uint target, __WebGLTexture textureHandle)
         {
-            GLES20.glBindTexture(p, textureHandle.value);
+            GLES20.glBindTexture((int)target, textureHandle.value);
         }
 
-        internal void activeTexture(int p)
+        internal void activeTexture(uint texture)
         {
-            GLES20.glActiveTexture(p);
+            GLES20.glActiveTexture((int)texture);
         }
 
 
 
-        internal void blendFunc(int p, int p_2)
+        internal void blendFunc(uint sfactor, uint dfactor)
         {
-            GLES20.glBlendFunc(p, p_2);
+            GLES20.glBlendFunc((int)sfactor, (int)dfactor);
         }
 
-        internal  void generateMipmap(int p)
+        internal  void generateMipmap(uint target)
         {
-            GLES20.glGenerateMipmap(p);
+            GLES20.glGenerateMipmap((int)target);
         }
     }
 
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLUniformLocation))]
     public class __WebGLUniformLocation : __WebGLObject
     {
     }
 
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLTexture))]
     public class __WebGLTexture : __WebGLObject
     {
     }

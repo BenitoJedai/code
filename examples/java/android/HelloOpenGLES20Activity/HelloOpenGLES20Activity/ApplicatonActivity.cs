@@ -19,8 +19,10 @@ using ScriptCoreLib.Android;
 
 namespace HelloOpenGLES20Activity.Activities
 {
+    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using gl = __WebGLRenderingContext;
     using opengl = GLES20;
+    using Float32Array = FloatBuffer;
 
     public class HelloOpenGLES20Activity : Activity
     {
@@ -29,12 +31,7 @@ namespace HelloOpenGLES20Activity.Activities
         // http://developer.android.com/guide/developing/device.html#setting-up
 
 
-        // running it on device:
-        // attach device to usb
-        // C:\util\android-sdk-windows\platform-tools\adb.exe devices
-        //List of devices attached
-        //3330A17632C000EC        device 
-
+    
         private GLSurfaceView mGLView;
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
@@ -120,7 +117,7 @@ namespace HelloOpenGLES20Activity.Activities
             {
 
                 // Redraw background color
-                gl.clear(opengl.GL_COLOR_BUFFER_BIT | opengl.GL_DEPTH_BUFFER_BIT);
+                gl.clear(gl__.COLOR_BUFFER_BIT | gl__.DEPTH_BUFFER_BIT);
 
 
 
@@ -128,7 +125,7 @@ namespace HelloOpenGLES20Activity.Activities
                 gl.useProgram(mProgram);
 
                 // Prepare the triangle data
-                opengl.glVertexAttribPointer(maPositionHandle, 3, opengl.GL_FLOAT, false, 12, triangleVB);
+                opengl.glVertexAttribPointer(maPositionHandle, 3, (int)gl__.FLOAT, false, 12, triangleVB);
                 gl.enableVertexAttribArray(maPositionHandle);
 
 
@@ -152,7 +149,7 @@ namespace HelloOpenGLES20Activity.Activities
                 #endregion
 
                 // Draw the triangle
-                gl.drawArrays(opengl.GL_TRIANGLES, 0, 3);
+                gl.drawArrays(gl__.TRIANGLES, 0, 3);
             }
 
             public void onSurfaceChanged(GL10 unused, int width, int height)

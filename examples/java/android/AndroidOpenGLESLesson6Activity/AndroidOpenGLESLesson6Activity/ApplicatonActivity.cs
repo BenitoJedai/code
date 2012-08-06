@@ -667,13 +667,13 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
             // Use culling to remove back faces.
-            gl.enable((int)gl__.CULL_FACE);
+            gl.enable(gl__.CULL_FACE);
 
             // Enable depth testing
-            gl.enable((int)gl__.DEPTH_TEST);
+            gl.enable(gl__.DEPTH_TEST);
 
             // Enable texture mapping
-            gl.enable((int)gl__.TEXTURE_2D);
+            gl.enable(gl__.TEXTURE_2D);
 
             // Position the eye in front of the origin.
             float eyeX = 0.0f;
@@ -716,15 +716,15 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                 var textureHandle = gl.createTexture();
 
                 // Bind to the texture in OpenGL
-                gl.bindTexture(GLES20.GL_TEXTURE_2D, textureHandle);
+                gl.bindTexture(gl__.TEXTURE_2D, textureHandle);
 
                 // Set filtering
-                gl.texParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-                gl.texParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+                gl.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MIN_FILTER, (int)gl__.NEAREST);
+                gl.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MAG_FILTER, (int)gl__.NEAREST);
 
                 // Load the bitmap into the bound texture.
-                GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-                
+                GLUtils.texImage2D((int)gl__.TEXTURE_2D, 0, bitmap, 0);
+
                 // Recycle the bitmap, since its data has been loaded into OpenGL.
                 bitmap.recycle();
                
@@ -745,7 +745,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                  )
              );
 
-            gl.generateMipmap((int)gl__.TEXTURE_2D);
+            gl.generateMipmap(gl__.TEXTURE_2D);
 
 
             mGrassDataHandle = loadTexture(
@@ -759,7 +759,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
               )
           );
 
-            gl.generateMipmap((int)gl__.TEXTURE_2D);
+            gl.generateMipmap(gl__.TEXTURE_2D);
 
             if (mQueuedMinFilter != 0)
             {
@@ -796,7 +796,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
         public void onDrawFrame(GL10 glUnused)
         {
-            gl.clear((int)gl__.COLOR_BUFFER_BIT | (int)gl__.DEPTH_BUFFER_BIT);
+            gl.clear(gl__.COLOR_BUFFER_BIT | gl__.DEPTH_BUFFER_BIT);
 
             // Do a complete rotation every 10 seconds.
             long time = SystemClock.uptimeMillis() % 10000L;
@@ -849,10 +849,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             java.lang.System.arraycopy(mTemporaryMatrix, 0, mModelMatrix, 0, 16);
 
             // Set the active texture unit to texture unit 0.
-            gl.activeTexture((int)gl__.TEXTURE0);
+            gl.activeTexture(gl__.TEXTURE0);
 
             // Bind the texture to this unit.
-            gl.bindTexture((int)gl__.TEXTURE_2D, mBrickDataHandle);
+            gl.bindTexture(gl__.TEXTURE_2D, mBrickDataHandle);
 
             // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
             gl.uniform1i(mTextureUniformHandle, 0);
@@ -900,7 +900,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
 
                     // Draw the cube.k
-                    gl.drawArrays((int)gl__.TRIANGLES, 0, 36);
+                    gl.drawArrays(gl__.TRIANGLES, 0, 36);
                 };
             #endregion
 
@@ -913,10 +913,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.rotateM(mModelMatrix, 0, slowAngleInDegrees, 0.0f, 1.0f, 0.0f);
 
             // Set the active texture unit to texture unit 0.
-            gl.activeTexture((int)gl__.TEXTURE0);
+            gl.activeTexture(gl__.TEXTURE0);
 
             // Bind the texture to this unit.
-            gl.bindTexture((int)gl__.TEXTURE_2D, mGrassDataHandle);
+            gl.bindTexture(gl__.TEXTURE_2D, mGrassDataHandle);
 
             // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
             gl.uniform1i(mTextureUniformHandle, 0);
@@ -951,7 +951,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                     // Draw the point.
-                    gl.drawArrays((int)gl__.POINTS, 0, 1);
+                    gl.drawArrays(gl__.POINTS, 0, 1);
                 };
             #endregion
 
@@ -965,10 +965,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             if (mBrickDataHandle != null)
                 if (mGrassDataHandle != null)
                 {
-                    gl.bindTexture((int)gl__.TEXTURE_2D, mBrickDataHandle);
-                    gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MIN_FILTER, filter);
-                    gl.bindTexture((int)gl__.TEXTURE_2D, mGrassDataHandle);
-                    gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MIN_FILTER, filter);
+                    gl.bindTexture(gl__.TEXTURE_2D, mBrickDataHandle);
+                    gl.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MIN_FILTER, filter);
+                    gl.bindTexture(gl__.TEXTURE_2D, mGrassDataHandle);
+                    gl.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MIN_FILTER, filter);
 
                     return;
                 }
@@ -981,10 +981,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             if (mBrickDataHandle != null)
                 if (mGrassDataHandle != null)
                 {
-                    gl.bindTexture((int)gl__.TEXTURE_2D, mBrickDataHandle);
-                    gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MAG_FILTER, filter);
-                    gl.bindTexture((int)gl__.TEXTURE_2D, mGrassDataHandle);
-                    gl.texParameteri((int)gl__.TEXTURE_2D, (int)gl__.TEXTURE_MAG_FILTER, filter);
+                    gl.bindTexture(gl__.TEXTURE_2D, mBrickDataHandle);
+                    gl.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MAG_FILTER, filter);
+                    gl.bindTexture(gl__.TEXTURE_2D, mGrassDataHandle);
+                    gl.texParameteri(gl__.TEXTURE_2D, gl__.TEXTURE_MAG_FILTER, filter);
 
                     return;
                 }

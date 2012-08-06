@@ -22,6 +22,7 @@ using ScriptCoreLib.Android;
 namespace AndroidOpenGLESLesson5Activity.Activities
 {
     using opengl = GLES20;
+    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using gl = __WebGLRenderingContext;
     using f = System.Single;
 
@@ -317,25 +318,25 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 if (mBlending)
                 {
                     // No culling of back faces
-                    gl.disable(GLES20.GL_CULL_FACE);
+                    gl.disable(gl__.CULL_FACE);
 
                     // No depth testing
-                    gl.disable(GLES20.GL_DEPTH_TEST);
+                    gl.disable(gl__.DEPTH_TEST);
 
                     // Enable blending
-                    gl.enable(GLES20.GL_BLEND);
-                    gl.blendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
+                    gl.enable(gl__.BLEND);
+                    gl.blendFunc(gl__.ONE, gl__.ONE);
                 }
                 else
                 {
                     // Cull back faces
-                    gl.enable(GLES20.GL_CULL_FACE);
+                    gl.enable(gl__.CULL_FACE);
 
                     // Enable depth testing
-                    gl.enable(GLES20.GL_DEPTH_TEST);
+                    gl.enable(gl__.DEPTH_TEST);
 
                     // Disable blending
-                    gl.disable(GLES20.GL_BLEND);
+                    gl.disable(gl__.BLEND);
                 }
             }
 
@@ -345,14 +346,14 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // No culling of back faces
-                gl.disable(GLES20.GL_CULL_FACE);
+                gl.disable(gl__.CULL_FACE);
 
                 // No depth testing
-                gl.disable(GLES20.GL_DEPTH_TEST);
+                gl.disable(gl__.DEPTH_TEST);
 
                 // Enable blending
-                gl.enable(GLES20.GL_BLEND);
-                gl.blendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
+                gl.enable(gl__.BLEND);
+                gl.blendFunc(gl__.ONE, gl__.ONE);
                 //		GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
 
                 // Position the eye in front of the origin.
@@ -405,11 +406,11 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             {
                 if (mBlending)
                 {
-                    gl.clear(GLES20.GL_COLOR_BUFFER_BIT);
+                    gl.clear(gl__.COLOR_BUFFER_BIT);
                 }
                 else
                 {
-                    gl.clear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+                    gl.clear(gl__.COLOR_BUFFER_BIT | gl__.DEPTH_BUFFER_BIT);
                 }
 
                 // Do a complete rotation every 10 seconds.
@@ -430,14 +431,14 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                     {
                         // Pass in the position information
                         mCubePositions.position(0);
-                        GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false,
+                        GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
                                 0, mCubePositions);
 
                         gl.enableVertexAttribArray(mPositionHandle);
 
                         // Pass in the color information
                         mCubeColors.position(0);
-                        GLES20.glVertexAttribPointer(mColorHandle, mColorDataSize, GLES20.GL_FLOAT, false,
+                        GLES20.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
                                 0, mCubeColors);
 
                         gl.enableVertexAttribArray(mColorHandle);
@@ -454,7 +455,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                         gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                         // Draw the cube.
-                        gl.drawArrays(GLES20.GL_TRIANGLES, 0, 36);
+                        gl.drawArrays(gl__.TRIANGLES, 0, 36);
                     };
                 #endregion
 
