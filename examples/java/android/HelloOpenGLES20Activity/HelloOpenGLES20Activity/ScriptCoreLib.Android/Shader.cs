@@ -176,7 +176,7 @@ namespace ScriptCoreLib.Android
             GLES20.glEnable(p);
         }
 
-        internal  void disable(int p)
+        internal void disable(int p)
         {
             GLES20.glDisable(p);
         }
@@ -191,7 +191,7 @@ namespace ScriptCoreLib.Android
             GLES20.glVertexAttrib3f(pointPositionHandle, p1, p2, p3);
         }
 
-        internal  void texParameteri(int h, int x, int y)
+        internal void texParameteri(int h, int x, int y)
         {
             GLES20.glTexParameteri(h, x, y);
         }
@@ -205,7 +205,7 @@ namespace ScriptCoreLib.Android
             return new __WebGLTexture { value = textureHandle[0] };
         }
 
-        internal  void bindTexture(int p, __WebGLTexture textureHandle)
+        internal void bindTexture(int p, __WebGLTexture textureHandle)
         {
             GLES20.glBindTexture(p, textureHandle.value);
         }
@@ -215,7 +215,12 @@ namespace ScriptCoreLib.Android
             GLES20.glActiveTexture(p);
         }
 
-      
+
+
+        internal void blendFunc(int p, int p_2)
+        {
+            GLES20.glBlendFunc(p, p_2);
+        }
     }
 
     public class __WebGLUniformLocation : __WebGLObject
@@ -447,7 +452,7 @@ namespace ScriptCoreLib.Android
             return v;
         }
 
-    
+
 
         public static Activity ToFullscreen(this Activity e)
         {
@@ -562,28 +567,44 @@ namespace ScriptCoreLib.Android
             }
         }
 
-      
 
-
-        class AtClickHandler : View.OnClickListener
+        class queueEvent_Handler : Runnable
         {
             public Action h;
 
-            public void onClick(android.view.View value)
+            public void run()
             {
                 h();
             }
         }
 
-        public static void AtClick(this Button that, Action h)
+        public static void queueEvent(this GLSurfaceView that, Action h)
         {
-            that.setOnClickListener(
-                new AtClickHandler
-                {
-                    h = h
-                }
+            that.queueEvent(
+                new queueEvent_Handler { h = h }
             );
         }
+
+        //class AtClickHandler : View.OnClickListener
+        //{
+        //    public Action h;
+
+        //    public void onClick(android.view.View value)
+        //    {
+        //        h();
+        //    }
+        //}
+
+
+        //public static void AtClick(this Button that, Action h)
+        //{
+        //    that.setOnClickListener(
+        //        new AtClickHandler
+        //        {
+        //            h = h
+        //        }
+        //    );
+        //}
     }
 
     #region IntentFilter
