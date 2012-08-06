@@ -229,6 +229,11 @@ namespace ScriptCoreLib.Android
         {
             GLES20.glGenerateMipmap((int)target);
         }
+
+        internal void bindAttribLocation(__WebGLProgram programHandle, int i, string p)
+        {
+            GLES20.glBindAttribLocation(programHandle.value, i, p);
+        }
     }
 
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLUniformLocation))]
@@ -344,7 +349,7 @@ namespace ScriptCoreLib.Android
                 int size = attributes.Length;
                 for (int i = 0; i < size; i++)
                 {
-                    GLES20.glBindAttribLocation(programHandle.value, i, attributes[i]);
+                    gl.bindAttribLocation(programHandle, i, attributes[i]);
                 }
             }
 
