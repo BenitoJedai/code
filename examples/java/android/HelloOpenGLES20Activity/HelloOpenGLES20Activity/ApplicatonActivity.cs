@@ -19,8 +19,8 @@ using ScriptCoreLib.Android;
 
 namespace HelloOpenGLES20Activity.Activities
 {
-    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using gl = __WebGLRenderingContext;
+    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using __gl = __WebGLRenderingContext;
     using opengl = GLES20;
     using Float32Array = FloatBuffer;
 
@@ -45,7 +45,7 @@ namespace HelloOpenGLES20Activity.Activities
             mGLView = new HelloOpenGLES20SurfaceView(this);
             setContentView(mGLView);
 
-            this.ShowToast("http://jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net");
         }
 
         #region pause
@@ -92,7 +92,13 @@ namespace HelloOpenGLES20Activity.Activities
 
         public partial class HelloOpenGLES20Renderer : GLSurfaceView.Renderer
         {
-            __WebGLRenderingContext gl = new __WebGLRenderingContext();
+            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+            ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
+
+            public HelloOpenGLES20Renderer()
+            {
+                this.gl = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)(object)__gl;
+            }
 
             public void onSurfaceCreated(GL10 unused, EGLConfig config)
             {
@@ -103,7 +109,7 @@ namespace HelloOpenGLES20Activity.Activities
                 initShapes();
 
 
-                mProgram = gl.createAndLinkProgram(
+                mProgram = __gl.createAndLinkProgram(
                     new Shaders.TriangleVertexShader(),
                     new Shaders.TriangleFragmentShader()
                 );
@@ -117,7 +123,7 @@ namespace HelloOpenGLES20Activity.Activities
             {
 
                 // Redraw background color
-                gl.clear(gl__.COLOR_BUFFER_BIT | gl__.DEPTH_BUFFER_BIT);
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 
 
@@ -125,8 +131,8 @@ namespace HelloOpenGLES20Activity.Activities
                 gl.useProgram(mProgram);
 
                 // Prepare the triangle data
-                opengl.glVertexAttribPointer(maPositionHandle, 3, (int)gl__.FLOAT, false, 12, triangleVB);
-                gl.enableVertexAttribArray(maPositionHandle);
+                opengl.glVertexAttribPointer(maPositionHandle, 3, (int)gl.FLOAT, false, 12, triangleVB);
+                gl.enableVertexAttribArray((uint)maPositionHandle);
 
 
 
@@ -145,11 +151,11 @@ namespace HelloOpenGLES20Activity.Activities
 
                 // Apply a ModelView Projection transformation
                 #region [uniform] uMVPMatrix <- mMVPMatrix
-                gl.uniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                __gl.uniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
                 #endregion
 
                 // Draw the triangle
-                gl.drawArrays(gl__.TRIANGLES, 0, 3);
+                gl.drawArrays(gl.TRIANGLES, 0, 3);
             }
 
             public void onSurfaceChanged(GL10 unused, int width, int height)
