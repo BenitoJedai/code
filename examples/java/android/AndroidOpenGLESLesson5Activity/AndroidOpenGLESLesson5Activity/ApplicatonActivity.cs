@@ -434,14 +434,14 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                         GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
                                 0, mCubePositions);
 
-                        gl.enableVertexAttribArray(mPositionHandle);
+                        gl.enableVertexAttribArray((uint)mPositionHandle);
 
                         // Pass in the color information
                         mCubeColors.position(0);
                         GLES20.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
                                 0, mCubeColors);
 
-                        gl.enableVertexAttribArray(mColorHandle);
+                        gl.enableVertexAttribArray((uint)mColorHandle);
 
                         // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
                         // (which currently contains model * view).
