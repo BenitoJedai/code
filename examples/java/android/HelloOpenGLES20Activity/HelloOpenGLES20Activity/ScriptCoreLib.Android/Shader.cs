@@ -447,14 +447,11 @@ namespace ScriptCoreLib.Android
             return v;
         }
 
-        [Script(OptimizedCode = "e.requestWindowFeature(value);")]
-        static void __requestWindowFeature(this Activity e, int value)
-        {
-        }
+    
 
         public static Activity ToFullscreen(this Activity e)
         {
-            e.__requestWindowFeature(Window.FEATURE_NO_TITLE);
+            e.requestWindowFeature(Window.FEATURE_NO_TITLE);
             e.getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
             return e;
