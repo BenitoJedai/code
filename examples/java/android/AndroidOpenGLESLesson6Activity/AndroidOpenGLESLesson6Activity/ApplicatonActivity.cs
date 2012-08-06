@@ -886,7 +886,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
 
                     // Pass in the modelview matrix.
-                    __gl.uniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
+                    gl.uniformMatrix4fv(mMVMatrixHandle, false, mMVPMatrix);
 
                     // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
                     // (which now contains model * view * projection).        
@@ -894,7 +894,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     java.lang.System.arraycopy(mTemporaryMatrix, 0, mMVPMatrix, 0, 16);
 
                     // Pass in the combined matrix.
-                    __gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                    gl.uniformMatrix4fv(mMVPMatrixHandle, false, mMVPMatrix);
 
                     // Pass in the light position in eye space.        
                     gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
@@ -948,7 +948,8 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mLightModelMatrix, 0);
                     Matrix.multiplyMM(mTemporaryMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
                     java.lang.System.arraycopy(mTemporaryMatrix, 0, mMVPMatrix, 0, 16);
-                    __gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                    
+                    gl.uniformMatrix4fv(pointMVPMatrixHandle, false, mMVPMatrix);
 
                     // Draw the point.
                     gl.drawArrays(gl.POINTS, 0, 1);

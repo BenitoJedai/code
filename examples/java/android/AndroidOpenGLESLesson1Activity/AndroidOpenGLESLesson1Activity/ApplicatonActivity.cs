@@ -17,6 +17,7 @@ using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace AndroidOpenGLESLesson1Activity.Activities
 {
@@ -223,14 +224,24 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
 
                 // Create a program object and store the handle to it.
-                var programHandle = __gl.createAndLinkProgram(
-                    new Shaders.TriangleVertexShader(),
-                    new Shaders.TriangleFragmentShader(),
-                    "a_Position",
-                    "a_Color"
-                );
+          
+
+                var programHandle = gl.createProgram();
+
+                var vs = gl.createShader(new Shaders.TriangleVertexShader());
+                var fs = gl.createShader(new Shaders.TriangleFragmentShader());
+
+                gl.attachShader(programHandle, vs);
+                gl.attachShader(programHandle, fs);
+
+                gl.deleteShader(vs);
+                gl.deleteShader(fs);
 
 
+                gl.bindAttribLocation(programHandle, 0, "a_Position");
+                gl.bindAttribLocation(programHandle, 1, "a_Color");
+
+                gl.linkProgram(programHandle);
 
                 // Set program handles. These will later be used to pass in values to the program.
                 mMVPMatrixHandle = gl.getUniformLocation(programHandle, "u_MVPMatrix");

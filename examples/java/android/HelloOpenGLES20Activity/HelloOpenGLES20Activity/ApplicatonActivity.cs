@@ -16,13 +16,14 @@ using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace HelloOpenGLES20Activity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using __gl = __WebGLRenderingContext;
     using opengl = GLES20;
     using Float32Array = FloatBuffer;
+    using ScriptCoreLib.JavaScript.WebGL;
 
     public class HelloOpenGLES20Activity : Activity
     {
@@ -92,12 +93,10 @@ namespace HelloOpenGLES20Activity.Activities
 
         public partial class HelloOpenGLES20Renderer : GLSurfaceView.Renderer
         {
-            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
-            ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
+            WebGLRenderingContext gl = new WebGLRenderingContext();
 
             public HelloOpenGLES20Renderer()
             {
-                this.gl = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)(object)__gl;
             }
 
             public void onSurfaceCreated(GL10 unused, EGLConfig config)
@@ -108,12 +107,20 @@ namespace HelloOpenGLES20Activity.Activities
                 // initialize the triangle vertex array
                 initShapes();
 
+                mProgram = gl.createProgram();
 
-                mProgram = __gl.createAndLinkProgram(
-                    new Shaders.TriangleVertexShader(),
-                    new Shaders.TriangleFragmentShader()
-                );
+                var vs = gl.createShader(new Shaders.TriangleVertexShader());
+                var fs = gl.createShader(new Shaders.TriangleFragmentShader());
 
+                gl.attachShader(mProgram, vs);
+                gl.attachShader(mProgram, fs);
+
+                gl.deleteShader(vs);
+                gl.deleteShader(fs);
+
+
+
+                gl.linkProgram(mProgram);
            
                 // get handle to the vertex shader's vPosition member
                 maPositionHandle = gl.getAttribLocation(mProgram, "vPosition");
@@ -151,7 +158,7 @@ namespace HelloOpenGLES20Activity.Activities
 
                 // Apply a ModelView Projection transformation
                 #region [uniform] uMVPMatrix <- mMVPMatrix
-                __gl.uniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                gl.uniformMatrix4fv(muMVPMatrixHandle, false, mMVPMatrix);
                 #endregion
 
                 // Draw the triangle
@@ -211,7 +218,7 @@ namespace HelloOpenGLES20Activity.Activities
         #region Draw the Triange
         partial class HelloOpenGLES20Renderer
         {
-            private __WebGLProgram mProgram;
+            private WebGLProgram mProgram;
             private int maPositionHandle;
         }
         #endregion
@@ -222,7 +229,7 @@ namespace HelloOpenGLES20Activity.Activities
         #region Apply Projection and Camera View
         partial class HelloOpenGLES20Renderer
         {
-            private __WebGLUniformLocation muMVPMatrixHandle;
+            private WebGLUniformLocation muMVPMatrixHandle;
             private float[] mMVPMatrix = new float[16];
             private float[] mVMatrix = new float[16];
             private float[] mProjMatrix = new float[16];

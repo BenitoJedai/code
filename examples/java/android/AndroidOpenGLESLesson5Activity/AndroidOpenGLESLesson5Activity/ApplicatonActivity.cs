@@ -25,6 +25,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using __gl = __WebGLRenderingContext;
     using f = System.Single;
+    using ScriptCoreLib.JavaScript.WebGL;
 
     public class AndroidOpenGLESLesson5Activity : Activity
     {
@@ -163,7 +164,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             private FloatBuffer mCubeColors;
 
             /** This will be used to pass in the transformation matrix. */
-            private __WebGLUniformLocation mMVPMatrixHandle;
+            private WebGLUniformLocation mMVPMatrixHandle;
 
             /** This will be used to pass in model position information. */
             private int mPositionHandle;
@@ -456,7 +457,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
                         // Pass in the combined matrix.
-                        __gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                        gl.uniformMatrix4fv(mMVPMatrixHandle, false, mMVPMatrix);
 
                         // Draw the cube.
                         gl.drawArrays(gl.TRIANGLES, 0, 36);
