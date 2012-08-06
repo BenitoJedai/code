@@ -242,7 +242,7 @@ namespace ScriptCoreLib.JavaScript.Net
                 Form.target = Descriptor.Callback;
                 Form.submit();
 
-                z.Dispose();
+                z.Orphanize();
             }
         }
 
