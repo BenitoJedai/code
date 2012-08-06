@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibAndroid">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
@@ -48,6 +51,7 @@
     </Compile>
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
+    <Compile Include="JavaScript\Extensions\ShaderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

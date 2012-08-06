@@ -135,25 +135,8 @@ namespace WebGLSpiral
             {
                 var program = gl.createProgram();
 
-                #region createShader
-                Func<Shader, WebGLShader> createShader = (src) =>
-                {
-                    var shader = gl.createShader(src);
-
-                    // verify
-                    if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                    {
-                        Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                        throw new InvalidOperationException("shader");
-                    }
-
-                    return shader;
-                };
-                #endregion
-
-                var vs = createShader(new SpiralVertexShader());
-                var fs = createShader(new SpiralFragmentShader());
-
+                var vs = gl.createShader(new SpiralVertexShader());
+                var fs = gl.createShader(new SpiralFragmentShader());
 
                 gl.attachShader(program, vs);
                 gl.attachShader(program, fs);
@@ -162,18 +145,7 @@ namespace WebGLSpiral
                 gl.deleteShader(fs);
 
                 gl.linkProgram(program);
-
-                if (gl.getProgramParameter(program, gl.LINK_STATUS) == null)
-                {
-
-                    Native.Window.alert("ERROR:\n" +
-                  "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
-                  "ERROR: " + gl.getError() + "\n\n");
-
-                    return null;
-
-                }
-
+            
                 return program;
 
             };
