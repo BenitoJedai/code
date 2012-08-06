@@ -21,8 +21,9 @@ using ScriptCoreLib.Android;
 namespace AndroidOpenGLESLesson3Activity.Activities
 {
     using opengl = GLES20;
-    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using gl = __WebGLRenderingContext;
+    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using __gl = __WebGLRenderingContext;
+    using ScriptCoreLib.JavaScript.WebGL;
 
     public class AndroidOpenGLESLesson3Activity : Activity
     {
@@ -52,7 +53,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
             setContentView(mGLSurfaceView);
 
 
-            this.ShowToast("http://jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net");
         }
 
         #region pause
@@ -76,7 +77,6 @@ namespace AndroidOpenGLESLesson3Activity.Activities
 
         class LessonThreeRenderer : GLSurfaceView.Renderer
         {
-            __WebGLRenderingContext gl = new __WebGLRenderingContext();
 
             /**
              * Store the model matrix. This matrix is used to move models from object space (where each model can be thought
@@ -107,13 +107,13 @@ namespace AndroidOpenGLESLesson3Activity.Activities
             private FloatBuffer mCubeNormals;
 
             /** This will be used to pass in the transformation matrix. */
-            private __WebGLUniformLocation mMVPMatrixHandle;
+            private WebGLUniformLocation mMVPMatrixHandle;
 
             /** This will be used to pass in the modelview matrix. */
-            private __WebGLUniformLocation mMVMatrixHandle;
+            private WebGLUniformLocation mMVMatrixHandle;
 
             /** This will be used to pass in the light position. */
-            private __WebGLUniformLocation mLightPosHandle;
+            private WebGLUniformLocation mLightPosHandle;
 
             /** This will be used to pass in model position information. */
             private int mPositionHandle;
@@ -152,11 +152,15 @@ namespace AndroidOpenGLESLesson3Activity.Activities
             /** This is a handle to our light point program. */
             private __WebGLProgram mPointProgramHandle;
 
-            /**
-             * Initialize the model data.
-             */
+            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+            ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
+
+
             public LessonThreeRenderer()
             {
+                this.gl = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)(object)__gl;
+
+
                 #region Define points for a cube.
 
                 // X, Y, Z
@@ -345,10 +349,10 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // Use culling to remove back faces.
-                gl.enable(gl__.CULL_FACE);
+                gl.enable(gl.CULL_FACE);
 
                 // Enable depth testing
-                gl.enable(gl__.DEPTH_TEST);
+                gl.enable(gl.DEPTH_TEST);
 
                 // Position the eye in front of the origin.
                 float eyeX = 0.0f;
@@ -371,7 +375,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 
-                mPerVertexProgramHandle = gl.createAndLinkProgram(
+                mPerVertexProgramHandle = __gl.createAndLinkProgram(
                     new Shaders.TriangleVertexShader(),
                     new Shaders.TriangleFragmentShader(),
                     "a_Position", "a_Color", "a_Normal"
@@ -379,7 +383,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
 
                 // Define a simple shader program for our point.
 
-                mPointProgramHandle = gl.createAndLinkProgram(
+                mPointProgramHandle = __gl.createAndLinkProgram(
                     new Shaders.pointVertexShader(),
                     new Shaders.pointFragmentShader(),
                          "a_Position"
@@ -406,7 +410,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                gl.clear(gl__.COLOR_BUFFER_BIT | gl__.DEPTH_BUFFER_BIT);
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
@@ -439,21 +443,21 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                     {
                         // Pass in the position information
                         mCubePositions.position(0);
-                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
+                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl.FLOAT, false,
                                 0, mCubePositions);
 
                         gl.enableVertexAttribArray((uint)mPositionHandle);
 
                         // Pass in the color information
                         mCubeColors.position(0);
-                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
+                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl.FLOAT, false,
                                 0, mCubeColors);
 
                         gl.enableVertexAttribArray((uint)mColorHandle);
 
                         // Pass in the normal information
                         mCubeNormals.position(0);
-                        opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, (int)gl__.FLOAT, false,
+                        opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, (int)gl.FLOAT, false,
                                 0, mCubeNormals);
 
                         gl.enableVertexAttribArray((uint)mNormalHandle);
@@ -463,20 +467,20 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
 
                         // Pass in the modelview matrix.
-                        gl.uniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
+                        __gl.uniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
 
                         // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
                         // (which now contains model * view * projection).
                         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
                         // Pass in the combined matrix.
-                        gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                        __gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                         // Pass in the light position in eye space.        
                         gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
 
                         // Draw the cube.
-                        gl.drawArrays(gl__.TRIANGLES, 0, 36);
+                        gl.drawArrays(gl.TRIANGLES, 0, 36);
                     };
                 #endregion
 
@@ -514,18 +518,18 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                         var pointPositionHandle = gl.getAttribLocation(mPointProgramHandle, "a_Position");
 
                         // Pass in the position.
-                        gl.vertexAttrib3f(pointPositionHandle, mLightPosInModelSpace[0], mLightPosInModelSpace[1], mLightPosInModelSpace[2]);
+                        gl.vertexAttrib3f((uint)pointPositionHandle, mLightPosInModelSpace[0], mLightPosInModelSpace[1], mLightPosInModelSpace[2]);
 
                         // Since we are not using a buffer object, disable vertex arrays for this attribute.
-                        gl.disableVertexAttribArray(pointPositionHandle);
+                        gl.disableVertexAttribArray((uint)pointPositionHandle);
 
                         // Pass in the transformation matrix.
                         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mLightModelMatrix, 0);
                         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-                        gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                        __gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                         // Draw the point.
-                        gl.drawArrays(gl__.POINTS, 0, 1);
+                        gl.drawArrays(gl.POINTS, 0, 1);
                     };
                 #endregion
 

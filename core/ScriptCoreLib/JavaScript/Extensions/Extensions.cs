@@ -65,7 +65,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
 		/// <summary>
 		/// detaches the node from dom; should be renamed to Orphanize
 		/// </summary>
-		[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+		[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never),
+        ObsoleteAttribute("", true)
+        ]
 		public static T Dispose<T>(this T e)
 			where T : INode
 		{
