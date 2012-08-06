@@ -136,7 +136,6 @@ namespace xavalon.net
 
             this.webview = new WebView(this);
 
-            TryHideActionbar();
 
             setContentView(webview);
 
@@ -201,6 +200,7 @@ namespace xavalon.net
 
         class MyWebViewClient : WebViewClient
         {
+            
             public WebServiceServerActivity __this;
 
             public override bool shouldOverrideUrlLoading(WebView view, string url)
@@ -227,6 +227,7 @@ namespace xavalon.net
                 if (__this.progressBar.isShowing())
                 {
                     __this.progressBar.dismiss();
+                    __this.TryHideActionbar();
                 }
             }
 
