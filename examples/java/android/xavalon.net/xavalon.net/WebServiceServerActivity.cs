@@ -15,6 +15,7 @@ using java.io;
 using java.util;
 using android.webkit;
 using android.util;
+using android.content.pm;
 
 namespace xavalon.net
 {
@@ -73,9 +74,9 @@ namespace xavalon.net
                 );
             }
         }
-    
 
-        
+
+
         protected override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
@@ -83,23 +84,25 @@ namespace xavalon.net
             height = getWindowManager().getDefaultDisplay().getHeight();
             width = getWindowManager().getDefaultDisplay().getWidth();
 
-            //if (width > height)
-            //{
-                //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-                getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-                this.ToFullscreen();
+            //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+            getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+            this.ToFullscreen();
 
-      
+
+
+            if (width > height)
+            {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 
                 // http://stackoverflow.com/questions/8469112/hide-ics-back-home-task-switcher-buttons
                 // http://developer.android.com/reference/android/view/View.OnSystemUiVisibilityChangeListener.html
                 // http://stackoverflow.com/questions/9131790/android-lights-out-mode-not-working
                 // http://baroqueworksdev.blogspot.com/2012/02/request-that-visibility-of.html
-            //}
+            }
 
 
-    
+
 
             //actionBar = getActionBar();
             //actionBar.setBackgroundDrawable(null);
@@ -167,9 +170,9 @@ namespace xavalon.net
             //this.setContentView(sv);
 
 
-//E/WindowManager(28519): Activity AvalonPipeManiaActivity.Activities.ApplicationActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@413f37b8 that was originally added here
-//E/WindowManager(28519): android.view.WindowLeaked: Activity AvalonPipeManiaActivity.Activities.ApplicationActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@413f37b8 that was originally added here
-//E/WindowManager(28519):         at android.view.ViewRootImpl.<init>(ViewRootImpl.java:374)
+            //E/WindowManager(28519): Activity AvalonPipeManiaActivity.Activities.ApplicationActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@413f37b8 that was originally added here
+            //E/WindowManager(28519): android.view.WindowLeaked: Activity AvalonPipeManiaActivity.Activities.ApplicationActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@413f37b8 that was originally added here
+            //E/WindowManager(28519):         at android.view.ViewRootImpl.<init>(ViewRootImpl.java:374)
 
 
         }
@@ -548,7 +551,7 @@ namespace xavalon.net
                                 firstpage += "<br />";
 
 
-                            
+
                                 var ApplicationFileLink = mycontext.uri;
 
                                 ApplicationFileLink += "/";
@@ -648,7 +651,7 @@ namespace xavalon.net
                                         #endregion
 
 
-                                   
+
                                         firstpage += "</a>";
 
                                         firstpage += "</div>";
