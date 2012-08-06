@@ -19,6 +19,7 @@ namespace ScriptCoreLib.Android
     using opengl = GLES20;
 
 
+
     #region ScriptCoreLib.GLSL.Shader
     [Script(Implements = typeof(ScriptCoreLib.GLSL.Shader))]
     internal class __Shader
@@ -43,7 +44,7 @@ namespace ScriptCoreLib.Android
     #endregion
 
 
-
+ 
     #region __WebGLRenderingContext
 
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext))]
@@ -224,7 +225,7 @@ namespace ScriptCoreLib.Android
             GLES20.glBlendFunc((int)sfactor, (int)dfactor);
         }
 
-        internal  void generateMipmap(uint target)
+        internal void generateMipmap(uint target)
         {
             GLES20.glGenerateMipmap((int)target);
         }
