@@ -76,6 +76,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return new __TimeSpan { InternalTicks = d1.Ticks - d2.Ticks };
 		}
 
+        public DateTime AddMinutes(double value)
+        {
+            return new DateTime((long)Math.Floor( this.Ticks + TimeSpan.TicksPerMinute * value));   
+        }
+
+
+
 		public override string ToString()
 		{
 			var w = new StringBuilder();

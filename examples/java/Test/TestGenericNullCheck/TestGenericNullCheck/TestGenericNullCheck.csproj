@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4AA4495C-3FB4-41FB-A8B8-93AE8850101F}</ProjectGuid>
+    <ProjectGuid>{1553C689-C509-49DF-A0C8-EFCB50D9FBD4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib</RootNamespace>
-    <AssemblyName>ScriptCoreLib.Web</AssemblyName>
+    <RootNamespace>TestGenericNullCheck</RootNamespace>
+    <AssemblyName>TestGenericNullCheck</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,40 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLib">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibA">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
-      <Link>Properties\AbstractatechInfo.cs</Link>
-    </Compile>
-    <Compile Include="PHP\BCLImplementation\System\Web\HttpCachePolicy.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Web\HttpApplication.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Web\HttpContext.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Web\HttpRequest.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Web\HttpResponse.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Web\IHttpHandler.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Web\Profile\DefaultProfile.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Web\Profile\ProfileBase.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\Web\IAssemblyReferenceToken.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -java</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

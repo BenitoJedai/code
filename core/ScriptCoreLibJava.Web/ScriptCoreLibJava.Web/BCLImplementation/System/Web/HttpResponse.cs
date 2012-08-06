@@ -7,6 +7,7 @@ using System.IO;
 using ScriptCoreLibJava.BCLImplementation.System.IO;
 using ScriptCoreLibJava.BCLImplementation.System.Net.Sockets;
 using System.Net.Sockets;
+using System.Web;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
@@ -102,6 +103,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
             var bytes = File.ReadAllBytes(filename);
 
             this.OutputStream.Write(bytes, 0, bytes.Length);
+        }
+
+        public __HttpCachePolicy Cache
+        {
+            get
+            {
+                return new __HttpCachePolicy { };
+            }
         }
 	}
 }

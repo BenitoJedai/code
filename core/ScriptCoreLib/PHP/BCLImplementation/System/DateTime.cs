@@ -85,7 +85,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			return new __TimeSpan { InternalTotalSeconds = d1.InternalTotalSeconds - d2.InternalTotalSeconds };
 		}
 
-
+        public __DateTime AddMinutes(double value)
+        {
+            return this;
+            //return new DateTime((long)Math.Floor(this.Ticks + TimeSpan.TicksPerMinute * value));
+            //return new DateTime((long)Math.Floor(this.Ticks + TimeSpan.TicksPerMinute * value));
+        }
 
 
 
