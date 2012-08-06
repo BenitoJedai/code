@@ -54,6 +54,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections
 		//{
 		//}
 
+        public void RemoveAt(int index)
+        {
+            InternalList.RemoveAt(index);
+        }
 
 		public object[] ToArray()
 		{

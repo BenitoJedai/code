@@ -79,7 +79,7 @@ namespace ScriptCoreLib.Android
             GLES20.glUniform3f(u.value, p1, p2, p3);
         }
 
-        public void uniformMatrix4fv(__WebGLUniformLocation u, int p1, bool p2, float[] mMVPMatrix, int p3)
+        public void uniformMatrix4fv(__WebGLUniformLocation location,  bool transpose, float[] value)
         {
             // see also: http://www.opengl.org/sdk/docs/man/xhtml/glUniform.xml
             // see also: http://developer.android.com/reference/android/opengl/GLES20.html#glUniformMatrix4fv(int, int, boolean, float[], int)
@@ -90,7 +90,7 @@ namespace ScriptCoreLib.Android
             //    const GLfloat * 	value);
 
 
-            GLES20.glUniformMatrix4fv(u.value, p1, p2, mMVPMatrix, p3);
+            GLES20.glUniformMatrix4fv(location.value, /* count */ 1, transpose, value, /* offset */ 0);
         }
 
 

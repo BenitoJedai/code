@@ -21,8 +21,9 @@ using ScriptCoreLib.Android;
 namespace AndroidOpenGLESLesson1Activity.Activities
 {
     using opengl = GLES20;
-    using gl__ = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using gl = __WebGLRenderingContext;
+    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using __gl = __WebGLRenderingContext;
+    using ScriptCoreLib.JavaScript.WebGL;
 
     public class AndroidOpenGLESLesson1Activity : Activity
     {
@@ -55,7 +56,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net");
 
         }
 
@@ -80,7 +81,6 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
         class LessonOneRenderer : GLSurfaceView.Renderer
         {
-            __WebGLRenderingContext gl = new __WebGLRenderingContext();
 
             /**
                  * Store the model matrix. This matrix is used to move models from object space (where each model can be thought
@@ -106,7 +106,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
             private readonly FloatBuffer mTriangle3Vertices;
 
             /** This will be used to pass in the transformation matrix. */
-            private __WebGLUniformLocation mMVPMatrixHandle;
+            private WebGLUniformLocation mMVPMatrixHandle;
 
             /** This will be used to pass in model position information. */
             private int mPositionHandle;
@@ -132,11 +132,14 @@ namespace AndroidOpenGLESLesson1Activity.Activities
             /** Size of the color data in elements. */
             private const int mColorDataSize = 4;
 
-            /**
-             * Initialize the model data.
-             */
+            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+            ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
+
             public LessonOneRenderer()
             {
+                this.gl = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)(object)__gl;
+
+
                 #region Define points for equilateral triangles.
 
                 // This triangle is red, green, and blue.
@@ -220,7 +223,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
 
                 // Create a program object and store the handle to it.
-                var programHandle = gl.createAndLinkProgram(
+                var programHandle = __gl.createAndLinkProgram(
                     new Shaders.TriangleVertexShader(),
                     new Shaders.TriangleFragmentShader(),
                     "a_Position",
@@ -258,7 +261,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                gl.clear(gl__.DEPTH_BUFFER_BIT | gl__.COLOR_BUFFER_BIT);
+                gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
@@ -270,17 +273,17 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                     {
                         // Pass in the position information
                         aTriangleBuffer.position(mPositionOffset);
-                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl__.FLOAT, false,
+                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl.FLOAT, false,
                                 mStrideBytes, aTriangleBuffer);
 
-                        gl.enableVertexAttribArray(mPositionHandle);
+                        gl.enableVertexAttribArray((uint)mPositionHandle);
 
                         // Pass in the color information
                         aTriangleBuffer.position(mColorOffset);
-                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl__.FLOAT, false,
+                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, (int)gl.FLOAT, false,
                                 mStrideBytes, aTriangleBuffer);
 
-                        gl.enableVertexAttribArray(mColorHandle);
+                        gl.enableVertexAttribArray((uint)mColorHandle);
 
                         // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
                         // (which currently contains model * view).
@@ -290,8 +293,8 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                         // (which now contains model * view * projection).
                         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
-                        gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-                        gl.drawArrays(gl__.TRIANGLES, 0, 3);
+                        gl.uniformMatrix4fv(mMVPMatrixHandle, false, mMVPMatrix);
+                        gl.drawArrays(gl.TRIANGLES, 0, 3);
                     };
                 #endregion
 
