@@ -11,7 +11,6 @@ using android.provider;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidOpenGLESLesson5Activity.Library;
 using java.lang;
 using java.nio;
 using javax.microedition.khronos.egl;
@@ -24,19 +23,17 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 {
     using opengl = GLES20;
     using gl = __WebGLRenderingContext;
+    using f = System.Single;
 
     public class AndroidOpenGLESLesson5Activity : Activity
     {
         // port from http://www.learnopengles.com/android-lesson-five-an-introduction-to-blending/
         // Y:\opensource\github\Learn-OpenGLES-Tutorials\android\AndroidOpenGLESLessons\src\com\learnopengles\android\lesson4
 
-
-
         // http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-launcher.html#foreground.type=image&foreground.space.trim=0&foreground.space.pad=-0.1&crop=1&backgroundShape=none&backColor=ff0000%2C100&foreColor=000000%2C0
 
-
         /** Hold a reference to our GLSurfaceView */
-        private GLSurfaceView mGLSurfaceView;
+        private LessonFiveGLSurfaceView mGLSurfaceView;
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
@@ -46,12 +43,20 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
             mGLSurfaceView = new LessonFiveGLSurfaceView(this);
 
+            var r = new LessonFiveRenderer(this);
+
+            mGLSurfaceView.ontouchdown +=
+                delegate
+                {
+                    r.switchMode();
+
+                };
 
             // Request an OpenGL ES 2.0 compatible context.
             mGLSurfaceView.setEGLContextClientVersion(2);
 
             // Set the renderer to our demo renderer, defined below.
-            mGLSurfaceView.setRenderer(new LessonFiveRenderer(this));
+            mGLSurfaceView.setRenderer(r);
 
             setContentView(mGLSurfaceView);
 
@@ -81,9 +86,8 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
         class LessonFiveGLSurfaceView : GLSurfaceView
         {
-            public LessonFiveRenderer mRenderer;
-
-            public LessonFiveGLSurfaceView(Context context) : base(context)
+            public LessonFiveGLSurfaceView(Context context)
+                : base(context)
             {
                 nop();
             }
@@ -92,16 +96,8 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             {
             }
 
-
-            class Handler : Runnable
-            {
-                public LessonFiveGLSurfaceView __this;
-
-                public void run()
-                {
-                    __this.mRenderer.switchMode();
-                }
-            }
+            #region ontouchdown
+            public event Action ontouchdown;
 
             public override bool onTouchEvent(MotionEvent e)
             {
@@ -109,26 +105,28 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 {
                     if (e.getAction() == MotionEvent.ACTION_DOWN)
                     {
-                        if (mRenderer != null)
-                        {
-                            // Ensure we call switchMode() on the OpenGL thread.
-                            // queueEvent() is a method of GLSurfaceView that will do this for us.
-                            queueEvent(new Handler { __this = this });
 
-                            return true;
-                        }
+                        // Ensure we call switchMode() on the OpenGL thread.
+                        // queueEvent() is a method of GLSurfaceView that will do this for us.
+                        this.queueEvent(
+                            () =>
+                            {
+                                if (ontouchdown != null)
+                                    ontouchdown();
+
+                            }
+                        );
+
+                        return true;
                     }
                 }
 
                 return base.onTouchEvent(e);
             }
+            #endregion
 
-            // Hides superclass method.
-            public void setRenderer(LessonFiveRenderer renderer)
-            {
-                mRenderer = renderer;
-                base.setRenderer(renderer);
-            }
+
+
         }
 
         class LessonFiveRenderer : GLSurfaceView.Renderer
@@ -193,6 +191,87 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             {
                 mActivityContext = activityContext;
 
+                #region generateCubeData
+                Func<f[], f[], f[], f[], f[], f[], f[], f[], int, f[]> generateCubeData =
+                    (f[] point1,
+                     f[] point2,
+                     f[] point3,
+                     f[] point4,
+                     f[] point5,
+                     f[] point6,
+                     f[] point7,
+                     f[] point8,
+                     int elementsPerPoint) =>
+                    {
+                        // Given a cube with the points defined as follows:
+                        // front left top, front right top, front left bottom, front right bottom,
+                        // back left top, back right top, back left bottom, back right bottom,		
+                        // return an array of 6 sides, 2 triangles per side, 3 vertices per triangle, and 4 floats per vertex.
+                        int FRONT = 0;
+                        int RIGHT = 1;
+                        int BACK = 2;
+                        int LEFT = 3;
+                        int TOP = 4;
+                        int BOTTOM = 5;
+
+                        int size = elementsPerPoint * 6 * 6;
+                        float[] cubeData = new float[size];
+
+                        for (int face = 0; face < 6; face++)
+                        {
+                            // Relative to the side, p1 = top left, p2 = top right, p3 = bottom left, p4 = bottom right
+                            float[] p1, p2, p3, p4;
+
+                            // Select the points for this face
+                            if (face == FRONT)
+                            {
+                                p1 = point1; p2 = point2; p3 = point3; p4 = point4;
+                            }
+                            else if (face == RIGHT)
+                            {
+                                p1 = point2; p2 = point6; p3 = point4; p4 = point8;
+                            }
+                            else if (face == BACK)
+                            {
+                                p1 = point6; p2 = point5; p3 = point8; p4 = point7;
+                            }
+                            else if (face == LEFT)
+                            {
+                                p1 = point5; p2 = point1; p3 = point7; p4 = point3;
+                            }
+                            else if (face == TOP)
+                            {
+                                p1 = point5; p2 = point6; p3 = point1; p4 = point2;
+                            }
+                            else // if (side == BOTTOM)
+                            {
+                                p1 = point8; p2 = point7; p3 = point4; p4 = point3;
+                            }
+
+                            // In OpenGL counter-clockwise winding is default. This means that when we look at a triangle, 
+                            // if the points are counter-clockwise we are looking at the "front". If not we are looking at
+                            // the back. OpenGL has an optimization where all back-facing triangles are culled, since they
+                            // usually represent the backside of an object and aren't visible anyways.
+
+                            // Build the triangles
+                            //  1---3,6
+                            //  | / |
+                            // 2,4--5
+                            int offset = face * elementsPerPoint * 6;
+
+                            for (int i = 0; i < elementsPerPoint; i++) { cubeData[offset++] = p1[i]; }
+                            for (int i = 0; i < elementsPerPoint; i++) { cubeData[offset++] = p3[i]; }
+                            for (int i = 0; i < elementsPerPoint; i++) { cubeData[offset++] = p2[i]; }
+                            for (int i = 0; i < elementsPerPoint; i++) { cubeData[offset++] = p3[i]; }
+                            for (int i = 0; i < elementsPerPoint; i++) { cubeData[offset++] = p4[i]; }
+                            for (int i = 0; i < elementsPerPoint; i++) { cubeData[offset++] = p2[i]; }
+                        }
+
+                        return cubeData;
+                    };
+                #endregion
+
+
                 // Define points for a cube.
                 // X, Y, Z
                 float[] p1p = { -1.0f, 1.0f, 1.0f };
@@ -204,7 +283,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 float[] p7p = { -1.0f, -1.0f, -1.0f };
                 float[] p8p = { 1.0f, -1.0f, -1.0f };
 
-                float[] cubePositionData = ShapeBuilder.generateCubeData(p1p, p2p, p3p, p4p, p5p, p6p, p7p, p8p, p1p.Length);
+                float[] cubePositionData = generateCubeData(p1p, p2p, p3p, p4p, p5p, p6p, p7p, p8p, p1p.Length);
 
                 // Points of the cube: color information
                 // R, G, B, A
@@ -217,7 +296,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 float[] p7c = { 0.0f, 1.0f, 0.0f, 1.0f };		// green
                 float[] p8c = { 0.0f, 1.0f, 1.0f, 1.0f };		// cyan
 
-                float[] cubeColorData = ShapeBuilder.generateCubeData(p1c, p2c, p3c, p4c, p5c, p6c, p7c, p8c, p1c.Length);
+                float[] cubeColorData = generateCubeData(p1c, p2c, p3c, p4c, p5c, p6c, p7c, p8c, p1c.Length);
 
                 // Initialize the buffers.
                 mCubePositions = ByteBuffer.allocateDirect(cubePositionData.Length * mBytesPerFloat)
@@ -229,7 +308,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 mCubeColors.put(cubeColorData).position(0);
             }
 
-            
+
 
             public void switchMode()
             {
@@ -245,7 +324,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
                     // Enable blending
                     gl.enable(GLES20.GL_BLEND);
-                    GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
+                    gl.blendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
                 }
                 else
                 {
@@ -273,7 +352,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
                 // Enable blending
                 gl.enable(GLES20.GL_BLEND);
-                GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
+                gl.blendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
                 //		GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
 
                 // Position the eye in front of the origin.
@@ -296,11 +375,11 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
-          
+
                 mProgramHandle = gl.createAndLinkProgram(
                     new Shaders.colorVertexShader(),
                     new Shaders.colorFragmentShader(),
-                     "a_Position", "a_Color" 
+                     "a_Position", "a_Color"
                 );
             }
 

@@ -11,16 +11,15 @@ using WebGLSpiral.Shaders;
 namespace WebGLSpiral
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
-    using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
     public sealed class Application
     {
-        #region This example shall implement a Rotating Spiral
         // 01. http://www.brainjam.ca/stackoverflow/webglspiral.html
+
+        #region This example shall implement a Rotating Spiral
         // 02. Build this empty project to verify jsc does its thing.
         // 03. Running this project shows up as a web page
         // 04. Start looking at "view-source:http://www.brainjam.ca/stackoverflow/webglspiral.html"
@@ -126,9 +125,9 @@ namespace WebGLSpiral
             // Create Vertex buffer (2 triangles)
 
             var buffer = gl.createBuffer();
+
             gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
-
 
             // Create Program
 
@@ -267,8 +266,6 @@ namespace WebGLSpiral
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
                     Native.Document.body.requestFullscreen();
-
-
                 };
             #endregion
 
