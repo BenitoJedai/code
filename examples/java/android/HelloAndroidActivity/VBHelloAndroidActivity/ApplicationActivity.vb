@@ -1,6 +1,8 @@
 Imports ScriptCoreLib
 Imports ScriptCoreLib.Delegates
 Imports ScriptCoreLib.Extensions
+Imports ScriptCoreLib.Android.Extensions
+
 Imports ScriptCoreLib.JavaScript
 Imports ScriptCoreLib.JavaScript.Components
 Imports ScriptCoreLib.JavaScript.DOM
@@ -15,6 +17,7 @@ Imports VBHelloAndroidActivity.HTML.Pages
 Imports android.app
 Imports android.widget
 Imports java.lang
+Imports android.view
 
 Namespace Activities
 
@@ -23,6 +26,9 @@ Namespace Activities
     ''' </summary>
     Public Class ApplicationActivity
         Inherits Activity
+
+        Dim ref0 As View
+
 
         Protected Overrides Sub onCreate(savedInstanceState As android.os.Bundle)
             MyBase.onCreate(savedInstanceState)
@@ -36,10 +42,13 @@ Namespace Activities
 
             Dim b = New Button(Me)
 
-            b.setText(CType(CType("JSC / Visual Basic / Android", Object), CharSequence))
+            b.setText("JSC / Visual Basic / Android")
 
             ll.addView(b)
 
+            'Dim a As Action(Of View) = Sub(v) b.setText("clicked")
+
+            b.AtClick(Sub(v) b.setText("clicked"))
 
             Me.setContentView(sv)
 
