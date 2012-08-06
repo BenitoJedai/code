@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
+namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.Path))]
 	internal static class __Path

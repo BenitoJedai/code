@@ -10,21 +10,23 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Avalon;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.IO;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.JavaScript.UCLImplementation
 {
-	[Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
-	internal static class __AvalonExtensions
-	{
-		public static AvalonSoundChannel ToSound(this string asset)
-		{
+    [Script(Implements = typeof(global::ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions))]
+    internal static class __AvalonExtensions
+    {
+        public static AvalonSoundChannel ToSound(this string asset)
+        {
             var a = new IHTMLAudio { src = asset, autobuffer = true };
 
 
             a.AttachToDocument();
             //a.style.display = IStyle.DisplayEnum.none;
 
-			// we can now use HTML5 audio element
+            // we can now use HTML5 audio element
             var x = new AvalonSoundChannel
             {
 
@@ -50,45 +52,61 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
 
 
             return x;
-		}
+        }
 
-		public static AvalonSoundChannel PlaySound(this string asset)
-		{
-			// we can now use HTML5 audio element
+        public static AvalonSoundChannel PlaySound(this string asset)
+        {
+            // we can now use HTML5 audio element
             var a = asset.ToSound();
-            
+
             a.Start();
 
             return a;
-		}
+        }
 
-		public static void NavigateTo(this Uri e, DependencyObject context)
-		{
-			//var _e = (__Uri)(object)e;
+        public static void NavigateTo(this Uri e, DependencyObject context)
+        {
+            //var _e = (__Uri)(object)e;
 
-			var w = Native.Window.open(e.OriginalString, "_blank");
+            var w = Native.Window.open(e.OriginalString, "_blank");
 
-		}
+        }
 
-		public static void ToStringAsset(this string e, Action<string> h)
-		{
-			new IXMLHttpRequest(
-				ScriptCoreLib.Shared.HTTPMethodEnum.GET,
-				e,
-				r =>
-				{
-					h(r.responseText);
-				}
-			);
-		}
+        public static void ToStringAsset(this string e, Action<string> h)
+        {
+            new IXMLHttpRequest(
+                ScriptCoreLib.Shared.HTTPMethodEnum.GET,
+                e,
+                r =>
+                {
+                    h(r.responseText);
+                }
+            );
+        }
 
-		public static ImageSource ToSource(this string e)
-		{
-			// the c# version must do some internal work to figure
-			// out the right stream name
-			// in actionscript we are using [Embed]
+        public static void ToMemoryStreamAsset(this string e, Action<MemoryStream> h)
+        {
+            new IXMLHttpRequest(
+                ScriptCoreLib.Shared.HTTPMethodEnum.GET,
+                e,
+                r =>
+                {
+                    var m = new __MemoryStream { Buffer = r.responseText };
 
-			return new __ImageSource { InternalManifestResourceAlias = e };
-		}
-	}
+                    h((MemoryStream)(object)m);
+                }
+            );
+
+            //h(KnownEmbeddedResources.Default[e].ToByteArrayAsset().ToMemoryStream());
+        }
+
+        public static ImageSource ToSource(this string e)
+        {
+            // the c# version must do some internal work to figure
+            // out the right stream name
+            // in actionscript we are using [Embed]
+
+            return new __ImageSource { InternalManifestResourceAlias = e };
+        }
+    }
 }

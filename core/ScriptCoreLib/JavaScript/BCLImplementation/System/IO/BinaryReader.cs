@@ -196,7 +196,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 
 
 
-
+        public virtual int Read(byte[] buffer, int index, int count)
+        {
+            return this.m_stream.Read(buffer, index, count);
+        }
 
 
 		public static implicit operator __BinaryReader(BinaryReader r)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections
 {
 	[Script(Implements = typeof(global::System.Collections.Queue))]
 	internal class __Queue

@@ -160,6 +160,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UserControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\IManipulator.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\InputDevice.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\Keyboard.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\TouchPoint.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseWheelEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseWheelEventHandler.cs" />

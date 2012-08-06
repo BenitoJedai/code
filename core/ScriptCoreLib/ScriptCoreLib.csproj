@@ -112,6 +112,8 @@
     <Compile Include="ActionScript\Query\InternalSequenceImplementation.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Text\Encoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Array.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Comparer.cs" />
@@ -342,7 +344,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Queue.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\Queue.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Comparison.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
@@ -374,7 +376,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\IEquatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryWriter.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\IO\Path.cs" />
+    <Compile Include="Shared\BCLImplementation\System\IO\Path.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />
@@ -785,7 +787,6 @@
     <Compile Include="PHP\BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="PHP\BCLImplementation\System\DateTime.cs" />
     <Compile Include="PHP\BCLImplementation\System\IDisposable.cs" />
-    <Compile Include="PHP\BCLImplementation\System\IO\Path.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\FileSystemInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\DirectoryInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\Directory.cs" />
