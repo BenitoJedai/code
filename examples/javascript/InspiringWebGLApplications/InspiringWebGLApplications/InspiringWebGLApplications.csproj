@@ -8,11 +8,11 @@
     <ProjectGuid>{98BF0944-D845-42E1-9D49-6BCDD08A6EC4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InspiringWebGLApplications</RootNamespace>
-    <AssemblyName>InspiringWebGLApplications</AssemblyName>
+    <RootNamespace>WebGLApps</RootNamespace>
+    <AssemblyName>WebGLApps</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>InspiringWebGLApplications.Program</StartupObject>
+    <StartupObject>WebGLApps.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -125,10 +125,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="InspiringWebGLApplications.AssetsLibrary">
-      <HintPath>.\bin\staging.AssetsLibrary\InspiringWebGLApplications.AssetsLibrary.dll</HintPath>
+      <HintPath>bin\staging.AssetsLibrary\InspiringWebGLApplications.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="InspiringWebGLApplications.AssetsLibrary">
-      <HintPath>.\bin\staging.AssetsLibrary\InspiringWebGLApplications.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebGLApps.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebGLApps.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +160,7 @@
     <Content Include="Design\Christian_Wannerstedt_Playground__Plane_deformation_-_Google_Chrome-2012-03-25_19.20.43.png" />
     <Content Include="Design\CloudSCAD_-_STL_Viewer_Demo_-_Google_Chrome-2012-03-25_13.06.27.png" />
     <Content Include="Design\Clouds_-_Google_Chrome-2012-02-26_22.37.56.png" />
-    <Content Include="Design\Creating_a_Keyboard_Sensitive_3D_Twisted_Images_in_WebGl__Script_Tutorials_-_Google_Chrome-2012-02-26_22.36.57.png" />
+    <Content Include="Design\Creating_a_Keyboard_-2012-02-26_22.36.57.png" />
     <Content Include="Design\Cubes_spin_stresstest_-_Google_Chrome-2012-02-26_22.09.08.png" />
     <Content Include="Design\Cube_2_-_WebGL_-_Google_Chrome-2012-03-30_17.09.18.png" />
     <Content Include="Design\CubicVR.js_Dynamic_VBO_wave_pool_hold_spacebar_for_larger_waves_-_Google_Chrome-2012-02-26_19.35.05.png" />
