@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D280B94-A86D-496D-940A-7C0C1C270590}</ProjectGuid>
+    <ProjectGuid>{00A35194-6C80-4F33-8BAE-6F3E393F16E0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AndroidOpenGLESLesson3Activity</RootNamespace>
@@ -79,14 +79,14 @@
       <Link>ScriptCoreLib.Android\Shader.cs</Link>
     </Compile>
     <Compile Include="ApplicatonActivity.cs" />
-    <Compile Include="Program.cs" >
+    <Compile Include="Program.cs">
       <DependentUpon>ApplicatonActivity.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shaders\pointFragmentShader.cs" >
+    <Compile Include="Shaders\pointFragmentShader.cs">
       <DependentUpon>point.frag</DependentUpon>
     </Compile>
-    <Compile Include="Shaders\pointVertexShader.cs" >
+    <Compile Include="Shaders\pointVertexShader.cs">
       <DependentUpon>point.vert</DependentUpon>
     </Compile>
     <Compile Include="Shaders\TriangleVertexShader.cs">

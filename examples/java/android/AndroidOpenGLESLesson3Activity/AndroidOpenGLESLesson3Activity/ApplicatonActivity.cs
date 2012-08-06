@@ -345,10 +345,10 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // Use culling to remove back faces.
-                gl.enable((int)gl__.CULL_FACE);
+                gl.enable(gl__.CULL_FACE);
 
                 // Enable depth testing
-                gl.enable((int)gl__.DEPTH_TEST);
+                gl.enable(gl__.DEPTH_TEST);
 
                 // Position the eye in front of the origin.
                 float eyeX = 0.0f;
@@ -406,7 +406,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                gl.clear((int)gl__.COLOR_BUFFER_BIT | (int)gl__.DEPTH_BUFFER_BIT);
+                gl.clear(gl__.COLOR_BUFFER_BIT | gl__.DEPTH_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
@@ -476,7 +476,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                         gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
 
                         // Draw the cube.
-                        gl.drawArrays((int)gl__.TRIANGLES, 0, 36);
+                        gl.drawArrays(gl__.TRIANGLES, 0, 36);
                     };
                 #endregion
 
@@ -525,7 +525,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                         gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                         // Draw the point.
-                        gl.drawArrays((int)gl__.POINTS, 0, 1);
+                        gl.drawArrays(gl__.POINTS, 0, 1);
                     };
                 #endregion
 

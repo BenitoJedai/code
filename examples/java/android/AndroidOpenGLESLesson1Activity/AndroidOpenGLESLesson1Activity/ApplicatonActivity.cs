@@ -258,7 +258,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                gl.clear((int)gl__.DEPTH_BUFFER_BIT | (int)gl__.COLOR_BUFFER_BIT);
+                gl.clear(gl__.DEPTH_BUFFER_BIT | gl__.COLOR_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
@@ -291,7 +291,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
                         gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-                        gl.drawArrays((int)gl__.TRIANGLES, 0, 3);
+                        gl.drawArrays(gl__.TRIANGLES, 0, 3);
                     };
                 #endregion
 
