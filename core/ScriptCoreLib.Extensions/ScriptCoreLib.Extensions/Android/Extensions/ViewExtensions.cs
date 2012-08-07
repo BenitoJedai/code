@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using android.view;
+using android.widget;
 
 namespace ScriptCoreLib.Android.Extensions
 {
@@ -23,6 +24,20 @@ namespace ScriptCoreLib.Android.Extensions
             v.setOnClickListener(
                 new OnClickListener { h = h }
             );
+        }
+
+        public static T WithText<T>(this T v, string value) where T : Button
+        {
+            v.setText(value);
+
+            return v;
+        }
+
+        public static T AttachTo<T>(this T v, ViewGroup g) where T : View
+        {
+            g.addView(v);
+
+            return v;
         }
     }
 }
