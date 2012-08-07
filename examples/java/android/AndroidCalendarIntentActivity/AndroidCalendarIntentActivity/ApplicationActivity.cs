@@ -11,6 +11,8 @@ using ScriptCoreLib.Android.Extensions;
 using android.content;
 using java.util;
 using android.provider;
+using android.text.format;
+using java.text;
 
 namespace AndroidCalendarIntentActivity.Activities
 {
@@ -32,42 +34,112 @@ namespace AndroidCalendarIntentActivity.Activities
             ll.setOrientation(LinearLayout.VERTICAL);
             sv.addView(ll);
 
-            var b = new Button(this).WithText("Create Event!").AttachTo(ll);
+            new Button(this)
+                .WithText("Create Event!")
+                .AttachTo(ll)
+                .AtClick(
+                    b =>
+                    {
+                        b.setText("Done!");
+
+                        // http://developer.android.com/reference/android/provider/CalendarContract.EventsColumns.html#DESCRIPTION
+
+                        Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                        calIntent.setType("vnd.android.cursor.item/event");
+                        calIntent.putExtra("title", "My House Party");
+                        calIntent.putExtra("eventLocation", "My Beach House");
+                        calIntent.putExtra("description", "A Pig Roast on the Beach");
+
+                        GregorianCalendar calDate = new GregorianCalendar(2012, 7, 15);
+                        calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+                        calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                             calDate.getTimeInMillis());
+                        calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                             calDate.getTimeInMillis());
 
 
 
-            b.AtClick(
-                v =>
-                {
-                    b.setText("Done!");
+                        calIntent.putExtra("accessLevel", 0x00000002);
+                        calIntent.putExtra("availability", 0x00000000);
 
-                    // http://developer.android.com/reference/android/provider/CalendarContract.EventsColumns.html#DESCRIPTION
+                        calIntent.putExtra("rrule", "FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH");
 
-                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                    calIntent.setType("vnd.android.cursor.item/event");
-                    calIntent.putExtra("title", "My House Party");
-                    calIntent.putExtra("eventLocation", "My Beach House");
-                    calIntent.putExtra("description", "A Pig Roast on the Beach");
-
-                    GregorianCalendar calDate = new GregorianCalendar(2012, 7, 15);
-                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
-                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
-                         calDate.getTimeInMillis());
-                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
-                         calDate.getTimeInMillis());
-
-
-
-                    calIntent.putExtra("accessLevel", 0x00000002);
-                    calIntent.putExtra("availability", 0x00000000);
-
-                    calIntent.putExtra("rrule", "FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH");
-
-                    startActivity(calIntent);
-                }
+                        startActivity(calIntent);
+                    }
             );
 
+            var COLS = new[]
+            { 
+                "title", "dtstart"
+            };
 
+            var mCursor = getContentResolver().query(
+                CalendarContract.Events.CONTENT_URI, COLS, null, null, null
+            );
+
+            mCursor.moveToFirst();
+
+            var tv = new TextView(this).AttachTo(ll);
+            tv.setText("n/a");
+            Action update =
+                delegate
+                {
+                    var title = "";
+                    var start = "";
+                    var w = "";
+
+                    Format df = android.text.format.DateFormat.getDateFormat(this);
+                    Format tf = android.text.format.DateFormat.getTimeFormat(this);
+
+                    try
+                    {
+                        title = mCursor.getString(0);
+                        //start = ((object)mCursor.getLong(1)).ToString();
+
+
+                        w += title;
+                        w += " on ";
+                        w += df.format(start);
+                        w += " at ";
+                        w += tf.format(start);
+
+                        tv.setText(w);
+                    }
+                    catch
+                    {
+                        tv.setText("n/a error");
+
+                        throw;
+                    }
+
+
+                  
+                };
+
+            new Button(this)
+                  .WithText("Prev")
+                  .AttachTo(ll)
+                  .AtClick(
+                      b =>
+                      {
+                          tv.setText("n/a prev");
+                          if (!mCursor.isFirst()) mCursor.moveToPrevious();
+                          update();
+                      }
+            );
+
+            new Button(this)
+                .WithText("Next")
+                .AttachTo(ll)
+                .AtClick(
+                    b =>
+                    {
+                        tv.setText("n/a next");
+
+                        if (!mCursor.isLast()) mCursor.moveToNext();
+                        update();
+                    }
+          );
 
             this.setContentView(sv);
         }
