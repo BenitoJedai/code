@@ -44,6 +44,9 @@ namespace ScriptCoreLib.Extensions
 
 		public static string SkipUntilIfAny(this string e, string u)
 		{
+            if (u == null)
+                return e;
+
 			var i = e.IndexOf(u);
 
 			if (i < 0)

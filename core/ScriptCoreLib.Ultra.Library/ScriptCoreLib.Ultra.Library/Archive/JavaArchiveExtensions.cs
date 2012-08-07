@@ -13,39 +13,50 @@ namespace ScriptCoreLib.Archive
 
         public static string ResolveJavaArchiveLoadRequest(string context, string name, FileInfo[] ImplicitReferences)
         {
-            var list = ContextToFileArray(context);
-
-            list = list.Concat(ImplicitReferences.Select(k => k.FullName)).Distinct().ToArray();
-
-            var r = name.Replace(".", "/") + ".class";
-
-            foreach (var item in list)
-            {
-                var c = default(string[]);
-
-                if (!FileContentLookup.ContainsKey(item))
+            Func<string[], string> f =
+                list =>
                 {
-                    Console.WriteLine(".jar " + Path.GetFileNameWithoutExtension(item));
+                    var r = name.Replace(".", "/") + ".class";
 
-                    var zip = ZIPArchive.GetFiles(item);
+                    foreach (var item in list)
+                    {
+                        var c = default(string[]);
 
-                    FileContentLookup[item] = zip.Select(k => k.Name).ToArray();    
-                }
+                        if (!FileContentLookup.ContainsKey(item))
+                        {
+                            Console.WriteLine(".jar " + Path.GetFileNameWithoutExtension(item));
 
-                c = FileContentLookup[item];
+                            var zip = ZIPArchive.GetFiles(item);
 
-                var u = c.FirstOrDefault(k => k == r);
+                            FileContentLookup[item] = zip.Select(k => k.Name).ToArray();
+                        }
 
-                if (u != null)
-                    return item;
-            }
+                        c = FileContentLookup[item];
+
+                        var u = c.FirstOrDefault(k => k == r);
+
+                        if (u != null)
+                            return item;
+                    }
+
+                    return null;
+                };
+
+            var x0 = f(ImplicitReferences.Select(k => k.FullName).ToArray());
+
+            if (x0!= null)
+                return x0;
+
+            var x1 = f( ContextToFileArray(context));
+
+
 
             //MessageBox.Show("@ JavaArchiveResolve: " + name);
 
             //if (name == "com.amazonaws.AmazonWebServiceRequest")
             //    return @"C:\util\aws-android-sdk-0.2.0\lib\aws-android-sdk-0.2.0-core.jar";
 
-            return null;
+            return x1;
         }
 
         private static string[] ContextToFileArray(string context)
