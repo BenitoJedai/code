@@ -11,19 +11,27 @@ namespace ScriptCoreLib.Android.Extensions
     {
         class OnClickListener : View.OnClickListener
         {
-            public Action<View> h;
+            public Action h;
 
             public void onClick(View v)
             {
-                h(v);
+                h();
             }
         }
 
-        public static void AtClick(this View v, Action<View> h)
+        public static T AtClick<T>(this T v, Action<T> h) where T : View
         {
-            v.setOnClickListener(
-                new OnClickListener { h = h }
-            );
+            var x = new OnClickListener
+            {
+                h = delegate
+                {
+                    h(v);
+                }
+            };
+
+            v.setOnClickListener(x);
+
+            return v;
         }
 
         public static T WithText<T>(this T v, string value) where T : Button
