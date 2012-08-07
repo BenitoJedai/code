@@ -323,7 +323,7 @@ namespace WebGLLesson14
             new HTML.Images.FromAssets.earth().InvokeOnComplete(
                 earth =>
                     // await metail
-                    new HTML.Images.FromAssets.arroway_de_metal_structure_06_d100_flat().InvokeOnComplete(
+                    new HTML.Images.FromAssets.arroway_de_metal_structure__01().InvokeOnComplete(
                         metal =>
                         {
 
