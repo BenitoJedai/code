@@ -19,6 +19,16 @@ namespace TestCharSequenceAsStringAndConst.Activities
         // jsc does not generate consts?
         public const int u = 5;
 
+        public XFoo()
+        {
+
+        }
+
+        public XFoo(CharSequence e)
+        {
+
+        }
+
         public static void invoke(CharSequence e)
         {
 
