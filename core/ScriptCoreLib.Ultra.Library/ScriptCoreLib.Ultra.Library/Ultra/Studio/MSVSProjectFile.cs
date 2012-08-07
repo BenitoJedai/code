@@ -100,9 +100,41 @@ namespace jsc.meta.Library
 
                       from None in ItemGroup.Elements(FileType)
 
-                      let Link = None.Element(nsLink)
+                      // <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+                      let Link0 = None.Element(nsLink)
 
-                      let Include = None.Attribute("Include").Value
+                      // Include = "Y:\\opensource\\github\\elastic-droid\\src\\**\\*.*"
+                      let Include0 = None.Attribute("Include").Value
+                      let Wildcard = @"**\*.*"
+                      let IsWildcard = Include0.EndsWith(Wildcard)
+
+                      let IncludeWildcard = Include0.TakeUntilLastOrNull(Wildcard)
+
+                      let Include1 = !IsWildcard ?
+                        new[] { Include0 } :
+                        Directory.EnumerateFiles(IncludeWildcard, "*.*", SearchOption.AllDirectories)
+
+
+                      from Include in Include1
+
+                      let IncludeDirectory = Path.GetDirectoryName(Include)
+
+                      let Replace = new
+                      {
+                          Extension = Path.GetExtension(Include),
+                          FileName = Path.GetFileNameWithoutExtension(Include),
+                          RecursiveDir = IncludeDirectory.SkipUntilIfAny(IncludeWildcard) + "\\",
+                      }
+
+                      //let Include = Include0
+                      let Link = Link0 == null ? null : new
+                      {
+                          Value =
+                              Link0.Value
+                              .Replace("%(Extension)", Replace.Extension)
+                              .Replace("%(FileName)", Replace.FileName)
+                              .Replace("%(RecursiveDir)", Replace.RecursiveDir)
+                      }
 
                       // Directory In Project
                       let Directory = Path.GetDirectoryName(Link != null ? Link.Value : Include).Replace("\\", "/")
