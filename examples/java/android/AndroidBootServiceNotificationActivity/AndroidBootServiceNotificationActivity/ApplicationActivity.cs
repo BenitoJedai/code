@@ -12,6 +12,7 @@ using AndroidBootServiceNotificationActivity.Activities;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidBootServiceNotificationActivity.Activities
 {
@@ -42,8 +43,14 @@ namespace AndroidBootServiceNotificationActivity.Activities
             #region startservice
             var startservice = new Button(this);
             startservice.setText("Start Service to send Notification");
-            startservice.setOnClickListener(
-                new startservice_onclick { that = this }
+            startservice.AtClick(
+                delegate
+                {
+                    this.ShowToast("startservice_onclick");
+
+                    var intent = new Intent(this, NotifyService.Class);
+                    this.startService(intent);
+                }
             );
             ll.addView(startservice);
             #endregion
@@ -51,8 +58,16 @@ namespace AndroidBootServiceNotificationActivity.Activities
             #region stopservice
             var stopservice = new Button(this);
             stopservice.setText("Stop Service");
-            stopservice.setOnClickListener(
-                new stopservice_onclick { that = this }
+            stopservice.AtClick(
+                delegate
+                {
+                    this.ShowToast("stopservice_onclick");
+
+                    Intent intent = new Intent();
+                    intent.setAction(NotifyService.ACTION);
+                    intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
+                    this.sendBroadcast(intent);
+                }
             );
             ll.addView(stopservice);
             #endregion
@@ -65,37 +80,6 @@ namespace AndroidBootServiceNotificationActivity.Activities
         }
 
 
-        class startservice_onclick : android.view.View.OnClickListener
-        {
-            public ApplicationActivity that;
-
-            public void onClick(View v)
-            {
-                that.ShowToast("startservice_onclick");
-
-                var intent = new Intent(that, NotifyService.Class);
-                that.startService(intent);
-
-            }
-        }
-
-        class stopservice_onclick : android.view.View.OnClickListener
-        {
-            public ApplicationActivity that;
-
-
-            public void onClick(View v)
-            {
-                that.ShowToast("stopservice_onclick");
-
-                Intent intent = new Intent();
-                intent.setAction(NotifyService.ACTION);
-                intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
-                that.sendBroadcast(intent);
-
-            }
-        }
-
 
     }
 
@@ -103,7 +87,7 @@ namespace AndroidBootServiceNotificationActivity.Activities
     {
         public static Class Class
         {
-            [Script(OptimizedCode = "return AndroidBootServiceNotificationActivity.Activities.NotifyService.class;")]
+            [Script(OptimizedCode = "return NotifyService.class;")]
             get
             {
                 return null;
@@ -150,8 +134,8 @@ namespace AndroidBootServiceNotificationActivity.Activities
             myNotification.defaults |= Notification.DEFAULT_SOUND;
             myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
             myNotification.setLatestEventInfo(context,
-                    (CharSequence)(object)"Boot!!",
-                    (CharSequence)(object)"Proud to be a jsc developer :)",
+                    "Boot!!",
+                    "Proud to be a jsc developer :)",
                pendingIntent);
             notificationManager.notify(1, myNotification);
 
@@ -197,8 +181,8 @@ namespace foo
 
 
     // android.intent.action.BOOT_COMPLETED
-    //[IntentFilter(Action = Intent.ACTION_BOOT_COMPLETED)]
-    [IntentFilter(Action = "android.intent.action.BOOT_COMPLETED")]
+    [IntentFilter(Action = Intent.ACTION_BOOT_COMPLETED)]
+    //[IntentFilter(Action = "android.intent.action.BOOT_COMPLETED")]
     public class AtBootCompleted : BroadcastReceiver
     {
         public override void onReceive(Context c, Intent i)
