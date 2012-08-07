@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 
-namespace org.elasticdroid.foo
+namespace ElasticDroidActivity.FakeR
 {
     class Program
     {
@@ -14,7 +14,7 @@ namespace org.elasticdroid.foo
         public static void Main(string[] e)
         {
             global::jsc.AndroidLauncher.Launch(
-                 typeof(ApplicationActivity)
+                 typeof(com.elasticdroid.ApplicationActivity)
             );
         }
     }
