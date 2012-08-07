@@ -15,6 +15,9 @@ public class Foo
     {
     }
 
+	public  Foo(CharSequence e)
+    {
+    }
 
 
 

@@ -156,6 +156,25 @@ namespace ScriptCoreLib.Java
 
     public static class JavaArchiveReflectorExtensions
     {
+        public static bool SignatureEquals(this JavaArchiveReflectorConstructor a, JavaArchiveReflectorConstructor b)
+        {
+
+            if (a.ParameterTypes.Length != b.ParameterTypes.Length)
+                return false;
+
+            var value = true;
+            for (int i = 0; i < a.ParameterTypes.Length; i++)
+            {
+                if (a.ParameterTypes[i] != b.ParameterTypes[i])
+                {
+                    value = false;
+                    break;
+                }
+            }
+
+            return value;
+        }
+
         public static bool SignatureEquals(this JavaArchiveReflectorMethod a, JavaArchiveReflectorMethod b, bool CheckReturnType = true)
         {
             if (a.MethodName != b.MethodName)
