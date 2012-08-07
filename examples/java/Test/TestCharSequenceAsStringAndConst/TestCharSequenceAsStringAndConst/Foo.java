@@ -2,7 +2,8 @@
 package TestCharSequenceAsStringAndConst.Activities.Native;
 
 
-public class Foo
+
+public class Foo implements IFoo
 {
     public final static int uu = 55;
     public final static String ss = "hey";

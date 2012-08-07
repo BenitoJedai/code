@@ -47,8 +47,9 @@ namespace TestCharSequenceAsStringAndConst.Activities
             //            Error	1	The expression being assigned to 'TestCharSequenceAsStringAndConst.Activities.ApplicationActivity.uuu' must be constant	y:\jsc.svn\examples\java\Test\TestCharSequenceAsStringAndConst\TestCharSequenceAsStringAndConst\ApplicationActivity.cs	40	32	TestCharSequenceAsStringAndConst
             //Error	3	Argument 1: cannot convert from 'string' to 'java.lang.CharSequence'	y:\jsc.svn\examples\java\Test\TestCharSequenceAsStringAndConst\TestCharSequenceAsStringAndConst\ApplicationActivity.cs	37	31	TestCharSequenceAsStringAndConst
 
+            //Native.IFoo.
 
-            Native.Foo.invoke("hello");
+            Native.Foo.invoke("hello" + Native.Foo.iss);
         }
 
         public const int uuu = Native.Foo.uu;
