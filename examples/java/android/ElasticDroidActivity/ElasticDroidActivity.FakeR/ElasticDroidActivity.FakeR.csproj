@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{385CE7A0-169B-4255-8A5A-DF2628FCEF2E}</ProjectGuid>
+    <ProjectGuid>{A02183C4-CB7B-4EC2-A750-A23D66AA6EF8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElasticDroidActivity</RootNamespace>
-    <AssemblyName>ElasticDroidActivity</AssemblyName>
+    <RootNamespace>ElasticDroidActivity.FakeR</RootNamespace>
+    <AssemblyName>ElasticDroidActivity.FakeR</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -25,11 +25,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -79,8 +81,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="ElasticDroidActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ElasticDroidActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="ElasticDroidActivity.FakeR.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ElasticDroidActivity.FakeR.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -91,41 +93,33 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="org.elasticdroid\R.java" />
-    <Content Include="Y:\opensource\github\elastic-droid\libs\**\*.*">
-      <Link>libs/%(RecursiveDir)%(FileName)%(Extension)</Link>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Y:\opensource\github\elastic-droid\src\**\*.*">
-      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+    <Content Include="Design\Images.htm" />
+    <Content Include="Design\jsc.png" />
+    <Content Include="staging\apk\res\values\strings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Y:\opensource\github\elastic-droid\res\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>staging\apk\res/%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Link>staging\apk\res/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Design\Images.htm" />
-    <Content Include="Design\jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-         start /MIN /WAIT           cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 
 
-            if $(ConfigurationName)==Debug (
-            start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
-            )
-</PostBuildEvent>
+if $(ConfigurationName)==Debug (
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
+)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-            start /MIN /WAIT  C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:false /TargetAndroidRuntime:true
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true
 
 </PreBuildEvent>
   </PropertyGroup>
