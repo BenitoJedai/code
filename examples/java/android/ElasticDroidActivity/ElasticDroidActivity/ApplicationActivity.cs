@@ -8,9 +8,9 @@ using android.view;
 using android.widget;
 using ScriptCoreLib;
 
-namespace org.elasticdroid.foo
+namespace my.elasticdroid
 {
-    public class ApplicationActivity : LoginView
+    public class ApplicationActivity : org.elasticdroid.LoginView
     {
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 

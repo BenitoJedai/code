@@ -115,7 +115,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-         start /MIN /WAIT           cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+   start /MIN /WAIT           c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 
 
             if $(ConfigurationName)==Debug (
@@ -125,7 +125,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>rem how long does this take cold and warm?
-        rem    start /MIN /WAIT  C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:false /TargetAndroidRuntime:true
+start /MIN /WAIT  C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:false /TargetAndroidRuntime:true
 
 </PreBuildEvent>
   </PropertyGroup>
