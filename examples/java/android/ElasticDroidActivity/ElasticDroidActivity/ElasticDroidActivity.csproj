@@ -124,8 +124,8 @@
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-            start /MIN /WAIT  C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:false /TargetAndroidRuntime:true
+    <PreBuildEvent>rem how long does this take cold and warm?
+        rem    start /MIN /WAIT  C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:false /TargetAndroidRuntime:true
 
 </PreBuildEvent>
   </PropertyGroup>
