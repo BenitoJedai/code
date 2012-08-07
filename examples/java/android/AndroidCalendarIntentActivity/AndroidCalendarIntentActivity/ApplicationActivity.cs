@@ -16,7 +16,9 @@ namespace AndroidCalendarIntentActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
-        // inspired by http://mobile.tutsplus.com/tutorials/android/android-essentials-adding-events-to-the-user%E2%80%99s-calendar/
+        // inspired by 
+        // http://mobile.tutsplus.com/tutorials/android/android-essentials-adding-events-to-the-user%E2%80%99s-calendar/
+        // http://www.techrepublic.com/blog/app-builder/programming-with-the-android-40-calendar-api-the-good-the-bad-and-the-ugly/825
 
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 
@@ -30,9 +32,10 @@ namespace AndroidCalendarIntentActivity.Activities
             ll.setOrientation(LinearLayout.VERTICAL);
             sv.addView(ll);
 
-            var b = new Button(this);
-            ll.addView(b);
-            b.setText("Create Event!");
+            var b = new Button(this).WithText("Create Event!").AttachTo(ll);
+
+
+
             b.AtClick(
                 v =>
                 {

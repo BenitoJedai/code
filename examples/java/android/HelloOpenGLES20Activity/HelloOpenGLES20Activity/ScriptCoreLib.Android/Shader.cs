@@ -471,12 +471,7 @@ namespace ScriptCoreLib.Android
         }
 
 
-        public static View AttachTo(this View v, ViewGroup g)
-        {
-            g.addView(v);
 
-            return v;
-        }
 
 
 
