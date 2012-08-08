@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Boing 4K
  * Copyright (C) 2011 meatfighter.com
  *
