@@ -72,7 +72,6 @@ public final class R {
         public static final int instanceHeadline=0x7f070006;
         public static final int instanceMetric=0x7f07000d;
         public static final int instanceStatusIcon=0x7f07000c;
-        public static final int instancegroup_menuitem_save=0;
         public static final int ipDetails=0x7f070012;
         public static final int ipHeadline=0x7f070011;
         public static final int ipStatusIcon=0x7f070010;
@@ -152,8 +151,6 @@ public final class R {
         public static final int monitorinstance_menu=0x7f060004;
         public static final int securitygroups_menu=0x7f060005;
         public static final int singleinstance_menu=0x7f060006;
-        public static final int instancegroup_menu=0;
-
     }
     public static final class string {
         public static final int about_text=0x7f040070;

@@ -92,7 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="org.elasticdroid\R.java" />
+    <Content Include="gen\org\elasticdroid\R.java" />
     <Content Include="Y:\opensource\github\elastic-droid\libs\**\*.*">
       <Link>libs/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
@@ -112,6 +112,7 @@
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
