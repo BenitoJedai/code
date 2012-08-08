@@ -8,7 +8,7 @@ using android.view;
 using android.widget;
 using ScriptCoreLib;
 
-namespace my.elasticdroid
+namespace org.elasticdroid
 {
     public class ApplicationActivity : org.elasticdroid.LoginView
     {

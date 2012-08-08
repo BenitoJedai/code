@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 
-namespace my.elasticdroid
+namespace org.elasticdroid
 {
     class Program
     {
