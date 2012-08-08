@@ -22,6 +22,11 @@ namespace android.widget
  
         }
 
+        public virtual void setText(string value)
+        {
+
+        }
+
         // members and types are to be extended by jsc at release build
     }
 }
