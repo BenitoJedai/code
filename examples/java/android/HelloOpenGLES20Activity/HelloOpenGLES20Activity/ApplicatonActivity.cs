@@ -46,7 +46,7 @@ namespace HelloOpenGLES20Activity.Activities
             mGLView = new HelloOpenGLES20SurfaceView(this);
             setContentView(mGLView);
 
-            this.ShowToast("http://my.jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net x");
         }
 
         #region pause
