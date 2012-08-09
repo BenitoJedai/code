@@ -17,6 +17,7 @@ namespace ScriptCoreLib.Android
 {
     using gl = __WebGLRenderingContext;
     using opengl = GLES20;
+    using java.nio;
 
 
 
@@ -72,6 +73,18 @@ namespace ScriptCoreLib.Android
             // webgl is using int64 instead of in32. why? is the idl being used correctly?
 
             GLES20.glUniform1i(u.value, p);
+        }
+
+        public void uniform1f(__WebGLUniformLocation u, float x)
+        {
+
+            GLES20.glUniform1f(u.value, x);
+        }
+
+        public void uniform2f(__WebGLUniformLocation u, float x, float y)
+        {
+
+            GLES20.glUniform2f(u.value, x, y);
         }
 
         public void uniform3f(__WebGLUniformLocation u, float p1, float p2, float p3)
@@ -134,10 +147,7 @@ namespace ScriptCoreLib.Android
             GLES20.glClear((int)mask);
         }
 
-        internal void vertexAttribPointer(int attribute, int size, int type, bool p4, int p5, java.nio.FloatBuffer vertices)
-        {
-            GLES20.glVertexAttribPointer(attribute, size, type, p4, p5, vertices);
-        }
+ 
 
         internal void enableVertexAttribArray(uint index)
         {
@@ -234,6 +244,67 @@ namespace ScriptCoreLib.Android
         {
             GLES20.glBindAttribLocation(programHandle.value, i, p);
         }
+
+        internal __WebGLBuffer createBuffer()
+        {
+            return new __WebGLBuffer();
+        }
+
+        internal __WebGLBuffer CurrentBuffer;
+
+        internal void bindBuffer(uint p, __WebGLBuffer buffer)
+        {
+            CurrentBuffer = buffer;
+
+            if (CurrentBuffer.value > 0)
+                opengl.glBindBuffer((int)p, buffer.value);
+        }
+
+        internal void bufferData(uint p, __ArrayBufferView v, uint p_2)
+        {
+            var f32 = (__Float32Array)v;
+
+            if (CurrentBuffer.value == 0)
+            {
+                CurrentBuffer.value = f32.InternalFloatArray.Length * 4;
+
+                bindBuffer(p, CurrentBuffer);
+            }
+
+            opengl.glBufferData((int)p, CurrentBuffer.value, f32.InternalFloatBuffer, (int)p_2);
+            
+        }
+
+        internal void vertexAttribPointer(uint p, int p_2, uint p_3, bool p_4, int p_5, int p_6)
+        {
+            opengl.glVertexAttribPointer((int)p, p_2, (int)p_3, p_4, p_5, p_6);
+        }
+    }
+
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.ArrayBufferView))]
+    public class __ArrayBufferView
+    {
+    }
+
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.Float32Array))]
+    public class __Float32Array : __ArrayBufferView
+    {
+        public float[] InternalFloatArray;
+        public FloatBuffer InternalFloatBuffer;
+
+        public __Float32Array(params float[] array)
+        {
+            InternalFloatArray = array;
+            InternalFloatBuffer = FloatBuffer.wrap(
+                array
+            );
+        }
+    }
+
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLBuffer))]
+    public class __WebGLBuffer : __WebGLObject
+    {
+      
     }
 
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLUniformLocation))]

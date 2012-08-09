@@ -15,9 +15,15 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
         public static WebGLShader createShader(this WebGLRenderingContext gl, Shader source)
         {
+            // jsc/java should pick this up!
+            FragmentShader refhack;
+
             var type = gl.VERTEX_SHADER;
 
-            if (source is FragmentShader)
+            //if (source is FragmentShader)
+            var IsFragmentShader = source is FragmentShader;
+
+            if (IsFragmentShader)
                 type = gl.FRAGMENT_SHADER;
 
             var shader = gl.createShader(type);
