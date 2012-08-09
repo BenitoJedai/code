@@ -17,6 +17,12 @@ namespace org.elasticdroid
         public override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
+
+            Toast.makeText(
+                 this,
+                 "http://jsc-solutions.net",
+                 Toast.LENGTH_LONG
+             ).show();
         }
 
    
