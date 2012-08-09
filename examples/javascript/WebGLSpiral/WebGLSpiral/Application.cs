@@ -127,32 +127,29 @@ namespace WebGLSpiral
             var buffer = gl.createBuffer();
 
             gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
+            gl.bufferData(gl.ARRAY_BUFFER, 
+                new Float32Array(
+                    -1.0f, -1.0f, 1.0f, 
+                    -1.0f, -1.0f, 1.0f, 
+                    1.0f, -1.0f, 1.0f, 
+                    1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
             // Create Program
 
-            #region createProgram
-            Func<WebGLProgram> createProgram = () =>
-            {
-                var program = gl.createProgram();
 
-                var vs = gl.createShader(new SpiralVertexShader());
-                var fs = gl.createShader(new SpiralFragmentShader());
+            var currentProgram = gl.createProgram();
 
-                gl.attachShader(program, vs);
-                gl.attachShader(program, fs);
+            var vs = gl.createShader(new SpiralVertexShader());
+            var fs = gl.createShader(new SpiralFragmentShader());
 
-                gl.deleteShader(vs);
-                gl.deleteShader(fs);
+            gl.attachShader(currentProgram, vs);
+            gl.attachShader(currentProgram, fs);
 
-                gl.linkProgram(program);
-            
-                return program;
+            gl.deleteShader(vs);
+            gl.deleteShader(fs);
 
-            };
-            #endregion
+            gl.linkProgram(currentProgram);
 
 
-            var currentProgram = createProgram();
 
             #region AtResize
             Action AtResize = delegate
@@ -248,7 +245,7 @@ namespace WebGLSpiral
             );
         }
 
-        public  Action Dispose;
+        public Action Dispose;
     }
 
 
