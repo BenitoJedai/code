@@ -10,6 +10,7 @@ using android.webkit;
 using android.widget;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidVibrationActivity.Activities
 {
@@ -52,7 +53,7 @@ namespace AndroidVibrationActivity.Activities
             this.setContentView(sv);
 
 
-            this.ShowLongToast("http://my.jsc-solutions.net");
+            this.ShowLongToast("http://my.jsc-solutions.net x");
         }
 
 
