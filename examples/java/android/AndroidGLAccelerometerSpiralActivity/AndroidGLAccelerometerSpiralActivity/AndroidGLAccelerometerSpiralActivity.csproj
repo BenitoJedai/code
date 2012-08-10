@@ -106,6 +106,7 @@
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
+    <Content Include="Design\Preview.png" />
     <Content Include="staging\apk\res\drawable-xhdpi\ic_launcher.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -122,7 +123,7 @@
     <PostBuildEvent>
 
             if $(ConfigurationName)==Debug (
-            start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
+            start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
             )
 
             start  /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
