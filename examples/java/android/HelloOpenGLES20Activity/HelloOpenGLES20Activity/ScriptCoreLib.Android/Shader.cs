@@ -45,7 +45,7 @@ namespace ScriptCoreLib.Android
     #endregion
 
 
- 
+
     #region __WebGLRenderingContext
 
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext))]
@@ -92,7 +92,13 @@ namespace ScriptCoreLib.Android
             GLES20.glUniform3f(u.value, p1, p2, p3);
         }
 
-        public void uniformMatrix4fv(__WebGLUniformLocation location,  bool transpose, float[] value)
+        public void uniform3fv(__WebGLUniformLocation u, float[] p1)
+        {
+            GLES20.glUniform3fv(u.value, p1.Length *4, p1, 0);
+        }
+
+
+        public void uniformMatrix4fv(__WebGLUniformLocation location, bool transpose, float[] value)
         {
             // see also: http://www.opengl.org/sdk/docs/man/xhtml/glUniform.xml
             // see also: http://developer.android.com/reference/android/opengl/GLES20.html#glUniformMatrix4fv(int, int, boolean, float[], int)
@@ -147,7 +153,7 @@ namespace ScriptCoreLib.Android
             GLES20.glClear((int)mask);
         }
 
- 
+
 
         internal void enableVertexAttribArray(uint index)
         {
@@ -272,7 +278,7 @@ namespace ScriptCoreLib.Android
             }
 
             opengl.glBufferData((int)p, CurrentBuffer.value, f32.InternalFloatBuffer, (int)p_2);
-            
+
         }
 
         internal void vertexAttribPointer(uint p, int p_2, uint p_3, bool p_4, int p_5, int p_6)
@@ -304,7 +310,7 @@ namespace ScriptCoreLib.Android
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLBuffer))]
     public class __WebGLBuffer : __WebGLObject
     {
-      
+
     }
 
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLUniformLocation))]

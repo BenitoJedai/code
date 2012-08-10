@@ -9,7 +9,7 @@ using android.os;
 using android.util;
 using android.view;
 using android.widget;
-using AndroidGLSpiralActivity.Shaders;
+using AndroidGLAccelerometerSpiralActivity.Shaders;
 using java.lang;
 using java.nio;
 using ScriptCoreLib;
@@ -19,9 +19,10 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 
 
-namespace AndroidGLSpiralActivity.Activities
+namespace AndroidGLAccelerometerSpiralActivity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using android.hardware;
     using android.content.pm;
     //using opengl = GLES20;
 
@@ -34,8 +35,8 @@ namespace AndroidGLSpiralActivity.Activities
         protected override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
             this.ToFullscreen();
 
@@ -48,7 +49,7 @@ namespace AndroidGLSpiralActivity.Activities
 
 
 
-                    Log.wtf("AndroidGLSpiralActivity", "onsurface");
+                    Log.wtf("AndroidGLAccelerometerSpiralActivity", "onsurface");
 
                     var buffer = gl.createBuffer();
 
@@ -78,7 +79,7 @@ namespace AndroidGLSpiralActivity.Activities
 
                     gl.linkProgram(currentProgram);
 
-                    var parameters_time = 0L;
+                    var parameters_time = 0f;
                     var parameters_screenWidth = 0;
                     var parameters_screenHeight = 0;
                     var parameters_aspectX = 0.0f;
@@ -88,7 +89,7 @@ namespace AndroidGLSpiralActivity.Activities
                     v.onresize =
                         (width, height) =>
                         {
-                            Log.wtf("AndroidGLSpiralActivity", "onresize");
+                            Log.wtf("AndroidGLAccelerometerSpiralActivity", "onresize");
 
                             parameters_screenWidth = width;
                             parameters_screenHeight = height;
@@ -100,6 +101,39 @@ namespace AndroidGLSpiralActivity.Activities
                         };
                     #endregion
 
+                    var speed = 200f;
+                    var xx = 0.5f;
+                    var yy = 0.5f;
+
+                    onaccelerometer +=
+                        (x, y, z) =>
+                        {
+                            speed = 10 + 200 * x / 10f;
+
+                            var ay = y;
+                            if (y < 0)
+                                ay = -y;
+
+                            yy = (10f - ay) / 10f;
+
+                            if (yy < 0)
+                                y = 0;
+
+                            if (yy > 10)
+                                yy = 10;
+
+                            var ax = x;
+                            if (x < 0)
+                                ax = -x;
+
+                            xx = (10f - ax) / 10f;
+
+                            if (xx < 0)
+                                x = 0;
+
+                            if (xx > 10)
+                                xx = 10;
+                        };
 
                     #region onframe
                     var framecount = 0;
@@ -108,10 +142,10 @@ namespace AndroidGLSpiralActivity.Activities
                         {
                             var time = parameters_time / 1000f;
 
-                            if (framecount == 0)
-                                Log.wtf("AndroidGLSpiralActivity", "onframe " + ((object)time).ToString());
+                            //if (framecount == 0)
+                            //Log.wtf("AndroidGLAccelerometerSpiralActivity", "onframe " + ((object)yy).ToString());
 
-                            parameters_time += 100;
+                            parameters_time += speed;
 
                             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -125,9 +159,15 @@ namespace AndroidGLSpiralActivity.Activities
 
                             // Set values to program variables
 
+                            //Log.wtf("AndroidGLAccelerometerSpiralActivity", "onframe " + ((object)yy).ToString());
+                            gl.uniform1f(gl.getUniformLocation(currentProgram, "ucolor_1"), xx);
+                            gl.uniform1f(gl.getUniformLocation(currentProgram, "ucolor_2"), yy);
+
                             gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), time);
                             gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
                             gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
+
+
 
                             // Render geometry
 
@@ -142,7 +182,7 @@ namespace AndroidGLSpiralActivity.Activities
                         };
                     #endregion
 
-                    Log.wtf("AndroidGLSpiralActivity", "onsurface done");
+                    Log.wtf("AndroidGLAccelerometerSpiralActivity", "onsurface done");
 
                 };
 
@@ -156,6 +196,7 @@ namespace AndroidGLSpiralActivity.Activities
 
         public View view;
 
+        #region MyView
         class MyView : GLSurfaceView, GLSurfaceView.Renderer
         {
             WebGLRenderingContext gl;
@@ -195,7 +236,9 @@ namespace AndroidGLSpiralActivity.Activities
                     onsurface(gl);
             }
         }
+        #endregion
 
+        #region HideLater
         private const int HIDE_DELAY_MILLIS = 5000;
 
         class HideLater : View.OnSystemUiVisibilityChangeListener, Runnable
@@ -221,22 +264,81 @@ namespace AndroidGLSpiralActivity.Activities
         {
             try
             {
-                //Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar");
+                //Log.wtf("AndroidGLAccelerometerSpiralActivity", "TryHideActionbar");
                 var h = new HideLater { that = this };
                 this.view.setOnSystemUiVisibilityChangeListener(
                    h
                     );
 
                 h.onSystemUiVisibilityChange(0);
-                //Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar done");
+                //Log.wtf("AndroidGLAccelerometerSpiralActivity", "TryHideActionbar done");
             }
             catch
             {
-                Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar error");
+                Log.wtf("AndroidGLAccelerometerSpiralActivity", "TryHideActionbar error");
 
                 //throw;
             }
         }
+        #endregion
+
+
+        #region onaccelerometer
+        class MySensorEventListener : SensorEventListener
+        {
+            public Action<float, float, float> onaccelerometer;
+
+            public void onAccuracyChanged(Sensor sensor, int accuracy)
+            {
+
+            }
+            public void onSensorChanged(SensorEvent e)
+            {
+
+                // check sensor type
+                if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+                {
+
+                    // assign directions
+                    float x = e.values[0];
+                    float y = e.values[1];
+                    float z = e.values[2];
+
+                    if (onaccelerometer != null)
+                        onaccelerometer(x, y, z);
+                }
+            }
+        }
+
+        event Action<float, float, float> onaccelerometer
+        {
+            remove
+            {
+            }
+
+            add
+            {
+                SensorManager sensorManager;
+
+
+                sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+                // add listener. The listener will be HelloAndroid (this) class
+                sensorManager.registerListener(
+                    new MySensorEventListener { onaccelerometer = value }
+                    ,
+                        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                        SensorManager.SENSOR_DELAY_GAME);
+
+                /*	More sensor speeds (taken from api docs)
+                    SENSOR_DELAY_FASTEST get sensor data as fast as possible
+                    SENSOR_DELAY_GAME	rate suitable for games
+                    SENSOR_DELAY_NORMAL	rate (default) suitable for screen orientation changes
+                */
+            }
+        }
+        #endregion
+
+
     }
 
 
