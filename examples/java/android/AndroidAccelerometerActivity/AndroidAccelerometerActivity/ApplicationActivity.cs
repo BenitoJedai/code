@@ -17,10 +17,9 @@ namespace AndroidAccelerometerActivity.Activities
 {
 
     [Description("inspired by http://webhole.net/2011/08/20/android-sdk-accelerometer-example-tutorial/")]
-    public class AndroidAccelerometerActivity : Activity, SensorEventListener
+    public class AndroidAccelerometerActivity : Activity
     {
 
-        public SensorManager sensorManager;
 
         TextView xCoor; // declare X axis object
         TextView yCoor; // declare Y axis object
@@ -45,7 +44,7 @@ namespace AndroidAccelerometerActivity.Activities
             zCoor = new TextView(this).AttachTo(ll);
             setContentView(sv);
 
-            this.onaccelerometer =
+            this.onaccelerometer +=
                 (x, y, z) =>
                 {
                     xCoor.setText("X: " + ((object)x).ToString());
@@ -53,46 +52,71 @@ namespace AndroidAccelerometerActivity.Activities
                     zCoor.setText("Z: " + ((object)z).ToString());
                 };
 
-            sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-            // add listener. The listener will be HelloAndroid (this) class
-            sensorManager.registerListener(this,
-                    sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                    SensorManager.SENSOR_DELAY_GAME);
 
-            /*	More sensor speeds (taken from api docs)
-                SENSOR_DELAY_FASTEST get sensor data as fast as possible
-                SENSOR_DELAY_GAME	rate suitable for games
-                SENSOR_DELAY_NORMAL	rate (default) suitable for screen orientation changes
-            */
 
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
             this.ShowToast("http://jsc-solutions.net");
         }
 
-        public void onAccuracyChanged(Sensor sensor, int accuracy)
+
+
+        #region onaccelerometer
+        class MySensorEventListener : SensorEventListener
         {
+            public Action<float, float, float> onaccelerometer;
 
-        }
-
-        Action<float, float, float> onaccelerometer;
-
-        public void onSensorChanged(SensorEvent e)
-        {
-
-            // check sensor type
-            if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+            public void onAccuracyChanged(Sensor sensor, int accuracy)
             {
 
-                // assign directions
-                float x = e.values[0];
-                float y = e.values[1];
-                float z = e.values[2];
+            }
+            public void onSensorChanged(SensorEvent e)
+            {
 
-                if (onaccelerometer != null)
-                    onaccelerometer(x, y, z);
+                // check sensor type
+                if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+                {
+
+                    // assign directions
+                    float x = e.values[0];
+                    float y = e.values[1];
+                    float z = e.values[2];
+
+                    if (onaccelerometer != null)
+                        onaccelerometer(x, y, z);
+                }
             }
         }
+
+        event Action<float, float, float> onaccelerometer
+        {
+            remove
+            {
+            }
+
+            add
+            {
+                SensorManager sensorManager;
+
+
+                sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+                // add listener. The listener will be HelloAndroid (this) class
+                sensorManager.registerListener(
+                    new MySensorEventListener { onaccelerometer = value }
+                    ,
+                        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                        SensorManager.SENSOR_DELAY_GAME);
+
+                /*	More sensor speeds (taken from api docs)
+                    SENSOR_DELAY_FASTEST get sensor data as fast as possible
+                    SENSOR_DELAY_GAME	rate suitable for games
+                    SENSOR_DELAY_NORMAL	rate (default) suitable for screen orientation changes
+                */
+            }
+        }
+        #endregion
+
+
     }
 
 
