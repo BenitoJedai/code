@@ -8,12 +8,14 @@ using android.hardware;
 using android.provider;
 using android.webkit;
 using android.widget;
-using AndroidAccelerometerActivity.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
+using android.content.pm;
 
 namespace AndroidAccelerometerActivity.Activities
 {
+
     [Description("inspired by http://webhole.net/2011/08/20/android-sdk-accelerometer-example-tutorial/")]
     public class AndroidAccelerometerActivity : Activity, SensorEventListener
     {
@@ -26,24 +28,36 @@ namespace AndroidAccelerometerActivity.Activities
 
         // running it on device:
         // attach device to usb
-      
+
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             // http://www.dreamincode.net/forums/topic/130521-android-part-iii-dynamic-layouts/
 
             base.onCreate(savedInstanceState);
 
-            setContentView(R.layout.main);
+            var sv = new ScrollView(this);
+            var ll = new LinearLayout(this);
+            ll.setOrientation(LinearLayout.VERTICAL);
+            sv.addView(ll);
 
-            xCoor = (TextView)findViewById(R.id.xcoor); // create X axis object
-            yCoor = (TextView)findViewById(R.id.ycoor); // create Y axis object
-            zCoor = (TextView)findViewById(R.id.zcoor); // create Z axis object
+            xCoor = new TextView(this).AttachTo(ll);
+            yCoor = new TextView(this).AttachTo(ll);
+            zCoor = new TextView(this).AttachTo(ll);
+            setContentView(sv);
+
+            this.onaccelerometer =
+                (x, y, z) =>
+                {
+                    xCoor.setText("X: " + ((object)x).ToString());
+                    yCoor.setText("Y: " + ((object)y).ToString());
+                    zCoor.setText("Z: " + ((object)z).ToString());
+                };
 
             sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
             // add listener. The listener will be HelloAndroid (this) class
             sensorManager.registerListener(this,
                     sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                    SensorManager.SENSOR_DELAY_NORMAL);
+                    SensorManager.SENSOR_DELAY_GAME);
 
             /*	More sensor speeds (taken from api docs)
                 SENSOR_DELAY_FASTEST get sensor data as fast as possible
@@ -51,6 +65,7 @@ namespace AndroidAccelerometerActivity.Activities
                 SENSOR_DELAY_NORMAL	rate (default) suitable for screen orientation changes
             */
 
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
             this.ShowToast("http://jsc-solutions.net");
         }
@@ -59,6 +74,8 @@ namespace AndroidAccelerometerActivity.Activities
         {
 
         }
+
+        Action<float, float, float> onaccelerometer;
 
         public void onSensorChanged(SensorEvent e)
         {
@@ -72,9 +89,8 @@ namespace AndroidAccelerometerActivity.Activities
                 float y = e.values[1];
                 float z = e.values[2];
 
-                xCoor.setText("X: " + ((object)x).ToString());
-                yCoor.setText("Y: " + ((object)y).ToString());
-                zCoor.setText("Z: " + ((object)z).ToString());
+                if (onaccelerometer != null)
+                    onaccelerometer(x, y, z);
             }
         }
     }

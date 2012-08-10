@@ -232,7 +232,7 @@ namespace AndroidGLSpiralActivity.Activities
             {
                 Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar error");
 
-                throw;
+                //throw;
             }
         }
     }
