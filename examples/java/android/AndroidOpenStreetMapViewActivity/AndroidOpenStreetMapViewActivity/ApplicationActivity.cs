@@ -8,7 +8,6 @@ using android.util;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidOpenStreetMapViewActivity.Library;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
@@ -20,6 +19,28 @@ using org.osmdroid.util;
 
 namespace AndroidOpenStreetMapViewActivity.Activities
 {
+    #region R
+    [Script(IsNative = true)]
+    public static class R
+    {
+
+
+        [Script(IsNative = true)]
+        public static class layout
+        {
+            public static int main;
+        }
+
+        [Script(IsNative = true)]
+        public static class id
+        {
+            public static int openmapview;
+
+
+        }
+    }
+    #endregion
+
     public class AndroidOpenStreetMapViewActivity : Activity
     {
         // inspired by 
