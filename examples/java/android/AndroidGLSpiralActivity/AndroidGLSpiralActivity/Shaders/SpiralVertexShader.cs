@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib.GLSL;
 using System.ComponentModel;
 
-namespace WebGLSpiral.Shaders
+namespace AndroidGLSpiralActivity.Shaders
 {
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
     class __SpiralVertexShader : ScriptCoreLib.GLSL.VertexShader
