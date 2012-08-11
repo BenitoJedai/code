@@ -26,17 +26,11 @@ namespace HelloAndroidActivity.Activities
             sv.addView(ll);
 
 
-            var b = new Button(this);
-            b.setText("I don't do anything, but I was added dynamically. :)");
-            ll.addView(b);
+            var b = new Button(this).AttachTo(ll);
 
 
-            Action onclick = delegate
-            {
-                b.setText("onclick");
-            };
-
-            b.setText("before AtClick");
+            
+            b.WithText("before AtClick");
             b.AtClick(
                 v =>
                 {

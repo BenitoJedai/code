@@ -23,6 +23,8 @@ namespace xavalon.net.Activities
     {
         protected override void onCreate(Bundle value)
         {
+            this.ApplicationFile = "index.htm";
+
             base.onCreate(value);
 
             this.ToNotification("xavalon.net", uri, 0, uri: uri);
