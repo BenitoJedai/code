@@ -13,6 +13,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {

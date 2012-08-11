@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.ComponentModel
 {
