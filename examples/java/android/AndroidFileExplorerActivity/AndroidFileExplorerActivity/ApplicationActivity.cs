@@ -8,7 +8,6 @@ using android.os;
 using android.provider;
 using android.webkit;
 using android.widget;
-using AndroidFileExplorerActivity.Library;
 using java.io;
 using java.util;
 using ScriptCoreLib;
@@ -36,8 +35,12 @@ namespace AndroidFileExplorerActivity.Activities
 
             myPath = (TextView)findViewById(R.id.path);
 
-            root = Environment.getRootDirectory().getPath();
-            //root = Environment.getExternalStorageDirectory().getPath();
+
+            root = android.os.Environment.getExternalStoragePublicDirectory(
+                                                android.os.Environment.DIRECTORY_PICTURES
+                                                ).getPath();
+
+            //root = Environment.getRootDirectory().getPath();
 
             getDir(root);
 

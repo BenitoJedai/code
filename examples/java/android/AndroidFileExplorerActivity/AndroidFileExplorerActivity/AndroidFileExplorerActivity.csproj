@@ -79,7 +79,7 @@
       <Link>ScriptCoreLib.Android\Shader.cs</Link>
     </Compile>
     <Compile Include="Activities\R.cs" />
-    <Compile Include="Activities\ApplicationActivity.cs" />
+    <Compile Include="ApplicationActivity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
