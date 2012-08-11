@@ -31,6 +31,7 @@ namespace xavalon.net
         public ProgressDialog progressBar;
         public AlertDialog alertDialog;
 
+        #region goBack
         public override bool onKeyDown(int keyCode, KeyEvent e)
         {
             // http://android-coding.blogspot.com/2011/08/handle-back-button-in-webview-to-back.html
@@ -45,6 +46,8 @@ namespace xavalon.net
             }
             return base.onKeyDown(keyCode, e);
         }
+        #endregion
+
 
         public string uri;
         public int height;
@@ -101,8 +104,6 @@ namespace xavalon.net
             height = getWindowManager().getDefaultDisplay().getHeight();
             width = getWindowManager().getDefaultDisplay().getWidth();
 
-            //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-            getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
             this.ToFullscreen();
 
 
@@ -117,7 +118,7 @@ namespace xavalon.net
                 // http://stackoverflow.com/questions/9131790/android-lights-out-mode-not-working
                 // http://baroqueworksdev.blogspot.com/2012/02/request-that-visibility-of.html
             }
-           
+
 
             var r = new System.Random();
             var port = r.Next(1024, 32000);
@@ -141,8 +142,8 @@ namespace xavalon.net
 
             this.alertDialog = new AlertDialog.Builder(this).create();
 
-            this.progressBar = ProgressDialog.show(this, 
-                "look here!", 
+            this.progressBar = ProgressDialog.show(this,
+                "look here!",
                 "Loading..."
             );
 
@@ -189,7 +190,7 @@ namespace xavalon.net
 
         }
 
-      
+
 
         public override void onCreateContextMenu(ContextMenu ContextMenu0, View View1, ContextMenu_ContextMenuInfo ContextMenu_ContextMenuInfo2)
         {
@@ -200,7 +201,7 @@ namespace xavalon.net
 
         class MyWebViewClient : WebViewClient
         {
-            
+
             public WebServiceServerActivity __this;
 
             public override bool shouldOverrideUrlLoading(WebView view, string url)
@@ -431,7 +432,7 @@ namespace xavalon.net
                         w.write(header);
                         w.flush();
 
-                        sbyte[] buffer = new sbyte[1024];
+                        sbyte[] buffer = new sbyte[0x10000];
                         int bytes = 0;
 
                         bytes = fis.read(buffer);
@@ -485,7 +486,6 @@ namespace xavalon.net
                                 if (path == "")
                                     path = mycontext.ApplicationFile;
 
-                            Log.i("jsc get", path);
 
                             var asset = openFileFromAssets(path, mycontext);
 
@@ -493,6 +493,14 @@ namespace xavalon.net
 
                             if (asset != null)
                             {
+                                var _get = path;
+
+                                _get += " size: ";
+                                _get += ((object)asset.available()).ToString();
+
+                                Log.i("jsc get", _get);
+
+
                                 if (Contains(path, ".gif"))
                                     send_stream(asset, "image/gif");
                                 if (Contains(path, ".htm"))
