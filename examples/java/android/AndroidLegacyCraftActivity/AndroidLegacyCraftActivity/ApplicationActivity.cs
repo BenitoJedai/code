@@ -29,7 +29,7 @@ namespace AndroidLegacyCraftActivity.Activities
         protected override void onCreate(Bundle savedInstanceState)
         {
             this.ApplicationFile = "index.htm";
-
+            this.ApplicationScale = 150;
 
 
             this.onpagefinished =
@@ -142,6 +142,11 @@ namespace AndroidLegacyCraftActivity.Activities
         //        return true;
         //    }
         //}
+
+        public override string ToString()
+        {
+            return "Craft";
+        }
     }
 
 
