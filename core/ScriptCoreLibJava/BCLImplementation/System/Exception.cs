@@ -8,7 +8,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(
        HasNoPrototype = true,
       Implements = typeof(global::System.Exception),
-      ImplementationType = typeof(java.lang.Exception))]
+      ImplementationType = typeof(java.lang.Throwable))]
+      //ImplementationType = typeof(java.lang.Exception))]
     internal class __Exception
     {
         public __Exception() { }

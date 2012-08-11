@@ -71,8 +71,17 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\EventArgs.cs">
+      <Link>BCLImplementation\System\EventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\EventHandler.cs">
+      <Link>BCLImplementation\System\EventHandler.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Func.cs">
       <Link>BCLImplementation\System\Func.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Threading\ThreadStart.cs">
+      <Link>BCLImplementation\System\Threading\ThreadStart.cs</Link>
     </Compile>
     <Compile Include="BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs">
       <SubType>Code</SubType>
@@ -200,10 +209,6 @@
     <Compile Include="BCLImplementation\System\Environment.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\EventArgs.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\EventHandler.cs" />
     <Compile Include="BCLImplementation\System\Exception.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -441,7 +446,6 @@
     <Compile Include="BCLImplementation\System\Threading\Thread.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Threading\ThreadStart.cs" />
     <Compile Include="BCLImplementation\System\Threading\WaitHandle.cs">
       <SubType>Code</SubType>
     </Compile>

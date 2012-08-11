@@ -15,6 +15,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {

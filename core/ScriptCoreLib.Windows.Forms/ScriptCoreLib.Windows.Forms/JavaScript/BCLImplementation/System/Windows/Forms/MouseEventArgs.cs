@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.MouseEventArgs))]
-    internal class __MouseEventArgs : ScriptCoreLib.JavaScript.BCLImplementation.System.__EventArgs
+    internal class __MouseEventArgs : __EventArgs
     {
         public __MouseEventArgs(MouseButtons button, int clicks, int x, int y, int delta)
         {

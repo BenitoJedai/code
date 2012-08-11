@@ -43,14 +43,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IDisposable.cs">
+      <Link>BCLImplementation\System\IDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Random.cs">
+      <Link>BCLImplementation\System\Random.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Throwable.cs">
+      <Link>java\lang\Throwable.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\EventArgs.cs">
+      <Link>BCLImplementation\System\EventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\EventHandler.cs">
+      <Link>BCLImplementation\System\EventHandler.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Func.cs">
       <Link>BCLImplementation\System\Func.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Threading\ThreadStart.cs">
+      <Link>BCLImplementation\System\Threading\ThreadStart.cs</Link>
     </Compile>
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
@@ -74,10 +92,8 @@
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
-    <Compile Include="BCLImplementation\System\EventArgs.cs" />
-    <Compile Include="BCLImplementation\System\EventHandler.cs" />
+    <Compile Include="BCLImplementation\System\Exception.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
-    <Compile Include="BCLImplementation\System\IDisposable.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs" />
