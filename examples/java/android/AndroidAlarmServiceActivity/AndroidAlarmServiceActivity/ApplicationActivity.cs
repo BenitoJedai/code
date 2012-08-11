@@ -8,12 +8,12 @@ using android.provider;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidAlarmServiceActivity.Library;
 using foo;
 using java.lang;
 using java.util;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidAlarmServiceActivity.Activities
 {
@@ -40,20 +40,36 @@ namespace AndroidAlarmServiceActivity.Activities
             sv.addView(ll);
 
             #region startservice
-            var startservice = new Button(this);
-            startservice.setText("Start Service to send Notification");
-            startservice.setOnClickListener(
-                new startservice_onclick { that = this }
+            var startservice = new Button(this).WithText("Start Service to send Notification").AtClick(
+                    delegate
+                    {
+                        this.ShowToast("start");
+
+                        var myIntent = new Intent(this, MyAlarmService.Class);
+                        this.pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+
+                        AlarmManager alarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
+
+
+
+                        alarmManager.set(AlarmManager.RTC, 1000 * 5, this.pendingIntent);
+                    }
             );
             ll.addView(startservice);
             #endregion
 
             #region stopservice
-            var stopservice = new Button(this);
-            stopservice.setText("Stop Service");
-            stopservice.setOnClickListener(
-                new stopservice_onclick { that = this }
+            var stopservice = new Button(this).WithText("Stop Service").AtClick(
+                delegate
+                {
+                    this.ShowToast("stop");
+
+                    AlarmManager alarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
+
+                    alarmManager.cancel(this.pendingIntent);
+                }
             );
+
             ll.addView(stopservice);
             #endregion
 
@@ -65,42 +81,6 @@ namespace AndroidAlarmServiceActivity.Activities
         }
 
         public PendingIntent pendingIntent;
-
-        class startservice_onclick : android.view.View.OnClickListener
-        {
-            public ApplicationActivity that;
-
-            public void onClick(View v)
-            {
-                that.ShowToast("start");
-
-                var myIntent = new Intent(that, MyAlarmService.Class);
-                that.pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
-
-                AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
-
-      
-
-                alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
-
-            }
-        }
-
-        class stopservice_onclick : android.view.View.OnClickListener
-        {
-            public ApplicationActivity that;
-
-
-            public void onClick(View v)
-            {
-                that.ShowToast("stop");
-
-                AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
-
-                alarmManager.cancel(that.pendingIntent);
-
-            }
-        }
 
 
     }
@@ -115,7 +95,7 @@ namespace foo
     {
         public static Class Class
         {
-            [Script(OptimizedCode = "return foo.MyAlarmService.class;")]
+            [Script(OptimizedCode = "return MyAlarmService.class;")]
             get
             {
                 return null;

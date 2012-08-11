@@ -1,19 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using android.app;
 using android.content;
-using android.provider;
-using android.view;
-using android.webkit;
+using android.net;
+using android.util;
 using android.widget;
 using AndroidWifiNotificationActivity.Activities;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
-using android.net;
-using android.util;
 
 namespace AndroidWifiNotificationActivity.Activities
 {
@@ -88,6 +82,7 @@ namespace AndroidWifiNotificationActivity.Activities
             [Script(OptimizedCode = "return NotifyService.class;")]
             get
             {
+                //return typeof(NotifyService).ToClass();
                 return null;
             }
         }
@@ -171,11 +166,6 @@ namespace AndroidWifiNotificationActivity.Activities
 
 namespace foo
 {
-
-    //EXTRA_SUPPLICANT_CONNECTED Constant Value: "android.net.wifi.supplicant.CONNECTION_CHANGE"
-
-    // android.intent.action.BOOT_COMPLETED
-    //[IntentFilter(Action = Intent.ACTION_BOOT_COMPLETED)]
     [IntentFilter(Action = android.net.wifi.WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)]
     public class AtConnectionChange : BroadcastReceiver
     {
@@ -190,13 +180,6 @@ namespace foo
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-    sealed class IntentFilterAttribute : Attribute
-    {
-        // jsc does not support properties yet? are they even allowed in java?
-
-        public string Action;
-    }
 
 }
 

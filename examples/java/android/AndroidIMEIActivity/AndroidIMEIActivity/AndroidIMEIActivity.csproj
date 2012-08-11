@@ -78,7 +78,6 @@
     <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
       <Link>ScriptCoreLib.Android\Shader.cs</Link>
     </Compile>
-    <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="ApplicationActivity.cs">
     </Compile>
     <Compile Include="Program.cs">
