@@ -105,9 +105,7 @@
     <None Include="Shaders\point.frag" />
     <None Include="Shaders\point.vert" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="staging\apk\res\layout\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />

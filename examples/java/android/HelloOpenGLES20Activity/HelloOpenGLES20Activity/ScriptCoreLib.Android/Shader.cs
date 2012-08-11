@@ -779,6 +779,7 @@ namespace ScriptCoreLib.Android
             // Create an OpenGL ES 2.0 context.
             setEGLContextClientVersion(2);
 
+
             // set the mRenderer member
             setRenderer(this);
         }
@@ -858,6 +859,42 @@ namespace ScriptCoreLib.Android
             }
         }
         #endregion
+
+        public event Action<float, float> ontouchmove;
+
+        // Offsets for touch events	 
+        private float mPreviousX;
+        private float mPreviousY;
+
+        public float mDensity;
+
+        public override bool onTouchEvent(MotionEvent e)
+        {
+            if (e != null)
+            {
+                float x = e.getX();
+                float y = e.getY();
+
+                if (e.getAction() == MotionEvent.ACTION_MOVE)
+                {
+             
+                        float deltaX = (x - mPreviousX) / mDensity / 2f;
+                        float deltaY = (y - mPreviousY) / mDensity / 2f;
+
+                        if (ontouchmove != null)
+                            ontouchmove(deltaX, deltaY);
+                        //mRenderer.mDeltaX += deltaX;
+                        //mRenderer.mDeltaY += deltaY;
+                }
+
+                mPreviousX = x;
+                mPreviousY = y;
+
+                return true;
+            }
+
+            return base.onTouchEvent(e);
+        }
     }
 
 
