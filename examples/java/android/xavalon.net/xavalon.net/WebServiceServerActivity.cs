@@ -52,11 +52,12 @@ namespace xavalon.net
 
 
         public string ApplicationFile = "Application.htm";
-
+        public int ApplicationScale = 100;
 
 
         private const int HIDE_DELAY_MILLIS = 2000;
 
+        #region HideLater
         class HideLater : View.OnSystemUiVisibilityChangeListener, Runnable
         {
             public WebServiceServerActivity that;
@@ -75,6 +76,22 @@ namespace xavalon.net
             }
         }
 
+        private void TryHideActionbar()
+        {
+            try
+            {
+                this.webview.setOnSystemUiVisibilityChangeListener(
+                    new HideLater { that = this }
+                    );
+                getWindow().getDecorView().setSystemUiVisibility(
+              View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            }
+            catch
+            {
+
+            }
+        }
+        #endregion
 
 
         protected override void onCreate(Bundle savedInstanceState)
@@ -100,14 +117,7 @@ namespace xavalon.net
                 // http://stackoverflow.com/questions/9131790/android-lights-out-mode-not-working
                 // http://baroqueworksdev.blogspot.com/2012/02/request-that-visibility-of.html
             }
-
-
-
-
-            //actionBar = getActionBar();
-            //actionBar.setBackgroundDrawable(null);
-
-            //}
+           
 
             var r = new System.Random();
             var port = r.Next(1024, 32000);
@@ -131,7 +141,10 @@ namespace xavalon.net
 
             this.alertDialog = new AlertDialog.Builder(this).create();
 
-            this.progressBar = ProgressDialog.show(this, (CharSequence)(object)"look here!", (CharSequence)(object)"Loading...");
+            this.progressBar = ProgressDialog.show(this, 
+                "look here!", 
+                "Loading..."
+            );
 
 
             this.webview = new WebView(this);
@@ -140,11 +153,11 @@ namespace xavalon.net
             setContentView(webview);
 
 
+            webview.getSettings().setBuiltInZoomControls(true);
             webview.getSettings().setSupportZoom(true);
             webview.getSettings().setLoadsImagesAutomatically(true);
             webview.getSettings().setJavaScriptEnabled(true);
-            webview.getSettings().setBuiltInZoomControls(true);
-            //webview.setInitialScale(1);
+            webview.setInitialScale(ApplicationScale);
 
             webview.setWebViewClient(new MyWebViewClient { __this = this });
             webview.getSettings().setSupportZoom(false);
@@ -176,27 +189,14 @@ namespace xavalon.net
 
         }
 
-        private void TryHideActionbar()
-        {
-            try
-            {
-                this.webview.setOnSystemUiVisibilityChangeListener(
-                    new HideLater { that = this }
-                    );
-                getWindow().getDecorView().setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-            }
-            catch
-            {
-
-            }
-        }
+      
 
         public override void onCreateContextMenu(ContextMenu ContextMenu0, View View1, ContextMenu_ContextMenuInfo ContextMenu_ContextMenuInfo2)
         {
             //var menu = ContextMenu0.add((CharSequence)(object)"jsc");
         }
 
+        public Action onpagefinished;
 
         class MyWebViewClient : WebViewClient
         {
@@ -228,6 +228,9 @@ namespace xavalon.net
                 {
                     __this.progressBar.dismiss();
                     __this.TryHideActionbar();
+
+                    if (__this.onpagefinished != null)
+                        __this.onpagefinished();
                 }
             }
 
