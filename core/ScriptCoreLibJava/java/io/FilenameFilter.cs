@@ -4,9 +4,8 @@ namespace java.io
 {
 
 
-    /// <summary>
-    /// http://java.sun.com/j2se/1.4.2/docs/api/java/io/FilenameFilter.html
-    /// </summary>
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/io/FilenameFilter.html
+    // http://developer.android.com/reference/java/io/FilenameFilter.html
     [Script(IsNative = true)]
     public interface FilenameFilter
     {
