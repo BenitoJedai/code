@@ -6,7 +6,8 @@ using java.lang;
  
 namespace java.net
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/URL.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/net/URL.html
+    // http://developer.android.com/reference/java/net/URL.html
     [Script(IsNative = true)]
     public sealed class URL
     {
