@@ -5,7 +5,8 @@ using java.util;
 
 namespace java.util
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/util/Collection.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/Collection.html
+    // http://developer.android.com/reference/java/util/Collection.html
 	[Script(IsNative = true)]
 	public interface Collection
 	{

@@ -43,11 +43,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ArrayList.cs">
+      <Link>BCLImplementation\System\Collection\ArrayList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ICollection.cs">
+      <Link>BCLImplementation\System\Collection\ICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\IEnumerable.cs">
+      <Link>BCLImplementation\System\Collection\IEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\IList.cs">
+      <Link>BCLImplementation\System\Collection\IList.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Environment.cs">
       <Link>BCLImplementation\System\Environment.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Exception.cs">
+      <Link>BCLImplementation\System\Exception.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IClonable.cs">
+      <Link>BCLImplementation\System\IClonable.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IDisposable.cs">
       <Link>BCLImplementation\System\IDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
+      <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Random.cs">
       <Link>BCLImplementation\System\Random.cs</Link>
@@ -118,8 +139,29 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\security\ProtectionDomain.cs">
       <Link>java\security\ProtectionDomain.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\AbstractCollection.cs">
+      <Link>java\util\AbstractCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\AbstractList.cs">
+      <Link>java\util\AbstractList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\ArrayList.cs">
+      <Link>java\util\ArrayList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Collection.cs">
+      <Link>java\util\Collection.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Enumeration.cs">
       <Link>java\util\Enumeration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Iterator.cs">
+      <Link>java\util\Iterator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\List.cs">
+      <Link>java\util\List.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\ListIterator.cs">
+      <Link>java\util\ListIterator.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Locale.cs">
       <Link>java\util\Locale.cs</Link>
@@ -165,7 +207,6 @@
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
-    <Compile Include="BCLImplementation\System\Exception.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
@@ -175,7 +216,6 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="java\lang\Class.cs" />
     <Compile Include="java\lang\reflect\Method.cs" />
-    <Compile Include="java\util\ArrayList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

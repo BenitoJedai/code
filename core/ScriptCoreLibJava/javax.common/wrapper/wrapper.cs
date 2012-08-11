@@ -48,6 +48,22 @@ namespace csharp
             : base(info, context) { }
     }
 
+    [Script(
+       HasNoPrototype = true,
+        // Use 'ImplementationType' instead of 'ExternalTarget'
+        // ExternalTarget = "java.lang.RuntimeException",
+        //Implements = typeof(csharp.RuntimeException),
+       Implements = typeof(csharp.RuntimeException),
+       ImplementationType = typeof(java.lang.RuntimeException))]
+    internal class __RuntimeException : __Exception
+    {
+        public __RuntimeException() { }
+        public __RuntimeException(string e) { }
+        public __RuntimeException(string e, global::System.Exception cause) { }
+
+    }
+
+
     [global::System.Serializable]
     public class UnsatisfiedLinkError : System.Exception
     {
