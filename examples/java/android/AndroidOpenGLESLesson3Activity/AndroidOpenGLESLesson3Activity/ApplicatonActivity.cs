@@ -17,6 +17,8 @@ using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace AndroidOpenGLESLesson3Activity.Activities
 {
@@ -147,10 +149,10 @@ namespace AndroidOpenGLESLesson3Activity.Activities
             private float[] mLightPosInEyeSpace = new float[4];
 
             /** This is a handle to our per-vertex cube shading program. */
-            private __WebGLProgram mPerVertexProgramHandle;
+            private WebGLProgram mPerVertexProgramHandle;
 
             /** This is a handle to our light point program. */
-            private __WebGLProgram mPointProgramHandle;
+            private WebGLProgram mPointProgramHandle;
 
             __WebGLRenderingContext __gl = new __WebGLRenderingContext();
             ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
@@ -375,19 +377,27 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 
-                mPerVertexProgramHandle = __gl.createAndLinkProgram(
-                    new Shaders.TriangleVertexShader(),
-                    new Shaders.TriangleFragmentShader(),
-                    "a_Position", "a_Color", "a_Normal"
-                );
+                mPerVertexProgramHandle = gl.createProgram(
+                      new Shaders.TriangleVertexShader(),
+                      new Shaders.TriangleFragmentShader()
+                  );
+
+                gl.bindAttribLocation(mPerVertexProgramHandle, 0, "a_Position");
+                gl.bindAttribLocation(mPerVertexProgramHandle, 1, "a_Color");
+                gl.bindAttribLocation(mPerVertexProgramHandle, 2, "a_Normal");
+
+                gl.linkProgram(mPerVertexProgramHandle);
 
                 // Define a simple shader program for our point.
 
-                mPointProgramHandle = __gl.createAndLinkProgram(
+                mPointProgramHandle = gl.createProgram(
                     new Shaders.pointVertexShader(),
-                    new Shaders.pointFragmentShader(),
-                         "a_Position"
-                         );
+                    new Shaders.pointFragmentShader()
+                );
+
+                gl.bindAttribLocation(mPointProgramHandle, 0, "a_Position");
+
+                gl.linkProgram(mPointProgramHandle);
             }
 
             public void onSurfaceChanged(GL10 glUnused, int width, int height)

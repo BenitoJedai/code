@@ -17,6 +17,7 @@ using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.JavaScript.Extensions;
 
 
 namespace AndroidOpenGLESLesson2Activity.Activities
@@ -55,7 +56,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://my.jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net!");
         }
 
         #region pause
@@ -149,10 +150,10 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             private float[] mLightPosInEyeSpace = new float[4];
 
             /** This is a handle to our per-vertex cube shading program. */
-            private __WebGLProgram mPerVertexProgramHandle;
+            private WebGLProgram mPerVertexProgramHandle;
 
             /** This is a handle to our light point program. */
-            private __WebGLProgram mPointProgramHandle;
+            private WebGLProgram mPointProgramHandle;
 
 
             __WebGLRenderingContext __gl = new __WebGLRenderingContext();
@@ -377,20 +378,29 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                 // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
-                mPerVertexProgramHandle = __gl.createAndLinkProgram(
+                mPerVertexProgramHandle = gl.createProgram(
                     new Shaders.TriangleVertexShader(),
-                    new Shaders.TriangleFragmentShader(),
-                    "a_Position", "a_Color", "a_Normal"
+                    new Shaders.TriangleFragmentShader()
                 );
+
+                gl.bindAttribLocation(mPerVertexProgramHandle, 0, "a_Position");
+                gl.bindAttribLocation(mPerVertexProgramHandle, 1, "a_Color");
+                gl.bindAttribLocation(mPerVertexProgramHandle, 2, "a_Normal");
+
+                gl.linkProgram(mPerVertexProgramHandle);
 
                 // Define a simple shader program for our point.
 
-                mPointProgramHandle = __gl.createAndLinkProgram(
+                mPointProgramHandle = gl.createProgram(
                     new Shaders.pointVertexShader(),
-                    new Shaders.pointFragmentShader(),
-
-                    "a_Position"
+                    new Shaders.pointFragmentShader()
                 );
+
+                gl.bindAttribLocation(mPointProgramHandle, 0, "a_Position");
+
+                gl.linkProgram(mPointProgramHandle);
+
+
             }
 
             public void onSurfaceChanged(GL10 glUnused, int width, int height)
@@ -446,6 +456,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                     {
                         // Pass in the position information
                         mCubePositions.position(0);
+
                         opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl.FLOAT, false,
                                 0, mCubePositions);
 
