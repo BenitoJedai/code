@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Android
     using gl = __WebGLRenderingContext;
     using opengl = GLES20;
     using java.nio;
+    using ScriptCoreLib.JavaScript.WebGL;
+    using android.hardware;
 
 
 
@@ -550,14 +552,58 @@ namespace ScriptCoreLib.Android
 
 
 
+        private const int HIDE_DELAY_MILLIS = 5000;
+
+        class HideLater : View.OnSystemUiVisibilityChangeListener, Runnable
+        {
+            public Activity that;
+            public View view;
+
+            public void run()
+            {
+                that.getWindow().getDecorView().setSystemUiVisibility(
+                                   View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LOW_PROFILE);
+            }
+
+            public void onSystemUiVisibilityChange(int value)
+            {
+                view.postDelayed(
+                    this, HIDE_DELAY_MILLIS
+                );
+            }
+        }
 
 
         public static Activity ToFullscreen(this Activity e)
         {
+            e.getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
             e.requestWindowFeature(Window.FEATURE_NO_TITLE);
             e.getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
+      
             return e;
+        }
+
+
+        public static void TryHideActionbar(this Activity that, View view)
+        {
+            try
+            {
+                //Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar");
+                var h = new HideLater { that = that, view = view };
+                view.setOnSystemUiVisibilityChangeListener(
+                   h
+                    );
+
+                h.onSystemUiVisibilityChange(0);
+                //Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar done");
+            }
+            catch
+            {
+                Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar error");
+
+                //throw;
+            }
         }
 
 
@@ -704,6 +750,106 @@ namespace ScriptCoreLib.Android
         //    );
         //}
     }
+
+    public class RenderingContextView : GLSurfaceView, GLSurfaceView.Renderer
+    {
+        WebGLRenderingContext gl;
+
+        public Action<WebGLRenderingContext> onsurface;
+        public Action onframe;
+        public Action<int, int> onresize;
+
+        Context c;
+
+        public RenderingContextView(Context c)
+            : base(c)
+        {
+            this.c = c;
+
+            // Create an OpenGL ES 2.0 context.
+            setEGLContextClientVersion(2);
+
+            // set the mRenderer member
+            setRenderer(this);
+        }
+
+
+
+        public void onDrawFrame(javax.microedition.khronos.opengles.GL10 value)
+        {
+            if (onframe != null)
+                onframe();
+        }
+
+        public void onSurfaceChanged(javax.microedition.khronos.opengles.GL10 arg0, int arg1, int arg2)
+        {
+            if (onresize != null)
+                onresize(arg1, arg2);
+        }
+
+        public void onSurfaceCreated(javax.microedition.khronos.opengles.GL10 arg0, javax.microedition.khronos.egl.EGLConfig arg1)
+        {
+            gl = new WebGLRenderingContext();
+            if (onsurface != null)
+                onsurface(gl);
+        }
+
+        #region onaccelerometer
+        class MySensorEventListener : SensorEventListener
+        {
+            public Action<float, float, float> onaccelerometer;
+
+            public void onAccuracyChanged(Sensor sensor, int accuracy)
+            {
+
+            }
+            public void onSensorChanged(SensorEvent e)
+            {
+
+                // check sensor type
+                if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+                {
+
+                    // assign directions
+                    float x = e.values[0];
+                    float y = e.values[1];
+                    float z = e.values[2];
+
+                    if (onaccelerometer != null)
+                        onaccelerometer(x, y, z);
+                }
+            }
+        }
+
+        public event Action<float, float, float> onaccelerometer
+        {
+            remove
+            {
+            }
+
+            add
+            {
+                SensorManager sensorManager;
+
+
+                sensorManager = (SensorManager)c.getSystemService(Activity.SENSOR_SERVICE);
+                // add listener. The listener will be HelloAndroid (this) class
+                sensorManager.registerListener(
+                    new MySensorEventListener { onaccelerometer = value }
+                    ,
+                        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                        SensorManager.SENSOR_DELAY_GAME);
+
+                /*	More sensor speeds (taken from api docs)
+                    SENSOR_DELAY_FASTEST get sensor data as fast as possible
+                    SENSOR_DELAY_GAME	rate suitable for games
+                    SENSOR_DELAY_NORMAL	rate (default) suitable for screen orientation changes
+                */
+            }
+        }
+        #endregion
+    }
+
 
     #region IntentFilter
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
