@@ -2,27 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
-using csharp;
+//using csharp;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
-	[Script(
-	   HasNoPrototype = true,
+    [Script(
+       HasNoPrototype = true,
 
-	  Implements = typeof(global::System.NotImplementedException),
-	  ImplementationType = typeof(java.lang.RuntimeException))]
-	internal class __NotImplementedException : __Exception
-	{
-		public __NotImplementedException()
-		{
+      Implements = typeof(global::System.NotImplementedException)
+      , ImplementationType = typeof(java.lang.RuntimeException)
+      )]
+    internal class __NotImplementedException : __Exception
+    {
+        public __NotImplementedException()
+        {
 
 
-		}
+        }
 
-		public __NotImplementedException(string m)
-		{
+        public __NotImplementedException(string m)
+        {
 
-		}
-	}
+        }
+    }
 
 }

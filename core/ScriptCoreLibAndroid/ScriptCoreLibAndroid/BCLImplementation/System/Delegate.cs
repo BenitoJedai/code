@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using ScriptCoreLib.Android.BCLImplementation.System.Reflection;
+using ScriptCoreLibJava.BCLImplementation.System;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System
 {
