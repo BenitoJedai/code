@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using java.lang.reflect;
+using ScriptCoreLib;
 
-namespace ScriptCoreLib.Android.BCLImplementation.System
+namespace ScriptCoreLibJava.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
@@ -22,6 +23,18 @@ namespace ScriptCoreLib.Android.BCLImplementation.System
         }
 
         public object PointerToken;
+
+        public global::java.lang.Class ClassToken
+        {
+            get
+            {
+                return this.PointerToken as global::java.lang.Class;
+            }
+            set
+            {
+                this.PointerToken = value;
+            }
+        }
 
         public static __IntPtr Of(global::java.lang.Class Target, string MethodName, global::java.lang.Class[] Parameters)
         {

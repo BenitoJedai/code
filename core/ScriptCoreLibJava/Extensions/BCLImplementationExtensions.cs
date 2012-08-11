@@ -13,7 +13,6 @@ namespace ScriptCoreLibJava.Extensions
     [Script]
     public static class BCLImplementationExtensions
     {
-
         public static Type ToType(this Class c)
         {
             return (ScriptCoreLibJava.BCLImplementation.System.__Type)c;
@@ -25,6 +24,7 @@ namespace ScriptCoreLibJava.Extensions
 
             return tt.InternalTypeDescription;
         }
+
 
         public static FileInfo GetDeclaringFile(this Class cls)
         {

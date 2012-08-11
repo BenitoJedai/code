@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Array.cs">
+      <Link>BCLImplementation\System\Array.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ArrayList.cs">
       <Link>BCLImplementation\System\Collection\ArrayList.cs</Link>
     </Compile>
@@ -51,6 +54,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\IEnumerable.cs">
       <Link>BCLImplementation\System\Collection\IEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\IEnumerator.cs">
+      <Link>BCLImplementation\System\Collection\IEnumerator.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\IList.cs">
       <Link>BCLImplementation\System\Collection\IList.cs</Link>
@@ -70,8 +76,14 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
       <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\NotImplementedException.cs">
+      <Link>BCLImplementation\System\NotImplementedException.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Random.cs">
       <Link>BCLImplementation\System\Random.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\RuntimeTypeHandle.cs">
+      <Link>BCLImplementation\System\RuntimeTypeHandle.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\String.cs">
       <Link>BCLImplementation\System\String.cs</Link>
@@ -91,8 +103,17 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\io\FilenameFilter.cs">
       <Link>java\io\FilenameFilter.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\FilterOutputStream.cs">
+      <Link>java\io\FilterOutputStream.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\InputStream.cs">
       <Link>java\io\InputStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\OutputStream.cs">
+      <Link>java\io\OutputStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\PrintStream.cs">
+      <Link>java\io\PrintStream.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\CharSequence.cs">
       <Link>java\lang\CharSequence.cs</Link>
@@ -100,20 +121,35 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\ClassLoader.cs">
       <Link>java\lang\ClassLoader.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Exception.cs">
+      <Link>java\lang\Exception.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Math.cs">
       <Link>java\lang\Math.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Object.cs">
+      <Link>java\lang\Object.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Package.cs">
       <Link>java\lang\Package.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\Array.cs">
+      <Link>java\lang\reflect\Array.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Runnable.cs">
       <Link>java\lang\Runnable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\RuntimeException.cs">
+      <Link>java\lang\RuntimeException.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\String.cs">
       <Link>java\lang\String.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\StringBuffer.cs">
       <Link>java\lang\StringBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\System.cs">
+      <Link>java\lang\System.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Thread.cs">
       <Link>java\lang\Thread.cs</Link>
@@ -148,8 +184,14 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\util\ArrayList.cs">
       <Link>java\util\ArrayList.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Arrays.cs">
+      <Link>java\util\Arrays.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Collection.cs">
       <Link>java\util\Collection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Comparator.cs">
+      <Link>java\util\Comparator.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Enumeration.cs">
       <Link>java\util\Enumeration.cs</Link>
@@ -206,6 +248,7 @@
     <Compile Include="android\widget\LinearLayout.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
+    <Compile Include="BCLImplementation\System\Type.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
@@ -220,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documents\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BCLImplementation\comment.txt" />

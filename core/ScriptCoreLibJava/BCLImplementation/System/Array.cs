@@ -77,9 +77,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			{
 				o = (Array)java.lang.reflect.Array.newInstance(t.InternalTypeDescription, length);
 			}
-			catch (csharp.ThrowableException e)
+			catch
 			{
-				throw new csharp.RuntimeException(e.ToString());
+                throw;
 			}
 
 			return o;

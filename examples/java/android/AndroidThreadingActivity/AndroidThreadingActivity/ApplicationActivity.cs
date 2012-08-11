@@ -53,7 +53,8 @@ namespace AndroidThreadingActivity.Activities
             var t1 = new Thread(
                 () =>
                 {
-                    Action<string> w = x => Log.wtf("ApplicationActivity", "thread " + new { id = 1, x });
+                    //Action<string> w = x => Log.wtf("ApplicationActivity", "thread " + new { id = 1, x });
+                    Action<string> w = x => Log.wtf("ApplicationActivity", "thread 1 " + x);
 
                     w(" start");
 

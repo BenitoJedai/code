@@ -5,7 +5,8 @@ using ScriptCoreLib;
 
 namespace java.lang
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Object.html
+    // http://developer.android.com/reference/java/lang/Object.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Object.html
 	[Script(IsNative = true)]
 	public class Object
 	{
