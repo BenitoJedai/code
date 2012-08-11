@@ -17,13 +17,13 @@ using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
-
+using android.hardware;
+using android.content.pm;
 
 namespace AndroidGLAccelerometerSpiralActivity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using android.hardware;
-    using android.content.pm;
+
     //using opengl = GLES20;
 
 
@@ -37,19 +37,15 @@ namespace AndroidGLAccelerometerSpiralActivity.Activities
             base.onCreate(savedInstanceState);
 
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
             this.ToFullscreen();
 
-            var v = new MyView(this);
+            var v = new RenderingContextView(this);
 
             v.onsurface =
                 gl =>
                 {
                     //var __gl = (ScriptCoreLib.Android.__WebGLRenderingContext)(object)gl;
-
-
-
-                    Log.wtf("AndroidGLAccelerometerSpiralActivity", "onsurface");
+                    //Log.wtf("AndroidGLAccelerometerSpiralActivity", "onsurface");
 
                     var buffer = gl.createBuffer();
 
@@ -89,7 +85,7 @@ namespace AndroidGLAccelerometerSpiralActivity.Activities
                     v.onresize =
                         (width, height) =>
                         {
-                            Log.wtf("AndroidGLAccelerometerSpiralActivity", "onresize");
+                            //Log.wtf("AndroidGLAccelerometerSpiralActivity", "onresize");
 
                             parameters_screenWidth = width;
                             parameters_screenHeight = height;
@@ -105,10 +101,11 @@ namespace AndroidGLAccelerometerSpiralActivity.Activities
                     var xx = 0.5f;
                     var yy = 0.5f;
 
-                    onaccelerometer +=
+                    #region onaccelerometer
+                    v.onaccelerometer +=
                         (x, y, z) =>
                         {
-                            speed = 10 + 200 * x / 10f;
+                            speed = 10 + 200 * x / 10f + 200 * y / 10f;
 
                             var ay = y;
                             if (y < 0)
@@ -134,6 +131,8 @@ namespace AndroidGLAccelerometerSpiralActivity.Activities
                             if (xx > 10)
                                 xx = 10;
                         };
+                    #endregion
+
 
                     #region onframe
                     var framecount = 0;
@@ -182,161 +181,20 @@ namespace AndroidGLAccelerometerSpiralActivity.Activities
                         };
                     #endregion
 
-                    Log.wtf("AndroidGLAccelerometerSpiralActivity", "onsurface done");
+                    //Log.wtf("AndroidGLAccelerometerSpiralActivity", "onsurface done");
 
                 };
 
 
-            view = v;
             this.setContentView(v);
-            this.TryHideActionbar();
+            this.TryHideActionbar(v);
 
             this.ShowToast("http://my.jsc-solutions.net");
         }
 
-        public View view;
+     
 
-        #region MyView
-        class MyView : GLSurfaceView, GLSurfaceView.Renderer
-        {
-            WebGLRenderingContext gl;
-
-            public Action<WebGLRenderingContext> onsurface;
-            public Action onframe;
-            public Action<int, int> onresize;
-
-            public MyView(Context c)
-                : base(c)
-            {
-                // Create an OpenGL ES 2.0 context.
-                setEGLContextClientVersion(2);
-
-                // set the mRenderer member
-                setRenderer(this);
-            }
-
-
-
-            public void onDrawFrame(javax.microedition.khronos.opengles.GL10 value)
-            {
-                if (onframe != null)
-                    onframe();
-            }
-
-            public void onSurfaceChanged(javax.microedition.khronos.opengles.GL10 arg0, int arg1, int arg2)
-            {
-                if (onresize != null)
-                    onresize(arg1, arg2);
-            }
-
-            public void onSurfaceCreated(javax.microedition.khronos.opengles.GL10 arg0, javax.microedition.khronos.egl.EGLConfig arg1)
-            {
-                gl = new WebGLRenderingContext();
-                if (onsurface != null)
-                    onsurface(gl);
-            }
-        }
-        #endregion
-
-        #region HideLater
-        private const int HIDE_DELAY_MILLIS = 5000;
-
-        class HideLater : View.OnSystemUiVisibilityChangeListener, Runnable
-        {
-            public ApplicationActivity that;
-
-            public void run()
-            {
-                that.getWindow().getDecorView().setSystemUiVisibility(
-                                   View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LOW_PROFILE);
-            }
-
-            public void onSystemUiVisibilityChange(int value)
-            {
-                that.view.postDelayed(
-                    this, HIDE_DELAY_MILLIS
-                );
-            }
-        }
-
-
-        private void TryHideActionbar()
-        {
-            try
-            {
-                //Log.wtf("AndroidGLAccelerometerSpiralActivity", "TryHideActionbar");
-                var h = new HideLater { that = this };
-                this.view.setOnSystemUiVisibilityChangeListener(
-                   h
-                    );
-
-                h.onSystemUiVisibilityChange(0);
-                //Log.wtf("AndroidGLAccelerometerSpiralActivity", "TryHideActionbar done");
-            }
-            catch
-            {
-                Log.wtf("AndroidGLAccelerometerSpiralActivity", "TryHideActionbar error");
-
-                //throw;
-            }
-        }
-        #endregion
-
-
-        #region onaccelerometer
-        class MySensorEventListener : SensorEventListener
-        {
-            public Action<float, float, float> onaccelerometer;
-
-            public void onAccuracyChanged(Sensor sensor, int accuracy)
-            {
-
-            }
-            public void onSensorChanged(SensorEvent e)
-            {
-
-                // check sensor type
-                if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-                {
-
-                    // assign directions
-                    float x = e.values[0];
-                    float y = e.values[1];
-                    float z = e.values[2];
-
-                    if (onaccelerometer != null)
-                        onaccelerometer(x, y, z);
-                }
-            }
-        }
-
-        event Action<float, float, float> onaccelerometer
-        {
-            remove
-            {
-            }
-
-            add
-            {
-                SensorManager sensorManager;
-
-
-                sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-                // add listener. The listener will be HelloAndroid (this) class
-                sensorManager.registerListener(
-                    new MySensorEventListener { onaccelerometer = value }
-                    ,
-                        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                        SensorManager.SENSOR_DELAY_GAME);
-
-                /*	More sensor speeds (taken from api docs)
-                    SENSOR_DELAY_FASTEST get sensor data as fast as possible
-                    SENSOR_DELAY_GAME	rate suitable for games
-                    SENSOR_DELAY_NORMAL	rate (default) suitable for screen orientation changes
-                */
-            }
-        }
-        #endregion
+    
 
 
     }

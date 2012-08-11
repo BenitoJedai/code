@@ -17,12 +17,12 @@ using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
+using android.content.pm;
 
 
 namespace AndroidGLSpiralActivity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using android.content.pm;
     //using opengl = GLES20;
 
 
@@ -30,16 +30,14 @@ namespace AndroidGLSpiralActivity.Activities
     {
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 
-
         protected override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-            getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
             this.ToFullscreen();
 
-            var v = new MyView(this);
+            var v = new RenderingContextView(this);
 
             v.onsurface =
                 gl =>
@@ -147,96 +145,13 @@ namespace AndroidGLSpiralActivity.Activities
                 };
 
 
-            view = v;
             this.setContentView(v);
-            this.TryHideActionbar();
+
+            this.TryHideActionbar(v);
 
             this.ShowToast("http://my.jsc-solutions.net");
         }
 
-        public View view;
-
-        class MyView : GLSurfaceView, GLSurfaceView.Renderer
-        {
-            WebGLRenderingContext gl;
-
-            public Action<WebGLRenderingContext> onsurface;
-            public Action onframe;
-            public Action<int, int> onresize;
-
-            public MyView(Context c)
-                : base(c)
-            {
-                // Create an OpenGL ES 2.0 context.
-                setEGLContextClientVersion(2);
-
-                // set the mRenderer member
-                setRenderer(this);
-            }
-
-
-
-            public void onDrawFrame(javax.microedition.khronos.opengles.GL10 value)
-            {
-                if (onframe != null)
-                    onframe();
-            }
-
-            public void onSurfaceChanged(javax.microedition.khronos.opengles.GL10 arg0, int arg1, int arg2)
-            {
-                if (onresize != null)
-                    onresize(arg1, arg2);
-            }
-
-            public void onSurfaceCreated(javax.microedition.khronos.opengles.GL10 arg0, javax.microedition.khronos.egl.EGLConfig arg1)
-            {
-                gl = new WebGLRenderingContext();
-                if (onsurface != null)
-                    onsurface(gl);
-            }
-        }
-
-        private const int HIDE_DELAY_MILLIS = 5000;
-
-        class HideLater : View.OnSystemUiVisibilityChangeListener, Runnable
-        {
-            public ApplicationActivity that;
-
-            public void run()
-            {
-                that.getWindow().getDecorView().setSystemUiVisibility(
-                                   View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LOW_PROFILE);
-            }
-
-            public void onSystemUiVisibilityChange(int value)
-            {
-                that.view.postDelayed(
-                    this, HIDE_DELAY_MILLIS
-                );
-            }
-        }
-
-
-        private void TryHideActionbar()
-        {
-            try
-            {
-                //Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar");
-                var h = new HideLater { that = this };
-                this.view.setOnSystemUiVisibilityChangeListener(
-                   h
-                    );
-
-                h.onSystemUiVisibilityChange(0);
-                //Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar done");
-            }
-            catch
-            {
-                Log.wtf("AndroidGLSpiralActivity", "TryHideActionbar error");
-
-                //throw;
-            }
-        }
     }
 
 
