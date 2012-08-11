@@ -16,6 +16,8 @@ using java.util;
 using android.webkit;
 using android.util;
 using xavalon.net;
+using android.media;
+using android.content.res;
 
 namespace AndroidLegacyCraftActivity.Activities
 {
@@ -26,6 +28,23 @@ namespace AndroidLegacyCraftActivity.Activities
             this.ApplicationFile = "index.htm";
 
             base.onCreate(savedInstanceState);
+
+            //try
+            //{
+            //    AssetFileDescriptor afd = getAssets().openFd("war-gfx/intro.mid");
+            //    var player = new MediaPlayer();
+            //    player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            //    player.prepare();
+            //    player.start();
+
+            //    this.ShowLongToast("music");
+            //}
+            //catch (System.Exception e)
+            //{
+            //    this.ShowLongToast("error " + ((object)e).ToString());
+            //}
         }
     }
+
+
 }
