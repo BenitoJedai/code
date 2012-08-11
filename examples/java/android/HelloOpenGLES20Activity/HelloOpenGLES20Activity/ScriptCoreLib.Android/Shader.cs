@@ -511,7 +511,7 @@ namespace ScriptCoreLib.Android
 
             Toast.makeText(
                   c,
-                  (CharSequence)(object)e,
+                  e,
                   Toast.LENGTH_SHORT
               ).show();
 
@@ -526,7 +526,7 @@ namespace ScriptCoreLib.Android
 
             Toast.makeText(
                   c,
-                  (CharSequence)(object)e,
+                  e,
                   Toast.LENGTH_LONG
               ).show();
 

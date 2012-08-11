@@ -9,9 +9,9 @@ using android.os;
 using android.provider;
 using android.webkit;
 using android.widget;
-using AndroidLocationActivity.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidLocationActivity.Activities
 {
@@ -20,26 +20,15 @@ namespace AndroidLocationActivity.Activities
         // inspired by http://android-er.blogspot.com/2012/05/obtaining-user-location.html
 
         // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidLocationActivity.Activities --activity AndroidLocationActivity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidLocationActivity\AndroidLocationActivity\staging\
-        // JSC should not explicity import all interfaces like Callback if not being defined 
         // see also: 
         // http://stackoverflow.com/questions/4055634/simple-java-question
         // http://developer.android.com/guide/developing/building/building-cmdline.html
         // http://developer.android.com/guide/developing/device.html#setting-up
 
-        // running it in emulator:
-        // start C:\util\android-sdk-windows\tools\android.bat avd
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r  "y:\jsc.svn\examples\java\android\AndroidLocationActivity\AndroidLocationActivity\staging\bin\AndroidLocationActivity-debug.apk"
-
-        // note: rebuild could auto reinstall
-
-        // running it on device:
-        // attach device to usb
-        //Z:\jsc.svn\examples\java\android\HelloAndroid>C:\util\android-sdk-windows\platform-tools\adb.exe devices
-        //List of devices attached
-        //3330A17632C000EC        device 
+  
 
 
-        String PROVIDER = LocationManager.GPS_PROVIDER;
+        string PROVIDER = LocationManager.GPS_PROVIDER;
         //string PROVIDER = LocationManager.NETWORK_PROVIDER;
 
         LocationManager locationManager;
@@ -52,11 +41,15 @@ namespace AndroidLocationActivity.Activities
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
-            setContentView(R.layout.main);
-            textLatitude = (TextView)findViewById(R.id.Latitude);
-            textLongitude = (TextView)findViewById(R.id.Longitude);
+            var ll = new LinearLayout(this);
+            ll.setOrientation(LinearLayout.VERTICAL);
 
-            locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            textLatitude = new TextView(this).AttachTo(ll);
+            textLongitude = new TextView(this).AttachTo(ll);
+ 
+            setContentView(ll);
+
+            locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
             Location lastLocation = locationManager.getLastKnownLocation(PROVIDER);
             if (lastLocation != null)
             {

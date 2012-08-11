@@ -16,17 +16,9 @@ namespace AndroidWebViewActivity.Activities
 {
     public class AndroidWebViewActivity : Activity
     {
-        const string TAG = "AndroidWebViewActivity";
-
-        // running it on device:
-        // attach device to usb
-
-
         public WebView webview;
         public ProgressDialog progressBar;
         public AlertDialog alertDialog;
-
-        //WindowManager hack;
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
@@ -34,21 +26,15 @@ namespace AndroidWebViewActivity.Activities
 
             this.ToFullscreen();
 
-
             // http://stackoverflow.com/questions/8955228/webview-with-an-iframe-android
             // http://www.chrisdanielson.com/tag/webviewclient/
 
             this.alertDialog = new AlertDialog.Builder(this).create();
 
-            this.progressBar = ProgressDialog.show(this, (CharSequence)(object)"look here!", (CharSequence)(object)"Loading...");
-
-
+            this.progressBar = ProgressDialog.show(this, "look here!", "Loading...");
             this.webview = new WebView(this);
 
-
             setContentView(webview);
-
-
 
             //webview.getSettings().setSupportZoom(true); 
             webview.getSettings().setLoadsImagesAutomatically(true);
@@ -74,7 +60,7 @@ namespace AndroidWebViewActivity.Activities
             // OR, you can also load from an HTML string:
             //var summary = "<html><body>You scored <b>192</b> points.</body></html>";
             //webview.loadData(summary, "text/html", null);
-            Log.i(TAG, "loadUrl");
+            //Log.i(TAG, "loadUrl");
             webview.loadUrl("http://www.jsc-solutions.net");
             this.ShowToast("www.jsc-solutions.net");
 
@@ -86,14 +72,14 @@ namespace AndroidWebViewActivity.Activities
 
             public override bool shouldOverrideUrlLoading(WebView view, string url)
             {
-                Log.i(TAG, "Processing webview url click...");
+                //Log.i(TAG, "Processing webview url click...");
                 view.loadUrl(url);
                 return true;
             }
 
             public override void onPageFinished(WebView view, string url)
             {
-                Log.i(TAG, "Finished loading URL: " + url);
+                //Log.i(TAG, "Finished loading URL: " + url);
                 if (__this.progressBar.isShowing())
                 {
                     __this.progressBar.dismiss();
@@ -102,7 +88,7 @@ namespace AndroidWebViewActivity.Activities
 
             public override void onReceivedError(WebView view, int errorCode, string description, string failingUrl)
             {
-                Log.e(TAG, "Error: " + description);
+                //Log.e(TAG, "Error: " + description);
 
                 __this.ShowToast("Oh no! " + description);
 

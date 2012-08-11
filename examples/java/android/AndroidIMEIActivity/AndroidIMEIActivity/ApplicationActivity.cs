@@ -9,10 +9,10 @@ using android.telephony;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidIMEIActivity.Library;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidIMEIActivity.Activities
 {
@@ -36,14 +36,18 @@ namespace AndroidIMEIActivity.Activities
             sv.addView(ll);
 
 
-            Button b = new Button(this);
+            Button b = new Button(this).WithText("Whats my IMEI?").AtClick(
+                delegate
+                {
+                    TelephonyManager telephonyManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
 
-            b.setText("Whats my IMEI?");
+                    string imei = telephonyManager.getDeviceId();
 
-            b.setOnClickListener(
-                new _onclick { that = this }
+                    this.ShowLongToast("IMEI: " + imei);
+                }
             );
 
+         
             ll.addView(b);
 
             this.setContentView(sv);
@@ -53,23 +57,6 @@ namespace AndroidIMEIActivity.Activities
         }
 
 
-        class _onclick : android.view.View.OnClickListener
-        {
-            public ApplicationActivity that;
-
-            int counter;
-
-            public void onClick(View v)
-            {
-                TelephonyManager telephonyManager = (TelephonyManager)that.getSystemService(Context.TELEPHONY_SERVICE);
-
-                string imei = telephonyManager.getDeviceId();
-
-                that.ShowLongToast("IMEI: " + imei);
-
-              
-            }
-        }
 
     }
 }
