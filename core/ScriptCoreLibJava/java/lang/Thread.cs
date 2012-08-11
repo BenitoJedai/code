@@ -2,6 +2,8 @@ using ScriptCoreLib;
 
 namespace java.lang
 {
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Thread.html
+    // http://developer.android.com/reference/java/lang/Thread.html
     [Script(IsNative=true)]
     public class Thread : Runnable
     {

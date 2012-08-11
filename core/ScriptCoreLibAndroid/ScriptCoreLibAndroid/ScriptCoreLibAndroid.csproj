@@ -49,11 +49,47 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Random.cs">
       <Link>BCLImplementation\System\Random.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs">
+      <Link>BCLImplementation\System\Threading\Thread.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\InputStream.cs">
+      <Link>java\io\InputStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\ClassLoader.cs">
+      <Link>java\lang\ClassLoader.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Math.cs">
       <Link>java\lang\Math.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Package.cs">
+      <Link>java\lang\Package.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Runnable.cs">
+      <Link>java\lang\Runnable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Thread.cs">
+      <Link>java\lang\Thread.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\ThreadGroup.cs">
+      <Link>java\lang\ThreadGroup.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Throwable.cs">
       <Link>java\lang\Throwable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\URL.cs">
+      <Link>java\net\URL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\URLConnection.cs">
+      <Link>java\net\URLConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\CodeSource.cs">
+      <Link>java\security\CodeSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\ProtectionDomain.cs">
+      <Link>java\security\ProtectionDomain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Enumeration.cs">
+      <Link>java\util\Enumeration.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
@@ -76,6 +112,7 @@
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
     <Compile Include="android\media\MediaPlayer.cs" />
+    <Compile Include="android\util\Log.cs" />
     <Compile Include="android\view\ContextThemeWrapper.cs" />
     <Compile Include="android\content\ContextWrapper.cs" />
     <Compile Include="android\app\Service.cs" />

@@ -2,6 +2,8 @@ using ScriptCoreLib;
 
 namespace java.io
 {
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/io/InputStream.html
+    // http://developer.android.com/reference/java/io/InputStream.html
     [Script(IsNative = true)]
     public abstract class InputStream
     {

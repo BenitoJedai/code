@@ -4,6 +4,8 @@ using java.net;
 
 namespace java.lang
 {
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Package.html
+    // http://developer.android.com/reference/java/lang/Package.html
     [Script(IsNative=true)]
     public class Package
     {

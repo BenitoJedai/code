@@ -40,7 +40,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 			}
 			catch
 			{
-				throw new csharp.RuntimeException();
+
+				throw;
 			}
 		}
 
@@ -79,7 +80,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 			}
 			catch
 			{
-				throw new csharp.RuntimeException();
+				throw;
 			}
 		}
 
@@ -91,7 +92,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 			}
 			catch
 			{
-				throw new csharp.RuntimeException();
+				throw;
 			}
 
 			return !InternalValue.isAlive();
