@@ -62,6 +62,7 @@ namespace AndroidCameraActivity.Activities
             public void surfaceChanged(SurfaceHolder holder, int format, int w, int h)
             {
                 Camera.Parameters parameters = camera.getParameters();
+                //parameters.setPreviewSize(640, 480);
                 parameters.setPictureFormat(android.graphics.PixelFormat.JPEG);
                 camera.setParameters(parameters);
                 camera.startPreview();
@@ -136,7 +137,6 @@ namespace AndroidCameraActivity.Activities
 
                                                 File f = new File(SAVE_PATH.ToString() + "/hello2.jpg");
 
-                                                b.WithText("saving..");
 
 
                                                 f.createNewFile();
@@ -148,10 +148,10 @@ namespace AndroidCameraActivity.Activities
                                                 intent.setAction(android.content.Intent.ACTION_VIEW);
 
                                                 var imgUri = android.net.Uri.fromFile(f);
-                                                //Uri hacked_uri = Uri.parse("file://" + uri.getPath());
 
                                                 intent.setDataAndType(imgUri, "image/*");
-                                                //intent.setData(imgUri);
+
+                                                b.WithText("done!");
 
                                                 startActivity(intent);
 
