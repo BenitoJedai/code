@@ -8,18 +8,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Random))]
 	internal class __Random
 	{
-		public virtual int Next()
-		{
-			return Next(0, int.MaxValue);
-		}
+        public virtual int Next()
+        {
+            return Next(0, int.MaxValue);
+        }
 
-		public virtual int Next(int min, int max)
-		{
-			var len = max - min;
-			var r = Math.Floor(java.lang.Math.random() * len);
+        public virtual int Next(int min, int max)
+        {
+            var len = max - min;
+            var r = global::java.lang.Math.floor(java.lang.Math.random() * len);
 
-			return Convert.ToInt32(r) + min;
-		}
+            int ri = (int)r;
+            return ri + min;
+        }
 
 		public virtual double NextDouble()
 		{
