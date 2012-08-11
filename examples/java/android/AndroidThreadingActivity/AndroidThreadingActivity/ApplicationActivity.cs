@@ -44,6 +44,11 @@ namespace AndroidThreadingActivity.Activities
             b2.setText("The other button!");
             ll.addView(b2);
 
+            Action __throw =
+                delegate
+                {
+                    throw new InvalidOperationException();
+                };
 
             var t1 = new Thread(
                 () =>
