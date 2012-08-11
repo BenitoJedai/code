@@ -2,9 +2,8 @@ using ScriptCoreLib;
 
 namespace java.lang
 {
-    /// <summary>
-    /// http://java.sun.com/j2se/1.5.0/docs/api/java/lang/StringBuffer.html
-    /// </summary>
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/StringBuffer.html
+    // http://developer.android.com/reference/java/lang/StringBuffer.html
     [Script(IsNative = true)]
     public sealed class StringBuffer
     {
@@ -34,127 +33,127 @@ namespace java.lang
         /// <summary>
         /// Appends the string representation of the
         /// </summary>
-        public   StringBuffer  append (bool  b)
+        public StringBuffer append(bool b)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string representation of the
         /// </summary>
-        public   StringBuffer  append (char c)
+        public StringBuffer append(char c)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string representation of the
         /// </summary>
-        public   StringBuffer  append (char[] str)
+        public StringBuffer append(char[] str)
         {
-            return default(StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string representation of a subarray of the
         /// </summary>
-        public   StringBuffer  append (char[] str, int offset, int len)
+        public StringBuffer append(char[] str, int offset, int len)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string representation of the
         /// </summary>
-        public   StringBuffer  append (double d)
+        public StringBuffer append(double d)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string representation of the
         /// </summary>
-        public   StringBuffer  append (float f)
+        public StringBuffer append(float f)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string representation of the
         /// </summary>
-        public   StringBuffer  append (int i)
+        public StringBuffer append(int i)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string representation of the
         /// </summary>
-        public   StringBuffer  append (long l)
+        public StringBuffer append(long l)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string representation of the
         /// </summary>
-        public   StringBuffer  append (object  obj)
+        public StringBuffer append(object obj)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the string to this string buffer.
         /// </summary>
-        public   StringBuffer  append (string  str)
+        public StringBuffer append(string str)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Appends the specified
         /// </summary>
-        public   StringBuffer  append (StringBuffer sb)
+        public StringBuffer append(StringBuffer sb)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Returns the current capacity of the String buffer.
         /// </summary>
-        public   int  capacity ()
+        public int capacity()
         {
-            return default( int );
+            return default(int);
         }
 
         /// <summary>
         /// The specified character of the sequence currently represented by the string buffer, as indicated by the
         /// </summary>
-        public   char  charAt (int index)
+        public char charAt(int index)
         {
-            return default( char );
+            return default(char);
         }
 
         /// <summary>
         /// Removes the characters in a substring of this
         /// </summary>
-        public   StringBuffer  delete (int start, int end)
+        public StringBuffer delete(int start, int end)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Removes the character at the specified position in this
         /// </summary>
-        public   StringBuffer  deleteCharAt (int index)
+        public StringBuffer deleteCharAt(int index)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Ensures that the capacity of the buffer is at least equal to the specified minimum.
         /// </summary>
-        public   void  ensureCapacity (int minimumCapacity)
+        public void ensureCapacity(int minimumCapacity)
         {
             return;
         }
@@ -162,7 +161,7 @@ namespace java.lang
         /// <summary>
         /// Characters are copied from this string buffer into the destination character array
         /// </summary>
-        public   void  getChars (int srcBegin, int srcEnd, char[] dst, int dstBegin)
+        public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)
         {
             return;
         }
@@ -170,39 +169,39 @@ namespace java.lang
         /// <summary>
         /// Returns the index within this string of the first occurrence of the specified substring.
         /// </summary>
-        public   int  indexOf (string  str)
+        public int indexOf(string str)
         {
-            return default( int );
+            return default(int);
         }
 
         /// <summary>
         /// Returns the index within this string of the first occurrence of the specified substring, starting at the specified index.
         /// </summary>
-        public   int  indexOf (string  str, int fromIndex)
+        public int indexOf(string str, int fromIndex)
         {
-            return default( int );
+            return default(int);
         }
 
         /// <summary>
         /// Inserts the string representation of the
         /// </summary>
-        public   StringBuffer  insert (int offset, bool  b)
+        public StringBuffer insert(int offset, bool b)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Inserts the string representation of the
         /// </summary>
-        public   StringBuffer  insert (int offset, char c)
+        public StringBuffer insert(int offset, char c)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Inserts the string representation of the
         /// </summary>
-        public   StringBuffer  insert (int offset, char[] str)
+        public StringBuffer insert(int offset, char[] str)
         {
             return default(StringBuffer);
         }
@@ -210,7 +209,7 @@ namespace java.lang
         /// <summary>
         /// Inserts the string representation of a subarray of the
         /// </summary>
-        public  StringBuffer  insert (int index, char[] str, int offset, int len)
+        public StringBuffer insert(int index, char[] str, int offset, int len)
         {
             return default(StringBuffer);
         }
@@ -218,95 +217,95 @@ namespace java.lang
         /// <summary>
         /// Inserts the string representation of the
         /// </summary>
-        public   StringBuffer  insert (int offset, double d)
+        public StringBuffer insert(int offset, double d)
         {
-            return default(StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Inserts the string representation of the
         /// </summary>
-        public   StringBuffer insert (int offset, float f)
+        public StringBuffer insert(int offset, float f)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Inserts the string representation of the second
         /// </summary>
-        public   StringBuffer  insert (int offset, int i)
+        public StringBuffer insert(int offset, int i)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Inserts the string representation of the
         /// </summary>
-        public   StringBuffer  insert (int offset, long l)
+        public StringBuffer insert(int offset, long l)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Inserts the string representation of the
         /// </summary>
-        public  StringBuffer  insert (int offset, object  obj)
+        public StringBuffer insert(int offset, object obj)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Inserts the string into this string buffer.
         /// </summary>
-        public   StringBuffer  insert (int offset, string  str)
+        public StringBuffer insert(int offset, string str)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// Returns the index within this string of the rightmost occurrence of the specified substring.
         /// </summary>
-        public   int  lastIndexOf (string  str)
+        public int lastIndexOf(string str)
         {
-            return default( int );
+            return default(int);
         }
 
         /// <summary>
         /// Returns the index within this string of the last occurrence of the specified substring.
         /// </summary>
-        public   int  lastIndexOf (string  str, int fromIndex)
+        public int lastIndexOf(string str, int fromIndex)
         {
-            return default( int );
+            return default(int);
         }
 
         /// <summary>
         /// Returns the length (character count) of this string buffer.
         /// </summary>
-        public   int  length ()
+        public int length()
         {
-            return default( int );
+            return default(int);
         }
 
         /// <summary>
         /// Replaces the characters in a substring of this
         /// </summary>
-        public   StringBuffer  replace (int start, int end, string  str)
+        public StringBuffer replace(int start, int end, string str)
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// The character sequence contained in this string buffer is replaced by the reverse of the sequence.
         /// </summary>
-        public   StringBuffer  reverse ()
+        public StringBuffer reverse()
         {
-            return default( StringBuffer );
+            return default(StringBuffer);
         }
 
         /// <summary>
         /// The character at the specified index of this string buffer is set to
         /// </summary>
-        public   void  setCharAt (int index, char ch)
+        public void setCharAt(int index, char ch)
         {
             return;
         }
@@ -314,7 +313,7 @@ namespace java.lang
         /// <summary>
         /// Sets the length of this String buffer.
         /// </summary>
-        public   void  setLength (int newLength)
+        public void setLength(int newLength)
         {
             return;
         }
@@ -322,33 +321,33 @@ namespace java.lang
         /// <summary>
         /// Returns a new character sequence that is a subsequence of this sequence.
         /// </summary>
-        public   CharSequence  subSequence (int start, int end)
+        public CharSequence subSequence(int start, int end)
         {
-            return default( CharSequence );
+            return default(CharSequence);
         }
 
         /// <summary>
         /// Returns a new
         /// </summary>
-        public   string   substring (int start)
+        public string substring(int start)
         {
-            return default( string  );
+            return default(string);
         }
 
         /// <summary>
         /// Returns a new
         /// </summary>
-        public   string   substring (int start, int end)
+        public string substring(int start, int end)
         {
-            return default( string  );
+            return default(string);
         }
 
         /// <summary>
         /// Converts to a string representing the data in this string buffer.
         /// </summary>
-        public   string   toString ()
+        public string toString()
         {
-            return default( string  );
+            return default(string);
         }
 
         // Methods inherited from class java.lang.Object

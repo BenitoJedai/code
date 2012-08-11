@@ -23,5 +23,10 @@ namespace java.util
         {
             return default(object);
         }
+
+        internal object toArray(object[] p)
+        {
+            return default(object);
+        }
     }
 }

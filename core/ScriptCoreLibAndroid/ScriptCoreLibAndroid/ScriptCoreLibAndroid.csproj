@@ -43,17 +43,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Environment.cs">
+      <Link>BCLImplementation\System\Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IDisposable.cs">
       <Link>BCLImplementation\System\IDisposable.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Random.cs">
       <Link>BCLImplementation\System\Random.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\String.cs">
+      <Link>BCLImplementation\System\String.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Text\StringBuilder.cs">
+      <Link>BCLImplementation\System\Text\StringBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs">
       <Link>BCLImplementation\System\Threading\Thread.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\File.cs">
+      <Link>java\io\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\FileFilter.cs">
+      <Link>java\io\FileFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\FilenameFilter.cs">
+      <Link>java\io\FilenameFilter.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\InputStream.cs">
       <Link>java\io\InputStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\CharSequence.cs">
+      <Link>java\lang\CharSequence.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\ClassLoader.cs">
       <Link>java\lang\ClassLoader.cs</Link>
@@ -67,6 +88,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Runnable.cs">
       <Link>java\lang\Runnable.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\String.cs">
+      <Link>java\lang\String.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\StringBuffer.cs">
+      <Link>java\lang\StringBuffer.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Thread.cs">
       <Link>java\lang\Thread.cs</Link>
     </Compile>
@@ -75,6 +102,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Throwable.cs">
       <Link>java\lang\Throwable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\URI.cs">
+      <Link>java\net\URI.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\URL.cs">
       <Link>java\net\URL.cs</Link>
@@ -90,6 +120,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Enumeration.cs">
       <Link>java\util\Enumeration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Locale.cs">
+      <Link>java\util\Locale.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
@@ -139,11 +172,8 @@
     <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs" />
     <Compile Include="BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
-    <Compile Include="BCLImplementation\System\String.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="java\lang\CharSequence.cs" />
     <Compile Include="java\lang\Class.cs" />
-    <Compile Include="java\lang\String.cs" />
     <Compile Include="java\lang\reflect\Method.cs" />
     <Compile Include="java\util\ArrayList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,38 +6,38 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
 
-	[Script(Implements = typeof(global::System.Environment))]
-	internal class __Environment
-	{
-		public static string NewLine
-		{
-			get
-			{
-				return "\r\n";
-			}
-		}
+    [Script(Implements = typeof(global::System.Environment))]
+    internal class __Environment
+    {
+        public static string NewLine
+        {
+            get
+            {
+                return "\r\n";
+            }
+        }
 
-     
-		public static string CurrentDirectory
-		{
-			get
-			{
-				// http://www.devx.com/tips/Tip/13804
 
-				var f = new java.io.File(".");
-				var c = default(string);
+        public static string CurrentDirectory
+        {
+            get
+            {
+                // http://www.devx.com/tips/Tip/13804
 
-				try
-				{
-					c = f.getCanonicalPath();
-				}
-				catch
-				{
-					throw new csharp.RuntimeException();
-				}
+                var f = new java.io.File(".");
+                var c = default(string);
 
-				return c;
-			}
-		}
-	}
+                try
+                {
+                    c = f.getCanonicalPath();
+                }
+                catch
+                {
+                    throw;
+                }
+
+                return c;
+            }
+        }
+    }
 }
