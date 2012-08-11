@@ -18,6 +18,7 @@ using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace AndroidOpenGLESLesson6Activity.Activities
 {
@@ -83,9 +84,134 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
             this.ToFullscreen();
 
-            setContentView(R.layout.main);
+            var fl = new FrameLayout(this);
+            var v = new RenderingContextView(this).AttachTo(fl);
+            var ll = new LinearLayout(this).AttachTo(fl);
+            ll.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+            ll.setVerticalGravity(Gravity.BOTTOM);
 
-            mGLSurfaceView = (LessonSixGLSurfaceView)findViewById(R.id.gl_surface_view);
+            #region GL_TEXTURE_MIN_FILTER
+            new Button(this).AttachTo(ll).WithText("Set min. filter").AtClick(
+                delegate
+                {
+                    var builder = new AlertDialog.Builder(this);
+
+                    builder.setTitle("Set GL_TEXTURE_MIN_FILTER!");
+                    builder.setItems(
+                        new[] {
+                            "GL_NEAREST",
+    	                    "GL_LINEAR",
+    	                    "GL_NEAREST_MIPMAP_NEAREST",
+    	                    "GL_NEAREST_MIPMAP_LINEAR",
+    	                    "GL_LINEAR_MIPMAP_NEAREST",
+    	                    "GL_LINEAR_MIPMAP_LINEAR",
+                        },
+                        item =>
+                        {
+                            mMinSetting = item;
+
+                            mGLSurfaceView.queueEvent(
+                                delegate
+                                {
+                                    int filter;
+
+                                    if (item == 0)
+                                    {
+                                        filter = (int)gl.NEAREST;
+                                    }
+                                    else if (item == 1)
+                                    {
+                                        filter = (int)gl.LINEAR;
+                                    }
+                                    else if (item == 2)
+                                    {
+                                        filter = (int)gl.NEAREST_MIPMAP_NEAREST;
+                                    }
+                                    else if (item == 3)
+                                    {
+                                        filter = (int)gl.NEAREST_MIPMAP_LINEAR;
+                                    }
+                                    else if (item == 4)
+                                    {
+                                        filter = (int)gl.LINEAR_MIPMAP_NEAREST;
+                                    }
+                                    else // if (item == 5)
+                                    {
+                                        filter = (int)gl.LINEAR_MIPMAP_LINEAR;
+                                    }
+
+                                    this.mRenderer.setMinFilter(filter);
+                                }
+                            );
+                        }
+                    );
+
+
+                    var dialog = builder.create();
+
+                    dialog.setOwnerActivity(this);
+                    dialog.show();
+
+
+                }
+            );
+            #endregion
+
+            #region GL_TEXTURE_MAG_FILTER
+            var button_set_mag_filter = new Button(this).AttachTo(ll).WithText("Set mag. filter").AtClick(
+                delegate
+                {
+                    var builder = new AlertDialog.Builder(this);
+                    
+                    builder.setTitle("Set GL_TEXTURE_MAG_FILTER");
+                    builder.setItems(
+                        new []{
+                    	    "GL_NEAREST",
+                            "GL_LINEAR" 	
+                        },
+                        item =>
+                        {
+                            mMagSetting = item;
+
+                            mGLSurfaceView.queueEvent(
+                                delegate
+                                {
+                                    int filter;
+
+                                    if (item == 0)
+                                    {
+                                        filter = (int)gl.NEAREST;
+                                    }
+                                    else // if (item == 1)
+                                    {
+                                        filter = (int)gl.LINEAR;
+                                    }
+
+                                    this.mRenderer.setMagFilter(filter);
+                                }
+                            );
+                        }
+                    );
+
+                    var dialog = builder.create();
+
+                    dialog.setOwnerActivity(this);
+                    dialog.show();
+                }
+            );
+            #endregion
+
+
+            v.onsurface =
+                gl =>
+                {
+
+                };
+
+
+            setContentView(fl);
+
+            mGLSurfaceView = sv;
 
             // http://www.learnopengles.com/android-emulator-now-supports-native-opengl-es2-0/
 
@@ -101,22 +227,9 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             mGLSurfaceView.setRenderer(mRenderer, displayMetrics.density);
 
 
-            findViewById(R.id.button_set_min_filter).AtClick(
-                delegate
-                {
-                    this.showDialog(MIN_DIALOG);
-                }
-            );
-
-            findViewById(R.id.button_set_mag_filter).AtClick(
-             delegate
-             {
-                 this.showDialog(MAG_DIALOG);
-             }
-         );
 
 
-            this.ShowToast("http://my.jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net !");
         }
 
 
@@ -142,157 +255,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         }
 
         #endregion
-
-
-
-
-     
-        private void setMinSetting(int item)
-        {
-            mMinSetting = item;
-
-            mGLSurfaceView.queueEvent(
-                delegate
-                {
-                    int filter;
-
-                    if (item == 0)
-                    {
-                        filter = (int)gl.NEAREST;
-                    }
-                    else if (item == 1)
-                    {
-                        filter = (int)gl.LINEAR;
-                    }
-                    else if (item == 2)
-                    {
-                        filter = (int)gl.NEAREST_MIPMAP_NEAREST;
-                    }
-                    else if (item == 3)
-                    {
-                        filter = (int)gl.NEAREST_MIPMAP_LINEAR;
-                    }
-                    else if (item == 4)
-                    {
-                        filter = (int)gl.LINEAR_MIPMAP_NEAREST;
-                    }
-                    else // if (item == 5)
-                    {
-                        filter = (int)gl.LINEAR_MIPMAP_LINEAR;
-                    }
-
-                    this.mRenderer.setMinFilter(filter);
-                }
-            );
-        }
-
-
-
-        
-
-        private void setMagSetting(int item)
-        {
-            mMagSetting = item;
-
-            mGLSurfaceView.queueEvent(
-                delegate
-                {
-                    int filter;
-
-                    if (item == 0)
-                    {
-                        filter = (int)gl.NEAREST;
-                    }
-                    else // if (item == 1)
-                    {
-                        filter = (int)gl.LINEAR;
-                    }
-
-                    this.mRenderer.setMagFilter(filter);
-                }
-            );
-        }
-
-        class lesson_six_min_filter_types_onclick : DialogInterface_OnClickListener
-        {
-            public AndroidOpenGLESLesson6Activity __this;
-
-            public void onClick(DialogInterface dialog, int item)
-            {
-                __this.setMinSetting(item);
-            }
-        }
-
-        class lesson_six_mag_filter_types_onclick : DialogInterface_OnClickListener
-        {
-            public AndroidOpenGLESLesson6Activity __this;
-
-            public void onClick(DialogInterface dialog, int item)
-            {
-                __this.setMagSetting(item);
-            }
-        }
-
-
-        protected override Dialog onCreateDialog(int id)
-        {
-            Dialog dialog = null;
-
-            if (id == MIN_DIALOG)
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Set GL_TEXTURE_MIN_FILTER");
-
-                var lesson_six_min_filter_types = new[] {
-                    "GL_NEAREST",
-    	            "GL_LINEAR",
-    	            "GL_NEAREST_MIPMAP_NEAREST",
-    	            "GL_NEAREST_MIPMAP_LINEAR",
-    	            "GL_LINEAR_MIPMAP_NEAREST",
-    	            "GL_LINEAR_MIPMAP_LINEAR",
-                };
-
-                builder.setItems(
-                    (CharSequence[])(object)lesson_six_min_filter_types,
-                    new lesson_six_min_filter_types_onclick { __this = this }
-                );
-
-
-                dialog = builder.create();
-
-            }
-            else if (id == MAG_DIALOG)
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Set GL_TEXTURE_MAG_FILTER");
-
-                var lesson_six_mag_filter_types = new string[]{
-                    	        "GL_NEAREST",
-                        "GL_LINEAR" 	
-                };
-
-
-                builder.setItems(
-                    (CharSequence[])(object)lesson_six_mag_filter_types,
-                    new lesson_six_mag_filter_types_onclick { __this = this }
-                );
-
-
-
-
-                dialog = builder.create();
-            }
-            else
-            {
-                dialog = null;
-            }
-
-            return dialog;
-        }
-
-
-
-
 
     }
 
@@ -695,19 +657,31 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
             Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
-
-            mProgramHandle = __gl.createAndLinkProgram(
-                new Shaders.per_pixel_tex_and_lightVertexShader(),
-                new Shaders.per_pixel_tex_and_lightFragmentShader(),
-                "a_Position", "a_Normal", "a_TexCoordinate"
+            #region mProgramHandle
+            mProgramHandle = gl.createProgram(
+             new Shaders.per_pixel_tex_and_lightVertexShader(),
+             new Shaders.per_pixel_tex_and_lightFragmentShader()
             );
+
+            gl.bindAttribLocation(mProgramHandle, 0, "a_Position");
+            gl.bindAttribLocation(mProgramHandle, 1, "a_Color");
+            gl.bindAttribLocation(mProgramHandle, 2, "a_TexCoordinate");
+
+            gl.linkProgram(mProgramHandle);
+            #endregion
 
             // Define a simple shader program for our point.
-            mPointProgramHandle = __gl.createAndLinkProgram(
+
+            #region mPointProgramHandle
+            mPointProgramHandle = gl.createProgram(
                 new Shaders.pointVertexShader(),
-                new Shaders.pointFragmentShader(),
-                "a_Position"
+                new Shaders.pointFragmentShader()
             );
+
+            gl.bindAttribLocation(mPointProgramHandle, 0, "a_Position");
+
+            gl.linkProgram(mPointProgramHandle);
+            #endregion
 
 
             #region loadTexture
@@ -761,15 +735,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
             gl.generateMipmap(gl.TEXTURE_2D);
 
-            if (mQueuedMinFilter != 0)
-            {
-                setMinFilter(mQueuedMinFilter);
-            }
-
-            if (mQueuedMagFilter != 0)
-            {
-                setMagFilter(mQueuedMagFilter);
-            }
+       
 
             // Initialize the accumulated rotation matrix
             Matrix.setIdentityM(mAccumulatedRotation, 0);
@@ -1001,7 +967,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
     public class LessonSixGLSurfaceView : GLSurfaceView
     {
-
         private LessonSixRenderer mRenderer;
 
         // Offsets for touch events	 
@@ -1014,18 +979,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             : base(context)
         {
         }
-
-
-        public LessonSixGLSurfaceView(Context context, android.util.AttributeSet a)
-            : base(context, a)
-        {
-       //     Caused by: java.lang.NoSuchMethodException: <init> [class android.content.Context, interface android.util.AttributeSet]
-       //at java.lang.Class.getConstructorOrMethod(Class.java:460)
-       //at java.lang.Class.getConstructor(Class.java:431)
-       //at android.view.LayoutInflater.createView(LayoutInflater.java:561)
-        }
-
-
     
         public override bool onTouchEvent(MotionEvent e)
         {

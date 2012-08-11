@@ -226,17 +226,10 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                 // Create a program object and store the handle to it.
           
 
-                var programHandle = gl.createProgram();
-
-                var vs = gl.createShader(new Shaders.TriangleVertexShader());
-                var fs = gl.createShader(new Shaders.TriangleFragmentShader());
-
-                gl.attachShader(programHandle, vs);
-                gl.attachShader(programHandle, fs);
-
-                gl.deleteShader(vs);
-                gl.deleteShader(fs);
-
+                var programHandle = gl.createProgram(
+                    new Shaders.TriangleVertexShader(),
+                    new Shaders.TriangleFragmentShader()
+                );
 
                 gl.bindAttribLocation(programHandle, 0, "a_Position");
                 gl.bindAttribLocation(programHandle, 1, "a_Color");

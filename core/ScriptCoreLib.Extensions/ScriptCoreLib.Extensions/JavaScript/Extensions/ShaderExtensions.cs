@@ -13,6 +13,22 @@ namespace ScriptCoreLib.JavaScript.Extensions
     {
         // we are defining extensions for a class generated from IDL
 
+        public static WebGLProgram createProgram(this WebGLRenderingContext gl, VertexShader v, FragmentShader f)
+        {
+            var programHandle = gl.createProgram();
+
+            var vs = gl.createShader(v);
+            var fs = gl.createShader(f);
+
+            gl.attachShader(programHandle, vs);
+            gl.attachShader(programHandle, fs);
+
+            gl.deleteShader(vs);
+            gl.deleteShader(fs);
+
+            return programHandle;
+        }
+
         public static WebGLShader createShader(this WebGLRenderingContext gl, Shader source)
         {
             // jsc/java should pick this up!

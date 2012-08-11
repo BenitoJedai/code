@@ -480,18 +480,28 @@ namespace ScriptCoreLib.Android
             return false;
         }
 
-        public static void setText(this TextView e, string value)
+
+        class setItems_OnClickListener : DialogInterface_OnClickListener
         {
-            // this cast will work on JVM
-            e.setText((java.lang.CharSequence)(object)value);
+            public Action<DialogInterface, int> handler;
+
+            public void onClick(DialogInterface dialog, int item)
+            {
+                handler(dialog, item);
+            }
         }
 
-        public static AlertDialog.Builder setTitle(this AlertDialog.Builder e, string value)
+        public static void setItems(this AlertDialog.Builder builder, string[] items, Action<int> handler)
         {
-            // this cast will work on JVM
-            e.setTitle((java.lang.CharSequence)(object)value);
+            builder.setItems(items, (_dialog, item) => handler(item));
+        }
 
-            return e;
+        public static void setItems(this AlertDialog.Builder builder, string[] items, Action<DialogInterface, int> handler)
+        {
+            builder.setItems(
+                  (CharSequence[])(object)items,
+                  new setItems_OnClickListener { handler = handler }
+              );
         }
 
         public static Context ShowToast(this Context c, string e)

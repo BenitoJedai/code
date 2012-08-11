@@ -18,6 +18,7 @@ using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using System.ComponentModel;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace AndroidOpenGLESLesson5Activity.Activities
 {
@@ -62,7 +63,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://my.jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net !");
         }
 
 
@@ -182,7 +183,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             private int mColorDataSize = 4;
 
             /** This is a handle to our cube shading program. */
-            private __WebGLProgram mProgramHandle;
+            private WebGLProgram mProgramHandle;
 
             /** This will be used to switch between blending mode and regular mode. */
             private bool mBlending = true;
@@ -382,11 +383,17 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 
-                mProgramHandle = __gl.createAndLinkProgram(
-                    new Shaders.colorVertexShader(),
-                    new Shaders.colorFragmentShader(),
-                     "a_Position", "a_Color"
-                );
+
+                mProgramHandle = gl.createProgram(
+                  new Shaders.colorVertexShader(),
+                  new Shaders.colorFragmentShader()
+              );
+
+                gl.bindAttribLocation(mProgramHandle, 0, "a_Position");
+                gl.bindAttribLocation(mProgramHandle, 1, "a_Color");
+
+                gl.linkProgram(mProgramHandle);
+
             }
 
             public void onSurfaceChanged(GL10 glUnused, int width, int height)
@@ -436,6 +443,8 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                     {
                         // Pass in the position information
                         mCubePositions.position(0);
+
+
                         GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, (int)gl.FLOAT, false,
                                 0, mCubePositions);
 

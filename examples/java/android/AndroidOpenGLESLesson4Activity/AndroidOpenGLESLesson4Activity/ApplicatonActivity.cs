@@ -17,6 +17,7 @@ using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace AndroidOpenGLESLesson4Activity.Activities
 {
@@ -66,7 +67,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://my.jsc-solutions.net");
+            this.ShowToast("http://my.jsc-solutions.net !");
         }
 
         #region pause
@@ -172,10 +173,10 @@ namespace AndroidOpenGLESLesson4Activity.Activities
             private float[] mLightPosInEyeSpace = new float[4];
 
             /** This is a handle to our cube shading program. */
-            private __WebGLProgram mProgramHandle;
+            private WebGLProgram mProgramHandle;
 
             /** This is a handle to our light point program. */
-            private __WebGLProgram mPointProgramHandle;
+            private WebGLProgram mPointProgramHandle;
 
             /** This is a handle to our texture data. */
             private WebGLTexture mTextureDataHandle;
@@ -467,23 +468,32 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 
-                mProgramHandle = __gl.createAndLinkProgram(
-                    new Shaders.per_pixelVertexShader(),
-                    new Shaders.per_pixelFragmentShader(),
-                    "a_Position",
-                    "a_Color",
-                    "a_Normal",
-                    "a_TexCoordinate"
-                );
+             
+
+
+                mProgramHandle = gl.createProgram(
+                      new Shaders.per_pixelVertexShader(),
+                      new Shaders.per_pixelFragmentShader()
+                  );
+
+                gl.bindAttribLocation(mProgramHandle, 0, "a_Position");
+                gl.bindAttribLocation(mProgramHandle, 1, "a_Color");
+                gl.bindAttribLocation(mProgramHandle, 2, "a_Normal");
+                gl.bindAttribLocation(mProgramHandle, 3, "a_TexCoordinate");
+
+                gl.linkProgram(mProgramHandle);
 
                 // Define a simple shader program for our point.
 
-
-                mPointProgramHandle = __gl.createAndLinkProgram(
-                    new Shaders.per_pixelVertexShader(),
-                    new Shaders.per_pixelFragmentShader(),
-                      "a_Position"
+                mPointProgramHandle = gl.createProgram(
+                    new Shaders.pointVertexShader(),
+                    new Shaders.pointFragmentShader()
                 );
+
+                gl.bindAttribLocation(mPointProgramHandle, 0, "a_Position");
+
+                gl.linkProgram(mPointProgramHandle);
+
 
                 #region loadTexture
                 Func<android.graphics.Bitmap, WebGLTexture> loadTexture = (bitmap) =>
@@ -498,6 +508,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.NEAREST);
 
                    // Load the bitmap into the bound texture.
+                   //gl.texImage2D(
                    GLUtils.texImage2D((int)gl.TEXTURE_2D, 0, bitmap, 0);
 
                    // Recycle the bitmap, since its data has been loaded into OpenGL.
