@@ -114,12 +114,12 @@ namespace AndroidCameraActivity.Activities
                                             {
                                                 // http://stackoverflow.com/questions/11874273/android-nexus-7-jelly-bean-startpreview-takepicture-calling-getcamerastereomode
 
-//E/NvOmxCamera(  126): OMX_ERRORTYPE android::NvOmxCamera::getCameraStereoMode(NvxComponent*, NvOmxCameraUserStereoMode&): Error: invalid NVX mode 0.
-//E/NvOmxCamera(  126): OMX_ERRORTYPE android::NvOmxCamera::getCameraStereoModeAndCaptureInfo(NvxComponent*, NvOmxCameraUserStereoMode&, NVX_STEREOCAPTUREINFO&): getCameraStereoMode failed with 0x00000000
-//D/NvOsDebugPrintf(  126): NvMMLiteJPEGEncSetAttribute: Incorrect value 0 for stereo capture type
-//E/NvOmxCameraSettings(  126): OMX_ERRORTYPE android::programStereoInfo(OMX_HANDLETYPE, const NVX_STEREOCAPTUREINFO&, android::NvxWrappers*): pNvxWrappers->OMX_SetConfigIL failed with 0x80001005
-//D/NvOsDebugPrintf(  126): Tryproc: INBuffer-Values of Width and Height 1280 960
-//D/dalvikvm(29535): GC_FOR_ALLOC freed 6686K, 52% free 7716K/15943K, paused 25ms, total 27ms
+                                                //E/NvOmxCamera(  126): OMX_ERRORTYPE android::NvOmxCamera::getCameraStereoMode(NvxComponent*, NvOmxCameraUserStereoMode&): Error: invalid NVX mode 0.
+                                                //E/NvOmxCamera(  126): OMX_ERRORTYPE android::NvOmxCamera::getCameraStereoModeAndCaptureInfo(NvxComponent*, NvOmxCameraUserStereoMode&, NVX_STEREOCAPTUREINFO&): getCameraStereoMode failed with 0x00000000
+                                                //D/NvOsDebugPrintf(  126): NvMMLiteJPEGEncSetAttribute: Incorrect value 0 for stereo capture type
+                                                //E/NvOmxCameraSettings(  126): OMX_ERRORTYPE android::programStereoInfo(OMX_HANDLETYPE, const NVX_STEREOCAPTUREINFO&, android::NvxWrappers*): pNvxWrappers->OMX_SetConfigIL failed with 0x80001005
+                                                //D/NvOsDebugPrintf(  126): Tryproc: INBuffer-Values of Width and Height 1280 960
+                                                //D/dalvikvm(29535): GC_FOR_ALLOC freed 6686K, 52% free 7716K/15943K, paused 25ms, total 27ms
 
 
                                                 var SAVE_PATH = android.os.Environment.getExternalStoragePublicDirectory(
@@ -127,14 +127,15 @@ namespace AndroidCameraActivity.Activities
                                                     );
 
 
+                                                SAVE_PATH.mkdirs();
+
                                                 var bmp = android.graphics.BitmapFactory.decodeByteArray(data, 0, data.Length);
 
                                                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                                                 bmp.compress(android.graphics.Bitmap.CompressFormat.JPEG, 100, bytes);
 
-                                                File f = new File(SAVE_PATH.ToString() + "/hello.jpg");
+                                                File f = new File(SAVE_PATH.ToString() + "/hello2.jpg");
 
-                                                f.mkdirs();
                                                 b.WithText("saving..");
 
 
@@ -146,16 +147,21 @@ namespace AndroidCameraActivity.Activities
                                                 Intent intent = new Intent();
                                                 intent.setAction(android.content.Intent.ACTION_VIEW);
 
-                                                intent.setData(android.net.Uri.fromFile(f));
+                                                var imgUri = android.net.Uri.fromFile(f);
+                                                //Uri hacked_uri = Uri.parse("file://" + uri.getPath());
+
+                                                intent.setDataAndType(imgUri, "image/*");
+                                                //intent.setData(imgUri);
 
                                                 startActivity(intent);
 
                                             }
-                                            catch
+                                            // Error	1	The type caught or thrown must be derived from System.Exception	y:\jsc.svn\examples\java\android\AndroidCameraActivity\AndroidCameraActivity\ApplicationActivity.cs	154	52	AndroidCameraActivity
+                                            catch (Exception ex)
                                             {
-                                                b.WithText("saving.. error!");
+                                                b.WithText("saving.. error! " + ex.Message);
 
-                                                throw;
+                                                //throw;
                                             }
 
 
@@ -175,4 +181,22 @@ namespace AndroidCameraActivity.Activities
     }
 
 
+}
+
+namespace ScriptCoreLib
+{
+    [Script(
+   HasNoPrototype = true,
+  Implements = typeof(global::System.Exception),
+  ImplementationType = typeof(java.lang.Throwable))]
+    internal class __Exception
+    {
+        public __Exception() { }
+        public __Exception(string e) { }
+        public string Message
+        {
+            [Script(ExternalTarget = "getMessage")]
+            get { return default(string); }
+        }
+    }
 }
