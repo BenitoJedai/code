@@ -459,7 +459,8 @@ namespace jni
         public static void ReportNonZero(string methodname, int p)
         {
             if (p != 0)
-                throw new csharp.RuntimeException("function '" + methodname + "' returned 0x" + Convert.ToHexString(p, 4) + " (" + p + ")");
+                throw new System.InvalidOperationException("function '" + methodname + "' returned 0x" + Convert.ToHexString(p, 4) + " (" + p + ")");
+            //throw new csharp.RuntimeException("function '" + methodname + "' returned 0x" + Convert.ToHexString(p, 4) + " (" + p + ")");
 
         }
     }
