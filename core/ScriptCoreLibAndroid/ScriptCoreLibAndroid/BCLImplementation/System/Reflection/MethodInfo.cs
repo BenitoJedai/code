@@ -25,6 +25,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Reflection
                 //((Throwable)(object)e).printStackTrace();
 
                 //throw new csharp.RuntimeException(e.Message);
+                throw;
             }
 
             return n;

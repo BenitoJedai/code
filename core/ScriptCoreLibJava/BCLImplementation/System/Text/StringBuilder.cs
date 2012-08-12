@@ -34,6 +34,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 			return this;
 		}
 
+        public __StringBuilder Append(object e)
+        {
+            InternalBuffer.append(e.ToString());
+
+            return this;
+        }
+
 		public __StringBuilder Append(string e)
 		{
 			InternalBuffer.append(e);

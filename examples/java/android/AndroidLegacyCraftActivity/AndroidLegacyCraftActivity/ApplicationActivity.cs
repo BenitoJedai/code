@@ -48,12 +48,12 @@ namespace AndroidLegacyCraftActivity.Activities
 
                         mediaPlayer = new MediaPlayer();
 
-                        var n = "Warcraft1_TitleTheme.mid";
+                        var music = "Warcraft1_TitleTheme.mid";
 
                         if (width > height)
-                            n = "war-gfx/intro.mid";
+                            music = "war-gfx/intro.mid";
 
-                        var  assetFileDescritor = this.getAssets().openFd(n);
+                        var  assetFileDescritor = this.getAssets().openFd(music);
 
                         mediaPlayer.reset();
 
@@ -86,7 +86,7 @@ namespace AndroidLegacyCraftActivity.Activities
                         mediaPlayer.prepare();
                         mediaPlayer.setLooping(true);
 
-                        this.ShowLongToast("music: " + n);
+                        this.ShowLongToast(new { music }.ToString());
                     }
                     catch (System.Exception e)
                     {

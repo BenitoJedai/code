@@ -44,10 +44,10 @@ namespace AndroidThreadingActivity.Activities
             b2.setText("The other button!");
             ll.addView(b2);
 
-            Action __throw =
-                delegate
+            Action<string> __throw =
+                message =>
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException(message);
                 };
 
             var t1 = new Thread(
@@ -92,14 +92,27 @@ namespace AndroidThreadingActivity.Activities
             new Thread(
                 () =>
                 {
-                    Action<string> w = x => Log.wtf("ApplicationActivity", "thread 3 " + x);
+                    Action<string> w = x => Log.wtf("ApplicationActivity", "thread " + new { id = 3, x });
 
                     w(" start");
 
                     t1.Join();
                     t2.Join();
 
+                    w(" exiting");
+
+                    try
+                    {
+                        __throw("yay");
+                    }
+                    catch (Exception exc)
+                    {
+
+                        w(" exit - " + new { exc.Message });
+                    }
+
                     w(" exit");
+
                 }
             ).Start();
 
