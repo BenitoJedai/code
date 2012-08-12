@@ -293,7 +293,7 @@ start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /Proje
 )
 
 
-start /MIN /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
