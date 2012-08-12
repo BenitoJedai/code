@@ -5,75 +5,77 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Text
 {
-	[Script(Implements = typeof(global::System.Text.StringBuilder))]
-	internal class __StringBuilder
-	{
-		global::java.lang.StringBuffer InternalBuffer;
+    [Script(Implements = typeof(global::System.Text.StringBuilder))]
+    internal class __StringBuilder
+    {
+        global::java.lang.StringBuffer InternalBuffer;
 
-		public __StringBuilder()
-		{
-            InternalBuffer = new global::java.lang.StringBuffer();
-		}
-
-		public __StringBuilder(string v) : this()
-		{
-			Append(v);
-		}
-
-		public __StringBuilder AppendLine(string e)
-		{
-			InternalBuffer.append(e + Environment.NewLine);
-
-			return this;
-		}
-
-		public __StringBuilder AppendLine()
-		{
-			InternalBuffer.append(Environment.NewLine);
-
-			return this;
-		}
-
-        public __StringBuilder Append(object e)
+        public __StringBuilder()
         {
-            InternalBuffer.append(e.ToString());
+            InternalBuffer = new global::java.lang.StringBuffer();
+        }
+
+        public __StringBuilder(string v)
+            : this()
+        {
+            Append(v);
+        }
+
+        public __StringBuilder AppendLine(string e)
+        {
+            InternalBuffer.append(e + Environment.NewLine);
 
             return this;
         }
 
-		public __StringBuilder Append(string e)
-		{
-			InternalBuffer.append(e);
+        public __StringBuilder AppendLine()
+        {
+            InternalBuffer.append(Environment.NewLine);
 
-			return this;
-		}
+            return this;
+        }
 
+        public __StringBuilder Append(object e)
+        {
+            if (e != null)
+                InternalBuffer.append(e.ToString());
 
-		public __StringBuilder Append(long e)
-		{
-			InternalBuffer.append("" + e);
+            return this;
+        }
 
-			return this;
-		}
+        public __StringBuilder Append(string e)
+        {
+            InternalBuffer.append(e);
 
-		public __StringBuilder Append(int e)
-		{
-			InternalBuffer.append("" + e);
-
-			return this;
-		}
-
-		public __StringBuilder Append(char e)
-		{
-			var x = new string(new [] {e});
+            return this;
+        }
 
 
-			return this.Append(x);
-		}
+        public __StringBuilder Append(long e)
+        {
+            InternalBuffer.append("" + e);
 
-		public override string ToString()
-		{
-			return InternalBuffer.ToString();
-		}
-	}
+            return this;
+        }
+
+        public __StringBuilder Append(int e)
+        {
+            InternalBuffer.append("" + e);
+
+            return this;
+        }
+
+        public __StringBuilder Append(char e)
+        {
+            var x = new string(new[] { e });
+
+
+            return this.Append(x);
+        }
+
+        public override string ToString()
+        {
+            return InternalBuffer.ToString();
+        }
+    }
 }
