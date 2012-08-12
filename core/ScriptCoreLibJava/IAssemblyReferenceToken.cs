@@ -5,6 +5,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava
 {
+    [Script]
     public interface IAssemblyReferenceToken
     {
     }
