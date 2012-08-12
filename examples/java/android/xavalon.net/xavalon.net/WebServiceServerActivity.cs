@@ -23,8 +23,8 @@ namespace xavalon.net
     {
         // see also: y:\jsc.svn\examples\java\android\AndroidLacasCameraServerActivity\AndroidLacasCameraServerActivity\com\lacas\testsocket\TestSocketActivity.java
 
-        ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
-        Inet6Address __hack;
+        //ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
+        //Inet6Address __hack;
 
 
         public WebView webview;
@@ -106,8 +106,6 @@ namespace xavalon.net
 
             this.ToFullscreen();
 
-
-
             if (width > height)
             {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -129,242 +127,56 @@ namespace xavalon.net
             uri += ":";
             uri += ((object)(port)).ToString();
 
-            this.setTitle((java.lang.CharSequence)(object)uri);
-
-            serverThread = new ServerThread { mycontext = this, port = port };
-
-            new Thread(serverThread).start();
+            this.setTitle(uri);
 
 
+            ServerSocket serversocket = null;
+            bool isRunning = true;
 
-            // http://stackoverflow.com/questions/8955228/webview-with-an-iframe-android
-            // http://www.chrisdanielson.com/tag/webviewclient/
-
-            this.alertDialog = new AlertDialog.Builder(this).create();
-
-            this.progressBar = ProgressDialog.show(this,
-                "look here!",
-                "Loading..."
-            );
-
-
-            this.webview = new WebView(this);
-
-
-            setContentView(webview);
-
-
-            webview.getSettings().setBuiltInZoomControls(true);
-            webview.getSettings().setSupportZoom(true);
-            webview.getSettings().setLoadsImagesAutomatically(true);
-            webview.getSettings().setJavaScriptEnabled(true);
-            webview.setInitialScale(ApplicationScale);
-
-            webview.setWebViewClient(new MyWebViewClient { __this = this });
-            webview.getSettings().setSupportZoom(false);
-            webview.setScrollBarStyle(WebView.SCROLLBARS_INSIDE_OVERLAY);
-
-            //webview.getSettings().setJavaScriptEnabled(true);
-
-            // no flash in emulator?
-            // works on my phone!
-            // no Flash since android 4.1.0!!!
-            //webview.getSettings().setPluginsEnabled(true);
-            //webview.getSettings().setPluginState(android.webkit.WebSettings.PluginState.ON);
-
-
-
-            // OR, you can also load from an HTML string:
-            //var summary = "<html><body>You scored <b>192</b> points.</body></html>";
-            //webview.loadData(summary, "text/html", null);
-            //Log.i(TAG, "loadUrl");
-            webview.loadUrl(uri);
-
-            //this.setContentView(sv);
-
-
-            //E/WindowManager(28519): Activity AvalonPipeManiaActivity.Activities.ApplicationActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@413f37b8 that was originally added here
-            //E/WindowManager(28519): android.view.WindowLeaked: Activity AvalonPipeManiaActivity.Activities.ApplicationActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@413f37b8 that was originally added here
-            //E/WindowManager(28519):         at android.view.ViewRootImpl.<init>(ViewRootImpl.java:374)
-
-
-        }
-
-
-
-        public override void onCreateContextMenu(ContextMenu ContextMenu0, View View1, ContextMenu_ContextMenuInfo ContextMenu_ContextMenuInfo2)
-        {
-            //var menu = ContextMenu0.add((CharSequence)(object)"jsc");
-        }
-
-        public Action onpagefinished;
-
-        class MyWebViewClient : WebViewClient
-        {
-
-            public WebServiceServerActivity __this;
-
-            public override bool shouldOverrideUrlLoading(WebView view, string url)
+            #region openFileFromAssets
+            Func<string, InputStream> openFileFromAssets = (string spath) =>
             {
-                Func<string, string, bool> Contains = (item, ex) =>
-                {
-                    var xx = !(((java.lang.String)(object)item).indexOf(ex, 0) < 0);
-
-                    return xx;
-                };
-
-
-                if (Contains(url, ".apk"))
-                    return false;
-
-                //Log.i(TAG, "Processing webview url click...");
-                view.loadUrl(url);
-                return true;
-            }
-
-            public override void onPageFinished(WebView view, string url)
-            {
-                //Log.i(TAG, "Finished loading URL: " + url);
-                if (__this.progressBar.isShowing())
-                {
-                    __this.progressBar.dismiss();
-                    __this.TryHideActionbar();
-
-                    if (__this.onpagefinished != null)
-                        __this.onpagefinished();
-                }
-            }
-
-            public override void onReceivedError(WebView view, int errorCode, string description, string failingUrl)
-            {
-                //Log.e(TAG, "Error: " + description);
-
-                //__this.ShowToast("Oh no! " + description);
-
-                //Toast.makeText(__this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
-                //__this.alertDialog.setTitle((CharSequence)(object)"Error");
-                //__this.alertDialog.setMessage(description);
-                //__this.alertDialog.setButton((CharSequence)(object)"OK", new DialogInterface.OnClickListener() {
-                //    public void onClick(DialogInterface dialog, int which) {
-                //        return;
-                //    }
-                //});
-                //__this.alertDialog.show();
-            }
-        }
-
-
-        public string getLocalIpAddress()
-        {
-            var value = "";
-
-            try
-            {
-                for (Enumeration en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); )
-                {
-                    NetworkInterface intf = (NetworkInterface)en.nextElement();
-                    for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); )
-                    {
-                        InetAddress inetAddress = (InetAddress)enumIpAddr.nextElement();
-
-                        Log.wtf("getLocalIpAddress", inetAddress.getHostAddress().ToString());
-
-                        var v6 = inetAddress is Inet6Address;
-
-                        if (v6)
-                        {
-                        }
-                        else if (!inetAddress.isLoopbackAddress())
-                        {
-                            if (value == "")
-                                value = inetAddress.getHostAddress().ToString();
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
-
-            if (value == "")
-            {
-                // no wifi
-                value = "127.0.0.1";
-            }
-
-            return value;
-        }
-
-
-        ServerThread serverThread;
-
-        protected override void onDestroy()
-        {
-            base.onDestroy();
-
-            if (serverThread.serversocket != null)
-                serverThread.closeConnections();
-        }
-
-        public class XThread : Runnable
-        {
-            public readonly Thread Thread;
-
-            public XThread()
-            {
-                this.Thread = new Thread(this);
-            }
-
-            public Action Handler;
-
-            public void run()
-            {
-                Handler();
-            }
-        }
-
-        public class ServerThread : Runnable
-        {
-            public int port = 1111;
-
-            public WebServiceServerActivity mycontext;
-
-            public bool isRunning = true;
-
-            public ServerSocket serversocket;
-            public Socket clientsocket;
-
-
-            public void run()
-            {
+                InputStream value = null;
                 try
                 {
-
-                    serversocket = new ServerSocket(port);
-                    serversocket.setReuseAddress(true);
-
-                    while (isRunning)
-                    {
-
-                        clientsocket = serversocket.accept();
-
-                        AtConnection();
-
-                    }
+                    value = this.getResources().getAssets().open(spath);
                 }
                 catch
                 {
 
                 }
-            }
+                return value;
 
-            [Script(OptimizedCode = "return e.replaceAll(x, y);")]
-            public static string String_Replace(string e, string x, string y)
+            };
+            #endregion
+
+            #region getStringFromInput
+            Func<BufferedReader, string> getStringFromInput = (BufferedReader input) =>
             {
-                return null;
-            }
+                StringBuilder sb = new StringBuilder();
+                string sTemp;
 
-            public void AtConnection()
+                try
+                {
+                    sTemp = input.readLine();
+
+                    while (!(sTemp == ""))
+                    {
+                        sb.append(sTemp + "\n");
+                        sTemp = input.readLine();
+                    }
+                }
+                catch
+                {
+                    sb = new StringBuilder();
+                }
+
+                return sb.ToString();
+            };
+            #endregion
+
+            #region AtConnection
+            Action<Socket> AtConnection = (clientsocket) =>
             {
                 Func<string, string, bool> Contains = (item, ex) =>
                 {
@@ -449,9 +261,8 @@ namespace xavalon.net
                 };
                 #endregion
 
-
-                Action Handler =
-                    delegate
+                new System.Threading.Thread(
+                    delegate()
                     {
 
                         try
@@ -466,7 +277,7 @@ namespace xavalon.net
 
                             var path = ((java.lang.String)(object)sAll).substring(i0, i1);
 
-                            path = String_Replace(path, "%20", " ");
+                            path = path.Replace("%20", " ");
 
                             if (path.Length > 0)
                                 path = ((java.lang.String)(object)path).substring(2, path.Length);
@@ -482,12 +293,12 @@ namespace xavalon.net
                                 }
                             }
 
-                            if (mycontext.width > mycontext.height)
+                            if (this.width > this.height)
                                 if (path == "")
-                                    path = mycontext.ApplicationFile;
+                                    path = this.ApplicationFile;
 
 
-                            var asset = openFileFromAssets(path, mycontext);
+                            var asset = openFileFromAssets(path);
 
 
 
@@ -501,9 +312,9 @@ namespace xavalon.net
                                 Log.i("jsc get", _get);
 
 
-                                if (Contains(path, ".gif"))
+                                if (path.EndsWith(".gif"))
                                     send_stream(asset, "image/gif");
-                                if (Contains(path, ".htm"))
+                                if (path.EndsWith(".htm"))
                                     send_stream(asset, "text/html");
                                 else
                                     send_stream(asset, "application/octet-stream");
@@ -555,7 +366,7 @@ namespace xavalon.net
 
 
                                 firstpage += "</div>";
-                                AttachQRToElement(mycontext.uri, "newdevice");
+                                AttachQRToElement(this.uri, "newdevice");
 
 
 
@@ -564,10 +375,10 @@ namespace xavalon.net
 
 
 
-                                var ApplicationFileLink = mycontext.uri;
+                                var ApplicationFileLink = this.uri;
 
                                 ApplicationFileLink += "/";
-                                ApplicationFileLink += this.mycontext.ApplicationFile;
+                                ApplicationFileLink += this.ApplicationFile;
 
                                 firstpage += "<a";
                                 firstpage += " href='";
@@ -583,7 +394,7 @@ namespace xavalon.net
                                 firstpage += "\n";
                                 firstpage += "<div>";
                                 firstpage += "<code>";
-                                firstpage += mycontext.uri;
+                                firstpage += this.uri;
                                 firstpage += "</code>";
                                 firstpage += "</div>";
                                 firstpage += "</a>";
@@ -597,7 +408,7 @@ namespace xavalon.net
 
 
 
-                                var assets = mycontext.getResources().getAssets();
+                                var assets = this.getResources().getAssets();
 
                                 var collection = assets.list(path);
 
@@ -630,7 +441,7 @@ namespace xavalon.net
                                         path_preview += item;
                                         path_preview += ".png";
 
-                                        var asset_preview = openFileFromAssets(path_preview, mycontext);
+                                        var asset_preview = openFileFromAssets(path_preview);
                                         if (asset_preview != null)
                                         {
                                             firstpage += "<div>";
@@ -677,7 +488,7 @@ namespace xavalon.net
 
                                             ContainerID += ((object)index).ToString();
 
-                                            var itemuri = mycontext.uri + "/";
+                                            var itemuri = this.uri + "/";
                                             itemuri += item;
 
                                             AttachQRToElement(itemuri, ContainerID);
@@ -717,93 +528,214 @@ namespace xavalon.net
                         {
 
                         }
-                    };
+                    }
+                ).Start();
+            };
+            #endregion
 
-                var x = new XThread
+            #region serverThread
+            var serverThread = new System.Threading.Thread(
+               delegate()
+               {
+
+                   try
+                   {
+
+                       serversocket = new ServerSocket(port);
+                       serversocket.setReuseAddress(true);
+
+                       while (isRunning)
+                       {
+
+                           var clientsocket = serversocket.accept();
+
+                           AtConnection(clientsocket);
+
+                       }
+                   }
+                   catch
+                   {
+
+                   }
+               }
+           );
+
+            serverThread.Start();
+            #endregion
+
+
+            #region AtDestroy
+            AtDestroy =
+                delegate
                 {
-                    Handler = Handler
-                };
-
-                x.Thread.start();
-            }
-
-            public static InputStream openFileFromAssets(string spath, Context mycontext)
-            {
-                InputStream value = null;
-                try
-                {
-                    value = mycontext.getResources().getAssets().open(spath);
-                }
-                catch
-                {
-
-                }
-                return value;
-
-            }
-
-
-            string getStringFromInput(BufferedReader input)
-            {
-                StringBuilder sb = new StringBuilder();
-                string sTemp;
-
-                try
-                {
-                    sTemp = input.readLine();
-
-                    while (!(sTemp == ""))
+                    try
                     {
-                        sb.append(sTemp + "\n");
-                        sTemp = input.readLine();
+                        if (serversocket != null)
+                            serversocket.close();
+                    }
+                    catch
+                    {
+
+                    }
+                };
+            #endregion
+
+
+            // http://stackoverflow.com/questions/8955228/webview-with-an-iframe-android
+            // http://www.chrisdanielson.com/tag/webviewclient/
+
+            this.alertDialog = new AlertDialog.Builder(this).create();
+
+            this.progressBar = ProgressDialog.show(this,
+                "Get ready!",
+                "Almost there..."
+            );
+
+
+            #region webview
+            this.webview = new WebView(this);
+
+
+            setContentView(webview);
+
+
+            webview.getSettings().setBuiltInZoomControls(true);
+            webview.getSettings().setSupportZoom(true);
+            webview.getSettings().setLoadsImagesAutomatically(true);
+            webview.getSettings().setJavaScriptEnabled(true);
+            webview.setInitialScale(ApplicationScale);
+
+            webview.setWebViewClient(new MyWebViewClient { __this = this });
+            webview.getSettings().setSupportZoom(false);
+            webview.setScrollBarStyle(WebView.SCROLLBARS_INSIDE_OVERLAY);
+
+            //webview.getSettings().setJavaScriptEnabled(true);
+
+            // no flash in emulator?
+            // works on my phone!
+            // no Flash since android 4.1.0!!!
+            //webview.getSettings().setPluginsEnabled(true);
+            //webview.getSettings().setPluginState(android.webkit.WebSettings.PluginState.ON);
+
+
+
+            // OR, you can also load from an HTML string:
+            //var summary = "<html><body>You scored <b>192</b> points.</body></html>";
+            //webview.loadData(summary, "text/html", null);
+            //Log.i(TAG, "loadUrl");
+            webview.loadUrl(uri);
+            #endregion
+
+
+        }
+
+        public Action onpagefinished;
+
+        class MyWebViewClient : WebViewClient
+        {
+
+            public WebServiceServerActivity __this;
+
+            public override bool shouldOverrideUrlLoading(WebView view, string url)
+            {
+                if (url.EndsWith(".apk"))
+                    return false;
+
+                //Log.i(TAG, "Processing webview url click...");
+                view.loadUrl(url);
+                return true;
+            }
+
+            public override void onPageFinished(WebView view, string url)
+            {
+                //Log.i(TAG, "Finished loading URL: " + url);
+                if (__this.progressBar.isShowing())
+                {
+                    __this.progressBar.dismiss();
+                    __this.TryHideActionbar();
+
+                    if (__this.onpagefinished != null)
+                        __this.onpagefinished();
+                }
+            }
+
+            public override void onReceivedError(WebView view, int errorCode, string description, string failingUrl)
+            {
+                //Log.e(TAG, "Error: " + description);
+
+                //__this.ShowToast("Oh no! " + description);
+
+                //Toast.makeText(__this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+                //__this.alertDialog.setTitle((CharSequence)(object)"Error");
+                //__this.alertDialog.setMessage(description);
+                //__this.alertDialog.setButton((CharSequence)(object)"OK", new DialogInterface.OnClickListener() {
+                //    public void onClick(DialogInterface dialog, int which) {
+                //        return;
+                //    }
+                //});
+                //__this.alertDialog.show();
+            }
+        }
+
+
+        public static string getLocalIpAddress()
+        {
+            var value = "";
+
+            try
+            {
+                for (Enumeration en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); )
+                {
+                    NetworkInterface intf = (NetworkInterface)en.nextElement();
+                    for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); )
+                    {
+                        InetAddress inetAddress = (InetAddress)enumIpAddr.nextElement();
+
+                        Log.wtf("getLocalIpAddress", inetAddress.getHostAddress().ToString());
+
+                        var v6 = inetAddress is Inet6Address;
+
+                        if (v6)
+                        {
+                        }
+                        else if (!inetAddress.isLoopbackAddress())
+                        {
+                            if (value == "")
+                                value = inetAddress.getHostAddress().ToString();
+                        }
                     }
                 }
-                catch
-                {
-                    sb = new StringBuilder();
-                }
-
-                return sb.ToString();
             }
-
-            public void closeConnections()
+            catch
             {
-                try
-                {
-                    serversocket.close();
-                }
-                catch
-                {
-
-                }
             }
+
+            if (value == "")
+            {
+                // no wifi
+                value = "127.0.0.1";
+            }
+
+            return value;
         }
+
+
+        #region AtDestroy
+        Action AtDestroy;
+
+        protected override void onDestroy()
+        {
+            base.onDestroy();
+
+            if (AtDestroy != null)
+                AtDestroy();
+
+        }
+        #endregion
+
+
+
     }
 
-
-    [Script(Implements = typeof(global::System.Random))]
-    internal class __Random
-    {
-        public virtual int Next()
-        {
-            return Next(0, int.MaxValue);
-        }
-
-        public virtual int Next(int min, int max)
-        {
-            var len = max - min;
-            var r = global::java.lang.Math.floor(java.lang.Math.random() * len);
-
-            int ri = (int)r;
-            return ri + min;
-        }
-
-        public virtual double NextDouble()
-        {
-            return java.lang.Math.random();
-        }
-
-
-    }
 
 }
