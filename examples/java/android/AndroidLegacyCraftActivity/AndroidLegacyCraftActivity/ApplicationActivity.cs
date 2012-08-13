@@ -76,12 +76,7 @@ namespace AndroidLegacyCraftActivity.Activities
                         mediaPlayer.setOnPreparedListener(
                             new _prepared { }
                         );
-                        //mediaPlayer.setOnCompletionListener(
-                        //    new _OnCompletionListener());
-
-                        //mediaPlayer.setOnErrorListener(
-                        //    new _OnErrorListener());
-
+                 
 
                         mediaPlayer.prepare();
                         mediaPlayer.setLooping(true);
@@ -123,25 +118,7 @@ namespace AndroidLegacyCraftActivity.Activities
 
             base.onResume();
         }
-        //class _OnCompletionListener : MediaPlayer.OnCompletionListener
-        //{
-
-        //    public void onCompletion(MediaPlayer value)
-        //    {
-        //        Log.wtf("jsc", "_OnCompletionListener");
-        //    }
-        //}
-
-        //class _OnErrorListener : MediaPlayer.OnErrorListener
-        //{
-
-
-        //    public bool onError(MediaPlayer arg0, int arg1, int arg2)
-        //    {
-        //        Log.wtf("jsc", "_OnErrorListener");
-        //        return true;
-        //    }
-        //}
+     
 
         public override string ToString()
         {
@@ -150,19 +127,6 @@ namespace AndroidLegacyCraftActivity.Activities
     }
 
 
-    [Script(
-   HasNoPrototype = true,
-  Implements = typeof(global::System.Exception),
-  ImplementationType = typeof(java.lang.Throwable))]
-    internal class __Exception
-    {
-        public __Exception() { }
-        public __Exception(string e) { }
-        public string Message
-        {
-            [Script(ExternalTarget = "getMessage")]
-            get { return default(string); }
-        }
-    }
+   
 }
 
