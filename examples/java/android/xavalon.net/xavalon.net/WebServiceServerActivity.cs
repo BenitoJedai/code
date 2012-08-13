@@ -178,12 +178,7 @@ namespace xavalon.net
             #region AtConnection
             Action<Socket> AtConnection = (clientsocket) =>
             {
-                Func<string, string, bool> Contains = (item, ex) =>
-                {
-                    var xx = !(((java.lang.String)(object)item).indexOf(ex, 0) < 0);
-
-                    return xx;
-                };
+      
 
 
                 BufferedReader input = null;
@@ -420,7 +415,7 @@ namespace xavalon.net
                                     {
                                         index++;
 
-                                        if (!Contains(item, "."))
+                                        if (!item.Contains("."))
                                         {
                                             item += "/";
                                         }
@@ -457,9 +452,9 @@ namespace xavalon.net
                                         firstpage += "\n";
 
                                         #region WithImage
-                                        var WithImage = Contains(item, ".gif");
+                                        var WithImage = item.EndsWith(".gif");
 
-                                        WithImage |= Contains(item, ".png");
+                                        WithImage |= item.EndsWith(".png");
 
                                         if (WithImage)
                                         {
@@ -480,7 +475,7 @@ namespace xavalon.net
                                         firstpage += "</div>";
 
                                         #region WithQR
-                                        var WithQR = Contains(item, ".apk");
+                                        var WithQR = item.EndsWith( ".apk");
 
                                         if (WithQR)
                                         {
