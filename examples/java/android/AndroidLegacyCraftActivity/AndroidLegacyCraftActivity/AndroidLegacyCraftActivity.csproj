@@ -98,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="staging\apk\assets\AndroidLegacyCraftActivity.Activities-debug.apk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="staging\apk\assets\war-gfx\nepese.ani">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
