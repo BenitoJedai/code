@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System_Net_Sockets_TcpClient", "System_Net_Sockets_TcpClient\System_Net_Sockets_TcpClient.csproj", "{41EB5765-324A-4C3F-9908-810D59E2F791}"
 EndProject
 Global
