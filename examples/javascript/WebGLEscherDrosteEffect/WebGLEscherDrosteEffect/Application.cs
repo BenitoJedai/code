@@ -89,33 +89,12 @@ namespace WebGLEscherDrosteEffect
             };
             #endregion
 
-
-            #region load_shader
-            Func<Shader, WebGLShader> load_shader =
-                src =>
-                {
-                    var shader = gl.createShader(src);
-
-                    // verify
-                    if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                    {
-                        Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                        throw new InvalidOperationException("shader");
-                    }
-
-                    return shader;
-                };
-            #endregion
-
-            var program = default(WebGLProgram);
-
             #region init
 
-            program = gl.createProgram();
+            var program = gl.createProgram();
 
-            var vs = load_shader(new EscherDorsteVertexShader());
-            var fs = load_shader(new EscherDorsteFragmentShader());
-
+            var vs = gl.createShader(new EscherDorsteVertexShader());
+            var fs = gl.createShader(new EscherDorsteFragmentShader());
 
             gl.attachShader(program, vs);
             gl.attachShader(program, fs);
@@ -123,18 +102,6 @@ namespace WebGLEscherDrosteEffect
             gl.bindAttribLocation(program, 0, "position");
 
             gl.linkProgram(program);
-
-            if (gl.getProgramParameter(program, gl.LINK_STATUS) == null)
-            {
-
-                Native.Window.alert("ERROR:\n" +
-                "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
-                "ERROR: " + gl.getError() + "\n\n"
-               );
-
-                return;
-            }
-
             gl.useProgram(program);
 
             #region loadTexture
