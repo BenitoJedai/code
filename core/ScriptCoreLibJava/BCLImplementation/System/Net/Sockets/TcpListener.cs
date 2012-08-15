@@ -49,7 +49,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 				//Console.WriteLine(t.Message);
 				//((Throwable)(object)t).printStackTrace();
 
-				throw new InvalidOperationException();
+                //throw new InvalidOperationException();
+                throw;
 			}
 
 			this.Server = (Socket)(object) new __Socket { InternalServerSocket = this.InternalSocket };
@@ -64,8 +65,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			}
 			catch
 			{
-				throw new InvalidOperationException();
-			}
+                //throw new InvalidOperationException();
+                throw;
+            }
 		}
 
 		public Socket AcceptSocket()
@@ -85,7 +87,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			{
 				//((Throwable)(object)t).printStackTrace();
 
-				throw new InvalidOperationException();
+                //throw new InvalidOperationException();
+                throw;
 			}
 
 			return (Socket)(object)r;

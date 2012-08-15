@@ -76,6 +76,30 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
       <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Stream.cs">
+      <Link>BCLImplementation\System\IO\Stream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\EndPoint.cs">
+      <Link>BCLImplementation\System\Net\EndPoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\IPAddress.cs">
+      <Link>BCLImplementation\System\Net\IPAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\IPEndPoint.cs">
+      <Link>BCLImplementation\System\Net\IPEndPoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\NetworkStream.cs">
+      <Link>BCLImplementation\System\Net\Sockets\NetworkStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\Socket.cs">
+      <Link>BCLImplementation\System\Net\Sockets\Socket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\TcpClient.cs">
+      <Link>BCLImplementation\System\Net\Sockets\TcpClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\TcpListener.cs">
+      <Link>BCLImplementation\System\Net\Sockets\TcpListener.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\NotImplementedException.cs">
       <Link>BCLImplementation\System\NotImplementedException.cs</Link>
     </Compile>
@@ -160,6 +184,27 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Throwable.cs">
       <Link>java\lang\Throwable.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\InetAddress.cs">
+      <Link>java\net\InetAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\InetSocketAddress.cs">
+      <Link>java\net\InetSocketAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\ServerSocket.cs">
+      <Link>java\net\ServerSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\Socket.cs">
+      <Link>java\net\Socket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\SocketAddress.cs">
+      <Link>java\net\SocketAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\SocketChannel.cs">
+      <Link>java\net\SocketChannel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\SocketImplFactory.cs">
+      <Link>java\net\SocketImplFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\URI.cs">
       <Link>java\net\URI.cs</Link>
     </Compile>
@@ -168,6 +213,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\URLConnection.cs">
       <Link>java\net\URLConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\nio\channels\ServerSocketChannel.cs">
+      <Link>java\nio\channels\ServerSocketChannel.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\CodeSource.cs">
       <Link>java\security\CodeSource.cs</Link>

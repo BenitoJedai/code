@@ -6,7 +6,8 @@ using java.lang;
 
 namespace java.net
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/InetAddress.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/net/InetAddress.html
+    // http://developer.android.com/reference/java/net/InetAddress.html
 	[Script(IsNative = true)]
 	public class InetAddress
 	{

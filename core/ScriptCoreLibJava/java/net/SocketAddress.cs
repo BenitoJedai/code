@@ -4,7 +4,8 @@ using java.lang;
 
 namespace java.net
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/SocketAddress.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/net/SocketAddress.html
+    // http://developer.android.com/reference/java/net/SocketAddress.html
     [Script(IsNative=true)]
     public abstract class SocketAddress
     {

@@ -5,7 +5,8 @@ using java.nio.channels;
 
 namespace java.nio.channels
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/nio/channels/ServerSocketChannel.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/nio/channels/ServerSocketChannel.html
+    // http://developer.android.com/reference/java/nio/channels/ServerSocketChannel.html
 	[Script(IsNative = true)]
 	public abstract class ServerSocketChannel
 	{
