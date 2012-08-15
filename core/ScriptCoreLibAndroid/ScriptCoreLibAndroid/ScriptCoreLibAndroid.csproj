@@ -184,11 +184,17 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Throwable.cs">
       <Link>java\lang\Throwable.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\Inet6Address.cs">
+      <Link>java\net\Inet6Address.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\InetAddress.cs">
       <Link>java\net\InetAddress.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\InetSocketAddress.cs">
       <Link>java\net\InetSocketAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\NetworkInterface.cs">
+      <Link>java\net\NetworkInterface.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\ServerSocket.cs">
       <Link>java\net\ServerSocket.cs</Link>

@@ -8,6 +8,9 @@ using android.view;
 using android.widget;
 using ScriptCoreLib;
 using ScriptCoreLib.Android.Extensions;
+using java.util;
+using java.net;
+using android.util;
 
 namespace AndroidTcpListenerActivity.Activities
 {
@@ -30,11 +33,23 @@ namespace AndroidTcpListenerActivity.Activities
 
 
 
-            b.WithText("before AtClick");
+            b.WithText("server at " + getLocalIpAddress());
             b.AtClick(
                 v =>
                 {
-                    b.setText("AtClick");
+                    var r = new System.Random();
+                    var port = r.Next(1024, 32000);
+
+
+                    var uri = "http://" + getLocalIpAddress();
+
+                    uri += ":";
+                    uri += ((object)(port)).ToString();
+
+                    b.setText(uri);
+
+
+
                 }
             );
 
@@ -45,7 +60,46 @@ namespace AndroidTcpListenerActivity.Activities
             this.setContentView(sv);
         }
 
+        public static string getLocalIpAddress()
+        {
+            var value = "";
 
+            try
+            {
+                for (Enumeration en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); )
+                {
+                    NetworkInterface intf = (NetworkInterface)en.nextElement();
+                    for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); )
+                    {
+                        InetAddress inetAddress = (InetAddress)enumIpAddr.nextElement();
+
+                        Log.wtf("getLocalIpAddress", inetAddress.getHostAddress().ToString());
+
+                        var v6 = inetAddress is Inet6Address;
+
+                        if (v6)
+                        {
+                        }
+                        else if (!inetAddress.isLoopbackAddress())
+                        {
+                            if (value == "")
+                                value = inetAddress.getHostAddress().ToString();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            if (value == "")
+            {
+                // no wifi
+                value = "127.0.0.1";
+            }
+
+            return value;
+        }
     }
 
 
