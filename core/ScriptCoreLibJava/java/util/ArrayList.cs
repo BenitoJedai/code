@@ -7,6 +7,16 @@ namespace java.util
 {
     // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/ArrayList.html
     // http://developer.android.com/reference/java/util/ArrayList.html
+
+    [Script(IsNative = true)]
+    public class ArrayList<T0> 
+    {
+        public bool add(T0 @o)
+        {
+            return default(bool);
+        }
+    }
+
 	[Script(IsNative = true)]
 	public class ArrayList : AbstractList, List
 	{

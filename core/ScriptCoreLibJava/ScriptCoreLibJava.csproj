@@ -864,6 +864,7 @@
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
     <Compile Include="java\lang\reflect\InvocationTargetException.cs" />
     <Compile Include="java\math\BigInteger.cs" />
+    <Compile Include="java\net\Inet6Address.cs" />
     <Compile Include="java\net\NetworkInterface.cs" />
     <Compile Include="java\net\URLConnection.cs" />
     <Compile Include="java\net\HttpURLConnection.cs" />
