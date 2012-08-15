@@ -41,12 +41,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			{
 				InternalSocket.connect(new java.net.InetSocketAddress(((__IPAddress)(object)hostname).InternalAddress, port));
 			}
-			catch (csharp.ThrowableException t)
+			catch //(csharp.ThrowableException t)
 			{
 				//((java.lang.Throwable)(object)t).printStackTrace();
 
-				throw new InvalidOperationException();
-			}
+                //throw new InvalidOperationException();
+                throw;
+            }
 		}
 
 		public void Connect(string hostname, int port)
@@ -55,12 +56,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			{
 				InternalSocket.connect(new java.net.InetSocketAddress(hostname, port));
 			}
-			catch (csharp.ThrowableException t)
+			catch //(csharp.ThrowableException t)
 			{
 				//((java.lang.Throwable)(object)t).printStackTrace();
 
-				throw new InvalidOperationException();
-			}
+                //throw new InvalidOperationException();
+
+                throw;
+            }
 		}
 
 		NetworkStream CachedGetStream;

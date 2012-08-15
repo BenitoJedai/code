@@ -4,7 +4,8 @@ using java.io;
 
 namespace java.net
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/Socket.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/net/Socket.html
+    // http://developer.android.com/reference/java/net/Socket.html
     [Script(IsNative = true)]
     public class Socket
     {
