@@ -48,6 +48,8 @@ namespace AndroidTcpListenerActivity.Activities
                 v =>
                 {
                     var random = new System.Random();
+
+                    // Error 312 (net::ERR_UNSAFE_PORT): Unknown error.
                     var port = random.Next(1024, 32000);
 
                     var uri = "http://" + ip;
@@ -73,13 +75,13 @@ namespace AndroidTcpListenerActivity.Activities
                         s =>
                         {
 
-                            log("AtConnection");
+                            //log("AtConnection");
 
                             var r = new StreamReader(s);
 
                             var h0 = r.ReadLine();
 
-                            log("ReadLine done");
+                            //log("ReadLine done");
 
                             var m = new MemoryStream();
 
@@ -98,8 +100,11 @@ namespace AndroidTcpListenerActivity.Activities
 
                             WriteLineASCII("");
                             WriteLineASCII("");
+                            WriteLineASCII("<html>");
 
-                            WriteLineASCII("<body><h1>Hello world</h2><h3>jsc</h3><pre>" + h0 + "</pre></body>");
+                            WriteLineASCII("<body><h1 style='color: red;'>Hello world</h2><h3>jsc</h3><pre>" + h0 + "</pre></body>");
+
+                            WriteLineASCII("</html>");
 
                             log("write done");
 
@@ -111,41 +116,51 @@ namespace AndroidTcpListenerActivity.Activities
                             s.Close();
                         };
 
+                    //                    AndroidTcpListenerActivity.AndroidActivity 003e create: AndroidTcpListenerActivity.Activities.ApplicationActivity+<>c__DisplayClass8+<>c__DisplayClassb
+                    //switch to STA Exception:
+                    //System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.ArgumentException: The IL Generator cannot be used while there are unclosed exceptions.
+                    //   at System.Reflection.Emit.ILGenerator.BakeByteArray()
+                    //   at System.Reflection.Emit.MethodBuilder.CreateMethodBodyHelper(ILGenerator il)
+                    //   at System.Reflection.Emit.TypeBuilder.CreateTypeNoLock()
+                    //   at System.Reflection.Emit.TypeBuilder.CreateType()
+
                     new Thread(
                             delegate()
                             {
                                 var r = new TcpListener(ipa, port);
 
-                                try
+                                //try
+                                //{
+                                r.Start();
+
+                                while (true)
                                 {
-                                    r.Start();
-                                    while (true)
-                                    {
-                                        log("AcceptTcpClient");
-                                        var c = r.AcceptTcpClient();
-                                        log("AcceptTcpClient done, GetStream");
+                                    //log("AcceptTcpClient");
+                                    var c = r.AcceptTcpClient();
+                                    //log("AcceptTcpClient done, GetStream");
 
-                                        var s = c.GetStream();
-                                        log("AcceptTcpClient done, GetStream done");
+                                    var s = c.GetStream();
+                                    //log("AcceptTcpClient done, GetStream done");
 
-                                        new Thread(
-                                            delegate()
-                                            {
-                                                log("before AtConnection");
-                                                AtConnection(s);
-                                            }
-                                        )
+                                    new Thread(
+                                        delegate()
                                         {
-                                            IsBackground = true,
-                                        }.Start();
-                                    }
+                                            //log("before AtConnection");
+                                            AtConnection(s);
+                                        }
+                                    )
+                                    {
+                                        IsBackground = true,
+                                    }.Start();
                                 }
-                                catch
-                                {
-                                    log("AcceptTcpClient error!");
 
-                                    throw;
-                                }
+                                //}
+                                //catch
+                                //{
+                                //    log("AcceptTcpClient error!");
+
+                                //    throw;
+                                //}
 
 
                             }
