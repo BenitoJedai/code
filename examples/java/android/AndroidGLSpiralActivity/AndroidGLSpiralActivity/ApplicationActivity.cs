@@ -63,18 +63,22 @@ namespace AndroidGLSpiralActivity.Activities
                     // Create Program
 
 
-                    var currentProgram = gl.createProgram();
 
-                    var vs = gl.createShader(new SpiralVertexShader());
-                    var fs = gl.createShader(new SpiralFragmentShader());
+                    #region createProgram
 
-                    gl.attachShader(currentProgram, vs);
-                    gl.attachShader(currentProgram, fs);
+                    var program = gl.createProgram(
+                        new SpiralVertexShader(),
+                        new SpiralFragmentShader()
+                    );
 
-                    gl.deleteShader(vs);
-                    gl.deleteShader(fs);
 
-                    gl.linkProgram(currentProgram);
+
+                    gl.linkProgram(program);
+                    gl.useProgram(program);
+
+
+
+                    #endregion
 
                     var parameters_time = 0L;
                     var parameters_screenWidth = 0;
@@ -115,17 +119,16 @@ namespace AndroidGLSpiralActivity.Activities
 
                             // Load program into GPU
 
-                            gl.useProgram(currentProgram);
 
                             // Get var locations
 
-                            var vertex_position = gl.getAttribLocation(currentProgram, "position");
+                            var vertex_position = gl.getAttribLocation(program, "position");
 
                             // Set values to program variables
 
-                            gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), time);
-                            gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
-                            gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
+                            gl.uniform1f(gl.getUniformLocation(program, "time"), time);
+                            gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
+                            gl.uniform2f(gl.getUniformLocation(program, "aspect"), parameters_aspectX, parameters_aspectY);
 
                             // Render geometry
 

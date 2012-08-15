@@ -98,6 +98,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\AndroidGLAccelerometerSpiralActivity\AndroidGLAccelerometerSpiralActivity\bin\Debug\staging\apk\bin\AndroidGLAccelerometerSpiralActivity.Activities-debug.apk">
+      <Link>staging\apk\assets\AndroidGLAccelerometerSpiralActivity.Activities-debug.apk</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\AndroidGLDisturbActivity\AndroidGLDisturbActivity\bin\Debug\staging\apk\bin\AndroidGLDisturbActivity.Activities-debug.apk">
+      <Link>staging\apk\assets\AndroidGLDisturbActivity.Activities-debug.apk</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\AndroidGLEscherDrosteEffectActivity\AndroidGLEscherDrosteEffectActivity\bin\Debug\staging\apk\bin\AndroidGLEscherDrosteEffectActivity.Activities-debug.apk">
+      <Link>staging\apk\assets\AndroidGLEscherDrosteEffectActivity.Activities-debug.apk</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\AndroidGLSpiralActivity\AndroidGLSpiralActivity\bin\Debug\staging\apk\bin\AndroidGLSpiralActivity.Activities-debug.apk">
+      <Link>staging\apk\assets\AndroidGLSpiralActivity.Activities-debug.apk</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="staging\apk\assets\AndroidLegacyCraftActivity.Activities-debug.apk">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -87,19 +87,15 @@ namespace WebGLShaderDisturb
 
             #region createProgram
 
-            var currentProgram = gl.createProgram();
+            var program = gl.createProgram(
+                new DisturbVertexShader(),
+                new DisturbFragmentShader()
+            );
 
-            var vs = gl.createShader(new DisturbVertexShader());
-            var fs = gl.createShader(new DisturbFragmentShader());
+          
 
-
-            gl.attachShader(currentProgram, vs);
-            gl.attachShader(currentProgram, fs);
-
-            gl.deleteShader(vs);
-            gl.deleteShader(fs);
-
-            gl.linkProgram(currentProgram);
+            gl.linkProgram(program);
+            gl.useProgram(program);
 
 
 
@@ -174,7 +170,7 @@ namespace WebGLShaderDisturb
                 if (IsDisposed)
                     return;
 
-                if (currentProgram == null) return;
+                if (program == null) return;
 
                 parameters_time = new IDate().getTime() - parameters_start_time;
 
@@ -182,17 +178,16 @@ namespace WebGLShaderDisturb
 
                 // Load program into GPU
 
-                gl.useProgram(currentProgram);
 
                 // Get var locations
 
-                vertexPositionLocation = gl.getAttribLocation(currentProgram, "position");
-                textureLocation = gl.getUniformLocation(currentProgram, "texture");
+                vertexPositionLocation = gl.getAttribLocation(program, "position");
+                textureLocation = gl.getUniformLocation(program, "texture");
 
                 // Set values to program variables
 
-                gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
-                gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
+                gl.uniform1f(gl.getUniformLocation(program, "time"), parameters_time / 1000);
+                gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
 
                 gl.uniform1i(textureLocation, 0);
                 gl.activeTexture(gl.TEXTURE0);
