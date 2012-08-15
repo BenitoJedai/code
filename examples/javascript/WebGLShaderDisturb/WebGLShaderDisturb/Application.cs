@@ -83,58 +83,27 @@ namespace WebGLShaderDisturb
 
             // Create Program
 
-            #region createShader
-            Func<Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
 
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader");
-                }
-
-                return shader;
-            };
-            #endregion
 
             #region createProgram
-            Func<WebGLProgram> createProgram = () =>
-            {
 
-                var program = gl.createProgram();
+            var currentProgram = gl.createProgram();
 
-                var vs = createShader(new DisturbVertexShader());
-                var fs = createShader(new DisturbFragmentShader());
+            var vs = gl.createShader(new DisturbVertexShader());
+            var fs = gl.createShader(new DisturbFragmentShader());
 
 
-                gl.attachShader(program, vs);
-                gl.attachShader(program, fs);
+            gl.attachShader(currentProgram, vs);
+            gl.attachShader(currentProgram, fs);
 
-                gl.deleteShader(vs);
-                gl.deleteShader(fs);
+            gl.deleteShader(vs);
+            gl.deleteShader(fs);
 
-                gl.linkProgram(program);
+            gl.linkProgram(currentProgram);
 
-                if (gl.getProgramParameter(program, gl.LINK_STATUS) == null)
-                {
 
-                    Native.Window.alert("ERROR:\n" +
-                    "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
-                    "ERROR: " + gl.getError() + "\n\n"
-                   );
 
-                    return null;
-
-                }
-
-                return program;
-
-            };
             #endregion
-
-            var currentProgram = createProgram();
 
             #region loadTexture
             Func<IHTMLImage, WebGLTexture> loadTexture = (image) =>
