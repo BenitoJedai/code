@@ -24,6 +24,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using opengl = GLES20;
+    using java.io;
 
     #region R
     [Script(IsNative = true)]
@@ -510,31 +511,43 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     };
                     #endregion
 
+                    #region openFileFromAssets
+                    Func<string, InputStream> openFileFromAssets = (string spath) =>
+                    {
+                        InputStream value = null;
+                        try
+                        {
+                            value = this.getResources().getAssets().open(spath);
+                        }
+                        catch
+                        {
+
+                        }
+                        return value;
+
+                    };
+                    #endregion
+
+                    var stone_wall_public_domain = android.graphics.BitmapFactory.decodeStream(
+                        openFileFromAssets("stone_wall_public_domain.png")
+                    );
+
+
+                    var noisy_grass_public_domain = android.graphics.BitmapFactory.decodeStream(
+                        openFileFromAssets("noisy_grass_public_domain.png")
+                    );
+
                     // Load the texture
                     mBrickDataHandle = loadTexture(
-                         android.graphics.BitmapFactory.decodeResource(
-                             this.getResources(),
-                             R.drawable.stone_wall_public_domain,
-                             new android.graphics.BitmapFactory.Options
-                             {
-                                 inScaled = false // No pre-scaling
-                             }
-                         )
-                     );
+                        stone_wall_public_domain
+                    );
 
                     gl.generateMipmap(gl.TEXTURE_2D);
 
 
                     mGrassDataHandle = loadTexture(
-                      android.graphics.BitmapFactory.decodeResource(
-                          this.getResources(),
-                          R.drawable.noisy_grass_public_domain,
-                          new android.graphics.BitmapFactory.Options
-                          {
-                              inScaled = false // No pre-scaling
-                          }
-                      )
-                  );
+                      noisy_grass_public_domain
+                    );
 
                     gl.generateMipmap(gl.TEXTURE_2D);
 
