@@ -11,15 +11,15 @@ using android.widget;
 using java.lang;
 using ScriptCoreLib;
 using android.app;
+using java.nio;
+using ScriptCoreLib.JavaScript.WebGL;
+using android.hardware;
 
 
 namespace ScriptCoreLib.Android
 {
     using gl = __WebGLRenderingContext;
     using opengl = GLES20;
-    using java.nio;
-    using ScriptCoreLib.JavaScript.WebGL;
-    using android.hardware;
 
 
 
@@ -167,6 +167,11 @@ namespace ScriptCoreLib.Android
             GLES20.glDrawArrays((int)mode, first, count);
         }
 
+        internal void drawElements(uint mode, int count, uint type, int offset)
+        {
+            GLES20.glDrawElements((int)mode, count, (int)type, offset);
+        }
+
         internal __WebGLShader createShader(int shaderType)
         {
             return new __WebGLShader { value = GLES20.glCreateShader(shaderType) };
@@ -190,6 +195,12 @@ namespace ScriptCoreLib.Android
         internal void attachShader(__WebGLProgram program, __WebGLShader vertexShader)
         {
             GLES20.glAttachShader(program.value, vertexShader.value);
+        }
+
+
+        internal void flush()
+        {
+            GLES20.glFlush();
         }
 
         internal void enable(uint cap)
@@ -270,17 +281,31 @@ namespace ScriptCoreLib.Android
 
         internal void bufferData(uint p, __ArrayBufferView v, uint p_2)
         {
-            var f32 = (__Float32Array)v;
-
-            if (CurrentBuffer.value == 0)
+            var f32 = v as __Float32Array;
+            if (f32 != null)
             {
-                CurrentBuffer.value = f32.InternalFloatArray.Length * 4;
+                if (CurrentBuffer.value == 0)
+                {
+                    CurrentBuffer.value = f32.InternalFloatArray.Length * 4;
 
-                bindBuffer(p, CurrentBuffer);
+                    bindBuffer(p, CurrentBuffer);
+                }
+
+                opengl.glBufferData((int)p, CurrentBuffer.value, f32.InternalFloatBuffer, (int)p_2);
             }
 
-            opengl.glBufferData((int)p, CurrentBuffer.value, f32.InternalFloatBuffer, (int)p_2);
+            var u16 = v as __Uint16Array;
+            if (u16 != null)
+            {
+                if (CurrentBuffer.value == 0)
+                {
+                    CurrentBuffer.value = u16.InternalFloatArray.Length * 2;
 
+                    bindBuffer(p, CurrentBuffer);
+                }
+
+                opengl.glBufferData((int)p, CurrentBuffer.value, u16.InternalBuffer, (int)p_2);
+            }
         }
 
         internal void vertexAttribPointer(uint p, int p_2, uint p_3, bool p_4, int p_5, int p_6)
@@ -308,6 +333,22 @@ namespace ScriptCoreLib.Android
             );
         }
     }
+
+    [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.Uint16Array))]
+    public class __Uint16Array : __ArrayBufferView
+    {
+        public ushort[] InternalFloatArray;
+        public ShortBuffer InternalBuffer;
+
+        public __Uint16Array(params ushort[] array)
+        {
+            InternalFloatArray = array;
+            InternalBuffer = ShortBuffer.wrap(
+                (short[])(object)array
+            );
+        }
+    }
+
 
     [Script(Implements = typeof(ScriptCoreLib.JavaScript.WebGL.WebGLBuffer))]
     public class __WebGLBuffer : __WebGLObject
