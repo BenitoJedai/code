@@ -11,6 +11,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 	[Script(Implements = typeof(global::System.Net.Dns))]
 	internal class __Dns
 	{
+        public static IPAddress[] GetHostAddresses(string hostNameOrAddress)
+        {
+            return GetHostEntry(hostNameOrAddress).AddressList;
+        }
+
 		public static IPHostEntry GetHostEntry(string hostNameOrAddress)
 		{
 			var a = default(InetAddress[]);

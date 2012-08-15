@@ -16,7 +16,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 
 			try
 			{
-				r = (string)(object)new java.lang.String(__File.InternalByteArrayToSByteArray(bytes), "ASCII");
+                var _bytes = (sbyte[])(object)bytes;
+
+                r = (string)(object)new java.lang.String(_bytes, "ASCII");
 			}
 			catch
 			{
