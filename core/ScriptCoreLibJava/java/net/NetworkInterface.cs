@@ -7,7 +7,8 @@ using java.util;
 
 namespace java.net
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/NetworkInterface.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/net/NetworkInterface.html
+    // http://developer.android.com/reference/java/net/NetworkInterface.html
 	[Script(IsNative = true)]
 	public sealed class NetworkInterface
 	{
