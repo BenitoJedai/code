@@ -11,9 +11,16 @@ using ScriptCoreLib.Android.Extensions;
 using java.util;
 using java.net;
 using android.util;
+using System.Threading;
+using System.Net.Sockets;
+using System.Net;
+using System.IO;
 
 namespace AndroidTcpListenerActivity.Activities
 {
+
+    public delegate void NetworkStreamAction(NetworkStream s);
+
     public class ApplicationActivity : Activity
     {
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
@@ -32,24 +39,120 @@ namespace AndroidTcpListenerActivity.Activities
             var b = new Button(this).AttachTo(ll);
 
 
+            var ip = getLocalIpAddress();
 
-            b.WithText("server at " + getLocalIpAddress());
+
+
+            b.WithText("server at " + ip);
             b.AtClick(
                 v =>
                 {
-                    var r = new System.Random();
-                    var port = r.Next(1024, 32000);
+                    var random = new System.Random();
+                    var port = random.Next(1024, 32000);
 
-
-                    var uri = "http://" + getLocalIpAddress();
+                    var uri = "http://" + ip;
 
                     uri += ":";
                     uri += ((object)(port)).ToString();
 
                     b.setText(uri);
 
+                    Toast.makeText(
+                          this,
+                          "connect to this web server"
+                      ).show();
+
+                    var ipa = Dns.GetHostAddresses(ip)[0];
 
 
+                    Action<string> log = x => Log.wtf("ApplicationActivity", x);
+
+                    // jsc does not import generic param, why?
+                    //Action<NetworkStream> AtConnection =
+                    NetworkStreamAction AtConnection =
+                        s =>
+                        {
+
+                            log("AtConnection");
+
+                            var r = new StreamReader(s);
+
+                            var h0 = r.ReadLine();
+
+                            log("ReadLine done");
+
+                            var m = new MemoryStream();
+
+                            Action<string> WriteLineASCII = (string e) =>
+                            {
+                                var x = Encoding.ASCII.GetBytes(e + "\r\n");
+
+                                m.Write(x, 0, x.Length);
+                            };
+
+                            WriteLineASCII("HTTP/1.1 200 OK");
+                            WriteLineASCII("Content-Type:	text/html; charset=utf-8");
+                            //WriteLineASCII("Content-Length: " + data.Length);
+                            WriteLineASCII("Connection: close");
+
+
+                            WriteLineASCII("");
+                            WriteLineASCII("");
+
+                            WriteLineASCII("<body><h1>Hello world</h2><h3>jsc</h3><pre>" + h0 + "</pre></body>");
+
+                            log("write done");
+
+                            var oa = m.ToArray();
+
+                            s.Write(oa, 0, oa.Length);
+
+                            s.Flush();
+                            s.Close();
+                        };
+
+                    new Thread(
+                            delegate()
+                            {
+                                var r = new TcpListener(ipa, port);
+
+                                try
+                                {
+                                    r.Start();
+                                    while (true)
+                                    {
+                                        log("AcceptTcpClient");
+                                        var c = r.AcceptTcpClient();
+                                        log("AcceptTcpClient done, GetStream");
+
+                                        var s = c.GetStream();
+                                        log("AcceptTcpClient done, GetStream done");
+
+                                        new Thread(
+                                            delegate()
+                                            {
+                                                log("before AtConnection");
+                                                AtConnection(s);
+                                            }
+                                        )
+                                        {
+                                            IsBackground = true,
+                                        }.Start();
+                                    }
+                                }
+                                catch
+                                {
+                                    log("AcceptTcpClient error!");
+
+                                    throw;
+                                }
+
+
+                            }
+                        )
+                    {
+                        IsBackground = true,
+                    }.Start();
                 }
             );
 

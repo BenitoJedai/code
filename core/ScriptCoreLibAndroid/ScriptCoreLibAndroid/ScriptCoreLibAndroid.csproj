@@ -76,8 +76,20 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
       <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs">
+      <Link>BCLImplementation\System\IO\MemoryStream.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Stream.cs">
       <Link>BCLImplementation\System\IO\Stream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\StreamReader.cs">
+      <Link>BCLImplementation\System\IO\StreamReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\TextReader.cs">
+      <Link>BCLImplementation\System\IO\TextReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Dns.cs">
+      <Link>BCLImplementation\System\Net\Dns.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\EndPoint.cs">
       <Link>BCLImplementation\System\Net\EndPoint.cs</Link>
@@ -87,6 +99,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\IPEndPoint.cs">
       <Link>BCLImplementation\System\Net\IPEndPoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\IPHostEntry.cs">
+      <Link>BCLImplementation\System\Net\IPHostEntry.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\NetworkStream.cs">
       <Link>BCLImplementation\System\Net\Sockets\NetworkStream.cs</Link>
@@ -112,8 +127,17 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\String.cs">
       <Link>BCLImplementation\System\String.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Text\ASCIIEncoding.cs">
+      <Link>BCLImplementation\System\Text\ASCIIEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Text\Encoding.cs">
+      <Link>BCLImplementation\System\Text\Encoding.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Text\StringBuilder.cs">
       <Link>BCLImplementation\System\Text\StringBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Text\UTF8Encoding.cs">
+      <Link>BCLImplementation\System\Text\UTF8Encoding.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs">
       <Link>BCLImplementation\System\Threading\Thread.cs</Link>
@@ -295,6 +319,7 @@
     <Compile Include="android\widget\Button.cs" />
     <Compile Include="android\widget\CompoundButton.cs" />
     <Compile Include="android\widget\CheckBox.cs" />
+    <Compile Include="android\widget\Toast.cs" />
     <Compile Include="android\widget\EditText.cs" />
     <Compile Include="android\widget\FrameLayout.cs" />
     <Compile Include="android\widget\ScrollView.cs" />
