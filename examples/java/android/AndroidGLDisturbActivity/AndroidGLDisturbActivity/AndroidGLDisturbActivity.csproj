@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{13487EC7-B696-4F23-9635-6938ED30B75E}</ProjectGuid>
+    <ProjectGuid>{181AF6DD-6C93-44B3-BFE2-E531FA1A299B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AndroidGLEscherDrosteEffectActivity</RootNamespace>
-    <AssemblyName>AndroidGLEscherDrosteEffectActivity</AssemblyName>
+    <RootNamespace>AndroidGLDisturbActivity</RootNamespace>
+    <AssemblyName>AndroidGLDisturbActivity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -81,37 +81,37 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="AndroidGLEscherDrosteEffectActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AndroidGLEscherDrosteEffectActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidGLDisturbActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidGLDisturbActivity.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
+      <Link>ScriptCoreLib\Shader.cs</Link>
+    </Compile>
     <Compile Include="ApplicationActivity.cs">
     </Compile>
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationActivity.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-      <Compile Include="Shaders\EscherDorsteFragmentShader.cs" >
-          <DependentUpon>EscherDorste.frag</DependentUpon>
-      </Compile>
-      <Compile Include="Shaders\EscherDorsteVertexShader.cs" >
-          <DependentUpon>EscherDorste.vert</DependentUpon>
-      </Compile>
-    <Compile Include="Y:\jsc.svn\examples\java\android\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
-      <Link>ScriptCoreLib\Shader.cs</Link>
+    <Compile Include="Shaders\DisturbFragmentShader.cs">
+      <DependentUpon>Disturb.frag</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\DisturbVertexShader.cs">
+      <DependentUpon>Disturb.vert</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\EscherDorste.frag" />
-    <None Include="Shaders\EscherDorste.vert" />
+    <None Include="Shaders\Disturb.frag" />
+    <None Include="Shaders\Disturb.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\escher.jpg" />
+    <Content Include="Design\disturb.jpg" />
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
     <Content Include="Design\Preview.png" />
-    <Content Include="staging\apk\assets\assets\AndroidGLEscherDrosteEffectActivity\escher.jpg">
+    <Content Include="staging\apk\assets\assets\AndroidGLDisturbActivity\disturb.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="staging\apk\res\drawable-xhdpi\ic_launcher.png">
@@ -121,7 +121,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

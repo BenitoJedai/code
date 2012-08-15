@@ -9,7 +9,7 @@ using android.os;
 using android.util;
 using android.view;
 using android.widget;
-using AndroidGLEscherDrosteEffectActivity.Shaders;
+using AndroidGLDisturbActivity.Shaders;
 using java.lang;
 using java.nio;
 using ScriptCoreLib;
@@ -20,7 +20,7 @@ using ScriptCoreLib.JavaScript.WebGL;
 using android.content.pm;
 
 
-namespace AndroidGLEscherDrosteEffectActivity.Activities
+namespace AndroidGLDisturbActivity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using java.io;
@@ -45,18 +45,36 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
                 {
                     //var __gl = (ScriptCoreLib.Android.__WebGLRenderingContext)(object)gl;
 
-                    Log.wtf("AndroidGLEscherDrosteEffectActivity", "onsurface");
+
+
+                    Log.wtf("AndroidGLDisturbActivity", "onsurface");
+
+                    // Create Vertex buffer (2 triangles)
+
+                    var buffer = gl.createBuffer();
+                    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
+
+
+
+                    // Create Program
+
+
+                    #region createProgram
 
                     var program = gl.createProgram(
-                            new EscherDorsteVertexShader(),
-                            new EscherDorsteFragmentShader()
-                        );
+                        new DisturbVertexShader(),
+                        new DisturbFragmentShader()
+                    );
 
-                    gl.bindAttribLocation(program, 0, "position");
+
 
                     gl.linkProgram(program);
                     gl.useProgram(program);
 
+
+
+                    #endregion
 
 
                     #region loadTexture
@@ -79,7 +97,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
                             /*target*/ (int)gl.TEXTURE_2D,
                             /*level*/ 0,
                             /*internalformat*/(int)gl.RGBA,
-                            image, 
+                            image,
                             /*type*/  (int)gl.UNSIGNED_BYTE,
                             0
                         );
@@ -117,68 +135,82 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
                     #endregion
 
                     var texture__ = android.graphics.BitmapFactory.decodeStream(
-                        openFileFromAssets("assets/AndroidGLEscherDrosteEffectActivity/escher.jpg")
+                        openFileFromAssets("assets/AndroidGLDisturbActivity/disturb.jpg")
                     );
-                    var texture  = loadTexture(
+                    var texture = loadTexture(
                         texture__
                     );
 
-                    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
+                    var vertexPositionLocation = default(long);
+                    var textureLocation = default(WebGLUniformLocation);
 
-                    gl.enableVertexAttribArray(0);
-
-
-                    var vertices = gl.createBuffer();
-                    gl.bindBuffer(gl.ARRAY_BUFFER, vertices);
-                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(
-                        -1f, -1f, -1f, 1f, 1f, -1f, 1f, 1f
-                    ), gl.STATIC_DRAW);
-                    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-
-                    var indices = gl.createBuffer();
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indices);
-                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(
-                        0, 1, 2, 3
-                    ), gl.STATIC_DRAW);
+                    var parameters_time = 0L;
+                    var parameters_screenWidth = 0;
+                    var parameters_screenHeight = 0;
+                    var parameters_aspectX = 0.0f;
+                    var parameters_aspectY = 1.0f;
 
                     #region onresize
                     v.onresize =
                         (width, height) =>
                         {
-                            Log.wtf("AndroidGLEscherDrosteEffectActivity", "onresize");
+                            Log.wtf("AndroidGLDisturbActivity", "onresize");
+
+                            parameters_screenWidth = width;
+                            parameters_screenHeight = height;
 
                             gl.viewport(0, 0, width, height);
-
-                            var h = (float)height / (float)width;
-                            gl.uniform1f(gl.getUniformLocation(program, "h"), h);
                         };
                     #endregion
 
-                    var parameters_time = 0f;
 
                     #region onframe
                     var framecount = 0;
                     v.onframe =
                         delegate
                         {
-                            var t = parameters_time / 1000f;
+                            var time = parameters_time / 1000f;
 
                             if (framecount == 0)
-                                Log.wtf("AndroidGLEscherDrosteEffectActivity", "onframe " + ((object)t).ToString());
+                                Log.wtf("AndroidGLDisturbActivity", "onframe " + ((object)time).ToString());
 
                             parameters_time += 100;
 
-       
+                            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                            gl.uniform1f(gl.getUniformLocation(program, "t"), t);
-                            gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
-                            gl.flush();
+                            // Load program into GPU
+
+
+                            // Get var locations
+
+                            vertexPositionLocation = gl.getAttribLocation(program, "position");
+                            textureLocation = gl.getUniformLocation(program, "texture");
+
+                            // Set values to program variables
+
+                            gl.uniform1f(gl.getUniformLocation(program, "time"), time);
+                            gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
+
+                            gl.uniform1i(textureLocation, 0);
+                            gl.activeTexture(gl.TEXTURE0);
+                            gl.bindTexture(gl.TEXTURE_2D, texture);
+
+                            // Render geometry
+
+                            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                            gl.vertexAttribPointer((uint)vertexPositionLocation, 2, gl.FLOAT, false, 0, 0);
+                            gl.enableVertexAttribArray((uint)vertexPositionLocation);
+                            gl.drawArrays(gl.TRIANGLES, 0, 6);
+                            gl.disableVertexAttribArray((uint)vertexPositionLocation);
+
+
+
 
                             framecount++;
                         };
                     #endregion
 
-                    Log.wtf("AndroidGLEscherDrosteEffectActivity", "onsurface done");
+                    Log.wtf("AndroidGLDisturbActivity", "onsurface done");
 
                 };
 
