@@ -91,13 +91,10 @@ namespace WebGLEscherDrosteEffect
 
             #region init
 
-            var program = gl.createProgram();
-
-            var vs = gl.createShader(new EscherDorsteVertexShader());
-            var fs = gl.createShader(new EscherDorsteFragmentShader());
-
-            gl.attachShader(program, vs);
-            gl.attachShader(program, fs);
+            var program = gl.createProgram(
+                new EscherDorsteVertexShader(),
+                new EscherDorsteFragmentShader()
+            );
 
             gl.bindAttribLocation(program, 0, "position");
 
