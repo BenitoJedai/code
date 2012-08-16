@@ -89,6 +89,8 @@ namespace ScriptCoreLib.Java
 
         public bool IsStatic;
         public bool IsFamily;
+        public bool IsPrivate;
+        public bool IsPublic;
 
         public bool IsLiteral;
 
@@ -363,6 +365,8 @@ namespace ScriptCoreLib.Java
                         FieldName = fi.Name,
                         FieldType = fi.FieldType.FullName,
 
+                        IsPublic = fi.IsPublic,
+                        IsPrivate = fi.IsPrivate,
                         IsStatic = fi.IsStatic,
                         IsFamily = fi.IsFamily,
                         IsLiteral = fi.IsLiteral,
