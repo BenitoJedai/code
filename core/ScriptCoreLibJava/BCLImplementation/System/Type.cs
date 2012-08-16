@@ -291,13 +291,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
                 var fi = f[i];
 
                 // via https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20120-1/20120817-wordpress
-                var IsPrivate = Modifier.isPrivate(fi.getModifiers());
+                var isPublic = Modifier.isPublic(fi.getModifiers());
+                var isFinal = Modifier.isFinal(fi.getModifiers());
 
-                if (IsPrivate)
-                {
-                    // skip this one
-                }
-                else
+                if (isPublic || isFinal)
                 {
                     a.add(
                         new __FieldInfo { InternalField = fi }
