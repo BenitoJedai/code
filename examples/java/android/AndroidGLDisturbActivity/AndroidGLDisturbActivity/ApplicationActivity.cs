@@ -93,14 +93,16 @@ namespace AndroidGLDisturbActivity.Activities
                         //public void texImage2D(uint target, int level, uint internalformat, uint format, uint type, IHTMLImage image);
                         //gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 
-                        GLUtils.texImage2D(
-                            /*target*/ (int)gl.TEXTURE_2D,
-                            /*level*/ 0,
-                            /*internalformat*/(int)gl.RGBA,
-                            image,
-                            /*type*/  (int)gl.UNSIGNED_BYTE,
-                            0
-                        );
+                        //GLUtils.texImage2D(
+                        //    /*target*/ (int)gl.TEXTURE_2D,
+                        //    /*level*/ 0,
+                        //    /*internalformat*/(int)gl.RGBA,
+                        //    image,
+                        //    /*type*/  (int)gl.UNSIGNED_BYTE,
+                        //    0
+                        //);
+
+                        GLUtils.texImage2D((int)gl.TEXTURE_2D, 0, image, 0);
 
                         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
                         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_LINEAR);

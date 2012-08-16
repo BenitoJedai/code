@@ -108,9 +108,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\disturb.jpg" />
+    <Content Include="Design\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
-    <Content Include="Design\Preview.png" />
     <Content Include="staging\apk\assets\assets\AndroidGLDisturbActivity\disturb.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

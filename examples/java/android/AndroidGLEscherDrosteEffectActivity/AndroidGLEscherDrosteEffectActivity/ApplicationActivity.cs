@@ -75,14 +75,22 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
                         //public void texImage2D(uint target, int level, uint internalformat, uint format, uint type, IHTMLImage image);
                         //gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 
-                        GLUtils.texImage2D(
-                            /*target*/ (int)gl.TEXTURE_2D,
-                            /*level*/ 0,
-                            /*internalformat*/(int)gl.RGBA,
-                            image, 
-                            /*type*/  (int)gl.UNSIGNED_BYTE,
-                            0
-                        );
+                        //E/AndroidRuntime( 5131): Caused by: java.lang.IllegalArgumentException: invalid Bitmap format
+                        //E/AndroidRuntime( 5131):        at android.opengl.GLUtils.texImage2D(GLUtils.java:127)
+                        //E/AndroidRuntime( 5131):        at AndroidGLEscherDrosteEffectActivity.Activities.ApplicationActivity___c__DisplayClass5___c__DisplayClass7._onCreate_b__1(ApplicationActivity___c__DisplayClass5___c__DisplayClass7.java:62)
+
+                        //GLUtils.texImage2D(
+                        //    /*target*/ (int)gl.TEXTURE_2D,
+                        //    /*level*/ 0,
+                        //    /*internalformat*/(int)gl.RGBA,
+                        //    image,
+                        //    /*type*/  (int)gl.UNSIGNED_BYTE,
+                        //    0
+                        //);
+
+                        // Load the bitmap into the bound texture.
+                        GLUtils.texImage2D((int)gl.TEXTURE_2D, 0, image, 0);
+
 
                         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
                         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_LINEAR);
@@ -119,7 +127,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
                     var texture__ = android.graphics.BitmapFactory.decodeStream(
                         openFileFromAssets("assets/AndroidGLEscherDrosteEffectActivity/escher.jpg")
                     );
-                    var texture  = loadTexture(
+                    var texture = loadTexture(
                         texture__
                     );
 
@@ -168,7 +176,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
 
                             parameters_time += 100;
 
-       
+
 
                             gl.uniform1f(gl.getUniformLocation(program, "t"), t);
                             gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
