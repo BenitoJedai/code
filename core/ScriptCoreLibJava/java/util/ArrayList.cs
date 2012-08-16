@@ -15,6 +15,11 @@ namespace java.util
         {
             return default(bool);
         }
+
+        public T[] toArray<T>(T[] a)
+        {
+            return default(T[]);
+        }
     }
 
 	[Script(IsNative = true)]

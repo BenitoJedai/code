@@ -279,18 +279,35 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return InternalEquals(left, right);
         }
 
+        // Returns all the public fields of the current System.Type.
         public __FieldInfo[] GetFields()
         {
+
             var f = this.InternalTypeDescription.getDeclaredFields();
-            var a = new __FieldInfo[f.Length];
+            var a = new java.util.ArrayList<__FieldInfo>();
 
             for (int i = 0; i < f.Length; i++)
             {
-                a[i] = new __FieldInfo { InternalField = f[i] };
+                var fi = f[i];
+
+                // via https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20120-1/20120817-wordpress
+                var IsPrivate = Modifier.isPrivate(fi.getModifiers());
+
+                if (IsPrivate)
+                {
+                    // skip this one
+                }
+                else
+                {
+                    a.add(
+                        new __FieldInfo { InternalField = fi }
+                       );
+                }
             }
 
 
-            return a;
+            // otherwise, a new array of the same runtime type is allocated 
+            return a.toArray(new __FieldInfo[0]);
         }
 
         public __FieldInfo GetField(string n)

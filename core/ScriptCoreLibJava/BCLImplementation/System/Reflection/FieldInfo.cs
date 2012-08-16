@@ -79,6 +79,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             }
         }
 
+        public bool IsPrivate
+        {
+            get
+            {
+                if (IsFamily)
+                    return false;
+
+                if (IsPublic)
+                    return false;
+
+                return true;
+            }
+        }
+
+
         public bool IsFamily
         {
             get
