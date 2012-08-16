@@ -13,9 +13,6 @@ namespace HelloAndroidActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
-        ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
-
-
         protected override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
@@ -24,7 +21,6 @@ namespace HelloAndroidActivity.Activities
             var ll = new LinearLayout(this);
             //ll.setOrientation(LinearLayout.VERTICAL);
             sv.addView(ll);
-
 
             var b = new Button(this).AttachTo(ll);
 

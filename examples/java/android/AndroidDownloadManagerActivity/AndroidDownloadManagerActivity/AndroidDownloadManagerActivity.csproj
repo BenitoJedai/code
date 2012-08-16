@@ -7,8 +7,8 @@
     <ProjectGuid>{9D280B94-A86D-496D-940A-7C0C1C270590}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HelloAndroidActivity</RootNamespace>
-    <AssemblyName>HelloAndroidActivity</AssemblyName>
+    <RootNamespace>AndroidDownloadManagerActivity</RootNamespace>
+    <AssemblyName>AndroidDownloadManagerActivity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -81,8 +81,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="HelloAndroidActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\HelloAndroidActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidDownloadManagerActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidDownloadManagerActivity.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +98,7 @@
     <Content Include="Design\Preview.png" />
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
-    <Content Include="staging\apk\drawable-xhdpi\ic_launcher.png">
+    <Content Include="staging\apk\res\drawable-xhdpi\ic_launcher.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="staging\apk\res\values\strings.xml">
@@ -108,7 +108,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
 )
 start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 </PostBuildEvent>
