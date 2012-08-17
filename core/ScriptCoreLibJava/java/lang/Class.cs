@@ -372,19 +372,19 @@ namespace java.lang
         }
     }
 
-    public static class ClassExtensions
-    {
-        public static System.Type ToType(this Class c)
-        {
-            return (__Type)c;
-        }
+    //public static class ClassExtensions
+    //{
+    //    public static System.Type ToType(this Class c)
+    //    {
+    //        return (__Type)c;
+    //    }
 
-        public static Class ToClass(this System.Type t)
-        {
-            var tt = (__Type)(object)t;
+    //    public static Class ToClass(this System.Type t)
+    //    {
+    //        var tt = (__Type)(object)t;
 
-            return tt.InternalTypeDescription;
-        }
-    }
+    //        return tt.InternalTypeDescription;
+    //    }
+    //}
 
 }

@@ -38,9 +38,10 @@ namespace TestSystemUri.Activities
                 new
                 {
                     uri.OriginalString,
-                    uri.PathAndQuery,
                     uri.Port,
                     uri.Query,
+                    uri.PathAndQuery,
+                    uri.Fragment,
                     uri.Host
                 }.ToString()
             );
