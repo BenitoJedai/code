@@ -13,14 +13,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
-        public static implicit operator __Type(Type e)
+        public static implicit operator __Type(global::System.Type e)
         {
             return (__Type)(object)e;
         }
 
         RuntimeTypeHandle _TypeHandle;
 
-        public virtual Type BaseType
+        public virtual global::System.Type BaseType
         {
             get
             {
@@ -28,14 +28,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
         }
 
-        public Type[] GetInterfaces()
+        public global::System.Type[] GetInterfaces()
         {
             return __Type.Of(this.InternalTypeDescription.getInterfaces());
         }
 
-        private static Type[] Of(java.lang.Class[] p)
+        private static global::System.Type[] Of(java.lang.Class[] p)
         {
-            var n = new Type[p.Length];
+            var n = new global::System.Type[p.Length];
 
             for (int i = 0; i < p.Length; i++)
             {
@@ -45,19 +45,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return n;
         }
 
-        public static Type GetTypeFromValue(object x)
+        public static global::System.Type GetTypeFromValue(object x)
         {
             return (__Type)global::java.lang.Object.getClass(x); ;
         }
 
-        public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
+        public static global::System.Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
         {
             var e = new __Type
             {
                 _TypeHandle = TypeHandle
             };
 
-            return (Type)(object)e;
+            return (global::System.Type)(object)e;
         }
 
         public string FullName
@@ -148,7 +148,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             var a = GetMethods();
 
-            var that = (Type)(object)this;
+            var that = (global::System.Type)(object)this;
 
             for (int i = 0; i < a.Length; i++)
             {
@@ -215,14 +215,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return m;
         }
 
-        public override Type DeclaringType
+        public override global::System.Type DeclaringType
         {
             get { return (__Type)this.InternalTypeDescription.getDeclaringClass(); }
         }
 
-        public static implicit operator Type(__Type e)
+        public static implicit operator global::System.Type(__Type e)
         {
-            return (Type)(object)e;
+            return (global::System.Type)(object)e;
         }
 
 
@@ -346,7 +346,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         }
 
 
-        public bool IsAssignableFrom(Type t)
+        public bool IsAssignableFrom(global::System.Type t)
         {
             return ((__Type)t).InternalTypeDescription.isAssignableFrom(this.InternalTypeDescription);
         }
@@ -420,7 +420,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
         }
 
-        public Type GetElementType()
+        public global::System.Type GetElementType()
         {
             return (__Type)this.InternalTypeDescription.getComponentType();
         }

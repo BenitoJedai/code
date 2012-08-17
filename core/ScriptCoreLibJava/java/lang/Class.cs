@@ -13,7 +13,7 @@ namespace java.lang
     // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html
     // http://developer.android.com/reference/java/lang/Class.html
     [Script(IsNative = true)]
-    public sealed class Class
+    public sealed class Class : java.lang.reflect.Type
     {
 
 
@@ -359,14 +359,22 @@ namespace java.lang
 
 
     [Script(IsNative = true)]
-    public class Class<T>
+    public class Class<T> : java.lang.reflect.Type
     {
+        public java.lang.reflect.Type getGenericSuperclass()
+        {
+            return null;
+        }
 
+        public TypeVariable<Class<T>>[] getTypeParameters()
+        {
+            return null;
+        }
     }
 
     public static class ClassExtensions
     {
-        public static Type ToType(this Class c)
+        public static System.Type ToType(this Class c)
         {
             return (__Type)c;
         }

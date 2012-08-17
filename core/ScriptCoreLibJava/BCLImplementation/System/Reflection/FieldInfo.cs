@@ -18,7 +18,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             get { return InternalField.getName(); }
         }
 
-        public override Type DeclaringType
+        public override global::System.Type DeclaringType
         {
             get
             {
@@ -26,7 +26,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             }
         }
 
-        public Type FieldType
+        public global::System.Type FieldType
         {
             get
             {

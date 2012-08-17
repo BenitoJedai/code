@@ -18,7 +18,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 			get { return ".ctor"; }
 		}
 
-		public override Type DeclaringType
+        public override global::System.Type DeclaringType
 		{
 			get
 			{

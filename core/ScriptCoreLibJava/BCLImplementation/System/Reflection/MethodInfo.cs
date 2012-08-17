@@ -19,7 +19,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 			get { return InternalMethod.getName(); }
 		}
 
-		public override Type DeclaringType
+        public override global::System.Type DeclaringType
 		{
 			get
 			{
@@ -44,7 +44,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 			return n;
 		}
 
-		public virtual Type ReturnType
+        public virtual global::System.Type ReturnType
 		{
 			get
 			{
