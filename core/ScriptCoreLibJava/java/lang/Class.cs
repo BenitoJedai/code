@@ -5,10 +5,13 @@ using java.lang;
 using java.lang.reflect;
 using java.net;
 using java.security;
+using System;
+using ScriptCoreLibJava.BCLImplementation.System;
 
 namespace java.lang
 {
-    // http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html
+    // http://developer.android.com/reference/java/lang/Class.html
     [Script(IsNative = true)]
     public sealed class Class
     {
@@ -352,4 +355,28 @@ namespace java.lang
         }
 
     }
+
+
+
+    [Script(IsNative = true)]
+    public class Class<T>
+    {
+
+    }
+
+    public static class ClassExtensions
+    {
+        public static Type ToType(this Class c)
+        {
+            return (__Type)c;
+        }
+
+        public static Class ToClass(this System.Type t)
+        {
+            var tt = (__Type)(object)t;
+
+            return tt.InternalTypeDescription;
+        }
+    }
+
 }

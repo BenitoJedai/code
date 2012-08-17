@@ -2,6 +2,8 @@ using ScriptCoreLib;
 
 namespace java.lang.reflect
 {
+    // http://developer.android.com/reference/java/lang/reflect/Constructor.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/reflect/Constructor.html
     [Script(IsNative=true)]
     public sealed class Constructor : AccessibleObject
     {

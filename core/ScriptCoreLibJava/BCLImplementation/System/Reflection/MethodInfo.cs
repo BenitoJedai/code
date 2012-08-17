@@ -86,11 +86,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             {
                 n = this.InternalMethod.invoke(obj, parameters);
             }
-            catch (csharp.ThrowableException e)
+            catch // (csharp.ThrowableException e)
             {
-                ((Throwable)(object)e).printStackTrace();
+                //((Throwable)(object)e).printStackTrace();
 
-                throw new csharp.RuntimeException(e.Message);
+                //throw new csharp.RuntimeException(e.Message);
+                throw;
             }
 
             return n;

@@ -94,8 +94,20 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
       <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\File.cs">
+      <Link>BCLImplementation\System\IO\File.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\FileInfo.cs">
+      <Link>BCLImplementation\System\IO\FileInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\FileSystemInfo.cs">
+      <Link>BCLImplementation\System\IO\FileSystemInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs">
       <Link>BCLImplementation\System\IO\MemoryStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Path.cs">
+      <Link>BCLImplementation\System\IO\Path.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Stream.cs">
       <Link>BCLImplementation\System\IO\Stream.cs</Link>
@@ -139,8 +151,41 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Random.cs">
       <Link>BCLImplementation\System\Random.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\Assembly.cs">
+      <Link>BCLImplementation\System\Reflection\Assembly.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\ConstructorInfo.cs">
+      <Link>BCLImplementation\System\Reflection\ConstructorInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\FieldInfo.cs">
+      <Link>BCLImplementation\System\Reflection\FieldInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\ICustomAttributeProvider.cs">
+      <Link>BCLImplementation\System\Reflection\ICustomAttributeProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\MemberInfo.cs">
+      <Link>BCLImplementation\System\Reflection\MemberInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodBase.cs">
+      <Link>BCLImplementation\System\Reflection\MethodBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodInfo.cs">
+      <Link>BCLImplementation\System\Reflection\MethodInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\ParameterInfo.cs">
+      <Link>BCLImplementation\System\Reflection\ParameterInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\RuntimeTypeHandle.cs">
       <Link>BCLImplementation\System\RuntimeTypeHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs">
+      <Link>BCLImplementation\System\Runtime\InteropServices\_Assembly.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
+      <Link>BCLImplementation\System\Runtime\Serialization\ISerializable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\IEvidenceFactory.cs">
+      <Link>BCLImplementation\System\Security\IEvidenceFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\String.cs">
       <Link>BCLImplementation\System\String.cs</Link>
@@ -160,11 +205,26 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs">
       <Link>BCLImplementation\System\Threading\Thread.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Type.cs">
+      <Link>BCLImplementation\System\Type.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\Extensions\BCLImplementationExtensions.cs">
+      <Link>Extensions\BCLImplementationExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\File.cs">
       <Link>java\io\File.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\FileChannel.cs">
+      <Link>java\io\FileChannel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\FileDescriptor.cs">
+      <Link>java\io\FileDescriptor.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\FileFilter.cs">
       <Link>java\io\FileFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\FileInputStream.cs">
+      <Link>java\io\FileInputStream.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\FilenameFilter.cs">
       <Link>java\io\FilenameFilter.cs</Link>
@@ -181,8 +241,14 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\io\PrintStream.cs">
       <Link>java\io\PrintStream.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\RandomAccessFile.cs">
+      <Link>java\io\RandomAccessFile.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\CharSequence.cs">
       <Link>java\lang\CharSequence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Class.cs">
+      <Link>java\lang\Class.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\ClassLoader.cs">
       <Link>java\lang\ClassLoader.cs</Link>
@@ -202,8 +268,23 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Package.cs">
       <Link>java\lang\Package.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\AccessibleObject.cs">
+      <Link>java\lang\reflect\AccessibleObject.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\Array.cs">
       <Link>java\lang\reflect\Array.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\Constructor.cs">
+      <Link>java\lang\reflect\Constructor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\Field.cs">
+      <Link>java\lang\reflect\Field.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\Method.cs">
+      <Link>java\lang\reflect\Method.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\Modifier.cs">
+      <Link>java\lang\reflect\Modifier.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Runnable.cs">
       <Link>java\lang\Runnable.cs</Link>
@@ -351,22 +432,15 @@
     <Compile Include="android\widget\LinearLayout.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
-    <Compile Include="BCLImplementation\System\Type.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\MethodBase.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="java\lang\Class.cs" />
-    <Compile Include="java\lang\reflect\Method.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documents\" />
-    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BCLImplementation\comment.txt" />

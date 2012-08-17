@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using ScriptCoreLib.Android.BCLImplementation.System.Reflection;
 using ScriptCoreLibJava.BCLImplementation.System;
+using ScriptCoreLibJava.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System
 {
