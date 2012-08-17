@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
+    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20120-1/20120817-uri
 	[Script(Implements = typeof(global::System.Uri))]
 	internal class __Uri
 	{
@@ -42,17 +43,36 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
 			this.Scheme = uriString.Substring(0, scheme_i);
 
-			var path_i = uriString.IndexOf("/", scheme_i + SchemeDelimiter.Length);
+            var path_i = uriString.IndexOf("/", scheme_i + SchemeDelimiter.Length);
 
-			this.Host = uriString.Substring(scheme_i + SchemeDelimiter.Length, path_i - (scheme_i + SchemeDelimiter.Length));
+            if (path_i < 0)
+            {
+                uriString += "/";
+                path_i = uriString.IndexOf("/", scheme_i + SchemeDelimiter.Length);
+            }
 
-			var host_i = this.Host.IndexOf(":");
+            var HostAndPort = uriString.Substring(scheme_i + SchemeDelimiter.Length, path_i - (scheme_i + SchemeDelimiter.Length));
 
-			if (host_i >= 0)
-			{
-				this.Port = int.Parse(this.Host.Substring(host_i + 1));
-				this.Host = this.Host.Substring(0, host_i);
-			}
+            // ipv6 support?
+            var PortStart = HostAndPort.LastIndexOf(":");
+
+            if (PortStart < 0)
+            {
+                this.Host = HostAndPort;
+
+                // sure... 80 thats what the port is
+                // need to implement this!
+                // default port depends on the protocol actually
+                this.Port = 80;
+            }
+            else
+            {
+                this.Host = HostAndPort.Substring(0, PortStart);
+
+                var PortString = HostAndPort.Substring(PortStart + 1);
+
+                this.Port = int.Parse(PortString);
+            }
 
 			this.PathAndQuery = uriString.Substring(path_i);
 
@@ -138,7 +158,22 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
 		public override string ToString()
 		{
-			return this.OriginalString;
+            //return this.OriginalString;
+
+            var w = new StringBuilder();
+
+            w.Append(this.Scheme);
+            w.Append("://");
+            w.Append(this.Host);
+            w.Append(":");
+            w.Append(this.Port);
+
+            if (string.IsNullOrEmpty(this.PathAndQuery))
+                w.Append("/");
+            else
+                w.Append(this.PathAndQuery);
+
+            return w.ToString();
 		}
 	}
 }

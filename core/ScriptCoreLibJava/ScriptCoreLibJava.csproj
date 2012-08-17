@@ -103,6 +103,11 @@
     <Compile Include="BCLImplementation\System\Collections\ArrayList.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Generic\ICollection.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Generic\IList.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="BCLImplementation\System\Collections\Hashtable.cs">
       <SubType>Code</SubType>
     </Compile>

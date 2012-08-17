@@ -49,6 +49,21 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ArrayList.cs">
       <Link>BCLImplementation\System\Collection\ArrayList.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\ICollection.cs">
+      <Link>BCLImplementation\System\Collection\Generic\ICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
+      <Link>BCLImplementation\System\Collection\Generic\IEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\IEnumerator.cs">
+      <Link>BCLImplementation\System\Collection\Generic\IEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\IList.cs">
+      <Link>BCLImplementation\System\Collection\Generic\IList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\List.cs">
+      <Link>BCLImplementation\System\Collection\Generic\List.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ICollection.cs">
       <Link>BCLImplementation\System\Collection\ICollection.cs</Link>
     </Compile>
@@ -303,6 +318,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Threading\ThreadStart.cs">
       <Link>BCLImplementation\System\Threading\ThreadStart.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Uri.cs">
+      <Link>BCLImplementation\System\Uri.cs</Link>
     </Compile>
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
