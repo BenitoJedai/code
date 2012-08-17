@@ -88,6 +88,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IDisposable.cs">
       <Link>BCLImplementation\System\IDisposable.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Int32.cs">
+      <Link>BCLImplementation\System\Int32.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
       <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
     </Compile>
@@ -186,6 +189,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Exception.cs">
       <Link>java\lang\Exception.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Integer.cs">
+      <Link>java\lang\Integer.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Math.cs">
       <Link>java\lang\Math.cs</Link>
