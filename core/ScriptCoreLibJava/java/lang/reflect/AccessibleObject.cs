@@ -4,7 +4,8 @@ using java.lang.reflect;
 
 namespace java.lang.reflect
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/reflect/AccessibleObject.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/reflect/AccessibleObject.html
+    // http://developer.android.com/reference/java/lang/reflect/AccessibleObject.html
 	[Script(IsNative = true)]
 	public class AccessibleObject
 	{

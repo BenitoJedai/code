@@ -96,7 +96,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             }
             catch
             {
-                throw new InvalidOperationException();
+                throw;
             }
 
             return c;
@@ -115,7 +115,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             }
             catch
             {
-                throw new csharp.RuntimeException();
+                throw;
             }
 
             return c;

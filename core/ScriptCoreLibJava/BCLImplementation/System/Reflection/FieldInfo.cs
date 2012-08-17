@@ -43,7 +43,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             }
             catch
             {
-                throw new csharp.RuntimeException();
+                throw;
             }
             return n;
         }
@@ -56,7 +56,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             }
             catch
             {
-                throw new InvalidOperationException();
+                throw;
             }
         }
 
