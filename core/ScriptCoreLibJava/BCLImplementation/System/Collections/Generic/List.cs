@@ -85,20 +85,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         }
 
 
-        class __ToArray_ldtoken<_T>
-        {
-            public _T value;
-        }
+       
 
         public T[] ToArray()
         {
-            //__ToArray_ldtoken<T> __ldtoken;
-            var __typeof_T = typeof(__ToArray_ldtoken<T>).GetFields()[0].FieldType;
+            __List_ToArray_ldtoken<T> __ldtoken;
+
+            var __typeof_T_wrapper = typeof(__List_ToArray_ldtoken<T>);
+            var __typeof_T = __typeof_T_wrapper.GetFields()[0].FieldType;
 
             //var e = Array.CreateInstance(typeof(T), 0);
             var e = Array.CreateInstance(__typeof_T, 0);
 
             return this.InternalList.toArray((T[])e);
         }
+    }
+
+
+    class __List_ToArray_ldtoken<_T>
+    {
+        public _T value;
     }
 }

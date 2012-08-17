@@ -34,7 +34,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
             try
             {
-                var stream = new java.io.RandomAccessFile(path, "rw");
+                var stream = new global::java.io.RandomAccessFile(path, "rw");
 
                 stream.setLength(0);
                 stream.write(InternalByteArrayToSByteArray(value));
@@ -43,7 +43,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             }
             catch
             {
-                throw new csharp.RuntimeException();
+                throw;
             }
         }
 
@@ -102,12 +102,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
                 istream.close();
                 return bytes;
             }
-            catch (Exception e)
+            catch //(Exception e)
             {
-                ((java.lang.Throwable)(object)e).printStackTrace();
+                //((java.lang.Throwable)(object)e).printStackTrace();
 
                 // exception mapping must be refactored
-                throw new csharp.RuntimeException("File: " + file.ToString() + "Message: " + e.Message);
+                //throw new csharp.RuntimeException("File: " + file.ToString() + "Message: " + e.Message);
+
+                throw;
             }
         }
     }

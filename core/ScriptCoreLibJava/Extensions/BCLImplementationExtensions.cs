@@ -48,9 +48,9 @@ namespace ScriptCoreLibJava.Extensions
 
             if (loc == null)
             {
-                Console.WriteLine("cls: " + cls.getName());
-                Console.WriteLine("r: " + r);
-                Console.WriteLine("cl: " + cl);
+                //Console.WriteLine("cls: " + cls.getName());
+                //Console.WriteLine("r: " + r);
+                //Console.WriteLine("cl: " + cl);
 
                 //return new FileInfo(@"c:\missing\missing-foo.jar");
 
