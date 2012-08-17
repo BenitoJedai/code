@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
-using javax.common.runtime;
+//using javax.common.runtime;
 using System;
 
 namespace ScriptCoreLibJava.BCLImplementation.System

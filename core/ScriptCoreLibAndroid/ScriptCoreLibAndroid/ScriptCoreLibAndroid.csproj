@@ -148,6 +148,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\NotImplementedException.cs">
       <Link>BCLImplementation\System\NotImplementedException.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Object.cs">
+      <Link>BCLImplementation\System\Object.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Random.cs">
       <Link>BCLImplementation\System\Random.cs</Link>
     </Compile>
@@ -285,6 +288,15 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\Modifier.cs">
       <Link>java\lang\reflect\Modifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\ParameterizedType.cs">
+      <Link>java\lang\reflect\ParameterizedType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\Type.cs">
+      <Link>java\lang\reflect\Type.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\TypeVariable.cs">
+      <Link>java\lang\reflect\TypeVariable.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Runnable.cs">
       <Link>java\lang\Runnable.cs</Link>

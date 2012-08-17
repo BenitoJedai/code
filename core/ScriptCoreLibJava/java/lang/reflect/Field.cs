@@ -7,6 +7,11 @@ namespace java.lang.reflect
     [Script(IsNative=true)]
     public sealed class Field : AccessibleObject
     {
+        public Type getGenericType()
+        {
+            return null;
+        }
+
         #region methods
         /// <summary>
         /// Returns the value of the field represented by this <code>Field</code>, on the specified object.

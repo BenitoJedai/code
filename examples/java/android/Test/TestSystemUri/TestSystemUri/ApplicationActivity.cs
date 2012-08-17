@@ -28,30 +28,29 @@ namespace TestSystemUri.Activities
             var uri = new Uri("http://download.jsc-solutions.net/foo/bar.txt?a=1&b=2#frag1/frag2");
 
 
-            b.WithText("uri: " + new
-            {
-                uri.OriginalString,
-                uri.Scheme,
-                uri.PathAndQuery,
-                uri.Host,
-                uri.Fragment,
-                uri.Query,
-                uri.AbsolutePath,
-                uri.Port
-            });
 
-            b.AtClick(
-                v =>
+
+            Action<string> w =
+                (x) => new Button(this).WithText(x).AttachTo(ll);
+
+
+            w(
+                new
                 {
-                    b.setText("AtClick");
-                }
+                    uri.OriginalString,
+                    uri.PathAndQuery,
+                    uri.Port,
+                    uri.Query,
+                    uri.Host
+                }.ToString()
             );
 
-            var b2 = new Button(this);
-            b2.setText("The other button!");
-            ll.addView(b2);
+
 
             this.setContentView(sv);
+
+            //var foo = new Foo<FooElement>();
+            //foo.Invoke(w);
         }
 
 
