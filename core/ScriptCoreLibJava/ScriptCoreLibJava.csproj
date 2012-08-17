@@ -73,6 +73,9 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Threading\ThreadStart.cs">
       <Link>BCLImplementation\System\Threading\ThreadStart.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Uri.cs">
+      <Link>BCLImplementation\System\Uri.cs</Link>
+    </Compile>
     <Compile Include="BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -451,9 +454,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\UInt32.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Uri.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\ValueType.cs">
@@ -863,6 +863,9 @@
     <Compile Include="java\lang\Comparable.cs" />
     <Compile Include="java\lang\LinkageError.cs" />
     <Compile Include="java\lang\Error.cs" />
+    <Compile Include="java\lang\reflect\ParameterizedType.cs" />
+    <Compile Include="java\lang\reflect\Type.cs" />
+    <Compile Include="java\lang\reflect\TypeVariable.cs" />
     <Compile Include="java\lang\VirtualMachineError.cs" />
     <Compile Include="java\lang\Enum.cs" />
     <Compile Include="java\lang\Number.cs" />

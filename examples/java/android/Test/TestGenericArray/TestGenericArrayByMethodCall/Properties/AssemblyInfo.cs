@@ -5,11 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AnimatedToolbar.Library")]
+[assembly: AssemblyTitle("TestGenericArrayByMethodCall")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AnimatedToolbar.Library")]
+[assembly: AssemblyProduct("TestGenericArrayByMethodCall")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5bef1491-e94c-4c14-99e6-da1457d11a0c")]
+[assembly: Guid("1e50e3f8-d634-4822-b428-4ce9384a1a33")]
 
 // Version information for an assembly consists of the following four values:
 //

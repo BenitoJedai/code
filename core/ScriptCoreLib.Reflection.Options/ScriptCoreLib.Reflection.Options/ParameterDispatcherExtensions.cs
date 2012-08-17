@@ -245,6 +245,9 @@ namespace ScriptCoreLib.Reflection.Options
 				return;
 			}
 
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20120-1/20120817-uri
+            Uri hack0;
 			if (f.FieldType.Equals(typeof(Uri)))
 			{
 				f.SetValue(e, new Uri(value));
