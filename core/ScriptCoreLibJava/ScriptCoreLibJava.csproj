@@ -1065,6 +1065,7 @@
     <Content Include="docs\exceptions.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BCLImplementation\System\Web\Profile\" />
     <Folder Include="javax\microedition\lcdui\" />
     <Folder Include="javax\microedition\media\" />
     <Folder Include="javax\microedition\midlet\" />
