@@ -270,21 +270,20 @@ namespace xavalon.net
                             var i1 = sAll.IndexOf(" ", i0 + 1);
 
 
-                            var path = ((java.lang.String)(object)sAll).substring(i0, i1);
+                            var path = sAll.Substring(i0, i1 - i0);
 
                             path = path.Replace("%20", " ");
 
                             if (path.Length > 0)
-                                path = ((java.lang.String)(object)path).substring(2, path.Length);
+                                path = path.Substring(2);
 
                             if (path.Length > 1)
                             {
-                                var last = ((java.lang.String)(object)path).substring(path.Length - 1, path.Length);
+                                var last = path.Substring(path.Length - 1);
 
                                 if (last == "/")
                                 {
-                                    path = ((java.lang.String)(object)path).substring(0, path.Length - 1);
-
+                                    path = path.Substring(0, path.Length - 1);
                                 }
                             }
 
