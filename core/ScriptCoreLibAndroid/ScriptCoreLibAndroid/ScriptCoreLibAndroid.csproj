@@ -127,6 +127,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\MarshalByRefObject.cs">
       <Link>BCLImplementation\System\MarshalByRefObject.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Math.cs">
+      <Link>BCLImplementation\System\Math.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Dns.cs">
       <Link>BCLImplementation\System\Net\Dns.cs</Link>
     </Compile>
