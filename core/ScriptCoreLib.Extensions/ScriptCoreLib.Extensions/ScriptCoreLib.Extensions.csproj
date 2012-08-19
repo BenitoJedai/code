@@ -53,6 +53,7 @@
     <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="JavaScript\Extensions\ShaderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\IO\SmartStreamReader.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
