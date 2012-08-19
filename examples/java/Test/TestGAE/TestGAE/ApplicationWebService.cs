@@ -19,10 +19,12 @@ namespace TestGAE
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
-            var t = typeof(com.google.appengine.api.appidentity.AppIdentityService);
+            //var t = typeof(com.google.appengine.api.appidentity.AppIdentityService);
 
             // Send it back to the caller.
-            y(t.FullName);
+            //y(t.FullName);
+
+            y(e);
         }
 
     }

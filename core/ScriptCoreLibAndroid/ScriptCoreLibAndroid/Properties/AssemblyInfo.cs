@@ -38,3 +38,5 @@ using ScriptCoreLib;
 
 // should not merge yet, as we will be rewriting all thos natives then.
 // [assembly: Obfuscation(Feature = "merge")]
+
+[assembly: InternalsVisibleTo("jsc.meta")]

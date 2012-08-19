@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -463,10 +464,14 @@
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpContext.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpApplication.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpRequest.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BCLImplementation\System\Web\Profile\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>

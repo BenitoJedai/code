@@ -14,6 +14,11 @@ namespace ClassLibrary1
     public delegate void NetworkStreamAction(NetworkStream s);
     public class Class1Shared
     {
+        public class Int32Box
+        {
+            public int value;
+        }
+
         public static Thread CreateServer(IPAddress ipa, int port, Action<string> Console_WriteLine)
         {
             var random = new System.Random();
@@ -130,6 +135,7 @@ namespace ClassLibrary1
                             var HeaderValue = item.SkipUntilIfAny(":");
 
                             // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
+                            // http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
                             if (HeaderKey == "Content-Type")
                                 boundary = HeaderValue.SkipUntilOrEmpty("multipart/form-data; boundary=");
 
@@ -155,7 +161,7 @@ namespace ClassLibrary1
                             var bytes = data.ToBytes();
                             var boundarybytes = Encoding.ASCII.GetBytes(boundary);
 
-                            var boundaries = new List<int>();
+                            var boundaries = new List<Int32Box>();
 
                             for (int i = 0; i < bytes.Length - boundarybytes.Length; i++)
                             {
@@ -174,7 +180,7 @@ namespace ClassLibrary1
 
                                 if (AtBoundary)
                                 {
-                                    boundaries.Add(i);
+                                    boundaries.Add(new Int32Box { value = i });
                                 }
                             }
 
@@ -182,8 +188,8 @@ namespace ClassLibrary1
 
                             for (int i = 0; i < boundaries_a.Length - 1; i++)
                             {
-                                var start = boundaries_a[i] + boundarybytes.Length + 2;
-                                var end = boundaries_a[i + 1];
+                                var start = boundaries_a[i].value + boundarybytes.Length + 2;
+                                var end = boundaries_a[i + 1].value;
 
                                 var chunk = new byte[end - start];
 
