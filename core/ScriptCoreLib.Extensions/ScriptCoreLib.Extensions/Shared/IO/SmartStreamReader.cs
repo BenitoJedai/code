@@ -173,7 +173,7 @@ namespace ScriptCoreLib.Shared.IO
 
                     if (!ns.DataAvailable)
                     {
-                        Thread.Sleep(1);
+                        Thread.Sleep(300);
                         // are we sure?
                     }
 
