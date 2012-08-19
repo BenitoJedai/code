@@ -161,7 +161,8 @@ namespace ScriptCoreLib.Shared.IO
 
             var ns = this.BaseStream as NetworkStream;
 
-            while (true)
+            var flag = true;
+            while (flag)
             {
                 target.Write(this.InternalBuffer, 0, this.InternalBufferCount);
 
@@ -175,19 +176,17 @@ namespace ScriptCoreLib.Shared.IO
                 else
                     this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
 
-                if (this.InternalBufferCount > 0)
-                    continue;
-
-                return target;
+                flag = (this.InternalBufferCount > 0); 
             }
-
+            return target;
         }
 
         public string ReadToEnd()
         {
             var a = new StringBuilder();
 
-            while (true)
+            var flag = true;
+            while (flag)
             {
                 for (int i = 0; i < this.InternalBufferCount; i++)
                 {
@@ -196,11 +195,10 @@ namespace ScriptCoreLib.Shared.IO
 
                 this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
 
-                if (this.InternalBufferCount > 0)
-                    continue;
-
-                return a.ToString();
+                flag = (this.InternalBufferCount > 0); 
             }
+
+            return a.ToString();
         }
 
         void DiscardBuffer(int bytes)
@@ -221,12 +219,14 @@ namespace ScriptCoreLib.Shared.IO
             var a = new StringBuilder();
 
             var LineFeedExcpected = false;
-
-            while (true)
+            var flag = true;
+            while (flag)
             {
                 for (int i = 0; i < this.InternalBufferCount; i++)
                 {
-                    var c = (char)this.InternalBuffer[i];
+                    // jsc cannot handle byte to char for java?
+                    var b = (int)this.InternalBuffer[i]; 
+                    var c = (char)b;
 
                     if (c == '\n')
                     {
@@ -251,11 +251,10 @@ namespace ScriptCoreLib.Shared.IO
 
                 this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
 
-                if (this.InternalBufferCount > 0)
-                    continue;
-
-                return a.ToString();
+                flag = (this.InternalBufferCount > 0);
             }
+            return a.ToString();
+
         }
 
         public void ReadBlockTo(int length, StringBuilder w)

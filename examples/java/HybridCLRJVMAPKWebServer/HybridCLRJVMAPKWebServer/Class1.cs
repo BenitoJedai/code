@@ -15,6 +15,9 @@ namespace HybridCLRJVMAPKWebServer
 {
     public delegate void NetworkStreamAction(NetworkStream s);
 
+    /*
+
+     */
 
     public class Class1
     {
@@ -126,7 +129,12 @@ namespace HybridCLRJVMAPKWebServer
                         WriteLineASCII("<body>");
 
 
-                        WriteLineASCII("<pre style='color: blue;'>" + new { HTTP_METHOD, HTTP_PATH, HTTP_QUERY, data = data.Length } + "</pre>");
+                        //WriteLineASCII("<pre style='color: blue;'>" + new { HTTP_METHOD, HTTP_PATH, HTTP_QUERY, data = data.Length } + "</pre>");
+
+                        WriteLineASCII("<code style='color: green;'>HTTP_METHOD: " + HTTP_METHOD + "</code><br />");
+                        WriteLineASCII("<code style='color: green;'>HTTP_PATH: " + HTTP_PATH + "</code><br />");
+                        WriteLineASCII("<code style='color: green;'>HTTP_QUERY: " + HTTP_QUERY + "</code><br />");
+                        WriteLineASCII("<code style='color: green;'>data: " + data.Length + "</code><br />");
 
 
                         foreach (var item in HTTP_HEADERS.ToArray())
@@ -209,17 +217,18 @@ namespace HybridCLRJVMAPKWebServer
 
             t.Join();
 
-            //CLRProgram.CLRMain();
+            // without using it jsc causes pain.
+            CLRProgram.CLRMain();
         }
     }
 
-    //[SwitchToCLRContext]
-    //static class CLRProgram
-    //{
-    //    [STAThread]
-    //    public static void CLRMain()
-    //    {
-    //        Console.WriteLine(typeof(object).FullName);
-    //    }
-    //}
+    [SwitchToCLRContext]
+    static class CLRProgram
+    {
+        [STAThread]
+        public static void CLRMain()
+        {
+            Console.WriteLine(typeof(object).FullName);
+        }
+    }
 }
