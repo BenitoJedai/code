@@ -21,6 +21,8 @@ namespace ScriptCoreLib.Extensions
 		{
 			var x = new byte[s.Length];
 
+            // what will we break if we fix this?
+            s.Position = 0;
 			s.Read(x, 0, x.Length);
 
 			return x;

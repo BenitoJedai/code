@@ -39,6 +39,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return (long)Math.Round(e);
 		}
 
+        public static int ToInt32(byte e)
+        {
+            return (int)e;
+        }
+
+
 		public static int ToInt32(long e)
 		{
 			return (int)e;

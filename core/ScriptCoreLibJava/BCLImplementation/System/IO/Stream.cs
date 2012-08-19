@@ -6,7 +6,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.Stream))]
-	internal abstract class __Stream
+	internal abstract class __Stream : __MarshalByRefObject
 	{
 		public abstract long Length { get; }
 

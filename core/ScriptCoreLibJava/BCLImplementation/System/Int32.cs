@@ -28,16 +28,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         internal static string InternalToString(string format, int value)
         {
-            if (format != "x8")
-                throw new NotImplementedException("format");
-
-
             var s = new StringBuilder();
 
-            s.Append(ToHexString((byte)(value >> 0x18)));
-            s.Append(ToHexString((byte)(value >> 0x10)));
-            s.Append(ToHexString((byte)(value >> 8)));
-            s.Append(ToHexString((byte)(value)));
+            if (format == "x8")
+            {
+                s.Append(ToHexString((byte)(value >> 0x18)));
+                s.Append(ToHexString((byte)(value >> 0x10)));
+                s.Append(ToHexString((byte)(value >> 8)));
+                s.Append(ToHexString((byte)(value)));
+            }
+            else if (format == "x4")
+            {
+                s.Append(ToHexString((byte)(value >> 8)));
+                s.Append(ToHexString((byte)(value)));
+            }
+            else if (format == "x2")
+            {
+                s.Append(ToHexString((byte)(value)));
+            }
 
             return s.ToString();
         }
