@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using System.IO;
 using System.Diagnostics;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace ScriptCoreLib.Shared.IO
 {
@@ -170,8 +171,16 @@ namespace ScriptCoreLib.Shared.IO
                 {
                     this.InternalBufferCount = -1;
 
+                    if (!ns.DataAvailable)
+                    {
+                        Thread.Sleep(1);
+                        // are we sure?
+                    }
+
                     if (ns.DataAvailable)
+                    {
                         this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
+                    }
                 }
                 else
                     this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);

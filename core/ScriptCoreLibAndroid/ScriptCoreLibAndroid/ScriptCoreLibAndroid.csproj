@@ -76,6 +76,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\IList.cs">
       <Link>BCLImplementation\System\Collection\IList.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Convert.cs">
+      <Link>BCLImplementation\System\Convert.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Environment.cs">
       <Link>BCLImplementation\System\Environment.cs</Link>
     </Compile>
@@ -90,6 +93,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Int32.cs">
       <Link>BCLImplementation\System\Int32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Int64.cs">
+      <Link>BCLImplementation\System\Int64.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
       <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
@@ -117,6 +123,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\TextReader.cs">
       <Link>BCLImplementation\System\IO\TextReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\MarshalByRefObject.cs">
+      <Link>BCLImplementation\System\MarshalByRefObject.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Dns.cs">
       <Link>BCLImplementation\System\Net\Dns.cs</Link>
@@ -261,6 +270,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Integer.cs">
       <Link>java\lang\Integer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Long.cs">
+      <Link>java\lang\Long.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Math.cs">
       <Link>java\lang\Math.cs</Link>
