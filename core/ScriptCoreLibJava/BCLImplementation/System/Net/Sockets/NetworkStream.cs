@@ -15,6 +15,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
         public global::java.io.OutputStream InternalOutputStream;
         public global::java.io.InputStream InternalInputStream;
 
+        public virtual bool DataAvailable
+        {
+            get
+            {
+                var flag = false;
+
+                try
+                {
+                    flag = this.InternalInputStream.available() > 0;
+                }
+                catch
+                {
+                }
+
+                return flag;
+            }
+        }
+
 		public override void Close()
 		{
 			Flush();
