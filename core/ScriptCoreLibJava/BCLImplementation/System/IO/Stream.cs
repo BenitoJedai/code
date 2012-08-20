@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
+using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
@@ -39,5 +40,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			this.Write(new[] { value }, 0, 1);
 		}
 
+        public void CopyTo(Stream destination)
+        {
+            var buffer = new byte[0x2000];
+
+            var flag = true;
+            while (flag)
+            {
+                flag = false;
+                var c = this.Read(buffer, 0, buffer.Length);
+                if (c > 0)
+                {
+                    destination.Write(buffer, 0, c);
+                    flag = true;
+                }
+            }
+        }
 	}
 }

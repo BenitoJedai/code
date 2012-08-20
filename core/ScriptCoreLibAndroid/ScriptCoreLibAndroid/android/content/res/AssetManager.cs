@@ -5,18 +5,23 @@ using System.Text;
 using android.os;
 using android.widget;
 using ScriptCoreLib;
-using android.content.res;
+using java.io;
 
-namespace android.content
+namespace android.content.res
 {
     [Script(IsNative = true)]
-    public class ContextWrapper :Context
+    public class AssetManager 
     {
         // members and types are to be extended by jsc at release build
 
-        public override Resources getResources()
+        public virtual string[] list(string value)
         {
-            return default(Resources);
+            return default(string[]);
+        }
+
+        public virtual InputStream open(string value)
+        {
+            return default(InputStream);
         }
     }
 }
