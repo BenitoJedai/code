@@ -114,6 +114,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\Encoding.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLShader.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLProgram.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLRenderingContext.cs" />
     <Compile Include="PHP\BCLImplementation\System\Array.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Comparer.cs" />
