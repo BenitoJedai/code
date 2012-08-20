@@ -7,7 +7,7 @@ using ScriptCoreLib.GLSL;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
-    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    //using gl = global::ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
     [Script]
     public static class WebGLExtensions
