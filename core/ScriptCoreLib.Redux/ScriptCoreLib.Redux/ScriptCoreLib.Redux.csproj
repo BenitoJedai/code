@@ -68,6 +68,7 @@
     <ProjectReference Include="..\..\ScriptCoreLib\ScriptCoreLib.csproj">
       <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
       <Name>ScriptCoreLib</Name>
+      <Aliases>global,core</Aliases>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
