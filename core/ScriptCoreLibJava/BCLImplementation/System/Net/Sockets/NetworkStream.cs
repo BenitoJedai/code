@@ -106,6 +106,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
 		}
 
+        public static implicit operator __NetworkStream(java.io.InputStream s)
+        {
+            return new __NetworkStream { InternalInputStream = s };
+        }
 
+        public static implicit operator NetworkStream(__NetworkStream s)
+        {
+            return (NetworkStream)(object)s;
+        }
 	}
 }

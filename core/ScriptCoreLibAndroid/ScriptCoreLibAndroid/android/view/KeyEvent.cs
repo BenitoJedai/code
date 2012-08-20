@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using android.content;
 using ScriptCoreLib;
-using android.content.res;
 
-namespace android.content
+namespace android.view
 {
+    // http://developer.android.com/reference/android/view/KeyEvent.html
     [Script(IsNative = true)]
-    public abstract class Context
+    public class KeyEvent 
     {
         // members and types are to be extended by jsc at release build
 
-        public abstract Resources getResources();
+        public const int KEYCODE_BACK = 4;
     }
 }

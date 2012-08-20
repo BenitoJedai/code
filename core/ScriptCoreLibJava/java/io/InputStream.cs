@@ -78,4 +78,16 @@ namespace java.io
         #endregion
 
     }
+
+    [Script]
+    public static class InputStreamExtensions
+    {
+        public static System.Net.Sockets.NetworkStream ToNetworkStream(this InputStream c)
+        {
+            return (ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__NetworkStream)c;
+        }
+
+     
+    }
+
 }

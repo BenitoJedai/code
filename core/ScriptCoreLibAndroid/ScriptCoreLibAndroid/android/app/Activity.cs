@@ -9,6 +9,7 @@ using ScriptCoreLib;
 
 namespace android.app
 {
+    // http://developer.android.com/reference/android/app/Activity.html
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper
     {
@@ -27,6 +28,12 @@ namespace android.app
 
         // http://developer.android.com/reference/android/app/Activity.html#requestWindowFeature(int)
         public virtual bool requestWindowFeature(int e)
+        {
+            return default(bool);
+        }
+
+
+        public virtual bool onKeyDown(int keyCode, KeyEvent @event)
         {
             return default(bool);
         }
