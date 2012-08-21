@@ -366,7 +366,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             foreach (var item in WebMethods)
             {
-                WriteWebMethodForm(g, Write, item);
+                WriteWebMethodForm(Write, item);
             }
 
 
@@ -451,7 +451,7 @@ namespace ScriptCoreLib.Ultra.WebService
             that.CompleteRequest();
         }
 
-        private static void WriteWebMethodForm(InternalGlobal that, StringAction Write, InternalWebMethodInfo WebMethod)
+        public static void WriteWebMethodForm(StringAction Write, InternalWebMethodInfo WebMethod)
         {
             Write("<form target='_blank' action='" + WebMethod.ToQueryString() + "' method='POST'>");
             WriteWebMethod(Write, WebMethod,
@@ -475,7 +475,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public delegate void InternalWebMethodParameterInfoAction(InternalWebMethodParameterInfo p);
 
-        private static void WriteWebMethod(StringAction Write, InternalWebMethodInfo item, InternalWebMethodParameterInfoAction more)
+        public static void WriteWebMethod(StringAction Write, InternalWebMethodInfo item, InternalWebMethodParameterInfoAction more)
         {
             if (string.IsNullOrEmpty(item.MetadataToken))
             {

@@ -23,6 +23,7 @@ using ScriptCoreLib.Android.BCLImplementation.System.Web;
 using ScriptCoreLib.Delegates;
 using android.util;
 using android.content;
+using ScriptCoreLib.Ultra.WebService;
 
 namespace ApplicationWebService.Activities
 {
@@ -62,7 +63,7 @@ namespace ApplicationWebService.Activities
             #region assets
             var assets = this.getResources().getAssets();
 
-            var aa = new List<__InternalFileInfo>();
+            var aa = new List<InternalFileInfo>();
             //var a = new List<InternalFileInfo>();
 
             Action<string> GetAssets = null;
@@ -104,7 +105,7 @@ namespace ApplicationWebService.Activities
                         if (IsFile)
                         {
                             aa.Add(
-                                new __InternalFileInfo
+                                new InternalFileInfo
                                 {
                                     Name = FileName,
 
@@ -238,7 +239,11 @@ namespace ApplicationWebService.Activities
                 public int value;
             }
 
-            public static Thread CreateServer(ContextWrapper InternalContext, IPAddress ipa, int port, Action<string> Console_WriteLine, __InternalFileInfo[] Files)
+            public static Thread CreateServer(
+                ContextWrapper InternalContext, 
+                IPAddress ipa, int port, 
+                Action<string> Console_WriteLine, 
+                InternalFileInfo[] Files)
             {
                 var random = new System.Random();
 
@@ -265,6 +270,34 @@ namespace ApplicationWebService.Activities
                         var __Response = new __HttpResponse { InternalStream = InternalStream, InternalContext = InternalContext };
                         var __Global = new __Global();
                         __Global.Files = Files;
+                        __Global.WebMethods =
+                            new InternalWebMethodInfo[]
+                            {
+                                new InternalWebMethodInfo
+                                {
+                                    Name = "WebMethod2",
+                                    TypeFullName = "TestGAE.ApplicationWebService",
+                                    MetadataToken =  "06000001",
+
+                                    Parameters = new InternalWebMethodParameterInfo[]
+                                    {
+                                        new InternalWebMethodParameterInfo 
+                                        {
+                                            Name = "e",
+                                            Value = "",
+                                            IsDelegate = false
+                                        },
+                                        
+                                        new InternalWebMethodParameterInfo 
+                                        {
+                                            Name = "y",
+                                            Value = "",
+                                            IsDelegate = true
+                                        }
+                                    }
+                                }
+                            };
+
                         ((__HttpApplication)(object)__Global).Request = (HttpRequest)(object)__Request;
                         ((__HttpApplication)(object)__Global).Response = (HttpResponse)(object)__Response;
                         var Context = __Global.Context;
@@ -335,6 +368,8 @@ namespace ApplicationWebService.Activities
                         var NextHeader = r.ReadLine();
                         while (!string.IsNullOrEmpty(NextHeader))
                         {
+                            // http://www.nextthing.org/archives/2005/08/07/fun-with-http-headers
+
                             var HeaderKey = NextHeader.TakeUntilOrEmpty(":");
                             var HeaderValue = NextHeader.SkipUntilIfAny(":").Trim();
 
@@ -367,7 +402,7 @@ namespace ApplicationWebService.Activities
                         #endregion
 
                         #region selected_item
-                        var selected_item = default(__InternalFileInfo);
+                        var selected_item = default(InternalFileInfo);
 
                         foreach (var item in Files)
                         {
@@ -803,29 +838,22 @@ namespace ApplicationWebService.Activities
 
     class __Global : __InternalGlobal
     {
-        public __InternalFileInfo[] Files;
+        public InternalFileInfo[] Files;
 
-        public override __InternalFileInfo[] GetFiles()
+        public override InternalFileInfo[] GetFiles()
         {
             return Files;
         }
 
-        public __InternalWebMethodInfo[] WebMethods = new __InternalWebMethodInfo[0];
+        public InternalWebMethodInfo[] WebMethods;
 
-        public override __InternalWebMethodInfo[] GetWebMethods()
+        public override InternalWebMethodInfo[] GetWebMethods()
         {
             return WebMethods;
         }
     }
 
 
-
-    public class __InternalFileInfo
-    {
-        public string Name;
-
-        public int Length;
-    }
 
     public abstract class __InternalGlobal : HttpApplication
     {
@@ -848,22 +876,20 @@ namespace ApplicationWebService.Activities
         }
         #endregion
 
-        public abstract __InternalFileInfo[] GetFiles();
+        public abstract InternalFileInfo[] GetFiles();
 
-        public abstract __InternalWebMethodInfo[] GetWebMethods();
+        public abstract InternalWebMethodInfo[] GetWebMethods();
     }
 
-    public class __InternalWebMethodInfo
-    {
-    }
+    
 
     public static class __InternalGlobalExtensions
     {
-        public static __InternalFileInfo ToCurrentFile(this __InternalGlobal g)
+        public static InternalFileInfo ToCurrentFile(this __InternalGlobal g)
         {
             var that = g.InternalApplication;
 
-            var x = default(__InternalFileInfo);
+            var x = default(InternalFileInfo);
             foreach (var item in g.GetFiles())
             {
                 if (that.Request.Path == "/" + item.Name)
@@ -983,7 +1009,7 @@ namespace ApplicationWebService.Activities
             return s.ToXMLString();
         }
 
-        public static void WriteDiagnostics(__InternalGlobal g, StringAction Write, __InternalWebMethodInfo[] WebMethods)
+        public static void WriteDiagnostics(__InternalGlobal g, StringAction Write, InternalWebMethodInfo[] WebMethods)
         {
             // should the diagnostics be a separate rich Browser Application? :)
 
@@ -1023,14 +1049,14 @@ namespace ApplicationWebService.Activities
             Write("<br /> " + "special page: " + "<a href='/jsc'>/jsc</a>");
             #endregion
 
-            //Write("<h2>WebMethods</h2>");
+            Write("<h2>WebMethods (" + WebMethods.Length + ")</h2>");
 
 
 
-            //foreach (var item in WebMethods)
-            //{
-            //    WriteWebMethodForm(g, Write, item);
-            //}
+            foreach (var item in WebMethods)
+            {
+                InternalGlobalExtensions.WriteWebMethodForm(Write, item);
+            }
 
 
             //Write("<br /> Path: '" + Context.Request.Path + "'");
