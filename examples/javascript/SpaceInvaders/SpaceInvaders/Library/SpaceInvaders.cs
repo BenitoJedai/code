@@ -606,6 +606,41 @@ namespace SpaceInvaders.Library.Controls
                     };
 
 
+                double gamma = 0;
+
+                Native.Window.ondeviceorientation +=
+                    eventData =>
+                    {
+                        if (eventData.gamma < -50)
+                            gamma = eventData.beta;
+                        else
+                            gamma = eventData.gamma;
+
+                       
+                    };
+
+                new ScriptCoreLib.JavaScript.Runtime.Timer(
+                    t =>
+                    {
+                        // gamma is the left-to-right tilt in degrees, where right is positive
+                        if (gamma < -15)
+                        {
+                            if (mmenu.Visible)
+                                ResetGame();
+                            else
+                                UpdatePlayer(-Player_X_step);
+                        }
+
+                        if (gamma > 15)
+                        {
+                            if (mmenu.Visible)
+                                ResetGame();
+                            else
+                                UpdatePlayer(Player_X_step);
+                        }
+                    }
+                ).StartInterval(100);
+
                 Native.Document.onkeydown += delegate(IEvent ev)
                 {
                     Console.WriteLine(new { ev.KeyCode }.ToString());

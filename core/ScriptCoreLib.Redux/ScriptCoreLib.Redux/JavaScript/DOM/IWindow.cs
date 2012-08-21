@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public History history;
 
-        #region event
+        #region event onpopstate
         public event System.Action<PopStateEvent> onpopstate
         {
             [Script(DefineAsStatic = true)]
@@ -43,7 +43,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             // http://www.whatwg.org/specs/web-apps/current-work/#the-window-object
         }
 
-        #region event
+        #region event onmessage
         public event System.Action<MessageEvent> onmessage
         {
             [Script(DefineAsStatic = true)]
@@ -63,6 +63,24 @@ namespace ScriptCoreLib.JavaScript.DOM
         public Storage localStorage;
 
         public Performance performance;
+
+
+
+        #region event deviceorientation
+        public event Action<ScriptCoreLib.JavaScript.DeviceOrientationEvent> ondeviceorientation
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "deviceorientation");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "deviceorientation");
+            }
+        }
+        #endregion
 
     }
 }
