@@ -60,8 +60,6 @@ namespace ApplicationWebService.Activities
             base.onCreate(savedInstanceState);
 
             #region assets
-            var path = "";
-
             var assets = this.getResources().getAssets();
 
             var aa = new List<__InternalFileInfo>();
@@ -112,29 +110,6 @@ namespace ApplicationWebService.Activities
 
                                 }
                             );
-
-                            //a.Add(
-                            //    new InternalFileInfo
-                            //    {
-                            //        FileName = FileName,
-                            //        OpenFile =
-                            //        () =>
-                            //        {
-                            //            var rr = default(NetworkStream);
-                            //            try
-                            //            {
-                            //                Log.wtf("ApplicationWebService", FileName);
-                            //                rr = assets.open(FileName).ToNetworkStream();
-                            //            }
-                            //            catch
-                            //            {
-                            //                throw;
-                            //            }
-
-                            //            return rr;
-                            //        }
-                            //    }
-                            //);
                         }
 
                         if (FileName == "webkit")
@@ -172,12 +147,22 @@ namespace ApplicationWebService.Activities
             ).Start();
             #endregion
 
+
             #region uri
             var uri = "http://" + ip;
 
             uri += ":";
             uri += ((object)(port)).ToString();
 
+            //var height = this.getWindowManager().getDefaultDisplay().getHeight();
+            //var width = this.getWindowManager().getDefaultDisplay().getWidth();
+
+
+            //if (width > height)
+            //{
+            //    this.ToFullscreen();
+            //}
+            //else
             uri += "/jsc?flag=foo#bar";
 
             #endregion
@@ -282,6 +267,7 @@ namespace ApplicationWebService.Activities
                         __Global.Files = Files;
                         ((__HttpApplication)(object)__Global).Request = (HttpRequest)(object)__Request;
                         ((__HttpApplication)(object)__Global).Response = (HttpResponse)(object)__Response;
+                        var Context = __Global.Context;
                         #endregion
 
 
@@ -343,13 +329,14 @@ namespace ApplicationWebService.Activities
                         }
                         #endregion
 
+                        __Request.Headers["Content-Type"] = "";
 
                         #region Headers
                         var NextHeader = r.ReadLine();
                         while (!string.IsNullOrEmpty(NextHeader))
                         {
                             var HeaderKey = NextHeader.TakeUntilOrEmpty(":");
-                            var HeaderValue = NextHeader.SkipUntilIfAny(":");
+                            var HeaderValue = NextHeader.SkipUntilIfAny(":").Trim();
 
                             __Request.Headers[HeaderKey] = HeaderValue;
 
@@ -359,8 +346,25 @@ namespace ApplicationWebService.Activities
 
                         #endregion
 
-                        var data = r.ReadStreamToEnd();
+                        var data = r.ReadToMemoryStream();
 
+                        var boundary = __Request.Headers["Content-Type"].SkipUntilOrEmpty("multipart/form-data; boundary=");
+
+                        #region Form
+                        if (__Request.Headers["Content-Type"] == "application/x-www-form-urlencoded")
+                        {
+                            var p = Encoding.UTF8.GetString(data.ToBytes());
+                            var q = p.Split('&');
+
+                            foreach (var item in q)
+                            {
+                                var Key = item.TakeUntilOrEmpty("=");
+                                var Value = item.SkipUntilIfAny("=");
+
+                                __Request.Form[Key] = Value;
+                            }
+                        }
+                        #endregion
 
                         #region selected_item
                         var selected_item = default(__InternalFileInfo);
@@ -379,6 +383,14 @@ namespace ApplicationWebService.Activities
                         {
 
                             Console_WriteLine("#" + cid + " 200");
+
+
+                            if (__Request.Path == "/jsc")
+                            {
+                                __InternalGlobalExtensions.InternalApplication_BeginRequest(__Global);
+                                return;
+
+                            }
 
                             #region selected_item
                             if (selected_item != null)
@@ -407,12 +419,6 @@ namespace ApplicationWebService.Activities
                             }
                             #endregion
 
-                            if (__Request.Path != "/jsc")
-                            {
-                                __Response.Redirect("/jsc");
-                                return;
-
-                            }
 
                             __Response.StatusCode = 200;
                             __Response.ContentType = ("text/html; charset=utf-8");
@@ -435,23 +441,27 @@ namespace ApplicationWebService.Activities
                             WriteLine("<html>");
                             WriteLine("<body>");
 
+                            foreach (var HeaderKey in Context.Request.Headers.AllKeys)
+                            {
+                                var HeaderValue = Context.Request.Headers[HeaderKey];
+
+                                WriteLine("<code style='color: gray;'>" + HeaderKey + "</code>:");
+                                WriteLine("<code style='color: green;'>" + HeaderValue + "</code><br />");
+                            }
+
                             WriteLine("<h3>data: 0x" + data.Length.ToString("x8") + "</h3>");
 
-                            var boundary = __Request.Headers["Content-Type"].SkipUntilOrEmpty("multipart/form-data; boundary=");
 
                             WriteLine("<pre>" + boundary + "</pre>");
                             WriteLine("<hr />");
 
                             WriteLine("<pre>" + HTTP_METHOD_PATH_QUERY + "</pre>");
 
-                            __InternalGlobalExtensions.WriteDiagnostics(
-                               __Global,
-                               x => WriteLine(x),
-                               new __InternalWebMethodInfo[0]
-                           );
-
                             if (string.IsNullOrEmpty(boundary))
                                 WriteLine("<pre>" + WriteHexDump(data.ToBytes()) + "</pre>");
+
+
+
 
                             #region by boundary
                             if (!string.IsNullOrEmpty(boundary))
@@ -503,13 +513,21 @@ namespace ApplicationWebService.Activities
 
                             WriteLine("<hr />");
 
-                            WriteLine("<form target='_blank' action='?WebMethod=06000048' method='POST'><br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br />");
+                            WriteLine("<form target='_blank' action='/jsc?WebMethod=06000048' method='POST'><br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br />");
                             WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br />");
                             WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>foo</code> = <input type='text'  name='_06000048_foo' value='' /><br />");
                             WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
 
-                            WriteLine("<form target='_blank' action='?WebMethod=06000048' method='POST' enctype='multipart/form-data'>");
+                            WriteLine("<hr />");
+                            WriteLine("<form target='_blank' action='/jsc?WebMethod=06000048' method='POST' enctype='multipart/form-data'>");
+                            WriteLine("  <br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>foo</code> = <input type='text'  name='_06000048_foo' value='' /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
 
+
+                            WriteLine("<hr />");
+                            WriteLine("<form target='_blank' action='?WebMethod=06000048' method='POST' enctype='multipart/form-data'>");
                             WriteLine("  <input type='file' name='pic' size='40' accept='image/*' />");
                             WriteLine("  <input type='file' name='foo' />");
                             WriteLine("  <br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br />");
@@ -791,11 +809,16 @@ namespace ApplicationWebService.Activities
         {
             return Files;
         }
+
+        public __InternalWebMethodInfo[] WebMethods = new __InternalWebMethodInfo[0];
+
+        public override __InternalWebMethodInfo[] GetWebMethods()
+        {
+            return WebMethods;
+        }
     }
 
-    public class __InternalWebMethodInfo
-    {
-    }
+
 
     public class __InternalFileInfo
     {
@@ -826,16 +849,111 @@ namespace ApplicationWebService.Activities
         #endregion
 
         public abstract __InternalFileInfo[] GetFiles();
+
+        public abstract __InternalWebMethodInfo[] GetWebMethods();
+    }
+
+    public class __InternalWebMethodInfo
+    {
     }
 
     public static class __InternalGlobalExtensions
     {
+        public static __InternalFileInfo ToCurrentFile(this __InternalGlobal g)
+        {
+            var that = g.InternalApplication;
+
+            var x = default(__InternalFileInfo);
+            foreach (var item in g.GetFiles())
+            {
+                if (that.Request.Path == "/" + item.Name)
+                {
+                    x = item;
+                    break;
+                }
+            }
+            return x;
+        }
+
         public static void InternalApplication_BeginRequest(__InternalGlobal g)
         {
             var that = g.InternalApplication;
             var Context = that.Context;
 
             var Path = Context.Request.Path;
+
+            var CurrentFile = g.ToCurrentFile();
+
+            if (CurrentFile != null)
+            {
+                // http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
+
+
+                //// http://www.mombu.com/programming/xbase/t-outputcache-directive-vs-responsecachesetcacheability-624773.html
+                //g.Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
+                //g.Response.Cache.SetExpires(DateTime.Now.AddMinutes(15));
+
+
+                g.Response.AddHeader("x-handler", "http://jsc-solutions.net");
+
+                // to root
+                Context.Response.WriteFile("/" + CurrentFile.Name);
+
+                that.CompleteRequest();
+
+                return;
+            }
+
+
+
+            if (Path == "/favicon.ico")
+            {
+                Context.Response.WriteFile("assets/ScriptCoreLib/jsc.ico");
+
+                that.CompleteRequest();
+                return;
+            }
+
+
+
+            if (Path == "/robots.txt")
+            {
+                Context.Response.StatusCode = 404;
+                that.CompleteRequest();
+                return;
+            }
+
+            if (Path == "/crossdomain.xml")
+            {
+                Context.Response.StatusCode = 404;
+                that.CompleteRequest();
+                return;
+            }
+
+            StringAction Write =
+              e =>
+              {
+                  // could we take the method pointer implicitly?
+                  Context.Response.Write(e);
+              };
+
+            StringAction WriteLine =
+                e =>
+                {
+                    // could we take the method pointer implicitly?
+                    Write(e + Environment.NewLine);
+                };
+
+            var WebMethods = g.GetWebMethods();
+
+            var IsComplete = false;
+
+            that.Response.ContentType = "text/html";
+            WriteDiagnostics(g, Write, WebMethods);
+
+
+            IsComplete = true;
+            that.CompleteRequest();
         }
 
         public static string ToXMLString(this string xml)
@@ -873,6 +991,14 @@ namespace ApplicationWebService.Activities
 
             Write("<title>jsc-solutions.net</title>");
 
+            Write("<center>");
+            Write("<div style='background-color: black; color: white; padding: 2em;'>");
+            Write("&laquo; Rotate your device to left to <b>launch</b>");
+            Write("</div>");
+            Write("</center>");
+
+            Write("<br/><center><a href='/'>Launch Application</a></center><br/>");
+
             //Write("<h1>" + Context.Request.Headers["Host"] + "</h1>");
 
             foreach (var HeaderKey in Context.Request.Headers.AllKeys)
@@ -886,14 +1012,16 @@ namespace ApplicationWebService.Activities
 
             Write("<a href='http://jsc-solutions.net'><img border='0' src='/assets/ScriptCoreLib/jsc.png' /></a>");
 
-
+            #region Special pages
             Write("<h2>Special pages</h2>");
+
 
             Write("<br /> " + "special page: " + "<a href='/robots.txt'>/robots.txt</a>");
             Write("<br /> " + "special page: " + "<a href='/xml'>/xml</a>");
             Write("<br /> " + "special page: " + "<a href='/crossdomain.xml'>/crossdomain.xml</a>");
             Write("<br /> " + "special page: " + "<a href='/favicon.ico'>/favicon.ico</a>");
             Write("<br /> " + "special page: " + "<a href='/jsc'>/jsc</a>");
+            #endregion
 
             //Write("<h2>WebMethods</h2>");
 
@@ -905,19 +1033,20 @@ namespace ApplicationWebService.Activities
             //}
 
 
-            Write("<br /> Path: '" + Context.Request.Path + "'");
-            Write("<br /> HttpMethod: '" + Context.Request.HttpMethod + "'");
+            //Write("<br /> Path: '" + Context.Request.Path + "'");
+            //Write("<br /> HttpMethod: '" + Context.Request.HttpMethod + "'");
 
-            //Write("<h2>Form</h2>");
-            //foreach (var item in Context.Request.Form.AllKeys)
-            //{
-            //    Write("<br /> " + "<img src='http://i.msdn.microsoft.com/w144atby.pubproperty(en-us,VS.90).gif' /> <code>");
-            //    Write(item);
-            //    Write(" = ");
-            //    Write(escapeXML(Context.Request.Form[item]));
-            //    Write("</code>");
-            //}
+            Write("<h2>Form</h2>");
+            foreach (var item in Context.Request.Form.AllKeys)
+            {
+                Write("<br /> " + "<img src='http://i.msdn.microsoft.com/w144atby.pubproperty(en-us,VS.90).gif' /> <code>");
+                Write(item);
+                Write(" = ");
+                Write(escapeXML(Context.Request.Form[item]));
+                Write("</code>");
+            }
 
+            #region QueryString
             Write("<h2>QueryString</h2>");
             foreach (var item in Context.Request.QueryString.AllKeys)
             {
@@ -927,6 +1056,8 @@ namespace ApplicationWebService.Activities
                 Write(escapeXML(Context.Request.QueryString[item]));
                 Write("</code>");
             }
+            #endregion
+
 
             //Write("<h2>Script Applications</h2>");
 
