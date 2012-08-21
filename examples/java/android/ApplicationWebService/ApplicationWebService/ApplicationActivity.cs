@@ -27,6 +27,23 @@ namespace ApplicationWebService.Activities
 {
     public class ApplicationActivity : Activity
     {
+        const int FILECHOOSER_RESULTCODE = 1;
+
+        // http://m0s-programming.blogspot.com/2011/02/file-upload-in-through-webview-on.html
+        //protected void onActivityResult(int requestCode, int resultCode,
+        //                           Intent intent)
+        //{
+        //    if (requestCode == FILECHOOSER_RESULTCODE)
+        //    {
+        //        if (null == mUploadMessage) return;
+        //        Uri result = intent == null || resultCode != RESULT_OK ? null
+        //                : intent.getData();
+        //        mUploadMessage.onReceiveValue(result);
+        //        mUploadMessage = null;
+
+        //    }
+        //}  
+
         protected override void onCreate(Bundle savedInstanceState)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20120-1/201208
@@ -45,6 +62,8 @@ namespace ApplicationWebService.Activities
             var path = "";
 
             var assets = this.getResources().getAssets();
+
+            var aa = new List<__InternalFileInfo>();
             var a = new List<InternalFileInfo>();
 
             Action<string> GetAssets = null;
@@ -84,6 +103,15 @@ namespace ApplicationWebService.Activities
                         }
 
                         if (IsFile)
+                        {
+                            aa.Add(
+                                new __InternalFileInfo
+                                {
+                                    Name = FileName,
+
+                                }
+                            );
+
                             a.Add(
                                 new InternalFileInfo
                                 {
@@ -106,6 +134,7 @@ namespace ApplicationWebService.Activities
                                     }
                                 }
                             );
+                        }
 
                         if (FileName == "webkit")
                         {
@@ -137,7 +166,7 @@ namespace ApplicationWebService.Activities
                 x =>
                 {
 
-                }, a.ToArray()
+                }, a.ToArray(), aa.ToArray()
             ).Start();
             #endregion
 
@@ -155,6 +184,23 @@ namespace ApplicationWebService.Activities
             #region WebView as UI at uri
             var webview = new WebView(this);
             webview.setWebViewClient(new MyWebViewClient { });
+            webview.setWebChromeClient(
+                new MyWebChromeClient
+                {
+                    //AtopenFileChooser =
+                    //    (ValueCallback<Uri> uploadMsg) =>
+                    //    {
+                    //        //mUploadMessage = uploadMsg;  
+                    //        //Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                    //        //i.addCategory(Intent.CATEGORY_OPENABLE);
+                    //        //i.setType("image/*");
+                    //        //this.startActivityForResult(
+                    //        //    Intent.createChooser(i, "File Chooser"), FILECHOOSER_RESULTCODE
+                    //        //);
+                    //    }
+                }
+            );
+
             this.setContentView(webview);
 
             this.AtKeyDown =
@@ -203,7 +249,7 @@ namespace ApplicationWebService.Activities
                 public int value;
             }
 
-            public static Thread CreateServer(IPAddress ipa, int port, Action<string> Console_WriteLine, InternalFileInfo[] assets)
+            public static Thread CreateServer(IPAddress ipa, int port, Action<string> Console_WriteLine, InternalFileInfo[] assets, __InternalFileInfo[] Files)
             {
                 var random = new System.Random();
 
@@ -227,7 +273,7 @@ namespace ApplicationWebService.Activities
 
                         var __Request = new __HttpRequest();
                         var __Global = new __Global();
-
+                        __Global.Files = Files;
                         ((__HttpApplication)(object)__Global).Request = (HttpRequest)(object)__Request;
 
 
@@ -470,13 +516,13 @@ namespace ApplicationWebService.Activities
 
                                 WriteLineASCII("<hr />");
 
-                                foreach (var item in assets)
-                                {
-                                    WriteLineASCII("<a href='" + item.FileName + "'>" + item.FileName + "</a>");
-                                    WriteLineASCII("<hr />");
-                                }
+                                //foreach (var item in assets)
+                                //{
+                                //    WriteLineASCII("<a href='" + item.FileName + "'>" + item.FileName + "</a>");
+                                //    WriteLineASCII("<hr />");
+                                //}
 
-                                WriteLineASCII("<hr />");
+                                //WriteLineASCII("<hr />");
 
                                 WriteLineASCII("<form target='_blank' action='?WebMethod=06000048' method='POST'><br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br /> &nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br /> &nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
 
@@ -484,7 +530,10 @@ namespace ApplicationWebService.Activities
 
                                 WriteLineASCII("  <input type='file' name='pic' size='40' accept='image/*' />");
                                 WriteLineASCII("  <input type='file' name='foo' />");
-                                WriteLineASCII("  <br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br /> &nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br /> &nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
+                                WriteLineASCII("  <br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br />");
+                                WriteLineASCII("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br />");
+                                WriteLineASCII("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>foo</code> = <input type='text'  name='_06000048_foo' value='' /><br />");
+                                WriteLineASCII("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
 
                                 WriteLineASCII("</body>");
 
@@ -688,6 +737,19 @@ namespace ApplicationWebService.Activities
         }
         #endregion
 
+        #region MyWebChromeClient
+        class MyWebChromeClient : WebChromeClient
+        {
+            //public Action<ValueCallback<Uri>> AtopenFileChooser;
+
+            //public override void openFileChooser(ValueCallback<Uri> uploadMsg)
+            //{
+            //    AtopenFileChooser(uploadMsg);
+            //}
+        }
+
+        #endregion
+
         #region MyWebViewClient
         class MyWebViewClient : WebViewClient
         {
@@ -747,11 +809,23 @@ namespace ApplicationWebService.Activities
 
     class __Global : __InternalGlobal
     {
+        public __InternalFileInfo[] Files;
 
+        public override __InternalFileInfo[] GetFiles()
+        {
+            return Files;
+        }
     }
 
     public class __InternalWebMethodInfo
     {
+    }
+
+    public class __InternalFileInfo
+    {
+        public string Name;
+
+        public int Length;
     }
 
     public abstract class __InternalGlobal : HttpApplication
@@ -774,6 +848,8 @@ namespace ApplicationWebService.Activities
             this.InternalApplicationOverride = value;
         }
         #endregion
+
+        public abstract __InternalFileInfo[] GetFiles();
     }
 
     public static class __InternalGlobalExtensions
@@ -892,12 +968,12 @@ namespace ApplicationWebService.Activities
             //    }
             //}
 
-            //Write("<h2>Files</h2>");
+            Write("<h2>Files</h2>");
 
-            //foreach (var item in g.GetFiles())
-            //{
-            //    Write("<br /> " + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
-            //}
+            foreach (var item in g.GetFiles())
+            {
+                Write("<br /> " + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
+            }
 
 
 
