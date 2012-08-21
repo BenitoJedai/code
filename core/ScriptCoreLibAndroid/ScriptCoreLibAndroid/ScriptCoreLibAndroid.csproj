@@ -498,6 +498,7 @@
     <Compile Include="android\view\KeyEvent.cs" />
     <Compile Include="android\view\View.cs" />
     <Compile Include="android\view\ViewGroup.cs" />
+    <Compile Include="android\webkit\WebSettings.cs" />
     <Compile Include="android\webkit\ValueCallback.cs" />
     <Compile Include="android\webkit\WebChromeClient.cs" />
     <Compile Include="android\webkit\WebViewClient.cs" />
