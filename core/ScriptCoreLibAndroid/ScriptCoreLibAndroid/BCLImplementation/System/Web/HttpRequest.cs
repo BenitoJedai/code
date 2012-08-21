@@ -13,8 +13,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public string HttpMethod { get; internal set; }
 
-        public NameValueCollection QueryString { get; }
+        public NameValueCollection QueryString { get; internal set; }
 
-        public NameValueCollection Form { get; }
+        public NameValueCollection Form { get; internal set; }
     }
 }

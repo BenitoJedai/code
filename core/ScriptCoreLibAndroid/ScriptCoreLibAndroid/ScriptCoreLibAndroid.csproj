@@ -83,6 +83,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
       <Link>BCLImplementation\System\Collection\Specialized\NameValueCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ComponentModel\IComponent.cs">
+      <Link>BCLImplementation\System\ComponentModel\IComponent.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Convert.cs">
       <Link>BCLImplementation\System\Convert.cs</Link>
     </Compile>
@@ -425,6 +428,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Locale.cs">
       <Link>java\util\Locale.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Map.cs">
+      <Link>java\util\Map.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Set.cs">
+      <Link>java\util\Set.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
@@ -479,6 +488,8 @@
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
+    <Compile Include="BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
+    <Compile Include="BCLImplementation\System\Web\IHttpHandler.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpResponse.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpCachePolicy.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpContext.cs" />
