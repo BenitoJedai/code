@@ -37,6 +37,8 @@ namespace ScriptCoreLib.Shared.IO
     /// </summary>
     public class SmartStreamReader : Stream
     {
+        // review: Y:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Web\SmartStreamReader.cs
+
         public readonly Stream BaseStream;
 
 
