@@ -21,6 +21,7 @@ using ScriptCoreLib.Extensions;
 using System.Web;
 using ScriptCoreLib.Android.BCLImplementation.System.Web;
 using ScriptCoreLib.Delegates;
+using android.util;
 
 namespace ApplicationWebService.Activities
 {
@@ -44,43 +45,83 @@ namespace ApplicationWebService.Activities
             var path = "";
 
             var assets = this.getResources().getAssets();
-
-            var collection = new string[0];
-
-            try
-            {
-                collection = assets.list(path);
-            }
-            catch
-            {
-            }
-
             var a = new List<InternalFileInfo>();
 
-            foreach (var item in collection)
-            {
-                a.Add(
-                    new InternalFileInfo
-                    {
-                        FileName = item,
-                        OpenFile =
-                        () =>
-                        {
-                            var rr = default(NetworkStream);
-                            try
-                            {
-                                rr = assets.open(item).ToNetworkStream();
-                            }
-                            catch
-                            {
-                                throw;
-                            }
+            Action<string> GetAssets = null;
 
-                            return rr;
-                        }
+            GetAssets =
+                (ParentDirectory) =>
+                {
+                    var collection = new string[0];
+
+                    Log.wtf("ApplicationWebService", "GetAssets " + ParentDirectory);
+
+                    try
+                    {
+                        collection = assets.list(ParentDirectory);
                     }
-                );
-            }
+                    catch
+                    {
+                    }
+
+
+                    foreach (var RelativeName in collection)
+                    {
+                        var FileName =
+                            string.IsNullOrEmpty(ParentDirectory) ?
+                            RelativeName : ParentDirectory + "/" + RelativeName;
+
+                        var IsFile = false;
+                        try
+                        {
+                            var rr = assets.open(FileName);
+
+                            IsFile = true;
+                            rr.close();
+                        }
+                        catch
+                        {
+                        }
+
+                        if (IsFile)
+                            a.Add(
+                                new InternalFileInfo
+                                {
+                                    FileName = FileName,
+                                    OpenFile =
+                                    () =>
+                                    {
+                                        var rr = default(NetworkStream);
+                                        try
+                                        {
+                                            Log.wtf("ApplicationWebService", FileName);
+                                            rr = assets.open(FileName).ToNetworkStream();
+                                        }
+                                        catch
+                                        {
+                                            throw;
+                                        }
+
+                                        return rr;
+                                    }
+                                }
+                            );
+
+                        if (FileName == "webkit")
+                        {
+                        }
+                        else if (FileName == "sounds")
+                        {
+                        }
+                        else if (FileName == "images")
+                        {
+                        }
+                        else GetAssets(FileName);
+                    }
+                };
+
+            GetAssets("");
+
             #endregion
 
 
@@ -106,7 +147,7 @@ namespace ApplicationWebService.Activities
             uri += ":";
             uri += ((object)(port)).ToString();
 
-            uri += "/jsc";
+            uri += "/jsc?flag=foo#bar";
 
             #endregion
 
@@ -237,24 +278,27 @@ namespace ApplicationWebService.Activities
 
                         foreach (var item in __QueryStringItems)
                         {
-                            var Key = item.TakeUntilOrEmpty(":");
-                            var Value = item.SkipUntilIfAny(":");
+                            var Key = item.TakeUntilOrEmpty("=");
+                            if (!string.IsNullOrEmpty(Key))
+                            {
+                                var Value = item.SkipUntilIfAny("=");
 
-                            __Request.QueryString[Key] = Value;
+                                __Request.QueryString[Key] = Value;
+                            }
                         }
                         #endregion
 
 
                         #region Headers
-                        var br = r.ReadLine();
-                        while (!string.IsNullOrEmpty(br))
+                        var NextHeader = r.ReadLine();
+                        while (!string.IsNullOrEmpty(NextHeader))
                         {
-                            var HeaderKey = br.TakeUntilOrEmpty(":");
-                            var HeaderValue = br.SkipUntilIfAny(":");
+                            var HeaderKey = NextHeader.TakeUntilOrEmpty(":");
+                            var HeaderValue = NextHeader.SkipUntilIfAny(":");
 
                             __Request.Headers[HeaderKey] = HeaderValue;
 
-                            br = r.ReadLine();
+                            NextHeader = r.ReadLine();
                         }
                         #endregion
 
@@ -359,18 +403,14 @@ namespace ApplicationWebService.Activities
                                 //WriteLineASCII("<code style='color: green;'>HTTP_PATH: " + HTTP_PATH + "</code><br />");
                                 //WriteLineASCII("<code style='color: green;'>HTTP_QUERY: " + HTTP_QUERY + "</code><br />");
                                 //WriteLineASCII("<code style='color: green;'>data: " + data.Length + "</code><br />");
-                                WriteLineASCII("<code style='color: green;'>data: 0x" + data.Length.ToString("x8") + "</code><br />");
+                                WriteLineASCII("<h3>data: 0x" + data.Length.ToString("x8") + "</h3>");
 
                                 var boundary = __Request.Headers["Content-Type"].SkipUntilOrEmpty("multipart/form-data; boundary=");
-
-
-
 
                                 WriteLineASCII("<hr />");
                                 WriteLineASCII("<pre>" + boundary + "</pre>");
                                 WriteLineASCII("<hr />");
 
-                                WriteLineASCII("<h1 style='color: red;'>Hello world</h2><h3>jsc</h3>");
                                 WriteLineASCII("<pre>" + HTTP_METHOD_PATH_QUERY + "</pre>");
 
 
