@@ -20,6 +20,7 @@ using System.Threading;
 using ScriptCoreLib.Extensions;
 using System.Web;
 using ScriptCoreLib.Android.BCLImplementation.System.Web;
+using ScriptCoreLib.Delegates;
 
 namespace ApplicationWebService.Activities
 {
@@ -104,6 +105,9 @@ namespace ApplicationWebService.Activities
 
             uri += ":";
             uri += ((object)(port)).ToString();
+
+            uri += "/jsc";
+
             #endregion
 
 
@@ -149,6 +153,8 @@ namespace ApplicationWebService.Activities
         public delegate void NetworkStreamAction(NetworkStream s);
         public delegate NetworkStream StreamFunc();
 
+
+
         public class Class1Shared
         {
             public class Int32Box
@@ -179,7 +185,9 @@ namespace ApplicationWebService.Activities
                         var r = new SmartStreamReader(s);
 
                         var __Request = new __HttpRequest();
+                        var __Global = new __Global();
 
+                        ((__HttpApplication)(object)__Global).Request = (HttpRequest)(object)__Request;
 
 
                         var HTTP_METHOD_PATH_QUERY = r.ReadLine();
@@ -237,15 +245,10 @@ namespace ApplicationWebService.Activities
                         #endregion
 
 
-                        #region HTTP_HEADERS
-                        var HTTP_HEADERS = new List<string>();
-
+                        #region Headers
                         var br = r.ReadLine();
-
                         while (!string.IsNullOrEmpty(br))
                         {
-                            HTTP_HEADERS.Add(br);
-
                             var HeaderKey = br.TakeUntilOrEmpty(":");
                             var HeaderValue = br.SkipUntilIfAny(":");
 
@@ -310,6 +313,7 @@ namespace ApplicationWebService.Activities
 
                                 WriteLineASCII("");
 
+
                                 selected_item.OpenFile().CopyTo(s);
 
                                 //m.Write(bytes, 0, bytes.Length);
@@ -340,32 +344,27 @@ namespace ApplicationWebService.Activities
                                 WriteLineASCII("<html>");
 
                                 WriteLineASCII("<body>");
+
+
+                                __InternalGlobalExtensions.WriteDiagnostics(
+                                    __Global,
+                                    x => WriteLineASCII(x),
+                                    new __InternalWebMethodInfo[0]
+                                );
+
+
                                 //WriteLineASCII("<pre style='color: blue;'>" + new { HTTP_METHOD, HTTP_PATH, HTTP_QUERY, data = data.Length } + "</pre>");
 
-                                WriteLineASCII("<code style='color: green;'>HTTP_METHOD: " + HTTP_METHOD + "</code><br />");
-                                WriteLineASCII("<code style='color: green;'>HTTP_PATH: " + HTTP_PATH + "</code><br />");
-                                WriteLineASCII("<code style='color: green;'>HTTP_QUERY: " + HTTP_QUERY + "</code><br />");
-                                WriteLineASCII("<code style='color: green;'>data: " + data.Length + "</code><br />");
+                                //WriteLineASCII("<code style='color: green;'>HTTP_METHOD: " + HTTP_METHOD + "</code><br />");
+                                //WriteLineASCII("<code style='color: green;'>HTTP_PATH: " + HTTP_PATH + "</code><br />");
+                                //WriteLineASCII("<code style='color: green;'>HTTP_QUERY: " + HTTP_QUERY + "</code><br />");
+                                //WriteLineASCII("<code style='color: green;'>data: " + data.Length + "</code><br />");
                                 WriteLineASCII("<code style='color: green;'>data: 0x" + data.Length.ToString("x8") + "</code><br />");
 
-                                var boundary = "";
-
-                                #region HTTP_HEADERS
-                                foreach (var item in HTTP_HEADERS.ToArray())
-                                {
-                                    var HeaderKey = item.TakeUntilOrEmpty(":");
-                                    var HeaderValue = item.SkipUntilIfAny(":");
-
-                                    // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
-                                    // http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
-                                    if (HeaderKey == "Content-Type")
-                                        boundary = HeaderValue.SkipUntilOrEmpty("multipart/form-data; boundary=");
+                                var boundary = __Request.Headers["Content-Type"].SkipUntilOrEmpty("multipart/form-data; boundary=");
 
 
-                                    WriteLineASCII("<code style='color: gray;'>" + HeaderKey + "</code>:");
-                                    WriteLineASCII("<code style='color: green;'>" + HeaderValue + "</code><br />");
-                                }
-                                #endregion
+
 
                                 WriteLineASCII("<hr />");
                                 WriteLineASCII("<pre>" + boundary + "</pre>");
@@ -706,6 +705,15 @@ namespace ApplicationWebService.Activities
         #endregion
     }
 
+    class __Global : __InternalGlobal
+    {
+
+    }
+
+    public class __InternalWebMethodInfo
+    {
+    }
+
     public abstract class __InternalGlobal : HttpApplication
     {
         #region InternalApplication
@@ -737,5 +745,123 @@ namespace ApplicationWebService.Activities
 
             var Path = Context.Request.Path;
         }
+
+        public static string ToXMLString(this string xml)
+        {
+            return xml
+                .Replace("&", "&amp;")
+                .Replace("<", "&lt;")
+                .Replace(">", "&gt;")
+                .Replace("\"", "&quot;")
+                .Replace("'", "&apos;")
+            ;
+        }
+
+        public static string FromXMLString(this string xml)
+        {
+            return xml
+                .Replace("&apos;", "'")
+                .Replace("&quot;", "\"")
+                .Replace("&gt;", ">")
+                .Replace("&lt;", "<")
+                .Replace("&amp;", "&")
+            ;
+        }
+
+        public static string escapeXML(string s)
+        {
+            return s.ToXMLString();
+        }
+
+        public static void WriteDiagnostics(__InternalGlobal g, StringAction Write, __InternalWebMethodInfo[] WebMethods)
+        {
+            // should the diagnostics be a separate rich Browser Application? :)
+
+            var Context = g.InternalApplication.Context;
+
+            Write("<title>jsc-solutions.net</title>");
+
+            //Write("<h1>" + Context.Request.Headers["Host"] + "</h1>");
+
+            foreach (var HeaderKey in Context.Request.Headers.AllKeys)
+            {
+                var HeaderValue = Context.Request.Headers[HeaderKey];
+
+                Write("<code style='color: gray;'>" + HeaderKey + "</code>:");
+                Write("<code style='color: green;'>" + HeaderValue + "</code><br />");
+            }
+
+
+            Write("<a href='http://jsc-solutions.net'><img border='0' src='/assets/ScriptCoreLib/jsc.png' /></a>");
+
+
+            Write("<h2>Special pages</h2>");
+
+            Write("<br /> " + "special page: " + "<a href='/robots.txt'>/robots.txt</a>");
+            Write("<br /> " + "special page: " + "<a href='/xml'>/xml</a>");
+            Write("<br /> " + "special page: " + "<a href='/crossdomain.xml'>/crossdomain.xml</a>");
+            Write("<br /> " + "special page: " + "<a href='/favicon.ico'>/favicon.ico</a>");
+            Write("<br /> " + "special page: " + "<a href='/jsc'>/jsc</a>");
+
+            //Write("<h2>WebMethods</h2>");
+
+
+
+            //foreach (var item in WebMethods)
+            //{
+            //    WriteWebMethodForm(g, Write, item);
+            //}
+
+
+            Write("<br /> Path: '" + Context.Request.Path + "'");
+            Write("<br /> HttpMethod: '" + Context.Request.HttpMethod + "'");
+
+            //Write("<h2>Form</h2>");
+            //foreach (var item in Context.Request.Form.AllKeys)
+            //{
+            //    Write("<br /> " + "<img src='http://i.msdn.microsoft.com/w144atby.pubproperty(en-us,VS.90).gif' /> <code>");
+            //    Write(item);
+            //    Write(" = ");
+            //    Write(escapeXML(Context.Request.Form[item]));
+            //    Write("</code>");
+            //}
+
+            Write("<h2>QueryString</h2>");
+            foreach (var item in Context.Request.QueryString.AllKeys)
+            {
+                Write("<br /> " + "<img src='http://i.msdn.microsoft.com/w144atby.pubproperty(en-us,VS.90).gif' /> <code>");
+                Write(item);
+                Write(" = ");
+                Write(escapeXML(Context.Request.QueryString[item]));
+                Write("</code>");
+            }
+
+            //Write("<h2>Script Applications</h2>");
+
+            //foreach (var item in g.GetScriptApplications())
+            //{
+            //    Write("<br /> " + "<img  script application: " + item.TypeName);
+
+            //    foreach (var r in item.References)
+            //    {
+            //        Write("<br /> &nbsp;&nbsp;&nbsp;&nbsp;");
+
+            //        Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> reference: ");
+            //        Write(r.AssemblyFile);
+
+            //    }
+            //}
+
+            //Write("<h2>Files</h2>");
+
+            //foreach (var item in g.GetFiles())
+            //{
+            //    Write("<br /> " + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
+            //}
+
+
+
+        }
+
     }
 }

@@ -111,7 +111,7 @@
     <Content Include="staging\apk\assets\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="staging\apk\assets\jsc.png">
+    <Content Include="staging\apk\assets\assets\ScriptCoreLib\jsc.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="staging\apk\drawable-xhdpi\ic_launcher.png">

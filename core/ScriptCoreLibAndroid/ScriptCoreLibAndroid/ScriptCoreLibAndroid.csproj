@@ -86,6 +86,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ComponentModel\IComponent.cs">
       <Link>BCLImplementation\System\ComponentModel\IComponent.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Configuration\SettingsBase.cs">
+      <Link>BCLImplementation\System\Configuration\SettingsBase.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Convert.cs">
       <Link>BCLImplementation\System\Convert.cs</Link>
     </Compile>
@@ -519,11 +522,12 @@
     <Compile Include="BCLImplementation\System\Web\HttpContext.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpApplication.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpRequest.cs" />
+    <Compile Include="BCLImplementation\System\Web\Profile\DefaultProfile.cs" />
+    <Compile Include="BCLImplementation\System\Web\Profile\ProfileBase.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BCLImplementation\System\Web\Profile\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
