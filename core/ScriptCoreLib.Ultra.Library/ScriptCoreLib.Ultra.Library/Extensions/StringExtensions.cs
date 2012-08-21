@@ -58,6 +58,9 @@ namespace ScriptCoreLib.Extensions
 
 		public static string SkipUntilOrEmpty(this string e, string u)
 		{
+            if (null == e)
+                return "";
+
 			var i = e.IndexOf(u);
 
 			if (i < 0)

@@ -3,12 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpApplication))]
-    internal class __HttpApplication : __IHttpAsyncHandler, __IHttpHandler, __IComponent, IDisposable
+    public class __HttpApplication : __IHttpAsyncHandler, __IHttpHandler, __IComponent, IDisposable
     {
+        public HttpRequest Request { get; set; }
+        public HttpResponse Response { get; set; }
+
+        HttpContext _Context;
+        public HttpContext Context
+        {
+            get
+            {
+                if (_Context == null)
+                    _Context = (HttpContext)(object)new __HttpContext { Request = this.Request, Response = this.Response };
+
+                return _Context;
+            }
+        }
+
         public void CompleteRequest()
         {
 
