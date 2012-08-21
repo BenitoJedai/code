@@ -34,10 +34,10 @@ namespace SpaceInvaders
             new SpaceInvaders.Library.Controls.SpaceInvaders();
 
             style.Content.AttachToHead();
-            @"Hello world".ToDocumentTitle();
+            @"Space Invaders".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
-                @"A string from JavaScript.",
+                @"Space Invaders: Multiplayer",
                 value => value.ToDocumentTitle()
             );
         }
