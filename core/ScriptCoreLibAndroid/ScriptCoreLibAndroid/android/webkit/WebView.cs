@@ -20,6 +20,11 @@ namespace android.webkit
 
         }
 
+        public WebSettings getSettings()
+        {
+            return default(WebSettings);
+        }
+
         public virtual bool canGoBack()
         {
             return default(bool);

@@ -38,5 +38,9 @@ namespace android.app
             return default(bool);
         }
 
+        public  void setTitle(string e)
+        {
+
+        }
     }
 }

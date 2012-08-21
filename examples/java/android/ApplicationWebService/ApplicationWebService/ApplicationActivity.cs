@@ -171,6 +171,9 @@ namespace ApplicationWebService.Activities
 
             #region WebView as UI at uri
             var webview = new WebView(this);
+
+            webview.getSettings().setJavaScriptEnabled(true);
+
             webview.setWebViewClient(new MyWebViewClient { });
             webview.setWebChromeClient(
                 new MyWebChromeClient
@@ -206,7 +209,7 @@ namespace ApplicationWebService.Activities
 
                     return false;
                 };
-
+            this.setTitle(uri);
             webview.loadUrl(uri);
             #endregion
 
@@ -240,9 +243,9 @@ namespace ApplicationWebService.Activities
             }
 
             public static Thread CreateServer(
-                ContextWrapper InternalContext, 
-                IPAddress ipa, int port, 
-                Action<string> Console_WriteLine, 
+                ContextWrapper InternalContext,
+                IPAddress ipa, int port,
+                Action<string> Console_WriteLine,
                 InternalFileInfo[] Files)
             {
                 var random = new System.Random();
@@ -298,6 +301,30 @@ namespace ApplicationWebService.Activities
                                 }
                             };
 
+                        __Global.ScriptApplications =
+                            new[]
+                            {
+                                new WebServiceScriptApplication
+                                {
+                                    TypeName = "Application",
+                                    TypeFullName = "TestGAE.Application",
+
+                                    PageSource = "<body>\r\n  <noscript>Error: This Application requires JavaScript.</noscript>\r\n  <link rel=\"stylesheet\" href=\"assets/TestGAE/Default.css\" />\r\n  <div id=\"PageContainer\">\r\n    <h1 id=\"Header\">JSC - The .NET crosscompiler for web platforms.</h1>\r\n    <p id=\"Content\" style=\"padding: 2em;     color: blue;\">Hello world</p>\r\n  </div>\r\n</body>",
+
+                                    References = new []
+                                    {
+                                        new WebServiceScriptApplication.Reference
+                                        {
+                                            AssemblyFile = "ScriptCoreLib.dll"
+                                        },
+                                        new WebServiceScriptApplication.Reference
+                                        {
+                                            AssemblyFile = "TestGAE.Application.exe"
+                                        }
+                                    }
+                                }
+                            };
+
                         ((__HttpApplication)(object)__Global).Request = (HttpRequest)(object)__Request;
                         ((__HttpApplication)(object)__Global).Response = (HttpResponse)(object)__Response;
                         var Context = __Global.Context;
@@ -305,12 +332,13 @@ namespace ApplicationWebService.Activities
 
 
 
-                        //Console_WriteLine("#" + cid + HTTP_METHOD_PATH_QUERY);
 
                         #region __Request { HttpMethod, QueryString, Headers }
                         var HTTP_METHOD_PATH_QUERY = r.ReadLine();
                         var HTTP_METHOD = HTTP_METHOD_PATH_QUERY.TakeUntilOrEmpty(" ");
                         __Request.HttpMethod = HTTP_METHOD;
+
+                        Console.WriteLine("#" + cid + " " + HTTP_METHOD_PATH_QUERY);
 
                         #region check METHOD
                         if (HTTP_METHOD != "POST")
@@ -417,15 +445,17 @@ namespace ApplicationWebService.Activities
 
                         {
 
-                            Console_WriteLine("#" + cid + " 200");
 
 
-                            if (__Request.Path == "/jsc")
-                            {
-                                __InternalGlobalExtensions.InternalApplication_BeginRequest(__Global);
-                                return;
+                            //if (__Request.Path == "/jsc")
+                            //{
+                            InternalGlobalExtensions.InternalApplication_BeginRequest(__Global);
+                            InternalStream.Close();
 
-                            }
+                            Console.WriteLine("#" + cid + " " + HTTP_METHOD_PATH_QUERY + " done");
+
+                            return;
+                            //}
 
                             #region selected_item
                             if (selected_item != null)
@@ -836,7 +866,7 @@ namespace ApplicationWebService.Activities
         #endregion
     }
 
-    class __Global : __InternalGlobal
+    class __Global : InternalGlobal
     {
         public InternalFileInfo[] Files;
 
@@ -851,41 +881,32 @@ namespace ApplicationWebService.Activities
         {
             return WebMethods;
         }
+
+        public WebServiceScriptApplication[] ScriptApplications;
+
+        public override WebServiceScriptApplication[] GetScriptApplications()
+        {
+            return ScriptApplications;
+        }
+
+        public override void Invoke(InternalWebMethodInfo e)
+        {
+        }
+
+        public override void Serve(WebServiceHandler h)
+        {
+        }
     }
 
 
 
-    public abstract class __InternalGlobal : HttpApplication
-    {
-        #region InternalApplication
-        HttpApplication InternalApplicationOverride;
-        public HttpApplication InternalApplication
-        {
-            get
-            {
-                if (InternalApplicationOverride != null)
-                    return InternalApplicationOverride;
 
-                return this;
-            }
-        }
 
-        public void SetApplication(HttpApplication value)
-        {
-            this.InternalApplicationOverride = value;
-        }
-        #endregion
 
-        public abstract InternalFileInfo[] GetFiles();
-
-        public abstract InternalWebMethodInfo[] GetWebMethods();
-    }
-
-    
 
     public static class __InternalGlobalExtensions
     {
-        public static InternalFileInfo ToCurrentFile(this __InternalGlobal g)
+        public static InternalFileInfo ToCurrentFile(this InternalGlobal g)
         {
             var that = g.InternalApplication;
 
@@ -901,7 +922,7 @@ namespace ApplicationWebService.Activities
             return x;
         }
 
-        public static void InternalApplication_BeginRequest(__InternalGlobal g)
+        public static void InternalApplication_BeginRequest(InternalGlobal g)
         {
             var that = g.InternalApplication;
             var Context = that.Context;
@@ -1009,7 +1030,7 @@ namespace ApplicationWebService.Activities
             return s.ToXMLString();
         }
 
-        public static void WriteDiagnostics(__InternalGlobal g, StringAction Write, InternalWebMethodInfo[] WebMethods)
+        public static void WriteDiagnostics(InternalGlobal g, StringAction Write, InternalWebMethodInfo[] WebMethods)
         {
             // should the diagnostics be a separate rich Browser Application? :)
 
@@ -1085,21 +1106,21 @@ namespace ApplicationWebService.Activities
             #endregion
 
 
-            //Write("<h2>Script Applications</h2>");
+            Write("<h2>Script Applications</h2>");
 
-            //foreach (var item in g.GetScriptApplications())
-            //{
-            //    Write("<br /> " + "<img  script application: " + item.TypeName);
+            foreach (var item in g.GetScriptApplications())
+            {
+                Write("<br /> " + "script application: " + item.TypeName);
 
-            //    foreach (var r in item.References)
-            //    {
-            //        Write("<br /> &nbsp;&nbsp;&nbsp;&nbsp;");
+                foreach (var r in item.References)
+                {
+                    Write("<br /> &nbsp;&nbsp;&nbsp;&nbsp;");
 
-            //        Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> reference: ");
-            //        Write(r.AssemblyFile);
+                    Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> reference: ");
+                    Write(r.AssemblyFile);
 
-            //    }
-            //}
+                }
+            }
 
             Write("<h2>Files</h2>");
 

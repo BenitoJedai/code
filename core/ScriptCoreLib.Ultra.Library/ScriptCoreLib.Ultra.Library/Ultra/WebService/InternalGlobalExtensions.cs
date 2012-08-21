@@ -348,6 +348,7 @@ namespace ScriptCoreLib.Ultra.WebService
             var Context = g.InternalApplication.Context;
 
             Write("<title>jsc-solutions.net</title>");
+            Write("<br/><center><a href='/'>Launch Application</a></center><br/>");
 
             Write("<a href='http://jsc-solutions.net'><img border='0' src='/assets/ScriptCoreLib/jsc.png' /></a>");
 
@@ -397,7 +398,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             foreach (var item in g.GetScriptApplications())
             {
-                Write("<br /> " + "<img  script application: " + item.TypeName);
+                Write("<br /> " + "script application: " + item.TypeName);
 
                 foreach (var r in item.References)
                 {
