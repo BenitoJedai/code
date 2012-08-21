@@ -487,6 +487,7 @@
     <Compile Include="android\content\res\AssetManager.cs" />
     <Compile Include="android\content\res\Resources.cs" />
     <Compile Include="android\media\MediaPlayer.cs" />
+    <Compile Include="android\net\Uri.cs" />
     <Compile Include="android\util\Log.cs" />
     <Compile Include="android\view\ContextThemeWrapper.cs" />
     <Compile Include="android\content\ContextWrapper.cs" />
@@ -497,6 +498,8 @@
     <Compile Include="android\view\KeyEvent.cs" />
     <Compile Include="android\view\View.cs" />
     <Compile Include="android\view\ViewGroup.cs" />
+    <Compile Include="android\webkit\ValueCallback.cs" />
+    <Compile Include="android\webkit\WebChromeClient.cs" />
     <Compile Include="android\webkit\WebViewClient.cs" />
     <Compile Include="android\webkit\WebView.cs" />
     <Compile Include="android\widget\Button.cs" />

@@ -39,5 +39,10 @@ namespace android.webkit
         {
 
         }
+
+        public virtual void setWebChromeClient(WebChromeClient value)
+        {
+
+        }
     }
 }
