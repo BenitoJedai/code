@@ -77,6 +77,10 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void WriteFile(string filename)
         {
+            // we only work with absolute paths anyway
+            if (filename.StartsWith("/"))
+                filename = filename.Substring(1);
+
             InternalWriteHeaders();
 
             try

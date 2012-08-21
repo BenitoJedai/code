@@ -155,10 +155,9 @@ namespace ScriptCoreLib.Shared.IO
             return value;
         }
 
-        public Stream ReadStreamToEnd(Stream target = null)
+        public MemoryStream ReadToMemoryStream()
         {
-            if (target == null)
-                target = new MemoryStream();
+            var target = new MemoryStream();
 
             var ns = this.BaseStream as NetworkStream;
 
