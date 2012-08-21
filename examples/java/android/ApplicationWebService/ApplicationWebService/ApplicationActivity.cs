@@ -447,10 +447,15 @@ namespace ApplicationWebService.Activities
 
 
 
-                            //if (__Request.Path == "/jsc")
-                            //{
-                            InternalGlobalExtensions.InternalApplication_BeginRequest(__Global);
-                            InternalStream.Close();
+                            if (__Request.Path == "/jsc")
+                            {
+                                __InternalGlobalExtensions.InternalApplication_BeginRequest(__Global);
+                            }
+                            else
+                            {
+                                InternalGlobalExtensions.InternalApplication_BeginRequest(__Global);
+                            }
+
 
                             Console.WriteLine("#" + cid + " " + HTTP_METHOD_PATH_QUERY + " done");
 

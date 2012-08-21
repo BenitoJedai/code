@@ -27,6 +27,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void CompleteRequest()
         {
+            Response.Close();
+
+
             //InternalStream.Close();
         }
 
