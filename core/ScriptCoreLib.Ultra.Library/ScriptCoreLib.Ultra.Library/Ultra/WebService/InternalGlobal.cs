@@ -7,8 +7,9 @@ using System.Web;
 namespace ScriptCoreLib.Ultra.WebService
 {
 	public abstract class InternalGlobal : HttpApplication
-	{
-		HttpApplication InternalApplicationOverride;
+    {
+        #region InternalApplication
+        HttpApplication InternalApplicationOverride;
 		public HttpApplication InternalApplication
 		{
 			get
@@ -24,9 +25,11 @@ namespace ScriptCoreLib.Ultra.WebService
 		{
 			this.InternalApplicationOverride = value;
 		}
+        #endregion
 
 
-		public bool FileExists()
+
+        public bool FileExists()
 		{
 			return InternalGlobalExtensions.FileExists(this);
 		}

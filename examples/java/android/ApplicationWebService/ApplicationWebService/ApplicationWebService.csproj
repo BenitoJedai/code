@@ -98,7 +98,6 @@
   <ItemGroup>
     <Content Include="Design\Preview.png" />
     <Content Include="Design\Images.htm" />
-    <Content Include="Design\jsc.png" />
     <Content Include="staging\apk\assets\bar.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

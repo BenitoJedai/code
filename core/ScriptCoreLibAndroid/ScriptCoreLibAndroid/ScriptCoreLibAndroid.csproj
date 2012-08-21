@@ -77,6 +77,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\IList.cs">
       <Link>BCLImplementation\System\Collection\IList.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs">
+      <Link>BCLImplementation\System\Collection\Specialized\NameObjectCollectionBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
+      <Link>BCLImplementation\System\Collection\Specialized\NameValueCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Convert.cs">
       <Link>BCLImplementation\System\Convert.cs</Link>
     </Compile>
@@ -404,6 +410,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Enumeration.cs">
       <Link>java\util\Enumeration.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\HashMap.cs">
+      <Link>java\util\HashMap.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Iterator.cs">
       <Link>java\util\Iterator.cs</Link>
     </Compile>
@@ -470,6 +479,8 @@
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpResponse.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpCachePolicy.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpContext.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpApplication.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpRequest.cs" />

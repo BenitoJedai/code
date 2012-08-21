@@ -8,5 +8,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpApplication))]
     internal class __HttpApplication
     {
+        public void CompleteRequest()
+        {
+
+        }
     }
 }
