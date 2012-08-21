@@ -29,11 +29,6 @@ namespace SpaceInvaders.Library.Controls
             overlay.ControlInBack.style.zIndex = 100000;
             overlay.ControlInFront.style.zIndex = 100001;
 
-            overlay.ControlInBack.onclick +=
-                delegate
-                {
-                    overlay.Visible = false;
-                };
 
             var view = overlay.ControlInFront;
 
@@ -313,8 +308,9 @@ namespace SpaceInvaders.Library.Controls
 
                 var MyRandom = new System.Random();
 
-                var mothershiploop = new SpaceInvadersTemplate.HTML.Audio.FromAssets.mothershiploopx { 
-                
+                var mothershiploop = new SpaceInvadersTemplate.HTML.Audio.FromAssets.mothershiploopx
+                {
+
                     loop = true
                 };
 
@@ -328,7 +324,7 @@ namespace SpaceInvaders.Library.Controls
 
                 var duh_cycle = duh.ToCyclicAction(a => a.play());
 
-                
+
                 #region EnemyAction
                 Action EnemyAction =
                     delegate
@@ -552,6 +548,64 @@ namespace SpaceInvaders.Library.Controls
 
                     };
 
+
+                #region ResetGame
+                Action ResetGame =
+                    delegate
+                    {
+                        mmenu.Visible = false;
+
+                        Player_X = 220;
+                        board.Score = 0;
+                        board.Lives = 3;
+
+                        Player.Show();
+
+                        foreach (Concrete v in KnownConcrete.ToArray())
+                        {
+                            v.Health = 255;
+                            v.Visible = true;
+                        }
+
+
+                        foreach (EnemyUnit v in KnownEnemies.ToArray())
+                        {
+                            v.ResetPosition();
+                            v.Visible = true;
+                        }
+
+                        EnemyAction();
+
+                        GameTimer.StartInterval(50);
+
+                        UpdatePlayer(0);
+                    };
+                #endregion
+
+                Action EgoShoot =
+                    delegate
+                    {
+                        if (!Player_Ammo.Visible)
+                        {
+                            Player_Ammo.MoveTo(Player_X, Player_Y - 20);
+
+                            new SpaceInvadersTemplate.HTML.Audio.FromAssets.firemissile().play();
+
+                            Player_Ammo.Visible = true;
+
+                        }
+                    };
+
+                overlay.ControlInBack.onclick +=
+                    delegate
+                    {
+                        if (mmenu.Visible)
+                            ResetGame();
+                        else
+                            EgoShoot();
+                    };
+
+
                 Native.Document.onkeydown += delegate(IEvent ev)
                 {
                     Console.WriteLine(new { ev.KeyCode }.ToString());
@@ -560,33 +614,8 @@ namespace SpaceInvaders.Library.Controls
                     {
                         if (ev.IsReturn)
                         {
-                            mmenu.Visible = false;
 
-                            Player_X = 220;
-                            board.Score = 0;
-                            board.Lives = 3;
-
-                            Player.Show();
-
-                            foreach (Concrete v in KnownConcrete.ToArray())
-                            {
-                                v.Health = 255;
-                                v.Visible = true;
-                            }
-
-
-                            foreach (EnemyUnit v in KnownEnemies.ToArray())
-                            {
-                                v.ResetPosition();
-                                v.Visible = true;
-                            }
-
-                            EnemyAction();
-
-                            GameTimer.StartInterval(50);
-
-                            UpdatePlayer(0);
-
+                            ResetGame();
 
                         }
 
@@ -657,15 +686,7 @@ namespace SpaceInvaders.Library.Controls
                         // the animated gifs would stop after escape key
                         ev.PreventDefault();
 
-                        if (!Player_Ammo.Visible)
-                        {
-                            Player_Ammo.MoveTo(Player_X, Player_Y - 20);
-
-                            new SpaceInvadersTemplate.HTML.Audio.FromAssets.firemissile().play();
-
-                            Player_Ammo.Visible = true;
-
-                        }
+                        EgoShoot();
                     }
                     else
                     {
