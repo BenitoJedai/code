@@ -14,7 +14,7 @@ namespace ApplicationWebService
         public static void Main(string[] e)
         {
             global::jsc.AndroidLauncher.Launch(
-                 typeof(ApplicationWebService.Activities.ApplicationActivity)
+                 typeof(ApplicationWebService.Activities.ApplicationWebServiceActivity)
             );
         }
     }
