@@ -89,6 +89,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Convert.cs">
       <Link>BCLImplementation\System\Convert.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs">
+      <Link>BCLImplementation\System\DateTime.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Environment.cs">
       <Link>BCLImplementation\System\Environment.cs</Link>
     </Compile>
@@ -206,8 +209,17 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs">
       <Link>BCLImplementation\System\Runtime\InteropServices\_Assembly.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs">
+      <Link>BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
       <Link>BCLImplementation\System\Runtime\Serialization\ISerializable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs">
+      <Link>BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\StreamingContext.cs">
+      <Link>BCLImplementation\System\Runtime\Serialization\StreamingContext.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\IEvidenceFactory.cs">
       <Link>BCLImplementation\System\Security\IEvidenceFactory.cs</Link>
@@ -229,6 +241,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs">
       <Link>BCLImplementation\System\Threading\Thread.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\TimeSpan.cs">
+      <Link>BCLImplementation\System\TimeSpan.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Type.cs">
       <Link>BCLImplementation\System\Type.cs</Link>
@@ -404,11 +419,17 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Arrays.cs">
       <Link>java\util\Arrays.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Calendar.cs">
+      <Link>java\util\Calendar.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Collection.cs">
       <Link>java\util\Collection.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Comparator.cs">
       <Link>java\util\Comparator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Date.cs">
+      <Link>java\util\Date.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Enumeration.cs">
       <Link>java\util\Enumeration.cs</Link>
@@ -433,6 +454,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Set.cs">
       <Link>java\util\Set.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\TimeZone.cs">
+      <Link>java\util\TimeZone.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
