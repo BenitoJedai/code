@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using java.io;
 using System.Collections.Specialized;
+using System.Web;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpResponse))]
@@ -17,11 +18,14 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         public int StatusCode { get; set; }
         public string ContentType { get; set; }
 
+        public HttpCachePolicy Cache { get; set;  }
+
         public __HttpResponse()
         {
             ContentType = "application/octet-stream";
             StatusCode = 200;
             Headers = new NameValueCollection();
+            Cache = (HttpCachePolicy)(object)new __HttpCachePolicy();
         }
 
         public NameValueCollection Headers { get; set; }
