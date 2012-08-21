@@ -18,6 +18,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using ScriptCoreLib.Extensions;
+using System.Web;
 
 namespace ApplicationWebService.Activities
 {
@@ -138,6 +139,9 @@ namespace ApplicationWebService.Activities
             //public Func<Stream> OpenFile;
             public StreamFunc OpenFile;
         }
+
+
+
 
         #region Class1Shared
         public delegate void NetworkStreamAction(NetworkStream s);
@@ -675,5 +679,36 @@ namespace ApplicationWebService.Activities
         #endregion
     }
 
+    public abstract class __InternalGlobal : HttpApplication
+    {
+        #region InternalApplication
+        HttpApplication InternalApplicationOverride;
+        public HttpApplication InternalApplication
+        {
+            get
+            {
+                if (InternalApplicationOverride != null)
+                    return InternalApplicationOverride;
 
+                return this;
+            }
+        }
+
+        public void SetApplication(HttpApplication value)
+        {
+            this.InternalApplicationOverride = value;
+        }
+        #endregion
+    }
+
+    public static class __InternalGlobalExtensions
+    {
+        public static void InternalApplication_BeginRequest(__InternalGlobal g)
+        {
+            var that = g.InternalApplication;
+            var Context = that.Context;
+
+            var Path = Context.Request.Path;
+        }
+    }
 }
