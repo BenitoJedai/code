@@ -22,7 +22,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 			}
 			catch
 			{
-				throw new InvalidOperationException();
+                throw;
 			}
 			return r;
 
@@ -40,7 +40,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 			}
 			catch
 			{
-				throw new InvalidOperationException();
+                throw;
 			}
 			return r;
 		}

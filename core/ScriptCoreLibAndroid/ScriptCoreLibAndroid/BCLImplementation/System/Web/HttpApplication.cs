@@ -27,7 +27,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void CompleteRequest()
         {
-
+            //InternalStream.Close();
         }
 
         public bool IsReusable

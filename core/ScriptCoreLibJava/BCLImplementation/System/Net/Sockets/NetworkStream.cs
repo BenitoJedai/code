@@ -44,7 +44,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			}
 			catch
 			{
-				throw new InvalidOperationException();
+                throw;
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			}
 			catch
 			{
-				throw new InvalidOperationException();
+                throw;
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			}
 			catch
 			{
-				throw new InvalidOperationException();
+                throw;
 			}
 
 			return i;
@@ -101,7 +101,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			}
 			catch
 			{
-				throw new InvalidOperationException();
+                throw;
 			}
 
 		}
