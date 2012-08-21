@@ -22,6 +22,7 @@ using System.Web;
 using ScriptCoreLib.Android.BCLImplementation.System.Web;
 using ScriptCoreLib.Delegates;
 using android.util;
+using android.content;
 
 namespace ApplicationWebService.Activities
 {
@@ -64,7 +65,7 @@ namespace ApplicationWebService.Activities
             var assets = this.getResources().getAssets();
 
             var aa = new List<__InternalFileInfo>();
-            var a = new List<InternalFileInfo>();
+            //var a = new List<InternalFileInfo>();
 
             Action<string> GetAssets = null;
 
@@ -112,28 +113,28 @@ namespace ApplicationWebService.Activities
                                 }
                             );
 
-                            a.Add(
-                                new InternalFileInfo
-                                {
-                                    FileName = FileName,
-                                    OpenFile =
-                                    () =>
-                                    {
-                                        var rr = default(NetworkStream);
-                                        try
-                                        {
-                                            Log.wtf("ApplicationWebService", FileName);
-                                            rr = assets.open(FileName).ToNetworkStream();
-                                        }
-                                        catch
-                                        {
-                                            throw;
-                                        }
+                            //a.Add(
+                            //    new InternalFileInfo
+                            //    {
+                            //        FileName = FileName,
+                            //        OpenFile =
+                            //        () =>
+                            //        {
+                            //            var rr = default(NetworkStream);
+                            //            try
+                            //            {
+                            //                Log.wtf("ApplicationWebService", FileName);
+                            //                rr = assets.open(FileName).ToNetworkStream();
+                            //            }
+                            //            catch
+                            //            {
+                            //                throw;
+                            //            }
 
-                                        return rr;
-                                    }
-                                }
-                            );
+                            //            return rr;
+                            //        }
+                            //    }
+                            //);
                         }
 
                         if (FileName == "webkit")
@@ -161,12 +162,13 @@ namespace ApplicationWebService.Activities
             var ipa = Dns.GetHostAddresses(getLocalIpAddress())[0];
 
             Class1Shared.CreateServer(
+                this,
                 ipa,
                 port,
                 x =>
                 {
 
-                }, a.ToArray(), aa.ToArray()
+                }, aa.ToArray()
             ).Start();
             #endregion
 
@@ -224,21 +226,23 @@ namespace ApplicationWebService.Activities
 
         }
 
-        public class InternalFileInfo
-        {
-            public string FileName;
+        //public class InternalFileInfo
+        //{
+        //    public string FileName;
 
-            // jsc does not yet detect field generics?
-            //public Func<Stream> OpenFile;
-            public StreamFunc OpenFile;
-        }
+        //    // jsc does not yet detect field generics?
+        //    //public Func<Stream> OpenFile;
+        //    public StreamFunc OpenFile;
+        //}
 
 
 
 
         #region Class1Shared
         public delegate void NetworkStreamAction(NetworkStream s);
-        public delegate NetworkStream StreamFunc();
+
+        // nested delegates cannot stay partial..
+        //public delegate NetworkStream StreamFunc();
 
 
 
@@ -249,7 +253,7 @@ namespace ApplicationWebService.Activities
                 public int value;
             }
 
-            public static Thread CreateServer(IPAddress ipa, int port, Action<string> Console_WriteLine, InternalFileInfo[] assets, __InternalFileInfo[] Files)
+            public static Thread CreateServer(ContextWrapper InternalContext, IPAddress ipa, int port, Action<string> Console_WriteLine, __InternalFileInfo[] Files)
             {
                 var random = new System.Random();
 
@@ -261,7 +265,7 @@ namespace ApplicationWebService.Activities
                 var cid = 0;
 
                 NetworkStreamAction AtConnection =
-                    s =>
+                    InternalStream =>
                     {
                         var id = cid++;
 
@@ -269,18 +273,23 @@ namespace ApplicationWebService.Activities
 
                         //log("AtConnection");
 
-                        var r = new SmartStreamReader(s);
+                        var r = new SmartStreamReader(InternalStream);
 
+                        #region __Global
                         var __Request = new __HttpRequest();
+                        var __Response = new __HttpResponse { InternalStream = InternalStream, InternalContext = InternalContext };
                         var __Global = new __Global();
                         __Global.Files = Files;
                         ((__HttpApplication)(object)__Global).Request = (HttpRequest)(object)__Request;
+                        ((__HttpApplication)(object)__Global).Response = (HttpResponse)(object)__Response;
+                        #endregion
 
 
+
+                        //Console_WriteLine("#" + cid + HTTP_METHOD_PATH_QUERY);
+
+                        #region __Request { HttpMethod, QueryString, Headers }
                         var HTTP_METHOD_PATH_QUERY = r.ReadLine();
-
-                        Console_WriteLine("#" + cid + HTTP_METHOD_PATH_QUERY);
-
                         var HTTP_METHOD = HTTP_METHOD_PATH_QUERY.TakeUntilOrEmpty(" ");
                         __Request.HttpMethod = HTTP_METHOD;
 
@@ -304,10 +313,10 @@ namespace ApplicationWebService.Activities
 
                                 var oa = m.ToArray();
 
-                                s.Write(oa, 0, oa.Length);
+                                InternalStream.Write(oa, 0, oa.Length);
 
-                                s.Flush();
-                                s.Close();
+                                InternalStream.Flush();
+                                InternalStream.Close();
                                 return;
                             }
                         #endregion
@@ -348,209 +357,176 @@ namespace ApplicationWebService.Activities
                         }
                         #endregion
 
+                        #endregion
 
                         var data = r.ReadStreamToEnd();
 
 
-                        var selected_item = default(InternalFileInfo);
+                        #region selected_item
+                        var selected_item = default(__InternalFileInfo);
 
-                        foreach (var item in assets)
+                        foreach (var item in Files)
                         {
                             // LINQ please!
-                            if (HTTP_PATH == "/" + item.FileName)
+                            if (HTTP_PATH == "/" + item.Name)
                                 selected_item = item;
 
                         }
+                        #endregion
+
 
 
                         {
-                            var m = new MemoryStream();
 
                             Console_WriteLine("#" + cid + " 200");
 
+                            #region selected_item
                             if (selected_item != null)
                             {
-                                var path = selected_item.FileName;
+                                var path = selected_item.Name;
 
-                                #region WriteLineASCII
-                                Action<string> WriteLineASCII = (string e) =>
-                                {
-                                    var x = Encoding.ASCII.GetBytes(e + "\r\n");
-
-                                    s.Write(x, 0, x.Length);
-                                };
-                                #endregion
-
-                                WriteLineASCII("HTTP/1.1 200 OK");
-
-                                Action<string> SetContentType =
-                                    value => WriteLineASCII("Content-Type: " + value);
-
-                                SetContentType("text/html; charset=utf-8");
+                                __Response.StatusCode = 200;
+                                __Response.Headers["X-Handler"] = "http://jsc-solutions.net";
 
                                 if (path.EndsWith(".gif"))
-                                    SetContentType("image/gif");
+                                    __Response.ContentType = ("image/gif");
                                 else if (path.EndsWith(".png"))
-                                    SetContentType("image/png");
+                                    __Response.ContentType = ("image/png");
                                 else if (path.EndsWith(".htm"))
-                                    SetContentType("text/html");
+                                    __Response.ContentType = ("text/html; charset=utf-8");
                                 else
-                                    SetContentType("application/octet-stream");
-
-                                //WriteLineASCII("Content-Length: " + data.Length);
-                                WriteLineASCII("Connection: close");
+                                    __Response.ContentType = ("application/octet-stream");
 
 
-                                WriteLineASCII("");
+                                __Response.WriteFile(path);
 
+                                InternalStream.Close();
+                                __Global.CompleteRequest();
+                                return;
 
-                                selected_item.OpenFile().CopyTo(s);
-
-                                //m.Write(bytes, 0, bytes.Length);
-
-                                // send the file!
-                                //WriteLineASCII("<pre>" + selected_item.FileName + "</pre>");
                             }
-                            else
+                            #endregion
+
+                            if (__Request.Path != "/jsc")
                             {
-                                #region WriteLineASCII
-                                Action<string> WriteLineASCII = (string e) =>
-                                {
-                                    var x = Encoding.ASCII.GetBytes(e + "\r\n");
-
-                                    m.Write(x, 0, x.Length);
-                                };
-                                #endregion
-
-                                WriteLineASCII("HTTP/1.1 200 OK");
-                                WriteLineASCII("Content-Type:	text/html; charset=utf-8");
-                                //WriteLineASCII("Content-Length: " + data.Length);
-                                WriteLineASCII("Connection: close");
-
-
-                                WriteLineASCII("");
-
-                                #region html index
-                                WriteLineASCII("<html>");
-
-                                WriteLineASCII("<body>");
-
-
-                                __InternalGlobalExtensions.WriteDiagnostics(
-                                    __Global,
-                                    x => WriteLineASCII(x),
-                                    new __InternalWebMethodInfo[0]
-                                );
-
-
-                                //WriteLineASCII("<pre style='color: blue;'>" + new { HTTP_METHOD, HTTP_PATH, HTTP_QUERY, data = data.Length } + "</pre>");
-
-                                //WriteLineASCII("<code style='color: green;'>HTTP_METHOD: " + HTTP_METHOD + "</code><br />");
-                                //WriteLineASCII("<code style='color: green;'>HTTP_PATH: " + HTTP_PATH + "</code><br />");
-                                //WriteLineASCII("<code style='color: green;'>HTTP_QUERY: " + HTTP_QUERY + "</code><br />");
-                                //WriteLineASCII("<code style='color: green;'>data: " + data.Length + "</code><br />");
-                                WriteLineASCII("<h3>data: 0x" + data.Length.ToString("x8") + "</h3>");
-
-                                var boundary = __Request.Headers["Content-Type"].SkipUntilOrEmpty("multipart/form-data; boundary=");
-
-                                WriteLineASCII("<hr />");
-                                WriteLineASCII("<pre>" + boundary + "</pre>");
-                                WriteLineASCII("<hr />");
-
-                                WriteLineASCII("<pre>" + HTTP_METHOD_PATH_QUERY + "</pre>");
-
-
-                                if (string.IsNullOrEmpty(boundary))
-                                    WriteLineASCII("<pre>" + WriteHexDump(data.ToBytes()) + "</pre>");
-
-                                #region by boundary
-                                if (!string.IsNullOrEmpty(boundary))
-                                {
-                                    boundary = "--" + boundary;
-
-                                    var bytes = data.ToBytes();
-                                    var boundarybytes = Encoding.ASCII.GetBytes(boundary);
-
-                                    var boundaries = new List<Int32Box>();
-
-                                    for (int i = 0; i < bytes.Length - boundarybytes.Length; i++)
-                                    {
-                                        var AtBoundary = false;
-
-                                        // is i at boundary?
-                                        for (int j = 0; j < boundarybytes.Length; j++)
-                                        {
-                                            if (bytes[i + j] != boundarybytes[j])
-                                            {
-                                                AtBoundary = false;
-                                                break;
-                                            }
-                                            AtBoundary = true;
-                                        }
-
-                                        if (AtBoundary)
-                                        {
-                                            boundaries.Add(new Int32Box { value = i });
-                                        }
-                                    }
-
-                                    var boundaries_a = boundaries.ToArray();
-
-                                    for (int i = 0; i < boundaries_a.Length - 1; i++)
-                                    {
-                                        var start = boundaries_a[i].value + boundarybytes.Length + 2;
-                                        var end = boundaries_a[i + 1].value;
-
-                                        var chunk = new byte[end - start];
-
-                                        Array.Copy(bytes, start, chunk, 0, chunk.Length);
-                                        WriteLineASCII("<hr />");
-                                        WriteLineASCII("<pre>" + WriteHexDump(chunk) + "</pre>");
-                                    }
-
-                                }
-                                #endregion
-
-
-
-
-                                WriteLineASCII("<hr />");
-
-                                //foreach (var item in assets)
-                                //{
-                                //    WriteLineASCII("<a href='" + item.FileName + "'>" + item.FileName + "</a>");
-                                //    WriteLineASCII("<hr />");
-                                //}
-
-                                //WriteLineASCII("<hr />");
-
-                                WriteLineASCII("<form target='_blank' action='?WebMethod=06000048' method='POST'><br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br /> &nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br /> &nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
-
-                                WriteLineASCII("<form target='_blank' action='?WebMethod=06000048' method='POST' enctype='multipart/form-data'>");
-
-                                WriteLineASCII("  <input type='file' name='pic' size='40' accept='image/*' />");
-                                WriteLineASCII("  <input type='file' name='foo' />");
-                                WriteLineASCII("  <br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br />");
-                                WriteLineASCII("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br />");
-                                WriteLineASCII("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>foo</code> = <input type='text'  name='_06000048_foo' value='' /><br />");
-                                WriteLineASCII("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
-
-                                WriteLineASCII("</body>");
-
-                                WriteLineASCII("</html>");
-                                #endregion
-
-
-                                var oa = m.ToArray();
-
-                                s.Write(oa, 0, oa.Length);
-
+                                __Response.Redirect("/jsc");
+                                return;
 
                             }
 
+                            __Response.StatusCode = 200;
+                            __Response.ContentType = ("text/html; charset=utf-8");
+                            __Response.Headers["X-Handler"] = "http://jsc-solutions.net";
 
-                            s.Flush();
-                            s.Close();
+
+                            #region index
+
+                            #region WriteLineASCII
+                            Action<string> WriteLine = (string e) =>
+                            {
+                                __Response.Write(e + "\r\n");
+                            };
+                            #endregion
+
+
+
+                            #region html index
+
+                            WriteLine("<html>");
+                            WriteLine("<body>");
+
+                            WriteLine("<h3>data: 0x" + data.Length.ToString("x8") + "</h3>");
+
+                            var boundary = __Request.Headers["Content-Type"].SkipUntilOrEmpty("multipart/form-data; boundary=");
+
+                            WriteLine("<pre>" + boundary + "</pre>");
+                            WriteLine("<hr />");
+
+                            WriteLine("<pre>" + HTTP_METHOD_PATH_QUERY + "</pre>");
+
+                            __InternalGlobalExtensions.WriteDiagnostics(
+                               __Global,
+                               x => WriteLine(x),
+                               new __InternalWebMethodInfo[0]
+                           );
+
+                            if (string.IsNullOrEmpty(boundary))
+                                WriteLine("<pre>" + WriteHexDump(data.ToBytes()) + "</pre>");
+
+                            #region by boundary
+                            if (!string.IsNullOrEmpty(boundary))
+                            {
+                                boundary = "--" + boundary;
+
+                                var bytes = data.ToBytes();
+                                var boundarybytes = Encoding.ASCII.GetBytes(boundary);
+
+                                var boundaries = new List<Int32Box>();
+
+                                for (int i = 0; i < bytes.Length - boundarybytes.Length; i++)
+                                {
+                                    var AtBoundary = false;
+
+                                    // is i at boundary?
+                                    for (int j = 0; j < boundarybytes.Length; j++)
+                                    {
+                                        if (bytes[i + j] != boundarybytes[j])
+                                        {
+                                            AtBoundary = false;
+                                            break;
+                                        }
+                                        AtBoundary = true;
+                                    }
+
+                                    if (AtBoundary)
+                                    {
+                                        boundaries.Add(new Int32Box { value = i });
+                                    }
+                                }
+
+                                var boundaries_a = boundaries.ToArray();
+
+                                for (int i = 0; i < boundaries_a.Length - 1; i++)
+                                {
+                                    var start = boundaries_a[i].value + boundarybytes.Length + 2;
+                                    var end = boundaries_a[i + 1].value;
+
+                                    var chunk = new byte[end - start];
+
+                                    Array.Copy(bytes, start, chunk, 0, chunk.Length);
+                                    WriteLine("<hr />");
+                                    WriteLine("<pre>" + WriteHexDump(chunk) + "</pre>");
+                                }
+
+                            }
+                            #endregion
+
+                            WriteLine("<hr />");
+
+                            WriteLine("<form target='_blank' action='?WebMethod=06000048' method='POST'><br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>foo</code> = <input type='text'  name='_06000048_foo' value='' /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
+
+                            WriteLine("<form target='_blank' action='?WebMethod=06000048' method='POST' enctype='multipart/form-data'>");
+
+                            WriteLine("  <input type='file' name='pic' size='40' accept='image/*' />");
+                            WriteLine("  <input type='file' name='foo' />");
+                            WriteLine("  <br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='?WebMethod=06000048'>Hello</a></code><input type='submit' value='Invoke'  /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>data</code> = <input type='text'  name='_06000048_data' value='' /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> parameter: <code>foo</code> = <input type='text'  name='_06000048_foo' value='' /><br />");
+                            WriteLine("&nbsp;&nbsp;&nbsp;&nbsp;<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' /> parameter: <code>result</code></form>");
+
+                            WriteLine("</body>");
+
+                            WriteLine("</html>");
+                            #endregion
+
+                            InternalStream.Flush();
+                            InternalStream.Close();
+                            #endregion
+
+
 
 
                         }
