@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading;
 using ScriptCoreLib.Extensions;
 using System.Web;
+using ScriptCoreLib.Android.BCLImplementation.System.Web;
 
 namespace ApplicationWebService.Activities
 {
@@ -34,6 +35,7 @@ namespace ApplicationWebService.Activities
             // while loading we could display jsc logo, made in opengl
             // we need ip and port.
             // we need to show what assets we have
+            // let's start using HttpRequest
 
             base.onCreate(savedInstanceState);
 
@@ -176,11 +178,16 @@ namespace ApplicationWebService.Activities
 
                         var r = new SmartStreamReader(s);
 
+                        var __Request = new __HttpRequest();
+
+
+
                         var HTTP_METHOD_PATH_QUERY = r.ReadLine();
 
                         Console_WriteLine("#" + cid + HTTP_METHOD_PATH_QUERY);
 
                         var HTTP_METHOD = HTTP_METHOD_PATH_QUERY.TakeUntilOrEmpty(" ");
+                        __Request.HttpMethod = HTTP_METHOD;
 
                         #region check METHOD
                         if (HTTP_METHOD != "POST")
@@ -213,7 +220,22 @@ namespace ApplicationWebService.Activities
 
                         var HTTP_PATH_QUERY = HTTP_METHOD_PATH_QUERY.SkipUntilOrEmpty(" ").TakeUntilLastOrEmpty(" ");
                         var HTTP_PATH = HTTP_PATH_QUERY.TakeUntilIfAny("?");
+                        __Request.Path = HTTP_PATH;
+
+                        #region QueryString
                         var HTTP_QUERY = HTTP_PATH_QUERY.SkipUntilOrEmpty("?");
+
+                        var __QueryStringItems = HTTP_QUERY.Split('&');
+
+                        foreach (var item in __QueryStringItems)
+                        {
+                            var Key = item.TakeUntilOrEmpty(":");
+                            var Value = item.SkipUntilIfAny(":");
+
+                            __Request.QueryString[Key] = Value;
+                        }
+                        #endregion
+
 
                         #region HTTP_HEADERS
                         var HTTP_HEADERS = new List<string>();
@@ -223,6 +245,11 @@ namespace ApplicationWebService.Activities
                         while (!string.IsNullOrEmpty(br))
                         {
                             HTTP_HEADERS.Add(br);
+
+                            var HeaderKey = br.TakeUntilOrEmpty(":");
+                            var HeaderValue = br.SkipUntilIfAny(":");
+
+                            __Request.Headers[HeaderKey] = HeaderValue;
 
                             br = r.ReadLine();
                         }
