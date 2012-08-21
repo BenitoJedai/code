@@ -8,11 +8,13 @@ using android.view;
 using android.widget;
 using ScriptCoreLib;
 using ScriptCoreLib.Android.Extensions;
+using ScriptCoreLib.Android.Manifest;
 
 namespace HelloAndroidActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
+
         protected override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
