@@ -20,6 +20,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public HttpCachePolicy Cache { get; set;  }
 
+        public void Close()
+        {
+            InternalStream.Close();
+        }
+
         public __HttpResponse()
         {
             ContentType = "application/octet-stream";
