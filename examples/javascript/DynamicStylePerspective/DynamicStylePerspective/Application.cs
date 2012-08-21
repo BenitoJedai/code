@@ -52,7 +52,8 @@ namespace DynamicStylePerspective
                  parent.setAttribute("mozallowFullScreen", "");
                  parent.setAttribute("webkitAllowFullScreen", "");
 
-                 parent.contentWindow.document.location.replace("http://example.com");
+                 parent.contentWindow.document.location.replace("/jsc");
+                 //parent.contentWindow.document.location.replace("http://example.com");
                  //parent.contentWindow.document.location.replace("http://studio.jsc-solutions.net");
                  //parent.contentWindow.document.location.replace("http://192.168.1.100:29591/");
 
