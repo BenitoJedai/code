@@ -9,7 +9,7 @@ namespace android.view
 {
     // http://developer.android.com/reference/android/view/Window.html
     [Script(IsNative = true)]
-    public  class Window
+    public abstract class Window
     {
         // members and types are to be extended by jsc at release build
 
