@@ -20,6 +20,8 @@ namespace TestCallByInterface
         object Foo(object e);
     }
 
+
+
     [Script]
     public interface IClass1
     {
