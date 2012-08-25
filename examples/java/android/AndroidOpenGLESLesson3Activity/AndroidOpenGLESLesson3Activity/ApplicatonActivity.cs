@@ -19,13 +19,13 @@ using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace AndroidOpenGLESLesson3Activity.Activities
 {
     using opengl = GLES20;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using __gl = __WebGLRenderingContext;
-    using ScriptCoreLib.JavaScript.WebGL;
 
     public class AndroidOpenGLESLesson3Activity : Activity
     {
