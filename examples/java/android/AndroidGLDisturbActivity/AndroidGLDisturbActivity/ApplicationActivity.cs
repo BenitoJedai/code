@@ -18,12 +18,12 @@ using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using android.content.pm;
+using java.io;
 
 
 namespace AndroidGLDisturbActivity.Activities
 {
-    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using java.io;
+    using gl = WebGLRenderingContext;
     //using opengl = GLES20;
 
 
@@ -40,7 +40,7 @@ namespace AndroidGLDisturbActivity.Activities
 
             var v = new RenderingContextView(this);
 
-            v.onsurface =
+            v.onsurface +=
                 gl =>
                 {
                     //var __gl = (ScriptCoreLib.Android.__WebGLRenderingContext)(object)gl;
@@ -153,7 +153,7 @@ namespace AndroidGLDisturbActivity.Activities
                     var parameters_aspectY = 1.0f;
 
                     #region onresize
-                    v.onresize =
+                    v.onresize +=
                         (width, height) =>
                         {
                             Log.wtf("AndroidGLDisturbActivity", "onresize");
@@ -168,7 +168,7 @@ namespace AndroidGLDisturbActivity.Activities
 
                     #region onframe
                     var framecount = 0;
-                    v.onframe =
+                    v.onframe +=
                         delegate
                         {
                             var time = parameters_time / 1000f;

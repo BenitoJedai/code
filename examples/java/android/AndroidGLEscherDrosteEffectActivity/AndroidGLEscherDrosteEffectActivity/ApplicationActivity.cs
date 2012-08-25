@@ -18,12 +18,12 @@ using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using android.content.pm;
+using java.io;
 
 
 namespace AndroidGLEscherDrosteEffectActivity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using java.io;
     //using opengl = GLES20;
 
 
@@ -40,7 +40,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
 
             var v = new RenderingContextView(this);
 
-            v.onsurface =
+            v.onsurface +=
                 gl =>
                 {
                     //var __gl = (ScriptCoreLib.Android.__WebGLRenderingContext)(object)gl;
@@ -150,7 +150,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
                     ), gl.STATIC_DRAW);
 
                     #region onresize
-                    v.onresize =
+                    v.onresize +=
                         (width, height) =>
                         {
                             Log.wtf("AndroidGLEscherDrosteEffectActivity", "onresize");
@@ -166,7 +166,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
 
                     #region onframe
                     var framecount = 0;
-                    v.onframe =
+                    v.onframe +=
                         delegate
                         {
                             var t = parameters_time / 1000f;
