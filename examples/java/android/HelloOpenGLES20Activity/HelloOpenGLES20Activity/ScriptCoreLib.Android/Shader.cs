@@ -804,13 +804,13 @@ namespace ScriptCoreLib.Android
         //}
     }
 
-    public class RenderingContextView : GLSurfaceView, GLSurfaceView.Renderer
+    public class RenderingContextView : GLSurfaceView, GLSurfaceView.Renderer, ISurface
     {
         WebGLRenderingContext gl;
 
-        public Action<WebGLRenderingContext> onsurface;
-        public Action onframe;
-        public Action<int, int> onresize;
+        public event Action<WebGLRenderingContext> onsurface;
+        public event Action onframe;
+        public event Action<int, int> onresize;
 
         Context c;
 
