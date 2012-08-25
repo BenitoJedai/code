@@ -5,9 +5,10 @@ using System.Text;
 using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript.WebGL;
 
-namespace ScriptCoreLib.JavaScript.Extensions
+// move to ScriptCoreLib.JavaScript.WebGL ?
+namespace ScriptCoreLib.JavaScript.WebGL
 {
-    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using gl = WebGLRenderingContext;
 
     public static class ShaderExtensions
     {

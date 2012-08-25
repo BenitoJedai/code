@@ -121,6 +121,7 @@
     <Compile Include="Shaders\SpiralFragmentShader.cs">
       <DependentUpon>Spiral.frag</DependentUpon>
     </Compile>
+    <Compile Include="Shaders\SpiralSurface.cs" />
     <Compile Include="Shaders\SpiralVertexShader.cs">
       <DependentUpon>Spiral.vert</DependentUpon>
     </Compile>

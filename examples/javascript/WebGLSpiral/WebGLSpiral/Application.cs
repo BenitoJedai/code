@@ -15,7 +15,7 @@ namespace WebGLSpiral
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ISurface
     {
         // 01. http://www.brainjam.ca/stackoverflow/webglspiral.html
 
@@ -52,11 +52,18 @@ namespace WebGLSpiral
         // 31. Integrate with .frag and .vert files to generate types into AssetsLibrary
         // 32. Add AssetsLibrary pre build event
         // 33. Make sure JSC creates classes for frag and vert files
+        // 34. Share SpuralSurface with android implementation
         #endregion
 
-
-
         public readonly ApplicationWebService service = new ApplicationWebService();
+
+        #region ISurface
+        public event Action onframe;
+
+        public event Action<int, int> onresize;
+
+        public event Action<gl> onsurface;
+        #endregion
 
         /// <summary>
         /// This is a javascript application.
@@ -69,24 +76,10 @@ namespace WebGLSpiral
 
         private void InitializeContent()
         {
-            // methods: 
-            // init, createProgram, createShader, onWindowResize, loop
-
-            //var effectDiv, sourceDiv, canvas, gl, buffer, vertex_shader, fragment_shader, currentProgram, vertex_position;
-
-            var parameters_start_time = new IDate().getTime();
-            var parameters_time = 0L;
-            var parameters_screenWidth = 0;
-            var parameters_screenHeight = 0;
-            var parameters_aspectX = 0.0f;
-            var parameters_aspectY = 1.0f;
-
-
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0);
-
 
             #region gl
 
@@ -122,34 +115,9 @@ namespace WebGLSpiral
             #endregion
 
 
-            // Create Vertex buffer (2 triangles)
+            var s = new SpiralSurface(this);
 
-            var buffer = gl.createBuffer();
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, 
-                new Float32Array(
-                    -1.0f, -1.0f, 1.0f, 
-                    -1.0f, -1.0f, 1.0f, 
-                    1.0f, -1.0f, 1.0f, 
-                    1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
-            // Create Program
-
-
-            var currentProgram = gl.createProgram();
-
-            var vs = gl.createShader(new SpiralVertexShader());
-            var fs = gl.createShader(new SpiralFragmentShader());
-
-            gl.attachShader(currentProgram, vs);
-            gl.attachShader(currentProgram, fs);
-
-            gl.deleteShader(vs);
-            gl.deleteShader(fs);
-
-            gl.linkProgram(currentProgram);
-
-
+            this.onsurface(gl);
 
             #region AtResize
             Action AtResize = delegate
@@ -162,13 +130,7 @@ namespace WebGLSpiral
                 canvas.width = Native.Window.Width;
                 canvas.height = Native.Window.Height;
 
-                parameters_screenWidth = canvas.width;
-                parameters_screenHeight = canvas.height;
-
-                parameters_aspectX = canvas.width / canvas.height;
-                parameters_aspectY = 1.0f;
-
-                gl.viewport(0, 0, canvas.width, canvas.height);
+                this.onresize(Native.Window.Width, Native.Window.Height);
             };
 
             AtResize();
@@ -188,33 +150,7 @@ namespace WebGLSpiral
                 if (IsDisposed)
                     return;
 
-                if (currentProgram == null) return;
-
-                parameters_time = new IDate().getTime() - parameters_start_time;
-
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-                // Load program into GPU
-
-                gl.useProgram(currentProgram);
-
-                // Get var locations
-
-                var vertex_position = gl.getAttribLocation(currentProgram, "position");
-
-                // Set values to program variables
-
-                gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
-                gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
-                gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
-
-                // Render geometry
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.vertexAttribPointer((uint)vertex_position, 2, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray((uint)vertex_position);
-                gl.drawArrays(gl.TRIANGLES, 0, 6);
-                gl.disableVertexAttribArray((uint)vertex_position);
+                this.onframe();
 
                 Native.Window.requestAnimationFrame += loop;
 

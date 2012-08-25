@@ -98,6 +98,7 @@
     <Compile Include="Shaders\SpiralFragmentShader.cs">
       <DependentUpon>Spiral.frag</DependentUpon>
     </Compile>
+    <Compile Include="Shaders\SpiralSurface.cs" />
     <Compile Include="Shaders\SpiralVertexShader.cs">
       <DependentUpon>Spiral.vert</DependentUpon>
     </Compile>
@@ -108,9 +109,6 @@
     <Content Include="Design\jsc.png" />
     <Content Include="Design\Preview.png" />
     <Content Include="staging\apk\res\drawable-xhdpi\ic_launcher.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="staging\apk\res\values\strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
