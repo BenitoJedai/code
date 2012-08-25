@@ -20,5 +20,4 @@ using ScriptCoreLib;
 [assembly: Guid("b6f3cd7a-c1b0-4aa6-a1c7-f3d81b809ad4")]
 
 
-[assembly: Script]
-[assembly: ScriptTypeFilter(ScriptType.Java)]
+[assembly: Obfuscation(Feature = "merge")]
