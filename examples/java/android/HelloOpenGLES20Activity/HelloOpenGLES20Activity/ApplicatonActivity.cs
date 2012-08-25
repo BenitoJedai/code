@@ -17,13 +17,13 @@ using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace HelloOpenGLES20Activity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using opengl = GLES20;
     using Float32Array = FloatBuffer;
-    using ScriptCoreLib.JavaScript.WebGL;
 
     public class HelloOpenGLES20Activity : Activity
     {
