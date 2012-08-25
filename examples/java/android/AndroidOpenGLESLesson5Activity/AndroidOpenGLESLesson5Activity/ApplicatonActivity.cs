@@ -19,6 +19,7 @@ using ScriptCoreLib;
 using System.ComponentModel;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace AndroidOpenGLESLesson5Activity.Activities
 {
@@ -26,7 +27,6 @@ namespace AndroidOpenGLESLesson5Activity.Activities
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using __gl = __WebGLRenderingContext;
     using f = System.Single;
-    using ScriptCoreLib.JavaScript.WebGL;
 
     public class AndroidOpenGLESLesson5Activity : Activity
     {

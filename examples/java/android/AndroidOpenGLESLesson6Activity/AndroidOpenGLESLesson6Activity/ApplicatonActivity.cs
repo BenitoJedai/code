@@ -19,25 +19,14 @@ using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.WebGL;
+using java.io;
 
 namespace AndroidOpenGLESLesson6Activity.Activities
 {
-    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using gl = WebGLRenderingContext;
     using opengl = GLES20;
-    using java.io;
 
-    #region R
-    [Script(IsNative = true)]
-    public static class R
-    {
-        [Script(IsNative = true)]
-        public static class drawable
-        {
-            public static int stone_wall_public_domain;
-            public static int noisy_grass_public_domain;
-        }
-    }
-    #endregion
 
     public class AndroidOpenGLESLesson6Activity : Activity
     {
@@ -66,7 +55,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             v.mDensity = displayMetrics.density;
             #endregion
 
-            v.onsurface =
+            v.onsurface +=
                 gl =>
                 {
                     //var __gl = (ScriptCoreLib.Android.__WebGLRenderingContext)(object)gl;
@@ -557,7 +546,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     Matrix.setIdentityM(mAccumulatedRotation, 0);
 
                     #region onresize
-                    v.onresize =
+                    v.onresize +=
                         (width, height) =>
                         {
                             // Set the OpenGL viewport to the same size as the surface.
@@ -709,7 +698,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
 
                     #region onframe
-                    v.onframe =
+                    v.onframe +=
                         delegate
                         {
                             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

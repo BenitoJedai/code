@@ -18,25 +18,16 @@ using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace AndroidOpenGLESLesson4Activity.Activities
 {
     using opengl = GLES20;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using __gl = __WebGLRenderingContext;
-    using ScriptCoreLib.JavaScript.WebGL;
+    using java.io;
 
-    #region R
-    [Script(IsNative = true)]
-    public static class R
-    {
-        [Script(IsNative = true)]
-        public static class drawable
-        {
-            public static int bumpy_bricks_public_domain;
-        }
-    }
-    #endregion
+
 
 
     public class AndroidOpenGLESLesson4Activity : Activity
@@ -46,7 +37,6 @@ namespace AndroidOpenGLESLesson4Activity.Activities
 
         // http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-launcher.html#foreground.type=image&foreground.space.trim=0&foreground.space.pad=-0.1&crop=1&backgroundShape=none&backColor=ff0000%2C100&foreColor=000000%2C0
 
-        /** Hold a reference to our GLSurfaceView */
         private GLSurfaceView mGLSurfaceView;
 
 
@@ -519,20 +509,36 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                };
                 #endregion
 
+                #region openFileFromAssets
+                Func<string, InputStream> openFileFromAssets = (string spath) =>
+                {
+                    InputStream value = null;
+                    try
+                    {
+                        value = this.mActivityContext.getResources().getAssets().open(spath);
+                    }
+                    catch
+                    {
+
+                    }
+                    return value;
+
+                };
+                #endregion
+
 
                 // Read in the resource
+                var bumpy_bricks_public_domain = android.graphics.BitmapFactory.decodeStream(
+                    openFileFromAssets("bumpy_bricks_public_domain.jpg")
+                );
 
                 // Load the texture
                 mTextureDataHandle = loadTexture(
-                    android.graphics.BitmapFactory.decodeResource(
-                        mActivityContext.getResources(),
-                        R.drawable.bumpy_bricks_public_domain,
-                        new android.graphics.BitmapFactory.Options
-                        {
-                            inScaled = false // No pre-scaling
-                        }
-                    )
+                    bumpy_bricks_public_domain
                 );
+
+                gl.generateMipmap(gl.TEXTURE_2D);
+
             }
 
             public void onSurfaceChanged(GL10 glUnused, int width, int height)
