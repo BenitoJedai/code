@@ -9,7 +9,6 @@ using android.provider;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidVortexLesson6.Library;
 using java.lang;
 using java.nio;
 using javax.microedition.khronos.egl;
