@@ -18,13 +18,13 @@ using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace AndroidOpenGLESLesson1Activity.Activities
 {
     using opengl = GLES20;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using __gl = __WebGLRenderingContext;
-    using ScriptCoreLib.JavaScript.WebGL;
 
     public class AndroidOpenGLESLesson1Activity : Activity
     {
