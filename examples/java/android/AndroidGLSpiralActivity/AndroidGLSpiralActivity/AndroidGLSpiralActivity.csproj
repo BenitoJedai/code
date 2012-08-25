@@ -108,9 +108,6 @@
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
     <Content Include="Design\Preview.png" />
-    <Content Include="staging\apk\res\drawable-xhdpi\ic_launcher.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Spiral.frag" />
