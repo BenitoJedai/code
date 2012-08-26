@@ -8,10 +8,10 @@ using android.provider;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidNotificationActivity.Library;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidNotificationActivity.Activities
 {
@@ -19,7 +19,7 @@ namespace AndroidNotificationActivity.Activities
     {
         public static Class Class
         {
-            [Script(OptimizedCode = "return AndroidNotificationActivity.Activities.ApplicationActivity.class;")]
+            [Script(OptimizedCode = "return ApplicationActivity.class;")]
             get
             {
                 return null;
@@ -45,9 +45,37 @@ namespace AndroidNotificationActivity.Activities
             Button b = new Button(this);
 
             b.setText("Notify!");
+            int counter = 0;
 
-            b.setOnClickListener(
-                new _onclick { that = this }
+            b.AtClick(
+                delegate
+                {
+                    counter++;
+                    NotificationManager nm = (NotificationManager)this.getSystemService(Activity.NOTIFICATION_SERVICE);
+
+
+                    // see http://developer.android.com/reference/android/app/Notification.html
+                    Notification notification = new Notification(
+                        android.R.drawable.star_on,
+                        "The text that flows by in the status bar when the notification first activates.",
+                         java.lang.System.currentTimeMillis()
+                    );
+
+                    Intent notificationIntent = new Intent(this, ApplicationActivity.Class);
+                    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+
+                    notification.setLatestEventInfo(
+                        this,
+                        "The title that goes in the expanded entry.",
+                        "The text that goes in the expanded entry.",
+                        contentIntent);
+
+                    notification.defaults |= Notification.DEFAULT_VIBRATE;
+                    notification.defaults |= Notification.DEFAULT_LIGHTS;
+                    // http://androiddrawableexplorer.appspot.com/
+                    nm.notify(counter, notification);
+                }
             );
 
             ll.addView(b);
@@ -60,42 +88,7 @@ namespace AndroidNotificationActivity.Activities
         }
 
 
-        class _onclick : android.view.View.OnClickListener
-        {
-            public ApplicationActivity that;
-
-            int counter;
-
-            public void onClick(View v)
-            {
-                counter++;
-
-                NotificationManager nm = (NotificationManager)that.getSystemService(Activity.NOTIFICATION_SERVICE);
-
-
-                // see http://developer.android.com/reference/android/app/Notification.html
-                Notification notification = new Notification(
-                    android.R.drawable.star_on,
-                    (CharSequence)(object)"The text that flows by in the status bar when the notification first activates.",
-                     java.lang.System.currentTimeMillis()
-                );
-
-                Intent notificationIntent = new Intent(that, ApplicationActivity.Class);
-                PendingIntent contentIntent = PendingIntent.getActivity(that, 0, notificationIntent, 0);
-
-
-                notification.setLatestEventInfo(
-                    that,
-                    (CharSequence)(object)"The title that goes in the expanded entry.",
-                    (CharSequence)(object)"The text that goes in the expanded entry.",
-                    contentIntent);
-
-                notification.defaults |= Notification.DEFAULT_VIBRATE;
-                notification.defaults |= Notification.DEFAULT_LIGHTS;
-                // http://androiddrawableexplorer.appspot.com/
-                nm.notify(counter, notification);
-            }
-        }
+  
 
     }
 }
