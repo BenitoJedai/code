@@ -10,5 +10,9 @@ namespace android.net
     [Script(IsNative = true)]
     public abstract class Uri
     {
+        public static Uri parse(string value)
+        {
+            return default(Uri);
+        }
     }
 }

@@ -484,10 +484,12 @@
     </Compile>
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
+    <Compile Include="android\content\Intent.cs" />
     <Compile Include="android\content\res\AssetManager.cs" />
     <Compile Include="android\content\res\Resources.cs" />
     <Compile Include="android\media\MediaPlayer.cs" />
     <Compile Include="android\net\Uri.cs" />
+    <Compile Include="android\R.cs" />
     <Compile Include="android\util\Log.cs" />
     <Compile Include="android\view\ContextThemeWrapper.cs" />
     <Compile Include="android\content\ContextWrapper.cs" />
@@ -495,10 +497,13 @@
     <Compile Include="android\content\BroadcastReceiver.cs" />
     <Compile Include="android\content\Context.cs" />
     <Compile Include="android\os\Bundle.cs" />
+    <Compile Include="android\view\Menu.cs" />
+    <Compile Include="android\view\MenuItem.cs" />
     <Compile Include="android\view\Window.cs" />
     <Compile Include="android\view\KeyEvent.cs" />
     <Compile Include="android\view\View.cs" />
     <Compile Include="android\view\ViewGroup.cs" />
+    <Compile Include="android\view\WindowManager_LayoutParams.cs" />
     <Compile Include="android\webkit\WebSettings.cs" />
     <Compile Include="android\webkit\ValueCallback.cs" />
     <Compile Include="android\webkit\WebChromeClient.cs" />

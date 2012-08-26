@@ -1,9 +1,9 @@
 
 using android.app;
 using android.content;
-using android.database;
-using android.database.sqlite;
-using android.provider;
+//using android.database;
+//using android.database.sqlite;
+//using android.provider;
 using android.util;
 using android.view;
 using android.webkit;
@@ -11,6 +11,7 @@ using android.widget;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 using System;
 
 namespace AndroidWebViewActivity.Activities
@@ -18,21 +19,21 @@ namespace AndroidWebViewActivity.Activities
     public class AndroidWebViewActivity : Activity
     {
         public WebView webview;
-        public ProgressDialog progressBar;
-        public AlertDialog alertDialog;
+        //public ProgressDialog progressBar;
+        //public AlertDialog alertDialog;
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
 
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             // http://stackoverflow.com/questions/8955228/webview-with-an-iframe-android
             // http://www.chrisdanielson.com/tag/webviewclient/
 
-            this.alertDialog = new AlertDialog.Builder(this).create();
+            //this.alertDialog = new AlertDialog.Builder(this).create();
 
-            this.progressBar = ProgressDialog.show(this, "look here!", "Loading...");
+            //this.progressBar = ProgressDialog.show(this, "look here!", "Loading...");
             this.webview = new WebView(this);
 
             getWindow().setFlags(
@@ -42,15 +43,15 @@ namespace AndroidWebViewActivity.Activities
             setContentView(webview);
 
             //webview.getSettings().setSupportZoom(true); 
-            webview.getSettings().setLoadsImagesAutomatically(true);
+            //webview.getSettings().setLoadsImagesAutomatically(true);
             webview.getSettings().setJavaScriptEnabled(true);
             //webview.getSettings().setBuiltInZoomControls(true);
             //webview.setInitialScale(1);
 
             webview.setWebViewClient(new MyWebViewClient { __this = this });
 
-            webview.getSettings().setSupportZoom(false);
-            webview.setScrollBarStyle(WebView.SCROLLBARS_INSIDE_OVERLAY);
+            //webview.getSettings().setSupportZoom(true);
+            //webview.setScrollBarStyle(WebView.SCROLLBARS_INSIDE_OVERLAY);
 
             //webview.getSettings().setJavaScriptEnabled(true);
 
@@ -70,7 +71,7 @@ namespace AndroidWebViewActivity.Activities
             //var uri = "http://cubiq.org/dropbox/3dcity/";
             var uri = "http://tympanus.net/Development/Unfolding3DThumbnailsConcept/";
             webview.loadUrl(uri);
-            this.ShowToast(uri);
+            //this.ShowToast(uri);
 
             AtPrepareOptions +=
                 value =>
@@ -124,31 +125,31 @@ namespace AndroidWebViewActivity.Activities
                 return true;
             }
 
-            public override void onPageFinished(WebView view, string url)
-            {
-                //Log.i(TAG, "Finished loading URL: " + url);
-                if (__this.progressBar.isShowing())
-                {
-                    __this.progressBar.dismiss();
-                }
-            }
+            //public override void onPageFinished(WebView view, string url)
+            //{
+            //    //Log.i(TAG, "Finished loading URL: " + url);
+            //    if (__this.progressBar.isShowing())
+            //    {
+            //        __this.progressBar.dismiss();
+            //    }
+            //}
 
-            public override void onReceivedError(WebView view, int errorCode, string description, string failingUrl)
-            {
-                //Log.e(TAG, "Error: " + description);
+            //public override void onReceivedError(WebView view, int errorCode, string description, string failingUrl)
+            //{
+            //    //Log.e(TAG, "Error: " + description);
 
-                __this.ShowToast("Oh no! " + description);
+            //    __this.ShowToast("Oh no! " + description);
 
-                //Toast.makeText(__this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
-                //__this.alertDialog.setTitle((CharSequence)(object)"Error");
-                //__this.alertDialog.setMessage(description);
-                //__this.alertDialog.setButton((CharSequence)(object)"OK", new DialogInterface.OnClickListener() {
-                //    public void onClick(DialogInterface dialog, int which) {
-                //        return;
-                //    }
-                //});
-                //__this.alertDialog.show();
-            }
+            //    //Toast.makeText(__this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+            //    //__this.alertDialog.setTitle((CharSequence)(object)"Error");
+            //    //__this.alertDialog.setMessage(description);
+            //    //__this.alertDialog.setButton((CharSequence)(object)"OK", new DialogInterface.OnClickListener() {
+            //    //    public void onClick(DialogInterface dialog, int which) {
+            //    //        return;
+            //    //    }
+            //    //});
+            //    //__this.alertDialog.show();
+            //}
         }
     }
 }
