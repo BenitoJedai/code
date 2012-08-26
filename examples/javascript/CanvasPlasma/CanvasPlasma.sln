@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Web Developer Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasPlasma", "CanvasPlasma\CanvasPlasma.csproj", "{E52A1D83-3734-4BE4-ACFB-CB381ACA4DB4}"
 EndProject
 Global
