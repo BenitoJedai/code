@@ -29,6 +29,12 @@ namespace ButterFly
         {
             new ButterFly.source.js.Butterfly(page.PageContainer);
 
+            Native.Document.body.onclick +=
+                delegate
+                {
+                    page.PageContainer.requestFullscreen();
+                };
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
