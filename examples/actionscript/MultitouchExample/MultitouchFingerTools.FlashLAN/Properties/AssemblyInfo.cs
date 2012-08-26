@@ -7,7 +7,7 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle(@"Browser Application Canvas With Adobe Flash")]
+[assembly: AssemblyTitle(@"MultitouchFingerTools.FlashLAN")]
 [assembly: AssemblyDescription(@"Write a Windows Presentation Foundation Canvas within a C# project for Adobe Flash. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
 [assembly: AssemblyProduct(@"MultitouchFingerTools.FlashLAN")]
