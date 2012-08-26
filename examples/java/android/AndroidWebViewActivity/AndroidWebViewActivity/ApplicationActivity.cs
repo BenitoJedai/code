@@ -73,6 +73,7 @@ namespace AndroidWebViewActivity.Activities
             webview.loadUrl(uri);
             //this.ShowToast(uri);
 
+            #region AtPrepareOptions
             AtPrepareOptions +=
                 value =>
                 {
@@ -97,6 +98,8 @@ namespace AndroidWebViewActivity.Activities
                         ic
                     );
                 };
+            #endregion
+
 
         }
 
