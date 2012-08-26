@@ -9,7 +9,6 @@ namespace TextScreenSaver.js.Qoutes
 {
     namespace Extensions
     {
-        [Script]
         public static class Qoutes
         {
             /// <summary>

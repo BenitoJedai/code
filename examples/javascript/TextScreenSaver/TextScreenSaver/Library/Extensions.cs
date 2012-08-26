@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.XML;
-using ScriptCoreLib.JavaScript.Net;
+//using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;

@@ -20,6 +20,8 @@ namespace TextScreenSaver
     /// </summary>
     public sealed class Application
     {
+        TextScreenSaver.Assets.IAssemblyReferenceToken ref0;
+
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
@@ -28,6 +30,8 @@ namespace TextScreenSaver
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            new TextScreenSaver.js.TextScreenSaver();
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
