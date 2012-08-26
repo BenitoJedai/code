@@ -19,5 +19,10 @@ namespace android.view
         {
             return default(bool);
         }
+
+        public virtual void setFlags(int arg0, int arg1)
+        {
+
+        }
     }
 }

@@ -25,6 +25,10 @@ namespace android.app
         
         }
 
+        public virtual bool onPrepareOptionsMenu(Menu value)
+        {
+            return default(bool);
+        }
 
         // http://developer.android.com/reference/android/app/Activity.html#requestWindowFeature(int)
         public virtual bool requestWindowFeature(int e)
@@ -38,9 +42,14 @@ namespace android.app
             return default(bool);
         }
 
-        public  void setTitle(string e)
+        public virtual void setTitle(string e)
         {
 
+        }
+
+        public virtual Window getWindow()
+        {
+            return default(Window);
         }
     }
 }
