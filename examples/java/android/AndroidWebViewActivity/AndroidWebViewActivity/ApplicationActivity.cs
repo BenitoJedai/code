@@ -11,6 +11,7 @@ using android.widget;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using System;
 
 namespace AndroidWebViewActivity.Activities
 {
@@ -33,6 +34,10 @@ namespace AndroidWebViewActivity.Activities
 
             this.progressBar = ProgressDialog.show(this, "look here!", "Loading...");
             this.webview = new WebView(this);
+
+            getWindow().setFlags(
+                WindowManager_LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager_LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
             setContentView(webview);
 
@@ -61,10 +66,52 @@ namespace AndroidWebViewActivity.Activities
             //var summary = "<html><body>You scored <b>192</b> points.</body></html>";
             //webview.loadData(summary, "text/html", null);
             //Log.i(TAG, "loadUrl");
-            webview.loadUrl("http://www.jsc-solutions.net");
-            this.ShowToast("www.jsc-solutions.net");
+
+            //var uri = "http://cubiq.org/dropbox/3dcity/";
+            var uri = "http://tympanus.net/Development/Unfolding3DThumbnailsConcept/";
+            webview.loadUrl(uri);
+            this.ShowToast(uri);
+
+            AtPrepareOptions +=
+                value =>
+                {
+                    value.clear();
+
+                    var item2 = value.add(
+                      (java.lang.CharSequence)(object)uri
+                  );
+
+
+                    item2.setIcon(android.R.drawable.ic_menu_view);
+
+                    var i = new Intent(Intent.ACTION_VIEW,
+                        android.net.Uri.parse(uri)
+                    );
+
+                    // http://vaibhavsarode.wordpress.com/2012/05/14/creating-our-own-activity-launcher-chooser-dialog-android-launcher-selection-dialog/
+                    var ic = Intent.createChooser(i, uri);
+
+
+                    item2.setIntent(
+                        ic
+                    );
+                };
 
         }
+
+        #region AtPrepareOptions
+        public event Action<Menu> AtPrepareOptions;
+
+        public override bool onPrepareOptionsMenu(Menu value)
+        {
+            if (AtPrepareOptions != null)
+                AtPrepareOptions(value);
+
+
+
+            return base.onPrepareOptionsMenu(value);
+        }
+        #endregion
 
         class MyWebViewClient : WebViewClient
         {

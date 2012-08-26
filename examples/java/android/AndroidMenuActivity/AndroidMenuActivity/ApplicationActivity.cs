@@ -29,6 +29,7 @@ namespace AndroidMenuActivity.Activities
             return false;
         }
 
+        #region AtPrepareOptions
         public event Action<Menu> AtPrepareOptions;
 
         public override bool onPrepareOptionsMenu(Menu value)
@@ -40,6 +41,8 @@ namespace AndroidMenuActivity.Activities
 
             return base.onPrepareOptionsMenu(value);
         }
+        #endregion
+
 
         protected override void onCreate(Bundle savedInstanceState)
         {
