@@ -28,7 +28,6 @@ namespace TextScreenSaver.js
     using ScriptCoreLib.JavaScript.Controls;
 
 
-    [Script, ScriptApplicationEntryPoint(IsClickOnce = true)]
     public class TextScreenSaver
     {
         public static readonly Qoutes.DocumentList DefaultData =
@@ -50,24 +49,21 @@ namespace TextScreenSaver.js
                     //        Content = "Hello world1\nHello world2"
                     //    }
                     //}
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes.xml" },
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes2.xml" },
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes3.xml" },
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes4.xml" },
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes5.xml" },
-                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver/data/Qoutes6.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver.Assets/Qoutes.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver.Assets/Qoutes2.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver.Assets/Qoutes3.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver.Assets/Qoutes4.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver.Assets/Qoutes5.xml" },
+                    new Qoutes.DocumentRef { Source = "assets/TextScreenSaver.Assets/Qoutes6.xml" },
                 }
             };
 
-        public TextScreenSaver()
-            : this(null)
-        {
-        }
+
 
         /// <summary>
         /// Creates a new control
         /// </summary>
-        public TextScreenSaver(Qoutes.DocumentList list)
+        public TextScreenSaver(Qoutes.DocumentList list = null)
         {
             if (list == null)
                 list = DefaultData;
@@ -78,21 +74,21 @@ namespace TextScreenSaver.js
 
             Console.WriteLine("type: " + name);
 
-            try
-            {
-                IStyleSheet.Default.AddRule("*", "cursor: url('assets/TextScreenSaver/images/cursor.cur'), auto;", 0);
+            //try
+            //{
+            //    //IStyleSheet.Default.AddRule("*", "cursor: url('assets/TextScreenSaver/images/cursor.cur'), auto;", 0);
 
-                IStyleSheet.Default.AddRule("html",
-                    r =>
-                    {
-                        r.style.overflow = IStyle.OverflowEnum.hidden;
-                    }
-                );
-            }
-            catch (Exception exc)
-            {
-                new IHTMLElement(IHTMLElement.HTMLElementEnum.div, "error: " + exc.Message.Replace(",", ", ")).AttachToDocument().style.width = "80em";
-            }
+            //IStyleSheet.Default.AddRule("html",
+            //    r =>
+            //    {
+            //        r.style.overflow = IStyle.OverflowEnum.hidden;
+            //    }
+            //);
+            //}
+            //catch (Exception exc)
+            //{
+            //    //new IHTMLElement(IHTMLElement.HTMLElementEnum.div, "error: " + exc.Message.Replace(",", ", ")).AttachToDocument().style.width = "80em";
+            //}
 
             Action<Qoutes.DocumentRef, Action<Qoutes.Document>> PrepareDocument =
                 (doc, done) =>
@@ -369,11 +365,11 @@ namespace TextScreenSaver.js
         }
 
 
-        static TextScreenSaver()
-        {
-            typeof(TextScreenSaver).SpawnTo(Qoutes.Settings.KnownTypes, (Qoutes.DocumentList i) => new TextScreenSaver(i));
+        //static TextScreenSaver()
+        //{
+        //    typeof(TextScreenSaver).SpawnTo(Qoutes.Settings.KnownTypes, (Qoutes.DocumentList i) => new TextScreenSaver(i));
 
-        }
+        //}
 
 
     }
