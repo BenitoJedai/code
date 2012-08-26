@@ -33,15 +33,15 @@ namespace OutRun4KTemplate
 
             a.AttachAppletTo(page.Content);
 
-            var btn = new IHTMLButton("get the damn string");
+            //var btn = new IHTMLButton("get the damn string");
 
-            btn.AttachToDocument();
+            //btn.AttachToDocument();
 
-            btn.onclick +=
-                delegate
-                {
-                    Native.Window.alert(a.FooMethodX());
-                };
+            //btn.onclick +=
+            //    delegate
+            //    {
+            //        Native.Window.alert(a.FooMethodX());
+            //    };
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
