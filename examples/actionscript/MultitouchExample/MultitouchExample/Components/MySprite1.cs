@@ -31,7 +31,7 @@ namespace MultitouchExample.Components
             this.stage.addChild(this.dotsLeft);
             this.updateDotsLeft();
 
-
+            // Error	1	'ScriptCoreLib.ActionScript.flash.ui.Multitouch.inputMode' is not supported by the language	Y:\jsc.svn\examples\actionscript\MultitouchExample\MultitouchExample\Components\MySprite1.cs	35	24	MultitouchExample
             Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 
             this.stage.touchBegin +=

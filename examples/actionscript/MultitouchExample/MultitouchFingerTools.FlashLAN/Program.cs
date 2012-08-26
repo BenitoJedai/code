@@ -186,11 +186,11 @@ namespace MultitouchFingerTools.FlashLAN
 
                     #region context menu
 
-                    this.click +=
-                        delegate
-                        {
-                            this.stage.SetFullscreen(true);
-                        };
+                    //this.click +=
+                    //    delegate
+                    //    {
+                    //        this.stage.SetFullscreen(true);
+                    //    };
 
                     //var fullscreen = new ScriptCoreLib.ActionScript.flash.ui.ContextMenuItem("Go fullscreen!");
 
