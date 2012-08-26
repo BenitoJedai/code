@@ -5,7 +5,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Drawing;
 
-namespace SpaceInvaders.Library
+namespace SpaceInvadersTemplate.Library
 {
     using TweenDataDouble = ScriptCoreLib.JavaScript.Controls.Effects.TweenDataDouble;
 

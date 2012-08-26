@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Web Developer Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInvadersTemplate", "SpaceInvaders\SpaceInvadersTemplate.csproj", "{FF836D67-0ADC-4212-9D61-C6509050017F}"
 EndProject
 Global

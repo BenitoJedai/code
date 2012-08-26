@@ -92,13 +92,21 @@ namespace DynamicStylePerspective
 
                              loop = delegate
                              {
+                                 Native.Window.requestAnimationFrame += loop;
+
                                  if (!HasMouse)
                                  {
                                      y++;
 
                                      page.Header.innerText = "y: " + y;
 
-                                     var yy = y % 180;
+                                     if (y == 180)
+                                         y = 0;
+
+                                     //var yy = y % 180;
+                                     var yy = y;
+
+
 
                                      // WebView on Android freezes after 90
 
@@ -112,7 +120,6 @@ namespace DynamicStylePerspective
                                      style.transform = "rotateY(" + _y + "deg)";
                                  }
 
-                                 Native.Window.requestAnimationFrame += loop;
 
                              };
 
