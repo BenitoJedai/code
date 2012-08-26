@@ -404,12 +404,12 @@ namespace TextScreenSaver.js
 
         Dictionary<int, Action<IEvent>> Table;
 
-        public event ScriptCoreLib.Shared.EventHandler<IEvent> left;
-        public event ScriptCoreLib.Shared.EventHandler<IEvent> right;
-        public event ScriptCoreLib.Shared.EventHandler<IEvent> up;
-        public event ScriptCoreLib.Shared.EventHandler<IEvent> down;
+        public event Action<IEvent> left;
+        public event Action<IEvent> right;
+        public event Action<IEvent> up;
+        public event Action<IEvent> down;
 
-        public static implicit operator ScriptCoreLib.Shared.EventHandler<IEvent>(KeyboardEvents e)
+        public static implicit operator Action<IEvent>(KeyboardEvents e)
         {
             return e.Dispatcher;
         }

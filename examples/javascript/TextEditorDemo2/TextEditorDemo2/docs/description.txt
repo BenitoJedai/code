@@ -1,1 +1,0 @@
-﻿TextEditorDemo2 within webbrowser. Crosscompiled from c# to javascript.

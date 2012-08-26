@@ -1,25 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextEditorDemo2", "TextEditorDemo2\TextEditorDemo2.csproj", "{CC98D0AA-3FED-4E70-9AAA-04EEFF7F5693}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextEditorDemo2Update", "TextEditorDemo2Update\TextEditorDemo2Update.csproj", "{65EB64B6-2F39-4411-B8DB-4B14E6076F7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Assets|Any CPU = Assets|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CC98D0AA-3FED-4E70-9AAA-04EEFF7F5693}.Assets|Any CPU.ActiveCfg = Release|Any CPU
-		{CC98D0AA-3FED-4E70-9AAA-04EEFF7F5693}.Assets|Any CPU.Build.0 = Release|Any CPU
-		{CC98D0AA-3FED-4E70-9AAA-04EEFF7F5693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC98D0AA-3FED-4E70-9AAA-04EEFF7F5693}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC98D0AA-3FED-4E70-9AAA-04EEFF7F5693}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC98D0AA-3FED-4E70-9AAA-04EEFF7F5693}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65EB64B6-2F39-4411-B8DB-4B14E6076F7C}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
-		{65EB64B6-2F39-4411-B8DB-4B14E6076F7C}.Assets|Any CPU.Build.0 = Assets|Any CPU
 		{65EB64B6-2F39-4411-B8DB-4B14E6076F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{65EB64B6-2F39-4411-B8DB-4B14E6076F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65EB64B6-2F39-4411-B8DB-4B14E6076F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
