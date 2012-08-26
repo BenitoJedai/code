@@ -47,15 +47,7 @@ namespace CanvasPlasma
         
      
 
-        #region ScriptCoreLib needs an updated
-        [Script(HasNoPrototype = true)]
-        public class ImageData
-        {
-            public readonly int width;
-            public readonly int height;
-            public readonly byte[] data;
-        }
-        #endregion
+       
 
 
         public void InitializeContent()
@@ -81,7 +73,8 @@ namespace CanvasPlasma
 			var context = (CanvasRenderingContext2D)canvas.getContext("2d");
 
             var xx = context.getImageData(0, 0, DefaultWidth, DefaultHeight);
-            var x = (ImageData)(object)xx;
+            //var x = (ImageData)(object)xx;
+            var x = xx;
 
             Action AtTick = null;
 
@@ -108,10 +101,10 @@ namespace CanvasPlasma
 						var j4 = j * 4;
 
 
-						x.data[i4 + j4 * DefaultWidth + 2] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
-						x.data[i4 + j4 * DefaultWidth + 1] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
-						x.data[i4 + j4 * DefaultWidth + 0] = (byte)((buffer[k] >> (2 * 8)) & 0xff);
-						x.data[i4 + j4 * DefaultWidth + 3] = 0xff;
+						x.data[(uint)(i4 + j4 * DefaultWidth + 2)] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
+						x.data[(uint)(i4 + j4 * DefaultWidth + 1)] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
+						x.data[(uint)(i4 + j4 * DefaultWidth + 0)] = (byte)((buffer[k] >> (2 * 8)) & 0xff);
+						x.data[(uint)(i4 + j4 * DefaultWidth + 3)] = 0xff;
 
 						k++;
 					}
