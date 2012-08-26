@@ -37,6 +37,13 @@ using System.IO;
 using PromotionWebApplication1.Assets;
 using ScriptCoreLib.Library;
 
+namespace PromotionWebApplication1.Assets
+{
+    class __foo
+    {
+    }
+}
+
 namespace PromotionWebApplication1
 {
 
@@ -68,7 +75,9 @@ namespace PromotionWebApplication1
 
         // see: "Z:\jsc.internal.svn\tools\rebuild.installer.bat"
         // see: "Z:\jsc.internal.svn\tools\rebuild.release.bat"
+#if !DEBUG
         PromotionWebApplication1.Assets.Publish __Assets;
+#endif
 
         public Application(PromotionWebApplicationHome.HTML.Pages.IDefaultPage app)
         {
@@ -760,7 +769,8 @@ namespace PromotionWebApplication1
     public delegate void StringAction(string e);
     public delegate void StringActionAction(StringAction e);
 
-    public sealed class UltraWebService : ISoundCloudTracksDownload
+    public sealed class UltraWebService
+        //: ISoundCloudTracksDownload
     {
 
         public void Hello(string data, StringAction result)
@@ -787,23 +797,24 @@ namespace PromotionWebApplication1
 
         }
 
-        public void ThreeDWarehouse(XElementAction y)
-        {
-            y(new ThreeDWarehouse().ToXElement());
-        }
+        //public void ThreeDWarehouse(XElementAction y)
+        //{
+        //    y(new ThreeDWarehouse().ToXElement());
+        //}
 
         /*ISoundCloudTracksDownload. not supported yet ? */
-        public void SoundCloudTracksDownload(string page, Services.SoundCloudTrackFound yield)
-        {
-            new Services.SoundCloudTracks().SoundCloudTracksDownload(page, yield);
-        }
+        //public void SoundCloudTracksDownload(string page, Services.SoundCloudTrackFound yield)
+        //{
+        //    new Services.SoundCloudTracks().SoundCloudTracksDownload(page, yield);
+        //}
 
-
+#if !DEBUG
         public void DownloadSDK(WebServiceHandler h)
         {
             DownloadSDKFunction.DownloadSDK(h);
 
         }
+#endif
 
 
 
@@ -946,6 +957,7 @@ namespace PromotionWebApplication1
             }
 
 
+#if !DEBUG
             // we will compare the win32 relative paths here...
             var publish = path.SkipUntilOrEmpty("/download/").Replace("/", @"\");
             var p = new Publish();
@@ -984,6 +996,8 @@ namespace PromotionWebApplication1
 
 
             }
+#endif
+
 
             return;
         }

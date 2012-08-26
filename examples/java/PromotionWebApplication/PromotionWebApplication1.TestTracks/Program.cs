@@ -10,14 +10,14 @@ namespace PromotionWebApplication1.TestTracks
 	{
 		static void Main(string[] args)
 		{
-			var w = new UltraWebService();
+            //var w = new UltraWebService();
 			
-			w.SoundCloudTracksDownload("4",
-				e =>
-				{
-					Console.WriteLine(e.trackName);
-				}
-			);
+            //w.SoundCloudTracksDownload("4",
+            //    e =>
+            //    {
+            //        Console.WriteLine(e.trackName);
+            //    }
+            //);
 		}
 	}
 }
