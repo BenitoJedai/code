@@ -94,10 +94,22 @@ namespace DynamicStylePerspective
                              {
                                  if (!HasMouse)
                                  {
+                                     y++;
 
-                                     y = (y + 1) % 360;
+                                     page.Header.innerText = "y: " + y;
 
-                                     style.transform = "rotateY(" + y + "deg)";
+                                     var yy = y % 180;
+
+                                     // WebView on Android freezes after 90
+
+                                     var _y = yy - 90;
+
+                                     if (_y > 60)
+                                         _y = 60;
+
+                                     page.Header.innerText = "rotateY(" + _y + "deg), y: " + y + ", yy: " + yy;
+
+                                     style.transform = "rotateY(" + _y + "deg)";
                                  }
 
                                  Native.Window.requestAnimationFrame += loop;
