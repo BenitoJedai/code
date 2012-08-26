@@ -73,7 +73,7 @@ namespace Toolbar.JavaScript
                     RaiseClicked();
                 };
 
-            var onmouseup = default(ScriptCoreLib.Shared.EventHandler<IEvent>);
+            var onmouseup = default(Action<IEvent>);
 
 
             btn.Control.onmousedown +=
