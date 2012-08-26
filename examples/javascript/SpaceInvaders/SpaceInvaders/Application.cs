@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using SpaceInvadersTemplate.Design;
 using SpaceInvadersTemplate.HTML.Pages;
 
-namespace SpaceInvaders
+namespace SpaceInvadersTemplate
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -31,7 +31,7 @@ namespace SpaceInvaders
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new SpaceInvaders.Library.Controls.SpaceInvaders();
+            new SpaceInvadersTemplate.Library.Controls.SpaceInvaders();
 
             style.Content.AttachToHead();
             @"Space Invaders".ToDocumentTitle();

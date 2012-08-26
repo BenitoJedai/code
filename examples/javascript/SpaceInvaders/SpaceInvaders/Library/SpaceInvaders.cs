@@ -10,7 +10,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Drawing;
 
-namespace SpaceInvaders.Library.Controls
+namespace SpaceInvadersTemplate.Library.Controls
 {
     using fbool = Func<bool>;
 

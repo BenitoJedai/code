@@ -6,7 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Runtime;
 
-namespace SpaceInvaders.Library
+namespace SpaceInvadersTemplate.Library
 {
     static class Extensions
     {

@@ -9,7 +9,7 @@ using SpaceInvadersTemplate.HTML.Images.FromAssets;
 
 
 
-namespace SpaceInvaders.Library
+namespace SpaceInvadersTemplate.Library
 {
     public class ImageResources
     {
