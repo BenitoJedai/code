@@ -15,17 +15,18 @@ using WebGLPuls.HTML.Pages;
 using WebGLPuls;
 using ScriptCoreLib.Avalon;
 using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.GLSL;
+using WebGLPuls.Shaders;
 
 namespace WebGLPuls
 {
     using gl = WebGLRenderingContext;
-    using ScriptCoreLib.GLSL;
-    using WebGLPuls.Shaders;
+
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ISurface
     {
         // see also: http://meatfighter.com/puls/
         // it only took 2 years :)
@@ -45,6 +46,15 @@ namespace WebGLPuls
 
             InitializeContent(page);
         }
+
+        #region ISurface
+        public event Action onframe;
+
+        public event Action<int, int> onresize;
+
+        public event Action<gl> onsurface;
+        #endregion
+
 
         public Action Dispose;
 
@@ -77,6 +87,10 @@ namespace WebGLPuls
             #endregion
 
 
+            var s = new PulsSurface(this);
+
+            this.onsurface(gl);
+
             #region AtResize
             Action AtResize = delegate
             {
@@ -88,9 +102,7 @@ namespace WebGLPuls
                 canvas.width = Native.Window.Width;
                 canvas.height = Native.Window.Height;
 
-     
-
-                gl.viewport(0, 0, canvas.width, canvas.height);
+                this.onresize(Native.Window.Width, Native.Window.Height);
             };
 
             AtResize();
@@ -100,6 +112,7 @@ namespace WebGLPuls
                 AtResize();
             };
             #endregion
+
 
 
             #region requestFullscreen
@@ -118,100 +131,25 @@ namespace WebGLPuls
             #endregion
 
 
-            // http://cs.helsinki.fi/u/ilmarihe/metatunnel.html
-            // http://wakaba.c3.cx/w/puls.html
-
-            Action<string> alert = x => Native.Window.alert(x);
 
 
+            #region loop
+            Action loop = null;
 
-          
-
-
-          
-
-
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
+            loop = delegate
             {
-                var shader = gl.createShader(src);
+                if (IsDisposed)
+                    return;
 
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader failed");
-                }
+                this.onframe();
 
-                return shader;
+                Native.Window.requestAnimationFrame += loop;
+
             };
+
+            Native.Window.requestAnimationFrame += loop;
             #endregion
 
-            var p = gl.createProgram(
-                new PulsVertexShader(),
-                new PulsFragmentShader()
-            );
-
-            gl.bindAttribLocation(p, 0, "position");
-            gl.linkProgram(p);
-            
-            gl.useProgram(p);
-
-
-
-            var pos = 0;
-            //var in_color = gl.getUniformLocation(p, "in_color");
-
-            gl.enableVertexAttribArray((uint)pos);
-
-
-            var verts = gl.createBuffer();
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, verts);
-            gl.bufferData(gl.ARRAY_BUFFER,
-              new float[] { 
-                  -1,-1,  -1,1,  1,-1, 1,1,
-              }
-            , gl.STATIC_DRAW);
-            gl.vertexAttribPointer((uint)pos, 2, gl.FLOAT, false, 0, 0);
-
-            var indicies = gl.createBuffer();
-
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicies);
-
-
-
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-                new ushort[] { 0, 1, 2, 3 }
-                , gl.STATIC_DRAW);
-
-            //var start = new IDate().getTime();
-            Action redraw = null;
-            var t = 0f;
-            redraw = delegate
-            {
-                gl.viewport(0, 0, Native.Window.Width, Native.Window.Height);
-                gl.uniform1f(gl.getUniformLocation(p, "h"), Native.Window.Height / Native.Window.Width);
-
-
-                //var timestamp = new IDate().getTime();
-                //var t = (float)((timestamp - start) / 1000.0 * 30);
-
-                t += 3;
-
-                // INVALID_OPERATION <= getUniformLocation([Program 2], "t")
-                gl.uniform1f(gl.getUniformLocation(p, "t"), t);
-
-                // INVALID_OPERATION <= drawElements(TRIANGLE_STRIP, 4, UNSIGNED_SHORT, 0)
-                gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
-                gl.flush();
-
-
-                Native.Window.requestAnimationFrame += redraw;
-
-            };
-
-            Native.Window.requestAnimationFrame += redraw;
 
         }
 
