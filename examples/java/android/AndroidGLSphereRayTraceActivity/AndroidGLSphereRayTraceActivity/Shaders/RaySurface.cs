@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WebGLSphereRayTrace.Shaders
+namespace AndroidGLSphereRayTraceActivity.Shaders
 {
     using gl = WebGLRenderingContext;
-
 
     public class RaySurface
     {
@@ -66,7 +65,7 @@ namespace WebGLSphereRayTrace.Shaders
                         1.0f, -1.0f,
                         -1.0f, -1.0f,
                     };
-                   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+                   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
                    gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
                    gl.vertexAttribPointer((uint)aVertexPosition, 2, gl.FLOAT, false, 0, 0);
 
@@ -117,7 +116,7 @@ namespace WebGLSphereRayTrace.Shaders
                    #endregion
 
 
-                   var ratio = 1f;
+                   var ratio = 0.5f;
 
                    s.onresize +=
                        (width, height) =>
@@ -133,23 +132,23 @@ namespace WebGLSphereRayTrace.Shaders
                        {
                            var x1 = (float)Math.Sin(t * 1.1) * 1.5f;
                            var y1 = (float)Math.Cos(t * 1.3) * 1.5f;
-                           var z1 = (float)Math.Sin(t + Math.PI / 3) * 1.5f;
+                           var z1 = (float)Math.Sin(t + Math.PI / 3f) * 1.5f;
                            var x2 = (float)Math.Cos(t * 1.2) * 1.5f;
                            var y2 = (float)Math.Sin(t * 1.4) * 1.5f;
-                           var z2 = (float)Math.Sin(t * 1.25 - Math.PI / 3) * 1.5f;
+                           var z2 = (float)Math.Sin(t * 1.25 - Math.PI / 3f) * 1.5f;
                            var x3 = (float)Math.Cos(t * 1.15) * 1.5f;
                            var y3 = (float)Math.Sin(t * 1.37) * 1.5f;
                            var z3 = (float)Math.Sin(t * 1.27) * 1.5f;
 
                            var cameraFrom = new xyz
                            {
-                               x = (float)Math.Sin(t * 0.4f) * 18,
-                               y = (float)Math.Sin(t * 0.13f) * 5 + 5,
-                               z = (float)Math.Cos(t * 0.4f) * 18
+                               x = (float)Math.Sin(t * 0.4f) * 18f,
+                               y = (float)Math.Sin(t * 0.13f) * 5f + 5f,
+                               z = (float)Math.Cos(t * 0.4f) * 18f
                            };
 
                            var cameraTo = new xyz();
-                           var cameraPersp = 6;
+                           var cameraPersp = 6f;
                            var up = new xyz { x = 0, y = 1, z = 0 };
 
                            var cameraDir = normalize(vectSub(cameraTo, cameraFrom));
@@ -193,9 +192,8 @@ namespace WebGLSphereRayTrace.Shaders
                            {
                                t -= (float)Math.PI * 200f;
                            }
-
-
                        };
+
                };
         }
     }
