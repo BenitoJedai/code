@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Shaders\PulsFragmentShader.cs" />
+    <Compile Include="Shaders\PulsSurface.cs" />
     <Compile Include="Shaders\PulsVertexShader.cs" />
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationWebService.cs" />
@@ -125,7 +126,7 @@ start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFil
 )
 
 if $(ConfigurationName)==Release (
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServicePHP:false
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 
