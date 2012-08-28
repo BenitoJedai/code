@@ -119,6 +119,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shaders\RaySurface.cs" />
     <Compile Include="Shaders\__RayVertexShader.cs" />
     <Compile Include="Shaders\__RayFragmentShader.cs" />
     <Content Include="Design\Default.css" />
@@ -142,7 +143,7 @@ start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /Proje
 )
 
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 
