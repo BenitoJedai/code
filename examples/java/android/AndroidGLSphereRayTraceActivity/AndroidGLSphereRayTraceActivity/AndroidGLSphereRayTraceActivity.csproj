@@ -7,8 +7,8 @@
     <ProjectGuid>{22AD40CA-F961-4953-9D6D-F8EE978CDB80}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AndroidGLSpiralActivity</RootNamespace>
-    <AssemblyName>AndroidGLSpiralActivity</AssemblyName>
+    <RootNamespace>AndroidGLSphereRayTraceActivity</RootNamespace>
+    <AssemblyName>AndroidGLSphereRayTraceActivity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -81,8 +81,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="AndroidGLSpiralActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AndroidGLSpiralActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidGLSphereRayTraceActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidGLSphereRayTraceActivity.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -95,13 +95,9 @@
       <DependentUpon>ApplicationActivity.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shaders\SpiralFragmentShader.cs">
-      <DependentUpon>Spiral.frag</DependentUpon>
-    </Compile>
-    <Compile Include="Shaders\SpiralSurface.cs" />
-    <Compile Include="Shaders\SpiralVertexShader.cs">
-      <DependentUpon>Spiral.vert</DependentUpon>
-    </Compile>
+    <Compile Include="Shaders\RaySurface.cs" />
+    <Compile Include="Shaders\__RayFragmentShader.cs" />
+    <Compile Include="Shaders\__RayVertexShader.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -110,8 +106,8 @@
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Spiral.frag" />
-    <None Include="Shaders\Spiral.vert" />
+    <None Include="Shaders\Ray.frag" />
+    <None Include="Shaders\Ray.vert" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -120,7 +116,7 @@
 
 
             if $(ConfigurationName)==Debug (
-            start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
+            start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
             )
 </PostBuildEvent>
   </PropertyGroup>
