@@ -147,25 +147,14 @@ namespace WebGLPuls
             };
             #endregion
 
-            var p = gl.createProgram();
-            var vs = createShader(new PulsVertexShader());
-            var fs = createShader(new PulsFragmentShader());
+            var p = gl.createProgram(
+                new PulsVertexShader(),
+                new PulsFragmentShader()
+            );
 
-            gl.attachShader(p, vs);
-            gl.attachShader(p, fs);
             gl.bindAttribLocation(p, 0, "position");
             gl.linkProgram(p);
-
-            var linked = gl.getProgramParameter(p, gl.LINK_STATUS);
-            if (linked == null)
-            {
-                var error = gl.getProgramInfoLog(p);
-                alert("Error while linking: " + error);
-                return;
-            }
-
-            //Native.Document.title = "WebGL..";
-
+            
             gl.useProgram(p);
 
 
@@ -179,11 +168,11 @@ namespace WebGLPuls
             var verts = gl.createBuffer();
 
             gl.bindBuffer(gl.ARRAY_BUFFER, verts);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(
+            gl.bufferData(gl.ARRAY_BUFFER,
               new float[] { 
                   -1,-1,  -1,1,  1,-1, 1,1,
               }
-            ), gl.STATIC_DRAW);
+            , gl.STATIC_DRAW);
             gl.vertexAttribPointer((uint)pos, 2, gl.FLOAT, false, 0, 0);
 
             var indicies = gl.createBuffer();
@@ -193,22 +182,22 @@ namespace WebGLPuls
 
 
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-                new Uint16Array(
-                /*new ushort[] {*/ 0, 1, 2, 3 /*}*/
-                    )
+                new ushort[] { 0, 1, 2, 3 }
                 , gl.STATIC_DRAW);
 
-            var start = new IDate().getTime();
+            //var start = new IDate().getTime();
             Action redraw = null;
-
+            var t = 0f;
             redraw = delegate
             {
                 gl.viewport(0, 0, Native.Window.Width, Native.Window.Height);
                 gl.uniform1f(gl.getUniformLocation(p, "h"), Native.Window.Height / Native.Window.Width);
 
 
-                var timestamp = new IDate().getTime();
-                var t = (float)((timestamp - start) / 1000.0 * 30);
+                //var timestamp = new IDate().getTime();
+                //var t = (float)((timestamp - start) / 1000.0 * 30);
+
+                t += 3;
 
                 // INVALID_OPERATION <= getUniformLocation([Program 2], "t")
                 gl.uniform1f(gl.getUniformLocation(p, "t"), t);

@@ -71,5 +71,10 @@ namespace ScriptCoreLib.JavaScript.WebGL
         {
             gl.bufferData(target, new Float32Array(vertices), usage);
         }
+
+        public static void bufferData(this WebGLRenderingContext gl, uint target, ushort[] i, uint usage)
+        {
+            gl.bufferData(target, new Uint16Array(i), usage);
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace WebGLPuls
         /// </summary>
         /// <param name="e">A parameter from javascript</param>
         /// <param name="y">A callback to javascript</param>
-        public void WebMethod2(XElement e, Action<XElement> y)
+        public void WebMethod2(string e, Action<string> y)
         {
             // Send it to the caller.
             y(e);

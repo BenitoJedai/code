@@ -22,9 +22,6 @@ using WebGLChocolux.Shaders;
 namespace WebGLChocolux
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
-    using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
-    using Date = IDate;
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
@@ -89,48 +86,15 @@ namespace WebGLChocolux
 
             // http://cs.helsinki.fi/u/ilmarihe/metatunnel.html
 
-            // jsc: can we take a direct delegate from native method?
-            Action<string> alert = x => Native.Window.alert(x);
 
+            var p = gl.createProgram(
+                new ChocoluxVertexShader(),
+                new ChocoluxFragmentShader()
+            );
 
-       
-
-            var p = gl.createProgram();
-
-
-            #region createShader
-            Func<Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader");
-                }
-
-                return shader;
-            };
-            #endregion
-
-            var vs = createShader(new ChocoluxVertexShader());
-            var fs = createShader(new ChocoluxFragmentShader());
-
-
-            gl.attachShader(p, vs);
-            gl.attachShader(p, fs);
+  
             gl.bindAttribLocation(p, 0, "position");
             gl.linkProgram(p);
-
-            var linked = gl.getProgramParameter(p, gl.LINK_STATUS);
-            if (linked == null)
-            {
-                var error = gl.getProgramInfoLog(p);
-                alert("Error while linking: " + error);
-                return;
-            }
-
 
             gl.useProgram(p);
             gl.viewport(0, 0, w, h);
@@ -141,16 +105,16 @@ namespace WebGLChocolux
             var verts = gl.createBuffer();
 
             gl.bindBuffer(gl.ARRAY_BUFFER, verts);
-            gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(
+            gl.bufferData(gl.ARRAY_BUFFER, 
               new [] { -1f, -1f, -1f, 1f, 1f, -1f, 1f, 1f }
-            ), gl.STATIC_DRAW);
+            , gl.STATIC_DRAW);
             gl.vertexAttribPointer((uint)0, 2, gl.FLOAT, false, 0, 0);
 
             var indicies = gl.createBuffer();
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicies);
 
-            var q = new WebGLUnsignedShortArray(0, 1, 2, 3);
+            var q = new Uint16Array(0, 1, 2, 3);
 
 
 
