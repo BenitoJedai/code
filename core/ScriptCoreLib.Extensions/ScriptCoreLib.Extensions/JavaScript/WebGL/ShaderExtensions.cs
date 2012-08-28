@@ -66,5 +66,10 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
             return shader;
         }
+
+        public static void bufferData(this WebGLRenderingContext gl, uint target, float[] vertices, uint usage)
+        {
+            gl.bufferData(target, new Float32Array(vertices), usage);
+        }
     }
 }

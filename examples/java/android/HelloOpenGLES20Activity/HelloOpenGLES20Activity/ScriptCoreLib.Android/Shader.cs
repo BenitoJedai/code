@@ -72,31 +72,27 @@ namespace ScriptCoreLib.Android
 
         public void uniform1i(__WebGLUniformLocation u, int p)
         {
-            // webgl is using int64 instead of in32. why? is the idl being used correctly?
-
-            GLES20.glUniform1i(u.value, p);
+            GLES20.glUniform1i(u, p);
         }
 
         public void uniform1f(__WebGLUniformLocation u, float x)
         {
-
-            GLES20.glUniform1f(u.value, x);
+            GLES20.glUniform1f(u, x);
         }
 
         public void uniform2f(__WebGLUniformLocation u, float x, float y)
         {
-
-            GLES20.glUniform2f(u.value, x, y);
+            GLES20.glUniform2f(u, x, y);
         }
 
         public void uniform3f(__WebGLUniformLocation u, float p1, float p2, float p3)
         {
-            GLES20.glUniform3f(u.value, p1, p2, p3);
+            GLES20.glUniform3f(u, p1, p2, p3);
         }
 
         public void uniform3fv(__WebGLUniformLocation u, float[] p1)
         {
-            GLES20.glUniform3fv(u.value, p1.Length *4, p1, 0);
+            GLES20.glUniform3fv(u, p1.Length * 4, p1, 0);
         }
 
 
@@ -141,12 +137,12 @@ namespace ScriptCoreLib.Android
 
         internal void deleteProgram(__WebGLProgram programObject)
         {
-            GLES20.glDeleteProgram(programObject.value);
+            GLES20.glDeleteProgram(programObject);
         }
 
         internal void linkProgram(__WebGLProgram programObject)
         {
-            GLES20.glLinkProgram(programObject.value);
+            GLES20.glLinkProgram(programObject);
         }
 
         internal void clear(uint mask)
@@ -183,22 +179,22 @@ namespace ScriptCoreLib.Android
 
         internal void shaderSource(__WebGLShader shaderHandle, string shaderSource)
         {
-            GLES20.glShaderSource(shaderHandle.value, shaderSource);
+            GLES20.glShaderSource(shaderHandle, shaderSource);
         }
 
         internal void compileShader(__WebGLShader shaderHandle)
         {
-            GLES20.glCompileShader(shaderHandle.value);
+            GLES20.glCompileShader(shaderHandle);
         }
 
         internal void deleteShader(__WebGLShader shaderHandle)
         {
-            GLES20.glDeleteShader(shaderHandle.value);
+            GLES20.glDeleteShader(shaderHandle);
         }
 
         internal void attachShader(__WebGLProgram program, __WebGLShader vertexShader)
         {
-            GLES20.glAttachShader(program.value, vertexShader.value);
+            GLES20.glAttachShader(program, vertexShader);
         }
 
 
@@ -243,7 +239,7 @@ namespace ScriptCoreLib.Android
 
         internal void bindTexture(uint target, __WebGLTexture textureHandle)
         {
-            GLES20.glBindTexture((int)target, textureHandle.value);
+            GLES20.glBindTexture((int)target, textureHandle);
         }
 
         internal void activeTexture(uint texture)
@@ -265,7 +261,7 @@ namespace ScriptCoreLib.Android
 
         internal void bindAttribLocation(__WebGLProgram programHandle, int i, string p)
         {
-            GLES20.glBindAttribLocation(programHandle.value, i, p);
+            GLES20.glBindAttribLocation(programHandle, i, p);
         }
 
         internal __WebGLBuffer createBuffer()
@@ -285,6 +281,7 @@ namespace ScriptCoreLib.Android
 
         internal void bufferData(uint p, __ArrayBufferView v, uint p_2)
         {
+            #region f32
             var f32 = v as __Float32Array;
             if (f32 != null)
             {
@@ -297,7 +294,9 @@ namespace ScriptCoreLib.Android
 
                 opengl.glBufferData((int)p, CurrentBuffer.value, f32.InternalFloatBuffer, (int)p_2);
             }
+            #endregion
 
+            #region u16
             var u16 = v as __Uint16Array;
             if (u16 != null)
             {
@@ -310,6 +309,7 @@ namespace ScriptCoreLib.Android
 
                 opengl.glBufferData((int)p, CurrentBuffer.value, u16.InternalBuffer, (int)p_2);
             }
+            #endregion
         }
 
         internal void vertexAttribPointer(uint p, int p_2, uint p_3, bool p_4, int p_5, int p_6)
@@ -395,6 +395,11 @@ namespace ScriptCoreLib.Android
     public class __WebGLObject
     {
         public int value;
+
+        public static implicit operator int(__WebGLObject e)
+        {
+            return e.value;
+        }
     }
 
     #endregion
@@ -637,7 +642,7 @@ namespace ScriptCoreLib.Android
             e.requestWindowFeature(Window.FEATURE_NO_TITLE);
             e.getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
-      
+
             return e;
         }
 
@@ -826,6 +831,7 @@ namespace ScriptCoreLib.Android
             // Create an OpenGL ES 2.0 context.
             setEGLContextClientVersion(2);
 
+            setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
 
             // set the mRenderer member
             setRenderer(this);
@@ -924,14 +930,14 @@ namespace ScriptCoreLib.Android
 
                 if (e.getAction() == MotionEvent.ACTION_MOVE)
                 {
-             
-                        float deltaX = (x - mPreviousX) / mDensity / 2f;
-                        float deltaY = (y - mPreviousY) / mDensity / 2f;
 
-                        if (ontouchmove != null)
-                            ontouchmove(deltaX, deltaY);
-                        //mRenderer.mDeltaX += deltaX;
-                        //mRenderer.mDeltaY += deltaY;
+                    float deltaX = (x - mPreviousX) / mDensity / 2f;
+                    float deltaY = (y - mPreviousY) / mDensity / 2f;
+
+                    if (ontouchmove != null)
+                        ontouchmove(deltaX, deltaY);
+                    //mRenderer.mDeltaX += deltaX;
+                    //mRenderer.mDeltaY += deltaY;
                 }
 
                 mPreviousX = x;

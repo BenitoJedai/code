@@ -22,9 +22,6 @@ using android.content.pm;
 
 namespace AndroidGLSphereRayTraceActivity.Activities
 {
-    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    //using opengl = GLES20;
-
 
     public class ApplicationActivity : Activity
     {
@@ -34,7 +31,7 @@ namespace AndroidGLSphereRayTraceActivity.Activities
         {
             base.onCreate(savedInstanceState);
 
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
             this.ToFullscreen();
 
@@ -45,7 +42,7 @@ namespace AndroidGLSphereRayTraceActivity.Activities
 
             this.TryHideActionbar(v);
 
-            this.ShowToast("http://my.jsc-solutions.net");
+            //this.ShowToast("http://my.jsc-solutions.net");
         }
 
     }
