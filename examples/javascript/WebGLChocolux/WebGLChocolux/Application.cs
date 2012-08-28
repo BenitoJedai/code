@@ -17,6 +17,7 @@ using ScriptCoreLib.Avalon;
 using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.GLSL;
+using WebGLChocolux.Shaders;
 
 namespace WebGLChocolux
 {
@@ -24,7 +25,6 @@ namespace WebGLChocolux
     using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
     using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
     using Date = IDate;
-    using WebGLChocolux.Shaders;
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
