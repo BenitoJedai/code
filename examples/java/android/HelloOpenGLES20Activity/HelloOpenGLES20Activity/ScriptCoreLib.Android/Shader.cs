@@ -155,7 +155,11 @@ namespace ScriptCoreLib.Android
             GLES20.glClear((int)mask);
         }
 
+        internal void clearDepth(float f)
+        {
 
+            GLES20.glClearDepthf(f);
+        }
 
         internal void enableVertexAttribArray(uint index)
         {
