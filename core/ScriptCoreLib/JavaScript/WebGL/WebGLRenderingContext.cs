@@ -36,5 +36,10 @@ namespace ScriptCoreLib.JavaScript.WebGL
         {
             return default(WebGLShader);
         }
+
+        public void bufferData(uint target, ArrayBufferView data, uint usage)
+        {
+
+        }
     }
 }

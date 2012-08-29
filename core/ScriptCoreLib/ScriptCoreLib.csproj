@@ -114,6 +114,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\Encoding.cs" />
+    <Compile Include="JavaScript\WebGL\ArrayBufferView.cs" />
+    <Compile Include="JavaScript\WebGL\Float32Array.cs" />
+    <Compile Include="JavaScript\WebGL\Uint16Array.cs" />
     <Compile Include="JavaScript\WebGL\WebGLShader.cs" />
     <Compile Include="JavaScript\WebGL\WebGLProgram.cs" />
     <Compile Include="JavaScript\WebGL\WebGLRenderingContext.cs" />
