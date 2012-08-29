@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLLesson02", "WebGLLesson02\WebGLLesson02.csproj", "{BF62DAEB-044B-427B-A2DA-68423BD48005}"
 EndProject
 Global
