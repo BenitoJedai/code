@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
-    [Script(HasNoPrototype = true)]
+    [Script(HasNoPrototype = true, ExternalTarget = "ArrayBufferView")]
     public class ArrayBufferView
     {
     

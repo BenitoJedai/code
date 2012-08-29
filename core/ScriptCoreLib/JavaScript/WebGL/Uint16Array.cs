@@ -5,10 +5,12 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
-    [Script(HasNoPrototype = true)]
-    public class Float32Array : ArrayBufferView
+
+
+    [Script(HasNoPrototype = true, ExternalTarget = "Uint16Array")]
+    public class Uint16Array : ArrayBufferView
     {
-        public Float32Array(params float[] array)
+        public Uint16Array(params ushort[] array)
         {
 
         }
