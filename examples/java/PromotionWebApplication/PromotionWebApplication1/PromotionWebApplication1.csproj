@@ -207,7 +207,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
+rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 
 if not $(ConfigurationName)==Release goto :eof
 start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServiceJava:false /AttachDebugger:false /WebServiceJavaSettings.version:29 /DisableWorkerDomain</PostBuildEvent>
