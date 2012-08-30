@@ -18,6 +18,17 @@ namespace ConsoleWorm.js
     [Script]
     class Worm
     {
+        /*
+         * D/GeckoFavicons(20811): Downloaded favicon successfully for URL = http://192.168.1.107:10713/
+D/GeckoFavicons(20811): Saving favicon on browser database for URL = http://192.168.1.107:10713/
+E/GeckoConsole(20811): [JavaScript Warning: "HTTP "Content-Type" of "application/octet-stream" is not supported. Load of media resource http://192.168.1.107:10713/assets/ConsoleWorm/applause.mp3 failed." {file: "http://192.168.1.107:10713/" line: 0}]
+W/dalvikvm(20005): threadid=20: thread exiting with uncaught exception (group=0x40e96300)
+E/AndroidRuntime(20005): FATAL EXCEPTION: Thread-1400
+E/AndroidRuntime(20005): java.lang.RuntimeException
+E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:90)
+         * 
+         * 
+         */
         public Point Location;
 
         public Func<int> GetZoom;
@@ -209,19 +220,6 @@ namespace ConsoleWorm.js
                      var isdead = false;
                      var paused = true;
 
-                     Action<int> AddScore = x =>
-                     {
-                         score += x;
-
-                         if (isdead)
-                             status.innerText = score + "$ - Game Over - Enter to continue";
-                         else if (paused)
-                             status.innerText = score + "$ - Paused - Zoom: " + zoom;
-                         else
-                             status.innerText = score + "$";
-
-                         status.style.color = JSColor.Yellow;
-                     };
 
                      status.style.color = Color.Green;
                      status.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
@@ -266,7 +264,8 @@ namespace ConsoleWorm.js
                          worm = new
                          {
                              active = Color.FromRGB(0, 0xff, 0),
-                             inactive = Color.FromRGB(0, 0x7F, 0)
+                             inactive = Color.FromRGB(0, 0x7F, 0),
+                             excited = Color.FromRGB(0xff, 0xff, 0),
                          }
 
                      };
@@ -315,6 +314,22 @@ namespace ConsoleWorm.js
 
 
 
+                     Action<int> AddScore = x =>
+                     {
+                         score += x;
+
+                         if (isdead)
+                             status.innerText = score + "$ - Game Over - Enter to continue";
+                         else if (paused)
+                             status.innerText = score + "$ - Paused - Zoom: " + zoom;
+                         else
+                             status.innerText = score + "$";
+
+                         worm.Color = game_colors.worm.excited;
+                         status.style.color = JSColor.Yellow;
+                     };
+
+
                      100.AtInterval(
                          t =>
                          {
@@ -350,6 +365,7 @@ namespace ConsoleWorm.js
                                  return;
                              }
 
+                             worm.Color = game_colors.worm.active;
                              status.style.color = Color.Green;
                              worm.GrowToVector();
 
