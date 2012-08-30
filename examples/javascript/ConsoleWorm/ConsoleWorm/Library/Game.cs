@@ -13,9 +13,6 @@ using System.Linq;
 
 namespace ConsoleWorm.js
 {
-
-
-    [Script]
     class Worm
     {
         /*
@@ -139,7 +136,6 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
         }
     }
 
-    [Script]
     class Apple
     {
         public Func<Point> GetRandomLocation;
@@ -188,12 +184,11 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
         }
     }
 
-    [Script, ScriptApplicationEntryPoint]
-    public class ConsoleWorm
+    public class Game
     {
         // vNext should be semi 3D - http://www.freeworldgroup.com/games/3dworm/index.html
 
-        public ConsoleWorm()
+        public Game()
         {
             //typeof(ConsoleWorm).ToWindowText();
 
@@ -204,6 +199,7 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
             canvas.style.backgroundColor = Color.Black;
             canvas.AttachToDocument();
             //canvas.style.position = IStyle.PositionEnum.relative;
+
 
             new HTML.Images.FromAssets.avatar14683_21().InvokeOnComplete(
                  scull =>
@@ -410,7 +406,8 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
                             ev.StopPropagation();
                         };
 
-                     Native.Document.onclick +=
+                     
+                     Action<IEvent> AtClick =
                          ev =>
                          {
 
@@ -488,6 +485,9 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
 
                              }
                          };
+
+                     Native.Document.body.onclick += AtClick;
+                         
 
                      #region onkeyup
                      Native.Document.onkeyup +=
