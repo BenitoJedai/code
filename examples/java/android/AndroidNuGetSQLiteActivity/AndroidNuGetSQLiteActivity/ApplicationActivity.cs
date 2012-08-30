@@ -9,29 +9,10 @@ using android.webkit;
 using android.widget;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidNuGetSQLiteActivity.Activities
 {
-
-    [Script(IsNative = true)]
-    public static class R
-    {
-
-
-        [Script(IsNative = true)]
-        public static class layout
-        {
-            public static int main;
-        }
-
-        [Script(IsNative = true)]
-        public static class id
-        {
-            public static int contentlist;
-
-
-        }
-    }
 
     public class AndroidNuGetSQLiteActivity : Activity
     {
@@ -45,9 +26,12 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
             base.onCreate(savedInstanceState);
 
-            setContentView(R.layout.main);
+            var ll = new LinearLayout(this);
 
-            TextView listContent = (TextView)findViewById(R.id.contentlist);
+
+            setContentView(ll);
+
+            TextView listContent = new TextView(this).AttachTo(ll);
 
 
             __SQLiteConnectionHack.Context = this;
