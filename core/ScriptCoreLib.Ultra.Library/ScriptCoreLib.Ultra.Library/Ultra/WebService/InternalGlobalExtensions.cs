@@ -70,6 +70,23 @@ namespace ScriptCoreLib.Ultra.WebService
                 //context.Response.AddHeader("pragma", "no-cache");
                 //g.Response.AddHeader("cache-control", "public");
                 g.Response.AddHeader("x-handler", "http://jsc-solutions.net");
+                g.Response.AddHeader("Content-Length", "" + CurrentFile.Length);
+
+                var ContentType = "application/octet-stream";
+                var n = CurrentFile.Name;
+
+                // http://www.webmaster-toolkit.com/mime-types.shtml
+                if (n.EndsWith(".gif")) ContentType = "image/gif";
+                else if (n.EndsWith(".htm")) ContentType = "text/html";
+                else if (n.EndsWith(".png")) ContentType = "image/png";
+                else if (n.EndsWith(".jpg")) ContentType = "image/jpg";
+                else if (n.EndsWith(".js")) ContentType = "application/x-javascript";
+                else if (n.EndsWith(".mp3")) ContentType = "audio/mpeg3";
+                else if (n.EndsWith(".wav")) ContentType = "audio/wav";
+                else if (n.EndsWith(".mid")) ContentType = "audio/midi";
+                else if (n.EndsWith(".css")) ContentType = "text/css";
+
+                that.Response.ContentType = ContentType;
 
                 // to root
                 Context.Response.WriteFile("/" + CurrentFile.Name);

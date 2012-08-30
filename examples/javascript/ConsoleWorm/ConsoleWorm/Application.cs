@@ -28,7 +28,7 @@ namespace ConsoleWorm
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new ConsoleWorm.js.ConsoleWorm();
+            new ConsoleWorm.js.Game();
 
             @"Console Worm".ToDocumentTitle();
             // Send data from JavaScript to the server tier
