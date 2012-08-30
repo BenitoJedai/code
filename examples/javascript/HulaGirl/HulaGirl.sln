@@ -1,17 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HulaGirl", "HulaGirl\HulaGirl.csproj", "{68965F3D-CB2B-4212-B248-F757A91A86F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Assets|x86 = Assets|x86
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68965F3D-CB2B-4212-B248-F757A91A86F0}.Assets|x86.ActiveCfg = Assets|x86
-		{68965F3D-CB2B-4212-B248-F757A91A86F0}.Assets|x86.Build.0 = Assets|x86
 		{68965F3D-CB2B-4212-B248-F757A91A86F0}.Debug|x86.ActiveCfg = Debug|x86
 		{68965F3D-CB2B-4212-B248-F757A91A86F0}.Debug|x86.Build.0 = Debug|x86
 		{68965F3D-CB2B-4212-B248-F757A91A86F0}.Release|x86.ActiveCfg = Release|x86
