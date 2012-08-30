@@ -163,7 +163,7 @@
     <Content Include="Design\Creating_a_Keyboard_-2012-02-26_22.36.57.png" />
     <Content Include="Design\Cubes_spin_stresstest_-_Google_Chrome-2012-02-26_22.09.08.png" />
     <Content Include="Design\Cube_2_-_WebGL_-_Google_Chrome-2012-03-30_17.09.18.png" />
-    <Content Include="Design\CubicVR.js_Dynamic_VBO_wave_pool_hold_spacebar_for_larger_waves_-_Google_Chrome-2012-02-26_19.35.05.png" />
+    <Content Include="Design\CubicVR.js_Dynamic_VBO.png" />
     <Content Include="Design\Cubic_Bezier_spline_flower_-_Google_Chrome-2012-02-26_21.45.21.png" />
     <Content Include="Design\Cubic_Bezier_spline_lotos_-_Google_Chrome-2012-03-18_03.16.21.png" />
     <Content Include="Design\Cuboctahedron_-_Google_Chrome-2012-02-26_21.49.24.png" />
@@ -396,7 +396,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true</PreBuildEvent>

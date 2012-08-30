@@ -20,12 +20,12 @@ namespace TestSolutionBuilderV1
 		/// </summary>
 		/// <param name="e">A parameter from javascript</param>
 		/// <param name="y">A callback to javascript</param>
-		public void WebMethod2(XElement e, Action<XElement> y)
+        public void WebMethod2(string e, Action<string> y)
 		{
 			// Send something back from WebMethod2
 			// http://do.jsc-solutions.net/Send-something-back-from-WebMethod2
 
-			e.Element(@"Data").ReplaceAll(@"Data from the web server");
+            //e.Element(@"Data").ReplaceAll(@"Data from the web server");
 			// Send it to the caller.
 			y(e);
 		}

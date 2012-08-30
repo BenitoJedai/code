@@ -50,29 +50,29 @@ namespace TestSolutionBuilderV1
 			page.Content = new StudioView(null).Content;
 
 
-			new ApplicationWebService().WebMethod2(
-				new XElement(@"Document", 
-					new object[] {
-						new XElement(@"Data", 
-							new object[] {
-								@"Hello world"
-							}
-						),
-						new XElement(@"Client", 
-							new object[] {
-								@"Unchanged text"
-							}
-						)
-					}
-				),
-				delegate (XElement doc)
-				{
-					// Show server message as document title
-					// http://do.jsc-solutions.net/Show-server-message-as-document-title
+            //new ApplicationWebService().WebMethod2(
+            //    new XElement(@"Document", 
+            //        new object[] {
+            //            new XElement(@"Data", 
+            //                new object[] {
+            //                    @"Hello world"
+            //                }
+            //            ),
+            //            new XElement(@"Client", 
+            //                new object[] {
+            //                    @"Unchanged text"
+            //                }
+            //            )
+            //        }
+            //    ),
+            //    delegate (XElement doc)
+            //    {
+            //        // Show server message as document title
+            //        // http://do.jsc-solutions.net/Show-server-message-as-document-title
 
-					doc.Element(@"Data").Value.ToDocumentTitle();
-				}
-			);
+            //        doc.Element(@"Data").Value.ToDocumentTitle();
+            //    }
+            //);
 		}
 
 	}
