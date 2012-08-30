@@ -30,10 +30,10 @@ namespace ConsoleWorm
         {
             new ConsoleWorm.js.ConsoleWorm();
 
-            @"Hello world".ToDocumentTitle();
+            @"Console Worm".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
-                @"A string from JavaScript.",
+                @"Console Multi Worm",
                 value => value.ToDocumentTitle()
             );
         }
