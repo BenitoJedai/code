@@ -506,8 +506,8 @@ namespace WebGLYomotsuTPS
                                     var isAction = player_motion.action;
 
                                     var x = (isAction && !isEndFleame);
-
-                                    if (!isAction || x)
+                            
+                                       if (!isAction || x)
                                     {
                                         md2meshBody.updateAnimation(1000 * delta);
                                     }
