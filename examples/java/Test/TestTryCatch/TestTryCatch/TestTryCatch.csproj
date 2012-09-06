@@ -46,7 +46,9 @@
   <PropertyGroup>
     <PostBuildEvent>rem c:\util\jsc\bin\jsc.exe $(TargetPath) -java
 start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)"
-c:\util\jsc\bin\jsc.exe "$(TargetDir)$(TargetName).Rewrite$(TargetExt)" -java</PostBuildEvent>
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /Output:"$(TargetDir)$(TargetName).RewriteFoo$(TargetExt)"
+
+c:\util\jsc\bin\jsc.exe "$(TargetDir)$(TargetName).RewriteFoo$(TargetExt)" -java</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
