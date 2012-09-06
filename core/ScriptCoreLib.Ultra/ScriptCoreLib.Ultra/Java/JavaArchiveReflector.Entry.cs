@@ -34,7 +34,11 @@ namespace ScriptCoreLib.Java
                 get
                 {
                     if (InternalGetType == null)
+                    {
+                        System.Console.WriteLine("JavaArchiveReflector.Entry.get_Type, yet InternalGetType is null. why?");
+
                         return null;
+                    }
 
                     InternalType = InternalGetType();
 

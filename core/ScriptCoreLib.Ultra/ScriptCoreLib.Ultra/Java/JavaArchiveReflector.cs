@@ -67,11 +67,11 @@ namespace ScriptCoreLib.Java
             }
             catch (csharp.ThrowableException cc)
             {
-                Console.WriteLine("InternalURLClassLoader.loadClass error, name: " + name + "; " + cc + "; " + cc.Message );
+                Console.WriteLine("InternalURLClassLoader.loadClass error, name: " + name + "; " + cc + "; " + cc.Message);
 
                 // what should we do with the missing types?
                 // we can only return null as it is going to gail anyhow
-                
+
                 //throw new InvalidOperationException();
             }
 
@@ -125,10 +125,10 @@ namespace ScriptCoreLib.Java
                 var url = new java.io.File(x).toURL();
                 this.addURL(url);
             }
-            catch(csharp.ThrowableException cc)
+            catch (csharp.ThrowableException cc)
             {
                 Console.WriteLine("InternalURLClassLoader.findClass_catch error, x: " + x + "; " + cc);
-                
+
                 throw new InvalidOperationException();
             }
 
@@ -417,8 +417,11 @@ namespace ScriptCoreLib.Java
                                     n.TypeFullName = TypeFullName;
 
 
+                                    Console.WriteLine("JavaArchiveReflector.Loadfile.InternalGetType almost set for " + n.TypeFullName);
+
                                     n.InternalGetType = delegate
                                     {
+                                        Console.WriteLine("JavaArchiveReflector.Loadfile.InternalGetType - " + n.TypeFullName);
 
                                         var c = default(java.lang.Class);
 
@@ -438,7 +441,9 @@ namespace ScriptCoreLib.Java
 
                                         // what if we need javax.jms.MessageListener ?
                                         if (c == null)
+                                        {
                                             return null;
+                                        }
 
                                         return c.ToType();
                                     };

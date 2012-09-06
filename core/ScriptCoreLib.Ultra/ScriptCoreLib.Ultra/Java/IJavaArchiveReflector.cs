@@ -400,7 +400,9 @@ namespace ScriptCoreLib.Java
         {
             get
             {
-                var a = new ArrayList();
+                System.Console.WriteLine("JavaArchiveReflector PrimaryTypes " + this.Entries.Length);
+
+                var a = new List<string>();
 
                 for (int i = 0; i < this.Entries.Length; i++)
                 {
@@ -409,11 +411,21 @@ namespace ScriptCoreLib.Java
                         var Type = this.Entries[i].Type;
 
                         if (Type != null)
+                        {
                             a.Add(Type.FullName);
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("JavaArchiveReflector PrimaryTypes null type: " + i);
+                        }
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("JavaArchiveReflector PrimaryTypes not a type: " + i);
                     }
                 }
 
-                return (string[])a.ToArray(typeof(string));
+                return a.ToArray();
             }
         }
 
