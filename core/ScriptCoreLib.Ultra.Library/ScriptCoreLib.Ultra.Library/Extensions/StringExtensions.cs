@@ -158,6 +158,8 @@ namespace ScriptCoreLib.Extensions
 			{
 				YieldIndex++;
 
+                Action YieldBreak = () => i = -1;
+
 				h(
 					new AtIndeciesArguments
 					{
@@ -165,7 +167,7 @@ namespace ScriptCoreLib.Extensions
 						i = i,
 						target = target,
 						YieldIndex = YieldIndex,
-						YieldBreak = () => i = -1
+                        YieldBreak = YieldBreak
 					}
 				);
 
