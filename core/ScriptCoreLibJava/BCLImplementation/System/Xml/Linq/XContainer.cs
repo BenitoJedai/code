@@ -165,7 +165,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 				try
 				{
 					// IE does not implement adoptNode yet
-					e.InternalValue = ownerDocument.importNode(e.InternalValue, true);
+                    //e.InternalValue = ownerDocument.importNode(e.InternalValue, true);
+                    e.InternalValue = ownerDocument.adoptNode(e.InternalValue);
                     e.InternalNotifyChildren();
 				}
 				catch

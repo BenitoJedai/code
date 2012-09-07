@@ -101,7 +101,9 @@ namespace org.w3c.dom
 		/// <summary>
 		/// Imports a node from another document to this document.
 		/// </summary>
-		Node importNode(Node @importedNode, bool @deep);
+        Node importNode(Node @importedNode, bool @deep);
+        
+        Node adoptNode(Node source);
 
 	}
 }
