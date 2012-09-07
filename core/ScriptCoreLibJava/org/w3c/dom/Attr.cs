@@ -5,6 +5,7 @@ using org.w3c.dom;
 
 namespace org.w3c.dom
 {
+    // http://developer.android.com/reference/org/w3c/dom/Attr.html
 	// http://java.sun.com/j2se/1.4.2/docs/api/org/w3c/dom/Attr.html
 	[Script(IsNative = true)]
 	public interface Attr : Node

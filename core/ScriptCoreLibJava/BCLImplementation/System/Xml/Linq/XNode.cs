@@ -60,12 +60,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
                     }
                 }
 			}
-			catch (csharp.ThrowableException exc)
+			catch // (csharp.ThrowableException exc)
 			{
                 // The input node can not be null for a DOMSource for newTemplates!
 
-				throw new NotSupportedException(exc.Message);
-			}
+                //throw new NotSupportedException(exc.Message);
+
+                throw;
+            }
 
 			return r;
 		}

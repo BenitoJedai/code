@@ -176,6 +176,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\NotImplementedException.cs">
       <Link>BCLImplementation\System\NotImplementedException.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\NotSupportedException.cs">
+      <Link>BCLImplementation\System\NotSupportedException.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Object.cs">
       <Link>BCLImplementation\System\Object.cs</Link>
     </Compile>
@@ -251,8 +254,74 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Type.cs">
       <Link>BCLImplementation\System\Type.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\Extensions.cs">
+      <Link>BCLImplementation\System\Xml\Linq\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XAttribute.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XContainer.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XDocument.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XElement.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XName.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XNamespace.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XNode.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XObject.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XObject.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\Extensions\BCLImplementationExtensions.cs">
       <Link>Extensions\BCLImplementationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\parsers\DocumentBuilder.cs">
+      <Link>javax\xml\parsers\DocumentBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\parsers\DocumentBuilderFactory.cs">
+      <Link>javax\xml\parsers\DocumentBuilderFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\dom\DOMSource.cs">
+      <Link>javax\xml\transform\dom\DOMSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\ErrorListener.cs">
+      <Link>javax\xml\transform\ErrorListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\Result.cs">
+      <Link>javax\xml\transform\Result.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\Source.cs">
+      <Link>javax\xml\transform\Source.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\SourceLocator.cs">
+      <Link>javax\xml\transform\SourceLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\stream\StreamResult.cs">
+      <Link>javax\xml\transform\stream\StreamResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\Templates.cs">
+      <Link>javax\xml\transform\Templates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\Transformer.cs">
+      <Link>javax\xml\transform\Transformer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\TransformerException.cs">
+      <Link>javax\xml\transform\TransformerException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\TransformerFactory.cs">
+      <Link>javax\xml\transform\TransformerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\URIResolver.cs">
+      <Link>javax\xml\transform\URIResolver.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\File.cs">
       <Link>java\io\File.cs</Link>
@@ -284,8 +353,23 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\io\PrintStream.cs">
       <Link>java\io\PrintStream.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\PrintWriter.cs">
+      <Link>java\io\PrintWriter.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\RandomAccessFile.cs">
       <Link>java\io\RandomAccessFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\Reader.cs">
+      <Link>java\io\Reader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\StringReader.cs">
+      <Link>java\io\StringReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\StringWriter.cs">
+      <Link>java\io\StringWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\Writer.cs">
+      <Link>java\io\Writer.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\CharSequence.cs">
       <Link>java\lang\CharSequence.cs</Link>
@@ -455,11 +539,89 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Map.cs">
       <Link>java\util\Map.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Properties.cs">
+      <Link>java\util\Properties.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Set.cs">
       <Link>java\util\Set.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\TimeZone.cs">
       <Link>java\util\TimeZone.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\Attr.cs">
+      <Link>org\w3c\dom\Attr.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\CDATASection.cs">
+      <Link>org\w3c\dom\CDATASection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\CharacterData.cs">
+      <Link>org\w3c\dom\CharacterData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\Comment.cs">
+      <Link>org\w3c\dom\Comment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\Document.cs">
+      <Link>org\w3c\dom\Document.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\DocumentFragment.cs">
+      <Link>org\w3c\dom\DocumentFragment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\DocumentType.cs">
+      <Link>org\w3c\dom\DocumentType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\DOMImplementation.cs">
+      <Link>org\w3c\dom\DOMImplementation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\Element.cs">
+      <Link>org\w3c\dom\Element.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\EntityReference.cs">
+      <Link>org\w3c\dom\EntityReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\NamedNodeMap.cs">
+      <Link>org\w3c\dom\NamedNodeMap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\Node.cs">
+      <Link>org\w3c\dom\Node.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\NodeList.cs">
+      <Link>org\w3c\dom\NodeList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\ProcessingInstruction.cs">
+      <Link>org\w3c\dom\ProcessingInstruction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\w3c\dom\Text.cs">
+      <Link>org\w3c\dom\Text.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\Attributes.cs">
+      <Link>org\xml\sax\Attributes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\ContentHandler.cs">
+      <Link>org\xml\sax\ContentHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\DTDHandler.cs">
+      <Link>org\xml\sax\DTDHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\EntityResolver.cs">
+      <Link>org\xml\sax\EntityResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\ErrorHandler.cs">
+      <Link>org\xml\sax\ErrorHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\InputSource.cs">
+      <Link>org\xml\sax\InputSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\Locator.cs">
+      <Link>org\xml\sax\Locator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\SAXException.cs">
+      <Link>org\xml\sax\SAXException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\SAXParseException.cs">
+      <Link>org\xml\sax\SAXParseException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\org\xml\sax\XMLReader.cs">
+      <Link>org\xml\sax\XMLReader.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
