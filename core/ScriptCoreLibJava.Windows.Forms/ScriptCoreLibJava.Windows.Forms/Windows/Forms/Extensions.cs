@@ -15,6 +15,7 @@ namespace ScriptCoreLibJava.Windows.Forms
 		public static Control AttachTo(this Control e, Container parent)
 		{
 			parent.add(e.GetTargetElement());
+            e.Show();
 
 			return e;
 		}
@@ -22,6 +23,7 @@ namespace ScriptCoreLibJava.Windows.Forms
 		public static Control AttachTo(this Control e, ContainerControl parent)
 		{
 			parent.Controls.Add(e);
+            e.Show();
 
 			return e;
 		}

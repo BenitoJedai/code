@@ -991,7 +991,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set { }
         }
 
-        #region
+        #region operators
         static public implicit operator Control(__Control e)
         {
             return (Control)(object)e;
