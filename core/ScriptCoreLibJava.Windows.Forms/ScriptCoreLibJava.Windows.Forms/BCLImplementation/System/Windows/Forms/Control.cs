@@ -64,9 +64,35 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
             }
         }
 
-        public virtual string Text { get; set; }
+        #region Text
+        string _text;
+        public virtual string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                OnTextChanged(this, new EventArgs());
+            }
+        }
 
+        public event EventHandler TextChanged;
 
+        internal void InternalRaiseTextChanged()
+        {
+            if (TextChanged != null)
+                TextChanged(this, new EventArgs());
+        }
+
+        protected void OnTextChanged(object o, EventArgs e)
+        {
+            if (TextChanged != null)
+                TextChanged(this, e);
+        }
+        #endregion
 
         public void Show()
         {
@@ -89,7 +115,72 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
             set
             {
                 this.InternalGetElement().setVisible(value);
+
+                this.OnVisibleChanged(null /*EventArgs.Empty*/);
             }
+        }
+
+        public event EventHandler VisibleChanged;
+
+        public virtual void InternalBeforeVisibleChanged()
+        {
+
+        }
+
+
+        protected virtual void OnVisibleChanged(EventArgs e)
+        {
+            InternalVisibileChanged(e);
+        }
+
+        private void InternalVisibileChanged(EventArgs e)
+        {
+            var c = this.Controls;
+            var visible = this.Visible;
+
+            //Console.WriteLine(this.Name + " InternalVisibileChanged" + new { visible });
+
+            InternalBeforeVisibleChanged();
+
+            if (VisibleChanged != null)
+                VisibleChanged(this, e);
+
+
+            if (c != null)
+            {
+                //Console.WriteLine(this.Name + " InternalVisibileChanged" + new { visible, c.Count });
+
+                for (int i = 0; i < c.Count; i++)
+                {
+                    __Control v = c[i];
+
+                    //Console.WriteLine(this.Name + " InternalVisibileChanged " + new { visible, v.Visible, v.Name });
+
+
+                    //if (v.Visible)
+                    //{
+                    v.OnParentVisibleChanged(null /* EventArgs.Empty */ );
+                    //}
+
+                    if (!visible)
+                    {
+                        v.OnParentBecameInvisible();
+                    }
+
+                }
+
+            }
+        }
+
+        protected virtual void OnParentVisibleChanged(EventArgs e)
+        {
+            InternalVisibileChanged(e);
+        }
+
+        internal virtual void OnParentBecameInvisible()
+        {
+
+
         }
 
 
@@ -369,6 +460,47 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
                 this.InternalGetElement().setForeground(c);
             }
         }
+
+        #region Font
+
+
+        public event EventHandler FontChanged;
+
+        protected virtual void OnFontChanged(EventArgs e)
+        {
+            //Console.WriteLine("OnFontChanged");
+
+            if (FontChanged != null)
+                FontChanged(this, e);
+        }
+
+
+        private Font _Font;
+
+        public Font Font
+        {
+            get { return _Font; }
+            set
+            {
+                _Font = value;
+
+                ScriptCoreLibJava.BCLImplementation.System.Drawing.__Font __value = value;
+
+                // http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/Font.html
+                this.InternalGetElement().setFont(
+                    new java.awt.Font(
+                        __value._familyName,
+                        0,
+                        (int)__value._emSize
+                    )
+                );
+
+                //this.HTMLTargetRef.style.font = value.ToCssString();
+
+                OnFontChanged(new EventArgs());
+            }
+        }
+        #endregion
 
 
         Color InternalBackColor;

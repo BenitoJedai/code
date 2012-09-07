@@ -20,5 +20,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		{
 			return this.InternalElement;
 		}
+
+        public void InternalRaiseLoad()
+        {
+            if (Load != null)
+                Load(this, new EventArgs());
+        }
+
+        public event EventHandler Load;
 	}
 }

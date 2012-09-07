@@ -1,14 +1,17 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using ScriptCoreLib;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScriptCoreLibJava.Drawing")]
+[assembly: AssemblyTitle("TestBooleanLogic")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("ScriptCoreLibJava.Drawing")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("TestBooleanLogic")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -17,7 +20,7 @@ using ScriptCoreLib;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("28fba6b7-9a0c-4b6a-841e-c8701bb84a75")]
+[assembly: Guid("844e0f1d-e060-47b0-8a75-9e4ea236ec58")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,10 +34,3 @@ using ScriptCoreLib;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-[assembly:
-	Script,
-	ScriptTypeFilter(ScriptType.Java)
-]
-
-[assembly: InternalsVisibleTo("ScriptCoreLibJava.Windows.Forms")]

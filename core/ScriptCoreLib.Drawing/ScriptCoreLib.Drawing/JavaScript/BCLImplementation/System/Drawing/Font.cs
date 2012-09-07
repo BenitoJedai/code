@@ -32,7 +32,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
             this._gdiCharSet = gdiCharSet;
         }
 
-        #region
+        #region operators
         static public implicit operator Font(__Font e)
         {
             return (Font)(object)e;
