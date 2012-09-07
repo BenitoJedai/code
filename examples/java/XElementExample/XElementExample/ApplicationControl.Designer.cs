@@ -44,6 +44,7 @@ namespace XElementExample
             // 
             // textBox2
             // 
+            this.textBox2.ForeColor = System.Drawing.Color.Blue;
             this.textBox2.Location = new System.Drawing.Point(59, 46);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
@@ -62,6 +63,7 @@ namespace XElementExample
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Blue;
             this.label2.Location = new System.Drawing.Point(15, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);

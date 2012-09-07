@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
@@ -459,6 +460,15 @@
     <Compile Include="BCLImplementation\System\ValueType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Xml\Linq\Extensions.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XAttribute.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XContainer.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XDocument.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XElement.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XName.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XNamespace.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XNode.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XObject.cs" />
     <Compile Include="Extensions\BCLImplementationExtensions.cs" />
     <Compile Include="Extensions\ConfigurationProvider.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
