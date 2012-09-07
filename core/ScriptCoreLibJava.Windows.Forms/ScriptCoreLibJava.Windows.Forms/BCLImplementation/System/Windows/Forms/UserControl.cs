@@ -21,6 +21,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			return this.InternalElement;
 		}
 
+        bool InternalBeforeVisibleChangedDone = false;
+        public override void InternalBeforeVisibleChanged()
+        {
+            if (InternalBeforeVisibleChangedDone)
+                return;
+            InternalBeforeVisibleChangedDone = true;
+
+            InternalRaiseLoad();
+        }
+
         public void InternalRaiseLoad()
         {
             if (Load != null)

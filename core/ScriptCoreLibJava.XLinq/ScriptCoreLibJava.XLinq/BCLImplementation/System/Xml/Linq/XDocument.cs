@@ -34,6 +34,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 			try
 			{
 				// http://stackoverflow.com/questions/33262/how-do-i-load-an-org-w3c-dom-document-from-xml-in-a-string
+                // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6238729
 
 				var f = javax.xml.parsers.DocumentBuilderFactory.newInstance();
 				var b = f.newDocumentBuilder();
