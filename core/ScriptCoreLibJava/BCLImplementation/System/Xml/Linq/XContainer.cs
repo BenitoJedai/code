@@ -112,11 +112,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
                     this.InternalValue = root;
                     this.InternalNotifyChildren();
 				}
-				catch (csharp.ThrowableException exc)
+				catch // (csharp.ThrowableException exc)
 				{
-					((java.lang.Throwable)(object)exc).printStackTrace();
+                    //((java.lang.Throwable)(object)exc).printStackTrace();
 
-					throw new NotSupportedException();
+                    //throw new NotSupportedException();
+                    throw;
 				}
 			}
 		}
@@ -128,11 +129,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 			{
 				f = javax.xml.parsers.DocumentBuilderFactory.newInstance();
 			}
-			catch (csharp.ThrowableException exc)
+			catch // (csharp.ThrowableException exc)
 			{
-				((java.lang.Throwable)(object)exc).printStackTrace();
+                //((java.lang.Throwable)(object)exc).printStackTrace();
 
-				throw new NotSupportedException();
+                //throw new NotSupportedException();
+                throw;
 			}
 			return f;
 		}
@@ -168,7 +170,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 				}
 				catch
 				{
-                    throw new InvalidOperationException();
+                    throw;
 				}
 			}
 		}

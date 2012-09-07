@@ -6,6 +6,7 @@ using java.lang;
 
 namespace javax.xml.parsers
 {
+    // http://developer.android.com/reference/javax/xml/parsers/DocumentBuilderFactory.html
 	// http://java.sun.com/j2se/1.4.2/docs/api/javax/xml/parsers/DocumentBuilderFactory.html
 	[Script(IsNative = true)]
 	public abstract class DocumentBuilderFactory
