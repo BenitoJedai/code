@@ -14,7 +14,7 @@ using android.app;
 using java.nio;
 using ScriptCoreLib.JavaScript.WebGL;
 using android.hardware;
-
+using ScriptCoreLibJava.Extensions;
 
 namespace ScriptCoreLib.Android
 {
@@ -746,6 +746,11 @@ namespace ScriptCoreLib.Android
 
             AlarmManager alarmManager = (AlarmManager)that.getSystemService(Context.ALARM_SERVICE);
             alarmManager.cancel(pendingIntent);
+        }
+
+        public static void StartPendingAlarm(this Context that, Type IntentClass, long delay = 1000  * 5, long repeat = 1000 * 25)
+        {
+            StartPendingAlarm(that, IntentClass.ToClass(), delay, repeat);
         }
 
         public static void StartPendingAlarm(this Context that, Class IntentClass, long delay = 1000  * 5, long repeat = 1000 * 25)

@@ -8,6 +8,7 @@ using AndroidWifiNotificationActivity.Activities;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLibJava.Extensions;
 
 namespace AndroidWifiNotificationActivity.Activities
 {
@@ -64,7 +65,7 @@ namespace AndroidWifiNotificationActivity.Activities
 
             this.setContentView(sv);
 
-            this.StartPendingAlarm(NotifyService.Class, 1000 * 1, 0);
+            this.StartPendingAlarm(typeof(NotifyService), 1000 * 1, 0);
 
 
         }
@@ -77,15 +78,7 @@ namespace AndroidWifiNotificationActivity.Activities
 
     public sealed class NotifyService : Service
     {
-        public static Class Class
-        {
-            [Script(OptimizedCode = "return NotifyService.class;")]
-            get
-            {
-                //return typeof(NotifyService).ToClass();
-                return null;
-            }
-        }
+
 
         public override android.os.IBinder onBind(Intent Intent0)
         {
@@ -175,7 +168,7 @@ namespace foo
 
             Log.wtf("AndroidWifiNotificationActivity", "AtConnectionChange");
 
-            c.StartPendingAlarm(NotifyService.Class, 1000 * 7, 0);
+            c.StartPendingAlarm(typeof(NotifyService), 1000 * 7, 0);
 
         }
     }
