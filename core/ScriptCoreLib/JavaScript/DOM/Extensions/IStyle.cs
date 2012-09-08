@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 		// 2009.09.23:
 		// yay. just when C# 4 is almost out of beta we
 		// actually get to use C# 3 features arond here! :)
+        // 2012.09.08 - firefox not working anymore?
 
 		/// <summary>
 		/// Sets the MatrixTransform on this element. IE is not supported at this time
@@ -184,7 +185,7 @@ q.WebkitTransform = ""matrix("" + m[0] + "","" + m[1] + "","" + m[2] + "","" + m
             SetLocation(size.Left, size.Top, size.Width, size.Height);
         }
 
-		[System.Obsolete("To be moved to ScriptCoreLib.Ultra assembly as an extension method")]
+		[System.Obsolete("To be moved to ScriptCoreLib.Extensions assembly as an extension method")]
 		[Script(DefineAsStatic = true)]
         public void SetBackground(string src, bool repeat)
         {
