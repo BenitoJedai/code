@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Windows.Forms
 {
+    // to be moved to ScriptCoreLib.Extensions
 	public static class WindowsFormsExtensions
 	{
 		// extension methods should not implicitly refer to new assemblies
@@ -37,7 +38,8 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 		public static T AttachControlTo<T>(this T that, INode parent) where T : Control
 		{
 			parent.Add(that);
-            
+            that.Show();
+
 			return that;
 		}
 

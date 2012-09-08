@@ -74,6 +74,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 this.HTMLTarget.value = value;
+                OnTextChanged(this, new EventArgs());
             }
         }
 
