@@ -1,6 +1,7 @@
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -83,8 +84,22 @@ namespace InteractiveTransformA
 
         Canvas Shadow;
 
+        public Action<object, int> AtMouseDown;
+        public Action<object, int, int, int> AtMouseMove;
+        public Action<object, int> AtMouseUp;
+
+        public readonly List<Action<object>> _AtMouseDown = new List<Action<object>>();
+        public readonly List<Action<object>> _AtMouseUp = new List<Action<object>>();
+        public readonly List<Action<object, int, int>> _AtMouseMove = new List<Action<object, int, int>>();
+
+
         void InitializeContent()
         {
+            this.AtMouseDown = (sender, context) => { this.Dispatcher.Invoke(new Action(() => _AtMouseDown[context](sender))); };
+            this.AtMouseMove = (sender, context, x, y) => { this.Dispatcher.Invoke(new Action(() => _AtMouseMove[context](sender, x, y))); };
+            this.AtMouseUp = (sender, context) => { this.Dispatcher.Invoke(new Action(() => _AtMouseUp[context](sender))); };
+
+
             var DefaultHeight = Convert.ToInt32(Height);
             var DefaultWidth = Convert.ToInt32(Width);
 
@@ -553,8 +568,8 @@ namespace InteractiveTransformA
                     RotationInfo = p.White;
                 };
 
-            //AsMovableByMouse(Black, null);
-            //AsMovableByMouse(White, UpdateRotation);
+            AsMovableByMouse(Black, null);
+            AsMovableByMouse(White, UpdateRotation);
 
             var TranslationInfo = new { x = 0.0, y = 0.0 };
 
@@ -743,6 +758,95 @@ namespace InteractiveTransformA
             g.RenderTransform = new MatrixTransform(m.M11, m.M12, m.M21, m.M22, m.OX, m.OY);
             return s;
         }
+
+        public class AsMovableByMouseControl
+        {
+            public Action Enter;
+            public Action Exit;
+        }
+
+        public AsMovableByMouseControl AsMovableByMouse(UIElement e, Action Update)
+        {
+            var c = new AsMovableByMouseControl();
+
+            var q = false;
+
+
+            #region iAtMouseDown
+            Action<object> iAtMouseDown =
+                (sender) =>
+                {
+                    q = true;
+
+                    if (c.Enter != null)
+                        c.Enter();
+                };
+
+            int iAtMouseDownContext = this._AtMouseDown.Count;
+            this._AtMouseDown.Add(iAtMouseDown);
+
+            e.MouseLeftButtonDown +=
+                delegate
+                {
+                    this.AtMouseDown(null, iAtMouseDownContext);
+                };
+            #endregion
+
+
+            Action<object, int, int> iAtMouseMove =
+                (sender, px, py) =>
+                {
+                    e.MoveTo(Canvas.GetLeft(e) + px - 4, Canvas.GetTop(e) + py - 4);
+
+                    if (Update != null)
+                        Update();
+                };
+
+            var cAtMouseMove = this._AtMouseMove.Count;
+            this._AtMouseMove.Add(iAtMouseMove);
+
+            this.MouseMove +=
+                (sender, args) =>
+                {
+                    if (!q)
+                        return;
+                    var p = args.GetPosition(e);
+
+                    Console.WriteLine(new { p.X, p.Y });
+
+                    //this.AtMouseMove(null, cAtMouseMove, Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+                };
+
+            #region iAtMouseUp
+            Action<object> iAtMouseUp =
+                (sender) =>
+                {
+                    if (!q)
+                        return;
+
+                    q = false;
+
+                    if (c.Exit != null)
+                        c.Exit();
+                };
+
+            int iAtMouseUpContext = this._AtMouseUp.Count;
+            this._AtMouseUp.Add(iAtMouseUp);
+
+            e.MouseLeftButtonUp +=
+                delegate
+                {
+                    this.AtMouseUp(null, iAtMouseUpContext);
+                };
+            #endregion
+
+
+
+
+
+            return c;
+        }
+
     }
 
     static class Extensions
