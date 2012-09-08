@@ -67,9 +67,13 @@ namespace TestMousePosition
 
                     var p = e.GetPosition(Black);
 
-                    t.Text = new { p.X, p.Y }.ToString();
-
                     Red.MoveTo(p.X + 4, p.Y + 4);
+
+                    var RedLeft = Canvas.GetLeft(Red);
+                    var RedTop = Canvas.GetTop(Red);
+
+                    t.Text = new { p.X, p.Y, RedLeft, RedTop }.ToString();
+
                 };
         }
 

@@ -17,22 +17,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 			var n = _element.InternalGetDisplayObject();
 
-			return n.Bounds.Left;
-		}
+            //return n.Bounds.Left;
+            return _element.InternalLeft;
+        }
 
 		public static double GetTop(UIElement element)
 		{
 			__UIElement _element = element;
 
-			var n = _element.InternalGetDisplayObject();
+            //var n = _element.InternalGetDisplayObject();
 
-			return n.Bounds.Top;
+            //return n.Bounds.Top;
+
+            return _element.InternalTop;
 		}
 
 
 		public static void SetLeft(UIElement element, double length)
 		{
 			__UIElement _element = element;
+
+            _element.InternalLeft = length;
 
 			var n = _element.InternalGetDisplayObject();
 
@@ -43,6 +48,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		public static void SetTop(UIElement element, double length)
 		{
 			__UIElement _element = element;
+
+            _element.InternalTop = length;
 
 			var n = _element.InternalGetDisplayObject();
 

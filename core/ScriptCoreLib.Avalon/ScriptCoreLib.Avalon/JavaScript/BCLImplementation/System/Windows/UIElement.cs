@@ -524,5 +524,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
             }
         }
         #endregion
+
+
+        public double InternalLeft;
+        public double InternalTop;
     }
 }

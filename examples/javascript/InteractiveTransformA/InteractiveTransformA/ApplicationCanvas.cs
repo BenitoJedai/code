@@ -14,51 +14,7 @@ using System.Xml.Linq;
 
 namespace InteractiveTransformA
 {
-    public class Vector
-    {
-        public double X;
-        public double Y;
-
-        public Vector()
-            : this(0, 0)
-        {
-
-        }
-
-        public Vector(double X, double Y)
-        {
-            this.X = X;
-            this.Y = Y;
-        }
-
-        public double Length
-        {
-            get
-            {
-                return Math.Sqrt(X * X + Y * Y);
-            }
-        }
-    }
-
-    public class Point
-    {
-        public double X;
-        public double Y;
-
-        public Point()
-            : this(0, 0)
-        {
-
-        }
-
-        public Point(double X, double Y)
-        {
-            this.X = X;
-            this.Y = Y;
-        }
-    }
-
-
+   
     public class ApplicationCanvas : Canvas
     {
         public const int DefaultWidth = 800;
@@ -848,6 +804,52 @@ namespace InteractiveTransformA
         }
 
     }
+
+    public class Vector
+    {
+        public double X;
+        public double Y;
+
+        public Vector()
+            : this(0, 0)
+        {
+
+        }
+
+        public Vector(double X, double Y)
+        {
+            this.X = X;
+            this.Y = Y;
+        }
+
+        public double Length
+        {
+            get
+            {
+                return Math.Sqrt(X * X + Y * Y);
+            }
+        }
+    }
+
+    public class Point
+    {
+        public double X;
+        public double Y;
+
+        public Point()
+            : this(0, 0)
+        {
+
+        }
+
+        public Point(double X, double Y)
+        {
+            this.X = X;
+            this.Y = Y;
+        }
+    }
+
+
 
     static class Extensions
     {
