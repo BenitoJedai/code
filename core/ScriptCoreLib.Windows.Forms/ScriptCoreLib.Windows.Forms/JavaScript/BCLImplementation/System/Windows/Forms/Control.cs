@@ -16,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     using DOMHandler = global::System.Action<DOM.IEvent>;
 
 
-
+    #region Handler
     [Script]
     class Handler<A, B>
     {
@@ -36,6 +36,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         }
     }
+    #endregion
+
 
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control : __Component
@@ -77,6 +79,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
+        #region __ControlCollection
         [Script(Implements = typeof(global::System.Windows.Forms.Control.ControlCollection))]
         internal class __ControlCollection : Layout.__ArrangedElementCollection
         {
@@ -145,6 +148,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 // we should apply the index
             }
         }
+        #endregion
 
         public void PerformLayout()
         {
@@ -182,6 +186,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         protected int x;
         protected int y;
 
+        #region Size
         protected int width;
         public int Width
         {
@@ -219,7 +224,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.SetBounds(this.x, this.y, value.Width, value.Height, BoundsSpecified.Size);
             }
         }
+        #endregion
 
+        #region Location
         public int Left
         {
             get
@@ -255,8 +262,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.SetBounds(value.X, value.Y, this.width, this.height, BoundsSpecified.Location);
             }
         }
+        #endregion
 
 
+        #region SetBounds
         public void SetBounds(int x, int y, int width, int height)
         {
             var _x = (this.x != x);
@@ -381,6 +390,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             }
         }
+        #endregion
+
 
 
         private void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height, Control c)
@@ -481,6 +492,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 Resize(this, null);
         }
 
+        #region SizeChanged
         public event EventHandler SizeChanged;
 
         protected virtual void OnSizeChanged(EventArgs e)
@@ -491,8 +503,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 SizeChanged(this, null);
 
         }
+        #endregion
 
-
+        #region Cursor
         private __Cursor _Cursor;
 
         public Cursor Cursor
@@ -505,11 +518,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTargetRef.style.cursor = _Cursor.Value;
             }
         }
+        #endregion
 
 
         public Control.ControlCollection Controls { get; set; }
         public string Name { get; set; }
 
+        #region Text
         string _text;
         public virtual string Text
         {
@@ -523,7 +538,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 OnTextChanged(this, new EventArgs());
             }
         }
-
+        #endregion
 
         public int TabIndex { get; set; }
 
@@ -559,7 +574,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual void OnFontChanged(EventArgs e)
         {
-            Console.WriteLine("OnFontChanged");
+            //Console.WriteLine("OnFontChanged");
 
             if (FontChanged != null)
                 FontChanged(this, e);
@@ -972,7 +987,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual void OnControlAdded(ControlEventArgs e)
         {
-            Console.WriteLine("__Control OnControlAdded: " + e.Control.Name);
+            //Console.WriteLine("__Control OnControlAdded: " + e.Control.Name);
 
             if (ControlAdded != null)
                 ControlAdded(this, e);
