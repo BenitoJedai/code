@@ -89,6 +89,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
@@ -114,6 +115,18 @@
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\Encoding.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\Extensions.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XAttribute.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XComment.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XContainer.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XDocument.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XElement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XName.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XNamespace.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XNode.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XObject.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XText.cs" />
+    <Compile Include="JavaScript\Extensions\XLinqExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ArrayBufferView.cs" />
     <Compile Include="JavaScript\WebGL\Float32Array.cs" />
     <Compile Include="JavaScript\WebGL\Uint16Array.cs" />
@@ -255,6 +268,9 @@
     <Compile Include="PHP\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\Encoding.cs" />
+    <Compile Include="PHP\DOM\DOMDocument.cs" />
+    <Compile Include="PHP\DOM\DOMElement.cs" />
+    <Compile Include="PHP\DOM\DOMNode.cs" />
     <Compile Include="PHP\Native.cs" />
     <Compile Include="PHP\Query\InternalSequenceImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
