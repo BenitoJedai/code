@@ -53,8 +53,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         {
             IEnumerator<T> value;
 
+            internal __Enumerator()
+                : this(null)
+            {
+
+            }
+
             internal __Enumerator(__List<T> list)
             {
+                if (list == null)
+                    return;
+
                 value = InternalSequence.AsEnumerable(list.ToArray()).GetEnumerator();
 
 
