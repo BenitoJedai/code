@@ -10,6 +10,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         public float Height { get; set; }
         public float Width { get; set; }
 
+        public __SizeF()
+        {
+
+        }
+
         public __SizeF(float w, float h)
         {
             this.Height = h;

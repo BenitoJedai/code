@@ -14,6 +14,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     
         public static readonly Padding Empty;
 
+        public __Padding()
+        {
+
+        }
+
         public __Padding(int all)
         {
             Left = all;
