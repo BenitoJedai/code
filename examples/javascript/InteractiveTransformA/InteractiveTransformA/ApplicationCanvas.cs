@@ -170,6 +170,31 @@ namespace InteractiveTransformA
                     cfloor(ix, iy, -1, new Avalon.Images.floor().Source);
                 }
             #endregion
+
+
+            #region cblock
+
+            Action<int, int, int, ImageSource> cblock =
+                (ix, iy, iz, src) =>
+                {
+                    CreateIsometricBlock(blocksize,
+                        (blockx + ix * blocksize + iy * blocksize),
+                        (blocky + (ix - iz * 2) * blocksize / 2 - iy * blocksize / 2),
+                        src
+                    );
+                };
+
+            for (int ix = 1; ix < 2; ix++)
+                for (int iy = 2; iy >= 1; iy--)
+                {
+                    cblock(ix, iy, 0, new Avalon.Images.brown().Source);
+                }
+
+            #endregion
+
+
+            CreateTransformer(t2, 120, 120, 550, 150);
+            CreateTransformer(t2, 100, 100, 350, 250);
         }
 
         private void CreateIsometricFloor(int blocksize, int blockx, int blocky, ImageSource blocksrc)
@@ -202,6 +227,67 @@ namespace InteractiveTransformA
             block.c.SetOpacity(1);
 
         }
+
+        private void CreateIsometricBlock(int blocksize, int blockx, int blocky, ImageSource blocksrc)
+        {
+            var block = new
+            {
+                b = CreateTransformer(null, blocksize, blocksize, blockx, blocky),
+                c = CreateTransformer(null, blocksize, blocksize, blockx, blocky),
+                a = CreateTransformer(null, blocksize, blocksize, blockx, blocky),
+            };
+
+
+            block.a.SetBounds(
+                new[]
+				{
+					new Point(blockx - blocksize, blocky - blocksize * 0.5),
+					new Point(blockx, blocky),
+					new Point(blockx - blocksize, blocky + blocksize * 0.5),
+					new Point(blockx, blocky + blocksize),
+				}
+            );
+
+
+            block.b.SetBounds(
+                new[]
+				{
+					new Point(blockx, blocky),
+					new Point(blockx + blocksize, blocky - blocksize * 0.5),
+					new Point(blockx, blocky + blocksize),
+					new Point(blockx + blocksize, blocky + blocksize * 0.5),
+				}
+            );
+
+
+            block.c.SetBounds(
+                new[]
+				{
+					new Point(blockx - blocksize, blocky - blocksize * 0.5),
+					new Point(blockx, blocky  - blocksize ),
+					new Point(blockx, blocky),
+					new Point(blockx + blocksize, blocky - blocksize * 0.5),
+				}
+            );
+
+            block.a.HideVisuals();
+            block.b.HideVisuals();
+            block.c.HideVisuals();
+
+            block.a.HideMirror();
+            block.a.SetSource(blocksrc);
+            block.a.SetOpacity(1);
+
+
+            block.c.HideMirror();
+            block.c.SetSource(blocksrc);
+            block.c.SetOpacity(1);
+
+            block.b.HideMirror();
+            block.b.SetSource(blocksrc);
+            block.b.SetOpacity(1);
+        }
+
 
         public class TransformerControl
         {
