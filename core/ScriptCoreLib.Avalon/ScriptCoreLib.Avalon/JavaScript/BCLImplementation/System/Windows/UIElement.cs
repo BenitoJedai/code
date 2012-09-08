@@ -73,7 +73,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 InternalGetDisplayObject().onmousemove +=
                     e =>
                     {
-                        value(this, (__MouseEventArgs)e);
+                        value(this, __MouseEventArgs.Of( e, this));
                     };
             }
             remove
@@ -90,7 +90,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 InternalGetDisplayObject().onmouseover +=
                     e =>
                     {
-                        value(this, (__MouseEventArgs)e);
+                        value(this, __MouseEventArgs.Of(e, this));
                     };
             }
             remove
@@ -107,7 +107,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 InternalGetDisplayObject().onmouseout +=
                     e =>
                     {
-                        value(this, (__MouseEventArgs)e);
+                        value(this, __MouseEventArgs.Of(e, this));
                     };
             }
             remove
@@ -392,13 +392,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
         {
             get
             {
-                throw new NotImplementedException();
+                return InternalRenderTransform;
             }
             set
             {
                 InternalRenderTransform = value;
-                var AsScaleTransform = value as ScaleTransform;
 
+#region ScaleTransform
+                var AsScaleTransform = value as ScaleTransform;
                 if (AsScaleTransform != null)
                 {
 
@@ -415,8 +416,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
                     return;
                 }
+#endregion
 
-
+                #region TranslateTransform
                 var AsTranslateTransform = value as TranslateTransform;
                 if (AsTranslateTransform != null)
                 {
@@ -434,7 +436,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                     );
                     return;
                 }
+                #endregion
 
+                #region MatrixTransform
                 var AsMatrixTransform = value as MatrixTransform;
                 if (AsMatrixTransform != null)
                 {
@@ -453,6 +457,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                     );
                     return;
                 }
+                #endregion
             }
         }
 
@@ -461,7 +466,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
 
 
-
+        #region touch
 
         public event __EventHandler<__TouchEventArgs> TouchDown
         {
@@ -518,5 +523,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 throw new NotImplementedException();
             }
         }
+        #endregion
     }
 }
