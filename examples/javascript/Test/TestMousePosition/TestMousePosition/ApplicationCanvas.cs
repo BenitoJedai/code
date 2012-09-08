@@ -24,14 +24,32 @@ namespace TestMousePosition
             r.MoveTo(8, 8);
             this.SizeChanged += (s, e) => r.SizeTo(this.Width - 16.0, this.Height - 16.0);
 
-            var t = new TextBox().AttachTo(this);
+            var Shadow = new Canvas
+            {
+                Width = 200,
+                Height = 200,
+                Background = Brushes.White
+            }.MoveTo(16, 16).AttachTo(this);
+
+            var t = new TextBox().AttachTo(Shadow).MoveTo(4, 4);
 
             var gx = 120;
             var gy = 120;
             var gw = 550;
             var gh = 150;
 
-            
+
+
+            var Red = new Rectangle
+            {
+                Width = 8,
+                Height = 8,
+                Fill = Brushes.Red,
+                Cursor = Cursors.Hand,
+                RenderTransform = new TranslateTransform(-4, -4)
+            }.AttachTo(this).MoveTo(gx + gw / 2, gy + gh / 2);
+
+     
             var Black = new Rectangle
             {
                 Width = 8,
@@ -41,8 +59,7 @@ namespace TestMousePosition
                 RenderTransform = new TranslateTransform(-4, -4)
             }.AttachTo(this).MoveTo(gx + gw / 2, gy + gh / 2);
 
-            this.Name = "ApplicationCanvas";
-            Black.Name = "ApplicationCanvas.Black";
+
 
             this.MouseMove +=
                 (s, e) =>
@@ -50,7 +67,9 @@ namespace TestMousePosition
 
                     var p = e.GetPosition(Black);
 
-                    t.Text = new { p.X, p.Y }.ToString(); 
+                    t.Text = new { p.X, p.Y }.ToString();
+
+                    Red.MoveTo(p.X + 4, p.Y + 4);
                 };
         }
 

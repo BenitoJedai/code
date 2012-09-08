@@ -473,10 +473,10 @@ namespace InteractiveTransformA
                     Y.MoveTo(gx + gw, gy + gh);
                 };
 
-            //AsMovableByMouse(R, Update);
-            //AsMovableByMouse(G, Update);
-            //AsMovableByMouse(M, Update);
-            //AsMovableByMouse(Y, Update);
+            AsMovableByMouse(R, Update);
+            AsMovableByMouse(G, Update);
+            AsMovableByMouse(M, Update);
+            AsMovableByMouse(Y, Update);
 
             var RotationInfo = new { x = 0.0, y = 0.0 };
 
@@ -645,10 +645,10 @@ namespace InteractiveTransformA
                     TranslationInfo = p.Orange;
                 };
 
-            //var OrangeDrag = AsMovableByMouse(Orange, UpdateTranslation);
+            var OrangeDrag = AsMovableByMouse(Orange, UpdateTranslation);
 
-            //OrangeDrag.Enter = () => OrangeSelfAverage = false;
-            //OrangeDrag.Exit = () => OrangeSelfAverage = true;
+            OrangeDrag.Enter = () => OrangeSelfAverage = false;
+            OrangeDrag.Exit = () => OrangeSelfAverage = true;
 
             Reset();
             UpdateRotation();
@@ -796,7 +796,7 @@ namespace InteractiveTransformA
             Action<object, int, int> iAtMouseMove =
                 (sender, px, py) =>
                 {
-                    e.MoveTo(Canvas.GetLeft(e) + px - 4, Canvas.GetTop(e) + py - 4);
+                    e.MoveTo(Canvas.GetLeft(e) + px - 3, Canvas.GetTop(e) + py - 3);
 
                     if (Update != null)
                         Update();
@@ -812,9 +812,9 @@ namespace InteractiveTransformA
                         return;
                     var p = args.GetPosition(e);
 
-                    Console.WriteLine(new { p.X, p.Y });
+                    //Console.WriteLine(new { p.X, p.Y });
 
-                    //this.AtMouseMove(null, cAtMouseMove, Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+                    this.AtMouseMove(null, cAtMouseMove, Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
                 };
 
             #region iAtMouseUp
