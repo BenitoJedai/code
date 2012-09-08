@@ -1034,7 +1034,7 @@
     <Compile Include="java\util\logging\Filter.cs" />
     <Compile Include="java\util\logging\Level.cs" />
     <Compile Include="java\util\logging\Logger.cs" />
-    <Compile Include="java\util\Properies.cs" />
+    <Compile Include="java\util\Properties.cs" />
     <Compile Include="java\util\HashMap.cs" />
     <Compile Include="java\util\Hashtable.cs" />
     <Compile Include="java\util\Set.cs" />
