@@ -11,6 +11,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         public int X { get; set; }
         public int Y { get; set; }
 
+        public __Point()
+        {
+
+        }
+
         public __Point(int x, int y)
         {
             this.X = x;
