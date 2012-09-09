@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
 {
     using AS3_QName = global::ScriptCoreLib.ActionScript.QName;
     using AS3_XML = global::ScriptCoreLib.ActionScript.XML;
@@ -37,5 +37,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 		{
 			return (XName)(object)new __XName { InternalValue = localName };
 		}
+
+        public static bool operator ==(__XName left, __XName right)
+        {
+            return left.LocalName == right.LocalName;
+        }
+
+        public static bool operator !=(__XName left, __XName right)
+        {
+            return left.LocalName != right.LocalName;
+        }
     }
 }

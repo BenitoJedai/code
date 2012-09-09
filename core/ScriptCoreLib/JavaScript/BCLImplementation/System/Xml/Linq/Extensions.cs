@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
 	[Script(Implements = typeof(global::System.Xml.Linq.Extensions))]
 	internal static class __Extensions

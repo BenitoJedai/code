@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
 
     [Script(Implements = typeof(XNode))]

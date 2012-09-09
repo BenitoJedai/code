@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
 {
     [Script(Implements = typeof(XAttribute))]
     internal class __XAttribute : __XObject

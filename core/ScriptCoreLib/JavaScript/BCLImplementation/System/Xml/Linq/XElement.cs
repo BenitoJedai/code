@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.JavaScript.DOM.XML;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
 	[Script(Implements = typeof(XElement))]
 	internal class __XElement : __XContainer

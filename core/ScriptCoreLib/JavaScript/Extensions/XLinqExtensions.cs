@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using System.Xml.Linq;
-using ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq;
 using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Extensions
