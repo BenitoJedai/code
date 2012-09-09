@@ -487,6 +487,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                 }
 
                 InternalTextField.value = value;
+
             }
         }
 

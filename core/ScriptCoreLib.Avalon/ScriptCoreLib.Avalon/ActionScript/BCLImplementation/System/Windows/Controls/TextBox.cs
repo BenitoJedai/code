@@ -179,13 +179,24 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
             {
                 // http://blog.madebyderek.com/archives/2005/08/26/textfield_newline_and_crlf/
                 InternalTextField.text = value.Replace(Environment.NewLine, "\n");
+
+                InternalRaiseTextChanged();
             }
         }
+
+        public void InternalRaiseTextChanged()
+        {
+            if (InternalTextChanged != null)
+                InternalTextChanged(null, null);
+        }
+
+        public TextChangedEventHandler InternalTextChanged;
 
         public override event TextChangedEventHandler TextChanged
 		{
 			add
 			{
+                InternalTextChanged += value;
 
 				InternalTextField.change +=
 					(Event e) =>
