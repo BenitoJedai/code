@@ -34,8 +34,22 @@ namespace PHPXElementExample
             );
         }
 
-        public void Result_onchange(string doc, Action<string, string> y)
+        public void Result_onchange(string doc_xml, Action<string, string> y)
         {
+            try
+            {
+                var doc = XElement.Parse(doc_xml);
+
+                var Key = doc.Attribute("Key").Value;
+                var Value = "?";
+
+                //var Value = doc.Element("Value").Value;
+
+                y(Key, Value);
+            }
+            catch
+            {
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using ScriptCoreLib.PHP.DOM;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
 {
@@ -62,6 +63,37 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
             }
         }
 
-        
+
+        #region Attributes
+        public XAttribute Attribute(XName name)
+        {
+            return this.Attributes(name).FirstOrDefault();
+        }
+
+        public IEnumerable<XAttribute> Attributes(XName name)
+        {
+            return this.Attributes().Where(k => k.Name == name);
+        }
+
+        public IEnumerable<XAttribute> Attributes()
+        {
+            var a = this.InternalElement.attributes;
+
+            return Enumerable.Range(0, a.length).Select(
+                i =>
+                {
+                    var attr = (DOMAttr)a.item(i);
+
+                    return (XAttribute)new __XAttribute(
+                        XName.Get(attr.name, null),
+                        null
+                    )
+                    {
+                        InternalElement = this
+                    };
+                }
+            );
+        }
+        #endregion
     }
 }
