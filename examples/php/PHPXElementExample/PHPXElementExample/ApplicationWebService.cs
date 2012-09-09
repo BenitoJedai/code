@@ -36,8 +36,12 @@ namespace PHPXElementExample
 
         public void Result_onchange(string doc_xml, Action<string, string> y)
         {
+            // %26lt%3BKeyValuePair Key%3D%26quot%3Boo%26quot%3B%26gt%3B%26lt%3BValue%26gt%3Bbar%26lt%3B/Value%26gt%3B%26lt%3B/KeyValuePair%26gt%3B
+
             try
             {
+                //Console.WriteLine(doc_xml);
+
                 var doc = XElement.Parse(doc_xml);
 
                 var Key = doc.Attribute("Key").Value;
@@ -47,6 +51,7 @@ namespace PHPXElementExample
             }
             catch
             {
+                throw;
             }
         }
     }
