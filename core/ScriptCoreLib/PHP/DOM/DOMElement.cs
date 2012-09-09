@@ -10,5 +10,17 @@ namespace ScriptCoreLib.PHP.DOM
     public class DOMElement : DOMNode
     {
         readonly public string tagName;
+
+        public string getAttribute(string name)
+        {
+            return default(string);
+        }
+
+        public DOMAttr setAttribute(string name, string value)
+        {
+            return default(DOMAttr);
+        }
+
+
     }
 }

@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 	[Script(Implements = typeof(XContainer))]
 	internal abstract class __XContainer : __XNode
 	{
+        public __XName InternalElementName;
 
 		public IXMLElement InternalElement
 		{
@@ -20,7 +21,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 			}
 		}
 
-		public XElement Element(XName name)
+        #region Elements
+        public XElement Element(XName name)
 		{
 			return Elements(name).FirstOrDefault();
 		}
@@ -47,12 +49,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 			return a;
 
 		}
+        #endregion
 
 
 
-		public __XName InternalElementName;
 
-		public void Add(params object[] content)
+        #region Add
+        public void Add(params object[] content)
 		{
 			foreach (var item in content)
 			{
@@ -68,9 +71,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
 
 				this.InternalValue = doc.documentElement;
-			}
+            }
 
-			{
+            #region string
+            {
 				var e = content as string;
 
 				if (e != null)
@@ -81,6 +85,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 					return;
 				}
             }
+            #endregion
 
             #region XComment
             {
@@ -137,8 +142,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
 			throw new NotImplementedException();
 		}
+        #endregion
 
-		private void __adoptNode(__XElement e)
+
+        private void __adoptNode(__XElement e)
 		{
 			if (e.InternalValue.ownerDocument != this.InternalValue.ownerDocument)
 			{

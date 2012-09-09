@@ -276,6 +276,15 @@
     <Compile Include="PHP\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\Encoding.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XAttribute.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XContainer.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XDocument.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XElement.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XName.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XNode.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XObject.cs" />
+    <Compile Include="PHP\DOM\DOMText.cs" />
+    <Compile Include="PHP\DOM\DOMAttr.cs" />
     <Compile Include="PHP\DOM\DOMDocument.cs" />
     <Compile Include="PHP\DOM\DOMElement.cs" />
     <Compile Include="PHP\DOM\DOMNode.cs" />

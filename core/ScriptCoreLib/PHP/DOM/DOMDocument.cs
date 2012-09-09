@@ -21,6 +21,11 @@ namespace ScriptCoreLib.PHP.DOM
             return default(DOMElement);
         }
 
+        public DOMText createTextNode(string content)
+        {
+            return default(DOMText);
+        }
+
         public string saveXML()
         {
             return default(string);
@@ -34,6 +39,11 @@ namespace ScriptCoreLib.PHP.DOM
         public bool loadXML(string source)
         {
             return default(bool);
+        }
+
+        public DOMNode importNode(DOMNode importedNode, bool deep)
+        {
+            return default(DOMNode);
         }
     }
 }
