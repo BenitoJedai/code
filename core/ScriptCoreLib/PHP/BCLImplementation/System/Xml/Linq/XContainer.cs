@@ -133,6 +133,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
 			{
                 var item = e.childNodes.item(i);
 
+                // http://www.php.net/manual/en/dom.constants.php
                 if (item.nodeType == (int)ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
                     a.Add(
                         (XElement)(object)new __XElement(null, null) { InternalValue = item }
