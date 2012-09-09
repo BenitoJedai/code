@@ -21,36 +21,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 			}
 		}
 
-        #region Elements
-        public XElement Element(XName name)
-		{
-			return Elements(name).FirstOrDefault();
-		}
-
-        public IEnumerable<XElement> Elements(XName name)
-        {
-            return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
-        }
-
-		public IEnumerable<XElement> Elements()
-		{
-			var e = InternalElement;
-			var a = new List<XElement>();
-
-			foreach (var item in e.childNodes)
-			{
-				if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
-					a.Add(
-						(XElement)(object)new __XElement(null, null) { InternalValue = item }
-					);
-
-			}
-
-			return a;
-
-		}
-        #endregion
-
+     
 
 
 
@@ -182,5 +153,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 				}
 			).Where(k => k != null);
 		}
+
+        #region Elements
+        public XElement Element(XName name)
+        {
+            return Elements(name).FirstOrDefault();
+        }
+
+        public IEnumerable<XElement> Elements(XName name)
+        {
+            return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
+        }
+
+        public IEnumerable<XElement> Elements()
+        {
+            var e = InternalElement;
+            var a = new List<XElement>();
+
+            foreach (var item in e.childNodes)
+            {
+                if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
+                    a.Add(
+                        (XElement)(object)new __XElement(null, null) { InternalValue = item }
+                    );
+
+            }
+
+            return a;
+
+        }
+        #endregion
+
 	}
 }

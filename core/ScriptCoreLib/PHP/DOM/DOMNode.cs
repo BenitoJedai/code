@@ -9,9 +9,12 @@ namespace ScriptCoreLib.PHP.DOM
     [Script(IsNative = true)]
     public class DOMNode
     {
+        public readonly string nodeName;
+        public readonly int nodeType;
+        public string nodeValue;
+
         public readonly DOMDocument ownerDocument;
 
-        public string nodeValue;
 
         public DOMNode appendChild(DOMNode newnode)
         {
@@ -19,5 +22,7 @@ namespace ScriptCoreLib.PHP.DOM
         }
 
         public readonly DOMNamedNodeMap attributes;
+
+        public readonly DOMNodeList childNodes;
     }
 }

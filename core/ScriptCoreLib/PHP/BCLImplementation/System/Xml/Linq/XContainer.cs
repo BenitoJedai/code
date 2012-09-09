@@ -112,5 +112,38 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
                 }
             }
         }
+
+        #region Elements
+        public XElement Element(XName name)
+        {
+            return Elements(name).FirstOrDefault();
+        }
+
+        public IEnumerable<XElement> Elements(XName name)
+        {
+            return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
+        }
+
+        public IEnumerable<XElement> Elements()
+        {
+            var e = InternalElement;
+            var a = new List<XElement>();
+
+            for (int i = 0; i < e.childNodes.length; i++)
+			{
+                var item = e.childNodes.item(i);
+
+                if (item.nodeType == (int)ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
+                    a.Add(
+                        (XElement)(object)new __XElement(null, null) { InternalValue = item }
+                    );
+
+            }
+
+            return a;
+
+        }
+        #endregion
+
     }
 }

@@ -41,9 +41,7 @@ namespace PHPXElementExample
                 var doc = XElement.Parse(doc_xml);
 
                 var Key = doc.Attribute("Key").Value;
-                var Value = "?";
-
-                //var Value = doc.Element("Value").Value;
+                var Value = doc.Element("Value").Value;
 
                 y(Key, Value);
             }
