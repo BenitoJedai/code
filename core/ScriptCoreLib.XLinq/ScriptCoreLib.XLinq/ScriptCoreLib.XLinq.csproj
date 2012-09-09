@@ -62,14 +62,6 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\Extensions.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XAttribute.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XName.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XObject.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XDocument.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XContainer.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XElement.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XNode.cs" />
     <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XDocument.cs" />
     <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XContainer.cs" />
     <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XElement.cs" />

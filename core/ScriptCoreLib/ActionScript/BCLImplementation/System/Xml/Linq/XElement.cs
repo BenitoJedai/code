@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
 {
     using AS3_QName = global::ScriptCoreLib.ActionScript.QName;
     using AS3_XML = global::ScriptCoreLib.ActionScript.XML;
@@ -108,6 +108,34 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
                 RemoveAll();
                 Add(value);
             }
+        }
+
+        public XAttribute Attribute(XName name)
+        {
+            return this.Attributes(name).FirstOrDefault();
+        }
+
+        public IEnumerable<XAttribute> Attributes(XName name)
+        {
+            return this.Attributes().Where(k => k.Name == name);
+        }
+
+        public IEnumerable<XAttribute> Attributes()
+        {
+            var a = this.InternalElement.attributes();
+
+            return Enumerable.Range(0, a.length()).Select(
+                i =>
+                {
+                    return (XAttribute)new __XAttribute(
+                        XName.Get("" + a[i].name(), null),
+                        null
+                    )
+                    {
+                        InternalParentElement = this
+                    };
+                }
+            );
         }
     }
 }
