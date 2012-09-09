@@ -102,6 +102,10 @@ namespace PHPXElementExample
                 };
             #endregion
 
+            page.Key.value = "foo";
+            page.Value.value = "bar";
+
+            Key_onchange();
         }
 
     }
