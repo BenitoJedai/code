@@ -17,5 +17,7 @@ namespace ScriptCoreLib.PHP.DOM
         {
             return newnode;
         }
+
+        public readonly DOMNamedNodeMap attributes;
     }
 }

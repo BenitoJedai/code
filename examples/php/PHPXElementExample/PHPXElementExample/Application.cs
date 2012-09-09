@@ -73,6 +73,35 @@ namespace PHPXElementExample
                     Value_onchange();
                 };
             #endregion
+
+
+            #region Result_onchange
+            Action Result_onchange =
+                delegate
+                {
+                    service.Result_onchange(
+                        page.Result.value,
+                        (Key, Value) =>
+                        {
+                            page.Key.value = Key;
+                            page.Value.value = Value;
+                        }
+                    );
+                };
+
+            page.Result.onchange +=
+                delegate
+                {
+                    Result_onchange();
+                };
+
+            page.Result.onkeyup +=
+                delegate
+                {
+                    Result_onchange();
+                };
+            #endregion
+
         }
 
     }

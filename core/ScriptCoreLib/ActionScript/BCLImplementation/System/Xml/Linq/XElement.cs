@@ -110,6 +110,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
             }
         }
 
+        #region Attributes
         public XAttribute Attribute(XName name)
         {
             return this.Attributes(name).FirstOrDefault();
@@ -137,5 +138,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
                 }
             );
         }
+        #endregion
+
     }
 }

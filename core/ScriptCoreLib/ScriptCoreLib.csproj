@@ -283,6 +283,7 @@
     <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XName.cs" />
     <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XNode.cs" />
     <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XObject.cs" />
+    <Compile Include="PHP\DOM\DOMNamedNodeMap.cs" />
     <Compile Include="PHP\DOM\DOMText.cs" />
     <Compile Include="PHP\DOM\DOMAttr.cs" />
     <Compile Include="PHP\DOM\DOMDocument.cs" />
