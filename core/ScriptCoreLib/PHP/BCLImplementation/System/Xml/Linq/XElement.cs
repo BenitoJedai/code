@@ -10,6 +10,19 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
     [Script(Implements = typeof(global::System.Xml.Linq.XElement))]
     internal class __XElement : __XContainer
     {
+        public __XName Name
+        {
+            get
+            {
+                return new __XName { InternalValue = this.InternalElement.nodeName };
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #region ctor
         public __XElement()
             : this("item", null, null)
         {
@@ -42,6 +55,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
             if (c != null)
                 this.Add(c);
         }
+        #endregion
 
         public static XElement Parse(string text)
         {
