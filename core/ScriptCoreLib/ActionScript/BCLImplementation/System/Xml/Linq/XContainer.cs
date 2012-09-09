@@ -15,7 +15,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
 	{
 		public __XName InternalElementName;
 
-
+        #region Elements
         public XElement Element(XName name)
         {
             return Elements(name).FirstOrDefault();
@@ -48,8 +48,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
 			return a;
 
 		}
+        #endregion
 
-		public void Add(params object[] content)
+
+        public void Add(params object[] content)
 		{
 			foreach (var item in content)
 			{
@@ -63,9 +65,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
 			{
 				this.InternalElement = __createElement();
 				this.InternalElement.setLocalName(this.InternalElementName.LocalName);
-			}
+            }
 
-			{
+            #region string
+            {
 				var e = content as string;
 
 				if (e != null)
@@ -75,7 +78,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
 					);
 					return;
 				}
-			}
+            }
+            #endregion
 
             #region XAttribute
             {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.PHP.DOM;
 
-namespace ScriptCoreLib.PHP.BCLImplementation.System.XML.XLinq
+namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
 {
     [Script(Implements = typeof(global::System.Xml.Linq.XDocument))]
     internal class __XDocument : __XContainer
