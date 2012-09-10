@@ -1148,7 +1148,9 @@ namespace TestSolutionBuilderV1.Views
                     var Include = item.Attribute("Include");
                     return Include.Value.TakeUntilIfAny(",");
                 }
-            ).OrderBy(k => k).ToArray();
+            )
+            .OrderBy(k => k)
+            .ToArray();
 
 
 
