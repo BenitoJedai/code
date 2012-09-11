@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public IFunction Array;
 
-
+ 
         public string defaultStatus;
 
         public IHTMLDocument document;
@@ -205,6 +205,13 @@ namespace ScriptCoreLib.JavaScript.DOM
             add
             {
                 base.InternalEvent(true, value, "load");
+
+                if (this.document.readyState == "complete")
+                {
+                    // raise the event
+                    value(null);
+                    return;
+                }
             }
             [Script(DefineAsStatic = true)]
             remove

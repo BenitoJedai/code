@@ -11,6 +11,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://www.whatwg.org/specs/web-apps/current-work/multipage/dom.html#current-document-readiness
 
     [Script(HasNoPrototype = true)]
     public class IHTMLDocument : IDocument<IHTMLElement>
@@ -19,6 +20,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         /// Enable multitouch in Minefield by setting this field to true.
         /// </summary>
         internal bool multitouchData;
+
+        // http://www.w3schools.com/jsref/prop_doc_readystate.asp
+        // http://msdn.microsoft.com/en-us/library/ie/ms534359(v=vs.85).aspx
+        // http://www.w3.org/TR/2006/WD-XMLHttpRequest-20060405/#dfn-readystate
+        // https://developer.mozilla.org/en-US/docs/DOM/document.readyState
+        public readonly string readyState;
+
+
 
 
         public IHTMLStyle[] styleSheets;
