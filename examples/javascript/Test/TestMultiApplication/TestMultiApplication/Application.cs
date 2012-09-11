@@ -28,12 +28,13 @@ namespace TestMultiApplication
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new IHTMLButton { innerText = "Other" }.AttachToDocument().onclick +=
+            new IHTMLButton { innerText = "open Other page" }.AttachToDocument().onclick +=
                 delegate
                 {
-                    Native.Window.open("/Other", "_blank");
+                    Native.Window.open("/Other", "_self");
 
                 };
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
@@ -52,12 +53,18 @@ namespace TestMultiApplication
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public OtherApplication(IDefaultPage page)
+        public OtherApplication(IOtherPage page)
         {
-            @"other".ToDocumentTitle();
+            new IHTMLButton { innerText = "open Default page" }.AttachToDocument().onclick +=
+               delegate
+               {
+                   Native.Window.open("/", "_self");
+
+               };
+
             // Send data from JavaScript to the server tier
             service.WebMethod2(
-                @"A string from JavaScript.",
+                @"other",
                 value => value.ToDocumentTitle()
             );
         }
