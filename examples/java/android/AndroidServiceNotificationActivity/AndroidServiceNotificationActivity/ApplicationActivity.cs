@@ -12,6 +12,8 @@ using AndroidServiceNotificationActivity.Library;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
+using ScriptCoreLibJava.Extensions;
 
 namespace AndroidServiceNotificationActivity.Activities
 {
@@ -41,8 +43,15 @@ namespace AndroidServiceNotificationActivity.Activities
             #region startservice
             var startservice = new Button(this);
             startservice.setText("Start Service to send Notification");
-            startservice.setOnClickListener(
-                new startservice_onclick { that = this }
+            startservice.AtClick(
+               delegate
+               {
+                   this.ShowToast("startservice_onclick");
+
+                   var intent = new Intent(this, typeof(NotifyService).ToClass());
+
+                   this.startService(intent);
+               }
             );
             ll.addView(startservice);
             #endregion
@@ -50,8 +59,17 @@ namespace AndroidServiceNotificationActivity.Activities
             #region stopservice
             var stopservice = new Button(this);
             stopservice.setText("Stop Service");
-            stopservice.setOnClickListener(
-                new stopservice_onclick { that = this }
+            stopservice.AtClick(
+                delegate
+                {
+                    this.ShowToast("stopservice_onclick");
+
+                    Intent intent = new Intent();
+                    intent.setAction(NotifyService.ACTION);
+                    intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
+                    this.sendBroadcast(intent);
+
+                }
             );
             ll.addView(stopservice);
             #endregion
@@ -64,51 +82,13 @@ namespace AndroidServiceNotificationActivity.Activities
         }
 
 
-        class startservice_onclick : android.view.View.OnClickListener
-        {
-            public ApplicationActivity that;
-
-            public void onClick(View v)
-            {
-                that.ShowToast("startservice_onclick");
-
-                var intent = new Intent(that, NotifyService.Class);
-                that.startService(intent);
-
-            }
-        }
-
-        class stopservice_onclick : android.view.View.OnClickListener
-        {
-            public ApplicationActivity that;
-
-
-            public void onClick(View v)
-            {
-                that.ShowToast("stopservice_onclick");
-
-                Intent intent = new Intent();
-                intent.setAction(NotifyService.ACTION);
-                intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
-                that.sendBroadcast(intent);
-
-            }
-        }
+      
 
 
     }
 
     public sealed class NotifyService : Service
     {
-        public static Class Class
-        {
-            [Script(OptimizedCode = "return AndroidServiceNotificationActivity.Activities.NotifyService.class;")]
-            get
-            {
-                return null;
-            }
-        }
-
         public const string ACTION = "NotifyServiceAction";
 
         public const int RQS_STOP_SERVICE = 1;
