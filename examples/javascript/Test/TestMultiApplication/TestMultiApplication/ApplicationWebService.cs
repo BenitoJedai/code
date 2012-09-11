@@ -28,25 +28,42 @@ namespace TestMultiApplication
         {
             if (h.Context.Request.Path == "/Other")
             {
-                h.Applications[1].With(
-                    Other =>
-                    {
-                        h.Context.Response.Write(
-                            Other.PageSource
-                        );
+                var Other = h.Applications[1];
 
-                        Other.References.WithEach(
-                            r =>
-                            {
-                                h.Context.Response.Write(
-                                    "<script src='" + r + ".js'></script>"
-                                );
-                            }
-                        );
-                    }
-                );
+                h.Context.Response.ContentType = "text/html";
 
-                
+                var xml = XElement.Parse(Other.PageSource);
+
+
+                //xml.Element("h3").Value = h.Context.Request.UserAgent;
+                xml.Element("h3").Value = h.Context.Request.Headers["User-Agent"];
+
+                //h.Context.Response.Write(
+                //          "<script type='text/xml' class='" + Other.TypeName + "'></script>"
+                //      );
+
+             
+                foreach (var r in Other.References)
+                {
+                    xml.Add(
+                        new XElement("script",
+                            new XAttribute("src", r.AssemblyFile + ".js"),
+                            
+                            // android otherwise closes the tag?
+                            " "
+                        )
+                    );
+
+                    //h.Context.Response.Write(
+                    //    "<script src='" + r.AssemblyFile + ".js'></script>"
+                    //);
+                }
+
+                h.Context.Response.Write(xml.ToString());
+
+                h.CompleteRequest();
+
+
             }
         }
     }
