@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         readonly internal IDOMImplementation implementation;
 
+  
+
         [Script(DefineAsStatic = true)]
         public new void appendChild<TChild>(TChild e)
         {

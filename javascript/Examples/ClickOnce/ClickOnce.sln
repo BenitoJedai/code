@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnce", "ClickOnce\ClickOnce.csproj", "{AD3A71E2-3D8C-408A-BE0E-142B62F636C7}"
 EndProject
 Global
