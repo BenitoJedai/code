@@ -89,6 +89,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 "
 			).apply(caption_foreground);
 
+            caption_foreground.onselectstart +=
+                (e) =>
+                {
+                    e.PreventDefault();
+                    e.StopPropagation();
+                };
 
 			// http://developer.apple.com/mac/library/documentation/AppleApplications/Reference/Dashboard_Ref/Dashboard_Ref.pdf
 			// for some reason we cannot exclude caption
