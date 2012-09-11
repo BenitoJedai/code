@@ -1,6 +1,7 @@
-// For more information visit:
-// http://studio.jsc-solutions.net/
-
+using AvalonColoredTank.Avalon.Images;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Ultra.Components.Avalon.Images;
 using System;
 using System.Linq;
 using System.Text;
@@ -8,20 +9,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml;
 using System.Xml.Linq;
-using ColorTank;
-using ColorTank.Avalon.Images;
-using ScriptCoreLib;
-using ScriptCoreLib.Extensions;
-using ScriptCoreLib.Shared.Avalon.Extensions;
-using ScriptCoreLib.Ultra.Components.Avalon.Images;
 
-namespace ColorTank
+namespace AvalonColoredTank
 {
     public class ApplicationCanvas : Canvas
     {
         public const int DefaultWidth = 120 * 4;
         public const int DefaultHeight = 90 * 4;
+
+        public TextBlock s;
+        public TextBlock s2;
 
         public ApplicationCanvas()
         {
@@ -48,12 +47,12 @@ namespace ColorTank
             {
             }.MoveTo(32, 128).AttachTo(this);
 
-            var s = new TextBox
+             s = new TextBlock
             {
-                BorderThickness = new Thickness(0),
-                Foreground = Brushes.Blue,
-                Width = 184,
-                TextAlignment = TextAlignment.Center
+                //BorderThickness = new Thickness(0),
+                //Foreground = Brushes.Blue,
+                //Width = 184,
+                //TextAlignment = TextAlignment.Center
             }.MoveTo(32, 128 + 134).AttachTo(this);
 
             var tank2_bg = new Rectangle
@@ -67,19 +66,19 @@ namespace ColorTank
             {
             }.MoveTo(228, 32).AttachTo(this);
 
-            var s2 = new TextBox
+             s2 = new TextBlock
             {
-                BorderThickness = new Thickness(0),
-                Foreground = Brushes.Blue,
-                Width = 184,
-                TextAlignment = TextAlignment.Center
+                //BorderThickness = new Thickness(0),
+                //Foreground = Brushes.Blue,
+                //Width = 184,
+                //TextAlignment = TextAlignment.Center
             }.MoveTo(228, 32 + 134).AttachTo(this);
 
-            var t = new TextBox
+            var t = new TextBlock
             {
-                BorderThickness = new Thickness(0),
+                //BorderThickness = new Thickness(0),
                 Text = "A dynamically colored tank.",
-                Width = DefaultWidth
+                //Width = DefaultWidth
             }.MoveTo(12, 12).AttachTo(this);
 
 
@@ -89,6 +88,20 @@ namespace ColorTank
             }.MoveTo(DefaultWidth - 128, DefaultHeight - 128).AttachTo(this);
 
 
+            this.Update =
+                (x, y) =>
+                {
+                    var _r = Convert.ToByte(x * 0xFF);
+                    var _g = Convert.ToByte(y * 0xFF);
+                    var _b = Convert.ToByte(0xff - y * 0xFF);
+
+                    s.Text = "red: " + _r + "; green: " + _g + ";";
+                    s2.Text = "green: " + _g + "; blue: " + _b + ";";
+
+
+                    tank_bg.Fill = new SolidColorBrush(Color.FromArgb(0xff, _r, _g, 0));
+                    tank2_bg.Fill = new SolidColorBrush(Color.FromArgb(0xff, 0, _g, _b));
+                };
 
             this.MouseMove +=
                 (sender, args) =>
@@ -106,18 +119,13 @@ namespace ColorTank
                     y = Math.Max(y, 0);
 
 
-                    var _r = Convert.ToByte(x * 0xFF);
-                    var _g = Convert.ToByte(y * 0xFF);
-                    var _b = Convert.ToByte(0xff - y * 0xFF);
-
-                    s.Text = "red: " + _r + "; green: " + _g + ";";
-                    s2.Text = "green: " + _g + "; blue: " + _b + ";";
-
-
-                    tank_bg.Fill = new SolidColorBrush(Color.FromArgb(0xff, _r, _g, 0));
-                    tank2_bg.Fill = new SolidColorBrush(Color.FromArgb(0xff, 0, _g, _b));
+                    Update(x, y);
                 };
-        }
-    }
 
+           
+        }
+
+        public Action<double, double> Update;
+
+    }
 }
