@@ -30,7 +30,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			}
 		}
 
-		NameValueCollection InternalForm;
+        #region Form
+        NameValueCollection InternalForm;
 
 		public NameValueCollection Form
 		{
@@ -85,8 +86,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
                 }
             }
         }
+        #endregion
 
-		[Script]
+        #region QueryString
+        [Script]
 		public class InternalQueryStringParser : NameValueCollection
 		{
 			// code duplication :)
@@ -164,6 +167,34 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 
 				return InternalQueryString;
 			}
-		}
-	}
+        }
+        #endregion
+
+        NameValueCollection InternalHeaders;
+        public NameValueCollection Headers
+        {
+            get
+            {
+                if (InternalHeaders == null)
+                {
+                    InternalHeaders = new NameValueCollection();
+
+                    var e = this.InternalContext.getHeaderNames();
+
+                    while (e.hasMoreElements())
+                    {
+                        var name = (string)e.nextElement();
+
+                        var value = this.InternalContext.getHeader(name);
+
+                        InternalHeaders[name] = value;
+                    }
+
+                }
+
+                return InternalHeaders;
+            }
+        }
+
+    }
 }
