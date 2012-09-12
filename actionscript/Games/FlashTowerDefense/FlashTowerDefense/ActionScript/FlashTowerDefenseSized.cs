@@ -700,6 +700,11 @@ namespace FlashTowerDefense.ActionScript
                      PrebuiltTurret.AnimationEnabled = false;
                  };
 
+            GetWarzone().mouseOut +=
+                delegate
+                {
+                    PrebuiltTurret.AnimationEnabled = false;
+                };
 
             GetWarzone().mouseMove +=
                 e =>
