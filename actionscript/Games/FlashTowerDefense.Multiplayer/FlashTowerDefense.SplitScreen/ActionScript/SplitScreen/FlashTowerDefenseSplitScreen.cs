@@ -90,7 +90,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
             };
 
 
-            Action<SharedClass1.IEvents, SharedClass1.RemoteEvents.WithUserArgumentsRouter> AttachRouter =
+            Action<SharedClass1.IEvents, SharedClass1.RemoteEvents.WithUserArgumentsRouter_Broadcast> AttachRouter =
                 (from, _Router) =>
                 {
                     from.TeleportTo += _Router.UserTeleportTo;
@@ -111,7 +111,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
 
             AttachRouter(
                 left_to_server,
-                new SharedClass1.RemoteEvents.WithUserArgumentsRouter
+                new SharedClass1.RemoteEvents.WithUserArgumentsRouter_Broadcast
                 {
                     user = player_left.UserId,
                     Target = player_left.ToOthers
@@ -130,7 +130,7 @@ namespace FlashTowerDefense.ActionScript.SplitScreen
 
             AttachRouter(
                   right_to_server,
-                  new SharedClass1.RemoteEvents.WithUserArgumentsRouter
+                  new SharedClass1.RemoteEvents.WithUserArgumentsRouter_Broadcast
                   {
                       user = player_right.UserId,
                       Target = player_right.ToOthers

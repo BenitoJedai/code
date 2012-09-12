@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 
 using FlashTowerDefense.ActionScript;
+using ScriptCoreLib.ActionScript.MochiLibrary.Ad;
 
 namespace FlashTowerDefense.ActionScript.SplitScreen.Monetized
 {
