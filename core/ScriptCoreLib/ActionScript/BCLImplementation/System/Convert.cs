@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
+    // move to Shared!
 	[Script(Implements = typeof(global::System.Convert))]
 	internal class __Convert
 	{
@@ -101,5 +102,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 			return 0;
 		}
+
+        public static int ToInt32(string value)
+        {
+            return int.Parse(value);
+        }
 	}
 }
