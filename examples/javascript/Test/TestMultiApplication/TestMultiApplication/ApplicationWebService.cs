@@ -37,6 +37,7 @@ namespace TestMultiApplication
 
                 //xml.Element("h3").Value = h.Context.Request.UserAgent;
                 xml.Element("h3").Value = h.Context.Request.Headers["User-Agent"];
+                xml.Element("h4").Value = h.Context.Request.Headers["Host"];
 
                 //h.Context.Response.Write(
                 //          "<script type='text/xml' class='" + Other.TypeName + "'></script>"
