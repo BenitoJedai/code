@@ -51,7 +51,7 @@ echo - %2
 :: -compiler.verbose-stacktraces 
 ::call C:\util\flex\bin\mxmlc.exe -compiler.verbose-stacktraces -warnings=false   -incremental=true -output=%2.swf -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe -optimize -warnings=false   -incremental=true -output=%2.swf -sp=. %1/%2.as
-call C:\util\flex_sdk_4.1.0.16076\bin\mxmlc.exe -static-link-runtime-shared-libraries=true  --target-player=10.1.0 -debug -compiler.verbose-stacktraces   -keep-as3-metadata -warnings=false   -incremental=true -output=%2.swf -sp=. %1/%2.as
+call C:\util\flex_sdk_4.6\bin\mxmlc.exe -static-link-runtime-shared-libraries=true  --target-player=10.1.0 -debug -compiler.verbose-stacktraces   -keep-as3-metadata -warnings=false   -incremental=true -output=%2.swf -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe -warnings=false  -compiler.verbose-stacktraces  -keep-as3-metadata -incremental=true -output=%2.swf -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe  -compiler.verbose-stacktraces  -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as

@@ -48,13 +48,13 @@ namespace LANMulticast.Components
                                 if (connected)
                                 {
 
-                                    RaiseMessage("write: " + x);
+                                    RaiseMessage("write: " + message);
 
                                     group.post(message);
                                 }
                                 else
                                 {
-                                    RaiseMessage("skip: " + x);
+                                    RaiseMessage("skip: " + message);
                                 }
                             };
 
@@ -74,6 +74,7 @@ namespace LANMulticast.Components
                                     RaiseMessage("read: " + k);
                                 }
                             };
+
 
                         return;
                     }

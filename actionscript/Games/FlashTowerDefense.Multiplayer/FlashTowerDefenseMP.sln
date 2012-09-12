@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.ServerTest", "ServerTest\FlashTowerDefense.ServerTest.csproj", "{3E6A79B3-2526-4BBE-9EA4-A68F7D0B3C75}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B939002B-9922-4999-B943-6C0DF657D25B} = {B939002B-9922-4999-B943-6C0DF657D25B}
