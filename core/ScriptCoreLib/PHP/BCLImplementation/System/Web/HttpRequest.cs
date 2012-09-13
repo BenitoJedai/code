@@ -34,6 +34,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
             }
         }
 
+        #region Form
         NameValueCollection InternalForm;
         public NameValueCollection Form
         {
@@ -50,6 +51,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
 
             }
         }
+        #endregion
 
         private void InitializeForm()
         {
@@ -61,7 +63,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
             }
         }
 
-
+        #region QueryString
         NameValueCollection InternalQueryString;
         public NameValueCollection QueryString
         {
@@ -83,5 +85,34 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
                 return InternalQueryString;
             }
         }
+        #endregion
+
+        
+        #region Headers
+        NameValueCollection InternalHeaders;
+        public NameValueCollection Headers 
+        {
+            get
+            {
+                if (InternalHeaders == null)
+                {
+                    InternalHeaders = new NameValueCollection();
+
+                    var a = Native.API.getallheaders() ;
+                    var Values = (string[])Native.API.array_values(a);
+                    var Keys = (string[])Native.API.array_keys(a);
+
+                    for (int i = 0; i < Keys.Length; i++)
+                    {
+                        InternalHeaders[Keys[i]] = Values[i];
+                    }
+                
+                }
+
+                return InternalHeaders;
+            }
+        }
+        #endregion
+
     }
 }
