@@ -42,20 +42,22 @@ namespace NASDAQSNA
 
             var values = data.Split(new[] { "values:[" }, StringSplitOptions.RemoveEmptyEntries);
 
-            values.Skip(1).WithEach(
-                x =>
-                {
-                    var y = x.TakeUntilLastOrEmpty("]");
-                    var z = y.Split(new[] { "\",\"" }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 1; i < values.Length; i++)
+            {
+                var x = values[i];
 
-                    var ns = z[z.Length - 3].SkipUntilIfAny("\"").TakeUntilLastIfAny("\"");
-                    var id = z[0].SkipUntilIfAny("\"").TakeUntilLastIfAny("\"");
-                    var CompanyName = z[1].SkipUntilIfAny("\"").TakeUntilLastIfAny("\"");
-                    var Price = z[2].SkipUntilIfAny("\"").TakeUntilLastIfAny("\"");
+                var y = x.TakeUntilLastOrEmpty("]");
+                var z = y.Split(new[] { "\",\"" }, StringSplitOptions.RemoveEmptyEntries);
 
-                    yield(ns + ":" + id, CompanyName, Price);
-                }
-            );
+                var ns = z[z.Length - 3].SkipUntilIfAny("\"").TakeUntilLastIfAny("\"");
+                var id = z[0].SkipUntilIfAny("\"").TakeUntilLastIfAny("\"");
+                var CompanyName = z[1].SkipUntilIfAny("\"").TakeUntilLastIfAny("\"");
+                var Price = z[2].SkipUntilIfAny("\"").TakeUntilLastIfAny("\"");
+
+                yield(ns + ":" + id, CompanyName, Price);
+            }
+
+        
         }
     }
 }
