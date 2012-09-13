@@ -8,9 +8,9 @@ namespace ScriptCoreLib.Shared.Drawing.Vector
     
     public interface IAssemblyReferenceToken :
         // ScriptCoreLib.dll
-        ScriptCoreLib.Shared.IAssemblyReferenceToken, 
+        ScriptCoreLib.Shared.IAssemblyReferenceToken
         // ScriptCoreLib.Query.dll
-        ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
+        //ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
     {
 
     }

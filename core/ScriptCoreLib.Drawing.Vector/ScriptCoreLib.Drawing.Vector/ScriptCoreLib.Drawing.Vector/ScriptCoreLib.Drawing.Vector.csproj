@@ -10,13 +10,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScriptCoreLib</RootNamespace>
     <AssemblyName>ScriptCoreLib.Drawing.Vector</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,12 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript\DOM\SVG\ISVGElementBase.cs" />
-    <Compile Include="JavaScript\DOM\SVG\ISVGGElement.cs" />
-    <Compile Include="JavaScript\DOM\SVG\ISVGImageElement.cs" />
-    <Compile Include="JavaScript\DOM\SVG\ISVGRectElement.cs" />
-    <Compile Include="JavaScript\DOM\SVG\ISVGSVGElement.cs" />
-    <Compile Include="JavaScript\DOM\SVG\ISVGTextElement.cs" />
     <Compile Include="JavaScript\DOM\VML\IVMLElementBase.cs" />
     <Compile Include="JavaScript\DOM\VML\IVMLGroup.cs" />
     <Compile Include="JavaScript\DOM\VML\IVMLImage.cs" />
