@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot", "Mandelbrot\Mandelbrot.csproj", "{EB1123DC-6BE8-439C-98CC-E5AFF14B5A0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Forms", "Mandelbrot.Forms\Mandelbrot.Forms.csproj", "{58EB7131-0C36-4BB8-BB5B-0F3359877789}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.RedAvalon", "Mandelbrot.RedAvalon\Mandelbrot.RedAvalon.csproj", "{C405C162-F887-4D51-B1CD-0590F25D4A52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Core", "Mandelbrot.Core\Mandelbrot.Core.csproj", "{E53E9410-D39A-408C-A792-A38C13E7B2DD}"
@@ -18,10 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.BlueAvalon", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.BlueAvalon.Web", "Mandelbrot.BlueAvalon.Web\Mandelbrot.BlueAvalon.Web.csproj", "{F2CDD396-96BF-4716-8BCF-5EE5B3108165}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.PinkApplet", "Mandelbrot.PinkApplet\Mandelbrot.PinkApplet.csproj", "{C03D019F-8614-482F-9697-5ACC59F3C724}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Document", "Mandelbrot.Document\Mandelbrot.Document.csproj", "{2551C214-2F6E-4EAD-9CDF-39567BC58BB5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mandelbrot.Flash", "Mandelbrot.Flash\Mandelbrot.Flash.csproj", "{904F170B-10C6-47A3-B0AB-2B52AD783EBA}"
 EndProject
 Global
@@ -34,10 +28,6 @@ Global
 		{EB1123DC-6BE8-439C-98CC-E5AFF14B5A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB1123DC-6BE8-439C-98CC-E5AFF14B5A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB1123DC-6BE8-439C-98CC-E5AFF14B5A0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58EB7131-0C36-4BB8-BB5B-0F3359877789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58EB7131-0C36-4BB8-BB5B-0F3359877789}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58EB7131-0C36-4BB8-BB5B-0F3359877789}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58EB7131-0C36-4BB8-BB5B-0F3359877789}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C405C162-F887-4D51-B1CD-0590F25D4A52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C405C162-F887-4D51-B1CD-0590F25D4A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C405C162-F887-4D51-B1CD-0590F25D4A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,14 +48,6 @@ Global
 		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2CDD396-96BF-4716-8BCF-5EE5B3108165}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C03D019F-8614-482F-9697-5ACC59F3C724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C03D019F-8614-482F-9697-5ACC59F3C724}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C03D019F-8614-482F-9697-5ACC59F3C724}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C03D019F-8614-482F-9697-5ACC59F3C724}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2551C214-2F6E-4EAD-9CDF-39567BC58BB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2551C214-2F6E-4EAD-9CDF-39567BC58BB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2551C214-2F6E-4EAD-9CDF-39567BC58BB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2551C214-2F6E-4EAD-9CDF-39567BC58BB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{904F170B-10C6-47A3-B0AB-2B52AD783EBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{904F170B-10C6-47A3-B0AB-2B52AD783EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{904F170B-10C6-47A3-B0AB-2B52AD783EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
