@@ -8,11 +8,11 @@
     <ProjectGuid>{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MandelbrotFormsControl</RootNamespace>
-    <AssemblyName>MandelbrotFormsControl</AssemblyName>
+    <RootNamespace>PlasmaFormsControl</RootNamespace>
+    <AssemblyName>PlasmaFormsControl</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>MandelbrotFormsControl.Program</StartupObject>
+    <StartupObject>PlasmaFormsControl.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,18 +114,18 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="MandelbrotFormsControl.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\MandelbrotFormsControl.AssetsLibrary.dll</HintPath>
+    <Reference Include="PlasmaFormsControl.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\PlasmaFormsControl.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="Library\MandelbrotComponent.Designer.cs">
-      <DependentUpon>MandelbrotComponent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Library\MandelbrotComponent.cs">
+    <Compile Include="Library\PlasmaControl.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Library\PlasmaControl.Designer.cs">
+      <DependentUpon>PlasmaControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationControl.cs">
@@ -149,8 +149,8 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Library\MandelbrotComponent.resx">
-      <DependentUpon>MandelbrotComponent.cs</DependentUpon>
+    <EmbeddedResource Include="Library\PlasmaControl.resx">
+      <DependentUpon>PlasmaControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
