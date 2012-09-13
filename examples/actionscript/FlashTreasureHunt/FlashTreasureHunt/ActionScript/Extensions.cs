@@ -85,10 +85,10 @@ namespace FlashTreasureHunt.ActionScript
 			return r;
 		}
 
-		public static IEnumerable<DisplayObject> Siblings(this DisplayObject e)
-		{
-			return e.parent.Children().Where(k => k != e);
-		}
+        //public static IEnumerable<DisplayObject> Siblings(this DisplayObject e)
+        //{
+        //    return e.parent.Children().Where(k => k != e);
+        //}
 
 		public static void InvokeWhenStageIsReady(this DisplayObject o, Action a)
 		{

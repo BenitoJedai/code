@@ -141,7 +141,7 @@ namespace FlashTreasureHunt.ActionScript
 					NextFullscreenMode = !e.fullScreen;
 
 					// hide chat while fullscreen zoom
-					this.GetStageChild().Siblings().ForEach(k => k.visible = !e.fullScreen);
+                    //this.GetStageChild().Siblings().ForEach(k => k.visible = !e.fullScreen);
 				};
 			
 		

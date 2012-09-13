@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowNetworkInterfaces", "ShowNetworkInterfaces\ShowNetworkInterfaces.csproj", "{48E4F1E9-4208-4805-9451-912BB9703E6B}"
 EndProject
 Global

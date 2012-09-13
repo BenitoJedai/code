@@ -48,5 +48,5 @@ echo - %2
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
 
-call C:\util\flex_sdk_4.1.0.16076\bin\mxmlc.exe -static-link-runtime-shared-libraries=true -debug -target-player=10.0.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+call C:\util\flex_sdk_4.6\bin\mxmlc.exe -static-link-runtime-shared-libraries=true -debug -swf-version=13 -target-player=11.1.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof

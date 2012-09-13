@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTreasureHunt", "FlashTreasureHunt\FlashTreasureHunt.csproj", "{53FAB63F-CFB0-4B48-A7BA-26E3CFAEB916}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTreasureHunt.MultiPlayer", "FlashTreasureHunt.MultiPlayer\FlashTreasureHunt.MultiPlayer.csproj", "{766A85A3-BFFF-492E-BBFD-03F15CE498D8}"
