@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IComparer.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\Extensions.cs" />

@@ -89,9 +89,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Configuration\SettingsBase.cs">
       <Link>BCLImplementation\System\Configuration\SettingsBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Convert.cs">
-      <Link>BCLImplementation\System\Convert.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs">
       <Link>BCLImplementation\System\DateTime.cs</Link>
     </Compile>
@@ -628,6 +625,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Convert.cs">
+      <Link>BCLImplementation\System\Convert.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\EventArgs.cs">
       <Link>BCLImplementation\System\EventArgs.cs</Link>
