@@ -1,6 +1,13 @@
 :mxmlc
 @echo off
 
+set TargetFileName=%2
+set ConfigurationName=%3
+
+if %ConfigurationName%==Debug (
+  echo Debug mode will not perform post build!
+  goto :eof
+)
 
 
 :: Dll name
@@ -16,7 +23,7 @@ if '%ERRORLEVEL%' == '-1' (
 goto :eof
 
 :jsc
-pushd ..\bin\debug
+pushd ..\bin\%ConfigurationName%
 
 call c:\util\jsc\bin\jsc.exe %1.dll  -as
 
@@ -26,7 +33,7 @@ goto :eof
 
 :mxmlc
 @echo off
-pushd ..\bin\debug\web
+pushd ..\bin\%ConfigurationName%\web
 
 
 
@@ -40,10 +47,6 @@ goto :eof
 echo - %2
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
-:: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-::call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-call C:\util\flex\bin\mxmlc.exe -debug -use-network=false -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-::call C:\util\flex\bin\mxmlc.exe -optimize -use-network=false -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 
-
+call C:\util\flex_sdk_4.6\bin\mxmlc.exe  -use-network=false -static-link-runtime-shared-libraries=true -debug -swf-version=13 -target-player=11.1.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof
