@@ -57,6 +57,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 			return this;
 		}
 
+        public __StringBuilder Append(char e)
+        {
+            _Value += new string( e, 1);
+
+            return this;
+        }
+
         public __StringBuilder Append(string value, int startIndex, int count)
         {
             return Append(value.Substring(startIndex, count));

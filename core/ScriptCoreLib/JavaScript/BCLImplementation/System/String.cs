@@ -132,7 +132,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public int IndexOf(char c)
         {
-            return InternalIndexOf(this, c);
+            return InternalIndexOf(this, new string(c, 1));
         }
 
         [Script(DefineAsStatic = true)]

@@ -251,6 +251,7 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="PHP\BCLImplementation\System\Comparision.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Single.cs" />
     <Compile Include="PHP\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\MemoryStream.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\ASCIIEncoding.cs" />
@@ -385,9 +386,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Console.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Convert.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Converter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Boolean.cs" />
@@ -691,7 +689,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Convert.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Array.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Comparision.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
@@ -788,7 +785,7 @@
     <Compile Include="PHP\BCLImplementation\System\ComponentModel\ISite.cs" />
     <Compile Include="PHP\BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Convert.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Convert.cs" />
     <Compile Include="PHP\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\FileStream.cs" />
