@@ -70,6 +70,7 @@
             <RequiredTargetFramework>3.5</RequiredTargetFramework>
         </Reference>
         <Reference Include="System.Data"/>
+        <Reference Include="System.Numerics"/>
         <Reference Include="System.Web"/>
         <Reference Include="System.Xaml"/>
         <Reference Include="System.Xml"/>
