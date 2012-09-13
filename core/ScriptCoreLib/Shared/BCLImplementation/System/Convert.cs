@@ -1,14 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using ScriptCoreLib;
 using System.IO;
 
-namespace ScriptCoreLibJava.BCLImplementation.System
+namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Convert))]
     internal class __Convert
     {
+
+
+        public static long ToInt64(double value)
+        {
+            return (long)global::System.Math.Floor(value);
+        }
+
+
+
+
+        public static string ToString(char value)
+        {
+            return new string(value, 1);
+        }
+
+
         public static string ToString(bool value)
         {
             if (value)
@@ -29,15 +45,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return "" + value;
         }
 
-        public static string ToString(char value)
-        {
-            return new string(new[] { value });
-        }
+    
 
-        public static long ToInt64(double e)
-        {
-            return (long)Math.Round(e);
-        }
 
         public static int ToInt32(byte e)
         {
@@ -175,6 +184,93 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return m.ToArray();
         }
 
+        // 
 
+        public static int ToInt32(int value)
+        {
+            return (int)global::System.Math.Floor((double)value);
+        }
+
+  
+        public static int ToInt32(float value)
+        {
+            return (int)global::System.Math.Floor(value);
+        }
+
+        public static byte ToByte(int value)
+        {
+            return (byte)(value & 0xff);
+
+        }
+
+        public static byte ToByte(double value)
+        {
+            return (byte)(((int)global::System.Math.Floor(value)) & 0xff);
+        }
+
+
+        public static double ToDouble(int value)
+        {
+            return value;
+        }
+
+  
+        public static string ToString(object value)
+        {
+            if (value == null)
+                return null;
+
+            var s = value as string;
+            if (s != null)
+                return s;
+
+            return value.ToString();
+        }
+
+
+       
+        public static double ToDouble(string value)
+        {
+            return double.Parse(value);
+
+        }
+
+        public static float ToSingle(string value)
+        {
+            return float.Parse(value);
+
+        }
+
+        public static bool ToBoolean(int value)
+        {
+            return value != 0;
+        }
+
+        public static int ToInt32(bool value)
+        {
+            if (value)
+                return 1;
+
+            return 0;
+        }
+
+       // ...
+
+     
+
+        public static uint ToUInt32(int value)
+        {
+            return ((uint)value);
+
+        }
+
+        public static uint ToUInt32(long value)
+        {
+            return ((uint)value & 0xffffffff);
+
+        }
+
+      
     }
+
 }

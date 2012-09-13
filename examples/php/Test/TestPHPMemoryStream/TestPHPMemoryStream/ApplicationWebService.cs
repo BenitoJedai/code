@@ -41,7 +41,9 @@ namespace TestPHPMemoryStream
                 w.Append(item.ToString("x2"));
             }
 
-            // "48454c4c4f"
+            w.Append(", " + Convert.ToBase64String(a));
+
+            // {48454c4c4f, SEVMTE8=}
             e = w.ToString();
 
             // Send it back to the caller.

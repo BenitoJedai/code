@@ -50,6 +50,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Text
             return this;
         }
 
+        public __StringBuilder Append(char e)
+        {
+            _Value += new string(e, 1);
+
+            return this;
+        }
+
         public __StringBuilder Append(object value)
         {
             if (value != null)

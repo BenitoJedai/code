@@ -182,6 +182,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return default(string);
         }
 
+        [Script(DefineAsStatic = true)]
+        public int IndexOf(char c)
+        {
+            return ((string)(object)this).IndexOf(new string(c, 1));
+        }
 
         [Script(ExternalTarget = "indexOf")]
         public int IndexOf(string str)
