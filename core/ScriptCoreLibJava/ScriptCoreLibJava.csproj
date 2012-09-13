@@ -187,6 +187,7 @@
     <Compile Include="BCLImplementation\System\Console.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Single.cs" />
     <Compile Include="BCLImplementation\System\DateTime.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -871,6 +872,7 @@
     <Compile Include="java\lang\annotation\Documented.cs" />
     <Compile Include="java\lang\Character.cs" />
     <Compile Include="java\lang\Comparable.cs" />
+    <Compile Include="java\lang\Float.cs" />
     <Compile Include="java\lang\Iterable.cs" />
     <Compile Include="java\lang\LinkageError.cs" />
     <Compile Include="java\lang\Error.cs" />
