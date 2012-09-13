@@ -15,6 +15,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         Timer Target;
 
+        public __Timer() : this(null)
+        {
+
+        }
+
         public __Timer(IContainer e)
         {
             Target = new Timer();
@@ -35,6 +40,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 else
                     Target.Stop();
             }
+        }
+
+
+        public void Start()
+        {
+            this.Enabled = true;
         }
 
         private int _Interval;
