@@ -258,7 +258,6 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Comparision.cs" />
     <Compile Include="PHP\BCLImplementation\System\Single.cs" />
     <Compile Include="PHP\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\MemoryStream.cs" />
@@ -387,7 +386,6 @@
     </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\Queue.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Comparison.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Component.cs" />
@@ -502,7 +500,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\StreamWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\StringWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\TextReader.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Predicate.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Double.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\UInt32.cs" />
@@ -707,7 +704,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Array.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Comparision.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Comparision.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Environment.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\TextWriter.cs" />
@@ -732,7 +729,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\IntPtr.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Math.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NotImplementedException.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Predicate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\Assembly.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\AssemblyName.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MemberInfo.cs" />
@@ -810,7 +806,7 @@
     <Compile Include="PHP\BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="PHP\BCLImplementation\System\Net\WebClient.cs" />
     <Compile Include="PHP\BCLImplementation\System\NotSupportedException.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Predicate.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Predicate.cs" />
     <Compile Include="PHP\BCLImplementation\System\Random.cs" />
     <Compile Include="PHP\BCLImplementation\System\Reflection\FieldInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\Reflection\MemberInfo.cs" />
