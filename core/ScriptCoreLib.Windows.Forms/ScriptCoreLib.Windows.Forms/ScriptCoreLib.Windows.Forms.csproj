@@ -88,6 +88,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Padding.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PaintEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PaintEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Panel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\RadioButton.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TabControl.cs" />

@@ -39,3 +39,5 @@ using ScriptCoreLib;
     ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
     ScriptTypeFilter(ScriptType.JavaScript, "*.Shared")
 ]
+
+[assembly: InternalsVisibleTo("ScriptCoreLib.Windows.Forms")]

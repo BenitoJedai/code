@@ -102,6 +102,7 @@
     <Compile Include="ActionScript\Query\InternalSequenceImplementation.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Runtime\InteropServices\Marshal.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\Encoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\Extensions.cs" />

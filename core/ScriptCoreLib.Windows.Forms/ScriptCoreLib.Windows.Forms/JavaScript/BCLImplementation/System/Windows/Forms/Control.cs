@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
 
     using DOMHandler = global::System.Action<DOM.IEvent>;
+    using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
 
 
     #region Handler
@@ -1083,6 +1084,46 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         #endregion
 
+        protected virtual bool DoubleBuffered { get; set; }
+
+        Action InternalInvalidate;
+
+        public void Invalidate()
+        {
+            if (InternalInvalidate != null)
+                InternalInvalidate();
+
+        }
+        public event PaintEventHandler Paint
+        {
+            add
+            {
+                var g = new __Graphics
+                {
+
+                };
+
+                var a = new __PaintEventArgs
+                {
+                    Graphics = (Graphics)(object)g
+                };
+
+                InternalInvalidate =
+                    delegate
+                    {
+                        Native.Window.requestAnimationFrame +=
+                            delegate
+                            {
+                                value(this, (PaintEventArgs)(object)a);
+                            };
+                    };
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public void Show()
         {
