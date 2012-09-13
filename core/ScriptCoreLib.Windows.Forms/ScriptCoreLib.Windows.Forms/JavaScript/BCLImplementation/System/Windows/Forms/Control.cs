@@ -1103,6 +1103,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 };
 
+                g.AfterDrawImage =
+                    (b, rect) =>
+                    {
+                        // we only care the first time :)
+                        // as we only support one full frame DrawImage call at this time.
+                        g.AfterDrawImage = null;
+
+                        b.InternalCanvas.style.SetLocation(0, 0);
+
+                        this.HTMLTargetContainerRef.appendChild(b.InternalCanvas);
+
+                    };
+
                 var a = new __PaintEventArgs
                 {
                     Graphics = (Graphics)(object)g

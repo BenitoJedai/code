@@ -1,4 +1,3 @@
-using Mandelbrot;
 using MandelbrotFormsControl;
 using System;
 using System.Collections.Generic;
@@ -18,67 +17,20 @@ namespace MandelbrotFormsControl
             this.InitializeComponent();
         }
 
-        private void ApplicationControl_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawImage(
-                bitmap, 
-                rect
-            );
-
-        }
-        Rectangle rect;
-        Bitmap bitmap;
-
+ 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
-            bitmap = new Bitmap(
-                MandelbrotProvider.DefaultWidth,
-                MandelbrotProvider.DefaultHeight
-            );
-            rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+         
+        }
 
-            var shift = 0;
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            mandelbrotComponent1.timer1.Enabled = checkBox1.Checked;
+        }
 
-            Action Refresh =
-                delegate
-                {
-                    var buffer = Mandelbrot.MandelbrotProvider.DrawMandelbrotSet(shift);
-
-                    var data = bitmap.LockBits(
-                        rect,
-                        System.Drawing.Imaging.ImageLockMode.WriteOnly, 
-                        System.Drawing.Imaging.PixelFormat.Format32bppArgb
-                    );
-
-
-                    for (int i = 0; i < buffer.Length; i++)
-                    {
-                        Marshal.WriteInt32(
-                            data.Scan0, 
-                            i * 4, 
-                            unchecked((int)((uint)buffer[i] | 0xff000000))
-                        );
-                    }
-
-
-
-                    bitmap.UnlockBits(data);
-                    this.Invalidate();
-                };
-
-            Refresh();
-
-            var t = new Timer();
-
-            t.Interval = 1;
-            t.Tick +=
-                delegate
-                {
-                    shift += 1;
-                    Refresh();
-                };
-
-            t.Start();
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            mandelbrotComponent2.timer1.Enabled = checkBox2.Checked;
         }
 
     }
