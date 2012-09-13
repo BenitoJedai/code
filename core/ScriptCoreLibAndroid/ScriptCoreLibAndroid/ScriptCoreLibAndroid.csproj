@@ -86,6 +86,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
       <Link>BCLImplementation\System\Collection\Specialized\NameValueCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ComponentModel\Component.cs">
+      <Link>BCLImplementation\System\ComponentModel\Component.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ComponentModel\IComponent.cs">
       <Link>BCLImplementation\System\ComponentModel\IComponent.cs</Link>
     </Compile>
@@ -175,6 +178,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\TcpListener.cs">
       <Link>BCLImplementation\System\Net\Sockets\TcpListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs">
+      <Link>BCLImplementation\System\Net\WebClient.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\NotImplementedException.cs">
       <Link>BCLImplementation\System\NotImplementedException.cs</Link>
@@ -329,6 +335,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\javax\xml\transform\URIResolver.cs">
       <Link>javax\xml\transform\URIResolver.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\BufferedReader.cs">
+      <Link>java\io\BufferedReader.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\File.cs">
       <Link>java\io\File.cs</Link>
     </Compile>
@@ -352,6 +361,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\InputStream.cs">
       <Link>java\io\InputStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\InputStreamReader.cs">
+      <Link>java\io\InputStreamReader.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\OutputStream.cs">
       <Link>java\io\OutputStream.cs</Link>
