@@ -12,50 +12,50 @@ using System.Diagnostics;
 
 namespace Mandelbrot.Document.js
 {
-	[Script(HasNoPrototype = true)]
-	public class IHTMLCanvas : IHTMLElement
-	{
-		public object getContext(string contextId)
-		{
-			return default(object);
-		}
+    //[Script(HasNoPrototype = true)]
+    //public class IHTMLCanvas : IHTMLElement
+    //{
+    //    public object getContext(string contextId)
+    //    {
+    //        return default(object);
+    //    }
 
 
-	}
+    //}
 
 
-	[Script(HasNoPrototype = true)]
-	public class CanvasRenderingContext2D
-	{
-		public readonly IHTMLCanvas canvas;
+    //[Script(HasNoPrototype = true)]
+    //public class CanvasRenderingContext2D
+    //{
+    //    public readonly IHTMLCanvas canvas;
 
-		public ImageData createImageData(int w, int h)
-		{
-			return default(ImageData);
-		}
+    //    public ImageData createImageData(int w, int h)
+    //    {
+    //        return default(ImageData);
+    //    }
 
-		public ImageData getImageData(double dx, double dy, double sw, double sh)
-		{
-			return default(ImageData);
-		}
+    //    public ImageData getImageData(double dx, double dy, double sw, double sh)
+    //    {
+    //        return default(ImageData);
+    //    }
 
-		public void putImageData(object imagedata, double dx, double dy)
-		{
-		}
+    //    public void putImageData(object imagedata, double dx, double dy)
+    //    {
+    //    }
 
-		public void putImageData(object imagedata, double dx, double dy,
-		double dirtyX, double dirtyY, double dirtyWidth, double dirtyHeight)
-		{
-		}
-	}
+    //    public void putImageData(object imagedata, double dx, double dy,
+    //    double dirtyX, double dirtyY, double dirtyWidth, double dirtyHeight)
+    //    {
+    //    }
+    //}
 
-	[Script(HasNoPrototype = true)]
-	public class ImageData
-	{
-		public readonly int width;
-		public readonly int height;
-		public readonly byte[] data;
-	}
+    //[Script(HasNoPrototype = true)]
+    //public class ImageData
+    //{
+    //    public readonly int width;
+    //    public readonly int height;
+    //    public readonly byte[] data;
+    //}
 
 	[Script, ScriptApplicationEntryPoint]
 	public class MandelbrotDocument
@@ -99,7 +99,7 @@ namespace Mandelbrot.Document.js
 							var i4 = i * 4;
 							var j4 = j * 4;
 
-							var offset = i4 + j4 * MandelbrotProvider.DefaultWidth;
+							var offset = (uint)(i4 + j4 * MandelbrotProvider.DefaultWidth);
 
 							x.data[offset + 2] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
 							x.data[offset + 1] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
