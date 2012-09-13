@@ -47,6 +47,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Array.cs">
       <Link>BCLImplementation\System\Array.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Byte.cs">
+      <Link>BCLImplementation\System\Byte.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ArrayList.cs">
       <Link>BCLImplementation\System\Collection\ArrayList.cs</Link>
     </Compile>
@@ -91,6 +94,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs">
       <Link>BCLImplementation\System\DateTime.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Double.cs">
+      <Link>BCLImplementation\System\Double.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Environment.cs">
       <Link>BCLImplementation\System\Environment.cs</Link>
@@ -226,6 +232,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\IEvidenceFactory.cs">
       <Link>BCLImplementation\System\Security\IEvidenceFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Single.cs">
+      <Link>BCLImplementation\System\Single.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\String.cs">
       <Link>BCLImplementation\System\String.cs</Link>
@@ -368,6 +377,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\io\Writer.cs">
       <Link>java\io\Writer.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Byte.cs">
+      <Link>java\lang\Byte.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\CharSequence.cs">
       <Link>java\lang\CharSequence.cs</Link>
     </Compile>
@@ -377,8 +389,14 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\ClassLoader.cs">
       <Link>java\lang\ClassLoader.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Double.cs">
+      <Link>java\lang\Double.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Exception.cs">
       <Link>java\lang\Exception.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Float.cs">
+      <Link>java\lang\Float.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Integer.cs">
       <Link>java\lang\Integer.cs</Link>

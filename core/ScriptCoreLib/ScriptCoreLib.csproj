@@ -67,6 +67,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -258,6 +259,15 @@
     <Compile Include="PHP\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\Encoding.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\HttpApplication.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\HttpCachePolicy.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\HttpContext.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\HttpRequest.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\HttpResponse.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\IHttpHandler.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\Profile\DefaultProfile.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\Profile\ProfileBase.cs" />
     <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XAttribute.cs" />
     <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XContainer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Xml\Linq\XDocument.cs" />
