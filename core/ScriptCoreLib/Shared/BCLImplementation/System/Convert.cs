@@ -184,12 +184,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return m.ToArray();
         }
 
-        // 
-
-        public static int ToInt32(int value)
-        {
-            return (int)global::System.Math.Floor((double)value);
-        }
+        // conflict in java with uint 
+        //public static int ToInt32(int value)
+        //{
+        //    return (int)global::System.Math.Floor((double)value);
+        //}
 
   
         public static int ToInt32(float value)
