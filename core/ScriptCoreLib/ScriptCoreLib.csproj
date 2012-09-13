@@ -252,6 +252,7 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="PHP\BCLImplementation\System\Comparision.cs" />
     <Compile Include="PHP\BCLImplementation\System\InvalidOperationException.cs" />
+    <Compile Include="PHP\BCLImplementation\System\IO\MemoryStream.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\Encoding.cs" />
