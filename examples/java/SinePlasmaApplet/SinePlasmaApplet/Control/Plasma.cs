@@ -6,7 +6,6 @@ using ScriptCoreLib;
 
 namespace SinePlasma.source.java
 {
-	[Script]
 	public static class Plasma
 	{
 		static int width;
