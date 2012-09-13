@@ -94,8 +94,8 @@ namespace ScriptCoreLib.Ultra.WebService
                 Write(this.PageSource);
             }
 
-
-            WriteLine(@"<script type='text/xml' class='" + app.TypeName + "'></script>");
+            // jsc bootstraps always
+            //WriteLine(@"<script type='text/xml' class='" + app.TypeName + "'></script>");
 
             foreach (var item in app.References)
             {
