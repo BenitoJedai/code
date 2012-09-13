@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing.Imaging;
 using System.Drawing;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
 {
@@ -11,5 +12,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
     internal sealed class __BitmapData
     {
         public IntPtr Scan0 { get; set; }
+
+        public ImageData InternalImageData;   
     }
 }
