@@ -22,10 +22,11 @@ namespace MandelbrotFormsControl
         {
             e.Graphics.DrawImage(
                 bitmap, 
-                new Rectangle(0, 0, bitmap.Width, bitmap.Height)
+                rect
             );
 
         }
+        Rectangle rect;
         Bitmap bitmap;
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
@@ -34,6 +35,7 @@ namespace MandelbrotFormsControl
                 MandelbrotProvider.DefaultWidth,
                 MandelbrotProvider.DefaultHeight
             );
+            rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
 
             var shift = 0;
 
@@ -43,7 +45,7 @@ namespace MandelbrotFormsControl
                     var buffer = Mandelbrot.MandelbrotProvider.DrawMandelbrotSet(shift);
 
                     var data = bitmap.LockBits(
-                        new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                        rect,
                         System.Drawing.Imaging.ImageLockMode.WriteOnly, 
                         System.Drawing.Imaging.PixelFormat.Format32bppArgb
                     );
