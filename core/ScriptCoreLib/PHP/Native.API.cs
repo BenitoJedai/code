@@ -39,6 +39,14 @@ namespace ScriptCoreLib.PHP
 				return null;
 			}
 
+            // http://ee.php.net/manual/en/function.array-keys.php
+
+            [Script(IsNative = true)]
+            public static object array_keys(object input)
+            {
+                return null;
+            }
+
 			[Script(IsNative = true)]
 			public static object array_values(object input)
 			{
@@ -1211,7 +1219,15 @@ namespace ScriptCoreLib.PHP
 			{
 
 			}
-		}
+
+            // http://php.net/manual/en/function.getallheaders.php
+
+            [Script(IsNative = true)]
+            internal static object getallheaders()
+            {
+                throw new System.NotImplementedException();
+            }
+        }
 
 
 
