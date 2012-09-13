@@ -115,6 +115,12 @@
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XNode.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XText.cs" />
+    <Compile Include="JavaScript\DOM\SVG\ISVGElementBase.cs" />
+    <Compile Include="JavaScript\DOM\SVG\ISVGGElement.cs" />
+    <Compile Include="JavaScript\DOM\SVG\ISVGImageElement.cs" />
+    <Compile Include="JavaScript\DOM\SVG\ISVGRectElement.cs" />
+    <Compile Include="JavaScript\DOM\SVG\ISVGSVGElement.cs" />
+    <Compile Include="JavaScript\DOM\SVG\ISVGTextElement.cs" />
     <Compile Include="JavaScript\Extensions\XLinqExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ArrayBufferView.cs" />
     <Compile Include="JavaScript\WebGL\Float32Array.cs" />
