@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Mandelbrot.Core
+namespace MandelbrotFormsControl.Library
 {
 	public static class MandelbrotCore
 	{

@@ -38,6 +38,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.BackColor = SystemColors.ButtonFace;
         }
 
+        #region BorderStyle
         BorderStyle _BorderStyle;
         public BorderStyle BorderStyle
         {
@@ -52,8 +53,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTargetRef.ApplyBorderStyle(value);
             }
         }
+        #endregion
 
-        #region
+
+        #region operators
         static public implicit operator UserControl(__UserControl e)
         {
             return (UserControl)(object)e;
@@ -65,6 +68,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        #region Load
         bool InternalBeforeVisibleChangedDone = false;
         public override void InternalBeforeVisibleChanged()
         {
@@ -82,6 +86,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
         public event EventHandler Load;
-        
+        #endregion
+
+
     }
 }

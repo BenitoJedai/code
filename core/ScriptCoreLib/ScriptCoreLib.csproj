@@ -116,6 +116,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XNode.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XText.cs" />
+    <Compile Include="JavaScript\DOM\HTML\CanvasRenderingContext2D.cs" />
+    <Compile Include="JavaScript\DOM\HTML\CanvasPixelArray.cs" />
+    <Compile Include="JavaScript\DOM\HTML\ImageData.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGElementBase.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGGElement.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGImageElement.cs" />

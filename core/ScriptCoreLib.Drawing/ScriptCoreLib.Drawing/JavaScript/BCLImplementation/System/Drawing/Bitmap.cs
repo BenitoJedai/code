@@ -36,8 +36,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
             {
                 var x = this.InternalContext.getImageData(0, 0, this.Width, this.Height);
 
+                var p = new __IntPtr
+                {
+                    PointerToUInt8 = x.data
+                };
+
                 this.InternalBitmapData = new __BitmapData
                 {
+                    Scan0 = (IntPtr)(object)p,
                     InternalImageData = x
                 };
             }

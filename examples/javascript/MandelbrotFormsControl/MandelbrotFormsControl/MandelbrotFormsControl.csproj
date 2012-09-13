@@ -121,6 +121,12 @@
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
+    <Compile Include="Library\MandelbrotComponent.Designer.cs">
+      <DependentUpon>MandelbrotComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Library\MandelbrotComponent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Library\MandelbrotCore.cs" />
     <Compile Include="Library\MandelbrotProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,17 +145,25 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Library\MandelbrotComponent.resx">
+      <DependentUpon>MandelbrotComponent.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
+)
+
+
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

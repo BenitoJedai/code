@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mandelbrot.Core;
 
-namespace Mandelbrot
+namespace MandelbrotFormsControl.Library
 {
 	public static class MandelbrotProvider
 	{

@@ -9,7 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.ScrollableControl))]
     internal class __ScrollableControl : __Control
     {
-
+        #region AutoScroll
         private bool _AutoScroll;
 
         public bool AutoScroll
@@ -26,7 +26,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             }
         }
+        #endregion
 
+        #region AutoScrollMinSize
         Size InternalAutoScrollMinSize;
 
         public Size AutoScrollMinSize
@@ -43,6 +45,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTargetContainerRef.style.minHeight = value.Height + "px";
             }
         }
+        #endregion
+
 
     }
 }
