@@ -233,7 +233,7 @@ namespace ScriptCoreLib.Avalon
 
                 };
 
-            Canvas.SetZIndex(logo, Convert.ToInt32(500));
+            Canvas.SetZIndex(logo, 500);
 
             logo.AttachTo(this).MoveTo(
                 (DefaultWidth - args.ImageDefaultWidth) / 2,
@@ -246,7 +246,7 @@ namespace ScriptCoreLib.Avalon
                 Opacity = 0
             };
 
-            Canvas.SetZIndex(logo_hit, Convert.ToInt32(501));
+            Canvas.SetZIndex(logo_hit, 501);
 
             logo_hit.Cursor = Cursors.Hand;
             logo_hit.AttachTo(this).MoveTo(

@@ -170,6 +170,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
         }
         #endregion
 
+        #region Headers
         NameValueCollection InternalHeaders;
         public NameValueCollection Headers
         {
@@ -195,6 +196,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
                 return InternalHeaders;
             }
         }
+        #endregion
+
 
     }
 }
