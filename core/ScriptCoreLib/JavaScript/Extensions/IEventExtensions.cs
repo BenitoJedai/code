@@ -12,7 +12,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 	{
 		public static double GetOffsetX(this IEvent e, IHTMLElement relativeTo)
 		{
-			__MouseEventArgs m = e;
+			var m = __MouseEventArgs.Of(e);
 
 			var p = m.GetPosition(relativeTo);
 
@@ -21,7 +21,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 		public static double GetOffsetY(this IEvent e, IHTMLElement relativeTo)
 		{
-			__MouseEventArgs m = e;
+			var m = __MouseEventArgs.Of(e);
 
 			var p = m.GetPosition(relativeTo);
 
@@ -159,7 +159,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 
 
-			public static implicit operator __MouseEventArgs(IEvent e)
+			public static __MouseEventArgs Of(IEvent e)
 			{
 				return new __MouseEventArgs
 				{
