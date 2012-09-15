@@ -385,7 +385,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 		#region event onmousedown
-        public event System.Action<IEvent> onmousedown
+        public event System.Action<IMouseDownEvent> onmousedown
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -786,18 +786,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-		void setCapture()
-		{
-		}
-
-		void releaseCapture()
-		{
-		}
+	
 
 		static string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout" };
 
         static System.Action InternalCaptureMouse(IHTMLElement self)
 		{
+            // view-source:http://help.dottoro.com/external/examples/ljrtxexf/setCapture_3.htm
 			// http://www.activewidgets.com/javascript.forum.8933.28/problems-with-version-1-0.html
 
 			if (Expando.Of(self).Contains("setCapture"))
@@ -854,6 +849,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		[Script(DefineAsStatic = true)]
         public System.Action CaptureMouse()
 		{
+            // who is using this?
 			return InternalCaptureMouse(this);
 		}
 
@@ -886,5 +882,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             requestFullscreen.apply(this);
         }
-	}
+
+        internal void setCapture()
+        {
+        }
+
+        internal void releaseCapture()
+        {
+        }
+    }
 }

@@ -42,7 +42,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
         System.Action<IEvent> ondocumentmousemove;
         System.Action<IEvent> ondocumentmouseup;
-        System.Action<IEvent> onmousedown;
+        System.Action<IMouseDownEvent> onmousedown;
 
         // needs to be updated to BCL List
         public global::System.Collections.Generic.List<Point> History;
@@ -137,13 +137,12 @@ namespace ScriptCoreLib.JavaScript.Controls
                 };
 
             onmousedown +=
-                delegate(IEvent ev)
+                ev =>
                 {
                     //mousehover.Stop();
 					
-					// can we behave as opera widget? :)
-					//ev.PreventDefault();
-					//ev.StopPropagation();
+					ev.PreventDefault();
+					ev.StopPropagation();
 
                     DragStartCursorPosition = ev.CursorPosition;
                     
@@ -168,6 +167,8 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                     Control.onmousemove += ondocumentmousemove;
                     Control.onmouseup += ondocumentmouseup;
+
+                    ev.CaptureMouse();
                 };
 
 

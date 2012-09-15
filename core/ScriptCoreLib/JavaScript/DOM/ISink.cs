@@ -1,8 +1,11 @@
 using ScriptCoreLib.JavaScript.Runtime;
+using System;
 
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+
+
     [Script(HasNoPrototype = true)]
     public class ISink
     {
@@ -18,9 +21,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             public string EventAlt;
         }
 
+    
+
         [Script(DefineAsStatic = true, NoExeptions = true)]
         public void InternalEvent(bool bAttach, global::System.Delegate e, EventNames n)
         {
+            // http://help.dottoro.com/ljrtxexf.php
 
             IFunction z = ((BCLImplementation.System.__Delegate)(object)e).InvokePointer;
 
@@ -31,10 +37,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                 if (Expando.InternalIsMember(this, "addEventListener"))
                 {
                     // https://developer.mozilla.org/en-US/docs/DOM/element.addEventListener
-                    addEventListener(n.EventListener, z, true);
+                    addEventListener(n.EventListener, z);
 
                     if (n.EventListenerAlt != null)
-                        addEventListener(n.EventListenerAlt, z, true);
+                        addEventListener(n.EventListenerAlt, z);
                 }
                 else if (Expando.InternalIsMember(this, "attachEvent"))
                 {
@@ -113,24 +119,36 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        internal void addEventListener(string f, System.Delegate e, bool c)
+        public void addEventListener(string f, Action<IEvent> e, bool c = false)
         {
             this.addEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
         }
 
         [Script(DefineAsStatic = true)]
-        internal void removeEventListener(string f, System.Delegate e, bool c)
+        public void removeEventListener(string f, Action<IEvent> e, bool c = false)
+        {
+            this.removeEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void addEventListener(string f, System.Delegate e, bool c = false)
+        {
+            this.addEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void removeEventListener(string f, System.Delegate e, bool c = false)
         {
             this.removeEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
         }
 
 
-        internal void addEventListener(string f, IFunction e, bool c)
+        public void addEventListener(string f, IFunction e, bool c = false)
         {
 
         }
 
-        internal void removeEventListener(string f, IFunction e, bool c)
+        internal void removeEventListener(string f, IFunction e, bool c = false)
         {
 
         }
