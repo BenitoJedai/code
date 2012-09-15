@@ -663,7 +663,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             add
             {
                 InternalEnableMultitouch();
-                this.addEventListener("MozTouchDown", value, false);
+                //this.addEventListener("MozTouchDown", value, false);
+                this.addEventListener("touchstart", value, false);
             }
             [Script(DefineAsStatic = true)]
             remove
@@ -679,7 +680,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             add
             {
                 InternalEnableMultitouch();
-                this.addEventListener("MozTouchMove", value, false);
+                // http://support.mozilla.org/en-US/questions/810808
+                //this.addEventListener("MozTouchMove", value, false);
+                this.addEventListener("touchmove", value, false);
 
             }
             [Script(DefineAsStatic = true)]
@@ -701,7 +704,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             add
             {
                 InternalEnableMultitouch();
-                this.addEventListener("MozTouchUp", value, false);
+                //this.addEventListener("MozTouchUp", value, false);
+                this.addEventListener("touchend", value, false);
             }
             [Script(DefineAsStatic = true)]
             remove

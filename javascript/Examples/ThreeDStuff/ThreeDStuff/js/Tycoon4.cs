@@ -62,8 +62,8 @@ namespace ThreeDStuff.js
             Native.Document.body.style.color = Color.White;
             Native.Document.body.style.backgroundColor = Color.Black;
 
-            var info_text =
-                ((ApplicationDescriptionAttribute)typeof(Tycoon4).GetCustomAttributes(typeof(ApplicationDescriptionAttribute), false).Single()).Description;
+            //var info_text =
+            //    ((ApplicationDescriptionAttribute)typeof(Tycoon4).GetCustomAttributes(typeof(ApplicationDescriptionAttribute), false).Single()).Description;
 
             var info = new IHTMLDiv("loading...");
 
@@ -1853,7 +1853,7 @@ namespace ThreeDStuff.js
                             //    };
 
 
-                            info.innerHTML = info_text;
+                            info.innerHTML = "foo";
 
                             if (!paused)
                                 PauseFogTween.Value = 0;
