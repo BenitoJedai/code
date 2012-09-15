@@ -7,11 +7,36 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+
     // http://www.w3.org/TR/html4/present/frames.html#h-16.5
     [Script(InternalConstructor = true)]
     public class IHTMLIFrame : IHTMLElement
     {
-        public string src;
+        #region
+        [Script(HasNoPrototype = true)]
+        class __IHTMLIFrame
+        {
+            public string src;
+        }
+
+        public string src
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return ((__IHTMLIFrame)(object)this).src;
+            }
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                // do we need this workaround?
+                //contentWindow.document.location.replace(value);
+
+                ((__IHTMLIFrame)(object)this).src = value;
+            }
+        }
+        #endregion
+
 
         // http://stackoverflow.com/questions/65034/remove-border-from-iframe
         public string frameBorder;

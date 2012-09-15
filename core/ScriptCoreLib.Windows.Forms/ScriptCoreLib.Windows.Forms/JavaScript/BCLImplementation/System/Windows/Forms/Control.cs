@@ -214,6 +214,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public Size MinimumSize { get; set; }
+
         public Size Size
         {
             get

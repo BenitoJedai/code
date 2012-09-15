@@ -16,6 +16,11 @@ namespace MichaelVincentProgramManager
 
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.button1.ForeColor = Color.Blue;
+        }
+
 
 
     }

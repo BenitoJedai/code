@@ -37,6 +37,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public override IHTMLElement HTMLTargetRef
+        {
+            get
+            {
+                return HTMLTarget;
+            }
+        }
+
+
         ScriptCoreLib.JavaScript.Controls.DragHelper drag;
         IHTMLDiv CloseButton;
 
@@ -146,6 +155,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             #region CloseButton
             CloseButton = new IHTMLDiv { name = "CloseButton" };
+
+            CloseButton.title = "Close";
+
             CloseButton.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             CloseButton.style.backgroundColor = "red";
             CloseButton.style.height = "18px";
@@ -168,6 +180,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
             target1.appendChild(caption, icon, caption_foreground, container, CloseButton);
+
+            caption_foreground.onmousedown +=
+           delegate
+           {
+               __FormZIndex++;
+
+               HTMLTarget.style.zIndex = __FormZIndex;
+           };
 
             drag = new ScriptCoreLib.JavaScript.Controls.DragHelper(caption_foreground);
 
@@ -193,9 +213,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     caption_foreground.style.cursor = IStyle.CursorEnum.@default;
                 };
 
-            // this should happen during Show?
-            HTMLTarget.AttachToDocument();
+
+
+
         }
+
+        public static int __FormZIndex = 0;
+
 
         public void Close()
         {
@@ -211,13 +235,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return new Size(clientSize.Width + innerborder * 2, clientSize.Height + innerborder * 3 + 26);
         }
 
-        public override IHTMLElement HTMLTargetRef
-        {
-            get
-            {
-                return HTMLTarget;
-            }
-        }
+
 
         public Size ClientSize
         {
@@ -254,5 +272,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             base.RaiseMove(e);
         }
+
+
+        #region Load
+        bool InternalBeforeVisibleChangedDone = false;
+        public override void InternalBeforeVisibleChanged()
+        {
+            if (InternalBeforeVisibleChangedDone)
+                return;
+            InternalBeforeVisibleChangedDone = true;
+
+            InternalRaiseLoad();
+
+            this.HTMLTarget.AttachToDocument();
+
+            InternalRaiseShown();
+        }
+
+        public void InternalRaiseLoad()
+        {
+            if (Load != null)
+                Load(this, new EventArgs());
+        }
+
+        public void InternalRaiseShown()
+        {
+            if (Shown != null)
+                Shown(this, new EventArgs());
+        }
+
+        public event EventHandler Load;
+        public event EventHandler Shown;
+        #endregion
+
     }
 }
