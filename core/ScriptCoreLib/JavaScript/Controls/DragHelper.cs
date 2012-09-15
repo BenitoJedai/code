@@ -14,9 +14,8 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace ScriptCoreLib.JavaScript.Controls
 {
-    [System.Obsolete("To be moved out of CoreLib")]
     [Script]
-    internal class DragHelper
+    public class DragHelper
     {
 
         public bool IsDrag;
@@ -65,13 +64,19 @@ namespace ScriptCoreLib.JavaScript.Controls
                 {
                     if (value)
                     {
-                        Control.onmousedown += onmousedown;
                         Control.ontouchstart += ontouchstart;
+                        Control.ontouchmove += ontouchmove;
+                        Control.ontouchend += ontouchend;
+
+                        Control.onmousedown += onmousedown;
                     }
                     else
                     {
-                        Control.onmousedown -= onmousedown;
                         Control.ontouchstart -= ontouchstart;
+                        Control.ontouchmove -= ontouchmove;
+                        Control.ontouchend -= ontouchend;
+
+                        Control.onmousedown -= onmousedown;
                     }
                 }
 
@@ -90,32 +95,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         {
             Control = c;
 
-            ////var mousehover = new Timer(
-            ////    delegate
-            ////    {
-            ////        Helper.Invoke(Hover);
-            ////    }
-            ////);
-
-            //Control.onmouseover +=
-            //    delegate
-            //    {
-            //        mousehover.StartTimeout();
-            //    };
-
-            //Control.onmouseout +=
-            //    delegate
-            //    {
-            //        mousehover.Stop();
-            //    };
-
-            //Control.onmousemove +=
-            //    delegate
-            //    {
-            //        if (!IsDrag)
-            //            mousehover.StartTimeout(HoverTime);
-            //    };
-
+          
             // instance of event - important for removal
             #region move
             this.ondocumentmousemove = ev =>
@@ -130,11 +110,10 @@ namespace ScriptCoreLib.JavaScript.Controls
             };
             #endregion
 
-            #region end
+            #region ondocumentmouseup
             this.ondocumentmouseup = ev =>
                 {
 
-                    Point p = DragStartCursorPosition - ev.CursorPosition;
 
 
                     IsDrag = false;
@@ -148,27 +127,21 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                     if (ev.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
+                        Point p = DragStartCursorPosition - ev.CursorPosition;
                         if (p.Z < 128)
                         {
                             Helper.Invoke(MiddleClick);
                         }
                     }
                 };
+            #endregion
 
+            #region ontouchend
             this.ontouchend = ev =>
             {
-                var ev_CursorPosition = new Point(ev.touches[0].clientX, ev.touches[0].clientY);
-
-                Point p = DragStartCursorPosition - ev_CursorPosition;
-
-
                 IsDrag = false;
 
                 Helper.Invoke(DragStop);
-
-                Control.ontouchmove -= ontouchmove;
-                Control.ontouchend -= ontouchend;
-
             };
             #endregion
 
@@ -215,7 +188,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                 //mousehover.Stop();
 
                 ev.PreventDefault();
-                ev.StopPropagation();
+                //ev.StopPropagation();
 
                 var ev_CursorPosition = new Point(ev.touches[0].clientX, ev.touches[0].clientY);
 
@@ -240,8 +213,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                 Helper.Invoke(DragStart);
 
-                Control.ontouchmove += ontouchmove;
-                Control.ontouchend += ontouchend;
+
 
                 //ev.CaptureMouse();
             };
