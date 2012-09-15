@@ -29,69 +29,123 @@ namespace TestMouseCapturedMove
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            //page.Foo.onselectstart +=
-            //      e =>
-            //      {
-            //          e.PreventDefault();
-            //          e.StopPropagation();
-            //      };
+            {
 
-            Action<IHTMLElement> c =
-                i =>
-                {
-                    IStyleSheetRule r = null;
+                Action<IHTMLElement> c =
+                    i =>
+                    {
+                        IStyleSheetRule r = null;
 
-                    i.onmousedown +=
+                        i.onmousedown +=
+                            e =>
+                            {
+                                // stop selection
+                                e.CaptureMouse();
+
+                                // this will be used by IE
+                                page.Foo.style.cursor = IStyle.CursorEnum.crosshair;
+
+                                // works in chrome, not IE
+                                //r = IStyleSheet.Default.AddRule("html", rr => rr.style.cursor = IStyle.CursorEnum.move);
+                                r = IStyleSheet.Default.AddRule("*", rr => rr.style.cursor = IStyle.CursorEnum.move);
+
+                                //Native.Document.body.style.cursor = IStyle.CursorEnum.move;
+                                page.Foo.style.backgroundColor = JSColor.Green;
+
+                            };
+
+                        i.onmouseup +=
+                            e =>
+                            {
+                                //Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
+
+                                IStyleSheet.Default.RemoveRule(0);
+                                page.Foo.style.cursor = IStyle.CursorEnum.@default;
+
+                                page.Foo.style.backgroundColor = JSColor.Red;
+
+
+                            };
+                    };
+
+                page.FooBubbler.onmousedown +=
                         e =>
                         {
-                            // stop selection
-                            e.CaptureMouse();
-
-                            // this will be used by IE
-                            page.Foo.style.cursor = IStyle.CursorEnum.crosshair;
-
-                            // works in chrome, not IE
-                            //r = IStyleSheet.Default.AddRule("html", rr => rr.style.cursor = IStyle.CursorEnum.move);
-                            r = IStyleSheet.Default.AddRule("*", rr => rr.style.cursor = IStyle.CursorEnum.move);
-
-                            //Native.Document.body.style.cursor = IStyle.CursorEnum.move;
-                            page.Foo.style.backgroundColor = JSColor.Green;
+                            page.FooBubbler.style.backgroundColor = JSColor.Green;
 
                         };
 
-                    i.onmouseup +=
-                        e =>
-                        {
-                            //Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
-
-                            IStyleSheet.Default.RemoveRule(0);
-                            page.Foo.style.cursor = IStyle.CursorEnum.@default;
-
-                            page.Foo.style.backgroundColor = JSColor.Red;
-
-
-                        };
-                };
-
-            page.FooBubbler.onmousedown +=
+                page.FooBubbler.onmouseup +=
                     e =>
                     {
-                        page.FooBubbler.style.backgroundColor = JSColor.Green;
+                        page.FooBubbler.style.backgroundColor = JSColor.Red;
+
 
                     };
 
-            page.FooBubbler.onmouseup +=
-                e =>
-                {
-                    page.FooBubbler.style.backgroundColor = JSColor.Red;
+                c(page.Foo);
+                c(page.CaptureTest);
+
+            }
+
+            {
+
+                Action<IHTMLElement> c =
+                    i =>
+                    {
+                        IStyleSheetRule r = null;
+
+                        i.ontouchstart +=
+                            e =>
+                            {
+                                // stop selection
+                                //e.CaptureMouse();
+
+                                // this will be used by IE
+                                page.Foo.style.cursor = IStyle.CursorEnum.crosshair;
+
+                                // works in chrome, not IE
+                                //r = IStyleSheet.Default.AddRule("html", rr => rr.style.cursor = IStyle.CursorEnum.move);
+                                r = IStyleSheet.Default.AddRule("*", rr => rr.style.cursor = IStyle.CursorEnum.move);
+
+                                //Native.Document.body.style.cursor = IStyle.CursorEnum.move;
+                                page.Foo.style.backgroundColor = JSColor.Green;
+
+                            };
+
+                        i.ontouchend +=
+                            e =>
+                            {
+                                //Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
+
+                                IStyleSheet.Default.RemoveRule(0);
+                                page.Foo.style.cursor = IStyle.CursorEnum.@default;
+
+                                page.Foo.style.backgroundColor = JSColor.Red;
 
 
-                };
+                            };
+                    };
 
-            c(page.Foo);
-            c(page.CaptureTest);
-            c(page.testButton);
+                page.FooBubbler.ontouchstart +=
+                        e =>
+                        {
+                            page.FooBubbler.style.backgroundColor = JSColor.Green;
 
+                        };
+
+                page.FooBubbler.ontouchend +=
+                    e =>
+                    {
+                        page.FooBubbler.style.backgroundColor = JSColor.Red;
+
+
+                    };
+
+                c(page.Bar);
+                c(page.BarButton);
+
+            }
 
 
             @"Hello world".ToDocumentTitle();

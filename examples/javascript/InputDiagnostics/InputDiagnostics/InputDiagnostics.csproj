@@ -8,11 +8,11 @@
     <ProjectGuid>{F08ED261-1B44-4EAF-AC73-FC089B672D4C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestMouseCapturedMove</RootNamespace>
-    <AssemblyName>TestMouseCapturedMove</AssemblyName>
+    <RootNamespace>InputDiagnostics</RootNamespace>
+    <AssemblyName>InputDiagnostics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>TestMouseCapturedMove.Program</StartupObject>
+    <StartupObject>InputDiagnostics.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -115,8 +115,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="TestMouseCapturedMove.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TestMouseCapturedMove.AssetsLibrary.dll</HintPath>
+    <Reference Include="InputDiagnostics.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\InputDiagnostics.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
