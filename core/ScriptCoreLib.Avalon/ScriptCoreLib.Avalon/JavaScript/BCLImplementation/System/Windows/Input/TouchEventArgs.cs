@@ -12,10 +12,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
     [Script(ImplementsViaAssemblyQualifiedName = "System.Windows.Input.TouchEventArgs, PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
     internal class __TouchEventArgs : __InputEventArgs
     {
-        internal ITouchEvent InternalValue;
+        internal ScriptCoreLib.JavaScript.DOM.Touch InternalValue;
+        internal ScriptCoreLib.JavaScript.DOM.TouchEvent InternalEvent;
 
-        // While targeting .NET 3.5 framework we still need to let jsc know 
-        // that if it is running under .NET 4.0 framework we have some interests.
 
         __TouchDevice InternalTouchDevice;
         public __TouchDevice TouchDevice
@@ -26,8 +25,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
                 {
                     InternalTouchDevice = new __TouchDevice
                     {
-                        Id = this.InternalValue.streamId
                     };
+
+                    if (this.InternalValue != null)
+                        InternalTouchDevice.Id = this.InternalValue.identifier;
+
+
                 }
                 return InternalTouchDevice;
             }
@@ -42,9 +45,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 
             var s = _relativeTo.InternalGetDisplayObjectDirect();
 
+            var m = new IEventExtensions.__MouseEventArgs 
+            {
+                Internal_OffsetX = this.InternalValue.clientX,
+				Internal_OffsetY = this.InternalValue.clientY,
+				Internal_Element = (IHTMLElement)this.InternalEvent.Element
+            };
+            var p = m.GetPosition(_relativeTo.InternalGetDisplayObjectDirect());
+
             var Position = new Point(
-                    this.InternalValue.GetOffsetX(s),
-                    this.InternalValue.GetOffsetY(s)
+                    p.X,
+                    p.Y
                 );
 
             return new __TouchPoint
