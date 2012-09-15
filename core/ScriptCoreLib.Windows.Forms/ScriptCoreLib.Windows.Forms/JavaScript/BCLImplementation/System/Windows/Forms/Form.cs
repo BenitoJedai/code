@@ -159,6 +159,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButton.style.textAlign = IStyle.TextAlignEnum.center;
             CloseButton.style.fontWeight = "bold";
             CloseButton.style.cursor = IStyle.CursorEnum.@default;
+            CloseButton.onmouseover +=
+                delegate
+                {
+                    CloseButton.style.color = JSColor.Red;
+                };
+
+            CloseButton.onmouseout +=
+                delegate
+                {
+                    CloseButton.style.color = JSColor.None;
+                };
 
             var CloseButtonContent = new IHTMLDiv { }.AttachTo(CloseButton);
 
@@ -168,6 +179,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButtonContent.style.bottom = "0";
             CloseButtonContent.style.right = "0";
 
+            
 
             CloseButtonContent.title = "Close";
             CloseButtonContent.innerHTML = "&times";
