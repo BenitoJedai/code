@@ -30,10 +30,11 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 if (Expando.InternalIsMember(this, "addEventListener"))
                 {
-                    addEventListener(n.EventListener, z, false);
+                    // https://developer.mozilla.org/en-US/docs/DOM/element.addEventListener
+                    addEventListener(n.EventListener, z, true);
 
                     if (n.EventListenerAlt != null)
-                        addEventListener(n.EventListenerAlt, z, false);
+                        addEventListener(n.EventListenerAlt, z, true);
                 }
                 else if (Expando.InternalIsMember(this, "attachEvent"))
                 {
@@ -45,26 +46,29 @@ namespace ScriptCoreLib.JavaScript.DOM
                     }
 
                 }
+
+                return;
             }
-            else
+
+            #region remove
+            if (Expando.InternalIsMember(this, "removeEventListener"))
             {
-                if (Expando.InternalIsMember(this, "removeEventListener"))
-                {
-                    removeEventListener(n.EventListener, z, false);
+                removeEventListener(n.EventListener, z, false);
 
-                    if (n.EventListenerAlt != null)
-                        removeEventListener(n.EventListenerAlt, z, false);
-                } 
-                else if (Expando.InternalIsMember(this, "detachEvent"))
-                {
-                    detachEvent(n.Event, z);
+                if (n.EventListenerAlt != null)
+                    removeEventListener(n.EventListenerAlt, z, false);
+            }
+            else if (Expando.InternalIsMember(this, "detachEvent"))
+            {
+                detachEvent(n.Event, z);
 
-                    if (n.EventAlt != null)
-                    {
-                        detachEvent(n.EventAlt, z);
-                    }
+                if (n.EventAlt != null)
+                {
+                    detachEvent(n.EventAlt, z);
                 }
             }
+            #endregion
+
         }
 
         [Script(DefineAsStatic = true, NoExeptions = true)]

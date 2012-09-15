@@ -122,8 +122,8 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                     Helper.Invoke(DragStop);
 
-                    Native.Document.onmousemove -= ondocumentmousemove;
-                    Native.Document.onmouseup -= ondocumentmouseup;
+                    Control.onmousemove -= ondocumentmousemove;
+                    Control.onmouseup -= ondocumentmouseup;
 
 
                 
@@ -146,7 +146,9 @@ namespace ScriptCoreLib.JavaScript.Controls
 					//ev.StopPropagation();
 
                     DragStartCursorPosition = ev.CursorPosition;
-
+                    
+                  
+                    
                     var p = new Predicate();
                     
                     p.Value = true;
@@ -164,8 +166,8 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                     Helper.Invoke(DragStart);
 
-                    Native.Document.onmousemove += ondocumentmousemove;
-                    Native.Document.onmouseup += ondocumentmouseup;
+                    Control.onmousemove += ondocumentmousemove;
+                    Control.onmouseup += ondocumentmouseup;
                 };
 
 

@@ -36,8 +36,8 @@ namespace AndroidXElementActivity.Library
 
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();
 
-                int CONNECT_TIMEOUT_MILL = 500;
-                int READ_TIMEOUT_MILL = 300;
+                int CONNECT_TIMEOUT_MILL = 1000;
+                int READ_TIMEOUT_MILL = 600;
 
                 con.setConnectTimeout(CONNECT_TIMEOUT_MILL);
                 con.setReadTimeout(READ_TIMEOUT_MILL);
