@@ -56,5 +56,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		//{
 		//    return new __Point { X = point1.X - point2.X, Y = point1.Y - point2.Y };
 		//}
+
+        public override string ToString()
+        {
+            return this.X + ", " + this.Y;
+        }
 	}
 }

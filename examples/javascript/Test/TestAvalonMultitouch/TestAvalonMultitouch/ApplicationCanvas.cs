@@ -27,6 +27,8 @@ namespace TestAvalonMultitouch
             this.TouchDown +=
                 (s, e) =>
                 {
+                    e.Handled = true;
+
                     Console.WriteLine("TouchDown");
                 };
 

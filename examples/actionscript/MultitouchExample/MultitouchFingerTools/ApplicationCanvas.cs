@@ -66,7 +66,8 @@ namespace MultitouchFingerTools
 - Tested with 4 touch points on Dell Latitude XT
 - Galaxy S/ Galaxy Tab within browser have only 1 touchpoint
 - 2012.09 flash no longer available on android
-- multitouch seems to work in flash/firefox (11.0)
+- multitouch seems to work in firefox/ flash (11.0)
+- multitouch seems to work in ie/flash (10.0)
 - p2p LAN no longer works?
 "
 
