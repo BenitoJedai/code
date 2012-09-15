@@ -669,6 +669,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             [Script(DefineAsStatic = true)]
             remove
             {
+                this.removeEventListener("touchstart", value, false);
             }
         }
         #endregion
@@ -681,6 +682,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             {
                 InternalEnableMultitouch();
                 // http://support.mozilla.org/en-US/questions/810808
+                // https://developer.mozilla.org/en-US/docs/DOM/Touch_events_(Mozilla_experimental)
                 this.addEventListener("MozTouchMove", value, false);
                 this.addEventListener("touchmove", value, false);
 
@@ -688,6 +690,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             [Script(DefineAsStatic = true)]
             remove
             {
+                this.removeEventListener("touchmove", value, false);
             }
         }
 
@@ -710,6 +713,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             [Script(DefineAsStatic = true)]
             remove
             {
+                this.removeEventListener("touchend", value, false);
             }
         }
         #endregion
@@ -795,7 +799,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 	
 
-		static string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "touchstart", "touchmove", "touchend", };
+		static string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout"};
 
         static System.Action InternalCaptureMouse(IHTMLElement self)
 		{
