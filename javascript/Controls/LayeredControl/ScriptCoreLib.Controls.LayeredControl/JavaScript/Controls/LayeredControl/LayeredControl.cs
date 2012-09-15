@@ -236,7 +236,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             var u = this.Layers.User;
 
             u.onmousedown +=
-                delegate(IEvent e)
+                e =>
                 {
                     
 
@@ -244,6 +244,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                     {
                         drag_enabled = true;
                         drag_start = e.OffsetPosition - this.CurrentCanvasPosition;
+                        e.CaptureMouse();
                     }
 
 
@@ -415,7 +416,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 };
 
             u.onmousedown +=
-                delegate(IEvent e)
+                e =>
                 {
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Left)
