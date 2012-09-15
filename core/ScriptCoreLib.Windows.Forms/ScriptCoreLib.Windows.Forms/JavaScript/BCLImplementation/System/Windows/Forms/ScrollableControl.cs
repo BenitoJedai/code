@@ -20,9 +20,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _AutoScroll = value;
 
                 if (value)
-                    this.HTMLTargetRef.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
+                    this.HTMLTargetContainerRef.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
                 else
-                    this.HTMLTargetRef.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+                    this.HTMLTargetContainerRef.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
             }
         }
