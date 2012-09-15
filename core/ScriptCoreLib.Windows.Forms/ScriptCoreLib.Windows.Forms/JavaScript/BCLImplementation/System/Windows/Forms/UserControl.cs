@@ -31,6 +31,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 			// Are we being inserted to HTML?
 			HTMLTarget.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+            HTMLTarget.style.overflow = DOM.IStyle.OverflowEnum.hidden;
 
             //HTMLTarget.style.border = "1px dotted gray";
 
