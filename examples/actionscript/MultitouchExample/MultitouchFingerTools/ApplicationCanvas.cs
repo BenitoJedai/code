@@ -65,6 +65,9 @@ namespace MultitouchFingerTools
 - Javascript version for Firefox4 via jsc
 - Tested with 4 touch points on Dell Latitude XT
 - Galaxy S/ Galaxy Tab within browser have only 1 touchpoint
+- 2012.09 flash no longer available on android
+- multitouch seems to work in flash/firefox (11.0)
+- p2p LAN no longer works?
 "
 
 
