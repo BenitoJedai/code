@@ -14,11 +14,11 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace ScriptCoreLib.JavaScript.Controls
 {
-	[System.Obsolete("To be moved out of CoreLib")]
+    [System.Obsolete("To be moved out of CoreLib")]
     [Script]
     internal class DragHelper
     {
-        
+
         public bool IsDrag;
 
         public Point Position = new Point(0, 0);
@@ -30,7 +30,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         public event System.Action DragStart;
         public event System.Action DragMove;
 
-//         public event EventHandler Hover;
+        //         public event EventHandler Hover;
 
         public event System.Action MiddleClick;
 
@@ -42,7 +42,13 @@ namespace ScriptCoreLib.JavaScript.Controls
 
         System.Action<IEvent> ondocumentmousemove;
         System.Action<IEvent> ondocumentmouseup;
+
         System.Action<IMouseDownEvent> onmousedown;
+        System.Action<TouchEvent> ontouchstart;
+
+        System.Action<TouchEvent> ontouchmove;
+        System.Action<TouchEvent> ontouchend;
+
 
         // needs to be updated to BCL List
         public global::System.Collections.Generic.List<Point> History;
@@ -53,20 +59,26 @@ namespace ScriptCoreLib.JavaScript.Controls
         public bool Enabled
         {
             get { return _Enabled; }
-            set 
+            set
             {
                 if (_Enabled != value)
                 {
                     if (value)
+                    {
                         Control.onmousedown += onmousedown;
+                        Control.ontouchstart += ontouchstart;
+                    }
                     else
+                    {
                         Control.onmousedown -= onmousedown;
+                        Control.ontouchstart -= ontouchstart;
+                    }
                 }
 
-                
-                _Enabled = value; 
 
-                
+                _Enabled = value;
+
+
             }
         }
 
@@ -105,19 +117,26 @@ namespace ScriptCoreLib.JavaScript.Controls
             //    };
 
             // instance of event - important for removal
-            ondocumentmousemove =
-                delegate(IEvent ev)
-                {
+            #region move
+            this.ondocumentmousemove = ev =>
+            {
+                DragTo(ev.CursorPosition - OffsetPosition);
+            };
 
-                    DragTo(ev.CursorPosition - OffsetPosition);
-                };
+            this.ontouchmove = ev =>
+            {
+                var ev_CursorPosition = new Point(ev.touches[0].clientX, ev.touches[0].clientY);
+                DragTo(ev_CursorPosition - OffsetPosition);
+            };
+            #endregion
 
-            ondocumentmouseup = delegate(IEvent ev)
+            #region end
+            this.ondocumentmouseup = ev =>
                 {
 
                     Point p = DragStartCursorPosition - ev.CursorPosition;
 
-         
+
                     IsDrag = false;
 
                     Helper.Invoke(DragStop);
@@ -126,7 +145,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                     Control.onmouseup -= ondocumentmouseup;
 
 
-                
+
                     if (ev.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
                         if (p.Z < 128)
@@ -136,42 +155,97 @@ namespace ScriptCoreLib.JavaScript.Controls
                     }
                 };
 
-            onmousedown +=
-                ev =>
-                {
-                    //mousehover.Stop();
-					
-					ev.PreventDefault();
-					ev.StopPropagation();
+            this.ontouchend = ev =>
+            {
+                var ev_CursorPosition = new Point(ev.touches[0].clientX, ev.touches[0].clientY);
 
-                    DragStartCursorPosition = ev.CursorPosition;
-                    
-                  
-                    
-                    var p = new Predicate();
-                    
-                    p.Value = true;
-                    p.Invoke(DragStartValidate);
-
-                    if (!p.Value)
-                        return;
-
-                    if (History != null)
-                        History.Add(Position);
-
-                    OffsetPosition = ev.CursorPosition - Position;
-
-                    IsDrag = true;
-
-                    Helper.Invoke(DragStart);
-
-                    Control.onmousemove += ondocumentmousemove;
-                    Control.onmouseup += ondocumentmouseup;
-
-                    ev.CaptureMouse();
-                };
+                Point p = DragStartCursorPosition - ev_CursorPosition;
 
 
+                IsDrag = false;
+
+                Helper.Invoke(DragStop);
+
+                Control.ontouchmove -= ontouchmove;
+                Control.ontouchend -= ontouchend;
+
+            };
+            #endregion
+
+
+            #region onmousedown
+            this.onmousedown = ev =>
+            {
+                //mousehover.Stop();
+
+                ev.PreventDefault();
+                ev.StopPropagation();
+
+                DragStartCursorPosition = ev.CursorPosition;
+
+
+
+                var p = new Predicate();
+
+                p.Value = true;
+                p.Invoke(DragStartValidate);
+
+                if (!p.Value)
+                    return;
+
+                if (History != null)
+                    History.Add(Position);
+
+                OffsetPosition = ev.CursorPosition - Position;
+
+                IsDrag = true;
+
+                Helper.Invoke(DragStart);
+
+                Control.onmousemove += ondocumentmousemove;
+                Control.onmouseup += ondocumentmouseup;
+
+                ev.CaptureMouse();
+            };
+            #endregion
+
+            #region ontouchstart
+            this.ontouchstart = ev =>
+            {
+                //mousehover.Stop();
+
+                ev.PreventDefault();
+                ev.StopPropagation();
+
+                var ev_CursorPosition = new Point(ev.touches[0].clientX, ev.touches[0].clientY);
+
+                DragStartCursorPosition = ev_CursorPosition;
+
+
+
+                var p = new Predicate();
+
+                p.Value = true;
+                p.Invoke(DragStartValidate);
+
+                if (!p.Value)
+                    return;
+
+                if (History != null)
+                    History.Add(Position);
+
+                OffsetPosition = ev_CursorPosition - Position;
+
+                IsDrag = true;
+
+                Helper.Invoke(DragStart);
+
+                Control.ontouchmove += ontouchmove;
+                Control.ontouchend += ontouchend;
+
+                //ev.CaptureMouse();
+            };
+            #endregion
 
         }
 
@@ -189,7 +263,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                 });
         }
 
- 
+
     }
 
 }

@@ -17,29 +17,33 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // http://www.w3.org/TR/touch-events/
 
+        public readonly TouchList touches;
+    }
 
-        [Script(DefineAsStatic = true)]
-        public void CaptureTouch()
+    [Script(HasNoPrototype = true)]
+    public class TouchList
+    {
+        public readonly uint length;
+
+
+        public Touch this[uint index]
         {
-            var Element = ((IHTMLElement)this.Element);
-
-            Action StopCapture = null;
-            Action<IEvent> __ontouchend = null;
-
-            __ontouchend = delegate
+            get
             {
-                StopCapture();
-
-                Element.ontouchend -= __ontouchend;
-            };
-
-            Element.ontouchend += __ontouchend;
-
-            // no reason to keep default behaviour to select text
-            this.PreventDefault();
-
-            StopCapture = Element.CaptureMouse();
-
+                return default(Touch);
+            }
         }
+
+    }
+
+    [Script(HasNoPrototype = true)]
+    public class Touch
+    {
+        public readonly int clientX;
+        public readonly int clientY;
+        public readonly int identifier;
+        public readonly int pageX;
+        public readonly int pageY;
+
     }
 }

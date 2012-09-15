@@ -98,18 +98,20 @@ namespace TestMouseCapturedMove
                         i.ontouchstart +=
                             e =>
                             {
+                                e.PreventDefault();
+
                                 // stop selection
                                 //e.CaptureMouse();
 
                                 // this will be used by IE
-                                page.Foo.style.cursor = IStyle.CursorEnum.crosshair;
+                                page.Bar.style.cursor = IStyle.CursorEnum.crosshair;
 
                                 // works in chrome, not IE
                                 //r = IStyleSheet.Default.AddRule("html", rr => rr.style.cursor = IStyle.CursorEnum.move);
                                 r = IStyleSheet.Default.AddRule("*", rr => rr.style.cursor = IStyle.CursorEnum.move);
 
                                 //Native.Document.body.style.cursor = IStyle.CursorEnum.move;
-                                page.Foo.style.backgroundColor = JSColor.Green;
+                                page.Bar.style.backgroundColor = JSColor.Green;
 
                             };
 
@@ -119,9 +121,9 @@ namespace TestMouseCapturedMove
                                 //Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
 
                                 IStyleSheet.Default.RemoveRule(0);
-                                page.Foo.style.cursor = IStyle.CursorEnum.@default;
+                                page.Bar.style.cursor = IStyle.CursorEnum.@default;
 
-                                page.Foo.style.backgroundColor = JSColor.Red;
+                                page.Bar.style.backgroundColor = JSColor.Red;
 
 
                             };
