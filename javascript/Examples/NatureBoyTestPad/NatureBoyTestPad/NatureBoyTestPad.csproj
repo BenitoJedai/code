@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Assets.cs" />
-    <Compile Include="js\DragHelper.cs" />
     <Compile Include="js\MyFrames.cs" />
     <Compile Include="js\NatureBoyTestPad.cs" />
     <Compile Include="js\Extensions.cs" />
