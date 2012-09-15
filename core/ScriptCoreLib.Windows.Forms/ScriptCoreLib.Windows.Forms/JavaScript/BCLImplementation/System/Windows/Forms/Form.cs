@@ -76,6 +76,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             target1.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             target1.style.left = "0px";
             target1.style.top = "0px";
+            target1.style.bottom = "0";
+            target1.style.right = "0";
 
             target1.style.borderWidth = "1px";
             target1.style.borderStyle = "solid";
@@ -83,8 +85,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             target1.style.borderTopColor = JSColor.System.ButtonHighlight;
             target1.style.borderRightColor = JSColor.System.ButtonShadow;
             target1.style.borderBottomColor = JSColor.System.ButtonShadow;
-            target1.style.bottom = "0";
-            target1.style.right = "0";
+
             //HTMLTarget.style.SetLocation(64, 64, 100, 100);
             target1.style.padding = "0";
             #endregion
@@ -155,21 +156,46 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             #region CloseButton
             CloseButton = new IHTMLDiv { name = "CloseButton" };
+            CloseButton.style.textAlign = IStyle.TextAlignEnum.center;
+            CloseButton.style.fontWeight = "bold";
+            CloseButton.style.cursor = IStyle.CursorEnum.@default;
 
-            CloseButton.title = "Close";
+            var CloseButtonContent = new IHTMLDiv { }.AttachTo(CloseButton);
+
+            CloseButtonContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            CloseButtonContent.style.left = "0px";
+            CloseButtonContent.style.top = "0px";
+            CloseButtonContent.style.bottom = "0";
+            CloseButtonContent.style.right = "0";
+
+
+            CloseButtonContent.title = "Close";
+            CloseButtonContent.innerHTML = "&times";
+        
 
             CloseButton.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            CloseButton.style.backgroundColor = "red";
+            CloseButton.style.backgroundColor = JSColor.System.ThreeDFace;
+
             CloseButton.style.height = "18px";
             CloseButton.style.width = "18px";
             CloseButton.style.right = (innerborder + 3) + "px";
             CloseButton.style.top = (innerborder + 3) + "px";
 
-            CloseButton.style.borderStyle = "outset";
             CloseButton.style.borderWidth = "1px";
-            CloseButton.style.borderColor = "white";
+            CloseButton.style.borderStyle = "solid";
+            CloseButton.style.borderColor = JSColor.System.ThreeDDarkShadow;
+            CloseButton.style.borderLeftColor = JSColor.System.ButtonHighlight;
+            CloseButton.style.borderTopColor = JSColor.System.ButtonHighlight;
 
+            
 
+            CloseButtonContent.style.borderWidth = "1px";
+            CloseButtonContent.style.borderStyle = "solid";
+            CloseButtonContent.style.borderLeftColor = JSColor.System.ButtonFace;
+            CloseButtonContent.style.borderTopColor = JSColor.System.ButtonFace;
+
+            CloseButtonContent.style.borderRightColor = JSColor.System.ButtonShadow;
+            CloseButtonContent.style.borderBottomColor = JSColor.System.ButtonShadow;
 
 
             CloseButton.onclick +=
@@ -284,7 +310,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InternalRaiseLoad();
 
+            this.HTMLTarget.style.SetLocation(
+                 (Native.Window.Width - this.Width) / 2,
+                 (Native.Window.Height - this.Height) / 2
+            );
+
             this.HTMLTarget.AttachToDocument();
+
+            
 
             InternalRaiseShown();
         }

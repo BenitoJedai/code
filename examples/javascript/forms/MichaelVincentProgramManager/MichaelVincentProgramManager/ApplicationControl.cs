@@ -17,6 +17,7 @@ namespace MichaelVincentProgramManager
         }
 
         public event Action<Button, Control> WhenClickedGoFullscreen;
+        public event Action<Button, Control> WhenClickedGoPopup;
 
         private void button1_Click(object sender, System.EventArgs e)
         {
@@ -30,10 +31,15 @@ namespace MichaelVincentProgramManager
 
         private void button2_Click(object sender, EventArgs e)
         {
+      
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
             var f = new Form1
             {
                 Width = 800,
-                Height = 600
+                Height = 400
             };
 
             f.Shown +=
@@ -45,6 +51,9 @@ namespace MichaelVincentProgramManager
 
                     if (WhenClickedGoFullscreen != null)
                         WhenClickedGoFullscreen(f.button1, f.webBrowser1);
+
+                    //if (WhenClickedGoPopup!= null)
+                    //    WhenClickedGoPopup(f.button2, f.webBrowser1);
                 };
 
             f.Show();

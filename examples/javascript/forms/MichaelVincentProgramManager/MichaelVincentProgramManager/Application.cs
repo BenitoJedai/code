@@ -31,38 +31,32 @@ namespace MichaelVincentProgramManager
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            //content.Augment +=
-            //    f =>
-            //    {
-
-                    //var i = new IHTMLIFrame
-                    //{
-                    //    src = "http://www.michaelv.org/"
-                    //}.AttachTo(c);
-
-                    //i.style.SetLocation(0, 0);
-                    //i.style.SetSize(c);
-
-                    //f.SizeChanged +=
-                    //    delegate
-                    //    {
-                    //        i.style.SetSize(c);
-                    //    };
 
 
-                    content.WhenClickedGoFullscreen +=
-                      (b, f) =>
+            content.WhenClickedGoFullscreen +=
+              (b, f) =>
+              {
+                  var c = global::ScriptCoreLib.JavaScript.Windows.Forms.Extensions.GetHTMLTargetContainer(f);
+
+                  b.Click +=
+                      delegate
                       {
-                          var c = global::ScriptCoreLib.JavaScript.Windows.Forms.Extensions.GetHTMLTargetContainer(f);
-
-                          b.Click +=
-                              delegate
-                              {
-                                  c.requestFullscreen();
-                              };
+                          c.requestFullscreen();
                       };
-                    //new IHTMLButton { innerText = "hi" }.AttachTo(c);
-                //};
+              };
+
+
+            content.WhenClickedGoFullscreen +=
+              (b, f) =>
+              {
+                  var c = global::ScriptCoreLib.JavaScript.Windows.Forms.Extensions.GetHTMLTargetContainer(f);
+
+                  b.Click +=
+                      delegate
+                      {
+                          c.requestFullscreen();
+                      };
+              };
 
 
             //content.AttachControlTo(Native.Document.body);
