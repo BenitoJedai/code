@@ -3,9 +3,39 @@ using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib;
+using System;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    [Script(HasNoPrototype = true)]
+    public class IMouseDownEvent : IEvent
+    {
+        [Script(DefineAsStatic = true)]
+        public void CaptureMouse()
+        {
+            var Element = ((IHTMLElement)this.Element);
+
+            Action StopCapture = null;
+            Action<IEvent> __mouseup = null;
+
+            __mouseup = delegate
+            {
+                StopCapture();
+
+                Element.onmouseup -= __mouseup;
+            };
+
+            Element.onmouseup += __mouseup;
+
+            // no reason to keep default behaviour to select text
+            this.PreventDefault();
+
+            StopCapture = Element.CaptureMouse();
+
+        }
+    }
+
     [Script(HasNoPrototype = true)]
     public class IEvent
     {
@@ -36,6 +66,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return KeyCode == 27;
             }
         }
+
+
+
 
         /// <summary>
         /// returns the character code, escape (27) or enter (13)
@@ -106,7 +139,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 var x = Expando.GetMemberOf<int>(this, "layerX", "offsetX", 0);
 
-				return x;
+                return x;
             }
         }
 
@@ -117,7 +150,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 var y = Expando.GetMemberOf<int>(this, "layerY", "offsetY", 0);
 
-				return y;
+                return y;
             }
         }
 
@@ -247,8 +280,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
 
 
- 
- 
+
+
 
 
                 return MouseButtonEnum.Unknown;

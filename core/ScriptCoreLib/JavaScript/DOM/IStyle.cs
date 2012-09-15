@@ -245,7 +245,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 		//public string backgroundLeft;
 		//public string backgroundTop;
 		public string backgroundRepeat;
-		public string backgroundPosition;
+        public string backgroundPosition;
+
+        public string boxShadow;
 
 		#region display
 

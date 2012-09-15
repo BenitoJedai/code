@@ -20,7 +20,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         object __FormTypeHint;
 
         public event EventHandler Closed;
-        
+
         public IHTMLDiv HTMLTarget { get; set; }
 
         IHTMLDiv caption = new IHTMLDiv();
@@ -80,6 +80,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             target1.style.padding = "0";
             #endregion
 
+            target0.style.boxShadow = "black 3px 3px 6px -3px";
+
             HTMLTarget = target0;
 
             #region caption
@@ -107,19 +109,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // http://dojotoolkit.org/pipermail/dojo-checkins/2005-December/002867.html
 
 
-            new IFunction(@"
-                try { this.style.MozUserSelect = 'none'; } catch (e) { }
-                try { this.style.KhtmlUserSelect = 'none'; } catch (e) { }
-                try { this.unselectable = 'on'; } catch (e) { }
-                "
-            ).apply(caption_foreground);
+            //            new IFunction(@"
+            //                try { this.style.MozUserSelect = 'none'; } catch (e) { }
+            //                try { this.style.KhtmlUserSelect = 'none'; } catch (e) { }
+            //                try { this.unselectable = 'on'; } catch (e) { }
+            //                "
+            //            ).apply(caption_foreground);
 
-            caption_foreground.onselectstart +=
-                (e) =>
-                {
-                    e.PreventDefault();
-                    e.StopPropagation();
-                };
+            //            caption_foreground.onselectstart +=
+            //                (e) =>
+            //                {
+            //                    e.PreventDefault();
+            //                    e.StopPropagation();
+            //                };
             #endregion
 
             // http://developer.apple.com/mac/library/documentation/AppleApplications/Reference/Dashboard_Ref/Dashboard_Ref.pdf
@@ -174,10 +176,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // look at http://forkjavascript.com/
 
             drag.Enabled = true;
+
+            drag.DragStart +=
+                delegate
+                {
+                    caption_foreground.style.cursor = IStyle.CursorEnum.move;
+                };
             drag.DragMove +=
                 delegate
                 {
                     HTMLTarget.style.SetLocation(drag.Position.X, drag.Position.Y);
+                };
+            drag.DragStop +=
+                delegate
+                {
+                    caption_foreground.style.cursor = IStyle.CursorEnum.@default;
                 };
 
             // this should happen during Show?
