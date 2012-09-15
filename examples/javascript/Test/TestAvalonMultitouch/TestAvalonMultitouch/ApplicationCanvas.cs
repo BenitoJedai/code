@@ -33,7 +33,7 @@ namespace TestAvalonMultitouch
             this.TouchMove +=
                 (s, e) =>
                 {
-                    Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + e.TouchDevice.GetTouchPoint(this).Position);
+                    Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + e.GetTouchPoint(this).Position);
                 };
 
             this.TouchUp +=
