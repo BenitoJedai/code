@@ -18,6 +18,18 @@ namespace TestAvalonMultitouch
 
         public ApplicationCanvas()
         {
+            var a = Enumerable.Range(0, 64).Select(
+                i =>
+                {
+                    var rr = new Rectangle();
+                    rr.Fill = Brushes.Blue;
+                    rr.AttachTo(this);
+                    rr.SizeTo(32, 32);
+                    return rr;
+                }
+            ).ToArray();
+
+            r.Opacity = 0.3;
             r.Fill = Brushes.Red;
             r.AttachTo(this);
             r.MoveTo(8, 8);
@@ -35,7 +47,11 @@ namespace TestAvalonMultitouch
             this.TouchMove +=
                 (s, e) =>
                 {
-                    Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + e.GetTouchPoint(this).Position);
+                    var p = e.GetTouchPoint(this).Position;
+
+                    a[e.TouchDevice.Id].MoveTo(p);
+
+                    Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + p);
                 };
 
             this.TouchUp +=
