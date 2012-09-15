@@ -31,7 +31,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
 		public int Port { get; set; }
 
-		public __Uri(string uriString)
+        public __Uri(string uriString) : this(uriString, UriKind.Absolute)
+        {
+        }
+
+		public __Uri(string uriString, UriKind kind)
 		{
 			this.OriginalString = uriString;
 

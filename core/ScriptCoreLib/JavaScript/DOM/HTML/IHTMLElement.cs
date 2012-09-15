@@ -197,7 +197,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-		public string innerText
+        #region innerText
+        public string innerText
 		{
 			[Script(DefineAsStatic = true)]
 			get
@@ -253,8 +254,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 				n.nodeValue = value;
 			}
 		}
+        #endregion
 
-		public string innerHTML;
+
+        public string innerHTML;
 
 
 		public string title;

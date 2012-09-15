@@ -16,21 +16,11 @@ namespace MichaelVincentProgramManager
             this.InitializeComponent();
         }
 
-        public event Action<Control> Augment;
-        public event Action<Button> WhenClickedGoFullscreen;
+        public event Action<Button, Control> WhenClickedGoFullscreen;
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            var f = new Form();
-
-            f.Text = "http://www.michaelv.org/";
-            f.Width = 800;
-            f.Height = 600;
-
-            if (Augment != null)
-                Augment(f);
-
-            f.Show();
+    
         }
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
@@ -40,14 +30,22 @@ namespace MichaelVincentProgramManager
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var f = new Form1();
+            var f = new Form1
+            {
+                Width = 800,
+                Height = 600
+            };
 
-            if (Augment != null)
-                Augment(f.panel1);
+            f.Shown +=
+                delegate
+                {
+                    //if (Augment != null)
+                    //    Augment(f.panel1);
 
-            
-            if (WhenClickedGoFullscreen != null)
-                WhenClickedGoFullscreen(f.button1);
+
+                    if (WhenClickedGoFullscreen != null)
+                        WhenClickedGoFullscreen(f.button1, f.webBrowser1);
+                };
 
             f.Show();
         }

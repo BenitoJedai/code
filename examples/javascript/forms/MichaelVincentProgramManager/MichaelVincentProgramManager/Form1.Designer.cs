@@ -32,7 +32,7 @@ namespace MichaelVincentProgramManager
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button1 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
             // 
             // timer1
@@ -48,27 +48,34 @@ namespace MichaelVincentProgramManager
             this.button1.Text = "Fullscreen";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // webBrowser1
             // 
-            this.panel1.Location = new System.Drawing.Point(12, 42);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(698, 410);
-            this.panel1.TabIndex = 1;
+            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser1.Location = new System.Drawing.Point(4, 42);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.ScrollBarsEnabled = false;
+            this.webBrowser1.Size = new System.Drawing.Size(589, 326);
+            this.webBrowser1.TabIndex = 1;
+            this.webBrowser1.Url = new System.Uri("http://www.michaelv.org/", System.UriKind.Absolute);
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(722, 464);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(597, 370);
+            this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.button1);
             this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "http://www.michaelv.org/";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }
 
         public System.Windows.Forms.Timer timer1;
         public System.Windows.Forms.Button button1;
-        public System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
