@@ -74,6 +74,7 @@
   <ItemGroup>
     <Content Include="JavaScript\IDL\CanvasRenderingContext2D.idl" />
     <Content Include="JavaScript\IDL\!References.htm" />
+    <None Include="JavaScript\IDL\TouchEvents.idl" />
     <Content Include="JavaScript\IDL\typedarrays.idl" />
     <Content Include="JavaScript\IDL\webgl.idl" />
   </ItemGroup>
@@ -99,7 +100,7 @@
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false</PreBuildEvent>
+    <PreBuildEvent>start /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

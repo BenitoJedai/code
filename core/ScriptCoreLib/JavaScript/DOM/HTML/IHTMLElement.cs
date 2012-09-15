@@ -657,13 +657,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		#endregion
 
         #region event ontouchstart
-        public event System.Action<ITouchEvent> ontouchstart
+        public event System.Action<TouchEvent> ontouchstart
         {
             [Script(DefineAsStatic = true)]
             add
             {
                 InternalEnableMultitouch();
-                //this.addEventListener("MozTouchDown", value, false);
+                this.addEventListener("MozTouchDown", value, false);
                 this.addEventListener("touchstart", value, false);
             }
             [Script(DefineAsStatic = true)]
@@ -674,14 +674,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #endregion
 
         #region event ontouchmove
-        public event System.Action<ITouchEvent> ontouchmove
+        public event System.Action<TouchEvent> ontouchmove
         {
             [Script(DefineAsStatic = true)]
             add
             {
                 InternalEnableMultitouch();
                 // http://support.mozilla.org/en-US/questions/810808
-                //this.addEventListener("MozTouchMove", value, false);
+                this.addEventListener("MozTouchMove", value, false);
                 this.addEventListener("touchmove", value, false);
 
             }
@@ -698,13 +698,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #endregion
 
         #region event ontouchend
-        public event System.Action<ITouchEvent> ontouchend
+        public event System.Action<TouchEvent> ontouchend
         {
             [Script(DefineAsStatic = true)]
             add
             {
                 InternalEnableMultitouch();
-                //this.addEventListener("MozTouchUp", value, false);
+                this.addEventListener("MozTouchUp", value, false);
                 this.addEventListener("touchend", value, false);
             }
             [Script(DefineAsStatic = true)]
@@ -795,7 +795,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 	
 
-		static string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout" };
+		static string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "touchstart", "touchmove", "touchend", };
 
         static System.Action InternalCaptureMouse(IHTMLElement self)
 		{
