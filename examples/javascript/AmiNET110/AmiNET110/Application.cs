@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,33 +9,53 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
+using AmiNET110.HTML.Pages;
 
-namespace RetroCanvas.js.AmiNET110
+namespace AmiNET110
 {
-    [Script]
     public delegate void ActionParam<T0, TParams>(T0 a0, params TParams[] a1);
 
-    [Script, ScriptApplicationEntryPoint]
-    public class AmiNET110
+    /// <summary>
+    /// Your client side code running inside a web browser as JavaScript.
+    /// </summary>
+    public sealed class Application
     {
-        public static string[] Links = 
+        public readonly ApplicationWebService service = new ApplicationWebService();
+
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IDefaultPage page)
+        {
+            @"Hello world".ToDocumentTitle();
+            // Send data from JavaScript to the server tier
+            service.WebMethod2(
+                @"A string from JavaScript.",
+                value => value.ToDocumentTitle()
+            );
+
+
+            string[] Links = 
         {
             "http://www.aminocom.com/products/ipstb/aminet110.html",
             "http://www.vario.tv/espace-clients/aide/variotv_AmiNET110_UserGuide_Book2.pdf"
         };
 
-        public AmiNET110()
-        {
-            typeof(AmiNET110).ToWindowText("Loading...");
 
-            var img = new IHTMLImage(Assets.Path + "/Amino-remote.jpg");
+
+            var img = new HTML.Images.FromAssets.Amino_remote();
             //var img_bg = new IHTMLImage(Assets.Path + "/Amino-remote-bg.png");
 
             var reddot_array = Extensions.ToArray(0, 1, 3, 6);
 
-            var reddot = reddot_array.ToArray(index =>
-                new { index, image = new IHTMLImage(Assets.Path + "/reddot-" + index + ".png") }
-            );
+            var reddot = new[]
+            {
+                new { index = 0, image = (IHTMLImage)new HTML.Images.FromAssets.reddot_0() },
+                new { index = 1, image = (IHTMLImage)new HTML.Images.FromAssets.reddot_1() },
+                new { index = 3, image = (IHTMLImage)new HTML.Images.FromAssets.reddot_3() },
+                new { index = 6, image = (IHTMLImage)new HTML.Images.FromAssets.reddot_6() }
+            };
 
 
             100.AtInterval(
@@ -49,7 +69,6 @@ namespace RetroCanvas.js.AmiNET110
 
                     t1.Stop();
 
-                    typeof(AmiNET110).ToWindowText();
 
                     //Native.Document.body.style.background = "url(" + img_bg.src + ") repeat-x";
 
@@ -101,6 +120,23 @@ namespace RetroCanvas.js.AmiNET110
                                     SpawnDot(pos);
                                 };
 
+                            div.ontouchmove +=
+                               ev =>
+                               {
+                                   ev.PreventDefault();
+
+
+                                   for (uint i = 0; i < ev.touches.length; i++)
+                                   {
+                                       var pos = new Point(ev.touches[i].clientX, ev.touches[i].clientY);
+
+                                       SpawnDot(pos);
+                                   }
+
+
+                               };
+
+
                             var map = new[]
                             {
                                 new { KeyCode = 13, Point = new Point(173, 331)}, // enter
@@ -151,7 +187,7 @@ namespace RetroCanvas.js.AmiNET110
                                 {
                                     var _2 = map.Where(i => i.KeyCode == _old).First();
 
-                                    map = map.Concat(_new.Select( KeyCode => new { KeyCode, _2.Point } )).ToArray();
+                                    map = map.Concat(_new.Select(KeyCode => new { KeyCode, _2.Point })).ToArray();
 
                                 };
 
@@ -161,15 +197,15 @@ namespace RetroCanvas.js.AmiNET110
                                     var _U = _new.ToUpper();
                                     var _L = _new.ToLower();
 
-                                    
+
                                     for (int i = 0; i < _U.Length; i++)
                                     {
                                         Console.WriteLine(_old + " -> " + _U[i] + " , " + _L[i]);
-                                        
+
                                         AddKeyCodes(_old, _U[i], _L[i]);
                                     }
 
-                   
+
                                 };
 
                             var alpha = new Dictionary<char, string>
@@ -186,7 +222,7 @@ namespace RetroCanvas.js.AmiNET110
 
                             alpha.ForEach(i => AddKeyCodesString(i.Key, i.Value));
 
-                            
+
                             Native.Document.onkeyup +=
                                 ev =>
                                 {
@@ -205,34 +241,68 @@ namespace RetroCanvas.js.AmiNET110
             );
 
 
+
         }
 
-        static AmiNET110()
+    }
+
+
+    static class Extensions
+    {
+        public static void AtInterval(this int x, Action<Timer> h, Func<bool> stop, Action done)
         {
-
-
-            typeof(AmiNET110).SpawnTo(
-                i =>
+            new Timer(
+                t =>
                 {
-                    
-                    Func<IHTMLElement, IHTMLElement> WithStyle =
-                        e =>
-                        {
-                            if (e == null)
-                                return e;
+                    h(t);
 
-                            e.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
-                            e.style.margin = "0px";
-                            e.style.padding = "0px";
-                            return e;
-                        };
+                    if (stop())
+                    {
+                        t.Stop();
+                        done();
+                    }
 
-                    WithStyle((IHTMLElement)WithStyle(Native.Document.body).parentNode);
-                    
-                    Timer.DoAsync(
-                        () => new AmiNET110()
-                        );
-                });
+                }, x, x);
+        }
+
+        public static void AtInterval(this int x, Action<Timer> h)
+        {
+            new Timer(t => h(t), x, x);
+        }
+
+        public static void AtTimeout(this int x, Action<Timer> h)
+        {
+            new Timer(t => h(t), x, 0);
+        }
+
+
+        public static T[] ToArray<T>(params T[] e)
+        {
+            return e;
+        }
+
+        public static T[] ToArray<TSource, T>(this IEnumerable<TSource> e, Func<TSource, T> f)
+        {
+            return e.Select(f).ToArray();
+        }
+
+        public static void ToWindowText(this Type e, string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                Native.Window.document.title = e.Name;
+            else
+                Native.Window.document.title = e.Name + " - " + s;
+        }
+
+        public static void ToWindowText(this Type e)
+        {
+            ToWindowText(e, null);
+        }
+
+        public static int Random(this int i)
+        {
+            return new Random().Next(i);
         }
     }
+
 }
