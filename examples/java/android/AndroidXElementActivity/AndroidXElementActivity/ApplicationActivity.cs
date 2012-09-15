@@ -52,7 +52,7 @@ namespace AndroidXElementActivity.Activities
 
             var version = SDKVersionCheck.GetSDKVersion();
 
-            this.ShowLongToast("http://jsc-solutions.net " + version);
+            this.ShowLongToast(new { version }.ToString());
 
         }
 
