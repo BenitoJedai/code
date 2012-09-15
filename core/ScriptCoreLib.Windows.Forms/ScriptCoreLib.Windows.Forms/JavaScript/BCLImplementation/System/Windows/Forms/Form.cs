@@ -310,10 +310,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InternalRaiseLoad();
 
-            this.HTMLTarget.style.SetLocation(
-                 (Native.Window.Width - this.Width) / 2,
-                 (Native.Window.Height - this.Height) / 2
-            );
+            this.Location = new Point
+            {
+                X = (Native.Window.Width - this.Width) / 2,
+                Y = (Native.Window.Height - this.Height) / 2
+            };
 
             this.HTMLTarget.AttachToDocument();
 
