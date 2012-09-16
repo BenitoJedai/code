@@ -34,17 +34,19 @@ using ScriptCoreLib;
 
 
 [assembly:
-	Script,
-	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
-	// ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp"),
-	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
-	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = "")
+    Script,
+    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+    ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
+    ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
+    ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
+    // ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp"),
+    //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
+    //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = "")
     // some namespace mangling, why bother?
 
     InternalsVisibleTo("ScriptCoreLib.Redux.Avalon"),
     InternalsVisibleTo("ScriptCoreLib.Avalon.Integration"),
-	InternalsVisibleTo("jsc.meta"),
+    InternalsVisibleTo("jsc.meta"),
+    InternalsVisibleTo("TestAvalonMultitouch")
+
 ]

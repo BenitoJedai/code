@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 {
@@ -10,6 +11,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
     {
         public int Id { get; set; }
 
+        
         //public abstract TouchPointCollection GetIntermediateTouchPoints(IInputElement relativeTo);
+
+        public bool Capture(IInputElement element)
+        {
+
+
+            return false;
+        }
     }
 }

@@ -12,8 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
     [Script(ImplementsViaAssemblyQualifiedName = "System.Windows.Input.TouchEventArgs, PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
     internal class __TouchEventArgs : __InputEventArgs
     {
-        internal ScriptCoreLib.JavaScript.DOM.Touch InternalValue;
-        internal ScriptCoreLib.JavaScript.DOM.TouchEvent InternalEvent;
+        public ScriptCoreLib.JavaScript.DOM.Touch InternalValue;
+        public ScriptCoreLib.JavaScript.DOM.TouchEvent InternalEvent;
 
 
         __TouchDevice InternalTouchDevice;
@@ -36,8 +36,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
             }
         }
 
-        internal Func<IHTMLElement, double> GetTouchPointX;
-        internal Func<IHTMLElement, double> GetTouchPointY;
+
 
         public __TouchPoint GetTouchPoint(IInputElement relativeTo)
         {
