@@ -277,8 +277,10 @@ namespace MultitouchFingerTools
                     if (left_buildmode)
                     {
                         if (!__left_buildmode)
+                        {
                             MultitouchExample.Sounds.building.Source.PlaySound();
-                        // sound: build mode engaged!
+                            // sound: build mode engaged!
+                        }
 
                         // all other touches in range are now build orders!
 
