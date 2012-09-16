@@ -29,7 +29,7 @@ namespace AndroidEnvironmentWebActivity
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-           
+
             #region pre
             Func<string, IHTMLDiv, IHTMLElement> pre =
                 (value, output) =>
@@ -47,20 +47,18 @@ namespace AndroidEnvironmentWebActivity
 
                     var list = new IHTMLButton { innerText = path }.AttachTo(output);
 
-                    
+
                     var group = new IHTMLDiv().AttachTo(output);
 
-            
+
 
 
                     list.onclick +=
                         delegate
                         {
                             group.style.margin = "1em";
-
-                            group.style.marginLeft = "0em";
-                            group.style.paddingLeft = "0.8em";
-                            group.style.borderLeft = "0.2em solid gray";
+                            group.style.paddingLeft = "1em";
+                            group.style.border = "1px solid gray";
 
                             list.disabled = true;
 
@@ -72,7 +70,10 @@ namespace AndroidEnvironmentWebActivity
 
                                 yfile: value =>
                                 {
-                                    pre(value, group).style.fontWeight = "bold";
+                                    var link = new IHTMLAnchor { href = "/io" + path + "/" + value, innerText = value };
+
+                                    link.style.display = IStyle.DisplayEnum.block;
+                                    link.AttachTo(group);
                                 }
                             );
                         };
