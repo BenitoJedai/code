@@ -19,10 +19,16 @@ namespace AndroidXElementActivity.Library
                 w = InternalGetSDKVersion();
             }
             catch
-            { 
+            {
+                w = "";
             }
 
             return w;
+        }
+
+        static string InternalGetSDKVersion_XElementImplementation()
+        {
+            return "";
         }
 
         static string InternalGetSDKVersion()
@@ -36,8 +42,8 @@ namespace AndroidXElementActivity.Library
 
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();
 
-                int CONNECT_TIMEOUT_MILL = 1000;
-                int READ_TIMEOUT_MILL = 600;
+                int CONNECT_TIMEOUT_MILL = 2000;
+                int READ_TIMEOUT_MILL = 900;
 
                 con.setConnectTimeout(CONNECT_TIMEOUT_MILL);
                 con.setReadTimeout(READ_TIMEOUT_MILL);

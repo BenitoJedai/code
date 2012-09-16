@@ -56,7 +56,7 @@ namespace AndroidFileExplorerActivity.Activities
             File f = new File(dirPath);
             File[] files = f.listFiles();
 
-            if (!(root.StringEquals(dirPath)))
+            //if (!(root.StringEquals(dirPath)))
             //if (root != dirPath)
             {
                 item.add(root);
