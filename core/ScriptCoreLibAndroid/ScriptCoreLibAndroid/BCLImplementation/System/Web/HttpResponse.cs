@@ -7,6 +7,7 @@ using System.Text;
 using java.io;
 using System.Collections.Specialized;
 using System.Web;
+using System.IO;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpResponse))]
@@ -108,6 +109,16 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             }
 
             InternalStream.Flush();
+        }
+
+        public Stream OutputStream
+        {
+            get
+            {
+                InternalWriteHeaders();
+
+                return this.InternalStream;
+            }
         }
     }
 }

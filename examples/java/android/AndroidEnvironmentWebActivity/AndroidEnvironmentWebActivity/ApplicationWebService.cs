@@ -7,9 +7,11 @@ using System.Xml.Linq;
 
 namespace AndroidEnvironmentWebActivity
 {
+    using android.os;
+    using android.widget;
     using java.io;
-using ScriptCoreLib.Ultra.WebService;
-using ystring = Action<string>;
+    using ScriptCoreLib.Ultra.WebService;
+    using ystring = Action<string>;
 
     public delegate void Environment_DIRECTORY_callback(
         string DIRECTORY_MUSIC,
@@ -120,6 +122,8 @@ using ystring = Action<string>;
             {
                 h.Context.Response.ContentType = "text/html";
 
+
+
                 var file = new File( path.SkipUntilIfAny(io));
 
                 if (file.exists())
@@ -134,6 +138,29 @@ using ystring = Action<string>;
                 h.CompleteRequest();
                 return;
             }
+        }
+    }
+
+    class XToastMessageTask : AsyncTask
+    {
+        string toastMessage;
+        protected override object doInBackground(object[] value)
+        {
+            toastMessage = (string)value[0];
+            
+            return toastMessage;
+        }
+
+        protected override void onProgressUpdate(object[] value)
+        {
+            base.onProgressUpdate(value);
+        }
+
+        protected override void onPostExecute(object value)
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT);
+            toast.show();
+
         }
     }
 }
