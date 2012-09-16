@@ -7,17 +7,18 @@ using System.Xml.Linq;
 
 namespace AndroidEnvironmentWebActivity
 {
+    using java.io;
     using ystring = Action<string>;
-    
-    public delegate void Environment_DIRECTORY_callback (
-        string DIRECTORY_MUSIC, 
-        string DIRECTORY_PODCASTS, 
-        string DIRECTORY_RINGTONES, 
-        string DIRECTORY_ALARMS, 
-        string DIRECTORY_NOTIFICATIONS, 
-        string DIRECTORY_PICTURES, 
-        string DIRECTORY_MOVIES, 
-        string DIRECTORY_DOWNLOADS, 
+
+    public delegate void Environment_DIRECTORY_callback(
+        string DIRECTORY_MUSIC,
+        string DIRECTORY_PODCASTS,
+        string DIRECTORY_RINGTONES,
+        string DIRECTORY_ALARMS,
+        string DIRECTORY_NOTIFICATIONS,
+        string DIRECTORY_PICTURES,
+        string DIRECTORY_MOVIES,
+        string DIRECTORY_DOWNLOADS,
         string DIRECTORY_DCIM
     );
 
@@ -86,6 +87,26 @@ namespace AndroidEnvironmentWebActivity
             y(
                 android.os.Environment.getRootDirectory().getAbsolutePath()
             );
+        }
+
+
+        public void File_list(string path, ystring ydirectory, ystring yfile)
+        {
+            var f = new File(path);
+
+            var a = f.list();
+
+            foreach (var item in a)
+            {
+                if (new File(path + "/" + item).isDirectory())
+                    ydirectory(item);
+            }
+
+            foreach (var item in a)
+            {
+                if (new File(path + "/" + item).isFile())
+                    yfile(item);
+            }
         }
     }
 }
