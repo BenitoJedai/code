@@ -29,15 +29,63 @@ namespace AndroidEnvironmentWebActivity
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            Action<string> pre =
-                value =>
+           
+            #region pre
+            Func<string, IHTMLDiv, IHTMLElement> pre =
+                (value, output) =>
+                {
+                    return new IHTMLPre { innerText = value }.AttachTo(output);
+                };
+            #endregion
+
+            #region pre
+            Func<string, IHTMLDiv, IHTMLElement> browse = null;
+
+            browse =
+                (path, output) =>
                 {
 
+                    var list = new IHTMLButton { innerText = path }.AttachTo(output);
+
+                    
+                    var group = new IHTMLDiv().AttachTo(output);
+
+            
+
+
+                    list.onclick +=
+                        delegate
+                        {
+                            group.style.margin = "1em";
+
+                            group.style.marginLeft = "0em";
+                            group.style.paddingLeft = "0.8em";
+                            group.style.borderLeft = "0.2em solid gray";
+
+                            list.disabled = true;
+
+                            service.File_list(path,
+                                ydirectory: value =>
+                                {
+                                    browse(path + "/" + value, group);
+                                },
+
+                                yfile: value =>
+                                {
+                                    pre(value, group).style.fontWeight = "bold";
+                                }
+                            );
+                        };
+
+                    return group;
                 };
+            #endregion
+
+
 
             #region f
-            Action<string, string, Action<string, Action<string>>> f =
-                (text, arg1, c) =>
+            Action<string, string, Action<string, Action<string>>, Func<string, IHTMLDiv, IHTMLElement>> f =
+                (text, arg1, c, y) =>
                 {
                     var btn = new IHTMLButton(text).AttachToDocument();
                     var output = new IHTMLDiv().AttachToDocument();
@@ -47,13 +95,15 @@ namespace AndroidEnvironmentWebActivity
                         {
                             btn.style.color = JSColor.Red;
 
+                            output.Clear();
+
                             c(arg1,
                                 value =>
                                 {
                                     btn.style.color = JSColor.Blue;
 
-                                    new IHTMLPre { innerText = value }.AttachTo(output);
 
+                                    y(value, output);
                                 }
                             );
                         }
@@ -61,9 +111,9 @@ namespace AndroidEnvironmentWebActivity
                 };
             #endregion
 
-            f("Environment_getDataDirectory", "", service.Environment_getDataDirectory);
-            f("Environment_getDownloadCacheDirectory", "", service.Environment_getDownloadCacheDirectory);
-            f("Environment_getExternalStorageDirectory", "", service.Environment_getExternalStorageDirectory);
+            f("Environment_getDataDirectory", "", service.Environment_getDataDirectory, browse);
+            f("Environment_getDownloadCacheDirectory", "", service.Environment_getDownloadCacheDirectory, browse);
+            f("Environment_getExternalStorageDirectory", "", service.Environment_getExternalStorageDirectory, browse);
 
             service.Environment_DIRECTORY("",
                 (
@@ -78,20 +128,20 @@ namespace AndroidEnvironmentWebActivity
                     string DIRECTORY_DCIM
                 ) =>
                 {
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_MUSIC", DIRECTORY_MUSIC, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_PODCASTS", DIRECTORY_PODCASTS, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_RINGTONES", DIRECTORY_RINGTONES, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_ALARMS", DIRECTORY_ALARMS, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_NOTIFICATIONS", DIRECTORY_NOTIFICATIONS, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_PICTURES", DIRECTORY_PICTURES, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_MOVIES", DIRECTORY_MOVIES, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_DOWNLOADS", DIRECTORY_DOWNLOADS, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_DCIM", DIRECTORY_DCIM, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_MUSIC", DIRECTORY_MUSIC, service.Environment_getExternalStoragePublicDirectory, browse);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_PODCASTS", DIRECTORY_PODCASTS, service.Environment_getExternalStoragePublicDirectory, browse);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_RINGTONES", DIRECTORY_RINGTONES, service.Environment_getExternalStoragePublicDirectory, browse);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_ALARMS", DIRECTORY_ALARMS, service.Environment_getExternalStoragePublicDirectory, browse);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_NOTIFICATIONS", DIRECTORY_NOTIFICATIONS, service.Environment_getExternalStoragePublicDirectory, browse);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_PICTURES", DIRECTORY_PICTURES, service.Environment_getExternalStoragePublicDirectory, browse);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_MOVIES", DIRECTORY_MOVIES, service.Environment_getExternalStoragePublicDirectory, browse);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_DOWNLOADS", DIRECTORY_DOWNLOADS, service.Environment_getExternalStoragePublicDirectory, browse);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_DCIM", DIRECTORY_DCIM, service.Environment_getExternalStoragePublicDirectory, browse);
                 }
             );
 
-            f("Environment_getExternalStorageState", "", service.Environment_getExternalStorageState);
-            f("Environment_getRootDirectory", "", service.Environment_getRootDirectory);
+            f("Environment_getExternalStorageState", "", service.Environment_getExternalStorageState, pre);
+            f("Environment_getRootDirectory", "", service.Environment_getRootDirectory, browse);
 
             // new IHTMLButton("Environment_getDataDirectory").AttachToDocument().onclick +=
             //     e =>  service.Environment_getDataDirectory("",
