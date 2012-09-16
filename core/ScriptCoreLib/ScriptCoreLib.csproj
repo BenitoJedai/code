@@ -299,6 +299,7 @@
     <Compile Include="JavaScript\Runtime\Convert.cs" />
     <Compile Include="JavaScript\Runtime\Fader.cs" />
     <Compile Include="Properties\AbstractatechInfo.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Nullable.cs" />
     <Compile Include="Shared\BCLImplementation\System\EventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\EventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.NotImplementedHere.cs" />
