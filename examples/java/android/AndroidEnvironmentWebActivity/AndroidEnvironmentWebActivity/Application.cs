@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using AndroidEnvironmentWebActivity.Design;
 using AndroidEnvironmentWebActivity.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace AndroidEnvironmentWebActivity
 {
@@ -36,9 +37,21 @@ namespace AndroidEnvironmentWebActivity
                     var output = new IHTMLDiv().AttachToDocument();
 
                     btn.onclick +=
-                        e => c(arg1,
-                                value => new IHTMLPre { innerText = value }.AttachTo(output)
-                    );
+                        e =>
+                        {
+                            btn.style.color = JSColor.Red;
+
+                            c(arg1,
+                                value =>
+                                {
+                                    btn.style.color = JSColor.Blue;
+
+                                    new IHTMLPre { innerText = value }.AttachTo(output);
+
+                                }
+                            );
+                        }
+                    ;
                 };
             #endregion
 
@@ -71,6 +84,7 @@ namespace AndroidEnvironmentWebActivity
                 }
             );
 
+            f("Environment_getExternalStorageState", "", service.Environment_getExternalStorageState);
 
             // new IHTMLButton("Environment_getDataDirectory").AttachToDocument().onclick +=
             //     e =>  service.Environment_getDataDirectory("",
