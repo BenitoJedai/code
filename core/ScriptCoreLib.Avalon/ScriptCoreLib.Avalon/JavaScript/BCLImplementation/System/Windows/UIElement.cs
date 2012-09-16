@@ -507,15 +507,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 s.ontouchmove +=
                     e =>
                     {
-                        for (uint i = 0; i < e.touches.length; i++)
-                        {
-                            value(this, new __TouchEventArgs
+                        if (e.touches != null)
+                            for (uint i = 0; i < e.touches.length; i++)
                             {
-                                InternalValue = e.touches[i],
-                                InternalEvent = e
-                            });
+                                value(this, new __TouchEventArgs
+                                {
+                                    InternalValue = e.touches[i],
+                                    InternalEvent = e
+                                });
 
-                        }
+                            }
                     };
             }
             remove

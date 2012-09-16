@@ -39,6 +39,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class Touch
     {
+        public readonly int screenX;
+        public readonly int screenY;
         public readonly int clientX;
         public readonly int clientY;
         public readonly int identifier;
