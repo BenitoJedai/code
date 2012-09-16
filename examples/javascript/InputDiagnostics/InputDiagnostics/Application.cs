@@ -94,8 +94,25 @@ namespace InputDiagnostics
             {
                 ev.PreventDefault();
 
-                Append("ontouchmove: " + ev.touches.length + new { ev.touches[0].clientX, ev.touches[0].clientY });
+                Append("ontouchmove: " + ev.touches.length + new { 
+                    ev.touches[0].clientX, ev.touches[0].clientY });
             };
+
+            Native.Document.body.ontouchend +=
+                ev =>
+                {
+                    ev.PreventDefault();
+
+                    Append("ontouchend: " + 
+                        new { 
+                            touches = ev.touches.length, 
+                            changedTouches = ev.changedTouches.length ,
+                            targetTouches = ev.targetTouches.length 
+                        }
+                    );
+                };
+
+
 
         }
 
