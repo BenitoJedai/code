@@ -45,10 +45,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 
             #region magic, yet works
 
-            var pp = new Point(
-                           this.InternalValue.pageX,
-                           this.InternalValue.pageY
-                        );
+            var pp = new Point(0, 0);
+
+            if (this.InternalValue != null)
+            {
+
+                pp.X = this.InternalValue.pageX;
+                pp.Y = this.InternalValue.pageY;
+
+            };
 
 
             var a = GetPositionData.Of(_relativeTo.InternalGetDisplayObjectDirect());
