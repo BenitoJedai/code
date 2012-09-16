@@ -1,5 +1,5 @@
-using NestedControlsForWindowsForms.Design;
-using NestedControlsForWindowsForms.HTML.Pages;
+using AvalonThemeHospitalScene.Design;
+using AvalonThemeHospitalScene.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -8,13 +8,12 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace NestedControlsForWindowsForms
+namespace AvalonThemeHospitalScene
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -23,7 +22,7 @@ namespace NestedControlsForWindowsForms
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-        public readonly ApplicationControl content = new ApplicationControl();
+        public readonly ApplicationCanvas content = new ApplicationCanvas();
 
         /// <summary>
         /// This is a javascript application.
@@ -31,8 +30,8 @@ namespace NestedControlsForWindowsForms
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+            content.AttachToContainer(page.Content);
+            content.AutoSizeTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
