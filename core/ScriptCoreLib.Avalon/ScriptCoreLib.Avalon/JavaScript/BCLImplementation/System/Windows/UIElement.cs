@@ -512,6 +512,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                             {
                                 value(this, new __TouchEventArgs
                                 {
+                                    InternalElement = s,
                                     InternalValue = e.touches[i],
                                     InternalEvent = e
                                 });
