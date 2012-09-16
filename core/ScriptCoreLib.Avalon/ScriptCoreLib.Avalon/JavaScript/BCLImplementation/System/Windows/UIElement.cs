@@ -477,16 +477,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 s.ontouchstart +=
                     e =>
                     {
-                        var args = new __TouchEventArgs
-                        {
-                            InternalValue = null,
-                            InternalEvent = e
-                        };
+                        if (e.touches != null)
+                            for (uint i = 0; i < e.touches.length; i++)
+                            {
+                                var args = new __TouchEventArgs
+                                {
+                                    InternalElement = s,
+                                    InternalValue = e.touches[i],
+                                    InternalEvent = e
+                                };
 
-                        value(this, args);
+                                value(this, args);
 
-                        if (args.Handled)
-                            e.PreventDefault();
+
+                                if (args.Handled)
+                                    e.PreventDefault();
+                            }
                     };
 
             }
@@ -510,13 +516,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                         if (e.touches != null)
                             for (uint i = 0; i < e.touches.length; i++)
                             {
-                                value(this, new __TouchEventArgs
+                                var args = new __TouchEventArgs
                                 {
                                     InternalElement = s,
                                     InternalValue = e.touches[i],
                                     InternalEvent = e
-                                });
+                                };
 
+                                value(this, args);
+
+
+                                if (args.Handled)
+                                    e.PreventDefault();
                             }
                     };
             }
@@ -534,11 +545,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 s.ontouchend +=
                     e =>
                     {
-                        value(this, new __TouchEventArgs
-                        {
-                            InternalValue = null,
-                            InternalEvent = e
-                        });
+                        if (e.changedTouches != null)
+                            for (uint i = 0; i < e.changedTouches.length; i++)
+                            {
+                                var args = new __TouchEventArgs
+                                {
+                                    InternalElement = s,
+                                    InternalValue = e.changedTouches[i],
+                                    InternalEvent = e
+                                };
+
+                                value(this, args);
+
+
+                                if (args.Handled)
+                                    e.PreventDefault();
+                            }
                     };
             }
             remove

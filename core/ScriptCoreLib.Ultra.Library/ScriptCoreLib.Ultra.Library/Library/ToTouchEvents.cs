@@ -90,7 +90,7 @@ namespace ScriptCoreLib.Library
 
                 if (this.TouchDown != null)
                     this.TouchDown(m.Touch, e);
-
+                e.Handled = true;
                 m.Trigger.TouchDown(e);
             };
 
@@ -117,6 +117,7 @@ namespace ScriptCoreLib.Library
 
                     if (this.TouchMove != null)
                         this.TouchMove(m.Touch, e);
+                    e.Handled = true;
 
                     m.Trigger.TouchMove(e);
                 }
