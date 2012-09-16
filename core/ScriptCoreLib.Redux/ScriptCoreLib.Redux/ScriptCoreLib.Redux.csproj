@@ -84,7 +84,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMerge:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMergeExtension:"$(TargetPath)" /AssemblyMergeExtension:"$(ProjectDir)bin\staging.UltraSource\$(TargetName).UltraSource.dll" /RemoveObfuscationMergeAttributes:true /XAttachDebugger:true /EnableDelayedFileMove:true
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMerge:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMergeExtension:"$(TargetPath)" /AssemblyMergeExtension:"$(ProjectDir)bin\staging.UltraSource\$(TargetName).UltraSource.dll" /RemoveObfuscationMergeAttributes:true /XAttachDebugger:true /EnableDelayedFileMove:true
 
 </PostBuildEvent>
   </PropertyGroup>
