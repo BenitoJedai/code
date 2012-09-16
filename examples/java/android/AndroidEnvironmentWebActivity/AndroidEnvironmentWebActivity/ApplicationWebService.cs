@@ -73,5 +73,19 @@ namespace AndroidEnvironmentWebActivity
                 android.os.Environment.getExternalStoragePublicDirectory(DIRECTORY).getAbsolutePath()
             );
         }
+
+        public void Environment_getExternalStorageState(string DIRECTORY, Action<string> y)
+        {
+            y(
+                android.os.Environment.getExternalStorageState()
+            );
+        }
+
+        public void Environment_getRootDirectory(string DIRECTORY, Action<string> y)
+        {
+            y(
+                android.os.Environment.getRootDirectory().getAbsolutePath()
+            );
+        }
     }
 }

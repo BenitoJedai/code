@@ -29,6 +29,12 @@ namespace AndroidEnvironmentWebActivity
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            Action<string> pre =
+                value =>
+                {
+
+                };
+
             #region f
             Action<string, string, Action<string, Action<string>>> f =
                 (text, arg1, c) =>
@@ -72,19 +78,20 @@ namespace AndroidEnvironmentWebActivity
                     string DIRECTORY_DCIM
                 ) =>
                 {
-                    f("Environment_getExternalStorageDirectory DIRECTORY_MUSIC", DIRECTORY_MUSIC, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStorageDirectory DIRECTORY_PODCASTS", DIRECTORY_PODCASTS, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStorageDirectory DIRECTORY_RINGTONES", DIRECTORY_RINGTONES, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStorageDirectory DIRECTORY_ALARMS", DIRECTORY_ALARMS, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStorageDirectory DIRECTORY_NOTIFICATIONS", DIRECTORY_NOTIFICATIONS, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStorageDirectory DIRECTORY_PICTURES", DIRECTORY_PICTURES, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStorageDirectory DIRECTORY_MOVIES", DIRECTORY_MOVIES, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStorageDirectory DIRECTORY_DOWNLOADS", DIRECTORY_DOWNLOADS, service.Environment_getExternalStoragePublicDirectory);
-                    f("Environment_getExternalStorageDirectory DIRECTORY_DCIM", DIRECTORY_DCIM, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_MUSIC", DIRECTORY_MUSIC, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_PODCASTS", DIRECTORY_PODCASTS, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_RINGTONES", DIRECTORY_RINGTONES, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_ALARMS", DIRECTORY_ALARMS, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_NOTIFICATIONS", DIRECTORY_NOTIFICATIONS, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_PICTURES", DIRECTORY_PICTURES, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_MOVIES", DIRECTORY_MOVIES, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_DOWNLOADS", DIRECTORY_DOWNLOADS, service.Environment_getExternalStoragePublicDirectory);
+                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_DCIM", DIRECTORY_DCIM, service.Environment_getExternalStoragePublicDirectory);
                 }
             );
 
             f("Environment_getExternalStorageState", "", service.Environment_getExternalStorageState);
+            f("Environment_getRootDirectory", "", service.Environment_getRootDirectory);
 
             // new IHTMLButton("Environment_getDataDirectory").AttachToDocument().onclick +=
             //     e =>  service.Environment_getDataDirectory("",
