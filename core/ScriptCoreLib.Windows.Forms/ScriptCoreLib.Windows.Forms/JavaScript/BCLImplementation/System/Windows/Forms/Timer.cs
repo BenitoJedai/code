@@ -8,14 +8,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     using ScriptCoreLib.JavaScript.DOM.HTML;
     using ScriptCoreLib.JavaScript.Runtime;
-	using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
-    
+    using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
+
     [Script(Implements = typeof(global::System.Windows.Forms.Timer))]
     internal class __Timer : __Component
     {
         Timer Target;
 
-        public __Timer() : this(null)
+        public __Timer()
+            : this(null)
         {
 
         }
@@ -23,7 +24,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __Timer(IContainer e)
         {
             Target = new Timer();
-            Target.Tick += t => this.Tick(this, null);
+            Target.Tick += t =>
+                {
+                    if (this.Tick != null)
+                        this.Tick(this, null);
+                };
 
             _Interval = 100;
         }
@@ -33,7 +38,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public bool Enabled
         {
             get { return _Enabled; }
-            set { _Enabled = value;
+            set
+            {
+                _Enabled = value;
 
                 if (value)
                     Target.StartInterval(_Interval);
@@ -53,7 +60,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public int Interval
         {
             get { return _Interval; }
-            set { _Interval = value; 
+            set
+            {
+                _Interval = value;
                 if (_Enabled)
                     Target.StartInterval(_Interval);
 
