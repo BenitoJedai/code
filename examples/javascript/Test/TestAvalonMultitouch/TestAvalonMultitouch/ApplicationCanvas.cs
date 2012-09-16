@@ -66,9 +66,9 @@ namespace TestAvalonMultitouch
         public ApplicationCanvas()
         {
             var c = new CheckBox
-                {
-                    Content = "Print to Console  "
-                }.MoveTo(8, 96);
+            {
+                Content = new TextBlock { Text = "Print to Console  " }
+            }.MoveTo(8, 96);
 
 
             var t = new TextBlock { Text = "?" }.AttachTo(this);
@@ -166,7 +166,8 @@ namespace TestAvalonMultitouch
 
                 a_case1.Last().MoveTo(p);
 
-                Console.WriteLine("MouseMove " + p);
+                if ((bool)c.IsChecked)
+                    Console.WriteLine("MouseMove " + p);
             };
 
             case1.TouchUp +=
@@ -184,7 +185,8 @@ namespace TestAvalonMultitouch
 
                     a_case1[e.TouchDevice.Id].MoveTo(p);
 
-                    Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + p);
+                    if ((bool)c.IsChecked)
+                        Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + p);
                 };
 
 
@@ -209,7 +211,8 @@ namespace TestAvalonMultitouch
 
                  a_case2.Last().MoveTo(p);
 
-                 Console.WriteLine("MouseMove " + p);
+                 if ((bool)c.IsChecked)
+                     Console.WriteLine("MouseMove " + p);
              };
             case2.TouchUp +=
           (s, e) =>
@@ -266,7 +269,8 @@ namespace TestAvalonMultitouch
                     a_case2[e.TouchDevice.Id].MoveTo(p);
 
 
-                    Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + p);
+                    if ((bool)c.IsChecked)
+                        Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + p);
                 };
 
 
@@ -290,13 +294,14 @@ namespace TestAvalonMultitouch
 
                     a_case3.Last().MoveTo(p);
 
-                    Console.WriteLine("MouseMove " + p);
+                    if ((bool)c.IsChecked)
+                        Console.WriteLine("MouseMove " + p);
                 };
             case3.TouchUp +=
-      (s, e) =>
-      {
-          Console.WriteLine("TouchUp");
-      };
+                  (s, e) =>
+                  {
+                      Console.WriteLine("TouchUp");
+                  };
             #endregion
             case3.TouchMove +=
                 (s, e) =>
@@ -388,7 +393,8 @@ namespace TestAvalonMultitouch
 
                     a_case3[e.TouchDevice.Id].MoveTo(p);
 
-                    Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + p);
+                    if ((bool)c.IsChecked)
+                        Console.WriteLine("TouchMove " + e.TouchDevice.Id + " " + p);
                 };
 
             c.AttachTo(this);
