@@ -80,11 +80,22 @@ namespace InputDiagnostics
                 ev => Append("click: " + ev.OffsetPosition);
 
             Native.Document.body.ontouchstart +=
-            ev => Append("ontouchstart: " + ev.touches.length);
+            ev =>
+            {
+                ev.PreventDefault();
+
+                Append("ontouchstart: " + ev.touches.length);
+            };
+
 
 
             Native.Document.body.ontouchmove +=
-            ev => Append("ontouchmove: " + ev.touches.length + new { ev.touches[0].clientX, ev.touches[0].clientY });
+            ev =>
+            {
+                ev.PreventDefault();
+
+                Append("ontouchmove: " + ev.touches.length + new { ev.touches[0].clientX, ev.touches[0].clientY });
+            };
 
         }
 
