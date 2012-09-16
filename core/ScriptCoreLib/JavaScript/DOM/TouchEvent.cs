@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://www.w3.org/TR/touch-events/
 
         public readonly TouchList touches;
+        public readonly TouchList changedTouches;
     }
 
     [Script(HasNoPrototype = true)]

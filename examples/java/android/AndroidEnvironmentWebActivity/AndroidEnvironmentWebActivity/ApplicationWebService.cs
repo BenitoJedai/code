@@ -8,7 +8,8 @@ using System.Xml.Linq;
 namespace AndroidEnvironmentWebActivity
 {
     using java.io;
-    using ystring = Action<string>;
+using ScriptCoreLib.Ultra.WebService;
+using ystring = Action<string>;
 
     public delegate void Environment_DIRECTORY_callback(
         string DIRECTORY_MUSIC,
@@ -106,6 +107,32 @@ namespace AndroidEnvironmentWebActivity
             {
                 if (new File(path + "/" + item).isFile())
                     yfile(item);
+            }
+        }
+
+
+
+        public void Handler(WebServiceHandler h)
+        {
+            var io = "/io";
+            var path = h.Context.Request.Path; 
+            if (path.StartsWith(io))
+            {
+                h.Context.Response.ContentType = "text/html";
+
+                var file = new File( path.SkipUntilIfAny(io));
+
+                if (file.exists())
+                    if (file.isFile())
+                    {
+                        h.Context.Response.Write("download this file");
+                        h.CompleteRequest();
+                        return;
+                    }
+
+                h.Context.Response.Write("what ya lookin for?");
+                h.CompleteRequest();
+                return;
             }
         }
     }
