@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}</ProjectGuid>
+    <ProjectGuid>{3926ACCC-361B-4F8F-8D51-6DDE132423E3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlasmaFormsControl</RootNamespace>
-    <AssemblyName>PlasmaFormsControl</AssemblyName>
+    <RootNamespace>AvalonThemeHospitalScene</RootNamespace>
+    <AssemblyName>AvalonThemeHospitalScene</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>PlasmaFormsControl.Program</StartupObject>
+    <StartupObject>AvalonThemeHospitalScene.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -102,6 +102,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -114,52 +115,32 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="PlasmaFormsControl.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\PlasmaFormsControl.AssetsLibrary.dll</HintPath>
+    <Reference Include="AvalonThemeHospitalScene.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AvalonThemeHospitalScene.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="Library\PlasmaControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Library\PlasmaControl.Designer.cs">
-      <DependentUpon>PlasmaControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ApplicationControl.Designer.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ApplicationCanvas.cs" />
     <Compile Include="ApplicationWebService.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
     <Compile Include="Application.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Preview.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ApplicationControl.resx">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Library\PlasmaControl.resx">
-      <DependentUpon>PlasmaControl.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="Design\floor1.png" />
+    <Content Include="Design\scanlines_sep.png" />
+    <Content Include="Design\View1.htm" />
+    <Content Include="Design\wall1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
-)
-
-
+    <PostBuildEvent>
 if $(ConfigurationName)==Release (
 start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>

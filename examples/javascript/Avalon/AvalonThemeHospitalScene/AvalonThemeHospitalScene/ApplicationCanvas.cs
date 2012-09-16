@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+using AvalonThemeHospitalScene.Avalon.Images.SpriteSheet;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using System;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
-using HospitalScene.Avalon.Images.SpriteSheet;
-using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Xml;
+using System.Xml.Linq;
 
-namespace HospitalScene
+namespace AvalonThemeHospitalScene
 {
-	public delegate void Action<T1, T2, T3, T4, T5>(T1 a, T2 b, T3 c, T4 d, T5 e);
+    public class ApplicationCanvas : Canvas
+    {
+        public readonly Rectangle r = new Rectangle();
 
-	public class MyCanvas : Canvas
-	{
-		public MyCanvas()
+        public ApplicationCanvas()
 		{
 			this.Width = 400;
 			this.Height = 200;
@@ -105,5 +109,7 @@ namespace HospitalScene
 
 			//this.SnapsToDevicePixels = true;
 		}
-	}
+
+
+    }
 }
