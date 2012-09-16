@@ -4,13 +4,14 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
 using System.Xml.Linq;
+using android.os;
+using android.widget;
+using java.io;
+using ScriptCoreLib.Ultra.WebService;
 
 namespace AndroidEnvironmentWebActivity
 {
-    using android.os;
-    using android.widget;
-    using java.io;
-    using ScriptCoreLib.Ultra.WebService;
+
     using ystring = Action<string>;
 
     public delegate void Environment_DIRECTORY_callback(
@@ -141,26 +142,5 @@ namespace AndroidEnvironmentWebActivity
         }
     }
 
-    class XToastMessageTask : AsyncTask
-    {
-        string toastMessage;
-        protected override object doInBackground(object[] value)
-        {
-            toastMessage = (string)value[0];
-            
-            return toastMessage;
-        }
 
-        protected override void onProgressUpdate(object[] value)
-        {
-            base.onProgressUpdate(value);
-        }
-
-        protected override void onPostExecute(object value)
-        {
-            Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT);
-            toast.show();
-
-        }
-    }
 }
