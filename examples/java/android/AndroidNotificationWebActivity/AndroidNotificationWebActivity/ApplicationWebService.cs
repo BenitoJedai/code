@@ -67,9 +67,14 @@ namespace foo
             // Send Notification
             var notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
+            var Title = "Notification!";
+
+            if (value0.hasExtra("data0"))
+                Title = value0.getStringExtra("data0");
+
             var myNotification = new Notification(
                 android.R.drawable.star_on,
-                "Notification!",
+                Title,
                 java.lang.System.currentTimeMillis()
             );
 
