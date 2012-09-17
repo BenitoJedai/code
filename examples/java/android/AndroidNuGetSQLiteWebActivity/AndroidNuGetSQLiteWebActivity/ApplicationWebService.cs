@@ -21,8 +21,6 @@ namespace AndroidNuGetSQLiteWebActivity
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
-            __SQLiteConnectionHack.Context = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
-
             MyDatabase.Write();
 
 

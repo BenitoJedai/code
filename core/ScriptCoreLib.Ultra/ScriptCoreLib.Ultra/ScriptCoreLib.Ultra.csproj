@@ -120,7 +120,6 @@
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
     <Compile Include="ActionScript\Extensions\DisplayObjectContainerExtensions.cs" />
     <Compile Include="ActionScript\Extensions\ExternalInterfaceExtensions.cs" />
-    <Compile Include="Android\ThreadLocalContextReference.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
     <Compile Include="Archive\ZIP\ZIPFileWithXLinq.cs" />
     <Compile Include="Desktop\Avalon\Extensions\DesktopAvalonExtensions.cs" />
@@ -189,6 +188,9 @@
       <Project>{132EB43F-19B4-42AC-8025-3249B129867A}</Project>
       <Name>ScriptCoreLib.Ultra.Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Android\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

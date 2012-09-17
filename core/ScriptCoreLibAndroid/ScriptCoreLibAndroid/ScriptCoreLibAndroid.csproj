@@ -727,6 +727,10 @@
     <Compile Include="BCLImplementation\System\Data\Common\DbConnection.cs" />
     <Compile Include="BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Data\Common\DbDataReader.cs" />
+    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
+    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
+    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
+    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
@@ -743,6 +747,7 @@
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Manifest\ApplicationAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreadLocalContextReference.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documents\" />
