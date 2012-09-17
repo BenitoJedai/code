@@ -118,24 +118,40 @@ namespace AndroidEnvironmentWebActivity
         public void Handler(WebServiceHandler h)
         {
             var io = "/io";
-            var path = h.Context.Request.Path; 
+            var path = h.Context.Request.Path;
             if (path.StartsWith(io))
             {
-                h.Context.Response.ContentType = "text/html";
 
 
+                var filepath = path.SkipUntilIfAny(io);
 
-                var file = new File( path.SkipUntilIfAny(io));
+                filepath = filepath.Replace("%20", " ");
+
+                var file = new File(filepath);
+
 
                 if (file.exists())
                     if (file.isFile())
-                    {
-                        h.Context.Response.Write("download this file");
-                        h.CompleteRequest();
-                        return;
-                    }
+                        if (path.EndsWith(".jpg"))
+                        {
+                            var bytes = System.IO.File.ReadAllBytes(filepath);
 
+                            h.Context.Response.ContentType = "image/jpg";
+
+
+                            // send all the bytes
+
+                            h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+
+
+
+                            h.CompleteRequest();
+                            return;
+                        }
+
+                h.Context.Response.ContentType = "text/html";
                 h.Context.Response.Write("what ya lookin for?");
+                h.Context.Response.Write(new XElement("pre", filepath).ToString());
                 h.CompleteRequest();
                 return;
             }
