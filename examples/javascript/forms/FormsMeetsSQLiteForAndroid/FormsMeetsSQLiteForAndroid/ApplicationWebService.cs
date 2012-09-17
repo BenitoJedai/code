@@ -24,72 +24,80 @@ namespace FormsMeetsSQLiteForAndroid
             y(e);
         }
 
+        const string DataSource = "MY_DATABASE0.sqlite";
 
         public void CountItems(string e, Action<string> y)
         {
-        }
-
-        public void EnumerateItems(string e, Action<string> y)
-        {
-            using (var c = new SQLiteConnection(
-
-               new SQLiteConnectionStringBuilder
-               {
-                   DataSource = "MY_DATABASE.sqlite",
-                   Version = 3,
-                   ReadOnly = true,
-
-                   // cannot be set while running under .net debugger
-                   // php needs to use defaults
-
-                   //Password = "",
-                   //Uri = "localhost"              
-               }.ConnectionString
-               ))
+            Console.WriteLine("CountItems enter");
+            using (var c = OpenReadOnlyConnection())
             {
-                // Invalid ConnectionString format for parameter "password"
                 c.Open();
 
-
-
-
-                var reader = new SQLiteCommand("select Content from MY_TABLE", c).ExecuteReader();
-
-                //var x = from k in MY_TABLE
-                //        select new { k.Content };
-
-
-                //if (reader == null)
-                //    contentRead += "Reader was null";
-                //else
-                //{
-                //var i = 6;
-
-                while (reader.Read())
+                using (var reader = new SQLiteCommand("select count(*) from MY_TABLE", c).ExecuteReader())
                 {
-                    //i--;
-                    var Content = (string)reader["Content"];
 
-                    y(Content);
+                    if (reader.Read())
+                    {
+                        var Content = (int)reader.GetInt32(0);
 
-                    //if (i == 0)
-                    //    break;
+                        y("" + Content);
+
+                    }
                 }
-                //}
-
 
                 c.Close();
 
             }
+            Console.WriteLine("CountItems exit");
+        }
+
+
+        SQLiteConnection OpenReadOnlyConnection()
+        {
+                return new SQLiteConnection(
+
+               new SQLiteConnectionStringBuilder
+               {
+                   DataSource = DataSource,
+                   Version = 3,
+                   ReadOnly = true,
+                   
+               }.ConnectionString
+               );
+        }
+        public void EnumerateItems(string e, Action<string> y)
+        {
+            Console.WriteLine("EnumerateItems enter");
+            using (var c = OpenReadOnlyConnection())
+            {
+                c.Open();
+
+                using (var reader = new SQLiteCommand("select Content from MY_TABLE", c).ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        var Content = (string)reader["Content"];
+
+                        y(Content);
+
+                    }
+                }
+
+                c.Close();
+
+            }
+            Console.WriteLine("EnumerateItems exit");
         }
 
         public void AddItem(string e, Action<string> y)
         {
+            Console.WriteLine("AddItem enter");
             using (var c = new SQLiteConnection(
 
              new SQLiteConnectionStringBuilder
              {
-                 DataSource = "MY_DATABASE.sqlite",
+                 DataSource = DataSource,
                  Version = 3
              }.ConnectionString
 
@@ -97,9 +105,15 @@ namespace FormsMeetsSQLiteForAndroid
             {
                 c.Open();
 
-                new SQLiteCommand("create table if not exists MY_TABLE (Content text not null)", c).ExecuteNonQuery();
+                using (var cmd = new SQLiteCommand("create table if not exists MY_TABLE (Content text not null)", c))
+                {
+                    cmd.ExecuteNonQuery();
+                }
 
                 //new SQLiteCommand("delete from MY_TABLE", c).ExecuteNonQuery();
+
+                // The database file is locked
+                // http://stackoverflow.com/questions/4348860/the-database-file-is-locked-with-system-data-sqlite
 
                 new SQLiteCommand("insert into MY_TABLE (Content) values ('" + e + "')", c).ExecuteNonQuery();
                 //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 2')", c).ExecuteNonQuery();
@@ -114,6 +128,7 @@ namespace FormsMeetsSQLiteForAndroid
 
             // Send it back to the caller.
             y(e);
+            Console.WriteLine("AddItem exit");
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
-    public class __SQLiteConnection : __DbConnection
+    internal class __SQLiteConnection : __DbConnection
     {
         private LocalSQLiteOpenHelper h;
         public SQLiteDatabase db;
