@@ -29,7 +29,7 @@ namespace ScriptCoreLib.Android
         }
     }
 
-    [Script(Implements = typeof(SQLiteConnectionStringBuilder))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnectionStringBuilder, System.Data.SQLite")]
     public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
         public string DataSource { get; set; }
@@ -65,7 +65,7 @@ namespace ScriptCoreLib.Android
 
     }
 
-    [Script(Implements = typeof(System.Data.SQLite.SQLiteCommand))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteCommand, System.Data.SQLite")]
     public class __SQLiteCommand : __DbCommand
     {
         __SQLiteConnection c;
@@ -106,7 +106,7 @@ namespace ScriptCoreLib.Android
 
     }
 
-    [Script(Implements = typeof(System.Data.SQLite.SQLiteDataReader))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataReader, System.Data.SQLite")]
     public class __SQLiteDataReader : __DbDataReaders
     {
         public Cursor cursor;
@@ -172,7 +172,7 @@ namespace ScriptCoreLib.Android
         public static bool ForceReadOnly;
     }
 
-    [Script(Implements = typeof(System.Data.SQLite.SQLiteConnection))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection, System.Data.SQLite")]
     public class __SQLiteConnection : __DbConnection
     {
         private LocalSQLiteOpenHelper h;

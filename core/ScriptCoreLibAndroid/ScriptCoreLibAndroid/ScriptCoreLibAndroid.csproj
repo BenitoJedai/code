@@ -720,6 +720,10 @@
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
+    <Compile Include="BCLImplementation\System\Data\Common\DbCommand.cs" />
+    <Compile Include="BCLImplementation\System\Data\Common\DbConnection.cs" />
+    <Compile Include="BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs" />
+    <Compile Include="BCLImplementation\System\Data\Common\DbDataReader.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
