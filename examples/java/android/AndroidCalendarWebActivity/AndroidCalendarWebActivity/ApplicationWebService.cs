@@ -1,4 +1,6 @@
+using android.content;
 using android.provider;
+using java.util;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -15,11 +17,37 @@ namespace AndroidCalendarWebActivity
     /// </summary>
     public sealed class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
+
+        public void CreateEvent(string Title, string Location, string Description, Action y)
+        {
+            // http://developer.android.com/reference/android/provider/CalendarContract.EventsColumns.html#DESCRIPTION
+
+            Intent calIntent = new Intent(Intent.ACTION_INSERT);
+            calIntent.setType("vnd.android.cursor.item/event");
+            calIntent.putExtra("title", Title);
+            calIntent.putExtra("eventLocation", Location);
+            calIntent.putExtra("description", Description);
+
+            GregorianCalendar calDate = new GregorianCalendar(2012, 7, 15);
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                 calDate.getTimeInMillis());
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                 calDate.getTimeInMillis());
+
+
+
+            calIntent.putExtra("accessLevel", 0x00000002);
+            calIntent.putExtra("availability", 0x00000000);
+
+            calIntent.putExtra("rrule", "FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH");
+
+            y();
+
+            // well spawn another activity/thread
+            ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.startActivity(calIntent);
+        }
+
         public void GetEventText(string e, WebMethod2Handler y)
         {
             var COLS = new[]
@@ -33,7 +61,11 @@ namespace AndroidCalendarWebActivity
             );
 
             mCursor.moveToLast();
-            //mCursor.getPosition()
+
+            var p = mCursor.getPosition();
+
+            mCursor.moveToPosition(p - int.Parse(e));
+
 
             var Location = CalendarContract.Events.CONTENT_URI.ToString();
 
