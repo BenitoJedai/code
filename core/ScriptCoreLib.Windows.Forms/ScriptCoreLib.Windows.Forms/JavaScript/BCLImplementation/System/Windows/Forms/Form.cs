@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Drawing;
 using ScriptCoreLib.JavaScript.Runtime;
+using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -327,12 +328,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 X = (Native.Window.Width - this.Width) / 2,
                 Y = (Native.Window.Height - this.Height) / 2
             };
+            __FormZIndex++;
 
+            HTMLTarget.style.zIndex = __FormZIndex;
             this.HTMLTarget.AttachToDocument();
 
             
 
             InternalRaiseShown();
+
+            foreach (Control item in this.Controls)
+            {
+                if (item.TabIndex == 0)
+                    item.Focus();
+            }
         }
 
         public void InternalRaiseLoad()
