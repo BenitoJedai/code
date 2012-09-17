@@ -12,19 +12,13 @@ using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
+using ScriptCoreLibJava.Extensions;
 
 namespace AndroidNotificationActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
-        public static Class Class
-        {
-            [Script(OptimizedCode = "return ApplicationActivity.class;")]
-            get
-            {
-                return null;
-            }
-        }
+ 
 
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
@@ -61,7 +55,7 @@ namespace AndroidNotificationActivity.Activities
                          java.lang.System.currentTimeMillis()
                     );
 
-                    Intent notificationIntent = new Intent(this, ApplicationActivity.Class);
+                    Intent notificationIntent = new Intent(this, typeof(ApplicationActivity).ToClass());
                     PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
 
