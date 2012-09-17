@@ -50,7 +50,7 @@ namespace AndroidEmailActivity.Activities
                     new TextView(this).With(
                       b =>
                       {
-                          b.setText((java.lang.CharSequence)(object)label);
+                          b.setText(label);
 
 
                           ll.addView(b);
@@ -98,7 +98,7 @@ namespace AndroidEmailActivity.Activities
             new Button(this).With(
                 buttonSelectImage =>
                 {
-                    buttonSelectImage.setText((java.lang.CharSequence)(object)"Select image");
+                    buttonSelectImage.setText("Select image");
 
                     buttonSelectImage.AtClick(
                         delegate
@@ -122,7 +122,7 @@ namespace AndroidEmailActivity.Activities
             new Button(this).With(
                 buttonSendEmail_intent =>
                 {
-                    buttonSendEmail_intent.setText((java.lang.CharSequence)(object)"Send email using Intent.ACTION_SEND");
+                    buttonSendEmail_intent.setText("Send email using Intent.ACTION_SEND");
 
                     buttonSendEmail_intent.AtClick(
                         delegate
@@ -148,7 +148,7 @@ namespace AndroidEmailActivity.Activities
                                 intent.setType("plain/text");
                             }
 
-                            startActivity(Intent.createChooser(intent, (java.lang.CharSequence)(object)"Choice App to send email:"));
+                            startActivity(Intent.createChooser(intent, "Choice App to send email:"));
                         }
                     );
 
@@ -182,7 +182,7 @@ namespace AndroidEmailActivity.Activities
                 if (requestCode == RQS_LOADIMAGE)
                 {
                     imageUri = data.getData();
-                    this.imagepath.setText((java.lang.CharSequence)(object)imageUri.ToString());
+                    this.imagepath.setText(imageUri.ToString());
                 }
         }
     }

@@ -14,6 +14,7 @@ using java.util;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
+using ScriptCoreLibJava.Extensions;
 
 namespace AndroidAlarmServiceActivity.Activities
 {
@@ -45,7 +46,7 @@ namespace AndroidAlarmServiceActivity.Activities
                     {
                         this.ShowToast("start");
 
-                        var myIntent = new Intent(this, MyAlarmService.Class);
+                        var myIntent = new Intent(this, typeof(MyAlarmService).ToClass());
                         this.pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
 
                         AlarmManager alarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
@@ -93,14 +94,7 @@ namespace foo
 
     public sealed class MyAlarmService : Service
     {
-        public static Class Class
-        {
-            [Script(OptimizedCode = "return MyAlarmService.class;")]
-            get
-            {
-                return null;
-            }
-        }
+        
 
 
 

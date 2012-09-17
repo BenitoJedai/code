@@ -84,7 +84,7 @@ namespace AndroidCalendarIntentActivity.Activities
             // from t in calendars
             // select t.title
 
-            var mCursor = getContentResolver().query(
+            var mCursor = this.getContentResolver().query(
                 CalendarContract.Events.CONTENT_URI, COLS, null, null, null
             );
 
