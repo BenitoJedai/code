@@ -6,20 +6,33 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     using ScriptCoreLib.JavaScript.DOM.HTML;
+    using ScriptCoreLib.JavaScript.Runtime;
 
     [Script(Implements = typeof(global::System.Windows.Forms.ListBox))]
     internal class __ListBox : __ListControl
     {
-        public IHTMLSelect HTMLTarget { get; set; }
+        public IHTMLDiv HTMLTarget { get; set; }
 
         public __ListBox()
         {
-            HTMLTarget = new IHTMLSelect();
-            HTMLTarget.multiple = true;
+            //HTMLTarget = new IHTMLSelect();
+            //HTMLTarget.multiple = true;
+
+            this.HTMLTarget = new IHTMLDiv();
+            this.HTMLTarget.style.backgroundColor = JSColor.System.Window;
+            this.HTMLTarget.style.cursor = DOM.IStyle.CursorEnum.@default;
+            this.HTMLTarget.style.border = "1px solid gray";
+            this.HTMLTarget.style.overflow = DOM.IStyle.OverflowEnum.auto;
+            this.HTMLTarget.style.padding = "0.2em";
+            this.HTMLTarget.onselectstart +=
+                e =>
+                {
+                    e.PreventDefault();
+                };
 
             Items = new __ObjectCollection { Owner = this };
 
-			this.InternalSetDefaultFont();
+            this.InternalSetDefaultFont();
         }
 
         public override IHTMLElement HTMLTargetRef
@@ -39,9 +52,39 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             public int Add(object e)
             {
-                Owner.HTMLTarget.Add(e.ToString());
+                var i = new IHTMLDiv { innerText = e.ToString() };
+
+                var IsSelected = false;
+
+
+                i.onclick +=
+                    delegate
+                    {
+                        IsSelected = !IsSelected;
+
+                        if (IsSelected)
+                        {
+                            i.style.color = JSColor.System.HighlightText;
+                            i.style.backgroundColor = JSColor.System.Highlight;
+                        }
+                        else
+                        {
+                            i.style.color = JSColor.None;
+                            i.style.backgroundColor = JSColor.None;
+                        }
+                    };
+
+
+                Owner.HTMLTarget.Add(i);
 
                 return 0;
+            }
+
+            public void Clear()
+            {
+                while (Owner.HTMLTarget.childNodes.Length > 0)
+                    Owner.HTMLTarget.removeChild(Owner.HTMLTarget.firstChild);
+
             }
 
             public void AddRange(object[] items)
@@ -55,11 +98,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return !this.HTMLTarget.disabled;
+                return true;
+
+                //return !this.HTMLTarget.disabled;
             }
             set
             {
-                this.HTMLTarget.disabled = !value;
+                //this.HTMLTarget.disabled = !value;
             }
         }
     }

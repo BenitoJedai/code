@@ -600,6 +600,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        public bool Focus()
+        {
+            this.HTMLTargetRef.focus();
+            return false;
+        }
+
         #region BackColor
 
         public event EventHandler BackColorChanged;
