@@ -11,6 +11,11 @@ namespace android.util
     [Script(IsNative = true)]
     public  class Log
     {
+        public static string getStackTraceString(java.lang.Throwable t)
+        {
+            return default(string);
+        }
+
         public static int wtf(string tag, string msg)
         {
             return default(int);
