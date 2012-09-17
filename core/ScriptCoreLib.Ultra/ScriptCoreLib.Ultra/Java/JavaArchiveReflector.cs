@@ -1,3 +1,5 @@
+extern alias jvm;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -445,7 +447,8 @@ namespace ScriptCoreLib.Java
                                             return null;
                                         }
 
-                                        return c.ToType();
+                                        // cant be more explicit:P
+                                        return jvm::ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToType(c);
                                     };
                                 }
                             }

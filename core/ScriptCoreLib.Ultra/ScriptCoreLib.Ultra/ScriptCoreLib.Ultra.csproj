@@ -80,6 +80,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
+      <Aliases>globalandroid</Aliases>
+    </Reference>
     <Reference Include="ScriptCoreLibJava">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
@@ -116,6 +120,7 @@
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
     <Compile Include="ActionScript\Extensions\DisplayObjectContainerExtensions.cs" />
     <Compile Include="ActionScript\Extensions\ExternalInterfaceExtensions.cs" />
+    <Compile Include="Android\ThreadLocalContextReference.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
     <Compile Include="Archive\ZIP\ZIPFileWithXLinq.cs" />
     <Compile Include="Desktop\Avalon\Extensions\DesktopAvalonExtensions.cs" />
