@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using AndroidCalendarWebActivity.Design;
 using AndroidCalendarWebActivity.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace AndroidCalendarWebActivity
 {
@@ -29,27 +30,62 @@ namespace AndroidCalendarWebActivity
         public Application(IDefaultPage page)
         {
             @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.GetEventText(
-                @"0",
 
-                (Location, EventText) =>
+            Action<int, Action> GetEventText =
+                (e, y) =>
                 {
-                    page.Location.innerText = Location;
-                    page.EventTitle.innerText = EventText;
+                    service.GetEventText(
+                        e.ToString(),
 
-                }
-            );
+                        (Location, EventText) =>
+                        {
+                            page.Location.innerText = Location;
+                            page.EventTitle.innerText = EventText;
 
+                            if (y != null)
+                                y();
+                        }
+                    );
+                };
+
+            var reverse_position = 0;
+
+            GetEventText(reverse_position, null);
+
+            page.Prev.onclick +=
+                delegate
+                {
+                    reverse_position++;
+
+                    page.Prev.style.color = JSColor.Red;
+                    GetEventText(reverse_position, 
+                        () => page.Prev.style.color = JSColor.Blue);
+                };
+
+            page.Next.onclick +=
+             delegate
+             {
+                 if (reverse_position > 0)
+                     reverse_position--;
+
+                 page.Next.style.color = JSColor.Red;
+                 GetEventText(reverse_position,
+                     () => page.Next.style.color = JSColor.Blue);
+             };
 
             page.CreateEvent.onclick +=
                 delegate
                 {
-
+                    page.CreateEvent.style.color = JSColor.Red;
+                    service.CreateEvent(
+                        page.CreateEventTitle.value,
+                        page.CreateEventLocation.value,
+                        page.CreateEventDescription.value,
+                        () => page.CreateEvent.style.color = JSColor.Blue);
                 };
         }
 
-            
+
 
     }
 }
