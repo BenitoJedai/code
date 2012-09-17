@@ -34,13 +34,18 @@ namespace AndroidCalendarWebActivity
             Action<int, Action> GetEventText =
                 (e, y) =>
                 {
+                    page.EventTitle.style.color = JSColor.Red;
+
+                    var ee = System.Convert.ToString(e);
+                    Console.WriteLine(new { ee, e });
                     service.GetEventText(
-                        e.ToString(),
+                        ee,
 
                         (Location, EventText) =>
                         {
                             page.Location.innerText = Location;
                             page.EventTitle.innerText = EventText;
+                            page.EventTitle.style.color = JSColor.None;
 
                             if (y != null)
                                 y();
@@ -58,7 +63,7 @@ namespace AndroidCalendarWebActivity
                     reverse_position++;
 
                     page.Prev.style.color = JSColor.Red;
-                    GetEventText(reverse_position, 
+                    GetEventText(reverse_position,
                         () => page.Prev.style.color = JSColor.Blue);
                 };
 
@@ -81,7 +86,7 @@ namespace AndroidCalendarWebActivity
                         page.CreateEventTitle.value,
                         page.CreateEventLocation.value,
                         page.CreateEventDescription.value,
-                        () => page.CreateEvent.style.color = JSColor.Blue);
+                        (e) => page.CreateEvent.style.color = JSColor.Blue);
                 };
         }
 

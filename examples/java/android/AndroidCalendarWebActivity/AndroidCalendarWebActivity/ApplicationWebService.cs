@@ -17,12 +17,18 @@ namespace AndroidCalendarWebActivity
     /// </summary>
     public sealed class ApplicationWebService
     {
-
-        public void CreateEvent(string Title, string Location, string Description, Action y)
+        // jsc: seems like we need atleast one in and one out string :)
+        public void CreateEvent(string Title, string Location, string Description, Action<string> y)
         {
             // http://developer.android.com/reference/android/provider/CalendarContract.EventsColumns.html#DESCRIPTION
+            Console.WriteLine("CreateEvent " + new { Title, Location, Description });
 
             Intent calIntent = new Intent(Intent.ACTION_INSERT);
+
+            // when one opens browser in android calendar stays hidden..
+            // http://stackoverflow.com/questions/2232238/how-to-bring-an-activity-to-foreground-top-of-stack
+            //calIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
             calIntent.setType("vnd.android.cursor.item/event");
             calIntent.putExtra("title", Title);
             calIntent.putExtra("eventLocation", Location);
@@ -42,10 +48,12 @@ namespace AndroidCalendarWebActivity
 
             calIntent.putExtra("rrule", "FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH");
 
-            y();
 
             // well spawn another activity/thread
             ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.startActivity(calIntent);
+
+            y("");
+        
         }
 
         public void GetEventText(string e, WebMethod2Handler y)
@@ -63,6 +71,10 @@ namespace AndroidCalendarWebActivity
             mCursor.moveToLast();
 
             var p = mCursor.getPosition();
+
+            android.util.Log.wtf("AndroidCalendarWebActivity", new { e }.ToString());
+
+            //Console.WriteLine(new { e });
 
             mCursor.moveToPosition(p - int.Parse(e));
 
