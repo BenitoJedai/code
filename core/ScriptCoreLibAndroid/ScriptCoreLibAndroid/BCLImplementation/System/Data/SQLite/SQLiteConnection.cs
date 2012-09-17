@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection, System.Data.SQLite")]
+    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
     public class __SQLiteConnection : __DbConnection
     {
         private LocalSQLiteOpenHelper h;
@@ -84,7 +84,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         }
 
 
-
+        [Script]
         public class LocalSQLiteOpenHelper : SQLiteOpenHelper
         {
 

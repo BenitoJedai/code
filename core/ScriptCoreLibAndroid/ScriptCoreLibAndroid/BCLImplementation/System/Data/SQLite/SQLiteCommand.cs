@@ -1,18 +1,19 @@
 ﻿using ScriptCoreLib.Android.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteCommand, System.Data.SQLite")]
+    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
     public class __SQLiteCommand : __DbCommand
     {
         __SQLiteConnection c;
         string sql;
 
-        public __SQLiteCommand(string sql, __SQLiteConnection c)
+        public __SQLiteCommand(string sql, SQLiteConnection c)
         {
             this.c = (__SQLiteConnection)(object)c;
             this.sql = sql;
