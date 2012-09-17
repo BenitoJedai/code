@@ -7,27 +7,13 @@ using System.Text;
 using android.content;
 using android.database;
 using android.database.sqlite;
+using ScriptCoreLib.Android.BCLImplementation.System.Data.Common;
 
 namespace ScriptCoreLib.Android
 {
 
 
-    [Script(Implements = typeof(DbConnectionStringBuilder))]
-    public class __DbConnectionStringBuilder
-    {
-        public string ConnectionString
-        {
-            get
-            {
-                return InternalGetConnectionString();
-            }
-        }
 
-        protected virtual string InternalGetConnectionString()
-        {
-            return null;
-        }
-    }
 
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnectionStringBuilder, System.Data.SQLite")]
     public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
@@ -58,12 +44,7 @@ namespace ScriptCoreLib.Android
         }
     }
 
-    [Script(Implements = typeof(System.Data.Common.DbCommand))]
-    public abstract class __DbCommand
-    {
-        public abstract int ExecuteNonQuery();
 
-    }
 
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteCommand, System.Data.SQLite")]
     public class __SQLiteCommand : __DbCommand
@@ -79,7 +60,7 @@ namespace ScriptCoreLib.Android
 
         public override int ExecuteNonQuery()
         {
-            android.util.Log.d("__SQLiteCommand", sql);
+            Console.WriteLine("__SQLiteCommand: " + sql);
 
 
             c.db.execSQL(sql);
@@ -92,19 +73,6 @@ namespace ScriptCoreLib.Android
         }
     }
 
-    [Script(Implements = typeof(System.Data.Common.DbDataReader))]
-    public abstract class __DbDataReaders
-    {
-        public abstract void Close();
-        public abstract bool Read();
-
-        public abstract object this[string name] { get; }
-
-        public abstract string GetString(int i);
-        public abstract int GetInt32(int i);
-
-
-    }
 
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataReader, System.Data.SQLite")]
     public class __SQLiteDataReader : __DbDataReaders
@@ -155,14 +123,7 @@ namespace ScriptCoreLib.Android
         }
     }
 
-    [Script(Implements = typeof(System.Data.Common.DbConnection))]
-    public abstract class __DbConnection : System.IDisposable
-    {
-        public abstract void Open();
-        public abstract void Close();
 
-        public abstract void Dispose();
-    }
 
     public static class __SQLiteConnectionHack
     {
@@ -223,6 +184,9 @@ namespace ScriptCoreLib.Android
                 // TODO Auto-generated method stub
 
             }
+
+
+
 
         }
 

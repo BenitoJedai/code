@@ -685,6 +685,9 @@
     <Compile Include="android\content\Intent.cs" />
     <Compile Include="android\content\res\AssetManager.cs" />
     <Compile Include="android\content\res\Resources.cs" />
+    <Compile Include="android\database\Cursor.cs" />
+    <Compile Include="android\database\sqlite\SQLiteOpenHelper.cs" />
+    <Compile Include="android\database\sqlite\SQLiteDatabase.cs" />
     <Compile Include="android\media\MediaPlayer.cs" />
     <Compile Include="android\net\Uri.cs" />
     <Compile Include="android\R.cs" />

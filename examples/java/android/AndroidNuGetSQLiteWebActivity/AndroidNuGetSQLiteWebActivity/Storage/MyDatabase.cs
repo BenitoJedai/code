@@ -88,7 +88,7 @@ namespace AndroidNuGetSQLiteActivity
 
                 new SQLiteCommand("delete from MY_TABLE", c).ExecuteNonQuery();
 
-                new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 1')", c).ExecuteNonQuery();
+                new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 101')", c).ExecuteNonQuery();
                 new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 2')", c).ExecuteNonQuery();
                 new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 3')", c).ExecuteNonQuery();
                 new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 4')", c).ExecuteNonQuery();
