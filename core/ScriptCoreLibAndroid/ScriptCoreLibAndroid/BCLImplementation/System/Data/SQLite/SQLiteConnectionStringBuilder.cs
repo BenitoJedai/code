@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
-    public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
+    internal class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
         public string DataSource { get; set; }
         public int Version { get; set; }

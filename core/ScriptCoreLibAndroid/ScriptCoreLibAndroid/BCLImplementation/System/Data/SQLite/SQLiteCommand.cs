@@ -8,7 +8,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
-    public class __SQLiteCommand : __DbCommand
+    internal class __SQLiteCommand : __DbCommand
     {
         __SQLiteConnection c;
         string sql;

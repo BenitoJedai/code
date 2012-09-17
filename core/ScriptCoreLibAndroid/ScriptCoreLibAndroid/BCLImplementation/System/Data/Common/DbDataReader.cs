@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.Common
 {
     [Script(Implements = typeof(global::System.Data.Common.DbDataReader))]
-    public abstract class __DbDataReaders
+    internal abstract class __DbDataReaders : IDisposable
     {
         public abstract void Close();
         public abstract bool Read();
@@ -17,6 +17,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.Common
         public abstract int GetInt32(int i);
 
 
+
+        public void Dispose()
+        {
+            Close();
+        }
     }
 
 }
