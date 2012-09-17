@@ -13,9 +13,9 @@ namespace android.database
 
         void close();
 
-        void moveToFirst();
+        bool moveToFirst();
 
-        void moveToNext();
+        bool moveToNext();
 
         int getInt(int i);
 
