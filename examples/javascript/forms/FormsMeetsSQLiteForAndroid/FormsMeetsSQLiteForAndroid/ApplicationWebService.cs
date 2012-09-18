@@ -28,7 +28,7 @@ namespace FormsMeetsSQLiteForAndroid
 
         public void CountItems(string e, Action<string> y)
         {
-            Console.WriteLine("CountItems enter");
+            //Console.WriteLine("CountItems enter");
             using (var c = OpenReadOnlyConnection())
             {
                 c.Open();
@@ -48,7 +48,7 @@ namespace FormsMeetsSQLiteForAndroid
                 c.Close();
 
             }
-            Console.WriteLine("CountItems exit");
+            //Console.WriteLine("CountItems exit");
         }
 
 
@@ -67,7 +67,7 @@ namespace FormsMeetsSQLiteForAndroid
         }
         public void EnumerateItems(string e, Action<string> y)
         {
-            Console.WriteLine("EnumerateItems enter");
+            //Console.WriteLine("EnumerateItems enter");
             using (var c = OpenReadOnlyConnection())
             {
                 c.Open();
@@ -87,12 +87,12 @@ namespace FormsMeetsSQLiteForAndroid
                 c.Close();
 
             }
-            Console.WriteLine("EnumerateItems exit");
+            //Console.WriteLine("EnumerateItems exit");
         }
 
         public void AddItem(string e, Action<string> y)
         {
-            Console.WriteLine("AddItem enter");
+            //Console.WriteLine("AddItem enter");
             using (var c = new SQLiteConnection(
 
              new SQLiteConnectionStringBuilder
@@ -128,7 +128,7 @@ namespace FormsMeetsSQLiteForAndroid
 
             // Send it back to the caller.
             y(e);
-            Console.WriteLine("AddItem exit");
+            //Console.WriteLine("AddItem exit");
         }
     }
 }

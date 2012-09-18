@@ -337,11 +337,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InternalRaiseShown();
 
-            foreach (Control item in this.Controls)
+
+            var length = this.Controls.Count;
+
+            for (int i = 0; i < length; i++)
             {
+                var item = this.Controls[i];
+
                 if (item.TabIndex == 0)
                     item.Focus();
             }
+         
         }
 
         public void InternalRaiseLoad()

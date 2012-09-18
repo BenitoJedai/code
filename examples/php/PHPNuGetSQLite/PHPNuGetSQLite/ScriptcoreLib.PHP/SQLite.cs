@@ -4,9 +4,7 @@ using System.Data.Common;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
-//using android.content;
-//using android.database;
-//using android.database.sqlite;
+
 using ScriptCoreLib.PHP.Runtime;
 
 namespace ScriptCoreLib.PHP //.Android

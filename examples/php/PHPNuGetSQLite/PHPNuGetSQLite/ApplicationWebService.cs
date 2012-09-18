@@ -21,6 +21,14 @@ namespace PHPNuGetSQLite
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string, string> y)
         {
+            /*
+             
+             <br />
+<b>Warning</b>:  mysql_select_db(): No connection could be made because the target machine actively refused it.
+ in <b>B:\inc\ScriptCoreLib.dll\class.ScriptCoreLib_PHP_Runtime.MySQL.php</b> on line <b>104</b><br />
+             * 
+             */
+
             MyDatabase.Write();
             var db = MyDatabase.Read("-");
 
