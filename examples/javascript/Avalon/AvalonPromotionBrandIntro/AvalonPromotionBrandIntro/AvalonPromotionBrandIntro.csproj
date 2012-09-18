@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A9164DAC-E538-45BD-A51C-B77C547F276B}</ProjectGuid>
+    <ProjectGuid>{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MandelbrotFormsControl</RootNamespace>
-    <AssemblyName>MandelbrotFormsControl</AssemblyName>
+    <RootNamespace>AvalonPromotionBrandIntro</RootNamespace>
+    <AssemblyName>AvalonPromotionBrandIntro</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>MandelbrotFormsControl.Program</StartupObject>
+    <StartupObject>AvalonPromotionBrandIntro.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -102,6 +102,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -114,54 +115,32 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="MandelbrotFormsControl.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\MandelbrotFormsControl.AssetsLibrary.dll</HintPath>
+    <Reference Include="AvalonPromotionBrandIntro.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AvalonPromotionBrandIntro.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Design\Assets.htm" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="Library\MandelbrotComponent.Designer.cs">
-      <DependentUpon>MandelbrotComponent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Library\MandelbrotComponent.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ApplicationControl.Designer.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ApplicationCanvas.cs" />
     <Compile Include="ApplicationWebService.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
     <Compile Include="Application.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Preview.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ApplicationControl.resx">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Library\MandelbrotComponent.resx">
-      <DependentUpon>MandelbrotComponent.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="Design\white-jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
-)
-
-
+    <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
+rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 
