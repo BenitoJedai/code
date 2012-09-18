@@ -9,6 +9,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 {
 
     [Obsolete("This class should be refactored into __SQLiteConnectionStringBuilder")]
+    [Script]
     internal static class __SQLiteConnectionHack
     {
         // public static Context Context;

@@ -33,8 +33,8 @@ namespace FormsMeetsSQLiteForAndroid
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,17 +86,6 @@ namespace FormsMeetsSQLiteForAndroid
             this.panel1.Size = new System.Drawing.Size(795, 119);
             this.panel1.TabIndex = 2;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(25, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(525, 39);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Forms Meets SQLite For Android";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -108,6 +97,17 @@ namespace FormsMeetsSQLiteForAndroid
             this.label2.TabIndex = 1;
             this.label2.Text = "You can [1] add new items to the database, get [2] a count of the items or [3] re" +
     "view the items";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(25, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(671, 39);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Forms Meets SQLite For Android and PHP";
             // 
             // ApplicationControl
             // 
