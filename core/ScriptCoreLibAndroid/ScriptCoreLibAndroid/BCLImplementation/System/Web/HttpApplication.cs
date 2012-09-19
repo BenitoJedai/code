@@ -8,7 +8,7 @@ using System.Web;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpApplication))]
-    public class __HttpApplication : __IHttpAsyncHandler, __IHttpHandler, __IComponent, IDisposable
+    internal class __HttpApplication : __IHttpAsyncHandler, __IHttpHandler, __IComponent, IDisposable
     {
         public HttpRequest Request { get; set; }
         public HttpResponse Response { get; set; }

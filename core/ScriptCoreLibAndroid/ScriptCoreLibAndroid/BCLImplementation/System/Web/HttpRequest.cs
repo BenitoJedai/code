@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
-    public sealed class __HttpRequest
+    internal sealed class __HttpRequest
     {
         public string Path { get; set; }
 

@@ -8,6 +8,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpResponse))]
     internal class __HttpResponse
     {
+
         public int StatusCode
         {
             get
@@ -58,7 +59,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
         {
             get
             {
-                return new __HttpCachePolicy { };
+                return new __HttpCachePolicy { InternalResponse = this };
             }
         }
     }

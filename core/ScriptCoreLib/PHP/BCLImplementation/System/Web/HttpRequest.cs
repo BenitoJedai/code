@@ -20,6 +20,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
                 if (i > 0)
                     r = r.Substring(0, i);
 
+                r = r.Replace("%20", " ");
+
                 return r;
             }
         }
