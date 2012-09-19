@@ -30,7 +30,7 @@ namespace McKrackenFirstRoom
         public Application(IDefaultPage page)
         {
             var music = new HTML.Audio.FromAssets.zak();
-
+            music.loop = true;
             music.load();
 
             music.play();
@@ -39,6 +39,7 @@ namespace McKrackenFirstRoom
                 delegate
                 {
                     var clocksound = new HTML.Audio.FromAssets._548202_SOUNDDOGS__cl();
+                    clocksound.loop = true;
 
                     clocksound.volume = 0;
                     clocksound.onended +=
