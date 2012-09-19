@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7DE9714D-6403-4E7C-A1A1-10E7206DF46A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>McKrackenFirstRoom</RootNamespace>
+    <AssemblyName>McKrackenFirstRoom</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>McKrackenFirstRoom.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.XLinq">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="McKrackenFirstRoom.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\McKrackenFirstRoom.AssetsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\references.txt">
+      <Link>Library\references.txt</Link>
+    </Content>
+    <Content Include="Design\548202_SOUNDDOGS__cl.mp3" />
+    <Content Include="Design\Default.css" />
+    <Content Include="Design\Default.htm" />
+    <Compile Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\Dude.cs">
+      <Link>Library\Dude.cs</Link>
+    </Compile>
+    <Compile Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\DudeBase.cs">
+      <Link>Library\DudeBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\Extensions.cs">
+      <Link>Library\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\KeyboardEvents.cs">
+      <Link>Library\KeyboardEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\Zak.cs">
+      <Link>Library\Zak.cs</Link>
+    </Compile>
+    <Compile Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\ZoomedPoint.cs">
+      <Link>Library\ZoomedPoint.cs</Link>
+    </Compile>
+    <Compile Include="Library\Class5.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Content Include="Design\dude5\stand\114.png" />
+    <Content Include="Design\dude5\stand\115.png" />
+    <Content Include="Design\dude5\stand\116.png" />
+    <Content Include="Design\dude5\stand\117.png" />
+    <Content Include="Design\dude5\stand\118.png" />
+    <Content Include="Design\dude5\stand\119.png" />
+    <Content Include="Design\dude5\stand\120.png" />
+    <Content Include="Design\dude5\stand\121.png" />
+    <Content Include="Design\dude5\walk1\122.png" />
+    <Content Include="Design\dude5\walk1\123.png" />
+    <Content Include="Design\dude5\walk1\124.png" />
+    <Content Include="Design\dude5\walk1\125.png" />
+    <Content Include="Design\dude5\walk1\126.png" />
+    <Content Include="Design\dude5\walk1\127.png" />
+    <Content Include="Design\dude5\walk1\128.png" />
+    <Content Include="Design\dude5\walk1\129.png" />
+    <Content Include="Design\dude5\walk2\130.png" />
+    <Content Include="Design\dude5\walk2\131.png" />
+    <Content Include="Design\dude5\walk2\132.png" />
+    <Content Include="Design\dude5\walk2\133.png" />
+    <Content Include="Design\dude5\walk2\134.png" />
+    <Content Include="Design\dude5\walk2\135.png" />
+    <Content Include="Design\dude5\walk2\136.png" />
+    <Content Include="Design\dude5\walk2\137.png" />
+    <Content Include="Design\dude5\walk3\138.png" />
+    <Content Include="Design\dude5\walk3\139.png" />
+    <Content Include="Design\dude5\walk3\140.png" />
+    <Content Include="Design\dude5\walk3\141.png" />
+    <Content Include="Design\dude5\walk3\142.png" />
+    <Content Include="Design\dude5\walk3\143.png" />
+    <Content Include="Design\dude5\walk3\144.png" />
+    <Content Include="Design\dude5\walk3\145.png" />
+    <Content Include="Design\dude5\walk4\146.png" />
+    <Content Include="Design\dude5\walk4\147.png" />
+    <Content Include="Design\dude5\walk4\148.png" />
+    <Content Include="Design\dude5\walk4\149.png" />
+    <Content Include="Design\dude5\walk4\150.png" />
+    <Content Include="Design\dude5\walk4\151.png" />
+    <Content Include="Design\dude5\walk4\152.png" />
+    <Content Include="Design\dude5\walk4\153.png" />
+    <Content Include="Design\ExplicitImages.htm" />
+    <Content Include="Design\images\room 001, obj 005 %28296,32%29.png" />
+    <Content Include="Design\images\room 001.png" />
+    <Content Include="Design\images\room 002, obj 002 %280,24%29.png" />
+    <Content Include="Design\images\room 002.png" />
+    <Content Include="Design\images\room 024.png" />
+    <Content Include="Design\images\room 031.png" />
+    <Content Include="Design\images\room 032.png" />
+    <Content Include="Design\Preview.png" />
+    <Content Include="Design\sprites\clock_left.png" />
+    <Content Include="Design\sprites\clock_right.png" />
+    <Content Include="Design\sprites\empty.gif" />
+    <Content Include="Design\sprites\r1.png" />
+    <Content Include="Design\sprites\r1_bed.png" />
+    <Content Include="Design\zak.mp3" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName)==Release (
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
+)</PostBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+            </PreBuildEvent>
+  </PropertyGroup>
+</Project>
