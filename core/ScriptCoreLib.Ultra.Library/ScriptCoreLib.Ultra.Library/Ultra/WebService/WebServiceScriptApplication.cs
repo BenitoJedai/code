@@ -99,7 +99,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             foreach (var item in app.References)
             {
-                Write(@"<script type='text/javascript' src='" + item.AssemblyFile + @".js'></script>");
+                Write(@"<script type='text/javascript' src='/" + item.AssemblyFile + @".js'></script>");
 
             }
 

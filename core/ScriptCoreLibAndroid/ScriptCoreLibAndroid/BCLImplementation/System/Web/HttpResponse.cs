@@ -11,7 +11,7 @@ using System.IO;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpResponse))]
-    public sealed class __HttpResponse
+    internal sealed class __HttpResponse
     {
         public ContextWrapper InternalContext;
         public NetworkStream InternalStream;
@@ -19,7 +19,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         public int StatusCode { get; set; }
         public string ContentType { get; set; }
 
-        public HttpCachePolicy Cache { get; set;  }
+        public __HttpCachePolicy Cache
+        {
+            get
+            {
+                return new __HttpCachePolicy { InternalResponse = this };
+            }
+        }
 
         public void Close()
         {
@@ -31,7 +37,6 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             ContentType = "application/octet-stream";
             StatusCode = 200;
             Headers = new NameValueCollection();
-            Cache = (HttpCachePolicy)(object)new __HttpCachePolicy();
         }
 
         public NameValueCollection Headers { get; set; }

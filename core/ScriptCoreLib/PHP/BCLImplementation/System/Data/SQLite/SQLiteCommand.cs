@@ -45,16 +45,30 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         {
             queryResult = MySQL.API.mysql_query(sql);
 
+
             if ((queryResult == null))
-                return null;
+            {
+                Native.echo(MySQL.API.mysql_error());
+
+                return new __SQLiteDataReader
+                {
+                    queryResult = null
+                };
+            }
 
             if (((bool)queryResult == false))
-                return null;
+            {
+                Native.echo(MySQL.API.mysql_error());
+
+                return new __SQLiteDataReader
+                {
+                    queryResult = queryResult
+                };
+            }
 
             return new __SQLiteDataReader
             {
                 queryResult = queryResult
-                //c.db.rawQuery(sql, null) };
             };
         }
     }

@@ -23,6 +23,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         public override bool Read()
         {
+            if (queryResult == null)
+                return false;
+
             var x = MySQL.API.mysql_fetch_array(queryResult, MySQL.API.FetchArrayResult.MYSQL_BOTH);
 
             var e = Expando.Of(x);
