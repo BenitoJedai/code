@@ -12,6 +12,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Windows.Media;
 
 namespace AvalonPromotionBrandIntro
 {
@@ -32,6 +33,8 @@ namespace AvalonPromotionBrandIntro
         {
             content.AttachToContainer(page.Content);
             content.AutoSizeTo(page.ContentSize);
+
+    
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
