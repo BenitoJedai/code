@@ -645,7 +645,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                 delegate
                 {
 
-                    this.InnerHTML = this.Text.value;
+                    this.InternalSetInnerHTML(this.Text.value);
 
                     SourceContainer.style.display = IStyle.DisplayEnum.none;
                     DesignerContainer.style.display = IStyle.DisplayEnum.block;
@@ -664,7 +664,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             System.Action ToHTML =
                 delegate
                 {
-                    this.Text.value = this.InnerHTML;
+                    this.Text.value = InternalGetInnerHTML();
 
 
                     DesignerContainer.style.display = IStyle.DisplayEnum.none;
@@ -734,36 +734,48 @@ namespace ScriptCoreLib.JavaScript.Controls
             get;
             private set;
         }
+
         public string InnerHTML
         {
             get
             {
-                // Entity 'nbsp' not defined
-                //var xml = InternalDocument.body.AsXElement();
-
-                var value = InternalDocument.body.innerHTML;
-
-                // can we tity it? 
-                value = value.Replace("<br>", "<br />");
-                value = value.Replace("<hr>", "<hr />");
-
-                return value;
+                return InternalGetInnerHTML();
             }
             set
             {
-                if (InternalDocument.body == null)
-                {
-                    Native.Window.setTimeout(IFunction.OfDelegate(
-                        new System.Action(
-                            delegate
-                            {
-                                InternalDocument.body.innerHTML = value;
-                            }
-                    )), 1);
-                    return;
-                }
-                InternalDocument.body.innerHTML = value;
+                InternalSetInnerHTML(value);
             }
+        }
+
+        private void InternalSetInnerHTML(string value)
+        {
+            if (InternalDocument.body == null)
+            {
+                Native.Window.setTimeout(IFunction.OfDelegate(
+                    new System.Action(
+                        delegate
+                        {
+                            InternalDocument.body.innerHTML = value;
+                        }
+                )), 1);
+                return;
+            }
+            InternalDocument.body.innerHTML = value;
+        }
+
+        private string InternalGetInnerHTML()
+        {
+            // Entity 'nbsp' not defined
+            //var xml = InternalDocument.body.AsXElement();
+
+            var value = InternalDocument.body.innerHTML;
+
+            // can we tity it? 
+            value = value.Replace("<br>", "<br />");
+            value = value.Replace("<hr>", "<hr />");
+            //value = value.Replace("&nbsp;", "<hr />");
+
+            return value;
         }
 
 

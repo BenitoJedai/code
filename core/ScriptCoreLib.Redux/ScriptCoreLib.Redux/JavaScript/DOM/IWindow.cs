@@ -14,6 +14,24 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public History history;
 
+        // http://caniuse.com/#search=hash
+
+        #region event onpopstate
+        public event System.Action<HashChangeEvent> onhashchange
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "hashchange");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "hashchange");
+            }
+        }
+        #endregion
+
         #region event onpopstate
         public event System.Action<PopStateEvent> onpopstate
         {

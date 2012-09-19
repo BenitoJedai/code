@@ -109,8 +109,10 @@ namespace ScriptCoreLib.Ultra.WebService
 					//Console.WriteLine("LoadParameters: key: " + key);
 					var value_Form = c.Request.Form[key];
 
-					if (null != value_Form)
-						value = value_Form;
+                    if (null != value_Form)
+                    {
+                        value = value_Form;
+                    }
 
 
 					//Console.WriteLine("LoadParameters: value: " + value);
@@ -119,6 +121,21 @@ namespace ScriptCoreLib.Ultra.WebService
 				}
 			}
 		}
+
+        public static string InternalURLDecode(string Value)
+        {
+            // http://www.w3schools.com/tags/ref_urlencode.asp
+            // http://www.albionresearch.com/misc/urlencode.php
+
+            for (int i = 0; i <= 255; i++)
+            {
+                var e = "%" + i.ToString("x2").ToUpper();
+
+                Value = Value.Replace(e, new string((char)i, 1));
+            }
+
+            return Value;
+        }
 
 		private static void WriteFormKeysToConsole(HttpContext c)
 		{
