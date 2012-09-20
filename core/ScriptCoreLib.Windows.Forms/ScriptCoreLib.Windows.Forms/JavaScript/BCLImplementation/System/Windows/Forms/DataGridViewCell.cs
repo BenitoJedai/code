@@ -31,14 +31,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        public __DataGridViewCellStyle InternalStyle { get; set; }
         public DataGridViewCellStyle Style { get; set; }
 
         public __DataGridViewCell()
         {
-            this.Style = (DataGridViewCellStyle)(object)new __DataGridViewCellStyle
-            {
-                GetInternalElement = () => this.InternalContentContainer
-            };
+            this.InternalStyle = new __DataGridViewCellStyle();
+            this.Style = (DataGridViewCellStyle)(object)this.InternalStyle;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewCellStyle))]
     internal class __DataGridViewCellStyle : __DataGridViewElement
     {
-        public Func<IHTMLElement> GetInternalElement;
+        public Action InternalForeColorChanged;
 
         public Color InternalForeColor;
         public Color ForeColor
@@ -23,8 +23,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 InternalForeColor = value;
 
-                GetInternalElement().style.color = InternalForeColor.ToString();
+                if (InternalForeColorChanged != null)
+                    InternalForeColorChanged();
             }
+
+
+        }
+
+        public __DataGridViewCellStyle()
+        {
+            this.InternalForeColor = SystemColors.WindowText;
         }
     }
 }
