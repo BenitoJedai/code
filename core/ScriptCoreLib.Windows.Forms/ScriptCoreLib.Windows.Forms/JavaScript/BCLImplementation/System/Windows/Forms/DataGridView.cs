@@ -55,8 +55,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         var item = this.InternalSelectedCells.InternalItems[_e.NewIndex];
 
-                        item.InternalTableColumn.style.backgroundColor = JSColor.System.Highlight;
-                        item.InternalTableColumn.style.color = JSColor.System.HighlightText;
+                        item.InternalContentContainer.style.backgroundColor = JSColor.System.Highlight;
+                        item.InternalContentContainer.style.color = JSColor.System.HighlightText;
                     }
 
 
@@ -295,6 +295,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c.InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
                     c.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
+                    var c1contentclight = new IHTMLDiv { }.AttachTo(c.InternalTableColumn);
+                    c1contentclight.style.overflow = IStyle.OverflowEnum.hidden;
+                    c1contentclight.style.position = IStyle.PositionEnum.absolute;
+                    c1contentclight.style.left = "0";
+                    c1contentclight.style.top = "0";
+                    c1contentclight.style.right = "0";
+                    c1contentclight.style.height = "10px";
+                    c1contentclight.style.backgroundColor = JSColor.White;
+
 
                     var c1contentc = new IHTMLDiv { }.AttachTo(c.InternalTableColumn);
                     c1contentc.style.overflow = IStyle.OverflowEnum.hidden;
@@ -302,12 +311,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c1contentc.style.left = "0";
                     c1contentc.style.top = "0";
                     c1contentc.style.right = "0";
-                    c1contentc.style.bottom = "0";
-                    c1contentc.style.padding = "3px";
+                    c1contentc.style.height = "22px";
 
 
                     var c1content = new IHTMLSpan { innerText = c.HeaderText }.AttachTo(c1contentc);
-                    c1content.style.margin = "6px";
+                    c1content.style.marginLeft = "4px";
+                    c1content.style.lineHeight = (20) + "px";
 
                     c.InternalHeaderTextChanged +=
                         delegate
@@ -495,26 +504,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                               SourceCell.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
-                              SourceCell.InternalTableColumn.style.borderBottom = "1px solid gray";
                               //SourceCell.InternalTableColumn.style.borderRight = "1px solid gray";
                               SourceCell.InternalTableColumn.style.backgroundColor = JSColor.White;
 
 
-                              var c1contentc = new IHTMLDiv { }.AttachTo(SourceCell.InternalTableColumn);
-                              SourceCell.InternalContentContainer = c1contentc;
+                              SourceCell.InternalContentContainer = new IHTMLDiv { }.AttachTo(SourceCell.InternalTableColumn);
                               SourceCell.InternalContentContainer.tabIndex = (_e.NewIndex << 16) + CellIndex;
 
-                              c1contentc.style.overflow = IStyle.OverflowEnum.hidden;
-                              c1contentc.style.position = IStyle.PositionEnum.absolute;
-                              c1contentc.style.left = "0";
-                              c1contentc.style.top = "0";
-                              c1contentc.style.right = "0";
-                              c1contentc.style.bottom = "0";
-                              c1contentc.style.padding = "3px";
+                              SourceCell.InternalContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
+                              SourceCell.InternalContentContainer.style.position = IStyle.PositionEnum.absolute;
+                              SourceCell.InternalContentContainer.style.left = "0";
+                              SourceCell.InternalContentContainer.style.top = "0";
+                              SourceCell.InternalContentContainer.style.right = "0";
+                              SourceCell.InternalContentContainer.style.height = (r.Height - 1) + "px";
+
+                              SourceCell.InternalTableColumn.style.borderBottom = "1px solid gray";
 
 
-                              var c1content = new IHTMLSpan { }.AttachTo(c1contentc);
-                              c1content.style.margin = "6px";
+                              var c1content = new IHTMLSpan { }.AttachTo(SourceCell.InternalContentContainer);
+                              c1content.style.marginLeft = "4px";
+                              c1content.style.lineHeight = (r.Height - 1) + "px";
 
                               #region AtInternalValueChanged
                               Action AtInternalValueChanged = delegate
@@ -542,34 +551,67 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                               InternalColumn.InternalWidthChanged += AtInternalWidthChanged;
                               #endregion
 
+
+                              #region CellAtOffset
+                              Func<int, int, __DataGridViewCell> CellAtOffset =
+                                  (x, y) =>
+                                  {
+                                      var value = default(__DataGridViewCell);
+
+                                      var Row = this.InternalRows.InternalItems.ElementAtOrDefault(
+                                          CurrentRowIndex + y
+                                      );
+
+                                      if (Row != null)
+                                      {
+                                          value = Row.InternalCells.InternalItems.ElementAtOrDefault(
+                                              CurrentCellIndex + x
+                                          );
+                                      }
+
+                                      return value;
+                                  };
+                              #endregion
+
                               #region EnterEditMode
                               Action EnterEditMode =
                                   delegate
                                   {
-                                      c1contentc.Orphanize();
+                                      SourceCell.InternalContentContainer.Orphanize();
 
                                       var edit = new IHTMLInput(Shared.HTMLInputTypeEnum.text);
 
                                       edit.style.font = this.Font.ToCssString();
 
 
-                                      edit.style.border = "0";
+                                      edit.style.borderWidth = "0";
                                       edit.style.position = IStyle.PositionEnum.absolute;
-                                      edit.style.left = "0";
+                                      edit.style.left = "4px";
                                       edit.style.top = "0";
-                                      edit.style.right = "0";
-                                      edit.style.bottom = "0";
+
+                                      edit.style.outline = "0";
+                                      edit.style.padding = "0";
+                                      edit.style.width = (InternalColumn.Width - 4) + "px";
+                                      edit.style.height = (r.Height - 1) + "px";
+
                                       edit.AttachTo(SourceCell.InternalTableColumn);
 
                                       edit.value = (string)SourceCell.Value;
-                                      edit.focus();
 
                                       Action AtBlur = delegate
                                       {
                                           SourceCell.Value = edit.value;
                                           edit.Orphanize();
-                                          c1contentc.AttachTo(SourceCell.InternalTableColumn);
+                                          SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
                                       };
+
+                                      edit.onfocus +=
+                                          delegate
+                                          {
+
+                                              edit.select();
+                                          };
+                                      edit.focus();
 
                                       edit.onblur +=
                                          delegate
@@ -592,12 +634,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                                 SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
                                                 SourceCell.InternalContentContainer.focus();
                                             }
+
+                                            if (_ev.KeyCode == (int)Keys.Up)
+                                            {
+                                                var Cell = CellAtOffset(0, -1);
+                                                if (Cell != null)
+                                                {
+                                                    Cell.InternalContentContainer.focus();
+                                                }
+                                                return;
+                                            }
+
+                                            if (_ev.KeyCode == (int)Keys.Down)
+                                            {
+                                                var Cell = CellAtOffset(0, 1);
+                                                if (Cell != null)
+                                                {
+                                                    Cell.InternalContentContainer.focus();
+                                                }
+                                                return;
+                                            }
+
                                         };
 
                                       edit.onkeypress +=
                                           _ev =>
                                           {
-
 
                                               if (_ev.IsReturn)
                                               {
@@ -612,6 +674,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                                   SourceCell.InternalContentContainer.focus();
 
                                               }
+
                                           };
 
 
@@ -619,7 +682,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                               #endregion
 
                               #region ondblclick
-                              c1contentc.ondblclick +=
+                              SourceCell.InternalContentContainer.ondblclick +=
                                   ev =>
                                   {
                                       EnterEditMode();
@@ -627,7 +690,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                               #endregion
 
                               #region onmousedown
-                              c1contentc.onmousedown +=
+                              SourceCell.InternalContentContainer.onmousedown +=
                                   ev =>
                                   {
                                       if (!ev.ctrlKey)
@@ -639,8 +702,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                           {
                                               var item = this.InternalSelectedCells.InternalItems[0];
 
-                                              item.InternalTableColumn.style.backgroundColor = JSColor.System.Window;
-                                              item.InternalTableColumn.style.color = JSColor.System.WindowText;
+                                              item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
+                                              item.InternalContentContainer.style.color = JSColor.System.WindowText;
 
                                               this.InternalSelectedCells.RemoveAt(0);
                                           }
@@ -655,41 +718,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                               #endregion
 
 
-                              #region onmousemove
-                              c1contentc.onmousemove +=
-                                   ev =>
-                                   {
-                                       if (this.MultiSelect)
-                                           if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
-                                           {
-                                               if (!this.InternalSelectedCells.Contains(SourceCell))
-                                                   this.InternalSelectedCells.Add(SourceCell);
+                              //#region onmousemove
+                              //SourceCell.InternalContentContainer.onmousemove +=
+                              //     ev =>
+                              //     {
+                              //         if (this.MultiSelect)
+                              //             if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
+                              //             {
+                              //                 if (!this.InternalSelectedCells.Contains(SourceCell))
+                              //                     this.InternalSelectedCells.Add(SourceCell);
 
-                                               ev.PreventDefault();
+                              //                 ev.PreventDefault();
 
-                                           }
-                                   };
-                              #endregion
+                              //             }
+                              //     };
+                              //#endregion
 
 
-                              Func<int, int, __DataGridViewCell> CellAtOffset =
-                                  (x, y) =>
-                                  {
-                                      var value = default(__DataGridViewCell);
 
-                                      var Row = this.InternalRows.InternalItems.ElementAtOrDefault(
-                                          CurrentRowIndex + y
-                                      );
-
-                                      if (Row != null)
-                                      {
-                                          value = Row.InternalCells.InternalItems.ElementAtOrDefault(
-                                              CurrentCellIndex + x
-                                          );
-                                      }
-
-                                      return value;
-                                  };
 
 
                               #region onkeydown
@@ -697,7 +743,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                   ev =>
                                   {
                                       #region KeyNavigateTo
-                                      Action<Keys, int, int> KeyNavigateTo =
+                                      Func<Keys, int, int, bool> KeyNavigateTo =
                                         (k, x, y) =>
                                         {
                                             if (ev.KeyCode == (int)k)
@@ -709,38 +755,55 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                                 var Cell = CellAtOffset(x, y);
                                                 if (Cell != null)
+                                                {
                                                     Cell.InternalContentContainer.focus();
-
+                                                    return true;
+                                                }
 
 
 
                                             }
+                                            return false;
                                         };
                                       #endregion
 
-                                      KeyNavigateTo(Keys.Right, 1, 0);
-                                      KeyNavigateTo(Keys.Left, -1, 0);
-                                      KeyNavigateTo(Keys.Up, 0, -1);
-                                      KeyNavigateTo(Keys.Down, 0, 1);
+                                      if (KeyNavigateTo(Keys.Right, 1, 0)) return;
+                                      if (KeyNavigateTo(Keys.Left, -1, 0)) return;
+                                      if (KeyNavigateTo(Keys.Up, 0, -1)) return;
+                                      if (KeyNavigateTo(Keys.Down, 0, 1)) return;
 
-                                  };
-                              #endregion
-
-                              #region onkeypress
-                              SourceCell.InternalContentContainer.onkeypress +=
-                                  ev =>
-                                  {
                                       if (ev.IsReturn)
                                       {
                                           ev.PreventDefault();
                                           ev.StopPropagation();
 
                                           EnterEditMode();
+                                          return;
                                       }
+
+                                      if (ev.KeyCode == (int)Keys.Space)
+                                      {
+                                          EnterEditMode();
+                                          return;
+                                      }
+
+                                      if (char.IsLetter((char)ev.KeyCode))
+                                      {
+                                          EnterEditMode();
+                                          return;
+                                      }
+
+                                      if (char.IsNumber((char)ev.KeyCode))
+                                      {
+                                          EnterEditMode();
+                                          return;
+                                      }
+
 
 
                                   };
                               #endregion
+
 
 
                               var hasfocus = false;
@@ -765,8 +828,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                       {
                                           var item = this.InternalSelectedCells.InternalItems[0];
 
-                                          item.InternalTableColumn.style.backgroundColor = JSColor.System.Window;
-                                          item.InternalTableColumn.style.color = JSColor.System.WindowText;
+                                          item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
+                                          item.InternalContentContainer.style.color = JSColor.System.WindowText;
 
                                           this.InternalSelectedCells.RemoveAt(0);
                                       }

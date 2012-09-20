@@ -28,5 +28,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 			return false;
 		}
+
+        public static bool IsLetter(char c)
+        {
+            var gte_a = c >= 'a';
+            var lte_z = c <= 'z';
+
+            var gte_A = c >= 'A';
+            var lte_Z = c <= 'Z';
+
+            // cmon, its 2012 jsc. flying cars. why wont it work yet:)
+            var flag0 = (gte_a && lte_z);
+            var flag1 = (gte_A && lte_Z);
+
+            return (flag0 || flag1);
+        }
 	}
 }

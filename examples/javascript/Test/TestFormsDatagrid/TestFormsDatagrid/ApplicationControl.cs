@@ -77,5 +77,25 @@ namespace TestFormsDatagrid
             dataGridView1.MultiSelect = checkBox1.Checked;
         }
 
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Blue;
+        }
+
+        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Red;
+
+        }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Green;
+
+        }
+
     }
 }

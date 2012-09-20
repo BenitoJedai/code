@@ -291,6 +291,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		public readonly int scrollWidth;
 		public readonly int scrollHeight;
 
+        public void select()
+        {
+
+        }
+
 		public void blur()
 		{
 
