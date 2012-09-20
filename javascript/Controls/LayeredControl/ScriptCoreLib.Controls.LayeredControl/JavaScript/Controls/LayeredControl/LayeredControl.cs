@@ -32,17 +32,24 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
         [Script]
         public class LayersGroup
         {
-            public readonly IHTMLDiv Canvas = new IHTMLDiv();
-            public readonly IHTMLDiv CanvasInfo = new IHTMLDiv();
+            public  IHTMLDiv Canvas;
+            public  IHTMLDiv CanvasInfo ;
 
-            public readonly IHTMLDiv Info = new IHTMLDiv();
-            public readonly IHTMLDiv User = new IHTMLDiv();
+            public  IHTMLDiv Info ;
+            public  IHTMLDiv User ;
         }
 
         public readonly LayersGroup Layers = new LayersGroup();
 
         public LayeredControl()
         {
+
+            Layers.Canvas = new IHTMLDiv { name = "LayersGroup_Canvas" };
+            Layers.CanvasInfo = new IHTMLDiv { name = "LayersGroup_CanvasInfo" };
+            Layers.Info = new IHTMLDiv { name = "LayersGroup_Info" };
+            Layers.User = new IHTMLDiv { name = "LayersGroup_User" };
+
+
             Control.style.backgroundColor = Color.Black;
 
             Control.style.position = IStyle.PositionEnum.absolute;
@@ -63,20 +70,26 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 Layers.User
             );
 
+            Control.style.zIndex = 0;
+
+            Layers.Canvas.style.zIndex = 1000;
+            Layers.CanvasInfo.style.zIndex = 2000;
+            Layers.Info.style.zIndex = 3000;
+            Layers.User.style.zIndex = 4000;
+
             Layers.Canvas.style.backgroundColor = Color.Blue;
 
 
             //Layers.User.style.backgroundColor = Color.Red;
             //Layers.User.style.zIndex = 0x1000;
-            //Layers.User.style.Opacity = 0.0;
+            Layers.User.style.Opacity = 0.0;
 
             // safari not supported: something wrong with zIndex
             // also check http://unixpapa.com/js/mouse.html
 
-			Layers.User.name = "Layers.User";
 
 			Layers.User.style.backgroundColor = Color.Yellow;
-			Layers.User.style.Opacity = 0.5;
+            //Layers.User.style.Opacity = 0.5;
 			//Layers.User.style.zIndex = 99999;
 
 			//Layers.User.style.backgroundImage = "url(" + Assets.Path + "/empty.gif)";

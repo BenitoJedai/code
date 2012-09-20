@@ -264,7 +264,9 @@ namespace ThreeDStuff.js
             Action<IHTMLImage> StartLoadingSingleImage = Image =>
                 {
                     ImagesThatAreCurrentlyLoading.Add(Image);
-                    Image.InvokeOnComplete(img => LoadingSingleImageDone(img));
+
+                    //Image.InvokeOnComplete(img => LoadingSingleImageDone(img));
+                    LoadingSingleImageDone(Image);
                 };
             #endregion
 
@@ -278,14 +280,10 @@ namespace ThreeDStuff.js
             #endregion
 
 
-            StartLoadingDudeAnimationInfo(MyFrames_Soldier);
-            StartLoadingDudeAnimationInfo(MyFrames_Imp);
-            StartLoadingDudeAnimationInfo(MyFrames_Bus);
 
-            TileResourcesList.ForEach(i => StartLoadingSingleImage(i.Source));
             #endregion
 
-
+            #region AllImagesLoaded
             AllImagesLoaded +=
                 delegate
                 {
@@ -409,11 +407,11 @@ namespace ThreeDStuff.js
                     var TileColorRoad3 = Color.FromRGB(63, 0, 0);
 
                     var data = new[] {
-                new { x = -0.5, y = -0.5, color = Color.Red },
-                new { x = 0.5, y = -0.5, color = Color.Green },
-                new { x = 0.5, y = 0.5, color = Color.Blue },
-                new { x = -0.5, y = 0.5, color = Color.Yellow },
-            };
+                        new { x = -0.5, y = -0.5, color = Color.Red },
+                        new { x = 0.5, y = -0.5, color = Color.Green },
+                        new { x = 0.5, y = 0.5, color = Color.Blue },
+                        new { x = -0.5, y = 0.5, color = Color.Yellow },
+                    };
 
                     #region IsDefined
                     Func<double, double, bool> IsDefined =
@@ -514,7 +512,10 @@ namespace ThreeDStuff.js
                                         //, update 
                                     };
 
-                            KnownTileElements.AddRange(tiles_query.ToArray());//.ForEach(i => i.update());
+                            var aa0 = tiles_query.ToArray();
+                            var aa1 = aa0;
+                            var aa2 = aa1;
+                            KnownTileElements.AddRange(aa2);//.ForEach(i => i.update());
                         };
                     #endregion
 
@@ -702,10 +703,10 @@ namespace ThreeDStuff.js
 
                                     var c = GetCenter();
 
-                                    var p = new Point (
-										(target.X + c.X).ToInt32(), 
-										(target.Y + c.Y).ToInt32() 
-									);
+                                    var p = new Point(
+                                        (target.X + c.X).ToInt32(),
+                                        (target.Y + c.Y).ToInt32()
+                                    );
 
                                     return p;
                                 }
@@ -1861,6 +1862,14 @@ namespace ThreeDStuff.js
                         });
 
                 };
+            #endregion
+
+
+            StartLoadingDudeAnimationInfo(MyFrames_Soldier);
+            StartLoadingDudeAnimationInfo(MyFrames_Imp);
+            StartLoadingDudeAnimationInfo(MyFrames_Bus);
+
+            TileResourcesList.ForEach(i => StartLoadingSingleImage(i.Source));
 
         }
 

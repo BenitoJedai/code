@@ -71,7 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript\DragHelper.cs" />
     <Compile Include="JavaScript\ToolbarButton.cs" />
     <Compile Include="JavaScript\ToolbarButtonGroup.cs" />
     <Compile Include="JavaScript\Extensions.cs" />

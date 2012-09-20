@@ -539,13 +539,7 @@ namespace ThreeDStuff.js
 
                     info.innerText = "Loading images...";
 
-                    dude.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
-                    dude.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
-
-                    imp.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
-                    imp.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
-
-
+          
 
                     var Dudes = new List<Dude2>();
 
@@ -655,6 +649,13 @@ namespace ThreeDStuff.js
                             info.innerHTML = info_text;
                         };
                     #endregion
+
+                    dude.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+                    dude.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
+
+                    imp.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+                    imp.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
+
 
 
                     Point KnownCanvasPosition = new Point(0,0);

@@ -62,6 +62,7 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Application.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BaseCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Button.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\CancelEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\CheckBox.cs" />
@@ -72,6 +73,20 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewSelectedCellCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewBand.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewRowCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewElement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCell.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewTextBoxCell.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewRow.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewColumn.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewColumnCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewTextBoxColumn.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowserBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkArea.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabel.Link.cs" />
