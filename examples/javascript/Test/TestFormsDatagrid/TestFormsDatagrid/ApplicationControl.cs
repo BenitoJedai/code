@@ -68,7 +68,7 @@ namespace TestFormsDatagrid
 
         private void dataGridView1_SelectionChanged(object sender, System.EventArgs e)
         {
-            label1.Text = new { dataGridView1.SelectedCells.Count }.ToString();
+            //label1.Text = new { dataGridView1.SelectedCells.Count }.ToString();
 
         }
 
@@ -90,10 +90,7 @@ namespace TestFormsDatagrid
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0)
-                return;
-
-            dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Green;
+            label1.Text = new { e.ColumnIndex, e.RowIndex }.ToString();
 
         }
 

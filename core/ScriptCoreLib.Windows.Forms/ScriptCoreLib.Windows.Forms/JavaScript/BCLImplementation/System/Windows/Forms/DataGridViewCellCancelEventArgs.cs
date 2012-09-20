@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewCellEventArgs))]
-    internal class __DataGridViewCellEventArgs : __EventArgs
+    [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewCellCancelEventArgs))]
+    internal class __DataGridViewCellCancelEventArgs : __EventArgs
     {
-        public __DataGridViewCellEventArgs(int c, int r)
+        public __DataGridViewCellCancelEventArgs(int c, int r)
         {
             this.ColumnIndex = c;
             this.RowIndex = r;

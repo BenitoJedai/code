@@ -579,59 +579,86 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                   {
                                       SourceCell.InternalContentContainer.Orphanize();
 
-                                      var edit = new IHTMLInput(Shared.HTMLInputTypeEnum.text);
+                                      var EditElement = new IHTMLInput(Shared.HTMLInputTypeEnum.text);
 
-                                      edit.style.font = this.Font.ToCssString();
+                                      EditElement.style.font = this.Font.ToCssString();
 
 
-                                      edit.style.borderWidth = "0";
-                                      edit.style.position = IStyle.PositionEnum.absolute;
-                                      edit.style.left = "4px";
-                                      edit.style.top = "0";
+                                      EditElement.style.borderWidth = "0";
+                                      EditElement.style.position = IStyle.PositionEnum.absolute;
+                                      EditElement.style.left = "4px";
+                                      EditElement.style.top = "0";
 
-                                      edit.style.outline = "0";
-                                      edit.style.padding = "0";
-                                      edit.style.width = (InternalColumn.Width - 4) + "px";
-                                      edit.style.height = (r.Height - 1) + "px";
+                                      EditElement.style.outline = "0";
+                                      EditElement.style.padding = "0";
+                                      EditElement.style.width = (InternalColumn.Width - 4) + "px";
+                                      EditElement.style.height = (r.Height - 1) + "px";
 
-                                      edit.AttachTo(SourceCell.InternalTableColumn);
+                                      EditElement.AttachTo(SourceCell.InternalTableColumn);
 
-                                      edit.value = (string)SourceCell.Value;
+                                      EditElement.value = (string)SourceCell.Value;
 
-                                      Action AtBlur = delegate
+
+                                      Action ExitEditMode = delegate
                                       {
-                                          SourceCell.Value = edit.value;
-                                          edit.Orphanize();
+                                          EditElement.Orphanize();
                                           SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
+
+                                          if (this.CellEndEdit != null)
+                                              this.CellEndEdit(this,
+                                                  new DataGridViewCellEventArgs(CurrentCellIndex, CurrentCellIndex)
+                                              );
                                       };
 
-                                      edit.onfocus +=
+                                      Action CheckChanges = delegate
+                                      {
+                                          if (SourceCell.Value != EditElement.value)
+                                          {
+                                              SourceCell.Value = EditElement.value;
+
+                                              if (this.CellValueChanged != null)
+                                                  this.CellValueChanged(this,
+                                                      new DataGridViewCellEventArgs(CurrentCellIndex, CurrentCellIndex)
+                                                  );
+                                          }
+
+                                      };
+
+                                      EditElement.onfocus +=
                                           delegate
                                           {
-
-                                              edit.select();
+                                             
+                                              EditElement.select();
                                           };
-                                      edit.focus();
+                                      EditElement.focus();
 
-                                      edit.onblur +=
+                                      if (this.CellBeginEdit != null)
+                                          this.CellBeginEdit(this,
+                                              new DataGridViewCellCancelEventArgs(CurrentCellIndex, CurrentCellIndex)
+                                          );
+
+
+                                      EditElement.onblur +=
                                          delegate
                                          {
-                                             if (AtBlur != null)
-                                                 AtBlur();
+                                             if (CheckChanges != null)
+                                                 CheckChanges();
+
+                                             ExitEditMode();
                                          };
 
-                                      edit.onkeyup +=
+                                      #region onkeyup
+                                      EditElement.onkeyup +=
                                         _ev =>
                                         {
                                             if (_ev.IsEscape)
                                             {
-                                                AtBlur = null;
+                                                CheckChanges = null;
 
                                                 _ev.PreventDefault();
                                                 _ev.StopPropagation();
 
-                                                edit.Orphanize();
-                                                SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
+                                                ExitEditMode();
                                                 SourceCell.InternalContentContainer.focus();
                                             }
 
@@ -656,21 +683,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                             }
 
                                         };
+                                      #endregion
 
-                                      edit.onkeypress +=
+
+                                      EditElement.onkeypress +=
                                           _ev =>
                                           {
 
                                               if (_ev.IsReturn)
                                               {
-                                                  AtBlur = null;
+                                                  CheckChanges();
+                                                  CheckChanges = null;
 
                                                   _ev.PreventDefault();
                                                   _ev.StopPropagation();
 
-                                                  SourceCell.Value = edit.value;
-                                                  edit.Orphanize();
-                                                  SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
+                                                  ExitEditMode();
                                                   SourceCell.InternalContentContainer.focus();
 
                                               }
@@ -908,6 +936,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public DataGridViewColumnCollection Columns { get; set; }
         public __DataGridViewRowCollection InternalRows;
         public DataGridViewRowCollection Rows { get; set; }
+
         public void BeginInit()
         {
         }
@@ -918,6 +947,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         public event DataGridViewCellEventHandler CellContentClick;
+        public event DataGridViewCellEventHandler CellEndEdit;
+        public event DataGridViewCellCancelEventHandler CellBeginEdit;
+        public event DataGridViewCellEventHandler CellValueChanged;
+
         public event EventHandler SelectionChanged;
+
+
+
+        public DataGridViewCell this[int columnIndex, int rowIndex]
+        {
+            get
+            {
+                return (DataGridViewCell)(object)this.InternalRows.InternalItems[rowIndex].InternalCells.InternalItems[columnIndex];
+            }
+            set
+            {
+            }
+        }
     }
 }
