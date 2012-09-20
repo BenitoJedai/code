@@ -371,7 +371,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 		{
 			@static,
 			absolute,
-			relative
+			relative,
+            @fixed
 		}
 
 		public PositionEnum position;

@@ -74,10 +74,10 @@ namespace ThreeDStuff.js
 
             var MapSize = new Rectangle
             {
-                Left = -8,
-                Width = 16,
-                Top = -8,
-                Height = 16
+                Left = -12,
+                Width = 24,
+                Top = -12,
+                Height = 24
             };
 
             var MapMargins = new Point
@@ -99,6 +99,7 @@ namespace ThreeDStuff.js
             };
 
             var arena = new ArenaControl();
+
 
             arena.Control.AttachToDocument();
 
@@ -546,13 +547,7 @@ namespace ThreeDStuff.js
 
                     info.innerText = "Loading images...";
 
-                    dude.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
-                    dude.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
-
-                    imp.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
-                    imp.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
-
-
+            
 
                     var Dudes = new List<Dude2>();
 
@@ -668,6 +663,13 @@ namespace ThreeDStuff.js
                             info.innerHTML = info_text;
                         };
                     #endregion
+
+                    dude.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+                    dude.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
+
+                    imp.Frames_Stand.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img)));
+                    imp.Frames_Walk.ForEach(j => j.ForEach(i => i.Image.InvokeOnComplete(img => loadone(img))));
+
 
 
                     //Point KnownCanvasPosition = new Point();
@@ -1498,12 +1500,12 @@ namespace ThreeDStuff.js
                     );
                     #endregion
 
-                    Native.Window.onblur +=
-                        delegate
-                        {
-                            if (!toolbar_btn_pause.IsActivated)
-                                toolbar_btn_pause.RaiseClicked();
-                        };
+                    //Native.Window.onblur +=
+                    //    delegate
+                    //    {
+                    //        if (!toolbar_btn_pause.IsActivated)
+                    //            toolbar_btn_pause.RaiseClicked();
+                    //    };
                 });
 
 
