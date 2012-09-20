@@ -512,7 +512,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                               SourceCell.InternalContentContainer.tabIndex = (_e.NewIndex << 16) + CellIndex;
 
                               SourceCell.InternalContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
-                              SourceCell.InternalContentContainer.style.position = IStyle.PositionEnum.absolute;
+                              SourceCell.InternalContentContainer.style.position = IStyle.PositionEnum.relative;
                               SourceCell.InternalContentContainer.style.left = "0";
                               SourceCell.InternalContentContainer.style.top = "0";
                               SourceCell.InternalContentContainer.style.right = "0";
@@ -585,7 +585,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                                       EditElement.style.borderWidth = "0";
-                                      EditElement.style.position = IStyle.PositionEnum.absolute;
+                                      EditElement.style.position = IStyle.PositionEnum.relative;
                                       EditElement.style.left = "4px";
                                       EditElement.style.top = "0";
 
@@ -596,56 +596,84 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                       EditElement.AttachTo(SourceCell.InternalTableColumn);
 
+                                      SourceCell.InternalStyle.InternalForeColorChanged =
+                                          delegate
+                                          {
+                                              EditElement.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                                          };
+
                                       EditElement.value = (string)SourceCell.Value;
 
+                                      bool ExitEditModeDone = false;
 
+                                      #region ExitEditMode
                                       Action ExitEditMode = delegate
                                       {
+                                          if (ExitEditModeDone) return;
+                                          ExitEditModeDone = true;
+
+
                                           EditElement.Orphanize();
                                           SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
 
+                                          SourceCell.InternalStyle.InternalForeColorChanged =
+                                              delegate
+                                              {
+                                                  SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                                              };
+
                                           if (this.CellEndEdit != null)
                                               this.CellEndEdit(this,
-                                                  new DataGridViewCellEventArgs(CurrentCellIndex, CurrentCellIndex)
+                                                  new DataGridViewCellEventArgs(CurrentCellIndex, CurrentRowIndex)
                                               );
                                       };
+                                      #endregion
 
+                                      #region CheckChanges
                                       Action CheckChanges = delegate
                                       {
-                                          if (SourceCell.Value != EditElement.value)
+                                          if (((string)SourceCell.Value) != EditElement.value)
                                           {
                                               SourceCell.Value = EditElement.value;
 
                                               if (this.CellValueChanged != null)
                                                   this.CellValueChanged(this,
-                                                      new DataGridViewCellEventArgs(CurrentCellIndex, CurrentCellIndex)
+                                                      new DataGridViewCellEventArgs(CurrentCellIndex, CurrentRowIndex)
                                                   );
                                           }
 
                                       };
+                                      #endregion
 
+
+                                      #region CellBeginEdit
                                       EditElement.onfocus +=
                                           delegate
                                           {
-                                             
+
                                               EditElement.select();
                                           };
                                       EditElement.focus();
 
                                       if (this.CellBeginEdit != null)
                                           this.CellBeginEdit(this,
-                                              new DataGridViewCellCancelEventArgs(CurrentCellIndex, CurrentCellIndex)
+                                              new DataGridViewCellCancelEventArgs(CurrentCellIndex, CurrentRowIndex)
                                           );
+                                      #endregion
 
 
+                                      #region onblur
                                       EditElement.onblur +=
                                          delegate
                                          {
+                                             if (ExitEditMode != null)
+                                                 ExitEditMode();
+
                                              if (CheckChanges != null)
                                                  CheckChanges();
-
-                                             ExitEditMode();
                                          };
+                                      #endregion
+
 
                                       #region onkeyup
                                       EditElement.onkeyup +=
@@ -692,11 +720,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                               if (_ev.IsReturn)
                                               {
-                                                  CheckChanges();
-                                                  CheckChanges = null;
-
                                                   _ev.PreventDefault();
                                                   _ev.StopPropagation();
+
 
                                                   ExitEditMode();
                                                   SourceCell.InternalContentContainer.focus();
@@ -731,7 +757,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                               var item = this.InternalSelectedCells.InternalItems[0];
 
                                               item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
-                                              item.InternalContentContainer.style.color = JSColor.System.WindowText;
+                                              item.InternalContentContainer.style.color = item.InternalStyle.InternalForeColor.ToString();
 
                                               this.InternalSelectedCells.RemoveAt(0);
                                           }
@@ -857,7 +883,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                           var item = this.InternalSelectedCells.InternalItems[0];
 
                                           item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
-                                          item.InternalContentContainer.style.color = JSColor.System.WindowText;
+                                          item.InternalContentContainer.style.color = item.InternalStyle.InternalForeColor.ToString();
 
                                           this.InternalSelectedCells.RemoveAt(0);
                                       }
