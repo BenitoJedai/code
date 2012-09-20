@@ -88,52 +88,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             IHTMLTable __ContentTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ContentTableContainer);
             IHTMLTableBody __ContentTableBody = __ContentTable.AddBody();
             IHTMLTableRow __ContentTableNewRow = __ContentTableBody.AddRow();
-            #region Content table
-            {
-                __ContentTableNewRow.style.height = "22px";
-                {
+            __ContentTableNewRow.style.height = "22px";
+            __ContentTable.style.paddingTop = "22px";
 
-
-
-                    var c1 = __ContentTableNewRow.AddColumn();
-                    c1.innerText = "";
-                    c1.style.backgroundColor = JSColor.White;
-
-                    var c2 = __ContentTableNewRow.AddColumn();
-                    c2.innerText = "";
-                    c2.style.backgroundColor = JSColor.White;
-
-                    var c3 = __ContentTableNewRow.AddColumn();
-                    c3.innerText = "";
-                    c3.style.backgroundColor = JSColor.White;
-                }
-
-
-
-
-
-
-
-                __ContentTable.style.paddingTop = "22px";
-            }
-            #endregion
 
             var __ColumnsTableContainer = new IHTMLDiv().AttachTo(InternalContainerElement);
             IHTMLTable __ColumnsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ColumnsTableContainer);
             IHTMLTableRow __ColumnsTableRow = null;
 
-            #region Columns table
-            {
-                __ColumnsTableContainer.style.SetLocation(0, 0);
+            __ColumnsTableContainer.style.SetLocation(0, 0);
+            __ColumnsTableRow = __ColumnsTable.AddBody().AddRow();
+            __ColumnsTableRow.style.height = "22px";
 
-                var tbody = __ColumnsTable.AddBody();
-
-                __ColumnsTableRow = tbody.AddRow();
-                __ColumnsTableRow.style.height = "22px";
-
-
-            }
-            #endregion
 
             var __RowsTableContainer = new IHTMLDiv().AttachTo(InternalContainerElement);
             IHTMLTable __RowsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__RowsTableContainer);
@@ -159,12 +125,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #region Corner
             var Corner = new IHTMLDiv().AttachTo(InternalContainerElement);
 
-
             Corner.style.backgroundColor = JSColor.System.ButtonFace;
             Corner.style.SetLocation(0, 0);
             Corner.style.height = "22px";
-
-
 
             #endregion
 
@@ -729,26 +692,37 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                   };
 
 
-                              #region onkeypress
+                              #region onkeydown
                               SourceCell.InternalContentContainer.onkeydown +=
                                   ev =>
                                   {
+                                      #region KeyNavigateTo
+                                      Action<Keys, int, int> KeyNavigateTo =
+                                        (k, x, y) =>
+                                        {
+                                            if (ev.KeyCode == (int)k)
+                                            {
+                                                // focus the cell on the right
 
-                                      if (ev.KeyCode == (int)Keys.Right)
-                                      {
-                                          // focus the cell on the right
+                                                ev.PreventDefault();
+                                                ev.StopPropagation();
 
-                                          ev.PreventDefault();
-                                          ev.StopPropagation();
-
-                                          var Cell = CellAtOffset(1, 0);
-                                          if (Cell != null)
-                                              Cell.InternalContentContainer.focus();
+                                                var Cell = CellAtOffset(x, y);
+                                                if (Cell != null)
+                                                    Cell.InternalContentContainer.focus();
 
 
 
 
-                                      }
+                                            }
+                                        };
+                                      #endregion
+
+                                      KeyNavigateTo(Keys.Right, 1, 0);
+                                      KeyNavigateTo(Keys.Left, -1, 0);
+                                      KeyNavigateTo(Keys.Up, 0, -1);
+                                      KeyNavigateTo(Keys.Down, 0, 1);
+
                                   };
                               #endregion
 
