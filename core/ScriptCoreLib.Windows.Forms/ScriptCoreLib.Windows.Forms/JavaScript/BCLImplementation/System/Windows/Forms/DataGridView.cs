@@ -291,11 +291,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     var c = this.InternalColumns.InternalItems[_e.NewIndex];
 
+
+
                     c.InternalTableColumn = __ColumnsTableRow.AddColumn();
                     c.InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
                     c.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
-                    var c1contentclight = new IHTMLDiv { }.AttachTo(c.InternalTableColumn);
+                    var e0 = __ContentTableNewRow.AddColumn();
+                    e0.style.position = IStyle.PositionEnum.relative;
+                    e0.style.backgroundColor = JSColor.White;
+                    e0.innerText = " ";
+
+                    var c1contentcrel = new IHTMLDiv { }.AttachTo(c.InternalTableColumn);
+                    c1contentcrel.style.position = IStyle.PositionEnum.relative;
+                    c1contentcrel.style.left = "0";
+                    c1contentcrel.style.top = "0";
+                    c1contentcrel.style.right = "0";
+                    c1contentcrel.style.height = "22px";
+
+                    var c1contentclight = new IHTMLDiv { }.AttachTo(c1contentcrel);
                     c1contentclight.style.overflow = IStyle.OverflowEnum.hidden;
                     c1contentclight.style.position = IStyle.PositionEnum.absolute;
                     c1contentclight.style.left = "0";
@@ -305,7 +319,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c1contentclight.style.backgroundColor = JSColor.White;
 
 
-                    var c1contentc = new IHTMLDiv { }.AttachTo(c.InternalTableColumn);
+                    var c1contentc = new IHTMLDiv { }.AttachTo(c1contentcrel);
                     c1contentc.style.overflow = IStyle.OverflowEnum.hidden;
                     c1contentc.style.position = IStyle.PositionEnum.absolute;
                     c1contentc.style.left = "0";
@@ -573,10 +587,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                   };
                               #endregion
 
+                              bool ExitEditModeDone = true;
+
                               #region EnterEditMode
                               Action EnterEditMode =
                                   delegate
                                   {
+                                      if (!ExitEditModeDone)
+                                          return;
+
+                                      ExitEditModeDone = false;
+
                                       SourceCell.InternalContentContainer.Orphanize();
 
                                       var EditElement = new IHTMLInput(Shared.HTMLInputTypeEnum.text);
@@ -604,7 +625,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                       EditElement.value = (string)SourceCell.Value;
 
-                                      bool ExitEditModeDone = false;
 
                                       #region ExitEditMode
                                       Action ExitEditMode = delegate
@@ -666,11 +686,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                       EditElement.onblur +=
                                          delegate
                                          {
+                                             if (CheckChanges != null)
+                                                 CheckChanges();
+
                                              if (ExitEditMode != null)
                                                  ExitEditMode();
 
-                                             if (CheckChanges != null)
-                                                 CheckChanges();
+
                                          };
                                       #endregion
 
@@ -723,6 +745,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                                   _ev.PreventDefault();
                                                   _ev.StopPropagation();
 
+                                                  if (CheckChanges != null)
+                                                      CheckChanges();
 
                                                   ExitEditMode();
                                                   SourceCell.InternalContentContainer.focus();
@@ -921,15 +945,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                       {
                           var __tr = __RowsTableBody.AddRow();
 
-                          #region AtInternalHeightChanged
-                          Action AtInternalHeightChanged = delegate
-                          {
-                              __tr.style.height = r.InternalHeight + "px";
-                          };
-
-                          AtInternalHeightChanged();
-                          r.InternalHeightChanged += AtInternalHeightChanged;
-                          #endregion
 
 
 
@@ -939,6 +954,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           //c0.style.padding = "4px";
                           c0.style.backgroundColor = JSColor.System.ButtonFace;
                           c0.style.width = "100%";
+
+
+                          var c1 = new IHTMLDiv().AttachTo(c0);
+                          c1.style.position = IStyle.PositionEnum.relative;
+                          c1.style.backgroundColor = JSColor.White;
+                          c1.style.left = "0";
+                          c1.style.top = "0";
+                          c1.style.width = "6px";
+
+
+
+                          #region AtInternalHeightChanged
+                          Action AtInternalHeightChanged = delegate
+                          {
+                              c1.style.height = (r.InternalHeight - 1) + "px";
+                              __tr.style.height = r.InternalHeight + "px";
+                          };
+
+                          AtInternalHeightChanged();
+                          r.InternalHeightChanged += AtInternalHeightChanged;
+                          #endregion
 
                       }
                       __RowsTableNewRow.AttachTo(__RowsTableBody);

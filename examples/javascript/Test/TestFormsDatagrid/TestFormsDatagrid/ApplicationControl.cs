@@ -22,7 +22,7 @@ namespace TestFormsDatagrid
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < 7; i++)
             {
                 var r = new DataGridViewRow();
                 r.Height = 60;
