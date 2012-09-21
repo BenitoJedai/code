@@ -42,8 +42,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalColumns = new __DataGridViewColumnCollection();
             this.Columns = (DataGridViewColumnCollection)(object)this.InternalColumns;
 
+            #region InternalRows
             this.InternalRows = new __DataGridViewRowCollection();
             this.Rows = (DataGridViewRowCollection)(object)this.InternalRows;
+
+            this.InternalRows.InternalItems.ListChanged +=
+                (s, e) =>
+                {
+                    if (e.ListChangedType == ListChangedType.ItemAdded)
+                    {
+                        this.InternalRows.InternalItems[e.NewIndex].InternalContext = this;
+                    }
+                };
+            #endregion
+
 
             #region SelectedCells
             this.InternalSelectedCells = new __DataGridViewSelectedCellCollection();
@@ -91,6 +103,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __ContentTableNewRow.style.height = "22px";
             __ContentTable.style.paddingTop = "22px";
 
+            var InternalNewRow = new __DataGridViewRow();
+            InternalNewRow.InternalTableRow = __ContentTableNewRow;
+            this.InternalRows.InternalItems.Add(InternalNewRow);
 
             var __ColumnsTableContainer = new IHTMLDiv().AttachTo(InternalContainerElement);
             IHTMLTable __ColumnsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ColumnsTableContainer);
@@ -102,9 +117,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             var __RowsTableContainer = new IHTMLDiv().AttachTo(InternalContainerElement);
+
+
             IHTMLTable __RowsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__RowsTableContainer);
             IHTMLTableBody __RowsTableBody = __RowsTable.AddBody();
             IHTMLTableRow __RowsTableNewRow = __RowsTableBody.AddRow();
+
+
 
             #region Rows table
             {
@@ -112,9 +131,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 __RowsTableNewRow.style.height = "22px";
 
-                var c0 = __RowsTableNewRow.AddColumn();
-                c0.innerText = "*";
-                c0.style.backgroundColor = JSColor.System.ButtonFace;
+                var InternalTableColumn = __RowsTableNewRow.AddColumn();
+                InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
+
+                InternalTableColumn.style.borderBottom = "1px solid gray";
+
+                var c1contentcrel = new IHTMLDiv { }.AttachTo(InternalTableColumn);
+                c1contentcrel.style.position = IStyle.PositionEnum.relative;
+                c1contentcrel.style.left = "0";
+                c1contentcrel.style.top = "0";
+                c1contentcrel.style.right = "0";
+                c1contentcrel.style.height = "21px";
+                c1contentcrel.style.overflow = IStyle.OverflowEnum.hidden;
+
+                var c1 = new IHTMLDiv().AttachTo(c1contentcrel);
+                c1.style.position = IStyle.PositionEnum.absolute;
+                c1.style.backgroundColor = JSColor.White;
+                c1.style.left = "0";
+                c1.style.top = "0";
+                c1.style.width = "6px";
+                c1.style.height = "21px";
+
+                var c1img = new IHTMLDiv().AttachTo(c1contentcrel);
+                c1img.style.position = IStyle.PositionEnum.absolute;
+                c1img.style.left = "12px";
+                c1img.style.top = "6px";
+                c1img.style.width = "24px";
+                c1img.style.height = "21px";
+
+                new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridNewRow.png").ToBackground(c1img, false);
 
                 __RowsTable.style.paddingTop = "22px";
 
@@ -284,6 +329,447 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                };
             #endregion
 
+
+            #region InitializeCell
+            Action<__DataGridViewCell, __DataGridViewRow> InitializeCell =
+                (SourceCell, SourceRow) =>
+                {
+                    // is cell index equal to column index?
+                    // what happens if we dont have enough columns?
+                    var InternalColumn = this.InternalColumns.InternalItems[SourceCell.ColumnIndex];
+
+
+                    SourceCell.InternalTableColumn = SourceRow.InternalTableRow.AddColumn();
+
+                    SourceCell.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
+
+                    //SourceCell.InternalTableColumn.style.borderRight = "1px solid gray";
+                    SourceCell.InternalTableColumn.style.backgroundColor = JSColor.White;
+
+
+                    SourceCell.InternalContentContainer = new IHTMLDiv { }.AttachTo(SourceCell.InternalTableColumn);
+
+                    // this wont work if we have multiple datagrids
+                    SourceCell.InternalContentContainer.tabIndex = (((SourceRow.Index + 1) << 16) + (SourceCell.ColumnIndex + 1));
+
+                    SourceCell.InternalContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
+                    SourceCell.InternalContentContainer.style.position = IStyle.PositionEnum.relative;
+                    SourceCell.InternalContentContainer.style.left = "0";
+                    SourceCell.InternalContentContainer.style.top = "0";
+                    SourceCell.InternalContentContainer.style.height = (SourceRow.Height - 1) + "px";
+
+                    SourceCell.InternalTableColumn.style.borderBottom = "1px solid gray";
+
+
+                    var c1content = new IHTMLSpan { }.AttachTo(SourceCell.InternalContentContainer);
+                    c1content.style.marginLeft = "4px";
+                    c1content.style.lineHeight = (SourceRow.Height - 1) + "px";
+
+                    #region AtInternalValueChanged
+                    Action AtInternalValueChanged = delegate
+                    {
+                        c1content.innerText = SourceCell.Value.ToString();
+                    };
+
+                    AtInternalValueChanged();
+                    SourceCell.InternalValueChanged += AtInternalValueChanged;
+                    #endregion
+
+                    //c1content.style.margin = "6px";
+
+                    #region AtInternalWidthChanged
+                    Action AtInternalWidthChanged = delegate
+                    {
+                        SourceCell.InternalContentContainer.style.width = InternalColumn.Width + "px";
+
+
+                        SourceCell.InternalTableColumn.style.width = InternalColumn.Width + "px";
+                        SourceCell.InternalTableColumn.style.minWidth = InternalColumn.Width + "px";
+                        //c1.style.backgroundColor = JSColor.Red;
+                        //c1content.innerText = "@" + InternalColumn.HeaderText + ":" + InternalColumn.Width;
+                    };
+
+                    AtInternalWidthChanged();
+
+                    InternalColumn.InternalWidthChanged += AtInternalWidthChanged;
+                    #endregion
+
+
+                    #region CellAtOffset
+                    Func<int, int, __DataGridViewCell> CellAtOffset =
+                        (x, y) =>
+                        {
+                            var value = default(__DataGridViewCell);
+
+                            var Row = this.InternalRows.InternalItems.ElementAtOrDefault(
+                                SourceRow.Index + y
+                            );
+
+                            if (Row == null)
+                                if (SourceRow.Index + y == this.InternalRows.Count)
+                                    Row = InternalNewRow;
+
+                            if (Row != null)
+                            {
+                                value = Row.InternalCells.InternalItems.ElementAtOrDefault(
+                                    SourceCell.ColumnIndex + x
+                                );
+                            }
+
+                            return value;
+                        };
+                    #endregion
+
+                    bool ExitEditModeDone = true;
+
+                    #region EnterEditMode
+                    Action EnterEditMode =
+                        delegate
+                        {
+                            if (!ExitEditModeDone)
+                                return;
+
+                            ExitEditModeDone = false;
+
+                            SourceCell.InternalContentContainer.Orphanize();
+
+                            var EditElement = new IHTMLInput(Shared.HTMLInputTypeEnum.text);
+
+                            EditElement.style.font = this.Font.ToCssString();
+
+
+                            EditElement.style.borderWidth = "0";
+                            EditElement.style.position = IStyle.PositionEnum.relative;
+                            EditElement.style.left = "4px";
+                            EditElement.style.top = "0";
+
+                            EditElement.style.outline = "0";
+                            EditElement.style.padding = "0";
+                            EditElement.style.width = (InternalColumn.Width - 4) + "px";
+                            EditElement.style.height = (SourceRow.Height - 1) + "px";
+
+                            EditElement.AttachTo(SourceCell.InternalTableColumn);
+
+                            SourceCell.InternalStyle.InternalForeColorChanged =
+                                delegate
+                                {
+                                    EditElement.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                                };
+
+                            EditElement.value = (string)SourceCell.Value;
+
+
+                            #region ExitEditMode
+                            Action ExitEditMode = delegate
+                            {
+                                if (ExitEditModeDone) return;
+                                ExitEditModeDone = true;
+
+
+                                EditElement.Orphanize();
+                                SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
+
+                                SourceCell.InternalStyle.InternalForeColorChanged =
+                                    delegate
+                                    {
+                                        SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                                    };
+
+                                if (this.CellEndEdit != null)
+                                    this.CellEndEdit(this,
+                                        new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
+                                    );
+                            };
+                            #endregion
+
+                            #region CheckChanges
+                            Action CheckChanges = delegate
+                            {
+                                if (((string)SourceCell.Value) != EditElement.value)
+                                {
+                                    SourceCell.Value = EditElement.value;
+
+                                    if (this.CellValueChanged != null)
+                                        this.CellValueChanged(this,
+                                            new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
+                                        );
+                                }
+
+                            };
+                            #endregion
+
+
+                            #region CellBeginEdit
+                            EditElement.onfocus +=
+                                delegate
+                                {
+
+                                    EditElement.select();
+                                };
+                            EditElement.focus();
+
+                            if (this.CellBeginEdit != null)
+                                this.CellBeginEdit(this,
+                                    new DataGridViewCellCancelEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
+                                );
+                            #endregion
+
+
+                            #region onblur
+                            EditElement.onblur +=
+                               delegate
+                               {
+                                   if (CheckChanges != null)
+                                       CheckChanges();
+
+                                   if (ExitEditMode != null)
+                                       ExitEditMode();
+
+
+                               };
+                            #endregion
+
+
+                            #region onkeyup
+                            EditElement.onkeyup +=
+                              _ev =>
+                              {
+                                  if (_ev.IsEscape)
+                                  {
+                                      CheckChanges = null;
+
+                                      _ev.PreventDefault();
+                                      _ev.StopPropagation();
+
+                                      ExitEditMode();
+                                      SourceCell.InternalContentContainer.focus();
+                                  }
+
+                                  if (_ev.KeyCode == (int)Keys.Up)
+                                  {
+                                      var Cell = CellAtOffset(0, -1);
+                                      if (Cell != null)
+                                      {
+                                          Cell.InternalContentContainer.focus();
+                                      }
+                                      return;
+                                  }
+
+                                  if (_ev.KeyCode == (int)Keys.Down)
+                                  {
+                                      var Cell = CellAtOffset(0, 1);
+                                      if (Cell != null)
+                                      {
+                                          Cell.InternalContentContainer.focus();
+                                      }
+                                      return;
+                                  }
+
+                              };
+                            #endregion
+
+
+                            EditElement.onkeypress +=
+                                _ev =>
+                                {
+
+                                    if (_ev.IsReturn)
+                                    {
+                                        _ev.PreventDefault();
+                                        _ev.StopPropagation();
+
+                                        if (CheckChanges != null)
+                                            CheckChanges();
+
+                                        ExitEditMode();
+                                        SourceCell.InternalContentContainer.focus();
+
+                                    }
+
+                                };
+
+
+                        };
+                    #endregion
+
+                    #region ondblclick
+                    SourceCell.InternalContentContainer.ondblclick +=
+                        ev =>
+                        {
+                            EnterEditMode();
+                        };
+                    #endregion
+
+                    #region onmousedown
+                    SourceCell.InternalContentContainer.onmousedown +=
+                        ev =>
+                        {
+                            if (!ev.ctrlKey)
+                            {
+
+
+                                // clear
+                                while (this.InternalSelectedCells.Count > 0)
+                                {
+                                    var item = this.InternalSelectedCells.InternalItems[0];
+
+                                    item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
+                                    item.InternalContentContainer.style.color = item.InternalStyle.InternalForeColor.ToString();
+
+                                    this.InternalSelectedCells.RemoveAt(0);
+                                }
+                            }
+
+                            this.InternalSelectedCells.Add(SourceCell);
+
+                            ev.PreventDefault();
+
+
+                        };
+                    #endregion
+
+
+                    //#region onmousemove
+                    //SourceCell.InternalContentContainer.onmousemove +=
+                    //     ev =>
+                    //     {
+                    //         if (this.MultiSelect)
+                    //             if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
+                    //             {
+                    //                 if (!this.InternalSelectedCells.Contains(SourceCell))
+                    //                     this.InternalSelectedCells.Add(SourceCell);
+
+                    //                 ev.PreventDefault();
+
+                    //             }
+                    //     };
+                    //#endregion
+
+
+
+
+
+                    #region onkeydown
+                    SourceCell.InternalContentContainer.onkeydown +=
+                        ev =>
+                        {
+                            #region KeyNavigateTo
+                            Func<Keys, int, int, bool> KeyNavigateTo =
+                              (k, x, y) =>
+                              {
+                                  if (ev.KeyCode == (int)k)
+                                  {
+                                      // focus the cell on the right
+
+                                      ev.PreventDefault();
+                                      ev.StopPropagation();
+
+                                      var Cell = CellAtOffset(x, y);
+                                      if (Cell != null)
+                                      {
+                                          Cell.InternalContentContainer.focus();
+                                          return true;
+                                      }
+
+
+
+                                  }
+                                  return false;
+                              };
+                            #endregion
+
+                            if (KeyNavigateTo(Keys.Right, 1, 0)) return;
+                            if (KeyNavigateTo(Keys.Left, -1, 0)) return;
+                            if (KeyNavigateTo(Keys.Up, 0, -1)) return;
+                            if (KeyNavigateTo(Keys.Down, 0, 1)) return;
+
+                            if (ev.IsReturn)
+                            {
+                                ev.PreventDefault();
+                                ev.StopPropagation();
+
+                                EnterEditMode();
+                                return;
+                            }
+
+                            if (ev.KeyCode == (int)Keys.Space)
+                            {
+                                EnterEditMode();
+                                return;
+                            }
+
+                            if (char.IsLetter((char)ev.KeyCode))
+                            {
+                                EnterEditMode();
+                                return;
+                            }
+
+                            if (char.IsNumber((char)ev.KeyCode))
+                            {
+                                EnterEditMode();
+                                return;
+                            }
+
+
+
+                        };
+                    #endregion
+
+
+
+                    var hasfocus = false;
+                    #region onfocus
+                    SourceCell.InternalContentContainer.onblur +=
+                        ev =>
+                        {
+                            hasfocus = false;
+                        };
+
+
+                    SourceCell.InternalContentContainer.onfocus +=
+                        ev =>
+                        {
+                            hasfocus = true;
+
+                            ev.PreventDefault();
+                            ev.StopPropagation();
+
+                            // clear
+                            while (this.InternalSelectedCells.Count > 0)
+                            {
+                                var item = this.InternalSelectedCells.InternalItems[0];
+
+                                item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
+                                item.InternalContentContainer.style.color = item.InternalStyle.InternalForeColor.ToString();
+
+                                this.InternalSelectedCells.RemoveAt(0);
+                            }
+
+                            if (!this.InternalSelectedCells.Contains(SourceCell))
+                                this.InternalSelectedCells.Add(SourceCell);
+
+                        };
+                    #endregion
+
+                    #region onmouseup
+                    SourceCell.InternalContentContainer.onmouseup +=
+                        ev =>
+                        {
+                            if (!ev.ctrlKey)
+                                if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
+                                {
+                                    if (hasfocus)
+                                        EnterEditMode();
+                                    else
+                                        SourceCell.InternalContentContainer.focus();
+
+                                }
+                        };
+                    #endregion
+                };
+            #endregion
+
+
             #region InternalColumns
             this.InternalColumns.InternalItems.ListChanged += (_s, _e) =>
             {
@@ -297,10 +783,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c.InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
                     c.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
-                    var e0 = __ContentTableNewRow.AddColumn();
-                    e0.style.position = IStyle.PositionEnum.relative;
-                    e0.style.backgroundColor = JSColor.White;
-                    e0.innerText = " ";
+                    var InternalNewCell = new __DataGridViewTextBoxCell();
+                    InternalNewRow.InternalCells.InternalItems.Add(InternalNewCell);
+                    InitializeCell(InternalNewCell, InternalNewRow);
+
+
+                    //var e0 = __ContentTableNewRow.AddColumn();
+                    //e0.style.position = IStyle.PositionEnum.relative;
+                    //e0.style.backgroundColor = JSColor.White;
+                    //e0.innerText = " ";
 
                     var c1contentcrel = new IHTMLDiv { }.AttachTo(c.InternalTableColumn);
                     c1contentcrel.style.position = IStyle.PositionEnum.relative;
@@ -485,500 +976,84 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRows.InternalItems.ListChanged +=
                   (_s, _e) =>
                   {
-                      var CurrentRowIndex = _e.NewIndex;
-                      var r = this.InternalRows.InternalItems[_e.NewIndex];
-
-                      __ContentTableNewRow.Orphanize();
+                      if (_e.ListChangedType == ListChangedType.ItemAdded)
                       {
-                          var tr = __ContentTableBody.AddRow();
+                          var CurrentRowIndex = _e.NewIndex;
+                          var SourceRow = this.InternalRows.InternalItems[_e.NewIndex];
 
-                          #region AtInternalHeightChanged
-                          Action AtInternalHeightChanged = delegate
+                          if (SourceRow == InternalNewRow)
+                              return;
+
+                          __ContentTableNewRow.Orphanize();
                           {
-                              tr.style.height = r.InternalHeight + "px";
-                          };
+                              SourceRow.InternalTableRow = __ContentTableBody.AddRow();
 
-                          AtInternalHeightChanged();
-                          r.InternalHeightChanged += AtInternalHeightChanged;
-                          #endregion
-
-
-                          var r_Cells = (__DataGridViewCellCollection)(object)r.Cells;
-                          var CellIndex = -1;
-                          foreach (var SourceCell in r_Cells.InternalItems)
-                          {
-                              CellIndex++;
-                              var CurrentCellIndex = CellIndex;
-
-                              // is cell index equal to column index?
-                              // what happens if we dont have enough columns?
-                              var InternalColumn = this.InternalColumns.InternalItems[CellIndex];
-
-                              SourceCell.InternalTableColumn = tr.AddColumn();
-
-                              SourceCell.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
-
-                              //SourceCell.InternalTableColumn.style.borderRight = "1px solid gray";
-                              SourceCell.InternalTableColumn.style.backgroundColor = JSColor.White;
-
-
-                              SourceCell.InternalContentContainer = new IHTMLDiv { }.AttachTo(SourceCell.InternalTableColumn);
-                              SourceCell.InternalContentContainer.tabIndex = (_e.NewIndex << 16) + CellIndex;
-
-                              SourceCell.InternalContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
-                              SourceCell.InternalContentContainer.style.position = IStyle.PositionEnum.relative;
-                              SourceCell.InternalContentContainer.style.left = "0";
-                              SourceCell.InternalContentContainer.style.top = "0";
-                              SourceCell.InternalContentContainer.style.right = "0";
-                              SourceCell.InternalContentContainer.style.height = (r.Height - 1) + "px";
-
-                              SourceCell.InternalTableColumn.style.borderBottom = "1px solid gray";
-
-
-                              var c1content = new IHTMLSpan { }.AttachTo(SourceCell.InternalContentContainer);
-                              c1content.style.marginLeft = "4px";
-                              c1content.style.lineHeight = (r.Height - 1) + "px";
-
-                              #region AtInternalValueChanged
-                              Action AtInternalValueChanged = delegate
+                              #region AtInternalHeightChanged
+                              Action AtInternalHeightChanged = delegate
                               {
-                                  c1content.innerText = SourceCell.Value.ToString();
+                                  SourceRow.InternalTableRow.style.height = SourceRow.InternalHeight + "px";
                               };
 
-                              AtInternalValueChanged();
-                              SourceCell.InternalValueChanged += AtInternalValueChanged;
+                              AtInternalHeightChanged();
+                              SourceRow.InternalHeightChanged += AtInternalHeightChanged;
                               #endregion
 
-                              //c1content.style.margin = "6px";
-
-                              #region AtInternalWidthChanged
-                              Action AtInternalWidthChanged = delegate
+                              #region Cells
+                              foreach (var SourceCell in SourceRow.InternalCells.InternalItems)
                               {
-                                  SourceCell.InternalTableColumn.style.width = InternalColumn.Width + "px";
-                                  SourceCell.InternalTableColumn.style.minWidth = InternalColumn.Width + "px";
-                                  //c1.style.backgroundColor = JSColor.Red;
-                                  //c1content.innerText = "@" + InternalColumn.HeaderText + ":" + InternalColumn.Width;
-                              };
-
-                              AtInternalWidthChanged();
-
-                              InternalColumn.InternalWidthChanged += AtInternalWidthChanged;
+                                  InitializeCell(
+                                      SourceCell,
+                                      SourceRow
+                                  );
+                              }
                               #endregion
-
-
-                              #region CellAtOffset
-                              Func<int, int, __DataGridViewCell> CellAtOffset =
-                                  (x, y) =>
-                                  {
-                                      var value = default(__DataGridViewCell);
-
-                                      var Row = this.InternalRows.InternalItems.ElementAtOrDefault(
-                                          CurrentRowIndex + y
-                                      );
-
-                                      if (Row != null)
-                                      {
-                                          value = Row.InternalCells.InternalItems.ElementAtOrDefault(
-                                              CurrentCellIndex + x
-                                          );
-                                      }
-
-                                      return value;
-                                  };
-                              #endregion
-
-                              bool ExitEditModeDone = true;
-
-                              #region EnterEditMode
-                              Action EnterEditMode =
-                                  delegate
-                                  {
-                                      if (!ExitEditModeDone)
-                                          return;
-
-                                      ExitEditModeDone = false;
-
-                                      SourceCell.InternalContentContainer.Orphanize();
-
-                                      var EditElement = new IHTMLInput(Shared.HTMLInputTypeEnum.text);
-
-                                      EditElement.style.font = this.Font.ToCssString();
-
-
-                                      EditElement.style.borderWidth = "0";
-                                      EditElement.style.position = IStyle.PositionEnum.relative;
-                                      EditElement.style.left = "4px";
-                                      EditElement.style.top = "0";
-
-                                      EditElement.style.outline = "0";
-                                      EditElement.style.padding = "0";
-                                      EditElement.style.width = (InternalColumn.Width - 4) + "px";
-                                      EditElement.style.height = (r.Height - 1) + "px";
-
-                                      EditElement.AttachTo(SourceCell.InternalTableColumn);
-
-                                      SourceCell.InternalStyle.InternalForeColorChanged =
-                                          delegate
-                                          {
-                                              EditElement.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
-                                          };
-
-                                      EditElement.value = (string)SourceCell.Value;
-
-
-                                      #region ExitEditMode
-                                      Action ExitEditMode = delegate
-                                      {
-                                          if (ExitEditModeDone) return;
-                                          ExitEditModeDone = true;
-
-
-                                          EditElement.Orphanize();
-                                          SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
-
-                                          SourceCell.InternalStyle.InternalForeColorChanged =
-                                              delegate
-                                              {
-                                                  SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
-                                              };
-
-                                          if (this.CellEndEdit != null)
-                                              this.CellEndEdit(this,
-                                                  new DataGridViewCellEventArgs(CurrentCellIndex, CurrentRowIndex)
-                                              );
-                                      };
-                                      #endregion
-
-                                      #region CheckChanges
-                                      Action CheckChanges = delegate
-                                      {
-                                          if (((string)SourceCell.Value) != EditElement.value)
-                                          {
-                                              SourceCell.Value = EditElement.value;
-
-                                              if (this.CellValueChanged != null)
-                                                  this.CellValueChanged(this,
-                                                      new DataGridViewCellEventArgs(CurrentCellIndex, CurrentRowIndex)
-                                                  );
-                                          }
-
-                                      };
-                                      #endregion
-
-
-                                      #region CellBeginEdit
-                                      EditElement.onfocus +=
-                                          delegate
-                                          {
-
-                                              EditElement.select();
-                                          };
-                                      EditElement.focus();
-
-                                      if (this.CellBeginEdit != null)
-                                          this.CellBeginEdit(this,
-                                              new DataGridViewCellCancelEventArgs(CurrentCellIndex, CurrentRowIndex)
-                                          );
-                                      #endregion
-
-
-                                      #region onblur
-                                      EditElement.onblur +=
-                                         delegate
-                                         {
-                                             if (CheckChanges != null)
-                                                 CheckChanges();
-
-                                             if (ExitEditMode != null)
-                                                 ExitEditMode();
-
-
-                                         };
-                                      #endregion
-
-
-                                      #region onkeyup
-                                      EditElement.onkeyup +=
-                                        _ev =>
-                                        {
-                                            if (_ev.IsEscape)
-                                            {
-                                                CheckChanges = null;
-
-                                                _ev.PreventDefault();
-                                                _ev.StopPropagation();
-
-                                                ExitEditMode();
-                                                SourceCell.InternalContentContainer.focus();
-                                            }
-
-                                            if (_ev.KeyCode == (int)Keys.Up)
-                                            {
-                                                var Cell = CellAtOffset(0, -1);
-                                                if (Cell != null)
-                                                {
-                                                    Cell.InternalContentContainer.focus();
-                                                }
-                                                return;
-                                            }
-
-                                            if (_ev.KeyCode == (int)Keys.Down)
-                                            {
-                                                var Cell = CellAtOffset(0, 1);
-                                                if (Cell != null)
-                                                {
-                                                    Cell.InternalContentContainer.focus();
-                                                }
-                                                return;
-                                            }
-
-                                        };
-                                      #endregion
-
-
-                                      EditElement.onkeypress +=
-                                          _ev =>
-                                          {
-
-                                              if (_ev.IsReturn)
-                                              {
-                                                  _ev.PreventDefault();
-                                                  _ev.StopPropagation();
-
-                                                  if (CheckChanges != null)
-                                                      CheckChanges();
-
-                                                  ExitEditMode();
-                                                  SourceCell.InternalContentContainer.focus();
-
-                                              }
-
-                                          };
-
-
-                                  };
-                              #endregion
-
-                              #region ondblclick
-                              SourceCell.InternalContentContainer.ondblclick +=
-                                  ev =>
-                                  {
-                                      EnterEditMode();
-                                  };
-                              #endregion
-
-                              #region onmousedown
-                              SourceCell.InternalContentContainer.onmousedown +=
-                                  ev =>
-                                  {
-                                      if (!ev.ctrlKey)
-                                      {
-
-
-                                          // clear
-                                          while (this.InternalSelectedCells.Count > 0)
-                                          {
-                                              var item = this.InternalSelectedCells.InternalItems[0];
-
-                                              item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
-                                              item.InternalContentContainer.style.color = item.InternalStyle.InternalForeColor.ToString();
-
-                                              this.InternalSelectedCells.RemoveAt(0);
-                                          }
-                                      }
-
-                                      this.InternalSelectedCells.Add(SourceCell);
-
-                                      ev.PreventDefault();
-
-
-                                  };
-                              #endregion
-
-
-                              //#region onmousemove
-                              //SourceCell.InternalContentContainer.onmousemove +=
-                              //     ev =>
-                              //     {
-                              //         if (this.MultiSelect)
-                              //             if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
-                              //             {
-                              //                 if (!this.InternalSelectedCells.Contains(SourceCell))
-                              //                     this.InternalSelectedCells.Add(SourceCell);
-
-                              //                 ev.PreventDefault();
-
-                              //             }
-                              //     };
-                              //#endregion
-
-
-
-
-
-                              #region onkeydown
-                              SourceCell.InternalContentContainer.onkeydown +=
-                                  ev =>
-                                  {
-                                      #region KeyNavigateTo
-                                      Func<Keys, int, int, bool> KeyNavigateTo =
-                                        (k, x, y) =>
-                                        {
-                                            if (ev.KeyCode == (int)k)
-                                            {
-                                                // focus the cell on the right
-
-                                                ev.PreventDefault();
-                                                ev.StopPropagation();
-
-                                                var Cell = CellAtOffset(x, y);
-                                                if (Cell != null)
-                                                {
-                                                    Cell.InternalContentContainer.focus();
-                                                    return true;
-                                                }
-
-
-
-                                            }
-                                            return false;
-                                        };
-                                      #endregion
-
-                                      if (KeyNavigateTo(Keys.Right, 1, 0)) return;
-                                      if (KeyNavigateTo(Keys.Left, -1, 0)) return;
-                                      if (KeyNavigateTo(Keys.Up, 0, -1)) return;
-                                      if (KeyNavigateTo(Keys.Down, 0, 1)) return;
-
-                                      if (ev.IsReturn)
-                                      {
-                                          ev.PreventDefault();
-                                          ev.StopPropagation();
-
-                                          EnterEditMode();
-                                          return;
-                                      }
-
-                                      if (ev.KeyCode == (int)Keys.Space)
-                                      {
-                                          EnterEditMode();
-                                          return;
-                                      }
-
-                                      if (char.IsLetter((char)ev.KeyCode))
-                                      {
-                                          EnterEditMode();
-                                          return;
-                                      }
-
-                                      if (char.IsNumber((char)ev.KeyCode))
-                                      {
-                                          EnterEditMode();
-                                          return;
-                                      }
-
-
-
-                                  };
-                              #endregion
-
-
-
-                              var hasfocus = false;
-                              #region onfocus
-                              SourceCell.InternalContentContainer.onblur +=
-                                  ev =>
-                                  {
-                                      hasfocus = false;
-                                  };
-
-
-                              SourceCell.InternalContentContainer.onfocus +=
-                                  ev =>
-                                  {
-                                      hasfocus = true;
-
-                                      ev.PreventDefault();
-                                      ev.StopPropagation();
-
-                                      // clear
-                                      while (this.InternalSelectedCells.Count > 0)
-                                      {
-                                          var item = this.InternalSelectedCells.InternalItems[0];
-
-                                          item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
-                                          item.InternalContentContainer.style.color = item.InternalStyle.InternalForeColor.ToString();
-
-                                          this.InternalSelectedCells.RemoveAt(0);
-                                      }
-
-                                      if (!this.InternalSelectedCells.Contains(SourceCell))
-                                          this.InternalSelectedCells.Add(SourceCell);
-
-                                  };
-                              #endregion
-
-                              #region onmouseup
-                              SourceCell.InternalContentContainer.onmouseup +=
-                                  ev =>
-                                  {
-                                      if (!ev.ctrlKey)
-                                          if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
-                                          {
-                                              if (hasfocus)
-                                                  EnterEditMode();
-                                              else
-                                                  SourceCell.InternalContentContainer.focus();
-
-                                          }
-                                  };
-                              #endregion
-
 
                           }
+                          __ContentTableNewRow.AttachTo(__ContentTableBody);
 
-                      }
-                      __ContentTableNewRow.AttachTo(__ContentTableBody);
-
-                      #region __RowsTableNewRow
-                      __RowsTableNewRow.Orphanize();
-                      {
-                          var __tr = __RowsTableBody.AddRow();
-
-
-
-
-                          var c0 = __tr.AddColumn();
-                          c0.style.borderBottom = "1px solid gray";
-                          c0.innerText = " ";
-                          //c0.style.padding = "4px";
-                          c0.style.backgroundColor = JSColor.System.ButtonFace;
-                          c0.style.width = "100%";
-
-
-                          var c1 = new IHTMLDiv().AttachTo(c0);
-                          c1.style.position = IStyle.PositionEnum.relative;
-                          c1.style.backgroundColor = JSColor.White;
-                          c1.style.left = "0";
-                          c1.style.top = "0";
-                          c1.style.width = "6px";
-
-
-
-                          #region AtInternalHeightChanged
-                          Action AtInternalHeightChanged = delegate
+                          #region __RowsTable
+                          __RowsTableNewRow.Orphanize();
                           {
-                              c1.style.height = (r.InternalHeight - 1) + "px";
-                              __tr.style.height = r.InternalHeight + "px";
-                          };
+                              var __tr = __RowsTableBody.AddRow();
 
-                          AtInternalHeightChanged();
-                          r.InternalHeightChanged += AtInternalHeightChanged;
+
+
+
+                              var InternalTableColumn = __tr.AddColumn();
+                              InternalTableColumn.style.borderBottom = "1px solid gray";
+                              InternalTableColumn.innerText = " ";
+                              //c0.style.padding = "4px";
+                              InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
+                              InternalTableColumn.style.width = "100%";
+
+
+                              var c1 = new IHTMLDiv().AttachTo(InternalTableColumn);
+                              c1.style.position = IStyle.PositionEnum.relative;
+                              c1.style.backgroundColor = JSColor.White;
+                              c1.style.left = "0";
+                              c1.style.top = "0";
+                              c1.style.width = "6px";
+
+
+
+                              #region AtInternalHeightChanged
+                              Action AtInternalHeightChanged = delegate
+                              {
+                                  c1.style.height = (SourceRow.InternalHeight - 1) + "px";
+                                  __tr.style.height = SourceRow.InternalHeight + "px";
+                              };
+
+                              AtInternalHeightChanged();
+                              SourceRow.InternalHeightChanged += AtInternalHeightChanged;
+                              #endregion
+
+                          }
+                          __RowsTableNewRow.AttachTo(__RowsTableBody);
                           #endregion
 
+                          this.InternalRows.InternalItems.Remove(InternalNewRow);
+                          this.InternalRows.InternalItems.Add(InternalNewRow);
                       }
-                      __RowsTableNewRow.AttachTo(__RowsTableBody);
-                      #endregion
                   };
             #endregion
 

@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewRow))]
     internal class __DataGridViewRow : __DataGridViewBand
     {
+        #region Height
         public int InternalHeight;
         public event Action InternalHeightChanged;
         public int Height
@@ -24,17 +25,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalHeightChanged();
             }
         }
+        #endregion
 
+        public DOM.HTML.IHTMLTableRow InternalTableRow;
 
         public __DataGridViewCellCollection InternalCells;
         public DataGridViewCellCollection Cells { get; set; }
 
+        public bool IsNewRow
+        {
+            get
+            {
+                return (InternalContext.Rows.Count - 1) == this.Index;
+            }
+        }
+
+
         public __DataGridViewRow()
         {
-            this.Height = 22; 
+            this.Height = 22;
 
             this.InternalCells = new __DataGridViewCellCollection();
             this.Cells = (DataGridViewCellCollection)(object)this.InternalCells;
+
+            this.InternalCells.InternalItems.ListChanged +=
+                (s, e) =>
+                {
+                    if (e.ListChangedType == global::System.ComponentModel.ListChangedType.ItemAdded)
+                    {
+                        this.InternalCells.InternalItems[e.NewIndex].InternalContext = this;
+                    }
+                };
+
 
         }
     }

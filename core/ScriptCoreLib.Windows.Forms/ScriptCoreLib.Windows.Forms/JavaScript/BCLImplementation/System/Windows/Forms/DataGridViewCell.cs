@@ -34,8 +34,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __DataGridViewCellStyle InternalStyle { get; set; }
         public DataGridViewCellStyle Style { get; set; }
 
+        public __DataGridViewRow InternalContext;
+
+        public int ColumnIndex
+        {
+            get
+            {
+                if (InternalContext == null)
+                    return -1;
+
+                return InternalContext.InternalCells.InternalItems.IndexOf(this);
+            }
+        }
+
         public __DataGridViewCell()
         {
+            this.InternalValue = "";
             this.InternalStyle = new __DataGridViewCellStyle();
             this.Style = (DataGridViewCellStyle)(object)this.InternalStyle;
         }
