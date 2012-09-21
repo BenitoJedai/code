@@ -43,6 +43,7 @@ namespace TestFormsDatagrid
             this.label3 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,9 +62,9 @@ namespace TestFormsDatagrid
             this.Column5,
             this.Column6,
             this.Column7});
-            this.dataGridView1.Location = new System.Drawing.Point(16, 56);
+            this.dataGridView1.Location = new System.Drawing.Point(16, 66);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(726, 317);
+            this.dataGridView1.Size = new System.Drawing.Size(726, 307);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -194,8 +195,19 @@ namespace TestFormsDatagrid
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(376, 376);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(366, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Each browser may have specific issues. Some features not yet implemented.";
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.checkBox1);
@@ -230,6 +242,7 @@ namespace TestFormsDatagrid
         private Label label3;
         private TextBox textBox2;
         private Button button2;
+        private Label label4;
 
     }
 }

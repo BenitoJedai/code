@@ -43,6 +43,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control : __Component
     {
+        public virtual DockStyle Dock { get; set; }
+
         public static Font DefaultFont
         {
             get
