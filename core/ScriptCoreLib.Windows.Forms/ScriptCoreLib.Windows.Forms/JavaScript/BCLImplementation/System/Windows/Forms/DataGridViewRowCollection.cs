@@ -12,11 +12,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         public BindingList<__DataGridViewRow> InternalItems = new BindingList<__DataGridViewRow>();
 
-        public virtual void Add(DataGridViewRow e)
+        public virtual int Add(DataGridViewRow e)
         {
             var x = (__DataGridViewRow)(object)e;
 
             InternalItems.Add(x);
+            return InternalItems.Count - 1;
         }
 
         public virtual void AddRange(params DataGridViewRow[] dataGridViewColumns)

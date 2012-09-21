@@ -7,10 +7,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     /// <summary>
     /// http://www.w3.org/TR/REC-html40/interact/forms.html#adef-type-INPUT
     /// </summary>
-    [Script(InternalConstructor=true)]
+    [Script(InternalConstructor = true)]
     public class IHTMLInput : IHTMLElement
     {
-        public string alt;	
+        public string alt;
         public string src;
 
         public int maxLength;
@@ -39,7 +39,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public bool IsInteger
         {
-            [Script(DefineAsStatic=true)]
+            [Script(DefineAsStatic = true)]
             get
             {
                 return IRegExp.Integer.exec(value) != null;
@@ -63,7 +63,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         internal static IHTMLInput InternalConstructor()
         {
-			return (IHTMLInput)(object)new IHTMLElement(HTMLElementEnum.input);
+            return (IHTMLInput)(object)new IHTMLElement(HTMLElementEnum.input);
         }
 
 
@@ -75,9 +75,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             if (type == _radio)
             {
-                n = (IHTMLInput) new IFunction("e", "/*@cc_on return this.createElement(e); @*/ return null;").apply(Native.Document, "<input type='radio' name='' value='' />");
+                n = (IHTMLInput)new IFunction("e", "/*@cc_on return this.createElement(e); @*/ return null;").apply(Native.Document, "<input type='radio' name='' value='' />");
             }
-            
+
             if (n == null)
             {
                 n = new IHTMLInput();
@@ -106,7 +106,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             {
                 // TODO: escape name and value
 
-                n = (IHTMLInput)new IFunction("e", "/*@cc_on return this.createElement(e); @*/ return null;").apply(Native.Document, 
+                n = (IHTMLInput)new IFunction("e", "/*@cc_on return this.createElement(e); @*/ return null;").apply(Native.Document,
                     "<input type='radio' name='" + name + "' value='" + value + "' />"
                     );
             }
@@ -159,5 +159,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             return i;
         }
+
+        // http://www.w3.org/TR/html-markup/spec.html
+        public int selectionStart;
+        public int selectionEnd;
     }
 }
