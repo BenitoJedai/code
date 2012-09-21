@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System;
 
 namespace TestFormsDatagrid
 {
@@ -81,18 +82,22 @@ namespace TestFormsDatagrid
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            Console.WriteLine("dataGridView1_CellEndEdit");
+            label1.Text = "dataGridView1_CellEndEdit: " + new { e.ColumnIndex, e.RowIndex }.ToString();
 
             dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Blue;
         }
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
+            label1.Text = "dataGridView1_CellBeginEdit: " + new { e.ColumnIndex, e.RowIndex }.ToString();
             dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Red;
 
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            Console.WriteLine("dataGridView1_CellValueChanged");
             label1.Text = "changed: " + new { e.ColumnIndex, e.RowIndex }.ToString();
 
         }

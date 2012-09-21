@@ -27,6 +27,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        public DOM.HTML.IHTMLTableRow InternalZeroColumnTableRow;
         public DOM.HTML.IHTMLTableRow InternalTableRow;
 
         public __DataGridViewCellCollection InternalCells;

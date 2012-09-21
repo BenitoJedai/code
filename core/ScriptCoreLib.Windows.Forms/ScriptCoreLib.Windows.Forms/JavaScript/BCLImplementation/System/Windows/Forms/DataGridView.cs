@@ -98,13 +98,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var __ContentTableContainer = new IHTMLDiv().AttachTo(InternalContainerElement);
             IHTMLTable __ContentTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ContentTableContainer);
-            IHTMLTableBody __ContentTableBody = __ContentTable.AddBody();
-            IHTMLTableRow __ContentTableNewRow = __ContentTableBody.AddRow();
-            __ContentTableNewRow.style.height = "22px";
             __ContentTable.style.paddingTop = "22px";
 
+            IHTMLTableBody __ContentTableBody = __ContentTable.AddBody();
+
             var InternalNewRow = new __DataGridViewRow();
-            InternalNewRow.InternalTableRow = __ContentTableNewRow;
+
+            InternalNewRow.InternalTableRow = __ContentTableBody.AddRow();
+            InternalNewRow.InternalTableRow.style.height = "22px";
+
             this.InternalRows.InternalItems.Add(InternalNewRow);
 
             var __ColumnsTableContainer = new IHTMLDiv().AttachTo(InternalContainerElement);
@@ -117,55 +119,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             var __RowsTableContainer = new IHTMLDiv().AttachTo(InternalContainerElement);
+            __RowsTableContainer.style.SetLocation(0, 0);
 
 
             IHTMLTable __RowsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__RowsTableContainer);
+            __RowsTable.style.paddingTop = "22px";
             IHTMLTableBody __RowsTableBody = __RowsTable.AddBody();
-            IHTMLTableRow __RowsTableNewRow = __RowsTableBody.AddRow();
 
 
 
-            #region Rows table
-            {
-                __RowsTableContainer.style.SetLocation(0, 0);
 
-                __RowsTableNewRow.style.height = "22px";
-
-                var InternalTableColumn = __RowsTableNewRow.AddColumn();
-                InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
-
-                InternalTableColumn.style.borderBottom = "1px solid gray";
-
-                var c1contentcrel = new IHTMLDiv { }.AttachTo(InternalTableColumn);
-                c1contentcrel.style.position = IStyle.PositionEnum.relative;
-                c1contentcrel.style.left = "0";
-                c1contentcrel.style.top = "0";
-                c1contentcrel.style.right = "0";
-                c1contentcrel.style.height = "21px";
-                c1contentcrel.style.overflow = IStyle.OverflowEnum.hidden;
-
-                var c1 = new IHTMLDiv().AttachTo(c1contentcrel);
-                c1.style.position = IStyle.PositionEnum.absolute;
-                c1.style.backgroundColor = JSColor.White;
-                c1.style.left = "0";
-                c1.style.top = "0";
-                c1.style.width = "6px";
-                c1.style.height = "21px";
-
-                var c1img = new IHTMLDiv().AttachTo(c1contentcrel);
-                c1img.style.position = IStyle.PositionEnum.absolute;
-                c1img.style.left = "12px";
-                c1img.style.top = "6px";
-                c1img.style.width = "24px";
-                c1img.style.height = "21px";
-
-                new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridNewRow.png").ToBackground(c1img, false);
-
-                __RowsTable.style.paddingTop = "22px";
-
-
-            }
-            #endregion
 
             #region Corner
             var Corner = new IHTMLDiv().AttachTo(InternalContainerElement);
@@ -972,6 +935,102 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             };
             #endregion
 
+            #region InitializeZeroColumnCell
+            Action<__DataGridViewRow> InitializeZeroColumnCell =
+                SourceRow =>
+                {
+                    var __tr = __RowsTableBody.AddRow();
+
+                    SourceRow.InternalZeroColumnTableRow = __tr;
+
+
+
+                    var InternalTableColumn = __tr.AddColumn();
+                    InternalTableColumn.style.borderBottom = "1px solid gray";
+                    InternalTableColumn.innerText = " ";
+                    //c0.style.padding = "4px";
+                    InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
+                    InternalTableColumn.style.width = "100%";
+
+                    var c1contentcrel = new IHTMLDiv { }.AttachTo(InternalTableColumn);
+                    c1contentcrel.style.position = IStyle.PositionEnum.relative;
+                    c1contentcrel.style.left = "0";
+                    c1contentcrel.style.top = "0";
+                    c1contentcrel.style.right = "0";
+                    c1contentcrel.style.height = "21px";
+                    c1contentcrel.style.overflow = IStyle.OverflowEnum.hidden;
+
+                    var c1 = new IHTMLDiv().AttachTo(c1contentcrel);
+                    c1.style.position = IStyle.PositionEnum.absolute;
+                    c1.style.backgroundColor = JSColor.White;
+                    c1.style.left = "0";
+                    c1.style.top = "0";
+                    c1.style.width = "6px";
+
+                    var c1img = new IHTMLDiv().AttachTo(c1contentcrel);
+                    c1img.style.position = IStyle.PositionEnum.absolute;
+                    c1img.style.left = "12px";
+                    c1img.style.top = "0px";
+                    c1img.style.right = "0";
+                    c1img.style.height = "21px";
+
+                    //new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridEditRow.png").ToBackground(c1img, false);
+                    c1img.style.backgroundPosition = "left center";
+
+                    Action AtEndEdit =
+                        delegate
+                        {
+                            if (SourceRow.IsNewRow)
+                            {
+                                new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridNewRow.png").ToBackground(c1img, false);
+
+                            }
+                            else
+                            {
+                                c1img.style.backgroundImage = "";
+                            }
+                        };
+
+                    this.CellBeginEdit +=
+                        (s, e) =>
+                        {
+                            if (e.RowIndex == SourceRow.Index)
+                            {
+                                new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridEditRow.png").ToBackground(c1img, false);
+                                //c1img.style.backgroundPosition = "left center";
+                            }
+                        };
+
+                    this.CellEndEdit +=
+                       (s, e) =>
+                       {
+                           if (e.RowIndex == SourceRow.Index)
+                           {
+                               AtEndEdit();
+
+                           }
+                       };
+
+                    AtEndEdit();
+
+                    #region AtInternalHeightChanged
+                    Action AtInternalHeightChanged = delegate
+                    {
+                        c1.style.height = (SourceRow.InternalHeight - 1) + "px";
+                        c1img.style.height = (SourceRow.InternalHeight - 1) + "px";
+
+                        c1contentcrel.style.height = (SourceRow.InternalHeight - 1) + "px";
+                        __tr.style.height = SourceRow.InternalHeight + "px";
+                    };
+
+                    AtInternalHeightChanged();
+                    SourceRow.InternalHeightChanged += AtInternalHeightChanged;
+                    #endregion
+                };
+            #endregion
+
+            InitializeZeroColumnCell(InternalNewRow);
+
             #region InternalRows
             this.InternalRows.InternalItems.ListChanged +=
                   (_s, _e) =>
@@ -981,84 +1040,97 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           var CurrentRowIndex = _e.NewIndex;
                           var SourceRow = this.InternalRows.InternalItems[_e.NewIndex];
 
-                          if (SourceRow == InternalNewRow)
+                          if (SourceRow.InternalTableRow != null)
                               return;
 
-                          __ContentTableNewRow.Orphanize();
+                          if (InternalNewRow != null)
                           {
-                              SourceRow.InternalTableRow = __ContentTableBody.AddRow();
-
-                              #region AtInternalHeightChanged
-                              Action AtInternalHeightChanged = delegate
-                              {
-                                  SourceRow.InternalTableRow.style.height = SourceRow.InternalHeight + "px";
-                              };
-
-                              AtInternalHeightChanged();
-                              SourceRow.InternalHeightChanged += AtInternalHeightChanged;
-                              #endregion
-
-                              #region Cells
-                              foreach (var SourceCell in SourceRow.InternalCells.InternalItems)
-                              {
-                                  InitializeCell(
-                                      SourceCell,
-                                      SourceRow
-                                  );
-                              }
-                              #endregion
-
+                              InternalNewRow.InternalTableRow.Orphanize();
+                              InternalNewRow.InternalZeroColumnTableRow.Orphanize();
+                              this.InternalRows.InternalItems.Remove(InternalNewRow);
+                              this.InternalRows.InternalItems.Add(InternalNewRow);
                           }
-                          __ContentTableNewRow.AttachTo(__ContentTableBody);
 
-                          #region __RowsTable
-                          __RowsTableNewRow.Orphanize();
+                          SourceRow.InternalTableRow = __ContentTableBody.AddRow();
+
+                          #region AtInternalHeightChanged
+                          Action AtInternalHeightChanged = delegate
                           {
-                              var __tr = __RowsTableBody.AddRow();
+                              SourceRow.InternalTableRow.style.height = SourceRow.InternalHeight + "px";
+                          };
 
-
-
-
-                              var InternalTableColumn = __tr.AddColumn();
-                              InternalTableColumn.style.borderBottom = "1px solid gray";
-                              InternalTableColumn.innerText = " ";
-                              //c0.style.padding = "4px";
-                              InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
-                              InternalTableColumn.style.width = "100%";
-
-
-                              var c1 = new IHTMLDiv().AttachTo(InternalTableColumn);
-                              c1.style.position = IStyle.PositionEnum.relative;
-                              c1.style.backgroundColor = JSColor.White;
-                              c1.style.left = "0";
-                              c1.style.top = "0";
-                              c1.style.width = "6px";
-
-
-
-                              #region AtInternalHeightChanged
-                              Action AtInternalHeightChanged = delegate
-                              {
-                                  c1.style.height = (SourceRow.InternalHeight - 1) + "px";
-                                  __tr.style.height = SourceRow.InternalHeight + "px";
-                              };
-
-                              AtInternalHeightChanged();
-                              SourceRow.InternalHeightChanged += AtInternalHeightChanged;
-                              #endregion
-
-                          }
-                          __RowsTableNewRow.AttachTo(__RowsTableBody);
+                          AtInternalHeightChanged();
+                          SourceRow.InternalHeightChanged += AtInternalHeightChanged;
                           #endregion
 
-                          this.InternalRows.InternalItems.Remove(InternalNewRow);
-                          this.InternalRows.InternalItems.Add(InternalNewRow);
+
+                          while (SourceRow.InternalCells.InternalItems.Count < this.InternalColumns.InternalItems.Count)
+                              SourceRow.InternalCells.InternalItems.Add(new __DataGridViewTextBoxCell());
+
+
+                          #region Cells
+                          foreach (var SourceCell in SourceRow.InternalCells.InternalItems)
+                          {
+                              InitializeCell(
+                                  SourceCell,
+                                  SourceRow
+                              );
+                          }
+                          #endregion
+
+
+                          InitializeZeroColumnCell(SourceRow);
+                          if (InternalNewRow != null)
+                          {
+                              InternalNewRow.InternalTableRow.AttachTo(__ContentTableBody);
+                              InternalNewRow.InternalZeroColumnTableRow.AttachTo(__RowsTableBody);
+                          }
                       }
                   };
             #endregion
 
+            __DataGridViewRow PendingNewRow = null;
 
+            this.CellBeginEdit +=
+                (s, e) =>
+                {
+                    var SourceRow = this.InternalRows.InternalItems[e.RowIndex];
 
+                    if (SourceRow.IsNewRow)
+                    {
+                        var n = new __DataGridViewRow();
+                        InternalNewRow = null;
+                        PendingNewRow = SourceRow;
+
+                        this.InternalRows.InternalItems.Add(n);
+
+                        InternalNewRow = n;
+
+                        if (this.UserAddedRow != null)
+                            this.UserAddedRow(this, new DataGridViewRowEventArgs((DataGridViewRow)(object)SourceRow));
+                    }
+                };
+
+            this.CellValueChanged +=
+                (s, e) =>
+                {
+                    var SourceRow = this.InternalRows.InternalItems[e.RowIndex];
+
+                    if (PendingNewRow == SourceRow)
+                        PendingNewRow = null;
+                };
+
+            this.CellEndEdit +=
+                (s, e) =>
+                {
+                    var SourceRow = this.InternalRows.InternalItems[e.RowIndex];
+                    if (PendingNewRow == SourceRow)
+                    {
+                        // remove and notify
+
+                        PendingNewRow = null;
+                    }
+                };
         }
 
 
@@ -1087,7 +1159,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event DataGridViewCellEventHandler CellEndEdit;
         public event DataGridViewCellCancelEventHandler CellBeginEdit;
         public event DataGridViewCellEventHandler CellValueChanged;
-
+        public event DataGridViewRowEventHandler UserAddedRow;
+        public event DataGridViewRowEventHandler UserDeletedRow;
         public event EventHandler SelectionChanged;
 
 
