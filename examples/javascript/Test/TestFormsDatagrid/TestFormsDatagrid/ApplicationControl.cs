@@ -22,6 +22,8 @@ namespace TestFormsDatagrid
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
+            var rr = this.dataGridView1.Rows.Count;
+
             for (int i = 0; i < 7; i++)
             {
                 var r = new DataGridViewRow();
@@ -79,6 +81,7 @@ namespace TestFormsDatagrid
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+
             dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Blue;
         }
 
@@ -90,7 +93,24 @@ namespace TestFormsDatagrid
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            label1.Text = new { e.ColumnIndex, e.RowIndex }.ToString();
+            label1.Text = "changed: " + new { e.ColumnIndex, e.RowIndex }.ToString();
+
+        }
+
+        private void dataGridView1_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            label1.Text = "new row: " + new { e.Row.Index }.ToString();
+
+        }
+
+        private void dataGridView1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            label1.Text = "deleted row: " + new { e.Row.Index }.ToString();
+
+        }
+
+        private void label2_Click(object sender, System.EventArgs e)
+        {
 
         }
 
