@@ -134,6 +134,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\FormResizeGrip.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridFocusRow.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridEditRow.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridNewRow.png" />
