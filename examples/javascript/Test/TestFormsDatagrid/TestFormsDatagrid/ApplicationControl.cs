@@ -71,7 +71,7 @@ namespace TestFormsDatagrid
 
         private void dataGridView1_SelectionChanged(object sender, System.EventArgs e)
         {
-            //label1.Text = new { dataGridView1.SelectedCells.Count }.ToString();
+            label1.Text = new { dataGridView1.SelectedCells.Count }.ToString();
 
         }
 
@@ -83,14 +83,14 @@ namespace TestFormsDatagrid
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             Console.WriteLine("dataGridView1_CellEndEdit");
-            label1.Text = "dataGridView1_CellEndEdit: " + new { e.ColumnIndex, e.RowIndex }.ToString();
+            label2.Text = "dataGridView1_CellEndEdit: " + new { e.ColumnIndex, e.RowIndex }.ToString();
 
             dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Blue;
         }
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            label1.Text = "dataGridView1_CellBeginEdit: " + new { e.ColumnIndex, e.RowIndex }.ToString();
+            label2.Text = "dataGridView1_CellBeginEdit: " + new { e.ColumnIndex, e.RowIndex }.ToString();
             dataGridView1[e.ColumnIndex, e.RowIndex].Style.ForeColor = Color.Red;
 
         }
@@ -98,7 +98,7 @@ namespace TestFormsDatagrid
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             Console.WriteLine("dataGridView1_CellValueChanged");
-            label1.Text = "changed: " + new { e.ColumnIndex, e.RowIndex }.ToString();
+            label2.Text = "changed: " + new { e.ColumnIndex, e.RowIndex }.ToString();
 
         }
 
@@ -117,6 +117,33 @@ namespace TestFormsDatagrid
         private void label2_Click(object sender, System.EventArgs e)
         {
 
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Column cannot be added because its CellType property is null.
+            this.dataGridView1.Columns.Add(
+                new DataGridViewTextBoxColumn
+                {
+                    HeaderText = textBox2.Text,
+                    //CellType = 
+                }
+            );
+        }
+
+        private void dataGridView1_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        {
+            label3.Text = "dataGridView1_ColumnAdded: " + e.Column.HeaderText;
         }
 
     }

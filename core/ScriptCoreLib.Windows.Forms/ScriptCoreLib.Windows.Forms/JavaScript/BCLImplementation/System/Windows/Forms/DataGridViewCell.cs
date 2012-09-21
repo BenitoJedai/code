@@ -47,6 +47,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public  bool InternalSelected;
+        public virtual bool Selected
+        {
+            get
+            {
+                return InternalSelected;
+            }
+            set
+            {
+                InternalSelected = value;
+
+                if (value)
+                    this.InternalContentContainer.focus();
+            }
+        }
         public __DataGridViewCell()
         {
             this.InternalValue = "";
