@@ -54,46 +54,64 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __Form()
         {
-            #region target0
-            var target0 = new IHTMLDiv();
+            #region TargetOuterBorder
+            var TargetOuterBorder = new IHTMLDiv();
             //HTMLTarget.style.backgroundColor = Shared.Drawing.Color.System.ThreeDFace;
-            target0.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            target0.style.left = "0px";
-            target0.style.top = "0px";
+            TargetOuterBorder.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            TargetOuterBorder.style.left = "0px";
+            TargetOuterBorder.style.top = "0px";
 
-            target0.style.borderWidth = "1px";
-            target0.style.borderStyle = "solid";
-            target0.style.borderColor = JSColor.System.ThreeDDarkShadow;
-            target0.style.borderLeftColor = JSColor.System.ButtonFace;
-            target0.style.borderTopColor = JSColor.System.ButtonFace;
+            TargetOuterBorder.style.borderWidth = "1px";
+            TargetOuterBorder.style.borderStyle = "solid";
+            TargetOuterBorder.style.borderColor = JSColor.System.ThreeDDarkShadow;
+            TargetOuterBorder.style.borderLeftColor = JSColor.System.ButtonFace;
+            TargetOuterBorder.style.borderTopColor = JSColor.System.ButtonFace;
 
             //HTMLTarget.style.SetLocation(64, 64, 100, 100);
-            target0.style.padding = "0";
+            TargetOuterBorder.style.padding = "0";
             #endregion
 
-            #region target1
-            var target1 = new IHTMLDiv().AttachTo(target0);
+            #region TargetInnerBorder
+            var TargetInnerBorder = new IHTMLDiv().AttachTo(TargetOuterBorder);
             ////HTMLTarget.style.backgroundColor = Shared.Drawing.Color.System.ThreeDFace;
-            target1.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            target1.style.left = "0px";
-            target1.style.top = "0px";
-            target1.style.bottom = "0";
-            target1.style.right = "0";
+            TargetInnerBorder.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            TargetInnerBorder.style.left = "0px";
+            TargetInnerBorder.style.top = "0px";
+            TargetInnerBorder.style.bottom = "0";
+            TargetInnerBorder.style.right = "0";
 
-            target1.style.borderWidth = "1px";
-            target1.style.borderStyle = "solid";
-            target1.style.borderLeftColor = JSColor.System.ButtonHighlight;
-            target1.style.borderTopColor = JSColor.System.ButtonHighlight;
-            target1.style.borderRightColor = JSColor.System.ButtonShadow;
-            target1.style.borderBottomColor = JSColor.System.ButtonShadow;
+            TargetInnerBorder.style.borderWidth = "1px";
+            TargetInnerBorder.style.borderStyle = "solid";
+            TargetInnerBorder.style.borderLeftColor = JSColor.System.ButtonHighlight;
+            TargetInnerBorder.style.borderTopColor = JSColor.System.ButtonHighlight;
+            TargetInnerBorder.style.borderRightColor = JSColor.System.ButtonShadow;
+            TargetInnerBorder.style.borderBottomColor = JSColor.System.ButtonShadow;
 
             //HTMLTarget.style.SetLocation(64, 64, 100, 100);
-            target1.style.padding = "0";
             #endregion
 
-            target0.style.boxShadow = "black 3px 3px 6px -3px";
 
-            HTMLTarget = target0;
+            #region TargetPadding
+            var TargetResizerPadding = new IHTMLDiv().AttachTo(TargetInnerBorder);
+            TargetResizerPadding.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            TargetResizerPadding.style.left = "2px";
+            TargetResizerPadding.style.top = "2px";
+            TargetResizerPadding.style.bottom = "2px";
+            TargetResizerPadding.style.right = "2px";
+            #endregion
+
+            #region TargetNoBorder
+            var TargetNoBorder = new IHTMLDiv().AttachTo(TargetResizerPadding);
+            TargetNoBorder.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            TargetNoBorder.style.left = "0px";
+            TargetNoBorder.style.top = "0px";
+            TargetNoBorder.style.bottom = "0";
+            TargetNoBorder.style.right = "0";
+            #endregion
+
+            TargetOuterBorder.style.boxShadow = "black 3px 3px 6px -3px";
+
+            HTMLTarget = TargetOuterBorder;
 
             #region caption
             IHTMLImage icon = "assets/ScriptCoreLib.Windows.Forms/App.ico";
@@ -104,9 +122,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
             caption.style.color = Shared.Drawing.Color.White;
             caption.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            caption.style.left = innerborder + "px";
-            caption.style.top = innerborder + "px";
-            caption.style.right = innerborder + "px";
+            caption.style.left = 0 + "px";
+            caption.style.top = 0 + "px";
+            caption.style.right = 0 + "px";
             caption.style.height = "20px";
             caption.style.paddingTop = "6px";
             caption.style.paddingLeft = "26px";
@@ -146,10 +164,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             //container.style.appleDashboardRegion = "dashboard-region(control rectangle)";
 
-            container.style.left = innerborder + "px";
-            container.style.top = (26 + innerborder + innerborder) + "px";
-            container.style.right = innerborder + "px";
-            container.style.bottom = innerborder + "px";
+            container.style.left = 0 + "px";
+            container.style.top = (26 + innerborder + 0) + "px";
+            container.style.right = 0 + "px";
+            container.style.bottom = 0 + "px";
             container.style.overflow = IStyle.OverflowEnum.hidden;
 
             //HTMLTarget.style.backgroundColor = "#B0B0B0";
@@ -180,11 +198,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButtonContent.style.bottom = "0";
             CloseButtonContent.style.right = "0";
 
-            
+
 
             CloseButtonContent.title = "Close";
             CloseButtonContent.innerHTML = "&times";
-        
+
 
             CloseButton.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             CloseButton.style.backgroundColor = JSColor.System.ThreeDFace;
@@ -200,7 +218,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButton.style.borderLeftColor = JSColor.System.ButtonHighlight;
             CloseButton.style.borderTopColor = JSColor.System.ButtonHighlight;
 
-            
+
 
             CloseButtonContent.style.borderWidth = "1px";
             CloseButtonContent.style.borderStyle = "solid";
@@ -218,7 +236,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
-            target1.appendChild(caption, icon, caption_foreground, container, CloseButton);
+            TargetNoBorder.appendChild(caption, icon, caption_foreground, container, CloseButton);
 
             caption_foreground.onmousedown +=
            delegate
@@ -253,7 +271,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
 
 
+            caption_foreground.ondblclick +=
+                delegate
+                {
+                    // black background plus my window:
+                    //this.HTMLTarget.requestFullscreen();
 
+                    // fullscreen content without caption
+                    //this.HTMLTargetContainerRef.requestFullscreen();
+
+
+                    // with borders
+                    //TargetInnerBorder.requestFullscreen();
+
+                    TargetNoBorder.requestFullscreen();
+                };
 
         }
 
@@ -333,7 +365,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget.style.zIndex = __FormZIndex;
             this.HTMLTarget.AttachToDocument();
 
-            
+
 
             InternalRaiseShown();
 
@@ -347,7 +379,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 if (item.TabIndex == 0)
                     item.Focus();
             }
-         
+
         }
 
         public void InternalRaiseLoad()

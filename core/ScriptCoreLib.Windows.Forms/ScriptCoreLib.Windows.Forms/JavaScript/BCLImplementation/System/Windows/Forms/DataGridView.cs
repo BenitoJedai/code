@@ -888,7 +888,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             //this.InternalContainerElement.scrollTop
                             );
 
-                        ColumnHorizontalResizer.style.height = this.InternalScrollContainerElement.scrollHeight + "px";
+                        var scrollHeight = this.InternalScrollContainerElement.scrollHeight;
+                        if (scrollHeight < 44)
+                            scrollHeight = 44;
+
+                        ColumnHorizontalResizer.style.height = scrollHeight + "px";
                     };
                     #endregion
 
@@ -898,6 +902,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             ColumnUpdateToHorizontalResizerScroll();
                         };
+
+                    this.InternalScrollContainerElement.onresize +=
+                        delegate
+                        {
+                            ColumnUpdateToHorizontalResizerScroll();
+                        };
+
 
                     //this.InternalContainerElement.onscroll +=
                     //  e =>
