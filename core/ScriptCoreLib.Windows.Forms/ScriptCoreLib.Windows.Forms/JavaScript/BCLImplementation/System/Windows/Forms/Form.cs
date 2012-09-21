@@ -54,6 +54,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         IHTMLDiv TargetNoBorder;
 
+        protected override void InternalSetBackgroundColor(Color value)
+        {
+            HTMLTarget.style.backgroundColor = value.ToString();
+
+            // for firefox fullscren
+            TargetNoBorder.style.backgroundColor = value.ToString();
+        }
+
         public __Form()
         {
             #region TargetOuterBorder
@@ -293,20 +301,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             drag.Enabled = true;
 
+            var BeforePosition = new Shared.Drawing.Point(0, 0);
             drag.DragStart +=
                 delegate
                 {
+                    Native.Document.exitFullscreen();
+
+                    BeforePosition = drag.Position;
+
                     caption_foreground.style.cursor = IStyle.CursorEnum.move;
                 };
             drag.DragMove +=
                 delegate
                 {
-                    HTMLTarget.style.SetLocation(drag.Position.X, drag.Position.Y);
+                    var y = Math.Max(-4, drag.Position.Y);
+
+                    //if (Native.Document.fullscreenElement == TargetNoBorder)
+
+                    HTMLTarget.style.SetLocation(drag.Position.X, y);
                 };
+
             drag.DragStop +=
                 delegate
                 {
+                    //var Location = this.Location;
+
+                    this.Text = new { drag.Position.X, drag.Position.Y }.ToString();
+
                     caption_foreground.style.cursor = IStyle.CursorEnum.@default;
+
+                    if (drag.Position.Y < 0)
+                    {
+                        drag.Position = BeforePosition;
+                        this.Location = new Point(BeforePosition.X, BeforePosition.Y);
+
+                        TargetNoBorder.requestFullscreen();
+                    }
+
                 };
 
 
@@ -369,6 +400,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 caption.innerText = value;
+            }
+        }
+
+        public double InternalOpacity;
+        public double Opacity
+        {
+            get
+            {
+                return InternalOpacity;
+            }
+            set
+            {
+                this.InternalOpacity = value;
+                this.HTMLTarget.style.Opacity = value;
             }
         }
 
@@ -448,11 +493,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                if (value == FormWindowState.Normal)
+                {
+                    Native.Document.exitFullscreen();
+                }
+
                 if (value == FormWindowState.Maximized)
                 {
                     this.TargetNoBorder.requestFullscreen();
                 }
             }
         }
+
+        public override Size MaximumSize { get; set; }
+        public override Size MinimumSize { get; set; }
     }
 }

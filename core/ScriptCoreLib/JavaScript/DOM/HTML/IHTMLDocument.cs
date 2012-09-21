@@ -360,5 +360,35 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
             return null;
         }
+
+
+        // https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
+        //public IHTMLElement fullscreenElement;
+        //public bool fullscreenEnabled;
+
+    
+        [Script(DefineAsStatic = true)]
+        public void exitFullscreen()
+        {
+            // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+            // http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/
+
+            var exitFullscreen = new IFunction(@"
+if (this.exitFullscreen) {
+    this.exitFullscreen();
+}
+else if (this.mozCancelFullScreen) {
+    this.mozCancelFullScreen();
+}
+else if (this.webkitCancelFullScreen) {
+    this.webkitCancelFullScreen();
+}
+                    
+                    "
+            );
+
+            exitFullscreen.apply(this);
+        }
+
     }
 }

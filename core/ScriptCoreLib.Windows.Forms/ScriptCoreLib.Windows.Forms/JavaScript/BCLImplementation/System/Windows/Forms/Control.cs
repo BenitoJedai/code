@@ -183,6 +183,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Controls = new Control.ControlCollection(this);
 
             this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+
+            this.MinimumSize = DefaultMinimumSize;
+            this.MaximumSize = DefaultMaximumSize;
         }
 
 
@@ -216,7 +219,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        public Size MinimumSize { get; set; }
 
         public Size Size
         {
@@ -313,6 +315,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 height = this.height;
             }
+
+
+            if (this.MinimumSize.Width > 0)
+                width = Math.Max(this.MinimumSize.Width, width);
+
+            if (this.MinimumSize.Height > 0)
+                height = Math.Max(this.MinimumSize.Height, height);
+
 
             var _x = (this.x != x);
             var _y = (this.y != y);
@@ -612,6 +622,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event EventHandler BackColorChanged;
 
+
+        protected virtual void InternalSetBackgroundColor(Color value)
+        {
+            this.HTMLTargetRef.style.backgroundColor = value.ToString();
+        }
+
         private Color _BackColor;
 
         public Color BackColor
@@ -620,7 +636,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 _BackColor = value;
-                this.HTMLTargetRef.style.backgroundColor = value.ToString();
+
+                InternalSetBackgroundColor(value);
 
                 if (BackColorChanged != null)
                     BackColorChanged(this, new EventArgs());
@@ -1096,6 +1113,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual bool DoubleBuffered { get; set; }
 
+        protected virtual Size DefaultMaximumSize
+        {
+            get
+            {
+                return new Size();
+            }
+        }
+        protected virtual Size DefaultMinimumSize
+        {
+            get
+            {
+                return new Size();
+            }
+        }
+
+
         Action InternalInvalidate;
 
         public void Invalidate()
@@ -1306,7 +1339,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-
+        public virtual Size MaximumSize { get; set; }
+        public virtual Size MinimumSize { get; set; }
 
 
 
