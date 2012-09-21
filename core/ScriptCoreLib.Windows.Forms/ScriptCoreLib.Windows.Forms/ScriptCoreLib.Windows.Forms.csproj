@@ -73,6 +73,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewRowEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewRowEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellStyle.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellCancelEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellCancelEventArgs.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridEditRow.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridNewRow.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\App.ico" />
     <Content Include="docs\about.txt" />
