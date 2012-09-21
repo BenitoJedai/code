@@ -52,6 +52,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         const int innerborder = 1;
 
+        IHTMLDiv TargetNoBorder;
+
         public __Form()
         {
             #region TargetOuterBorder
@@ -101,13 +103,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
             #region TargetNoBorder
-            var TargetNoBorder = new IHTMLDiv().AttachTo(TargetResizerPadding);
+            TargetNoBorder = new IHTMLDiv().AttachTo(TargetResizerPadding);
             TargetNoBorder.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             TargetNoBorder.style.left = "0px";
             TargetNoBorder.style.top = "0px";
             TargetNoBorder.style.bottom = "0";
             TargetNoBorder.style.right = "0";
             #endregion
+
 
             TargetOuterBorder.style.boxShadow = "black 3px 3px 6px -3px";
 
@@ -169,6 +172,42 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             container.style.right = 0 + "px";
             container.style.bottom = 0 + "px";
             container.style.overflow = IStyle.OverflowEnum.hidden;
+
+            var ResizeGripElement = new IHTMLDiv().AttachTo(container);
+            ResizeGripElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            ResizeGripElement.style.width = "12px";
+            ResizeGripElement.style.height = "12px";
+            ResizeGripElement.style.bottom = "0px";
+            ResizeGripElement.style.right = "0px";
+            ResizeGripElement.style.cursor = IStyle.CursorEnum.se_resize;
+            new IHTMLImage { src = "assets/ScriptCoreLib.Windows.Forms/FormResizeGrip.png" }.ToBackground(ResizeGripElement);
+
+
+            var ResizeGripDrag = new ScriptCoreLib.JavaScript.Controls.DragHelper(ResizeGripElement);
+
+            ResizeGripDrag.Enabled = true;
+
+            #region AtSizeChanged
+            Action AtSizeChanged = delegate
+            {
+                var Size = this.Size;
+
+                ResizeGripDrag.Position = new Shared.Drawing.Point(Size.Width, Size.Height);
+            };
+
+            this.SizeChanged +=
+                delegate
+                {
+                    AtSizeChanged();
+                };
+            AtSizeChanged();
+            #endregion
+
+            ResizeGripDrag.DragMove +=
+                delegate
+                {
+                    this.Size = new Size(ResizeGripDrag.Position.X, ResizeGripDrag.Position.Y);
+                };
 
             //HTMLTarget.style.backgroundColor = "#B0B0B0";
             this.BackColor = SystemColors.ButtonFace;
@@ -398,5 +437,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event EventHandler Shown;
         #endregion
 
+        public SizeGripStyle SizeGripStyle { get; set; }
+        public FormStartPosition StartPosition { get; set; }
+
+        public FormWindowState WindowState
+        {
+            get
+            {
+                return FormWindowState.Normal;
+            }
+            set
+            {
+                if (value == FormWindowState.Maximized)
+                {
+                    this.TargetNoBorder.requestFullscreen();
+                }
+            }
+        }
     }
 }
