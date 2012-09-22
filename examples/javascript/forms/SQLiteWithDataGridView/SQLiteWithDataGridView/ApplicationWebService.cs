@@ -154,6 +154,44 @@ namespace SQLiteWithDataGridView
            );
         }
 
+        public void EnumerateItemKeysBetweenTransactions(
+            string TableName,
+            string FromTransaction,
+            string ToTransaction,
+            Action<string> AtContentKey,
+            Action done 
+        )
+        {
+            InitializeDatabase("", delegate { }, TableName: TableName);
+
+            using (var c = OpenReadOnlyConnection())
+            {
+                c.Open();
+
+                using (var reader = new SQLiteCommand(
+                    "select ContentReferenceKey from TransactionLog_" + TableName 
+                    + " where ContentKey > " + FromTransaction 
+                    + " and ContentKey <= " + ToTransaction
+                    , c).ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentReferenceKey"));
+                        var ContentKey = ((object)ContentKeyInt32).ToString();
+
+                        AtContentKey(ContentKey);
+                    }
+                }
+
+                c.Close();
+
+            }
+
+            done();
+        }
+
+
 
 
         public void EnumerateItems(
@@ -197,5 +235,7 @@ namespace SQLiteWithDataGridView
                 done();
         }
 
+
+  
     }
 }

@@ -68,5 +68,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalStyle = new __DataGridViewCellStyle();
             this.Style = (DataGridViewCellStyle)(object)this.InternalStyle;
         }
+
+        #region operators
+        public static implicit operator __DataGridViewCell(DataGridViewCell c)
+        {
+            return (__DataGridViewCell)(object)c;
+        }
+        public static implicit operator DataGridViewCell(__DataGridViewCell c)
+        {
+            return (DataGridViewCell)(object)c;
+        }
+        #endregion
     }
 }

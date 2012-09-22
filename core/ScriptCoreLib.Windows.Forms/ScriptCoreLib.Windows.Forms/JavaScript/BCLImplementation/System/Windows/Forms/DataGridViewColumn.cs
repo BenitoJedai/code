@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -55,5 +56,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.HeaderText = "Column";
             this.Width = 100;
         }
+
+        #region operators
+        public static implicit operator __DataGridViewColumn(DataGridViewColumn c)
+        {
+            return (__DataGridViewColumn)(object)c;
+        }
+        public static implicit operator DataGridViewColumn(__DataGridViewColumn c)
+        {
+            return (DataGridViewColumn)(object)c;
+        }
+        #endregion
+
     }
 }

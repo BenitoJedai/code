@@ -28,5 +28,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 Add(item);
             }
         }
+
+        public DataGridViewCell this[int index]
+        {
+            get
+            {
+                return this.InternalItems[index];
+            }
+        }
     }
 }
