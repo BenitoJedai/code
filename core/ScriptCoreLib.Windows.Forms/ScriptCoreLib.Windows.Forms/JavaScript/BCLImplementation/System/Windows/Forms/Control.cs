@@ -388,28 +388,33 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 else
                 {
-                    for (int i = 0; i < this.Controls.Count; i++)
-                    {
-                        var item = this.Controls[i];
-
-                        InternalChildrenAnchorUpdate(
-                            width,
-                            height,
-                            old_width,
-                            old_height,
-                            item
-                        );
-                    }
+                    InternalChildrenAnchorUpdate(width, height, old_width, old_height);
 
                 }
 
+            }
+        }
+
+        public void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height)
+        {
+            for (int i = 0; i < this.Controls.Count; i++)
+            {
+                var item = this.Controls[i];
+
+                InternalChildrenAnchorUpdate(
+                    width,
+                    height,
+                    old_width,
+                    old_height,
+                    item
+                );
             }
         }
         #endregion
 
 
 
-        private void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height, Control c)
+        public void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height, Control c)
         {
             if (c.Dock == DockStyle.Fill)
             {

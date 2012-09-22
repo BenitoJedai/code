@@ -35,6 +35,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
             check = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox, "");
+            check.style.margin = "0";
+
             label = new IHTMLLabel("", check);
 
             label.onmousedown +=

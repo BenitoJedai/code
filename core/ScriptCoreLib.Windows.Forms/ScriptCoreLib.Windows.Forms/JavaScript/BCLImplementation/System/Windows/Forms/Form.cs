@@ -204,6 +204,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             ContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
 
+
+
             var ResizeGripElement = new IHTMLDiv().AttachTo(ContentContainerPadding);
             ResizeGripElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ResizeGripElement.style.width = "12px";
@@ -364,7 +366,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             InternalExitFullscreen();
 
-   
+
                         }
 
                         InternalUpdateZIndex(HTMLTarget);
@@ -622,6 +624,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public SizeGripStyle SizeGripStyle { get; set; }
         public FormStartPosition StartPosition { get; set; }
 
+        int __PreviousWidth;
+        int __PreviousHeight;
+
         public FormWindowState WindowState
         {
             get
@@ -633,13 +638,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                if (WindowState == value)
+                    return;
+
                 if (value == FormWindowState.Normal)
                 {
                     if (InternalMaximizedForms.Contains(this))
                     {
                         InternalMaximizedForms.Remove(this);
 
-                     
+
 
                         if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
                         {
@@ -668,6 +676,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 };
 
                         }
+
+                        Native.Window.requestAnimationFrame +=
+                            delegate
+                            {
+                            
+                                InternalChildrenAnchorUpdate(
+                                        this.width,
+                                      this.height,
+                                      __PreviousWidth,
+                                      __PreviousHeight
+                               );
+
+
+                            };
                     }
 
                 }
@@ -691,7 +713,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         caption.style.backgroundColor = JSColor.Black;
 
                         if (InternalMaximizedForms.Count == 1)
+                        {
                             Native.Document.body.requestFullscreen();
+
+
+                        }
+
+                        Native.Window.requestAnimationFrame +=
+                            delegate
+                            {
+                                __PreviousWidth = ContentContainer.Bounds.Width;
+                                __PreviousHeight = ContentContainer.Bounds.Height;
+
+                                InternalChildrenAnchorUpdate(
+                                  __PreviousWidth,
+                                  __PreviousHeight,
+                                  this.width,
+                                  this.height
+                               );
+
+
+                            };
                     }
                 }
 
