@@ -159,7 +159,7 @@ namespace SQLiteWithDataGridView
             string FromTransaction,
             string ToTransaction,
             Action<string> AtContentKey,
-            Action done 
+            Action<string> done 
         )
         {
             InitializeDatabase("", delegate { }, TableName: TableName);
@@ -188,7 +188,8 @@ namespace SQLiteWithDataGridView
 
             }
 
-            done();
+            // why does jsc not support parameterless yields?
+            done("");
         }
 
 
@@ -198,8 +199,8 @@ namespace SQLiteWithDataGridView
             string e,
             Action<string, string, string> y,
             string TableName = "SQLiteWithDataGridView_0_Table001",
-            Action<string> AtTransactionKey = null,
-            Action done = null)
+            Action<string> AtTransactionKey = null
+            )
         {
             InitializeDatabase("", delegate { }, TableName: TableName);
 
@@ -231,8 +232,7 @@ namespace SQLiteWithDataGridView
             if (AtTransactionKey != null)
                 GetTransactionKeyFor(TableName, AtTransactionKey);
 
-            if (done != null)
-                done();
+          
         }
 
 

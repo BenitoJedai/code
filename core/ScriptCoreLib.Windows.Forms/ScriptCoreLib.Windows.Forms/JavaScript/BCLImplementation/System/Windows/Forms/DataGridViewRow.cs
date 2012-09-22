@@ -60,5 +60,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         }
+
+
+        #region operators
+        public static implicit operator __DataGridViewRow(DataGridViewRow c)
+        {
+            return (__DataGridViewRow)(object)c;
+        }
+        public static implicit operator DataGridViewRow(__DataGridViewRow c)
+        {
+            return (DataGridViewRow)(object)c;
+        }
+        #endregion
     }
 }

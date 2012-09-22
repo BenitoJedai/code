@@ -57,10 +57,6 @@ namespace SQLiteWithDataGridView.Library
                     LocalTransactionKey = value;
                     label2.Text = LocalTransactionKey;
                     timer1.Start();
-                },
-
-                done: delegate
-                {
                     dataGridView1.Enabled = true;
 
                 }
@@ -135,16 +131,11 @@ namespace SQLiteWithDataGridView.Library
                         Action<string> AtContentKey =
                             ContentKey =>
                             {
-                                DataGridViewRow r = null;
-                                foreach (DataGridViewRow item in this.dataGridView1.Rows)
-                                {
-                                    if (item.Cells[0].Value == ContentKey)
-                                    {
-                                        r = item;
-                                        break;
-                                    }
-                                }
+                                DataGridViewRow r = this.dataGridView1.Rows.AsEnumerable().FirstOrDefault(
+                                    item => item.Cells[0].Value == ContentKey
+                                );
 
+                            
                                 if (r == null)
                                 {
                                     r = new DataGridViewRow();
@@ -164,7 +155,7 @@ namespace SQLiteWithDataGridView.Library
                                 r.Cells[0].Style.ForeColor = Color.Red;
                             };
 
-                        Action done = delegate
+                        Action<string> done = delegate
                                 {
                                     LocalTransactionKey = ServerTransactionKey;
                                     label2.Text = ServerTransactionKey;
