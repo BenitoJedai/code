@@ -69,18 +69,26 @@ namespace SQLiteWithDataGridView.Library
             //e.Row.Cells[0].Value = "" + dataGridView1.Rows.Count;
         }
 
+        bool InternalCellValueChanged;
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if (InternalCellValueChanged)
+                return;
 
             if (e.RowIndex < 0)
                 return;
             var c0 = dataGridView1[0, e.RowIndex];
 
+            if ((string)dataGridView1[0, e.RowIndex].Value == "?")
+                return;
+
             if (string.IsNullOrEmpty((string)c0.Value))
             {
+                InternalCellValueChanged = true;
                 dataGridView1[0, e.RowIndex].Value = "?";
                 dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
+                InternalCellValueChanged = false;
 
                 var ContentValue = (string)dataGridView1[1, e.RowIndex].Value;
                 if (ContentValue == null)
@@ -105,6 +113,34 @@ namespace SQLiteWithDataGridView.Library
                     },
                     TableName: TableName
                 );
+            }
+            else
+            {
+                var ContentKey = (string)dataGridView1[0, e.RowIndex].Value;
+                dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Blue;
+
+                var ContentValue = (string)dataGridView1[1, e.RowIndex].Value;
+                if (ContentValue == null)
+                    ContentValue = "";
+
+                var ContentComment = (string)dataGridView1[2, e.RowIndex].Value;
+                if (ContentComment == null)
+                    ContentComment = "";
+
+                service.UpdateItem(
+                    TableName,
+                    ContentKey,
+                    ContentValue,
+                    ContentComment,
+                    RemoteTransactionKey =>
+                    {
+                        var i = int.Parse(LocalTransactionKey);
+                        i++;
+
+                        LocalTransactionKey = i.ToString();
+                    }
+                );
+
             }
         }
 
@@ -132,7 +168,7 @@ namespace SQLiteWithDataGridView.Library
                             (ContentKey, ContentValue, ContentComment) =>
                             {
                                 DataGridViewRow r = this.dataGridView1.Rows.AsEnumerable().FirstOrDefault(
-                                    item => item.Cells[0].Value == ContentKey
+                                    item => (string)item.Cells[0].Value == ContentKey
                                 );
 
 
@@ -157,6 +193,16 @@ namespace SQLiteWithDataGridView.Library
                                     );
 
                                     dataGridView1.Rows.Add(r);
+
+                                }
+                                else
+                                {
+                                    InternalCellValueChanged = true;
+
+                                    r.Cells[1].Value = ContentValue;
+                                    r.Cells[2].Value = ContentComment;
+
+                                    InternalCellValueChanged = false;
 
                                 }
 
