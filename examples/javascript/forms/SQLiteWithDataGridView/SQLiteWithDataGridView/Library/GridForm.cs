@@ -26,7 +26,7 @@ namespace SQLiteWithDataGridView.Library
             this.Text = TableName;
 
             dataGridView1.Enabled = false;
-            service.EnumerateItems("",
+            service.GridExample_EnumerateItems("",
                 (ContentKey, ContentValue, ContentComment) =>
                 {
                     var r = new DataGridViewRow();
@@ -98,7 +98,7 @@ namespace SQLiteWithDataGridView.Library
                 if (ContentComment == null)
                     ContentComment = "";
 
-                service.AddItem(
+                service.GridExample_AddItem(
                     ContentValue,
                     ContentComment,
                     LastInsertRowId =>
@@ -127,7 +127,7 @@ namespace SQLiteWithDataGridView.Library
                 if (ContentComment == null)
                     ContentComment = "";
 
-                service.UpdateItem(
+                service.GridExample_UpdateItem(
                     TableName,
                     ContentKey,
                     ContentValue,
@@ -217,7 +217,7 @@ namespace SQLiteWithDataGridView.Library
                                     timer1.Start();
                                 };
 
-                        service.EnumerateItemsChangedBetweenTransactions(
+                        service.GridExample_EnumerateItemsChangedBetweenTransactions(
                             TableName,
                             LocalTransactionKey,
                             ServerTransactionKey,
@@ -233,7 +233,7 @@ namespace SQLiteWithDataGridView.Library
                     timer1.Start();
                 };
 
-            service.GetTransactionKeyFor(
+            service.GridExample_GetTransactionKeyFor(
                 TableName: TableName,
                 y: AtServerTransactionKey
             );
