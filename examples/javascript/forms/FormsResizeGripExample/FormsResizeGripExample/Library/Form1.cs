@@ -22,10 +22,6 @@ namespace FormsResizeGripExample.Library
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.MaximumSize = this.DefaultMaximumSize;
-
-            var x = this.DefaultMinimumSize;
-
             this.WindowState = FormWindowState.Maximized;
         }
 
@@ -37,10 +33,13 @@ namespace FormsResizeGripExample.Library
 
         private void button3_Click(object sender, EventArgs e)
         {
-            new Form1
+            var f = new Form1
             {
                 Owner = this
-            }.Show();
+            };
+
+            f.checkBox5.Checked = false;
+            f.Show();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -78,6 +77,40 @@ namespace FormsResizeGripExample.Library
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
             this.TopMost = checkBox4.Checked;
+        }
+
+        bool InternalGoingFullscreen;
+        private void Form1_LocationChanged(object sender, EventArgs e)
+        {
+            if (InternalGoingFullscreen)
+                return;
+
+            if (checkBox5.Checked)
+                if (this.WindowState == FormWindowState.Maximized)
+                {
+                    if (this.FormBorderStyle != System.Windows.Forms.FormBorderStyle.None)
+                    {
+                        InternalGoingFullscreen = true;
+                        this.MaximumSize = this.DefaultMaximumSize;
+
+                        this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                        this.WindowState = FormWindowState.Normal;
+                        this.WindowState = FormWindowState.Maximized;
+
+                        InternalGoingFullscreen = false;
+                    }
+                }
+                else if (this.WindowState == FormWindowState.Normal)
+                {
+                    this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+                }
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBox2.Enabled = !checkBox5.Checked;
+            this.WindowState = FormWindowState.Normal;
         }
 
 

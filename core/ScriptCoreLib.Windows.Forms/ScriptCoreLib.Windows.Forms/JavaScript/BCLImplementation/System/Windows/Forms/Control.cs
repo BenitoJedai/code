@@ -496,6 +496,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.OnMove(null);
 
+            InternalRaiseLocationChanged();
+        }
+
+        public void InternalRaiseLocationChanged()
+        {
             if (LocationChanged != null)
                 LocationChanged(this, null);
         }

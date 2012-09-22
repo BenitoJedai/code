@@ -37,9 +37,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             check = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox, "");
             label = new IHTMLLabel("", check);
 
+            label.onmousedown +=
+                e =>
+                {
+                    e.PreventDefault();
+                };
+
             HTMLTarget.appendChild(check, label);
 
-			this.InternalSetDefaultFont();
+            this.InternalSetDefaultFont();
         }
 
         #region CheckAlign
@@ -48,8 +54,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public ContentAlignment CheckAlign
         {
             get { return _CheckAlign; }
-            set 
-            { 
+            set
+            {
                 _CheckAlign = value;
 
                 if (_CheckAlign == ContentAlignment.MiddleRight)
@@ -141,7 +147,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _CheckedChanged.Event -= value;
                 if (!_CheckedChanged)
                 {
-					this.check.onchange -= _CheckedChanged.EventInternal;
+                    this.check.onchange -= _CheckedChanged.EventInternal;
                     _CheckedChanged.EventInternal = null;
                 }
 
