@@ -26,7 +26,7 @@ namespace SQLiteWithDataGridView
 
         const string DataSource = "SQLiteWithDataGridView.0.sqlite";
 
-        public void InitializeDatabase(string e, Action<string> y)
+        public void InitializeDatabase(string e, Action<string> y, string TableName = "SQLiteWithDataGridView_0_Table001")
         {
             //Console.WriteLine("AddItem enter");
             using (var c = new SQLiteConnection(
@@ -41,7 +41,7 @@ namespace SQLiteWithDataGridView
             {
                 c.Open();
 
-                using (var cmd = new SQLiteCommand("create table if not exists SQLiteWithDataGridView_0_Table001 (ContentKey INTEGER PRIMARY KEY, ContentValue text not null, ContentComment text not null)", c))
+                using (var cmd = new SQLiteCommand("create table if not exists " + TableName + " (ContentKey INTEGER PRIMARY KEY, ContentValue text not null, ContentComment text not null)", c))
                 {
                     cmd.ExecuteNonQuery();
                 }
@@ -67,7 +67,7 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("AddItem exit");
         }
 
-        public void AddItem(string ContentValue, string ContentComment, Action<string> y)
+        public void AddItem(string ContentValue, string ContentComment, Action<string> y, string TableName = "SQLiteWithDataGridView_0_Table001")
         {
             //Console.WriteLine("AddItem enter");
             using (var c = new SQLiteConnection(
@@ -83,7 +83,7 @@ namespace SQLiteWithDataGridView
                 c.Open();
 
 
-                var cmd = new SQLiteCommand("insert into SQLiteWithDataGridView_0_Table001 (ContentValue, ContentComment) values ('" + ContentValue + "', '" + ContentComment + "')", c);
+                var cmd = new SQLiteCommand("insert into " + TableName + " (ContentValue, ContentComment) values ('" + ContentValue + "', '" + ContentComment + "')", c);
 
                 var id = cmd.ExecuteNonQuery();
 
@@ -115,16 +115,16 @@ namespace SQLiteWithDataGridView
 
 
 
-        public void EnumerateItems(string e, Action<string, string, string> y)
+        public void EnumerateItems(string e, Action<string, string, string> y, string TableName = "SQLiteWithDataGridView_0_Table001", Action done = null)
         {
-            InitializeDatabase("", delegate { });
+            InitializeDatabase("", delegate { }, TableName: TableName);
 
             //Console.WriteLine("EnumerateItems enter");
             using (var c = OpenReadOnlyConnection())
             {
                 c.Open();
 
-                using (var reader = new SQLiteCommand("select ContentKey, ContentValue, ContentComment from SQLiteWithDataGridView_0_Table001", c).ExecuteReader())
+                using (var reader = new SQLiteCommand("select ContentKey, ContentValue, ContentComment from " + TableName, c).ExecuteReader())
                 {
 
                     while (reader.Read())
@@ -142,6 +142,9 @@ namespace SQLiteWithDataGridView
 
             }
             //Console.WriteLine("EnumerateItems exit");
+
+            if (done != null)
+                done();
         }
 
     }
