@@ -55,6 +55,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Enabled = true;
         }
 
+        public void Stop()
+        {
+            this.Enabled = false;
+        }
+
+
         private int _Interval;
 
         public int Interval
