@@ -137,7 +137,54 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("AddItem exit");
         }
 
+        public void UpdateItem(
+                string TableName,
 
+                string ContentKey,
+                string ContentValue,
+                string ContentComment,
+
+                 Action<string> AtTransactionKey = null
+            )
+        {
+            //Console.WriteLine("AddItem enter");
+            using (var c = new SQLiteConnection(
+
+             new SQLiteConnectionStringBuilder
+             {
+                 DataSource = DataSource,
+                 Version = 3
+             }.ConnectionString
+
+             ))
+            {
+                c.Open();
+
+
+                var cmd = new SQLiteCommand(
+                    "update " + TableName + " set "
+                    + " ContentValue = '" + ContentValue + "'"
+                    + ", ContentComment = '" + ContentComment + "'"
+                    + " where ContentKey = " + ContentKey
+                    , c
+                );
+
+                cmd.ExecuteNonQuery();
+
+
+                var cmd1 = new SQLiteCommand("insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) values (" + ContentKey + ", 'AddItem')", c);
+                cmd1.ExecuteNonQuery();
+
+
+                c.Close();
+            }
+
+
+            if (AtTransactionKey != null)
+                GetTransactionKeyFor(TableName, AtTransactionKey);
+            // Send it back to the caller.
+            //Console.WriteLine("AddItem exit");
+        }
 
 
         SQLiteConnection OpenReadOnlyConnection()
