@@ -41,6 +41,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public override int InternalGetIndex()
+        {
+            if (InternalContext == null)
+                return -1;
+
+            var r = this as __DataGridViewRow;
+
+            // what else could it be?
+            if (r == null)
+                return -1;
+
+            return InternalContext.InternalRows.InternalItems.IndexOf(r);
+        }
 
         public __DataGridViewRow()
         {

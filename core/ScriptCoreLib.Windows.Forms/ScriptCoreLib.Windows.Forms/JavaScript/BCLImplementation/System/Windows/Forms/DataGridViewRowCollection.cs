@@ -29,11 +29,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        public int Count
+        public override int Count
         {
             get
             {
                 return this.InternalItems.Count;
+            }
+            set
+            {
             }
         }
 

@@ -304,6 +304,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action<__DataGridViewCell, __DataGridViewRow> InitializeCell =
                 (SourceCell, SourceRow) =>
                 {
+                    //Console.WriteLine("InitializeCell  " + new { SourceCell.ColumnIndex });
+
                     // is cell index equal to column index?
                     // what happens if we dont have enough columns?
                     var SourceColumn = this.InternalColumns.InternalItems[SourceCell.ColumnIndex];
@@ -311,7 +313,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     SourceCell.InternalTableColumn = SourceRow.InternalTableRow.AddColumn();
                     SourceCell.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
-                    SourceCell.InternalTableColumn.style.backgroundColor = JSColor.White;
+
+                    //if (SourceCell.ColumnIndex == 0)
+                    //    SourceCell.InternalTableColumn.style.backgroundColor = JSColor.Cyan;
+                    //else
+                    SourceCell.InternalTableColumn.style.backgroundColor = JSColor.System.Window;
 
                     // this wont work if we have multiple datagrids
                     SourceCell.InternalContentContainer = new IHTMLDiv { }.AttachTo(SourceCell.InternalTableColumn);
@@ -325,43 +331,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     SourceCell.InternalTableColumn.style.borderBottom = "1px solid gray";
 
-                    if (SourceCell is __DataGridViewButtonCell)
-                    {
-                        var InternalButton = new IHTMLButton().AttachTo(SourceCell.InternalContentContainer);
-                        InternalButton.style.position = IStyle.PositionEnum.absolute;
-
-                        InternalButton.style.left = "0px";
-                        InternalButton.style.top = "0px";
-                        InternalButton.style.right = "0px";
-                        InternalButton.style.bottom = "0px";
-
-                        InternalButton.onclick +=
-                            delegate
-                            {
-                                if (this.CellContentClick != null)
-                                    this.CellContentClick(this,
-                                        new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
-                                    );
-                            };
-
-                        return;
-                    }
-
-                    var c1content = new IHTMLSpan { }.AttachTo(SourceCell.InternalContentContainer);
-                    c1content.style.marginLeft = "4px";
-                    c1content.style.lineHeight = (SourceRow.Height - 1) + "px";
-
-                    #region AtInternalValueChanged
-                    Action AtInternalValueChanged = delegate
-                    {
-                        c1content.innerText = SourceCell.Value.ToString();
-                    };
-
-                    AtInternalValueChanged();
-                    SourceCell.InternalValueChanged += AtInternalValueChanged;
-                    #endregion
-
-                    //c1content.style.margin = "6px";
 
                     #region AtInternalWidthChanged
                     Action AtInternalWidthChanged = delegate
@@ -380,6 +349,53 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.InternalWidthChanged += AtInternalWidthChanged;
                     #endregion
 
+                    var c1content = new IHTMLSpan { };
+
+                    #region AtInternalValueChanged
+                    Action AtInternalValueChanged = delegate
+                    {
+                        c1content.innerText = SourceCell.Value.ToString();
+                    };
+
+                    AtInternalValueChanged();
+                    SourceCell.InternalValueChanged += AtInternalValueChanged;
+                    #endregion
+
+                    #region __DataGridViewButtonCell
+                    if (SourceCell is __DataGridViewButtonCell)
+                    {
+                        var InternalButton = new IHTMLButton().AttachTo(SourceCell.InternalContentContainer);
+                        InternalButton.style.font = DefaultFont.ToCssString();
+                        InternalButton.style.position = IStyle.PositionEnum.absolute;
+                        InternalButton.style.left = "0px";
+                        InternalButton.style.top = "0px";
+                        InternalButton.style.right = "0px";
+                        InternalButton.style.bottom = "0px";
+
+                        c1content.AttachTo(InternalButton);
+
+                        InternalButton.onclick +=
+                            delegate
+                            {
+                                if (this.CellContentClick != null)
+                                    this.CellContentClick(this,
+                                        new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
+                                    );
+                            };
+
+                        return;
+                    }
+                    #endregion
+
+                    //SourceCell.InternalTableColumn.style.backgroundColor = JSColor.Yellow;
+
+
+                    c1content.AttachTo(SourceCell.InternalContentContainer);
+                    c1content.style.marginLeft = "4px";
+                    c1content.style.lineHeight = (SourceRow.Height - 1) + "px";
+
+
+                    //c1content.style.margin = "6px";
 
                     #region CellAtOffset
                     Func<int, int, __DataGridViewCell> CellAtOffset =
@@ -811,24 +827,53 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action<__DataGridViewRow> CreateMissingCells =
                 SourceRow =>
                 {
+                    //Console.WriteLine("CreateMissingCells  " + new
+                    //{
+                    //    SourceRow.Index,
+                    //    CellsCount = SourceRow.InternalCells.InternalItems.Count,
+                    //    ColumnsCount = this.InternalColumns.InternalItems.Count
+
+
+                    //});
+
                     while (SourceRow.InternalCells.InternalItems.Count < this.InternalColumns.InternalItems.Count)
                     {
-                        var __c = this.InternalColumns.InternalItems[SourceRow.InternalCells.Count];
+                        var ColumnIndex = SourceRow.InternalCells.Count;
+
+                        //Console.WriteLine("CreateMissingCells  " + new { SourceRow.Index, ColumnIndex });
+
+                        var __c = this.InternalColumns.InternalItems[ColumnIndex];
 
                         __DataGridViewCell SourceCell = null;
 
 
                         if (__c is __DataGridViewButtonColumn)
+                        {
+                            //Console.WriteLine("CreateMissingCells __DataGridViewButtonColumn " + new { SourceRow.Index, ColumnIndex });
+
                             SourceCell = new __DataGridViewButtonCell();
+                        }
                         else
+                        {
+                            //Console.WriteLine("CreateMissingCells ? " + new { SourceRow.Index, ColumnIndex });
+
                             SourceCell = new __DataGridViewTextBoxCell();
+                        }
 
                         SourceRow.InternalCells.InternalItems.Add(SourceCell);
 
-                        InitializeCell(
-                              SourceCell,
-                              SourceRow
-                          );
+
+                    }
+
+                    for (int i = 0; i < SourceRow.InternalCells.InternalItems.Count; i++)
+                    {
+                        var SourceCell = SourceRow.InternalCells.InternalItems[i];
+
+                        if (SourceCell.InternalTableColumn == null)
+                            InitializeCell(
+                                SourceCell,
+                                SourceRow
+                            );
                     }
                 };
             #endregion
@@ -840,6 +885,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     var c = this.InternalColumns.InternalItems[_e.NewIndex];
 
+
+                    //if (c is __DataGridViewButtonColumn)
+                    //    Console.WriteLine("InternalColumns __DataGridViewButtonColumn ItemAdded " + new { _e.NewIndex });
+                    //else
+                    //    Console.WriteLine("InternalColumns ? ItemAdded " + new { _e.NewIndex });
 
 
                     c.InternalTableColumn = __ColumnsTableRow.AddColumn();
@@ -1217,19 +1267,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           SourceRow.InternalHeightChanged += AtInternalHeightChanged;
                           #endregion
 
+                          Console.WriteLine("InternalRows ItemAdded " + new { _e.NewIndex });
 
                           CreateMissingCells(SourceRow);
 
-
-                          #region Cells
-                          foreach (var SourceCell in SourceRow.InternalCells.InternalItems)
-                          {
-                              InitializeCell(
-                                  SourceCell,
-                                  SourceRow
-                              );
-                          }
-                          #endregion
 
 
                           InitializeZeroColumnCell(SourceRow);
@@ -1310,6 +1351,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
+            Console.WriteLine("DataGridView ready");
         }
 
 
