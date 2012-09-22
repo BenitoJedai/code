@@ -154,12 +154,12 @@ namespace SQLiteWithDataGridView
            );
         }
 
-        public void EnumerateItemKeysBetweenTransactions(
+        public void EnumerateItemsChangedBetweenTransactions(
             string TableName,
             string FromTransaction,
             string ToTransaction,
-            Action<string> AtContentKey,
-            Action<string> done 
+            Action<string, string, string> AtContent,
+            Action<string> done
         )
         {
             InitializeDatabase("", delegate { }, TableName: TableName);
@@ -168,19 +168,33 @@ namespace SQLiteWithDataGridView
             {
                 c.Open();
 
-                using (var reader = new SQLiteCommand(
-                    "select ContentReferenceKey from TransactionLog_" + TableName 
-                    + " where ContentKey > " + FromTransaction 
-                    + " and ContentKey <= " + ToTransaction
-                    , c).ExecuteReader())
+                // http://www.shokhirev.com/nikolai/abc/sql/joins.html
+                // near "TransactionLog_SQLiteWithDataGridView_0_Table003": syntax error
+
+                var sql =
+                    "select "
+                    + "TransactionLog_" + TableName + ".ContentReferenceKey"
+                    + ", " + TableName + ".ContentValue"
+                    + ", " + TableName + ".ContentComment  "
+                    + " from "
+                    + " TransactionLog_" + TableName
+                    + ", " + TableName
+                    + " where "
+                    + " TransactionLog_" + TableName + ".ContentReferenceKey = " + TableName + ".ContentKey"
+                    + " and TransactionLog_" + TableName + ".ContentKey > " + FromTransaction
+                    + " and TransactionLog_" + TableName + ".ContentKey <= " + ToTransaction;
+
+                using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
                 {
 
                     while (reader.Read())
                     {
                         var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentReferenceKey"));
                         var ContentKey = ((object)ContentKeyInt32).ToString();
+                        var ContentValue = (string)reader["ContentValue"];
+                        var ContentComment = (string)reader["ContentComment"];
 
-                        AtContentKey(ContentKey);
+                        AtContent(ContentKey, ContentValue, ContentComment);
                     }
                 }
 
@@ -232,10 +246,10 @@ namespace SQLiteWithDataGridView
             if (AtTransactionKey != null)
                 GetTransactionKeyFor(TableName, AtTransactionKey);
 
-          
+
         }
 
 
-  
+
     }
 }

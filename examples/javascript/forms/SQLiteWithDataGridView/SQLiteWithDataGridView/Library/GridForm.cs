@@ -119,7 +119,7 @@ namespace SQLiteWithDataGridView.Library
         {
             timer1.Stop();
 
-            Action<string> AtServerTransactionKey = 
+            Action<string> AtServerTransactionKey =
                 ServerTransactionKey =>
                 {
                     label2.Text = ServerTransactionKey;
@@ -128,24 +128,32 @@ namespace SQLiteWithDataGridView.Library
                     {
                         label2.ForeColor = Color.Red;
 
-                        Action<string> AtContentKey =
-                            ContentKey =>
+                        Action<string, string, string> AtContentKey =
+                            (ContentKey, ContentValue, ContentComment) =>
                             {
                                 DataGridViewRow r = this.dataGridView1.Rows.AsEnumerable().FirstOrDefault(
                                     item => item.Cells[0].Value == ContentKey
                                 );
 
-                            
+
                                 if (r == null)
                                 {
                                     r = new DataGridViewRow();
 
                                     r.Cells.AddRange(
-
                                         new DataGridViewTextBoxCell
                                         {
                                             Value = ContentKey
+                                        },
+                                        new DataGridViewTextBoxCell
+                                        {
+                                            Value = ContentValue
+                                        },
+                                        new DataGridViewTextBoxCell
+                                        {
+                                            Value = ContentComment
                                         }
+
                                     );
 
                                     dataGridView1.Rows.Add(r);
@@ -163,11 +171,11 @@ namespace SQLiteWithDataGridView.Library
                                     timer1.Start();
                                 };
 
-                        service.EnumerateItemKeysBetweenTransactions(
+                        service.EnumerateItemsChangedBetweenTransactions(
                             TableName,
-                            LocalTransactionKey, 
+                            LocalTransactionKey,
                             ServerTransactionKey,
-                            AtContentKey: AtContentKey,
+                            AtContent: AtContentKey,
                             done: done
                         );
 
