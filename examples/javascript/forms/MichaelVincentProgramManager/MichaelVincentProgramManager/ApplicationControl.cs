@@ -49,8 +49,8 @@ namespace MichaelVincentProgramManager
                     //    Augment(f.panel1);
 
 
-                    if (WhenClickedGoFullscreen != null)
-                        WhenClickedGoFullscreen(f.button1, f.webBrowser1);
+                    //if (WhenClickedGoFullscreen != null)
+                    //    WhenClickedGoFullscreen(f.button1, f.webBrowser1);
 
                     //if (WhenClickedGoPopup!= null)
                     //    WhenClickedGoPopup(f.button2, f.webBrowser1);

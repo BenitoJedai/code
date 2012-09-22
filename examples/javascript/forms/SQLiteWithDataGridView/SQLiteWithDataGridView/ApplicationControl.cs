@@ -23,7 +23,6 @@ namespace SQLiteWithDataGridView
 
         private void button2_Click(object sender, System.EventArgs e)
         {
-            new Form3().Show();
         }
 
     }

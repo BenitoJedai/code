@@ -33,9 +33,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.HTMLTarget = new IHTMLLabel().AttachTo(this.HTMLTargetContainer);
             this.HTMLTarget.style.whiteSpace = DOM.IStyle.WhiteSpaceEnum.pre;
             this.HTMLTarget.style.display = IStyle.DisplayEnum.inline_block;
+            this.HTMLTarget.onmousedown +=
+                ev =>
+                {
+                    ev.PreventDefault();
+                };
 
             this.Size = new global::System.Drawing.Size(100, 18);
-			this.InternalSetDefaultFont();
+            this.InternalSetDefaultFont();
         }
 
         public override string Text
@@ -70,7 +75,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-		public bool TabStop { get; set; }
+        public bool TabStop { get; set; }
 
         // is there a style we can use?
         public bool AutoEllipsis { get; set; }
