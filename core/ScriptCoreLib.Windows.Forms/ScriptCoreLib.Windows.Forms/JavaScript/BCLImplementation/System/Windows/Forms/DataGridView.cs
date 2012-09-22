@@ -730,7 +730,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-                    #region onfocus
+                    #region onblur
                     SourceCell.InternalContentContainer.onblur +=
                         ev =>
                         {
@@ -754,8 +754,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 this.CellLeave(this, new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index));
 
                         };
+                    #endregion 
 
+                    SourceCell.InternalStyle.InternalForeColorChanged +=
+                        delegate
+                        { 
+                            if (!SourceCell.InternalSelected)
+                                SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                        };
 
+                    #region onfocus
                     SourceCell.InternalContentContainer.onfocus +=
                         ev =>
                         {

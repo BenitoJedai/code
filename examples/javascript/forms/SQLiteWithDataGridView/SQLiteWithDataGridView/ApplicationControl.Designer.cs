@@ -42,6 +42,7 @@ namespace SQLiteWithDataGridView
             // 
             // ApplicationControl
             // 
+            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.Controls.Add(this.button1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(400, 300);
