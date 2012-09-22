@@ -29,6 +29,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public override int Count
+        {
+            get
+            {
+                return this.InternalItems.Count;
+            }
+            set
+            {
+            }
+        }
+
         public DataGridViewCell this[int index]
         {
             get

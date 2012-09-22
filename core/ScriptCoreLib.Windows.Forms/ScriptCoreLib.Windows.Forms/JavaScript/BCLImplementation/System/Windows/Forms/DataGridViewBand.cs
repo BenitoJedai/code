@@ -12,20 +12,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public virtual DataGridViewCellStyle DefaultCellStyle { get; set; }
         public virtual bool ReadOnly { get; set; }
 
+        public virtual int InternalGetIndex()
+        {
+            return -1;
+        }
+
         public int Index
         {
             get
             {
-                if (InternalContext == null)
-                    return -1;
-
-                var r = this as __DataGridViewRow;
-                
-                // what else could it be?
-                if (r == null)
-                    return -1;
-
-                return InternalContext.InternalRows.InternalItems.IndexOf(r);
+                return InternalGetIndex();
             }
         }
 

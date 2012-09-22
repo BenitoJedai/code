@@ -14,10 +14,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public virtual int Add(DataGridViewColumn e)
         {
-            var x = (__DataGridViewColumn)(object)e;
-
-            InternalItems.Add(x);
+            InternalItems.Add(e);
             return InternalItems.Count - 1;
+        }
+
+        public override int Count
+        {
+            get
+            {
+                return this.InternalItems.Count;
+            }
+            set
+            {
+            }
         }
 
         public virtual void AddRange(params DataGridViewColumn[] dataGridViewColumns)

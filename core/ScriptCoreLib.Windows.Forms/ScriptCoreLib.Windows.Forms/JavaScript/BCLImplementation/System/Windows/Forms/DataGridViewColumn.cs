@@ -40,6 +40,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public string Name { get; set; }
 
+
+        public override int InternalGetIndex()
+        {
+            if (InternalContext == null)
+                return -1;
+
+            var r = this as __DataGridViewColumn;
+
+            // what else could it be?
+            if (r == null)
+                return -1;
+
+            return InternalContext.InternalColumns.InternalItems.IndexOf(r);
+        }
+
         #region Width
         public int InternalWidth;
         public event Action InternalWidthChanged;
