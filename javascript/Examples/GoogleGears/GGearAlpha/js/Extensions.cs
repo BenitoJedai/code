@@ -32,7 +32,7 @@ namespace GGearAlpha.js
                 e();
         }
 
-        public static void ToImage(this string src, ScriptCoreLib.Shared.EventHandler<IHTMLImage> a)
+        public static void ToImage(this string src, Action<IHTMLImage> a)
         {
             var img = new IHTMLImage(src);
 
