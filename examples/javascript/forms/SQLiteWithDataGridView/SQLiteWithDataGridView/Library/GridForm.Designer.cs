@@ -30,13 +30,15 @@ namespace SQLiteWithDataGridView.Library
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ContentKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ContentValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ContentComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.ContentKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContentValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContentComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContentChildren = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +51,8 @@ namespace SQLiteWithDataGridView.Library
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ContentKey,
             this.ContentValue,
-            this.ContentComment});
+            this.ContentComment,
+            this.ContentChildren});
             this.dataGridView1.Location = new System.Drawing.Point(12, 53);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(573, 305);
@@ -57,21 +60,6 @@ namespace SQLiteWithDataGridView.Library
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserAddedRow);
-            // 
-            // ContentKey
-            // 
-            this.ContentKey.HeaderText = "ContentKey";
-            this.ContentKey.Name = "ContentKey";
-            // 
-            // ContentValue
-            // 
-            this.ContentValue.HeaderText = "ContentValue";
-            this.ContentValue.Name = "ContentValue";
-            // 
-            // ContentComment
-            // 
-            this.ContentComment.HeaderText = "ContentComment";
-            this.ContentComment.Name = "ContentComment";
             // 
             // label1
             // 
@@ -96,6 +84,29 @@ namespace SQLiteWithDataGridView.Library
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // ContentKey
+            // 
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ContentKey.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ContentKey.HeaderText = "ContentKey";
+            this.ContentKey.Name = "ContentKey";
+            this.ContentKey.ReadOnly = true;
+            // 
+            // ContentValue
+            // 
+            this.ContentValue.HeaderText = "ContentValue";
+            this.ContentValue.Name = "ContentValue";
+            // 
+            // ContentComment
+            // 
+            this.ContentComment.HeaderText = "ContentComment";
+            this.ContentComment.Name = "ContentComment";
+            // 
+            // ContentChildren
+            // 
+            this.ContentChildren.HeaderText = "ContentChildren";
+            this.ContentChildren.Name = "ContentChildren";
+            // 
             // GridForm
             // 
             this.ClientSize = new System.Drawing.Size(597, 370);
@@ -114,11 +125,12 @@ namespace SQLiteWithDataGridView.Library
         }
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ContentKey;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ContentValue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ContentComment;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContentKey;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContentValue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContentComment;
+        private System.Windows.Forms.DataGridViewButtonColumn ContentChildren;
     }
 }

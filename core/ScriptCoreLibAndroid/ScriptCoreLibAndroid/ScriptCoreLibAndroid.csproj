@@ -678,6 +678,15 @@
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Func.cs">
       <Link>BCLImplementation\System\Func.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\Expression.cs">
+      <Link>BCLImplementation\System\Linq\Expressions\Expression.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Queryable.cs">
+      <Link>BCLImplementation\System\Linq\Queryable.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Predicate.cs">
       <Link>BCLImplementation\System\Predicate.cs</Link>
     </Compile>

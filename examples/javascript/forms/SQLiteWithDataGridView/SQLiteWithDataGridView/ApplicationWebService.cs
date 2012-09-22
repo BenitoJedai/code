@@ -342,6 +342,7 @@ namespace SQLiteWithDataGridView
                     TableName1 = new[] { new { ContentKey = 0, ContentValue = "", ContentComment = "" } }.AsQueryable()
                 };
 
+                // how would this look like on the client side?
                 var data = from t1 in db.TransactionLog_TableName1
                            join t2 in db.TableName1 on t1.ContentReferenceKey equals t2.ContentKey
                            select new { t1.ContentReferenceKey, t2.ContentValue, t2.ContentComment };
