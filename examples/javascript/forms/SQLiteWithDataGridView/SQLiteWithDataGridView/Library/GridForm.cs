@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.Extensions;
 
 namespace SQLiteWithDataGridView.Library
 {
@@ -46,9 +47,7 @@ namespace SQLiteWithDataGridView.Library
                         }
                     );
 
-                    dataGridView1.Rows.Add(r
-
-                   );
+                    dataGridView1.Rows.Add(r);
 
                 },
                 TableName: TableName,
@@ -57,6 +56,7 @@ namespace SQLiteWithDataGridView.Library
                 {
                     LocalTransactionKey = value;
                     label2.Text = LocalTransactionKey;
+                    timer1.Start();
                 },
 
                 done: delegate
@@ -122,22 +122,75 @@ namespace SQLiteWithDataGridView.Library
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop();
-            service.GetTransactionKeyFor(
-                TableName: TableName,
-                y: TrnsactionKey =>
-                {
-                    label2.Text = TrnsactionKey;
 
-                    if (LocalTransactionKey != TrnsactionKey)
+            Action<string> AtServerTransactionKey = 
+                ServerTransactionKey =>
+                {
+                    label2.Text = ServerTransactionKey;
+
+                    if (LocalTransactionKey != ServerTransactionKey)
                     {
                         label2.ForeColor = Color.Red;
+
+                        Action<string> AtContentKey =
+                            ContentKey =>
+                            {
+                                DataGridViewRow r = null;
+                                foreach (DataGridViewRow item in this.dataGridView1.Rows)
+                                {
+                                    if (item.Cells[0].Value == ContentKey)
+                                    {
+                                        r = item;
+                                        break;
+                                    }
+                                }
+
+                                if (r == null)
+                                {
+                                    r = new DataGridViewRow();
+
+                                    r.Cells.AddRange(
+
+                                        new DataGridViewTextBoxCell
+                                        {
+                                            Value = ContentKey
+                                        }
+                                    );
+
+                                    dataGridView1.Rows.Add(r);
+
+                                }
+
+                                r.Cells[0].Style.ForeColor = Color.Red;
+                            };
+
+                        Action done = delegate
+                                {
+                                    LocalTransactionKey = ServerTransactionKey;
+                                    label2.Text = ServerTransactionKey;
+                                    label2.ForeColor = Color.Black;
+                                    timer1.Start();
+                                };
+
+                        service.EnumerateItemKeysBetweenTransactions(
+                            TableName,
+                            LocalTransactionKey, 
+                            ServerTransactionKey,
+                            AtContentKey: AtContentKey,
+                            done: done
+                        );
+
                         // we need updates!
                         return;
                     }
 
 
                     timer1.Start();
-                }
+                };
+
+            service.GetTransactionKeyFor(
+                TableName: TableName,
+                y: AtServerTransactionKey
             );
         }
 
