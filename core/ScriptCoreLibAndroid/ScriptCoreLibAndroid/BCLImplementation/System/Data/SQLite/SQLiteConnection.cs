@@ -116,6 +116,27 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             this.Close();
         }
+
+
+        public long LastInsertRowId
+        {
+            get
+            {
+                // https://groups.google.com/forum/?fromgroups=#!topic/android-developers/r3LHk-fCoNI
+
+                var cursor = this.db.rawQuery(
+                    "SELECT last_insert_rowid()",
+                    null
+                );
+
+                if (cursor.moveToFirst())
+                {
+                    return cursor.getInt(0);
+                }
+
+                return -1;
+            }
+        }
     }
 
 
