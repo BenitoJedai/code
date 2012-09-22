@@ -18,16 +18,22 @@ namespace SQLiteWithDataGridView.Library
         }
 
         public string TableName = "SQLiteWithDataGridView_0_Table001";
+        public string ParentContentKey = "";
 
         ApplicationWebService service = new ApplicationWebService();
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.Text = TableName;
+            if (this.Owner != null)
+                this.Text = this.Owner.Text + "/" + ParentContentKey;
+            else
+                this.Text = TableName;
+
+            this.label4.Text = ParentContentKey;
 
             dataGridView1.Enabled = false;
             service.GridExample_EnumerateItems("",
-                (ContentKey, ContentValue, ContentComment) =>
+                (ContentKey, ContentValue, ContentComment, ContentChildren) =>
                 {
                     var r = new DataGridViewRow();
 
@@ -47,7 +53,7 @@ namespace SQLiteWithDataGridView.Library
                         },
                           new DataGridViewButtonCell
                         {
-                            Value = "Click"
+                            Value = ContentChildren + " Children"
                         }
                     );
 
@@ -55,7 +61,7 @@ namespace SQLiteWithDataGridView.Library
 
                 },
                 TableName: TableName,
-
+                ParentContentKey: ParentContentKey,
                 AtTransactionKey: value =>
                 {
                     LocalTransactionKey = value;
@@ -105,6 +111,7 @@ namespace SQLiteWithDataGridView.Library
                 service.GridExample_AddItem(
                     ContentValue,
                     ContentComment,
+                    ParentContentKey,
                     LastInsertRowId =>
                     {
                         dataGridView1[0, e.RowIndex].Value = LastInsertRowId;
@@ -150,7 +157,23 @@ namespace SQLiteWithDataGridView.Library
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            MessageBox.Show(new { e.RowIndex, e.ColumnIndex }.ToString());
+            if (dataGridView1.Rows[e.RowIndex].IsNewRow)
+                return;
+
+            var ContentKey = (string)dataGridView1[0, e.RowIndex].Value;
+
+            var f = new GridForm
+            {
+                Owner = this,
+
+                TableName = TableName,
+                ParentContentKey = ContentKey,
+                StartPosition = FormStartPosition.Manual
+            };
+            f.Location = new Point(this.Left, this.Top + 32);
+
+            f.Show();
+
         }
 
         string LocalTransactionKey;
@@ -168,8 +191,8 @@ namespace SQLiteWithDataGridView.Library
                     {
                         label2.ForeColor = Color.Red;
 
-                        Action<string, string, string> AtContentKey =
-                            (ContentKey, ContentValue, ContentComment) =>
+                        Action<string, string, string, string> AtContentKey =
+                            (ContentKey, ContentValue, ContentComment, ContentChildren) =>
                             {
                                 DataGridViewRow r = this.dataGridView1.Rows.AsEnumerable().FirstOrDefault(
                                     item => (string)item.Cells[0].Value == ContentKey
@@ -192,10 +215,14 @@ namespace SQLiteWithDataGridView.Library
                                         new DataGridViewTextBoxCell
                                         {
                                             Value = ContentComment
+                                        },
+                                           new DataGridViewButtonCell
+                                        {
+                                            Value = ContentChildren + " Children"
                                         }
-
                                     );
 
+                                    //No row can be added to a DataGridView control that does not have columns. Columns must be added first.
                                     dataGridView1.Rows.Add(r);
 
                                 }
@@ -205,6 +232,7 @@ namespace SQLiteWithDataGridView.Library
 
                                     r.Cells[1].Value = ContentValue;
                                     r.Cells[2].Value = ContentComment;
+                                    r.Cells[3].Value = ContentChildren + " Children";
 
                                     InternalCellValueChanged = false;
 
@@ -223,6 +251,7 @@ namespace SQLiteWithDataGridView.Library
 
                         service.GridExample_EnumerateItemsChangedBetweenTransactions(
                             TableName,
+                            ParentContentKey,
                             LocalTransactionKey,
                             ServerTransactionKey,
                             AtContent: AtContentKey,

@@ -71,6 +71,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __Form()
         {
+            this.StartPosition = FormStartPosition.CenterScreen;
+
             var TargetElement = new IHTMLDiv();
 
             TargetElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
@@ -375,8 +377,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     var y = Math.Max(-4, drag.Position.Y);
 
                     //if (Native.Document.fullscreenElement == TargetNoBorder)
-
-                    HTMLTarget.style.SetLocation(drag.Position.X, y);
+                    this.Location = new Point(drag.Position.X, y);
 
 
 
@@ -440,8 +441,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void Close()
         {
-            // Orphanize
-            HTMLTarget.Dispose();
+            foreach (var item in this.OwnedForms)
+            {
+                item.Close();
+            }
+
+            this.Owner = null;
+
+            this.WindowState = FormWindowState.Normal;
+
+            HTMLTarget.Orphanize();
 
             if (this.Closed != null)
                 this.Closed(this, new EventArgs());
@@ -490,6 +499,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        #region Owner
         public __Form InternalOwner;
         public Form Owner
         {
@@ -508,6 +518,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
             }
         }
+        #endregion
 
         #region Opacity
         public double InternalOpacity;
@@ -548,11 +559,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InternalRaiseLoad();
 
-            this.Location = new Point
-            {
-                X = (Native.Window.Width - this.Width) / 2,
-                Y = (Native.Window.Height - this.Height) / 2
-            };
+            if (this.StartPosition == FormStartPosition.CenterScreen)
+            { 
+                this.Location = new Point
+                {
+                    X = (Native.Window.Width - this.Width) / 2,
+                    Y = (Native.Window.Height - this.Height) / 2
+                };
+            }
 
             InternalUpdateZIndex(HTMLTarget);
 
@@ -627,6 +641,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         int __PreviousWidth;
         int __PreviousHeight;
 
+        #region WindowState
         public FormWindowState WindowState
         {
             get
@@ -680,7 +695,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         Native.Window.requestAnimationFrame +=
                             delegate
                             {
-                            
+
                                 InternalChildrenAnchorUpdate(
                                         this.width,
                                       this.height,
@@ -742,6 +757,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalRaiseLocationChanged();
             }
         }
+        #endregion
 
         #region FormBorderStyle
         public FormBorderStyle InternalFormBorderStyle = FormBorderStyle.Sizable;
