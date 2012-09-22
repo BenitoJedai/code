@@ -46,17 +46,20 @@ namespace SQLiteWithDataGridView
                     cmd.ExecuteNonQuery();
                 }
 
-                //new SQLiteCommand("delete from MY_TABLE", c).ExecuteNonQuery();
+                // http://stackoverflow.com/questions/5289861/sqlite-android-foreign-key-syntax
+                using (var cmd = new SQLiteCommand(
+                    "create table if not exists TransactionLog_" + TableName
+                    + " ("
+                    + " ContentKey INTEGER PRIMARY KEY "
+                    + ", ContentReferenceKey INTEGER "
+                    + ", ContentComment text not null "
+                    + ", FOREIGN KEY(ContentComment) REFERENCES " + TableName + "(ContentKey)"
+                    + ")"
 
-                // The database file is locked
-                // http://stackoverflow.com/questions/4348860/the-database-file-is-locked-with-system-data-sqlite
-
-                //new SQLiteCommand("insert into SQLiteWithDataGridView_MY_TABLE (Content) values ('" + e + "')", c).ExecuteNonQuery();
-                //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 2')", c).ExecuteNonQuery();
-                //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 3')", c).ExecuteNonQuery();
-                //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 4')", c).ExecuteNonQuery();
-                //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 5')", c).ExecuteNonQuery();
-
+                    , c))
+                {
+                    cmd.ExecuteNonQuery();
+                }
 
 
                 c.Close();
@@ -65,6 +68,31 @@ namespace SQLiteWithDataGridView
             // Send it back to the caller.
             y(e);
             //Console.WriteLine("AddItem exit");
+        }
+
+        public void CountTransactionLogItemsFor(string TableName, Action<string> y)
+        {
+            //Console.WriteLine("CountItems enter");
+            using (var c = OpenReadOnlyConnection())
+            {
+                c.Open();
+
+                using (var reader = new SQLiteCommand("select count(*) from  TransactionLog_" + TableName, c).ExecuteReader())
+                {
+
+                    if (reader.Read())
+                    {
+                        var Content = (int)reader.GetInt32(0);
+
+                        y("" + Content);
+
+                    }
+                }
+
+                c.Close();
+
+            }
+            //Console.WriteLine("CountItems exit");
         }
 
         public void AddItem(string ContentValue, string ContentComment, Action<string> y, string TableName = "SQLiteWithDataGridView_0_Table001")
@@ -84,15 +112,18 @@ namespace SQLiteWithDataGridView
 
 
                 var cmd = new SQLiteCommand("insert into " + TableName + " (ContentValue, ContentComment) values ('" + ContentValue + "', '" + ContentComment + "')", c);
+                cmd.ExecuteNonQuery();
 
-                var id = cmd.ExecuteNonQuery();
+                var ContentReferenceKey = c.LastInsertRowId;
+                y(ContentReferenceKey.ToString());
 
+                var cmd1 = new SQLiteCommand("insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) values (" + ContentReferenceKey + ", 'AddItem')", c);
+                cmd1.ExecuteNonQuery();
 
                 c.Close();
             }
 
             // Send it back to the caller.
-            y("");
             //Console.WriteLine("AddItem exit");
         }
 

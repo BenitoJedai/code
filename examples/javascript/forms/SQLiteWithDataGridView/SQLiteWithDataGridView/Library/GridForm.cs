@@ -77,7 +77,7 @@ namespace SQLiteWithDataGridView.Library
 
             if (string.IsNullOrEmpty((string)c0.Value))
             {
-                dataGridView1[0, e.RowIndex].Value = "" + (dataGridView1.Rows.Count - 1);
+                dataGridView1[0, e.RowIndex].Value = "?";
                 dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
 
                 var ContentValue = (string)dataGridView1[1, e.RowIndex].Value;
@@ -91,9 +91,10 @@ namespace SQLiteWithDataGridView.Library
                 service.AddItem(
                     ContentValue,
                     ContentComment,
-                    delegate
+                    LastInsertRowId =>
                     {
-
+                        dataGridView1[0, e.RowIndex].Value = LastInsertRowId;
+                        dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Blue;
                     },
                     TableName: TableName
                 );
@@ -103,6 +104,20 @@ namespace SQLiteWithDataGridView.Library
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            service.CountTransactionLogItemsFor(
+                TableName: TableName,
+                y: Count =>
+                {
+                    label2.Text = Count;
+
+                    timer1.Start();
+                }
+            );
         }
 
 
