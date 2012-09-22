@@ -35,11 +35,18 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             return !(cursor.isAfterLast());
         }
 
+        public override int GetOrdinal(string name)
+        {
+            int i = cursor.getColumnIndex(name);
+
+            return i;
+        }
+
         public override object this[string name]
         {
             get
             {
-                int i = cursor.getColumnIndex(name);
+                int i = GetOrdinal(name);
 
                 return cursor.getString(i);
             }

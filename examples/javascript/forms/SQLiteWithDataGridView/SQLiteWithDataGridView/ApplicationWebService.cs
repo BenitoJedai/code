@@ -114,8 +114,12 @@ namespace SQLiteWithDataGridView
                 var cmd = new SQLiteCommand("insert into " + TableName + " (ContentValue, ContentComment) values ('" + ContentValue + "', '" + ContentComment + "')", c);
                 cmd.ExecuteNonQuery();
 
-                var ContentReferenceKey = c.LastInsertRowId;
-                y(ContentReferenceKey.ToString());
+                var ContentReferenceKeyLong = c.LastInsertRowId;
+                // jsc does not yet autobox for java 
+                // int cannot be dereferenced
+                var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
+
+                y(ContentReferenceKey);
 
                 var cmd1 = new SQLiteCommand("insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) values (" + ContentReferenceKey + ", 'AddItem')", c);
                 cmd1.ExecuteNonQuery();
@@ -160,11 +164,12 @@ namespace SQLiteWithDataGridView
 
                     while (reader.Read())
                     {
-                        var ContentKey = reader.GetInt32(reader.GetOrdinal("ContentKey"));
+                        var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentKey"));
+                        var ContentKey = ((object)ContentKeyInt32).ToString();
                         var ContentValue = (string)reader["ContentValue"];
                         var ContentComment = (string)reader["ContentComment"];
 
-                        y(ContentKey.ToString(), ContentValue, ContentComment);
+                        y(ContentKey, ContentValue, ContentComment);
 
                     }
                 }
