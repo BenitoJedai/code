@@ -14,7 +14,7 @@ namespace SQLiteWithDataGridView
     public sealed partial class ApplicationWebService
     {
 
-        const string DataSource = "SQLiteWithDataGridView.2.sqlite";
+        const string DataSource = "SQLiteWithDataGridView.3.sqlite";
 
         public void GridExample_InitializeDatabase(string e, Action<string> y, string TableName)
         {
@@ -36,6 +36,8 @@ namespace SQLiteWithDataGridView
                     + "ContentKey INTEGER PRIMARY KEY"
                     + ", ContentValue text not null"
                     + ", ContentComment text not null"
+                    + ", ParentContentKey INTEGER "
+                    + ", FOREIGN KEY(ParentContentKey) REFERENCES " + TableName + "(ContentKey)"
                     + ")", c))
                 {
                     cmd.ExecuteNonQuery();
@@ -48,7 +50,7 @@ namespace SQLiteWithDataGridView
                     + " ContentKey INTEGER PRIMARY KEY "
                     + ", ContentReferenceKey INTEGER "
                     + ", ContentComment text not null "
-                    + ", FOREIGN KEY(ContentComment) REFERENCES " + TableName + "(ContentKey)"
+                    + ", FOREIGN KEY(ContentReferenceKey) REFERENCES " + TableName + "(ContentKey)"
                     + ")"
 
                     , c))
@@ -65,7 +67,10 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("AddItem exit");
         }
 
-        public void GridExample_GetTransactionKeyFor(string TableName, Action<string> y)
+        public void GridExample_GetTransactionKeyFor(
+            string TableName,
+
+            Action<string> y)
         {
             //Console.WriteLine("CountItems enter");
             using (var c = OpenReadOnlyConnection())
@@ -73,6 +78,7 @@ namespace SQLiteWithDataGridView
                 c.Open();
 
                 // http://www.sqlite.org/lang_corefunc.html
+
                 using (var reader = new SQLiteCommand("select coalesce(max(ContentKey), 0) from  TransactionLog_" + TableName, c).ExecuteReader())
                 {
 
@@ -94,6 +100,8 @@ namespace SQLiteWithDataGridView
         public void GridExample_AddItem(
             string ContentValue,
             string ContentComment,
+            /* int? */ string ParentContentKey,
+
             Action<string> AtContentReferenceKey,
             string TableName)
         {
@@ -110,10 +118,20 @@ namespace SQLiteWithDataGridView
             {
                 c.Open();
 
+                var sql = "insert into " + TableName + " (ContentValue, ContentComment, ParentContentKey) "
+                    + "values (";
 
-                var cmd = new SQLiteCommand(
-                    "insert into " + TableName + " (ContentValue, ContentComment) "
-                    + "values ('" + ContentValue + "', '" + ContentComment + "')", c);
+                sql += "'" + ContentValue + "'";
+                sql += ", '" + ContentComment + "'";
+
+                if (ParentContentKey == "")
+                    sql += ", null";
+                else
+                    sql += ", " + ParentContentKey;
+
+                sql += ")";
+
+                var cmd = new SQLiteCommand(sql, c);
                 cmd.ExecuteNonQuery();
 
                 var ContentReferenceKeyLong = c.LastInsertRowId;
@@ -122,10 +140,16 @@ namespace SQLiteWithDataGridView
                 var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
 
 
-                var cmd1 = new SQLiteCommand(
+                new SQLiteCommand(
                     "insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) "
-                    + "values (" + ContentReferenceKey + ", 'AddItem')", c);
-                cmd1.ExecuteNonQuery();
+                    + "values (" + ContentReferenceKey + ", 'AddItem')"
+                    , c).ExecuteNonQuery();
+
+                if (ParentContentKey != "")
+                    new SQLiteCommand(
+                     "insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) "
+                     + "values (" + ParentContentKey + ", 'ChildAdded')"
+                     , c).ExecuteNonQuery();
 
                 AtContentReferenceKey(ContentReferenceKey);
 
@@ -202,9 +226,12 @@ namespace SQLiteWithDataGridView
 
         public void GridExample_EnumerateItemsChangedBetweenTransactions(
             string TableName,
+            /* int? */ string ParentContentKey,
+
+
             string FromTransaction,
             string ToTransaction,
-            Action<string, string, string> AtContent,
+            Action<string, string, string, string> AtContent,
             Action<string> done
         )
         {
@@ -224,6 +251,8 @@ namespace SQLiteWithDataGridView
                     + "TransactionLog_" + TableName + ".ContentReferenceKey"
                     + ", " + TableName + ".ContentValue"
                     + ", " + TableName + ".ContentComment  "
+                    + ", (select count(*) from " + TableName + " t2 where t2.ParentContentKey = " + TableName + ".ContentKey) as ContentChildren "
+
                     + " from "
                     + " TransactionLog_" + TableName
                     + ", " + TableName
@@ -231,6 +260,11 @@ namespace SQLiteWithDataGridView
                     + " TransactionLog_" + TableName + ".ContentReferenceKey = " + TableName + ".ContentKey"
                     + " and TransactionLog_" + TableName + ".ContentKey > " + FromTransaction
                     + " and TransactionLog_" + TableName + ".ContentKey <= " + ToTransaction;
+
+                if (ParentContentKey == "")
+                    sql += " and ParentContentKey is null";
+                else
+                    sql += " and ParentContentKey = " + ParentContentKey;
 
                 using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
                 {
@@ -241,8 +275,9 @@ namespace SQLiteWithDataGridView
                         var ContentKey = ((object)ContentKeyInt32).ToString();
                         var ContentValue = (string)reader["ContentValue"];
                         var ContentComment = (string)reader["ContentComment"];
-
-                        AtContent(ContentKey, ContentValue, ContentComment);
+                        var ContentChildrenInt32 = reader.GetInt32(reader.GetOrdinal("ContentChildren"));
+                        var ContentChildren = ((object)ContentChildrenInt32).ToString();
+                        AtContent(ContentKey, ContentValue, ContentComment, ContentChildren);
                     }
                 }
 
@@ -259,8 +294,9 @@ namespace SQLiteWithDataGridView
 
         public void GridExample_EnumerateItems(
             string e,
-            Action<string, string, string> y,
+            Action<string, string, string, string> y,
             string TableName,
+            /* int? */ string ParentContentKey,
             Action<string> AtTransactionKey = null
             )
         {
@@ -271,8 +307,22 @@ namespace SQLiteWithDataGridView
             {
                 c.Open();
 
-                using (var reader = new SQLiteCommand(
-                    "select ContentKey, ContentValue, ContentComment from " + TableName, c).ExecuteReader())
+                var sql =
+                    "select "
+                    + "t1.ContentKey"
+                    + ", t1.ContentValue"
+                    + ", t1.ContentComment"
+                    + ", (select count(*) from " + TableName + " t2 where t2.ParentContentKey = t1.ContentKey) as ContentChildren "
+                    + " from " + TableName + " t1";
+
+
+                if (ParentContentKey == "")
+                    sql += " where t1.ParentContentKey is null";
+                else
+                    sql += " where t1.ParentContentKey = " + ParentContentKey;
+
+
+                using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
                 {
 
                     while (reader.Read())
@@ -281,8 +331,10 @@ namespace SQLiteWithDataGridView
                         var ContentKey = ((object)ContentKeyInt32).ToString();
                         var ContentValue = (string)reader["ContentValue"];
                         var ContentComment = (string)reader["ContentComment"];
+                        var ContentChildrenInt32 = reader.GetInt32(reader.GetOrdinal("ContentChildren"));
+                        var ContentChildren = ((object)ContentChildrenInt32).ToString();
 
-                        y(ContentKey, ContentValue, ContentComment);
+                        y(ContentKey, ContentValue, ContentComment, ContentChildren);
 
                     }
                 }
@@ -323,7 +375,7 @@ namespace SQLiteWithDataGridView
                 var array = data.ToArray();
             }
 
-           
+
         }
     }
 
@@ -333,7 +385,7 @@ namespace SQLiteWithDataGridView
         {
             // http://www.dotnetperls.com/join
 
-      
+
 
             {
                 var db = new
