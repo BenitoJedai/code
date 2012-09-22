@@ -11,22 +11,12 @@ namespace SQLiteWithDataGridView
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed partial class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
 
-        const string DataSource = "SQLiteWithDataGridView.1.sqlite";
+        const string DataSource = "SQLiteWithDataGridView.2.sqlite";
 
-        public void InitializeDatabase(string e, Action<string> y, string TableName = "SQLiteWithDataGridView_0_Table001")
+        public void GridExample_InitializeDatabase(string e, Action<string> y, string TableName)
         {
             //Console.WriteLine("AddItem enter");
             using (var c = new SQLiteConnection(
@@ -41,7 +31,12 @@ namespace SQLiteWithDataGridView
             {
                 c.Open();
 
-                using (var cmd = new SQLiteCommand("create table if not exists " + TableName + " (ContentKey INTEGER PRIMARY KEY, ContentValue text not null, ContentComment text not null)", c))
+                using (var cmd = new SQLiteCommand(
+                    "create table if not exists " + TableName + " ("
+                    + "ContentKey INTEGER PRIMARY KEY"
+                    + ", ContentValue text not null"
+                    + ", ContentComment text not null"
+                    + ")", c))
                 {
                     cmd.ExecuteNonQuery();
                 }
@@ -70,7 +65,7 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("AddItem exit");
         }
 
-        public void GetTransactionKeyFor(string TableName, Action<string> y)
+        public void GridExample_GetTransactionKeyFor(string TableName, Action<string> y)
         {
             //Console.WriteLine("CountItems enter");
             using (var c = OpenReadOnlyConnection())
@@ -96,11 +91,11 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("CountItems exit");
         }
 
-        public void AddItem(
+        public void GridExample_AddItem(
             string ContentValue,
             string ContentComment,
             Action<string> AtContentReferenceKey,
-            string TableName = "SQLiteWithDataGridView_0_Table001")
+            string TableName)
         {
             //Console.WriteLine("AddItem enter");
             using (var c = new SQLiteConnection(
@@ -116,7 +111,9 @@ namespace SQLiteWithDataGridView
                 c.Open();
 
 
-                var cmd = new SQLiteCommand("insert into " + TableName + " (ContentValue, ContentComment) values ('" + ContentValue + "', '" + ContentComment + "')", c);
+                var cmd = new SQLiteCommand(
+                    "insert into " + TableName + " (ContentValue, ContentComment) "
+                    + "values ('" + ContentValue + "', '" + ContentComment + "')", c);
                 cmd.ExecuteNonQuery();
 
                 var ContentReferenceKeyLong = c.LastInsertRowId;
@@ -125,7 +122,9 @@ namespace SQLiteWithDataGridView
                 var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
 
 
-                var cmd1 = new SQLiteCommand("insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) values (" + ContentReferenceKey + ", 'AddItem')", c);
+                var cmd1 = new SQLiteCommand(
+                    "insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) "
+                    + "values (" + ContentReferenceKey + ", 'AddItem')", c);
                 cmd1.ExecuteNonQuery();
 
                 AtContentReferenceKey(ContentReferenceKey);
@@ -137,7 +136,7 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("AddItem exit");
         }
 
-        public void UpdateItem(
+        public void GridExample_UpdateItem(
                 string TableName,
 
                 string ContentKey,
@@ -181,7 +180,7 @@ namespace SQLiteWithDataGridView
 
 
             if (AtTransactionKey != null)
-                GetTransactionKeyFor(TableName, AtTransactionKey);
+                GridExample_GetTransactionKeyFor(TableName, AtTransactionKey);
             // Send it back to the caller.
             //Console.WriteLine("AddItem exit");
         }
@@ -201,7 +200,7 @@ namespace SQLiteWithDataGridView
            );
         }
 
-        public void EnumerateItemsChangedBetweenTransactions(
+        public void GridExample_EnumerateItemsChangedBetweenTransactions(
             string TableName,
             string FromTransaction,
             string ToTransaction,
@@ -209,7 +208,7 @@ namespace SQLiteWithDataGridView
             Action<string> done
         )
         {
-            InitializeDatabase("", delegate { }, TableName: TableName);
+            GridExample_InitializeDatabase("", delegate { }, TableName: TableName);
 
             using (var c = OpenReadOnlyConnection())
             {
@@ -217,6 +216,8 @@ namespace SQLiteWithDataGridView
 
                 // http://www.shokhirev.com/nikolai/abc/sql/joins.html
                 // near "TransactionLog_SQLiteWithDataGridView_0_Table003": syntax error
+
+
 
                 var sql =
                     "select "
@@ -256,21 +257,22 @@ namespace SQLiteWithDataGridView
 
 
 
-        public void EnumerateItems(
+        public void GridExample_EnumerateItems(
             string e,
             Action<string, string, string> y,
-            string TableName = "SQLiteWithDataGridView_0_Table001",
+            string TableName,
             Action<string> AtTransactionKey = null
             )
         {
-            InitializeDatabase("", delegate { }, TableName: TableName);
+            GridExample_InitializeDatabase("", delegate { }, TableName: TableName);
 
             //Console.WriteLine("EnumerateItems enter");
             using (var c = OpenReadOnlyConnection())
             {
                 c.Open();
 
-                using (var reader = new SQLiteCommand("select ContentKey, ContentValue, ContentComment from " + TableName, c).ExecuteReader())
+                using (var reader = new SQLiteCommand(
+                    "select ContentKey, ContentValue, ContentComment from " + TableName, c).ExecuteReader())
                 {
 
                     while (reader.Read())
@@ -291,12 +293,62 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("EnumerateItems exit");
 
             if (AtTransactionKey != null)
-                GetTransactionKeyFor(TableName, AtTransactionKey);
+                GridExample_GetTransactionKeyFor(TableName, AtTransactionKey);
 
 
         }
 
 
 
+    }
+
+    class LINQExample
+    {
+        static void Invoke()
+        {
+            // http://www.dotnetperls.com/join
+
+            {
+                var db = new
+                {
+                    TransactionLog_TableName1 = new[] { new { ContentKey = 0, ContentReferenceKey = 0 } },
+                    TableName1 = new[] { new { ContentKey = 0, ContentValue = "", ContentComment = "" } }
+                };
+
+                var data = from t1 in db.TransactionLog_TableName1
+                           join t2 in db.TableName1 on t1.ContentReferenceKey equals t2.ContentKey
+                           select new { t1.ContentReferenceKey, t2.ContentValue, t2.ContentComment };
+
+                // jsc when can I do this? :)
+                var array = data.ToArray();
+            }
+
+           
+        }
+    }
+
+    class DLINQExample
+    {
+        static void Invoke()
+        {
+            // http://www.dotnetperls.com/join
+
+      
+
+            {
+                var db = new
+                {
+                    TransactionLog_TableName1 = new[] { new { ContentKey = 0, ContentReferenceKey = 0 } }.AsQueryable(),
+                    TableName1 = new[] { new { ContentKey = 0, ContentValue = "", ContentComment = "" } }.AsQueryable()
+                };
+
+                var data = from t1 in db.TransactionLog_TableName1
+                           join t2 in db.TableName1 on t1.ContentReferenceKey equals t2.ContentKey
+                           select new { t1.ContentReferenceKey, t2.ContentValue, t2.ContentComment };
+
+                // jsc when can I do this? :)
+                var array = data.ToArray();
+            }
+        }
     }
 }
