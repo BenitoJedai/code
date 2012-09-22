@@ -1,3 +1,4 @@
+using FormsAvalonAnimation;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -28,6 +29,7 @@ namespace FormsWithAvalonExample
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.SuspendLayout();
             // 
             // button1
@@ -40,9 +42,19 @@ namespace FormsWithAvalonExample
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // elementHost1
+            // 
+            this.elementHost1.Location = new System.Drawing.Point(6, 3);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(537, 246);
+            this.elementHost1.TabIndex = 12;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = new AnimationControl();
+            // 
             // ApplicationControl
             // 
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.elementHost1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(400, 300);
             this.ResumeLayout(false);
@@ -50,6 +62,7 @@ namespace FormsWithAvalonExample
         }
 
         private Button button1;
+        private System.Windows.Forms.Integration.ElementHost elementHost1;
 
     }
 }
