@@ -16,8 +16,82 @@ namespace SQLiteWithDataGridView.Library
 
         }
 
+        ApplicationWebService service = new ApplicationWebService();
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            dataGridView1.Enabled = false;
+            service.EnumerateItems("",
+                (ContentKey, ContentValue, ContentComment) =>
+                {
+                    var r = new DataGridViewRow();
+
+                    r.Cells.AddRange(
+
+                        new DataGridViewTextBoxCell
+                        {
+                            Value = ContentKey
+                        },
+                        new DataGridViewTextBoxCell
+                        {
+                            Value = ContentValue
+                        },
+                        new DataGridViewTextBoxCell
+                        {
+                            Value = ContentComment
+                        }
+                    );
+
+                    dataGridView1.Rows.Add(r
+
+                   );
+
+                    dataGridView1.Enabled = true;
+                }
+            );
+        }
+
+        private void dataGridView1_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            // this is the ISNewRow
+            //e.Row.Cells[0].Value = "" + dataGridView1.Rows.Count;
+        }
+
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex < 0)
+                return;
+            var c0 = dataGridView1[0, e.RowIndex];
+
+            if (string.IsNullOrEmpty((string)c0.Value))
+            {
+                dataGridView1[0, e.RowIndex].Value = "" + (dataGridView1.Rows.Count - 1);
+                dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
+
+                var ContentValue = (string)dataGridView1[1, e.RowIndex].Value ;
+                if (ContentValue == null)
+                    ContentValue = "";
+                
+                var ContentComment = (string)dataGridView1[2, e.RowIndex].Value ;
+                if (ContentComment == null)
+                    ContentComment = "";
+
+                service.AddItem(
+                    ContentValue,
+                    ContentComment,
+                    delegate
+                    {
+
+                    }
+                );
+            }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
 
