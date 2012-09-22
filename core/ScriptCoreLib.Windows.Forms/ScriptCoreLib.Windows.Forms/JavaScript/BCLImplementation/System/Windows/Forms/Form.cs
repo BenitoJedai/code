@@ -364,8 +364,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             InternalExitFullscreen();
 
-                            drag.OffsetPosition.Y = 12;
-                            drag.OffsetPosition.X = this.Width / 2;
+   
                         }
 
                         InternalUpdateZIndex(HTMLTarget);
@@ -412,18 +411,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
 
 
+            drag.MiddleClick +=
+                delegate
+                {
+                    if (TargetNoBorder.parentNode != TargetResizerPadding)
+                        InternalExitFullscreen();
+                    else
+                        InternalEnterFullscreen();
+                };
+
             caption_foreground.ondblclick +=
                 delegate
                 {
-                    // black background plus my window:
-                    //this.HTMLTarget.requestFullscreen();
 
-                    // fullscreen content without caption
-                    //this.HTMLTargetContainerRef.requestFullscreen();
-
-
-                    // with borders
-                    //TargetInnerBorder.requestFullscreen();
 
                     if (TargetNoBorder.parentNode != TargetResizerPadding)
                         InternalExitFullscreen();
@@ -639,6 +639,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         InternalMaximizedForms.Remove(this);
 
+                     
+
                         if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
                         {
                             this.ContentContainer.Orphanize().AttachTo(this.HTMLTarget);
@@ -652,13 +654,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
 
+                        drag.OffsetPosition.Y = 12;
+                        drag.OffsetPosition.X = this.Width / 2;
+
                         if (InternalMaximizedForms.Count == 0)
-                            Native.Document.exitFullscreen();
+                        {
+                            // exit only if we are not maximized again
+                            Native.Window.requestAnimationFrame +=
+                                delegate
+                                {
+                                    if (InternalMaximizedForms.Count == 0)
+                                        Native.Document.exitFullscreen();
+                                };
+
+                        }
                     }
 
                 }
-
-                if (value == FormWindowState.Maximized)
+                else if (value == FormWindowState.Maximized)
                 {
                     if (!InternalMaximizedForms.Contains(this))
                     {
@@ -681,6 +694,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             Native.Document.body.requestFullscreen();
                     }
                 }
+
+
+
+                InternalRaiseLocationChanged();
             }
         }
 
