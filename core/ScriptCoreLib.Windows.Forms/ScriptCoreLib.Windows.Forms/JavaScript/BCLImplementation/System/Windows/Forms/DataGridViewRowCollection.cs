@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewRowCollection))]
-    internal class __DataGridViewRowCollection : __BaseCollection
+    internal class __DataGridViewRowCollection : __BaseCollection, IEnumerable
     {
         public BindingList<__DataGridViewRow> InternalItems = new BindingList<__DataGridViewRow>();
 
@@ -36,5 +37,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+
+        public IEnumerator GetEnumerator()
+        {
+            return this.InternalItems.GetEnumerator();
+        }
+
+        public DataGridViewRow this[int index]
+        {
+            get
+            {
+                return this.InternalItems[index];
+            }
+        }
     }
 }
