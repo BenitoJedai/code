@@ -16,10 +16,14 @@ namespace SQLiteWithDataGridView.Library
 
         }
 
+        public string TableName = "SQLiteWithDataGridView_0_Table001";
+
         ApplicationWebService service = new ApplicationWebService();
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.Text = TableName;
+
             dataGridView1.Enabled = false;
             service.EnumerateItems("",
                 (ContentKey, ContentValue, ContentComment) =>
@@ -46,7 +50,13 @@ namespace SQLiteWithDataGridView.Library
 
                    );
 
+                },
+                TableName: TableName,
+                done:
+                delegate
+                {
                     dataGridView1.Enabled = true;
+
                 }
             );
         }
@@ -70,11 +80,11 @@ namespace SQLiteWithDataGridView.Library
                 dataGridView1[0, e.RowIndex].Value = "" + (dataGridView1.Rows.Count - 1);
                 dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
 
-                var ContentValue = (string)dataGridView1[1, e.RowIndex].Value ;
+                var ContentValue = (string)dataGridView1[1, e.RowIndex].Value;
                 if (ContentValue == null)
                     ContentValue = "";
-                
-                var ContentComment = (string)dataGridView1[2, e.RowIndex].Value ;
+
+                var ContentComment = (string)dataGridView1[2, e.RowIndex].Value;
                 if (ContentComment == null)
                     ContentComment = "";
 
@@ -84,7 +94,8 @@ namespace SQLiteWithDataGridView.Library
                     delegate
                     {
 
-                    }
+                    },
+                    TableName: TableName
                 );
             }
         }

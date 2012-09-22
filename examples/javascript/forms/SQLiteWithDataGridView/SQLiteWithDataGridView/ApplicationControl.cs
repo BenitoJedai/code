@@ -25,5 +25,11 @@ namespace SQLiteWithDataGridView
         {
         }
 
+        private void button2_Click_1(object sender, System.EventArgs e)
+        {
+            new GridForm {  TableName = button2.Text }.Show();
+
+        }
+
     }
 }
