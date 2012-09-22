@@ -143,7 +143,6 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationWebService.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Application.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
