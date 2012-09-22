@@ -27,13 +27,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         IHTMLDiv caption = new IHTMLDiv();
         IHTMLDiv caption_foreground;
 
-        IHTMLDiv container = new IHTMLDiv();
+        IHTMLDiv ContentContainerPadding = new IHTMLDiv();
+        IHTMLDiv ContentContainer;
 
         public override IHTMLElement HTMLTargetContainerRef
         {
             get
             {
-                return container;
+                return ContentContainer;
 
             }
         }
@@ -50,26 +51,42 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         ScriptCoreLib.JavaScript.Controls.DragHelper drag;
         IHTMLDiv CloseButton;
 
+
         const int innerborder = 1;
 
         IHTMLDiv TargetNoBorder;
 
         protected override void InternalSetBackgroundColor(Color value)
         {
-            HTMLTarget.style.backgroundColor = value.ToString();
+            TargetOuterBorder.style.backgroundColor = value.ToString();
+            ContentContainer.style.backgroundColor = value.ToString();
 
             // for firefox fullscren
             TargetNoBorder.style.backgroundColor = value.ToString();
         }
 
+        static List<__Form> InternalMaximizedForms = new List<__Form>();
+        IHTMLDiv TargetResizerPadding;
+        IHTMLDiv TargetOuterBorder;
+
         public __Form()
         {
+            var TargetElement = new IHTMLDiv();
+
+            TargetElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            TargetElement.style.left = "0px";
+            TargetElement.style.top = "0px";
+
+            HTMLTarget = TargetElement;
+
             #region TargetOuterBorder
-            var TargetOuterBorder = new IHTMLDiv();
+            TargetOuterBorder = new IHTMLDiv().AttachTo(TargetElement);
             //HTMLTarget.style.backgroundColor = Shared.Drawing.Color.System.ThreeDFace;
             TargetOuterBorder.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             TargetOuterBorder.style.left = "0px";
             TargetOuterBorder.style.top = "0px";
+            TargetOuterBorder.style.bottom = "0px";
+            TargetOuterBorder.style.right = "0px";
 
             TargetOuterBorder.style.borderWidth = "1px";
             TargetOuterBorder.style.borderStyle = "solid";
@@ -87,8 +104,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             TargetInnerBorder.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             TargetInnerBorder.style.left = "0px";
             TargetInnerBorder.style.top = "0px";
-            TargetInnerBorder.style.bottom = "0";
-            TargetInnerBorder.style.right = "0";
+            TargetInnerBorder.style.bottom = "0px";
+            TargetInnerBorder.style.right = "0px";
 
             TargetInnerBorder.style.borderWidth = "1px";
             TargetInnerBorder.style.borderStyle = "solid";
@@ -101,8 +118,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
 
-            #region TargetPadding
-            var TargetResizerPadding = new IHTMLDiv().AttachTo(TargetInnerBorder);
+            #region TargetResizerPadding
+            TargetResizerPadding = new IHTMLDiv().AttachTo(TargetInnerBorder);
             TargetResizerPadding.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             TargetResizerPadding.style.left = "2px";
             TargetResizerPadding.style.top = "2px";
@@ -122,12 +139,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             TargetOuterBorder.style.boxShadow = "black 3px 3px 6px -3px";
 
-            HTMLTarget = TargetOuterBorder;
 
             #region caption
             IHTMLImage icon = "assets/ScriptCoreLib.Windows.Forms/App.ico";
 
-            icon.style.SetLocation(7, 7, 16, 16);
+            icon.style.SetLocation(5, 5, 16, 16);
 
             //caption.style.backgroundColor = JSColor.System.ActiveCaption;
             caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
@@ -171,17 +187,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //caption_foreground.style.appleDashboardRegion = "none";
 
             //container.style.backgroundColor = "#A0A0A0";
-            container.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-
             //container.style.appleDashboardRegion = "dashboard-region(control rectangle)";
 
-            container.style.left = 0 + "px";
-            container.style.top = (26 + innerborder + 0) + "px";
-            container.style.right = 0 + "px";
-            container.style.bottom = 0 + "px";
-            container.style.overflow = IStyle.OverflowEnum.hidden;
+            ContentContainerPadding.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            ContentContainerPadding.style.left = 0 + "px";
+            ContentContainerPadding.style.top = (26 + innerborder + 0) + "px";
+            ContentContainerPadding.style.right = 0 + "px";
+            ContentContainerPadding.style.bottom = 0 + "px";
 
-            var ResizeGripElement = new IHTMLDiv().AttachTo(container);
+            ContentContainer = new IHTMLDiv().AttachTo(ContentContainerPadding);
+            ContentContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            ContentContainer.style.left = 0 + "px";
+            ContentContainer.style.top = 0 + "px";
+            ContentContainer.style.right = 0 + "px";
+            ContentContainer.style.bottom = 0 + "px";
+
+            ContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
+
+            var ResizeGripElement = new IHTMLDiv().AttachTo(ContentContainerPadding);
             ResizeGripElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ResizeGripElement.style.width = "12px";
             ResizeGripElement.style.height = "12px";
@@ -190,7 +213,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ResizeGripElement.style.cursor = IStyle.CursorEnum.se_resize;
             new IHTMLImage { src = "assets/ScriptCoreLib.Windows.Forms/FormResizeGrip.png" }.ToBackground(ResizeGripElement);
 
-
+            #region ResizeGripDrag
             var ResizeGripDrag = new ScriptCoreLib.JavaScript.Controls.DragHelper(ResizeGripElement);
 
             ResizeGripDrag.Enabled = true;
@@ -216,6 +239,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     this.Size = new Size(ResizeGripDrag.Position.X, ResizeGripDrag.Position.Y);
                 };
+            #endregion
 
             //HTMLTarget.style.backgroundColor = "#B0B0B0";
             this.BackColor = SystemColors.ButtonFace;
@@ -257,7 +281,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButton.style.height = "18px";
             CloseButton.style.width = "18px";
             CloseButton.style.right = (innerborder + 3) + "px";
-            CloseButton.style.top = (innerborder + 3) + "px";
+            CloseButton.style.top = (innerborder + 2) + "px";
 
             CloseButton.style.borderWidth = "1px";
             CloseButton.style.borderStyle = "solid";
@@ -283,15 +307,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
-            TargetNoBorder.appendChild(caption, icon, caption_foreground, container, CloseButton);
+            TargetNoBorder.appendChild(caption, icon, caption_foreground, ContentContainerPadding, CloseButton);
 
-            caption_foreground.onmousedown +=
-           delegate
-           {
-               __FormZIndex++;
-
-               HTMLTarget.style.zIndex = __FormZIndex;
-           };
 
             drag = new ScriptCoreLib.JavaScript.Controls.DragHelper(caption_foreground);
 
@@ -302,23 +319,75 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             drag.Enabled = true;
 
             var BeforePosition = new Shared.Drawing.Point(0, 0);
+
+            var FirstMove = false;
+
             drag.DragStart +=
                 delegate
                 {
-                    Native.Document.exitFullscreen();
+                    TargetNoBorder.style.cursor = IStyle.CursorEnum.move;
+                    caption_foreground.style.cursor = IStyle.CursorEnum.move;
+                    Native.Document.body.style.cursor = IStyle.CursorEnum.move;
+
+
 
                     BeforePosition = drag.Position;
 
-                    caption_foreground.style.cursor = IStyle.CursorEnum.move;
+                    FirstMove = true;
                 };
+
+
+            Action InternalEnterFullscreen =
+                delegate
+                {
+                    this.WindowState = FormWindowState.Maximized;
+
+                };
+
+
+            Action InternalExitFullscreen =
+                delegate
+                {
+                    this.WindowState = FormWindowState.Normal;
+
+                };
+
+
             drag.DragMove +=
                 delegate
                 {
+                    if (FirstMove)
+                    {
+                        FirstMove = false;
+
+                        if (TargetNoBorder.parentNode != TargetResizerPadding)
+                        {
+                            InternalExitFullscreen();
+
+                            drag.OffsetPosition.Y = 12;
+                            drag.OffsetPosition.X = this.Width / 2;
+                        }
+
+                        InternalUpdateZIndex(HTMLTarget);
+                    }
+
                     var y = Math.Max(-4, drag.Position.Y);
 
                     //if (Native.Document.fullscreenElement == TargetNoBorder)
 
                     HTMLTarget.style.SetLocation(drag.Position.X, y);
+
+
+
+                    if (y < 0)
+                    {
+                        caption.style.backgroundColor = JSColor.Black;
+
+                    }
+                    else
+                    {
+                        caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
+                    }
                 };
 
             drag.DragStop +=
@@ -326,16 +395,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     //var Location = this.Location;
 
-                    this.Text = new { drag.Position.X, drag.Position.Y }.ToString();
+                    //this.Text = new { drag.Position.X, drag.Position.Y }.ToString();
 
+                    TargetNoBorder.style.cursor = IStyle.CursorEnum.@default;
                     caption_foreground.style.cursor = IStyle.CursorEnum.@default;
+                    Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
 
                     if (drag.Position.Y < 0)
                     {
                         drag.Position = BeforePosition;
                         this.Location = new Point(BeforePosition.X, BeforePosition.Y);
 
-                        TargetNoBorder.requestFullscreen();
+                        InternalEnterFullscreen();
                     }
 
                 };
@@ -354,7 +425,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // with borders
                     //TargetInnerBorder.requestFullscreen();
 
-                    TargetNoBorder.requestFullscreen();
+                    if (TargetNoBorder.parentNode != TargetResizerPadding)
+                        InternalExitFullscreen();
+                    else
+                        InternalEnterFullscreen();
                 };
 
         }
@@ -377,7 +451,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
-
+        public bool TopMost { get; set; }
+        public bool ControlBox { get; set; }
         public Size ClientSize
         {
             get
@@ -403,6 +478,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public List<Form> InternalOwnedForms = new List<Form>();
+
+        public Form[] OwnedForms
+        {
+            get
+            {
+                return InternalOwnedForms.ToArray();
+            }
+        }
+
+        public __Form InternalOwner;
+        public Form Owner
+        {
+            get { return InternalOwner; }
+            set
+            {
+                if (InternalOwner != null)
+                    InternalOwner.InternalOwnedForms.Remove(this);
+
+                InternalOwner = value;
+
+                if (InternalOwner != null)
+                {
+                    InternalOwner.InternalOwnedForms.Add(this);
+                    InternalOwner.InternalUpdateZIndex();
+                }
+            }
+        }
+
+        #region Opacity
         public double InternalOpacity;
         public double Opacity
         {
@@ -416,6 +521,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTarget.style.Opacity = value;
             }
         }
+        #endregion
+
 
         protected override void OnMove(EventArgs e)
         {
@@ -444,9 +551,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 X = (Native.Window.Width - this.Width) / 2,
                 Y = (Native.Window.Height - this.Height) / 2
             };
-            __FormZIndex++;
 
-            HTMLTarget.style.zIndex = __FormZIndex;
+            InternalUpdateZIndex(HTMLTarget);
+
             this.HTMLTarget.AttachToDocument();
 
 
@@ -464,6 +571,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     item.Focus();
             }
 
+        }
+
+        private void InternalUpdateZIndex(IHTMLElement e = null)
+        {
+            if (e == null)
+            {
+                if (this.WindowState == FormWindowState.Maximized)
+                {
+                    if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
+                        e = this.ContentContainer;
+
+                    else
+                        e = this.TargetNoBorder;
+
+                }
+                else
+                {
+                    e = HTMLTarget;
+                }
+            }
+
+            __FormZIndex++;
+            //Text = new { __FormZIndex }.ToString();
+
+            e.style.zIndex = __FormZIndex;
+
+            foreach (__Form item in this.OwnedForms)
+            {
+                item.InternalUpdateZIndex();
+            }
         }
 
         public void InternalRaiseLoad()
@@ -489,23 +626,137 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
+                if (InternalMaximizedForms.Contains(this))
+                    return FormWindowState.Maximized;
+
                 return FormWindowState.Normal;
             }
             set
             {
                 if (value == FormWindowState.Normal)
                 {
-                    Native.Document.exitFullscreen();
+                    if (InternalMaximizedForms.Contains(this))
+                    {
+                        InternalMaximizedForms.Remove(this);
+
+                        if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
+                        {
+                            this.ContentContainer.Orphanize().AttachTo(this.HTMLTarget);
+                            this.ContentContainer.style.zIndex = 0;
+                        }
+                        else
+                        {
+                            this.TargetNoBorder.Orphanize().AttachTo(TargetResizerPadding);
+                            this.TargetNoBorder.style.zIndex = 0;
+                        }
+
+                        caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
+
+                        if (InternalMaximizedForms.Count == 0)
+                            Native.Document.exitFullscreen();
+                    }
+
                 }
 
                 if (value == FormWindowState.Maximized)
                 {
-                    this.TargetNoBorder.requestFullscreen();
+                    if (!InternalMaximizedForms.Contains(this))
+                    {
+                        InternalMaximizedForms.Add(this);
+
+                        if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
+                        {
+                            this.ContentContainer.Orphanize().AttachToDocument();
+                            InternalUpdateZIndex(this.ContentContainer);
+                        }
+                        else
+                        {
+                            this.TargetNoBorder.Orphanize().AttachToDocument();
+                            InternalUpdateZIndex(this.TargetNoBorder);
+                        }
+
+                        caption.style.backgroundColor = JSColor.Black;
+
+                        if (InternalMaximizedForms.Count == 1)
+                            Native.Document.body.requestFullscreen();
+                    }
                 }
             }
         }
 
+        #region FormBorderStyle
+        public FormBorderStyle InternalFormBorderStyle = FormBorderStyle.Sizable;
+
+        public FormBorderStyle FormBorderStyle
+        {
+            get
+            {
+                return InternalFormBorderStyle;
+            }
+            set
+            {
+                if (InternalFormBorderStyle == value)
+                    return;
+
+                InternalFormBorderStyle = value;
+
+                if (value == global::System.Windows.Forms.FormBorderStyle.None)
+                {
+                    if (this.WindowState == FormWindowState.Maximized)
+                    {
+                        this.TargetNoBorder.style.zIndex = 0;
+                        this.TargetNoBorder.Orphanize().AttachTo(TargetResizerPadding);
+
+                        this.ContentContainer.Orphanize().AttachToDocument();
+                        InternalUpdateZIndex(this.ContentContainer);
+                    }
+                    else
+                    {
+                        this.TargetOuterBorder.Orphanize();
+                        this.ContentContainer.style.zIndex = 0;
+                        this.ContentContainer.Orphanize().AttachTo(this.HTMLTarget);
+                        InternalUpdateZIndex(this.HTMLTarget);
+                    }
+                }
+
+                if (value == global::System.Windows.Forms.FormBorderStyle.Sizable)
+                {
+                    if (this.WindowState == FormWindowState.Maximized)
+                    {
+                        this.ContentContainer.style.zIndex = 0;
+                        this.ContentContainer.Orphanize().AttachTo(this.ContentContainerPadding);
+
+                        this.TargetNoBorder.Orphanize().AttachToDocument();
+                        InternalUpdateZIndex(this.TargetNoBorder);
+                    }
+                    else
+                    {
+                        this.ContentContainer.style.zIndex = 0;
+                        this.ContentContainer.Orphanize().AttachTo(this.ContentContainerPadding);
+                        this.TargetOuterBorder.AttachTo(this.HTMLTarget);
+                        InternalUpdateZIndex(this.HTMLTarget);
+                    }
+                }
+            }
+        }
+        #endregion
+
+
         public override Size MaximumSize { get; set; }
         public override Size MinimumSize { get; set; }
+
+
+        #region operators
+        public static implicit operator __Form(Form e)
+        {
+            return (__Form)(object)e;
+        }
+
+        public static implicit operator Form(__Form e)
+        {
+            return (Form)(object)e;
+        }
+        #endregion
+
     }
 }
