@@ -24,7 +24,7 @@ namespace SQLiteWithDataGridView
             y(e);
         }
 
-        const string DataSource = "SQLiteWithDataGridView.0.sqlite";
+        const string DataSource = "SQLiteWithDataGridView.1.sqlite";
 
         public void InitializeDatabase(string e, Action<string> y, string TableName = "SQLiteWithDataGridView_0_Table001")
         {
@@ -70,14 +70,15 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("AddItem exit");
         }
 
-        public void CountTransactionLogItemsFor(string TableName, Action<string> y)
+        public void GetTransactionKeyFor(string TableName, Action<string> y)
         {
             //Console.WriteLine("CountItems enter");
             using (var c = OpenReadOnlyConnection())
             {
                 c.Open();
 
-                using (var reader = new SQLiteCommand("select count(*) from  TransactionLog_" + TableName, c).ExecuteReader())
+                // http://www.sqlite.org/lang_corefunc.html
+                using (var reader = new SQLiteCommand("select coalesce(max(ContentKey), 0) from  TransactionLog_" + TableName, c).ExecuteReader())
                 {
 
                     if (reader.Read())
@@ -95,7 +96,11 @@ namespace SQLiteWithDataGridView
             //Console.WriteLine("CountItems exit");
         }
 
-        public void AddItem(string ContentValue, string ContentComment, Action<string> y, string TableName = "SQLiteWithDataGridView_0_Table001")
+        public void AddItem(
+            string ContentValue,
+            string ContentComment,
+            Action<string> AtContentReferenceKey,
+            string TableName = "SQLiteWithDataGridView_0_Table001")
         {
             //Console.WriteLine("AddItem enter");
             using (var c = new SQLiteConnection(
@@ -119,10 +124,11 @@ namespace SQLiteWithDataGridView
                 // int cannot be dereferenced
                 var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
 
-                y(ContentReferenceKey);
 
                 var cmd1 = new SQLiteCommand("insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) values (" + ContentReferenceKey + ", 'AddItem')", c);
                 cmd1.ExecuteNonQuery();
+
+                AtContentReferenceKey(ContentReferenceKey);
 
                 c.Close();
             }
@@ -150,7 +156,12 @@ namespace SQLiteWithDataGridView
 
 
 
-        public void EnumerateItems(string e, Action<string, string, string> y, string TableName = "SQLiteWithDataGridView_0_Table001", Action done = null)
+        public void EnumerateItems(
+            string e,
+            Action<string, string, string> y,
+            string TableName = "SQLiteWithDataGridView_0_Table001",
+            Action<string> AtTransactionKey = null,
+            Action done = null)
         {
             InitializeDatabase("", delegate { }, TableName: TableName);
 
@@ -178,6 +189,9 @@ namespace SQLiteWithDataGridView
 
             }
             //Console.WriteLine("EnumerateItems exit");
+
+            if (AtTransactionKey != null)
+                GetTransactionKeyFor(TableName, AtTransactionKey);
 
             if (done != null)
                 done();

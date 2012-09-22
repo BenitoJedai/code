@@ -52,8 +52,14 @@ namespace SQLiteWithDataGridView.Library
 
                 },
                 TableName: TableName,
-                done:
-                delegate
+
+                AtTransactionKey: value =>
+                {
+                    LocalTransactionKey = value;
+                    label2.Text = LocalTransactionKey;
+                },
+
+                done: delegate
                 {
                     dataGridView1.Enabled = true;
 
@@ -95,6 +101,11 @@ namespace SQLiteWithDataGridView.Library
                     {
                         dataGridView1[0, e.RowIndex].Value = LastInsertRowId;
                         dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Blue;
+
+                        var i = int.Parse(LocalTransactionKey);
+                        i++;
+
+                        LocalTransactionKey = i.ToString();
                     },
                     TableName: TableName
                 );
@@ -106,14 +117,24 @@ namespace SQLiteWithDataGridView.Library
 
         }
 
+        string LocalTransactionKey;
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop();
-            service.CountTransactionLogItemsFor(
+            service.GetTransactionKeyFor(
                 TableName: TableName,
-                y: Count =>
+                y: TrnsactionKey =>
                 {
-                    label2.Text = Count;
+                    label2.Text = TrnsactionKey;
+
+                    if (LocalTransactionKey != TrnsactionKey)
+                    {
+                        label2.ForeColor = Color.Red;
+                        // we need updates!
+                        return;
+                    }
+
 
                     timer1.Start();
                 }
