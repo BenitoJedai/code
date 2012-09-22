@@ -411,6 +411,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         private void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height, Control c)
         {
+            if (c.Dock == DockStyle.Fill)
+            {
+                c.SetBounds(0, 0, width, height);
+                return;
+            }
 
             var IsRight = (c.Anchor & AnchorStyles.Right) == AnchorStyles.Right;
             var IsLeft = (c.Anchor & AnchorStyles.Left) == AnchorStyles.Left;

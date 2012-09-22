@@ -46,7 +46,7 @@ namespace WebApplicationWindowMessaging
                 b.contentWindow.document.location.replace("#/child2");
 
                 new IHTMLBreak().AttachToDocument();
-                
+
                 var i = 3;
 
                 new IHTMLButton { innerText = "new child popup window" }.With(
@@ -62,12 +62,14 @@ namespace WebApplicationWindowMessaging
                                     300,
                                     false
                                 );
+                                w.focus();
 
                                 i++;
                                 w.onload +=
                                     delegate
                                     {
                                         w.postMessage("hi from " + Native.Document.location.hash);
+
                                     };
                             };
                     }
@@ -101,6 +103,7 @@ namespace WebApplicationWindowMessaging
             else
             {
                 page.Content.innerText = Native.Document.location.hash;
+
 
                 Native.Window.opener.With(
                    parent =>
@@ -140,6 +143,21 @@ namespace WebApplicationWindowMessaging
                         ).AttachToDocument();
                     }
                 );
+
+
+
+                new IHTMLButton { innerText = "fullscreen" }.With(
+                        btn =>
+                        {
+                            btn.onclick +=
+                                delegate
+                                {
+                                    Native.Document.body.requestFullscreen();
+                                };
+                        }
+                    ).AttachToDocument();
+
+
             }
 
             Native.Window.onmessage +=
