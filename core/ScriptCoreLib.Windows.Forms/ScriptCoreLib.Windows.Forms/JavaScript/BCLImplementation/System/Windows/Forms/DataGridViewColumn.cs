@@ -9,12 +9,15 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewColumn))]
-    internal class __DataGridViewColumn
+    internal class __DataGridViewColumn : __DataGridViewBand
     {
         public IHTMLTableColumn InternalTableColumn;
         public DragHelper InternalHorizontalDrag;
 
+        public override DataGridViewCellStyle DefaultCellStyle { get; set; }
+        public override bool ReadOnly { get; set; }
 
+        #region HeaderText
         public string InternalHeaderText;
         public event Action InternalHeaderTextChanged;
 
@@ -32,9 +35,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalHeaderTextChanged();
             }
         }
+        #endregion
+
 
         public string Name { get; set; }
 
+        #region Width
         public int InternalWidth;
         public event Action InternalWidthChanged;
         public int Width
@@ -50,6 +56,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalWidthChanged();
             }
         }
+        #endregion
+
 
         public __DataGridViewColumn()
         {

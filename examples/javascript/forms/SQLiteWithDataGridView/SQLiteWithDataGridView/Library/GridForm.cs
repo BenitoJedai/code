@@ -44,6 +44,10 @@ namespace SQLiteWithDataGridView.Library
                         new DataGridViewTextBoxCell
                         {
                             Value = ContentComment
+                        },
+                          new DataGridViewButtonCell
+                        {
+                            Value = "Click"
                         }
                     );
 
@@ -146,7 +150,7 @@ namespace SQLiteWithDataGridView.Library
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            MessageBox.Show(new { e.RowIndex, e.ColumnIndex }.ToString());
         }
 
         string LocalTransactionKey;
