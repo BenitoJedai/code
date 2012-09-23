@@ -166,16 +166,18 @@ namespace ScriptCoreLib.PHP.Runtime
 
                 return false;
             }
-            else
-            {
-                Native.Trace("MySQL.API.mysql_select_db");
 
-                bool b = MySQL.API.mysql_select_db(database); ;
 
-                Native.Trace("MySQL.API.mysql_select_db, done");
+            if (string.IsNullOrEmpty(database))
+                return true;
 
-                return b;
-            }
+            Native.Trace("MySQL.API.mysql_select_db");
+
+            bool b = MySQL.API.mysql_select_db(database); ;
+
+            Native.Trace("MySQL.API.mysql_select_db, done");
+
+            return b;
 
         }
 
