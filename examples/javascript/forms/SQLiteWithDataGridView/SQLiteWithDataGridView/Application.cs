@@ -13,6 +13,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Windows.Media;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace SQLiteWithDataGridView
 {
@@ -35,7 +37,32 @@ namespace SQLiteWithDataGridView
             content.AutoSizeControlTo(page.ContentSize);
 
             @"SQLite With DataGridView".ToDocumentTitle();
-           
+
+
+
+            var canvas = new AvalonPromotionBrandIntro.ApplicationCanvas();
+
+            canvas.TriggerOnClick = false;
+            canvas.Background = Brushes.Transparent;
+
+            canvas.AnimationAllWhite +=
+                delegate
+                {
+                    Native.Document.body.style.backgroundColor = JSColor.None;
+                };
+
+            canvas.AnimationCompleted +=
+                delegate
+                {
+                    ScriptCoreLib.JavaScript.Extensions.AvalonExtensions.ToHTMLElement(
+                        canvas
+                    ).Orphanize();
+
+                };
+
+            canvas.AttachToContainer(Native.Document.body);
+
+            canvas.AutoSizeTo(Native.Document.body);
         }
 
     }
