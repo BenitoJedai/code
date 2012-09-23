@@ -23,5 +23,11 @@ namespace FormsAvalonPromotionBrandIntro
             new FormsAvalonAnimation.Form1().Show();
         }
 
+        private void button2_Click(object sender, System.EventArgs e)
+        {
+            new FormsAvalonAnimation.Form2().Show();
+
+        }
+
     }
 }
