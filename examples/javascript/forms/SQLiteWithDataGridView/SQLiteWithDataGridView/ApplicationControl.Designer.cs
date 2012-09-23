@@ -70,6 +70,7 @@ namespace SQLiteWithDataGridView
             this.Controls.Add(this.button1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(400, 300);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
 
         }
