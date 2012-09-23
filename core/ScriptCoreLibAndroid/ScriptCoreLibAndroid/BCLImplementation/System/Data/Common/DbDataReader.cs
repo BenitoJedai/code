@@ -21,7 +21,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.Common
 
         public void Dispose()
         {
-            Close();
+            this.Close();
         }
     }
 

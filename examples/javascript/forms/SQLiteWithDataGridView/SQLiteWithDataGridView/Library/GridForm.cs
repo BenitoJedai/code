@@ -66,8 +66,11 @@ namespace SQLiteWithDataGridView.Library
                 {
                     LocalTransactionKey = value;
                     label2.Text = LocalTransactionKey;
-                    timer1.Start();
                     dataGridView1.Enabled = true;
+
+
+                    if (checkBox1.Checked)
+                        timer1.Start();
 
                 }
             );
@@ -191,6 +194,7 @@ namespace SQLiteWithDataGridView.Library
                     {
                         label2.ForeColor = Color.Red;
 
+                        #region AtContentKey
                         Action<string, string, string, string> AtContentKey =
                             (ContentKey, ContentValue, ContentComment, ContentChildren) =>
                             {
@@ -240,14 +244,18 @@ namespace SQLiteWithDataGridView.Library
 
                                 r.Cells[0].Style.ForeColor = Color.Red;
                             };
+                        #endregion
+
 
                         Action<string> done = delegate
-                                {
-                                    LocalTransactionKey = ServerTransactionKey;
-                                    label2.Text = ServerTransactionKey;
-                                    label2.ForeColor = Color.Black;
-                                    timer1.Start();
-                                };
+                        {
+                            LocalTransactionKey = ServerTransactionKey;
+                            label2.Text = ServerTransactionKey;
+                            label2.ForeColor = Color.Black;
+
+                            if (checkBox1.Checked)
+                                timer1.Start();
+                        };
 
                         service.GridExample_EnumerateItemsChangedBetweenTransactions(
                             TableName,
@@ -263,13 +271,19 @@ namespace SQLiteWithDataGridView.Library
                     }
 
 
-                    timer1.Start();
+                    if (checkBox1.Checked)
+                        timer1.Start();
                 };
 
             service.GridExample_GetTransactionKeyFor(
                 TableName: TableName,
                 y: AtServerTransactionKey
             );
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            this.timer1.Enabled = this.checkBox1.Checked;
         }
 
 

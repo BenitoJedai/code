@@ -66,6 +66,24 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
              * */
         }
 
+        public override int GetOrdinal(string name)
+        {
+            var Keys = cursor.Keys;
+
+            var i = -1;
+
+            for (int j = 0; j < Keys.Length; j++)
+            {
+                if (Keys[j] == name)
+                {
+                    i = j;
+                    break;
+                }
+            }
+
+            return i;
+        }
+
         public override object this[string name]
         {
             get
