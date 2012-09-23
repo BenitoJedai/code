@@ -25,7 +25,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         public override void Open()
         {
             db = MySQL.Connect(__SQLiteConnectionHack.MyDBLoginInfo);
-            Console.WriteLine("<-- Connect " + MySQL.API.mysql_error() + " -->");
+            //Console.WriteLine("<-- Connect " + MySQL.API.mysql_error() + " -->");
 
 
             if (db == null)
@@ -41,7 +41,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             //Console.WriteLine("Trying hard!");
             var r = MySQL.API.mysql_query("CREATE DATABASE IF NOT EXISTS `" + __SQLiteConnectionHack.MyDBLoginInfo.Database + "`");
 
-            Console.WriteLine("<-- mysql_query " + MySQL.API.mysql_error() + " -->");
+            //Console.WriteLine("<-- mysql_query " + MySQL.API.mysql_error() + " -->");
 
 
 
