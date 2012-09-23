@@ -14,7 +14,7 @@ namespace SQLiteWithDataGridView
     public sealed partial class ApplicationWebService
     {
 
-        const string DataSource = "SQLiteWithDataGridView.3.sqlite";
+        const string DataSource = "SQLiteWithDataGridView.4.sqlite";
 
         public void GridExample_InitializeDatabase(string e, Action<string> y, string TableName)
         {
@@ -30,10 +30,13 @@ namespace SQLiteWithDataGridView
              ))
             {
                 c.Open();
+                // sqlite infers AUTO_INCREMENT while MySQL does not.
+                // SQLite error (1): near "AUTO_INCREMENT": syntax error
+                // http://www.sqlite.org/autoinc.html
 
                 using (var cmd = new SQLiteCommand(
                     "create table if not exists " + TableName + " ("
-                    + "ContentKey INTEGER PRIMARY KEY"
+                    + "ContentKey INTEGER PRIMARY KEY AUTOINCREMENT"
                     + ", ContentValue text not null"
                     + ", ContentComment text not null"
                     + ", ParentContentKey INTEGER "
@@ -47,7 +50,7 @@ namespace SQLiteWithDataGridView
                 using (var cmd = new SQLiteCommand(
                     "create table if not exists TransactionLog_" + TableName
                     + " ("
-                    + " ContentKey INTEGER PRIMARY KEY "
+                    + " ContentKey INTEGER PRIMARY KEY AUTOINCREMENT"
                     + ", ContentReferenceKey INTEGER "
                     + ", ContentComment text not null "
                     + ", FOREIGN KEY(ContentReferenceKey) REFERENCES " + TableName + "(ContentKey)"
@@ -137,7 +140,8 @@ namespace SQLiteWithDataGridView
                 var ContentReferenceKeyLong = c.LastInsertRowId;
                 // jsc does not yet autobox for java 
                 // int cannot be dereferenced
-                var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
+                var ContentReferenceKey = ContentReferenceKeyLong.ToString();
+                //var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
 
 
                 new SQLiteCommand(
@@ -271,12 +275,17 @@ namespace SQLiteWithDataGridView
 
                     while (reader.Read())
                     {
-                        var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentReferenceKey"));
-                        var ContentKey = ((object)ContentKeyInt32).ToString();
                         var ContentValue = (string)reader["ContentValue"];
                         var ContentComment = (string)reader["ContentComment"];
+
+                        var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentReferenceKey"));
+                        var ContentKey = ContentKeyInt32.ToString();
+                        //var ContentKey = ((object)ContentKeyInt32).ToString();
+
                         var ContentChildrenInt32 = reader.GetInt32(reader.GetOrdinal("ContentChildren"));
-                        var ContentChildren = ((object)ContentChildrenInt32).ToString();
+                        var ContentChildren = ContentChildrenInt32.ToString();
+                        //var ContentChildren = ((object)ContentChildrenInt32).ToString();
+
                         AtContent(ContentKey, ContentValue, ContentComment, ContentChildren);
                     }
                 }
@@ -327,12 +336,16 @@ namespace SQLiteWithDataGridView
 
                     while (reader.Read())
                     {
-                        var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentKey"));
-                        var ContentKey = ((object)ContentKeyInt32).ToString();
                         var ContentValue = (string)reader["ContentValue"];
                         var ContentComment = (string)reader["ContentComment"];
+
+                        var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentKey"));
+                        var ContentKey = ContentKeyInt32.ToString();
+                        //var ContentKey = ((object)ContentKeyInt32).ToString();
+       
                         var ContentChildrenInt32 = reader.GetInt32(reader.GetOrdinal("ContentChildren"));
-                        var ContentChildren = ((object)ContentChildrenInt32).ToString();
+                        var ContentChildren = ContentChildrenInt32.ToString();
+                        //var ContentChildren = ((object)ContentChildrenInt32).ToString();
 
                         y(ContentKey, ContentValue, ContentComment, ContentChildren);
 

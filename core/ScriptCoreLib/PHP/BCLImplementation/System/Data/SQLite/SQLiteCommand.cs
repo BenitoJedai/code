@@ -20,6 +20,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         public __SQLiteCommand(string sql, SQLiteConnection c)
         {
             this.c = (__SQLiteConnection)(object)c;
+
+            // http://dev.mysql.com/doc/refman/5.0/en/example-auto-increment.html
+            // http://www.sqlite.org/autoinc.html
+
+            sql = sql.Replace(
+                "PRIMARY KEY AUTOINCREMENT",
+                "PRIMARY KEY AUTO_INCREMENT"
+            );
+
             this.sql = sql;
         }
 
