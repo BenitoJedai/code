@@ -24,6 +24,8 @@ namespace AvalonPromotionBrandIntro
 
         public ApplicationCanvas()
         {
+            //return;
+
             Background = Brushes.Black;
 
             var OverlayWhite = new Rectangle
@@ -41,6 +43,7 @@ namespace AvalonPromotionBrandIntro
             this.SizeChanged +=
                 (s, e) =>
                 {
+                    //Console.WriteLine(new { Width, Height, this.ActualWidth, this.ActualHeight });
                     OverlayWhite.SizeTo(
                         this.Width,
                         this.Height
