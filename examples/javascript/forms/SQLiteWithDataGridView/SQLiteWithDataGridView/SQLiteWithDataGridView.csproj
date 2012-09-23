@@ -137,26 +137,18 @@
       <HintPath>bin\staging.AssetsLibrary\SQLiteWithDataGridView.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
-
   <Choose>
     <When Condition=" '$(Configuration)'=='PHP' ">
       <ItemGroup>
-
         <Compile Include="..\..\..\..\..\..\jsc.internal.svn\examples\PHP\jscdatagriddemo.sourceforge.net\ApplicationWebService.Restricted.cs">
           <Link>ApplicationWebService.Restricted.cs</Link>
         </Compile>
       </ItemGroup>
-
     </When>
   </Choose>
-
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-
-
-
-
     <Compile Include="Library\GridForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,12 +187,12 @@
   <PropertyGroup>
     <PostBuildEvent>
       if $(ConfigurationName)==Release (
-      rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /DisableWebServiceAndroid:false
+     start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false /DisableWebServiceAndroid:false
       )
       if $(ConfigurationName)==PHP (
       start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
       )
-    </PostBuildEvent>
+</PostBuildEvent>
     <PreBuildEvent>
 
       start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
