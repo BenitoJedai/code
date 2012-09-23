@@ -20,5 +20,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.Common
         {
             return null;
         }
+
+        public virtual void InternalAdd(string keyword, object value)
+        { 
+        
+        }
+
+        public void Add(string keyword, object value)
+        {
+            InternalAdd(keyword, value);
+        }
     }
 }

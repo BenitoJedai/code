@@ -14,7 +14,6 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
     {
         // public static Context Context;
 
-        public static string MYDATABASE_NAME;
         public static bool ForceReadOnly;
 
         public static MySQL.LoginInfo MyDBLoginInfo = new MySQL.LoginInfo();
@@ -30,6 +29,25 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         public string Uri { get; set; }
         public string Password { get; set; }
 
+        public string InternalUser { get; set; }
+        public string InternalHost { get; set; }
+
+        public __SQLiteConnectionStringBuilder()
+        {
+            this.InternalUser = "root";
+            this.InternalHost = "localhost";
+            this.Password = "";
+        }
+
+        public override void InternalAdd(string keyword, object value)
+        {
+            if (keyword == "InternalUser")
+                this.InternalUser = (string)value;
+            else if (keyword == "InternalHost")
+                this.InternalHost = (string)value;
+
+
+        }
 
         protected override string InternalGetConnectionString()
         {
@@ -38,10 +56,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
             //r += "Data Source=" + this.DataSource + ";";
 
-            __SQLiteConnectionHack.MYDATABASE_NAME = DataSource; // "MY_DATABASE.sqlite";
             __SQLiteConnectionHack.MyDBLoginInfo.Database = DataSource;     // __SQLiteConnectionHack.MYDATABASE_NAME;
-            __SQLiteConnectionHack.MyDBLoginInfo.Host = "localhost";
-            __SQLiteConnectionHack.MyDBLoginInfo.User = "root";     //     //"root";
+            __SQLiteConnectionHack.MyDBLoginInfo.Host = this.InternalHost;
+            __SQLiteConnectionHack.MyDBLoginInfo.User = this.InternalUser;     //     //"root";
             __SQLiteConnectionHack.MyDBLoginInfo.Pass = "";
 
             //r += "Version=" + ((object)this.Version)+";";//.ToString() + ";";
