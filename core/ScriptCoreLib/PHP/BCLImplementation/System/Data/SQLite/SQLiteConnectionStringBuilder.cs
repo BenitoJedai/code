@@ -59,7 +59,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             __SQLiteConnectionHack.MyDBLoginInfo.Database = DataSource;     // __SQLiteConnectionHack.MYDATABASE_NAME;
             __SQLiteConnectionHack.MyDBLoginInfo.Host = this.InternalHost;
             __SQLiteConnectionHack.MyDBLoginInfo.User = this.InternalUser;     //     //"root";
-            __SQLiteConnectionHack.MyDBLoginInfo.Pass = "";
+            __SQLiteConnectionHack.MyDBLoginInfo.Pass = this.Password;
 
             //r += "Version=" + ((object)this.Version)+";";//.ToString() + ";";
 
