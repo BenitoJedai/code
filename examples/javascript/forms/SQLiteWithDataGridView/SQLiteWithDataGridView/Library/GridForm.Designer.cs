@@ -30,7 +30,7 @@ namespace SQLiteWithDataGridView.Library
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ContentKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContentValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,8 +66,8 @@ namespace SQLiteWithDataGridView.Library
             // 
             // ContentKey
             // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ContentKey.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ContentKey.DefaultCellStyle = dataGridViewCellStyle1;
             this.ContentKey.HeaderText = "ContentKey";
             this.ContentKey.Name = "ContentKey";
             this.ContentKey.ReadOnly = true;
@@ -131,6 +131,8 @@ namespace SQLiteWithDataGridView.Library
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(432, 9);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(153, 17);
