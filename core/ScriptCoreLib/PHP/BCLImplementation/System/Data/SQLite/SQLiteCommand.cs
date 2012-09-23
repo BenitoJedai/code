@@ -25,6 +25,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         public override int ExecuteNonQuery()
         {
+            //Native.API.error_log("ExecuteNonQuery " + sql);
             // c.db.execSQL(sql);
 
             object o = MySQL.API.mysql_query(sql);  //no NonQuery Native Avail for PHP
@@ -43,6 +44,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         public __SQLiteDataReader ExecuteReader()
         {
+            // http://php.net/manual/en/mysqli.query.php
             queryResult = MySQL.API.mysql_query(sql);
 
 

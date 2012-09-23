@@ -122,9 +122,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             // return cursor.getString(i);
 
             var keys = (object[])cursor.Keys;
-            var name = keys[i];
+            var name =  (string)keys[i];
+            var value = (string)cursor[name];
+            var ivalue = int.Parse(value);
 
-            return (int)cursor[name];
+            return ivalue;
         }
 
     }
