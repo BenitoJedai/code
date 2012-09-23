@@ -14,20 +14,27 @@ namespace SQLiteWithDataGridView
     public sealed partial class ApplicationWebService
     {
 
-        const string DataSource = "SQLiteWithDataGridView.4.sqlite";
+        //const string DataSource = "SQLiteWithDataGridView.4.sqlite";
+        const string DataSource = "SQLiteWithDataGridView5";
+
+
+         static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false);
 
         public void GridExample_InitializeDatabase(string e, Action<string> y, string TableName)
         {
             //Console.WriteLine("AddItem enter");
-            using (var c = new SQLiteConnection(
 
-             new SQLiteConnectionStringBuilder
+            var csb = new SQLiteConnectionStringBuilder
              {
                  DataSource = DataSource,
                  Version = 3
-             }.ConnectionString
 
-             ))
+
+             };
+
+            ApplyRestrictedCredentials(csb, true);
+
+            using (var c = new SQLiteConnection(csb.ConnectionString))
             {
                 c.Open();
                 // sqlite infers AUTO_INCREMENT while MySQL does not.
@@ -109,15 +116,16 @@ namespace SQLiteWithDataGridView
             string TableName)
         {
             //Console.WriteLine("AddItem enter");
-            using (var c = new SQLiteConnection(
 
-             new SQLiteConnectionStringBuilder
+            var csb = new SQLiteConnectionStringBuilder
              {
                  DataSource = DataSource,
                  Version = 3
-             }.ConnectionString
+             };
 
-             ))
+            ApplyRestrictedCredentials(csb);
+
+            using (var c = new SQLiteConnection(csb.ConnectionString))
             {
                 c.Open();
 
@@ -175,15 +183,16 @@ namespace SQLiteWithDataGridView
             )
         {
             //Console.WriteLine("AddItem enter");
-            using (var c = new SQLiteConnection(
 
-             new SQLiteConnectionStringBuilder
-             {
-                 DataSource = DataSource,
-                 Version = 3
-             }.ConnectionString
+            var csb = new SQLiteConnectionStringBuilder
+            {
+                DataSource = DataSource,
+                Version = 3
+            };
 
-             ))
+            ApplyRestrictedCredentials(csb);
+
+            using (var c = new SQLiteConnection(csb.ConnectionString))
             {
                 c.Open();
 
@@ -216,16 +225,19 @@ namespace SQLiteWithDataGridView
 
         SQLiteConnection OpenReadOnlyConnection()
         {
-            return new SQLiteConnection(
-
-           new SQLiteConnectionStringBuilder
+            var csb = new SQLiteConnectionStringBuilder
            {
                DataSource = DataSource,
                Version = 3,
                ReadOnly = true,
+           };
 
-           }.ConnectionString
-           );
+
+            ApplyRestrictedCredentials(csb);
+
+
+
+            return new SQLiteConnection(csb.ConnectionString);
         }
 
         public void GridExample_EnumerateItemsChangedBetweenTransactions(
@@ -342,7 +354,7 @@ namespace SQLiteWithDataGridView
                         var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentKey"));
                         var ContentKey = ContentKeyInt32.ToString();
                         //var ContentKey = ((object)ContentKeyInt32).ToString();
-       
+
                         var ContentChildrenInt32 = reader.GetInt32(reader.GetOrdinal("ContentChildren"));
                         var ContentChildren = ContentChildrenInt32.ToString();
                         //var ContentChildren = ((object)ContentChildrenInt32).ToString();

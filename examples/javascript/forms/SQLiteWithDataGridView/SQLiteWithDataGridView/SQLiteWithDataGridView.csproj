@@ -35,6 +35,14 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PHP|x86'">
+    <OutputPath>bin\x86\PHP\</OutputPath>
+    <DefineConstants>TRACE;PHP</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonPromotionBrandIntro">
       <HintPath>..\..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\bin\Debug\AvalonPromotionBrandIntro.exe</HintPath>
@@ -129,9 +137,26 @@
       <HintPath>bin\staging.AssetsLibrary\SQLiteWithDataGridView.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <Choose>
+    <When Condition=" '$(Configuration)'=='PHP' ">
+      <ItemGroup>
+
+        <Compile Include="..\..\..\..\..\..\jsc.internal.svn\examples\PHP\jscdatagriddemo.sourceforge.net\ApplicationWebService.Restricted.cs">
+          <Link>ApplicationWebService.Restricted.cs</Link>
+        </Compile>
+      </ItemGroup>
+
+    </When>
+  </Choose>
+
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
+
+
+
+
     <Compile Include="Library\GridForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,13 +194,17 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName)==Release (
-rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /DisableWebServiceAndroid:false
-)</PostBuildEvent>
+      if $(ConfigurationName)==Release (
+      rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /DisableWebServiceAndroid:false
+      )
+      if $(ConfigurationName)==PHP (
+      start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
+      )
+    </PostBuildEvent>
     <PreBuildEvent>
 
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+      start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
 
-            </PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
