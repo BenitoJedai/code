@@ -28,7 +28,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			throw new NotImplementedException();
 		}
 
-	
+        public double ActualHeight { get { return Height; } }
+        public double ActualWidth { get { return Width; } }
 
 		public double Width
 		{
