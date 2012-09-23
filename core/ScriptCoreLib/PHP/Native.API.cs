@@ -949,6 +949,10 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+            // http://php.net/manual/en/function.error-log.php
+            [Script(IsNative = true)]
+            public static bool error_log(string message) { return default(bool); }
+
 			#region mixed set_error_handler ( callback error_handler [, int error_types] )
 
 			/// <summary>
