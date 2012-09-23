@@ -20,7 +20,7 @@ namespace SQLiteWithDataGridView.Library
         public string TableName = "SQLiteWithDataGridView_0_Table001";
         public string ParentContentKey = "";
 
-        ApplicationWebService service = new ApplicationWebService();
+        public IApplicationWebService service;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -168,7 +168,7 @@ namespace SQLiteWithDataGridView.Library
             var f = new GridForm
             {
                 Owner = this,
-
+                service = service,
                 TableName = TableName,
                 ParentContentKey = ContentKey,
                 StartPosition = FormStartPosition.Manual

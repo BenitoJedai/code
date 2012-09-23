@@ -18,7 +18,7 @@ namespace SQLiteWithDataGridView
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            new GridForm().Show();
+            new GridForm { service = new ApplicationWebService() }.Show();
         }
 
         private void button2_Click(object sender, System.EventArgs e)
@@ -27,13 +27,18 @@ namespace SQLiteWithDataGridView
 
         private void button2_Click_1(object sender, System.EventArgs e)
         {
-            new GridForm {  TableName = button2.Text }.Show();
+            new GridForm { TableName = button2.Text, service = new ApplicationWebService() }.Show();
 
         }
 
         private void button3_Click(object sender, System.EventArgs e)
         {
-            new GridForm { TableName = button3.Text }.Show();
+            new GridForm { TableName = button3.Text, service = new ApplicationWebService() }.Show();
+
+        }
+
+        private void ApplicationControl_Load(object sender, System.EventArgs e)
+        {
 
         }
 
