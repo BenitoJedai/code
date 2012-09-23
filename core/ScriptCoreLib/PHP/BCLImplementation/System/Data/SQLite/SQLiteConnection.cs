@@ -106,6 +106,19 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         {
             this.Close();
         }
+
+
+        public long LastInsertRowId
+        {
+            get
+            {
+                // http://php.net/manual/en/function.mysql-insert-id.php
+                // http://php.net/manual/en/mysqli.insert-id.php
+
+
+                return MySQL.API.mysql_insert_id();
+            }
+        }
     }
 
 }
