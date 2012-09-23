@@ -117,10 +117,10 @@ namespace SQLiteWithDataGridView.Library
                         dataGridView1[0, e.RowIndex].Value = LastInsertRowId;
                         dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Blue;
 
-                        var i = int.Parse(LocalTransactionKey);
-                        i++;
+                        //var i = int.Parse(LocalTransactionKey);
+                        //i++;
 
-                        LocalTransactionKey = i.ToString();
+                        //LocalTransactionKey = i.ToString();
                     },
                     TableName: TableName
                 );
@@ -145,10 +145,10 @@ namespace SQLiteWithDataGridView.Library
                     ContentComment,
                     RemoteTransactionKey =>
                     {
-                        var i = int.Parse(LocalTransactionKey);
-                        i++;
+                        //var i = int.Parse(LocalTransactionKey);
+                        //i++;
 
-                        LocalTransactionKey = i.ToString();
+                        //LocalTransactionKey = i.ToString();
                     }
                 );
 
