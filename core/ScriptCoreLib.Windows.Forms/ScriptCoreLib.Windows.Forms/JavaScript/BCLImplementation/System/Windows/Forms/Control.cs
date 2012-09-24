@@ -233,6 +233,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+
+
         #region Location
         public int Left
         {
@@ -1195,6 +1197,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 throw new NotImplementedException();
             }
         }
+        #region VisibleChanged
 
         public void Show()
         {
@@ -1308,7 +1311,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         }
+        #endregion
 
+        #region ClientSize
         public Size ClientSize
         {
             get
@@ -1353,11 +1358,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 ClientSizeChanged(this, e);
             }
         }
+        #endregion
+
 
         public virtual Size MaximumSize { get; set; }
         public virtual Size MinimumSize { get; set; }
 
 
+
+        public event KeyEventHandler KeyUp
+        {
+            add
+            {
+                this.HTMLTargetRef.onkeyup +=
+                    e =>
+                    {
+                        value(this, new KeyEventArgs((Keys)e.KeyCode));
+                    };
+
+            }
+
+            remove 
+            {
+ 
+            }
+        }
 
     }
 }
