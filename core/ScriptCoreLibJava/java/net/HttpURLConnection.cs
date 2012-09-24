@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
+using java.io;
 
 namespace java.net
 {
@@ -24,6 +25,11 @@ namespace java.net
 		public void setRequestMethod(string method)
 		{
 		}
+
+
+        public abstract void disconnect();
+
+
           
 	}
 }

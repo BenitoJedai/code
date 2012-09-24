@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
+using java.io;
 
 namespace java.net
 {
@@ -19,6 +20,37 @@ namespace java.net
 		{
 			return default(string);
 		}
-          
+
+        public InputStream getInputStream()
+        {
+            return default(InputStream);
+        }
+
+        public OutputStream getOutputStream()
+        {
+            return default(OutputStream);
+        }
+
+        public void addRequestProperty(string key, string value)
+        {
+        }
+
+        public void setDoOutput(bool dooutput)
+        {
+        }
+
+        public void setDoInput(bool doinput)
+        {
+        }
+
+        public void setRequestProperty(string key, string value)
+        {
+        }
+
+        public void setUseCaches(bool usecaches)
+        {
+        }
+
+
 	}
 }
