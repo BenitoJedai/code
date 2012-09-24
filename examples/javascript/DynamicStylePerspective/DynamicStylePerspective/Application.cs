@@ -74,18 +74,18 @@ namespace DynamicStylePerspective
 
                              var HasMouse = false;
 
-                             parent.onmouseover +=
-                                 delegate
-                                 {
-                                     HasMouse = true;
+                             //parent.onmouseover +=
+                             //    delegate
+                             //    {
+                             //        HasMouse = true;
 
-                                 };
+                             //    };
 
-                             parent.onmouseout +=
-                                 delegate
-                                 {
-                                     HasMouse = false;
-                                 };
+                             //parent.onmouseout +=
+                             //    delegate
+                             //    {
+                             //        HasMouse = false;
+                             //    };
 
                              Action loop = null;
                              var y = 0;
@@ -112,8 +112,8 @@ namespace DynamicStylePerspective
 
                                      var _y = yy - 90;
 
-                                     if (_y > 60)
-                                         _y = 60;
+                                     //if (_y > 60)
+                                     //    _y = 60;
 
                                      page.Header.innerText = "rotateY(" + _y + "deg), y: " + y + ", yy: " + yy;
 
