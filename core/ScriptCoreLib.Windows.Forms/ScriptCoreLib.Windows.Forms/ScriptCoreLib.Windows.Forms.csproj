@@ -73,6 +73,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\KeyEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewButtonCell.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewButtonColumn.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewColumnEventHandler.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewColumnCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewTextBoxColumn.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\KeyEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowserBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkArea.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabel.Link.cs" />
