@@ -193,6 +193,7 @@
     <Compile Include="BCLImplementation\System\Console.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Net\WebHeaderCollection.cs" />
     <Compile Include="BCLImplementation\System\Single.cs" />
     <Compile Include="BCLImplementation\System\DateTime.cs">
       <SubType>Code</SubType>
@@ -868,6 +869,7 @@
     <Compile Include="java\beans\PropertyChangeEvent.cs" />
     <Compile Include="java\beans\PropertyChangeListener.cs" />
     <Compile Include="java\beans\VetoableChangeListener.cs" />
+    <Compile Include="java\io\DataOutputStream.cs" />
     <Compile Include="java\io\DataOutput.cs" />
     <Compile Include="java\io\ObjectInput.cs" />
     <Compile Include="java\io\ObjectOutput.cs" />
@@ -1105,7 +1107,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"
+    <PostBuildEvent>REM copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
