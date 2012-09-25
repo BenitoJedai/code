@@ -16,14 +16,18 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
 
         public void SetCacheability(HttpCacheability cacheability)
         {
-            this.InternalResponse.AddHeader("Cache-Control", "public");
+            // http://www.mnot.net/blog/2007/05/15/expires_max-age
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/201209/20120925-varnish
+
+
+            this.InternalResponse.AddHeader("Cache-Control", "max-age=3600");
 
         }
 
         public void SetExpires(DateTime date)
         {
 
-            this.InternalResponse.AddHeader("Expires", "Wed, 19 Sep 2022 08:37:33 GMT");
+            //this.InternalResponse.AddHeader("Expires", "Wed, 19 Sep 2022 08:37:33 GMT");
         }
     }
 }

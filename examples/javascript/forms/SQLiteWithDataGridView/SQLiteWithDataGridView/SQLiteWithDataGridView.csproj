@@ -149,6 +149,7 @@
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
+    <Compile Include="ApplicationWebService.Handler.cs" />
     <Compile Include="Library\GridForm.cs">
       <SubType>Form</SubType>
     </Compile>

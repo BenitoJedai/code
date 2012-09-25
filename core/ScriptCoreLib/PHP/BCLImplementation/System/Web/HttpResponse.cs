@@ -50,6 +50,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
 
         public void WriteFile(string filename)
         {
+            // wow this fix was expensive.
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/201209/20120925-varnish
+
+
+            // we only work with absolute paths anyway
+            if (filename.StartsWith("/"))
+                filename = filename.Substring(1);
+
             var fp = Native.API.fopen(filename, "rb");
 
             Native.API.fpassthru(fp);
