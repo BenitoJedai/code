@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}</ProjectGuid>
+    <ProjectGuid>{4DB3E6CE-1C32-426F-8739-AFC2F0C94344}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SQLiteWithDataGridView</RootNamespace>
-    <AssemblyName>SQLiteWithDataGridView</AssemblyName>
+    <RootNamespace>Diagnostics.DownloadMachine</RootNamespace>
+    <AssemblyName>Diagnostics.DownloadMachine</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>SQLiteWithDataGridView.Program</StartupObject>
+    <StartupObject>Diagnostics.DownloadMachine.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,18 +35,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PHP|x86'">
-    <OutputPath>bin\x86\PHP\</OutputPath>
-    <DefineConstants>TRACE;PHP</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AvalonPromotionBrandIntro">
-      <HintPath>..\..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\bin\Debug\AvalonPromotionBrandIntro.exe</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -113,13 +102,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.82.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.x86.1.0.82.0\lib\net40\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\packages\System.Data.SQLite.x86.1.0.82.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
@@ -133,28 +115,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="SQLiteWithDataGridView.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\SQLiteWithDataGridView.AssetsLibrary.dll</HintPath>
+    <Reference Include="Diagnostics.DownloadMachine.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\Diagnostics.DownloadMachine.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Choose>
-    <When Condition=" '$(Configuration)'=='PHP' ">
-      <ItemGroup>
-        <Compile Include="..\..\..\..\..\..\jsc.internal.svn\examples\PHP\jscdatagriddemo.sourceforge.net\ApplicationWebService.Restricted.cs">
-          <Link>ApplicationWebService.Restricted.cs</Link>
-        </Compile>
-      </ItemGroup>
-    </When>
-  </Choose>
   <ItemGroup>
-    <Content Include="Design\Default.css" />
-    <Content Include="Design\Default.htm" />
-    <Compile Include="Library\GridForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Library\GridForm.Designer.cs">
-      <DependentUpon>GridForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationControl.cs">
       <SubType>UserControl</SubType>
@@ -163,6 +128,7 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationWebService.cs">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Application.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
@@ -171,32 +137,11 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ApplicationControl.resx">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Library\GridForm.resx">
-      <DependentUpon>GridForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-      if $(ConfigurationName)==Release (
-     start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false /xDisableWebServiceAndroid:false
-      )
-      if $(ConfigurationName)==PHP (
-      start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
-      )
-</PostBuildEvent>
+    </PostBuildEvent>
     <PreBuildEvent>
-
-      start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
-
     </PreBuildEvent>
   </PropertyGroup>
 </Project>

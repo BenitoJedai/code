@@ -7,6 +7,7 @@ using java.io;
 namespace java.net
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/HttpURLConnection.html
+    // http://developer.android.com/reference/java/net/HttpURLConnection.html
 	[Script(IsNative = true)]
 	public abstract class HttpURLConnection : URLConnection
 	{
