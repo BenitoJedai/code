@@ -345,6 +345,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\io\BufferedReader.cs">
       <Link>java\io\BufferedReader.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\DataOutputStream.cs">
+      <Link>java\io\DataOutputStream.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\File.cs">
       <Link>java\io\File.cs</Link>
     </Compile>
@@ -482,6 +485,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Throwable.cs">
       <Link>java\lang\Throwable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\HttpURLConnection.cs">
+      <Link>java\net\HttpURLConnection.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\Inet6Address.cs">
       <Link>java\net\Inet6Address.cs</Link>
