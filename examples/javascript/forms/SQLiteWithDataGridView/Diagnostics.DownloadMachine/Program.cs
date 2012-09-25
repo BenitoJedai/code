@@ -15,30 +15,100 @@ namespace Diagnostics.DownloadMachine
     {
         public static void Main(string[] args)
         {
-            var path = "/";
+            //var path = "/";
+            while (true)
+            {
+                DownloadPath("jscdatagriddemo.sourceforge.net", 80, "/");
+                //DownloadPath("/jsc");
+                //DownloadPath("/ScriptCoreLib.dll.js");
+                //DownloadPath("/ScriptCoreLib.Query.dll.js");
+                //DownloadPath("/ScriptCoreLib.Drawing.dll.js");
+                //DownloadPath("/ScriptCoreLib.Windows.Forms.dll.js");
+                //DownloadPath("/ScriptCoreLib.Avalon.dll.js");
+                //DownloadPath("/SQLiteWithDataGridView.Application.exe.js");
+
+                //http://127.0.0.1:21124/assets/AvalonPromotionBrandIntro/white_jsc.png
+
+                //DownloadPath("jscdatagriddemo.sourceforge.net", 80, "/Application.0.js");
+
+                //DownloadPath("127.0.0.1", 21124, "/assets/ScriptCoreLib.Avalon/transparent.cur");
+                //Console.ReadKey(true);
+
+
+                //DownloadPath("jscdatagriddemo.sourceforge.net", 80, "/assets/ScriptCoreLib.Avalon/transparent.cur");
+                //DownloadPath("jscdatagriddemo.sourceforge.net",80, "/assets/ScriptCoreLib/jsc.ico");
+                DownloadPath("jscdatagriddemo.sourceforge.net", 80, "/assets/ScriptCoreLib.Windows.Forms/FormResizeGrip.png");
+
+                Console.WriteLine("all done");
+                Console.ReadKey(true);
+            }
+        }
+
+        private static void DownloadPath(string Host, int port, string path)
+        {
             var t = new Stopwatch();
             t.Start();
 
-
+            #region WriteLine
+            var dt = t.Elapsed;
+            var Color = ConsoleColor.Yellow;
+            var limiter = 0;
             Action<string> WriteLine =
                 rx =>
                 {
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.Write(t.Elapsed + " ");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(rx);
-                };
+                    if (limiter > 16)
+                    {
+                        limiter++;
+                        if (limiter % 32 == 0)
+                            Console.Write(".");
+                        return;
+                    }
 
-            WriteLine("downloading... " + path);
+                    if (t.Elapsed - dt < TimeSpan.FromSeconds(1))
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    else
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(t.Elapsed + " ");
+                    if (rx == "")
+                        Color = ConsoleColor.Green;
+
+                    Console.ForegroundColor = Color;
+
+                    if (rx.Length > 64)
+                        rx = rx.Substring(0, 64) + " ... " + rx.Length;
+
+                    if (Color == ConsoleColor.Green)
+                        limiter++;
+
+                    Console.WriteLine(rx);
+
+                    dt = t.Elapsed;
+                };
+            #endregion
+
+
+            Console.WriteLine();
+            Console.WriteLine("downloading... " + Host + ":" + port + path);
             var tc = new TcpClient();
 
-            tc.Connect("jscdatagriddemo.sourceforge.net", 80);
+            tc.Connect(Host, port);
 
             var s = tc.GetStream();
             var w = new StreamWriter(s);
 
             w.WriteLine("GET " + path + " HTTP/1.1");
-            w.WriteLine("Host: jscdatagriddemo.sourceforge.net");
+            w.WriteLine("Host: " + Host);
+            w.WriteLine("Connection:keep-alive");
+
+
+
+            w.WriteLine("Accept-Charset:windows-1257,utf-8;q=0.7,*;q=0.3");
+            w.WriteLine("Accept-Encoding:gzip,deflate,sdch");
+            w.WriteLine("Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            w.WriteLine("User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.89 Safari/537.1");
+
+
+
             w.WriteLine();
             w.Flush();
 
@@ -53,9 +123,9 @@ namespace Diagnostics.DownloadMachine
             }
 
             t.Stop();
-            WriteLine("downloading... done");
 
-            Console.ReadKey(true);
+            limiter = 0;
+            WriteLine("downloading... done");
         }
 
 
