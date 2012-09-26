@@ -390,5 +390,29 @@ else if (this.webkitCancelFullScreen) {
             exitFullscreen.apply(this);
         }
 
+        // http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html
+        public IHTMLElement pointerLockElement
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var f = new IFunction(@"
+		if (this.pointerLockElement) {
+		    return this.pointerLockElement;
+		}
+		else if (this.webkitPointerLockElement) {
+		    return this.webkitPointerLockElement;
+		}
+                    return null;
+                ");
+
+                return (IHTMLElement)f.apply(this);
+            }
+        }
+        
+        public void exitPointerLock()
+        {
+ 
+        }
     }
 }

@@ -8,7 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-  
+
     [Script(HasNoPrototype = true)]
     public class IEvent
     {
@@ -327,5 +327,43 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal object screenY;
         internal object metaKey;
         internal object relatedTarget;
+
+        // http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html
+        public int movementX
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var f = new IFunction(@"
+		if (this.movementX) {
+		    return this.movementX;
+		}
+		else if (this.webkitMovementX) {
+		    return this.webkitMovementX;
+		}
+                    return 0;
+                ");
+
+                return (int)f.apply(this);
+            }
+        }
+        public int movementY
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var f = new IFunction(@"
+		if (this.movementY) {
+		    return this.movementY;
+		}
+		else if (this.webkitMovementY) {
+		    return this.webkitMovementY;
+		}
+                    return 0;
+                ");
+
+                return (int)f.apply(this);
+            }
+        }
     }
 }
