@@ -12,14 +12,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal partial class __Control : __Component, __IDropTarget, __ISynchronizeInvoke, __IWin32Window, __IBindableComponent, __IComponent, IDisposable
     {
-        public int Bottom
-        {
-            get
-            {
-                return this.Size.Height + this.Location.Y;
-            }
-        }
-
+     
+        #region Click
         public event EventHandler Click;
 
         public void RaiseClick()
@@ -27,6 +21,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
             if (Click != null)
                 Click(this, new EventArgs());
         }
+        #endregion
+
 
 
         public virtual java.awt.Component InternalGetElement()
@@ -36,11 +32,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
         public __Control()
         {
-            this.Controls = new Control.ControlCollection(this);
+            var s = new Size();
 
+            this.Controls = new Control.ControlCollection(this);
+            this.InternalSize = s;
             this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
         }
 
+        #region Enabled
         public virtual bool InternalGetEnabled()
         {
             return this.InternalGetElement().isEnabled();
@@ -63,6 +62,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
                 InternalSetEnabled(value);
             }
         }
+        #endregion
 
         #region Text
         string _text;
@@ -94,9 +94,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-        public void Show()
+        #region Visible
+        public virtual void InternalShow()
         {
             this.Visible = true;
+        }
+
+        public void Show()
+        {
+            this.InternalShow();
         }
 
         public void Hide()
@@ -182,11 +188,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 
         }
+        #endregion
 
 
         public Control.ControlCollection Controls { get; set; }
 
-
+        #region operators
         static public implicit operator Control(__Control e)
         {
             return (Control)(object)e;
@@ -196,7 +203,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
         {
             return (__Control)(object)e;
         }
+        #endregion
 
+        #region Bounds
         Point InternalLocation = new Point();
 
         public Point Location
@@ -214,7 +223,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
             }
         }
 
-        Size InternalSize = new Size();
+        Size InternalSize;
         public Size Size
         {
             get
@@ -281,6 +290,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
                 this.Size = new Size(this.Width, value);
             }
         }
+
+        public int Bottom
+        {
+            get
+            {
+                return this.Size.Height + this.Location.Y;
+            }
+        }
+
 
         int old_width;
         int old_height;
@@ -379,24 +397,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
             }
         }
 
-        bool InternalLayoutSuspended;
-
-        public void SuspendLayout()
-        {
-            InternalLayoutSuspended = true;
-        }
-
-        public void ResumeLayout(bool performLayout)
-        {
-            InternalLayoutSuspended = false;
-        }
-
-        public void PerformLayout()
-        {
-        }
-
-        public string Name { get; set; }
-
         public Size ClientSize
         {
             get
@@ -430,6 +430,29 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
                 SizeChanged(this, null);
 
         }
+        
+        #endregion
+
+
+        bool InternalLayoutSuspended;
+
+        public void SuspendLayout()
+        {
+            InternalLayoutSuspended = true;
+        }
+
+        public void ResumeLayout(bool performLayout)
+        {
+            InternalLayoutSuspended = false;
+        }
+
+        public void PerformLayout()
+        {
+        }
+
+        public string Name { get; set; }
+
+    
 
         public int TabIndex { get; set; }
 
@@ -439,6 +462,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
         public virtual AnchorStyles Anchor { get; set; }
 
+        #region ForeColor
         Color InternalForeColor;
 
         public virtual Color ForeColor
@@ -460,6 +484,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
                 this.InternalGetElement().setForeground(c);
             }
         }
+        #endregion
+
 
         #region Font
 
@@ -502,7 +528,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-
+        #region BackColor
         Color InternalBackColor;
 
         public virtual Color BackColor
@@ -524,6 +550,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
                 this.InternalGetElement().setBackground(c);
             }
         }
+        #endregion
+
 
     }
 }

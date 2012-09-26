@@ -51,7 +51,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			);
 		}
 
-		public void Close()
+        #region Close
+        public void Close()
 		{
 			// http://mycodepage.blogspot.com/2006/09/how-to-close-swing-jframe-without.html
 			// http://mindprod.com/jgloss/close.html
@@ -127,8 +128,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 			#endregion
 		}
+        #endregion
 
-		public override string Text
+        public override string Text
 		{
 			get
 			{
@@ -146,6 +148,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		{
 			this.InternalElement.dispose();
 		}
+
+
+        public override void InternalShow()
+        {
+            Console.WriteLine("InternalShow...");
+            this.InternalElement.setLocationRelativeTo(null);
+            this.InternalElement.show(true);
+            this.InternalElement.toFront();
+            Console.WriteLine("InternalShow... done");
+        }
 
 		public DialogResult ShowDialog()
 		{
