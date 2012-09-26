@@ -43,6 +43,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             return _keys.Contains(key);
         }
 
+        #region Keys
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection))]
         public class KeyCollection : List<TKey>
         {
@@ -65,6 +66,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
                 return _keys;
             }
         }
+        #endregion
+
 
         public bool Remove(TKey key)
         {
@@ -84,6 +87,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             throw new global::System.Exception("The method or operation is not implemented.");
         }
 
+        #region Values
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.ValueCollection))]
         public class ValueCollection : List<TValue>
         {
@@ -107,6 +111,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 				return this._values;
             }
         }
+        #endregion
+
 
         public TValue this[TKey key]
         {

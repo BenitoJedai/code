@@ -1050,10 +1050,19 @@ namespace ThreeDStuff.js
                                 {toolbar_btn_trees, TileSelectorMode.Rectangle},
                             };
 
+                            var __before_error = "__before_error";
+
+                            var __Keys = TileSelectorModes.Keys;
+                            var __KeysArray = __Keys.ToArray();
+                            
+                            var __after_error = "__after_error";
+
+
                             var toolbar_btngroup = new ToolbarButtonGroup
                             {
-                                Buttons = TileSelectorModes.Keys.ToArray()
+                                Buttons = __KeysArray
                             };
+
 
                             var toolbar_btn_city = new ToolbarButton(
                                 toolbar, "assets/ThreeDStuff/btn_city.png"
