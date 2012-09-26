@@ -189,6 +189,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs">
       <Link>BCLImplementation\System\Net\WebClient.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\WebHeaderCollection.cs">
+      <Link>BCLImplementation\System\Net\WebHeaderCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\NotImplementedException.cs">
       <Link>BCLImplementation\System\NotImplementedException.cs</Link>
     </Compile>
