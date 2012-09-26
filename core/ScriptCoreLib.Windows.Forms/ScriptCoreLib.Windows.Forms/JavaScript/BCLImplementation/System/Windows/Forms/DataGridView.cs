@@ -355,6 +355,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action AtInternalValueChanged = delegate
                     {
                         c1content.innerText = SourceCell.Value.ToString();
+
+
+                        if (this.CellValueChanged != null)
+                            this.CellValueChanged(this,
+                                new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
+                            );
                     };
 
                     AtInternalValueChanged();
@@ -488,15 +494,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             #region CheckChanges
                             Action CheckChanges = delegate
                             {
-                                if (((string)SourceCell.Value) != EditElement.value)
-                                {
+                                //if (((string)SourceCell.Value) != EditElement.value)
+                                //{
                                     SourceCell.Value = EditElement.value;
 
-                                    if (this.CellValueChanged != null)
-                                        this.CellValueChanged(this,
-                                            new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
-                                        );
-                                }
+                                //}
 
                             };
                             #endregion
