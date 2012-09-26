@@ -46,6 +46,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             var Path = Context.Request.Path;
 
+            #region WriteFile
             var CurrentFile = g.ToCurrentFile();
 
             if (CurrentFile != null)
@@ -101,9 +102,10 @@ namespace ScriptCoreLib.Ultra.WebService
                 //    System.Threading.Thread.Sleep(1000);
                 return;
             }
+            #endregion
 
 
-
+            #region favicon
             if (Path == "/favicon.ico")
             {
                 Context.Response.WriteFile("assets/ScriptCoreLib/jsc.ico");
@@ -111,22 +113,28 @@ namespace ScriptCoreLib.Ultra.WebService
                 that.CompleteRequest();
                 return;
             }
+            #endregion
 
 
 
+            #region robots
             if (Path == "/robots.txt")
             {
                 Context.Response.StatusCode = 404;
                 that.CompleteRequest();
                 return;
             }
+            #endregion
 
+            #region crossdomain
             if (Path == "/crossdomain.xml")
             {
                 Context.Response.StatusCode = 404;
                 that.CompleteRequest();
                 return;
             }
+            #endregion
+
 
             StringAction Write =
                 e =>
@@ -142,11 +150,13 @@ namespace ScriptCoreLib.Ultra.WebService
                     Write(e + Environment.NewLine);
                 };
 
+            #region WriteCacheManifest
             if (Path == "/" + WebApplicationCacheManifest.ManifestName)
             {
                 WriteCacheManifest(g, that, WriteLine);
                 return;
             }
+            #endregion
 
 
 
@@ -164,7 +174,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 var WebMethod = InternalWebMethodInfo.First(WebMethods, Context.Request.QueryString[InternalWebMethodInfo.QueryKey]);
                 if (WebMethod == null)
                 {
-                    // let user defined handler hangle it..
+                    // let user defined handler handle it..
                 }
                 else
                 {

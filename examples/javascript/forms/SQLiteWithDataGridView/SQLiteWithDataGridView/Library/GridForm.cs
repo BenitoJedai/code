@@ -86,14 +86,16 @@ namespace SQLiteWithDataGridView.Library
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            // default cell style changed
+            if (e.RowIndex < 0)
+                return;
+
             if (InternalCellValueChanged)
                 return;
 
-            if (e.RowIndex < 0)
-                return;
             var c0 = dataGridView1[0, e.RowIndex];
 
-            if ((string)dataGridView1[0, e.RowIndex].Value == "?")
+            if ((string)dataGridView1[0, e.RowIndex].Value == "?" + dataGridView1.Rows.Count)
                 return;
 
             if (string.IsNullOrEmpty((string)c0.Value))
@@ -131,6 +133,11 @@ namespace SQLiteWithDataGridView.Library
             else
             {
                 var ContentKey = (string)dataGridView1[0, e.RowIndex].Value;
+
+                // Primary Key is still pending. We cannot ad nor update. Wait? Ignore?
+                if (ContentKey.StartsWith("?"))
+                    return;
+
                 dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Blue;
 
                 var ContentValue = (string)dataGridView1[1, e.RowIndex].Value;
@@ -198,49 +205,7 @@ namespace SQLiteWithDataGridView.Library
                         Action<string, string, string, string> AtContentKey =
                             (ContentKey, ContentValue, ContentComment, ContentChildren) =>
                             {
-                                DataGridViewRow r = this.dataGridView1.Rows.AsEnumerable().FirstOrDefault(
-                                    item => (string)item.Cells[0].Value == ContentKey
-                                );
-
-
-                                if (r == null)
-                                {
-                                    r = new DataGridViewRow();
-
-                                    r.Cells.AddRange(
-                                        new DataGridViewTextBoxCell
-                                        {
-                                            Value = ContentKey
-                                        },
-                                        new DataGridViewTextBoxCell
-                                        {
-                                            Value = ContentValue
-                                        },
-                                        new DataGridViewTextBoxCell
-                                        {
-                                            Value = ContentComment
-                                        },
-                                           new DataGridViewButtonCell
-                                        {
-                                            Value = ContentChildren + " Children"
-                                        }
-                                    );
-
-                                    //No row can be added to a DataGridView control that does not have columns. Columns must be added first.
-                                    dataGridView1.Rows.Add(r);
-
-                                }
-                                else
-                                {
-                                    InternalCellValueChanged = true;
-
-                                    r.Cells[1].Value = ContentValue;
-                                    r.Cells[2].Value = ContentComment;
-                                    r.Cells[3].Value = ContentChildren + " Children";
-
-                                    InternalCellValueChanged = false;
-
-                                }
+                                DataGridViewRow r = InternalAddOrUpdateToLocalDataGrid(ContentKey, ContentValue, ContentComment, ContentChildren);
 
                                 r.Cells[0].Style.ForeColor = Color.Red;
                             };
@@ -281,9 +246,154 @@ namespace SQLiteWithDataGridView.Library
             );
         }
 
+        private DataGridViewRow InternalAddOrUpdateToLocalDataGrid(string ContentKey, string ContentValue = "", string ContentComment = "", string ContentChildren = "0")
+        {
+            DataGridViewRow r = this.dataGridView1.Rows.AsEnumerable().FirstOrDefault(
+                item => (string)item.Cells[0].Value == ContentKey
+            );
+
+
+            if (r == null)
+            {
+                r = new DataGridViewRow();
+
+                r.Cells.AddRange(
+                    new DataGridViewTextBoxCell
+                    {
+                        Value = ContentKey
+                    },
+                    new DataGridViewTextBoxCell
+                    {
+                        Value = ContentValue
+                    },
+                    new DataGridViewTextBoxCell
+                    {
+                        Value = ContentComment
+                    },
+                       new DataGridViewButtonCell
+                       {
+                           Value = ContentChildren + " Children"
+                       }
+                );
+
+                //No row can be added to a DataGridView control that does not have columns. Columns must be added first.
+                dataGridView1.Rows.Add(r);
+
+            }
+            else
+            {
+                InternalCellValueChanged = true;
+
+                r.Cells[1].Value = ContentValue;
+                r.Cells[2].Value = ContentComment;
+                r.Cells[3].Value = ContentChildren + " Children";
+
+                InternalCellValueChanged = false;
+
+            }
+
+            if (this.checkBox3.Checked)
+                if (ContentComment == ContentComment_Form_Location)
+                {
+                    if (ContentValue.Contains(";"))
+                    {
+                        var x = int.Parse(ContentValue.TakeUntilIfAny(";"));
+                        var y = int.Parse(ContentValue.SkipUntilLastIfAny(";"));
+
+                        if (this.Owner != null)
+                        {
+                            x += this.Owner.Location.X;
+                            y += this.Owner.Location.Y;
+                        }
+
+                        this.Location = new Point(x, y);
+                    }
+                }
+
+            return r;
+        }
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             this.timer1.Enabled = this.checkBox1.Checked;
+        }
+
+        private void GridForm_LocationChanged(object sender, EventArgs e)
+        {
+            InternalAtLocationChanged();
+        }
+
+        public const string ContentComment_Form_Location = "Form.Location";
+
+        int __counter;
+        int __x;
+        int __y;
+
+        private void InternalAtLocationChanged()
+        {
+            if (__counter > 0)
+            {
+                var dx = this.Location.X - __x;
+                var dy = this.Location.Y - __y;
+
+                foreach (var item in this.OwnedForms)
+                {
+                    item.Location += new Size(dx, dy);
+                }
+            }
+            __counter++;
+            __x = this.Location.X;
+            __y = this.Location.Y;
+
+            if (checkBox2.Checked)
+            {
+                var ContentKey = "";
+
+                DataGridViewRow r = this.dataGridView1.Rows.AsEnumerable().FirstOrDefault(
+                  item => (string)item.Cells[2].Value == ContentComment_Form_Location
+              );
+
+                var x = this.Location.X;
+                var y = this.Location.Y;
+
+                if (this.Owner != null)
+                {
+                    x -= this.Owner.Location.X;
+                    y -= this.Owner.Location.Y;
+                }
+
+                var ContentValue = x + ";" + y;
+                if (r != null)
+                    ContentKey = (string)r.Cells[0].Value;
+
+                r = InternalAddOrUpdateToLocalDataGrid(
+                    ContentKey: ContentKey,
+                    ContentComment: ContentComment_Form_Location
+                );
+
+                r.Cells[1].Value = ContentValue;
+
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            InternalAtLocationChanged();
+
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBox4.Checked)
+                this.timer1.Interval = 100;
+            else
+                this.timer1.Interval = 1000;
+
         }
 
 
