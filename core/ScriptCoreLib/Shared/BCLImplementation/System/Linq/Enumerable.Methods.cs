@@ -542,7 +542,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
         public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
         {
-            return source.ToList().ToArray();
+            return source.AsEnumerable().ToList().ToArray();
         }
 
         public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source)

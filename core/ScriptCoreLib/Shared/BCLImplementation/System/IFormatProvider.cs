@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System
+namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.IFormatProvider))]
     internal interface __IFormatProvider

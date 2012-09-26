@@ -74,7 +74,7 @@ namespace ThreeDStuff.js
             var Zoom = 1;
             var Dot = 4;
 
-            var MapRadius = 32;
+            var MapRadius = 8;
 
             var MapSize = new Rectangle
             {
