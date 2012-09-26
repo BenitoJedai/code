@@ -24,6 +24,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                if (InternalValue == value)
+                    return;
+
                 InternalValue = value;
                 if (InternalValueChanged != null)
                     InternalValueChanged();
@@ -47,7 +50,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        public  bool InternalSelected;
+        public bool InternalSelected;
         public virtual bool Selected
         {
             get
