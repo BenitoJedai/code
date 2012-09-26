@@ -366,7 +366,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         //public IHTMLElement fullscreenElement;
         //public bool fullscreenEnabled;
 
-    
+
         [Script(DefineAsStatic = true)]
         public void exitFullscreen()
         {
@@ -409,10 +409,20 @@ else if (this.webkitCancelFullScreen) {
                 return (IHTMLElement)f.apply(this);
             }
         }
-        
+
+        [Script(DefineAsStatic = true)]
         public void exitPointerLock()
         {
- 
+            var f = new IFunction(@"
+		if (this.exitPointerLock) {
+		    return this.exitPointerLock();
+		}
+		else if (this.webkitExitPointerLock) {
+		    return this.webkitExitPointerLock();
+		}
+                ");
+
+            f.apply(this);
         }
     }
 }

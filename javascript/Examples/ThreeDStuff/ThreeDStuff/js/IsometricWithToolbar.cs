@@ -22,12 +22,14 @@ namespace ThreeDStuff.js
     //[Script]
     //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
 
-    [ScriptApplicationEntryPoint,
-        ApplicationDescription(
-            Description = "Now with toolbar!",
-            FlashMovie = "http://www.youtube.com/watch?v=kCgCSMpRN40"
+    [ScriptApplicationEntryPoint
+    //,
+    //    ApplicationDescription(
+    //        Description = "Now with toolbar!",
+    //        FlashMovie = "http://www.youtube.com/watch?v=kCgCSMpRN40"
 
-        )]
+    //    )
+    ]
     public partial class IsometricWithToolbar
     {
         [Script]
@@ -72,12 +74,14 @@ namespace ThreeDStuff.js
             var Zoom = 1;
             var Dot = 4;
 
+            var MapRadius = 32;
+
             var MapSize = new Rectangle
             {
-                Left = -12,
-                Width = 24,
-                Top = -12,
-                Height = 24
+                Left = -MapRadius,
+                Width = MapRadius * 2,
+                Top = -MapRadius,
+                Height = MapRadius * 2
             };
 
             var MapMargins = new Point
@@ -657,8 +661,8 @@ namespace ThreeDStuff.js
 
                             info.innerHTML = "Creating dudes...";
 
-                            8.Times(() => Dudes.Add(CreateDude(dude, false, 0.5)));
-                            8.Times(() => Dudes.Add(CreateDude(imp, true, 0.5)));
+                            18.Times(() => Dudes.Add(CreateDude(dude, false, 0.5)));
+                            18.Times(() => Dudes.Add(CreateDude(imp, true, 0.5)));
 
                             info.innerHTML = info_text;
                         };
@@ -1500,6 +1504,10 @@ namespace ThreeDStuff.js
                     );
                     #endregion
 
+
+                    arena.SetCanvasViewCenter(
+                        arena.CurrentCanvasSize / 2
+                    );
                     //Native.Window.onblur +=
                     //    delegate
                     //    {

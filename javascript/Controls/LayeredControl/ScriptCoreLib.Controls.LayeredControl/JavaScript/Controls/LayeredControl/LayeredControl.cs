@@ -32,11 +32,11 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
         [Script]
         public class LayersGroup
         {
-            public  IHTMLDiv Canvas;
-            public  IHTMLDiv CanvasInfo ;
+            public IHTMLDiv Canvas;
+            public IHTMLDiv CanvasInfo;
 
-            public  IHTMLDiv Info ;
-            public  IHTMLDiv User ;
+            public IHTMLDiv Info;
+            public IHTMLDiv User;
         }
 
         public readonly LayersGroup Layers = new LayersGroup();
@@ -88,11 +88,11 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             // also check http://unixpapa.com/js/mouse.html
 
 
-			Layers.User.style.backgroundColor = Color.Yellow;
+            Layers.User.style.backgroundColor = Color.Yellow;
             //Layers.User.style.Opacity = 0.5;
-			//Layers.User.style.zIndex = 99999;
+            //Layers.User.style.zIndex = 99999;
 
-			//Layers.User.style.backgroundImage = "url(" + Assets.Path + "/empty.gif)";
+            //Layers.User.style.backgroundImage = "url(" + Assets.Path + "/empty.gif)";
         }
 
         public Point CurrentCanvasPosition = Point.Zero;
@@ -251,13 +251,15 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             u.onmousedown +=
                 e =>
                 {
-                    
+
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
                         drag_enabled = true;
                         drag_start = e.OffsetPosition - this.CurrentCanvasPosition;
-                        e.CaptureMouse();
+                        //e.CaptureMouse();
+                        // can we do this?
+                        u.requestPointerLock();
                     }
 
 
@@ -268,7 +270,19 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 {
                     if (drag_enabled)
                     {
-                        this.SetCanvasPosition(e.OffsetPosition - drag_start);
+                        if (Native.Document.pointerLockElement == u)
+                        {
+                            this.SetCanvasPosition(
+                                new Point(
+                                    this.CurrentCanvasPosition.X + e.movementX,
+                                    this.CurrentCanvasPosition.Y + e.movementY
+                                )
+                            );
+                        }
+                        else
+                        {
+                            this.SetCanvasPosition(e.OffsetPosition - drag_start);
+                        }
                     }
 
                 };
@@ -279,6 +293,11 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
                         drag_enabled = false;
+                        
+                        if (Native.Document.pointerLockElement == u)
+                        {
+                            Native.Document.exitPointerLock();
+                        }
                     }
 
                 };
@@ -377,7 +396,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             selection.style.border = "1px solid #ffffff";
             selection.style.overflow = IStyle.OverflowEnum.hidden;
 
-           
+
             var selection_start = Point.Zero;
             var selection_end = Point.Zero;
             var selection_rect = new Rectangle();

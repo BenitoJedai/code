@@ -13,8 +13,9 @@ using System;
 namespace ThreeDStuff.js
 {
     //[Script]
-    [ScriptApplicationEntryPoint, 
-        ApplicationDescription(Description = "Clicking somewhere will let you know what is the original location like.")
+    [ScriptApplicationEntryPoint
+    //, 
+    //    ApplicationDescription(Description = "Clicking somewhere will let you know what is the original location like.")
     ]
     public partial class IsometricRotatingWithInput
     {

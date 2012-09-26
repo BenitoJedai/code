@@ -13,9 +13,10 @@ using System;
 namespace ThreeDStuff.js
 {
     // [Script]
-    [ScriptApplicationEntryPoint, 
-        ApplicationDescription(Description = "Isometrically rotating dots."),
-        ApplicationDescription(Description = "It's isometric!")
+    [ScriptApplicationEntryPoint
+    //, 
+    //    ApplicationDescription(Description = "Isometrically rotating dots."),
+    //    ApplicationDescription(Description = "It's isometric!")
     ]
     public partial class IsometricRotating
     {
