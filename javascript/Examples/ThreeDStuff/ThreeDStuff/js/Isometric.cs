@@ -13,7 +13,9 @@ using System;
 namespace ThreeDStuff.js
 {
     //[Script]
-    [ScriptApplicationEntryPoint, ApplicationDescription(Description = "A grid of isometric tiles.")]
+    [ScriptApplicationEntryPoint
+    //, ApplicationDescription(Description = "A grid of isometric tiles.")
+    ]
     public partial class Isometric
     {
 

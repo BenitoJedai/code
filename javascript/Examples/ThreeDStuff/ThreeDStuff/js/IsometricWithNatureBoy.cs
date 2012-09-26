@@ -19,7 +19,9 @@ namespace ThreeDStuff.js
     //public delegate void Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
 
     //[Script]
-    [ScriptApplicationEntryPoint, ApplicationDescription(Description = "An isometric world with dudes.")]
+    [ScriptApplicationEntryPoint
+    //, ApplicationDescription(Description = "An isometric world with dudes.")
+    ]
     public partial class IsometricWithNatureBoy
     {
 
