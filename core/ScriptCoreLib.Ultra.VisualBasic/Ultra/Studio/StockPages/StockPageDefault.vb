@@ -2,7 +2,7 @@
 
     Public Module StockPageDefault
         Public CanvasDefaultPage As XElement = _
-<body>
+<body style='overflow: hidden;'>
     <div id='ContentSize' style='overflow: hidden; position: absolute;
         left: 0px; right: 0px; bottom: 0px; top: 0px;'>
     </div>
