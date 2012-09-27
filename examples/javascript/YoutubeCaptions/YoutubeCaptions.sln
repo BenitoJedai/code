@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeCaptions", "YoutubeCaptions\YoutubeCaptions.csproj", "{EE10DFD7-8179-420B-B2F6-27C48F0FA4C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeCaptions.Test", "YoutubeCaptions.Test\YoutubeCaptions.Test.csproj", "{FC2E00B2-D6A3-4A00-8F3E-855E7124692B}"
