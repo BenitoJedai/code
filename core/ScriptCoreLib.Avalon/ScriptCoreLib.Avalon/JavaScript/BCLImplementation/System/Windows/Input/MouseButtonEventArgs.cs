@@ -22,8 +22,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 		{
 			return new __MouseButtonEventArgs
 			{
-				Internal_OffsetX = e.OffsetX,
-				Internal_OffsetY = e.OffsetY,
+				__Internal_OffsetX = e.OffsetX,
+				__Internal_OffsetY = e.OffsetY,
 				Internal_Element = (IHTMLElement)e.Element,
 				ChangedButton = MouseButton.Left
 			};
