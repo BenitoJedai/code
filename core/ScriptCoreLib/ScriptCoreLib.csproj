@@ -422,7 +422,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Console.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Converter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Converter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Boolean.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
@@ -506,7 +506,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\IContainer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\ApplicationSettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\SettingsBase.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Converter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Byte.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Guid.cs" />

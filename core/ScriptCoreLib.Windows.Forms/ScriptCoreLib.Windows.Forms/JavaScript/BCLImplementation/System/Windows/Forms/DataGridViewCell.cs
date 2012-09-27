@@ -37,19 +37,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __DataGridViewCellStyle InternalStyle { get; set; }
         public DataGridViewCellStyle Style { get; set; }
 
-        public __DataGridViewRow InternalContext;
+        public __DataGridViewRow InternalOwningRow;
+        public DataGridViewRow OwningRow { get { return InternalOwningRow; } }
 
         public int ColumnIndex
         {
             get
             {
-                if (InternalContext == null)
+                if (InternalOwningRow == null)
                     return -1;
 
-                return InternalContext.InternalCells.InternalItems.IndexOf(this);
+                return InternalOwningRow.InternalCells.InternalItems.IndexOf(this);
             }
         }
 
+        #region Selected
         public bool InternalSelected;
         public virtual bool Selected
         {
@@ -65,6 +67,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.InternalContentContainer.focus();
             }
         }
+        #endregion
+
         public __DataGridViewCell()
         {
             this.InternalValue = "";

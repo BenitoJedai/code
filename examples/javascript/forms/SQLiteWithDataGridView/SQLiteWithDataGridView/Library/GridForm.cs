@@ -86,6 +86,8 @@ namespace SQLiteWithDataGridView.Library
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            label5.Text = new { e.RowIndex, e.ColumnIndex }.ToString();
+
             // default cell style changed
             if (e.RowIndex < 0)
                 return;
