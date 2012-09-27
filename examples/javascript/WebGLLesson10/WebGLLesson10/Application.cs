@@ -147,15 +147,12 @@ namespace WebGLLesson10
 
 
             #region init shaders
-            var vs = createShader(new Shaders.GeometryVertexShader());
-            var fs = createShader(new Shaders.GeometryFragmentShader());
 
 
-            var shaderProgram = gl.createProgram();
-
-            gl.attachShader(shaderProgram, vs);
-            gl.attachShader(shaderProgram, fs);
-
+            var shaderProgram = gl.createProgram(
+                new Shaders.GeometryVertexShader(),
+                new Shaders.GeometryFragmentShader()
+            );
 
             gl.linkProgram(shaderProgram);
             gl.useProgram(shaderProgram);
@@ -225,9 +222,11 @@ namespace WebGLLesson10
             {
                 return degrees * (f)Math.PI / 180f;
             };
+            Func<float, float> radToDeg = (rad) =>
+            {
+                return rad * 180f / (f)Math.PI;
+            };
             #endregion
-
-
 
 
             var pitch = 0f;
@@ -339,6 +338,34 @@ namespace WebGLLesson10
                 };
             #endregion
 
+            #region requestPointerLock
+            var __pointer_x = 0;
+            var __pointer_y = 0;
+
+            canvas.onmousedown +=
+                delegate
+                {
+                    canvas.requestPointerLock();
+                };
+
+            canvas.onmousemove +=
+                e =>
+                {
+                    if (Native.Document.pointerLockElement == canvas)
+                    {
+
+                        __pointer_x += e.movementX;
+                        __pointer_y += e.movementY;
+                    }
+                };
+
+            canvas.onmouseup +=
+                delegate
+                {
+                    // keep at it...
+                    //Native.Document.exitPointerLock();
+                };
+            #endregion
 
             #region AtResize
             Action AtResize =
@@ -468,14 +495,26 @@ namespace WebGLLesson10
                         gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                    
+
 
                         __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
                         __glMatrix.mat4.identity(mvMatrix);
 
+                        if (__pointer_y != 0)
+                            pitch = radToDeg(__pointer_y * -0.01f);
+
+                        if (__pointer_x != 0)
+                            yaw = radToDeg(__pointer_x * -0.01f);
+
+
                         __glMatrix.mat4.rotate(mvMatrix, degToRad(-pitch), 1, 0, 0);
                         __glMatrix.mat4.rotate(mvMatrix, degToRad(-yaw), 0, 1, 0);
+
+                        //__glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, 1, 0, 0);
+                        //__glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, 0, 1, 0);
+
+
                         __glMatrix.mat4.translate(mvMatrix, -xPos, -yPos, -zPos);
 
                         gl.activeTexture(gl.TEXTURE0);

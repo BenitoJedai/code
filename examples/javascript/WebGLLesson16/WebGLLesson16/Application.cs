@@ -293,6 +293,34 @@ namespace WebGLLesson16
             };
             #endregion
 
+            #region requestPointerLock
+            var __pointer_x = 0;
+            var __pointer_y = 0;
+
+            canvas.onmousedown +=
+                delegate
+                {
+                    canvas.requestPointerLock();
+                };
+
+            canvas.onmousemove +=
+                e =>
+                {
+                    if (Native.Document.pointerLockElement == canvas)
+                    {
+
+                        __pointer_x += e.movementX;
+                        __pointer_y += e.movementY;
+                    }
+                };
+
+            canvas.onmouseup +=
+                delegate
+                {
+                    Native.Document.exitPointerLock();
+                };
+            #endregion
+
             // await crate
             new HTML.Images.FromAssets.crate().InvokeOnComplete(
                 crate =>
@@ -332,6 +360,7 @@ namespace WebGLLesson16
                                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
                                 gl.texParameteri((uint)gl.TEXTURE_2D, (uint)gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
                                 gl.texParameteri((uint)gl.TEXTURE_2D, (uint)gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
+                                // INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size 
                                 gl.generateMipmap(gl.TEXTURE_2D);
 
                                 gl.bindTexture(gl.TEXTURE_2D, null);
@@ -693,6 +722,7 @@ namespace WebGLLesson16
                             };
                             #endregion
 
+
                             var laptopScreenAspectRatio = 1.66f;
 
                             //Func<string, f> parseFloat = Convert.ToSingle;
@@ -796,9 +826,20 @@ namespace WebGLLesson16
 
                                 mvPushMatrix();
 
-                                __glMatrix.mat4.translate(mvMatrix, 0, -0.4f, -2.2f);
+                                __glMatrix.mat4.translate(mvMatrix, 0, -0.4f,
+                                   (float) Math.Min(0,
+                                    -2.2f
+                                    + __pointer_y * 0.01)
+                                    );
+
+                                if (__pointer_x != 0)
+                                    laptopAngle = __pointer_x + 0.01f;
+
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(laptopAngle), 0, 1, 0);
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(-90), 1, 0, 0);
+
+                                //__glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, 0, 1, 0);
+                                //__glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, 1, 0, 0);
 
                                 gl.uniform1i(shaderProgram.showSpecularHighlightsUniform, Convert.ToInt32(true));
                                 gl.uniform3f(shaderProgram.pointLightingLocationUniform, -1, 2, -1);
