@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections
 {
     [Script(Implements = typeof(global::System.Collections.IEnumerable))]
     internal interface __IEnumerable

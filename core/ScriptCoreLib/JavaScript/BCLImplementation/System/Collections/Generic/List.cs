@@ -13,7 +13,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
     using ScriptCoreLib.Shared.Query;
 
     [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
-    internal class __List<T> : IList<T>, IEnumerable
+    internal class __List<T> : IList<T>
     {
         IArray<T> _items = new IArray<T>();
 

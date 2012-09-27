@@ -45,13 +45,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         #region Keys
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection))]
-        public class KeyCollection : List<TKey>
+        public class __KeyCollection : __List<TKey>
         {
         }
 
-        readonly KeyCollection _keys = new KeyCollection();
+        readonly __KeyCollection _keys = new __KeyCollection();
 
-        public KeyCollection Keys
+        public __KeyCollection Keys
         {
             get
             {
@@ -89,14 +89,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         #region Values
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.ValueCollection))]
-        public class ValueCollection : List<TValue>
+        public class __ValueCollection : __List<TValue>
         {
         }
 
-        readonly ValueCollection _values = new ValueCollection();
+        readonly __ValueCollection _values = new __ValueCollection();
 
 
-        public ValueCollection Values
+        public __ValueCollection Values
         {
             get
             {

@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 {

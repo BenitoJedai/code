@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic;
 using System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.ObjectModel
 {
