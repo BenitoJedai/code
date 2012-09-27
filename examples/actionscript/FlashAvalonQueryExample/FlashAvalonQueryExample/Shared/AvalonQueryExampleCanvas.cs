@@ -188,6 +188,7 @@ namespace FlashAvalonQueryExample.Shared
 								};
 
 							src_uri.BeginInit();
+                            Console.WriteLine(src);
 							src_uri.UriSource = new Uri(src);
 							src_uri.EndInit();
 

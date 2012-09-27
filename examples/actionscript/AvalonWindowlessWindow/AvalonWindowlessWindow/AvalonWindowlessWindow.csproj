@@ -139,6 +139,9 @@
     <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
       <HintPath>.\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.htm" />
