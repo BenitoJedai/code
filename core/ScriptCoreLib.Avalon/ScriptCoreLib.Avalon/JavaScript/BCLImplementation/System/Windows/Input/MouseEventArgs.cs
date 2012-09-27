@@ -25,6 +25,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 
         public Point GetPosition(IInputElement relativeTo)
         {
+
             var u = relativeTo as __UIElement;
 
             if (u == null)
@@ -32,6 +33,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 
             Internal_OffsetX = __Internal_OffsetX;
             Internal_OffsetY = __Internal_OffsetY;
+
+            Console.WriteLine("GetPosition " + new { Internal_OffsetX, Internal_OffsetY });
 
             var t = (u.RenderTransform as TranslateTransform);
             if (t != null)
@@ -108,7 +111,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 
         private Point GetPosition(IHTMLElement relativeTo)
         {
-     
+
 
             var a = GetPositionData.Of(relativeTo);
             var b = GetPositionData.Of(Internal_Element);
@@ -174,7 +177,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
             };
 
 
-        
+
 
             return a;
         }
