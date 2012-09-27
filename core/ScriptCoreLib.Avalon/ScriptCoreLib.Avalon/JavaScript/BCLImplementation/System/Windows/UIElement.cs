@@ -47,6 +47,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
             return InternalGetDisplayObject();
         }
 
+
+        #region Opacity
         double InternalOpacity;
 
         public double Opacity
@@ -62,6 +64,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 InternalGetOpacityTarget().style.Opacity = value;
             }
         }
+        #endregion
 
 
 
@@ -116,6 +119,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
             }
         }
 
+        public bool CaptureMouse()
+        {
+            var Release = this.InternalGetDisplayObject().CaptureMouse();
+
+            return true;
+        }
+
+        Action __ReleaseMouse;
+
         public event MouseButtonEventHandler MouseLeftButtonDown
         {
             add
@@ -125,6 +137,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                     e =>
                     {
                         e.PreventDefault();
+
+                        __ReleaseMouse = this.InternalGetDisplayObject().CaptureMouse();
 
                         if (e.MouseButton == ScriptCoreLib.JavaScript.DOM.IEvent.MouseButtonEnum.Left)
                             value(this, (__MouseButtonEventArgs)e);
@@ -144,6 +158,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 InternalGetDisplayObject().onmouseup +=
                     e =>
                     {
+                        if (__ReleaseMouse != null)
+                            __ReleaseMouse();
+
                         e.PreventDefault();
 
                         __Keyboard.Modifiers = ModifierKeys.None;
