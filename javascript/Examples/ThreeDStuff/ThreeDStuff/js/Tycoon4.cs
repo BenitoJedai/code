@@ -91,10 +91,10 @@ namespace ThreeDStuff.js
 
             var MapSize = new Rectangle
             {
-                Left = -8,
-                Width = 16,
-                Top = -8,
-                Height = 16
+                Left = -12,
+                Width = 24,
+                Top = -12,
+                Height = 24
             };
 
             var MapMargins = new Point
@@ -248,17 +248,17 @@ namespace ThreeDStuff.js
 
             var ImagesThatAreCurrentlyLoading = new List<IHTMLImage>();
 
-            Action<IHTMLImage> LoadingSingleImageDone = img =>
-            {
-                ImagesThatAreCurrentlyLoading.Remove(img);
+            //Action<IHTMLImage> LoadingSingleImageDone = img =>
+            //{
+            //    ImagesThatAreCurrentlyLoading.Remove(img);
 
-                Console.WriteLine("loaded: " + img.src);
+            //    Console.WriteLine("loaded: " + img.src);
 
-                if (ImagesThatAreCurrentlyLoading.Count == 0)
-                    AllImagesLoaded();
-                else
-                    info.innerText = "Loading images... (" + ImagesThatAreCurrentlyLoading.Count + ")";
-            };
+            //    if (ImagesThatAreCurrentlyLoading.Count == 0)
+            //        AllImagesLoaded();
+            //    else
+            //        info.innerText = "Loading images... (" + ImagesThatAreCurrentlyLoading.Count + ")";
+            //};
 
 
             info.innerText = "Loading images...";
@@ -268,8 +268,8 @@ namespace ThreeDStuff.js
                 {
                     ImagesThatAreCurrentlyLoading.Add(Image);
 
-                    //Image.InvokeOnComplete(img => LoadingSingleImageDone(img));
-                    LoadingSingleImageDone(Image);
+                    //Image.InvokeOnComplete(img => LoadingSingleImageDone(img), 30);
+                    //LoadingSingleImageDone(Image);
                 };
             #endregion
 
@@ -290,6 +290,8 @@ namespace ThreeDStuff.js
             AllImagesLoaded +=
                 delegate
                 {
+                    Console.WriteLine("AllImagesLoaded");
+
                     info.innerText = "Loading images... done!";
 
                     #region Translate
@@ -961,7 +963,7 @@ namespace ThreeDStuff.js
                             var toolbar_size = new Point(96, 32);
                             var toolbar_pos = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
 
-
+                            Console.WriteLine("toolbar!");
                             var toolbar = ToolbarDialog.CreateToolbar(toolbar_pos, toolbar_size, toolbar_color);
 
                             Native.Window.onresize +=
@@ -1740,7 +1742,7 @@ namespace ThreeDStuff.js
                                     if (paused)
                                         return;
 
-                                    "got dirt?".ToConsole();
+                                    //"got dirt?".ToConsole();
 
                                     #region KnownDirtTileElements
                                     foreach (var v in KnownDirtTileElements.ToArray())
@@ -1865,12 +1867,15 @@ namespace ThreeDStuff.js
                             //            toolbar_btn_pause.RaiseClicked();
                             //    };
 
+                            Console.WriteLine("ready!");
 
-                            info.innerHTML = "foo";
+                            info.innerHTML = "ready!";
 
                             if (!paused)
                                 PauseFogTween.Value = 0;
 
+
+                            
                         });
 
                 };
@@ -1883,6 +1888,7 @@ namespace ThreeDStuff.js
 
             TileResourcesList.ForEach(i => StartLoadingSingleImage(i.Source));
 
+            AllImagesLoaded();
         }
 
 

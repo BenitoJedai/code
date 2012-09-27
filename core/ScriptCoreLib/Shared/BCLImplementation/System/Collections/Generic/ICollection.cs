@@ -1,9 +1,11 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.ICollection<>))]
 	internal interface __ICollection<T> : __IEnumerable<T>, __IEnumerable

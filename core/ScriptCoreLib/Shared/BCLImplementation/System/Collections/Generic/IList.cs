@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.IList<>))]
     internal interface __IList<T> : __ICollection<T>

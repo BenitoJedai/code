@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.ComponentModel
 {
