@@ -25,7 +25,7 @@ namespace CardGames.source.js
         protected IHTMLInput SoundSettingDivCheckbox = new IHTMLInput(HTMLInputTypeEnum.checkbox);
 
 
-        public event EventHandler SoundSettingChanged;
+        public event System.Action SoundSettingChanged;
 
         public bool UseSounds
         {

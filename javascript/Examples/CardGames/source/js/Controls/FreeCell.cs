@@ -432,7 +432,7 @@ namespace CardGames.source.js.Controls
         }
 
 
-        public static bool IsStackTypeAndDoesNotFit(Card c, IEnumerable<CardStack> s, CardStack p, EventHandler<Predicate<CardStack, Card>> h)
+        public static bool IsStackTypeAndDoesNotFit(Card c, IEnumerable<CardStack> s, CardStack p, System.Action<Predicate<CardStack, Card>> h)
         {
             if (s.Count(i => i == p) > 0)
             {

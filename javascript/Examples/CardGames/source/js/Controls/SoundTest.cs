@@ -37,11 +37,11 @@ namespace CardGames.source.js.Controls
 
             Control.onmouseup += delegate(IEvent ev)
             {
-                TextWriter w = new TextWriter();
+                var w = new System.Text.StringBuilder();
 
-                w.WriteLine("mousebutton: " + ev.MouseButton);
+                w.AppendLine("mousebutton: " + ev.MouseButton);
 
-                Native.Window.alert(w.Text);
+                Native.Window.alert(w.ToString());
 
                 Native.PlaySound("assets/CardGames/sounds/hint.wav");
 

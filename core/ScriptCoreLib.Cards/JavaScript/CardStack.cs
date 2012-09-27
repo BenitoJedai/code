@@ -18,13 +18,14 @@ using ScriptCoreLib.Shared.Drawing;
 
 using global::System.Collections.Generic;
 using System.ComponentModel;
+using System;
 
 namespace ScriptCoreLib.JavaScript.Cards
 {
     [Script]
     public class CardStack
     {
-        public event EventHandler<Card> Click;
+        public event Action<Card> Click;
 
         public readonly BindingList<Card> Cards = new BindingList<Card>();
 
@@ -123,9 +124,9 @@ namespace ScriptCoreLib.JavaScript.Cards
             AttachCards(null, c);
         }
 
-        public event EventHandler CardsMovedToStack;
+        public event Action CardsMovedToStack;
 
-        public void AttachCards(EventHandler<Card> h, params Card[] e)
+        public void AttachCards(Action<Card> h, params Card[] e)
         {
                         //Helper.ForEach(e,
             //    delegate(Card c)
@@ -144,14 +145,14 @@ namespace ScriptCoreLib.JavaScript.Cards
             Helper.Invoke(CardsMovedToStack);
         }
 
-        public static void CardByCard(EventHandler<Pair<Card, EventHandler>> h, params Card[] e)
+        public static void CardByCard(Action<Pair<Card, Action>> h, params Card[] e)
         {
             var a = new List<Card>();
 
 
             a.AddRange(e);
 
-            var z = new Pair<Card, EventHandler>(null, null);
+            var z = new Pair<Card, Action>(null, null);
 
             z.B =
                 delegate
@@ -247,7 +248,7 @@ namespace ScriptCoreLib.JavaScript.Cards
         /// animates movement
         /// </summary>
         /// <param name="c"></param>
-        public void MoveSlow(Card c, EventHandler done)
+        public void MoveSlow(Card c, Action done)
         {
 
 

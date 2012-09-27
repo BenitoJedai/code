@@ -475,7 +475,7 @@ namespace CardGames.source.js.Controls
                 MyStatus.Ready = false;
 
                 CardStack.CardByCard(
-                    delegate(Pair<Card, EventHandler> p)
+                    delegate(Pair<Card, System.Action> p)
                     {
                         if (p.A == null)
                         {
@@ -637,7 +637,7 @@ namespace CardGames.source.js.Controls
         }
 
 
-        public void DealRow(ScriptCoreLib.Shared.EventHandler done)
+        public void DealRow(System.Action done)
         {
 
             var DealingStack = DealStacks.Pop();
@@ -695,7 +695,7 @@ namespace CardGames.source.js.Controls
 
                 //Console.Log("cards to be animated: " + ToBeAnimated.Count);
 
-                EventHandler NextCard = null;
+                System.Action NextCard = null;
 
                 NextCard =
                     delegate
