@@ -124,7 +124,6 @@
     <Content Include="Design\cursor01.cur" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="Library\DragHelper.cs" />
     <Compile Include="Library\HotPolygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
