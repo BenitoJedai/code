@@ -53,7 +53,7 @@ namespace ImageZoomer.js
         /// <summary>
         /// magnifier should be moved to the location given by the event
         /// </summary>
-        public readonly ScriptCoreLib.Shared.EventHandler<IEvent> UpdateTo;
+        public readonly Action<IEvent> UpdateTo;
 
 
         public bool Enabled { get; set; }
@@ -100,7 +100,10 @@ namespace ImageZoomer.js
                         return;
                     }
 
-                    p = new Point(e.CursorX - i.Bounds.Left, e.CursorY - i.Bounds.Top);
+                    p = new Point(
+                        e.CursorX - i.Bounds.Left + Native.Document.body.scrollLeft,
+                        e.CursorY - i.Bounds.Top + Native.Document.body.scrollTop
+                    );
 
                     var vis = new[] { p.X, p.Y, i.width - p.X, i.height - p.Y }.Min();
 
@@ -134,7 +137,7 @@ namespace ImageZoomer.js
                     }
                 };
 
-            ScriptCoreLib.Shared.EventHandler<IEvent> onzoom =
+            Action<IEvent> onzoom =
                 delegate(IEvent e)
                 {
                     e.StopPropagation();
