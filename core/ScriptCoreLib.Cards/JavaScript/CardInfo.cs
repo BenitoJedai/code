@@ -11,6 +11,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 
 using global::System.Collections.Generic;
+using System.Text;
 
 namespace ScriptCoreLib.JavaScript.Cards
 {
@@ -78,35 +79,35 @@ namespace ScriptCoreLib.JavaScript.Cards
         {
             get
             {
-                var w = new TextWriter();
+                var w = new StringBuilder();
 
                 //if (Visible)
                 //{
-                    if (Rank == RankEnum.RankJoker)
-                        w.Write("Joker");
-                    else
-                    {
-                        if (Rank == RankEnum.RankAce) w.Write("Ace");
-                        else if (Rank == RankEnum.RankKing) w.Write("King");
-                        else if (Rank == RankEnum.RankQueen) w.Write("Queen");
-                        else if (Rank == RankEnum.RankJack) w.Write("Jack");
-                        else w.Write("" + (2 + (int)RankEnum.Rank2 - (int)Rank));
+                if (Rank == RankEnum.RankJoker)
+                    w.Append("Joker");
+                else
+                {
+                    if (Rank == RankEnum.RankAce) w.Append("Ace");
+                    else if (Rank == RankEnum.RankKing) w.Append("King");
+                    else if (Rank == RankEnum.RankQueen) w.Append("Queen");
+                    else if (Rank == RankEnum.RankJack) w.Append("Jack");
+                    else w.Append("" + (2 + (int)RankEnum.Rank2 - (int)Rank));
 
 
-                        w.Write(" Of ");
+                    w.Append(" Of ");
 
-                        if (Suit == SuitEnum.Diamond) w.Write("Diamonds");
-                        if (Suit == SuitEnum.Heart) w.Write("Hearts");
-                        if (Suit == SuitEnum.Spade) w.Write("Spades");
-                        if (Suit == SuitEnum.Club) w.Write("Clubs");
-                    }
+                    if (Suit == SuitEnum.Diamond) w.Append("Diamonds");
+                    if (Suit == SuitEnum.Heart) w.Append("Hearts");
+                    if (Suit == SuitEnum.Spade) w.Append("Spades");
+                    if (Suit == SuitEnum.Club) w.Append("Clubs");
+                }
                 //}
                 //else
                 //{
                 //    w.Write("Unknown");
                 //}
 
-                return w.Text;
+                return w.ToString();
             }
         }
 
@@ -249,7 +250,7 @@ namespace ScriptCoreLib.JavaScript.Cards
 
         public IHTMLImage ToImage(string path)
         {
-			IHTMLImage i = GetImagePath(path);
+            IHTMLImage i = GetImagePath(path);
 
             i.alt = Description;
 

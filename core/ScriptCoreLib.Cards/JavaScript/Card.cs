@@ -14,9 +14,11 @@ using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.Drawing;
 
 using System.Linq;
+using System;
 
 namespace ScriptCoreLib.JavaScript.Cards
 {
+
     [Script]
     public partial class Card 
     {
@@ -44,15 +46,15 @@ namespace ScriptCoreLib.JavaScript.Cards
             return e.CurrentStack;
         }
 
-        public event EventHandler Click;
-        public event EventHandler DoubleClick;
-        public event EventHandler Moved;
+        public event Action Click;
+        public event Action DoubleClick;
+        public event Action Moved;
 
-        public event EventHandler<Predicate<CardStack>> ValidateDragStop;
+        public event Action<ScriptCoreLib.Shared.Predicate<CardStack>> ValidateDragStop;
 
         CardStack FindStack()
         {
-            var p = new Predicate<CardStack>();
+            var p = new ScriptCoreLib.Shared.Predicate<CardStack>();
 
             p.Target = CurrentDeck.StackBy(this);
 
@@ -215,7 +217,7 @@ namespace ScriptCoreLib.JavaScript.Cards
                 var i =(int)r;
 
                 if (CurrentDeck != null)
-                    return Convert.To(r, i, CurrentDeck.RankConverter);
+                    return ScriptCoreLib.JavaScript.Runtime. Convert.To(r, i, CurrentDeck.RankConverter);
 
 
                 return i;
@@ -376,7 +378,7 @@ namespace ScriptCoreLib.JavaScript.Cards
         //    );
         //}
 
-        public void MoveToStackSlow(EventHandler h)
+        public void MoveToStackSlow(Action h)
         {
             if (this.CurrentStack == null)
                 return;

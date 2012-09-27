@@ -14,6 +14,7 @@ using System.Linq;
 
 using global::System.Collections.Generic;
 using global::System.ComponentModel;
+using System;
 
 namespace ScriptCoreLib.JavaScript.Cards
 {
@@ -30,7 +31,7 @@ namespace ScriptCoreLib.JavaScript.Cards
         /// <summary>
         /// override this if the current game does not use default card ranking
         /// </summary>
-        public EventHandler<ConvertTo<CardInfo.RankEnum, int>> RankConverter;
+        public Action<ConvertTo<CardInfo.RankEnum, int>> RankConverter;
 
         public CardDeck()
         {
@@ -94,7 +95,7 @@ namespace ScriptCoreLib.JavaScript.Cards
         /// <summary>
         /// this event will be invoked at the moment a new card is created
         /// </summary>
-        public event EventHandler<Card> ApplyCardRules;
+        public event Action<Card> ApplyCardRules;
 
         public List<Card> Cards = new List<Card>();
 
@@ -108,7 +109,8 @@ namespace ScriptCoreLib.JavaScript.Cards
                 {
                     var c = new Card(this, i);
 
-                    Helper.Invoke(ApplyCardRules, c);
+                    if (ApplyCardRules != null)
+                        ApplyCardRules(c);
 
                     Cards.Add(c);
 
@@ -171,7 +173,7 @@ namespace ScriptCoreLib.JavaScript.Cards
         }
 
 
-        public bool TryToFitToAnyStack(Card c, IEnumerable<CardStack> s, EventHandler<Predicate<CardStack, Card>> h)
+        public bool TryToFitToAnyStack(Card c, IEnumerable<CardStack> s, Action<Predicate<CardStack, Card>> h)
         {
             var r = false;
 
