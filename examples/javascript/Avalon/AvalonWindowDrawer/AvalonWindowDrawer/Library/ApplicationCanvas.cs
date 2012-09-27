@@ -229,6 +229,125 @@ namespace AvalonWindowDrawer.Library
                  };
             #endregion
 
+
+
+            #region TouchDown
+            r.TouchDown +=
+               (s, e) =>
+               {
+
+                   h = new Rectangle
+                   {
+                       Fill = Brushes.Black,
+                   };
+                   hOpacity = h.ToAnimatedOpacity();
+                   hOpacity.Opacity = 0.3;
+
+                   var p = e.GetTouchPoint(r).Position;
+
+                   //Console.WriteLine("MouseLeftButtonDown " + new { p.X, p.Y });
+
+                   GetPosition = y => y(p.X, p.Y);
+
+
+                   h.AttachTo(c).MoveTo(p).SizeTo(0, 0);
+
+                   c.Selection.Orphanize();
+
+                   c.Selection.WindowLocation.Left = p.X;
+                   c.Selection.WindowLocation.Top = p.Y;
+                   c.Selection.WindowLocation.Width = 0;
+                   c.Selection.WindowLocation.Height = 0;
+                   c.Selection.WindowLocationChanged();
+                   c.Selection.Attach();
+
+
+                   Windows.WithEach(k => k.GlassOpacity.Opacity = 0);
+               };
+            #endregion
+
+
+
+            #region MouseMove
+            r.TouchMove +=
+               (s, e) =>
+               {
+                   if (GetPosition != null)
+                   {
+
+                       Func<UIElement, Point> e_GetPosition = x => e.GetTouchPoint(x).Position;
+
+                       GetSnapLocation(e_GetPosition,
+                           (SnapMode, x, y, cx, cy) =>
+                           {
+                               //Console.WriteLine("MouseMove " + new { x, y, cx, cy });
+
+                               if (SnapMode)
+                                   hOpacity.Opacity = 0.9;
+                               else
+                                   hOpacity.Opacity = 0.3;
+
+                               c.Selection.WindowLocation.Left = x;
+                               c.Selection.WindowLocation.Top = y;
+                               c.Selection.WindowLocation.Width = cx;
+                               c.Selection.WindowLocation.Height = cy;
+                               c.Selection.WindowLocationChanged();
+
+                               h.MoveTo(x, y).SizeTo(cx, cy);
+                           }
+                       );
+                   }
+               };
+            #endregion
+
+
+            #region TouchUp
+            r.TouchUp +=
+                 (s, e) =>
+                 {
+                     //Console.WriteLine("MouseLeftButtonUp");
+
+                     if (GetPosition == null)
+                         return;
+
+                     Func<UIElement, Point> e_GetPosition = x => e.GetTouchPoint(x).Position;
+
+                     GetSnapLocation(e_GetPosition,
+                        (SnapMode, x, y, cx, cy) =>
+                        {
+                            //Console.WriteLine("MouseLeftButtonUp " + new { x, y, cx, cy });
+
+                            Windows.WithEach(k => k.GlassOpacity.Opacity = 1);
+
+                            h.Orphanize();
+                            c.Selection.Orphanize();
+
+                            if (cx > 32)
+                                if (cy > 32)
+                                    c.CreateWindow(
+                                        new Base.ApplicationCanvas.Position
+                                        {
+                                            Left = x,
+                                            Top = y,
+                                            Width = cx,
+                                            Height = cy
+                                        },
+
+                                       Windows.Add
+                                     );
+
+
+                        }
+                    );
+
+
+
+                     GetPosition = null;
+
+
+                 };
+            #endregion
+
         }
 
     }
