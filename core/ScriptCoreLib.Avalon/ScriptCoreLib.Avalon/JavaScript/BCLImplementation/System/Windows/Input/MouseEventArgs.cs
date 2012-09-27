@@ -34,7 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
             Internal_OffsetX = __Internal_OffsetX;
             Internal_OffsetY = __Internal_OffsetY;
 
-            Console.WriteLine("GetPosition " + new { Internal_OffsetX, Internal_OffsetY });
+            //Console.WriteLine("GetPosition " + new { Internal_OffsetX, Internal_OffsetY });
 
             var t = (u.RenderTransform as TranslateTransform);
             if (t != null)
