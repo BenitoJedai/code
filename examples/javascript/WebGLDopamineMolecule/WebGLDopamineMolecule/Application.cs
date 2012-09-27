@@ -112,33 +112,40 @@ namespace WebGLDopamineMolecule
             var r1 = .5f;
             var r2 = .2f;
 
+            #region requestPointerLock
+            var __pointer_x = 0;
+            var __pointer_y = 0;
 
-            var prog = gl.createProgram();
-
-
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
+            canvas.onmousedown +=
+                delegate
                 {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader failed");
-                }
+                    canvas.requestPointerLock();
+                };
 
-                return shader;
-            };
+            canvas.onmousemove +=
+                e =>
+                {
+                    if (Native.Document.pointerLockElement == canvas)
+                    {
+
+                        __pointer_x += e.movementX;
+                        __pointer_y += e.movementY;
+                    }
+                };
+
+            canvas.onmouseup +=
+                delegate
+                {
+                    //Native.Document.exitPointerLock();
+                };
             #endregion
 
-            var vs = createShader(new GeometryVertexShader());
-            var fs = createShader(new GeometryFragmentShader());
 
 
-            gl.attachShader(prog, vs);
-            gl.attachShader(prog, fs);
-
+            var prog = gl.createProgram(
+                new GeometryVertexShader(),
+                new GeometryFragmentShader()
+            );
 
             gl.linkProgram(prog);
             gl.useProgram(prog);
@@ -189,8 +196,7 @@ namespace WebGLDopamineMolecule
             gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
                false, new Float32Array(prMatrix.getAsArray()));
             var mvMatrix = new CanvasMatrix4();
-            var rotMat = new CanvasMatrix4();
-            rotMat.makeIdentity();
+
             var mvMatLoc = gl.getUniformLocation(prog, "mvMatrix");
             var colorLoc = gl.getUniformLocation(prog, "color");
             var scaleLoc = gl.getUniformLocation(prog, "scale");
@@ -207,41 +213,46 @@ namespace WebGLDopamineMolecule
             var yRot = 1f;
             var transl = -15.5f;
 
-            #region drawBall
-            Action<f, f, f, f, f, f, f> drawBall = (x, y, z, r, g, b, _scale) =>
-            {
-                var scale = _scale * 1.4f;
 
-                mvMatrix.makeIdentity();
-                mvMatrix.translate(x, y, z);
-                mvMatrix.multRight(rotMat);
-                mvMatrix.translate(0, 0, transl);
-                gl.uniformMatrix4fv(mvMatLoc, false, new Float32Array(mvMatrix.getAsArray()));
-                gl.uniform1f(scaleLoc, scale);
-                gl.uniform3f(colorLoc, r, g, b);
-                for (var i = 0; i < nTheta; i++)
-                    gl.drawElements(gl.TRIANGLE_STRIP, 2 * (nPhi + 1), gl.UNSIGNED_SHORT,
-                      4 * (nPhi + 1) * i);
-            };
-            #endregion
-
-            Action<f, f, f, f> drawBall_white = (x, y, z, _scale) =>
-            drawBall(x, y, z, 1, 1, 1, _scale);
-
-
-            Action<f, f, f, f> drawBall_red = (x, y, z, _scale) =>
-                drawBall(x, y, z, 1, 0, 0, _scale);
-
-            Action<f, f, f, f> drawBall_blue = (x, y, z, _scale) =>
-             drawBall(x, y, z, 0, 0, 1, _scale);
-
-            Action<f, f, f, f> drawBall_gray = (x, y, z, _scale) =>
-          drawBall(x, y, z, .3f, .3f, .3f, _scale);
 
 
             #region drawScene
             Action drawScene = delegate
             {
+                var rotMat = new CanvasMatrix4();
+                rotMat.makeIdentity();
+
+                #region draw
+                Action<f, f, f, f, f, f, f> drawBall = (x, y, z, r, g, b, _scale) =>
+                {
+                    var scale = _scale * 1.4f;
+
+                    mvMatrix.makeIdentity();
+                    mvMatrix.translate(x, y, z);
+                    mvMatrix.multRight(rotMat);
+                    mvMatrix.translate(0, 0, transl);
+                    gl.uniformMatrix4fv(mvMatLoc, false, new Float32Array(mvMatrix.getAsArray()));
+                    gl.uniform1f(scaleLoc, scale);
+                    gl.uniform3f(colorLoc, r, g, b);
+                    for (var i = 0; i < nTheta; i++)
+                        gl.drawElements(gl.TRIANGLE_STRIP, 2 * (nPhi + 1), gl.UNSIGNED_SHORT,
+                          4 * (nPhi + 1) * i);
+                };
+
+                Action<f, f, f, f> drawBall_white = (x, y, z, _scale) =>
+                drawBall(x, y, z, 1, 1, 1, _scale);
+
+
+                Action<f, f, f, f> drawBall_red = (x, y, z, _scale) =>
+                    drawBall(x, y, z, 1, 0, 0, _scale);
+
+                Action<f, f, f, f> drawBall_blue = (x, y, z, _scale) =>
+                 drawBall(x, y, z, 0, 0, 1, _scale);
+
+                Action<f, f, f, f> drawBall_gray = (x, y, z, _scale) =>
+              drawBall(x, y, z, .3f, .3f, .3f, _scale);
+                #endregion
+
                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
 
                 #region prMatrix
@@ -250,8 +261,18 @@ false, new Float32Array(prMatrix.getAsArray()));
                 #endregion
 
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                rotMat.rotate(xRot / 3, 1, 0, 0); rotMat.rotate(yRot / 3, 0, 1, 0);
-                yRot = 0; xRot = 0;
+                
+                rotMat.rotate(xRot / 3, 1, 0, 0); 
+                rotMat.rotate(yRot / 3, 0, 1, 0);
+                
+                //yRot = 0; 
+                //xRot = 0;
+
+                rotMat.rotate(__pointer_y * 1.0f, 1, 0, 0);
+                rotMat.rotate(__pointer_x * 1.0f , 0, 1, 0);
+
+                //__pointer_x = 0;
+                //__pointer_y = 0;
 
                 #region OH2
                 drawBall_white(-4, -2, -1.5f, 1f);

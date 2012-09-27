@@ -405,6 +405,35 @@ namespace WebGLHand
             fdeg_relaxstate[3] = 11;
             fdeg_relaxstate[4] = 33;
 
+            #region requestPointerLock
+            var __pointer_x = 0;
+            var __pointer_y = 0;
+
+            canvas.onmousedown +=
+                delegate
+                {
+                    canvas.requestPointerLock();
+                };
+
+            canvas.onmousemove +=
+                e =>
+                {
+                    if (Native.Document.pointerLockElement == canvas)
+                    {
+
+                        __pointer_x += e.movementX;
+                        __pointer_y += e.movementY;
+                    }
+                };
+
+            canvas.onmouseup +=
+                delegate
+                {
+                    Native.Document.exitPointerLock();
+                };
+            #endregion
+
+
             #region drawScene
             Action drawScene = delegate
             {
@@ -437,6 +466,8 @@ namespace WebGLHand
 
                 // rotate all of it
                 __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.05f), new float[] { -1f, 0.5f, 0f });
+                __glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, new float[] { 1f, 0, 0f });
+                __glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, new float[] { 0, 1f, 0f });
 
 
                 #region DrawCubeAt
@@ -754,7 +785,7 @@ namespace WebGLHand
              };
             #endregion
 
-            #region tick 
+            #region tick
             var tick = default(Action);
 
             tick = delegate
@@ -789,6 +820,8 @@ namespace WebGLHand
 
             tick();
             #endregion
+
+          
         }
 
     }
