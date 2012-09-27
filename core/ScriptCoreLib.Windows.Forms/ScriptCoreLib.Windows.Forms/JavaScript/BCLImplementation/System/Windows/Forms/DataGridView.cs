@@ -935,8 +935,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var c1content = new IHTMLSpan { innerText = c.HeaderText }.AttachTo(c1contentc);
                     c1content.style.marginLeft = "4px";
-                    c1content.style.lineHeight =  "22px";
                     c1content.style.font = DefaultFont.ToCssString();
+                    c1content.style.lineHeight = "22px";
 
                     c.InternalHeaderTextChanged +=
                         delegate
@@ -1241,6 +1241,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                   {
                       if (_e.ListChangedType == ListChangedType.ItemAdded)
                       {
+                          Console.WriteLine("InternalRows ItemAdded " + new { _e.NewIndex });
+
                           var CurrentRowIndex = _e.NewIndex;
                           var SourceRow = this.InternalRows.InternalItems[_e.NewIndex];
 
@@ -1267,7 +1269,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           SourceRow.InternalHeightChanged += AtInternalHeightChanged;
                           #endregion
 
-                          Console.WriteLine("InternalRows ItemAdded " + new { _e.NewIndex });
 
                           CreateMissingCells(SourceRow);
 
