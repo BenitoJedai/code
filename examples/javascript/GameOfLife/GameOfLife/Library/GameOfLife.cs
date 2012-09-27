@@ -81,8 +81,8 @@ namespace GameOfLife.js
         [Script]
         class __Type1
         {
-            public Color  ColorDeath;
-            public Color  ColorBirth;
+            public Color ColorDeath;
+            public Color ColorBirth;
         }
 
         /// <summary>
@@ -93,8 +93,14 @@ namespace GameOfLife.js
         {
 
 
-            Native.Document.body.style.backgroundColor = Color.System.ThreeDFace;
 
+            var MyContainer = new IHTMLDiv().AttachToDocument();
+
+            MyContainer.style.position = IStyle.PositionEnum.absolute;
+            MyContainer.style.left = "0px";
+            MyContainer.style.top = "0px";
+            MyContainer.style.right = "0px";
+            MyContainer.style.bottom = "0px";
 
             var vv = new ArenaControl();
 
@@ -102,18 +108,28 @@ namespace GameOfLife.js
 
 
 
-            var cx = 24;
-            var cy = 24;
+            var cx = 32;
+            var cy = 32;
 
-            var w = 24;
-            var h = 24;
+            var w = 32;
+            var h = 32;
 
             vv.SetCanvasSize(new Point(cx * w, cy * h));
 
-            vv.SetLocation(new Rectangle { Left = 32, Top = 32, Width = 400, Height = 300 });
+
+            vv.SetLocation(new Rectangle { Left = 0, Top = 0, Width = Native.Window.Width, Height = Native.Window.Height });
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    Console.WriteLine("onresize");
+                    vv.SetLocation(new Rectangle { Left = 0, Top = 0, Width = Native.Window.Width, Height = Native.Window.Height });
+
+                };
+
             vv.Layers.Canvas.style.backgroundColor = Color.White;
 
-            vv.Control.AttachToDocument();
+            vv.Control.AttachTo(MyContainer);
 
 
             var buffer = new Array2D<LayeredControl.CanvasRectangle>(cx, cy);
@@ -129,7 +145,7 @@ namespace GameOfLife.js
                     vv.DrawTextToInfo(text, pos + new Point(1, 1), c);
                 };
 
-            DrawTextWithShadow("Game Of Life - Use middle mouse button to drag map around", new Point(8, 8), Color.Red);
+            //DrawTextWithShadow("Game Of Life - Use middle mouse button to drag map around", new Point(8, 8), Color.Red);
 
             int index = 0;
 
@@ -169,24 +185,24 @@ namespace GameOfLife.js
 
             vv.Layers.Canvas.Show();
 
-            var f = new IHTMLElement(IHTMLElement.HTMLElementEnum.fieldset);
+            //var f = new IHTMLElement(IHTMLElement.HTMLElementEnum.fieldset);
 
-            var chk_enabled = new IHTMLInput(HTMLInputTypeEnum.checkbox);
-            var btn_reset = new IHTMLButton("Randomize");
+            //var chk_enabled = new IHTMLInput(HTMLInputTypeEnum.checkbox);
+            //var btn_reset = new IHTMLButton("Randomize");
 
-            btn_reset.onclick += (i) => Reset();
+            //btn_reset.onclick += (i) => Reset();
 
-            f.appendChild(btn_reset, chk_enabled, new IHTMLLabel("Activate", chk_enabled));
+            //f.appendChild(btn_reset, chk_enabled, new IHTMLLabel("Activate", chk_enabled));
 
-            f.AttachToDocument();
-            f.style.SetLocation(500, 60);
+            //f.AttachToDocument();
+            //f.style.SetLocation(500, 60);
 
             var NextEvolution = default(Action);
 
             Action<int> SleepAndEvolve =
                 (timeout) => new Timer((t) => NextEvolution(), timeout, 0);
 
-
+            #region NextEvolution
             NextEvolution =
                 () =>
                 {
@@ -194,7 +210,7 @@ namespace GameOfLife.js
                     var nextframe = default(Action);
                     var t = IDate.Now.getTime();
 
-                    if (chk_enabled.@checked)
+                    //if (chk_enabled.@checked)
                         buffer.ForEach(
                             (int x, int y) =>
                             {
@@ -258,6 +274,7 @@ namespace GameOfLife.js
 
                     SleepAndEvolve(timeout.Max(100));
                 };
+            #endregion
 
             SleepAndEvolve(1);
 
