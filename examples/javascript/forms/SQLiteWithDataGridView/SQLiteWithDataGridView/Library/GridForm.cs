@@ -254,6 +254,9 @@ namespace SQLiteWithDataGridView.Library
                 item => (string)item.Cells[0].Value == ContentKey
             );
 
+            if (r != null)
+                if (string.IsNullOrEmpty((string)r.Cells[0].Value))
+                    r = null;
 
             if (r == null)
             {

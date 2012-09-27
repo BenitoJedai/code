@@ -25,7 +25,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
 
         public static __Point operator +(__Point pt, Size sz)
         {
-            var p = new __Point(pt.X + sz.Width, pt.Y + sz.Width);
+            var p = new __Point(pt.X + sz.Width, pt.Y + sz.Height);
 
 
             return p;
