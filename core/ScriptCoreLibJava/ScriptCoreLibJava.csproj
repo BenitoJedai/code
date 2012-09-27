@@ -62,6 +62,18 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
+      <Link>BCLImplementation\System\Collections\Generic\IEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerator.cs">
+      <Link>BCLImplementation\System\Collections\Generic\IEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerable.cs">
+      <Link>BCLImplementation\System\Collections\IEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerator.cs">
+      <Link>BCLImplementation\System\Collections\IEnumerator.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Comparision.cs">
       <Link>BCLImplementation\System\Comparision.cs</Link>
     </Compile>
@@ -76,6 +88,21 @@
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Func.cs">
       <Link>BCLImplementation\System\Func.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\ICloneable.cs">
+      <Link>BCLImplementation\System\ICloneable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\IDisposable.cs">
+      <Link>BCLImplementation\System\IDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\IFormatProvider.cs">
+      <Link>BCLImplementation\System\IFormatProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\IFormattable.cs">
+      <Link>BCLImplementation\System\IFormattable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\IServiceProvider.cs">
+      <Link>BCLImplementation\System\IServiceProvider.cs</Link>
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Predicate.cs">
       <Link>BCLImplementation\System\Predicate.cs</Link>
@@ -116,9 +143,7 @@
     <Compile Include="BCLImplementation\System\Collections\ArrayList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Collections\Generic\IEnumerator.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\ICollection.cs" />
-    <Compile Include="BCLImplementation\System\Collections\Generic\IEnumerable.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\IList.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="BCLImplementation\System\Collections\Hashtable.cs">
@@ -128,12 +153,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Collections\IDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Collections\IEnumerable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Collections\IEnumerator.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Collections\IList.cs">
@@ -225,15 +244,6 @@
     <Compile Include="BCLImplementation\System\IAsyncResult.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\IClonable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\IDisposable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\IFormatProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Int16.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -292,9 +302,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\IO\TextWriter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\IServiceProvider.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\MarshalByRefObject.cs">

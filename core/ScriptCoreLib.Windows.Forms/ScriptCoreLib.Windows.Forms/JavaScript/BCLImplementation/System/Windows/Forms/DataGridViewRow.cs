@@ -67,7 +67,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     if (e.ListChangedType == global::System.ComponentModel.ListChangedType.ItemAdded)
                     {
-                        this.InternalCells.InternalItems[e.NewIndex].InternalContext = this;
+                        this.InternalCells.InternalItems[e.NewIndex].InternalOwningRow = this;
                     }
                 };
 

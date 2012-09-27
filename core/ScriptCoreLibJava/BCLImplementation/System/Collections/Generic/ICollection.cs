@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {

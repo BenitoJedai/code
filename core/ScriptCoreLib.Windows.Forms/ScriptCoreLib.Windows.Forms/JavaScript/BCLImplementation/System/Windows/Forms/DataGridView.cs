@@ -328,6 +328,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.style.left = "0";
                     SourceCell.InternalContentContainer.style.top = "0";
                     SourceCell.InternalContentContainer.style.height = (SourceRow.Height - 1) + "px";
+                    SourceCell.InternalContentContainer.style.font = DefaultFont.ToCssString();
 
                     SourceCell.InternalTableColumn.style.borderBottom = "1px solid gray";
 
@@ -349,18 +350,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.InternalWidthChanged += AtInternalWidthChanged;
                     #endregion
 
-                    var c1content = new IHTMLSpan { };
+                    var InternalContent = new IHTMLSpan { };
 
                     #region AtInternalValueChanged
                     Action AtInternalValueChanged = delegate
                     {
-                        c1content.innerText = SourceCell.Value.ToString();
+                        InternalContent.innerText = SourceCell.Value.ToString();
+
+                        InternalRaiseCellValueChanged(SourceCell);
 
 
-                        if (this.CellValueChanged != null)
-                            this.CellValueChanged(this,
-                                new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
-                            );
                     };
 
                     AtInternalValueChanged();
@@ -378,7 +377,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         InternalButton.style.right = "0px";
                         InternalButton.style.bottom = "0px";
 
-                        c1content.AttachTo(InternalButton);
+                        InternalContent.AttachTo(InternalButton);
 
                         InternalButton.onclick +=
                             delegate
@@ -396,9 +395,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //SourceCell.InternalTableColumn.style.backgroundColor = JSColor.Yellow;
 
 
-                    c1content.AttachTo(SourceCell.InternalContentContainer);
-                    c1content.style.marginLeft = "4px";
-                    c1content.style.lineHeight = (SourceRow.Height - 1) + "px";
+                    InternalContent.AttachTo(SourceCell.InternalContentContainer);
+                    InternalContent.style.marginLeft = "4px";
+                    InternalContent.style.lineHeight = (SourceRow.Height - 1) + "px";
 
 
                     //c1content.style.margin = "6px";
@@ -486,7 +485,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                         SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                                     };
 
-                                InternalRaiseEndEdit(SourceCell);
+                                InternalRaiseCellEndEdit(SourceCell);
 
                             };
                             #endregion
@@ -496,7 +495,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             {
                                 //if (((string)SourceCell.Value) != EditElement.value)
                                 //{
-                                    SourceCell.Value = EditElement.value;
+                                SourceCell.Value = EditElement.value;
 
                                 //}
 
@@ -513,10 +512,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 };
                             EditElement.focus();
 
-                            if (this.CellBeginEdit != null)
-                                this.CellBeginEdit(this,
-                                    new DataGridViewCellCancelEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
-                                );
+                            InternalRaiseCellBeginEdit(SourceCell);
+
                             #endregion
 
 
@@ -938,7 +935,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var c1content = new IHTMLSpan { innerText = c.HeaderText }.AttachTo(c1contentc);
                     c1content.style.marginLeft = "4px";
-                    c1content.style.lineHeight = (20) + "px";
+                    c1content.style.lineHeight =  "22px";
+                    c1content.style.font = DefaultFont.ToCssString();
 
                     c.InternalHeaderTextChanged +=
                         delegate
@@ -1288,10 +1286,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __DataGridViewRow PendingNewRow = null;
 
             #region UserAddedRow
-            this.CellBeginEdit +=
-                (s, e) =>
+            this.InternalRaiseCellBeginEdit =
+                (SourceCell) =>
                 {
-                    var SourceRow = this.InternalRows.InternalItems[e.RowIndex];
+                    Console.WriteLine("InternalRaiseCellBeginEdit " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
+
+                    var SourceRow = SourceCell.InternalOwningRow;
 
                     if (SourceRow.IsNewRow)
                     {
@@ -1306,23 +1306,47 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         if (this.UserAddedRow != null)
                             this.UserAddedRow(this, new DataGridViewRowEventArgs((DataGridViewRow)(object)SourceRow));
                     }
+
+
+                    if (this.CellBeginEdit != null)
+                        this.CellBeginEdit(this,
+                            new DataGridViewCellCancelEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
+                        );
                 };
             #endregion
 
             #region CellEndEdit
-            this.CellValueChanged +=
-                (s, e) =>
+
+            this.InternalRaiseCellValueChanged =
+                (SourceCell) =>
                 {
-                    var SourceRow = this.InternalRows.InternalItems[e.RowIndex];
+                    var SourceRow = SourceCell.InternalOwningRow;
+
+                    if (SourceRow.IsNewRow)
+                    {
+                        // if there is now content on the new row then we need another new row downt we?
+                        return;
+                    }
+
+                    Console.WriteLine("InternalRaiseCellValueChanged " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
+
 
                     if (PendingNewRow == SourceRow)
                         PendingNewRow = null;
+
+                    if (this.CellValueChanged != null)
+                        this.CellValueChanged(this,
+                            new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceCell.OwningRow.Index)
+                        );
                 };
 
-            this.InternalRaiseEndEdit =
+            this.InternalRaiseCellEndEdit =
                 (SourceCell) =>
                 {
-                    var SourceRow = SourceCell.InternalContext;
+                    Console.WriteLine("InternalRaiseCellEndEdit " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
+
+                    var SourceRow = SourceCell.InternalOwningRow;
+
                     #region  PendingNewRow
                     if (PendingNewRow == SourceRow)
                     {
@@ -1377,7 +1401,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
         }
 
-        public Action<__DataGridViewCell> InternalRaiseEndEdit;
+        public Action<__DataGridViewCell> InternalRaiseCellBeginEdit;
+        public Action<__DataGridViewCell> InternalRaiseCellEndEdit;
+        public Action<__DataGridViewCell> InternalRaiseCellValueChanged;
 
         public event DataGridViewColumnEventHandler ColumnAdded;
         public event DataGridViewCellEventHandler CellContentClick;

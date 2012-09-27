@@ -69,7 +69,7 @@ namespace ScriptCoreLib.JavaScript.Drawing
             status-bar
              */
 
-            Console.WriteLine("font: " + w);
+            //Console.WriteLine("font: " + w);
 
             return w;
         }
