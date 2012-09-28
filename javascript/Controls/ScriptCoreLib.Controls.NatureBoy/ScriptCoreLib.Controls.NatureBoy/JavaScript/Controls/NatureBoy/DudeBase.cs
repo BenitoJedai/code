@@ -521,6 +521,11 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
 
         public void UpdateFrameImage(FrameInfo frame)
         {
+            if (frame == null)
+            {
+
+                return;
+            }
 
             var e = frame.Image;
 

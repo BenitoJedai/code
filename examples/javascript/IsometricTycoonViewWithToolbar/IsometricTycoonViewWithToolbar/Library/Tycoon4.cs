@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Extensions;
 
 using System.Linq;
 using System;
@@ -19,6 +20,7 @@ namespace ThreeDStuff.js
     using ScriptCoreLib.JavaScript.Controls;
     using ScriptCoreLib.JavaScript.Runtime;
     using ScriptCoreLib.JavaScript.Controls.LayeredControl;
+    using IsometricTycoonViewWithToolbar.HTML.Images.FromAssets;
 
     public enum IdleBehaviour
     {
@@ -142,6 +144,8 @@ namespace ThreeDStuff.js
 
             PauseFogTween.ValueChanged +=
                     () => PauseFog.style.Opacity = PauseFogTween.Value;
+
+            #region onresize
             Action onresize =
                 delegate
                 {
@@ -161,33 +165,34 @@ namespace ThreeDStuff.js
                 };
 
             onresize();
+            #endregion
 
             info.AttachTo(arena.Layers.Info);
 
             #region TileResources
             var TileResources = new
                 {
-                    Grass = new { Source = "assets/ThreeDStuff/0.png", Height = 32 },
-                    Rocks = new { Source = "assets/ThreeDStuff/1.png", Height = 32 },
-                    TileSelector = new { Source = "assets/ThreeDStuff/3.png", Height = 32 },
-                    RoughLand = new { Source = "assets/ThreeDStuff/2.png", Height = 32 },
-                    Dirt = new { Source = "assets/ThreeDStuff/4.png", Height = 32 },
-                    DirtDirtGrass = new { Source = "assets/ThreeDStuff/5.png", Height = 32 },
-                    DirtGrassGrass = new { Source = "assets/ThreeDStuff/6.png", Height = 32 },
-                    Track1 = new { Source = "assets/ThreeDStuff/r2.png", Height = 32 },
-                    Road2 = new { Source = "assets/ThreeDStuff/r1.png", Height = 32 },
-                    Road2_Track1 = new { Source = "assets/ThreeDStuff/r3.png", Height = 32 },
-                    Road1 = new { Source = "assets/ThreeDStuff/r4.png", Height = 32 },
-                    Road1_Road2 = new { Source = "assets/ThreeDStuff/r5.png", Height = 32 },
-                    Tree = new { Source = "assets/ThreeDStuff/t1.png", Height = 65 },
-                    House1 = new { Source = "assets/ThreeDStuff/h1.png", Height = 52 },
-                    House2 = new { Source = "assets/ThreeDStuff/h2.png", Height = 96 },
-                    House3 = new { Source = "assets/ThreeDStuff/h3.png", Height = 50 },
-                    House4 = new { Source = "assets/ThreeDStuff/h4.png", Height = 53 },
-                    House5a = new { Source = "assets/ThreeDStuff/h5a.png", Height = 33 },
-                    House5b = new { Source = "assets/ThreeDStuff/h5b.png", Height = 40 },
-                    House5c = new { Source = "assets/ThreeDStuff/h5c.png", Height = 40 },
-                    House5 = new { Source = "assets/ThreeDStuff/h5.png", Height = 40 }
+                    Grass = new { Source = new _0().src, Height = 32 },
+                    Rocks = new { Source = new _1().src, Height = 32 },
+                    TileSelector = new { Source = new _3().src, Height = 32 },
+                    RoughLand = new { Source = new _2().src, Height = 32 },
+                    Dirt = new { Source = new _4().src, Height = 32 },
+                    DirtDirtGrass = new { Source = new _5().src, Height = 32 },
+                    DirtGrassGrass = new { Source = new _6().src, Height = 32 },
+                    Track1 = new { Source = new r2().src, Height = 32 },
+                    Road2 = new { Source = new r1().src, Height = 32 },
+                    Road2_Track1 = new { Source = new r3().src, Height = 32 },
+                    Road1 = new { Source = new r4().src, Height = 32 },
+                    Road1_Road2 = new { Source = new r5().src, Height = 32 },
+                    Tree = new { Source = new t1().src, Height = 65 },
+                    House1 = new { Source = new h1().src, Height = 52 },
+                    House2 = new { Source = new h2().src, Height = 96 },
+                    House3 = new { Source = new h3().src, Height = 50 },
+                    House4 = new { Source = new h4().src, Height = 53 },
+                    House5a = new { Source = new h5a().src, Height = 33 },
+                    House5b = new { Source = new h5b().src, Height = 40 },
+                    House5c = new { Source = new h5c().src, Height = 40 },
+                    House5 = new { Source = new h5().src, Height = 40 }
                 };
 
             var TileResourcesList = new[]
@@ -234,10 +239,32 @@ namespace ThreeDStuff.js
 
                 };
 
+            //var TycoonBusImages = new IsometricTycoonViewWithToolbar.HTML.Pages.TycoonBus().Images;
+
+            //TycoonBusImages.WithEach(
+            //    img =>
+            //    {
+            //        Console.WriteLine(img.src);
+
+            //    }
+            //);
+
+            var TycoonBusImages = new IHTMLImage[] {
+                new bus0(),
+                new bus1(),
+                new bus2(),
+                new bus3(),
+                new bus4(),
+                new bus5(),
+                new bus6(),
+                new bus7(),
+            
+            };
+
             MyFrames_Bus.Frames_Stand = (
-                        from i in 8.ToRange()
-                        let src = Assets.Tycoon_Bus + "/" + i + ".png"
-                        select new FrameInfo { Source = src, Weight = 1 / 8d }
+                        from i in TycoonBusImages
+                        //let src = Assets.Tycoon_Bus + "/" + i + ".png"
+                        select new FrameInfo { Source = i.src, Weight = 1 / 8d }
                     ).ToArray();
             MyFrames_Bus.Frames_Walk = new[] { MyFrames_Bus.Frames_Stand };
             #endregion
@@ -585,12 +612,12 @@ namespace ThreeDStuff.js
                     var query = from a in data
                                 where a.color == TileColorRoad1
                                 let b = data.FirstOrDefault(i =>
-                                {
-                                    var SameColor = i.color == TileColorRoad2;
-                                    var SameLocation = i.x == a.x && i.y == a.y;
+                                    {
+                                        var SameColor = i.color == TileColorRoad2;
+                                        var SameLocation = i.x == a.x && i.y == a.y;
 
-                                    return SameColor && SameLocation;
-                                })
+                                        return SameColor && SameLocation;
+                                    })
                                 where b != null
                                 let c = new { a.x, a.y, color = TileColorRoad3 }
                                 select new { a, b, c };
@@ -600,12 +627,12 @@ namespace ThreeDStuff.js
                         var __hint8 = "before iteration data0";
 
                         var data0 = data.Where(i =>
-                        {
-                            if (i == v.a) return false;
-                            if (i == v.b) return false;
+                                {
+                                    if (i == v.a) return false;
+                                    if (i == v.b) return false;
 
-                            return true;
-                        });
+                                    return true;
+                                });
                         var __hint9 = "before iteration";
 
                         data = data0.ConcatSingle(v.c)
@@ -646,19 +673,19 @@ namespace ThreeDStuff.js
                             SpawnItems(TileColor,
                                 () =>
                                 {
-                                    if (0.05.ByChance()) return "assets/ThreeDStuff/1.png";
-                                    if (0.09.ByChance()) return "assets/ThreeDStuff/2.png";
+                                    if (0.05.ByChance()) return new _1().src;
+                                    if (0.09.ByChance()) return new _2().src;
 
-                                    return "assets/ThreeDStuff/0.png";
+                                    return new _0().src;
                                 }, 32);
 
-                            SpawnItems(TileColorRoad1, () => "assets/ThreeDStuff/r1.png", 32);
-                            SpawnItems(TileColorRoad2, () => "assets/ThreeDStuff/r2.png", 32);
-                            SpawnItems(TileColorRoad3, () => "assets/ThreeDStuff/r3.png", 32);
-                            SpawnItems(TileColorHouse1, () => "assets/ThreeDStuff/h1.png", 52);
-                            SpawnItems(TileColorHouse2, () => "assets/ThreeDStuff/h2.png", 96);
-                            SpawnItems(TileColorHouse3, () => "assets/ThreeDStuff/h3.png", 50);
-                            SpawnItems(TileColorTree1, () => "assets/ThreeDStuff/t1.png", 65);
+                            SpawnItems(TileColorRoad1, () => new r1().src, 32);
+                            SpawnItems(TileColorRoad2, () => new r2().src, 32);
+                            SpawnItems(TileColorRoad3, () => new r3().src, 32);
+                            SpawnItems(TileColorHouse1, () => new h1().src, 52);
+                            SpawnItems(TileColorHouse2, () => new h2().src, 96);
+                            SpawnItems(TileColorHouse3, () => new h3().src, 50);
+                            SpawnItems(TileColorTree1, () => new t1().src, 65);
 
 
 
@@ -988,7 +1015,7 @@ namespace ThreeDStuff.js
                             toolbar.Control.AttachToDocument();
 
                             var toolbar_btn_pause = new ToolbarButton(
-                                toolbar, "assets/ThreeDStuff/btn_pause.png"
+                                toolbar, new btn_pause().src
                                 )
                             {
                                 Title = "Pause"
@@ -1009,7 +1036,7 @@ namespace ThreeDStuff.js
 
                             #region toolbar_btn_demolish
                             var toolbar_btn_demolish = new ToolbarButton(
-                                toolbar, "assets/ThreeDStuff/btn_demolish.png"
+                                toolbar, new btn_demolish().src
                             )
                             {
                                 Title = "Demolish"
@@ -1024,19 +1051,19 @@ namespace ThreeDStuff.js
 
 
                             var toolbar_btn_track1 = new ToolbarButton(
-                               toolbar, "assets/ThreeDStuff/btn_track1.png"
+                               toolbar, new btn_track1().src
                             ) { Title = "Build rail tracks" };
 
                             var toolbar_btn_road2 = new ToolbarButton(
-                              toolbar, "assets/ThreeDStuff/btn_road2.png"
+                              toolbar, new btn_road2().src
                            ) { Title = "Build road" };
 
                             var toolbar_btn_road1 = new ToolbarButton(
-                             toolbar, "assets/ThreeDStuff/btn_road1.png"
+                             toolbar, new btn_road1().src
                             ) { Title = "Build road" };
 
                             var toolbar_btn_road1_road2 = new ToolbarButton(
-                             toolbar, "assets/ThreeDStuff/btn_road1_road2.png"
+                             toolbar, new btn_road1_road2().src
                             ) { Title = "Build road" };
 
 
@@ -1047,7 +1074,7 @@ namespace ThreeDStuff.js
                             */
 
                             var toolbar_btn_trees = new ToolbarButton(
-                               toolbar, "assets/ThreeDStuff/btn_trees.png"
+                               toolbar, new btn_trees().src
                             ) { Title = "Build trees" };
 
 
@@ -1066,7 +1093,7 @@ namespace ThreeDStuff.js
 
                             var __Keys = TileSelectorModes.Keys;
                             var __KeysArray = __Keys.ToArray();
-                            
+
                             var __after_error = "__after_error";
 
 
@@ -1077,11 +1104,11 @@ namespace ThreeDStuff.js
 
 
                             var toolbar_btn_city = new ToolbarButton(
-                                toolbar, "assets/ThreeDStuff/btn_city.png"
+                                toolbar, new btn_city().src
                             ) { Title = "Build city" };
 
                             var toolbar_btn_landinfo = new ToolbarButton(
-                                toolbar, "assets/ThreeDStuff/btn_landinfo.png"
+                                toolbar, new btn_landinfo().src
                             ) { Title = "Show info" };
 
                             toolbar_btn_landinfo.Clicked +=
@@ -1885,7 +1912,7 @@ namespace ThreeDStuff.js
                                 PauseFogTween.Value = 0;
 
 
-                            
+
                         });
 
                 };

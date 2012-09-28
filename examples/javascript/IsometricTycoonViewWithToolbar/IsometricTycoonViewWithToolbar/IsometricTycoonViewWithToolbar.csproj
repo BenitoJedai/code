@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A28A2898-D11B-4027-B5FE-2A911CC5D66F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IsometricTycoonViewWithToolbar</RootNamespace>
+    <AssemblyName>IsometricTycoonViewWithToolbar</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>IsometricTycoonViewWithToolbar.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Controls.LayeredControl">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.LayeredControl.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Controls.NatureBoy">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.NatureBoy.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.XLinq">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="IsometricTycoonViewWithToolbar.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\IsometricTycoonViewWithToolbar.AssetsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\Default.css" />
+    <Content Include="Design\Default.htm" />
+    <Compile Include="Library\Extensions.cs" />
+    <Compile Include="Library\Toolbar\Extensions.cs" />
+    <Compile Include="Library\Toolbar\ToolbarButton.cs" />
+    <Compile Include="Library\Toolbar\ToolbarButtonGroup.cs" />
+    <Compile Include="Library\Toolbar\ToolbarDialog.cs" />
+    <Compile Include="Library\Tycoon4.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Content Include="Design\mouse.png" />
+    <Content Include="Design\Tiles\0.png" />
+    <Content Include="Design\Tiles\1.png" />
+    <Content Include="Design\Tiles\2.png" />
+    <Content Include="Design\Tiles\3.png" />
+    <Content Include="Design\Tiles\4.png" />
+    <Content Include="Design\Tiles\5.png" />
+    <Content Include="Design\Tiles\6.png" />
+    <Content Include="Design\Tiles\h1.png" />
+    <Content Include="Design\Tiles\h2.png" />
+    <Content Include="Design\Tiles\h3.png" />
+    <Content Include="Design\Tiles\h4.png" />
+    <Content Include="Design\Tiles\h5.png" />
+    <Content Include="Design\Tiles\h5a.png" />
+    <Content Include="Design\Tiles\h5b.png" />
+    <Content Include="Design\Tiles\h5c.png" />
+    <Content Include="Design\Tiles\r1.png" />
+    <Content Include="Design\Tiles\r2.png" />
+    <Content Include="Design\Tiles\r3.png" />
+    <Content Include="Design\Tiles\r4.png" />
+    <Content Include="Design\Tiles\r5.png" />
+    <Content Include="Design\Tiles\t1.png" />
+    <Content Include="Design\ToolbarButtons\btn_city.png" />
+    <Content Include="Design\ToolbarButtons\btn_demolish.png" />
+    <Content Include="Design\ToolbarButtons\btn_disabled.png" />
+    <Content Include="Design\ToolbarButtons\btn_landinfo.png" />
+    <Content Include="Design\ToolbarButtons\btn_pause.png" />
+    <Content Include="Design\ToolbarButtons\btn_road1.png" />
+    <Content Include="Design\ToolbarButtons\btn_road1_road2.png" />
+    <Content Include="Design\ToolbarButtons\btn_road2.png" />
+    <Content Include="Design\ToolbarButtons\btn_sign.png" />
+    <Content Include="Design\ToolbarButtons\btn_track1.png" />
+    <Content Include="Design\ToolbarButtons\btn_trees.png" />
+    <Content Include="Design\TycoonBus\bus0.png" />
+    <Content Include="Design\TycoonBus\bus1.png" />
+    <Content Include="Design\TycoonBus\bus2.png" />
+    <Content Include="Design\TycoonBus\bus3.png" />
+    <Content Include="Design\TycoonBus\bus4.png" />
+    <Content Include="Design\TycoonBus\bus5.png" />
+    <Content Include="Design\TycoonBus\bus6.png" />
+    <Content Include="Design\TycoonBus\bus7.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName)==Release (
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
+)</PostBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+</PreBuildEvent>
+  </PropertyGroup>
+</Project>

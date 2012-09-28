@@ -248,6 +248,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 
             var u = this.Layers.User;
 
+            #region onmousemove
             u.onmousedown +=
                 e =>
                 {
@@ -293,7 +294,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
                         drag_enabled = false;
-                        
+
                         if (Native.Document.pointerLockElement == u)
                         {
                             Native.Document.exitPointerLock();
@@ -310,6 +311,43 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                         drag_enabled = false;
                     }
                 };
+            #endregion
+
+
+
+            #region onmousemove
+            u.ontouchstart +=
+                e =>
+                {
+                    drag_enabled = true;
+                    var OffsetPosition = new Point(e.touches[0].clientX, e.touches[0].clientY);
+
+                    drag_start = OffsetPosition - this.CurrentCanvasPosition;
+                };
+
+            u.ontouchmove +=
+                e =>
+                {
+                    if (drag_enabled)
+                    {
+                        var OffsetPosition = new Point(e.touches[0].clientX, e.touches[0].clientY);
+
+                        this.SetCanvasPosition(OffsetPosition - drag_start);
+                    }
+
+                };
+
+            u.ontouchend +=
+                e =>
+                {
+
+                    drag_enabled = false;
+
+
+                };
+
+
+            #endregion
         }
 
 
