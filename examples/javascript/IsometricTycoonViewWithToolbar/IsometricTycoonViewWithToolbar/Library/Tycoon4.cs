@@ -274,6 +274,7 @@ namespace ThreeDStuff.js
             Action AllImagesLoaded = delegate { };
 
             var ImagesThatAreCurrentlyLoading = new List<IHTMLImage>();
+            var ImagesThatAreCurrentlyLoadingCounter = 0;
 
             //Action<IHTMLImage> LoadingSingleImageDone = img =>
             //{
@@ -295,7 +296,7 @@ namespace ThreeDStuff.js
                 {
                     ImagesThatAreCurrentlyLoading.Add(Image);
 
-                    //Image.InvokeOnComplete(img => LoadingSingleImageDone(img), 30);
+                    Image.InvokeOnComplete(img => { ImagesThatAreCurrentlyLoadingCounter++; }, 30);
                     //LoadingSingleImageDone(Image);
                 };
             #endregion
@@ -1925,7 +1926,20 @@ namespace ThreeDStuff.js
 
             TileResourcesList.ForEach(i => StartLoadingSingleImage(i.Source));
 
-            AllImagesLoaded();
+
+
+            new Timer(
+                t =>
+                {
+                    info.innerHTML = ImagesThatAreCurrentlyLoadingCounter + " of " + ImagesThatAreCurrentlyLoading.Count;
+
+                    if (ImagesThatAreCurrentlyLoading.Count == ImagesThatAreCurrentlyLoadingCounter)
+                    {
+                        t.Stop();
+                        AllImagesLoaded();
+                    }
+                }
+            ).StartInterval(30);
         }
 
 

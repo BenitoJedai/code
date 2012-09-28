@@ -37,13 +37,6 @@ namespace ThreeDStuff.js
         Rectangle
     }
 
-    [ScriptApplicationEntryPoint(
-        //IsClickOnce = true, ScriptedLoading = true
-        ),
-        //ApplicationDescription(
-        //    Description = "This example demostrates how would an isometric javascript game look like in your browser. You can see landscape from <i>Transport Tycoon</i> and the characters are from <i>Wolfenstein 3D</i> and <i>Doom</i>."
-        //)
-    ]
     public partial class Tycoon4
     {
         [Script]
