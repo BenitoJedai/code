@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.Web;
 using System.Web.Profile;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
