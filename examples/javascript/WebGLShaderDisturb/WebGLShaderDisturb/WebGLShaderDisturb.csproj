@@ -135,7 +135,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\disturb.jpg" />
-    <Content Include="Design\Images\Preview.png" />
+    <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Disturb.vert" />

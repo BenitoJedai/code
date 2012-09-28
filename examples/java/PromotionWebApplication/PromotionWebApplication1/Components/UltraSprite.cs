@@ -8,17 +8,17 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace PromotionWebApplication1
 {
-	public sealed class UltraSprite : Sprite
-	{
-		public const int DefaultWidth = JSCSolutionsNETCarouselCanvas.DefaultWidth;
-		public const int DefaultHeight = JSCSolutionsNETCarouselCanvas.DefaultHeight;
+    //public sealed class UltraSprite : Sprite
+    //{
+    //    public const int DefaultWidth = JSCSolutionsNETCarouselCanvas.DefaultWidth;
+    //    public const int DefaultHeight = JSCSolutionsNETCarouselCanvas.DefaultHeight;
 
-		public UltraSprite()
-		{
-			var c = new JSCSolutionsNETCarouselCanvas();
+    //    public UltraSprite()
+    //    {
+    //        var c = new JSCSolutionsNETCarouselCanvas();
 
-			c.Container.AttachToContainer(this);
-		}
-	}
+    //        c.Container.AttachToContainer(this);
+    //    }
+    //}
 
 }
