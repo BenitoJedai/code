@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -93,10 +94,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -114,9 +111,6 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="PromotionBrandIntro.UltraSource">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\PromotionBrandIntro\bin\staging.UltraSource\PromotionBrandIntro.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="PromotionBrandIntro.UltraSource">
       <HintPath>bin\staging.UltraSource\PromotionBrandIntro.UltraSource.dll</HintPath>
     </Reference>
