@@ -26,8 +26,6 @@ namespace ThreeDStuff.js
     [Script]
     partial class IsometricWithToolbar { }
     
-    [Script]
-    partial class Tycoon4 { }
 
 
     [Script, global::System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
@@ -38,7 +36,7 @@ namespace ThreeDStuff.js
         public string FlashMovie;
     }
 
-    [Script, ScriptApplicationEntryPoint]
+    //[Script, ScriptApplicationEntryPoint]
     public class ThreeDStuff
     {
         public ThreeDStuff()
