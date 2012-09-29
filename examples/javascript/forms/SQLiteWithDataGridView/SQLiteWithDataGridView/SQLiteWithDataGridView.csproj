@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}</ProjectGuid>
+    <ProjectGuid>{F4EA042E-A57B-472B-9B47-98E0A1099FA9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SQLiteWithDataGridView</RootNamespace>
