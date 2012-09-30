@@ -84,9 +84,6 @@ namespace WebGLShaderDisturb
             // Create Program
 
 
-
-            #region createProgram
-
             var program = gl.createProgram(
                 new DisturbVertexShader(),
                 new DisturbFragmentShader()
@@ -99,7 +96,6 @@ namespace WebGLShaderDisturb
 
 
 
-            #endregion
 
             #region loadTexture
             Func<IHTMLImage, WebGLTexture> loadTexture = (image) =>
