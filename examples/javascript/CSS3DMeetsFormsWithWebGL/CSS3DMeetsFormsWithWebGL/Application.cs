@@ -6,16 +6,18 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using GoogleImagesGiftBox.HTML.Pages;
-using GoogleImagesGiftBox.Design;
+using CSS3DMeetsFormsWithWebGL.HTML.Pages;
+using CSS3DMeetsFormsWithWebGL.Design;
+using CSS3DMeetsFormsWithWebGL.Library;
 
-namespace GoogleImagesGiftBox
+namespace CSS3DMeetsFormsWithWebGL
 {
-    static class X
+    static class XX
     {
         public static INode[] ExceptTextNodes(this INode[] e)
         {
@@ -167,6 +169,11 @@ namespace GoogleImagesGiftBox
 
         void InitializeContent(IDefaultPage page)
         {
+            var control = new UserControl1();
+            var frontcontrol = new FrontPanel();
+
+
+
             // http://www.addyosmani.com/resources/googlebox/test.js
             var TILT_BASE = 2.0f;
 
@@ -209,7 +216,7 @@ namespace GoogleImagesGiftBox
 
             ((CSSFace)box.getTop()).element = gbox_childnodes[11];
             var frontElement = (IHTMLElement)gbox_childnodes[7];
-            var frontElement_firstChild = (IHTMLElement)frontElement.childNodes.ExceptTextNodes()[0];
+            //var frontElement_firstChild = (IHTMLElement)frontElement.childNodes.ExceptTextNodes()[0];
 
             CSSFace bt = box.getBottom();
             bt.element = gbox_childnodes[5];
@@ -284,8 +291,13 @@ namespace GoogleImagesGiftBox
                             if (h > 200) h = 200;
                             box.changeHeight(h);
 
-                            frontElement_firstChild.style.height = frontElement.style.height;
-                            frontElement_firstChild.style.width = frontElement.style.width;
+                            frontcontrol.Size = new System.Drawing.Size(
+                                frontElement.Bounds.Width,
+                                frontElement.Bounds.Height
+                            );
+
+                            //frontElement_firstChild.style.height = frontElement.style.height;
+                            //frontElement_firstChild.style.width = frontElement.style.width;
                             updateTransform();
                         }
                         else
@@ -411,6 +423,9 @@ namespace GoogleImagesGiftBox
             Native.Document.body.onmousemove +=
               e =>
               {
+                  if (control.checkBox1.Checked)
+                      return;
+
                   if (Native.Document.pointerLockElement == Native.Document.body)
                   {
                       rot += e.movementX * 0.01f;
@@ -463,8 +478,9 @@ namespace GoogleImagesGiftBox
 
                     iframe.Show();
 
+                    iframe.allowFullScreen = true;
                     // Refused to display document because display forbidden by X-Frame-Options.
-                    iframe.src = "http://example.com";
+                    iframe.src = frontcontrol.comboBox1.Text;
 
                     if (!playing)
                         doAnimation();
@@ -508,7 +524,80 @@ namespace GoogleImagesGiftBox
                     page.box_label.requestFullscreen();
                 };
 
+
+            {
+
+                var ContainerShadow = new IHTMLDiv().AttachTo(page.box_label_container);
+
+                ContainerShadow.style.position = IStyle.PositionEnum.absolute;
+                ContainerShadow.style.left = "0px";
+                ContainerShadow.style.top = "0px";
+                ContainerShadow.style.right = "0px";
+                ContainerShadow.style.bottom = "0px";
+
+                var Container = new IHTMLDiv().AttachTo(page.box_label_container);
+
+                Container.style.position = IStyle.PositionEnum.absolute;
+                Container.style.left = "0px";
+                Container.style.top = "0px";
+                Container.style.right = "0px";
+                Container.style.bottom = "0px";
+
+                control.AttachControlTo(Container);
+                control.AutoSizeControlTo(ContainerShadow);
+            }
+
+
+            {
+
+                var ContainerShadow = new IHTMLDiv().AttachTo(page.front_panel);
+
+                ContainerShadow.style.position = IStyle.PositionEnum.absolute;
+                ContainerShadow.style.left = "0px";
+                ContainerShadow.style.top = "0px";
+                ContainerShadow.style.right = "0px";
+                ContainerShadow.style.bottom = "0px";
+
+                var Container = new IHTMLDiv().AttachTo(page.front_panel);
+
+                Container.style.position = IStyle.PositionEnum.absolute;
+                Container.style.left = "0px";
+                Container.style.top = "0px";
+                Container.style.right = "0px";
+                Container.style.bottom = "0px";
+
+                frontcontrol.AttachControlTo(Container);
+                //frontcontrol.AutoSizeControlTo(ContainerShadow);
+                frontcontrol.Width = 200;
+                frontcontrol.Height = 80;
+
+                frontcontrol.button1.Click +=
+                    delegate
+                    {
+                        onSearchClick();
+                    };
+
+                resize_handle.Orphanize().AttachTo(page.front_panel);
+            }
+
         }
 
+    }
+
+
+    sealed class __WebGLLesson10Application
+    {
+        public __WebGLLesson10Application(global::WebGLLesson10.HTML.Pages.IDefaultPage page)
+        {
+            new global::WebGLLesson10.Application(page);
+        }
+    }
+
+    sealed class __WebGLSpiral
+    {
+        public __WebGLSpiral(global::WebGLSpiral.HTML.Pages.IDefaultPage page)
+        {
+            new global::WebGLSpiral.Application(page);
+        }
     }
 }
