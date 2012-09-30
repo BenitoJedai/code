@@ -16,6 +16,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Controls.NatureBoy;
 using ImpAdventures.HTML.Images.FromAssets;
+using ImpAdventures.HTML.Audio.FromAssets;
 
 namespace NatureBoy.js
 {
@@ -189,7 +190,6 @@ namespace NatureBoy.js
             refresh();
         }
 
-        [Script]
         class TryToChangeRoomsArgs
         {
             public Func<bool> Condition;
@@ -201,15 +201,20 @@ namespace NatureBoy.js
         {
             var ViewSize = new Size { Width = 640, Height = 480 };
 
-            var Wallpaper = new IHTMLDiv();
+            var Container = new IHTMLDiv();
+            Container.AttachToDocument();
+            Container.style.SetSize(ViewSize.Width, ViewSize.Height + 22);
+            Container.KeepInCenter();
 
-            Wallpaper.style.SetSize(ViewSize.Width, ViewSize.Height + 60);
+            var Wallpaper = new IHTMLDiv().AttachTo(Container);
+            Wallpaper.style.SetSize(ViewSize.Width, ViewSize.Height + 22);
+
 
             new power().ToBackground(Wallpaper.style);
+            Wallpaper.style.position = IStyle.PositionEnum.absolute;
             Wallpaper.style.backgroundRepeat = "no-repeat";
             Wallpaper.style.backgroundPosition = "center center";
-            Wallpaper.AttachToDocument();
-            Wallpaper.KeepInCenter();
+
 
 
 
@@ -231,9 +236,11 @@ namespace NatureBoy.js
             Room.style.position = IStyle.PositionEnum.absolute;
             Room.style.overflow = IStyle.OverflowEnum.hidden;
 
+            Room.AttachTo(Container);
+            Room.style.SetLocation(0, 22);
 
-            Room.AttachToDocument();
-            Room.KeepInCenter();
+            //Room.AttachToDocument();
+            //Room.KeepInCenter();
 
 
 
@@ -300,6 +307,7 @@ namespace NatureBoy.js
 
             var AnimateRoomChange = default(Action<Action>);
 
+            #region TryToChangeRooms
             Func<TryToChangeRoomsArgs, bool> TryToChangeRooms =
                 e =>
                 {
@@ -342,12 +350,14 @@ namespace NatureBoy.js
 
                     return r;
                 };
+            #endregion
+
 
             var dude = CreateDude(LoadedCharacter);
 
             dude.Control.AttachTo(Ground);
 
-
+            #region Doors
             var Doors = new[]
                 {
                     new TryToChangeRoomsArgs
@@ -397,10 +407,51 @@ namespace NatureBoy.js
                                 }
                             }
                 };
+            #endregion
+
+
+
+            var ChangeRoom = new ChangeRoom { autobuffer = true };
+            var Talk = new Talk { autobuffer = true };
+            var Argh_RChannel = new Argh_RChannel { autobuffer = true };
+            var Argh_LChannel = new Argh_LChannel { autobuffer = true };
+            var Argh_Disabled = false;
+            var Argh_VolumeMultiplier = 1.0;
+
+            Action<double, double> Argh_Stereo =
+                (volume, balance) =>
+                {
+                    if (Argh_Disabled)
+                        return;
+
+                    Argh_RChannel.AttachToDocument();
+                    Argh_LChannel.AttachToDocument();
+
+                    Argh_RChannel.volume = Argh_VolumeMultiplier * volume * balance;
+                    Argh_LChannel.volume = Argh_VolumeMultiplier * volume * (1 - balance);
+
+                    Argh_RChannel.play();
+                    Argh_LChannel.play();
+
+                    Argh_RChannel = new Argh_RChannel { autobuffer = true };
+                    Argh_LChannel = new Argh_LChannel { autobuffer = true };
+
+                    Argh_Disabled = true;
+                    Argh_VolumeMultiplier /= 2;
+
+                    new Timer(t => Argh_Disabled = false).StartTimeout(800);
+                    new Timer(t => Argh_VolumeMultiplier = 1).StartTimeout(5000);
+                };
 
             Action<string, Action> PrintText =
                 (text, done) =>
                 {
+                    Talk.AttachToDocument();
+                    Talk.load();
+                    Talk.volume = Math.Min(1, dude.Zoom.DynamicZoom / 4);
+                    Talk.play();
+                    Talk = new Talk { autobuffer = true };
+
                     text.Length.Range().AsyncForEach(
                         i =>
                         {
@@ -418,6 +469,7 @@ namespace NatureBoy.js
 
             Action<string, Action> PrintRandomText =
                 (text, done) => PrintText(text.Split(LoadedScene.TextDelimiter).Randomize().First(), done);
+
 
 
 
@@ -441,6 +493,7 @@ namespace NatureBoy.js
                         if (item != null)
                         {
 
+
                             dude.IsSelected = false;
                             dude.LookDown();
 
@@ -462,6 +515,7 @@ namespace NatureBoy.js
 
                 };
 
+            #region AnimateRoomChange
             AnimateRoomChange =
                 ReadyToTeleport =>
                 {
@@ -505,31 +559,120 @@ namespace NatureBoy.js
                     tween.Done += Step1;
                     // go left
                     HideRoom();
-                };
 
-            Ground.onclick +=
+                    // http://stackoverflow.com/questions/3009888/autoplay-audio-files-on-an-ipad-with-html5
+                    ChangeRoom.AttachToDocument();
+                    ChangeRoom.load();
+                    ChangeRoom.volume = 0.2;
+                    ChangeRoom.play();
+                    ChangeRoom = new ChangeRoom();
+                };
+            #endregion
+
+            var pointer_x = 0;
+            var pointer_y = 0;
+
+            Container.onmousemove +=
                 ev =>
                 {
+                    if (Native.Document.pointerLockElement == Container)
+                    {
+                        if (dude.IsSelected)
+                        {
+                            var volume = Math.Min(1, dude.Zoom.DynamicZoom / 4);
+                            var balance = dude.CurrentLocation.X / ViewSize.Width;
+
+                            pointer_x += ev.movementX;
+                            pointer_y += ev.movementY;
+
+                            pointer_x = Math.Min(ViewSize.Width - 0, Math.Max(0, pointer_x));
+                            pointer_y = Math.Min(ViewSize.Height - 0, Math.Max(0, pointer_y));
+
+                            var OffsetPosition = new Point(pointer_x, pointer_y
+
+                            );
+
+                            Console.WriteLine(OffsetPosition);
+
+                            Argh_Stereo(volume, balance);
+                            dude.WalkTo(OffsetPosition);
+                        }
+                    }
+                };
+            Container.ontouchstart +=
+                ev =>
+                {
+                    ev.PreventDefault();
+
+                    System.Console.WriteLine(ev.CursorPosition);
+
+                    if (dude.IsSelected)
+                    {
+                        var volume = Math.Min(1, dude.Zoom.DynamicZoom / 4);
+                        var balance = dude.CurrentLocation.X / ViewSize.Width;
+
+                        var ev_OffsetPosition = new Point(
+                            ev.touches[0].clientX - Container.Bounds.Left,
+                            ev.touches[0].clientY - Container.Bounds.Top
+                            );
+
+                        Argh_Stereo(volume, balance);
+                        dude.WalkTo(ev_OffsetPosition);
+                    }
+                };
+
+            Container.onclick +=
+                ev =>
+                {
+                    ev.PreventDefault();
+
+                    if (ev.MouseButton == IEvent.MouseButtonEnum.Middle)
+                    {
+                        if (Native.Document.pointerLockElement == Container)
+                        {
+                            Native.Document.exitPointerLock();
+                            return;
+                        }
+
+                        pointer_x = (int)dude.CurrentLocation.X;
+                        pointer_y = (int)dude.CurrentLocation.Y;
+
+                        //Container.requestFullscreen();
+                        Container.requestPointerLock();
+                        return;
+                    }
+
                     if (ev.Element != Ground)
                         return;
 
                     System.Console.WriteLine(ev.CursorPosition);
 
                     if (dude.IsSelected)
+                    {
+                        var volume = Math.Min(1, dude.Zoom.DynamicZoom / 4);
+                        var balance = dude.CurrentLocation.X / ViewSize.Width;
+
+                        Argh_Stereo(volume, balance);
                         dude.WalkTo(ev.OffsetPosition);
+                    }
                 };
 
-            GroundOverlay.onclick +=
-                ev =>
-                {
-                    if (ev.Element != GroundOverlay)
-                        return;
 
-                    System.Console.WriteLine(ev.CursorPosition);
+            //GroundOverlay.onclick +=
+            //    ev =>
+            //    {
+            //        if (ev.Element != GroundOverlay)
+            //            return;
 
-                    if (dude.IsSelected)
-                        dude.WalkTo(ev.OffsetPosition);
-                };
+            //        System.Console.WriteLine(ev.CursorPosition);
+
+            //        if (dude.IsSelected)
+            //        {
+            //            new Argh().play();
+
+            //            dude.WalkTo(ev.OffsetPosition);
+            //        }
+            //    };
 
 
             dude.TeleportTo(ViewSize.Width / 2, (ViewSize.Height - MarginSafe) / 2);
