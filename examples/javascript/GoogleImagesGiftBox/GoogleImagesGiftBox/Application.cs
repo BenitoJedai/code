@@ -51,27 +51,66 @@ namespace GoogleImagesGiftBox
             // http://www.addyosmani.com/resources/googlebox/test.js
             var TILT_BASE = 2.0;
 
-            //            var _this = this;
+            #region resizing
+            var resizing = false;
 
-            //this.resizing = false;
+            var resize_handle = page.resize_handle;
 
-            //this.resize_handle = $("#resize-handle");
-            //var scr = $("html");
+            resize_handle.onmousedown +=
+                e =>
+                {
+                    resizing = true;
+                    //this.prevHandleY = e.screenY;
+                    //this.prevBoxH = this.box.height;
+                };
 
-            //this.resize_handle.mousedown(function(e){_this.onResizeHandleMouseDown(e);});
-            //scr.mousemove(function(e){_this.onResizeHandleMouseMove(e);});
-            //scr.mouseup(  function(e){_this.onResizeHandleMouseUp(e);});
+            Native.Document.onmousemove +=
+                e =>
+                {
+                    if (resizing)
+                    {
+                        //    var yy = this.rootTransMatrix._22;
+                        //    if (yy < -0.01 || yy > 0.01)
+                        //    {
+                        //        var dy = e.screenY - this.prevHandleY;
 
-            //this.qtext = $("#search-text");
+                        //        var h = this.prevBoxH - dy / yy;
+                        //        if (h < 20) h = 20;
+                        //        if (h > 200) h = 200;
+                        //        this.box.changeHeight(h);
 
-            //this.tilt_cur = this.tilt = TILT_BASE;
-            //this.rot_cur  = this.rot  = 0;
+                        //        this.frontElement.firstChild.style.height = this.frontElement.style.height;
+                        //        this.frontElement.firstChild.style.width = this.frontElement.style.width;
+                        //        this.updateTransform();
+                        //    }
+                        //    else
+                        //        this.resizing = false;
+                    }
+                };
 
-            //this.lidAngle  = 0;
-            //this.lidAngleV = 0;
-            //this.close_ok = false;
-            //this.playing = false;
-            //this.iframe = $('#bottom-iframe').hide();
+            Native.Document.onmouseup +=
+                e =>
+                {
+                    resizing = false;
+                };
+            #endregion
+
+
+            var qtext = page.search_text;
+
+            var tilt_cur = TILT_BASE;
+            var tilt = TILT_BASE;
+            var rot_cur = 0;
+            var rot = 0;
+
+            var lidAngle = 0;
+            var lidAngleV = 0;
+            var close_ok = false;
+            var playing = false;
+
+            var iframe = page.bottom_iframe;
+            
+            iframe.Hide();
 
             //this.rootTransMatrix = new M44();
             //this.rootTransNode = new TransformNode(this.rootTransMatrix);
@@ -83,7 +122,7 @@ namespace GoogleImagesGiftBox
 
             //this.box = new CSSCube(200, 200, 80, this.rootTransNode);
 
-            //var gbox = document.getElementById('gift-box');
+            var gbox = page.gift_box;
             //var i;
 
             //for (i = 0;i < 4;i++) {
@@ -103,6 +142,20 @@ namespace GoogleImagesGiftBox
             //this.floorFace = new CSSFace(bt.tNode, 256, 256);
             //this.floorFace.element = gbox.childNodes[0];
             //this.floorFace.N.z = 1;
+
+            Action updateTransform =
+     delegate
+     {
+         //this.box.localTrans.rotY(this.rot_cur);
+         //this.box.localTrans._42 = (80 - this.box.height) / 2;
+         //this.rootTransMatrix.rotX(this.tilt_cur);
+         //this.rootTransMatrix._42 = (80 - this.box.height) / 2;
+         //this.floorFace.postTrans.translate(-28, -88 - this.box.localTrans._42, 0);
+
+         //this.box.applyTransform();
+         //this.floorFace.applyTransform();
+     };
+
 
             //this.updateTransform();
 
@@ -176,56 +229,10 @@ namespace GoogleImagesGiftBox
 
                 };
 
-            Action updateTransform =
-                delegate
-                {
-                    //this.box.localTrans.rotY(this.rot_cur);
-                    //this.box.localTrans._42 = (80 - this.box.height) / 2;
-                    //this.rootTransMatrix.rotX(this.tilt_cur);
-                    //this.rootTransMatrix._42 = (80 - this.box.height) / 2;
-                    //this.floorFace.postTrans.translate(-28, -88 - this.box.localTrans._42, 0);
+ 
 
-                    //this.box.applyTransform();
-                    //this.floorFace.applyTransform();
-                };
 
-            Action onResizeHandleMouseDown =
-                delegate
-                {
-                    //this.resizing = true;
-                    //this.prevHandleY = e.screenY;
-                    //this.prevBoxH = this.box.height;
-                };
 
-            Action onResizeHandleMouseUp =
-                delegate
-                {
-                    //this.resizing = false;
-                };
-
-            Action onResizeHandleMouseMove =
-                delegate
-                {
-                    //if (this.resizing)
-                    //{
-                    //    var yy = this.rootTransMatrix._22;
-                    //    if (yy < -0.01 || yy > 0.01)
-                    //    {
-                    //        var dy = e.screenY - this.prevHandleY;
-
-                    //        var h = this.prevBoxH - dy / yy;
-                    //        if (h < 20) h = 20;
-                    //        if (h > 200) h = 200;
-                    //        this.box.changeHeight(h);
-
-                    //        this.frontElement.firstChild.style.height = this.frontElement.style.height;
-                    //        this.frontElement.firstChild.style.width = this.frontElement.style.width;
-                    //        this.updateTransform();
-                    //    }
-                    //    else
-                    //        this.resizing = false;
-                    //}
-                };
 
             Action<float> setLidRotate =
                 a =>
