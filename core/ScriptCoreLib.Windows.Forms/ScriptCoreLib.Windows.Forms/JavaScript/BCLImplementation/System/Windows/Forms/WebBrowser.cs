@@ -26,6 +26,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public void Navigate(string urlString)
+        {
+            this.InternalElement.src = urlString;
+        }
+
         public bool InternalScrollBarsEnabled;
         public bool ScrollBarsEnabled
         {
