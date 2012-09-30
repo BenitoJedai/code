@@ -434,6 +434,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         InternalEnterFullscreen();
                 };
 
+
+            this.Size = new Size(400, 400);
         }
 
         public static int __FormZIndex = 0;

@@ -82,6 +82,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\LicenseManager.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\Extensions.cs" />

@@ -42,6 +42,17 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public string frameBorder;
         public string border;
 
+        public bool allowFullScreen
+        {
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                this.setAttribute("mozallowFullScreen", "");
+                this.setAttribute("webkitAllowFullScreen", "");
+                this.setAttribute("allowFullScreen", "");
+            }
+        }
+
         public bool allowTransparency;
         public string scrolling;
 
