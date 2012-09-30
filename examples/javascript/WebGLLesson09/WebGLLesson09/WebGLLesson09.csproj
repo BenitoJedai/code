@@ -129,8 +129,8 @@
     </Compile>
     <Content Include="Design\glMatrix-0.9.5.min.js">
     </Content>
-    <Content Include="Design\Preview.png" />
-    <Content Include="Design\star.gif" />
+    <Content Include="Textures\Preview.png" />
+    <Content Include="Textures\star.gif" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -164,32 +164,14 @@ namespace WebGLLesson04
 
 
 
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    throw new InvalidOperationException("shader failed");
-                }
-
-                return shader;
-            };
-            #endregion
-
             #region initShaders
-            var shaderProgram = gl.createProgram();
-            var vs = createShader(new GeometryVertexShader());
-            var fs = createShader(new GeometryFragmentShader());
+            var shaderProgram = gl.createProgram(
+                new GeometryVertexShader(),
+                new GeometryFragmentShader()
+            );
 
 
-            gl.attachShader(shaderProgram, vs);
-            gl.attachShader(shaderProgram, fs);
-
+      
 
             gl.linkProgram(shaderProgram);
             gl.useProgram(shaderProgram);

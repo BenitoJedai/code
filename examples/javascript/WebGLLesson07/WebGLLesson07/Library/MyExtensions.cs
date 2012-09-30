@@ -16,9 +16,7 @@ namespace WebGLLesson07.Library
         }
         public static float ToFloat(this IHTMLInput i)
         {
-            //  No implementation found for this native method, please implement [static System.Single.Parse(System.String)]
-
-            return (float)double.Parse(i.value);
+            return float.Parse(i.value);
         }
     }
 }

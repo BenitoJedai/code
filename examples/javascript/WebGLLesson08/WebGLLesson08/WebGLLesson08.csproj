@@ -130,7 +130,6 @@
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
     <Content Include="Design\Toolbar.htm" />
-    <Content Include="Design\Images.htm" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,9 +141,10 @@
     <Compile Include="Design\glMatrix.cs">
       <DependentUpon>glMatrix.js</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\glass.gif" />
-    <Content Include="Design\Preview.png" />
-    <Content Include="Design\glMatrix.js"></Content>
+    <Content Include="Textures\glass.gif" />
+    <Content Include="Textures\Preview.png" />
+    <Content Include="Design\glMatrix.js">
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Geometry.vert" />
