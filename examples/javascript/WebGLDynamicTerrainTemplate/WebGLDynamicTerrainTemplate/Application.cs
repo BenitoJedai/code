@@ -506,18 +506,7 @@ namespace WebGLDynamicTerrainTemplate
 
 
 
-            #region STATS
-
-            //    stats = new Stats();
-            //    stats.domElement.style.position = 'absolute';
-            //    stats.domElement.style.top = '0px';
-            //    container.appendChild( stats.domElement );
-
-            //    stats.domElement.children[ 0 ].children[ 0 ].style.color = "#aaa";
-            //    stats.domElement.children[ 0 ].style.background = "transparent";
-            //    stats.domElement.children[ 0 ].children[ 1 ].style.display = "none";
-            #endregion
-
+        
 
             #region COMPOSER
 

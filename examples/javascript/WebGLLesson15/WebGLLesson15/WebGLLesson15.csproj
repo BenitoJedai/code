@@ -127,8 +127,8 @@
     <Compile Include="Shaders\PerFragmentLightingVertexShader.cs">
       <DependentUpon>PerFragmentLighting.vert</DependentUpon>
     </Compile>
-    <Content Include="Design\earth-specular.gif" />
-    <Content Include="Design\earth.jpg" />
+    <Content Include="Textures\earth-specular.gif" />
+    <Content Include="Textures\earth.jpg" />
     <Content Include="Design\Toolbar.htm" />
     <Content Include="Design\glMatrix-0.9.5.min.js">
     </Content>

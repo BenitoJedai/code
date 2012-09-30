@@ -128,8 +128,8 @@
       <DependentUpon>PerFragmentLighting.vert</DependentUpon>
     </Compile>
     <Content Include="Data\Teapot.js" />
-    <Content Include="Design\arroway.de_metal+structure+06_d100_flat.jpg" />
-    <Content Include="Design\earth.jpg" />
+    <Content Include="Textures\arroway.de_metal+structure+06_d100_flat.jpg" />
+    <Content Include="Textures\earth.jpg" />
     <Content Include="Design\Toolbar.htm" />
     <Content Include="Design\glMatrix-0.9.5.min.js">
     </Content>

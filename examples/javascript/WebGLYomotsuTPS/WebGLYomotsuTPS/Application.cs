@@ -82,8 +82,8 @@ namespace WebGLYomotsuTPS
 
             public motion
 
-                // why?
-                __first_broken = null,
+                ////// why?
+                ////__first_broken = null,
 
 
               stand = new motion { min = 0, max = 39, fps = 9, state = "stand", action = false },   // STAND
@@ -228,29 +228,42 @@ namespace WebGLYomotsuTPS
 
             Action rotate = delegate { };
 
-            var pointer_x = 0;
-            var pointer_y = 0;
+            var pointer_x = 0f;
+            var pointer_y = 0f;
+            var oldPointerX = 0f;
+            var oldPointerY = 0f;
 
-            Native.Document.onmousemove +=
+            container.onmousemove +=
                 e =>
                 {
+                    if (Native.Document.pointerLockElement == container)
+                    {
+                        oldPointerX = 0;
+                        oldPointerY = 0;
+                        pointer_x = e.movementX * 0.01f;
+                        pointer_y = -e.movementY * 0.01f;
+                        rotate();
+                        return;
+                    }
+
                     pointer_x = (e.CursorX / width) * 2 - 1;
                     pointer_y = -(e.CursorY / height) * 2 + 1;
                     rotate();
                 };
 
-            var oldPointerX = 0;
-            var oldPointerY = 0;
-
-            Native.Document.onmouseup +=
+    
+            container.onmouseup +=
               e =>
               {
                   rotate = delegate { };
+
+                  Native.Document.exitPointerLock();
               };
 
-            Native.Document.onmousedown +=
+            container.onmousedown +=
                 e =>
                 {
+
                     oldPointerX = pointer_x;
                     oldPointerY = pointer_y;
 
@@ -275,6 +288,8 @@ namespace WebGLYomotsuTPS
                         oldPointerY = pointer_y;
 
                     };
+
+                    container.requestPointerLock();
                 };
 
             #endregion
@@ -397,7 +412,7 @@ namespace WebGLYomotsuTPS
 
                                 player_model_objects.add(md2meshBody);
 
-
+                                #region onkeydown
                                 Native.Document.onkeydown +=
                                     e =>
                                     {
@@ -436,7 +451,9 @@ namespace WebGLYomotsuTPS
                                             else if (player_motion == md2frames.crstand)
                                                 player_changeMotion(md2frames.crwalk);
                                     };
+                                #endregion
 
+                                #region onkeyup
                                 Native.Document.onkeyup +=
                                     e =>
                                     {
@@ -458,6 +475,8 @@ namespace WebGLYomotsuTPS
                                         }
 
                                     };
+                                #endregion
+
 
 
 
@@ -506,8 +525,8 @@ namespace WebGLYomotsuTPS
                                     var isAction = player_motion.action;
 
                                     var x = (isAction && !isEndFleame);
-                            
-                                       if (!isAction || x)
+
+                                    if (!isAction || x)
                                     {
                                         md2meshBody.updateAnimation(1000 * delta);
                                     }

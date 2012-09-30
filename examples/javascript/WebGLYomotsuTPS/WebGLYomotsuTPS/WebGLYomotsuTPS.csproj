@@ -119,8 +119,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\1.png" />
-    <Content Include="Design\bg.jpg" />
+    <Content Include="Textures\1.png" />
+    <Content Include="Textures\bg.jpg" />
     <Content Include="Design\Preview.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
