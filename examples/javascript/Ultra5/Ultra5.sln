@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra5", "Ultra5\Ultra5.csproj", "{86CAD7BC-947D-4615-964B-1CF020CDA9A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonExampleGallery", "..\..\actionscript\AvalonExampleGallery\AvalonExampleGallery.csproj", "{D160982B-399A-43E6-9059-46C829A9052A}"

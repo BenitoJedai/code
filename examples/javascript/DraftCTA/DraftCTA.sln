@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DraftCTA", "DraftCTA\DraftCTA.csproj", "{681F2731-F799-4DBD-B77F-120F22B8CFD2}"
 EndProject
 Global
