@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra1", "Ultra1\Ultra1.csproj", "{1BDAA602-0BB4-4166-BD12-2AC9BBE9E925}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra2", "Ultra2\Ultra2.csproj", "{7A56105F-8504-4958-81E8-6C6637596639}"

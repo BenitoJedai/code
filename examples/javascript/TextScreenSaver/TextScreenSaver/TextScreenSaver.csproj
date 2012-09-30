@@ -121,7 +121,6 @@
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="Library\DragHelper.cs" />
     <Compile Include="Library\Extensions.cs" />
     <Compile Include="Library\Qoutes.cs" />
     <Compile Include="Library\TextScreenSaver.cs" />
