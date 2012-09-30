@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLInvade", "WebGLInvade\WebGLInvade.csproj", "{B6498699-E5F8-4EF8-9812-E779F75C4B99}"
 EndProject
 Global

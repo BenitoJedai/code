@@ -128,7 +128,7 @@
     <Compile Include="Shaders\GeometryVertexShader.cs">
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
-    <Content Include="Design\cloud10.png" />
+    <Content Include="Textures\cloud10.png" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />

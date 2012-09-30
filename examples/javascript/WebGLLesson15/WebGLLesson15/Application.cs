@@ -192,24 +192,14 @@ namespace WebGLLesson15
             var programs =
                 new[]
                 {
-                    new 
-                    { 
-                        vs = (FragmentShader)new Shaders.PerFragmentLightingFragmentShader(),
-                        fs = (VertexShader)new Shaders.PerFragmentLightingVertexShader()
-                    },
+                    gl.createProgram(
+                            new Shaders.PerFragmentLightingVertexShader(),
+                            new Shaders.PerFragmentLightingFragmentShader()
+                    )
 
                 }.Select(
-                    p =>
+                    shaderProgram =>
                     {
-                        var vs = createShader(p.vs);
-                        var fs = createShader(p.fs);
-
-
-                        var shaderProgram = gl.createProgram();
-
-                        gl.attachShader(shaderProgram, vs);
-                        gl.attachShader(shaderProgram, fs);
-
                         gl.linkProgram(shaderProgram);
 
 
@@ -257,11 +247,6 @@ namespace WebGLLesson15
                             pointLightingLocationUniform,
                             pointLightingSpecularColorUniform,
                             pointLightingDiffuseColorUniform
-
-
-
-
-
 
                         };
                     }
@@ -459,7 +444,7 @@ namespace WebGLLesson15
 
 
                             //Func<string, f> parseFloat = Convert.ToSingle;
-                            Func<string, f> parseFloat = x => float.Parse(x);
+                            //Func<string, f> parseFloat = x => float.Parse(x);
 
 
                             #region drawScene
@@ -495,9 +480,9 @@ namespace WebGLLesson15
                                     #region [uniform] uAmbientColor <- ambientR, ambientG, ambientB
                                     gl.uniform3f(
                                         shaderProgram.ambientColorUniform,
-                                        parseFloat(toolbar.ambientR.value),
-                                        parseFloat(toolbar.ambientG.value),
-                                        parseFloat(toolbar.ambientB.value)
+                                        float.Parse(toolbar.ambientR.value),
+                                        float.Parse(toolbar.ambientG.value),
+                                        float.Parse(toolbar.ambientB.value)
                                     );
                                     #endregion
 
@@ -505,9 +490,9 @@ namespace WebGLLesson15
                                     #region [uniform] uPointLightingLocation <- lightPositionX, lightPositionY, lightPositionZ
                                     gl.uniform3f(
                                         shaderProgram.pointLightingLocationUniform,
-                                        parseFloat(toolbar.lightPositionX.value),
-                                        parseFloat(toolbar.lightPositionY.value),
-                                        parseFloat(toolbar.lightPositionZ.value)
+                                        float.Parse(toolbar.lightPositionX.value),
+                                        float.Parse(toolbar.lightPositionY.value),
+                                        float.Parse(toolbar.lightPositionZ.value)
                                     );
                                     #endregion
 
@@ -515,18 +500,18 @@ namespace WebGLLesson15
                                     #region [uniform] uPointLightingSpecularColor <- specularR, specularG, specularB
                                     gl.uniform3f(
                                         shaderProgram.pointLightingSpecularColorUniform,
-                                        parseFloat(toolbar.specularR.value),
-                                        parseFloat(toolbar.specularG.value),
-                                        parseFloat(toolbar.specularB.value)
+                                        float.Parse(toolbar.specularR.value),
+                                        float.Parse(toolbar.specularG.value),
+                                        float.Parse(toolbar.specularB.value)
                                     );
                                     #endregion
 
                                     #region [uniform] uPointLightingDiffuseColor <- diffuseR, diffuseG, diffuseB
                                     gl.uniform3f(
                                         shaderProgram.pointLightingDiffuseColorUniform,
-                                        parseFloat(toolbar.diffuseR.value),
-                                        parseFloat(toolbar.diffuseG.value),
-                                        parseFloat(toolbar.diffuseB.value)
+                                        float.Parse(toolbar.diffuseR.value),
+                                        float.Parse(toolbar.diffuseG.value),
+                                        float.Parse(toolbar.diffuseB.value)
                                     );
                                     #endregion
 

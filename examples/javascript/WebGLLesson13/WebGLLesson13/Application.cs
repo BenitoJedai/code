@@ -187,28 +187,19 @@ namespace WebGLLesson13
             var programs =
                 new[]
                 {
-                    new 
-                    { 
-                        vs = (FragmentShader)new Shaders.PerFragmentLightingFragmentShader(),
-                        fs = (VertexShader)new Shaders.PerFragmentLightingVertexShader()
-                    },
+                    gl.createProgram(
+                            new Shaders.PerFragmentLightingVertexShader(),
+                            new Shaders.PerFragmentLightingFragmentShader()
+                        ),
 
-                    new 
-                    { 
-                        vs = (FragmentShader)new Shaders.PerVertexLightingFragmentShader(),
-                        fs = (VertexShader)new Shaders.PerVertexLightingVertexShader()
-                    }
+                    gl.createProgram(
+                            new Shaders.PerVertexLightingVertexShader(),
+                            new Shaders.PerVertexLightingFragmentShader()
+                        )
                 }.Select(
-                    p =>
+                    program =>
                     {
-                        var vs = createShader(p.vs);
-                        var fs = createShader(p.fs);
-
-
-                        var program = gl.createProgram();
-
-                        gl.attachShader(program, vs);
-                        gl.attachShader(program, fs);
+                        
 
                         gl.linkProgram(program);
 

@@ -128,11 +128,11 @@
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
     <Content Include="Design\Toolbar.htm" />
-    <Content Include="Design\crate.gif" />
+    <Content Include="Textures\crate.gif" />
     <Content Include="Design\glMatrix-0.9.5.min.js">
     </Content>
-    <Content Include="Design\moon.gif" />
-    <Content Include="Design\Preview.png" />
+    <Content Include="Textures\moon.gif" />
+    <Content Include="Textures\Preview.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />

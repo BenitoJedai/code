@@ -122,7 +122,7 @@
     <Compile Include="Design\THREE.cs" />
     <Compile Include="Shaders\ExplosionVertexShader.cs" />
     <Compile Include="Shaders\ExplosionFragmentShader.cs" />
-    <Content Include="Design\bkg.png" />
+    <Content Include="Textures\bkg.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\explosion.png" />
+    <Content Include="Textures\explosion.png" />
     <Content Include="Design\Preview.png" />
     <Content Include="Design\Three.js" />
   </ItemGroup>
