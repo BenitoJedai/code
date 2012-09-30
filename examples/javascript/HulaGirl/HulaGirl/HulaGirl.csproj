@@ -110,12 +110,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="HulaGirl.UltraSource">
-      <HintPath>bin\staging.UltraSource\HulaGirl.UltraSource.dll</HintPath>
+    <Reference Include="HulaGirl.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\HulaGirl.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Frames.htm" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\HulaGirl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -215,6 +214,10 @@
 if $(ConfigurationName)==Release (
 start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

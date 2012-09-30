@@ -130,8 +130,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\escher.jpg" />
-    <Content Include="Design\Images\Preview.png" />
+    <Content Include="Templates\escher.jpg" />
+    <Content Include="Templates\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\EscherDorste.frag" />
