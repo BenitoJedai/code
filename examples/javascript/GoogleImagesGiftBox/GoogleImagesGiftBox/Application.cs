@@ -15,6 +15,13 @@ using GoogleImagesGiftBox.Design;
 
 namespace GoogleImagesGiftBox
 {
+    static class X
+    {
+        public static INode[] ExceptTextNodes(this INode[] e)
+        {
+            return e.Where(k => k.nodeType != INode.NodeTypeEnum.TextNode).ToArray();
+        }
+    }
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
@@ -45,11 +52,112 @@ namespace GoogleImagesGiftBox
             );
         }
 
+        #region trans3d
+        [Script(HasNoPrototype = true, ExternalTarget = "M44")]
+        public class M44
+        {
+            public float _42;
+            internal void rotX(double tilt)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal M44 translate(float p1, float p2, float p3)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void rotY(float rot_cur)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "TransformNode")]
+        public class TransformNode
+        {
+            public M44 localTrans;
+
+            public TransformNode(M44 rootTransMatrix)
+            {
+            }
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "CSSCube")]
+        public class CSSCube
+        {
+            public M44 localTrans;
+            public float height;
+
+            public CSSCube(int p1, int p2, int p3, TransformNode rootTransNode)
+            {
+
+            }
+
+
+            internal CSSFace getSide(int i)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal CSSFace getTop()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal CSSFace getBottom()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void applyTransform()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "Vec3")]
+        public class Vec3
+        {
+            public float z;
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "CSSFace")]
+        public class CSSFace
+        {
+            public Vec3 N;
+
+            public INode element;
+            public INode backElement;
+
+            public M44 preTrans;
+            public M44 postTrans;
+            public TransformNode tNode;
+            private TransformNode transformNode;
+            private int p1;
+            private int p2;
+
+            public CSSFace(TransformNode transformNode, int p1, int p2)
+            {
+                // TODO: Complete member initialization
+                this.transformNode = transformNode;
+                this.p1 = p1;
+                this.p2 = p2;
+            }
+
+
+
+            internal void applyTransform()
+            {
+                throw new NotImplementedException();
+            }
+        }
+        #endregion
 
         void InitializeContent(IDefaultPage page)
         {
             // http://www.addyosmani.com/resources/googlebox/test.js
-            var TILT_BASE = 2.0;
+            var TILT_BASE = 2.0f;
 
             #region resizing
             var resizing = false;
@@ -100,136 +208,172 @@ namespace GoogleImagesGiftBox
 
             var tilt_cur = TILT_BASE;
             var tilt = TILT_BASE;
-            var rot_cur = 0;
-            var rot = 0;
+            var rot_cur = 1f;
+            var rot = 1f;
 
-            var lidAngle = 0;
-            var lidAngleV = 0;
+            var lidAngle = 0f;
+            var lidAngleV = 0f;
             var close_ok = false;
             var playing = false;
 
             var iframe = page.bottom_iframe;
-            
+
             iframe.Hide();
 
-            //this.rootTransMatrix = new M44();
-            //this.rootTransNode = new TransformNode(this.rootTransMatrix);
+            var rootTransMatrix = new M44();
+            var rootTransNode = new TransformNode(rootTransMatrix);
 
-            //this.rootTransMatrix.rotX(this.tilt);
+            rootTransMatrix.rotX(tilt);
 
-            //this.lidTrans1 = (new M44()).translate(0, 100, 0);
-            //this.lidTrans2 = new M44();
+            M44 lidTrans1 = (new M44()).translate(0f, 100f, 0f);
+            M44 lidTrans2 = new M44();
 
-            //this.box = new CSSCube(200, 200, 80, this.rootTransNode);
+            var box = new CSSCube(200, 200, 80, rootTransNode);
 
             var gbox = page.gift_box;
-            //var i;
+            var gbox_childnodes = gbox.childNodes.ExceptTextNodes();
 
-            //for (i = 0;i < 4;i++) {
-            //    var f = this.box.getSide(i);
-            //    f.element = gbox.childNodes[7+i];
-            //    f.backElement = gbox.childNodes[1+i];
-            //}
-            //this.box.getTop().element = gbox.childNodes[11];
-            //this.frontElement = gbox.childNodes[7];
-
-            //var bt = this.box.getBottom();
-            //bt.element = gbox.childNodes[5];
-            //bt.preTrans.rotX(Math.PI);
-            //this.box.getTop().backElement = gbox.childNodes[6];
+            for (var i = 0; i < 4; i++)
+            {
+                CSSFace f = box.getSide(i);
+                f.element = gbox_childnodes[7 + i];
+                f.backElement = gbox_childnodes[1 + i];
+            }
 
 
-            //this.floorFace = new CSSFace(bt.tNode, 256, 256);
-            //this.floorFace.element = gbox.childNodes[0];
-            //this.floorFace.N.z = 1;
+            ((CSSFace)box.getTop()).element = gbox_childnodes[11];
+            var frontElement = gbox_childnodes[7];
+
+            CSSFace bt = box.getBottom();
+            bt.element = gbox_childnodes[5];
+            bt.preTrans.rotX(Math.PI);
+            box.getTop().backElement = gbox_childnodes[6];
+
+
+            var floorFace = new CSSFace(bt.tNode, 256, 256);
+            floorFace.element = gbox_childnodes[0];
+            floorFace.N.z = 1f;
 
             Action updateTransform =
-     delegate
-     {
-         //this.box.localTrans.rotY(this.rot_cur);
-         //this.box.localTrans._42 = (80 - this.box.height) / 2;
-         //this.rootTransMatrix.rotX(this.tilt_cur);
-         //this.rootTransMatrix._42 = (80 - this.box.height) / 2;
-         //this.floorFace.postTrans.translate(-28, -88 - this.box.localTrans._42, 0);
-
-         //this.box.applyTransform();
-         //this.floorFace.applyTransform();
-     };
-
-
-            //this.updateTransform();
-
-            Action intpMotion =
                 delegate
                 {
-                    //var dR = this.rot_cur - this.rot;
-                    //var dT = this.tilt_cur - this.tilt;
+                    box.localTrans.rotY(rot_cur);
+                    box.localTrans._42 = (80f - box.height) / 2f;
 
-                    //if (dR < 0) dR = -dR;
-                    //if (dT < 0) dT = -dT;
+                    rootTransMatrix.rotX(tilt_cur);
+                    rootTransMatrix._42 = (80f - box.height) / 2f;
 
-                    //var not_finished = false;
-                    //if (dR < 0.002)
-                    //    this.rot_cur = this.rot;
-                    //else
-                    //{
-                    //    not_finished = true;
-                    //    this.rot_cur = this.rot_cur * 0.8 + this.rot * 0.2;
-                    //}
+                    floorFace.postTrans.translate(-28, -88 - box.localTrans._42, 0);
 
-                    //if (dT < 0.002)
-                    //    this.tilt_cur = this.tilt;
-                    //else
-                    //{
-                    //    not_finished = true;
-                    //    this.tilt_cur = this.tilt_cur * 0.8 + this.tilt * 0.2;
-                    //}
-
-                    //return not_finished;
-
+                    box.applyTransform();
+                    floorFace.applyTransform();
                 };
 
-            Action doAnimation =
+
+            updateTransform();
+
+            #region intpMotion
+            Func<bool> intpMotion =
                 delegate
                 {
-                    //        this.playing = false;
-                    //if (this.lidAngle > 0) {
-                    //    this.playing = true;
-                    //    if (this.close_ok || this.lidAngleV > 0)
-                    //        this.lidAngleV -= 0.01;
+                    var dR = rot_cur - rot;
+                    var dT = tilt_cur - tilt;
 
-                    //    this.lidAngle += this.lidAngleV;
+                    if (dR < 0) dR = -dR;
+                    if (dT < 0) dT = -dT;
 
-                    //    if (this.lidAngle < 0) {
-                    //        this.lidAngle = 0;
-                    //        this.iframe[0].setAttribute('src', "about:blank");
-                    //        this.iframe.hide();
-                    //    }
-                    //    else if (this.lidAngle >= 1.3) {
-                    //        this.lidAngle = 1.3;
-                    //        this.playing = false;
-                    //    }
-                    //}
-                    //else {
-                    //    this.lidAngle  = 0;
-                    //    this.lidAngleV = 0;
-                    //}
+                    var not_finished = false;
+                    if (dR < 0.002)
+                        rot_cur = rot;
+                    else
+                    {
+                        not_finished = true;
+                        rot_cur = rot_cur * 0.8f + rot * 0.2f;
+                    }
 
-                    //this.setLidRotate(this.lidAngle);
+                    if (dT < 0.002)
+                        tilt_cur = tilt;
+                    else
+                    {
+                        not_finished = true;
+                        tilt_cur = tilt_cur * 0.8f + tilt * 0.2f;
+                    }
 
-                    //if (!this.resizing && this.intpMotion())
-                    //    this.playing = true;
-
-                    //this.updateTransform();
-
-                    //if (this.playing) {
-                    //    var _this = this;
-                    //    setTimeout(function(){_this.doAnimation()}, 10);
-                    //}
+                    return not_finished;
 
                 };
+            #endregion
 
- 
+
+            #region doAnimation
+            Action doAnimation = null;
+
+            doAnimation =
+                delegate
+                {
+                    playing = false;
+                    if (lidAngle > 0)
+                    {
+                        playing = true;
+                        if (close_ok || lidAngleV > 0)
+                            lidAngleV -= 0.01f;
+
+                        lidAngle += lidAngleV;
+
+                        if (lidAngle < 0)
+                        {
+                            lidAngle = 0;
+                            //iframe[0].setAttribute('src', "about:blank");
+                            //iframe.hide();
+                        }
+                        else if (lidAngle >= 1.3f)
+                        {
+                            lidAngle = 1.3f;
+                            playing = false;
+                        }
+                    }
+                    else
+                    {
+                        lidAngle = 0f;
+                        lidAngleV = 0f;
+                    }
+
+                    //setLidRotate(lidAngle);
+
+                    if (!resizing && intpMotion())
+                        playing = true;
+
+                    updateTransform();
+
+                    if (playing)
+                    {
+                        var _this = this;
+                        Native.Window.requestAnimationFrame +=
+                            delegate
+                            {
+                                doAnimation();
+                            };
+                    }
+
+                };
+            #endregion
+
+
+            Native.Document.body.onmousemove +=
+              e =>
+              {
+
+                  rot = e.CursorX * 0.006f - 0.9f;
+
+                  tilt = (TILT_BASE - e.CursorY * 0.004f);
+                  if (tilt < 0.5f) tilt = 0.5f;
+
+                  //Console.WriteLine(new { rot, tilt }.ToString());
+
+                  if (!playing)
+                      doAnimation();
+              };
+
 
 
 
@@ -242,21 +386,7 @@ namespace GoogleImagesGiftBox
                     //this.box.getTop().preTrans.mul(this.lidTrans1, this.lidTrans2);
                 };
 
-            Native.Document.onmousemove +=
-                e =>
-                {
-                    //if (e.pageX >= 0 && e.pageY)
-                    //{
-                    //    this.rot = e.pageX * 0.006 - 0.9;
-
-                    //    this.tilt = (TILT_BASE - e.pageY * 0.004);
-                    //    if (this.tilt < 0.5) this.tilt = 0.5;
-
-                    //    if (!this.playing)
-                    //        this.doAnimation();
-                    //}
-                };
-
+            #region buttons
             page.close_button.onclick +=
               e =>
               {
@@ -284,16 +414,18 @@ namespace GoogleImagesGiftBox
             page.search_button.onclick +=
                 e =>
                 {
-                    //                    this.lidAngle += 0.01;
-                    //this.lidAngleV = 0.17;
-                    //this.close_ok = false;
+                    lidAngle += 0.01f;
+                    lidAngleV = 0.17f;
+                    close_ok = false;
 
                     //this.iframe.show();
                     //this.iframe[0].setAttribute('src', "http://images.google.com/m/search?q="+this.qtext.val());
 
-                    //if (!this.playing)
-                    //    this.doAnimation();
+                    if (!playing)
+                        doAnimation();
                 };
+            #endregion
+
 
         }
 

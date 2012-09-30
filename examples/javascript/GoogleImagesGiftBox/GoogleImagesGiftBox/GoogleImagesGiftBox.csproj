@@ -128,7 +128,9 @@
     <Content Include="Design\boxf1.png" />
     <Content Include="Design\boxf1_debug.png" />
     <Content Include="Design\boxf2.png" />
+    <Content Include="Design\boxf3.png" />
     <Content Include="Design\boxf4.png" />
+    <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -137,6 +139,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\google.png" />
+    <Content Include="Design\handle.gif" />
     <Content Include="Design\sh.png" />
     <Content Include="Design\trans3d.js" />
   </ItemGroup>
