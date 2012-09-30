@@ -101,7 +101,7 @@ namespace NumberGuessingGame.source.js
                 }
             }
 
-            public event ScriptCoreLib.Shared.EventHandler Changed;
+            public event Action Changed;
 
             public void Guessed(int i)
             {

@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using System;
 
 
 namespace DockMaster.source.js
@@ -50,7 +51,8 @@ namespace DockMaster.source.js
 
             public void Attach(int x, int y)
             {
-                Native.Document.body.appendChild(k6is, piltm);
+                k6is.AttachToDocument();
+                piltm.AttachToDocument();
 
                 k6is.style.background = "url(assets/DockMaster/k6is.gif) repeat-y";
 
@@ -58,7 +60,7 @@ namespace DockMaster.source.js
 
 
                 Native.Document.onkeydown += Native.DisabledEventHandler;
-                Native.Document.onkeydown += new EventHandler<IEvent>(Document_onkeypress);
+                Native.Document.onkeydown += new Action<IEvent>(Document_onkeypress);
             }
 
             int x;
@@ -191,7 +193,7 @@ namespace DockMaster.source.js
 
             public Meri()
             {
-                t.Tick += new EventHandler<Timer>(t_Tick);
+                t.Tick += new Action<Timer>(t_Tick);
                 t.StartInterval(70);
             }
 
@@ -229,7 +231,7 @@ namespace DockMaster.source.js
             {
 
 
-                Native.Document.onmousemove += new EventHandler<IEvent>(Document_onmousemove);
+                Native.Document.onmousemove += new Action<IEvent>(Document_onmousemove);
                 Native.Document.body.appendChild(antilaine, piltkala, laine, vesi);
 
                 laine.style.background = "url(assets/DockMaster/meri.gif) repeat-x";
@@ -272,7 +274,7 @@ namespace DockMaster.source.js
 
             public Laev()
             {
-                t.Tick += new EventHandler<Timer>(t_Tick);
+                t.Tick += new Action<Timer>(t_Tick);
                 t.StartInterval(100);
 
 
