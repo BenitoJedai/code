@@ -56,6 +56,7 @@ namespace GoogleImagesGiftBox
         [Script(HasNoPrototype = true, ExternalTarget = "M44")]
         public class M44
         {
+            public float _22;
             public float _42;
             internal void rotX(double tilt)
             {
@@ -68,6 +69,11 @@ namespace GoogleImagesGiftBox
             }
 
             internal void rotY(float rot_cur)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void mul(M44 lidTrans1, M44 lidTrans2)
             {
                 throw new NotImplementedException();
             }
@@ -111,6 +117,11 @@ namespace GoogleImagesGiftBox
             }
 
             internal void applyTransform()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void changeHeight(float h)
             {
                 throw new NotImplementedException();
             }
@@ -159,51 +170,6 @@ namespace GoogleImagesGiftBox
             // http://www.addyosmani.com/resources/googlebox/test.js
             var TILT_BASE = 2.0f;
 
-            #region resizing
-            var resizing = false;
-
-            var resize_handle = page.resize_handle;
-
-            resize_handle.onmousedown +=
-                e =>
-                {
-                    resizing = true;
-                    //this.prevHandleY = e.screenY;
-                    //this.prevBoxH = this.box.height;
-                };
-
-            Native.Document.onmousemove +=
-                e =>
-                {
-                    if (resizing)
-                    {
-                        //    var yy = this.rootTransMatrix._22;
-                        //    if (yy < -0.01 || yy > 0.01)
-                        //    {
-                        //        var dy = e.screenY - this.prevHandleY;
-
-                        //        var h = this.prevBoxH - dy / yy;
-                        //        if (h < 20) h = 20;
-                        //        if (h > 200) h = 200;
-                        //        this.box.changeHeight(h);
-
-                        //        this.frontElement.firstChild.style.height = this.frontElement.style.height;
-                        //        this.frontElement.firstChild.style.width = this.frontElement.style.width;
-                        //        this.updateTransform();
-                        //    }
-                        //    else
-                        //        this.resizing = false;
-                    }
-                };
-
-            Native.Document.onmouseup +=
-                e =>
-                {
-                    resizing = false;
-                };
-            #endregion
-
-
             var qtext = page.search_text;
 
             var tilt_cur = TILT_BASE;
@@ -242,7 +208,8 @@ namespace GoogleImagesGiftBox
 
 
             ((CSSFace)box.getTop()).element = gbox_childnodes[11];
-            var frontElement = gbox_childnodes[7];
+            var frontElement = (IHTMLElement)gbox_childnodes[7];
+            var frontElement_firstChild = (IHTMLElement)frontElement.childNodes.ExceptTextNodes()[0];
 
             CSSFace bt = box.getBottom();
             bt.element = gbox_childnodes[5];
@@ -254,6 +221,7 @@ namespace GoogleImagesGiftBox
             floorFace.element = gbox_childnodes[0];
             floorFace.N.z = 1f;
 
+            #region updateTransform
             Action updateTransform =
                 delegate
                 {
@@ -271,6 +239,76 @@ namespace GoogleImagesGiftBox
 
 
             updateTransform();
+            #endregion
+
+
+            #region resizing
+            var resizing = default(Action);
+
+            var resize_handle = page.resize_handle;
+            resize_handle.style.cursor = IStyle.CursorEnum.move;
+
+            var prevHandleY = 0f;
+            var prevBoxH = 0f;
+
+            resize_handle.onmousedown +=
+                e =>
+                {
+                    e.PreventDefault();
+                    e.StopPropagation();
+
+                    resizing = resize_handle.CaptureMouse();
+                    //prevHandleY = e.screenY;
+                    prevHandleY = e.OffsetY;
+                    prevBoxH = box.height;
+
+
+                };
+
+            resize_handle.onmousemove +=
+                e =>
+                {
+                    if (resizing != null)
+                    {
+                        e.PreventDefault();
+                        e.StopPropagation();
+
+                        var yy = rootTransMatrix._22;
+                        if (yy < -0.01 || yy > 0.01)
+                        {
+                            //var dy = e.screenY - prevHandleY;
+                            var dy = e.OffsetY - prevHandleY;
+
+                            var h = prevBoxH - dy / yy;
+                            if (h < 20) h = 20;
+                            if (h > 200) h = 200;
+                            box.changeHeight(h);
+
+                            frontElement_firstChild.style.height = frontElement.style.height;
+                            frontElement_firstChild.style.width = frontElement.style.width;
+                            updateTransform();
+                        }
+                        else
+                        {
+
+                            resizing();
+                            resizing = null;
+                        }
+                    }
+                };
+
+            resize_handle.onmouseup +=
+                e =>
+                {
+                    if (resizing != null)
+                    {
+                        resizing();
+                        resizing = null;
+                    }
+                };
+            #endregion
+
+
 
             #region intpMotion
             Func<bool> intpMotion =
@@ -304,6 +342,16 @@ namespace GoogleImagesGiftBox
                 };
             #endregion
 
+            #region setLidRotate
+            Action<float> setLidRotate =
+                  a =>
+                  {
+                      lidTrans2.rotX(-a);
+                      lidTrans2._42 = -100;
+                      box.getTop().preTrans.mul(lidTrans1, lidTrans2);
+                  };
+            #endregion
+
 
             #region doAnimation
             Action doAnimation = null;
@@ -323,8 +371,8 @@ namespace GoogleImagesGiftBox
                         if (lidAngle < 0)
                         {
                             lidAngle = 0;
-                            //iframe[0].setAttribute('src', "about:blank");
-                            //iframe.hide();
+                            iframe.src = "about:blank";
+                            iframe.Hide();
                         }
                         else if (lidAngle >= 1.3f)
                         {
@@ -338,9 +386,9 @@ namespace GoogleImagesGiftBox
                         lidAngleV = 0f;
                     }
 
-                    //setLidRotate(lidAngle);
+                    setLidRotate(lidAngle);
 
-                    if (!resizing && intpMotion())
+                    if ((resizing == null) && intpMotion())
                         playing = true;
 
                     updateTransform();
@@ -359,6 +407,7 @@ namespace GoogleImagesGiftBox
             #endregion
 
 
+            #region onmousemove
             Native.Document.body.onmousemove +=
               e =>
               {
@@ -373,56 +422,60 @@ namespace GoogleImagesGiftBox
                   if (!playing)
                       doAnimation();
               };
+            #endregion
 
 
 
 
 
-            Action<float> setLidRotate =
-                a =>
-                {
-                    //this.lidTrans2.rotX(-a);
-                    //this.lidTrans2._42 = -100;
-                    //this.box.getTop().preTrans.mul(this.lidTrans1, this.lidTrans2);
-                };
 
-            #region buttons
+            #region close_button
             page.close_button.onclick +=
               e =>
               {
-                  //e.stopPropagation();
-                  //this.close_ok = true;
-                  //if (this.lidAngle > 1.2)
-                  //{
-                  //    this.lidAngle -= 0.1;
-                  //    this.lidAngleV = 0.01;
-                  //}
+                  e.StopPropagation();
+                  close_ok = true;
+                  if (lidAngle > 1.2)
+                  {
+                      lidAngle -= 0.1f;
+                      lidAngleV = 0.01f;
+                  }
 
-                  //if (!this.playing)
-                  //    this.doAnimation();
+                  if (!playing)
+                      doAnimation();
               };
+            #endregion
 
-            page.search_text.onkeydown +=
-             e =>
-             {
-                 //if (e.keyCode == 13)
-                 //{
-                 //    this.onSearchClick();
-                 //}
-             };
-
-            page.search_button.onclick +=
-                e =>
+            #region onSearchClick
+            Action onSearchClick =
+                delegate
                 {
                     lidAngle += 0.01f;
                     lidAngleV = 0.17f;
                     close_ok = false;
 
-                    //this.iframe.show();
-                    //this.iframe[0].setAttribute('src', "http://images.google.com/m/search?q="+this.qtext.val());
+                    iframe.Show();
+
+                    // Refused to display document because display forbidden by X-Frame-Options.
+                    iframe.src = "http://example.com";
 
                     if (!playing)
                         doAnimation();
+                };
+
+            page.search_text.onkeydown +=
+             e =>
+             {
+                 if (e.KeyCode == 13)
+                 {
+                     onSearchClick();
+                 }
+             };
+
+            page.search_button.onclick +=
+                e =>
+                {
+                    onSearchClick();
                 };
             #endregion
 
