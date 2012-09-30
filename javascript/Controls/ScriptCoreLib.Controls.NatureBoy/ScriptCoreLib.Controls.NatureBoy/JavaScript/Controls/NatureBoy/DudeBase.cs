@@ -369,6 +369,14 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             }
         }
 
+        public void LookAt(Point point)
+        {
+
+            LookAt(
+                    new Point<double> { X = point.X, Y = point.Y }
+                );
+        }
+
         public void LookAt(Point<double> point)
         {
             this.TargetLocation = point;
@@ -695,6 +703,12 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
             WalkTo(new Point<double> { X = x, Y = y });
         }
 
+        public void WalkTo(Point point)
+        {
+            WalkTo(
+                new Point<double> { X = point.X, Y = point.Y }
+            );
+        }
         public void WalkTo(Point<double> point)
         {
             this.TargetLocation = point;
