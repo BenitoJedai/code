@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,8 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrcasMetaNativeConsole</RootNamespace>
     <AssemblyName>OrcasMetaNativeConsole</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -80,7 +85,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-C:\util\jsc\bin\jsc.meta.exe ExtendToNativeConsole /assembly:"$(TargetPath)" /MicrosoftVisualStudio:"c:\Program Files\Microsoft Visual Studio 9.0" /MicrosoftWindowsSDK:"C:\Program Files\Microsoft SDKs\Windows\v6.0A"</PostBuildEvent>
+C:\util\jsc\bin\jsc.meta.exe ExtendToNativeConsole /assembly:"$(TargetPath)" /MicrosoftVisualStudio:"c:\Program Files\Microsoft Visual Studio 11.0" /MicrosoftWindowsSDK:"C:\Program Files\Microsoft SDKs\Windows\v8.0A"</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceTextComponent /ProjectFileName:"$(ProjectPath)" /IsComponent:false /ImplementToString:false</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿:mxmlc
+﻿
+:mxmlc
 @echo off
 
 set TargetFileName=%2
