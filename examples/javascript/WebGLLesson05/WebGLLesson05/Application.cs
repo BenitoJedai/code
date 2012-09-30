@@ -181,15 +181,12 @@ namespace WebGLLesson05
             #endregion
 
             #region initShaders
-            var shaderProgram = gl.createProgram();
-            var vs = createShader(new GeometryVertexShader());
-            var fs = createShader(new GeometryFragmentShader());
+            var shaderProgram = gl.createProgram(
+                new GeometryVertexShader(),
+                new GeometryFragmentShader()
+            );
 
-
-            gl.attachShader(shaderProgram, vs);
-            gl.attachShader(shaderProgram, fs);
-
-
+        
             gl.linkProgram(shaderProgram);
             gl.useProgram(shaderProgram);
 

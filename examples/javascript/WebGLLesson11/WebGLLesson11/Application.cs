@@ -168,33 +168,17 @@ namespace WebGLLesson11
                 };
             #endregion
 
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader failed");
-                }
-
-                return shader;
-            };
-            #endregion
-
+      
 
             #region init shaders
-            var vs = createShader(new Shaders.GeometryVertexShader());
-            var fs = createShader(new Shaders.GeometryFragmentShader());
+       
 
+            var shaderProgram = gl.createProgram(
+                new Shaders.GeometryVertexShader(),
+                new Shaders.GeometryFragmentShader()
+            );
 
-            var shaderProgram = gl.createProgram();
-
-            gl.attachShader(shaderProgram, vs);
-            gl.attachShader(shaderProgram, fs);
-
+        
 
             gl.linkProgram(shaderProgram);
             gl.useProgram(shaderProgram);
@@ -282,8 +266,8 @@ namespace WebGLLesson11
 
             #region mouseDown
             var mouseDown = false;
-            var lastMouseX = 0L;
-            var lastMouseY = 0L;
+            var lastMouseX = 0f;
+            var lastMouseY = 0f;
 
             var moonRotationMatrix = __glMatrix.mat4.create();
             __glMatrix.mat4.identity(moonRotationMatrix);
@@ -294,17 +278,19 @@ namespace WebGLLesson11
                     mouseDown = true;
                     lastMouseX = e.CursorX;
                     lastMouseY = e.CursorY;
+
+                    canvas.requestPointerLock();
                 };
 
-            Native.Document.onmouseup +=
+            canvas.onmouseup +=
                 e =>
                 {
                     mouseDown = false;
-
+                    Native.Document.exitPointerLock();
                 };
 
 
-            Action<long, long> RotateAtDelta =
+            Action<f, f> RotateAtDelta =
                 (deltaX, deltaY) =>
                 {
                     var newRotationMatrix = __glMatrix.mat4.create();
@@ -319,13 +305,21 @@ namespace WebGLLesson11
                     lastMouseY += deltaY;
                 };
 
-            Native.Document.onmousemove +=
+            canvas.onmousemove +=
                 e =>
                 {
                     if (!mouseDown)
                     {
                         return;
                     }
+
+                    if (Native.Document.pointerLockElement == canvas)
+                    {
+                        RotateAtDelta(e.movementX , e.movementY );
+
+                        return;
+                    }
+
                     var newX = e.CursorX;
                     var newY = e.CursorY;
 
@@ -440,7 +434,6 @@ namespace WebGLLesson11
 
 
 
-                    Func<string, f> parseFloat = x => (f)double.Parse(x);
 
 
 
@@ -450,7 +443,7 @@ namespace WebGLLesson11
 
 
 
-
+                    #region drawScene
                     Action drawScene = () =>
                     {
                         gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
@@ -468,16 +461,16 @@ namespace WebGLLesson11
                             #region [uniform] vec3 uAmbientColor <- (f ambientR, f ambientG, f ambientB)
                             gl.uniform3f(
                                 shaderProgram_ambientColorUniform,
-                                parseFloat(toolbar.ambientR.value),
-                                parseFloat(toolbar.ambientG.value),
-                                parseFloat(toolbar.ambientB.value)
+                                float.Parse(toolbar.ambientR.value),
+                                float.Parse(toolbar.ambientG.value),
+                                float.Parse(toolbar.ambientB.value)
                             );
                             #endregion
 
                             var lightingDirection = new[]{
-                                    parseFloat(toolbar.lightDirectionX.value),
-                                    parseFloat(toolbar.lightDirectionY.value),
-                                    parseFloat(toolbar.lightDirectionZ.value)
+                                    float.Parse(toolbar.lightDirectionX.value),
+                                    float.Parse(toolbar.lightDirectionY.value),
+                                    float.Parse(toolbar.lightDirectionZ.value)
                                 };
 
                             var adjustedLD = __glMatrix.vec3.create();
@@ -491,9 +484,9 @@ namespace WebGLLesson11
                             #region [uniform] vec3 uDirectionalColor <- (f directionalR, f directionalG, f directionalB)
                             gl.uniform3f(
                                 shaderProgram_directionalColorUniform,
-                                parseFloat(toolbar.directionalR.value),
-                                parseFloat(toolbar.directionalG.value),
-                                parseFloat(toolbar.directionalB.value)
+                                float.Parse(toolbar.directionalR.value),
+                                float.Parse(toolbar.directionalG.value),
+                                float.Parse(toolbar.directionalB.value)
                             );
                             #endregion
 
@@ -522,6 +515,7 @@ namespace WebGLLesson11
                         setMatrixUniforms();
                         gl.drawElements(gl.TRIANGLES, moonVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
                     };
+                    #endregion
 
 
 
