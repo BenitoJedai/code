@@ -133,8 +133,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\Preview.png" />
-    <Content Include="Design\Images\texture.jpg" />
+    <Content Include="Textures\Preview.png" />
+    <Content Include="Textures\texture.jpg" />
     <Content Include="References\glUtils.js" />
     <Content Include="References\sylvester.js" />
   </ItemGroup>

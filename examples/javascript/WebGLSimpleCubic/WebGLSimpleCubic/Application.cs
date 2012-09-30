@@ -157,29 +157,10 @@ namespace WebGLSimpleCubic
             gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
 
 
-            #region createShader
-            Func<Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader failed");
-                }
-
-                return shader;
-            };
-            #endregion
-
-            var prog = gl.createProgram();
-            var vs = createShader(new CubicVertexShader());
-            var fs = createShader(new CubicFragmentShader());
-
-
-            gl.attachShader(prog, vs);
-            gl.attachShader(prog, fs);
+            var prog = gl.createProgram(
+                new CubicVertexShader(),
+                new CubicFragmentShader()
+                );
 
 
             var posLoc = 0U;
@@ -270,13 +251,11 @@ namespace WebGLSimpleCubic
             var mvMatLoc = gl.getUniformLocation(prog, "mvMatrix");
             var colorLoc = gl.getUniformLocation(prog, "u_color");
 
-            var line_prog = gl.createProgram();
+            var line_prog = gl.createProgram(
+                new LineVertexShader(),
+                new LineFragmentShader()
+                );
 
-            var line_vs = createShader(new LineVertexShader());
-            var line_fs = createShader(new LineFragmentShader());
-
-            gl.attachShader(line_prog, line_vs);
-            gl.attachShader(line_prog, line_fs);
 
             var lineLoc = 2U;
             gl.bindAttribLocation(line_prog, lineLoc, "aPos");
@@ -420,6 +399,8 @@ namespace WebGLSimpleCubic
                 drag = 1;
                 xOffs = ev.CursorX;
                 yOffs = ev.CursorY;
+
+                canvas.requestPointerLock();
             };
 
             canvas.onmouseup += ev =>
@@ -430,12 +411,24 @@ namespace WebGLSimpleCubic
                 drag = 0;
                 xOffs = ev.CursorX;
                 yOffs = ev.CursorY;
+
+                Native.Document.exitPointerLock();
             };
 
             canvas.onmousemove += ev =>
             {
                 if (drag == 0)
                     return;
+
+                if (Native.Document.pointerLockElement == canvas)
+                {
+                    xRot += ev.movementY;
+                    yRot += ev.movementX;
+                    drawScene();
+
+                    return;
+                }
+
                 ev.PreventDefault();
 
                 if (ev.shiftKey)
@@ -502,7 +495,7 @@ namespace WebGLSimpleCubic
 
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    Native.Document.body.requestFullscreen();
+                    canvas.requestFullscreen();
 
 
                 };

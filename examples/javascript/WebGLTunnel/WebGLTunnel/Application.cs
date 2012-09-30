@@ -195,32 +195,14 @@ namespace WebGLTunnel
             );
             #endregion
 
-            var shaderProgram = gl.createProgram();
+            var shaderProgram = gl.createProgram(
+                new TunnelVertexShader(),
+                new TunnelFragmentShader()
+                );
 
 
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
 
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader failed");
-                }
-
-                return shader;
-            };
-            #endregion
-
-            #region initShaders
-            var vs = createShader(new TunnelVertexShader());
-            var fs = createShader(new TunnelFragmentShader());
-
-
-            gl.attachShader(shaderProgram, vs);
-            gl.attachShader(shaderProgram, fs);
+         
 
 
             gl.linkProgram(shaderProgram);
@@ -240,7 +222,6 @@ namespace WebGLTunnel
             var shaderProgram_fTimeUniform = gl.getUniformLocation(shaderProgram, "fTime");
             var shaderProgram_samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
 
-            #endregion
 
 
             var mvMatrix = default(Matrix);
