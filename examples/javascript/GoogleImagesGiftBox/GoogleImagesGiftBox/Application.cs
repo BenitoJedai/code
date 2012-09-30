@@ -51,11 +51,89 @@ namespace GoogleImagesGiftBox
             // http://www.addyosmani.com/resources/googlebox/test.js
             var TILT_BASE = 2.0;
 
+            //            var _this = this;
+
+            //this.resizing = false;
+
+            //this.resize_handle = $("#resize-handle");
+            //var scr = $("html");
+
+            //this.resize_handle.mousedown(function(e){_this.onResizeHandleMouseDown(e);});
+            //scr.mousemove(function(e){_this.onResizeHandleMouseMove(e);});
+            //scr.mouseup(  function(e){_this.onResizeHandleMouseUp(e);});
+
+            //this.qtext = $("#search-text");
+
+            //this.tilt_cur = this.tilt = TILT_BASE;
+            //this.rot_cur  = this.rot  = 0;
+
+            //this.lidAngle  = 0;
+            //this.lidAngleV = 0;
+            //this.close_ok = false;
+            //this.playing = false;
+            //this.iframe = $('#bottom-iframe').hide();
+
+            //this.rootTransMatrix = new M44();
+            //this.rootTransNode = new TransformNode(this.rootTransMatrix);
+
+            //this.rootTransMatrix.rotX(this.tilt);
+
+            //this.lidTrans1 = (new M44()).translate(0, 100, 0);
+            //this.lidTrans2 = new M44();
+
+            //this.box = new CSSCube(200, 200, 80, this.rootTransNode);
+
+            //var gbox = document.getElementById('gift-box');
+            //var i;
+
+            //for (i = 0;i < 4;i++) {
+            //    var f = this.box.getSide(i);
+            //    f.element = gbox.childNodes[7+i];
+            //    f.backElement = gbox.childNodes[1+i];
+            //}
+            //this.box.getTop().element = gbox.childNodes[11];
+            //this.frontElement = gbox.childNodes[7];
+
+            //var bt = this.box.getBottom();
+            //bt.element = gbox.childNodes[5];
+            //bt.preTrans.rotX(Math.PI);
+            //this.box.getTop().backElement = gbox.childNodes[6];
+
+
+            //this.floorFace = new CSSFace(bt.tNode, 256, 256);
+            //this.floorFace.element = gbox.childNodes[0];
+            //this.floorFace.N.z = 1;
+
+            //this.updateTransform();
+
             Action intpMotion =
                 delegate
-                { 
-                
-                
+                {
+                    //var dR = this.rot_cur - this.rot;
+                    //var dT = this.tilt_cur - this.tilt;
+
+                    //if (dR < 0) dR = -dR;
+                    //if (dT < 0) dT = -dT;
+
+                    //var not_finished = false;
+                    //if (dR < 0.002)
+                    //    this.rot_cur = this.rot;
+                    //else
+                    //{
+                    //    not_finished = true;
+                    //    this.rot_cur = this.rot_cur * 0.8 + this.rot * 0.2;
+                    //}
+
+                    //if (dT < 0.002)
+                    //    this.tilt_cur = this.tilt;
+                    //else
+                    //{
+                    //    not_finished = true;
+                    //    this.tilt_cur = this.tilt_cur * 0.8 + this.tilt * 0.2;
+                    //}
+
+                    //return not_finished;
+
                 };
 
             Action doAnimation =
@@ -111,26 +189,103 @@ namespace GoogleImagesGiftBox
                     //this.floorFace.applyTransform();
                 };
 
+            Action onResizeHandleMouseDown =
+                delegate
+                {
+                    //this.resizing = true;
+                    //this.prevHandleY = e.screenY;
+                    //this.prevBoxH = this.box.height;
+                };
+
+            Action onResizeHandleMouseUp =
+                delegate
+                {
+                    //this.resizing = false;
+                };
+
+            Action onResizeHandleMouseMove =
+                delegate
+                {
+                    //if (this.resizing)
+                    //{
+                    //    var yy = this.rootTransMatrix._22;
+                    //    if (yy < -0.01 || yy > 0.01)
+                    //    {
+                    //        var dy = e.screenY - this.prevHandleY;
+
+                    //        var h = this.prevBoxH - dy / yy;
+                    //        if (h < 20) h = 20;
+                    //        if (h > 200) h = 200;
+                    //        this.box.changeHeight(h);
+
+                    //        this.frontElement.firstChild.style.height = this.frontElement.style.height;
+                    //        this.frontElement.firstChild.style.width = this.frontElement.style.width;
+                    //        this.updateTransform();
+                    //    }
+                    //    else
+                    //        this.resizing = false;
+                    //}
+                };
+
+            Action<float> setLidRotate =
+                a =>
+                {
+                    //this.lidTrans2.rotX(-a);
+                    //this.lidTrans2._42 = -100;
+                    //this.box.getTop().preTrans.mul(this.lidTrans1, this.lidTrans2);
+                };
+
             Native.Document.onmousemove +=
                 e =>
                 {
+                    //if (e.pageX >= 0 && e.pageY)
+                    //{
+                    //    this.rot = e.pageX * 0.006 - 0.9;
+
+                    //    this.tilt = (TILT_BASE - e.pageY * 0.004);
+                    //    if (this.tilt < 0.5) this.tilt = 0.5;
+
+                    //    if (!this.playing)
+                    //        this.doAnimation();
+                    //}
                 };
 
             page.close_button.onclick +=
               e =>
               {
+                  //e.stopPropagation();
+                  //this.close_ok = true;
+                  //if (this.lidAngle > 1.2)
+                  //{
+                  //    this.lidAngle -= 0.1;
+                  //    this.lidAngleV = 0.01;
+                  //}
+
+                  //if (!this.playing)
+                  //    this.doAnimation();
               };
 
             page.search_text.onkeydown +=
              e =>
              {
-
+                 //if (e.keyCode == 13)
+                 //{
+                 //    this.onSearchClick();
+                 //}
              };
 
             page.search_button.onclick +=
                 e =>
                 {
+                    //                    this.lidAngle += 0.01;
+                    //this.lidAngleV = 0.17;
+                    //this.close_ok = false;
 
+                    //this.iframe.show();
+                    //this.iframe[0].setAttribute('src', "http://images.google.com/m/search?q="+this.qtext.val());
+
+                    //if (!this.playing)
+                    //    this.doAnimation();
                 };
 
         }
