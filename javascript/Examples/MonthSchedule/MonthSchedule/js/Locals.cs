@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace MonthSchedule.js
 {

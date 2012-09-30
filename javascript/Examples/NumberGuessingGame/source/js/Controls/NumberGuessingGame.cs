@@ -11,6 +11,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using System;
 
 namespace NumberGuessingGame.source.js.Controls
 {
@@ -23,7 +24,7 @@ namespace NumberGuessingGame.source.js.Controls
 
         public IStyle Style { get { return Control.style; } }
 
-        void CreateDisposableButton(string e, EventHandler a)
+        void CreateDisposableButton(string e, Action a)
         {
 
 

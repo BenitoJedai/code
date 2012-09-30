@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 
 namespace GMapsClone.source.js
 {
@@ -165,7 +166,7 @@ namespace GMapsClone.source.js
 
         }
 
-        private void BindWheel(IHTMLDiv div, EventHandler GoDown)
+        private void BindWheel(IHTMLDiv div, Action GoDown)
         {
             div.onmousewheel += delegate (IEvent ev)
             {

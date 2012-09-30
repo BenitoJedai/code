@@ -150,7 +150,7 @@ namespace MonthSchedule.js
 
         public static void WhenNoLongerNeeded(this IHTMLInput e, Func<bool> condition, Action done)
         {
-            ScriptCoreLib.Shared.EventHandler<IEvent> h = null;
+            Action<IEvent> h = null;
 
             h = ev =>
                 {
@@ -176,7 +176,7 @@ namespace MonthSchedule.js
 
         public static void WhenNoLongerEmpty(this IHTMLInput e, Action done)
         {
-            ScriptCoreLib.Shared.EventHandler<IEvent> h = null;
+            Action<IEvent> h = null;
 
             h = ev =>
                 {
