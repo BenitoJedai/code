@@ -78,7 +78,6 @@
     <Compile Include="js\Class1.cs" />
     <Compile Include="js\Class2.cs" />
     <Compile Include="js\Class3.cs" />
-    <Compile Include="js\Class4.cs" />
     <Compile Include="js\Dude.cs" />
     <Compile Include="js\DudeBase.cs" />
     <Compile Include="js\Extensions.cs" />

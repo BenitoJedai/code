@@ -7,28 +7,30 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.JavaScript.Controls.Effects;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.Controls.NatureBoy;
+using ImpAdventures.HTML.Images.FromAssets;
 
 namespace NatureBoy.js
 {
 
 
 
-    [Script, ScriptApplicationEntryPoint]
     class Class4
     {
 
         public Class4()
         {
-            IStyleSheet.Default.AddRule(".cursorred", "cursor: url('assets/NatureBoy/cursor-red.cur'), auto;", 0);
 
-            IStyleSheet.Default.AddRule("body", "cursor: url('assets/NatureBoy/cursor.cur'), auto;", 0);
+            IStyleSheet.Default.AddRule(".cursorred", "cursor: url('" + new cursor_red().src + "'), auto;", 0);
+
+            IStyleSheet.Default.AddRule("body", "cursor: url('" + new cursor().src + "'), auto;", 0);
 
             IStyleSheet.Default.AddRule("html",
                    r =>
@@ -94,10 +96,10 @@ namespace NatureBoy.js
 
             // load me an imp
 
-            LoadImage("assets/NatureBoy/alpha/2.png");
-            LoadImage("assets/NatureBoy/alpha/power.png");
-            LoadImage("assets/NatureBoy/alpha/green-ring.png");
-            LoadImage("assets/NatureBoy/alpha/yellow-ring-50.png");
+            //LoadImage("assets/NatureBoy/alpha/2.png");
+            //LoadImage("assets/NatureBoy/alpha/power.png");
+            //LoadImage("assets/NatureBoy/alpha/green-ring.png");
+            //LoadImage("assets/NatureBoy/alpha/yellow-ring-50.png");
 
             var dude = new DudeAnimationInfo
             {
@@ -105,10 +107,9 @@ namespace NatureBoy.js
                 Frames_Walk = Frames.DoomImp_Walk
             };
 
-
             dude.Images.ForEach(LoadImage);
 
-            var scene = "assets/NatureBoy/data/LostInTime.xml";
+            var scene = "LostInTime.xml";
 
             Action<Scene.Document> SceneDownloaded = delegate { };
 
@@ -140,7 +141,20 @@ namespace NatureBoy.js
                 delegate
                 {
                     loading.innerText = "loading: " + scene;
-                    scene.DownloadToXML(Scene.Settings.KnownTypes, SceneDownloaded);
+
+                    ImpAdventures.Data.LostInTime.Create(
+                        e =>
+                        {
+                            Console.WriteLine(e.Document.ToString());
+
+                            var s = new IXMLSerializer<Scene.Document>(Scene.Settings.KnownTypes);
+
+                            var doc = s.Deserialize(e.Document.AsIXMLDocument());
+
+                            SceneDownloaded(doc);
+                        }
+                    );
+
                 }
             );
 
@@ -149,13 +163,14 @@ namespace NatureBoy.js
                 {
                     //loading.innerText = "loading: done";
 
-                    doc.Frames.ForEach(
-                        f =>
-                        {
+                    //doc.Frames.ForEach(
+                    //    f =>
+                    //    {
 
-                            LoadImage(f.Image.Source);
-                        }
-                    );
+                    //        LoadImage(f.Image.Source);
+                    //    }
+                    //);
+                    new ImpAdventures.HTML.Pages.LostInTimeImages().Images.ForEach(LoadImage);
 
                     refresh += CreateImageLoader(
                         delegate
@@ -189,7 +204,8 @@ namespace NatureBoy.js
             var Wallpaper = new IHTMLDiv();
 
             Wallpaper.style.SetSize(ViewSize.Width, ViewSize.Height + 60);
-            Wallpaper.style.background = "url(assets/NatureBoy/alpha/power.png)";
+
+            new power().ToBackground(Wallpaper.style);
             Wallpaper.style.backgroundRepeat = "no-repeat";
             Wallpaper.style.backgroundPosition = "center center";
             Wallpaper.AttachToDocument();
@@ -238,7 +254,19 @@ namespace NatureBoy.js
             //GroundOverlay2.style.SetLocation(0, 0, ViewSize.Width, ViewSize.Height);
             //GroundOverlay2.AttachTo(Room);
 
-            var BackgroundImage = new IHTMLImage(CurrentFrame.Image.Source);
+            var LostInTime_Images = new ImpAdventures.HTML.Pages.LostInTimeImages().Images;
+
+            var BackgroundImage = new IHTMLImage();
+
+            LostInTime_Images.FirstOrDefault(
+                                   k => k.src.SkipUntilLastIfAny("/") == CurrentFrame.Image.Source.SkipUntilLastIfAny("/")
+                               ).With(
+                                   ImageSource =>
+                                   {
+                                       Console.WriteLine(ImageSource.src);
+                                       BackgroundImage.src = ImageSource.src;
+                                   }
+                               );
 
             BackgroundImage.style.SetLocation(0, 0, ViewSize.Width, ViewSize.Height);
             BackgroundImage.alt = "BackgroundImage";
@@ -268,6 +296,8 @@ namespace NatureBoy.js
             Ground.AttachTo(Room);
 
 
+
+
             var AnimateRoomChange = default(Action<Action>);
 
             Func<TryToChangeRoomsArgs, bool> TryToChangeRooms =
@@ -288,8 +318,21 @@ namespace NatureBoy.js
                             delegate
                             {
                                 CurrentFrame = next;
+
+                                Console.WriteLine("AnimateRoomChange");
+
+                                LostInTime_Images.FirstOrDefault(
+                                    k => k.src.SkipUntilLastIfAny("/") == CurrentFrame.Image.Source.SkipUntilLastIfAny("/")
+                                ).With(
+                                    ImageSource =>
+                                    {
+                                        Console.WriteLine(ImageSource.src);
+                                        BackgroundImage.src = ImageSource.src;
+                                    }
+                                );
+
                                 //GroundOverlay2.style.backgroundImage = "url(" + CurrentFrame.Image.Source + ")";
-                                BackgroundImage.src = CurrentFrame.Image.Source;
+                                //BackgroundImage.src = CurrentFrame.Image.Source;
 
                                 e.ReadyToTeleport();
                             }
@@ -315,7 +358,7 @@ namespace NatureBoy.js
                                 {
 
                                     dude.TeleportTo(-MarginSafe, dude.CurrentLocation.Y);
-                                    dude.LookAt(new Point(MarginSafe, dude.CurrentLocation.Y));
+                                    dude.LookAt(new Point(MarginSafe, (int)dude.CurrentLocation.Y));
                                 }
                             },
                     new TryToChangeRoomsArgs
@@ -326,7 +369,7 @@ namespace NatureBoy.js
                                 {
 
                                     dude.TeleportTo(ViewSize.Width + MarginSafe, dude.CurrentLocation.Y);
-                                    dude.LookAt(new Point(ViewSize.Width - MarginSafe, dude.CurrentLocation.Y));
+                                    dude.LookAt(new Point(ViewSize.Width - MarginSafe, (int)dude.CurrentLocation.Y));
                                 }
                             },
                     new TryToChangeRoomsArgs
@@ -337,7 +380,7 @@ namespace NatureBoy.js
                                 {
 
                                      dude.TeleportTo(dude.CurrentLocation.X, ViewSize.Height + MarginSafe);
-                                    dude.LookAt(new Point(dude.CurrentLocation.X, ViewSize.Height - MarginSafe));
+                                    dude.LookAt(new Point((int)dude.CurrentLocation.X, ViewSize.Height - MarginSafe));
 
                                 }
                             },
@@ -349,7 +392,7 @@ namespace NatureBoy.js
                                 {
 
                                   dude.TeleportTo(dude.CurrentLocation.X, -Margin);
-                                dude.LookAt(new Point(dude.CurrentLocation.X, MarginSafe));
+                                dude.LookAt(new Point((int)dude.CurrentLocation.X, MarginSafe));
 
                                 }
                             }
@@ -540,9 +583,6 @@ namespace NatureBoy.js
             return r;
         }
 
-        static Class4()
-        {
-            typeof(Class4).SpawnTo(e => new Class4());
-        }
+
     }
 }
