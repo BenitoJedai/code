@@ -92,12 +92,7 @@ namespace NatureBoy.js
             return e.Split(new[] { d }, StringSplitOptions.None);
         }
 
-        public static IHTMLElement AttachTo(this IHTMLElement e, IHTMLElement c)
-        {
-            c.appendChild(e);
-
-            return e;
-        }
+  
 
         public static TweenDataDouble ToOpacityTween(this IHTMLElement e)
         {

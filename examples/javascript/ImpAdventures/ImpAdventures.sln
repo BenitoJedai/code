@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpAdventures", "ImpAdventures\ImpAdventures.csproj", "{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Controls.NatureBoy", "..\..\..\javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy.csproj", "{81BF3761-04A3-40AC-A445-38A61315A033}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Debug|x86.ActiveCfg = Debug|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Debug|x86.Build.0 = Debug|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Release|Any CPU.ActiveCfg = Release|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Release|Mixed Platforms.Build.0 = Release|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Release|x86.ActiveCfg = Release|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Release|x86.Build.0 = Release|x86
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
