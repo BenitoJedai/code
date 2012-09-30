@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcasMetaNativeConsole", "OrcasMetaNativeConsole\OrcasMetaNativeConsole.csproj", "{3510C346-4311-488A-885A-EF6321EFC16B}"
 EndProject
 Global

@@ -1,5 +1,6 @@
+
 @echo off
-set ConfigurationName=%2
+set ConfigurationName=Release
 
 pushd ..\bin\%ConfigurationName%\web\
 echo + compile native [%1] %ConfigurationName%
@@ -15,8 +16,8 @@ rem 2003
 ::set _toolkit=X:\util\dotnet2003\Vc7
 
 ::set _init=%_toolkit%\..\Common7\Tools\vsvars32.bat
-set _toolkit=c:\Program Files\Microsoft Visual Studio 9.0\VC
-set _init=%_toolkit%\vcvarsall.bat
+set _toolkit=C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC
+set _init=C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd
 
 if exist "%_init%" goto :found
 
@@ -33,7 +34,14 @@ goto :eof
 :found
 
 echo - setting vars
-call "%_init%" >nul
+rem echo call C:\Windows\System32\cmd.exe /E:ON /V:ON /T:0E /K "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"
+rem echo call C:\Windows\System32\cmd.exe /E:ON /V:ON /T:0E /K "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"
+pushd C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\
+c:
+
+call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"
+popd
+x:
 
 set _targetpath=bin\Debug\web
 set _sourcefiles=*.c
@@ -58,9 +66,11 @@ set _command="%_toolkit%\bin\cl.exe" %_args%
 rem cd
 rem dir *.cpp
 
-rem echo %_command%
-call %_command%
+echo call %_command%
+cmd /C %_command%
+
 rem > compile.log
 
-endlocal
-popd
+echo done...
+rem endlocal
+rem popd
