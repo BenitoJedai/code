@@ -616,4 +616,12 @@ namespace CSS3DMeetsFormsWithWebGL
             new global::IsometricTycoonViewWithToolbar.Application(page);
         }
     }
+
+    sealed class __McKrackenFirstRoom
+    {
+        public __McKrackenFirstRoom(global::McKrackenFirstRoom.HTML.Pages.IDefaultPage page)
+        {
+            new global::McKrackenFirstRoom.Application(page);
+        }
+    }
 }
