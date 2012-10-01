@@ -118,7 +118,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Images.htm" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\Butterfly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
