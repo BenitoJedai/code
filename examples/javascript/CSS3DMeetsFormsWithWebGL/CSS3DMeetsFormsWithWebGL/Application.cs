@@ -600,4 +600,20 @@ namespace CSS3DMeetsFormsWithWebGL
             new global::WebGLSpiral.Application(page);
         }
     }
+
+    sealed class __ImpAdventures
+    {
+        public __ImpAdventures(global::ImpAdventures.HTML.Pages.IDefaultPage page)
+        {
+            new global::ImpAdventures.Application(page);
+        }
+    }
+
+    sealed class __IsometricTycoonViewWithToolbar
+    {
+        public __IsometricTycoonViewWithToolbar(global::IsometricTycoonViewWithToolbar.HTML.Pages.IDefaultPage page)
+        {
+            new global::IsometricTycoonViewWithToolbar.Application(page);
+        }
+    }
 }

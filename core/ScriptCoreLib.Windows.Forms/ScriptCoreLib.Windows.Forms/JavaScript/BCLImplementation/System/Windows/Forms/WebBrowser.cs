@@ -73,6 +73,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalElement = new IHTMLIFrame
             {
                 //frameBorder = "0"
+
+                allowFullScreen = true
             };
 
         }

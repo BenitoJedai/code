@@ -54,7 +54,9 @@ namespace CSS3DMeetsFormsWithWebGL
             {
                 new { path = "/WebGLLesson10", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__WebGLLesson10Application") },
                 new { path = "/WebGLSpiral", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__WebGLSpiral") },
-
+                new { path = "/ImpAdventures", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__ImpAdventures") },
+                new { path = "/IsometricTycoonViewWithToolbar", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__IsometricTycoonViewWithToolbar") },
+                
                 new { path = "", client = h.Applications.FirstOrDefault(k => k.TypeName =="Application") }
             };
 

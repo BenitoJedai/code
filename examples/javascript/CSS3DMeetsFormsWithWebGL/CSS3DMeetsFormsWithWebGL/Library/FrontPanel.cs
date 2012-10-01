@@ -26,9 +26,9 @@ namespace CSS3DMeetsFormsWithWebGL.Library
             var f = new Form();
             var c = new WebBrowser();
             c.Dock = DockStyle.Fill;
-            c.Size = new System.Drawing.Size(284, 262);
+            c.Size = new System.Drawing.Size(800, 600);
             f.Controls.Add(c);
-            f.ClientSize = new System.Drawing.Size(284, 262);
+            f.ClientSize = new System.Drawing.Size(800, 600);
             c.Navigate(this.comboBox1.Text);
             //c.Url = new Uri(this.comboBox1.Text);
             f.Show();
