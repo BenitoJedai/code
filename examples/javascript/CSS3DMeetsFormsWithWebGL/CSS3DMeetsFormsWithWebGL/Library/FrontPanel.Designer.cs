@@ -35,9 +35,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 16);
+            this.button1.Location = new System.Drawing.Point(12, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 32);
+            this.button1.Size = new System.Drawing.Size(124, 20);
             this.button1.TabIndex = 0;
             this.button1.Text = "Open this box";
             this.button1.UseVisualStyleBackColor = true;
@@ -47,17 +47,19 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "/WebGLLesson10",
-            "/WebGLSpiral"});
-            this.comboBox1.Location = new System.Drawing.Point(12, 54);
+            "/WebGLSpiral",
+            "/ImpAdventures",
+            "/IsometricTycoonViewWithToolbar"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 29);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 1;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 81);
+            this.button2.Location = new System.Drawing.Point(12, 56);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(124, 32);
+            this.button2.Size = new System.Drawing.Size(124, 24);
             this.button2.TabIndex = 2;
             this.button2.Text = "Open as form";
             this.button2.UseVisualStyleBackColor = true;

@@ -136,6 +136,12 @@
     <Reference Include="WebGLSpiral.AssetsLibrary">
       <HintPath>..\..\WebGLSpiral\WebGLSpiral\bin\staging.AssetsLibrary\WebGLSpiral.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ImpAdventures.AssetsLibrary">
+      <HintPath>..\..\ImpAdventures\ImpAdventures\bin\staging.AssetsLibrary\ImpAdventures.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IsometricTycoonViewWithToolbar.AssetsLibrary">
+      <HintPath>..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\bin\staging.AssetsLibrary\IsometricTycoonViewWithToolbar.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\boxf1.png" />
@@ -225,6 +231,14 @@
     <ProjectReference Include="..\..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj">
       <Project>{df8cc6e1-e494-4194-9e22-3feda8748f82}</Project>
       <Name>PlasmaFormsControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ImpAdventures\ImpAdventures\ImpAdventures.csproj">
+      <Project>{9c79ddc9-74db-4f8a-84e8-91744d007ab4}</Project>
+      <Name>ImpAdventures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar.csproj">
+      <Project>{a28a2898-d11b-4027-b5fe-2a911cc5d66f}</Project>
+      <Name>IsometricTycoonViewWithToolbar</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WebGLLesson10\WebGLLesson10\WebGLLesson10.csproj">
       <Project>{61cd247e-df04-4627-b884-a628469ced8a}</Project>
