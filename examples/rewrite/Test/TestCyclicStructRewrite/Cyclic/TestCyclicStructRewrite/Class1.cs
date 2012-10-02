@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TestCyclicStructRewrite
-{
-    public struct a<T>
+
+    public class u
     {
-        //T[] e;
     }
-}

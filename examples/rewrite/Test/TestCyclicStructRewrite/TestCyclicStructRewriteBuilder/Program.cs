@@ -11,21 +11,17 @@ namespace TestCyclicStructRewriteBuilder
     {
         static void Main(string[] args)
         {
-            var abs = AppDomain.CurrentDomain.DefineDynamicAssembly(
-              new AssemblyName("foo"), System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave
-          );
-            var ms = ab.DefineDynamicModule("foo.dll");
 
 
             var ab = AppDomain.CurrentDomain.DefineDynamicAssembly(
-              new AssemblyName("foo"), System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave
+              new AssemblyName("TestCyclicStructRewrite"), System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave
           );
 
-            var m = ab.DefineDynamicModule("foo.dll");
+            var m = ab.DefineDynamicModule("TestCyclicStructRewrite.dll");
 
             var a = m.DefineType(
 
-                 name: "a"
+                 name: "a`1"
                  , attr: TypeAttributes.AnsiClass
                      | TypeAttributes.Sealed
                      | TypeAttributes.Public
@@ -40,43 +36,68 @@ namespace TestCyclicStructRewriteBuilder
 
             var agp = a.DefineGenericParameters("T");
 
-            
+
+
+
             var c = m.DefineType(
 
                 name: "c",
                 attr: TypeAttributes.AnsiClass
                     | TypeAttributes.Sealed
-                    | TypeAttributes.Public
+                    | TypeAttributes.NotPublic
                     | TypeAttributes.SequentialLayout
                     | TypeAttributes.BeforeFieldInit,
 
-                parent: typeof(ValueType),
-
-                packingSize: System.Reflection.Emit.PackingSize.Unspecified,
-                typesize: 1
+                parent: typeof(ValueType)
             );
 
 
             var u = m.DefineType(
-              name: "u"
+              name: "u",
+              attr: TypeAttributes.BeforeFieldInit
             );
 
 
-            var a_of_u = a.MakeGenericType(u);
-            
-            c.DefineField("a", a_of_u, FieldAttributes.Assembly);
+      
 
-            u.DefineField("c", c, FieldAttributes.Assembly);
+            #region workaround
+
+            #region shadow of u
+            var abs = AppDomain.CurrentDomain.DefineDynamicAssembly(
+              new AssemblyName("TestCyclicStructRewrite"), 
+              
+              // Additional information: A non-collectible assembly may not reference a collectible assembly.
+              //System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect
+
+              System.Reflection.Emit.AssemblyBuilderAccess.Run
+          );
+            var ms = abs.DefineDynamicModule("TestCyclicStructRewrite.dll");
+
+         
+            var us = ms.DefineType(
+              name: "u",
+              attr: TypeAttributes.Public
+            );
+            #endregion
+
+            us.CreateType();
+
+            var as_of_u = @a.MakeGenericType(us);
+
+            c.DefineField("a", as_of_u, FieldAttributes.Private);
+            #endregion
+
+            u.DefineField("c", c, FieldAttributes.Private);
 
 
             a.CreateType();
+
             c.CreateType();
             u.CreateType();
 
-            
 
 
-            ab.Save("foo.dll");
+            ab.Save("TestCyclicStructRewrite.dll");
         }
     }
 }
