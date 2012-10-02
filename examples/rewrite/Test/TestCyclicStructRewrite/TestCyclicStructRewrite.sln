@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCyclicStructRewrite", "TestCyclicStructRewrite\TestCyclicStructRewrite.csproj", "{6A7E112D-9CF7-4A09-B1FB-9103BB322903}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cyclic", "Cyclic", "{59FC1514-1C24-4736-A649-092A26B83717}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCyclicStructRewrite", "Cyclic\TestCyclicStructRewrite\TestCyclicStructRewrite.csproj", "{943C2BAD-63CB-46E6-892E-71A105772E71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A7E112D-9CF7-4A09-B1FB-9103BB322903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A7E112D-9CF7-4A09-B1FB-9103BB322903}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A7E112D-9CF7-4A09-B1FB-9103BB322903}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A7E112D-9CF7-4A09-B1FB-9103BB322903}.Release|Any CPU.Build.0 = Release|Any CPU
+		{943C2BAD-63CB-46E6-892E-71A105772E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{943C2BAD-63CB-46E6-892E-71A105772E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{943C2BAD-63CB-46E6-892E-71A105772E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{943C2BAD-63CB-46E6-892E-71A105772E71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{943C2BAD-63CB-46E6-892E-71A105772E71} = {59FC1514-1C24-4736-A649-092A26B83717}
+	EndGlobalSection
+EndGlobal
