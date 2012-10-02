@@ -12,8 +12,8 @@ using System.Text;
 
     struct c
     {
-        //a<u> a;
-        a<cyclic::u> a;
+        a<u> a;
+        //a<cyclic::u> a;
     }
 
 
