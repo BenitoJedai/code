@@ -7,6 +7,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 using System;
+using System.Threading.Tasks;
 
 namespace ButterFly.source.js
 {
@@ -16,13 +17,7 @@ namespace ButterFly.source.js
     {
         IHTMLDiv Control = new IHTMLDiv();
 
-        public Butterfly()
-        {
-            Control.AttachToDocument();
-            Control.appendChild("There is a buttrfly under your mouse. Can you see it? :)");
 
-            Butterfly.Spawn(Control);
-        }
 
         public Butterfly(IHTMLElement e)
         {
@@ -30,14 +25,24 @@ namespace ButterFly.source.js
 
             e.insertNextSibling(Control);
 
-            Control.appendChild("There is a buttrfly under your mouse. Can you see it? :)");
+            Control.appendChild(@"
+There is a buttrfly under your mouse. 
+Can you see it? :)
+Click to capture pointer lock and see how the butterfly warps from left to right.
+");
 
-            Butterfly.Spawn(Control);
+            Spawn(Control);
 
 
         }
 
-        public static void Spawn(IHTMLElement e)
+        //async Task __buttryfly()
+        //{ 
+        //    //Task.Factory.
+        //}
+
+        //async 
+            void Spawn(IHTMLElement e)
         {
 
 
@@ -45,8 +50,11 @@ namespace ButterFly.source.js
             Native.Document.body.style.padding = "0px";
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            e.style.width = "100%";
-            e.style.height = "800px";
+            e.style.position = IStyle.PositionEnum.absolute;
+            e.style.left = "0px";
+            e.style.top = "0px";
+            e.style.right = "0px";
+            e.style.bottom = "0px";
 
             e.style.backgroundColor = Color.FromRGB(209, 245, 245);
 
@@ -55,6 +63,9 @@ namespace ButterFly.source.js
             loading.style.SetLocation(64, 64, 200, 64);
 
             e.appendChild(loading);
+
+            //await __buttryfly();
+
             new global::ButterFly.HTML.Images.FromAssets.buttryfly().InvokeOnComplete(
                 img =>
                 {
@@ -70,7 +81,7 @@ namespace ButterFly.source.js
                         new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, exc.Message).AttachToDocument();
                     }
 
-                 
+
                     e.style.backgroundImage = "url(" + img.src + ")";
                     e.style.backgroundRepeat = "no-repeat";
 
@@ -78,15 +89,44 @@ namespace ButterFly.source.js
 
                     e.DisableContextMenu();
 
+
+                    var x = 0;
+                    var y = 0;
                     e.onmousemove +=
                         delegate(IEvent i)
                         {
 
-                            Console.WriteLine("pos: " + i.CursorPosition);
-
-                            e.style.backgroundPosition = i.CursorX + "px " + i.CursorY + "px";
 
 
+                            if (Native.Document.pointerLockElement == e)
+                            {
+                                x += i.movementX;
+                                y += i.movementY;
+                            }
+                            else
+                            {
+                                x = i.CursorX;
+                                y = i.CursorY;
+                            }
+
+                            if (x < -img.width / 2)
+                                x += Native.Window.Width;
+
+                            if (y < -img.height / 2)
+                                y += Native.Window.Height;
+
+                            x = x % Native.Window.Width;
+                            y = y % Native.Window.Height;
+
+                            e.style.backgroundPosition = x + "px " + y + "px";
+
+
+                        };
+
+                    e.onclick +=
+                        delegate
+                        {
+                            e.requestPointerLock();
                         };
                 });
 
