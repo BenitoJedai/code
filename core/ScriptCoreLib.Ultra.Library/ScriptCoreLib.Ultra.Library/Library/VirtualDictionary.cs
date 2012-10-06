@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.Ultra.Library;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 
 namespace jsc.Library
 {
@@ -82,8 +83,8 @@ namespace jsc.Library
             {
                 if (!BaseDictionary.ContainsKey(k))
                 {
-                    if (Resolve != null)
-                        Resolve(k);
+
+                    RaiseResolve(k);
                 }
 
                 return BaseDictionary[k];
@@ -94,6 +95,101 @@ namespace jsc.Library
                 // ??
                 BaseDictionary[k] = value;
             }
+        }
+
+        Thread CurrentThread;
+        Thread OtherThread;
+        Action OtherThreadContinuation;
+        AutoResetEvent OtherThreadWaitInput;
+        AutoResetEvent OtherThreadWaitOutput;
+        object OtherTheadLock = new object();
+
+        private void RaiseResolve(TKey k)
+        {
+            var FrameCount = new StackTrace().FrameCount;
+            if (FrameCount < 0x400)
+            {
+                if (Resolve != null)
+                    Resolve(k);
+
+                return;
+            }
+
+            // switch to the other thread
+
+            #region OtherThread
+            if (OtherThread == null)
+            {
+                CurrentThread = Thread.CurrentThread;
+
+                OtherThreadWaitInput = new AutoResetEvent(false);
+                OtherThreadWaitOutput = new AutoResetEvent(false);
+                OtherThread = new Thread(
+                    delegate()
+                    {
+                        while (true)
+                        {
+                            OtherThreadWaitInput.WaitOne();
+                            //Console.WriteLine("enter " + OtherThread.ManagedThreadId + " from " + CurrentThread.ManagedThreadId);
+                            try
+                            {
+                                OtherThreadContinuation();
+                                //Console.WriteLine("exit " + OtherThread.ManagedThreadId + " from " + CurrentThread.ManagedThreadId);
+                            }
+                            catch (Exception ex)
+                            {
+                                if (Debugger.IsAttached)
+                                    Debugger.Break();
+
+                                throw;
+                            }
+                            finally
+                            {
+                                lock (OtherTheadLock)
+                                {
+                                    OtherThreadWaitOutput.Set();
+                                }
+                            }
+                        }
+                    }
+                ) { IsBackground = true };
+                OtherThread.Start();
+            }
+            #endregion
+
+            if (CurrentThread != Thread.CurrentThread)
+            {
+                // we are being called from a random thead!
+                // time to upgrade to third thread?
+
+                if (Resolve != null)
+                    Resolve(k);
+
+                return;
+            }
+
+            OtherThreadContinuation = delegate
+            {
+                if (Resolve != null)
+                    Resolve(k);
+            };
+
+            // will this help?
+            lock (OtherTheadLock)
+            {
+                //Console.WriteLine(CurrentThread.ManagedThreadId + " switch to " + OtherThread.ManagedThreadId);
+                OtherThreadWaitInput.Set();
+                Thread.Yield();
+            }
+            Thread.Yield();
+
+            //Console.WriteLine(CurrentThread.ManagedThreadId + " join to " + OtherThread.ManagedThreadId);
+            OtherThreadWaitOutput.WaitOne();
+            OtherThreadContinuation = null;
+
+            return;
+
+
         }
 
         public static implicit operator Func<TKey, TValue>(VirtualDictionary<TKey, TValue> e)
