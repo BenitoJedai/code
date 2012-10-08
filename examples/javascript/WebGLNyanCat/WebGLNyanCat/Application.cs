@@ -19,6 +19,7 @@ namespace WebGLNyanCat
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using WebGLNyanCat.HTML.Audio.FromAssets;
 
 
 
@@ -46,7 +47,7 @@ namespace WebGLNyanCat
                     source.onload +=
                         delegate
                         {
-                            InitializeContent(page);
+                            InitializeContent();
 
 
                         };
@@ -65,11 +66,14 @@ namespace WebGLNyanCat
             );
         }
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent()
         {
+
             #region make sure we atleast have our invisible DOM
-            if (page == null)
-                page = new HTML.Pages.DefaultPage();
+            var page_song = new nyanlooped { loop = true };
+            var page_song2 = new nyanslow { loop = true };
+
+
             #endregion
 
             #region container
@@ -119,13 +123,13 @@ namespace WebGLNyanCat
                 {
                     if (running)
                     {
-                        page.song.play();
-                        page.song2.pause();
+                        page_song.play();
+                        page_song2.pause();
                     }
                     else
                     {
-                        page.song.pause();
-                        page.song2.play();
+                        page_song.pause();
+                        page_song2.play();
                     }
                 };
             #region onmousedown
@@ -149,8 +153,8 @@ namespace WebGLNyanCat
                {
                    HasFocus = false;
 
-                   page.song.pause();
-                   page.song2.pause();
+                   page_song.pause();
+                   page_song2.pause();
                };
 
             Native.Window.onfocus +=
@@ -163,7 +167,7 @@ namespace WebGLNyanCat
           delegate
           {
               if (HasFocus)
-                  return; 
+                  return;
               PlaySomething();
           };
 
@@ -171,10 +175,10 @@ namespace WebGLNyanCat
               delegate
               {
                   if (HasFocus)
-                      return; 
+                      return;
 
-                  page.song.pause();
-                  page.song2.pause();
+                  page_song.pause();
+                  page_song2.pause();
               };
             #endregion
 
@@ -574,8 +578,8 @@ namespace WebGLNyanCat
 
                 IsDisposed = true;
 
-                page.song.pause();
-                page.song2.pause();
+                page_song.pause();
+                page_song2.pause();
 
                 container.Orphanize();
             };
