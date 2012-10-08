@@ -14,9 +14,31 @@ namespace org.elasticdroid
     {
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 
+        class local__EC2_START_INSTANCE : __EC2_START_INSTANCE
+        {
+            public Action AtInvoke;
+
+            public override void Invoke()
+            {
+                AtInvoke();
+            }
+        }
+
         public override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
+
+            __EC2_START_INSTANCE.Handler = new local__EC2_START_INSTANCE
+            {
+                AtInvoke = delegate
+                {
+                    Toast.makeText(
+                         this,
+                         "! __EC2_START_INSTANCE",
+                         Toast.LENGTH_LONG
+                     ).show();
+                }
+            };
 
             Toast.makeText(
                  this,
@@ -25,6 +47,6 @@ namespace org.elasticdroid
              ).show();
         }
 
-   
+
     }
 }
