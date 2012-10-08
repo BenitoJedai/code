@@ -119,7 +119,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\background.png" />
+    <Content Include="Audio\click.mp3" />
+    <Content Include="Audio\reveal.mp3" />
+    <Content Include="Textures\background.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\Array2D.cs" />
@@ -131,9 +133,9 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Preview.png" />
-    <Content Include="Design\vistaLogoOff.png" />
-    <Content Include="Design\vistaLogoOn.png" />
+    <Content Include="Textures\Preview.png" />
+    <Content Include="Textures\vistaLogoOff.png" />
+    <Content Include="Textures\vistaLogoOn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

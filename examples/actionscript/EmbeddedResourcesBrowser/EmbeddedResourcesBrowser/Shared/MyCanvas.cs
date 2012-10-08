@@ -28,7 +28,7 @@ namespace EmbeddedResourcesBrowser.Shared
 			{
 				new Rectangle
 				{
-					Fill = ((uint)(0xff00007F + Convert.ToInt32(128 * i / DefaultHeight))).ToSolidColorBrush(),
+					Fill = ((uint)(0xff00007F + 128 * i / DefaultHeight)).ToSolidColorBrush(),
 					Width = DefaultWidth,
 					Height = 4,
 				}.MoveTo(0, i).AttachTo(this);

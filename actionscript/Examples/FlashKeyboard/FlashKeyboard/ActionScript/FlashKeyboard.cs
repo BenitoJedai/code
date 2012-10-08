@@ -14,19 +14,19 @@ namespace FlashKeyboard.ActionScript
     /// testing...
     /// </summary>
     [Script, ScriptApplicationEntryPoint]
-    public class FlashKeyboard : Sprite
+    public class FlashKeyboard : FlashKeyboard1
     {
    
         public FlashKeyboard()
         {
-            var Images = new
-            {
-                Default = Assets.img_default.ToBitmapAsset(),
-                Alt = Assets.img_alt.ToBitmapAsset(),
-                Shift = Assets.img_shift.ToBitmapAsset()
-            };
+            //var Images = new
+            //{
+            //    Default = Assets.img_default.ToBitmapAsset(),
+            //    Alt = Assets.img_alt.ToBitmapAsset(),
+            //    Shift = Assets.img_shift.ToBitmapAsset()
+            //};
 
-            Images.Default.AttachTo(this);
+            //Images.Default.AttachTo(this);
         }
 
        
