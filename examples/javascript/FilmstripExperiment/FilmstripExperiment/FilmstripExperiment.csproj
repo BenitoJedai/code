@@ -8,11 +8,11 @@
     <ProjectGuid>{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ImpAdventures</RootNamespace>
-    <AssemblyName>ImpAdventures</AssemblyName>
+    <RootNamespace>FilmstripExperiment</RootNamespace>
+    <AssemblyName>FilmstripExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ImpAdventures.Program</StartupObject>
+    <StartupObject>FilmstripExperiment.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -115,54 +115,28 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ImpAdventures.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ImpAdventures.AssetsLibrary.dll</HintPath>
+    <Reference Include="FilmstripExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FilmstripExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Audio\Argh.mp3" />
-    <Content Include="Audio\Argh_LChannel.mp3" />
-    <Content Include="Audio\Argh_RChannel.mp3" />
-    <Content Include="Audio\ChangeRoom.mp3" />
-    <Content Include="Audio\Talk.mp3" />
-    <Content Include="Data\LostInTime.htm" />
-    <Content Include="Data\LostInTime.xml" />
-    <Content Include="Data\LostInTime\cursor-red.cur" />
-    <Content Include="Data\LostInTime\cursor.cur" />
-    <Content Include="Data\LostInTime\power.png" />
-    <Content Include="Data\LostInTime\Preview.png" />
-    <Content Include="Data\LostInTime\scan05.png" />
-    <Content Include="Data\LostInTime\scan06.png" />
-    <Content Include="Data\LostInTime\scan07.png" />
-    <Content Include="Data\LostInTime\scan08.png" />
-    <Content Include="Data\LostInTime\scan09.png" />
-    <Content Include="Data\LostInTime\scan10.png" />
-    <Content Include="Data\LostInTime\scan11.png" />
-    <Content Include="Data\LostInTime\scan12.png" />
-    <Content Include="Data\LostInTime\scan13.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="Library\Class4.cs" />
-    <Compile Include="Library\Extensions.cs" />
-    <Compile Include="Library\Scene.cs" />
+    <Compile Include="Library\SimpleFilmstrip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy.csproj">
-      <Project>{81bf3761-04a3-40ac-a445-38a61315a033}</Project>
-      <Name>ScriptCoreLib.Controls.NatureBoy</Name>
-    </ProjectReference>
+    <Content Include="Textures\filmstrip.png" />
+    <Content Include="Textures\veh_cy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
     <PreBuildEvent>
 
