@@ -106,7 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Audio\baseexplode.mp3" />
-    <Content Include="Audio\AudioReferences.htm" />
     <Content Include="Audio\duh0.mp3" />
     <Content Include="Audio\duh1.mp3" />
     <Content Include="Audio\duh2.mp3" />
@@ -119,11 +118,11 @@
     <Content Include="Audio\mothershiploopx.mp3" />
     <Content Include="Audio\shortdweep.mp3" />
     <Content Include="Audio\shortwhite.mp3" />
-    <Content Include="Design\Images\aenemy.gif" />
-    <Content Include="Design\Images\benemy.gif" />
-    <Content Include="Design\Images\biggun.gif" />
-    <Content Include="Design\Images\cenemy.gif" />
-    <Content Include="Design\Images\ufo.gif" />
+    <Content Include="Textures\aenemy.gif" />
+    <Content Include="Textures\benemy.gif" />
+    <Content Include="Textures\biggun.gif" />
+    <Content Include="Textures\cenemy.gif" />
+    <Content Include="Textures\ufo.gif" />
     <Content Include="Design\Preview.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />

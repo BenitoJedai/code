@@ -119,7 +119,7 @@
     <Content Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\references.txt">
       <Link>Library\references.txt</Link>
     </Content>
-    <Content Include="Design\548202_SOUNDDOGS__cl.mp3" />
+    <Content Include="Audio\548202_SOUNDDOGS__cl.mp3" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\Dude.cs">
@@ -200,7 +200,7 @@
     <Content Include="Design\sprites\empty.gif" />
     <Content Include="Design\sprites\r1.png" />
     <Content Include="Design\sprites\r1_bed.png" />
-    <Content Include="Design\zak.mp3" />
+    <Content Include="Audio\zak.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
