@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidOpenGLESLesson6Activity", "AndroidOpenGLESLesson6Activity\AndroidOpenGLESLesson6Activity.csproj", "{20E16E6F-15A9-4F4B-9478-3A1E2F72E7C1}"
 EndProject
 Global
