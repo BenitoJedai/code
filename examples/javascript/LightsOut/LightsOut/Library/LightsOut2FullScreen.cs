@@ -21,6 +21,7 @@ using System.Linq;
 namespace LightsOut.js
 {
     using System;
+    using LightsOut.HTML.Audio.FromAssets;
 
 
     public class LightsOut2FullScreen
@@ -209,6 +210,8 @@ namespace LightsOut.js
 
 
                         info_stats_update();
+
+                        new click().play();
                     };
 
 
@@ -269,12 +272,13 @@ namespace LightsOut.js
 
             info.AttachToDocument();
 
+            new reveal().play();
         }
 
 
 
 
-  
+
 
 
     }
