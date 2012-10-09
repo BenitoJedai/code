@@ -31,6 +31,7 @@ namespace RoosterAudioExample
         public Application(IDefaultPage a)
         {
 
+            var rooster = new rooster();
             a.WebService_GetTime.onclick +=
                 delegate
                 {
@@ -43,7 +44,8 @@ namespace RoosterAudioExample
                             try
                             {
                                 // are we running HTML5 browser
-                                new rooster().play();
+                                rooster.play();
+                                rooster = new rooster();
                             }
                             catch
                             {
@@ -60,7 +62,8 @@ namespace RoosterAudioExample
                     try
                     {
                         // are we running HTML5 browser
-                        new rooster().play();
+                        rooster.play();
+                        rooster = new rooster();
                     }
                     catch
                     {
