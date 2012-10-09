@@ -21,6 +21,7 @@ namespace WebGLDynamicTerrainTemplate
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using WebGLDynamicTerrainTemplate.HTML.Audio.FromAssets;
 
 
 
@@ -148,7 +149,7 @@ namespace WebGLDynamicTerrainTemplate
 
             var mlib = new Dictionary<string, THREE.ShaderMaterial>();
 
-            var soundtrack = page.soundtrack;
+            var soundtrack = new Five_Armies { loop = true };
 
 
             #region HasFocus
@@ -837,7 +838,7 @@ namespace WebGLDynamicTerrainTemplate
                 IsDisposed = true;
 
                 //page.song.pause();
-                page.soundtrack.pause();
+                soundtrack.pause();
 
                 container.Orphanize();
             };
