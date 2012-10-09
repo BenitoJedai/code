@@ -1,37 +1,20 @@
-﻿using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.external;
 using ScriptCoreLib.ActionScript.flash.system;
+using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.Extensions;
 using System;
 
-
-namespace FlashExternalInterface.ActionScript
+namespace FlashExternalInterfaceExperiment
 {
-    /// <summary>
-    /// testing...
-    /// </summary>
-    [Script, ScriptApplicationEntryPoint]
-    public class FlashExternalInterface : Sprite
+    public sealed class ApplicationSprite : Sprite
     {
-		// change: C:\util\xampplite\apache\conf\httpd.conf
-
-		// http://localhost/jsc/FlashExternalInterface
-
-		//Alias /jsc/FlashExternalInterface "C:\work\jsc.svn\actionscript\Examples\FlashExternalInterface\FlashExternalInterface\bin\Debug\web"
-		//<Directory "C:\work\jsc.svn\actionscript\Examples\FlashExternalInterface\FlashExternalInterface\bin\Debug\web">
-		//       Options Indexes FollowSymLinks ExecCGI
-		//       AllowOverride All
-		//       Order allow,deny
-		//       Allow from all
-		//</Directory>
-
 		// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
 		// http://blog.deconcept.com/code/externalinterface.html
 		// http://blog.warptube.com/2008/12/2/oddities-with-externalinterface-and-ie
 
-        public FlashExternalInterface()
+        public ApplicationSprite()
         {
             addChild(
                     new TextField
@@ -155,5 +138,4 @@ namespace FlashExternalInterface.ActionScript
 
         }
     }
-
 }
