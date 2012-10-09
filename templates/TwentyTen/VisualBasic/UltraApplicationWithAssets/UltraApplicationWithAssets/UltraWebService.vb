@@ -3,11 +3,11 @@ Imports ScriptCoreLib.Ultra.Library.Delegates
 
 
 Partial Public NotInheritable Class UltraWebService
-    Public Sub GetTime(ByVal x As String, ByVal result As StringAction)
+    Public Sub GetTime(ByVal x As String, ByVal result As Action(Of String))
         result(x & DateTime.Now)
     End Sub
 
-    Public Sub GetData(ByVal x As XElement, ByVal yield As XElementAction)
+    Public Sub GetData(ByVal x As XElement, ByVal yield As Action(Of XElement))
         ' no generics for java just yet
 
         Dim r = From a In x.<Action>
@@ -27,7 +27,7 @@ Partial Public NotInheritable Class UltraWebService
     End Sub
 
 
-    Public Sub GetHTML(ByVal f As XElementAction)
+    Public Sub GetHTML(ByVal f As Action(Of XElement))
         f(
             <div style='border-left: 2em solid gray; padding-left: 1em; margin-left: 1em;'>
                 <h3>Hello world</h3>
