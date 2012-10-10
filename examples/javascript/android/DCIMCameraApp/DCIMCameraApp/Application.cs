@@ -16,6 +16,7 @@ using DCIMCameraApp.HTML.Pages;
 namespace DCIMCameraApp
 {
     using ystring = Action<string>;
+    using ScriptCoreLib.JavaScript.Runtime;
 
 
     /// <summary>
@@ -47,10 +48,25 @@ namespace DCIMCameraApp
                         {
                             new IHTMLBreak().AttachTo(div);
 
-                            new IHTMLImage { src = "/io/" + path }.AttachTo(div).With(
+                            new IHTMLImage { }.AttachTo(div).With(
                                 img =>
                                 {
                                     img.style.width = "100%";
+
+                                    div.style.color = JSColor.Red;
+                                    img.src = "/io/" + path;
+
+                                    #region onload +=
+                                    img.InvokeOnComplete(
+                                        delegate
+                                        {
+                                            div.style.color = JSColor.Green;
+                                        }
+                                    );
+                                    #endregion
+
+
+
                                 }
                             );
                         }
@@ -69,11 +85,13 @@ namespace DCIMCameraApp
                     Action MoveNext = delegate
                     {
                         more.disabled = true;
+                        more.innerText = "checking for more...";
 
                         ystring done = delegate
                         {
+                            more.innerText = "more";
                             more.disabled = false;
-                        
+
                         };
 
                         service.File_list("",
@@ -116,12 +134,12 @@ namespace DCIMCameraApp
                                   }
                             );
 
-                     };
+                          };
                 }
             );
 
 
-         
+
         }
 
     }
