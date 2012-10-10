@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashMinesweeper", "FlashMinesweeper\FlashMinesweeper.csproj", "{7804DA8C-BAF6-49BB-84B0-60FB4F512372}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashMinesweeper.Client", "FlashMinesweeper.Client\FlashMinesweeper.Client.csproj", "{A7BE6DA3-9CCD-4658-A0FE-40C11B63EB01}"

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Game", "Sudoku.Game\Sudoku.Game.csproj", "{30E1D036-31C6-414F-8C2D-8B2A5C81C4E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Transform", "..\..\..\javascript\Games\Sudoku\Sudoku.Transform\Sudoku.Transform.csproj", "{F18CE9CA-B71D-43D7-AF50-2DC2D3A6859A}"
