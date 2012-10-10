@@ -27,7 +27,13 @@ namespace DCIMCameraApp
             y(e);
         }
 
-        public void File_list(string path, ystring ydirectory, ystring yfile, string sskip = "0", string stake = "10")
+        public void File_list(
+            string path,
+            ystring ydirectory,
+            ystring yfile,
+            string sskip = "0",
+            string stake = "10",
+            ystring done = null)
         {
             var DIRECTORY_DCIM = android.os.Environment.DIRECTORY_DCIM;
 
@@ -69,6 +75,8 @@ namespace DCIMCameraApp
                     }
                 }
             }
+
+            done("");
         }
 
 
@@ -99,6 +107,8 @@ namespace DCIMCameraApp
 
                             h.Context.Response.ContentType = "image/jpg";
 
+                            // http://www.webscalingblog.com/performance/caching-http-headers-cache-control-max-age.html
+                            h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
 
                             // send all the bytes
 
