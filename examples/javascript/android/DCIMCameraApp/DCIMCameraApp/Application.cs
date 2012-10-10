@@ -61,27 +61,67 @@ namespace DCIMCameraApp
             var skip = 0;
             var take = 10;
 
-            Action MoveNext = delegate
-            {
-                service.File_list("",
-                    ydirectory: ydirectory,
-                    yfile: yfile,
-                    sskip: skip.ToString(),
-                    stake: take.ToString()
-                );
 
-                skip += take;
-
-            };
-
-
-            MoveNext();
 
             new IHTMLButton { innerText = "more" }.AttachToDocument().With(
                 more =>
                 {
+                    Action MoveNext = delegate
+                    {
+                        more.disabled = true;
+
+                        ystring done = delegate
+                        {
+                            more.disabled = false;
+                        
+                        };
+
+                        service.File_list("",
+                            ydirectory: ydirectory,
+                            yfile: yfile,
+                            sskip: skip.ToString(),
+                            stake: take.ToString(),
+                            done: done
+                        );
+
+                        skip += take;
+
+                    };
+
+
+                    MoveNext();
+
+                    more.onclick += delegate
+                    {
+                        MoveNext();
+                    };
+
+
+
+                    Native.Window.onscroll +=
+                          e =>
+                          {
+
+                              Native.Document.body.With(
+                                  body =>
+                                  {
+                                      if (more.disabled)
+                                          return;
+
+                                      if (body.scrollHeight - 1 <= Native.Window.Height + body.scrollTop)
+                                      {
+                                          MoveNext();
+                                      }
+
+                                  }
+                            );
+
+                     };
                 }
             );
+
+
+         
         }
 
     }
