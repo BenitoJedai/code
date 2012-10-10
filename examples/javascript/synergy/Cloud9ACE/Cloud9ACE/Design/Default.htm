@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>DefaultPage</title>
+</head>
+<body>
+    <noscript>Error: This Application requires JavaScript.</noscript>
+    <link rel='stylesheet' href='Default.css' />
+   
+    <div id="editor" style="  position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;">
+
+        using ScriptCoreLib;
+using ScriptCoreLib.Delegates;
+using ScriptCoreLib.Extensions;
+using System;
+using System.Linq;
+using System.Xml.Linq;
+
+namespace Cloud9ACE
+{
+    public sealed class ApplicationWebService
+    {
+        public void WebMethod2(string e, Action y)
+        {
+            // Send it back to the caller.
+            y(e);
+        }
+
+    }
+}
+
+
+    </div>
+</body>
+</html>
