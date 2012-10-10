@@ -6,7 +6,6 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Extensions;
-using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace IntelliSense1
 {

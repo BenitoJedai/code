@@ -1,4 +1,4 @@
-Imports ScriptCoreLib.Ultra.Library.Delegates
+Imports ScriptCoreLib.Delegates
 
 
 Partial Public NotInheritable Class UltraWebService

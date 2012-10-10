@@ -1,4 +1,4 @@
-Imports ScriptCoreLib.Ultra.Library.Delegates
+Imports ScriptCoreLib.Delegates
 Imports ScriptCoreLib.Ultra.WebService
 Imports ScriptCoreLib.Archive.ZIP
 Imports System.IO

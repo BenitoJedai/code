@@ -176,7 +176,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-      c:\util\jsc\bin\jsc.meta.v4.0.30128.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"  /Configuration:"$(ConfigurationName)" /AttachDebugger:false
+      c:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"  /Configuration:"$(ConfigurationName)" /AttachDebugger:false
     </PreBuildEvent>
   </PropertyGroup>
 </Project>
