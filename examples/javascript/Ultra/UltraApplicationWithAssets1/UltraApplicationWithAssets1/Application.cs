@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using System.ComponentModel;
 using UltraApplicationWithAssets1.HTML.Images.FromAssets;
 using ScriptCoreLib.Avalon;
+using UltraApplicationWithAssets1.HTML.Pages;
 
 namespace UltraApplicationWithAssets1
 {
@@ -15,7 +16,7 @@ namespace UltraApplicationWithAssets1
 	public sealed partial class Application
 	{
 
-		public Application(IHTMLElement e)
+		public Application(IAssets e)
 		{
 			Native.Document.title = "Ultra Application";
 
