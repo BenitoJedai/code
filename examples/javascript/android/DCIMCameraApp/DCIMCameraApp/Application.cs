@@ -32,6 +32,8 @@ namespace DCIMCameraApp
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            // see also. http://en.wikipedia.org/wiki/Design_rule_for_Camera_File_system
+
             ystring ydirectory = path =>
             {
 
