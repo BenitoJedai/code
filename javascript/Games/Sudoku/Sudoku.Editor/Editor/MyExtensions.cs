@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Net;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.JavaScript.DOM;
 
 
 namespace Sudoku.Editor
