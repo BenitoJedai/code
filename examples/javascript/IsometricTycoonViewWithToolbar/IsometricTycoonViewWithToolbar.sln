@@ -2,16 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsometricTycoonViewWithToolbar", "IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar.csproj", "{A28A2898-D11B-4027-B5FE-2A911CC5D66F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{81BF3761-04A3-40AC-A445-38A61315A033} = {81BF3761-04A3-40AC-A445-38A61315A033}
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396} = {DC9E7D8A-5892-49EF-ADE1-43EA216DC396}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNestedDelegate", "TestNestedDelegate\TestNestedDelegate.csproj", "{25E023C9-A6CF-4091-917D-FD512B048353}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Controls.NatureBoy", "..\..\..\javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy.csproj", "{81BF3761-04A3-40AC-A445-38A61315A033}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Controls.LayeredControl", "..\..\..\javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl\ScriptCoreLib.Controls.LayeredControl.csproj", "{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,26 +33,6 @@ Global
 		{25E023C9-A6CF-4091-917D-FD512B048353}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{25E023C9-A6CF-4091-917D-FD512B048353}.Release|x86.ActiveCfg = Release|x86
 		{25E023C9-A6CF-4091-917D-FD512B048353}.Release|x86.Build.0 = Release|x86
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{81BF3761-04A3-40AC-A445-38A61315A033}.Release|x86.ActiveCfg = Release|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DC9E7D8A-5892-49EF-ADE1-43EA216DC396}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

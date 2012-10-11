@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using IsometricTycoonViewWithToolbar.Design;
 using IsometricTycoonViewWithToolbar.HTML.Pages;
+using IsometricTycoonViewWithToolbar.HTML.Audio.FromAssets;
 
 namespace IsometricTycoonViewWithToolbar
 {
@@ -28,6 +29,7 @@ namespace IsometricTycoonViewWithToolbar
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            new gong().AttachToDocument().play();
             new ThreeDStuff.js.Tycoon4();
 
             @"Hello world".ToDocumentTitle();
