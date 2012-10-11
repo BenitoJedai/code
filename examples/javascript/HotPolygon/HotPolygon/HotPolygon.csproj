@@ -120,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\3dgarro.cur" />
-    <Content Include="Design\99851426_7f408a6cc3_o_gray.png" />
+    <Content Include="Textures\99851426_7f408a6cc3_o_gray.png" />
     <Content Include="Design\cursor01.cur" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
@@ -131,16 +131,16 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\down.png" />
-    <Content Include="Design\here0.png" />
-    <Content Include="Design\here1.png" />
-    <Content Include="Design\here2.png" />
-    <Content Include="Design\here3.png" />
-    <Content Include="Design\here4.png" />
-    <Content Include="Design\here5.png" />
+    <Content Include="Textures\down.png" />
+    <Content Include="Textures\here0.png" />
+    <Content Include="Textures\here1.png" />
+    <Content Include="Textures\here2.png" />
+    <Content Include="Textures\here3.png" />
+    <Content Include="Textures\here4.png" />
+    <Content Include="Textures\here5.png" />
     <Content Include="Design\Preview.png" />
-    <Content Include="Design\up.png" />
-    <Content Include="Design\up_neg.png" />
+    <Content Include="Textures\up.png" />
+    <Content Include="Textures\up_neg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
