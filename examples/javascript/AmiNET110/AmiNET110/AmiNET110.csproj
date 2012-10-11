@@ -120,9 +120,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\A103+Remote2.jpg" />
-    <Content Include="Design\Amino-remote-bg.png" />
-    <Content Include="Design\Amino-remote.jpg" />
+    <Content Include="Textures\A103+Remote2.jpg" />
+    <Content Include="Textures\Amino-remote-bg.png" />
+    <Content Include="Textures\Amino-remote.jpg" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,10 +131,10 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\reddot-0.png" />
-    <Content Include="Design\reddot-1.png" />
-    <Content Include="Design\reddot-3.png" />
-    <Content Include="Design\reddot-6.png" />
+    <Content Include="Textures\reddot-0.png" />
+    <Content Include="Textures\reddot-1.png" />
+    <Content Include="Textures\reddot-3.png" />
+    <Content Include="Textures\reddot-6.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

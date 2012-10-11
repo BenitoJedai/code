@@ -235,6 +235,21 @@ namespace AmiNET110
 
                                     Console.WriteLine(new { ev.KeyCode });
                                 };
+
+                            map.ForEach(
+                                (i, next) =>
+                                {
+                                    SpawnDot(i.Point);
+
+                                    25.AtTimeout(
+                                        delegate
+                                        {
+                                            next();
+
+                                        }
+                                        );
+                                }
+                            );
                         }
                     );
                 }
