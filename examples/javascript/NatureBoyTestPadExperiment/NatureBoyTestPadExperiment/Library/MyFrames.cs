@@ -42,5 +42,145 @@ namespace NatureBoyTestPad.js
                 };
             }
         }
+
+        public static DudeAnimationInfo ManWithHorns
+        {
+            get
+            {
+                var a = new NatureBoyTestPadExperiment.HTML.Pages.ManWithHornsImages().Images;
+         
+
+        
+                return new DudeAnimationInfo
+                {
+                    
+                    Frames_Stand = new [] {
+                        new FrameInfo
+                        {
+                            OffsetY = -16,
+                            Source = a[0].src
+                        }
+                    },
+                    Frames_Walk = 
+
+                      a.Select(
+                        k=>
+                            new [] {
+                                new FrameInfo
+                                {
+                                    OffsetY = -16,
+                                    Source = k.src
+                                }
+                            }
+                    
+                        ).ToArray()
+                };
+            }
+        }
+
+        public static DudeAnimationInfo TheSheep
+        {
+            get
+            {
+                var a = new NatureBoyTestPadExperiment.HTML.Pages.TheSheepImages().Images;
+
+
+
+                return new DudeAnimationInfo
+                {
+
+                    Frames_Stand = new[] {
+                        new FrameInfo
+                        {
+                            OffsetY = -16,
+                            Source = a[0].src
+                        }
+                    },
+                    Frames_Walk =
+
+                      a.Select(
+                        k =>
+                            new[] {
+                                new FrameInfo
+                                {
+                                    OffsetY = -16,
+                                    Source = k.src
+                                }
+                            }
+
+                        ).ToArray()
+                };
+            }
+        }
+
+        public static DudeAnimationInfo ThePig
+        {
+            get
+            {
+                var a = new NatureBoyTestPadExperiment.HTML.Pages.ThePigImages().Images;
+
+
+
+                return new DudeAnimationInfo
+                {
+
+                    Frames_Stand = new[] {
+                        new FrameInfo
+                        {
+                            OffsetY = -16,
+                            Source = a[0].src
+                        }
+                    },
+                    Frames_Walk =
+
+                      a.Select(
+                        k =>
+                            new[] {
+                                new FrameInfo
+                                {
+                                    OffsetY = -16,
+                                    Source = k.src
+                                }
+                            }
+
+                        ).ToArray()
+                };
+            }
+        }
+
+        public static DudeAnimationInfo TheCactus
+        {
+            get
+            {
+                var a = new NatureBoyTestPadExperiment.HTML.Pages.TheCactusImages().Images;
+
+
+
+                return new DudeAnimationInfo
+                {
+
+                    Frames_Stand = new[] {
+                        new FrameInfo
+                        {
+                            OffsetY = -16,
+                            Source = a[0].src
+                        }
+                    },
+                    Frames_Walk =
+
+                      a.Select(
+                        k =>
+                            new[] {
+                                new FrameInfo
+                                {
+                                    OffsetY = -16,
+                                    Source = k.src
+                                }
+                            }
+
+                        ).ToArray()
+                };
+            }
+        }
     }
 }

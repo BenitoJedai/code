@@ -12,19 +12,28 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
+using NatureBoyTestPadExperiment.HTML.Audio.FromAssets;
+using NatureBoyTestPadExperiment.HTML.Images.FromAssets;
+using NatureBoyTestPadExperiment.HTML.Pages;
 
 
 
 
 namespace NatureBoyTestPad.js
 {
+
     public class NatureBoyTestPad
     {
         public NatureBoyTestPad()
         {
+
+        }
+
+        public static void InitializeContent()
+        {
             #region tutorial step 2
             #region arena
-            var map = new Point(1000, 1000);
+            var map = new Point(2000, 2000);
 
             var arena = new ArenaControl();
 
@@ -36,8 +45,23 @@ namespace NatureBoyTestPad.js
             arena.SetCanvasSize(map);
 
             arena.Control.AttachToDocument();
+
+
+            arena.DrawTextToInfo("NatureBoyTestPad. Middle click to pan around. Drag to select actors and then click to order them move. Use toolbar to build new actors.", new Point(8, 8), Color.Blue);
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    arena.SetLocation(
+                        Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height));
+
+                    arena.SetCanvasPosition(
+                        arena.CurrentCanvasPosition
+                        );
+                };
             #endregion
             #endregion
+
 
             var pending = default(Dude2);
 
@@ -73,19 +97,21 @@ namespace NatureBoyTestPad.js
                     actor.AnimationInfo.Frames_Stand = _frames.Frames_Stand;
                     actor.AnimationInfo.Frames_Walk = _frames.Frames_Walk;
                     actor.Zoom.DynamicZoomFunc = a => 1;
-                    actor.Zoom.StaticZoom = 1;
                     actor.SetSize(48, 72);
                     actor.TeleportTo(_coords.X, _coords.Y);
+                    actor.Zoom.StaticZoom = 1;
                     actor.Direction = Math.PI * 0.5;
                     actor.Control.AttachTo(arena.Layers.Canvas);
-
+                    //actor.HasShadow = _frames.Frames_Stand.Length > 1;
+                    if (_frames.Frames_Stand.Length == 1)
+                        actor.Shadow.style.Opacity = 0.4;
+                    actor.AnimationInfo.WalkAnimationInterval = 1000 / 30;
                     return actor;
                 };
 
             var actors = new List<Dude2>
             {
-                CreateActor(arsenal.Random().Value, new Point(40, Native.Window.Height /2 )),
-                CreateActor(arsenal.Random().Value, new Point(200, Native.Window.Height /2))
+
             };
 
             var selection = from i in actors
@@ -102,6 +128,13 @@ namespace NatureBoyTestPad.js
                         v.IsSelected = rect.Contains(v.CurrentLocation.ToInt32());
                 };
 
+            var Argh = new Argh();
+            var Affirmative = new Affirmative();
+            var ghoullaugh = new ghoullaugh();
+            var sheep = new sheep();
+            var pig = new pig();
+            var click = new click().AttachToDocument();
+
             arena.SelectionClick +=
                 (p, ev) =>
                 {
@@ -109,7 +142,41 @@ namespace NatureBoyTestPad.js
                         return;
 
                     foreach (var v in selection)
+                    {
+                        if (v.AnimationInfo.Frames_Stand[0].Source == MyFrames.ManWithHorns.Frames_Stand[0].Source)
+                        {
+                            ghoullaugh.play();
+                            ghoullaugh = new ghoullaugh();
+                        }
+                        else if (v.AnimationInfo.Frames_Stand[0].Source == MyFrames.ThePig.Frames_Stand[0].Source)
+                        {
+                            pig.play();
+                            pig = new pig();
+                        }
+                        else if (v.AnimationInfo.Frames_Stand[0].Source == MyFrames.TheSheep.Frames_Stand[0].Source)
+                        {
+                            sheep.play();
+                            sheep = new sheep();
+                        }
+                        else if (v.AnimationInfo.Frames_Stand[0].Source == Frames.WolfSoldier[0].Source)
+                        {
+                            Affirmative.play();
+                            Affirmative = new Affirmative();
+                        }
+                        else
+                        {
+                            Argh.play();
+                            Argh = new Argh();
+                        }
+
+
+
                         v.WalkTo(p.ToDouble());
+
+                        // move in group formation
+                        p.X += 16;
+                        p.Y += 16;
+                    }
                 };
 
 
@@ -168,7 +235,7 @@ namespace NatureBoyTestPad.js
             #endregion
 
             #region dialog
-            var toolbar = CreateDialogAt(new Point(2, 2), "5em");
+            var toolbar = CreateDialogAt(new Point(2, 2), "8em");
 
             var combo = new IHTMLSelect();
             var build = new IHTMLButton();
@@ -216,6 +283,11 @@ namespace NatureBoyTestPad.js
                 delegate
                 {
                     Refresh();
+
+
+
+                    click.play();
+                    click = new click().AttachToDocument();
                 };
 
             #region pending actor
@@ -233,7 +305,10 @@ namespace NatureBoyTestPad.js
                 (p, ev) =>
                 {
                     if (pending == null)
+                    {
+
                         return;
+                    }
 
                     pending.TeleportTo(p.X, p.Y);
 
@@ -241,6 +316,10 @@ namespace NatureBoyTestPad.js
 
                     pending.IsHot = false;
                     pending = null;
+
+
+                    click.play();
+                    click = new click().AttachToDocument();
                 };
 
             build.onclick +=
@@ -264,6 +343,9 @@ namespace NatureBoyTestPad.js
                     );
 
                     pending.IsHot = true;
+
+                    click.play();
+                    click = new click().AttachToDocument();
                 };
             #endregion
 
@@ -275,175 +357,11 @@ namespace NatureBoyTestPad.js
                         v.Control.Dispose();
                         actors.Remove(v);
                     }
+
+
+                    click.play();
+                    click = new click().AttachToDocument();
                 };
-
-            #endregion
-
-            #region step 5
-
-            var define = new IHTMLButton("Define").AttachTo(toolbar.Content);
-
-            new IHTMLBreak().AttachTo(toolbar.Content);
-
-            var definition_dialog = CreateDialogAt(new Point(100, 2), "306px");
-
-            definition_dialog.Dialog.Hide();
-
-            define.onclick +=
-                delegate
-                {
-                    definition_dialog.Dialog.ToggleVisible();
-                };
-
-            var definition_text = new IHTMLTextArea();
-
-            definition_text.style.SetSize(300, 128);
-            definition_text.setAttribute("wrap", "off");
-            definition_text.AttachTo(definition_dialog.Content);
-
-            new IHTMLBreak().AttachTo(definition_dialog.Content);
-
-            var definition_done = new IHTMLButton("Load").AttachTo(definition_dialog.Content);
-
-            #region Parse
-            Func<string[], DudeAnimationInfo> Parse =
-                lines =>
-                {
-                    // format:
-
-                    // first line is the path
-                    // empty line
-                    // stand array
-                    // empty line
-                    // walk array n
-
-                    if (lines.Length < 2)
-                        "not enough lines".Throw();
-
-                    var i = 0;
-
-                    var path = lines[i];
-
-                    i++;
-                    if (lines[i] != "")
-                        "empty line missing after path".Throw();
-
-                    #region ReadGroup
-                    Func<List<string>> ReadGroup =
-                        delegate
-                        {
-
-                            var stand = new List<string>();
-
-                            var looping = true;
-                            while (looping)
-                            {
-                                i++;
-                                if (!(i < lines.Length))
-                                    looping = false;
-                                else if (lines[i] != "")
-                                    stand.Add(lines[i]);
-                                else
-                                    looping = false;
-                            }
-
-                            return stand;
-                        };
-                    #endregion
-
-                    var groups = new List<string[]>();
-
-                    while (i < lines.Length)
-                        groups.Add(ReadGroup().ToArray());
-
-                    #region Prepare
-                    Func<string[], FrameInfo[]> Prepare =
-                        data =>
-                            data.Select(
-                            k =>
-                                new FrameInfo
-                                {
-                                    Source = path + "/" + k,
-                                    Weight = 1 / data.Length
-                                }
-                            ).ToArray();
-                    #endregion
-
-
-
-                    var x = new DudeAnimationInfo();
-
-                    x.Frames_Stand = Prepare(groups[0]);
-
-                    if (groups.Count > 1)
-                    {
-                        groups.RemoveAt(0);
-
-                        x.Frames_Walk = groups.Select(k => Prepare(k)).ToArray();
-                    }
-                    else
-                        x.Frames_Walk = new[] { x.Frames_Stand };
-
-                    Console.WriteLine(new { groups.Count, path }.ToString());
-
-                    return x;
-                };
-            #endregion
-
-
-            definition_done.onclick +=
-                delegate
-                {
-
-                    var lines = definition_text.value.Trim().Split('\n').Select(i => i.Trim());
-
-                    try
-                    {
-                        var x = Parse(lines.ToArray());
-
-                        Action DoneLoading =
-                            delegate
-                            {
-                                var n = "# " + arsenal.Count;
-
-                                arsenal.Add(n, x);
-                                combo.Add(n);
-                                //combo.value = n;
-                                Refresh();
-                            };
-
-                        #region try loading
-                        foreach (var v in x.Images)
-                            Console.WriteLine("preloading: " + v.src);
-
-                        new Timer(
-                            t =>
-                            {
-                                if (x.Images.Any(i => !i.complete))
-                                    return;
-
-                                if (x.Images.Any(i => i.complete && i.width == 0))
-                                {
-                                    t.Stop();
-
-                                    Native.Window.alert("Cannot load from given path!");
-                                    return;
-                                }
-
-                                t.Stop();
-
-                                DoneLoading();
-                            }
-                        , 1, 100).TimeToLive = 100;
-                        #endregion
-
-                    }
-                    catch (Exception exc)
-                    {
-                        Native.Window.alert("Parse error: " + exc.Message);
-                    }
-                };
-
 
             #endregion
 
@@ -458,10 +376,55 @@ namespace NatureBoyTestPad.js
             }
 
             #endregion
+
+
+            {
+                var n = "ManWithHorns";
+
+                arsenal.Add(n, MyFrames.ManWithHorns);
+                combo.Add(n);
+            }
+            {
+                var n = "TheSheep";
+
+                arsenal.Add(n, MyFrames.TheSheep);
+                combo.Add(n);
+            }
+            {
+                var n = "ThePig";
+
+                arsenal.Add(n, MyFrames.ThePig);
+                combo.Add(n);
+            }
+
+            {
+                var n = "TheCactus";
+
+                arsenal.Add(n, MyFrames.TheCactus);
+                combo.Add(n);
+            }
+
+            3.Times(
+              delegate()
+              {
+                  new DebrisImages().Images.ForEach(
+                      img => img.AttachTo(arena.Layers.Canvas).style.SetLocation(map.X.Random(), map.Y.Random())
+                  );
+              }
+      );
+
+            16.Times(
+                delegate()
+                {
+                    actors.Add(
+                        CreateActor(arsenal.Random().Value, new Point(map.X.Random(), map.Y.Random()))
+                        );
+                }
+            );
         }
 
 
-       
+
 
     }
 

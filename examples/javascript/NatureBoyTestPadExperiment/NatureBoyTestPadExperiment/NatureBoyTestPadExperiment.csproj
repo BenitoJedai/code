@@ -126,6 +126,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Audio\Affirmative.mp3" />
+    <Content Include="Audio\Argh.mp3" />
+    <Content Include="Audio\Argh_LChannel.mp3" />
+    <Content Include="Audio\Argh_RChannel.mp3" />
+    <Content Include="Audio\ChangeRoom.mp3" />
+    <Content Include="Audio\click.mp3" />
+    <Content Include="Audio\ghoullaugh.mp3" />
+    <Content Include="Audio\pig.mp3" />
+    <Content Include="Audio\sheep.mp3" />
+    <Content Include="Audio\Talk.mp3" />
+    <Content Include="Audio\world.mp3" />
+    <Content Include="cnc\383.png" />
+    <Content Include="Debris\bump2.png" />
+    <Content Include="Debris\footsteps.png" />
+    <Content Include="Debris\grass1.png" />
+    <Content Include="Debris\hole_1.png" />
+    <Content Include="Debris\hole_2.png" />
+    <Content Include="Debris\man2-horns_dead_2.png" />
+    <Content Include="Debris\pig_blood.png" />
+    <Content Include="Debris\sheep-blood.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\Extensions.cs" />
@@ -137,6 +157,15 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="ManWithHorns\man2-horns_1.png" />
+    <Content Include="ManWithHorns\man2-horns_2.png" />
+    <Content Include="ManWithHorns\man2-horns_3.png" />
+    <Content Include="ManWithHorns\man2-horns_4.png" />
+    <Content Include="ManWithHorns\man2-horns_5.png" />
+    <Content Include="ManWithHorns\man2-horns_6.png" />
+    <Content Include="ManWithHorns\man2-horns_7.png" />
+    <Content Include="ManWithHorns\man2-horns_8.png" />
+    <Content Include="ManWithHorns\man2-horns_9.png" />
     <Content Include="Textures\npc3_bk1.gif" />
     <Content Include="Textures\npc3_bk2.gif" />
     <Content Include="Textures\npc3_fr1.gif" />
@@ -145,12 +174,23 @@
     <Content Include="Textures\npc3_lf2.gif" />
     <Content Include="Textures\npc3_rt1.gif" />
     <Content Include="Textures\npc3_rt2.gif" />
+    <Content Include="TheCactus\img_cactus_1.png" />
+    <Content Include="TheCactus\img_cactus_2.png" />
+    <Content Include="TheCactus\img_cactus_3.png" />
+    <Content Include="ThePig\pig_1.png" />
+    <Content Include="ThePig\pig_2.png" />
+    <Content Include="ThePig\pig_3.png" />
+    <Content Include="ThePig\pig_4.png" />
+    <Content Include="TheSheep\sheep-walk_1.png" />
+    <Content Include="TheSheep\sheep-walk_2.png" />
+    <Content Include="TheSheep\sheep-walk_3.png" />
+    <Content Include="TheSheep\sheep-walk_4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 
