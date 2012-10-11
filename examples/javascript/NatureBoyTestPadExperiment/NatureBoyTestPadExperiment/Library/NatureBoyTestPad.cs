@@ -301,6 +301,25 @@ namespace NatureBoyTestPad.js
                     pending.TeleportTo(p.X, p.Y);
                 };
 
+            arena.Layers.User.oncontextmenu +=
+                e =>
+                {
+                    e.PreventDefault();
+
+                    if (pending != null)
+                    {
+                        pending.Control.Dispose();
+                        pending = null;
+                        arena.ShowSelectionRectangle = true;
+
+                        return;
+                    }
+
+                    actors.ForEach(
+                        k => k.IsSelected = false
+                            );
+                };
+
             arena.SelectionClick +=
                 (p, ev) =>
                 {
@@ -315,7 +334,17 @@ namespace NatureBoyTestPad.js
                     actors.Add(pending);
 
                     pending.IsHot = false;
-                    pending = null;
+
+
+                    var x = GetSelectedArsenal();
+                    pending = CreateActor(x,
+                       new Point(
+                           Native.Window.Width / 2,
+                           Native.Window.Height / 2
+                           )
+                   );
+
+                    pending.IsHot = true;
 
 
                     click.play();
@@ -343,6 +372,7 @@ namespace NatureBoyTestPad.js
                     );
 
                     pending.IsHot = true;
+                    arena.ShowSelectionRectangle = false;
 
                     click.play();
                     click = new click().AttachToDocument();

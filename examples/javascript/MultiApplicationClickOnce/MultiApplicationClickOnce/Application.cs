@@ -12,6 +12,8 @@ using System.Text;
 using System.Xml.Linq;
 using MultiApplicationClickOnce.Design;
 using MultiApplicationClickOnce.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
+using System.Collections.Generic;
 
 namespace MultiApplicationClickOnce
 {
@@ -42,10 +44,13 @@ namespace MultiApplicationClickOnce
 
                 };
 
-            new IHTMLAnchor {
-                href =  @"javascript:
+            new IHTMLAnchor
+            {
+                href = @"javascript:
 ((function(h,i)
 { 
+    
+
     var a=-1, 
     b='onreadystatechange', 
     c=document.getElementsByTagName('HEAD')[0], 
@@ -54,6 +59,10 @@ namespace MultiApplicationClickOnce
     f, 
     g=c.childNodes, 
     d; 
+
+    e=document.createElement('base');   
+    e.href='%%';
+    c.appendChild(e);     
 
     d = function () 
     {  
@@ -94,7 +103,7 @@ d();
 }
 
 )(['ScriptCoreLib.dll.js','MultiApplicationClickOnce.OtherApplication.exe.js'],function(){}))".Replace("%%", Native.Document.location + ""),
-                
+
                 innerText = "Click to open"
             }.AttachToDocument();
 
@@ -117,24 +126,85 @@ d();
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        public IEnumerable<IHTMLAnchor> AudioLinks
+        {
+            get
+            {
+                return from item in Native.Document.getElementsByTagName("a").AsEnumerable()
+                       let a = (IHTMLAnchor)item
+                       where (a.href.EndsWith(".mp3"))
+                       select a;
+            }
+        }
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public OtherApplication(IOtherPage page)
         {
-            new IHTMLButton { innerText = "open Default page" }.AttachToDocument().onclick +=
-               delegate
-               {
-                   Native.Window.open("/", "_self");
+            var AudioLinks = this.AudioLinks.ToArray();
 
-               };
+            Native.Document.body.Clear();
 
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"other",
-                value => value.ToDocumentTitle()
+            new IHTMLButton { innerText = "open Default page" }.AttachToDocument().With(
+                btn =>
+                {
+                    new HTML.Images.FromAssets.jsc().AttachTo(btn);
+
+                    btn.onclick +=
+                       delegate
+                       {
+                           new IHTMLIFrame
+                           {
+                               src = "/"
+                           }.AttachToDocument();
+
+                           //Native.Window.open("/", "_self");
+
+                       };
+                }
             );
+
+            AudioLinks.WithEach(
+                a =>
+                {
+                    IHTMLAudio audio = null;
+
+                    new IHTMLButton { innerText = a.innerText }.AttachToDocument().With(
+                        btn =>
+                        {
+                            btn.style.display = IStyle.DisplayEnum.block;
+
+                            btn.onclick +=
+                                delegate
+                                {
+                                    if (audio == null)
+                                    {
+                                        audio = new IHTMLAudio { src = a.href }.AttachToDocument();
+                                        audio.play();
+                                    }
+                                    else
+                                    {
+                                        if (audio.paused)
+                                            audio.play();
+                                        else
+                                            audio.pause();
+                                    }
+                                };
+                        }
+                    );
+
+                }
+            );
+
+
+            // XMLHttpRequest cannot load http://192.168.1.100:16304/xml?WebMethod=06000001. Origin http://www.webgljobs.com is not allowed by Access-Control-Allow-Origin.
+            // Send data from JavaScript to the server tier
+            //service.WebMethod2(
+            //    @"other",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }
