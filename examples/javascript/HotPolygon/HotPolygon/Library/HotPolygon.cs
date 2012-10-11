@@ -1,24 +1,20 @@
 ﻿//using System.Linq;
 
+using System.Collections.Generic;
 using ScriptCoreLib;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Shared;
-
-using ScriptCoreLib.Shared.Drawing;
-
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
-using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
-
-using global::System.Collections.Generic;
-
-using System.Linq;
+using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
 using System;
+using System.Linq;
 
 
 namespace HotPolygon.js
