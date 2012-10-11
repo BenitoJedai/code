@@ -1,26 +1,26 @@
-﻿using ScriptCoreLib;
+﻿using IsometricTycoonViewWithToolbar.HTML.Audio.FromAssets;
+using IsometricTycoonViewWithToolbar.HTML.Images.FromAssets;
+using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Controls.Effects;
-using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Controls.LayeredControl;
+using ScriptCoreLib.JavaScript.Controls.NatureBoy;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Extensions;
-
-using System.Linq;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Toolbar.JavaScript;
 
 namespace ThreeDStuff.js
 {
-    using ScriptCoreLib.JavaScript.Controls.NatureBoy;
-    using ScriptCoreLib.JavaScript.Controls;
-    using ScriptCoreLib.JavaScript.Runtime;
-    using ScriptCoreLib.JavaScript.Controls.LayeredControl;
-    using IsometricTycoonViewWithToolbar.HTML.Images.FromAssets;
+
 
     public enum IdleBehaviour
     {
@@ -39,16 +39,9 @@ namespace ThreeDStuff.js
         Rectangle
     }
 
-    [ScriptApplicationEntryPoint(
-        //IsClickOnce = true, ScriptedLoading = true
-        ),
-        //ApplicationDescription(
-        //    Description = "This example demostrates how would an isometric javascript game look like in your browser. You can see landscape from <i>Transport Tycoon</i> and the characters are from <i>Wolfenstein 3D</i> and <i>Doom</i>."
-        //)
-    ]
+
     public partial class Tycoon4
     {
-        [Script]
         class TileElement
         {
             public string Source;
@@ -192,7 +185,11 @@ namespace ThreeDStuff.js
                     House5a = new { Source = new h5a().src, Height = 33 },
                     House5b = new { Source = new h5b().src, Height = 40 },
                     House5c = new { Source = new h5c().src, Height = 40 },
-                    House5 = new { Source = new h5().src, Height = 40 }
+                    House5 = new { Source = new h5().src, Height = 40 },
+                    House11a = new { Source = new h11a().src, Height = 89 },
+                    House11b = new { Source = new h11b().src, Height = 89 },
+                    House11c = new { Source = new h11c().src, Height = 89 },
+                    House11x = new { Source = new h11x().src, Height = 89 }
                 };
 
             var TileResourcesList = new[]
@@ -218,6 +215,10 @@ namespace ThreeDStuff.js
                     TileResources.House5b ,
                     TileResources.House5c ,
                     TileResources.House5 ,
+                    TileResources.House11a ,
+                    TileResources.House11b ,
+                    TileResources.House11c ,
+                    TileResources.House11x ,
                 };
             #endregion
 
@@ -310,8 +311,13 @@ namespace ThreeDStuff.js
                 };
             #endregion
 
-
-
+            var Argh = new Argh();
+            var Affirmative = new Affirmative();
+            var Wrmmm = new Wrmmm();
+            var click = new click();
+            var Hammertime = new Hammertime();
+            var Sawtime = new Sawtime();
+            var StoneHammerTime = new StoneHammerTime();
             #endregion
 
             #region AllImagesLoaded
@@ -434,6 +440,8 @@ namespace ThreeDStuff.js
                     var TileColorHouse1 = Color.FromRGB(41, 0, 0);
                     var TileColorHouse2 = Color.FromRGB(42, 0, 0);
                     var TileColorHouse3 = Color.FromRGB(43, 0, 0);
+                    var TileColorHouse11 = Color.FromRGB(44, 0, 0);
+
                     var TileColorTree1 = Color.FromRGB(51, 0, 0);
                     var TileColorRoad1 = Color.FromRGB(61, 0, 0);
                     var TileColorRoad2 = Color.FromRGB(62, 0, 0);
@@ -556,6 +564,7 @@ namespace ThreeDStuff.js
                     CreateNewItemsRandomly(4, TileColorHouse1);
                     CreateNewItemsRandomly(4, TileColorHouse2);
                     CreateNewItemsRandomly(5, TileColorHouse3);
+                    CreateNewItemsRandomly(5, TileColorHouse11);
                     CreateNewItemsRandomly(17, TileColorTree1);
 
                     CreateNewItemsRandomly(2, TileColorRoad1);
@@ -684,6 +693,7 @@ namespace ThreeDStuff.js
                             SpawnItems(TileColorRoad2, () => new r2().src, 32);
                             SpawnItems(TileColorRoad3, () => new r3().src, 32);
                             SpawnItems(TileColorHouse1, () => new h1().src, 52);
+                            SpawnItems(TileColorHouse11, () => new h11x().src, 89);
                             SpawnItems(TileColorHouse2, () => new h2().src, 96);
                             SpawnItems(TileColorHouse3, () => new h3().src, 50);
                             SpawnItems(TileColorTree1, () => new t1().src, 65);
@@ -840,7 +850,15 @@ namespace ThreeDStuff.js
 
                             8.Times(() => Dudes.Add(CreateDude(MyFrames_Soldier, IdleBehaviour.Look, 0.5)));
                             8.Times(() => Dudes.Add(CreateDude(MyFrames_Imp, IdleBehaviour.Scout, 0.5)));
-                            2.Times(() => Dudes.Add(CreateDude(MyFrames_Bus, IdleBehaviour.None, 1)));
+                            2.Times(() => Dudes.Add(
+
+                                CreateDude(MyFrames_Bus, IdleBehaviour.None, 1).With(
+                                    bus =>
+                                    {
+                                        bus.SelectionImage.style.Opacity = 0.2;
+                                        bus.HasShadow = false;
+                                    }
+                                )));
 
 
 
@@ -1022,15 +1040,28 @@ namespace ThreeDStuff.js
                                 Title = "Pause"
                             };
 
+                            var aww = new aww();
+                            var gong = new gong();
+
                             toolbar_btn_pause.Clicked +=
                                 btn =>
                                 {
                                     paused = btn.IsActivated;
 
                                     if (paused)
+                                    {
                                         PauseFogTween.Value = 0.5;
+
+                                        aww.play();
+                                        aww = new aww();
+                                    }
                                     else
+                                    {
                                         PauseFogTween.Value = 0;
+
+                                        gong.play();
+                                        gong = new gong();
+                                    }
 
                                     Dudes.ForEach(i => i.Paused = paused);
                                 };
@@ -1102,6 +1133,8 @@ namespace ThreeDStuff.js
                             {
                                 Buttons = __KeysArray
                             };
+
+
 
 
                             var toolbar_btn_city = new ToolbarButton(
@@ -1533,6 +1566,8 @@ namespace ThreeDStuff.js
                                      MultipleTileSelector_Clear();
                                      MultipleTileSelector_Add(map_coords.to);
 
+                                     click.play();
+                                     click = new click(); ;
                                  };
                             #endregion
 
@@ -1574,6 +1609,8 @@ namespace ThreeDStuff.js
                                  MultipleTileSelector_Clear();
                                  MultipleTileSelector_Add(map_coords);
 
+                                 click.play();
+                                 click = new click(); ;
                              };
                             #endregion
 
@@ -1620,6 +1657,27 @@ namespace ThreeDStuff.js
                                         return;
                                     }
 
+                                    selection.WithEach(
+                                        v =>
+                                        {
+                                            if (v.AnimationInfo.Frames_Stand[0].Source == Frames.WolfSoldier[0].Source)
+                                            {
+                                                Affirmative.play();
+                                                Affirmative = new Affirmative();
+                                            }
+                                            else if (v.AnimationInfo.Frames_Stand[0].Source == MyFrames_Bus.Frames_Stand[0].Source)
+                                            {
+                                                Wrmmm.play();
+                                                Wrmmm = new Wrmmm();
+                                            }
+                                            else
+                                            {
+                                                Argh.play();
+                                                Argh = new Argh();
+                                            }
+
+                                        }
+                                    );
 
                                     if (selection.Length == 1)
                                     {
@@ -1731,6 +1789,22 @@ namespace ThreeDStuff.js
                                             if (IsDefined(n.X, n.Y))
                                                 if (GetTileElementsAt(n).All(i => IsGrassStrict(i.Source)))
                                                 {
+                                                    new IHTMLAudio[]
+                                                                {
+                                                                   Hammertime,
+                                                                   Sawtime,
+                                                                   StoneHammerTime
+                                                                }.Random().With(
+                                                       snd =>
+                                                       {
+                                                           snd.play();
+
+                                                           Hammertime = new Hammertime();
+                                                           Sawtime = new Sawtime();
+                                                           StoneHammerTime = new StoneHammerTime();
+                                                       }
+                                                   );
+
                                                     ReplaceTileWithNewBuilding(n);
 
 
@@ -1748,13 +1822,18 @@ namespace ThreeDStuff.js
                                                 where Road2 || Road1
                                                 select new { i, Road1, Road2 };
 
-                                    var Randomized = Query.Randomize();
 
                                     Console.WriteLine("starting city building");
-                                    toolbar_btn_city_StopTimer = Query.ForEachAtInterval(2000,
-                                        v =>
+                                    toolbar_btn_city_StopTimer = new Timer(
+                                        t =>
                                         {
+                                            if (paused)
+                                                return;
+
+                                            var v = Query.Random();
                                             Console.WriteLine("try building city at road {0}", new { v.i.Position.X, v.i.Position.Y });
+
+
 
                                             if (v.Road2)
                                             {
@@ -1767,9 +1846,13 @@ namespace ThreeDStuff.js
                                                 TryBuildHere(v.i.Position.Round().WithOffset(0, -1));
                                                 TryBuildHere(v.i.Position.Round().WithOffset(0, 1));
                                             }
+
                                         },
-                                        toolbar_btn_city.RaiseClicked
-                                    );
+                                        0, 2000
+
+                                    ).Stop;
+
+                                    //toolbar_btn_city.RaiseClicked
                                 };
                             #endregion
 
@@ -1828,6 +1911,43 @@ namespace ThreeDStuff.js
 
                                             }
                                         #endregion
+
+
+                                        #region House11 building animation
+                                        if (v.Source == TileResources.House11a.Source)
+                                            if (v.DirtAge > 3)
+                                            {
+                                                RemoveAllTilesAt(v.Position);
+                                                AddTileElement(v.Position,
+                                                    TileResources.House11b.Source,
+                                                    TileResources.House11b.Height
+                                                    )
+                                                    .AddTo(KnownDirtTileElements);
+                                            }
+
+                                        if (v.Source == TileResources.House11b.Source)
+                                            if (v.DirtAge > 3)
+                                            {
+                                                RemoveAllTilesAt(v.Position);
+                                                AddTileElement(v.Position,
+                                                    TileResources.House11c.Source,
+                                                    TileResources.House11c.Height
+                                                    )
+                                                    .AddTo(KnownDirtTileElements);
+                                            }
+
+                                        if (v.Source == TileResources.House11c.Source)
+                                            if (v.DirtAge > 3)
+                                            {
+                                                RemoveAllTilesAt(v.Position);
+                                                AddTileElement(v.Position,
+                                                    TileResources.House11x.Source,
+                                                    TileResources.House11x.Height
+                                                    );
+
+                                            }
+                                        #endregion
+
 
                                         #region make that dirt grow into grass over time
                                         if (v.Source == TileResources.Dirt.Source)
@@ -1913,7 +2033,24 @@ namespace ThreeDStuff.js
                                 PauseFogTween.Value = 0;
 
 
+                            toolbar.Buttons.WithEach(
+                              btn =>
+                              {
+                                  btn.Clicked +=
+                                      delegate
+                                      {
+                                          click.play();
+                                          click = new click(); ;
+                                      };
+                              }
+                              );
 
+                            arena.Layers.User.oncontextmenu +=
+                                e =>
+                                {
+                                    e.PreventDefault();
+
+                                };
                         });
 
                 };
@@ -1939,18 +2076,12 @@ namespace ThreeDStuff.js
                         AllImagesLoaded();
                     }
                 }
-            ).StartInterval(30);
+            ).StartInterval(1);
         }
 
 
 
 
-
-
-        static Tycoon4()
-        {
-            typeof(Tycoon4).Spawn();
-        }
 
 
     }

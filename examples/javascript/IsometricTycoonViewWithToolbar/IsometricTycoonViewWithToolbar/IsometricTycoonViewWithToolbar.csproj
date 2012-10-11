@@ -126,6 +126,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Audio\Affirmative.mp3" />
+    <Content Include="Audio\Argh.mp3" />
+    <Content Include="Audio\aww.mp3" />
+    <Content Include="Audio\click.mp3" />
+    <Content Include="Audio\gong.mp3" />
+    <Content Include="Audio\Hammertime.mp3" />
+    <Content Include="Audio\Sawtime.mp3" />
+    <Content Include="Audio\StoneHammerTime.mp3" />
+    <Content Include="Audio\Wrmmm.mp3" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\Extensions.cs" />
@@ -149,6 +158,10 @@
     <Content Include="Design\Tiles\5.png" />
     <Content Include="Design\Tiles\6.png" />
     <Content Include="Design\Tiles\h1.png" />
+    <Content Include="Design\Tiles\h11a.png" />
+    <Content Include="Design\Tiles\h11b.png" />
+    <Content Include="Design\Tiles\h11c.png" />
+    <Content Include="Design\Tiles\h11x.png" />
     <Content Include="Design\Tiles\h2.png" />
     <Content Include="Design\Tiles\h3.png" />
     <Content Include="Design\Tiles\h4.png" />
