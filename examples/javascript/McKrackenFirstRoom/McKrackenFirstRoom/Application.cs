@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using McKrackenFirstRoom.Design;
 using McKrackenFirstRoom.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
+using McKrackenFirstRoom.HTML.Audio.FromAssets;
 
 namespace McKrackenFirstRoom
 {
@@ -29,28 +30,43 @@ namespace McKrackenFirstRoom
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            var music = new HTML.Audio.FromAssets.zak();
+            var music = new HTML.Audio.FromAssets.zak().AttachToDocument();
             music.loop = true;
-            music.load();
+            //music.load();
 
             music.play();
 
             new Timer(
                 delegate
                 {
-                    var clocksound = new HTML.Audio.FromAssets._548202_SOUNDDOGS__cl();
-                    clocksound.loop = true;
+                    #region clocksound
+                    var clocksound = default(_548202_SOUNDDOGS__cl);
 
-                    clocksound.volume = 0;
-                    clocksound.onended +=
-                        delegate
-                        {
-                            clocksound.pause();
-                            clocksound.currentTime = 0;
-                            clocksound.play();
-                        };
+                    Action loop = null;
 
-                    clocksound.play();
+                    loop = delegate
+                    {
+                        var volume = 0.0;
+                        if (clocksound != null)
+                            volume = clocksound.volume;
+
+                        clocksound = new _548202_SOUNDDOGS__cl { volume = volume }.AttachToDocument();
+
+                        clocksound.onended +=
+                            delegate
+                            {
+                                Console.WriteLine(" music.onended ");
+                                clocksound.Orphanize();
+
+                                loop();
+                            };
+
+                        clocksound.play();
+
+                    };
+
+                    loop();
+                    #endregion
 
                     new Timer(
                         t =>
@@ -71,7 +87,9 @@ namespace McKrackenFirstRoom
                 }
             ).StartTimeout(2000);
 
-            new NatureBoy.js.Class5().Initialize();
+            
+            new NatureBoy.js.Class5().Control.style.SetLocation(0, 0);
+
 
             @"Mr. McKracken".ToDocumentTitle();
             //// Send data from JavaScript to the server tier

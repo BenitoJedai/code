@@ -11,6 +11,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Extensions;
 using McKrackenSceneSlideshow.Library;
+using McKrackenFirstRoom.HTML.Audio.FromAssets;
 
 namespace NatureBoy.js
 {
@@ -162,7 +163,8 @@ namespace NatureBoy.js
         // todo: overlay, inline spawn from space invaders
         public readonly IHTMLDiv Control = new IHTMLDiv();
         public readonly Zak.Document Data = DefaultData;
-        public void Initialize()
+
+        public Class5()
         {
 
             Console.WriteLine("new Class5");
@@ -174,7 +176,7 @@ namespace NatureBoy.js
             //    Console.WriteLine("has no anchor");
 
 
-            var c = new IHTMLDiv();
+            var c = Control;
 
             var ViewPortSize = new ZoomedPoint
             {
@@ -188,7 +190,7 @@ namespace NatureBoy.js
             c.style.backgroundColor = ScriptCoreLib.Shared.Drawing.Color.Yellow;
 
             c.AttachToDocument();
-            c.style.SetLocation(0, 0);
+            //c.style.SetLocation(0, 0);
 
             var ImagesLoaded = 0;
 
@@ -373,6 +375,7 @@ namespace NatureBoy.js
                     dude.Direction = Math.PI.Random() * 2;
 
 
+                    var Affirmative = new Affirmative();
 
 
 
@@ -394,6 +397,8 @@ namespace NatureBoy.js
                              ev.PreventDefault();
                              ev.StopPropagation();
 
+                             Affirmative.play();
+                             Affirmative = new Affirmative();
 
                              dude.WalkTo(ev.OffsetPosition);
 
@@ -406,6 +411,10 @@ namespace NatureBoy.js
                             ev.PreventDefault();
                             ev.StopPropagation();
                             InputLayer.onclick -= onclick;
+
+                            Affirmative.play();
+                            Affirmative = new Affirmative();
+
 
                             dude.WalkTo(
                                 new Point(ev.touches[0].clientX, ev.touches[0].clientY
@@ -438,10 +447,19 @@ namespace NatureBoy.js
                                 { 38, 3 },
                             };
 
-                            if (dict.ContainsKey(ev.KeyCode))
-                                dude.WalkToArc(dude.CurrentWalkSpeed, (Math.PI / 2) * dict[ev.KeyCode]);
 
+                            if (dict.ContainsKey(ev.KeyCode))
+                            {
+                                Affirmative.play();
+                                Affirmative = new Affirmative();
+
+
+                                dude.WalkToArc(dude.CurrentWalkSpeed, (Math.PI / 2) * dict[ev.KeyCode]);
+                            }
                         };
+
+              
+                    
 
                     c.innerHTML = "done!";
 
