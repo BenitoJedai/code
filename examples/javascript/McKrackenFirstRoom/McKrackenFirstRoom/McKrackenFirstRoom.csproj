@@ -120,6 +120,7 @@
       <Link>Library\references.txt</Link>
     </Content>
     <Content Include="Audio\548202_SOUNDDOGS__cl.mp3" />
+    <Content Include="Audio\Affirmative.mp3" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="..\..\McKrackenSceneSlideshow\McKrackenSceneSlideshow\Library\Dude.cs">
