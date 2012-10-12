@@ -22,7 +22,7 @@ namespace paypalx_gae_toolkit_experiment
             var c = new com.paypal.adaptive.core.APICredential();
 
             c.setAPIPassword("foo");
-
+            
             var password = c.getAPIPassword();
 
             // Send it back to the caller.
