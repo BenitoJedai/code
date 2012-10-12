@@ -180,7 +180,7 @@ namespace PHPWiki
             xml.Element("div").Element("h1").Value = Key;
             //xml.Element("div").Value = "Hello world";
 
-            var Revision = "<div>Hello world, <a hef='other page#foo'>other page</a></div>";
+            var Revision = "<div>Hello world, <a href='other page#foo'>other page</a></div>";
 
             this.EnumerateItems(Key,
                 Content =>
