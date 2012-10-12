@@ -211,7 +211,7 @@
 rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:false
 
 if not $(ConfigurationName)==Release goto :eof
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServiceJava:false /AttachDebugger:false /WebServiceJavaSettings.version:30 /DisableWorkerDomain</PostBuildEvent>
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServiceJava:false /AttachDebugger:false /WebServiceJavaSettings.version:33 /DisableWorkerDomain</PostBuildEvent>
     <PreBuildEvent>start /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /LinkedAssets:"c:\util\jsc\publish"
 
 </PreBuildEvent>
