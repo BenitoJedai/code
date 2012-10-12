@@ -32,7 +32,7 @@ namespace TestGAEWithJavaSource
             // Send data from JavaScript to the server tier
             service.WebMethod2(
                 @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+                value => new IHTMLDiv { innerText = value }.AttachToDocument()
             );
         }
 

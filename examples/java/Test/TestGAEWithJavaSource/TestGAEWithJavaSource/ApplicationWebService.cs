@@ -19,30 +19,13 @@ namespace TestGAEWithJavaSource
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
-            /*
-             
- [javac] P:\java\TestGAEWithJavaSource\ApplicationWebService.java:4: package foo does not exist
- [javac] import foo.foo;
- [javac]           ^
- [javac] P:\java\TestGAEWithJavaSource\ApplicationWebService.java:4: package foo does not exist
- [javac] import foo.foo;
- [javac]           ^
- [javac] P:\java\TestGAEWithJavaSource\ApplicationWebService.java:20: cannot find symbol
- [javac] symbol  : class foo
- [javac] location: class TestGAEWithJavaSource.ApplicationWebService
- [javac]         foo foo0;
- [javac]         ^
- [javac] P:\java\TestGAEWithJavaSource\ApplicationWebService.java:22: cannot find symbol
- [javac] symbol  : class foo
- [javac] location: class TestGAEWithJavaSource.ApplicationWebService
- [javac]         foo0 = new foo();             
-              
-             */
 
-            var v = new foo.foo();
+
 
             // Send it back to the caller.
-            y(v.getString());
+            y(new foo.foo().getString());
+            y(new foo.foox().getString());
+            y(new foo.foox().getStringx());
         }
 
     }
