@@ -1,5 +1,5 @@
 ﻿using android.database;
-using ScriptCoreLib.Android.BCLImplementation.System.Data.Common;
+using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
-    internal class __SQLiteDataReader : __DbDataReaders
+    internal class __SQLiteDataReader : __DbDataReader
     {
         public Cursor cursor;
 

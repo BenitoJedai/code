@@ -1,4 +1,4 @@
-﻿using ScriptCoreLibJava.BCLImplementation.System.ComponentModel;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +48,18 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         public void Dispose()
         {
             throw new NotImplementedException();
+        }
+
+        public global::System.ComponentModel.ISite Site
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

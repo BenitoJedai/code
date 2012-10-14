@@ -81,12 +81,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
       <Link>BCLImplementation\System\Collection\Specialized\NameValueCollection.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ComponentModel\Component.cs">
-      <Link>BCLImplementation\System\ComponentModel\Component.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ComponentModel\IComponent.cs">
-      <Link>BCLImplementation\System\ComponentModel\IComponent.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Configuration\SettingsBase.cs">
       <Link>BCLImplementation\System\Configuration\SettingsBase.cs</Link>
     </Compile>
@@ -134,9 +128,6 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\TextReader.cs">
       <Link>BCLImplementation\System\IO\TextReader.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\MarshalByRefObject.cs">
-      <Link>BCLImplementation\System\MarshalByRefObject.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Math.cs">
       <Link>BCLImplementation\System\Math.cs</Link>
@@ -666,11 +657,44 @@
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerator.cs">
       <Link>BCLImplementation\System\Collection\IEnumerator.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Queue.cs">
+      <Link>BCLImplementation\System\Collection\Queue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs">
+      <Link>BCLImplementation\System\Collection\ReadOnlyCollectionBase.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Comparision.cs">
       <Link>BCLImplementation\System\Comparision.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\Component.cs">
+      <Link>BCLImplementation\System\ComponentModel\Component.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\ComponentCollection.cs">
+      <Link>BCLImplementation\System\ComponentModel\ComponentCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\IComponent.cs">
+      <Link>BCLImplementation\System\ComponentModel\IComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\IContainer.cs">
+      <Link>BCLImplementation\System\ComponentModel\IContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\ISite.cs">
+      <Link>BCLImplementation\System\ComponentModel\ISite.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Convert.cs">
       <Link>BCLImplementation\System\Convert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbCommand.cs">
+      <Link>BCLImplementation\System\Data\Common\DbCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbConnection.cs">
+      <Link>BCLImplementation\System\Data\Common\DbConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs">
+      <Link>BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataReader.cs">
+      <Link>BCLImplementation\System\Data\Common\DbDataReader.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\EventArgs.cs">
       <Link>BCLImplementation\System\EventArgs.cs</Link>
@@ -695,6 +719,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Queryable.cs">
       <Link>BCLImplementation\System\Linq\Queryable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\MarshalByRefObject.cs">
+      <Link>BCLImplementation\System\MarshalByRefObject.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Predicate.cs">
       <Link>BCLImplementation\System\Predicate.cs</Link>
@@ -748,10 +775,6 @@
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
-    <Compile Include="BCLImplementation\System\Data\Common\DbCommand.cs" />
-    <Compile Include="BCLImplementation\System\Data\Common\DbConnection.cs" />
-    <Compile Include="BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs" />
-    <Compile Include="BCLImplementation\System\Data\Common\DbDataReader.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
