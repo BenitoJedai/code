@@ -10,10 +10,10 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using GAEJDBCDriverExperiment.Design;
-using GAEJDBCDriverExperiment.HTML.Pages;
+using GAEMeetsNuGetSQLite.Design;
+using GAEMeetsNuGetSQLite.HTML.Pages;
 
-namespace GAEJDBCDriverExperiment
+namespace GAEMeetsNuGetSQLite
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -28,35 +28,12 @@ namespace GAEJDBCDriverExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            page.Send.onclick +=
-                delegate
-                {
-                    service.AddItem(
-                      page.Key.value,
-                      page.Content.value,
-                      value => value.ToDocumentTitle()
-                    );
-                };
-
-            page.Enumerate.onclick +=
-                delegate
-                {
-                    page.output.Clear();
-
-                    service.EnumerateItems(
-                        "",
-                        (Key, Content) =>
-                        {
-                            page.output.Add(
-                                new IHTMLDiv { innerText = new { Key, Content }.ToString() }
-                            );
-                        }
-                    );
-                };
-
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-
+            service.WebMethod2(
+                @"A string from JavaScript.",
+                value => value.ToDocumentTitle()
+            );
         }
 
     }
