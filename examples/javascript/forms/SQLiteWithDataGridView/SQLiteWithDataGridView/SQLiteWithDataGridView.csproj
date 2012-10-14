@@ -188,8 +188,10 @@
   <PropertyGroup>
     <PostBuildEvent>
       if $(ConfigurationName)==Release (
-  rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /DisableWebServiceAndroid:false
-      )
+   start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false /DisableWebServiceJava:false
+ rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /DisableWebServiceAndroid:false
+    
+    )
       if $(ConfigurationName)==PHP (
       start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
       )
