@@ -1001,6 +1001,11 @@
     <Compile Include="java\security\Principal.cs" />
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
+    <Compile Include="java\sql\Connection.cs" />
+    <Compile Include="java\sql\Driver.cs" />
+    <Compile Include="java\sql\ResultSet.cs" />
+    <Compile Include="java\sql\Statement.cs" />
+    <Compile Include="java\sql\DriverManager.cs" />
     <Compile Include="java\text\AttributedCharacterIterator.cs" />
     <Compile Include="java\text\CharacterIterator.cs" />
     <Compile Include="java\text\DecimalFormatSymbols.cs" />
@@ -1094,6 +1099,7 @@
     <Content Include="docs\exceptions.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BCLImplementation\System\Data\" />
     <Folder Include="BCLImplementation\System\Web\Profile\" />
     <Folder Include="javax\microedition\lcdui\" />
     <Folder Include="javax\microedition\media\" />
