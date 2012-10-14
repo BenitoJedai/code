@@ -19,7 +19,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 
         public void Add(IComponent component)
         {
-			//this.InternalComponents.InternalElements.Add(component);
+            this.InternalComponents.InternalElements.Add(component);
         }
 
 		public virtual ComponentCollection Components { get { return (ComponentCollection)(object)InternalComponents; } }
