@@ -10,6 +10,8 @@ namespace java.sql
     [Script(IsNative = true)]
     public interface ResultSet
     {
+        void close();
+
         bool next();
 
         string getString(int value);

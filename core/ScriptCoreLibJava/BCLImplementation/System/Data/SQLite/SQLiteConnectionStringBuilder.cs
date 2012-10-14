@@ -21,11 +21,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public string InternalUser { get; set; }
         public string InternalHost { get; set; }
 
+
         public __SQLiteConnectionStringBuilder()
         {
             this.InternalUser = "root";
             this.InternalHost = "localhost";
             this.Password = "";
+        }
+
+        public override void InternalAdd(string keyword, object value)
+        {
+            if (keyword == "InternalUser")
+                this.InternalUser = (string)value;
+            else if (keyword == "InternalHost")
+                this.InternalHost = (string)value;
+        }
+
+        public static __SQLiteConnectionStringBuilder InternalConnectionString;
+
+        protected override string InternalGetConnectionString()
+        {
+            var r = "";
+
+            // we should serialize to string here
+            // this will break once multiple connections are needed!
+            InternalConnectionString = this;
+
+            return r;
         }
     }
 }

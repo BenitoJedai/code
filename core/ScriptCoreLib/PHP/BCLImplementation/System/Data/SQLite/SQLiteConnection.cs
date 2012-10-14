@@ -77,32 +77,6 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         }
 
-
-        /*
-        public class LocalSQLiteOpenHelper : SQLiteOpenHelper
-        {
-
-            public LocalSQLiteOpenHelper(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory = null, int version = 1)
-                : base(context, name, factory, version)
-            {
-
-            }
-
-            public override void onCreate(SQLiteDatabase db)
-            {
-                // TODO Auto-generated method stub
-                //db.execSQL(SCRIPT_CREATE_DATABASE);
-            }
-
-            public override void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-            {
-                // TODO Auto-generated method stub
-
-            }
-
-        }
-
-        */
         public override void Dispose()
         {
             this.Close();

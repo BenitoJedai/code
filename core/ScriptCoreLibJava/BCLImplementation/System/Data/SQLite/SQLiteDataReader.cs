@@ -10,37 +10,44 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
     internal class __SQLiteDataReader : __DbDataReader
     {
+        public java.sql.ResultSet InternalResultSet;
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
 
 
         public override void Close()
         {
-            throw new NotImplementedException();
+            this.InternalResultSet.close();
         }
 
         public override bool Read()
         {
-            throw new NotImplementedException();
+            return this.InternalResultSet.next();
         }
 
         public override object this[string name]
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+
+                var i = this.GetOrdinal(name);
+
+                return this.GetString(i);
+            }
         }
 
         public override int GetOrdinal(string name)
         {
-            throw new NotImplementedException();
+            return this.InternalResultSet.findColumn(name);
         }
 
         public override string GetString(int i)
         {
-            throw new NotImplementedException();
+            return this.InternalResultSet.getString(i);
         }
 
         public override int GetInt32(int i)
         {
-            throw new NotImplementedException();
+            return this.InternalResultSet.getInt(i);
         }
     }
 }
