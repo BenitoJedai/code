@@ -270,10 +270,10 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Data\Common\DbCommand.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Data\Common\DbConnection.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Data\Common\DbDataReader.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\Common\DbCommand.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\Common\DbConnection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataReader.cs" />
     <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
@@ -411,15 +411,13 @@
     <Compile Include="Shared\BCLImplementation\System\Collections\Queue.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Component.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IRaiseItemChangedEvents.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IBindingList.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ICancelAddNew.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ISite.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IComponent.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IContainer.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\ISite.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\IContainer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ISupportInitialize.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
@@ -501,11 +499,10 @@
     <Compile Include="JavaScript\BCLImplementation\System\Char.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Queue.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Stack.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\IBindingList.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\IComponent.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\IContainer.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\IComponent.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\ApplicationSettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\SettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Byte.cs" />
@@ -721,8 +718,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\Component.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\Container.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Component.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Array.cs" />
@@ -730,7 +727,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Environment.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\TextWriter.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\DownloadStringCompletedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\DownloadStringCompletedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\WebClient.cs" />
@@ -741,7 +737,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\List.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Console.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Delegate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debugger.cs" />
@@ -810,8 +805,6 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\ICollection.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\IList.cs" />
     <Compile Include="PHP\BCLImplementation\System\ComponentModel\Component.cs" />
-    <Compile Include="PHP\BCLImplementation\System\ComponentModel\IComponent.cs" />
-    <Compile Include="PHP\BCLImplementation\System\ComponentModel\ISite.cs" />
     <Compile Include="PHP\BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.cs" />
@@ -819,7 +812,7 @@
     <Compile Include="PHP\BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\FileStream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IServiceProvider.cs" />
-    <Compile Include="PHP\BCLImplementation\System\MarshalByRefObject.cs" />
+    <Compile Include="Shared\BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="PHP\BCLImplementation\System\Net\WebClient.cs" />
     <Compile Include="PHP\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="Shared\BCLImplementation\System\Predicate.cs" />
@@ -908,6 +901,8 @@
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="Java\" />
+    <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
+    <Folder Include="Shared\BCLImplementation\System\Data\SQLite\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
