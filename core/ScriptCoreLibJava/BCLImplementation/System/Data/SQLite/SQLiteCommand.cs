@@ -34,20 +34,49 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             this.sql = sql;
 
-            this.InternalStatement = this.c.InternalConnection.createStatement();
+            try
+            {
+                this.InternalStatement = this.c.InternalConnection.createStatement();
+            }
+            catch
+            {
+                throw;
+            }
 
         }
 
         public override int ExecuteNonQuery()
         {
-            return this.InternalStatement.executeUpdate(this.sql);
+            var value = default(int);
+
+            try
+            {
+                value = this.InternalStatement.executeUpdate(this.sql);
+            }
+            catch
+            {
+                throw;
+            }
+
+            return value;
         }
 
         public SQLiteDataReader ExecuteReader()
         {
-            var r = this.InternalStatement.executeQuery(this.sql);
+            var value = default(SQLiteDataReader);
 
-            return (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r };
+            try
+            {
+                var r = this.InternalStatement.executeQuery(this.sql);
+
+                value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r };
+            }
+            catch
+            {
+                throw;
+            }
+
+            return value;
         }
     }
 }
