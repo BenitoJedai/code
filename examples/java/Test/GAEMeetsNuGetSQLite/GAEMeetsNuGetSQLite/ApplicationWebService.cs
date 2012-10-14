@@ -26,7 +26,7 @@ namespace GAEMeetsNuGetSQLite
             // should jsc do this implictly?
             try
             {
-                DriverManager.registerDriver(new AppEngineDriver());
+                //DriverManager.registerDriver(new AppEngineDriver());
             }
             catch
             {
