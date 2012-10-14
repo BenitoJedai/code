@@ -84,13 +84,13 @@ namespace PHPWiki
                 using (var reader = cmd.ExecuteReader())
                 {
                     // why is reader null for PHP?
-                        while (reader.Read())
-                        {
-                            var Content = (string)reader["Content"];
+                    while (reader.Read())
+                    {
+                        var Content = (string)reader["Content"];
 
-                            y(Content);
+                        y(Content);
 
-                        }
+                    }
                 }
 
                 c.Close();
@@ -173,9 +173,15 @@ namespace PHPWiki
             if (Key == "/default.htm")
                 Key = "/";
 
+
             var xml = XElement.Parse(Other.PageSource);
 
+            //Console.WriteLine("Other.PageSource:");
+            //Console.WriteLine(Other.PageSource);
 
+
+            //Console.WriteLine("xml:");
+            //Console.WriteLine(xml.ToString());
 
             xml.Element("div").Element("h1").Value = Key;
             //xml.Element("div").Value = "Hello world";
@@ -185,6 +191,8 @@ namespace PHPWiki
             this.EnumerateItems(Key,
                 Content =>
                 {
+
+
                     Revision = Content;
                     //xml.Element("div").Add(new XElement("hr"));
                     //xml.Element("div").Add(XElement.Parse(Revision));
@@ -192,7 +200,15 @@ namespace PHPWiki
                 }
             );
 
-            xml.Element("output").Add(XElement.Parse(Revision));
+            //Console.WriteLine("Revision:");
+            //Console.WriteLine(Revision);
+
+            var Revision_xml = XElement.Parse(Revision);
+
+            //Console.WriteLine("Revision_xml:");
+            //Console.WriteLine(Revision_xml.ToString());
+
+            xml.Element("output").Add(Revision_xml);
 
             //xml.Element("h3").Value = h.Context.Request.UserAgent;
             //xml.Element("h3").Value = h.Context.Request.Headers["User-Agent"];
