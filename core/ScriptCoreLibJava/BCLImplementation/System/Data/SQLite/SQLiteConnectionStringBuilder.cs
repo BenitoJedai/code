@@ -20,12 +20,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public string InternalUser { get; set; }
         public string InternalHost { get; set; }
+        public string InternalInstanceName { get; set; }
 
 
         public __SQLiteConnectionStringBuilder()
         {
             this.InternalUser = "root";
             this.InternalHost = "localhost";
+            this.InternalInstanceName = "instance_name";
             this.Password = "";
         }
 
@@ -35,6 +37,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 this.InternalUser = (string)value;
             else if (keyword == "InternalHost")
                 this.InternalHost = (string)value;
+            else if (keyword == "InternalInstanceName")
+                this.InternalInstanceName = (string)value;
         }
 
         public static __SQLiteConnectionStringBuilder InternalConnectionString;
