@@ -30,7 +30,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             try
             {
                 // Caused by: java.sql.SQLException: No suitable driver found for jdbc:google:rdbms://instance_name
-                this.InternalConnection = DriverManager.getConnection("jdbc:google:rdbms://instance_name", "root", "");
+                this.InternalConnection = DriverManager.getConnection("jdbc:google:rdbms://" + this.InternalConnectionString.InternalInstanceName, "root", "");
             }
             catch
             {
