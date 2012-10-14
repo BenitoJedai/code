@@ -13,5 +13,7 @@ namespace java.sql
         ResultSet executeQuery(string value);
         int executeUpdate(string value);
         void close();
+
+        ResultSet getGeneratedKeys();
     }
 }

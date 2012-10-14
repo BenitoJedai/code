@@ -16,6 +16,8 @@ namespace java.sql
 
         string getString(int value);
         int getInt(int value);
+        long getLong(int columnIndex);
+
         int findColumn(string value);
     }
 }
