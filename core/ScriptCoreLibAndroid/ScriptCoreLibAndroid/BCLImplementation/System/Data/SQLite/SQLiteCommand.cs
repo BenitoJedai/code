@@ -1,4 +1,4 @@
-﻿using ScriptCoreLib.Android.BCLImplementation.System.Data.Common;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
