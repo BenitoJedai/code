@@ -17,12 +17,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override void Close()
         {
-            this.InternalResultSet.close();
+
+            try
+            {
+                this.InternalResultSet.close();
+            }
+            catch
+            {
+                throw;
+            }
+
         }
 
         public override bool Read()
         {
-            return this.InternalResultSet.next();
+            var value = default(bool);
+
+            try
+            {
+                value = this.InternalResultSet.next();
+
+            }
+            catch
+            {
+                throw;
+            }
+
+            return value;
         }
 
         public override object this[string name]
@@ -38,18 +59,48 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override int GetOrdinal(string name)
         {
-            return this.InternalResultSet.findColumn(name) - 1;
+            var value = default(int);
+            try
+            {
+                value = this.InternalResultSet.findColumn(name) - 1;
+
+            }
+            catch
+            {
+                throw;
+            }
+            return value;
         }
 
         public override string GetString(int i)
         {
+            var value = default(string);
             // the first column is 1
-            return this.InternalResultSet.getString(i + 1);
+            try
+            {
+                value = this.InternalResultSet.getString(i + 1);
+
+
+            }
+            catch
+            {
+                throw;
+            }
+            return value;
         }
 
         public override int GetInt32(int i)
         {
-            return this.InternalResultSet.getInt(i + 1);
+            var value = default(int);
+            try
+            {
+                value = this.InternalResultSet.getInt(i + 1);
+            }
+            catch
+            {
+                throw;
+            }
+            return value;
         }
     }
 }

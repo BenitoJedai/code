@@ -3,6 +3,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
@@ -26,19 +27,38 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override void Open()
         {
-            this.InternalConnection = DriverManager.getConnection("jdbc:google:rdbms://instance_name", "root", "");
+            try
+            {
+                this.InternalConnection = DriverManager.getConnection("jdbc:google:rdbms://instance_name", "root", "");
+            }
+            catch
+            {
+                throw;
+            }
 
-            var s = this.InternalConnection.createStatement();
+            using (var cmd = new SQLiteCommand("CREATE DATABASE IF NOT EXISTS `" + this.InternalConnectionString.DataSource + "`", (SQLiteConnection)(object)this))
+            {
+                cmd.ExecuteNonQuery();
+            }
 
-            s.executeUpdate("CREATE DATABASE IF NOT EXISTS `" + this.InternalConnectionString.DataSource + "`");
-            s.executeUpdate("USE `" + this.InternalConnectionString.DataSource + "`");
+            using (var cmd = new SQLiteCommand("USE `" + this.InternalConnectionString.DataSource + "`", (SQLiteConnection)(object)this))
+            {
+                cmd.ExecuteNonQuery();
+            }
 
-            s.close();
         }
 
         public override void Close()
         {
-            this.InternalConnection.close();
+            try
+            {
+                this.InternalConnection.close();
+
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public override void Dispose()

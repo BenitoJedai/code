@@ -24,7 +24,14 @@ namespace GAEMeetsNuGetSQLite
         {
 #if !DEBUG
             // should jsc do this implictly?
-            DriverManager.registerDriver(new AppEngineDriver());
+            try
+            {
+                DriverManager.registerDriver(new AppEngineDriver());
+            }
+            catch
+            {
+                throw;
+            }
 #endif
 
             using (var c = new SQLiteConnection(
