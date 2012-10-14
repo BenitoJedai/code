@@ -7,14 +7,14 @@ using System.Drawing;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Drawing;
 using ScriptCoreLib.JavaScript.Windows.Forms;
-using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
-
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
 
     using DOMHandler = global::System.Action<DOM.IEvent>;
-    using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
+
 
 
     #region Handler
@@ -1378,9 +1378,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             }
 
-            remove 
+            remove
             {
- 
+
             }
         }
 

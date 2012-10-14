@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    using ScriptCoreLib.JavaScript.DOM.HTML;
-    using ScriptCoreLib.JavaScript.Runtime;
-    using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
+
 
     [Script(Implements = typeof(global::System.Windows.Forms.Timer))]
     internal class __Timer : __Component
