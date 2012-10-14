@@ -234,6 +234,8 @@
     <Compile Include="BCLImplementation\System\Console.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
+    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Net\WebHeaderCollection.cs" />
     <Compile Include="BCLImplementation\System\Single.cs" />
     <Compile Include="BCLImplementation\System\DateTime.cs">
@@ -1118,7 +1120,6 @@
     <Content Include="docs\exceptions.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BCLImplementation\System\Data\SQLite\" />
     <Folder Include="BCLImplementation\System\Web\Profile\" />
     <Folder Include="javax\microedition\lcdui\" />
     <Folder Include="javax\microedition\media\" />
