@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.PHP.BCLImplementation.System.Data.Common;
 using ScriptCoreLib.PHP.Runtime;
+using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 {
