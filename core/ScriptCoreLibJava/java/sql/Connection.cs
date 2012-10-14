@@ -11,5 +11,7 @@ namespace java.sql
     public interface Connection
     {
         Statement createStatement();
+
+        void close();
     }
 }
