@@ -65,5 +65,30 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         {
             this.Close();
         }
+
+        public __SQLiteCommand InternalLastInsertRowIdCommand;
+
+        public long LastInsertRowId
+        {
+            get
+            {
+                long value = -1;
+
+                try
+                {
+                    var r = InternalLastInsertRowIdCommand.InternalStatement.getGeneratedKeys();
+
+                    // http://stackoverflow.com/questions/1915166/how-to-get-the-insert-id-in-jdbc
+                    if (r.next())
+                        value = r.getLong(1);
+                }
+                catch
+                {
+                    throw;
+                }
+
+                return value;
+            }
+        }
     }
 }

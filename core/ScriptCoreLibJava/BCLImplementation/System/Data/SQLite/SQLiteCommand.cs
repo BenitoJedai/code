@@ -18,7 +18,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         __SQLiteConnection c;
         string sql;
 
-        java.sql.Statement InternalStatement;
+        public java.sql.Statement InternalStatement;
 
         public __SQLiteCommand(string sql, SQLiteConnection c)
         {
@@ -52,6 +52,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             try
             {
                 value = this.InternalStatement.executeUpdate(this.sql);
+                this.c.InternalLastInsertRowIdCommand = this;
             }
             catch
             {
@@ -70,6 +71,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 var r = this.InternalStatement.executeQuery(this.sql);
 
                 value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r };
+                this.c.InternalLastInsertRowIdCommand = this;
             }
             catch
             {
