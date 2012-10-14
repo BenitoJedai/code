@@ -1,5 +1,5 @@
-﻿using ScriptCoreLib.PHP.BCLImplementation.System.Data.Common;
-using ScriptCoreLib.PHP.Runtime;
+﻿using ScriptCoreLib.PHP.Runtime;
+using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
