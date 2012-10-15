@@ -84,6 +84,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\LicenseManager.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\IDbTransaction.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\IDbConnection.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\Extensions.cs" />
@@ -718,7 +720,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
-    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
@@ -804,7 +805,7 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\ICollection.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\IList.cs" />
-    <Compile Include="PHP\BCLImplementation\System\ComponentModel\Component.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="PHP\BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.cs" />

@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMSSQLCompact", "TestMSSQLCompact\TestMSSQLCompact.csproj", "{8E396822-D4F7-4191-BB4A-2206A15D1419}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMSSQLCompact1", "TestMSSQLCompact1\TestMSSQLCompact1.csproj", "{9692A44A-8462-4AD2-864A-7364E91C7890}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{8E396822-D4F7-4191-BB4A-2206A15D1419}.Debug|x86.Build.0 = Debug|x86
 		{8E396822-D4F7-4191-BB4A-2206A15D1419}.Release|x86.ActiveCfg = Release|x86
 		{8E396822-D4F7-4191-BB4A-2206A15D1419}.Release|x86.Build.0 = Release|x86
+		{9692A44A-8462-4AD2-864A-7364E91C7890}.Debug|x86.ActiveCfg = Debug|x86
+		{9692A44A-8462-4AD2-864A-7364E91C7890}.Debug|x86.Build.0 = Debug|x86
+		{9692A44A-8462-4AD2-864A-7364E91C7890}.Release|x86.ActiveCfg = Release|x86
+		{9692A44A-8462-4AD2-864A-7364E91C7890}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
