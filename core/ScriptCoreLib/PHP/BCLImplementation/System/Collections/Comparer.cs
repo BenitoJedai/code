@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using ScriptCoreLib.PHP.Runtime;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections
 {

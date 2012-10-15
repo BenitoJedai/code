@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 {

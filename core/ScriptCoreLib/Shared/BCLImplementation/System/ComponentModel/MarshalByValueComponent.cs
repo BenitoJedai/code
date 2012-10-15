@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace ScriptCoreLib.PHP.BCLImplementation.System.ComponentModel
+namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
 	[Script(Implements = typeof(global::System.ComponentModel.MarshalByValueComponent))]
 	internal class __MarshalByValueComponent : IComponent, IDisposable, IServiceProvider

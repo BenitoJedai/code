@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\IComparer.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\LicenseManager.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Thread.cs" />
@@ -147,7 +147,6 @@
     <Compile Include="PHP\BCLImplementation\System\Array.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Comparer.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NullReferenceException.cs" />
     <Compile Include="ActionScript\Extensions\flash\text\ime\IIMEClient.cs" />
@@ -268,9 +267,7 @@
     <Compile Include="JavaScript\WebGL\Shader.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\ArrayList.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Dictionary.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbCommand.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbConnection.cs" />
@@ -369,17 +366,14 @@
     <Compile Include="Shared\BCLImplementation\System\Collections\Generic\ICollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IComparer.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IDictionary.cs">
+    <Compile Include="Shared\BCLImplementation\System\Collections\Generic\IComparer.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\Generic\IDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Shared\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Shared\BCLImplementation\System\Collections\Generic\IEnumerator.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Shared\BCLImplementation\System\Collections\Generic\IList.cs">
@@ -395,18 +389,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Stack.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\ICollection.cs">
+    <Compile Include="Shared\BCLImplementation\System\Collections\ICollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="JavaScript\BCLImplementation\System\Collections\IComparer.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\IDictionary.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\IDictionary.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\IEnumerable.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Shared\BCLImplementation\System\Collections\IEnumerator.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\IList.cs">
+    <Compile Include="Shared\BCLImplementation\System\Collections\IList.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
@@ -415,19 +408,19 @@
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Container.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IRaiseItemChangedEvents.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\IBindingList.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ICancelAddNew.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\IRaiseItemChangedEvents.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\IBindingList.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\ICancelAddNew.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ISite.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\IContainer.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ISupportInitialize.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\ISupportInitialize.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Console.cs" />
     <Compile Include="Shared\BCLImplementation\System\Converter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Boolean.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Diagnostics\Debugger.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Diagnostics\Trace.cs" />
@@ -442,8 +435,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Net\DownloadStringCompletedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Net\DownloadStringCompletedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Net\WebClient.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\Encoding.cs" />
     <Compile Include="ActionScript\flash\display\SpreadMethod.cs" />
@@ -508,7 +501,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\ApplicationSettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\SettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Byte.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Guid.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryWriter.cs" />
@@ -801,15 +793,12 @@
     <Compile Include="Shared\BCLImplementation\System\Action.cs" />
     <Compile Include="PHP\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Char.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\List.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Collections\ICollection.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Collections\IList.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\Component.cs" />
-    <Compile Include="PHP\BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs" />
     <Compile Include="PHP\BCLImplementation\System\Console.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\FileStream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IServiceProvider.cs" />
@@ -897,12 +886,15 @@
     <EmbeddedResource Include="web\assets\ScriptCoreLib\jsc.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ActionScript\BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="ActionScript\Documents\" />
     <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="Java\" />
+    <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
+    <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />
     <Folder Include="Shared\BCLImplementation\System\Data\SQLite\" />
   </ItemGroup>
   <ItemGroup>
