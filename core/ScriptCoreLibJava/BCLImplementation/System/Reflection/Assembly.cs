@@ -6,9 +6,9 @@ using ScriptCoreLib;
 using ScriptCoreLibJava.BCLImplementation.System.Runtime.InteropServices;
 using ScriptCoreLibJava.Extensions;
 using ScriptCoreLibJava.BCLImplementation.System.Security;
-using ScriptCoreLibJava.BCLImplementation.System.Runtime.Serialization;
 using System.Reflection;
 using System.IO;
+using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {

@@ -9,7 +9,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections
     [Script(Implements = typeof(IDictionary))]
 	internal interface __IDictionary : ICollection, IEnumerable
     {
-      
-        
+        object this[object key] { get; set; }
     }
 }

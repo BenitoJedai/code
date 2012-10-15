@@ -123,5 +123,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 
 			#endregion
 		}
-	}
+
+        public bool IsFixedSize
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool IsReadOnly
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void Insert(int index, object value)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

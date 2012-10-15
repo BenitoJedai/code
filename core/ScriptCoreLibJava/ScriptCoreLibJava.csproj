@@ -69,17 +69,44 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\ICollection.cs">
+      <Link>BCLImplementation\System\Collections\Generic\ICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IComparer.cs">
+      <Link>BCLImplementation\System\Collections\Generic\IComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IDictionary.cs">
+      <Link>BCLImplementation\System\Collections\Generic\IDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
       <Link>BCLImplementation\System\Collections\Generic\IEnumerable.cs</Link>
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerator.cs">
       <Link>BCLImplementation\System\Collections\Generic\IEnumerator.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEqualityComparer.cs">
+      <Link>BCLImplementation\System\Collections\Generic\IEqualityComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IList.cs">
+      <Link>BCLImplementation\System\Collections\Generic\IList.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ICollection.cs">
+      <Link>BCLImplementation\System\Collections\ICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IDictionary.cs">
+      <Link>BCLImplementation\System\Collections\IDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerable.cs">
       <Link>BCLImplementation\System\Collections\IEnumerable.cs</Link>
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerator.cs">
       <Link>BCLImplementation\System\Collections\IEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IList.cs">
+      <Link>BCLImplementation\System\Collections\IList.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Queue.cs">
+      <Link>BCLImplementation\System\Collections\Queue.cs</Link>
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs">
       <Link>BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs</Link>
@@ -105,6 +132,9 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\ISite.cs">
       <Link>BCLImplementation\System\ComponentModel\ISite.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs">
+      <Link>BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Convert.cs">
       <Link>BCLImplementation\System\Convert.cs</Link>
     </Compile>
@@ -119,6 +149,15 @@
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataReader.cs">
       <Link>BCLImplementation\System\Data\Common\DbDataReader.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Data\IDbConnection.cs">
+      <Link>BCLImplementation\System\Data\IDbConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Data\IDbTransaction.cs">
+      <Link>BCLImplementation\System\Data\IDbTransaction.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Diagnostics\Stopwatch.cs">
+      <Link>BCLImplementation\System\Diagnostics\Stopwatch.cs</Link>
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\EventArgs.cs">
       <Link>BCLImplementation\System\EventArgs.cs</Link>
@@ -149,6 +188,12 @@
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Predicate.cs">
       <Link>BCLImplementation\System\Predicate.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs">
+      <Link>BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
+      <Link>BCLImplementation\System\Runtime\Serialization\ISerializable.cs</Link>
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Threading\ThreadStart.cs">
       <Link>BCLImplementation\System\Threading\ThreadStart.cs</Link>
@@ -186,22 +231,8 @@
     <Compile Include="BCLImplementation\System\Collections\ArrayList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Collections\Generic\ICollection.cs" />
-    <Compile Include="BCLImplementation\System\Collections\Generic\IList.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="BCLImplementation\System\Collections\Hashtable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Collections\ICollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Collections\IDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Collections\IList.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Collections\Queue.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs">
@@ -220,9 +251,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Configuration\ApplicationSettingsBase.cs">
@@ -247,9 +275,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Diagnostics\Debugger.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Diagnostics\Stopwatch.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Diagnostics\Trace.cs">
@@ -415,12 +440,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Attribute.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs">
