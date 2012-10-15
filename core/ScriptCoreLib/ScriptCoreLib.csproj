@@ -75,11 +75,13 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
+    <Compile Include="PHP\Web\Services\WebService.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\LicenseManager.cs" />

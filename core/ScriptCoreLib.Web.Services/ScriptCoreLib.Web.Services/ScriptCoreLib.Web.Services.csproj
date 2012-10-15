@@ -63,7 +63,6 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
-    <Compile Include="PHP\BCLImplementation\System\Web\Services\WebService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Web\Services\IAssemblyReferenceToken.cs" />
   </ItemGroup>
