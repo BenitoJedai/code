@@ -60,20 +60,8 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ArrayList.cs">
       <Link>BCLImplementation\System\Collection\ArrayList.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\ICollection.cs">
-      <Link>BCLImplementation\System\Collection\Generic\ICollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\IList.cs">
-      <Link>BCLImplementation\System\Collection\Generic\IList.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\List.cs">
       <Link>BCLImplementation\System\Collection\Generic\List.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ICollection.cs">
-      <Link>BCLImplementation\System\Collection\ICollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\IList.cs">
-      <Link>BCLImplementation\System\Collection\IList.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs">
       <Link>BCLImplementation\System\Collection\Specialized\NameObjectCollectionBase.cs</Link>
@@ -206,12 +194,6 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs">
       <Link>BCLImplementation\System\Runtime\InteropServices\_Assembly.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs">
-      <Link>BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
-      <Link>BCLImplementation\System\Runtime\Serialization\ISerializable.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs">
       <Link>BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs</Link>
@@ -645,17 +627,29 @@
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\ICollection.cs">
+      <Link>BCLImplementation\System\Collection\Generic\ICollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
       <Link>BCLImplementation\System\Collection\Generic\IEnumerable.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerator.cs">
       <Link>BCLImplementation\System\Collection\Generic\IEnumerator.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IList.cs">
+      <Link>BCLImplementation\System\Collection\Generic\IList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ICollection.cs">
+      <Link>BCLImplementation\System\Collection\ICollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerable.cs">
       <Link>BCLImplementation\System\Collection\IEnumerable.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerator.cs">
       <Link>BCLImplementation\System\Collection\IEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IList.cs">
+      <Link>BCLImplementation\System\Collection\IList.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Queue.cs">
       <Link>BCLImplementation\System\Collection\Queue.cs</Link>
@@ -696,6 +690,12 @@
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataReader.cs">
       <Link>BCLImplementation\System\Data\Common\DbDataReader.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\IDbConnection.cs">
+      <Link>BCLImplementation\System\Data\IDbConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\IDbTransaction.cs">
+      <Link>BCLImplementation\System\Data\IDbTransaction.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\EventArgs.cs">
       <Link>BCLImplementation\System\EventArgs.cs</Link>
     </Compile>
@@ -725,6 +725,12 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Predicate.cs">
       <Link>BCLImplementation\System\Predicate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs">
+      <Link>BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
+      <Link>BCLImplementation\System\Runtime\Serialization\ISerializable.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Threading\ThreadStart.cs">
       <Link>BCLImplementation\System\Threading\ThreadStart.cs</Link>
