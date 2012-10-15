@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
-using ScriptCoreLibJava.BCLImplementation.System.Runtime.Serialization;
 using ScriptCoreLib.Shared.BCLImplementation.System;
+using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {

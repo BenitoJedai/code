@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLibJava.BCLImplementation.System.ComponentModel;
 using ScriptCoreLib;
 using System.Windows.Forms;
 using System.Drawing;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+using ScriptCoreLibJava.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
