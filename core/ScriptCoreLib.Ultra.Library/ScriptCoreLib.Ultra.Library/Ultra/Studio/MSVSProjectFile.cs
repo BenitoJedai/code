@@ -51,6 +51,11 @@ namespace jsc.meta.Library
             }
 
             public string NamespaceDirectory;
+
+            public override string ToString()
+            {
+                return new { File, NamespaceDirectory }.ToString();
+            }
         }
 
         public static MSVSProjectFile FromFile(string filepath)
@@ -123,7 +128,7 @@ namespace jsc.meta.Library
                       {
                           Extension = Path.GetExtension(Include),
                           FileName = Path.GetFileNameWithoutExtension(Include),
-                          RecursiveDir = IncludeDirectory.SkipUntilIfAny(IncludeWildcard) + "\\",
+                          RecursiveDir = IncludeDirectory.SkipUntilOrEmpty(IncludeWildcard),
                       }
 
                       //let Include = Include0
@@ -133,7 +138,7 @@ namespace jsc.meta.Library
                               Link0.Value
                               .Replace("%(Extension)", Replace.Extension)
                               .Replace("%(FileName)", Replace.FileName)
-                              .Replace("%(RecursiveDir)", Replace.RecursiveDir)
+                              .Replace("%(RecursiveDir)", Replace.RecursiveDir == "" ? "" : Replace.RecursiveDir + "\\")
                       }
 
                       // Directory In Project
