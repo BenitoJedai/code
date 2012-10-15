@@ -59,6 +59,7 @@
     <Reference Include="System.Data.SQLite.Linq">
       <HintPath>packages\System.Data.SQLite.x86.1.0.82.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -517,6 +518,7 @@
     <Compile Include="BCLImplementation\System\ValueType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Web\Services\WebService.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\Extensions.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\XAttribute.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\XContainer.cs" />
