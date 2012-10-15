@@ -6,11 +6,16 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     [Script(Implements = typeof(global::System.Data.Common.DbConnection))]
-    internal abstract class __DbConnection : global::System.IDisposable
+    internal abstract class __DbConnection : __IDbConnection, global::System.IDisposable
     {
         public abstract void Open();
         public abstract void Close();
 
         public abstract void Dispose();
+
+        public global::System.Data.IDbTransaction BeginTransaction()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
