@@ -4,7 +4,7 @@ using System.Text;
 using System.ComponentModel;
 using ScriptCoreLib.Shared.BCLImplementation.System;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.ComponentModel
+namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
     [Script(Implements = typeof(global::System.ComponentModel.ListChangedEventArgs))]
     internal class __ListChangedEventArgs : __EventArgs

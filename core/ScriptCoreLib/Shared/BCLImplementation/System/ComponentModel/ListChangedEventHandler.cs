@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.ComponentModel
+namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
 
     [Script(Implements = typeof(global::System.ComponentModel.ListChangedEventHandler))]

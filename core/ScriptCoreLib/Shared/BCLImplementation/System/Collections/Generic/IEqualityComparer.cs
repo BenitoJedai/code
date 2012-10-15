@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(IEqualityComparer<>))]
     internal interface __IEqualityComparer<T>

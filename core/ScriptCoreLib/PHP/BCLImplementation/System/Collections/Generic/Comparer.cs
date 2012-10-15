@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.Comparer<>))]
-    internal abstract class __Comparer<T> : __IComparer // : __IComparer<T>, 
+    internal abstract class __Comparer<T> : __IComparer, __IComparer<T> 
     {
 
         public abstract int Compare(T x, T y);
 
+        // will this work?
         int __IComparer.Compare(object x, object y)
         {
             // fallback to nongenerics

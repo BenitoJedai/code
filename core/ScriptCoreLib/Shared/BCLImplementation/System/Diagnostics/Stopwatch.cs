@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Diagnostics
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 {
 	[Script(Implements = typeof(global::System.Diagnostics.Stopwatch))]
 	internal class __Stopwatch
