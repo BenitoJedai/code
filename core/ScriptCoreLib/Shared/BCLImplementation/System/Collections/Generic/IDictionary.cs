@@ -21,6 +21,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
         
         bool Remove(TKey key);
         
-        bool TryGetValue(TKey key, out TValue value);
+        // ref-out not supported yet
+        //bool TryGetValue(TKey key, out TValue value);
+
+
+        // java cannot base type parameter type?
+        void __TypeReference(KeyValuePair<TKey, TValue> e);
     }
 }
