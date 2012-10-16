@@ -76,9 +76,6 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IComparer.cs">
       <Link>BCLImplementation\System\Collections\Generic\IComparer.cs</Link>
     </Compile>
-    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IDictionary.cs">
-      <Link>BCLImplementation\System\Collections\Generic\IDictionary.cs</Link>
-    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
       <Link>BCLImplementation\System\Collections\Generic\IEnumerable.cs</Link>
     </Compile>
