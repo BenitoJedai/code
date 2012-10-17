@@ -1043,6 +1043,7 @@
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
     <Compile Include="java\sql\Connection.cs" />
+    <Compile Include="java\sql\DriverPropertyInfo.cs" />
     <Compile Include="java\sql\Driver.cs" />
     <Compile Include="java\sql\ResultSet.cs" />
     <Compile Include="java\sql\Statement.cs" />
