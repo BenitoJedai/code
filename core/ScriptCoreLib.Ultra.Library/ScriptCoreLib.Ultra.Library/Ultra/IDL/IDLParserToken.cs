@@ -113,6 +113,10 @@ namespace ScriptCoreLib.Ultra.IDL
                         this.Length = ScanLength(3,
                             i =>
                             {
+                                // end of file
+                                if (this.Source.Length == this.Position + i)
+                                    return true;
+
                                 return this[i - 1] == '\n';
                             }
                         );
