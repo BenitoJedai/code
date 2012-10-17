@@ -1,8 +1,6 @@
-﻿using ScriptCoreLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using java.util;
+using ScriptCoreLib;
+
 
 namespace java.sql
 {
@@ -10,6 +8,17 @@ namespace java.sql
     [Script(IsNative = true)]
     public interface Driver
     {
-     
+        bool acceptsURL(string url);
+
+        Connection connect(string url, Properties info);
+
+        int getMajorVersion();
+
+        int getMinorVersion();
+
+        DriverPropertyInfo[] getPropertyInfo(string url, Properties info);
+
+
+        bool jdbcCompliant();
     }
 }
