@@ -11,11 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Drawing;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridView))]
-    internal class __DataGridView : __Control, ISupportInitialize
+    internal class __DataGridView : __Control, __ISupportInitialize
     {
         public IHTMLDiv InternalElement;
         public IHTMLDiv InternalScrollContainerElement;
