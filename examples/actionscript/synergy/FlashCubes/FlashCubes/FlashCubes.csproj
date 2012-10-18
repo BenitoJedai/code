@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{96F958E4-DC8D-46A7-AAE3-3B6E0F80210B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlashCubes</RootNamespace>
+    <AssemblyName>FlashCubes</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>FlashCubes.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.XLinq">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="FlashCubes.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashCubes.AssetsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\Default.css" />
+    <Content Include="Design\Default.htm" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationSprite.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Content Include="opensource\away3d\away3d-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="opensource\away3d\animators\AnimatorBase.as" />
+    <None Include="opensource\away3d\animators\BlendingSkeletonAnimator.as" />
+    <None Include="opensource\away3d\animators\data\AnimationBase.as" />
+    <None Include="opensource\away3d\animators\data\AnimationSequenceBase.as" />
+    <None Include="opensource\away3d\animators\data\AnimationStateBase.as" />
+    <None Include="opensource\away3d\animators\data\NullAnimation.as" />
+    <None Include="opensource\away3d\animators\data\SkeletonAnimation.as" />
+    <None Include="opensource\away3d\animators\data\SkeletonAnimationSequence.as" />
+    <None Include="opensource\away3d\animators\data\SkeletonAnimationState.as" />
+    <None Include="opensource\away3d\animators\data\UVAnimationFrame.as" />
+    <None Include="opensource\away3d\animators\data\UVAnimationSequence.as" />
+    <None Include="opensource\away3d\animators\data\VertexAnimation.as" />
+    <None Include="opensource\away3d\animators\data\VertexAnimationMode.as" />
+    <None Include="opensource\away3d\animators\data\VertexAnimationSequence.as" />
+    <None Include="opensource\away3d\animators\data\VertexAnimationState.as" />
+    <None Include="opensource\away3d\animators\PathAnimator.as" />
+    <None Include="opensource\away3d\animators\SkeletonAnimator.as" />
+    <None Include="opensource\away3d\animators\SkeletonAnimatorBase.as" />
+    <None Include="opensource\away3d\animators\skeleton\JointPose.as" />
+    <None Include="opensource\away3d\animators\skeleton\Skeleton.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonAdditiveNode.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonBinaryLERPNode.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonClipNodeBase.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonDirectionalNode.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonJoint.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonNaryLERPNode.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonPose.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonRangeClipNode.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonTimelineClipNode.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonTreeNode.as" />
+    <None Include="opensource\away3d\animators\skeleton\SkeletonUtils.as" />
+    <None Include="opensource\away3d\animators\SmoothSkeletonAnimator.as" />
+    <None Include="opensource\away3d\animators\utils\TimelineUtil.as" />
+    <None Include="opensource\away3d\animators\UVAnimator.as" />
+    <None Include="opensource\away3d\animators\VertexAnimator.as" />
+    <None Include="opensource\away3d\arcane.as" />
+    <None Include="opensource\away3d\audio\drivers\AbstractSound3DDriver.as" />
+    <None Include="opensource\away3d\audio\drivers\ISound3DDriver.as" />
+    <None Include="opensource\away3d\audio\drivers\SimplePanVolumeDriver.as" />
+    <None Include="opensource\away3d\audio\Sound3D.as" />
+    <None Include="opensource\away3d\audio\SoundTransform3D.as" />
+    <None Include="opensource\away3d\bounds\AxisAlignedBoundingBox.as" />
+    <None Include="opensource\away3d\bounds\BoundingSphere.as" />
+    <None Include="opensource\away3d\bounds\BoundingVolumeBase.as" />
+    <None Include="opensource\away3d\bounds\NullBounds.as" />
+    <None Include="opensource\away3d\cameras\Camera3D.as" />
+    <None Include="opensource\away3d\cameras\lenses\FreeMatrixLens.as" />
+    <None Include="opensource\away3d\cameras\lenses\LensBase.as" />
+    <None Include="opensource\away3d\cameras\lenses\OrthographicLens.as" />
+    <None Include="opensource\away3d\cameras\lenses\OrthographicOffCenterLens.as" />
+    <None Include="opensource\away3d\cameras\lenses\PerspectiveLens.as" />
+    <None Include="opensource\away3d\cameras\SpringCam.as" />
+    <None Include="opensource\away3d\containers\ObjectContainer3D.as" />
+    <None Include="opensource\away3d\containers\Scene3D.as" />
+    <None Include="opensource\away3d\containers\View3D.as" />
+    <None Include="opensource\away3d\controllers\ControllerBase.as" />
+    <None Include="opensource\away3d\controllers\HoverController.as" />
+    <None Include="opensource\away3d\controllers\LookAtController.as" />
+    <None Include="opensource\away3d\core\base\data\Face.as" />
+    <None Include="opensource\away3d\core\base\data\UV.as" />
+    <None Include="opensource\away3d\core\base\data\Vertex.as" />
+    <None Include="opensource\away3d\core\base\Geometry.as" />
+    <None Include="opensource\away3d\core\base\IMaterialOwner.as" />
+    <None Include="opensource\away3d\core\base\IRenderable.as" />
+    <None Include="opensource\away3d\core\base\Object3D.as" />
+    <None Include="opensource\away3d\core\base\SkinnedSubGeometry.as" />
+    <None Include="opensource\away3d\core\base\SubGeometry.as" />
+    <None Include="opensource\away3d\core\base\SubMesh.as" />
+    <None Include="opensource\away3d\core\data\RenderableListItem.as" />
+    <None Include="opensource\away3d\core\data\RenderableListItemPool.as" />
+    <None Include="opensource\away3d\core\managers\AGALProgram3DCache.as" />
+    <None Include="opensource\away3d\core\managers\BitmapDataTextureCache.as" />
+    <None Include="opensource\away3d\core\managers\CubeTexture3DProxy.as" />
+    <None Include="opensource\away3d\core\managers\Mouse3DManager.as" />
+    <None Include="opensource\away3d\core\managers\Stage3DManager.as" />
+    <None Include="opensource\away3d\core\managers\Stage3DProxy.as" />
+    <None Include="opensource\away3d\core\managers\Texture3DProxy.as" />
+    <None Include="opensource\away3d\core\math\MathConsts.as" />
+    <None Include="opensource\away3d\core\math\Matrix3DUtils.as" />
+    <None Include="opensource\away3d\core\math\Plane3D.as" />
+    <None Include="opensource\away3d\core\math\PlaneClassification.as" />
+    <None Include="opensource\away3d\core\math\Quaternion.as" />
+    <None Include="opensource\away3d\core\math\Vector3DUtils.as" />
+    <None Include="opensource\away3d\core\partition\CameraNode.as" />
+    <None Include="opensource\away3d\core\partition\EntityNode.as" />
+    <None Include="opensource\away3d\core\partition\LightNode.as" />
+    <None Include="opensource\away3d\core\partition\MeshNode.as" />
+    <None Include="opensource\away3d\core\partition\NodeBase.as" />
+    <None Include="opensource\away3d\core\partition\NullNode.as" />
+    <None Include="opensource\away3d\core\partition\Octree.as" />
+    <None Include="opensource\away3d\core\partition\OctreeNode.as" />
+    <None Include="opensource\away3d\core\partition\Partition3D.as" />
+    <None Include="opensource\away3d\core\partition\QuadTree.as" />
+    <None Include="opensource\away3d\core\partition\QuadTreeNode.as" />
+    <None Include="opensource\away3d\core\partition\RenderableNode.as" />
+    <None Include="opensource\away3d\core\partition\SkyBoxNode.as" />
+    <None Include="opensource\away3d\core\render\BackgroundImageRenderer.as" />
+    <None Include="opensource\away3d\core\render\DefaultRenderer.as" />
+    <None Include="opensource\away3d\core\render\DepthRenderer.as" />
+    <None Include="opensource\away3d\core\render\Filter3DRenderer.as" />
+    <None Include="opensource\away3d\core\render\HitTestRenderer.as" />
+    <None Include="opensource\away3d\core\render\PositionRenderer.as" />
+    <None Include="opensource\away3d\core\render\RendererBase.as" />
+    <None Include="opensource\away3d\core\sort\EntitySorterBase.as" />
+    <None Include="opensource\away3d\core\sort\RenderableMergeSort.as" />
+    <None Include="opensource\away3d\core\traverse\EntityCollector.as" />
+    <None Include="opensource\away3d\core\traverse\PartitionTraverser.as" />
+    <None Include="opensource\away3d\core\traverse\ShadowCasterCollector.as" />
+    <None Include="opensource\away3d\debug\AwayStats.as" />
+    <None Include="opensource\away3d\debug\data\TridentLines.as" />
+    <None Include="opensource\away3d\debug\Debug.as" />
+    <None Include="opensource\away3d\debug\Trident.as" />
+    <None Include="opensource\away3d\entities\Entity.as" />
+    <None Include="opensource\away3d\entities\Mesh.as" />
+    <None Include="opensource\away3d\entities\SegmentSet.as" />
+    <None Include="opensource\away3d\entities\Sprite3D.as" />
+    <None Include="opensource\away3d\entities\TextureProjector.as" />
+    <None Include="opensource\away3d\errors\AbstractMethodError.as" />
+    <None Include="opensource\away3d\errors\InvalidTextureError.as" />
+    <None Include="opensource\away3d\events\AnimatorEvent.as" />
+    <None Include="opensource\away3d\events\AssetEvent.as" />
+    <None Include="opensource\away3d\events\GeometryEvent.as" />
+    <None Include="opensource\away3d\events\LensEvent.as" />
+    <None Include="opensource\away3d\events\LoaderEvent.as" />
+    <None Include="opensource\away3d\events\MouseEvent3D.as" />
+    <None Include="opensource\away3d\events\Object3DEvent.as" />
+    <None Include="opensource\away3d\events\ParserEvent.as" />
+    <None Include="opensource\away3d\events\PathEvent.as" />
+    <None Include="opensource\away3d\events\Scene3DEvent.as" />
+    <None Include="opensource\away3d\events\Stage3DEvent.as" />
+    <None Include="opensource\away3d\extrusions\DelaunayMesh.as" />
+    <None Include="opensource\away3d\extrusions\Elevation.as" />
+    <None Include="opensource\away3d\extrusions\LatheExtrude.as" />
+    <None Include="opensource\away3d\extrusions\LinearExtrude.as" />
+    <None Include="opensource\away3d\extrusions\PathDuplicator.as" />
+    <None Include="opensource\away3d\extrusions\PathExtrude.as" />
+    <None Include="opensource\away3d\extrusions\SkinExtrude.as" />
+    <None Include="opensource\away3d\extrusions\utils\Path.as" />
+    <None Include="opensource\away3d\extrusions\utils\PathSegment.as" />
+    <None Include="opensource\away3d\extrusions\utils\PathUtils.as" />
+    <None Include="opensource\away3d\filters\BloomFilter3D.as" />
+    <None Include="opensource\away3d\filters\BlurFilter3D.as" />
+    <None Include="opensource\away3d\filters\DepthOfFieldFilter3D.as" />
+    <None Include="opensource\away3d\filters\Filter3DBase.as" />
+    <None Include="opensource\away3d\filters\MotionBlurFilter3D.as" />
+    <None Include="opensource\away3d\filters\RadialBlurFilter3D.as" />
+    <None Include="opensource\away3d\filters\tasks\Filter3DBloomCompositeTask.as" />
+    <None Include="opensource\away3d\filters\tasks\Filter3DBlurTask.as" />
+    <None Include="opensource\away3d\filters\tasks\Filter3DBrightPassTask.as" />
+    <None Include="opensource\away3d\filters\tasks\Filter3DDepthOfFFieldTask.as" />
+    <None Include="opensource\away3d\filters\tasks\Filter3DDoubleBufferCopyTask.as" />
+    <None Include="opensource\away3d\filters\tasks\Filter3DRadialBlurTask.as" />
+    <None Include="opensource\away3d\filters\tasks\Filter3DTaskBase.as" />
+    <None Include="opensource\away3d\filters\tasks\Filter3DXFadeCompositeTask.as" />
+    <None Include="opensource\away3d\library\AssetLibrary.as" />
+    <None Include="opensource\away3d\library\assets\AssetType.as" />
+    <None Include="opensource\away3d\library\assets\BitmapDataAsset.as" />
+    <None Include="opensource\away3d\library\assets\IAsset.as" />
+    <None Include="opensource\away3d\library\assets\NamedAssetBase.as" />
+    <None Include="opensource\away3d\library\naming\ConflictPrecedence.as" />
+    <None Include="opensource\away3d\library\naming\ConflictStrategy.as" />
+    <None Include="opensource\away3d\library\naming\ConflictStrategyBase.as" />
+    <None Include="opensource\away3d\library\naming\ErrorConflictStrategy.as" />
+    <None Include="opensource\away3d\library\naming\IgnoreConflictStrategy.as" />
+    <None Include="opensource\away3d\library\naming\NumSuffixConflictStrategy.as" />
+    <None Include="opensource\away3d\library\utils\AssetLibraryIterator.as" />
+    <None Include="opensource\away3d\lights\DirectionalLight.as" />
+    <None Include="opensource\away3d\lights\LightBase.as" />
+    <None Include="opensource\away3d\lights\PointLight.as" />
+    <None Include="opensource\away3d\lights\shadowmaps\DirectionalShadowMapper.as" />
+    <None Include="opensource\away3d\lights\shadowmaps\PlanarShadowMapper.as" />
+    <None Include="opensource\away3d\lights\shadowmaps\ShadowMapperBase.as" />
+    <None Include="opensource\away3d\loaders\AssetLoader.as" />
+    <None Include="opensource\away3d\loaders\Loader3D.as" />
+    <None Include="opensource\away3d\loaders\misc\AssetLoaderContext.as" />
+    <None Include="opensource\away3d\loaders\misc\AssetLoaderToken.as" />
+    <None Include="opensource\away3d\loaders\misc\ResourceDependency.as" />
+    <None Include="opensource\away3d\loaders\misc\SingleFileLoader.as" />
+    <None Include="opensource\away3d\loaders\parsers\AC3DParser.as" />
+    <None Include="opensource\away3d\loaders\parsers\AWD1Parser.as" />
+    <None Include="opensource\away3d\loaders\parsers\AWD2Parser.as" />
+    <None Include="opensource\away3d\loaders\parsers\AWDParser.as" />
+    <None Include="opensource\away3d\loaders\parsers\data\DefaultBitmapData.as" />
+    <None Include="opensource\away3d\loaders\parsers\ImageParser.as" />
+    <None Include="opensource\away3d\loaders\parsers\Max3DSParser.as" />
+    <None Include="opensource\away3d\loaders\parsers\MD2Parser.as" />
+    <None Include="opensource\away3d\loaders\parsers\MD5AnimParser.as" />
+    <None Include="opensource\away3d\loaders\parsers\MD5MeshParser.as" />
+    <None Include="opensource\away3d\loaders\parsers\OBJParser.as" />
+    <None Include="opensource\away3d\loaders\parsers\ParserBase.as" />
+    <None Include="opensource\away3d\loaders\parsers\ParserDataFormat.as" />
+    <None Include="opensource\away3d\loaders\parsers\Parsers.as" />
+    <None Include="opensource\away3d\loaders\parsers\utils\ParserUtil.as" />
+    <None Include="opensource\away3d\materials\AnimatedBitmapMaterial.as" />
+    <None Include="opensource\away3d\materials\BitmapFileMaterial.as" />
+    <None Include="opensource\away3d\materials\BitmapMaterial.as" />
+    <None Include="opensource\away3d\materials\ColorMaterial.as" />
+    <None Include="opensource\away3d\materials\DefaultMaterialBase.as" />
+    <None Include="opensource\away3d\materials\MaterialBase.as" />
+    <None Include="opensource\away3d\materials\MaterialLibrary.as" />
+    <None Include="opensource\away3d\materials\methods\BasicAmbientMethod.as" />
+    <None Include="opensource\away3d\materials\methods\BasicDiffuseMethod.as" />
+    <None Include="opensource\away3d\materials\methods\BasicNormalMethod.as" />
+    <None Include="opensource\away3d\materials\methods\BasicSpecularMethod.as" />
+    <None Include="opensource\away3d\materials\methods\CelDiffuseMethod.as" />
+    <None Include="opensource\away3d\materials\methods\CelSpecularMethod.as" />
+    <None Include="opensource\away3d\materials\methods\ColorMatrixMethod.as" />
+    <None Include="opensource\away3d\materials\methods\ColorTransformMethod.as" />
+    <None Include="opensource\away3d\materials\methods\EnvMapAmbientMethod.as" />
+    <None Include="opensource\away3d\materials\methods\EnvMapDiffuseMethod.as" />
+    <None Include="opensource\away3d\materials\methods\EnvMapMethod.as" />
+    <None Include="opensource\away3d\materials\methods\FilteredShadowMapMethod.as" />
+    <None Include="opensource\away3d\materials\methods\FogMethod.as" />
+    <None Include="opensource\away3d\materials\methods\FresnelEnvMapMethod.as" />
+    <None Include="opensource\away3d\materials\methods\FresnelSpecularMethod.as" />
+    <None Include="opensource\away3d\materials\methods\HardShadowMapMethod.as" />
+    <None Include="opensource\away3d\materials\methods\LightingMethodBase.as" />
+    <None Include="opensource\away3d\materials\methods\OutlineMethod.as" />
+    <None Include="opensource\away3d\materials\methods\ProjectiveTextureMethod.as" />
+    <None Include="opensource\away3d\materials\methods\RimLightMethod.as" />
+    <None Include="opensource\away3d\materials\methods\ShadingMethodBase.as" />
+    <None Include="opensource\away3d\materials\methods\ShadowMapMethodBase.as" />
+    <None Include="opensource\away3d\materials\methods\SimpleWaterNormalMethod.as" />
+    <None Include="opensource\away3d\materials\methods\SoftShadowMapMethod.as" />
+    <None Include="opensource\away3d\materials\methods\SubsurfaceScatteringDiffuseMethod.as" />
+    <None Include="opensource\away3d\materials\methods\TerrainDiffuseMethod.as" />
+    <None Include="opensource\away3d\materials\methods\TripleFilteredShadowMapMethod.as" />
+    <None Include="opensource\away3d\materials\methods\WrapDiffuseMethod.as" />
+    <None Include="opensource\away3d\materials\methods\WrapSpecularMethod.as" />
+    <None Include="opensource\away3d\materials\passes\DefaultScreenPass.as" />
+    <None Include="opensource\away3d\materials\passes\DepthMapPass.as" />
+    <None Include="opensource\away3d\materials\passes\MaterialPassBase.as" />
+    <None Include="opensource\away3d\materials\passes\OutlinePass.as" />
+    <None Include="opensource\away3d\materials\passes\SegmentPass.as" />
+    <None Include="opensource\away3d\materials\passes\SingleObjectDepthPass.as" />
+    <None Include="opensource\away3d\materials\passes\SkyBoxPass.as" />
+    <None Include="opensource\away3d\materials\SegmentMaterial.as" />
+    <None Include="opensource\away3d\materials\SkyBoxMaterial.as" />
+    <None Include="opensource\away3d\materials\utils\CubeMap.as" />
+    <None Include="opensource\away3d\materials\utils\IVideoPlayer.as" />
+    <None Include="opensource\away3d\materials\utils\MipmapGenerator.as" />
+    <None Include="opensource\away3d\materials\utils\MultipleMaterials.as" />
+    <None Include="opensource\away3d\materials\utils\RegisterPool.as" />
+    <None Include="opensource\away3d\materials\utils\ShaderRegisterCache.as" />
+    <None Include="opensource\away3d\materials\utils\ShaderRegisterElement.as" />
+    <None Include="opensource\away3d\materials\utils\SimpleVideoPlayer.as" />
+    <None Include="opensource\away3d\materials\utils\WireframeMapGenerator.as" />
+    <None Include="opensource\away3d\materials\VideoMaterial.as" />
+    <None Include="opensource\away3d\pbks\NormalizeSplats.pbj" />
+    <None Include="opensource\away3d\pbks\NormalizeSplats.pbk" />
+    <None Include="opensource\away3d\primitives\Capsule.as" />
+    <None Include="opensource\away3d\primitives\Cone.as" />
+    <None Include="opensource\away3d\primitives\Cube.as" />
+    <None Include="opensource\away3d\primitives\Cylinder.as" />
+    <None Include="opensource\away3d\primitives\data\Segment.as" />
+    <None Include="opensource\away3d\primitives\LineSegment.as" />
+    <None Include="opensource\away3d\primitives\Plane.as" />
+    <None Include="opensource\away3d\primitives\PrimitiveBase.as" />
+    <None Include="opensource\away3d\primitives\RegularPolygon.as" />
+    <None Include="opensource\away3d\primitives\SkyBox.as" />
+    <None Include="opensource\away3d\primitives\Sphere.as" />
+    <None Include="opensource\away3d\primitives\WireframeAxesGrid.as" />
+    <None Include="opensource\away3d\primitives\WireframeCube.as" />
+    <None Include="opensource\away3d\primitives\WireframeGrid.as" />
+    <None Include="opensource\away3d\primitives\WireframePlane.as" />
+    <None Include="opensource\away3d\primitives\WireframePrimitiveBase.as" />
+    <None Include="opensource\away3d\primitives\WireframeSphere.as" />
+    <None Include="opensource\away3d\tools\Align.as" />
+    <None Include="opensource\away3d\tools\data\MeshDebug.as" />
+    <None Include="opensource\away3d\tools\Explode.as" />
+    <None Include="opensource\away3d\tools\FaceHelper.as" />
+    <None Include="opensource\away3d\tools\Grid.as" />
+    <None Include="opensource\away3d\tools\LightsHelper.as" />
+    <None Include="opensource\away3d\tools\Merge.as" />
+    <None Include="opensource\away3d\tools\MeshDebugger.as" />
+    <None Include="opensource\away3d\tools\MeshHelper.as" />
+    <None Include="opensource\away3d\tools\Mirror.as" />
+    <None Include="opensource\away3d\tools\serialize\Serialize.as" />
+    <None Include="opensource\away3d\tools\serialize\SerializerBase.as" />
+    <None Include="opensource\away3d\tools\serialize\TraceSerializer.as" />
+    <None Include="opensource\away3d\tools\utils\BaryCentricTest.as" />
+    <None Include="opensource\away3d\tools\utils\Bounds.as" />
+    <None Include="opensource\away3d\tools\utils\ColorHitMap.as" />
+    <None Include="opensource\away3d\tools\utils\Drag3D.as" />
+    <None Include="opensource\away3d\tools\utils\Projector.as" />
+    <None Include="opensource\away3d\tools\utils\Ray.as" />
+    <None Include="opensource\away3d\tools\utils\TextureUtils.as" />
+    <None Include="opensource\away3d\tools\Weld.as" />
+    <None Include="opensource\com\adobe\utils\AGALMiniAssembler.as" />
+    <None Include="opensource\Main.as" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName)==Debug (
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
+)
+if $(ConfigurationName)==Release (
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+)</PostBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /DisableActionScriptNatives:true
+
+</PreBuildEvent>
+  </PropertyGroup>
+</Project>
