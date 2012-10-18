@@ -7,7 +7,7 @@ using System.Collections;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.IEnumerator<>))]
-    internal interface __IEnumerator<T> : IEnumerator, IDisposable
+    internal interface __IEnumerator<T> : __IEnumerator, IDisposable
     {
         T Current { get; }
     }
