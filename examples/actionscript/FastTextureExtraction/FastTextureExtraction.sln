@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastTextureExtraction", "FastTextureExtraction\FastTextureExtraction.csproj", "{826E2CB0-F3C6-432D-9840-B1204BB53481}"
 EndProject
 Global
