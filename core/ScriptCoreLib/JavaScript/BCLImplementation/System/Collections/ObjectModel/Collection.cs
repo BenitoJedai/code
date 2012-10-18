@@ -1,11 +1,13 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.ObjectModel
 {
     [Script(Implements = typeof(global::System.Collections.ObjectModel.Collection<>))]
-    internal class __Collection<T> : IList<T>
+    internal class __Collection<T> : __IList<T>, __ICollection<T>
     {
         private IList<T> items;
 
@@ -205,7 +207,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.ObjectMo
 
         #region IEnumerable Members
 
-        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()
+        global::System.Collections.IEnumerator __IEnumerable.GetEnumerator()
         {
             throw new Exception("The method or operation is not implemented.");
         }
