@@ -21,6 +21,8 @@ namespace TestCharArrayInitialization
         char[] AMPERSAND_CHAR_ARRAY_1 = { '&' };
         char[] AMPERSAND_CHAR_ARRAY_2 = { '&' };
         char[] AMPERSAND_CHAR_ARRAY_3 = { '&' };
+        
+        static char[] static_AMPERSAND_CHAR_ARRAY_3 = { '&' };
 
         static void foo()
         {
