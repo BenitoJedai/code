@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Windows;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
 	[Script(Implements = typeof(global::System.Windows.FrameworkElement))]
-	internal class __FrameworkElement : __UIElement
+    internal class __FrameworkElement : __UIElement, __ISupportInitialize
 	{
 		public string Name
 		{
@@ -140,5 +141,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		{
 			return (global::System.Windows.FrameworkElement)(object)e;
 		}
-	}
+
+        public void BeginInit()
+        {
+        }
+
+        public void EndInit()
+        {
+        }
+    }
 }

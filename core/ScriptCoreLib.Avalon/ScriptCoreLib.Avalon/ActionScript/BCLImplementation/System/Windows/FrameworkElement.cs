@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Windows;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
     [Script(Implements = typeof(global::System.Windows.FrameworkElement))]
-    internal class __FrameworkElement : __UIElement
+    internal class __FrameworkElement : __UIElement, __ISupportInitialize
     {
         public int InternalZIndex;
         public bool InternalZIndexPending;
@@ -168,6 +169,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
         public static implicit operator __FrameworkElement(global::System.Windows.FrameworkElement e)
         {
             return (__FrameworkElement)(object)e;
+        }
+
+        public void BeginInit()
+        {
+        }
+
+        public void EndInit()
+        {
         }
     }
 }

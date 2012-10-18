@@ -1,1 +1,0 @@
-﻿MP3PitchExample. Crosscompiled from C# to ActionScript.
