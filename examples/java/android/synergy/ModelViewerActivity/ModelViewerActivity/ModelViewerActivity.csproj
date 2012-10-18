@@ -98,41 +98,34 @@
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
     <Content Include="org\jtb\modelview\R.java" />
-
   </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="Y:\opensource\googlecode\modelview-android\graphics\**\*.*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>staging\apk\graphics/%(RecursiveDir)%(FileName)%(Extension)</Link>
-        </Content>
-    </ItemGroup>
-
-
-    <ItemGroup>
-        <Content Include="Y:\opensource\googlecode\modelview-android\assets\**\*.*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>staging\apk\assets/%(RecursiveDir)%(FileName)%(Extension)</Link>
-        </Content>
-    </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
+    <Content Include="Y:\opensource\googlecode\modelview-android\graphics\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>staging\apk\graphics/%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Y:\opensource\googlecode\modelview-android\assets\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>staging\apk\assets/%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Y:\opensource\googlecode\modelview-android\res\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="Y:\opensource\googlecode\modelview-android\src\**\*.*">
-            <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
-        </Content>
-    </ItemGroup>
-    
-    
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Content Include="Y:\opensource\googlecode\modelview-android\src\**\*.*">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+start  /WAIT cmd /C  c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 
 
 if $(ConfigurationName)==Debug (
@@ -141,7 +134,8 @@ start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /P
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true
+start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true /DisableVirtualFiles:true
+
 
 </PreBuildEvent>
   </PropertyGroup>
