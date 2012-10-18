@@ -7,7 +7,7 @@ using System.Collections;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(IDictionary<,>))]
-    internal interface __IDictionary<TKey, TValue> : ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable
+    internal interface __IDictionary<TKey, TValue> : __ICollection<KeyValuePair<TKey, TValue>>, __IEnumerable<KeyValuePair<TKey, TValue>>, __IEnumerable
     {
         ICollection<TKey> Keys { get; }
       
@@ -26,6 +26,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 
 
         // java cannot base type parameter type?
-        void __TypeReference(KeyValuePair<TKey, TValue> e);
+        //void __TypeReference(KeyValuePair<TKey, TValue> e);
     }
 }

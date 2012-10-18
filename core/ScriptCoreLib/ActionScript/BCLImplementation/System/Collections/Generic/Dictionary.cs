@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable, ICollection
+    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue>, __IEnumerable, __ICollection
     {
         public __Dictionary()
             : this(null)
@@ -40,11 +42,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             return _keys.Contains(key);
         }
 
-		public bool ContainsValue(TValue value)
-		{
-			return _values.Contains(value);
-		}
+        public bool ContainsValue(TValue value)
+        {
+            return _values.Contains(value);
+        }
 
+        #region Keys
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection)
             //, IsDebugCode = true
             )]
@@ -62,13 +65,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             }
         }
 
-        ICollection<TKey> IDictionary<TKey, TValue>.Keys
+        ICollection<TKey> __IDictionary<TKey, TValue>.Keys
         {
             get
             {
                 return _keys;
             }
         }
+        #endregion
+
 
         public bool Remove(TKey key)
         {
@@ -89,12 +94,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             throw new global::System.Exception("The method or operation is not implemented.");
         }
 
+
+        #region Values
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.ValueCollection)
             //, IsDebugCode = true
             )]
         public class __ValueCollection : List<TValue>
         {
-     
+
         }
 
         readonly __ValueCollection _values = new __ValueCollection();
@@ -108,13 +115,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             }
         }
 
-        ICollection<TValue> IDictionary<TKey, TValue>.Values
+        ICollection<TValue> __IDictionary<TKey, TValue>.Values
         {
             get
             {
                 return _values;
             }
         }
+        #endregion
 
         public TValue this[TKey key]
         {
@@ -187,43 +195,36 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         #endregion
 
-        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
-
-        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        #endregion
 
         #region IEnumerable Members
 
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        //IEnumerator __IEnumerable.GetEnumerator()
+        //{
+        //    return (IEnumerator)(object)this.GetEnumerator();
+        //}
 
         #endregion
 
-        public __Dictionary<TKey, TValue>.__Enumerator GetEnumerator()
-        {
-            return new __Enumerator(this);
-        }
+        #region __Enumerator
+        //public __Dictionary<TKey, TValue>.__Enumerator GetEnumerator()
+        //{
+        //    return new __Enumerator(this);
+        //}
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator)
             //,IsDebugCode = true
             )]
-        public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
+        public class __Enumerator : __IEnumerator<KeyValuePair<TKey, TValue>>, __IEnumerator, IDisposable
         {
             IEnumerator<KeyValuePair<TKey, TValue>> list;
 
-			public __Enumerator() : this(null) { }
+            public __Enumerator() : this(null) { }
 
             public __Enumerator(__Dictionary<TKey, TValue> e)
             {
-				if (e == null)
-					return;
+                if (e == null)
+                    return;
 
                 var a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
 
@@ -237,7 +238,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
             }
 
-   
+
 
             public KeyValuePair<TKey, TValue> Current { get { return list.Current; } }
 
@@ -255,7 +256,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
             #region IEnumerator Members
 
-            object IEnumerator.Current
+            object __IEnumerator.Current
             {
                 get { return this.Current; }
             }
@@ -267,25 +268,37 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
             #endregion
         }
+        #endregion
 
 
-		#region ICollection Members
 
-		public void CopyTo(global::System.Array array, int index)
-		{
-			throw new NotImplementedException();
-		}
+        #region ICollection Members
 
-		public bool IsSynchronized
-		{
-			get { throw new NotImplementedException(); }
-		}
+        public void CopyTo(global::System.Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
 
-		public object SyncRoot
-		{
-			get { throw new NotImplementedException(); }
-		}
+        public bool IsSynchronized
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-		#endregion
-	}
+        public object SyncRoot
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
+        public IEnumerator GetEnumerator()
+        {
+            return (IEnumerator)(object)new __Enumerator(this);
+        }
+
+        IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+        {
+            return (IEnumerator<KeyValuePair<TKey, TValue>>)(object)new __Enumerator(this);
+        }
+    }
 }
