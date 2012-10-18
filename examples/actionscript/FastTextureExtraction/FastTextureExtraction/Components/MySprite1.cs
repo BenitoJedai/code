@@ -34,7 +34,7 @@ namespace FastTextureExtraction.Components
         public void onMouseMove(MouseEvent e)
         {
             
-            if ((e == null).Or( e.buttonDown))
+            if ((e == null)||( e.buttonDown))
             {
                 homography.setTransform(image,
                     new Point(anchors[0].x, anchors[0].y),

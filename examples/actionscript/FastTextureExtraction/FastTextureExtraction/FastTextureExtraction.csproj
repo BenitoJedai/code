@@ -88,10 +88,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Library40">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library40.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
@@ -124,9 +120,11 @@
     <Reference Include="FastTextureExtraction.AssetsLibrary">
       <HintPath>.\bin\staging.AssetsLibrary\FastTextureExtraction.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FastTextureExtraction.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FastTextureExtraction.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Assets.htm" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\MySprite1.cs" />
@@ -135,7 +133,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\roofs.jpg" />
+    <Content Include="Textures\roofs.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
