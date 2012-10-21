@@ -52,9 +52,9 @@
     <Content Include="staging\lib\placeholder.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="staging\packages\TestNuGetSupport.Foo.0.0.0.0.nupkg">
+    <Content Include="staging\packages\placeholder.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
