@@ -111,8 +111,7 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TestNuGetSupport.Foo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="TestNuGetSupport.Foo">
       <HintPath>..\packages\TestNuGetSupport.Foo.0.0.0.1\lib\TestNuGetSupport.Foo.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">

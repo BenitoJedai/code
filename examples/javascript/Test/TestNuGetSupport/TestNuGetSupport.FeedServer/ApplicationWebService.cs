@@ -5,6 +5,7 @@ using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Xml.Linq;
 
 namespace TestNuGetSupport.FeedServer
@@ -33,6 +34,24 @@ namespace TestNuGetSupport.FeedServer
                 Port = h.Context.Request.Headers["Host"].SkipUntilIfAny(":")
             };
 
+            #region Authorization
+            var Authorization = h.Context.Request.Headers["Authorization"];
+
+            var AuthorizationLiteralEncoded = Authorization.SkipUntilOrEmpty("Basic ");
+            var AuthorizationLiteral = Encoding.ASCII.GetString(
+                Convert.FromBase64String(AuthorizationLiteralEncoded)
+            );
+
+            var AuthorizationLiteralCredentials = new
+            {
+                user = AuthorizationLiteral.TakeUntilOrEmpty(":"),
+                password = AuthorizationLiteral.SkipUntilOrEmpty(":"),
+            };
+
+            Console.WriteLine(new { AuthorizationLiteralCredentials }.ToString());
+            #endregion
+
+
 #if DEBUG
             Console.WriteLine();
             Console.WriteLine(h.Context.Request.HttpMethod + " " + h.Context.Request.Path);
@@ -45,6 +64,18 @@ namespace TestNuGetSupport.FeedServer
             #region /nuget
             if (h.Context.Request.Path == "/nuget")
             {
+                if (string.IsNullOrEmpty(AuthorizationLiteralCredentials.user))
+                {
+                    h.Context.Response.StatusCode = 401;
+                    h.Context.Response.AddHeader(
+                        "WWW-Authenticate",
+                        "Basic realm=\"foo@jsc-solutions.net\""
+                    );
+                    h.CompleteRequest();
+                    return;
+                }
+
+
                 h.Context.Response.ContentType = "application/xml";
                 h.Context.Response.Write(@"
 
@@ -243,12 +274,24 @@ Accept-Encoding: gzip, deflate
             }
             #endregion
 
+       
 
             #region TestNuGetSupport.Foo.0.0.0.1.nupkg
             var x = "/api/v2/package/testnugetsupport.foo/0.0.0.1";
 
             if (h.Context.Request.Path == x)
             {
+                if (string.IsNullOrEmpty(AuthorizationLiteralCredentials.user))
+                {
+                    h.Context.Response.StatusCode = 401;
+                    h.Context.Response.AddHeader(
+                        "WWW-Authenticate",
+                        "Basic realm=\"foo@jsc-solutions.net\""
+                    );
+                    h.CompleteRequest();
+                    return;
+                }
+
                 var f = "assets/TestNuGetSupport.FeedServer/TestNuGetSupport.Foo.0.0.0.1.nupkg";
 
                 // Could not find a part of the path 'V:\staging.net.debug\api\v2\package\testnugetsupport.foo\assets\TestNuGetSupport.FeedServer\TestNuGetSupport.Foo.0.0.0.1.nupkg'.
