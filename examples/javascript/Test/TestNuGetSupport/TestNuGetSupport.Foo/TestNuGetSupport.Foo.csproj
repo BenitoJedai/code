@@ -52,15 +52,16 @@
     <Content Include="staging\lib\placeholder.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="staging\packages\placeholder.txt">
+    <None Include="staging\packages\TestNuGetSupport.Foo.0.0.0.0.nupkg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>pushd staging\packages
 copy "$(TargetPath)" "../lib" /y
 call "../../../../../.nuget\NuGet.exe" pack  "../TestNuGetSupport.Foo.nuspec"
+copy "*.nupkg" "../../../../../TestNuGetSupport.WebApplication1/Packages" /y
 popd</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

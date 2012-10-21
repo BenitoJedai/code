@@ -3,6 +3,6 @@
     <id>TestNuGetSupport.Foo</id>
     <version>0.0.0.0</version>
     <authors>John Doe</authors>
-    <description>TestNuGetSupport.Foo</description>
+    <description>TestNuGetSupport.Foo !!</description>
   </metadata>
 </package>
