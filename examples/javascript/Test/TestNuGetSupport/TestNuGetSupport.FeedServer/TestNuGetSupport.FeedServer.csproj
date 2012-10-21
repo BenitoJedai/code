@@ -129,14 +129,15 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="assets\TestNuGetSupport.FeedServer\" />
+    <EmbeddedResource Include="web\assets\TestNuGetSupport.FeedServer\TestNuGetSupport.Foo.0.0.0.1.nupkg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

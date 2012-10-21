@@ -32,6 +32,9 @@ namespace ScriptCoreLib.Extensions
 
                            Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
 
+                           if (prefix.StartsWith("?"))
+                               Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
+
                            y.Write(buffer, 0, c);
 
                            Thread.Sleep(1);
@@ -52,13 +55,18 @@ namespace ScriptCoreLib.Extensions
            }.Start();
         }
 
-        static void BridgeConnectionTo(this TcpClient x, TcpClient y, int ClientCounter)
+        static void BridgeConnectionTo(this TcpClient x, TcpClient y, int ClientCounter, string rx, string tx)
         {
-            x.GetStream().BridgeStreamTo(y.GetStream(), ClientCounter, "> ");
-            y.GetStream().BridgeStreamTo(x.GetStream(), ClientCounter, "< ");
+            x.GetStream().BridgeStreamTo(y.GetStream(), ClientCounter, rx);
+            y.GetStream().BridgeStreamTo(x.GetStream(), ClientCounter, tx);
         }
 
         public static void BridgeConnectionToPort(this TcpListener x, int port)
+        {
+            BridgeConnectionToPort(x, port, "> ", "< ");
+        }
+
+        public static void BridgeConnectionToPort(this TcpListener x, int port, string rx, string tx)
         {
             x.Start();
 
@@ -78,7 +86,7 @@ namespace ScriptCoreLib.Extensions
 
                         y.Connect(new System.Net.IPEndPoint(IPAddress.Loopback, port));
 
-                        c.BridgeConnectionTo(y, ClientCounter);
+                        c.BridgeConnectionTo(y, ClientCounter, rx, tx);
                     }
 
 

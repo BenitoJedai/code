@@ -34,6 +34,10 @@ namespace TestNuGetSupport.FeedServer
                 @"A string from JavaScript.",
                 value => value.ToDocumentTitle()
             );
+
+
+            var f = "assets/TestNuGetSupport.FeedServer/TestNuGetSupport.Foo.0.0.0.1.nupkg";
+
         }
 
     }
