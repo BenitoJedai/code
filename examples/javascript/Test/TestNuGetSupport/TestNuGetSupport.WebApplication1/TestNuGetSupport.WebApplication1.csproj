@@ -115,7 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Packages\TestNuGetSupport.Foo.0.0.0.0.nupkg" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -136,7 +135,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>59966</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:59019/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -1,7 +1,7 @@
 ﻿<package>
   <metadata>
     <id>TestNuGetSupport.Foo</id>
-    <version>0.0.0.0</version>
+    <version>0.0.0.1</version>
     <authors>John Doe</authors>
     <description>TestNuGetSupport.Foo !!</description>
   </metadata>
