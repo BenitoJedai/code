@@ -29,11 +29,13 @@ namespace AuthenticationExperiment
         {
 
 
+#if DEBUG
             Console.WriteLine(h.Context.Request.HttpMethod + " " + h.Context.Request.Path);
 
             h.Context.Request.Headers.AllKeys.WithEach(
                 k => Console.WriteLine(k + ": " + h.Context.Request.Headers[k])
             );
+#endif
 
             // http://tools.ietf.org/html/rfc2617#section-3.2.1
 
@@ -50,14 +52,20 @@ namespace AuthenticationExperiment
                 password = AuthorizationLiteral.SkipUntilOrEmpty(":"),
             };
 
-            Console.WriteLine(new { AuthorizationLiteralCredentials });
+            Console.WriteLine(new { AuthorizationLiteralCredentials }.ToString());
 
             if (!string.IsNullOrEmpty(AuthorizationLiteralCredentials.user))
             {
                 var xml = XElement.Parse(global::AuthenticationExperiment.HTML.Pages.DefaultPageSource.Text);
 
+#if DEBUG
+                // linq for andoid? when can we have it?
+
                 xml.Descendants("data-user").ReplaceContentWith(AuthorizationLiteralCredentials.user);
                 xml.Descendants("data-password").ReplaceContentWith(AuthorizationLiteralCredentials.password);
+#endif
+                // what are the defalts on different platforms?
+                h.Context.Response.ContentType = "text/html";
 
                 h.Context.Response.Write(xml.ToString());
                 h.CompleteRequest();
@@ -71,6 +79,8 @@ namespace AuthenticationExperiment
             );
 
 
+            // android flush headers?
+            h.Context.Response.Write("");
 
             //h.Context.Response.Write("http://en.wikipedia.org/wiki/Basic_access_authentication");
             h.CompleteRequest();
