@@ -25,7 +25,6 @@ using ScriptCoreLib.JavaScript.Controls.LayeredControl;
 
 namespace GameOfLife.js
 {
-    [Script]
     class Array2D<T>
     {
         readonly T[] items;
@@ -74,11 +73,9 @@ namespace GameOfLife.js
         }
     }
 
-    [Script, ScriptApplicationEntryPoint]
     public class GameOfLife
     {
 
-        [Script]
         class __Type1
         {
             public Color ColorDeath;

@@ -1,0 +1,1142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{41D4634F-2D5E-4DA7-9535-D7A2BCB71379}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IntegrationToFlint</RootNamespace>
+    <AssemblyName>IntegrationToFlint</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>IntegrationToFlint.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Assets\</OutputPath>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.XLinq">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="IntegrationToFlint.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\IntegrationToFlint.AssetsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationSprite.cs" />
+    <Content Include="away3d\away3d-license.txt" />
+    <Content Include="Design\184098.jpg" />
+    <Content Include="Design\Assets.htm" />
+    <Content Include="Design\Default.htm" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Content Include="nochump\lgpl.txt" />
+    <Content Include="org\papervision3d\typography\fonts\use of fonts.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="away3d\dev\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="away3d\animators\Animator.as" />
+    <None Include="away3d\animators\BonesAnimator.as" />
+    <None Include="away3d\animators\data\Channel.as" />
+    <None Include="away3d\animators\data\SkinController.as" />
+    <None Include="away3d\animators\data\SkinVertex.as" />
+    <None Include="away3d\animators\FaceLink.as" />
+    <None Include="away3d\animators\PathAnimator.as" />
+    <None Include="away3d\animators\utils\AWTweener.as" />
+    <None Include="away3d\animators\utils\PathUtils.as" />
+    <None Include="away3d\animators\VertexAnimator.as" />
+    <None Include="away3d\arcane.as" />
+    <None Include="away3d\audio\drivers\AbstractSound3DDriver.as" />
+    <None Include="away3d\audio\drivers\ISound3DDriver.as" />
+    <None Include="away3d\audio\drivers\SimplePanVolumeDriver.as" />
+    <None Include="away3d\audio\Sound3D.as" />
+    <None Include="away3d\cameras\Camera3D.as" />
+    <None Include="away3d\cameras\HoverCamera3D.as" />
+    <None Include="away3d\cameras\lenses\AbstractLens.as" />
+    <None Include="away3d\cameras\lenses\OrthogonalLens.as" />
+    <None Include="away3d\cameras\lenses\PerspectiveLens.as" />
+    <None Include="away3d\cameras\lenses\SphericalLens.as" />
+    <None Include="away3d\cameras\lenses\ZoomFocusLens.as" />
+    <None Include="away3d\cameras\SpringCam.as" />
+    <None Include="away3d\cameras\TargetCamera3D.as" />
+    <None Include="away3d\containers\Bone.as" />
+    <None Include="away3d\containers\ILODObject.as" />
+    <None Include="away3d\containers\IPhysicsScene.as" />
+    <None Include="away3d\containers\LODObject.as" />
+    <None Include="away3d\containers\ObjectContainer3D.as" />
+    <None Include="away3d\containers\Scene3D.as" />
+    <None Include="away3d\containers\View3D.as" />
+    <None Include="away3d\core\base\Element.as" />
+    <None Include="away3d\core\base\Face.as" />
+    <None Include="away3d\core\base\Geometry.as" />
+    <None Include="away3d\core\base\Graphics3D.as" />
+    <None Include="away3d\core\base\Mesh.as" />
+    <None Include="away3d\core\base\Morpher.as" />
+    <None Include="away3d\core\base\Object3D.as" />
+    <None Include="away3d\core\base\Segment.as" />
+    <None Include="away3d\core\base\UV.as" />
+    <None Include="away3d\core\base\Vertex.as" />
+    <None Include="away3d\core\base\VertexClassification.as" />
+    <None Include="away3d\core\clip\Clipping.as" />
+    <None Include="away3d\core\clip\FrustumClipping.as" />
+    <None Include="away3d\core\clip\NearfieldClipping.as" />
+    <None Include="away3d\core\clip\RectangleClipping.as" />
+    <None Include="away3d\core\draw\ScreenVertex.as" />
+    <None Include="away3d\core\filter\AnotherRivalFilter.as" />
+    <None Include="away3d\core\filter\FogFilter.as" />
+    <None Include="away3d\core\filter\IPrimitiveFilter.as" />
+    <None Include="away3d\core\filter\IPrimitiveQuadrantFilter.as" />
+    <None Include="away3d\core\filter\MaxPolyFilter.as" />
+    <None Include="away3d\core\filter\QuadrantRiddleFilter.as" />
+    <None Include="away3d\core\filter\ZDepthFilter.as" />
+    <None Include="away3d\core\filter\ZSortFilter.as" />
+    <None Include="away3d\core\geom\Frustum.as" />
+    <None Include="away3d\core\geom\Line2D.as" />
+    <None Include="away3d\core\geom\NGon.as" />
+    <None Include="away3d\core\geom\Path.as" />
+    <None Include="away3d\core\geom\PathCommand.as" />
+    <None Include="away3d\core\geom\PathDebug.as" />
+    <None Include="away3d\core\geom\Plane3D.as" />
+    <None Include="away3d\core\math\Matrix3DUtils.as" />
+    <None Include="away3d\core\math\Quaternion.as" />
+    <None Include="away3d\core\math\Vector3DUtils.as" />
+    <None Include="away3d\core\project\PrimitiveProjector.as" />
+    <None Include="away3d\core\project\PrimitiveType.as" />
+    <None Include="away3d\core\render\BasicRenderer.as" />
+    <None Include="away3d\core\render\BSPRenderer.as" />
+    <None Include="away3d\core\render\QuadrantRenderer.as" />
+    <None Include="away3d\core\render\QuadrantTreeNode.as" />
+    <None Include="away3d\core\render\Renderer.as" />
+    <None Include="away3d\core\session\AbstractSession.as" />
+    <None Include="away3d\core\session\BitmapSession.as" />
+    <None Include="away3d\core\session\SpriteSession.as" />
+    <None Include="away3d\core\stats\Logo.as" />
+    <None Include="away3d\core\stats\StaticTextField.as" />
+    <None Include="away3d\core\stats\Stats.as" />
+    <None Include="away3d\core\stats\Tasks.as" />
+    <None Include="away3d\core\traverse\PrimitiveTraverser.as" />
+    <None Include="away3d\core\traverse\ProjectionTraverser.as" />
+    <None Include="away3d\core\traverse\TickTraverser.as" />
+    <None Include="away3d\core\traverse\Traverser.as" />
+    <None Include="away3d\core\utils\BezierUtils.as" />
+    <None Include="away3d\core\utils\CacheStore.as" />
+    <None Include="away3d\core\utils\CameraVarsStore.as" />
+    <None Include="away3d\core\utils\Cast.as" />
+    <None Include="away3d\core\utils\CastError.as" />
+    <None Include="away3d\core\utils\Color.as" />
+    <None Include="away3d\core\utils\Debug.as" />
+    <None Include="away3d\core\utils\DofCache.as" />
+    <None Include="away3d\core\utils\FaceDictionaryVO.as" />
+    <None Include="away3d\core\utils\FaceMaterialVO.as" />
+    <None Include="away3d\core\utils\FaceNormalShader.as" />
+    <None Include="away3d\core\utils\FaceNormalShaderVO.as" />
+    <None Include="away3d\core\utils\HitManager.as" />
+    <None Include="away3d\core\utils\IClonable.as" />
+    <None Include="away3d\core\utils\Init.as" />
+    <None Include="away3d\core\utils\ValueObject.as" />
+    <None Include="away3d\core\utils\ViewSourceObject.as" />
+    <None Include="away3d\core\vos\ElementVO.as" />
+    <None Include="away3d\core\vos\FaceVO.as" />
+    <None Include="away3d\core\vos\FogVO.as" />
+    <None Include="away3d\core\vos\SegmentVO.as" />
+    <None Include="away3d\core\vos\SpriteVO.as" />
+    <None Include="away3d\debug\AwayStats.as" />
+    <None Include="away3d\events\AnimatorEvent.as" />
+    <None Include="away3d\events\BSPBuildEvent.as" />
+    <None Include="away3d\events\CameraEvent.as" />
+    <None Include="away3d\events\ClippingEvent.as" />
+    <None Include="away3d\events\ElementEvent.as" />
+    <None Include="away3d\events\ExporterEvent.as" />
+    <None Include="away3d\events\GeometryEvent.as" />
+    <None Include="away3d\events\IteratorEvent.as" />
+    <None Include="away3d\events\Loader3DEvent.as" />
+    <None Include="away3d\events\MaterialEvent.as" />
+    <None Include="away3d\events\MouseEvent3D.as" />
+    <None Include="away3d\events\Object3DEvent.as" />
+    <None Include="away3d\events\ParserEvent.as" />
+    <None Include="away3d\events\PathEvent.as" />
+    <None Include="away3d\events\SessionEvent.as" />
+    <None Include="away3d\events\SpriteEvent.as" />
+    <None Include="away3d\events\TraceEvent.as" />
+    <None Include="away3d\events\VideoEvent.as" />
+    <None Include="away3d\events\ViewEvent.as" />
+    <None Include="away3d\exporters\AC3DExporter.as" />
+    <None Include="away3d\exporters\AS3Exporter.as" />
+    <None Include="away3d\exporters\AS3LiteExporter.as" />
+    <None Include="away3d\exporters\AWDataExporter.as" />
+    <None Include="away3d\exporters\Elevation2AS3.as" />
+    <None Include="away3d\exporters\ObjExporter.as" />
+    <None Include="away3d\extrusions\CollisionMap.as" />
+    <None Include="away3d\extrusions\Elevation.as" />
+    <None Include="away3d\extrusions\ElevationModifier.as" />
+    <None Include="away3d\extrusions\ElevationReader.as" />
+    <None Include="away3d\extrusions\LatheExtrusion.as" />
+    <None Include="away3d\extrusions\LinearExtrusion.as" />
+    <None Include="away3d\extrusions\PathDuplicator.as" />
+    <None Include="away3d\extrusions\PathExtrusion.as" />
+    <None Include="away3d\extrusions\SkinExtrude.as" />
+    <None Include="away3d\extrusions\TextExtrusion.as" />
+    <None Include="away3d\graphs\bsp\BSPHitTest.as" />
+    <None Include="away3d\graphs\bsp\BSPMeshManager.as" />
+    <None Include="away3d\graphs\bsp\BSPNode.as" />
+    <None Include="away3d\graphs\bsp\BSPPortal.as" />
+    <None Include="away3d\graphs\bsp\BSPTree.as" />
+    <None Include="away3d\graphs\bsp\builder\AbstractBuilderDecorator.as" />
+    <None Include="away3d\graphs\bsp\builder\BSPBuilder.as" />
+    <None Include="away3d\graphs\bsp\builder\BSPCollisionPlaneBuilder.as" />
+    <None Include="away3d\graphs\bsp\builder\BSPGeometryBuilder.as" />
+    <None Include="away3d\graphs\bsp\builder\BSPPortalBuilder.as" />
+    <None Include="away3d\graphs\bsp\builder\BSPPVSBuilder.as" />
+    <None Include="away3d\graphs\bsp\builder\BSPTJunctionFixer.as" />
+    <None Include="away3d\graphs\bsp\builder\IBSPBuilder.as" />
+    <None Include="away3d\graphs\bsp\builder\IBSPPlanePicker.as" />
+    <None Include="away3d\graphs\bsp\builder\IBSPPortalProvider.as" />
+    <None Include="away3d\graphs\bsp\builder\SimplePlanePicker.as" />
+    <None Include="away3d\graphs\IIterator.as" />
+    <None Include="away3d\graphs\ITreeNode.as" />
+    <None Include="away3d\graphs\TreeIterator.as" />
+    <None Include="away3d\graphs\VectorIterator.as" />
+    <None Include="away3d\lights\AbstractLight.as" />
+    <None Include="away3d\lights\AmbientLight3D.as" />
+    <None Include="away3d\lights\DirectionalLight3D.as" />
+    <None Include="away3d\lights\PointLight3D.as" />
+    <None Include="away3d\loaders\AbstractParser.as" />
+    <None Include="away3d\loaders\AC3D.as" />
+    <None Include="away3d\loaders\Ase.as" />
+    <None Include="away3d\loaders\AWData.as" />
+    <None Include="away3d\loaders\Collada.as" />
+    <None Include="away3d\loaders\data\AnimationData.as" />
+    <None Include="away3d\loaders\data\AnimationDataType.as" />
+    <None Include="away3d\loaders\data\BoneData.as" />
+    <None Include="away3d\loaders\data\ChannelData.as" />
+    <None Include="away3d\loaders\data\ContainerData.as" />
+    <None Include="away3d\loaders\data\FaceData.as" />
+    <None Include="away3d\loaders\data\GeometryData.as" />
+    <None Include="away3d\loaders\data\MaterialData.as" />
+    <None Include="away3d\loaders\data\MeshData.as" />
+    <None Include="away3d\loaders\data\MeshMaterialData.as" />
+    <None Include="away3d\loaders\data\ObjectData.as" />
+    <None Include="away3d\loaders\Kmz.as" />
+    <None Include="away3d\loaders\Loader3D.as" />
+    <None Include="away3d\loaders\LoaderCube.as" />
+    <None Include="away3d\loaders\Max3DS.as" />
+    <None Include="away3d\loaders\Md2.as" />
+    <None Include="away3d\loaders\Obj.as" />
+    <None Include="away3d\loaders\Swf.as" />
+    <None Include="away3d\loaders\utils\AnimationLibrary.as" />
+    <None Include="away3d\loaders\utils\CentralMaterialLibrary.as" />
+    <None Include="away3d\loaders\utils\ChannelLibrary.as" />
+    <None Include="away3d\loaders\utils\GeometryLibrary.as" />
+    <None Include="away3d\loaders\utils\MaterialLibrary.as" />
+    <None Include="away3d\loaders\utils\TextureLoader.as" />
+    <None Include="away3d\loaders\utils\TextureLoadQueue.as" />
+    <None Include="away3d\materials\AnimatedBitmapMaterial.as" />
+    <None Include="away3d\materials\BitmapFileMaterial.as" />
+    <None Include="away3d\materials\BitmapMaskMaterial.as" />
+    <None Include="away3d\materials\BitmapMaterial.as" />
+    <None Include="away3d\materials\ColorMaterial.as" />
+    <None Include="away3d\materials\CompositeMaterial.as" />
+    <None Include="away3d\materials\CubicEnvMapPBMaterial.as" />
+    <None Include="away3d\materials\DepthBitmapMaterial.as" />
+    <None Include="away3d\materials\DiffuseMultiPassMaterial.as" />
+    <None Include="away3d\materials\DiffusePBMaterial.as" />
+    <None Include="away3d\materials\Dot3BitmapMaterial.as" />
+    <None Include="away3d\materials\Dot3BitmapMaterialF10.as" />
+    <None Include="away3d\materials\Dot3MovieMaterial.as" />
+    <None Include="away3d\materials\EnviroBitmapMaterial.as" />
+    <None Include="away3d\materials\EnviroColorMaterial.as" />
+    <None Include="away3d\materials\FresnelPBMaterial.as" />
+    <None Include="away3d\materials\GlassMaterial.as" />
+    <None Include="away3d\materials\LayerMaterial.as" />
+    <None Include="away3d\materials\Material.as" />
+    <None Include="away3d\materials\MovieMaterial.as" />
+    <None Include="away3d\materials\MultiPassShaderMaterial.as" />
+    <None Include="away3d\materials\PhongBitmapMaterial.as" />
+    <None Include="away3d\materials\PhongColorMaterial.as" />
+    <None Include="away3d\materials\PhongMovieMaterial.as" />
+    <None Include="away3d\materials\PhongMultiPassMaterial.as" />
+    <None Include="away3d\materials\PhongPBMaterial.as" />
+    <None Include="away3d\materials\PixelShaderMaterial.as" />
+    <None Include="away3d\materials\shaders\AbstractShader.as" />
+    <None Include="away3d\materials\shaders\AmbientShader.as" />
+    <None Include="away3d\materials\shaders\DepthShader.as" />
+    <None Include="away3d\materials\shaders\DiffuseDot3Shader.as" />
+    <None Include="away3d\materials\shaders\DiffusePhongShader.as" />
+    <None Include="away3d\materials\shaders\EnviroShader.as" />
+    <None Include="away3d\materials\shaders\SpecularDot3Shader.as" />
+    <None Include="away3d\materials\shaders\SpecularPhongShader.as" />
+    <None Include="away3d\materials\ShadingColorMaterial.as" />
+    <None Include="away3d\materials\SinglePassShaderMaterial.as" />
+    <None Include="away3d\materials\SpecularMultiPassMaterial.as" />
+    <None Include="away3d\materials\SpecularPBMaterial.as" />
+    <None Include="away3d\materials\SphericEnvMapPBMaterial.as" />
+    <None Include="away3d\materials\TransformBitmapMaterial.as" />
+    <None Include="away3d\materials\utils\data\Grow.as" />
+    <None Include="away3d\materials\utils\data\LightData.as" />
+    <None Include="away3d\materials\utils\data\LScan.as" />
+    <None Include="away3d\materials\utils\data\MeshData.as" />
+    <None Include="away3d\materials\utils\data\Ray.as" />
+    <None Include="away3d\materials\utils\data\RenderData.as" />
+    <None Include="away3d\materials\utils\HeightMapDataChannel.as" />
+    <None Include="away3d\materials\utils\HeightMapGenerator.as" />
+    <None Include="away3d\materials\utils\LightPrebaker.as" />
+    <None Include="away3d\materials\utils\NormalBumpMaker.as" />
+    <None Include="away3d\materials\utils\NormalMapGenerator.as" />
+    <None Include="away3d\materials\utils\NormalMapType.as" />
+    <None Include="away3d\materials\utils\Projector.as" />
+    <None Include="away3d\materials\utils\SimpleShadow.as" />
+    <None Include="away3d\materials\utils\TangentToObjectMapper.as" />
+    <None Include="away3d\materials\utils\WaterMap.as" />
+    <None Include="away3d\materials\VideoMaterial.as" />
+    <None Include="away3d\materials\WhiteShadingBitmapMaterial.as" />
+    <None Include="away3d\materials\WireColorMaterial.as" />
+    <None Include="away3d\materials\WireframeMaterial.as" />
+    <None Include="away3d\modifiers\data\VertexData.as" />
+    <None Include="away3d\modifiers\HeightMapModifier.as" />
+    <None Include="away3d\modifiers\PathAlignModifier.as" />
+    <None Include="away3d\overlays\IOverlay.as" />
+    <None Include="away3d\overlays\LensFlare.as" />
+    <None Include="away3d\pbks\CubicEnvNormalMapShader.pbj" />
+    <None Include="away3d\pbks\CubicEnvNormalMapShader.pbk" />
+    <None Include="away3d\pbks\CubicEnvReflMapShader.pbj" />
+    <None Include="away3d\pbks\CubicEnvReflMapShader.pbk" />
+    <None Include="away3d\pbks\FresnelShader.pbj" />
+    <None Include="away3d\pbks\FresnelShader.pbk" />
+    <None Include="away3d\pbks\GlassShader.pbj" />
+    <None Include="away3d\pbks\GlassShader.pbk" />
+    <None Include="away3d\pbks\GlassShaderChrDisp.pbj" />
+    <None Include="away3d\pbks\GlassShaderChrDisp.pbk" />
+    <None Include="away3d\pbks\LambertMultiPassDirShader.pbj" />
+    <None Include="away3d\pbks\LambertMultiPassDirShader.pbk" />
+    <None Include="away3d\pbks\LambertMultiPassShader.pbj" />
+    <None Include="away3d\pbks\LambertMultiPassShader.pbk" />
+    <None Include="away3d\pbks\LambertNormalMapShader.pbj" />
+    <None Include="away3d\pbks\LambertNormalMapShader.pbk" />
+    <None Include="away3d\pbks\normalMapping.pbj" />
+    <None Include="away3d\pbks\normalMapping.pbk" />
+    <None Include="away3d\pbks\PhongMultiPassDirShader.pbj" />
+    <None Include="away3d\pbks\PhongMultiPassDirShader.pbk" />
+    <None Include="away3d\pbks\PhongMultiPassShader.pbj" />
+    <None Include="away3d\pbks\PhongMultiPassShader.pbk" />
+    <None Include="away3d\pbks\PhongMultiPassSpecularDirShader.pbj" />
+    <None Include="away3d\pbks\PhongMultiPassSpecularDirShader.pbk" />
+    <None Include="away3d\pbks\PhongMultiPassSpecularShader.pbj" />
+    <None Include="away3d\pbks\PhongMultiPassSpecularShader.pbk" />
+    <None Include="away3d\pbks\PhongNormalMapShader.pbj" />
+    <None Include="away3d\pbks\PhongNormalMapShader.pbk" />
+    <None Include="away3d\pbks\PhongNormalSpecularShader.pbj" />
+    <None Include="away3d\pbks\PhongNormalSpecularShader.pbk" />
+    <None Include="away3d\pbks\PositionInterpolator.pbj" />
+    <None Include="away3d\pbks\PositionInterpolator.pbk" />
+    <None Include="away3d\pbks\SpecularMultiPassDirShader.pbj" />
+    <None Include="away3d\pbks\SpecularMultiPassDirShader.pbk" />
+    <None Include="away3d\pbks\SpecularMultiPassShader.pbj" />
+    <None Include="away3d\pbks\SpecularMultiPassShader.pbk" />
+    <None Include="away3d\pbks\SpecularMultiPassSpecularDirShader.pbj" />
+    <None Include="away3d\pbks\SpecularMultiPassSpecularDirShader.pbk" />
+    <None Include="away3d\pbks\SpecularMultiPassSpecularShader.pbj" />
+    <None Include="away3d\pbks\SpecularMultiPassSpecularShader.pbk" />
+    <None Include="away3d\pbks\SpecularNormalMapShader.pbj" />
+    <None Include="away3d\pbks\SpecularNormalMapShader.pbk" />
+    <None Include="away3d\pbks\SpecularNormalSpecularShader.pbj" />
+    <None Include="away3d\pbks\SpecularNormalSpecularShader.pbk" />
+    <None Include="away3d\pbks\SphericEnvNormalMapShader.pbj" />
+    <None Include="away3d\pbks\SphericEnvNormalMapShader.pbk" />
+    <None Include="away3d\pbks\SphericEnvReflMapShader.pbj" />
+    <None Include="away3d\pbks\SphericEnvReflMapShader.pbk" />
+    <None Include="away3d\pbks\TangentToObject.pbj" />
+    <None Include="away3d\pbks\TangentToObject.pbk" />
+    <None Include="away3d\pbks\TangentToObjectSmooth.pbj" />
+    <None Include="away3d\pbks\TangentToObjectSmooth.pbk" />
+    <None Include="away3d\physics\BSPCollider.as" />
+    <None Include="away3d\primitives\AbstractPrimitive.as" />
+    <None Include="away3d\primitives\Arrow.as" />
+    <None Include="away3d\primitives\BezierPatch.as" />
+    <None Include="away3d\primitives\Cone.as" />
+    <None Include="away3d\primitives\Cube.as" />
+    <None Include="away3d\primitives\CubeMappingType.as" />
+    <None Include="away3d\primitives\CurveLineSegment.as" />
+    <None Include="away3d\primitives\Cylinder.as" />
+    <None Include="away3d\primitives\data\CubeMaterialsData.as" />
+    <None Include="away3d\primitives\data\PatchData.as" />
+    <None Include="away3d\primitives\data\WeightedVertex.as" />
+    <None Include="away3d\primitives\GeodesicSphere.as" />
+    <None Include="away3d\primitives\GridPlane.as" />
+    <None Include="away3d\primitives\LineSegment.as" />
+    <None Include="away3d\primitives\NURBS.as" />
+    <None Include="away3d\primitives\Plane.as" />
+    <None Include="away3d\primitives\ReflectivePlane.as" />
+    <None Include="away3d\primitives\RegularPolygon.as" />
+    <None Include="away3d\primitives\RoundedCube.as" />
+    <None Include="away3d\primitives\SeaTurtle.as" />
+    <None Include="away3d\primitives\Skybox.as" />
+    <None Include="away3d\primitives\Skybox6.as" />
+    <None Include="away3d\primitives\Sphere.as" />
+    <None Include="away3d\primitives\TextField3D.as" />
+    <None Include="away3d\primitives\Torus.as" />
+    <None Include="away3d\primitives\TorusKnot.as" />
+    <None Include="away3d\primitives\Triangle.as" />
+    <None Include="away3d\primitives\Trident.as" />
+    <None Include="away3d\primitives\utils\CubeFaces.as" />
+    <None Include="away3d\primitives\WireCone.as" />
+    <None Include="away3d\primitives\WireCube.as" />
+    <None Include="away3d\primitives\WireCylinder.as" />
+    <None Include="away3d\primitives\WirePlane.as" />
+    <None Include="away3d\primitives\WireRegularPolygon.as" />
+    <None Include="away3d\primitives\WireSphere.as" />
+    <None Include="away3d\primitives\WireTorus.as" />
+    <None Include="away3d\sprites\DepthOfFieldSprite.as" />
+    <None Include="away3d\sprites\DirectionalSprite.as" />
+    <None Include="away3d\sprites\MovieClipSprite.as" />
+    <None Include="away3d\sprites\Sprite3D.as" />
+    <None Include="away3d\sprites\SpriteAlign.as" />
+    <None Include="away3d\test\BaseDemo.as" />
+    <None Include="away3d\test\Button.as" />
+    <None Include="away3d\test\Panel.as" />
+    <None Include="away3d\test\SimpleView.as" />
+    <None Include="away3d\test\Slide.as" />
+    <None Include="away3d\tools\Align.as" />
+    <None Include="away3d\tools\Explode.as" />
+    <None Include="away3d\tools\Grid.as" />
+    <None Include="away3d\tools\Merge.as" />
+    <None Include="away3d\tools\Mirror.as" />
+    <None Include="away3d\tools\Replicate.as" />
+    <None Include="away3d\tools\utils\BaryCentricTest.as" />
+    <None Include="away3d\tools\utils\Drag3D.as" />
+    <None Include="away3d\tools\Weld.as" />
+    <None Include="nochump\util\zip\CRC32.as" />
+    <None Include="nochump\util\zip\Deflater.as" />
+    <None Include="nochump\util\zip\Inflater.as" />
+    <None Include="nochump\util\zip\ZipConstants.as" />
+    <None Include="nochump\util\zip\ZipEntry.as" />
+    <None Include="nochump\util\zip\ZipError.as" />
+    <None Include="nochump\util\zip\ZipErrorEvent.as" />
+    <None Include="nochump\util\zip\ZipEvent.as" />
+    <None Include="nochump\util\zip\ZipFile.as" />
+    <None Include="nochump\util\zip\ZipOutput.as" />
+    <None Include="org\ascollada\ASCollada.as" />
+    <None Include="org\ascollada\core\DaeAccessor.as" />
+    <None Include="org\ascollada\core\DaeAnimation.as" />
+    <None Include="org\ascollada\core\DaeAnimationClip.as" />
+    <None Include="org\ascollada\core\DaeAnimationCurve.as" />
+    <None Include="org\ascollada\core\DaeAsset.as" />
+    <None Include="org\ascollada\core\DaeBlendWeight.as" />
+    <None Include="org\ascollada\core\DaeCamera.as" />
+    <None Include="org\ascollada\core\DaeChannel.as" />
+    <None Include="org\ascollada\core\DaeContributor.as" />
+    <None Include="org\ascollada\core\DaeController.as" />
+    <None Include="org\ascollada\core\DaeDocument.as" />
+    <None Include="org\ascollada\core\DaeEntity.as" />
+    <None Include="org\ascollada\core\DaeGeometry.as" />
+    <None Include="org\ascollada\core\DaeImage.as" />
+    <None Include="org\ascollada\core\DaeInput.as" />
+    <None Include="org\ascollada\core\DaeInstanceController.as" />
+    <None Include="org\ascollada\core\DaeInstanceGeometry.as" />
+    <None Include="org\ascollada\core\DaeInstanceNode.as" />
+    <None Include="org\ascollada\core\DaeMesh.as" />
+    <None Include="org\ascollada\core\DaeMorph.as" />
+    <None Include="org\ascollada\core\DaeNode.as" />
+    <None Include="org\ascollada\core\DaePrimitive.as" />
+    <None Include="org\ascollada\core\DaeSampler.as" />
+    <None Include="org\ascollada\core\DaeSkin.as" />
+    <None Include="org\ascollada\core\DaeSource.as" />
+    <None Include="org\ascollada\core\DaeSpline.as" />
+    <None Include="org\ascollada\core\DaeVertexWeights.as" />
+    <None Include="org\ascollada\core\DaeVertices.as" />
+    <None Include="org\ascollada\core\DaeVisualScene.as" />
+    <None Include="org\ascollada\fx\DaeBindMaterial.as" />
+    <None Include="org\ascollada\fx\DaeBindVertexInput.as" />
+    <None Include="org\ascollada\fx\DaeBlinn.as" />
+    <None Include="org\ascollada\fx\DaeConstant.as" />
+    <None Include="org\ascollada\fx\DaeEffect.as" />
+    <None Include="org\ascollada\fx\DaeInstanceMaterial.as" />
+    <None Include="org\ascollada\fx\DaeLambert.as" />
+    <None Include="org\ascollada\fx\DaeMaterial.as" />
+    <None Include="org\ascollada\fx\DaeNewParam.as" />
+    <None Include="org\ascollada\fx\DaePhong.as" />
+    <None Include="org\ascollada\fx\DaeSampler2D.as" />
+    <None Include="org\ascollada\fx\DaeSurface.as" />
+    <None Include="org\ascollada\fx\DaeTexture.as" />
+    <None Include="org\ascollada\io\DaeReader.as" />
+    <None Include="org\ascollada\io\DaeWriter.as" />
+    <None Include="org\ascollada\namespaces\collada.as" />
+    <None Include="org\ascollada\physics\DaeBox.as" />
+    <None Include="org\ascollada\physics\DaeCapsule.as" />
+    <None Include="org\ascollada\physics\DaeConvexMesh.as" />
+    <None Include="org\ascollada\physics\DaeCylinder.as" />
+    <None Include="org\ascollada\physics\DaeForceField.as" />
+    <None Include="org\ascollada\physics\DaeInstanceForceField.as" />
+    <None Include="org\ascollada\physics\DaeInstancePhysicsMaterial.as" />
+    <None Include="org\ascollada\physics\DaeInstancePhysicsModel.as" />
+    <None Include="org\ascollada\physics\DaeInstanceRigidBody.as" />
+    <None Include="org\ascollada\physics\DaePhysicsMaterial.as" />
+    <None Include="org\ascollada\physics\DaePhysicsModel.as" />
+    <None Include="org\ascollada\physics\DaePhysicsScene.as" />
+    <None Include="org\ascollada\physics\DaePlane.as" />
+    <None Include="org\ascollada\physics\DaeRigidBody.as" />
+    <None Include="org\ascollada\physics\DaeRigidConstraint.as" />
+    <None Include="org\ascollada\physics\DaeShape.as" />
+    <None Include="org\ascollada\physics\DaeSphere.as" />
+    <None Include="org\ascollada\physics\DaeTaperedCapsule.as" />
+    <None Include="org\ascollada\physics\DaeTaperedCylinder.as" />
+    <None Include="org\ascollada\types\DaeAddressSyntax.as" />
+    <None Include="org\ascollada\types\DaeArray.as" />
+    <None Include="org\ascollada\types\DaeColorOrTexture.as" />
+    <None Include="org\ascollada\types\DaeTransform.as" />
+    <None Include="org\ascollada\utils\FPS.as" />
+    <None Include="org\ascollada\utils\Logger.as" />
+    <None Include="org\ascollada\utils\StringUtil.as" />
+    <None Include="org\flintparticles\common\actions\Action.as" />
+    <None Include="org\flintparticles\common\actions\ActionBase.as" />
+    <None Include="org\flintparticles\common\actions\Age.as" />
+    <None Include="org\flintparticles\common\actions\ChangeCollisionRadius.as" />
+    <None Include="org\flintparticles\common\actions\ChangeMass.as" />
+    <None Include="org\flintparticles\common\actions\ColorChange.as" />
+    <None Include="org\flintparticles\common\actions\Fade.as" />
+    <None Include="org\flintparticles\common\actions\KeyDownAction.as" />
+    <None Include="org\flintparticles\common\actions\ScaleImage.as" />
+    <None Include="org\flintparticles\common\actions\TargetColor.as" />
+    <None Include="org\flintparticles\common\actions\TargetScale.as" />
+    <None Include="org\flintparticles\common\activities\Activity.as" />
+    <None Include="org\flintparticles\common\activities\ActivityBase.as" />
+    <None Include="org\flintparticles\common\activities\FrameUpdatable.as" />
+    <None Include="org\flintparticles\common\activities\UpdateOnFrame.as" />
+    <None Include="org\flintparticles\common\behaviours\Behaviour.as" />
+    <None Include="org\flintparticles\common\behaviours\Resetable.as" />
+    <None Include="org\flintparticles\common\counters\Blast.as" />
+    <None Include="org\flintparticles\common\counters\Counter.as" />
+    <None Include="org\flintparticles\common\counters\KeyDownCounter.as" />
+    <None Include="org\flintparticles\common\counters\PerformanceAdjusted.as" />
+    <None Include="org\flintparticles\common\counters\Pulse.as" />
+    <None Include="org\flintparticles\common\counters\Random.as" />
+    <None Include="org\flintparticles\common\counters\SineCounter.as" />
+    <None Include="org\flintparticles\common\counters\Steady.as" />
+    <None Include="org\flintparticles\common\counters\TimePeriod.as" />
+    <None Include="org\flintparticles\common\counters\ZeroCounter.as" />
+    <None Include="org\flintparticles\common\debug\ParticleFactoryStats.as" />
+    <None Include="org\flintparticles\common\debug\Stats.as" />
+    <None Include="org\flintparticles\common\displayObjects\Dot.as" />
+    <None Include="org\flintparticles\common\displayObjects\Ellipse.as" />
+    <None Include="org\flintparticles\common\displayObjects\Line.as" />
+    <None Include="org\flintparticles\common\displayObjects\RadialDot.as" />
+    <None Include="org\flintparticles\common\displayObjects\Rect.as" />
+    <None Include="org\flintparticles\common\displayObjects\Ring.as" />
+    <None Include="org\flintparticles\common\displayObjects\Star.as" />
+    <None Include="org\flintparticles\common\easing\Back.as" />
+    <None Include="org\flintparticles\common\easing\Bounce.as" />
+    <None Include="org\flintparticles\common\easing\Circular.as" />
+    <None Include="org\flintparticles\common\easing\Cubic.as" />
+    <None Include="org\flintparticles\common\easing\Elastic.as" />
+    <None Include="org\flintparticles\common\easing\Exponential.as" />
+    <None Include="org\flintparticles\common\easing\Linear.as" />
+    <None Include="org\flintparticles\common\easing\Quadratic.as" />
+    <None Include="org\flintparticles\common\easing\Quartic.as" />
+    <None Include="org\flintparticles\common\easing\Quintic.as" />
+    <None Include="org\flintparticles\common\easing\Sine.as" />
+    <None Include="org\flintparticles\common\easing\TwoWay.as" />
+    <None Include="org\flintparticles\common\emitters\Emitter.as" />
+    <None Include="org\flintparticles\common\events\EmitterEvent.as" />
+    <None Include="org\flintparticles\common\events\ParticleEvent.as" />
+    <None Include="org\flintparticles\common\events\UpdateEvent.as" />
+    <None Include="org\flintparticles\common\initializers\AlphaInit.as" />
+    <None Include="org\flintparticles\common\initializers\ApplyFilter.as" />
+    <None Include="org\flintparticles\common\initializers\ChooseInitializer.as" />
+    <None Include="org\flintparticles\common\initializers\CollisionRadiusInit.as" />
+    <None Include="org\flintparticles\common\initializers\ColorInit.as" />
+    <None Include="org\flintparticles\common\initializers\ColorsInit.as" />
+    <None Include="org\flintparticles\common\initializers\DictionaryInitializer.as" />
+    <None Include="org\flintparticles\common\initializers\ImageClass.as" />
+    <None Include="org\flintparticles\common\initializers\ImageClasses.as" />
+    <None Include="org\flintparticles\common\initializers\Initializer.as" />
+    <None Include="org\flintparticles\common\initializers\InitializerBase.as" />
+    <None Include="org\flintparticles\common\initializers\InitializerGroup.as" />
+    <None Include="org\flintparticles\common\initializers\Lifetime.as" />
+    <None Include="org\flintparticles\common\initializers\MassInit.as" />
+    <None Include="org\flintparticles\common\initializers\MouseEventHandlers.as" />
+    <None Include="org\flintparticles\common\initializers\ScaleImageInit.as" />
+    <None Include="org\flintparticles\common\initializers\ScaleImagesInit.as" />
+    <None Include="org\flintparticles\common\initializers\SharedImage.as" />
+    <None Include="org\flintparticles\common\initializers\SharedImages.as" />
+    <None Include="org\flintparticles\common\particles\Particle.as" />
+    <None Include="org\flintparticles\common\particles\ParticleFactory.as" />
+    <None Include="org\flintparticles\common\renderers\FlexRendererBase.as" />
+    <None Include="org\flintparticles\common\renderers\Renderer.as" />
+    <None Include="org\flintparticles\common\renderers\RendererBase.as" />
+    <None Include="org\flintparticles\common\renderers\SpriteRendererBase.as" />
+    <None Include="org\flintparticles\common\utils\construct.as" />
+    <None Include="org\flintparticles\common\utils\DisplayObjectUtils.as" />
+    <None Include="org\flintparticles\common\utils\FastWeightedArray.as" />
+    <None Include="org\flintparticles\common\utils\FrameUpdater.as" />
+    <None Include="org\flintparticles\common\utils\interpolateColors.as" />
+    <None Include="org\flintparticles\common\utils\Maths.as" />
+    <None Include="org\flintparticles\common\utils\WeightedArray.as" />
+    <None Include="org\flintparticles\threeD\actions\Accelerate.as" />
+    <None Include="org\flintparticles\threeD\actions\AntiGravity.as" />
+    <None Include="org\flintparticles\threeD\actions\ApproachNeighbours.as" />
+    <None Include="org\flintparticles\threeD\actions\BoundingBox.as" />
+    <None Include="org\flintparticles\threeD\actions\Collide.as" />
+    <None Include="org\flintparticles\threeD\actions\DeathSpeed.as" />
+    <None Include="org\flintparticles\threeD\actions\DeathZone.as" />
+    <None Include="org\flintparticles\threeD\actions\Explosion.as" />
+    <None Include="org\flintparticles\threeD\actions\Friction.as" />
+    <None Include="org\flintparticles\threeD\actions\GravityWell.as" />
+    <None Include="org\flintparticles\threeD\actions\Jet.as" />
+    <None Include="org\flintparticles\threeD\actions\LinearDrag.as" />
+    <None Include="org\flintparticles\threeD\actions\MatchRotateVelocity.as" />
+    <None Include="org\flintparticles\threeD\actions\MatchVelocity.as" />
+    <None Include="org\flintparticles\threeD\actions\MinimumDistance.as" />
+    <None Include="org\flintparticles\threeD\actions\Move.as" />
+    <None Include="org\flintparticles\threeD\actions\MutualGravity.as" />
+    <None Include="org\flintparticles\threeD\actions\QuadraticDrag.as" />
+    <None Include="org\flintparticles\threeD\actions\RandomDrift.as" />
+    <None Include="org\flintparticles\threeD\actions\Rotate.as" />
+    <None Include="org\flintparticles\threeD\actions\RotateToDirection.as" />
+    <None Include="org\flintparticles\threeD\actions\RotationalFriction.as" />
+    <None Include="org\flintparticles\threeD\actions\RotationalLinearDrag.as" />
+    <None Include="org\flintparticles\threeD\actions\RotationalQuadraticDrag.as" />
+    <None Include="org\flintparticles\threeD\actions\ScaleAll.as" />
+    <None Include="org\flintparticles\threeD\actions\SpeedLimit.as" />
+    <None Include="org\flintparticles\threeD\actions\TargetRotateVelocity.as" />
+    <None Include="org\flintparticles\threeD\actions\TargetVelocity.as" />
+    <None Include="org\flintparticles\threeD\actions\TurnTowardsPoint.as" />
+    <None Include="org\flintparticles\threeD\actions\TweenPosition.as" />
+    <None Include="org\flintparticles\threeD\actions\TweenToZone.as" />
+    <None Include="org\flintparticles\threeD\actions\WrapAroundBox.as" />
+    <None Include="org\flintparticles\threeD\actions\ZonedAction.as" />
+    <None Include="org\flintparticles\threeD\activities\MoveEmitter.as" />
+    <None Include="org\flintparticles\threeD\activities\RotateEmitter.as" />
+    <None Include="org\flintparticles\threeD\away3d\Away3DRenderer.as" />
+    <None Include="org\flintparticles\threeD\away3d\initializers\A3DDisplayObjectClass.as" />
+    <None Include="org\flintparticles\threeD\away3d\initializers\A3DDisplayObjectClasses.as" />
+    <None Include="org\flintparticles\threeD\away3d\initializers\A3DObjectClass.as" />
+    <None Include="org\flintparticles\threeD\away3d\initializers\A3DObjectClasses.as" />
+    <None Include="org\flintparticles\threeD\away3d\initializers\ApplyMaterial.as" />
+    <None Include="org\flintparticles\threeD\away3d\utils\Convert.as" />
+    <None Include="org\flintparticles\threeD\emitters\Emitter3D.as" />
+    <None Include="org\flintparticles\threeD\emitters\mxml\Emitter3D.as" />
+    <None Include="org\flintparticles\threeD\geom\Matrix3DUtils.as" />
+    <None Include="org\flintparticles\threeD\geom\Quaternion.as" />
+    <None Include="org\flintparticles\threeD\geom\Vector3DUtils.as" />
+    <None Include="org\flintparticles\threeD\initializers\FaceAxis.as" />
+    <None Include="org\flintparticles\threeD\initializers\Position.as" />
+    <None Include="org\flintparticles\threeD\initializers\PositionAbsolute.as" />
+    <None Include="org\flintparticles\threeD\initializers\RotateVelocity.as" />
+    <None Include="org\flintparticles\threeD\initializers\Rotation.as" />
+    <None Include="org\flintparticles\threeD\initializers\RotationAbsolute.as" />
+    <None Include="org\flintparticles\threeD\initializers\ScaleAllInit.as" />
+    <None Include="org\flintparticles\threeD\initializers\ScaleAllsInit.as" />
+    <None Include="org\flintparticles\threeD\initializers\Velocity.as" />
+    <None Include="org\flintparticles\threeD\papervision3d\initializers\ApplyMaterial.as" />
+    <None Include="org\flintparticles\threeD\papervision3d\initializers\PV3DDisplayObjectClass.as" />
+    <None Include="org\flintparticles\threeD\papervision3d\initializers\PV3DDisplayObjectClasses.as" />
+    <None Include="org\flintparticles\threeD\papervision3d\initializers\PV3DObjectClass.as" />
+    <None Include="org\flintparticles\threeD\papervision3d\initializers\PV3DObjectClasses.as" />
+    <None Include="org\flintparticles\threeD\papervision3d\PV3DParticleRenderer.as" />
+    <None Include="org\flintparticles\threeD\papervision3d\PV3DPixelRenderer.as" />
+    <None Include="org\flintparticles\threeD\papervision3d\PV3DRenderer.as" />
+    <None Include="org\flintparticles\threeD\particles\Particle3D.as" />
+    <None Include="org\flintparticles\threeD\particles\Particle3DUtils.as" />
+    <None Include="org\flintparticles\threeD\particles\ParticleCreator3D.as" />
+    <None Include="org\flintparticles\threeD\renderers\BitmapRenderer.as" />
+    <None Include="org\flintparticles\threeD\renderers\Camera.as" />
+    <None Include="org\flintparticles\threeD\renderers\controllers\CameraController.as" />
+    <None Include="org\flintparticles\threeD\renderers\controllers\FirstPersonCamera.as" />
+    <None Include="org\flintparticles\threeD\renderers\controllers\KeyboardControllerBase.as" />
+    <None Include="org\flintparticles\threeD\renderers\controllers\mxml\FirstPersonCamera.as" />
+    <None Include="org\flintparticles\threeD\renderers\controllers\mxml\KeyboardControllerMxml.as" />
+    <None Include="org\flintparticles\threeD\renderers\controllers\mxml\OrbitCamera.as" />
+    <None Include="org\flintparticles\threeD\renderers\controllers\OrbitCamera.as" />
+    <None Include="org\flintparticles\threeD\renderers\DisplayObjectRenderer.as" />
+    <None Include="org\flintparticles\threeD\renderers\mxml\BitmapRenderer.as" />
+    <None Include="org\flintparticles\threeD\renderers\mxml\DisplayObjectRenderer.as" />
+    <None Include="org\flintparticles\threeD\renderers\mxml\PixelRenderer.as" />
+    <None Include="org\flintparticles\threeD\renderers\PixelRenderer.as" />
+    <None Include="org\flintparticles\threeD\zones\BitmapDataZone.as" />
+    <None Include="org\flintparticles\threeD\zones\BoxZone.as" />
+    <None Include="org\flintparticles\threeD\zones\ConeZone.as" />
+    <None Include="org\flintparticles\threeD\zones\CylinderZone.as" />
+    <None Include="org\flintparticles\threeD\zones\DiscZone.as" />
+    <None Include="org\flintparticles\threeD\zones\FrustrumZone.as" />
+    <None Include="org\flintparticles\threeD\zones\GreyscaleZone.as" />
+    <None Include="org\flintparticles\threeD\zones\LineZone.as" />
+    <None Include="org\flintparticles\threeD\zones\MultiZone.as" />
+    <None Include="org\flintparticles\threeD\zones\ParallelogramZone.as" />
+    <None Include="org\flintparticles\threeD\zones\PointZone.as" />
+    <None Include="org\flintparticles\threeD\zones\SphereZone.as" />
+    <None Include="org\flintparticles\threeD\zones\Zone3D.as" />
+    <None Include="org\flintparticles\twoD\actions\Accelerate.as" />
+    <None Include="org\flintparticles\twoD\actions\AntiGravity.as" />
+    <None Include="org\flintparticles\twoD\actions\ApproachNeighbours.as" />
+    <None Include="org\flintparticles\twoD\actions\BoundingBox.as" />
+    <None Include="org\flintparticles\twoD\actions\Collide.as" />
+    <None Include="org\flintparticles\twoD\actions\CollisionZone.as" />
+    <None Include="org\flintparticles\twoD\actions\DeathSpeed.as" />
+    <None Include="org\flintparticles\twoD\actions\DeathZone.as" />
+    <None Include="org\flintparticles\twoD\actions\Explosion.as" />
+    <None Include="org\flintparticles\twoD\actions\Friction.as" />
+    <None Include="org\flintparticles\twoD\actions\GravityWell.as" />
+    <None Include="org\flintparticles\twoD\actions\Jet.as" />
+    <None Include="org\flintparticles\twoD\actions\LinearDrag.as" />
+    <None Include="org\flintparticles\twoD\actions\MatchRotateVelocity.as" />
+    <None Include="org\flintparticles\twoD\actions\MatchVelocity.as" />
+    <None Include="org\flintparticles\twoD\actions\MinimumDistance.as" />
+    <None Include="org\flintparticles\twoD\actions\MouseAntiGravity.as" />
+    <None Include="org\flintparticles\twoD\actions\MouseGravity.as" />
+    <None Include="org\flintparticles\twoD\actions\Move.as" />
+    <None Include="org\flintparticles\twoD\actions\MutualGravity.as" />
+    <None Include="org\flintparticles\twoD\actions\QuadraticDrag.as" />
+    <None Include="org\flintparticles\twoD\actions\RandomDrift.as" />
+    <None Include="org\flintparticles\twoD\actions\Rotate.as" />
+    <None Include="org\flintparticles\twoD\actions\RotateToDirection.as" />
+    <None Include="org\flintparticles\twoD\actions\RotationalFriction.as" />
+    <None Include="org\flintparticles\twoD\actions\RotationalLinearDrag.as" />
+    <None Include="org\flintparticles\twoD\actions\RotationalQuadraticDrag.as" />
+    <None Include="org\flintparticles\twoD\actions\ScaleAll.as" />
+    <None Include="org\flintparticles\twoD\actions\SpeedLimit.as" />
+    <None Include="org\flintparticles\twoD\actions\TargetRotateVelocity.as" />
+    <None Include="org\flintparticles\twoD\actions\TargetVelocity.as" />
+    <None Include="org\flintparticles\twoD\actions\TurnAwayFromMouse.as" />
+    <None Include="org\flintparticles\twoD\actions\TurnTowardsMouse.as" />
+    <None Include="org\flintparticles\twoD\actions\TurnTowardsPoint.as" />
+    <None Include="org\flintparticles\twoD\actions\TweenPosition.as" />
+    <None Include="org\flintparticles\twoD\actions\TweenToZone.as" />
+    <None Include="org\flintparticles\twoD\actions\WrapAroundBox.as" />
+    <None Include="org\flintparticles\twoD\actions\ZonedAction.as" />
+    <None Include="org\flintparticles\twoD\activities\FollowDisplayObject.as" />
+    <None Include="org\flintparticles\twoD\activities\FollowMouse.as" />
+    <None Include="org\flintparticles\twoD\activities\MoveEmitter.as" />
+    <None Include="org\flintparticles\twoD\activities\RotateEmitter.as" />
+    <None Include="org\flintparticles\twoD\emitters\Emitter2D.as" />
+    <None Include="org\flintparticles\twoD\emitters\mxml\Emitter2D.as" />
+    <None Include="org\flintparticles\twoD\initializers\Position.as" />
+    <None Include="org\flintparticles\twoD\initializers\PositionAbsolute.as" />
+    <None Include="org\flintparticles\twoD\initializers\RotateVelocity.as" />
+    <None Include="org\flintparticles\twoD\initializers\Rotation.as" />
+    <None Include="org\flintparticles\twoD\initializers\RotationAbsolute.as" />
+    <None Include="org\flintparticles\twoD\initializers\ScaleAllInit.as" />
+    <None Include="org\flintparticles\twoD\initializers\ScaleAllsInit.as" />
+    <None Include="org\flintparticles\twoD\initializers\Velocity.as" />
+    <None Include="org\flintparticles\twoD\particles\Particle2D.as" />
+    <None Include="org\flintparticles\twoD\particles\Particle2DUtils.as" />
+    <None Include="org\flintparticles\twoD\particles\ParticleCreator2D.as" />
+    <None Include="org\flintparticles\twoD\renderers\BitmapLineRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\BitmapRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\DisplayObjectRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\mxml\BitmapLineRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\mxml\BitmapRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\mxml\DisplayObjectRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\mxml\PixelRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\mxml\VectorLineRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\PixelRenderer.as" />
+    <None Include="org\flintparticles\twoD\renderers\VectorLineRenderer.as" />
+    <None Include="org\flintparticles\twoD\zones\BitmapDataZone.as" />
+    <None Include="org\flintparticles\twoD\zones\DiscSectorZone.as" />
+    <None Include="org\flintparticles\twoD\zones\DiscZone.as" />
+    <None Include="org\flintparticles\twoD\zones\DisplayObjectZone.as" />
+    <None Include="org\flintparticles\twoD\zones\GreyscaleZone.as" />
+    <None Include="org\flintparticles\twoD\zones\LineZone.as" />
+    <None Include="org\flintparticles\twoD\zones\MultiZone.as" />
+    <None Include="org\flintparticles\twoD\zones\PointZone.as" />
+    <None Include="org\flintparticles\twoD\zones\RectangleZone.as" />
+    <None Include="org\flintparticles\twoD\zones\Zone2D.as" />
+    <None Include="org\papervision3d\cameras\Camera3D.as" />
+    <None Include="org\papervision3d\cameras\CameraType.as" />
+    <None Include="org\papervision3d\cameras\DebugCamera3D.as" />
+    <None Include="org\papervision3d\cameras\SpringCamera3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\Channel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\controller\MorphWeightChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\geometry\GeometryChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\geometry\VertexChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\geometry\VerticesChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\transform\MatrixChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\transform\RotationChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\transform\ScaleChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\transform\TransformChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\transform\TransformStackChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\channel\transform\TranslationChannel3D.as" />
+    <None Include="org\papervision3d\core\animation\clip\AnimationClip3D.as" />
+    <None Include="org\papervision3d\core\animation\curve\Curve3D.as" />
+    <None Include="org\papervision3d\core\animation\enum\InfinityType.as" />
+    <None Include="org\papervision3d\core\animation\enum\InterpolationType.as" />
+    <None Include="org\papervision3d\core\animation\IAnimatable.as" />
+    <None Include="org\papervision3d\core\animation\IAnimationProvider.as" />
+    <None Include="org\papervision3d\core\animation\key\BezierCurveKey3D.as" />
+    <None Include="org\papervision3d\core\animation\key\CurveKey3D.as" />
+    <None Include="org\papervision3d\core\animation\key\LinearCurveKey3D.as" />
+    <None Include="org\papervision3d\core\animation\key\StepCurveKey3D.as" />
+    <None Include="org\papervision3d\core\clipping\DefaultClipping.as" />
+    <None Include="org\papervision3d\core\clipping\draw\Clipping.as" />
+    <None Include="org\papervision3d\core\clipping\draw\RectangleClipping.as" />
+    <None Include="org\papervision3d\core\clipping\FrustumClipping.as" />
+    <None Include="org\papervision3d\core\controller\AnimationController.as" />
+    <None Include="org\papervision3d\core\controller\IControllerProvider.as" />
+    <None Include="org\papervision3d\core\controller\IObjectController.as" />
+    <None Include="org\papervision3d\core\controller\MorphController.as" />
+    <None Include="org\papervision3d\core\controller\SkinController.as" />
+    <None Include="org\papervision3d\core\culling\CompositeTriangleCuller.as" />
+    <None Include="org\papervision3d\core\culling\DefaultLineCuller.as" />
+    <None Include="org\papervision3d\core\culling\DefaultParticleCuller.as" />
+    <None Include="org\papervision3d\core\culling\DefaultTriangleCuller.as" />
+    <None Include="org\papervision3d\core\culling\FrustumCuller.as" />
+    <None Include="org\papervision3d\core\culling\FrustumTestMethod.as" />
+    <None Include="org\papervision3d\core\culling\ILineCuller.as" />
+    <None Include="org\papervision3d\core\culling\IObjectCuller.as" />
+    <None Include="org\papervision3d\core\culling\IParticleCuller.as" />
+    <None Include="org\papervision3d\core\culling\ITriangleCuller.as" />
+    <None Include="org\papervision3d\core\culling\NullTriangleCuller.as" />
+    <None Include="org\papervision3d\core\culling\RectangleLineCuller.as" />
+    <None Include="org\papervision3d\core\culling\RectangleParticleCuller.as" />
+    <None Include="org\papervision3d\core\culling\RectangleTriangleCuller.as" />
+    <None Include="org\papervision3d\core\culling\ViewportObjectFilter.as" />
+    <None Include="org\papervision3d\core\culling\ViewportObjectFilterMode.as" />
+    <None Include="org\papervision3d\core\data\UserData.as" />
+    <None Include="org\papervision3d\core\dyn\DynamicTriangles.as" />
+    <None Include="org\papervision3d\core\effects\AbstractEffect.as" />
+    <None Include="org\papervision3d\core\effects\BitmapColorEffect.as" />
+    <None Include="org\papervision3d\core\effects\BitmapFireEffect.as" />
+    <None Include="org\papervision3d\core\effects\BitmapLayerEffect.as" />
+    <None Include="org\papervision3d\core\effects\BitmapMotionEffect.as" />
+    <None Include="org\papervision3d\core\effects\BitmapPixelateEffect.as" />
+    <None Include="org\papervision3d\core\effects\IEffect.as" />
+    <None Include="org\papervision3d\core\effects\objects\LensFlare.as" />
+    <None Include="org\papervision3d\core\effects\utils\BitmapClearMode.as" />
+    <None Include="org\papervision3d\core\effects\utils\BitmapDrawCommand.as" />
+    <None Include="org\papervision3d\core\effects\utils\ConvolutionMatrices.as" />
+    <None Include="org\papervision3d\core\effects\view\ReflectionView.as" />
+    <None Include="org\papervision3d\core\geom\Lines3D.as" />
+    <None Include="org\papervision3d\core\geom\Particles.as" />
+    <None Include="org\papervision3d\core\geom\Pixels.as" />
+    <None Include="org\papervision3d\core\geom\renderables\AbstractRenderable.as" />
+    <None Include="org\papervision3d\core\geom\renderables\IRenderable.as" />
+    <None Include="org\papervision3d\core\geom\renderables\Line3D.as" />
+    <None Include="org\papervision3d\core\geom\renderables\Particle.as" />
+    <None Include="org\papervision3d\core\geom\renderables\Pixel3D.as" />
+    <None Include="org\papervision3d\core\geom\renderables\Triangle3D.as" />
+    <None Include="org\papervision3d\core\geom\renderables\Triangle3DInstance.as" />
+    <None Include="org\papervision3d\core\geom\renderables\VectorShapeRenderable.as" />
+    <None Include="org\papervision3d\core\geom\renderables\Vertex3D.as" />
+    <None Include="org\papervision3d\core\geom\renderables\Vertex3DInstance.as" />
+    <None Include="org\papervision3d\core\geom\TriangleMesh3D.as" />
+    <None Include="org\papervision3d\core\geom\Vertices3D.as" />
+    <None Include="org\papervision3d\core\io\BasicExporter.as" />
+    <None Include="org\papervision3d\core\io\exporters\ExportCollada.as" />
+    <None Include="org\papervision3d\core\io\exporters\ExportFileFormat.as" />
+    <None Include="org\papervision3d\core\log\AbstractPaperLogger.as" />
+    <None Include="org\papervision3d\core\log\event\PaperLoggerEvent.as" />
+    <None Include="org\papervision3d\core\log\IPaperLogger.as" />
+    <None Include="org\papervision3d\core\log\LogLevel.as" />
+    <None Include="org\papervision3d\core\log\PaperLogger.as" />
+    <None Include="org\papervision3d\core\log\PaperLogVO.as" />
+    <None Include="org\papervision3d\core\log\PaperTraceLogger.as" />
+    <None Include="org\papervision3d\core\material\AbstractLightShadeMaterial.as" />
+    <None Include="org\papervision3d\core\material\AbstractSmoothShadeMaterial.as" />
+    <None Include="org\papervision3d\core\material\TriangleMaterial.as" />
+    <None Include="org\papervision3d\core\math\AxisAlignedBoundingBox.as" />
+    <None Include="org\papervision3d\core\math\BoundingSphere.as" />
+    <None Include="org\papervision3d\core\math\Matrix3D.as" />
+    <None Include="org\papervision3d\core\math\Number2D.as" />
+    <None Include="org\papervision3d\core\math\Number3D.as" />
+    <None Include="org\papervision3d\core\math\NumberUV.as" />
+    <None Include="org\papervision3d\core\math\Plane3D.as" />
+    <None Include="org\papervision3d\core\math\Quaternion.as" />
+    <None Include="org\papervision3d\core\math\Ray3D.as" />
+    <None Include="org\papervision3d\core\math\Sphere3D.as" />
+    <None Include="org\papervision3d\core\math\util\ClassificationUtil.as" />
+    <None Include="org\papervision3d\core\math\util\FastRectangleTools.as" />
+    <None Include="org\papervision3d\core\math\util\GLU.as" />
+    <None Include="org\papervision3d\core\math\util\InterpolationUtil.as" />
+    <None Include="org\papervision3d\core\math\util\Intersection.as" />
+    <None Include="org\papervision3d\core\math\util\TriangleUtil.as" />
+    <None Include="org\papervision3d\core\ns\pv3dview.as" />
+    <None Include="org\papervision3d\core\proto\CameraObject3D.as" />
+    <None Include="org\papervision3d\core\proto\DisplayObjectContainer3D.as" />
+    <None Include="org\papervision3d\core\proto\GeometryObject3D.as" />
+    <None Include="org\papervision3d\core\proto\LightObject3D.as" />
+    <None Include="org\papervision3d\core\proto\MaterialObject3D.as" />
+    <None Include="org\papervision3d\core\proto\SceneObject3D.as" />
+    <None Include="org\papervision3d\core\render\AbstractRenderEngine.as" />
+    <None Include="org\papervision3d\core\render\command\AbstractRenderListItem.as" />
+    <None Include="org\papervision3d\core\render\command\IRenderListItem.as" />
+    <None Include="org\papervision3d\core\render\command\RenderableListItem.as" />
+    <None Include="org\papervision3d\core\render\command\RenderFog.as" />
+    <None Include="org\papervision3d\core\render\command\RenderLine.as" />
+    <None Include="org\papervision3d\core\render\command\RenderParticle.as" />
+    <None Include="org\papervision3d\core\render\command\RenderPixels.as" />
+    <None Include="org\papervision3d\core\render\command\RenderTriangle.as" />
+    <None Include="org\papervision3d\core\render\command\RenderVectorShape.as" />
+    <None Include="org\papervision3d\core\render\command\VectorShapeHitTest.as" />
+    <None Include="org\papervision3d\core\render\data\QuadTree.as" />
+    <None Include="org\papervision3d\core\render\data\QuadTreeNode.as" />
+    <None Include="org\papervision3d\core\render\data\RenderHitData.as" />
+    <None Include="org\papervision3d\core\render\data\RenderSessionData.as" />
+    <None Include="org\papervision3d\core\render\data\RenderStatistics.as" />
+    <None Include="org\papervision3d\core\render\draw\ILineDrawer.as" />
+    <None Include="org\papervision3d\core\render\draw\IParticleDrawer.as" />
+    <None Include="org\papervision3d\core\render\draw\ITriangleDrawer.as" />
+    <None Include="org\papervision3d\core\render\filter\AbstractQuadrantFilter.as" />
+    <None Include="org\papervision3d\core\render\filter\BasicRenderFilter.as" />
+    <None Include="org\papervision3d\core\render\filter\FogFilter.as" />
+    <None Include="org\papervision3d\core\render\filter\IRenderFilter.as" />
+    <None Include="org\papervision3d\core\render\filter\QuadrantFilter.as" />
+    <None Include="org\papervision3d\core\render\filter\QuadrantZFilter.as" />
+    <None Include="org\papervision3d\core\render\IRenderEngine.as" />
+    <None Include="org\papervision3d\core\render\material\IUpdateAfterMaterial.as" />
+    <None Include="org\papervision3d\core\render\material\IUpdateBeforeMaterial.as" />
+    <None Include="org\papervision3d\core\render\material\MaterialManager.as" />
+    <None Include="org\papervision3d\core\render\project\BasicProjectionPipeline.as" />
+    <None Include="org\papervision3d\core\render\project\basic\IProjector.as" />
+    <None Include="org\papervision3d\core\render\project\ProjectionPipeline.as" />
+    <None Include="org\papervision3d\core\render\shader\IShaderRenderer.as" />
+    <None Include="org\papervision3d\core\render\shader\ShaderObjectData.as" />
+    <None Include="org\papervision3d\core\render\shader\ShaderRenderer.as" />
+    <None Include="org\papervision3d\core\render\sort\BasicRenderSorter.as" />
+    <None Include="org\papervision3d\core\render\sort\IRenderSorter.as" />
+    <None Include="org\papervision3d\core\render\sort\NullSorter.as" />
+    <None Include="org\papervision3d\core\utils\InteractiveSceneManager.as" />
+    <None Include="org\papervision3d\core\utils\InteractiveUtils.as" />
+    <None Include="org\papervision3d\core\utils\MeshUtil.as" />
+    <None Include="org\papervision3d\core\utils\Mouse3D.as" />
+    <None Include="org\papervision3d\core\utils\StopWatch.as" />
+    <None Include="org\papervision3d\core\utils\virtualmouse\IVirtualMouseEvent.as" />
+    <None Include="org\papervision3d\core\utils\virtualmouse\VirtualMouse.as" />
+    <None Include="org\papervision3d\core\utils\virtualmouse\VirtualMouseEvent.as" />
+    <None Include="org\papervision3d\core\utils\virtualmouse\VirtualMouseMouseEvent.as" />
+    <None Include="org\papervision3d\core\view\IView.as" />
+    <None Include="org\papervision3d\core\view\IViewport3D.as" />
+    <None Include="org\papervision3d\events\AnimationEvent.as" />
+    <None Include="org\papervision3d\events\FileLoadEvent.as" />
+    <None Include="org\papervision3d\events\InteractiveScene3DEvent.as" />
+    <None Include="org\papervision3d\events\RendererEvent.as" />
+    <None Include="org\papervision3d\lights\PointLight3D.as" />
+    <None Include="org\papervision3d\materials\BitmapAssetMaterial.as" />
+    <None Include="org\papervision3d\materials\BitmapColorMaterial.as" />
+    <None Include="org\papervision3d\materials\BitmapFileMaterial.as" />
+    <None Include="org\papervision3d\materials\BitmapMaterial.as" />
+    <None Include="org\papervision3d\materials\BitmapViewportMaterial.as" />
+    <None Include="org\papervision3d\materials\BitmapWireframeMaterial.as" />
+    <None Include="org\papervision3d\materials\ColorMaterial.as" />
+    <None Include="org\papervision3d\materials\MovieAssetMaterial.as" />
+    <None Include="org\papervision3d\materials\MovieMaterial.as" />
+    <None Include="org\papervision3d\materials\shadematerials\CellMaterial.as" />
+    <None Include="org\papervision3d\materials\shadematerials\EnvMapMaterial.as" />
+    <None Include="org\papervision3d\materials\shadematerials\FlatShadeMaterial.as" />
+    <None Include="org\papervision3d\materials\shadematerials\GouraudMaterial.as" />
+    <None Include="org\papervision3d\materials\shadematerials\PhongMaterial.as" />
+    <None Include="org\papervision3d\materials\shaders\CellShader.as" />
+    <None Include="org\papervision3d\materials\shaders\EnvMapShader.as" />
+    <None Include="org\papervision3d\materials\shaders\FlatShader.as" />
+    <None Include="org\papervision3d\materials\shaders\GouraudShader.as" />
+    <None Include="org\papervision3d\materials\shaders\ILightShader.as" />
+    <None Include="org\papervision3d\materials\shaders\IShader.as" />
+    <None Include="org\papervision3d\materials\shaders\LightShader.as" />
+    <None Include="org\papervision3d\materials\shaders\PhongShader.as" />
+    <None Include="org\papervision3d\materials\shaders\ShadedMaterial.as" />
+    <None Include="org\papervision3d\materials\shaders\Shader.as" />
+    <None Include="org\papervision3d\materials\shaders\ShaderCompositeModes.as" />
+    <None Include="org\papervision3d\materials\special\BitmapParticleMaterial.as" />
+    <None Include="org\papervision3d\materials\special\CompositeMaterial.as" />
+    <None Include="org\papervision3d\materials\special\FogMaterial.as" />
+    <None Include="org\papervision3d\materials\special\Letter3DMaterial.as" />
+    <None Include="org\papervision3d\materials\special\LineMaterial.as" />
+    <None Include="org\papervision3d\materials\special\MovieAssetParticleMaterial.as" />
+    <None Include="org\papervision3d\materials\special\MovieParticleMaterial.as" />
+    <None Include="org\papervision3d\materials\special\ParticleBitmap.as" />
+    <None Include="org\papervision3d\materials\special\ParticleMaterial.as" />
+    <None Include="org\papervision3d\materials\special\VectorShapeMaterial.as" />
+    <None Include="org\papervision3d\materials\utils\BitmapMaterialTools.as" />
+    <None Include="org\papervision3d\materials\utils\BumpmapGenerator.as" />
+    <None Include="org\papervision3d\materials\utils\LightMaps.as" />
+    <None Include="org\papervision3d\materials\utils\LightMatrix.as" />
+    <None Include="org\papervision3d\materials\utils\MaterialsList.as" />
+    <None Include="org\papervision3d\materials\utils\PrecisionMode.as" />
+    <None Include="org\papervision3d\materials\utils\RenderRecStorage.as" />
+    <None Include="org\papervision3d\materials\VideoStreamMaterial.as" />
+    <None Include="org\papervision3d\materials\WireframeMaterial.as" />
+    <None Include="org\papervision3d\objects\DisplayObject3D.as" />
+    <None Include="org\papervision3d\objects\parsers\Ase.as" />
+    <None Include="org\papervision3d\objects\parsers\Collada.as" />
+    <None Include="org\papervision3d\objects\parsers\DAE.as" />
+    <None Include="org\papervision3d\objects\parsers\KMZ.as" />
+    <None Include="org\papervision3d\objects\parsers\Max3DS.as" />
+    <None Include="org\papervision3d\objects\parsers\MD2.as" />
+    <None Include="org\papervision3d\objects\parsers\Sketchup.as" />
+    <None Include="org\papervision3d\objects\parsers\SketchupCollada.as" />
+    <None Include="org\papervision3d\objects\primitives\Arrow.as" />
+    <None Include="org\papervision3d\objects\primitives\Cone.as" />
+    <None Include="org\papervision3d\objects\primitives\Cube.as" />
+    <None Include="org\papervision3d\objects\primitives\Cylinder.as" />
+    <None Include="org\papervision3d\objects\primitives\PaperPlane.as" />
+    <None Include="org\papervision3d\objects\primitives\Plane.as" />
+    <None Include="org\papervision3d\objects\primitives\Sphere.as" />
+    <None Include="org\papervision3d\objects\special\commands\BeginFill.as" />
+    <None Include="org\papervision3d\objects\special\commands\CurveTo.as" />
+    <None Include="org\papervision3d\objects\special\commands\EndFill.as" />
+    <None Include="org\papervision3d\objects\special\commands\IVectorShape.as" />
+    <None Include="org\papervision3d\objects\special\commands\LineStyle.as" />
+    <None Include="org\papervision3d\objects\special\commands\LineTo.as" />
+    <None Include="org\papervision3d\objects\special\commands\MoveTo.as" />
+    <None Include="org\papervision3d\objects\special\Graphics3D.as" />
+    <None Include="org\papervision3d\objects\special\ParticleField.as" />
+    <None Include="org\papervision3d\objects\special\SimpleLevelOfDetail.as" />
+    <None Include="org\papervision3d\objects\special\Skin3D.as" />
+    <None Include="org\papervision3d\objects\special\Sound3D.as" />
+    <None Include="org\papervision3d\objects\special\UCS.as" />
+    <None Include="org\papervision3d\objects\special\VectorShape3D.as" />
+    <None Include="org\papervision3d\Papervision3D.as" />
+    <None Include="org\papervision3d\render\BasicRenderEngine.as" />
+    <None Include="org\papervision3d\render\LazyRenderEngine.as" />
+    <None Include="org\papervision3d\render\QuadrantRenderEngine.as" />
+    <None Include="org\papervision3d\scenes\Scene3D.as" />
+    <None Include="org\papervision3d\typography\Font3D.as" />
+    <None Include="org\papervision3d\typography\fonts\HelveticaBold.as" />
+    <None Include="org\papervision3d\typography\fonts\HelveticaLight.as" />
+    <None Include="org\papervision3d\typography\fonts\HelveticaMedium.as" />
+    <None Include="org\papervision3d\typography\fonts\HelveticaRoman.as" />
+    <None Include="org\papervision3d\typography\Letter3D.as" />
+    <None Include="org\papervision3d\typography\Text3D.as" />
+    <None Include="org\papervision3d\typography\VectorLetter3D.as" />
+    <None Include="org\papervision3d\utils\ObjectController.as" />
+    <None Include="org\papervision3d\view\AbstractView.as" />
+    <None Include="org\papervision3d\view\BasicView.as" />
+    <None Include="org\papervision3d\view\BitmapViewport3D.as" />
+    <None Include="org\papervision3d\view\layer\BitmapEffectLayer.as" />
+    <None Include="org\papervision3d\view\layer\util\ViewportLayerSortMode.as" />
+    <None Include="org\papervision3d\view\layer\ViewportBaseLayer.as" />
+    <None Include="org\papervision3d\view\layer\ViewportLayer.as" />
+    <None Include="org\papervision3d\view\layer\ViewportLayerEvent.as" />
+    <None Include="org\papervision3d\view\stats\AbstractStatsView.as" />
+    <None Include="org\papervision3d\view\stats\StatsView.as" />
+    <None Include="org\papervision3d\view\Viewport3D.as" />
+    <None Include="wumedia\parsers\swf\Color.as" />
+    <None Include="wumedia\parsers\swf\Data.as" />
+    <None Include="wumedia\parsers\swf\DefineFont.as" />
+    <None Include="wumedia\parsers\swf\DefineShape.as" />
+    <None Include="wumedia\parsers\swf\Edge.as" />
+    <None Include="wumedia\parsers\swf\FillStyle.as" />
+    <None Include="wumedia\parsers\swf\KerningRecord.as" />
+    <None Include="wumedia\parsers\swf\LineStyle.as" />
+    <None Include="wumedia\parsers\swf\ShapeRecord.as" />
+    <None Include="wumedia\parsers\swf\SWFParser.as" />
+    <None Include="wumedia\parsers\swf\Tag.as" />
+    <None Include="wumedia\parsers\swf\TagTypes.as" />
+    <None Include="wumedia\vector\VectorShapes.as" />
+    <None Include="wumedia\vector\VectorText.as" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName)==Release (
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+)</PostBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /xAttachDebugger:true
+
+</PreBuildEvent>
+  </PropertyGroup>
+</Project>
