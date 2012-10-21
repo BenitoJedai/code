@@ -22,7 +22,6 @@ namespace LightsOut.js
 {
     using System;
 
-    [Script]
     class __Type1
     {
         public int x;
@@ -31,7 +30,6 @@ namespace LightsOut.js
         public __Type2 tile;
     }
 
-    [Script]
     class __Type2
     {
         public int w;
@@ -54,23 +52,9 @@ namespace LightsOut.js
             // what happens in beta2 when the anonymous types are immutable? :)
 
 
-            var usersettings = new __Type1 { x = 5, y = 5, tile = new __Type2 { w = 64, h = 64, cold = 0.8 } };
-            var search = Native.Document.location.search;
+            var usersettings = new  { x = 5, y = 5, tile = new  { w = 64, h = 64, cold = 0.8 } };
 
-            if (search.StartsWith("?"))
-            {
-                var values = from i in search.Substring(1).Split('&')
-                             let kvp = i.Split('=')
-                             where kvp.Length == 2
-                             select new { key = kvp[0], value = kvp[1] };
-
-                var _x = values.FirstOrDefault(i => i.key == "x");
-                if (_x != null) usersettings.x = int.Parse(_x.value);
-
-                var _y = values.FirstOrDefault(i => i.key == "y");
-                if (_y != null) usersettings.y = int.Parse(_y.value);
-            }
-
+    
             var a = new Array2D<IHTMLDiv>(usersettings.x, usersettings.y);
             var m = a.ToBooleanArray();
 
