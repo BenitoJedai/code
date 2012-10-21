@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VisualBasicUltraDocument1", "VisualBasicUltraDocument1\VisualBasicUltraDocument1.vbproj", "{D4956143-FB85-4DBD-AF3C-20455F0A96FC}"
 EndProject
 Global
