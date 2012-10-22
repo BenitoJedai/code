@@ -73,6 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="JavaScript\Controls\LayeredControl\Assets.cs" />
     <Compile Include="JavaScript\Controls\LayeredControl\LayeredControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

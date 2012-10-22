@@ -71,6 +71,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="JavaScript\Controls\NatureBoy\Assets.cs" />
     <Compile Include="JavaScript\Controls\NatureBoy\CoordTranslator.cs" />
     <Compile Include="JavaScript\Controls\NatureBoy\DudeBase.cs" />
