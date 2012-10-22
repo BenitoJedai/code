@@ -439,6 +439,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             var selection_end = Point.Zero;
             var selection_rect = new Rectangle();
 
+            #region UpdateSelection
             System.Action UpdateSelection =
                 delegate
                 {
@@ -484,6 +485,9 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                     if (SelectionPointsPreview != null)
                         SelectionPointsPreview(selection_start, selection_end);
                 };
+            #endregion
+
+            Action ReleaseCapture = null;
 
             u.onmousedown +=
                 e =>
@@ -501,6 +505,10 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 
                         UpdateSelection();
 
+                        Console.WriteLine("CaptureMouse");
+                        e.PreventDefault();
+                        e.StopPropagation();
+                        ReleaseCapture = u.CaptureMouse();
                     }
                 };
 
@@ -511,6 +519,8 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                     {
                         selection_end = e.OffsetPosition - this.CurrentCanvasPosition;
 
+                        e.PreventDefault();
+                        e.StopPropagation();
                         UpdateSelection();
                     }
                 };
@@ -523,6 +533,8 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                         if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                         {
                             _InSelectionMode = false;
+                            e.PreventDefault();
+                            e.StopPropagation();
 
                             if (IsSelectionMinimumSize(selection_rect))
                             {
@@ -550,21 +562,35 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 
                             if (ShowSelectionRectangle)
                                 this.Layers.CanvasInfo.removeChild(selection);
+
+                            if (ReleaseCapture != null)
+                            {
+                                Console.WriteLine("ReleaseCapture");
+                                ReleaseCapture();
+                                ReleaseCapture = null;
+                            }
                         }
                     }
                 };
 
-            u.onmouseout +=
-                delegate
-                {
-                    if (_InSelectionMode)
-                    {
-                        _InSelectionMode = false;
+            //u.onmouseout +=
+            //    delegate
+            //    {
+            //        if (_InSelectionMode)
+            //        {
+            //            _InSelectionMode = false;
 
-                        if (ShowSelectionRectangle)
-                            this.Layers.CanvasInfo.removeChild(selection);
-                    }
-                };
+            //            if (ShowSelectionRectangle)
+            //                this.Layers.CanvasInfo.removeChild(selection);
+
+            //            if (ReleaseCapture != null)
+            //            {
+            //                Console.WriteLine("ReleaseCapture");
+            //                ReleaseCapture();
+            //                ReleaseCapture = null;
+            //            }
+            //        }
+            //    };
         }
 
         public event System.Action<Point, IEvent> SelectionClick;
