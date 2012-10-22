@@ -90,6 +90,7 @@
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.ExtractJavaArchiveTo.cs" />
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.ToJavaArchive.cs" />
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.cs" />
+    <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\Avalon\ContextMenuExtensions.cs" />
     <Compile Include="Extensions\Avalon\DataObjectExtensions.cs" />
     <Compile Include="Extensions\Avalon\ItemCollectionExtensions.cs" />
