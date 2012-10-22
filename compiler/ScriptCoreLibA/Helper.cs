@@ -101,7 +101,7 @@ namespace ScriptCoreLib
 
         }
 
-        static IEnumerable<LoadDependenciesValue> LoadDependencies(Assembly context, Assembly a, bool includethis, Action<Assembly> h)
+        static IEnumerable<LoadDependenciesValue> LoadDependencies(Assembly context, Assembly a, bool includethis, Action<Assembly> h, bool SkipMissingRefences = false)
         {
             var r = new LoadDependenciesValue();
 
@@ -118,7 +118,22 @@ namespace ScriptCoreLib
 
             var ReferencedAssemblies = a.GetReferencedAssemblies()
                 .Where(k => k.Name != a.GetName().Name)
-                .Select(k => AppDomain.CurrentDomain.Load(k));
+                .Select(
+                    k =>
+                    {
+                        try
+                        {
+                            return AppDomain.CurrentDomain.Load(k);
+                        }
+                        catch
+                        {
+                            if (SkipMissingRefences)
+                                return null;
+
+                            throw;
+                        }
+                    }
+                 ).Where(k => k != null);
 
             var _as = ScriptAttribute.OfProvider(a);
             if (_as != null)
@@ -160,9 +175,9 @@ namespace ScriptCoreLib
 
 
 
-        public static Assembly[] LoadReferencedAssemblies(Assembly a, bool includethis)
+        public static Assembly[] LoadReferencedAssemblies(Assembly a, bool includethis, bool SkipMissingRefences = false)
         {
-            var r = LoadDependencies(a, a, includethis, null).Distinct(
+            var r = LoadDependencies(a, a, includethis, null, SkipMissingRefences).Distinct(
                 new LoadDependenciesValue.EqualityComparer()
             ).ToArray().ToDictionary(i => i.Assembly, i => i.Dependencies.Distinct().ToArray());
             var k = r.Keys.OrderByDescending(

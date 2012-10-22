@@ -89,7 +89,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 			var References = Enumerable.Concat(
 				
 				
-				SharedHelper.LoadReferencedAssemblies(context, true),
+				SharedHelper.LoadReferencedAssemblies(context, true, true),
 				
 				
 				new [] { context }
