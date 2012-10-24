@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.KeyValuePair<,>))]
     internal class __KeyValuePair<TKey, TValue>
@@ -11,16 +10,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         public TKey Key { get; set; }
         public TValue Value { get; set; }
 
-        // todo: fix jsc on ctor merging
-         
-   
-
-        public __KeyValuePair() : this(default(TKey), default(TValue))
+        public __KeyValuePair()
+            : this(default(TKey), default(TValue))
         {
 
         }
-        
 
+        // does this work for PHP?
         public __KeyValuePair(TKey Key, TValue Value)
         {
             this.Key = Key;
