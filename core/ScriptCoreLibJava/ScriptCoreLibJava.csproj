@@ -181,6 +181,9 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\ICloneable.cs">
       <Link>BCLImplementation\System\ICloneable.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\IComparable.cs">
+      <Link>BCLImplementation\System\IComparable.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\IDisposable.cs">
       <Link>BCLImplementation\System\IDisposable.cs</Link>
     </Compile>
@@ -350,6 +353,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\ArgumentNullException.cs" />
+    <Compile Include="BCLImplementation\System\ArgumentException.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />

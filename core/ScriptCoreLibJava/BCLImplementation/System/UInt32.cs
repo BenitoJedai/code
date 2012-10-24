@@ -15,5 +15,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			return default(uint);
 		}
+
+        [Script(DefineAsStatic = true)]
+        public int CompareTo(uint value)
+        {
+            var v = (uint)(object)this;
+
+            if (v < value)
+            {
+                return -1;
+            }
+            if (v > value)
+            {
+                return 1;
+            }
+            return 0;
+        }
 	}
 }

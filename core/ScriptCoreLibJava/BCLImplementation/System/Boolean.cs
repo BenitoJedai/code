@@ -24,6 +24,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return false;
 			//return java.lang.Boolean.parseBoolean(e);
 		}
+
+        [Script(DefineAsStatic = true)]
+        public int CompareTo(bool value)
+        {
+            var v = (bool)(object)this;
+
+            if (v == value)
+            {
+                return 0;
+            }
+            if (!v)
+            {
+                return -1;
+            }
+            return 1;
+        }
+
 	}
 
 }
