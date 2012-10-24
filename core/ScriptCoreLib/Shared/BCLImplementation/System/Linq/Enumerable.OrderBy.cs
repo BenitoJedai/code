@@ -34,7 +34,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw new NullReferenceException("source");
+                throw new ArgumentNullException("source");
             }
 
             var xsource = (__OrderedEnumerable<TSource>)source;
@@ -45,7 +45,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             var xsource = (__OrderedEnumerable<TSource>)source;
             return xsource.CreateOrderedEnumerable<TKey>(keySelector, comparer, false);
@@ -55,7 +55,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             var xsource = (__OrderedEnumerable<TSource>)source;
             return xsource.CreateOrderedEnumerable<TKey>(keySelector, null, true);
@@ -66,7 +66,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             var xsource = (__OrderedEnumerable<TSource>)source;
             return xsource.CreateOrderedEnumerable<TKey>(keySelector, comparer, true);

@@ -95,7 +95,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             public void Reset()
             {
-                throw __DefinedError.NotImplemented();
+                throw new NotImplementedException();
             }
 
 

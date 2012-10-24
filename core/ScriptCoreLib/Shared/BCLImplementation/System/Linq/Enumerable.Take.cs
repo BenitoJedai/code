@@ -15,7 +15,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             return TakeIterator<TSource>(source, count);
         }
@@ -115,7 +115,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             public void Reset()
             {
-                throw __DefinedError.NotImplemented();
+                throw new NotImplementedException();
             }
 
             #endregion

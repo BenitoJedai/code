@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             long num = 0L;
             long num2 = 0L;
@@ -160,7 +160,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
 
@@ -180,12 +180,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
             if (predicate == null)
             {
-                throw __DefinedError.ArgumentNull("predicate");
+                throw new ArgumentNullException("predicate");
             }
 
             var r = false;
@@ -207,12 +207,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
             if (predicate == null)
             {
-                throw __DefinedError.ArgumentNull("predicate");
+                throw new ArgumentNullException("predicate");
             }
 
             var r = true;
@@ -234,7 +234,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
 
@@ -258,7 +258,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             int num2 = 0;
             bool flag2 = false;
@@ -296,7 +296,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             int num2 = 0;
             bool flag2 = false;
@@ -348,7 +348,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
 
@@ -367,7 +367,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
             TSource current;
@@ -401,7 +401,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
             TSource current;
@@ -426,7 +426,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
             var current = default(TSource);
@@ -446,11 +446,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             if (predicate == null)
             {
-                throw __DefinedError.ArgumentNull("predicate");
+                throw new ArgumentNullException("predicate");
             }
 
             var value = default(TSource);
@@ -479,7 +479,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
             TSource current;
@@ -513,7 +513,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
 
             var current = default(TSource);
@@ -549,7 +549,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             return new List<TSource>(source);
         }

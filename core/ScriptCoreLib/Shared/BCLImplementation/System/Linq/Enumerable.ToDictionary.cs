@@ -28,15 +28,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             if (keySelector == null)
             {
-                throw __DefinedError.ArgumentNull("keySelector");
+                throw new ArgumentNullException("keySelector");
             }
             if (elementSelector == null)
             {
-                throw __DefinedError.ArgumentNull("elementSelector");
+                throw new ArgumentNullException("elementSelector");
             }
             Dictionary<TKey, TElement> dictionary = new Dictionary<TKey, TElement>(comparer);
             foreach (TSource local in source.AsEnumerable())

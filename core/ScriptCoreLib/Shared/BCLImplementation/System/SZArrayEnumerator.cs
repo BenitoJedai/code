@@ -10,14 +10,14 @@ using System.Collections.Generic;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
 
-	// todo: IsArrayEnumerator should be replaced by Array.GetEnumerator<T>
+    // todo: IsArrayEnumerator should be replaced by Array.GetEnumerator<T>
     [Script(IsArrayEnumerator = true
         //, IsDebugCode = true
         )]
     internal class __SZArrayEnumerator<T> :
          __IEnumerator<T>,
-         __IEnumerator, 
-        
+         __IEnumerator,
+
         // special interfaces:
         IDisposable,
         IEnumerable<T>,
@@ -28,6 +28,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         T[] _array;
         int _index;
         int _endIndex;
+
+        public void __ref0()
+        {
+        }
 
         #region jsc is looking for this operator
         public static implicit operator __SZArrayEnumerator<T>(T[] e)
@@ -42,7 +46,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         public __SZArrayEnumerator(T[] array)
         {
             if (array == null)
-                throw new global::System.Exception("ArgumentNullException");
+                throw new ArgumentNullException("array");
 
             this._array = array;
             this._index = -1;
@@ -85,9 +89,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             {
 
                 if (this._index < 0)
-                    throw new global::System.Exception("InvalidOperation_EnumNotStarted");
+                    throw new InvalidOperationException("InvalidOperation_EnumNotStarted");
                 if (this._index >= this._endIndex)
-                    throw new global::System.Exception("InvalidOperation_EnumEnded");
+                    throw new InvalidOperationException("InvalidOperation_EnumEnded");
 
                 return this._array[this._index];
             }
@@ -124,13 +128,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public void Reset()
         {
-            throw new global::System.Exception("The method or operation is not implemented.");
+            throw new NotImplementedException();
         }
 
         #endregion
 
 
- 
+
     }
 
 

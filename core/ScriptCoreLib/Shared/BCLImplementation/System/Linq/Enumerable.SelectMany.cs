@@ -14,15 +14,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             if (collectionSelector == null)
             {
-                throw __DefinedError.ArgumentNull("collectionSelector");
+                throw new ArgumentNullException("collectionSelector");
             }
             if (resultSelector == null)
             {
-                throw __DefinedError.ArgumentNull("resultSelector");
+                throw new ArgumentNullException("resultSelector");
             }
 
             return SelectManyIterator<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
@@ -218,11 +218,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (source == null)
             {
-                throw __DefinedError.ArgumentNull("source");
+                throw new ArgumentNullException("source");
             }
             if (selector == null)
             {
-                throw __DefinedError.ArgumentNull("selector");
+                throw new ArgumentNullException("selector");
             }
             return SelectManyIterator<TSource, TResult>(source, selector);
         }
@@ -390,7 +390,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             public void Reset()
             {
-                throw new Exception("The method or operation is not implemented.");
+                throw new NotImplementedException();
             }
 
             #endregion
