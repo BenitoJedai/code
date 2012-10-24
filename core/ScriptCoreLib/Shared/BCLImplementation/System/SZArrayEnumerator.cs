@@ -1,27 +1,45 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
-using global::System.Collections;
-using global::System.Collections.Generic;
-
-using IDisposable = global::System.IDisposable;
-
-namespace ScriptCoreLib.Shared.Query
+//namespace ScriptCoreLib.Shared.Query
+namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
 
 	// todo: IsArrayEnumerator should be replaced by Array.GetEnumerator<T>
     [Script(IsArrayEnumerator = true
         //, IsDebugCode = true
         )]
-    public class SZArrayEnumerator<T> :
-        IEnumerable<T>, IEnumerator<T>,
-        IEnumerable, IEnumerator, IDisposable
+    internal class __SZArrayEnumerator<T> :
+         __IEnumerator<T>,
+         __IEnumerator, 
+        
+        // special interfaces:
+        IDisposable,
+        IEnumerable<T>,
+        IEnumerable
     {
+        // http://igoro.com/archive/puzzling-over-arrays-and-enumerators-in-c/
+
         T[] _array;
         int _index;
         int _endIndex;
 
-        public SZArrayEnumerator(T[] array)
+        #region jsc is looking for this operator
+        public static implicit operator __SZArrayEnumerator<T>(T[] e)
+        {
+            if (e == null)
+                return null;
+
+            return new __SZArrayEnumerator<T>(e);
+        }
+        #endregion
+
+        public __SZArrayEnumerator(T[] array)
         {
             if (array == null)
                 throw new global::System.Exception("ArgumentNullException");
@@ -33,15 +51,15 @@ namespace ScriptCoreLib.Shared.Query
 
         #region IEnumerable<T> Members
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
             if (_index == -1)
             {
-                return this;
+                return (IEnumerator<T>)(object)this;
             }
             else
             {
-                return new SZArrayEnumerator<T>(this._array);
+                return (IEnumerator<T>)(object)new __SZArrayEnumerator<T>(this._array);
             }
         }
 
@@ -51,11 +69,11 @@ namespace ScriptCoreLib.Shared.Query
         {
             if (_index == -1)
             {
-                return this;
+                return (IEnumerator<T>)(object)this;
             }
             else
             {
-                return new SZArrayEnumerator<T>(this._array);
+                return (IEnumerator)(object)new __SZArrayEnumerator<T>(this._array);
             }
         }
 
@@ -88,7 +106,7 @@ namespace ScriptCoreLib.Shared.Query
 
         #region IEnumerator Members
 
-        object IEnumerator.Current
+        object __IEnumerator.Current
         {
             get { return this.Current; }
         }
@@ -112,13 +130,7 @@ namespace ScriptCoreLib.Shared.Query
         #endregion
 
 
-        public static implicit operator SZArrayEnumerator<T>(T[] e)
-        {
-            if (e == null)
-                return null;
-
-            return new SZArrayEnumerator<T>(e);
-        }
+ 
     }
 
 

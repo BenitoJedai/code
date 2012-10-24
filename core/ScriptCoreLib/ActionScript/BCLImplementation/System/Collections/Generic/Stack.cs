@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
@@ -59,7 +60,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         {
             var a = (T[])(object)items;
 
-            return new SZArrayEnumerator<T>(a);
+            return (IEnumerator<T>)(object)new __SZArrayEnumerator<T>(a);
         }
 
         #endregion

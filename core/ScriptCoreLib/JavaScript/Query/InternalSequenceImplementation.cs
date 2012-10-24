@@ -8,6 +8,7 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 
 using IDisposable = global::System.IDisposable;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.Query
 {
@@ -35,7 +36,8 @@ namespace ScriptCoreLib.JavaScript.Query
                 else return source;
             }
 
-            return (ScriptCoreLib.Shared.Query.SZArrayEnumerator<TSource>)u.To<TSource[]>();
+            // crude cast
+            return (__SZArrayEnumerator<TSource>)(TSource[])(object)source;
         }
     }
 
