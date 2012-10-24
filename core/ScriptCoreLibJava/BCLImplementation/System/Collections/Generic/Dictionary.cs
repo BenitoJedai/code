@@ -8,7 +8,7 @@ using System.Text;
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue>, __ICollection<KeyValuePair<TKey, TValue>>
+    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue>
     {
         public java.util.HashMap InternalDictionary = new java.util.HashMap();
 
@@ -88,19 +88,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             throw new NotImplementedException();
         }
 
-        public bool Remove(object key)
-        {
-            throw new NotImplementedException();
-        }
-
+  
         public bool Remove(TKey key)
         {
             throw new NotImplementedException();
         }
 
-        // JDK 1.5 does not support this tye of overload
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121024-linq
-        bool __ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
+        public bool Remove(KeyValuePair<TKey, TValue> item)
         {
             throw new NotImplementedException();
         }
