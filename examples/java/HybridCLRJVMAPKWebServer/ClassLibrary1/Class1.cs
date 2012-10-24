@@ -89,7 +89,7 @@ namespace ClassLibrary1
                     }
 
 
-                    var data = r.ReadStreamToEnd();
+                    var data = r.ReadToMemoryStream();
 
 
                     //log("ReadLine done");
