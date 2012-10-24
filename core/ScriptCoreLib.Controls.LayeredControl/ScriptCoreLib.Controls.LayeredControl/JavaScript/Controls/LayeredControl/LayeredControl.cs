@@ -319,6 +319,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             u.ontouchstart +=
                 e =>
                 {
+                    e.PreventDefault();
                     drag_enabled = true;
                     var OffsetPosition = new Point(e.touches[0].clientX, e.touches[0].clientY);
 
@@ -330,6 +331,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 {
                     if (drag_enabled)
                     {
+                        e.PreventDefault();
                         var OffsetPosition = new Point(e.touches[0].clientX, e.touches[0].clientY);
 
                         this.SetCanvasPosition(OffsetPosition - drag_start);
@@ -340,7 +342,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             u.ontouchend +=
                 e =>
                 {
-
+                    e.PreventDefault();
                     drag_enabled = false;
 
 
@@ -511,6 +513,9 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                         ReleaseCapture = u.CaptureMouse();
                     }
                 };
+
+
+
 
             u.onmousemove +=
                 delegate(IEvent e)
