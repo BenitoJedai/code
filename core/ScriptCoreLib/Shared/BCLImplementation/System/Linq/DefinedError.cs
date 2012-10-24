@@ -8,29 +8,23 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
     [Script]
     internal static class __DefinedError
     {
-        public static Exception ArgumentOutOfRange(string paramName)
+        public static InvalidOperationException ArgumentOutOfRange(string paramName)
         {
-            return new Exception("ArgumentOutOfRange: " + paramName);
+            return new InvalidOperationException("ArgumentOutOfRange: " + paramName);
         }
 
-        public static Exception ArgumentNull(string paramName)
+
+
+        public static InvalidOperationException NoElements()
         {
-            return new Exception("ArgumentNull: " + paramName);
+            return new InvalidOperationException("Sequence contains no elements");
         }
 
-        public static Exception NoElements()
+        public static InvalidOperationException MoreThanOneElement()
         {
-            return new Exception("Sequence contains no elements");
+            return new InvalidOperationException("Sequence contains more than one element");
         }
 
-        public static Exception MoreThanOneElement()
-        {
-            return new Exception("Sequence contains more than one element");
-        }
-
-        public static Exception NotImplemented()
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
+     
     }
 }

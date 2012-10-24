@@ -76,6 +76,9 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IComparer.cs">
       <Link>BCLImplementation\System\Collections\Generic\IComparer.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IDictionary.cs">
+      <Link>BCLImplementation\System\Collections\Generic\IDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
       <Link>BCLImplementation\System\Collections\Generic\IEnumerable.cs</Link>
     </Compile>
@@ -232,6 +235,7 @@
     <Compile Include="BCLImplementation\System\Collections\ArrayList.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Collections\Generic\Dictionary.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="BCLImplementation\System\Collections\Hashtable.cs">
       <SubType>Code</SubType>
@@ -263,6 +267,7 @@
     <Compile Include="BCLImplementation\System\Console.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />

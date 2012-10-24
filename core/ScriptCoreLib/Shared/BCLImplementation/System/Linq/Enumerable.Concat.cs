@@ -13,11 +13,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             if (first == null)
             {
-                throw __DefinedError.ArgumentNull("first");
+                throw new ArgumentNullException("first");
             }
             if (second == null)
             {
-                throw __DefinedError.ArgumentNull("second");
+                throw new ArgumentNullException("second");
             }
             return ConcatIterator<TSource>(first, second);
         }

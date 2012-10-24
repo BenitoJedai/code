@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ArgumentNullException.cs">
+      <Link>BCLImplementation\System\ArgumentNullException.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Array.cs">
       <Link>BCLImplementation\System\Array.cs</Link>
     </Compile>
