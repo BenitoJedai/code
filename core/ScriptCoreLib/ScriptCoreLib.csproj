@@ -854,7 +854,7 @@
     <Compile Include="Shared\Helper.cs" />
     <Compile Include="Shared\IAssemblyInfo.cs" />
     <Compile Include="Shared\Query\InternalSequence.cs" />
-    <Compile Include="Shared\Query\SZArrayEnumerator.cs" />
+    <Compile Include="Shared\BCLImplementation\System\SZArrayEnumerator.cs" />
     <Compile Include="Shared\Serialized\SimpleEmailTag.cs" />
     <Compile Include="Shared\TextWriter.cs" />
     <Compile Include="PHP\BCLImplementation\System\Byte.cs" />

@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using ScriptCoreLib.PHP.Runtime;
 using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 {
@@ -250,7 +251,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 		public __Enumerator GetEnumerator()
 		{
             var a = this.ToArray();
-			var e = new SZArrayEnumerator<T>(a);
+			var e = (IEnumerator<T>)(object)new __SZArrayEnumerator<T>(a);
 			
 			return new __Enumerator
 			{

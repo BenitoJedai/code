@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
@@ -112,7 +113,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 				{
 					//value = InternalSequenceImplementation.AsEnumerable(e.ToArray()).GetEnumerator();
 
-					IEnumerable<T> x = new SZArrayEnumerator<T>(e.ToArray());
+					var x = new __SZArrayEnumerator<T>(e.ToArray());
 
 					value = x.GetEnumerator();
 

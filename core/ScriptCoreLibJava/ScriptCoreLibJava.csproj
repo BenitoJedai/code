@@ -193,6 +193,9 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
       <Link>BCLImplementation\System\Runtime\Serialization\ISerializable.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\SZArrayEnumerator.cs">
+      <Link>BCLImplementation\System\SZArrayEnumerator.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Threading\ThreadStart.cs">
       <Link>BCLImplementation\System\Threading\ThreadStart.cs</Link>
     </Compile>

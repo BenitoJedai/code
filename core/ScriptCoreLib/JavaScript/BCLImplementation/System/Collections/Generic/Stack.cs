@@ -6,6 +6,7 @@ using System.Collections;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Query;
 using ScriptCoreLib.Shared.Query;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
@@ -67,7 +68,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         {
             var a = (T[])(object)items;
 
-            return new SZArrayEnumerator<T>(a);
+            return (IEnumerator<T>)(object)new __SZArrayEnumerator<T>(a);
         }
 
         #endregion
