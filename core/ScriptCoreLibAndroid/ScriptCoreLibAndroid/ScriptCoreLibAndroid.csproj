@@ -648,6 +648,9 @@
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IList.cs">
       <Link>BCLImplementation\System\Collection\Generic\IList.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\KeyValuePair.cs">
+      <Link>BCLImplementation\System\Collection\Generic\KeyValuePair.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ICollection.cs">
       <Link>BCLImplementation\System\Collection\ICollection.cs</Link>
     </Compile>

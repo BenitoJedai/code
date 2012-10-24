@@ -114,7 +114,6 @@
     <Compile Include="ActionScript\flash\utils\Globals.cs" />
     <Compile Include="ActionScript\Query\InternalSequenceImplementation.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Comparer.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\InteropServices\Marshal.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\Encoding.cs" />
@@ -148,7 +147,6 @@
     <Compile Include="JavaScript\WebGL\WebGLRenderingContext.cs" />
     <Compile Include="PHP\BCLImplementation\System\Array.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Comparer.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NullReferenceException.cs" />
     <Compile Include="ActionScript\Extensions\flash\text\ime\IIMEClient.cs" />
@@ -269,7 +267,6 @@
     <Compile Include="JavaScript\WebGL\Shader.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\ArrayList.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Dictionary.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbCommand.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbConnection.cs" />
@@ -361,7 +358,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Char.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ArrayList.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Comparer.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -379,9 +376,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Shared\BCLImplementation\System\Collections\Generic\IList.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Generic\List.cs">
@@ -729,7 +723,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Boolean.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ArrayList.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Console.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Delegate.cs" />

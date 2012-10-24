@@ -91,6 +91,9 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IList.cs">
       <Link>BCLImplementation\System\Collections\Generic\IList.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\KeyValuePair.cs">
+      <Link>BCLImplementation\System\Collections\Generic\KeyValuePair.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ICollection.cs">
       <Link>BCLImplementation\System\Collections\ICollection.cs</Link>
     </Compile>
