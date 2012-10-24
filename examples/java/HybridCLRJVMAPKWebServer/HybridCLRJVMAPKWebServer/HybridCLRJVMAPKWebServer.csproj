@@ -72,12 +72,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>set jsc=C:\util\jsc\bin\jsc.meta.exe
-if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
-
+    <PostBuildEvent>
 
 if $(ConfigurationName)==Release (
-start /MAX /WAIT  cmd /C %25jsc%25 RewriteToHybridJavaApplication /assembly:$(TargetPath)
+start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath)
 )
 </PostBuildEvent>
   </PropertyGroup>
