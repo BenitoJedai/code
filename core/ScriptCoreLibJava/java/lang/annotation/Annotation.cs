@@ -10,8 +10,9 @@ namespace java.lang.annotation
     [Script(IsNative = true)]
     public interface Annotation
     {
+         Class annotationType();
 
     }
 
- 
+
 }

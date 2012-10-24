@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
 using System.Collections;
+using java.util;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
@@ -57,6 +58,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			java.util.Arrays.sort((object[])(object)array);
 		}
+
+
+        public static void Sort<T>(T[] array, IComparer<T> comparer)
+        {
+            Sort(array, comparer.Compare);
+        }
+
+        [Script]
+        class __Comparator<T> : Comparator
+        {
+            public Comparison<T> comparison;
+
+            public int compare(object o1, object o2)
+            {
+                return comparison((T)o1, (T)o2);
+            }
+        }
+
+        public static void Sort<T>(T[] array, Comparison<T> comparison)
+        {
+            java.util.Arrays.sort((object[])(object)array,
+                new __Comparator<T>
+                {
+                    comparison = comparison
+                }
+            );
+        }
 
 		public static void Copy(__Array sourceArray, __Array destinationArray, int length)
 		{

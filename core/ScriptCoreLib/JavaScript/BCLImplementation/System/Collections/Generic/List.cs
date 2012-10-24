@@ -25,7 +25,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         public __List(IEnumerable<T> collection)
         {
             if (collection == null)
-                throw new global::System.Exception("collection is null");
+                throw new ArgumentNullException("collection");
+
 
             this.AddRange(collection);
         }
