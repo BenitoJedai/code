@@ -7,6 +7,7 @@ using java.net;
 using java.security;
 using System;
 using ScriptCoreLibJava.BCLImplementation.System;
+using java.lang.annotation;
 
 namespace java.lang
 {
@@ -15,6 +16,10 @@ namespace java.lang
     [Script(IsNative = true)]
     public sealed class Class : java.lang.reflect.Type
     {
+        public Annotation[] getAnnotations()
+        {
+            return default(Annotation[]);
+        }
 
 
         /// <summary>

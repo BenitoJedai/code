@@ -70,6 +70,9 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\Comparer.cs">
+      <Link>BCLImplementation\System\Collections\Generic\Comparer.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\ICollection.cs">
       <Link>BCLImplementation\System\Collections\Generic\ICollection.cs</Link>
     </Compile>
@@ -96,6 +99,9 @@
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ICollection.cs">
       <Link>BCLImplementation\System\Collections\ICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IComparer.cs">
+      <Link>BCLImplementation\System\Collections\IComparer.cs</Link>
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IDictionary.cs">
       <Link>BCLImplementation\System\Collections\IDictionary.cs</Link>
@@ -187,6 +193,75 @@
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\IServiceProvider.cs">
       <Link>BCLImplementation\System\IServiceProvider.cs</Link>
     </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\DefinedError.cs">
+      <Link>BCLImplementation\System\Linq\DefinedError.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Concat.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Concat.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.ElementAtOrDefault.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.ElementAtOrDefault.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Methods.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Methods.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.NotImplementedHere.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.NotImplementedHere.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.OrderBy.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.OrderBy.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Range.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Range.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Range.MoveNext.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Range.MoveNext.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Select.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Select.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.SelectMany.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.SelectMany.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.SkipWhile.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.SkipWhile.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Sum.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Sum.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Take.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Take.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Take.MoveNext.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Take.MoveNext.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.ToDictionary.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.ToDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Where.cs">
+      <Link>BCLImplementation\System\Linq\Enumerable.Where.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\Expression.cs">
+      <Link>BCLImplementation\System\Linq\Expressions\Expression.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\IdentityFunction.cs">
+      <Link>BCLImplementation\System\Linq\IdentityFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\IOrderedEnumerable.cs">
+      <Link>BCLImplementation\System\Linq\IOrderedEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\LocalInternalEnumerable.cs">
+      <Link>BCLImplementation\System\Linq\LocalInternalEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\OrderedEnumerable.cs">
+      <Link>BCLImplementation\System\Linq\OrderedEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Queryable.cs">
+      <Link>BCLImplementation\System\Linq\Queryable.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\MarshalByRefObject.cs">
       <Link>BCLImplementation\MarshalByRefObject.cs</Link>
     </Compile>
@@ -207,6 +282,9 @@
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Uri.cs">
       <Link>BCLImplementation\System\Uri.cs</Link>
+    </Compile>
+    <Compile Include="..\ScriptCoreLib\Shared\Query\InternalSequence.cs">
+      <Link>BCLImplementation\System\Linq\__Query\InternalSequence.cs</Link>
     </Compile>
     <Compile Include="BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs">
       <SubType>Code</SubType>
@@ -238,6 +316,7 @@
     <Compile Include="BCLImplementation\System\Collections\ArrayList.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\Dictionary.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="BCLImplementation\System\Collections\Hashtable.cs">
@@ -275,6 +354,7 @@
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
+    <Compile Include="BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs" />
     <Compile Include="BCLImplementation\System\Net\WebHeaderCollection.cs" />
     <Compile Include="BCLImplementation\System\Single.cs" />
     <Compile Include="BCLImplementation\System\DateTime.cs">

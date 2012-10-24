@@ -12,6 +12,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
     {
         public java.util.HashMap InternalDictionary = new java.util.HashMap();
 
+        public __Dictionary()
+            : this(null)
+        {
+
+        }
+
+        public __Dictionary(IEqualityComparer<TKey> comparer)
+        {
+
+        }
+
+
         public ICollection<TKey> Keys
         {
             get { throw new NotImplementedException(); }

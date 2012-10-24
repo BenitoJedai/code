@@ -32,7 +32,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return __Type.GetTypeFromValue(this);
 		}
 
-	
+        public static bool ReferenceEquals(object objA, object objB)
+        {
+            return objA == objB;
+        }
 	}
 
 

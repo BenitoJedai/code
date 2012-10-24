@@ -18,6 +18,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         }
 
         [Script(DefineAsStatic = true)]
+        public int CompareTo(int value)
+        {
+            var v = (int)(object)this;
+
+            if (v < value)
+            {
+                return -1;
+            }
+            if (v > value)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+
+        [Script(DefineAsStatic = true)]
         public string ToString(string format)
         {
             var value = (int)(object)this;

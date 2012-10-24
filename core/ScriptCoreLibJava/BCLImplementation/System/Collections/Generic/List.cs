@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Collections;
+using ScriptCoreLib.Shared.Query;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {
@@ -11,6 +12,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
     internal class __List<T> : IList<T>, IEnumerable
     {
         readonly global::java.util.ArrayList<T> InternalList = new global::java.util.ArrayList<T>();
+
+        public __List()
+        {
+
+        }
+
+        public __List(IEnumerable<T> collection)
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            this.AddRange(collection);
+        }
+
+        public void AddRange(IEnumerable<T> collection)
+        {
+            foreach (T v in InternalSequence.AsEnumerable(collection))
+            {
+                this.Add(v);
+            }
+        }
 
         public int IndexOf(T item)
         {
