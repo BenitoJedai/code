@@ -30,9 +30,20 @@ namespace TestArrayAsIEnumerable
     {
     }
 
-    [Script(IsArrayEnumerator = true)]
-    public class SZArrayEnumerator<T> : __IEnumerable<T>
+    [Script(Implements = typeof(global::System.Collections.IEnumerator))]
+    internal interface __IEnumerator
     {
+        void Reset();
+    }
+
+    [Script(IsArrayEnumerator = true)]
+    public class SZArrayEnumerator<T> : __IEnumerable<T>, __IEnumerator
+    {
+        public void Reset()
+        {
+            throw new global::System.Exception("The method or operation is not implemented.");
+        }
+
         public static implicit operator SZArrayEnumerator<T>(T[] e)
         {
             if (e == null)
@@ -40,5 +51,34 @@ namespace TestArrayAsIEnumerable
 
             return new SZArrayEnumerator<T>();
         }
+    }
+
+
+
+    [Script(
+   HasNoPrototype = true,
+  Implements = typeof(global::System.Exception),
+  ImplementationType = typeof(java.lang.Throwable))]
+    //ImplementationType = typeof(java.lang.Exception))]
+    internal class __Exception
+    {
+        public __Exception() { }
+        public __Exception(string e) { }
+        public string Message
+        {
+            [Script(ExternalTarget = "getMessage")]
+            get { return default(string); }
+        }
+    }
+}
+
+namespace java.lang
+{
+    // http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Exception.html
+    [Script(IsNative = true)]
+    public class Throwable
+    {
+
+
     }
 }
