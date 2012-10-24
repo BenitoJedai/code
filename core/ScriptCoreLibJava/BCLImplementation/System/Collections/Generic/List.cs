@@ -85,8 +85,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         }
 
 
-       
 
+
+        public void Reverse()
+        {
+            var clone = this.ToArray();
+
+            for (int i = 0; i < clone.Length; i++)
+            {
+                this[clone.Length - 1 - i] = clone[i];
+            }
+
+
+        }
         public T[] ToArray()
         {
             return this.InternalList.toArray(new T[0]);
