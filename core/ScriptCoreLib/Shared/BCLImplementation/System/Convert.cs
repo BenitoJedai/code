@@ -7,7 +7,7 @@ using System.IO;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Convert))]
-    internal class __Convert
+    internal static class __Convert
     {
 
 

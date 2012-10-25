@@ -21,17 +21,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
             return Comparer.Default.Compare(x, y);
         }
 
-        static __Comparer<T> defaultComparer;
+        // generic static fields not yet supported
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121024-linq
+        //static __Comparer<T> defaultComparer;
         public static __Comparer<T> Default
         {
             get
             {
-                __Comparer<T> e = defaultComparer;
-                if (e == null)
-                {
-                    e = new __GenericComparer();
-                    defaultComparer = e;
-                }
+                __Comparer<T> e = new __GenericComparer();
                 return e;
             }
         }
