@@ -20,6 +20,13 @@ namespace TestExplicitInterface
     }
 
     [ScriptAttribute.ExplicitInterface]
+    interface IFunc2<T>
+    {
+        T barii2(T t);
+    }
+
+
+    [ScriptAttribute.ExplicitInterface]
     interface IFunc1_System_String_
     {
         string barii();
@@ -45,6 +52,7 @@ namespace TestExplicitInterface
         //IFunc1<string>,
         IFunc1_System_String_
         , IFunc1<int>
+        , IFunc2<int>
     {
         void IInterface.foo()
         {
@@ -86,6 +94,11 @@ namespace TestExplicitInterface
         }
 
         public int barii(int t)
+        {
+            return t;
+        }
+
+        public int barii2(int t)
         {
             return t;
         }
