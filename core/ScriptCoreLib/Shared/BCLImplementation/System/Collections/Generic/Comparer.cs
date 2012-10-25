@@ -15,7 +15,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
         public abstract int Compare(T x, T y);
 
         // will this work?
-        int __IComparer.Compare(object x, object y)
+        public int Compare(object x, object y)
         {
             // fallback to nongenerics
             return Comparer.Default.Compare(x, y);

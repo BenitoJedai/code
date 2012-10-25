@@ -13,7 +13,7 @@ namespace java.lang.annotation
 
     }
 
-    [Script]
+    [Script(IsNative = true)]
     public class DocumentedAttribute : Attribute
     {
     }
