@@ -60,7 +60,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
 
 
-            IEnumerator<TResult> IEnumerable<TResult>.GetEnumerator()
+            public IEnumerator<TResult> GetEnumerator()
             {
                 __Enumerable._SelectManyIterator_d__37<TSource, TCollection, TResult> d__ = null;
 
@@ -126,7 +126,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             }
 
 
-            TResult IEnumerator<TResult>.Current
+            public TResult Current
             {
                 get
                 {
