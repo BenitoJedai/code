@@ -40,6 +40,14 @@ namespace ScriptCoreLib.Extensions
             return t;
         }
 
+        public static MethodInfo TryGetGenericTypeDefinitionMethod(this MethodBase _Method)
+        {
+            return _Method.DeclaringType.TryGetGenericTypeDefinition().GetMethods(
+                            BindingFlags.Instance | BindingFlags.Public
+                        ).Single(kk => kk.MetadataToken == _Method.MetadataToken);
+        }
+
+
         public static bool IsCommonDelegateType(this Type SourceType)
         {
             return new[]

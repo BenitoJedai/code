@@ -11,8 +11,19 @@ namespace TestExplicitInterface
     interface IInterface2
     {
         void bar();
+        int bari();
+    }
+    [ScriptAttribute.ExplicitInterface]
+    interface IFunc1<T>
+    {
+        T barii(T t);
     }
 
+    [ScriptAttribute.ExplicitInterface]
+    interface IFunc1_System_String_
+    {
+        string barii();
+    }
 
     [ScriptAttribute.ExplicitInterface]
     interface IInterface
@@ -27,7 +38,13 @@ namespace TestExplicitInterface
     }
 
 
-    public class Class1 : IInterface, IInterface2, IDisposable
+    public class Class1 :
+        IInterface,
+        IInterface2,
+        IDisposable,
+        //IFunc1<string>,
+        IFunc1_System_String_
+        , IFunc1<int>
     {
         void IInterface.foo()
         {
@@ -40,5 +57,49 @@ namespace TestExplicitInterface
         public void Dispose()
         {
         }
+
+        void IDisposable.Dispose()
+        {
+        }
+
+
+        public int bari()
+        {
+            return 0;
+        }
+
+        //string IFunc1<string>.barii()
+        public string barii()
+        {
+            return "";
+        }
+
+        //int IFunc1<int>.barii()
+        //{
+        //    return 0;
+        //}
+
+        string IFunc1_System_String_.barii()
+        //public string barii()
+        {
+            return "";
+        }
+
+        public int barii(int t)
+        {
+            return t;
+        }
     }
+
+    public static class Program
+    {
+        public static void Main(string[] e)
+        {
+            var u = new Class1();
+
+
+
+        }
+    }
+
 }
