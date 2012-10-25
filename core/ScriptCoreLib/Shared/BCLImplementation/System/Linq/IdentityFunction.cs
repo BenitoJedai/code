@@ -13,11 +13,18 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         {
             get
             {
-                return x => x;
+                return __IdentityFunction.GetInstance<TElement>();
             }
         }
     }
 
-
+    [Script]
+    public static class __IdentityFunction
+    {
+        public static global::System.Func<TElement, TElement> GetInstance<TElement>()
+        {
+            return x => x;
+        }
+    }
 
 }

@@ -8,6 +8,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
     [Script]
     internal static class __DefinedError
     {
+        public static InvalidOperationException ArgumentOutOfRange(InvalidOperationException e)
+        {
+            
+            return e;
+        }
+
         public static InvalidOperationException ArgumentOutOfRange(string paramName)
         {
             return new InvalidOperationException("ArgumentOutOfRange: " + paramName);
@@ -25,6 +31,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             return new InvalidOperationException("Sequence contains more than one element");
         }
 
-     
+
     }
 }
