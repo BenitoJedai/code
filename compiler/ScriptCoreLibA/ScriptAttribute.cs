@@ -531,6 +531,15 @@ namespace ScriptCoreLib
 
 			return null;
 		}
+
+
+
+
+        [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
+        public sealed partial class ExplicitInterfaceAttribute : Attribute
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121025-explicit-interface
+        }
 	}
 
 
