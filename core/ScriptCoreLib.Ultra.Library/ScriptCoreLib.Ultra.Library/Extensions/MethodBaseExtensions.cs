@@ -22,5 +22,20 @@ namespace ScriptCoreLib.Extensions
 
             return y;
         }
+
+        public static Type[] GetParameterTypes(this MethodBase e)
+        {
+            return e.GetParameters().Select(k => k.ParameterType).ToArray();
+        }
+
+        public static Type[] GetSignatureTypes(this MethodBase e)
+        {
+            return e is MethodInfo ? ((MethodInfo)e).GetSignatureTypes() : e.GetParameterTypes();
+        }
+
+        public static Type[] GetSignatureTypes(this MethodInfo e)
+        {
+            return e.GetParameters().Select(k => k.ParameterType).Concat(new[] { e.ReturnType }).ToArray();
+        }
     }
 }
