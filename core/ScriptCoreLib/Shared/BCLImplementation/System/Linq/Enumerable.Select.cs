@@ -71,7 +71,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             #region IEnumerable<S> Members
 
-            IEnumerator<S> IEnumerable<S>.GetEnumerator()
+            public IEnumerator<S> GetEnumerator()
             {
                 _SelectIterator_d__b<T, S> _ret = null;
 
@@ -210,7 +210,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             #region IEnumerable<S> Members
 
-            IEnumerator<S> IEnumerable<S>.GetEnumerator()
+            public IEnumerator<S> GetEnumerator()
             {
                 _SelectIterator_d__13<T, S> _ret = null;
 

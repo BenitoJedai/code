@@ -30,7 +30,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         [Script]
         sealed class _WhereIterator_d__0<T> :
             IEnumerable<T>, IEnumerator<T>,
-            IEnumerable, IEnumerator, IDisposable
+            IEnumerable, IEnumerator, 
+            IDisposable
         {
             int _1_state;
 
@@ -47,7 +48,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             #region IEnumerable<S> Members
 
-            IEnumerator<T> IEnumerable<T>.GetEnumerator()
+            public IEnumerator<T> GetEnumerator()
             {
                 _WhereIterator_d__0<T> _ret = null;
 
