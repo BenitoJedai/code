@@ -26,6 +26,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
             gl.deleteShader(vs);
             gl.deleteShader(fs);
+            // http://www.seas.upenn.edu/~pcozzi/OpenGLInsights/OpenGLInsights-ANGLE.pdf
+            // are implicitly linked when the shaders are made active.
 
             return programHandle;
         }

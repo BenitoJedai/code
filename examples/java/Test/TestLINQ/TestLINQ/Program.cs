@@ -29,7 +29,7 @@ namespace TestLINQ
             // generic parameter needs to be moved..
             //enumerable_10 = __Enumerable.AsEnumerable(__SZArrayEnumerator_1<String>.Of(stringArray3));
 
-            var a = new[] { "x", "foo", "bar" }.AsEnumerable();
+            var a = new[] { "x", "foo1", "bar" }.AsEnumerable();
             //var a = new List<string> { "foo", "bar" };
 
             var q = from i in a
