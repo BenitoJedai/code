@@ -16,13 +16,13 @@ namespace TestExplicitInterface
     [ScriptAttribute.ExplicitInterface]
     interface IFunc1<T>
     {
-        T barii(T t);
+        T barii(T t1);
     }
 
     [ScriptAttribute.ExplicitInterface]
     interface IFunc2<T>
     {
-        T barii2(T t);
+        T barii2(T t2);
     }
 
 
@@ -48,7 +48,8 @@ namespace TestExplicitInterface
     public class Class1 :
         IInterface,
         IInterface2,
-        IDisposable,
+        //IDisposable,
+        __IDisposable,
         //IFunc1<string>,
         IFunc1_System_String_
         , IFunc1<int>
@@ -66,7 +67,7 @@ namespace TestExplicitInterface
         {
         }
 
-        void IDisposable.Dispose()
+        void __IDisposable.Dispose()
         {
         }
 

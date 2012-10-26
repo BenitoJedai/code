@@ -78,6 +78,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return (int)Math.Floor((double)e);
         }
 
+        #region Base64Key
         internal readonly static string Base64Key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 
@@ -183,6 +184,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
             return m.ToArray();
         }
+
+        #endregion
 
         // conflict in java with uint 
         //public static int ToInt32(int value)
