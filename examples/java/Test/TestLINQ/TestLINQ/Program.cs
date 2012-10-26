@@ -29,7 +29,7 @@ namespace TestLINQ
             // generic parameter needs to be moved..
             //enumerable_10 = __Enumerable.AsEnumerable(__SZArrayEnumerator_1<String>.Of(stringArray3));
 
-            var a = new[] { "foo", "bar" }.AsEnumerable();
+            var a = new[] { "x", "foo", "bar" }.AsEnumerable();
             //var a = new List<string> { "foo", "bar" };
 
             var q = from i in a
@@ -38,7 +38,8 @@ namespace TestLINQ
 
             var x = q.FirstOrDefault();
 
-
+            // jsc, anonymous types broken?
+            Console.WriteLine("x: " + x);
             System.Console.WriteLine("done");
 
 
@@ -74,7 +75,7 @@ namespace TestLINQ
         {
             System.Console.WriteLine(XML);
 
-
+            MessageBox.Show("it works?!?");
         }
     }
 

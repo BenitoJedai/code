@@ -30,7 +30,11 @@ namespace ScriptCoreLib.Extensions
 
         public static Type[] GetSignatureTypes(this MethodBase e)
         {
-            return e is MethodInfo ? ((MethodInfo)e).GetSignatureTypes() : e.GetParameterTypes();
+            var i = e as MethodInfo;
+            if (i != null)
+                return i.GetSignatureTypes();
+
+            return e.GetParameterTypes();
         }
 
         public static Type[] GetSignatureTypes(this MethodInfo e)
