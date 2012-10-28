@@ -34,12 +34,13 @@ namespace TestCLRJVMGetGenericTypeMethod
             // jsc needs to see args to make Main into main for javac..
 
             // generic parameter needs to be moved..
-            //enumerable_10 = __Enumerable.AsEnumerable(__SZArrayEnumerator_1<String>.Of(stringArray3));
 
             Console.WriteLine("hi!");
 
 
             var t = typeof(__Extensions___c__DisplayClass2<>);
+
+            // { SourceMethod = ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IEnumerable_1 _Elements_b__1(java.lang.Object) }
 
             t.GetMethods().WithEach(
                 SourceMethod =>
@@ -48,7 +49,10 @@ namespace TestCLRJVMGetGenericTypeMethod
                 }
             );
 
+            var m = t.GetMethod("_Elements_b__1", new[] { typeof(object) });
 
+
+            System.Console.WriteLine(new { m });
             System.Console.WriteLine("done");
 
 
