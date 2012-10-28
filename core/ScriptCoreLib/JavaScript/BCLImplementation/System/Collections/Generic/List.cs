@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
     using ScriptCoreLib.JavaScript.DOM;
     using ScriptCoreLib.JavaScript.Runtime;
     using ScriptCoreLib.JavaScript.Query;
-    using ScriptCoreLib.Shared.Query;
+    using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
     [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
     internal class __List<T> : IList<T>
@@ -65,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
                 if (list == null)
                     return;
 
-                value = InternalSequence.AsEnumerable(list.ToArray()).GetEnumerator();
+                value = __Enumerable_AsEnumerable.AsEnumerable(list.ToArray()).GetEnumerator();
 
 
             }
@@ -194,7 +194,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public void AddRange(IEnumerable<T> collection)
         {
-            foreach (T v in InternalSequence.AsEnumerable(collection))
+            foreach (T v in __Enumerable_AsEnumerable.AsEnumerable(collection))
             {
                 this.Add(v);
             }

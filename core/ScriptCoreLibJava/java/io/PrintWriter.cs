@@ -6,6 +6,16 @@ namespace java.io
     [Script(IsNative = true)]
     public class PrintWriter : Writer
     {
+        public PrintWriter()
+        {
+
+        }
+
+        public PrintWriter(Writer w)
+        {
+
+        }
+
         public void print(string s)
         {
 

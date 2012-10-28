@@ -29,6 +29,8 @@ namespace TestLINQ
             // generic parameter needs to be moved..
             //enumerable_10 = __Enumerable.AsEnumerable(__SZArrayEnumerator_1<String>.Of(stringArray3));
 
+            Console.WriteLine("hi!");
+
             var a = new[] { "x", "foo1", "bar", "foo2" }.AsEnumerable();
             //var a = new List<string> { "foo", "bar" };
 
@@ -36,11 +38,7 @@ namespace TestLINQ
                     where i.StartsWith("f")
                     select i;
 
-            //foreach (var x in q)
-            //{
-            //    Console.WriteLine("x: " + x);
-            //    Console.WriteLine(new { x });
-            //}
+         
             q.WithEach(
                 x =>
                 {

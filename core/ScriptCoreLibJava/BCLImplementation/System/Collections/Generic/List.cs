@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Collections;
-using ScriptCoreLib.Shared.Query;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {
@@ -28,7 +27,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public void AddRange(IEnumerable<T> collection)
         {
-            foreach (T v in InternalSequence.AsEnumerable(collection))
+            foreach (T v in collection)
             {
                 this.Add(v);
             }

@@ -11,7 +11,7 @@ using IDisposable = global::System.IDisposable;
 
 namespace ScriptCoreLib.PHP.Query
 {
-    [Script(Implements = typeof(ScriptCoreLib.Shared.Query.InternalSequence))]
+    [Script(Implements = typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable_AsEnumerable))]
     internal static class __InternalSequenceImplementation
     {
 

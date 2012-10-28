@@ -1,25 +1,12 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Shared;
-
-using global::System.Collections;
-using global::System.Collections.Generic;
-
-using IDisposable = global::System.IDisposable;
-using System.Linq;
 using System;
-using ScriptCoreLib.Shared.Query;
+using System.Collections.Generic;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
-    
-    
     internal static partial class __Enumerable
     {
-//        static void NoOptimization() { }
-
-
-
-        
         //[Script(NotImplementedHere = true)]
         public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)
         {
@@ -28,16 +15,19 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             // NoOptimization();
 
-            return InternalSequence.AsEnumerable(source);
+            return __Enumerable_AsEnumerable.AsEnumerable(source);
         }
+    }
 
+    internal static class __Enumerable_AsEnumerable
+    {
+        // this class is will not be translated to the target language.
+        // each language can do special checks here to convert from native enumerations
 
+        public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)
+        {
+            return source;
 
- 
-
-
- 
-
-
+        }
     }
 }

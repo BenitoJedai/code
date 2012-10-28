@@ -1,17 +1,18 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle(@"TestCLRJVMLINQ")]
-[assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
-[assembly: AssemblyCompany(@"jsc-solutions.net")]
-[assembly: AssemblyProduct(@"TestLINQ")]
-[assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2011")]
-[assembly: AssemblyVersion(@"1.0.0.0")]
-[assembly: AssemblyFileVersion(@"1.0.0.0")]
+[assembly: AssemblyTitle("TestNewMethod")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("TestNewMethod")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7a8e2048-34de-428b-8ffe-2727864e10f7")]
+[assembly: Guid("c2531eeb-3281-4c76-8a63-402cfa4c59f2")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -28,3 +29,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

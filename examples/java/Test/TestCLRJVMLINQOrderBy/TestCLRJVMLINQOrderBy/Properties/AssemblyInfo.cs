@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle(@"TestCLRJVMLINQ")]
 [assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
-[assembly: AssemblyProduct(@"TestLINQ")]
+[assembly: AssemblyProduct(@"TestCLRJVMLINQOrderBy")]
 [assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2011")]
 [assembly: AssemblyVersion(@"1.0.0.0")]
 [assembly: AssemblyFileVersion(@"1.0.0.0")]
