@@ -10,7 +10,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 	[Script(Implements = typeof(global::System.Xml.Linq.XName))]
 	internal class __XName
 	{
-		internal string InternalValue;
+		public string InternalValue;
 
 		public string LocalName
 		{

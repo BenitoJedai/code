@@ -178,22 +178,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
         }
 
 
-        public XElement Element(XName name)
-        {
-            var InternalValue = InternalGetElementByTag(name.LocalName);
-
-            if (InternalValue == null)
-                return null;
-
-            // should we see if we already have it?
-            var e = new __XElement
-            {
-                InternalValue = InternalValue
-            };
-
-            return (XElement)(object)e;
-        }
-
         private org.w3c.dom.Node InternalGetElementByTag(string name)
         {
             return this.InternalElement.getElementsByTagName(name).item(0);
@@ -211,6 +195,47 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             }
 
             this.InternalPartialElements.Clear();
+        }
+
+
+        public XElement Element(XName name)
+        {
+            var InternalValue = InternalGetElementByTag(name.LocalName);
+
+            if (InternalValue == null)
+                return null;
+
+            // should we see if we already have it?
+
+            return new __XElement { InternalValue = InternalValue };
+        }
+
+        public IEnumerable<XElement> Elements(XName name)
+        {
+            return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
+        }
+
+
+        public IEnumerable<XElement> Elements()
+        {
+            // http://publib.boulder.ibm.com/infocenter/domhelp/v8r0/index.jsp?topic=%2Fcom.ibm.designer.domino.api.doc%2Fr_wpdr_dom6_domnode_getnodetype_r.html
+            var DOMElement = 1;
+
+            var a = new List<XElement>();
+
+            var c = this.InternalElement.getChildNodes();
+
+            for (int i = 0; i < c.getLength(); i++)
+            {
+                var InternalValue = c.item(i);
+
+                if (InternalValue.getNodeType() == DOMElement)
+                    a.Add(new __XElement { InternalValue = InternalValue });
+            }
+
+
+
+            return a;
         }
     }
 }

@@ -67,7 +67,7 @@
     <Compile Include="..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
-    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
+    <!--<Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\Comparer.cs">
@@ -288,7 +288,7 @@
     </Compile>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\System\Xml\Linq\Extensions.cs">
       <Link>BCLImplementation\System\Xml\Linq\Extensions.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1231,6 +1231,13 @@
     <Compile Include="javax.common\runtime\Console.cs" />
     <Compile Include="javax.common\runtime\Convert.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\**\*.*">
+      <Link>BCLImplementation\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\exceptions.txt" />
