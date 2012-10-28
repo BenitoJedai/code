@@ -22,6 +22,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return (XElement)(object)new __XElement((XName)null) { InternalValue = e };
         }
 
+      
         public static IXMLDocument AsIXMLDocument(this XDocument doc)
         {
             return ((__XDocument)(object)doc).InternalDocument;
