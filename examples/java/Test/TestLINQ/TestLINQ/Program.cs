@@ -29,17 +29,26 @@ namespace TestLINQ
             // generic parameter needs to be moved..
             //enumerable_10 = __Enumerable.AsEnumerable(__SZArrayEnumerator_1<String>.Of(stringArray3));
 
-            var a = new[] { "x", "foo1", "bar" }.AsEnumerable();
+            var a = new[] { "x", "foo1", "bar", "foo2" }.AsEnumerable();
             //var a = new List<string> { "foo", "bar" };
 
             var q = from i in a
                     where i.StartsWith("f")
                     select i;
 
-            var x = q.FirstOrDefault();
+            //foreach (var x in q)
+            //{
+            //    Console.WriteLine("x: " + x);
+            //    Console.WriteLine(new { x });
+            //}
+            q.WithEach(
+                x =>
+                {
+                    Console.WriteLine("x: " + x);
+                    Console.WriteLine(new { x });
+                }
+            );
 
-            // jsc, anonymous types broken?
-            Console.WriteLine("x: " + x);
             System.Console.WriteLine("done");
 
 

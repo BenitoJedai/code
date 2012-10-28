@@ -320,6 +320,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Collections\Comparer.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Generic\Queue.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\Dictionary.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="BCLImplementation\System\Collections\Hashtable.cs">
