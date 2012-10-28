@@ -2,6 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonFlashXElementExample", "AvalonFlashXElementExample\AvalonFlashXElementExample.csproj", "{05984B6F-E448-4911-BAF0-E3E2F5F667A4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{77861F2D-D284-4913-B9E9-D906C7262219} = {77861F2D-D284-4913-B9E9-D906C7262219}
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396} = {86E46F4B-B22C-4C9D-8F84-804D2C331396}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc", "..\..\..\..\jsc.internal.svn\compiler\jsc\jsc.csproj", "{77861F2D-D284-4913-B9E9-D906C7262219}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc.meta", "..\..\..\..\jsc.internal.svn\compiler\jsc.meta\jsc.meta\jsc.meta.csproj", "{86E46F4B-B22C-4C9D-8F84-804D2C331396}"
+	ProjectSection(ProjectDependencies) = postProject
+		{77861F2D-D284-4913-B9E9-D906C7262219} = {77861F2D-D284-4913-B9E9-D906C7262219}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +24,14 @@ Global
 		{05984B6F-E448-4911-BAF0-E3E2F5F667A4}.Debug|x86.Build.0 = Debug|x86
 		{05984B6F-E448-4911-BAF0-E3E2F5F667A4}.Release|x86.ActiveCfg = Release|x86
 		{05984B6F-E448-4911-BAF0-E3E2F5F667A4}.Release|x86.Build.0 = Release|x86
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug|x86.ActiveCfg = Debug|x86
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug|x86.Build.0 = Debug|x86
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Release|x86.ActiveCfg = Release|x86
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Release|x86.Build.0 = Release|x86
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug|x86.ActiveCfg = Debug|x86
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug|x86.Build.0 = Debug|x86
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Release|x86.ActiveCfg = Release|x86
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
