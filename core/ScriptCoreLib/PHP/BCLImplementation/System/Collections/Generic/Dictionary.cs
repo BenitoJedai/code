@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable, ICollection
+    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue>, __IEnumerable, __ICollection
     {
         public __Dictionary()
             : this(null)
@@ -62,7 +64,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
             }
         }
 
-        ICollection<TKey> IDictionary<TKey, TValue>.Keys
+        ICollection<TKey> __IDictionary<TKey, TValue>.Keys
         {
             get
             {
@@ -106,7 +108,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
             }
         }
 
-        ICollection<TValue> IDictionary<TKey, TValue>.Values
+        ICollection<TValue> __IDictionary<TKey, TValue>.Values
         {
             get
             {
@@ -187,7 +189,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         #region IEnumerable<KeyValuePair<TKey,TValue>> Members
 
-        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+        IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {
             return this.GetEnumerator();
         }
@@ -197,7 +199,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
         #region IEnumerable Members
 
 
-        IEnumerator IEnumerable.GetEnumerator()
+        IEnumerator __IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
@@ -282,6 +284,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
         }
 
         #endregion
+
+     
     }
 
 }
