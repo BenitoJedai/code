@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Web Developer Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGenericConstraint", "TestGenericConstraint\TestGenericConstraint.csproj", "{C6424D68-4559-48E6-B0F4-BD701CA69259}"
 EndProject
 Global
