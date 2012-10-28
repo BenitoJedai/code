@@ -51,17 +51,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ArgumentException.cs">
+      <Link>BCLImplementation\System\ArgumentException.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ArgumentNullException.cs">
       <Link>BCLImplementation\System\ArgumentNullException.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Array.cs">
       <Link>BCLImplementation\System\Array.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Boolean.cs">
+      <Link>BCLImplementation\System\Boolean.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Byte.cs">
       <Link>BCLImplementation\System\Byte.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ArrayList.cs">
       <Link>BCLImplementation\System\Collections\ArrayList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Comparer.cs">
+      <Link>BCLImplementation\System\Collections\Comparer.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Dictionary.cs">
       <Link>BCLImplementation\System\Collections\Generic\Dictionary.cs</Link>
@@ -240,6 +249,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Type.cs">
       <Link>BCLImplementation\System\Type.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\UInt32.cs">
+      <Link>BCLImplementation\System\UInt32.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XAttribute.cs">
       <Link>BCLImplementation\System\Xml\Linq\XAttribute.cs</Link>
     </Compile>
@@ -365,6 +377,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\annotation\Annotation.cs">
       <Link>java\lang\annotation\Annotation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Boolean.cs">
+      <Link>java\lang\Boolean.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Byte.cs">
       <Link>java\lang\Byte.cs</Link>
