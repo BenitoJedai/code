@@ -61,19 +61,19 @@
       <Link>BCLImplementation\System\Byte.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ArrayList.cs">
-      <Link>BCLImplementation\System\Collection\ArrayList.cs</Link>
+      <Link>BCLImplementation\System\Collections\ArrayList.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Dictionary.cs">
-      <Link>BCLImplementation\System\Collection\Generic\Dictionary.cs</Link>
+      <Link>BCLImplementation\System\Collections\Generic\Dictionary.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\List.cs">
-      <Link>BCLImplementation\System\Collection\Generic\List.cs</Link>
+      <Link>BCLImplementation\System\Collections\Generic\List.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs">
-      <Link>BCLImplementation\System\Collection\Specialized\NameObjectCollectionBase.cs</Link>
+      <Link>BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
-      <Link>BCLImplementation\System\Collection\Specialized\NameValueCollection.cs</Link>
+      <Link>BCLImplementation\System\Collections\Specialized\NameValueCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Configuration\SettingsBase.cs">
       <Link>BCLImplementation\System\Configuration\SettingsBase.cs</Link>
@@ -122,6 +122,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\TextReader.cs">
       <Link>BCLImplementation\System\IO\TextReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs">
+      <Link>BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Math.cs">
       <Link>BCLImplementation\System\Math.cs</Link>
@@ -236,9 +239,6 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Type.cs">
       <Link>BCLImplementation\System\Type.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\Extensions.cs">
-      <Link>BCLImplementation\System\Xml\Linq\Extensions.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XAttribute.cs">
       <Link>BCLImplementation\System\Xml\Linq\XAttribute.cs</Link>
@@ -362,6 +362,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\Writer.cs">
       <Link>java\io\Writer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\annotation\Annotation.cs">
+      <Link>java\lang\annotation\Annotation.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Byte.cs">
       <Link>java\lang\Byte.cs</Link>
@@ -630,7 +633,7 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
+    <!--<Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\ICollection.cs">
@@ -752,7 +755,7 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Uri.cs">
       <Link>BCLImplementation\System\Uri.cs</Link>
-    </Compile>
+    </Compile>-->
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
     <Compile Include="android\content\Intent.cs" />
@@ -817,6 +820,11 @@
     <Compile Include="Manifest\ApplicationAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadLocalContextReference.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\**\*.*">
+      <Link>BCLImplementation\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documents\" />
