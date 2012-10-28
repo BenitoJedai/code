@@ -78,6 +78,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\List.cs">
       <Link>BCLImplementation\System\Collections\Generic\List.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Queue.cs">
+      <Link>BCLImplementation\System\Collections\Generic\Queue.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs">
       <Link>BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs</Link>
     </Compile>
