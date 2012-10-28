@@ -3,6 +3,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLib.Shared.Serialized
 {
     [Script]
+    [System.Obsolete]
     public interface IObjectStreamHelper<T>
     {
         string Stream { get; set; }
@@ -10,6 +11,7 @@ namespace ScriptCoreLib.Shared.Serialized
     }
 
     [Script]
+    [System.Obsolete]
     public class DualNotation<TType>
     {
         public string Stream;

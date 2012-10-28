@@ -58,7 +58,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public __IntPtr(long Pointer)
         {
-            this.PointerToken = new __ConvertToInt64 { Pointer = Pointer };       
+            this.PointerToken = new __ConvertToInt64 { Pointer = Pointer };
         }
 
         public static __IntPtr InternalGetZero()
@@ -120,7 +120,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         public object PointerToken;
 
 
-        public static __IntPtr Of(global::java.lang.Class Target, string MethodName, global::java.lang.Class[] Parameters)
+        public static __IntPtr Of(
+            global::java.lang.Class Target,
+            string MethodName,
+            global::java.lang.Class[] Parameters
+            )
         {
             var MethodToken = default(Method);
 
@@ -130,7 +134,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
             catch
             {
-                throw new InvalidOperationException();
+                throw;
             }
 
             return new __IntPtr { MethodToken = MethodToken };

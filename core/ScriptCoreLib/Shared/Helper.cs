@@ -4,6 +4,7 @@ namespace ScriptCoreLib.Shared
 {
 
     [Script]
+    [System.Obsolete]
     public static class Helper
     {
         /// <summary>

@@ -86,5 +86,30 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
             return null;
         }
+
+
+
+
+        public static implicit operator XElement(__XElement n)
+        {
+            return (XElement)(object)n;
+        }
+
+        public __XName Name
+        {
+            get
+            {
+                // http://bugs.jqueryui.com/ticket/5557
+                // http://ejohn.org/blog/nodename-case-sensitivity/
+                var nodeName = this.InternalElement.getNodeName();
+
+     
+                return new __XName { InternalValue = nodeName };
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

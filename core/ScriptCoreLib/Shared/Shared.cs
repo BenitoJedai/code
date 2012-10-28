@@ -4,6 +4,7 @@ namespace ScriptCoreLib.Shared
 {
 
     [Script]
+    [System.Obsolete]
     public static class BooleanExtensions
     {
         [System.Obsolete("revert to ||", true)]
@@ -43,6 +44,7 @@ namespace ScriptCoreLib.Shared
     //#if BLOAT
 
     [Script]
+    [System.Obsolete]
     public class ConvertTo<TIn, TOut> : Predicate<TIn, TOut>
     {
         public System.Action<Predicate<TIn, TIn>> TargetInComparer;
@@ -79,6 +81,7 @@ namespace ScriptCoreLib.Shared
     }
     //#endif
     [Script]
+    [System.Obsolete]
     public class Predicate<TIn, TOut> : Predicate
     {
         public TIn TargetIn;
@@ -111,6 +114,7 @@ namespace ScriptCoreLib.Shared
     }
 
     [Script]
+    [System.Obsolete]
     public class Predicate<T> : Predicate
     {
         public T Target;
@@ -129,6 +133,7 @@ namespace ScriptCoreLib.Shared
 
 
     [Script]
+    [System.Obsolete]
     public class Predicate
     {
         public bool Value;
@@ -184,6 +189,7 @@ namespace ScriptCoreLib.Shared
     }
 
     [Script]
+    [System.Obsolete]
     public class JSONBase
     {
         public const string Protocol = "json://";
@@ -191,6 +197,7 @@ namespace ScriptCoreLib.Shared
     }
 
     [Script]
+    [System.Obsolete]
     public class Pair<TA, TB>
     {
         public TA A;
@@ -206,6 +213,7 @@ namespace ScriptCoreLib.Shared
     }
 
     [Script]
+    [System.Obsolete]
     public class Pair<T>
     {
         public T A;
@@ -214,6 +222,7 @@ namespace ScriptCoreLib.Shared
 
     [Serializable]
     [Script]
+    [System.Obsolete]
     public class MyTransportDescriptor<TType> : JSONBase
     {
         /// <summary>

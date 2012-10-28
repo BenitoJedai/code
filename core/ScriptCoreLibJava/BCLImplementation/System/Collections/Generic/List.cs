@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {
@@ -97,12 +98,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new __Enumerator(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new __Enumerator(this);
         }
 
 
@@ -122,6 +123,69 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         public T[] ToArray()
         {
             return this.InternalList.toArray(new T[0]);
+        }
+
+
+
+
+        [Script(Implements = typeof(global::System.Collections.Generic.List<>.Enumerator))]
+        public class __Enumerator : IEnumerator<T>, IDisposable, IEnumerator
+        {
+            IEnumerator<T> value;
+
+            internal __Enumerator()
+                : this(null)
+            {
+
+            }
+
+            internal __Enumerator(__List<T> list)
+            {
+                if (list == null)
+                    return;
+
+                value = __Enumerable_AsEnumerable.AsEnumerable(list.ToArray()).GetEnumerator();
+
+
+            }
+
+
+            #region IEnumerator<T> Members
+
+            public T Current
+            {
+                get { return value.Current; }
+            }
+
+            #endregion
+
+            #region IDisposable Members
+
+            public void Dispose()
+            {
+                value.Dispose();
+            }
+
+            #endregion
+
+            #region IEnumerator Members
+
+            object IEnumerator.Current
+            {
+                get { return value.Current; }
+            }
+
+            public bool MoveNext()
+            {
+                return value.MoveNext();
+            }
+
+            public void Reset()
+            {
+                value.Reset();
+            }
+
+            #endregion
         }
     }
 }
