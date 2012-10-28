@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib;
 using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         #region Keys
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection))]
-        public class __KeyCollection : ICollection<TKey>
+        public class __KeyCollection : ICollection<TKey>, ICollection
         {
 
             public void Add(TKey item)
@@ -71,6 +72,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()
             {
                 throw new NotImplementedException();
+            }
+
+            void ICollection.CopyTo(Array array, int index)
+            {
+                throw new NotImplementedException();
+            }
+
+            int ICollection.Count
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            bool ICollection.IsSynchronized
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            object ICollection.SyncRoot
+            {
+                get { throw new NotImplementedException(); }
             }
         }
 

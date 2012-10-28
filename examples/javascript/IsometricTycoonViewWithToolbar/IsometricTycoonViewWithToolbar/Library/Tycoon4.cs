@@ -1756,6 +1756,8 @@ namespace ThreeDStuff.js
                                     if (ShowingTileSelector())
                                         return;
 
+                                    Console.WriteLine("ApplySelection " + new { ev.shiftKey });
+
                                     foreach (var v in Dudes)
                                     {
                                         if (ev.shiftKey)

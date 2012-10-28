@@ -8,7 +8,6 @@ using NatureBoyTestPadExperiment.HTML.Images.FromAssets;
 
 namespace NatureBoyTestPad.js
 {
-    [Script]
     static class MyFrames
     {
         
