@@ -15,9 +15,31 @@ using System.IO;
 
 namespace TestCLRJVMGetGenericTypeMethod
 {
-    class __Extensions___c__DisplayClass2<T>
+    interface abar<T>
     {
-        public IEnumerable<XElement> _Elements_b__1(T k)
+    }
+
+
+    interface bar
+    {
+    }
+
+    interface cbar<T>
+    {
+    }
+
+    class foo
+    {
+
+    }
+
+    class __Extensions___c__DisplayClass2<T, Tfoo, Tbar, Tfoobar, Tabar>
+        where Tfoo : foo
+        where Tbar : bar
+        where Tfoobar : foo, bar
+        where Tabar : abar<foo>, bar, cbar<foo>
+    {
+        public IEnumerable<XElement> _Elements_b__1(T k, Tfoo tfoo, Tbar tbar, Tfoobar tfoobar, Tabar tabar)
         {
             return null;
         }
@@ -38,9 +60,15 @@ namespace TestCLRJVMGetGenericTypeMethod
             Console.WriteLine("hi!");
 
 
-            var t = typeof(__Extensions___c__DisplayClass2<>);
+            var t = typeof(__Extensions___c__DisplayClass2<,,,,>);
 
             // { SourceMethod = ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IEnumerable_1 _Elements_b__1(java.lang.Object) }
+            // { SourceMethod = ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IEnumerable_1 _Elements_b__1(
+            // java.lang.Object, 
+            // TestCLRJVMGetGenericTypeMethod.foo, 
+            // TestCLRJVMGetGenericTypeMethod.bar, 
+            // TestCLRJVMGetGenericTypeMethod.foo
+            // ) }
 
             t.GetMethods().WithEach(
                 SourceMethod =>
@@ -49,10 +77,19 @@ namespace TestCLRJVMGetGenericTypeMethod
                 }
             );
 
-            var m = t.GetMethod("_Elements_b__1", new[] { typeof(object) });
+            var m = t.GetMethod("_Elements_b__1", new[] { 
+                typeof(object), 
+                typeof(foo), 
+                typeof(bar), 
+                typeof(foo), 
+                typeof(cbar<>), 
+            });
 
 
             System.Console.WriteLine(new { m });
+
+            Func<object, foo, bar, cbar<foo>> 
+
             System.Console.WriteLine("done");
 
 

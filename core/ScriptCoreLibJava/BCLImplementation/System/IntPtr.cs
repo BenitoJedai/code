@@ -135,6 +135,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             catch
             {
                 Console.WriteLine("error: " + new { Target, MethodName });
+
+                foreach (var Parameter in Parameters)
+                {
+                    Console.WriteLine("error: " + new { Parameter });
+                }
+
+                foreach (var Method in ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToType(Target).GetMethods())
+                {
+                    Console.WriteLine("error: " + new { Method });
+                }
+
+
+
                 throw;
             }
 

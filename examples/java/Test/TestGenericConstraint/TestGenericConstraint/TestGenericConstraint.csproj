@@ -45,7 +45,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -java</PostBuildEvent>
+    <PostBuildEvent>
+  c:\util\jsc\bin\jsc.exe $(TargetPath) -java
+
+      "C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe" %25cd%25\web\java\TestGenericConstraint\*.java %25cd%25\web\java\TestGenericConstraint\foo\*.java
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

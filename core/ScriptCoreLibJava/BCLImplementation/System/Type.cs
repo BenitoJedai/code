@@ -157,7 +157,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             {
                 // suppressing default Java language access control checks
                 // - does it actually do that?
-                a[i].setAccessible(true);
+
+                //  access denied (java.lang.reflect.ReflectPermission suppressAccessChecks), StackTrace = java.security.AccessControlException: access denied (java.lang.reflect.ReflectPermission suppressAccessChecks)                //a[i].setAccessible(true);
+
                 n[i] = (MethodInfo)(object)new __MethodInfo { InternalMethod = a[i] };
 
             }

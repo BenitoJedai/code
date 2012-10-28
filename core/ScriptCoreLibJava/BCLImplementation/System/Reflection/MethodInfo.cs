@@ -94,7 +94,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             {
                 n = this.InternalMethod.invoke(obj, parameters);
             }
-            catch 
+            catch
             {
                 throw;
             }
@@ -121,7 +121,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
             w.Append(this.ReturnType.FullName);
             w.Append(" ");
-            w.Append(base.ToString());
+            w.Append(this.Name);
+            w.Append("(");
+
+            var p = this.GetParameters();
+            for (int i = 0; i < p.Length; i++)
+            {
+                if (i > 0)
+                    w.Append(", ");
+
+                w.Append(p[i].ParameterType.FullName);
+            }
+
+            w.Append(")");
 
             return w.ToString();
         }
