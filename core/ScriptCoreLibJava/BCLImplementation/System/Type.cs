@@ -125,6 +125,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return n;
         }
 
+        public MethodInfo GetMethod(string name, global::System.Type[] parameters)
+        {
+            var c = new List<java.lang.Class>();
+            foreach (var item in parameters)
+            {
+                c.Add(ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToClass(item));
+            }
+            var m = default(Method);
+
+            try
+            {
+                m = this.InternalTypeDescription.getMethod(name, c.ToArray());
+            }
+            catch
+            {
+ 
+            }
+
+            return (__MethodInfo) m ;
+        }
+
         public MethodInfo[] GetMethods()
         {
             // http://www.onjava.com/pub/a/onjava/2007/03/15/reflections-on-java-reflection.html?page=3

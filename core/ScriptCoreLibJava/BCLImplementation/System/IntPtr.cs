@@ -134,6 +134,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
             catch
             {
+                Console.WriteLine("error: " + new { Target, MethodName });
                 throw;
             }
 

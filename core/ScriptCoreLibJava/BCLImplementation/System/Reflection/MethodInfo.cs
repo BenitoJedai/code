@@ -52,6 +52,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             }
         }
 
+        public static implicit operator __MethodInfo(Method m)
+        {
+            if (m == null)
+                return null;
+
+            return new __MethodInfo { InternalMethod = m };
+        }
+
         public static implicit operator MethodInfo(__MethodInfo m)
         {
             return (MethodInfo)(object)m;
@@ -86,11 +94,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             {
                 n = this.InternalMethod.invoke(obj, parameters);
             }
-            catch // (csharp.ThrowableException e)
+            catch 
             {
-                //((Throwable)(object)e).printStackTrace();
-
-                //throw new csharp.RuntimeException(e.Message);
                 throw;
             }
 
@@ -116,19 +121,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
             w.Append(this.ReturnType.FullName);
             w.Append(" ");
-            w.Append(this.Name);
-            w.Append("(");
-
-            var p = this.GetParameters();
-            for (int i = 0; i < p.Length; i++)
-            {
-                if (i > 0)
-                    w.Append(", ");
-
-                w.Append(p[i].ParameterType.FullName);
-            }
-
-            w.Append(")");
+            w.Append(base.ToString());
 
             return w.ToString();
         }

@@ -54,6 +54,29 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
 
 		public abstract ParameterInfo[] GetParameters();
-		
+
+
+        public override string ToString()
+        {
+            // System.Collections.Generic.IEnumerable`1[System.Xml.Linq.XElement] _Elements_b__1(T)
+
+            var w = new StringBuilder();
+
+            w.Append(this.Name);
+            w.Append("(");
+
+            var p = this.GetParameters();
+            for (int i = 0; i < p.Length; i++)
+            {
+                if (i > 0)
+                    w.Append(", ");
+
+                w.Append(p[i].ParameterType.FullName);
+            }
+
+            w.Append(")");
+
+            return w.ToString();
+        }
 	}
 }
