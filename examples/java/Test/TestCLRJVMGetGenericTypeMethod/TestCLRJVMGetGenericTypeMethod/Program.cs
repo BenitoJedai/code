@@ -33,6 +33,11 @@ namespace TestCLRJVMGetGenericTypeMethod
 
     }
 
+    class xfoo : foo, bar, abar<foo>, cbar<foo>
+    {
+
+    }
+
     class __Extensions___c__DisplayClass2<T, Tfoo, Tbar, Tfoobar, Tabar>
         where Tfoo : foo
         where Tbar : bar
@@ -77,6 +82,14 @@ namespace TestCLRJVMGetGenericTypeMethod
                 }
             );
 
+            //            error: { Method = ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IEnumerable_1 _Elements_b__1(
+            // java.lang.Object, 
+            // TestCLRJVMGetGenericTypeMethod.foo, 
+            // TestCLRJVMGetGenericTypeMethod.bar, 
+            // TestCLRJVMGetGenericTypeMethod.foo, 
+            // TestCLRJVMGetGenericTypeMethod.cbar_1
+            // ) }
+
             var m = t.GetMethod("_Elements_b__1", new[] { 
                 typeof(object), 
                 typeof(foo), 
@@ -88,8 +101,11 @@ namespace TestCLRJVMGetGenericTypeMethod
 
             System.Console.WriteLine(new { m });
 
-            Func<object, foo, bar, cbar<foo>> 
+            Func<object, foo, bar, xfoo, xfoo, IEnumerable<XElement>> y =
+                new __Extensions___c__DisplayClass2<object, foo, bar, xfoo, xfoo>()._Elements_b__1;
 
+
+            System.Console.WriteLine(new { y.Method });
             System.Console.WriteLine("done");
 
 
