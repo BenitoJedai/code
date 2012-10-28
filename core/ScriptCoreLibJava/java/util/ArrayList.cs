@@ -9,7 +9,7 @@ namespace java.util
     // http://developer.android.com/reference/java/util/ArrayList.html
 
     [Script(IsNative = true)]
-    public class ArrayList<T0> 
+    public class ArrayList<T0> : ArrayList
     {
         public bool add(T0 @o)
         {

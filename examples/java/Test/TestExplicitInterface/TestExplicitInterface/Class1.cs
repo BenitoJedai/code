@@ -5,6 +5,19 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 [assembly: Obfuscation(Feature = "script")]
+
+
+namespace java.lang.annotation
+{
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/Annotation.html
+    [Script(IsNative = true)]
+    public interface Annotation
+    {
+        object annotationType();
+    
+    }
+}
+
 namespace TestExplicitInterface
 {
     [ScriptAttribute.ExplicitInterface]
@@ -46,6 +59,7 @@ namespace TestExplicitInterface
 
 
     public class Class1 :
+        java.lang.annotation.Annotation,
         IInterface,
         IInterface2,
         //IDisposable,
@@ -102,6 +116,11 @@ namespace TestExplicitInterface
         public int barii2(int t)
         {
             return t;
+        }
+
+        public object annotationType()
+        {
+            throw null;
         }
     }
 
