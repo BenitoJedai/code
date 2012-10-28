@@ -13,8 +13,6 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace Toolbar.JavaScript
 {
-
-    [Script]
     public class ToolbarButtonGroup
     {
         ToolbarButton[] _Buttons;

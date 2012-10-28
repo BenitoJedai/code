@@ -7,7 +7,6 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace NatureBoyTestPad.js
 {
-    [Script]
     static class Extensions
     {
         public static Func<A, B, C, T> ToFunc<A, B, C, T>(this T e, Func<A, B, C, T> x)

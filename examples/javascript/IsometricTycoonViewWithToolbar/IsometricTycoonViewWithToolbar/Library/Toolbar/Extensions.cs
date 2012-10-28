@@ -10,7 +10,6 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace Toolbar.JavaScript
 {
-    [Script]
     static class Extensions
     {
         

@@ -332,9 +332,6 @@
     <Compile Include="BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Collections\Specialized\StringDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1231,13 +1228,11 @@
     <Compile Include="javax.common\runtime\Console.cs" />
     <Compile Include="javax.common\runtime\Convert.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\**\*.*">
       <Link>BCLImplementation\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\exceptions.txt" />

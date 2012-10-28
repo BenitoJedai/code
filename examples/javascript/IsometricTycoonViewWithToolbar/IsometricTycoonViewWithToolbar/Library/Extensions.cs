@@ -13,7 +13,6 @@ using ScriptCoreLib.JavaScript.Controls.NatureBoy;
 
 namespace ThreeDStuff.js
 {
-    [Script]
     static class Extensions
     {
         public static Action ForEachAtInterval<T>(this IEnumerable<T> e, int interval, Action<T> h, Action done)

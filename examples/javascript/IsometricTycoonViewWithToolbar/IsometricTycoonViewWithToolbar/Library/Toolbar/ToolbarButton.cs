@@ -13,7 +13,6 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace Toolbar.JavaScript
 {
-    [Script]
     public class ToolbarButton
     {
         public IHTMLDiv Control;

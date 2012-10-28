@@ -13,7 +13,6 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace Toolbar.JavaScript
 {
-    [Script]
     public class ToolbarDialog
     {
         public static ToolbarDialog CreateToolbar(Point toolbar_pos, Point toolbar_size, Color toolbar_color)
