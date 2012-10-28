@@ -5,8 +5,8 @@ using System.Text;
 using System.Collections;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Query;
-using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.BCLImplementation.System;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
@@ -33,7 +33,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         internal void AddRange(IEnumerable<T> collection)
         {
-            foreach (var item in InternalSequence.AsEnumerable(collection))
+            foreach (var item in __Enumerable_AsEnumerable.AsEnumerable(collection))
             {
                 this.Push(item);
             }

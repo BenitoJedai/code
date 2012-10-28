@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic

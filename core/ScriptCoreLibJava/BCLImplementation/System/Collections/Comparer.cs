@@ -95,15 +95,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
                 return x.CompareTo(y);
             }
 
-            if (a is uint)
-                if (b is uint)
-                {
-                    var x = (uint)a;
-                    var y = (uint)b;
-
-                    return x.CompareTo(y);
-                }
-
             if (a is int)
                 if (b is int)
                 {
@@ -131,6 +122,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 
                     return x.CompareTo(y);
                 }
+
+            // uint does not exist in jvm, will conflict with int/long
+            if (a is uint)
+                if (b is uint)
+                {
+                    var x = (uint)a;
+                    var y = (uint)b;
+
+                    return x.CompareTo(y);
+                }
+
             #endregion
 
 

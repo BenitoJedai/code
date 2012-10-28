@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Linq.__Query
 {
-    [Script(Implements = typeof(ScriptCoreLib.Shared.Query.InternalSequence))]
+    [Script(Implements = typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable_AsEnumerable))]
     internal static class __InternalSequenceImplementation
     {
 

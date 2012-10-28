@@ -90,7 +90,7 @@
     <Compile Include="Shared\BCLImplementation\System\Data\IDbConnection.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormattable.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\Extensions.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Xml\Linq\Extensions.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XAttribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XContainer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XDocument.cs" />
@@ -117,7 +117,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\InteropServices\Marshal.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\Encoding.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\Extensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XAttribute.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XComment.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XContainer.cs" />
@@ -317,7 +316,6 @@
     <Compile Include="Shared\BCLImplementation\System\Nullable.cs" />
     <Compile Include="Shared\BCLImplementation\System\EventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\EventArgs.cs" />
-    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.NotImplementedHere.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Take.MoveNext.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Take.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Range.MoveNext.cs" />
@@ -847,7 +845,7 @@
     <Compile Include="Shared\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Helper.cs" />
     <Compile Include="Shared\IAssemblyInfo.cs" />
-    <Compile Include="Shared\Query\InternalSequence.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.AsEnumerable.cs" />
     <Compile Include="Shared\BCLImplementation\System\SZArrayEnumerator.cs" />
     <Compile Include="Shared\Serialized\SimpleEmailTag.cs" />
     <Compile Include="Shared\TextWriter.cs" />

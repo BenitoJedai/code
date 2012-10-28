@@ -8,20 +8,42 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(
        HasNoPrototype = true,
       Implements = typeof(global::System.Exception),
-      ImplementationType = typeof(java.lang.Throwable))]
-      //ImplementationType = typeof(java.lang.Exception))]
+      ImplementationType = typeof(java.lang.Throwable))
+    ]
     internal class __Exception
     {
         public __Exception() { }
         public __Exception(string e) { }
+
         public string Message
         {
-            [Script(ExternalTarget = "getMessage")]
-            get { return default(string); }
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var e = (object)this as java.lang.Throwable;
+
+                return e.getMessage();
+            }
+        }
+
+        public virtual string StackTrace
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var e = (object)this as java.lang.Throwable;
+
+                var ww = new java.io.StringWriter();
+
+                e.printStackTrace(new java.io.PrintWriter(ww));
+
+                return ww.ToString();
+            }
+
         }
     }
 
- 
+
 
 
 }
