@@ -22,7 +22,7 @@ namespace gameclient.source.shared
 
         partial class ServerToClient
         {
-            public void CreateExplosionByServer(int x, int y, string text, EventHandler done)
+            public void CreateExplosionByServer(int x, int y, string text, System.Action done)
             {
                 var CreateExplosionByServer = new _CreateExplosionByServer { x = x, y = y, text = text};
                 var m = new Message { CreateExplosionByServer = CreateExplosionByServer };

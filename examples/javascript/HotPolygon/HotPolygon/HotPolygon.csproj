@@ -65,10 +65,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.XLinq">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Extensions">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
@@ -119,9 +115,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\3dgarro.cur" />
+    <Content Include="Textures\3dgarro.cur" />
     <Content Include="Textures\99851426_7f408a6cc3_o_gray.png" />
-    <Content Include="Design\cursor01.cur" />
+    <Content Include="Textures\cursor01.cur" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\HotPolygon.cs" />
@@ -138,7 +134,7 @@
     <Content Include="Textures\here3.png" />
     <Content Include="Textures\here4.png" />
     <Content Include="Textures\here5.png" />
-    <Content Include="Design\Preview.png" />
+    <Content Include="Textures\Preview.png" />
     <Content Include="Textures\up.png" />
     <Content Include="Textures\up_neg.png" />
   </ItemGroup>

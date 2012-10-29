@@ -312,7 +312,7 @@ namespace ScriptCoreLib.ActionScript.DOM
 
 
 			1.ExternalAtDelay(@"
-				var _x = document.getElementsByTagName('object');
+				var _x = document.getElementsByTagName('embed');
 				
 
 				for (var _i = 0; _i < _x.length; _i++)

@@ -7,7 +7,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    [Script(HasNoPrototype = true, ExternalTarget="Function")]
+    [Script(HasNoPrototype = true, ExternalTarget = "Function")]
     public class IFunction
     {
         public Expando prototype;
@@ -17,19 +17,24 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
-        public IFunction(string a, string body)
+        public IFunction(string arg0, string body)
         {
 
         }
 
-        public IFunction(string a, string b, string body)
+        public IFunction(string arg0, string arg1, string body)
+        {
+
+        }
+
+        public IFunction(string arg0, string arg1, string arg3, string body)
         {
 
         }
 
 
 
-        [Script(OptimizedCode=@"return new f();")]
+        [Script(OptimizedCode = @"return new f();")]
         static Expando CreateType(IFunction f)
         {
             return default(Expando);
@@ -39,7 +44,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         /// returns new object from function
         /// </summary>
         /// <returns></returns>
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         public Expando CreateType()
         {
             return CreateType(this);
@@ -47,7 +52,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region invoke
-        [Script(OptimizedCode=@"return {arg0}({arg1})",UseCompilerConstants=true)]
+        [Script(OptimizedCode = @"return {arg0}({arg1})", UseCompilerConstants = true)]
         public static object Invoke(IFunction f, object a0)
         {
             return null;
@@ -65,7 +70,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             return null;
         }
 
-        
+
         public object apply(object o, params object[] args)
         {
             return null;
@@ -79,10 +84,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-		public static IFunction Of(object target, string name)
-		{
-			return Expando.Of(target).GetMember<IFunction>(name);
-		}
+        public static IFunction Of(object target, string name)
+        {
+            return Expando.Of(target).GetMember<IFunction>(name);
+        }
 
         public static IFunction Of(string name)
         {

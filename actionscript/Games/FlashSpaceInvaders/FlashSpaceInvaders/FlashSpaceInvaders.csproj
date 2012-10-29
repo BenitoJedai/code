@@ -102,14 +102,6 @@
       <Project>{B9E1DD3A-67EE-4035-BB1D-7A613D466C9F}</Project>
       <Name>FlashSpaceInvaders.Menu</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FlashSpaceInvaders.MultiPlayer.Messages\FlashSpaceInvaders.MultiPlayer.Messages.csproj">
-      <Project>{32EBF32E-3660-453A-BEBE-C038E52931FB}</Project>
-      <Name>FlashSpaceInvaders.MultiPlayer.Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashSpaceInvaders.MultiPlayer\FlashSpaceInvaders.MultiPlayer.csproj">
-      <Project>{D167DCDA-E69E-4C7F-BE2B-AF05CEFFA31C}</Project>
-      <Name>FlashSpaceInvaders.MultiPlayer</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\assets\FlashSpaceInvaders\" />

@@ -15,14 +15,14 @@ namespace gameclient.source.shared
         public class Info
         {
             public Message m;
-            public EventHandler<Message> done;
+            public System.Action<Message> done;
 
             public bool IsPending;
         }
 
-        
 
-        protected virtual void Send(Message m, EventHandler<Message> done)
+
+        protected virtual void Send(Message m, System.Action<Message> done)
         {
 
         }

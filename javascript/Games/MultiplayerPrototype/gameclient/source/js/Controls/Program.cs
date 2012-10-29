@@ -451,7 +451,7 @@ namespace gameclient.source.js.Controls
                     a.SetCanvasSize(new Point(8000, 8000));
 
                     #region DrawTextWithTimeout
-                    EventHandler<string, Color> DrawTextWithTimeout =
+                    System.Action<string, Color> DrawTextWithTimeout =
                                    delegate(string text, Color color)
                                    {
                                        var z = new IHTMLDiv(new ITextNode(text));

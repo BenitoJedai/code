@@ -91,7 +91,7 @@ namespace cncserver
         #endregion
 
 
-        public event EventHandler<string> OnIServer_TalkToOthers;
+        public event System.Action<string> OnIServer_TalkToOthers;
 
         public void IServer_TalkToOthers(string text)
         {

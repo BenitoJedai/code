@@ -73,6 +73,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)*.dll" "c:\util\jsc\bin" /y</PostBuildEvent>
+    <PostBuildEvent>rem copy "$(TargetDir)*.dll" "c:\util\jsc\bin" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

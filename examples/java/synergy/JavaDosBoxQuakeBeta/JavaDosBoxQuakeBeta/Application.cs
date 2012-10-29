@@ -17,7 +17,7 @@ namespace JavaDosBoxQuakeBeta
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -33,14 +33,17 @@ namespace JavaDosBoxQuakeBeta
             //            [jdosbox]00dd Create jdos.hardware.IPX$ReceiverThread
             //System.TypeLoadException: Declaration referenced in a method implementation cannot be a final method.  Type: 'ReceiverThread'.  Assembly: 'jdosbox, Version=0.0.0.0, Culture=neutral, PublicKeyToken=nul
 
+            // CreateType:  jdos.gui.MyApplet1
+            // error: System.InvalidOperationException: Unable to change after type has been created.
+
             // Initialize MyApplet1
             new jdos.gui.MyApplet1().AttachAppletTo(page.Content);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }

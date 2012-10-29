@@ -12,13 +12,15 @@ using ScriptCoreLib.JavaScript.DOM;
 
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
+using System.Linq;
 
 using Console = System.Console;
 
 namespace gameclient.source.js.Controls
 {
     using shared;
-	using System.Diagnostics;
+    using System.Diagnostics;
 
     [Script]
     class UnitCache
@@ -47,15 +49,17 @@ namespace gameclient.source.js.Controls
         {
             this.Cache = new IHTMLImage[max - min + 1];
 
-            for (int i = min; i < max; i++)
+            for (int i = min; i <= max; i++)
             {
                 this.Cache[i - min] = new IHTMLImage("fx/" + fx + "/" + i + ".png");
             }
         }
 
-        public static UnitCache Of(string fx, int min, int max, int w, int h, EventHandler<UnitCache> done)
+        public static UnitCache Of(string fx, int min, int max, int w, int h, System.Action<UnitCache> done)
         {
             var u = new UnitCache();
+
+            Console.WriteLine("LoadCache " + new { fx, min, max });
 
             u.LoadCache(fx, min, max);
             u.Width = w;
@@ -66,31 +70,38 @@ namespace gameclient.source.js.Controls
             return u;
         }
 
-        public void WhenCacheLoaded(EventHandler<UnitCache> p)
+        public void WhenCacheLoaded(System.Action<UnitCache> p)
         {
             if (p == null)
                 return;
 
-            Timer.Interval(
-                delegate(Timer t)
-                {
-                    bool b = true;
-                    for (int i = 0; i < this.Cache.Length; i++)
-                    {
-                        if (!this.Cache[i].complete)
-                        {
-                            b = false;
-                            break;
-                        }
-                    }
+            var q = this.Cache.AsEnumerable().ToList();
 
-                    if (b)
-                    {
-                        t.Stop();
-                        p(this);
-                    }
+            q.ForEach(
+               (i, index, next) =>
+               {
+                   if (i == null)
+                   {
+                       Console.WriteLine("null at " + new { index });
+                       next();
+                       return;
+                   }
+
+                   i.InvokeOnComplete(
+                       delegate
+                       {
+                           next();
+                       }
+                   );
+               }
+            )(
+                delegate
+                {
+                    p(this);
+
                 }
-            , 50);
+            );
+
 
         }
     }
@@ -190,7 +201,7 @@ namespace gameclient.source.js.Controls
 
 
 
-        public EventHandler WhenDone;
+        public System.Action WhenDone;
 
     }
 
@@ -228,7 +239,7 @@ namespace gameclient.source.js.Controls
         {
             //Native.DebugBreak();
 
-			//Console.EnableActiveXConsole();
+            //Console.EnableActiveXConsole();
             // Console.WriteLine("!!!");
 
             ImportStyleSheet("fx/css/cnc.css");
@@ -249,7 +260,7 @@ namespace gameclient.source.js.Controls
             this.CurrentSession = new ClientSession();
             this.CurrentSession.Control = this;
 
-			Debugger.Break();
+            Debugger.Break();
 
             this.CurrentSession.MethodA("a1", "a2",
                 delegate(string text)
@@ -308,7 +319,7 @@ namespace gameclient.source.js.Controls
 
         Timer t = null;
 
-        private void Setup(EventHandler done)
+        private void Setup(System.Action done)
         {
             t = new Timer();
 
@@ -337,9 +348,9 @@ namespace gameclient.source.js.Controls
             //CreateRotatingTank(96 + 48 * 1, 96 + 48 * 2, t, "tank_1", 308, 339);
 
             int u = 7;
-            EventHandler idone = null;
+            System.Action idone = null;
 
-            EventHandler<EventHandler> adone = delegate(EventHandler x)
+            System.Action<System.Action> adone = delegate(System.Action x)
             {
                 if (x != null)
                     idone += x;
@@ -386,10 +397,10 @@ namespace gameclient.source.js.Controls
                         {
                             var xu = Unit.Of(c, 32 * 14, 72 * i, t, 2);
 
-                            EventHandler To3 = null;
-                            EventHandler To4 = null;
-                            EventHandler To1r = null;
-                            EventHandler To1 = null;
+                            System.Action To3 = null;
+                            System.Action To4 = null;
+                            System.Action To1r = null;
+                            System.Action To1 = null;
 
                             To3 = delegate
                             {

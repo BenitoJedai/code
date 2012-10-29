@@ -116,11 +116,11 @@ namespace PHPWiki
             if (Native.Document.location.hash == "#edit")
                 AtEdit();
 
-            page.Fullscreen.onclick +=
-                delegate
-                {
-                    Native.Document.body.requestFullscreen();
-                };
+            //page.Fullscreen.onclick +=
+            //    delegate
+            //    {
+            //        Native.Document.body.requestFullscreen();
+            //    };
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier

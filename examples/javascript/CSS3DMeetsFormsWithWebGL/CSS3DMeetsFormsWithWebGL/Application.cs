@@ -624,4 +624,36 @@ namespace CSS3DMeetsFormsWithWebGL
             new global::McKrackenFirstRoom.Application(page);
         }
     }
+
+    //sealed class __JavaDosBoxQuakeBeta
+    //{
+    //    public __JavaDosBoxQuakeBeta(global::JavaDosBoxQuakeBeta.HTML.Pages.IDefaultPage page)
+    //    {
+    //        new global::JavaDosBoxQuakeBeta.Application(page);
+    //    }
+    //}
+
+    //sealed class __Boing4KTemplate
+    //{
+    //    public __Boing4KTemplate(global::Boing4KTemplate.HTML.Pages.IDefaultPage page)
+    //    {
+    //        new global::Boing4KTemplate.Application(page);
+    //    }
+    //}
+
+    //sealed class __RayCasterApplet
+    //{
+    //    public __RayCasterApplet(global::RayCasterApplet.HTML.Pages.IDefaultPage page)
+    //    {
+    //        new global::RayCasterApplet.Application(page);
+    //    }
+    //}
+
+    //sealed class __FlashCamera
+    //{
+    //    public __FlashCamera(global::FlashCamera.HTML.Pages.IDefaultPage page)
+    //    {
+    //        new global::FlashCamera.Application(page);
+    //    }
+    //}
 }

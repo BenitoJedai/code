@@ -8,22 +8,22 @@ using System.Xml.Linq;
 
 namespace CSS3DMeetsFormsWithWebGL
 {
-    static class X
-    {
-        public static T FirstOrDefault<T>(this T[] source, Func<T, bool> f)
-        {
-            var r = default(T);
-            foreach (var item in source)
-            {
-                if (f(item))
-                {
-                    r = item;
-                    break;
-                }
-            }
-            return r;
-        }
-    }
+    //static class X
+    //{
+    //    public static T FirstOrDefault<T>(this T[] source, Func<T, bool> f)
+    //    {
+    //        var r = default(T);
+    //        foreach (var item in source)
+    //        {
+    //            if (f(item))
+    //            {
+    //                r = item;
+    //                break;
+    //            }
+    //        }
+    //        return r;
+    //    }
+    //}
 
 
     /// <summary>
@@ -57,7 +57,11 @@ namespace CSS3DMeetsFormsWithWebGL
                 new { path = "/ImpAdventures", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__ImpAdventures") },
                 new { path = "/IsometricTycoonViewWithToolbar", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__IsometricTycoonViewWithToolbar") },
                 new { path = "/McKrackenFirstRoom", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__McKrackenFirstRoom") },
-                
+                //new { path = "/JavaDosBoxQuakeBeta", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__JavaDosBoxQuakeBeta") },
+                //new { path = "/Boing4KTemplate", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__Boing4KTemplate") },
+                //new { path = "/RayCasterApplet", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__RayCasterApplet") },
+                //new { path = "/FlashCamera", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__FlashCamera") },
+
                 new { path = "", client = h.Applications.FirstOrDefault(k => k.TypeName =="Application") }
             };
 

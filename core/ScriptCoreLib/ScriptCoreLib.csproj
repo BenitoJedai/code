@@ -56,6 +56,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,6 +67,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.SQLite, Version=1.0.82.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\System.Data.SQLite.x86.1.0.82.0\lib\net40\System.Data.SQLite.dll</HintPath>
@@ -82,14 +84,25 @@
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="PHP\Web\Services\WebService.cs" />
+    <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs" />
+    <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\LicenseManager.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataColumnCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataColumn.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataRowCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataRow.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataTable.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataSet.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDbTransaction.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDbConnection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\Linq\DataColumn.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormattable.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\CallSiteBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Xml\Linq\Extensions.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XAttribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XContainer.cs" />
