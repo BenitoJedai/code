@@ -27,7 +27,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             }
         }
 
-   
+
 
         public __HttpResponse()
         {
@@ -97,8 +97,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         {
             if (InternalIsTransferEncodingChunked)
             {
-                var ChunkedLengthString = 0 + "\r\n";
-                //var ChunkedLengthString = buffer.Length + "\r\n";
+                var ChunkedLengthString =  "0\r\n\r\n";
                 var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
 
                 InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
@@ -106,6 +105,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                 Flush();
             }
 
+            IsClientConnected = false;
             InternalStream.Close();
         }
 
@@ -131,14 +131,20 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                 {
                     // Y:\jsc.community\zmovies\MovieAgent\MovieAgentCore\Server\Library\BasicWebCrawler.cs
                     // http://www.httpwatch.com/httpgallery/chunked/
+                    // http://zoompf.com/2012/05/too-chunky
+                    // http://tools.ietf.org/html/rfc2616#section-3.6.1
+                    // http://www.jmarshall.com/easy/http/
+                    // http://code.google.com/p/chrome-browser/source/browse/trunk/src/net/http/http_chunked_decoder.cc
+                    // http://golang.org/src/pkg/net/http/chunked.go
 
-                    var ChunkedLengthString = buffer.Length.ToString("x2") + "\r\n";
-                    //var ChunkedLengthString = buffer.Length + "\r\n";
+                    var ChunkedLengthString = buffer.Length.ToString("x8") + "; jsc-chunck\r\n";
                     var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
 
                     InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
 
                     Flush();
+
+                    buffer = Encoding.UTF8.GetBytes(s + "\r\n");
                 }
 
                 InternalStream.Write(buffer, 0, buffer.Length);

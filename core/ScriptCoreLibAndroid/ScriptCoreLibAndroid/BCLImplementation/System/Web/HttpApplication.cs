@@ -47,7 +47,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            CompleteRequest();
         }
 
         public global::System.ComponentModel.ISite Site
