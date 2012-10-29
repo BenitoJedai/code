@@ -118,7 +118,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                 {
                     // Y:\jsc.community\zmovies\MovieAgent\MovieAgentCore\Server\Library\BasicWebCrawler.cs
 
-                    var ChunkedLengthString = buffer.Length.ToString("x4") + "\r\n";
+                    var ChunkedLengthString = buffer.Length.ToString("x2") + "\r\n";
                     //var ChunkedLengthString = buffer.Length + "\r\n";
                     var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
 
