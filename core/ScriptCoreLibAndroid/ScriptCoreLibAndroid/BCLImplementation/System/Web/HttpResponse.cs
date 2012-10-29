@@ -27,10 +27,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             }
         }
 
-        public void Close()
-        {
-            InternalStream.Close();
-        }
+   
 
         public __HttpResponse()
         {
@@ -96,6 +93,22 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         }
 
+        public void Close()
+        {
+            if (InternalIsTransferEncodingChunked)
+            {
+                var ChunkedLengthString = 0 + "\r\n";
+                //var ChunkedLengthString = buffer.Length + "\r\n";
+                var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
+
+                InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
+
+                Flush();
+            }
+
+            InternalStream.Close();
+        }
+
         public void Write(object s)
         {
             Write(s.ToString());
@@ -117,6 +130,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                 if (InternalIsTransferEncodingChunked)
                 {
                     // Y:\jsc.community\zmovies\MovieAgent\MovieAgentCore\Server\Library\BasicWebCrawler.cs
+                    // http://www.httpwatch.com/httpgallery/chunked/
 
                     var ChunkedLengthString = buffer.Length.ToString("x2") + "\r\n";
                     //var ChunkedLengthString = buffer.Length + "\r\n";
