@@ -17,9 +17,9 @@ using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.mx.core;
-using FlashSpaceInvaders.Shared;
-using FlashSpaceInvaders.ActionScript.MultiPlayer;
-using ScriptCoreLib.ActionScript.MochiLibrary;
+//using FlashSpaceInvaders.Shared;
+//using FlashSpaceInvaders.ActionScript.MultiPlayer;
+//using ScriptCoreLib.ActionScript.MochiLibrary;
 
 namespace FlashSpaceInvaders.ActionScript
 {
@@ -43,9 +43,11 @@ namespace FlashSpaceInvaders.ActionScript
 	   title_url = "http://nonoba.com/zproxy/flashspaceinvaders"
 
    )]
-	public class FlashSpaceInvaders : MochiAdPreloaderBase
+	public class FlashSpaceInvaders : Sprite
+        //: MochiAdPreloaderBase
 	{
-		public const int DefaultWidth = Game.DefaultWidth + NonobaClient.NonobaChatWidth;
+        public const int DefaultWidth = Game.DefaultWidth;
+        //public const int DefaultWidth = Game.DefaultWidth + NonobaClient.NonobaChatWidth;
 
 		// todo: add http://gimme.badsectoracula.com/flashmodplayer/modplayer.html
 
@@ -65,55 +67,56 @@ namespace FlashSpaceInvaders.ActionScript
 		public FlashSpaceInvaders()
 		{
 			//PlayMultiPlayerWithMochi();
-			PlaySplitScreen();
+            //PlaySplitScreen();
+            PlaySinglePlayer();
 			
 		}
 
-		public override DisplayObject CreateInstance()
-		{
-			throw new NotImplementedException();
-		}
+        //public override DisplayObject CreateInstance()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-		private void PlayMultiPlayerWithMochi()
-		{
-			this.InvokeWhenStageIsReady(
-				delegate
-				{
-					_mochiads_game_id = MochiAdKey;
+        //private void PlayMultiPlayerWithMochi()
+        //{
+        //    this.InvokeWhenStageIsReady(
+        //        delegate
+        //        {
+        //            _mochiads_game_id = MochiAdKey;
 
-					showPreGameAd(
-						delegate
-						{
-							PlayMultiPlayer();
-						}
-					);
-				}
-			);
-		}
+        //            showPreGameAd(
+        //                delegate
+        //                {
+        //                    PlayMultiPlayer();
+        //                }
+        //            );
+        //        }
+        //    );
+        //}
 
-		private void PlaySplitScreen()
-		{
-			var s = new SplitScreen();
+        //private void PlaySplitScreen()
+        //{
+        //    var s = new SplitScreen();
 
-			s.Righty.Element.x = Game.DefaultWidth;
+        //    s.Righty.Element.x = Game.DefaultWidth;
 
-			s.Lefty.Element.AttachTo(this);
-			s.Lefty.Map.PlayerInput.MovementArrows.Enabled = false;
+        //    s.Lefty.Element.AttachTo(this);
+        //    s.Lefty.Map.PlayerInput.MovementArrows.Enabled = false;
 
-			s.Righty.Element.AttachTo(this);
-			s.Righty.Map.PlayerInput.MovementWASD.Enabled = false;
+        //    s.Righty.Element.AttachTo(this);
+        //    s.Righty.Map.PlayerInput.MovementWASD.Enabled = false;
 
 		
-		}
+        //}
 
-		private void PlayMultiPlayer()
-		{
-			var g = new MultiPlayer.NonobaClient();
+        //private void PlayMultiPlayer()
+        //{
+        //    var g = new MultiPlayer.NonobaClient();
 
-			//g.Element.x = (DefaultWidth - MultiPlayer.NonobaClient.DefaultWidth) / 2;
+        //    //g.Element.x = (DefaultWidth - MultiPlayer.NonobaClient.DefaultWidth) / 2;
 
-			g.Element.AttachTo(this);
-		}
+        //    g.Element.AttachTo(this);
+        //}
 
 		void PlaySinglePlayer()
 		{

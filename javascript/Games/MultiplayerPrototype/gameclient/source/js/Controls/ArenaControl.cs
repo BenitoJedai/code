@@ -22,8 +22,8 @@ namespace gameclient.source.js.Controls
             public double Value = 0.1;
             public double Step = 0.005;
 
-            public event EventHandler Validate;
-            public event EventHandler Changed;
+            public event System.Action Validate;
+            public event System.Action Changed;
 
             public void SetValue(double e)
             {
@@ -79,7 +79,7 @@ namespace gameclient.source.js.Controls
             var selection_enabled = false;
 
             u.onmousedown +=
-                delegate(IEvent e)
+                ( e) =>
                 {
                     if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                     {
@@ -136,7 +136,7 @@ namespace gameclient.source.js.Controls
 
         public Rectangle CurrentSelectionLocation = new Rectangle();
 
-        public event EventHandler<Point> SelectionCenterChanged;
+        public event System.Action<Point> SelectionCenterChanged;
 
         public void SetSelectionCenter(Point e)
         {

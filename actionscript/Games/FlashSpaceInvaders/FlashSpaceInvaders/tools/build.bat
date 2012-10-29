@@ -7,7 +7,7 @@
 
 
 :: http://msdn.microsoft.com/en-us/library/ms379563(VS.80).aspx
-call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe" /debug /out:"..\bin\debug\web\%1.NonobaServer.dll" /t:library  /recurse:"..\bin\debug\web\*.cs"  /lib:.. /r:"..\FlashSpaceInvaders.MultiPlayer\Library\Nonoba.GameLibrary.dll"
+rem call "C:\WINDOWS\Microsoft.NET\Framework\v3.5\csc.exe" /debug /out:"..\bin\debug\web\%1.NonobaServer.dll" /t:library  /recurse:"..\bin\debug\web\*.cs"  /lib:.. /r:"..\FlashSpaceInvaders.MultiPlayer\Library\Nonoba.GameLibrary.dll"
 
 
 :: Namespace name, type name

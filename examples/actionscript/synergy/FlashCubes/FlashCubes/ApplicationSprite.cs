@@ -26,10 +26,10 @@ namespace FlashCubes
     }
 }
 
+#if DisableActionScriptNatives
 [Script(IsNative = true)]
 [SWCImport]
 public class Main : Sprite
 {
-    // Carlo: generation was disabled due to a bug. re-enable once fixed. 
-    // Arvo: JSC could make use of Roslyn to pick up such code comments :)
 }
+#endif

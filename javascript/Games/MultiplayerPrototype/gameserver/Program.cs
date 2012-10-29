@@ -91,7 +91,7 @@ namespace cncserver
             commands = new ConsoleFunctions {
                 openbrowser = 
                     delegate {
-                        System.Diagnostics.Process.Start("http://localhost/");
+                        System.Diagnostics.Process.Start("http://localhost:8081/");
                     }
                 ,
                 clientreload =

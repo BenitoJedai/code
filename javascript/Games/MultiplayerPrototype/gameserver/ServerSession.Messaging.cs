@@ -62,7 +62,7 @@ namespace cncserver
         int MessageId = 1;
 
 
-        protected override void Send(Message m, EventHandler<Message> done)
+        protected override void Send(Message m, System.Action<Message> done)
         {
             MessageId++;
 

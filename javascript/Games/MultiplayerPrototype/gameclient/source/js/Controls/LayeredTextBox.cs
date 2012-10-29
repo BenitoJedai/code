@@ -19,8 +19,8 @@ namespace gameclient.source.js.Controls
             get { return _IsVisible; }
         }
 
-        public event EventHandler Cancel;
-        public event EventHandler<string> Send;
+        public event System.Action Cancel;
+        public event System.Action<string> Send;
 
         public readonly IHTMLDiv Control = new IHTMLDiv();
 
@@ -124,7 +124,7 @@ namespace gameclient.source.js.Controls
             this.Layers.Text.focus();
         }
 
-        public event EventHandler AfterHide;
+        public event System.Action AfterHide;
 
         public void Hide()
         {

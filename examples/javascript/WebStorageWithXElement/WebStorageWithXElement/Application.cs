@@ -30,24 +30,27 @@ namespace WebStorageWithXElement
         {
             var foo = Native.Window.localStorage["foo"];
             var xml = new XElement("foo",
-                        new XAttribute("Title", "What is the title?"),
-                        new XElement("Content", "What is the content?")
+                        new XAttribute("title", "What is the title?"),
+                        new XElement("content", "What is the content?")
                     );
 
             if (foo != null)
                 xml = XElement.Parse(foo);
 
-            page.TextArea1.value = xml.Attribute("Title").Value;
-            page.TextArea2.value = xml.Element("Content").Value;
+            page.ViewXMLSource.innerText = xml.ToString();
+
+            xml.Attribute("title").With(Title => page.TextArea1.value = Title.Value);
+            xml.Element("content").With(Content => page.TextArea2.value = Content.Value);
 
             page.Button1.onclick +=
                 delegate
                 {
                     var n = new XElement("foo",
-                        new XAttribute("Title", page.TextArea1.value),
-                        new XElement("Content", page.TextArea2.value)
+                        new XAttribute("title", page.TextArea1.value),
+                        new XElement("content", page.TextArea2.value)
                     );
 
+                    page.ViewXMLSource.innerText = n.ToString();
                     Native.Window.localStorage["foo"] = n.ToString();
                 };
 

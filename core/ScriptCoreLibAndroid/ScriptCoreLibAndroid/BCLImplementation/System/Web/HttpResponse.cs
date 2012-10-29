@@ -34,9 +34,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public __HttpResponse()
         {
-            ContentType = "application/octet-stream";
+            //ContentType = "application/octet-stream";
+            ContentType = "text/html";
             StatusCode = 200;
             Headers = new NameValueCollection();
+            IsClientConnected = true;
         }
 
         public NameValueCollection Headers { get; set; }
@@ -56,6 +58,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         }
 
         bool InternalWriteHeadersDone;
+        bool InternalIsTransferEncodingChunked;
 
         void InternalWriteHeaders()
         {
@@ -64,10 +67,22 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
             InternalWriteHeadersDone = true;
 
-            Action<string> WriteLine = x => Write(x + "\r\n");
+            Action<string> WriteLine =
+                x =>
+                {
+                    var HeaderStringBytes = Encoding.UTF8.GetBytes(x + "\r\n");
+
+                    InternalStream.Write(HeaderStringBytes, 0, HeaderStringBytes.Length);
+                };
 
             WriteLine("HTTP/1.1 " + StatusCode);
             WriteLine("Content-Type: " + ContentType);
+
+            // :ERR_INVALID_CHUNKED_ENCODING
+            if (InternalIsTransferEncodingChunked)
+                this.Headers["Transfer-Encoding"] = "chunked";
+
+            this.Headers["Connection"] = "close";
 
             foreach (var item in this.Headers.AllKeys)
             {
@@ -76,18 +91,48 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                 WriteLine(item + ": " + this.Headers[item]);
             }
 
-            WriteLine("Connection: close");
             WriteLine("");
             //InternalStream.Flush();
 
         }
 
+        public void Write(object s)
+        {
+            Write(s.ToString());
+        }
+
         public void Write(string s)
         {
+            if (!InternalWriteHeadersDone)
+            {
+                InternalIsTransferEncodingChunked = true;
+            }
+
             InternalWriteHeaders();
 
-            var buffer = Encoding.UTF8.GetBytes(s);
-            InternalStream.Write(buffer, 0, buffer.Length);
+            try
+            {
+                var buffer = Encoding.UTF8.GetBytes(s);
+
+                if (InternalIsTransferEncodingChunked)
+                {
+                    // Y:\jsc.community\zmovies\MovieAgent\MovieAgentCore\Server\Library\BasicWebCrawler.cs
+
+                    var ChunkedLengthString = buffer.Length.ToString("x4") + "\r\n";
+                    //var ChunkedLengthString = buffer.Length + "\r\n";
+                    var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
+
+                    InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
+
+                    Flush();
+                }
+
+                InternalStream.Write(buffer, 0, buffer.Length);
+            }
+            catch
+            {
+                IsClientConnected = false;
+            }
         }
 
         public void WriteFile(string filename)
@@ -107,13 +152,25 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                 var s = assets.open(filename).ToNetworkStream();
 
                 s.CopyTo(InternalStream);
+
+                Flush();
             }
             catch
             {
                 throw;
             }
+        }
 
-            InternalStream.Flush();
+        public void Flush()
+        {
+            try
+            {
+                InternalStream.Flush();
+            }
+            catch
+            {
+                IsClientConnected = false;
+            }
         }
 
         public Stream OutputStream
@@ -124,6 +181,12 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
                 return this.InternalStream;
             }
+        }
+
+        public bool IsClientConnected
+        {
+            get;
+            set;
         }
     }
 }

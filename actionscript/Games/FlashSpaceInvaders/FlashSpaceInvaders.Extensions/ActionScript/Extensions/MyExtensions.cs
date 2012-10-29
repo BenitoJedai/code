@@ -120,17 +120,7 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
 
 		}
 
-		public static void InvokeWhenStageIsReady(this DisplayObject o, Action a)
-		{
-			if (o.stage == null)
-				o.addedToStage +=
-					delegate
-					{
-						a();
-					};
-			else
-				a();
-		}
+	
 
 		public static Timer AtDelayDo(this int e, Action a)
 		{
@@ -166,11 +156,20 @@ namespace FlashSpaceInvaders.ActionScript.Extensions
 		}
 
 
+        public static IEnumerable<DisplayObject> Children(this DisplayObject e)
+        {
+            var c = e as DisplayObjectContainer;
+            var numChildren = 0;
 
-		public static int Random(this int i)
-		{
-			return new Random().Next(i);
-		}
+            if (c != null)
+                numChildren = c.numChildren;
+
+            return Enumerable.Range(0, numChildren).Select(i => c.getChildAt(i));
+        }
+        //public static int Random(this int i)
+        //{
+        //    return new Random().Next(i);
+        //}
 
 
 		public static void Times(this int e, Action h)

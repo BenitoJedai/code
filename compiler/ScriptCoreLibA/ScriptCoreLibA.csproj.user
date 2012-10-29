@@ -3,52 +3,10 @@
   <PropertyGroup>
     <LastOpenVersion>8.0.50215</LastOpenVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Doc|AnyCPU' ">
-    <StartAction>Program</StartAction>
-    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
-    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Release</StartWorkingDirectory>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartAction>Program</StartAction>
     <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
     <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
     <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Ultra1|AnyCPU' ">
-    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
-    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
-    <StartAction>Program</StartAction>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Ultra5|AnyCPU' ">
-    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
-    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
-    <StartAction>Program</StartAction>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_WebApp|AnyCPU' ">
-    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
-    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
-    <StartAction>Program</StartAction>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Ultra1T1|AnyCPU' ">
-    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
-    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
-    <StartAction>Program</StartAction>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_VBUltra1|AnyCPU' ">
-    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
-    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
-    <StartAction>Program</StartAction>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_UltraTutorial|AnyCPU' ">
-    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
-    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
-    <StartAction>Program</StartAction>
   </PropertyGroup>
 </Project>

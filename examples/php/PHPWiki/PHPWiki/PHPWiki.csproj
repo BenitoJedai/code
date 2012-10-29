@@ -150,7 +150,7 @@
 )
 
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false /xDisableWebServicePHP:false /DisableWebServiceJava:false
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false /x'DisableWebServicePHP:false /xDisableWebServiceJava:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

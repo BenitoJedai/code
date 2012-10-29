@@ -10,9 +10,8 @@ namespace FlashSpaceInvaders
 {
     interface IAssemblyReferenceToken :
         ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
-        ScriptCoreLib.Shared.IAssemblyReferenceToken,
-
-		FlashSpaceInvaders.MultiPlayer.IAssemblyReferenceToken
+        ScriptCoreLib.Shared.IAssemblyReferenceToken
+        //, FlashSpaceInvaders.MultiPlayer.IAssemblyReferenceToken
     {
     }
 

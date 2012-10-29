@@ -98,6 +98,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
         internal static BitmapSource ToImageSource(string ext, Stream s)
         {
+            ext = ext.ToLower();
+
             if (ext.EndsWith(".png"))
             {
                 var bitmapDecoder = new PngBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);

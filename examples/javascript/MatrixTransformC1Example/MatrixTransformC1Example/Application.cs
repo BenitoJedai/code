@@ -14,6 +14,7 @@ using MatrixTransformC1Example.Design;
 using MatrixTransformC1Example.HTML.Pages;
 using System.Diagnostics;
 using ScriptCoreLib.JavaScript.Runtime;
+using MatrixTransformC1Example.HTML.Images.FromAssets;
 
 namespace MatrixTransformC1Example
 {
@@ -53,12 +54,12 @@ namespace MatrixTransformC1Example
 			XRectangle Image4;
 
 
-			Func<string, XRectangle> f =
-				src =>
+            Func<IHTMLImage, XRectangle> f =
+                ContentImage =>
 				{
 					var r = new XRectangle();
 
-					r.ContentImage = new IHTMLImage(src);
+                    r.ContentImage = ContentImage;
 					r.ContentImage.style.SetSize(185, 100);
 					r.Content.appendChild(r.ContentImage);
 					r.Element.AttachToDocument().MoveTo(X, Y);
@@ -67,10 +68,10 @@ namespace MatrixTransformC1Example
 					return r;
 				};
 
-			Image1 = f("assets/MatrixTransformC1Example/wood_green.png");
-			Image2 = f("assets/MatrixTransformC1Example/wood_green.png");
-			Image3 = f("assets/MatrixTransformC1Example/wood_green.png");
-			Image4 = f("assets/MatrixTransformC1Example/wood_green.png");
+			Image1 = f(new wood_green());
+			Image2 = f(new wood_green());
+			Image3 = f(new wood_green());
+			Image4 = f(new wood_green());
 
 
 			var t = new Timer();

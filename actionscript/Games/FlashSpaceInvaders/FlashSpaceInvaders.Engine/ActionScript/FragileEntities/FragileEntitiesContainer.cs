@@ -56,7 +56,7 @@ namespace FlashSpaceInvaders.ActionScript.FragileEntities
 
 		public void AddBullet(BulletInfo n)
 		{
-			n.AddTo(Bullets);
+            Bullets.Add(n);
 
 
 			var p = default(Point);

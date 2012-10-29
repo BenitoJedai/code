@@ -20,7 +20,7 @@ namespace gameclient.source.shared
 
         partial class ClientToServer
         {
-            public void MethodA(string A, string B, EventHandler<string> done)
+            public void MethodA(string A, string B, System.Action<string> done)
             {
                 var MethodA = new _MethodA { A = A, B = B };
                 var m = new Message { MethodA = MethodA };
@@ -43,7 +43,7 @@ namespace gameclient.source.shared
 
         partial class ClientToServer
         {
-            public void CreateExplosionAt(int x, int y, EventHandler done)
+            public void CreateExplosionAt(int x, int y, System.Action done)
             {
                 var CreateExplosionAt = new _CreateExplosionAt { x = x, y = y };
                 var m = new Message { CreateExplosionAt = CreateExplosionAt };
@@ -86,7 +86,7 @@ namespace gameclient.source.shared
 
         partial class ClientToServer
         {
-            public void IServer_EnterLobby(EventHandler<string> done)
+            public void IServer_EnterLobby(System.Action<string> done)
             {
                 var IServer_EnterLobby = new _IServer_EnterLobby { };
                 var m = new Message { IServer_EnterLobby = IServer_EnterLobby };
