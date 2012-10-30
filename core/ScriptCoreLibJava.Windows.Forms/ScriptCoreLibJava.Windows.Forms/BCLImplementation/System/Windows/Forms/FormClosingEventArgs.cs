@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLibJava.BCLImplementation.System.ComponentModel;
 using System.Windows.Forms;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
