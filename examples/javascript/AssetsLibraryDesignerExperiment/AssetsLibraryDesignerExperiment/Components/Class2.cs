@@ -9,7 +9,7 @@ namespace AssetsLibraryDesignerExperiment.Components
     [Designer(typeof(Class1Designer))]
     public class Class2 : Component
     {
-        private Class1 class11;
+        private Class1 foo_sdf_sdf;
     
         public Class2()
         {
@@ -18,13 +18,13 @@ namespace AssetsLibraryDesignerExperiment.Components
 
         private void InitializeComponent()
         {
-            this.class11 = new AssetsLibraryDesignerExperiment.Components.Class1();
+            this.foo_sdf_sdf = new AssetsLibraryDesignerExperiment.Components.Class1();
             // 
-            // class11
+            // foo_sdf_sdf
             // 
-            this.class11.BackColor = System.Drawing.Color.Silver;
-            this.class11.Foo = null;
-            this.class11.ForeColor = System.Drawing.Color.Red;
+            this.foo_sdf_sdf.BackColor = System.Drawing.Color.Silver;
+            this.foo_sdf_sdf.Foo = null;
+            this.foo_sdf_sdf.ForeColor = System.Drawing.Color.Red;
 
         }
     }
