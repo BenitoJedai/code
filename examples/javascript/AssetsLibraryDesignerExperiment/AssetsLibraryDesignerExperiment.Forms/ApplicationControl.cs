@@ -31,5 +31,9 @@ namespace AssetsLibraryDesignerExperiment.Forms
             );
         }
 
+        private void button3_Click(object sender, System.EventArgs e)
+        {
+        }
+
     }
 }

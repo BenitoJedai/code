@@ -66,6 +66,7 @@
             <RequiredTargetFramework>3.5</RequiredTargetFramework>
         </Reference>
         <Reference Include="System.Data"/>
+        <Reference Include="System.Design"/>
         <Reference Include="System.Numerics"/>
         <Reference Include="System.Web"/>
         <Reference Include="System.Xaml"/>
@@ -132,7 +133,7 @@
         <PropertyGroup>
             <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
             <PreBuildEvent>
 
@@ -204,7 +205,7 @@ start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFil
     <PropertyGroup>
         <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
         <PreBuildEvent>
 

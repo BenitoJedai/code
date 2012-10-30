@@ -516,6 +516,15 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                         Name = "IContainer";
                     }
                 }
+
+                public class Component : SolutionProjectLanguageType
+                {
+                    public Component()
+                    {
+                        Namespace = "System.ComponentModel";
+                        Name = "Component";
+                    }
+                }
             }
 
             public static class Xml

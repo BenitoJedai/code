@@ -8,9 +8,39 @@ namespace ScriptCoreLib.Ultra.Studio
 {
     public class SolutionProjectLanguageType
     {
-        public string Name;
-        public string Namespace = "";
+        #region Name
+        public event Action NameChanged;
+        string InternalName;
+        public string Name
+        {
+            get { return InternalName; }
+            set
+            {
+                InternalName = value; if (NameChanged != null) NameChanged();
+            }
+        }
+        #endregion
 
+        #region Namespace
+        public event Action NamespaceChanged;
+        string InternalNamespace;
+        public string Namespace
+        {
+            get { return InternalNamespace; }
+            set
+            {
+                InternalNamespace = value; if (NamespaceChanged != null) NamespaceChanged();
+            }
+        }
+        #endregion
+
+
+        public SolutionProjectLanguageType()
+        {
+            Name = "Class1";
+            Namespace = "";
+
+        }
 
         // http://msdn.microsoft.com/en-us/library/dd233188.aspx
 
@@ -58,10 +88,12 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public SolutionProjectLanguageType DependentUpon;
 
+
         public bool IsPartial
         {
             get
             {
+
                 if (DependentPartialTypes.Any())
                     return true;
 
@@ -136,13 +168,13 @@ namespace ScriptCoreLib.Ultra.Studio
     {
         public static SolutionProjectLanguageField ToInitializedField(this SolutionProjectLanguageType FieldType, string FieldName)
         {
-            return  new SolutionProjectLanguageField
+            return new SolutionProjectLanguageField
             {
                 FieldType = FieldType,
                 FieldConstructor = FieldType.GetDefaultConstructor(),
                 Name = FieldName,
                 IsReadOnly = true
-            }; 
+            };
         }
 
         public static SolutionProjectLanguageProperty ToAutoProperty(this SolutionProjectLanguageType PropertyType, string PropertyName)

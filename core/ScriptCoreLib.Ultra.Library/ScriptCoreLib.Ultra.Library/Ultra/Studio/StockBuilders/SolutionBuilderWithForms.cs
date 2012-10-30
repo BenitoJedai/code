@@ -16,7 +16,9 @@ namespace ScriptCoreLib.Ultra.Studio
     {
         public static SolutionBuilder WithForms(this SolutionBuilder sln)
         {
-            return Internal(sln);
+            return Internal(sln,
+                 ApplcationWebServiceAsComponent: true
+            );
         }
 
         public static SolutionBuilder WithFormsApplet(this SolutionBuilder sln)
@@ -24,7 +26,9 @@ namespace ScriptCoreLib.Ultra.Studio
             var content = default(SolutionProjectLanguageField);
             var sprite = default(SolutionProjectLanguageField);
 
-            Internal(sln, value => content = value);
+            Internal(sln,
+                ApplcationWebServiceAsComponent: false,
+                NotifyContent: value => content = value);
 
             sln.Interactive.GenerateTypes +=
                 AddType =>
@@ -97,6 +101,8 @@ namespace ScriptCoreLib.Ultra.Studio
         }
 
         static SolutionBuilder Internal(SolutionBuilder sln,
+
+            bool ApplcationWebServiceAsComponent = false,
             Action<SolutionProjectLanguageField> NotifyContent = null
             )
         {
@@ -117,7 +123,95 @@ namespace ScriptCoreLib.Ultra.Studio
                     // in Canvas applications we want to focus only the canvas
                     // to do that we hide other implementation detail classes
 
-                    sln.Interactive.ApplicationWebServiceType.DependentUpon = ApplicationCanvas;
+                    //sln.Interactive.ApplicationWebServiceType.DependentUpon = ApplicationCanvas;
+
+                    if (ApplcationWebServiceAsComponent)
+                    {
+                        sln.Interactive.ApplicationWebServiceType.With(
+                            ApplicationWebServiceType =>
+                            {
+                                var ApplicationWebServiceDesignerType =
+                                     new SolutionProjectLanguagePartialType
+                                     {
+                                         Name = ApplicationWebServiceType.Name + ".Designer",
+                                     };
+
+                           
+                                ApplicationWebServiceDesignerType.Type.Name = ApplicationWebServiceType.Name;
+
+                                ApplicationWebServiceType.NamespaceChanged +=
+                                    delegate
+                                    {
+                                        ApplicationWebServiceDesignerType.Type.Namespace = ApplicationWebServiceType.Namespace;
+                                    };
+
+                                #region components
+                                var components =
+                                    new SolutionProjectLanguageField
+                                    {
+                                        IsPrivate = true,
+                                        Name = "components",
+                                        Summary = "Required designer variable.",
+                                        FieldType = new KnownStockTypes.System.ComponentModel.IContainer()
+                                    };
+
+                                ApplicationWebServiceDesignerType.Type.Fields.Add(components);
+                                #endregion
+                                #region InitializeComponent
+                                var InitializeComponent =
+                                    new SolutionProjectLanguageMethod
+                                    {
+                                        Summary = @"Required method for Designer support - do not modify
+the contents of this method with the code editor.",
+
+                                        IsPrivate = true,
+                                        DeclaringType = ApplicationWebServiceDesignerType.Type,
+                                        Name = "InitializeComponent",
+                                        Code = new SolutionProjectLanguageCode
+                                        {
+                                            //set_Name,
+                                            //set_Size
+                                        }
+                                    };
+
+                                ApplicationWebServiceDesignerType.Type.Methods.Add(InitializeComponent);
+
+                                #endregion
+
+
+                                #region ApplicationWebServiceDesignerTypeConstructor
+                                var ApplicationWebServiceDesignerTypeConstructor =
+                                    new SolutionProjectLanguageMethod
+                                    {
+                                        DeclaringType = ApplicationWebServiceDesignerType.Type,
+                                        Name = SolutionProjectLanguageMethod.ConstructorName,
+                                        Code = new SolutionProjectLanguageCode
+					                    {
+						                    new PseudoCallExpression
+						                    {
+							                    Object = new PseudoThisExpression(),
+							                    Method = InitializeComponent
+						                    }
+					                    }
+                                    };
+                                ApplicationWebServiceDesignerType.Type.Methods.Add(ApplicationWebServiceDesignerTypeConstructor);
+                                #endregion
+
+
+                                ApplicationWebServiceType.BaseType = new KnownStockTypes.System.ComponentModel.Component();
+
+                                ApplicationWebServiceType.DependentPartialTypes = new[]
+				                {
+					                ApplicationWebServiceDesignerType
+				                };
+
+                                ApplicationWebServiceDesignerType.Type.UsingNamespaces.Add("System.ComponentModel");
+
+                            }
+                        );
+
+                    }
+
                     sln.Interactive.ApplicationType.DependentUpon = ApplicationCanvas;
                     sln.Interactive.ProgramType.DependentUpon = ApplicationCanvas;
 

@@ -120,11 +120,15 @@
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationControl.cs" />
+    <Compile Include="ApplicationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ApplicationControl.Designer.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="ApplicationWebService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ApplicationWebService.Designer.cs">
       <DependentUpon>ApplicationWebService.cs</DependentUpon>
     </Compile>
@@ -135,11 +139,19 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ApplicationControl.resx">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationWebService.resx">
+      <DependentUpon>ApplicationWebService.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
+ start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:false /DisableWebServicePHP:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

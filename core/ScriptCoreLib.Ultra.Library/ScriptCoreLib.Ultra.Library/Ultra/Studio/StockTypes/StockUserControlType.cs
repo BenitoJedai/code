@@ -6,36 +6,37 @@ using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio.StockTypes
 {
-	public class StockUserControlType : SolutionProjectLanguageType
-	{
-		public StockUserControlType(string Namespace, string Name)
-		{
-			var UserControl1DesignerType =
-				new SolutionProjectLanguagePartialType
-				{
-					Name = Name + ".Designer",
-					Type = new SolutionProjectLanguageType
-					{
-						Namespace = Namespace,
-						Name = Name,
-					},
-				};
+    public class StockUserControlType : SolutionProjectLanguageType
+    {
+        public StockUserControlType(string Namespace, string Name)
+        {
+            var UserControl1DesignerType =
+                new SolutionProjectLanguagePartialType
+                {
+                    Name = Name + ".Designer",
+                    Type = new SolutionProjectLanguageType
+                    {
+                        Namespace = Namespace,
+                        Name = Name,
+                    },
+                };
 
-			var disposing = new SolutionProjectLanguageArgument
-			{
-				Summary = "true if managed resources should be disposed; otherwise, false.",
-				Name = "disposing",
-				Type = new KnownStockTypes.System.Boolean(),
-			};
+            #region Dispose
+            var disposing = new SolutionProjectLanguageArgument
+            {
+                Summary = "true if managed resources should be disposed; otherwise, false.",
+                Name = "disposing",
+                Type = new KnownStockTypes.System.Boolean(),
+            };
 
-			var Dispose = new SolutionProjectLanguageMethod
-			{
-				IsProtected = true,
-				IsOverride = true,
-				Summary = "Clean up any resources being used.",
-				Name = "Dispose",
-				DeclaringType = UserControl1DesignerType.Type,
-				Code = new SolutionProjectLanguageCode
+            var Dispose = new SolutionProjectLanguageMethod
+            {
+                IsProtected = true,
+                IsOverride = true,
+                Summary = "Clean up any resources being used.",
+                Name = "Dispose",
+                DeclaringType = UserControl1DesignerType.Type,
+                Code = new SolutionProjectLanguageCode
 				{
 					"Note: This jsc project does not support unmanaged resources.",
 					new PseudoCallExpression
@@ -51,45 +52,55 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 						}
 					}
 				}
-			};
+            };
 
-			Dispose.Parameters.Add(disposing);
+            Dispose.Parameters.Add(disposing);
+            #endregion
 
-			var components =
-				new SolutionProjectLanguageField
-				{
-					IsPrivate = true,
-					Name = "components",
-					Summary = "Required designer variable.",
-					FieldType = new KnownStockTypes.System.ComponentModel.IContainer()
-				};
+            #region components
+            var components =
+                new SolutionProjectLanguageField
+                {
+                    IsPrivate = true,
+                    Name = "components",
+                    Summary = "Required designer variable.",
+                    FieldType = new KnownStockTypes.System.ComponentModel.IContainer()
+                };
 
-			var set_Name = new PseudoCallExpression
-			{
-				Object = new PseudoThisExpression(),
-				Method = new SolutionProjectLanguageMethod
-				{
-					IsProperty = true,
-					Name = "set_Name",
-				},
-				ParameterExpressions = new[]
+            UserControl1DesignerType.Type.Fields.Add(components);
+            #endregion
+
+
+
+            #region set_Name
+            var set_Name = new PseudoCallExpression
+            {
+                Object = new PseudoThisExpression(),
+                Method = new SolutionProjectLanguageMethod
+                {
+                    IsProperty = true,
+                    Name = "set_Name",
+                },
+                ParameterExpressions = new[]
 				{
 					new PseudoStringConstantExpression
 					{
 						Value = Name
 					}
 				}
-			};
+            };
+            #endregion
 
-			var set_Size = new PseudoCallExpression
-			{
-				Object = new PseudoThisExpression(),
-				Method = new SolutionProjectLanguageMethod
-				{
-					IsProperty = true,
-					Name = "set_Size",
-				},
-				ParameterExpressions = new[]
+            #region set_Size
+            var set_Size = new PseudoCallExpression
+            {
+                Object = new PseudoThisExpression(),
+                Method = new SolutionProjectLanguageMethod
+                {
+                    IsProperty = true,
+                    Name = "set_Size",
+                },
+                ParameterExpressions = new[]
 				{
 					new PseudoCallExpression
 					{
@@ -109,31 +120,38 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 						}
 					}
 				}
-			};
+            };
+            #endregion
 
-			var InitializeComponent =
-				new SolutionProjectLanguageMethod
-				{
-					Summary = @"Required method for Designer support - do not modify
+
+            #region InitializeComponent
+            var InitializeComponent =
+                new SolutionProjectLanguageMethod
+                {
+                    Summary = @"Required method for Designer support - do not modify
 the contents of this method with the code editor.",
 
-					IsPrivate = true,
-					DeclaringType = UserControl1DesignerType.Type,
-					Name = "InitializeComponent",
-					Code = new SolutionProjectLanguageCode
+                    IsPrivate = true,
+                    DeclaringType = UserControl1DesignerType.Type,
+                    Name = "InitializeComponent",
+                    Code = new SolutionProjectLanguageCode
 					{
 						set_Name,
 						set_Size
 					}
-				};
+                };
+
+            UserControl1DesignerType.Type.Methods.Add(InitializeComponent);
+            #endregion
 
 
-			var UserControl1Constructor =
-				new SolutionProjectLanguageMethod
-				{
-					DeclaringType = UserControl1DesignerType.Type,
-					Name = SolutionProjectLanguageMethod.ConstructorName,
-					Code = new SolutionProjectLanguageCode
+            #region UserControl1Constructor
+            var UserControl1Constructor =
+                new SolutionProjectLanguageMethod
+                {
+                    DeclaringType = UserControl1DesignerType.Type,
+                    Name = SolutionProjectLanguageMethod.ConstructorName,
+                    Code = new SolutionProjectLanguageCode
 					{
 						new PseudoCallExpression
 						{
@@ -141,50 +159,48 @@ the contents of this method with the code editor.",
 							Method = InitializeComponent
 						}
 					}
-				};
+                };
+            this.Methods.Add(UserControl1Constructor);
+            #endregion
 
+            this.Namespace = Namespace;
+            this.Name = Name;
 
-			this.Namespace = Namespace;
-			this.Name = Name;
+            this.BaseType = new KnownStockTypes.System.Windows.Forms.UserControl();
 
-			this.BaseType = new KnownStockTypes.System.Windows.Forms.UserControl();
-
-			this.DependentPartialTypes = new[]
+            this.DependentPartialTypes = new[]
 				{
 					UserControl1DesignerType
 				};
 
 
 
-			UserControl1DesignerType.Type.UsingNamespaces.Add("System.ComponentModel");
-			UserControl1DesignerType.Type.UsingNamespaces.Add("System.Windows.Forms");
-			UserControl1DesignerType.Type.Fields.Add(components);
+            UserControl1DesignerType.Type.UsingNamespaces.Add("System.ComponentModel");
+            UserControl1DesignerType.Type.UsingNamespaces.Add("System.Windows.Forms");
 
-			this.Methods.Add(UserControl1Constructor);
-			this.UsingNamespaces.Add("System.Collections.Generic");
-			this.UsingNamespaces.Add("System.ComponentModel");
-			this.UsingNamespaces.Add("System.Drawing");
-			this.UsingNamespaces.Add("System.Linq");
-			this.UsingNamespaces.Add("System.Text");
-			this.UsingNamespaces.Add("System.Windows.Forms");
+            this.UsingNamespaces.Add("System.Collections.Generic");
+            this.UsingNamespaces.Add("System.ComponentModel");
+            this.UsingNamespaces.Add("System.Drawing");
+            this.UsingNamespaces.Add("System.Linq");
+            this.UsingNamespaces.Add("System.Text");
+            this.UsingNamespaces.Add("System.Windows.Forms");
 
 
 
-			UserControl1DesignerType.Type.Methods.Add(Dispose);
-			UserControl1DesignerType.Type.Methods.Add(InitializeComponent);
+            UserControl1DesignerType.Type.Methods.Add(Dispose);
 
-		}
+        }
 
-		internal PseudoCallExpression GetConstructorExpression()
-		{
-			return new PseudoCallExpression
-			{
-				Method = new SolutionProjectLanguageMethod
-				{
-					DeclaringType = this,
-					Name = SolutionProjectLanguageMethod.ConstructorName
-				}
-			};
-		}
-	}
+        internal PseudoCallExpression GetConstructorExpression()
+        {
+            return new PseudoCallExpression
+            {
+                Method = new SolutionProjectLanguageMethod
+                {
+                    DeclaringType = this,
+                    Name = SolutionProjectLanguageMethod.ConstructorName
+                }
+            };
+        }
+    }
 }

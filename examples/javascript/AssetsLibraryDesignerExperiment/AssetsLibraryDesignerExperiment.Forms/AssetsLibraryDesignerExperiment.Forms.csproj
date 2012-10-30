@@ -124,6 +124,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\Components\MyButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationWebService.Designer.cs">
@@ -157,8 +165,15 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationWebService.resx">
+      <DependentUpon>ApplicationWebService.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Library\Components\Class1.resx">
       <DependentUpon>Class1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -167,11 +182,15 @@
       <Name>PlasmaFormsControl</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\ApplicationControl.datasource" />
+    <None Include="Properties\DataSources\ApplicationWebService.datasource" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:false /DisableWebServiceAndroid:false
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceJava:false /xDisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

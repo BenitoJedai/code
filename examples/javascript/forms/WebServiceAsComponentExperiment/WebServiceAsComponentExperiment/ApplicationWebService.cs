@@ -21,7 +21,7 @@ namespace WebServiceAsComponentExperiment
         public void WebMethod2(string e, Action<string> y)
         {
             // Send it back to the caller.
-            y(e);
+            y(e + " via server");
         }
 
     }
