@@ -71,6 +71,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MenuStrip.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripItemCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripDropDownItem.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripMenuItem.cs" />

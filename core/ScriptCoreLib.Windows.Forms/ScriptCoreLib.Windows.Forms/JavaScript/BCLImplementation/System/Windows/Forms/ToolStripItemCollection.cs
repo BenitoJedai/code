@@ -9,11 +9,13 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripItemCollection))]
-    internal abstract class __ToolStripItemCollection : __ArrangedElementCollection
+    internal class __ToolStripItemCollection : __ArrangedElementCollection
     {
+        public List<ToolStripItem> InternalItems = new List<ToolStripItem>();
+
         public void AddRange(ToolStripItem[] toolStripItems)
         {
- 
+            InternalItems.AddRange(toolStripItems.AsEnumerable());
         }
     }
 }

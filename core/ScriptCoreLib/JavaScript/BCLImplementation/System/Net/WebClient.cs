@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
+using ScriptCoreLib.Shared.BCLImplementation.System.Net;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 {

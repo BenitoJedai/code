@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.net;
 using System.Net;
+using ScriptCoreLib.Shared.BCLImplementation.System.Net;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
 {

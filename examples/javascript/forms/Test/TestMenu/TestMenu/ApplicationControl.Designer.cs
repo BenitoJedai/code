@@ -33,6 +33,7 @@ namespace TestMenu
             this.fooToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fooToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.heyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,7 +41,8 @@ namespace TestMenu
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.helloToolStripMenuItem,
-            this.worldToolStripMenuItem});
+            this.worldToolStripMenuItem,
+            this.heyToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(400, 24);
@@ -83,6 +85,12 @@ namespace TestMenu
             this.fooToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.fooToolStripMenuItem1.Text = "foo";
             // 
+            // heyToolStripMenuItem
+            // 
+            this.heyToolStripMenuItem.Name = "heyToolStripMenuItem";
+            this.heyToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.heyToolStripMenuItem.Text = "hey";
+            // 
             // ApplicationControl
             // 
             this.Controls.Add(this.menuStrip1);
@@ -101,6 +109,7 @@ namespace TestMenu
         private ToolStripMenuItem fooToolStripMenuItem;
         private ToolStripMenuItem barToolStripMenuItem;
         private ToolStripMenuItem fooToolStripMenuItem1;
+        private ToolStripMenuItem heyToolStripMenuItem;
 
     }
 }
