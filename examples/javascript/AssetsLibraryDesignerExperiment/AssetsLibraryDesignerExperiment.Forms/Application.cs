@@ -1,3 +1,5 @@
+using AssetsLibraryDesignerExperiment.Forms.Design;
+using AssetsLibraryDesignerExperiment.Forms.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -11,35 +13,26 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using AssetsLibraryDesignerExperiment.Design;
-using AssetsLibraryDesignerExperiment.HTML.Pages;
-using System.ComponentModel;
-using AssetsLibraryDesignerExperiment.Components;
 
-namespace AssetsLibraryDesignerExperiment
+namespace AssetsLibraryDesignerExperiment.Forms
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed partial class Application : Component
+    public sealed class Application
     {
-        // inspired by http://codepen.io/FWeinb/pen/BeJLo
-
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-
+        public readonly ApplicationControl content = new ApplicationControl();
 
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp app = null)
-            : this()
+        public Application(IDefaultPage page)
         {
-            this.button1.AttachControlTo(Native.Document.body);
-
-            new Form1().Show();
-
+            content.AttachControlTo(page.Content);
+            content.AutoSizeControlTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
@@ -47,26 +40,6 @@ namespace AssetsLibraryDesignerExperiment
                 value => value.ToDocumentTitle()
             );
         }
-
-
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            Console.WriteLine("hey");
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            applicationWebService1.WebMethod2("foo",
-                y =>
-                {
-
-                }
-            );
-        }
-
-
-
 
     }
 }
