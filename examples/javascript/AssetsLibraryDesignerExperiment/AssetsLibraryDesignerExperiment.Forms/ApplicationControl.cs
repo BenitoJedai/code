@@ -23,5 +23,13 @@ namespace AssetsLibraryDesignerExperiment.Forms
             );
         }
 
+        private void fooToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            applicationWebService1.WebMethod2(
+                "foo",
+                x => MessageBox.Show(x)
+            );
+        }
+
     }
 }

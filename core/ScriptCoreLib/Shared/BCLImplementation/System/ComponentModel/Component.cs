@@ -5,30 +5,32 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
-	[Script(Implements = typeof(global::System.ComponentModel.Component))]
-	internal class __Component : __MarshalByRefObject, IDisposable, __IComponent
-	{
-		public event EventHandler Disposed;
+    [Script(Implements = typeof(global::System.ComponentModel.Component))]
+    internal class __Component :
+        __MarshalByRefObject,
+         __IComponent
+    {
+        public event EventHandler Disposed;
 
-		protected virtual void Dispose(bool e)
-		{
-		}
+        protected virtual void Dispose(bool e)
+        {
+        }
 
-		public bool DesignMode { get; set; }
+        public bool DesignMode { get; set; }
 
-		public void Dispose()
-		{
-			Dispose(true);
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+        }
 
-		#region __IComponent Members
+        #region __IComponent Members
 
-		public global::System.ComponentModel.ISite Site
-		{
-			get;
-			set;
-		}
+        public global::System.ComponentModel.ISite Site
+        {
+            get;
+            set;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -42,7 +42,15 @@ namespace TestExplicitGenericInterface
         void foo(object e);
     }
 
-    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue>
+    [Script(Implements = typeof(global::System.IDisposable))]
+    internal interface __IDisposable
+    {
+        void Dispose();
+    }
+
+    internal class __Dictionary<TKey, TValue> : 
+        __IDictionary<TKey, TValue>,
+        IDisposable
         //, __ICollection<object>
     {
         public void foo(object e)
@@ -73,6 +81,10 @@ namespace TestExplicitGenericInterface
         //void __IEnumerable<object>.foo()
         //{
         //}
+
+        public void Dispose()
+        {
+        }
     }
 
     internal class __KeyValuePair<TKey, TValue>
