@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using AssetsLibraryDesignerExperiment.Design;
 using AssetsLibraryDesignerExperiment.HTML.Pages;
 using System.ComponentModel;
+using AssetsLibraryDesignerExperiment.Components;
 
 namespace AssetsLibraryDesignerExperiment
 {
@@ -37,7 +38,6 @@ namespace AssetsLibraryDesignerExperiment
             // 
             // class11
             // 
-            // emmiting failed : System.Exception: BCL implementation does not implement a field: Empty at System.Drawing.Color
             this.class11.BackColor = System.Drawing.Color.Empty;
             this.class11.Foo = null;
             this.class11.ForeColor = System.Drawing.Color.Empty;
@@ -59,6 +59,8 @@ namespace AssetsLibraryDesignerExperiment
         public Application(IApplication page = null)
         {
             InitializeComponent();
+
+            new Form1().Show();
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
