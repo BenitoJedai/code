@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestExtensionConstructor", "TestExtensionConstructor\TestExtensionConstructor.csproj", "{82011732-FBF0-4F71-A952-66451AE8C62B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1.Extension1", "ClassLibrary1.Extension1\ClassLibrary1.Extension1.csproj", "{3B17A42D-FA88-4723-9B44-566F556AF55A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82011732-FBF0-4F71-A952-66451AE8C62B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82011732-FBF0-4F71-A952-66451AE8C62B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82011732-FBF0-4F71-A952-66451AE8C62B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82011732-FBF0-4F71-A952-66451AE8C62B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B17A42D-FA88-4723-9B44-566F556AF55A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B17A42D-FA88-4723-9B44-566F556AF55A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B17A42D-FA88-4723-9B44-566F556AF55A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B17A42D-FA88-4723-9B44-566F556AF55A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
