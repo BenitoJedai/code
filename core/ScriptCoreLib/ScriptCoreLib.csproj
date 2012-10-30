@@ -88,7 +88,9 @@
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\LicenseManager.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\CancelEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\CancelEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\LicenseManager.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Thread.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumnCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumn.cs" />
@@ -502,7 +504,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Queue.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Stack.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\IComponent.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\ApplicationSettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\SettingsBase.cs" />
@@ -719,8 +721,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\Container.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventArgs.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\ListChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Array.cs" />
     <Compile Include="Shared\BCLImplementation\System\Comparision.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
