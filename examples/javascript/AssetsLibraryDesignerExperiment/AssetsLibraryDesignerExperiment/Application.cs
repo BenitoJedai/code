@@ -27,6 +27,35 @@ namespace AssetsLibraryDesignerExperiment
         public readonly ApplicationWebService service = new ApplicationWebService();
 
 
+
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IFoo page = null)
+        {
+
+            InitializeComponent();
+
+            new Form1().Show();
+
+            @"Hello world".ToDocumentTitle();
+            // Send data from JavaScript to the server tier
+            service.WebMethod2(
+                @"A string from JavaScript.",
+                value => value.ToDocumentTitle()
+            );
+        }
+
+        private System.Windows.Forms.Timer timer1;
+        private IContainer components;
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Console.WriteLine("hey");
+        }
+
+
         private Components.Class1 class11;
 
         private void InitializeComponent()
@@ -51,34 +80,6 @@ namespace AssetsLibraryDesignerExperiment
         }
 
         private Components.Class2 class21;
-
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApplication page = null)
-        {
-            InitializeComponent();
-
-            new Form1().Show();
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
-        }
-
-        private System.Windows.Forms.Timer timer1;
-        private IContainer components;
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            Console.WriteLine("hey");
-        }
-
-
 
     }
 }

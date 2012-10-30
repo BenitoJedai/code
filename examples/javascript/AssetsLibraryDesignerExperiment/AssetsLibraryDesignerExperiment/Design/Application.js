@@ -1,1 +1,0 @@
-function foo() { aler('hi'); }
