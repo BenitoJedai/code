@@ -13,6 +13,6 @@ namespace ScriptCoreLib.Ultra.Studio
 		/// </summary>
 		public string Name;
 
-		public SolutionProjectLanguageType Type;
+        public SolutionProjectLanguageType Type = new SolutionProjectLanguageType();
 	}
 }

@@ -1,41 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Text;
-using java.applet;
-using PromotionWebApplication1.HTML.Pages;
-using PromotionWebApplication1.Library;
-using PromotionWebApplication1.Services;
-using ScriptCoreLib;
-using ScriptCoreLib.ActionScript;
+﻿using PromotionWebApplication1.Library;
 using ScriptCoreLib.ActionScript.Components;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.Archive.ZIP;
-using ScriptCoreLib.Avalon;
-using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Components;
-using ScriptCoreLib.JavaScript.Concepts;
-using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
-using ScriptCoreLib.Ultra.Components.HTML.Pages;
-using ScriptCoreLib.Ultra.Documentation;
-using ScriptCoreLib.Delegates;
-using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.WebService;
-using ScriptCoreLib.Ultra.Studio;
-using TestSolutionBuilderV1.Views;
+using System;
 using System.IO;
-using PromotionWebApplication1.Assets;
-using ScriptCoreLib.Library;
+using System.Text;
+using TestSolutionBuilderV1.Views;
 
 namespace PromotionWebApplication1.Assets
 {
@@ -769,133 +742,7 @@ namespace PromotionWebApplication1
     public delegate void StringAction(string e);
     public delegate void StringActionAction(StringAction e);
 
-    public sealed class UltraWebService
-        //: ISoundCloudTracksDownload
-    {
-
-        public void Hello(string data, StringAction result)
-        {
-            result(data + " hello");
-            result(data + " world");
-        }
-
-        public void GetTitleFromServer(StringAction result)
-        {
-            var r = new Random();
-
-            var Targets = new[]
-			{
-				"javascript",
-				"java",
-				"actionscript",
-				"php"
-			};
-
-            result("jsc solutions - C# to " + Targets[r.Next(0, Targets.Length)]);
-
-            // should we add timing information if we use Thread.Sleep to the results?
-
-        }
-
-        //public void ThreeDWarehouse(XElementAction y)
-        //{
-        //    y(new ThreeDWarehouse().ToXElement());
-        //}
-
-        /*ISoundCloudTracksDownload. not supported yet ? */
-        //public void SoundCloudTracksDownload(string page, Services.SoundCloudTrackFound yield)
-        //{
-        //    new Services.SoundCloudTracks().SoundCloudTracksDownload(page, yield);
-        //}
-
-#if !DEBUG
-        public void DownloadSDK(WebServiceHandler h)
-        {
-            DownloadSDKFunction.DownloadSDK(h);
-
-        }
-#endif
-
-
-
-#if Bulldog
-        public void CodeGenerator(WebServiceHandler h)
-        {
-
-
-            const string _java = "/java/";
-            const string _java_zip = "/java.zip/";
-
-            if (h.Context.Request.Path.StartsWith(_java_zip))
-            {
-                var TypesList = h.Context.Request.Path.Substring(_java_zip.Length);
-
-                DownloadJavaZip(h, TypesList);
-            }
-
-            if (h.Context.Request.Path.StartsWith(_java))
-            {
-                var Type = h.Context.Request.Path.Substring(_java.Length);
-
-                var p = new global::Bulldog.Server.CodeGenerators.Java.DefinitionProvider(
-                    Type,
-                    new WebClient().DownloadString
-                )
-                {
-                    Server = "www.jsc-solutions.net"
-                };
-
-                h.Context.Response.ContentType = "text/plain";
-                h.Context.Response.Write(p.GetString());
-                h.CompleteRequest();
-            }
-        }
-       
-
-        private static void DownloadJavaZip(WebServiceHandler h, string TypesList)
-        {
-            var Types = TypesList.Split(',');
-            var zip = new ZIPFile();
-
-            foreach (var item in Types)
-            {
-                var w = new StringBuilder();
-
-
-
-                var p = new global::Bulldog.Server.CodeGenerators.Java.DefinitionProvider(
-                    item,
-                    new WebClient().DownloadString
-                )
-                {
-                    Server = "www.jsc-solutions.net"
-                };
-
-                zip.Add(
-                    item.Replace(".", "/") + ".cs",
-                    p.GetString()
-                );
-            }
-
-            // http://www.ietf.org/rfc/rfc2183.txt
-
-            h.Context.Response.ContentType = ZIPFile.ContentType;
-
-            h.Context.Response.AddHeader(
-                "Content-Disposition",
-                "attachment; filename=" + TypesList + ".zip"
-            );
-
-
-            var bytes = zip.ToBytes();
-
-            h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
-
-            h.CompleteRequest();
-        }
-#endif
-    }
-
+    
     public static class DownloadSDKFunction
     {
         public static void DownloadSDK(WebServiceHandler h)

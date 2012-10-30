@@ -3,19 +3,20 @@
     Public Module StockPageDefault
         Public CanvasDefaultPage As XElement = _
 <body style='overflow: hidden;'>
+    <link rel="stylesheet" href="App.css"/>
     <div id='ContentSize' style='overflow: hidden; position: absolute;
         left: 0px; right: 0px; bottom: 0px; top: 0px;'>
     </div>
     <div id='Content' style='overflow: hidden; position: absolute;
         left: 0px; right: 0px; bottom: 0px; top: 0px;'>
-        <!-- This HTML document is a placeholder. -->
+        <noscript>Error: This Application requires JavaScript.</noscript>
     </div>
 </body>
 
         Public Element As XElement = _
 <body>
     <noscript>Error: This Application requires JavaScript.</noscript>
-    <link rel="stylesheet" href="Default.css"/>
+    <link rel="stylesheet" href="App.css"/>
 
     <div id='PageContainer'>
         <h1 id='Header'>JSC - The .NET crosscompiler for web platforms.</h1>

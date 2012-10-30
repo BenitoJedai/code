@@ -46,18 +46,18 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
 
 
-            #region Design/Default.css
+            #region Design/App.css
             var DesignStyle =
                new SolutionFile
                {
-                   Name = ToProjectFile("Design/Default.css"),
+                   Name = ToProjectFile("Design/App.css"),
                    Content = "h1 { color: blue; }"
                };
 
             ItemGroupForCompile.Add(
                 new XElement("Content",
                     new XAttribute("Include",
-                        @"Design\Default.css"
+                        @"Design\App.css"
                     )
                 )
             );
@@ -66,11 +66,11 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
             #endregion
 
-            #region Design/Default.htm
+            #region Design/App.htm
             var DefaultPageElement =
                 new XElement("html",
                     new XElement("head",
-                        new XElement("title", "DefaultPage")
+                        new XElement("title", "App")
                     ),
                     Context.ApplicationPage
                 );
@@ -78,7 +78,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             var DefaultPage =
                 new SolutionFile
                 {
-                    Name = ToProjectFile("Design/Default.htm"),
+                    Name = ToProjectFile("Design/App.htm"),
                 };
 
             DefaultPage.WriteHTMLElement(DefaultPageElement);
@@ -87,7 +87,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             ItemGroupForCompile.Add(
                 new XElement("Content",
                     new XAttribute("Include",
-                        @"Design\Default.htm"
+                        @"Design\App.htm"
                     )
                 )
             );
@@ -158,6 +158,20 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                                 Include.Replace("/", "\\")
                             )
                         );
+
+                    if (SourceType.BaseType != null)
+                    {
+                        if (SourceType.BaseType is KnownStockTypes.System.Windows.Forms.UserControl)
+                            Compile.Add(
+                                new XElement("SubType", SourceType.BaseType.Name)
+                            );
+
+                        if (SourceType.BaseType is KnownStockTypes.System.ComponentModel.Component)
+                            Compile.Add(
+                                new XElement("SubType", SourceType.BaseType.Name)
+                            );
+                    }
+
 
                     if (SourceType.DependentUpon != null)
                     {
@@ -353,7 +367,7 @@ associated with an assembly."
 
             //ApplicationType.Fields.Add(DefaultStyleField);
 
-  
+
 
             var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive/*, DefaultStyleField*/);
 

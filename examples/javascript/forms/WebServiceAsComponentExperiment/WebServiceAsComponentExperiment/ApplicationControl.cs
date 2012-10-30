@@ -15,5 +15,12 @@ namespace WebServiceAsComponentExperiment
             this.InitializeComponent();
         }
 
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            applicationWebService1.WebMethod2("foo",
+                x => MessageBox.Show(x)
+            );
+        }
+
     }
 }

@@ -13,10 +13,10 @@ namespace AssetsLibraryDesignerExperiment.Forms
     /// </summary>
     public sealed partial class ApplicationWebService
     {
-//         [javac] T:\src\ScriptCoreLibJava\BCLImplementation\System\ComponentModel\__Component.java:11: ScriptCoreLibJava.BCLImplementation.System.ComponentModel.__Component is not abstract and does not ove
-//de abstract method System_IDisposable_Dispose() in ScriptCoreLib.Shared.BCLImplementation.System.__IDisposable
-// [javac] public class __Component extends __MarshalByRefObject implements __IComponent, __IDisposable
-// [javac]        ^
+        //         [javac] T:\src\ScriptCoreLibJava\BCLImplementation\System\ComponentModel\__Component.java:11: ScriptCoreLibJava.BCLImplementation.System.ComponentModel.__Component is not abstract and does not ove
+        //de abstract method System_IDisposable_Dispose() in ScriptCoreLib.Shared.BCLImplementation.System.__IDisposable
+        // [javac] public class __Component extends __MarshalByRefObject implements __IComponent, __IDisposable
+        // [javac]        ^
 
         /// <summary>
         /// This Method is a javascript callable method.
@@ -25,9 +25,25 @@ namespace AssetsLibraryDesignerExperiment.Forms
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
+            this.button1.PerformClick();
+
             // Send it back to the caller.
             y(e);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("zing!");
+        }
+
+
+        public ApplicationWebService()
+        {
+            InitializeComponent();
+
+        }
+
+        // http://stackoverflow.com/questions/715346/data-binding-to-an-object-in-c-sharp
 
     }
 }

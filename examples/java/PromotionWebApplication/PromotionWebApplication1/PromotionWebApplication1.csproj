@@ -88,6 +88,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.TextEditor.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -144,6 +148,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationWebServiceHandler.cs" />
+    <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Components\SaveActionSprite.cs" />
     <Compile Include="Library\GoogleAnalytics.cs" />
@@ -157,15 +163,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design.UltraSource\About.css" />
-    <Content Include="Future.UltraSource\AboutApplet.java" />
     <None Include="app.config" />
-    <None Include="Future.UltraSource\AboutSprite.as" />
-    <Content Include="Future.UltraSource\AboutScript.js" />
     <Content Include="Design.UltraSource\CenteredLogo.htm" />
     <Content Include="Design.UltraSource\jsc.png" />
     <Content Include="Design.UltraSource\references.txt" />
-    <Content Include="Future.UltraSource\NamedTuples.htm" />
-    <Content Include="Future.UltraSource\Tuple1.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Design.UltraSource\Placeholders\" />

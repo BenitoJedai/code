@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.JavaScript.DOM.XML;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
@@ -20,7 +21,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 var nodeName = this.InternalElement.nodeName;
 
                 // for html elements lets lowercase em. or are we working on xml object?
-                nodeName = nodeName.ToLower();
+
+                if (Expando.InternalIsMember(this.InternalValue, "innerHTML"))
+                    nodeName = nodeName.ToLower();
 
                 return new __XName { InternalValue = nodeName };
             }

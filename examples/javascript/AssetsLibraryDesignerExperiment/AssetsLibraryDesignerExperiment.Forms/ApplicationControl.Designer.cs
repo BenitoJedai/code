@@ -31,11 +31,12 @@ namespace AssetsLibraryDesignerExperiment.Forms
             this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.fooToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button2 = new System.Windows.Forms.Button();
+            this.applicationWebServiceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.plasma1 = new AssetsLibraryDesignerExperiment.Forms.Library.Toolbox.Plasma();
             this.applicationWebService1 = new AssetsLibraryDesignerExperiment.Forms.ApplicationWebService();
             this.class11 = new AssetsLibraryDesignerExperiment.Forms.Library.Components.Class1();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.applicationWebServiceBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -63,15 +64,6 @@ namespace AssetsLibraryDesignerExperiment.Forms
             this.fooToolStripMenuItem.Text = "foo";
             this.fooToolStripMenuItem.Click += new System.EventHandler(this.fooToolStripMenuItem_Click);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(293, 400);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // plasma1
             // 
             this.plasma1.Location = new System.Drawing.Point(12, 0);
@@ -81,12 +73,12 @@ namespace AssetsLibraryDesignerExperiment.Forms
             // 
             // ApplicationControl
             // 
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.plasma1);
             this.Controls.Add(this.button1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(400, 448);
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.applicationWebServiceBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -94,10 +86,10 @@ namespace AssetsLibraryDesignerExperiment.Forms
         private ApplicationWebService applicationWebService1;
         private Button button1;
         private Library.Toolbox.Plasma plasma1;
-        private Button button2;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem fooToolStripMenuItem;
         private Library.Components.Class1 class11;
+        private BindingSource applicationWebServiceBindingSource;
 
     }
 }

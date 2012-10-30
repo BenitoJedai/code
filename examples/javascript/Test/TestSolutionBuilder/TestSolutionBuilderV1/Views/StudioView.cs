@@ -779,6 +779,13 @@ namespace TestSolutionBuilderV1.Views
                                     CodeSourceFormsDesignerTab.RaiseActivated();
 
                                 }
+
+                                if (BaseType is KnownStockTypes.System.ComponentModel.Component)
+                                {
+                                    CodeSourceFormsDesignerTab.TabElement.Show();
+                                    CodeSourceFormsDesignerTab.RaiseActivated();
+
+                                }
                             }
                         );
 
@@ -1098,6 +1105,8 @@ namespace TestSolutionBuilderV1.Views
                         {
                             if (f.ContextType.BaseType is KnownStockTypes.System.Windows.Forms.UserControl)
                                 n.WithIcon(() => new SolutionProjectFormsControl());
+                            if (f.ContextType.BaseType is KnownStockTypes.System.ComponentModel.Component)
+                                n.WithIcon(() => new SolutionProjectComponentImage());
                         }
                     }
 
