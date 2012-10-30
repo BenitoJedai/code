@@ -8,48 +8,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
     [Script(Implements = typeof(global::System.Drawing.Color))]
     internal class __Color
     {
+        // link with
+        // X:\jsc.svn\core\ScriptCoreLibJava.Drawing\ScriptCoreLibJava.Drawing\BCLImplementation\System\Drawing\Color.cs
+
         public Shared.Drawing.Color Value;
 
 
         public byte R
         {
-			get { return (byte)Value.R; }
+            get { return (byte)Value.R; }
         }
 
-		public byte G
+        public byte G
         {
-			get { return (byte)Value.G; }
+            get { return (byte)Value.G; }
         }
 
-		public byte B
+        public byte B
         {
-			get { return (byte)Value.B; }
-        }
-	
-
-        public static Color FromArgb(int red, int green, int blue)
-        {
-            return new __Color { Value = Shared.Drawing.Color.FromRGB(red, green, blue) };
+            get { return (byte)Value.B; }
         }
 
-        static __Color()
-        {
-            Green = new __Color { Value = Shared.Drawing.Color.Green };
-            Red = new __Color { Value = Shared.Drawing.Color.Red };
-            Yellow = new __Color { Value = Shared.Drawing.Color.Yellow };
-        }
 
-        static public Color Green { get; set; }
-        static public Color Red { get; set; }
-        static public Color Yellow { get; set; }
-        static public Color Blue { get { return new __Color { Value = 0x0000ff }; } }
-        static public Color Black { get { return new __Color { Value = 0x000000 }; } }
-        static public Color White { get { return new __Color { Value = 0xffffff }; } }
-		static public Color Transparent { get { return new __Color { Value = Shared.Drawing.Color.Transparent }; } }
-		static public Color Navy { get { return new __Color { Value = 0x000080 }; } }
-
-
-        #region
+        #region operators
         static public implicit operator Color(__Color e)
         {
             return (Color)(object)e;
@@ -59,7 +40,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         {
             return (__Color)(object)e;
         }
+
+        static public implicit operator __Color(int e)
+        {
+            return new __Color { Value = e };
+        }
+
+        static public implicit operator __Color(global::ScriptCoreLib.Shared.Drawing.Color e)
+        {
+            return new __Color { Value = e };
+        }
         #endregion
+
+        public static Color FromArgb(int red, int green, int blue)
+        {
+            return new __Color { Value = Shared.Drawing.Color.FromRGB(red, green, blue) };
+        }
+
+        static __Color()
+        {
+
+        }
+
+        static public readonly __Color Empty = ScriptCoreLib.Shared.Drawing.Color.None;
+
+        static public __Color Green { get { return 0x00ff00; } }
+        static public __Color Red { get { return 0xff0000; } }
+        static public __Color Yellow { get { return 0x00ffff; } }
+        static public __Color Blue { get { return 0x0000ff; } }
+        static public __Color Black { get { return 0x000000; } }
+        static public __Color White { get { return 0xffffff; } }
+        static public __Color Transparent { get { return Shared.Drawing.Color.Transparent; } }
+        static public __Color Navy { get { return 0x000080; } }
+        static public __Color Silver { get { return 0xC0C0C0; } }
+
+
 
         public override string ToString()
         {

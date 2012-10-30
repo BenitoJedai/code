@@ -37,6 +37,7 @@ using ScriptCoreLib;
 [assembly:
     Script,
     ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
+    ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
 	
 	InternalsVisibleTo("ScriptCoreLib.Avalon.Integration")
 ]
