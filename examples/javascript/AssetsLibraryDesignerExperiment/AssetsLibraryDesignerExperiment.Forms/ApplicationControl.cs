@@ -15,5 +15,13 @@ namespace AssetsLibraryDesignerExperiment.Forms
             this.InitializeComponent();
         }
 
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            applicationWebService1.WebMethod2(
+                "hi",
+                x => MessageBox.Show(x)
+            );
+        }
+
     }
 }
