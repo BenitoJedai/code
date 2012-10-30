@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements=typeof(ControlEventArgs))]
     public class __ControlEventArgs : EventArgs
