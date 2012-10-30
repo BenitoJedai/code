@@ -441,8 +441,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Net\DownloadStringCompletedEventArgs.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Net\DownloadStringCompletedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Net\WebClient.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
@@ -726,8 +724,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Environment.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\TextWriter.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Net\DownloadStringCompletedEventArgs.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Net\DownloadStringCompletedEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Net\DownloadStringCompletedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Net\DownloadStringCompletedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\WebClient.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\DateTime.cs" />
@@ -897,7 +895,7 @@
     <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
-    <Folder Include="Java\BCLImplementation\" />
+    <Folder Include="Java\BCLImplementation\System\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />

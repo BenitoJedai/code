@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Drawing;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
@@ -1396,7 +1397,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTargetRef.oncontextmenu +=
                     e =>
                     {
-                        MessageBox.Show("ContextMenuStrip");
+                        e.StopPropagation();
+                        e.PreventDefault();
+
+                        var m = (__ContextMenuStrip)(object)value;
+
+                        var div = m.HTMLTargetRef.AttachToDocument();
+
+                        div.style.SetLocation(
+                            e.CursorX,
+                            e.CursorY
+                        );
+                        
+                        div.tabIndex = 0;
+
+                        div.onblur +=
+                            delegate
+                            {
+                                div.Orphanize();
+                            };
+
+                        div.focus();
                     };
             }
         }
