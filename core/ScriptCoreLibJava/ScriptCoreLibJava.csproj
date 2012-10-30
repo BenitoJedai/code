@@ -112,9 +112,6 @@
     <Compile Include="BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs">
       <SubType>Code</SubType>
     </Compile>
