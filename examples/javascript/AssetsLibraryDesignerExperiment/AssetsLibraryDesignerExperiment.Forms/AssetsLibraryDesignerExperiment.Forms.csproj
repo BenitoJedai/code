@@ -129,6 +129,9 @@
     <Compile Include="ApplicationWebService.Designer.cs">
       <DependentUpon>ApplicationWebService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Library\Components\Class1.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Library\Designers\UserControlDesigner.cs" />
     <Compile Include="Library\Toolbox\Plasma.cs">
       <SubType>UserControl</SubType>
@@ -154,6 +157,9 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Library\Components\Class1.resx">
+      <DependentUpon>Class1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj">
@@ -165,7 +171,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

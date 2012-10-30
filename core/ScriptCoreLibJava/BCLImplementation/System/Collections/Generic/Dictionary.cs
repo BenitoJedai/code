@@ -9,7 +9,8 @@ using System.Text;
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue>
+    internal class __Dictionary<TKey, TValue> : 
+        __IDictionary<TKey, TValue>
     {
         public java.util.HashMap InternalDictionary = new java.util.HashMap();
 
