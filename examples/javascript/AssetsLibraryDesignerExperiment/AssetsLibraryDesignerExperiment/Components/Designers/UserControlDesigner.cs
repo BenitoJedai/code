@@ -16,7 +16,10 @@ using ScriptCoreLib.Extensions;
 namespace AssetsLibraryDesignerExperiment.Components
 {
 
-
+    interface IDropZone
+    {
+        Panel DropZone { get; }
+    }
     public class UserControlDesigner : ParentControlDesigner
     {
         // http://msdn.microsoft.com/en-us/library/system.windows.forms.design.parentcontroldesigner.aspx
@@ -26,8 +29,8 @@ namespace AssetsLibraryDesignerExperiment.Components
             base.Initialize(component);
 
 
-
-            this.EnableDesignMode(this.Control, "DropZone");
+            this.EnableDesignMode(
+                (this.Control as IDropZone).DropZone, "?DropZone");
         }
 
         // Use pull model to populate smart tag menu.
@@ -53,14 +56,27 @@ namespace AssetsLibraryDesignerExperiment.Components
         {
             get
             {
-                return new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Example Designer Verb Command", new EventHandler(this.onVerb)) });
+                return new DesignerVerbCollection(
+                    new[] { 
+                        new DesignerVerb(
+                            "Example Designer Verb Command",
+                            
+                            
+                            delegate
+                            {
+            MessageBox.Show("The event handler for the Example Designer Verb Command was invoked.");
+                            
+                            }
+                    
+                        )    
+                    }
+                    );
             }
         }
 
         // Event handling method for the example designer verb 
         private void onVerb(object sender, EventArgs e)
         {
-            MessageBox.Show("The event handler for the Example Designer Verb Command was invoked.");
         }
 
     }

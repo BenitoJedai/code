@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace AssetsLibraryDesignerExperiment.Components
 {
     [Designer(typeof(UserControlDesigner))]
-    public partial class UserControl2 : UserControl
+    public partial class UserControl2 : UserControl, IDropZone
     {
         public UserControl2()
         {
@@ -23,7 +23,7 @@ namespace AssetsLibraryDesignerExperiment.Components
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Panel DropZone
         {
-            get { return userControl11.DropZone; }
+            get { return userControl12.DropZone; }
         }
 
         private void UserControl2_Load(object sender, EventArgs e)

@@ -11,7 +11,7 @@ using System.Windows.Forms.Design;
 namespace AssetsLibraryDesignerExperiment.Components
 {
     [Designer(typeof(UserControlDesigner))]
-    public partial class UserControl1 : UserControl
+    public partial class UserControl1 : UserControl, IDropZone
     {
         // http://stackoverflow.com/questions/2694889/user-control-as-container-at-design-time
 
