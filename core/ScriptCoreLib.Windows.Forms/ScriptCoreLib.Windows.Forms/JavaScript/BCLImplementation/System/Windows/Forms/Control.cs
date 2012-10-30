@@ -1384,5 +1384,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public virtual ContextMenuStrip ContextMenuStrip
+        {
+            get
+            {
+
+                return null;
+            }
+            set
+            {
+                this.HTMLTargetRef.oncontextmenu +=
+                    e =>
+                    {
+                        MessageBox.Show("ContextMenuStrip");
+                    };
+            }
+        }
     }
 }

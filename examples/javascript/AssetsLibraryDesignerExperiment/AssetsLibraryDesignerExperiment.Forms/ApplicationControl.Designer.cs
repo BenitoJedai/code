@@ -29,11 +29,12 @@ namespace AssetsLibraryDesignerExperiment.Forms
         {
             this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.fooToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button2 = new System.Windows.Forms.Button();
             this.plasma1 = new AssetsLibraryDesignerExperiment.Forms.Library.Toolbox.Plasma();
             this.applicationWebService1 = new AssetsLibraryDesignerExperiment.Forms.ApplicationWebService();
+            this.class11 = new AssetsLibraryDesignerExperiment.Forms.Library.Components.Class1();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,6 +49,20 @@ namespace AssetsLibraryDesignerExperiment.Forms
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fooToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(93, 26);
+            // 
+            // fooToolStripMenuItem
+            // 
+            this.fooToolStripMenuItem.Name = "fooToolStripMenuItem";
+            this.fooToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.fooToolStripMenuItem.Text = "foo";
+            this.fooToolStripMenuItem.Click += new System.EventHandler(this.fooToolStripMenuItem_Click);
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(293, 400);
@@ -56,20 +71,6 @@ namespace AssetsLibraryDesignerExperiment.Forms
             this.button2.TabIndex = 2;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fooToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
-            // 
-            // fooToolStripMenuItem
-            // 
-            this.fooToolStripMenuItem.Name = "fooToolStripMenuItem";
-            this.fooToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.fooToolStripMenuItem.Text = "foo";
-            this.fooToolStripMenuItem.Click += new System.EventHandler(this.fooToolStripMenuItem_Click);
             // 
             // plasma1
             // 
@@ -96,6 +97,7 @@ namespace AssetsLibraryDesignerExperiment.Forms
         private Button button2;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem fooToolStripMenuItem;
+        private Library.Components.Class1 class11;
 
     }
 }

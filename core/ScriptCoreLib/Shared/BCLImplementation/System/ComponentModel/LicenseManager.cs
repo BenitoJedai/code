@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel
+namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
     [Script(Implements = typeof(global::System.ComponentModel.LicenseManager))]
     internal class __LicenseManager
