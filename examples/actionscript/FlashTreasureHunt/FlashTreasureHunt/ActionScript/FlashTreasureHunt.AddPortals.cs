@@ -196,11 +196,11 @@ namespace FlashTreasureHunt.ActionScript
 				var PortalBDir = GetGoodDirection(PortalBPos);
 
 
-				v.Orange.ViewVector = new Vector { Direction = 0, Position = new Point() };
-				v.Orange.ViewVector = new Vector { Direction = PortalADir, Position = PortalAPos };
-				v.Orange.SpriteVector = new Vector { Direction = PortalBDir, Position = PortalBPos };
+				v.Orange.ViewVector = new RVector { Direction = 0, Position = new Point() };
+				v.Orange.ViewVector = new RVector { Direction = PortalADir, Position = PortalAPos };
+				v.Orange.SpriteVector = new RVector { Direction = PortalBDir, Position = PortalBPos };
 
-				v.Blue.ViewVector = new Vector { Direction = 0, Position = new Point() };
+				v.Blue.ViewVector = new RVector { Direction = 0, Position = new Point() };
 				v.Blue.ViewVector = v.Orange.SpriteVector;
 				v.Blue.SpriteVector = v.Orange.ViewVector;
 			}
