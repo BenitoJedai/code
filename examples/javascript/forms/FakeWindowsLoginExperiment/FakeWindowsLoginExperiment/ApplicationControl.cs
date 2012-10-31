@@ -17,7 +17,15 @@ namespace FakeWindowsLoginExperiment
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            new Library.MDIParent1().Show();
+        }
+
+        private void ApplicationControl_Load(object sender, System.EventArgs e)
+        {
+        }
+
+        private void button1_Click_1(object sender, System.EventArgs e)
+        {
+            MessageBox.Show("hi");
         }
 
     }
