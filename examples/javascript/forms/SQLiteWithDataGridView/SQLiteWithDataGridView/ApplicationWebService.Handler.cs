@@ -10,7 +10,7 @@ using System.Xml.Linq;
 namespace SQLiteWithDataGridView
 {
 
-    public sealed partial class ApplicationWebService : IApplicationWebService
+    public sealed partial class ApplicationWebService
     {
         public void Handle(WebServiceHandler h)
         {

@@ -2,66 +2,20 @@ using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
+using System.ComponentModel;
 using System.Data.SQLite;
 using System.Linq;
 using System.Xml.Linq;
 
 namespace SQLiteWithDataGridView
 {
-    public interface IApplicationWebService
-    {
-
-        void GridExample_InitializeDatabase(string e, Action<string> y, string TableName);
-
-        void GridExample_GetTransactionKeyFor(
-            string TableName,
-
-            Action<string> y);
-
-
-        void GridExample_AddItem(
-             string ContentValue,
-             string ContentComment,
-                    /* int? */ string ParentContentKey,
-
-             Action<string> AtContentReferenceKey,
-             string TableName);
-
-        void GridExample_UpdateItem(
-            string TableName,
-
-            string ContentKey,
-            string ContentValue,
-            string ContentComment,
-
-             Action<string> AtTransactionKey = null
-        );
-
-        void GridExample_EnumerateItemsChangedBetweenTransactions(
-           string TableName,
-                    /* int? */ string ParentContentKey,
-
-
-           string FromTransaction,
-           string ToTransaction,
-           Action<string, string, string, string> AtContent,
-           Action<string> done
-        );
-
-        void GridExample_EnumerateItems(
-             string e,
-             Action<string, string, string, string> y,
-             string TableName,
-                /* int? */ string ParentContentKey,
-             Action<string> AtTransactionKey = null
-             );
-    }
 
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed partial class ApplicationWebService : IApplicationWebService
+    public sealed partial class ApplicationWebService : Component, IApplicationWebService
     {
+
 
         //const string DataSource = "SQLiteWithDataGridView.4.sqlite";
         const string DataSource = "SQLiteWithDataGridView5";
