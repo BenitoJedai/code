@@ -7,14 +7,14 @@ using ScriptCoreLib.ActionScript.flash.geom;
 namespace ScriptCoreLib.ActionScript.RayCaster
 {
 	[Script]
-	public class Vector : IVector
+	public class RVector : IVector
 	{
-		public Vector()
+		public RVector()
 			: this(null)
 		{
 		}
 
-		public Vector(IVector source)
+		public RVector(IVector source)
 		{
 			if (source != null)
 			{

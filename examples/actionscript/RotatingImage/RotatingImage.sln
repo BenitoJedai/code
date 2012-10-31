@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RotatingImage", "RotatingImage\RotatingImage.fsproj", "{6FA741B0-7110-4F34-8BE0-FB52B1EE795F}"
 EndProject
 Global
