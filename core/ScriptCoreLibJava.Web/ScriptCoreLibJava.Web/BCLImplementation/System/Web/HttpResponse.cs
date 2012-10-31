@@ -54,8 +54,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			}
 			catch
 			{
-				throw new InvalidOperationException();
-			}
+                throw;
+            }
 		}
 
 		public void Redirect(string url)
@@ -66,7 +66,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			}
 			catch
 			{
-				throw new InvalidOperationException();
+                throw;
 			}
 		}
 
@@ -75,10 +75,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 		{
 			get
 			{
-				if (InternalOutputStream == null)
+				if (this.InternalOutputStream == null)
 					try
 					{
-						InternalOutputStream = (NetworkStream)(object)new __NetworkStream
+                        this.InternalOutputStream = (NetworkStream)(object)new __NetworkStream
 						{
 							InternalOutputStream = this.InternalContext.getOutputStream()
 						};
@@ -86,7 +86,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 					}
 					catch
 					{
-						throw new NotSupportedException();
+                        throw;
 					}
 
 				return InternalOutputStream;
@@ -100,6 +100,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 
         public void WriteFile(string filename)
         {
+            // we only work with absolute paths anyway
+            if (filename.StartsWith("/"))
+                filename = filename.Substring(1);
+
             var bytes = File.ReadAllBytes(filename);
 
             this.OutputStream.Write(bytes, 0, bytes.Length);
