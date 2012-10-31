@@ -254,13 +254,15 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 {
 
 
-                    if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                    if (e.MouseButton == IEvent.MouseButtonEnum.Middle || e.MouseButton == IEvent.MouseButtonEnum.Right)
                     {
                         drag_enabled = true;
                         drag_start = e.OffsetPosition - this.CurrentCanvasPosition;
                         //e.CaptureMouse();
                         // can we do this?
-                        u.requestPointerLock();
+
+                        if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                            u.requestPointerLock();
                     }
 
 
@@ -283,6 +285,8 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                         else
                         {
                             this.SetCanvasPosition(e.OffsetPosition - drag_start);
+
+                            u.requestPointerLock();
                         }
                     }
 
@@ -291,7 +295,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             u.onmouseup +=
                 delegate(IEvent e)
                 {
-                    if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                    if (e.MouseButton == IEvent.MouseButtonEnum.Middle || e.MouseButton == IEvent.MouseButtonEnum.Right)
                     {
                         drag_enabled = false;
 
