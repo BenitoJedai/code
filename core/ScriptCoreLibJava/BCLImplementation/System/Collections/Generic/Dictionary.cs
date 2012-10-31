@@ -9,7 +9,7 @@ using System.Text;
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : 
+    internal class __Dictionary<TKey, TValue> :
         __IDictionary<TKey, TValue>
     {
         public java.util.HashMap InternalDictionary = new java.util.HashMap();
@@ -136,7 +136,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public bool ContainsKey(TKey key)
         {
-            throw new NotImplementedException();
+            return this.InternalDictionary.containsKey((object)key);
         }
 
 
