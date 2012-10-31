@@ -50,7 +50,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 		{
 			try
 			{
-				this.InternalContext.getWriter().print(s);
+                //this.InternalContext.getWriter().print(s);
+
+                var bytes = Encoding.UTF8.GetBytes(s);
+
+                this.OutputStream.Write(bytes, 0, bytes.Length);
 			}
 			catch
 			{
