@@ -1,5 +1,7 @@
-﻿using PromotionWebApplication1.Library;
+﻿using PromotionWebApplication1.Assets;
+using PromotionWebApplication1.Library;
 using ScriptCoreLib.ActionScript.Components;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;

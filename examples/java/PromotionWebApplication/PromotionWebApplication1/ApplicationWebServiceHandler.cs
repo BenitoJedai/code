@@ -32,12 +32,8 @@ namespace PromotionWebApplication1
 
 
 
-            var apps = new[]
-            {
-                new { domain = "www.jsc-solutions.net", local = "127.0.0.1", referer = "", client =  h.Applications.FirstOrDefault(k => k.TypeName == "Application") },
-            };
+            var app = new { domain = "www.jsc-solutions.net", local = "127.0.0.1", referer = "", client = h.Applications.FirstOrDefault(k => k.TypeName == "Application") };
 
-            var app = apps.First();
 
             //var app = apps.FirstOrDefault(
             //    k =>
