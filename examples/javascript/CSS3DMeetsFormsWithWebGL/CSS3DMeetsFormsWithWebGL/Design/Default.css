@@ -1,6 +1,6 @@
 
 
-        #gift_box {
+        .cgift_box {
 	position: relative;
 	left: 80px;
 	top: 130px;
@@ -9,13 +9,13 @@
 	overflow: visible;
 }
 
-#gift_box>img {
+.cgift_box>img {
 	position: absolute;
 	left: 0;
 	top: 0;
 }
 
-#boxlid {
+.cboxlid {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -29,7 +29,7 @@
 	font-size: 13px;
 }
 
-#front_panel {
+.cfront_panel {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -41,7 +41,7 @@
 	overflow: hidden;
 }
 
-#resize_handle {
+.cresize_handle {
 	display: block;
 	width: 20px;
 	height: 20px;
@@ -54,13 +54,13 @@
 	-webkit-user-select: none;
 }
 
-#boxlid .box_label {
+.cboxlid .box_label {
 	color: #543;
 	padding: 9px 2px;
 	text-align: center;
 }
 
-#bottom_panel, #bottom_inner {
+.cbottom_panel, .cbottom_inner {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -70,8 +70,7 @@
 	overflow: hidden;
 	background: url(boxf2.png);
 }
-
-#bottom_panel textarea {
+.cbottom_panel textarea {
 	width: 90px;
 	height: 90px;
 	margin: 3px;
@@ -81,11 +80,11 @@
 	background-color: transparent;
 }
 
-#bottom_inner {
+.cbottom_inner {
 	text-align: center;
 }
 
-#bottom_inner iframe {
+.cbottom_inner iframe {
 	width: 200px;
 	height: 170px;
 	border: none;

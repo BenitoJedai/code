@@ -27,7 +27,7 @@ namespace CSS3DMeetsFormsWithWebGL
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -39,11 +39,8 @@ namespace CSS3DMeetsFormsWithWebGL
         {
             // http://www.addyosmani.com/resources/googlebox/
 
-            new trans3d().Content.AttachToDocument().onload +=
-                delegate
-                {
-                    InitializeContent(page);
-                };
+
+            new ApplicationContent().Initialize(page);
 
 
             @"Hello world".ToDocumentTitle();
@@ -53,6 +50,10 @@ namespace CSS3DMeetsFormsWithWebGL
                 value => value.ToDocumentTitle()
             );
         }
+    }
+
+    public sealed class ApplicationContent
+    {
 
         #region trans3d
         [Script(HasNoPrototype = true, ExternalTarget = "M44")]
@@ -167,7 +168,17 @@ namespace CSS3DMeetsFormsWithWebGL
         }
         #endregion
 
-        void InitializeContent(IDefaultPage page)
+        public void Initialize(IDefaultPage page)
+        {
+            new trans3d().Content.AttachToDocument().onload +=
+                delegate
+                {
+                    InitializeContent(page);
+                };
+
+        }
+
+        public void InitializeContent(IDefaultPage page)
         {
             var control = new UserControl1();
             var frontcontrol = new FrontPanel();
@@ -622,6 +633,22 @@ namespace CSS3DMeetsFormsWithWebGL
         public __McKrackenFirstRoom(global::McKrackenFirstRoom.HTML.Pages.IDefaultPage page)
         {
             new global::McKrackenFirstRoom.Application(page);
+        }
+    }
+
+    sealed class __AvalonUgh
+    {
+        public __AvalonUgh(global::AvalonUgh.LabsActivity.HTML.Pages.IDefaultPage page)
+        {
+            new global::AvalonUgh.LabsActivity.Application(page);
+        }
+    }
+
+    sealed class __AvalonTycoonMansion
+    {
+        public __AvalonTycoonMansion(global::AvalonTycoonMansion.iPad.HTML.Pages.IDefaultPage page)
+        {
+            new global::AvalonTycoonMansion.iPad.ApplicationContent();
         }
     }
 
