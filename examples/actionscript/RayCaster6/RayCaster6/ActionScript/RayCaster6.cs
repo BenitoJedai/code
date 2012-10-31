@@ -16,7 +16,7 @@ using ScriptCoreLib.ActionScript.RayCaster;
 using System.Collections.Specialized;
 using ScriptCoreLib.ActionScript.Extensions.flash.display;
 
-using Vector = global::ScriptCoreLib.ActionScript.RayCaster.Vector;
+using Vector = global::ScriptCoreLib.ActionScript.RayCaster.RVector;
 
 
 namespace RayCaster6.ActionScript
