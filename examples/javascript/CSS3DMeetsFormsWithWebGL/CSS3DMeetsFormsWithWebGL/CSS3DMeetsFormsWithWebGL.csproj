@@ -141,17 +141,11 @@
     <Reference Include="McKrackenFirstRoom.AssetsLibrary">
       <HintPath>..\..\McKrackenFirstRoom\McKrackenFirstRoom\bin\staging.AssetsLibrary\McKrackenFirstRoom.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="JavaDosBoxQuakeBeta.AssetsLibrary">
-      <HintPath>..\..\..\java\synergy\JavaDosBoxQuakeBeta\JavaDosBoxQuakeBeta\bin\staging.AssetsLibrary\JavaDosBoxQuakeBeta.AssetsLibrary.dll</HintPath>
+    <Reference Include="AvalonUgh.LabsActivity.AssetsLibrary">
+      <HintPath>..\..\..\..\..\jsc.community\avalonugh\AvalonUgh\AvalonUgh.LabsActivity\bin\staging.AssetsLibrary\AvalonUgh.LabsActivity.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Boing4KTemplate.AssetsLibrary">
-      <HintPath>..\..\..\java\synergy\Boing4K\Boing4K\bin\staging.AssetsLibrary\Boing4KTemplate.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="RayCasterApplet.AssetsLibrary">
-      <HintPath>..\..\..\java\RayCasterApplet\RayCasterApplet\bin\staging.AssetsLibrary\RayCasterApplet.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashCamera.AssetsLibrary">
-      <HintPath>..\..\..\actionscript\FlashCamera\FlashCamera\bin\staging.AssetsLibrary\FlashCamera.AssetsLibrary.dll</HintPath>
+    <Reference Include="AvalonTycoonMansion.iPad.AssetsLibrary">
+      <HintPath>..\..\..\..\..\jsc.community\avalontycoonmansion\AvalonTycoonMansion\AvalonTycoonMansion.iPad\bin\staging.AssetsLibrary\AvalonTycoonMansion.iPad.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -227,21 +221,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\actionscript\FlashCamera\FlashCamera\FlashCamera.csproj">
-      <Project>{0cb62809-c499-4ee2-b1ce-d09b3a67626a}</Project>
-      <Name>FlashCamera</Name>
+    <ProjectReference Include="..\..\..\..\..\jsc.community\avalontycoonmansion\AvalonTycoonMansion\AvalonTycoonMansion.iPad\AvalonTycoonMansion.iPad.csproj">
+      <Project>{a04a13b0-46d4-40f3-b8a1-f85fd47e8783}</Project>
+      <Name>AvalonTycoonMansion.iPad</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\java\RayCasterApplet\RayCasterApplet\RayCasterApplet.csproj">
-      <Project>{32e01c6c-9fdb-47ca-8e88-e17076a2941c}</Project>
-      <Name>RayCasterApplet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\java\synergy\Boing4K\Boing4K\Boing4KTemplate.csproj">
-      <Project>{ddca8e8b-93f0-44e8-a9e7-8c6d9e575739}</Project>
-      <Name>Boing4KTemplate</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\java\synergy\JavaDosBoxQuakeBeta\JavaDosBoxQuakeBeta\JavaDosBoxQuakeBeta.csproj">
-      <Project>{7e93f999-24fc-494d-b5ef-c389e08a9cd8}</Project>
-      <Name>JavaDosBoxQuakeBeta</Name>
+    <ProjectReference Include="..\..\..\..\..\jsc.community\avalonugh\AvalonUgh\AvalonUgh.LabsActivity\AvalonUgh.LabsActivity.csproj">
+      <Project>{112f5a8f-17ed-4f24-903e-8bdba85c512a}</Project>
+      <Name>AvalonUgh.LabsActivity</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj">
       <Project>{3bd2bd38-102c-4c19-88e1-60522b55403c}</Project>
