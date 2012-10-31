@@ -30,6 +30,7 @@ namespace SQLiteWithDataGridView
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.applicationWebService1 = new SQLiteWithDataGridView.ApplicationWebService();
             this.SuspendLayout();
             // 
             // button1
@@ -78,6 +79,7 @@ namespace SQLiteWithDataGridView
         private Button button1;
         private Button button2;
         private Button button3;
+        private ApplicationWebService applicationWebService1;
 
     }
 }

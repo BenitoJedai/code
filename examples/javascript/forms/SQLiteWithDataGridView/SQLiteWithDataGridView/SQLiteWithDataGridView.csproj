@@ -26,7 +26,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PHP|x86'">
     <OutputPath>bin\x86\PHP\</OutputPath>
@@ -145,7 +146,10 @@
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="ApplicationWebService.Handler.cs" />
+    <Compile Include="ApplicationWebService.Handler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IApplicationWebService.cs" />
     <Compile Include="Library\GridForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,6 +164,7 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationWebService.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Application.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
@@ -178,13 +183,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="ApplicationWebService.Designer.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>ApplicationWebService.cs</DependentUpon>
+    </Compile>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
       if $(ConfigurationName)==Release (
-   start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false /DisableWebServiceJava:false
+rem   start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /xDisableWebServiceJava:false
  rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /DisableWebServiceAndroid:false
     
     )
