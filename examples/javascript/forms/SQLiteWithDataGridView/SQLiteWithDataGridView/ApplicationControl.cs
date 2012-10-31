@@ -16,29 +16,27 @@ namespace SQLiteWithDataGridView
             this.InitializeComponent();
         }
 
-        private void button1_Click(object sender, System.EventArgs e)
+    
+
+        private void ApplicationControl_Load(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void button3_Click_1(object sender, System.EventArgs e)
+        {
+            new GridForm { TableName = Table003.Text, service = this.applicationWebService1 }.Show();
+
+        }
+
+        private void Table001_Click(object sender, System.EventArgs e)
         {
             new GridForm { service = this.applicationWebService1 }.Show();
         }
 
-        private void button2_Click(object sender, System.EventArgs e)
+        private void Table002_Click(object sender, System.EventArgs e)
         {
-        }
-
-        private void button2_Click_1(object sender, System.EventArgs e)
-        {
-            new GridForm { TableName = button2.Text, service = this.applicationWebService1 }.Show();
-
-        }
-
-        private void button3_Click(object sender, System.EventArgs e)
-        {
-            new GridForm { TableName = button3.Text, service = this.applicationWebService1 }.Show();
-
-        }
-
-        private void ApplicationControl_Load(object sender, System.EventArgs e)
-        {
+            new GridForm { TableName = Table002.Text, service = this.applicationWebService1 }.Show();
 
         }
 
