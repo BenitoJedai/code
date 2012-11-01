@@ -6,10 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 
 namespace FakeWindowsLoginExperiment.Library.Designers
 {
-    public class SampleRootDesigner : ComponentDesigner, IRootDesigner
+    public class SampleRootDesigner :
+        ComponentDesigner,
+        //ControlDesigner,
+        IRootDesigner
     {
         // Member field of custom type RootDesignerView, a control that  
         // will be shown in the Forms designer view. This member is  
@@ -36,6 +40,22 @@ namespace FakeWindowsLoginExperiment.Library.Designers
             }
             return m_view;
         }
+
+        //public override Control Control
+        //{
+        //    get
+        //    {
+        //        if (m_view == null)
+        //        {
+        //            // Some type of displayable Form or control is required  
+        //            // for a root designer that overrides GetView(). In this  
+        //            // example, a Control of type RootDesignerView is used. 
+        //            // Any class that inherits from Control will work.
+        //            m_view = new RootDesignerView(this);
+        //        }
+        //        return m_view;
+        //    }
+        //}
 
         // IRootDesigner.SupportedTechnologies is a required override for an 
         // IRootDesigner. Default is the view technology used by this designer.  

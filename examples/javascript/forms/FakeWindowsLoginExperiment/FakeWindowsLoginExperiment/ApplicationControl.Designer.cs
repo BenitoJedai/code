@@ -19,6 +19,10 @@ namespace FakeWindowsLoginExperiment
         {
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.applicationWebService1 = new FakeWindowsLoginExperiment.ApplicationWebService();
+            this.rootViewSampleComponent1 = new FakeWindowsLoginExperiment.Library.Designers.Samples.RootViewSampleComponent();
+            this.rootDesignedComponent1 = new FakeWindowsLoginExperiment.Library.Designers.Samples.RootDesignedComponent();
+            this.exampleComponent1 = new FakeWindowsLoginExperiment.Library.Designers.Samples.ExampleComponent();
             this.SuspendLayout();
             // 
             // button1
@@ -64,6 +68,10 @@ namespace FakeWindowsLoginExperiment
 
         private Button button1;
         private Button button2;
+        private ApplicationWebService applicationWebService1;
+        private Library.Designers.Samples.RootViewSampleComponent rootViewSampleComponent1;
+        private Library.Designers.Samples.RootDesignedComponent rootDesignedComponent1;
+        private Library.Designers.Samples.ExampleComponent exampleComponent1;
 
     }
 }

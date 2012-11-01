@@ -30,6 +30,7 @@ namespace FakeWindowsLoginExperiment
             this.taskManagerForm1 = new FakeWindowsLoginExperiment.Library.TaskManagerForm();
             this.applicationWebService1 = new FakeWindowsLoginExperiment.ApplicationWebService();
             this.rootViewSampleComponent1 = new FakeWindowsLoginExperiment.Library.Designers.Samples.RootViewSampleComponent();
+            this.exampleComponent1 = new FakeWindowsLoginExperiment.Library.Designers.Samples.ExampleComponent();
             // 
             // idleTimer1
             // 
@@ -100,6 +101,7 @@ namespace FakeWindowsLoginExperiment
         private Library.TaskManagerForm taskManagerForm1;
         private ApplicationWebService applicationWebService1;
         private FakeWindowsLoginExperiment.Library.Designers.Samples.RootViewSampleComponent rootViewSampleComponent1;
+        private Library.Designers.Samples.ExampleComponent exampleComponent1;
 
     }
 }

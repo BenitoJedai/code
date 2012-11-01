@@ -21,11 +21,17 @@ namespace FakeWindowsLoginExperiment
                 return;
             }
 
+            var apps_Application = h.Applications.FirstOrDefault(k => k.TypeName == "Application");
+            var apps_FakeLogin = h.Applications.FirstOrDefault(k => k.TypeName == "FakeMultimonitorDesktop");
+            var apps_FakeLoginScreen = h.Applications.FirstOrDefault(k => k.TypeName == "FakeLoginScreen");
+            
+
+
             var apps = new
             {
-                Application = h.Applications.FirstOrDefault(k => k.TypeName == "Application"),
-                FakeLogin = h.Applications.FirstOrDefault(k => k.TypeName == "FakeMultimonitorDesktop"),
-                FakeLoginScreen = h.Applications.FirstOrDefault(k => k.TypeName == "FakeLoginScreen"),
+                Application = apps_Application,
+                FakeLogin = apps_FakeLogin,
+                FakeLoginScreen = apps_FakeLoginScreen,
             };
 
             var app = apps.FakeLogin;
@@ -48,7 +54,8 @@ namespace FakeWindowsLoginExperiment
 
 
             #region IsDefaultPath
-            if (h.IsDefaultPath || h.Context.Request.Path == "/" + app.TypeName)
+            var IsExplicitDefaultPath = h.Context.Request.Path == "/" + app.TypeName;
+            if (h.IsDefaultPath || IsExplicitDefaultPath)
             {
 
 

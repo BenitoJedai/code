@@ -826,6 +826,8 @@
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpCookie.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpCookieCollection.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpHandler.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpResponse.cs" />
