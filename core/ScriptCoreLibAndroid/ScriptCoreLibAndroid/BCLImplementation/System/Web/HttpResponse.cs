@@ -119,6 +119,12 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             if (!InternalWriteHeadersDone)
             {
                 InternalIsTransferEncodingChunked = true;
+
+                //         Caused by: java.lang.RuntimeException: sendto failed: EPIPE (Broken pipe)
+                //at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__NetworkStream.Write(__NetworkStream.java:115)
+                //at ScriptCoreLibJava.BCLImplementation.System.IO.__Stream.CopyTo(__Stream.java:83)
+                //at ScriptCoreLib.Android.BCLImplementation.System.Web.__HttpResponse.WriteFile(__HttpResponse.java:217)
+
             }
 
             InternalWriteHeaders();
