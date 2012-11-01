@@ -9,10 +9,22 @@ using System.Text;
 
 namespace FakeWindowsLoginExperiment.Design
 {
-    sealed class FakeLogin
+    sealed partial class FakeLogin
     {
         public FakeLogin(IFakeLogin e)
+            : this()
         {
+            Action DialogImageToCenter = delegate
+            {
+                e.DialogImage.InvokeOnComplete(
+                    delegate
+                    {
+                        e.DialogContainer.style.marginLeft = -(e.DialogImage.width / 2) + "px";
+                        e.DialogContainer.style.marginTop = -(e.DialogImage.height / 2) + "px";
+                    }
+                );
+            };
+
             Action frame = null;
 
             frame = delegate
@@ -56,23 +68,15 @@ namespace FakeWindowsLoginExperiment.Design
                 Native.Window.requestAnimationFrame += frame;
             };
 
-            Action DialogImageToCenter = delegate
-            {
-                e.DialogImage.InvokeOnComplete(
-                    delegate
-                    {
-                        e.DialogContainer.style.marginLeft = -(e.DialogImage.width / 2) + "px";
-                        e.DialogContainer.style.marginTop = -(e.DialogImage.height / 2) + "px";
-                    }
-                );
-            };
+
 
             Native.Window.requestAnimationFrame += frame;
 
-            e.ShadowOverlay.Hide();
+            ShadowOverlay.Hide();
+
             DialogImageToCenter();
             e.DialogContainer.Show();
-            new HTML.Audio.FromAssets.Windows_Hardware_Insert().play();
+            //new HTML.Audio.FromAssets.Windows_Hardware_Insert().play();
 
             e.DialogImage.onclick +=
                 delegate
@@ -89,21 +93,25 @@ namespace FakeWindowsLoginExperiment.Design
                          delegate
                          {
 
-                             new HTML.Audio.FromAssets.Windows_Hardware_Remove().play();
+                             //new HTML.Audio.FromAssets.Windows_Hardware_Remove().play();
 
-                             dynamic style = e.ShadowOverlay.style;
-                             style.cursor = "none";
-                             //e.ShadowOverlay.style.cursor= ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.non
-                             e.ShadowOverlay.style.backgroundColor = JSColor.Black;
-                             e.ShadowOverlay.Show();
+                             //dynamic style = e.ShadowOverlay.style;
+                             //style.cursor = "none";
+                             ////e.ShadowOverlay.style.cursor= ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.non
+                             //e.ShadowOverlay.style.backgroundColor = JSColor.Black;
+                             //e.ShadowOverlay.Show();
 
+                             //ShadowOverlay.Show();
 
                              new Timer(
                                  delegate
                                  {
 
-                                     new HTML.Audio.FromAssets.Windows_Hardware_Insert().play();
-                                     e.ShadowOverlay.Hide();
+                                     //new HTML.Audio.FromAssets.Windows_Hardware_Insert().play();
+                                     //e.ShadowOverlay.Hide();
+
+                                     ShadowOverlay.Hide();
+
                                      e.DialogContainer.Show();
 
                                  }
@@ -132,14 +140,16 @@ namespace FakeWindowsLoginExperiment.Design
                                  {
                                      e.DialogContainer.Hide();
 
-                                     e.ShadowOverlay.style.cursor = ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.wait;
-                                     e.ShadowOverlay.style.backgroundColor = JSColor.FromRGB(0x18, 0x5D, 0x7B);
-                                     e.ShadowOverlay.Show();
+                                     ShadowOverlay.Show();
+                                     //e.ShadowOverlay.style.cursor = ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.wait;
+                                     //e.ShadowOverlay.style.backgroundColor = JSColor.FromRGB(0x18, 0x5D, 0x7B);
+                                     //e.ShadowOverlay.Show();
 
                                      e.PrimaryScreenFrame.onload +=
                                          delegate
                                          {
-                                             e.ShadowOverlay.Hide();
+                                             //e.ShadowOverlay.Hide();
+                                             ShadowOverlay.Hide();
 
                                          };
 
@@ -148,6 +158,17 @@ namespace FakeWindowsLoginExperiment.Design
                                  };
                          };
                 };
+        }
+
+        private void applicationExitFullscreen1_ExitFullscreen()
+        {
+            ShadowOverlay.Show();
+        }
+
+        private void applicationExitFullscreen1_EnterFullscreen()
+        {
+            ShadowOverlay.Hide();
+
         }
     }
 

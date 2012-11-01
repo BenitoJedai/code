@@ -61,6 +61,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -139,12 +143,11 @@
     <Compile Include="Audio\Windows Hardware Insert.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Design\FakeLoginScreen.cs" />
-    <Compile Include="Design\FakeLogin.cs" />
-    <Compile Include="Library\ApplicationGotFocus.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Design\FakeLogin.Designer.cs">
+      <DependentUpon>FakeLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\ApplicationLostFocus.cs">
+    <Compile Include="Design\FakeLoginScreen.cs" />
+    <Compile Include="Design\FakeLogin.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Library\Form1.cs">
@@ -153,10 +156,7 @@
     <Compile Include="Library\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\ShadowOverlay.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Library\ApplicationIdleTimer.cs">
+    <Compile Include="Library\ApplicationOverlay.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -191,7 +191,7 @@
     <Content Include="Design\Textures\FBeforePassword.png" />
     <Content Include="Design\Textures\WindowsBanner.png" />
     <Content Include="Library\ShadowOverlay.htm">
-      <DependentUpon>ShadowOverlay.cs</DependentUpon>
+      <DependentUpon>ApplicationOverlay.cs</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -202,11 +202,11 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Design\FakeLogin.resx">
+      <DependentUpon>FakeLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Library\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Library\ApplicationIdleTimer.resx">
-      <DependentUpon>ApplicationIdleTimer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace FakeWindowsLoginExperiment
@@ -49,6 +50,43 @@ namespace FakeWindowsLoginExperiment
             #region IsDefaultPath
             if (h.IsDefaultPath || h.Context.Request.Path == "/" + app.TypeName)
             {
+          
+
+                {
+                    var c = h.Context.Request.Cookies["FakeLoginScreen.Delay"];
+
+                    if (c != null)
+                    {
+
+                        Console.WriteLine("FakeLoginScreen.Delay");
+                        c.Expires = DateTime.Now;
+                        c.Value = "";
+
+                        h.Context.Response.SetCookie(c);
+
+                        Thread.Sleep(1000);
+                    }
+                }
+
+                {
+                    var c = h.Context.Request.Cookies["FakeLoginScreen.NoContent"];
+
+                    if (c != null)
+                    {
+
+                        Console.WriteLine("FakeLoginScreen.NoContent");
+                        c.Expires = DateTime.Now;
+                        c.Value = "";
+
+                        h.Context.Response.SetCookie(c);
+
+                        // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+                        h.Context.Response.StatusCode = 204;
+                        h.CompleteRequest();
+                        return;
+                    }
+                }
+
                 h.Context.Response.ContentType = "text/html";
 
                 var xml = XElement.Parse(app.PageSource);
