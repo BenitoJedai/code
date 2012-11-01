@@ -58,8 +58,8 @@ namespace FakeWindowsLoginExperiment.Library
             this.Stop();
             hasInterest = false;
 
-            if (!this.Enabled)
-                return;
+            //if (!this.Enabled)
+            //    return;
 
             if (UserLostInterestSound != null)
                 UserLostInterestSound.Play();
@@ -76,8 +76,8 @@ namespace FakeWindowsLoginExperiment.Library
 
         private void documentMouse1_onmousemove(ScriptCoreLib.JavaScript.DOM.IEvent obj)
         {
-            if (!this.Enabled)
-                return;
+            //if (!this.Enabled)
+            //    return;
 
             InterestIntent();
         }
@@ -102,8 +102,8 @@ namespace FakeWindowsLoginExperiment.Library
 
         private void applicationGotFocus1_onfocus(ScriptCoreLib.JavaScript.DOM.IEvent obj)
         {
-            if (!this.Enabled)
-                return;
+            //if (!this.Enabled)
+            //    return;
 
             this.ToTrace();
 
@@ -113,8 +113,8 @@ namespace FakeWindowsLoginExperiment.Library
 
         private void applicationLostFocus1_onblur(ScriptCoreLib.JavaScript.DOM.IEvent obj)
         {
-            if (!this.Enabled)
-                return;
+            //if (!this.Enabled)
+            //    return;
 
             this.ToTrace();
 

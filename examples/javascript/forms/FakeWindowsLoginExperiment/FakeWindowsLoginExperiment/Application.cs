@@ -12,6 +12,9 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -22,6 +25,7 @@ namespace FakeWindowsLoginExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
+    /// 
     public sealed partial class Application
     {
         public readonly IApp page;
@@ -46,6 +50,8 @@ namespace FakeWindowsLoginExperiment
 
             f.Show();
 
+            taskManagerForm1.Show();
+
             //content.AttachControlTo(page.Content);
             //content.AutoSizeControlTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
@@ -54,20 +60,25 @@ namespace FakeWindowsLoginExperiment
 
         private void idleTimer1_UserLostInterest()
         {
+            this.ToTrace();
             shadowOverlay1.Show();
 
         }
 
         private void idleTimer1_UserShowedInterest()
         {
+            this.ToTrace();
+
             shadowOverlay1.Hide();
         }
 
         private void TimerForLogout_UserLostInterest()
         {
+            this.ToTrace();
+
+            f.AskBeforeDisconnectionSession.Checked = false;
             // tell the server to wait
-            if (!f.AskBeforeDisconnectionSession.Checked)
-                new Cookie("FakeLoginScreen.Delay").IntegerValue = 1000;
+            new Cookie("FakeLoginScreen.Delay").IntegerValue = 1000;
             Native.Document.location.replace("/FakeLoginScreen");
         }
 
@@ -116,4 +127,5 @@ namespace FakeWindowsLoginExperiment
         }
 
     }
+
 }
