@@ -3,6 +3,7 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Xml.Linq;
 

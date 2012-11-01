@@ -97,7 +97,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         {
             if (InternalIsTransferEncodingChunked)
             {
-                var ChunkedLengthString =  "0\r\n\r\n";
+                var ChunkedLengthString = "0\r\n\r\n";
                 var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
 
                 InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
@@ -207,6 +207,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         {
             get;
             set;
+        }
+
+        public void SetCookie(HttpCookie cookie)
+        {
+
         }
     }
 }

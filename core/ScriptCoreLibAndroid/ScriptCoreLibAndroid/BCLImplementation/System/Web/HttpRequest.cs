@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
@@ -19,11 +20,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public NameValueCollection Headers { get; internal set; }
 
+        public HttpCookieCollection Cookies { get; set; }
         public __HttpRequest()
         {
             this.QueryString = new NameValueCollection();
             this.Form = new NameValueCollection();
             this.Headers = new NameValueCollection();
+            this.Cookies = new HttpCookieCollection();
         }
     }
 }
