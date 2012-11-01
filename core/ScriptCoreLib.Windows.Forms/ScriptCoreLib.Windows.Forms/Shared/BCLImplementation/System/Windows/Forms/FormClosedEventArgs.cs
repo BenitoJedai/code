@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.Windows.Forms;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms
 {
 	[Script(Implements = typeof(global::System.Windows.Forms.FormClosedEventArgs))]
 	internal class __FormClosedEventArgs

@@ -20,6 +20,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         object __FormTypeHint;
 
+        public event FormClosedEventHandler FormClosed;
+        public event FormClosingEventHandler FormClosing;
+
+        // http://msdn.microsoft.com/en-us/library/system.windows.forms.form.closed.aspx
+        [Obsolete(" use the FormClosed event instead.")]
         public event EventHandler Closed;
 
         public IHTMLDiv HTMLTarget { get; set; }
@@ -440,7 +445,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public static int __FormZIndex = 0;
 
-
+        #region Close
         public void Close()
         {
             foreach (var item in this.OwnedForms)
@@ -456,7 +461,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (this.Closed != null)
                 this.Closed(this, new EventArgs());
+
+            RaiseFormClosed();
         }
+
+        public void RaiseFormClosed()
+        {
+            if (this.FormClosed != null)
+                this.FormClosed(this, new FormClosedEventArgs(CloseReason.None));
+
+        }
+        #endregion
 
         protected override Size SizeFromClientSize(Size clientSize)
         {
@@ -562,7 +577,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalRaiseLoad();
 
             if (this.StartPosition == FormStartPosition.CenterScreen)
-            { 
+            {
                 this.Location = new Point
                 {
                     X = (Native.Window.Width - this.Width) / 2,

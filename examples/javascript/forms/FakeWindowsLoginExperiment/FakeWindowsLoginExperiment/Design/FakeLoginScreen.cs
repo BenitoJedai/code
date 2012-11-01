@@ -13,33 +13,29 @@ namespace FakeWindowsLoginExperiment.Design
     {
         public FakeLoginScreen(IFakeLoginScreen e)
         {
+
             e.Image.onclick +=
-                delegate
-                {
-                    e.Image = new HTML.Images.FromAssets.DBeforeLogon { id = e.Image.id };
-
-                    e.Image.onclick +=
-                       delegate
-                       {
-                           e.Image = new HTML.Images.FromAssets.EBeforeUsername { id = e.Image.id };
+               delegate
+               {
+                   e.Image = new HTML.Images.FromAssets.EBeforeUsername { id = e.Image.id };
 
 
-                           e.Image.onclick +=
-                              delegate
-                              {
-                                  e.Image = new HTML.Images.FromAssets.FBeforePassword { id = e.Image.id };
+                   e.Image.onclick +=
+                      delegate
+                      {
+                          e.Image = new HTML.Images.FromAssets.FBeforePassword { id = e.Image.id };
 
-                                  e.Image.onclick +=
-                                    delegate
-                                    {
-                                        e.Image.Orphanize();
+                          e.Image.onclick +=
+                            delegate
+                            {
+                                e.Image.Orphanize();
 
-                                        Native.Document.location.replace("/Application");
-                                    };
 
-                              };
-                       };
-                };
+                                Native.Document.location.replace("/Application");
+                            };
+
+                      };
+               };
         }
     }
 
