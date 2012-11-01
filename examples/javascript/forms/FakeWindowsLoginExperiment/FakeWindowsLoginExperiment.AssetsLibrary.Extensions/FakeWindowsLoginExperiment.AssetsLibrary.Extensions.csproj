@@ -1,16 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{94719DE7-1C09-4026-A948-D78EE589F1DC}</ProjectGuid>
+    <ProjectGuid>{611ACF38-08ED-41F3-83B6-199A0F2041AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib</RootNamespace>
-    <AssemblyName>ScriptCoreLib.Extensions</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>FakeWindowsLoginExperiment</RootNamespace>
+    <AssemblyName>FakeWindowsLoginExperiment.AssetsLibrary.Extensions</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,23 +23,33 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeWindowsLoginExperiment.AssetsLibrary">
+      <HintPath>..\FakeWindowsLoginExperiment\bin\staging.AssetsLibrary\FakeWindowsLoginExperiment.AssetsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibAndroid">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
+    <Reference Include="ScriptCoreLib.Drawing">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,24 +57,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
-      <Link>Properties\AbstractatechInfo.cs</Link>
-    </Compile>
-    <Compile Include="Android\Extensions\ViewExtensions.cs" />
-    <Compile Include="BCLExtensions\System\Windows\Forms\TimerExtensions.cs" />
-    <Compile Include="BCLExtensions\System\Windows\Forms\DataGridViewExtensions.cs" />
-    <Compile Include="JavaScript\WebGL\ShaderExtensions.cs" />
-    <Compile Include="JavaScript\WebGL\ISurface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\IO\SmartStreamReader.cs" />
+    <Compile Include="ScriptCoreLib\Extensions\Generic\Trace.cs" />
+    <Compile Include="ScriptCoreLib\JavaScript\ComponentModel\ApplicationAudio.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ScriptCoreLib\JavaScript\ComponentModel\ApplicationMouseMove.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ScriptCoreLib\JavaScript\ComponentModel\ApplicationClosing.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="JavaScript\Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

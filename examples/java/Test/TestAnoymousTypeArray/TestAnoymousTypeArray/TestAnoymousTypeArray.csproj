@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{94719DE7-1C09-4026-A948-D78EE589F1DC}</ProjectGuid>
+    <ProjectGuid>{C2ABC36C-20FE-44BC-BEE9-2BE1F93EA44B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib</RootNamespace>
-    <AssemblyName>ScriptCoreLib.Extensions</AssemblyName>
+    <RootNamespace>TestAnoymousTypeArray</RootNamespace>
+    <AssemblyName>TestAnoymousTypeArray</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -24,23 +23,15 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLib">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibAndroid">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,23 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
-      <Link>Properties\AbstractatechInfo.cs</Link>
-    </Compile>
-    <Compile Include="Android\Extensions\ViewExtensions.cs" />
-    <Compile Include="BCLExtensions\System\Windows\Forms\TimerExtensions.cs" />
-    <Compile Include="BCLExtensions\System\Windows\Forms\DataGridViewExtensions.cs" />
-    <Compile Include="JavaScript\WebGL\ShaderExtensions.cs" />
-    <Compile Include="JavaScript\WebGL\ISurface.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\IO\SmartStreamReader.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="JavaScript\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+    <PostBuildEvent>
+  c:\util\jsc\bin\jsc.exe $(TargetPath) -java
+
+      "C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe" %25cd%25\web\java\$(TargetName)\*.java</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

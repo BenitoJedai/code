@@ -49,7 +49,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             __FieldInfo r = null;
 
-			foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value).GetFields())
+            foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value).GetFields())
             {
                 if (m.Name == name)
                 {
@@ -65,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         Expando AsExpando()
         {
-			return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value);
+            return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value);
         }
 
         public __FieldInfo[] GetFields()
@@ -124,11 +124,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
+                // http://msdn.microsoft.com/en-us/library/dd264736.aspx
+                //dynamic constructor = AsExpando().constructor;
+
+                //return constructor.TypeName;
                 return (string)Expando.InternalGetMember(AsExpando().constructor, "TypeName");
             }
         }
 
-        
+        public string Namespace
+        {
+            get
+            {
+                // jsc does not yet emit namespace info
+                return "<Namespace>";
+            }
+        }
+
+        public string FullName
+        {
+            get
+            {
+                return Namespace + "." + Name;
+            }
+        }
+
         __TypeReflection Reflection
         {
             get
@@ -142,7 +162,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return GetCustomAttributes(null, false);
         }
 
-        
+
         public override object[] GetCustomAttributes(Type x, bool inherit)
         {
             if (inherit)
@@ -158,7 +178,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 var c = true;
 
                 if (x != null)
-                    if (!object.ReferenceEquals(v.Type.prototype,x.TypeHandle.Value))
+                    if (!object.ReferenceEquals(v.Type.prototype, x.TypeHandle.Value))
                         c = false;
 
                 // todo: rebuild to known type
@@ -169,6 +189,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return i.ToArray();
         }
 
-	
+
     }
 }
