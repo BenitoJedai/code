@@ -10,6 +10,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.ContainerControl))]
     internal class __ContainerControl : __ScrollableControl
     {
+        public Form ParentForm { get; set; }
+
+        internal void InternalAssignParentForm(Form f)
+        {
+            this.ParentForm = f;
+
+            //foreach (var item in this.Controls)
+            //{
+
+
+            //}
+        }
+
+        protected override void OnParentChanged(EventArgs e)
+        {
+            var f = this.Parent as Form;
+            if (f != null)
+            {
+                InternalAssignParentForm(f);
+            }
+
+            RaiseParentChanged(e);
+        }
+
         protected void Dispose(bool disposing)
         {
 

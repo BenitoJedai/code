@@ -687,7 +687,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var c = (__Control)e;
 
-                    c.AssignParent(this.Owner);
+                    c.InternalAssignParent(this.Owner);
 
                     ((__TabControl)this.Owner).OnControlAdded(new ControlEventArgs(e));
 
@@ -809,7 +809,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 var c = (__TabPage)value;
 
-                c.AssignParent(this.Owner);
+                c.InternalAssignParent(this.Owner);
 
                 
                 ((__TabControl)this.Owner).OnControlAdded(new ControlEventArgs(value));

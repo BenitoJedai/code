@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FakeWindowsLoginExperiment</RootNamespace>
     <AssemblyName>FakeWindowsLoginExperiment</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>FakeWindowsLoginExperiment.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -121,11 +124,41 @@
     <Content Include="Audio\Windows User Account Control.wav" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Application.Designer.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
     <Compile Include="ApplicationWebServiceHandler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Audio\Windows Logoff Sound.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Audio\Windows Hardware Remove.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Audio\Windows Hardware Insert.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Design\FakeLoginScreen.cs" />
     <Compile Include="Design\FakeLogin.cs" />
+    <Compile Include="Library\ApplicationGotFocus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\ApplicationLostFocus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Library\ShadowOverlay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\ApplicationIdleTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationControl.cs">
       <SubType>UserControl</SubType>
@@ -140,7 +173,7 @@
       <DependentUpon>ApplicationWebService.cs</DependentUpon>
     </Compile>
     <Compile Include="Application.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
@@ -157,14 +190,33 @@
     <Content Include="Design\Textures\EBeforeUsername.png" />
     <Content Include="Design\Textures\FBeforePassword.png" />
     <Content Include="Design\Textures\WindowsBanner.png" />
+    <Content Include="Library\ShadowOverlay.htm">
+      <DependentUpon>ShadowOverlay.cs</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Application.resx">
+      <DependentUpon>Application.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Library\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\ApplicationIdleTimer.resx">
+      <DependentUpon>ApplicationIdleTimer.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Library\" />
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FakeWindowsLoginExperiment.AssetsLibrary.Extensions\FakeWindowsLoginExperiment.AssetsLibrary.Extensions.csproj">
+      <Project>{611acf38-08ed-41f3-83b6-199a0f2041aa}</Project>
+      <Name>FakeWindowsLoginExperiment.AssetsLibrary.Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

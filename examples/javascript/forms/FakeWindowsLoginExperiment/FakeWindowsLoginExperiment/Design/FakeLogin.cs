@@ -34,7 +34,7 @@ namespace FakeWindowsLoginExperiment.Design
                 top += outerHeight - innerHeight;
 
                 var marginLeft = (outerWidth - innerWidth) / 2;
-                top += marginLeft;
+                //top += marginLeft;
                 left += marginLeft;
 
                 dynamic screen = window.screen;
@@ -43,13 +43,13 @@ namespace FakeWindowsLoginExperiment.Design
 
                 // window.innerHeight
 
-                Native.Document.title =
-                    new
-                    {
-                        top,
-                        height
+                //Native.Document.title =
+                //    new
+                //    {
+                //        top,
+                //        height
 
-                    }.ToString();
+                //    }.ToString();
 
                 e.PrimaryScreen.style.SetLocation(-left, -top, width, height);
 
@@ -144,6 +144,7 @@ namespace FakeWindowsLoginExperiment.Design
                                          };
 
                                      e.PrimaryScreenFrame.src = "/FakeLoginScreen";
+                                     e.ScreenToLeftFrame.src = "/FakeLoginScreen";
                                  };
                          };
                 };

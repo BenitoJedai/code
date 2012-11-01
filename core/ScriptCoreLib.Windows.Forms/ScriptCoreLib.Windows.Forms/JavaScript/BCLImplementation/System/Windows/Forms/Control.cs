@@ -114,7 +114,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 var c = (__Control)e;
 
-                c.AssignParent(this.Owner);
+                c.InternalAssignParent(this.Owner);
 
                 ((__Control)this.Owner).OnControlAdded(new ControlEventArgs(e));
 
@@ -1067,11 +1067,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #region Parent
         Control _parent;
 
-        internal void AssignParent(Control control)
+
+        internal void InternalAssignParent(Control control)
         {
             _parent = control;
 
             //BUG: there seems to be a bug loading static field has rerouted implementation
+
 
             this.OnParentChanged(null);
         }
@@ -1408,7 +1410,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             e.CursorX,
                             e.CursorY
                         );
-                        
+
                         div.tabIndex = 0;
 
                         div.onblur +=
@@ -1421,5 +1423,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     };
             }
         }
+
+    
     }
 }

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.Extensions;
 
 namespace FakeWindowsLoginExperiment
 {
@@ -25,7 +26,17 @@ namespace FakeWindowsLoginExperiment
 
         private void button1_Click_1(object sender, System.EventArgs e)
         {
-            MessageBox.Show("hi");
+            new { message = "h1", @this = this }.With(
+                x =>
+                {
+                    MessageBox.Show(x.ToTrace().message);
+                }
+            );
+        }
+
+        private void button2_Click(object sender, System.EventArgs e)
+        {
+            this.ParentForm.Close();
         }
 
     }
