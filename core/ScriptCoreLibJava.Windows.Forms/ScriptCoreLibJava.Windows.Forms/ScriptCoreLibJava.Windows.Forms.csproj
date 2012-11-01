@@ -75,10 +75,6 @@
     <Compile Include="BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\Control.Container.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\Form.cs" />
-    <Compile Include="BCLImplementation\System\Windows\Forms\FormClosedEventArgs.cs" />
-    <Compile Include="BCLImplementation\System\Windows\Forms\FormClosedEventHandler.cs" />
-    <Compile Include="BCLImplementation\System\Windows\Forms\FormClosingEventArgs.cs" />
-    <Compile Include="BCLImplementation\System\Windows\Forms\FormClosingEventHandler.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IBindableComponent.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IContainerControl.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IDropTarget.cs" />
@@ -100,13 +96,11 @@
     <Compile Include="Windows\Forms\Extensions.cs" />
     <Compile Include="Windows\Forms\IAssemblyReferenceToken.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="..\..\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\Shared\BCLImplementation\**\*.*">
       <Link>BCLImplementation\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
   </ItemGroup>
-  
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

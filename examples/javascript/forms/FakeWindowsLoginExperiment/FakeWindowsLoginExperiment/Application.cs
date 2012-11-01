@@ -41,12 +41,25 @@ namespace FakeWindowsLoginExperiment
             f.Width = content.Width + 8;
             f.Controls.Add(content);
 
-            //f.FormClosing +=
-            //    delegate
-            //    {
-            //        new HTML.Audio.FromAssets.Windows_Logoff_Sound();
-            //        page.Taskbar.Orphanize();
-            //    };
+            f.FormClosed +=
+                delegate
+                {
+
+                    new HTML.Audio.FromAssets.Windows_Logoff_Sound().play();
+                    page.Taskbar.Orphanize();
+
+                    // we need a ceneric timer regardless of target platform
+                    new ScriptCoreLib.JavaScript.Runtime.Timer(
+                       delegate
+                       {
+
+
+                           Native.Document.location.replace("/FakeLoginScreen");
+
+                       }
+                     ).StartTimeout(800);
+
+                };
 
             f.Show();
 

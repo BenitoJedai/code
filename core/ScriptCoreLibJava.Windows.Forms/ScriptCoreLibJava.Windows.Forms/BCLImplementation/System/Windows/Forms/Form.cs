@@ -83,6 +83,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 			this.Dispose();
 		}
+
+
 		[Script]
 		public delegate void __WindowListenerDelegate(WindowEvent e);
 

@@ -26,8 +26,16 @@ namespace FakeWindowsLoginExperiment.Design
                 int innerHeight = window.innerHeight;
                 int outerHeight = window.outerHeight;
 
+                int innerWidth = window.innerWidth;
+                int outerWidth = window.outerWidth;
+
+
                 // compensate for toolbar while non fullscreen
                 top += outerHeight - innerHeight;
+
+                var marginLeft = (outerWidth - innerWidth) / 2;
+                top += marginLeft;
+                left += marginLeft;
 
                 dynamic screen = window.screen;
                 int width = screen.width;

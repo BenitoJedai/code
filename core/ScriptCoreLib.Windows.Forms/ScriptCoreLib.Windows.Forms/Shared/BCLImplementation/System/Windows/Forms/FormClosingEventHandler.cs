@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms
 {
 	[Script(Implements = typeof(global::System.Windows.Forms.FormClosingEventHandler))]
 	internal delegate void __FormClosingEventHandler(object sender, FormClosingEventArgs e);

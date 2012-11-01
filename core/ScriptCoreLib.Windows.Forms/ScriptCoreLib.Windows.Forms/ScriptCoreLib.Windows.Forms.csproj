@@ -142,6 +142,10 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Timer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\UserControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowser.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\FormClosedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\FormClosedEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\FormClosingEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\FormClosingEventHandler.cs" />
     <Compile Include="Shared\Windows\Forms\IAssemblyReferenceToken.cs" />
     <Compile Include="JavaScript\Windows\Forms\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
