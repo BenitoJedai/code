@@ -24,7 +24,7 @@ namespace FakeWindowsLoginExperiment
             var apps = new
             {
                 Application = h.Applications.FirstOrDefault(k => k.TypeName == "Application"),
-                FakeLogin = h.Applications.FirstOrDefault(k => k.TypeName == "FakeLogin"),
+                FakeLogin = h.Applications.FirstOrDefault(k => k.TypeName == "FakeMultimonitorDesktop"),
                 FakeLoginScreen = h.Applications.FirstOrDefault(k => k.TypeName == "FakeLoginScreen"),
             };
 
@@ -50,7 +50,7 @@ namespace FakeWindowsLoginExperiment
             #region IsDefaultPath
             if (h.IsDefaultPath || h.Context.Request.Path == "/" + app.TypeName)
             {
-          
+
 
                 {
                     var c = h.Context.Request.Cookies["FakeLoginScreen.Delay"];

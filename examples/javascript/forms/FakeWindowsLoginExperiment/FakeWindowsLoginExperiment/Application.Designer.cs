@@ -8,7 +8,7 @@ namespace FakeWindowsLoginExperiment
 {
     public sealed partial class Application : Component
     {
-                /// <summary>
+        /// <summary>
         /// Required designer variable.
         /// </summary>
         private IContainer components;
@@ -27,7 +27,9 @@ namespace FakeWindowsLoginExperiment
             this.f = new FakeWindowsLoginExperiment.Library.Form1();
             this.applicationClosing1 = new FakeWindowsLoginExperiment.Library.ApplicationClosing();
             this.windows_Logoff_Sound1 = new FakeWindowsLoginExperiment.Audio.Windows_Logoff_Sound();
-            this.applicationExitFullscreen1 = new FakeWindowsLoginExperiment.Library.ApplicationExitFullscreen();
+            this.taskManagerForm1 = new FakeWindowsLoginExperiment.Library.TaskManagerForm();
+            this.applicationWebService1 = new FakeWindowsLoginExperiment.ApplicationWebService();
+            this.rootViewSampleComponent1 = new FakeWindowsLoginExperiment.Library.Designers.Samples.RootViewSampleComponent();
             // 
             // idleTimer1
             // 
@@ -75,10 +77,10 @@ namespace FakeWindowsLoginExperiment
             // 
             this.windows_Logoff_Sound1.AutoBuffer = true;
             // 
-            // applicationExitFullscreen1
+            // taskManagerForm1
             // 
-            this.applicationExitFullscreen1.ExitFullscreen += new System.Action(this.applicationExitFullscreen1_ExitFullscreen);
-            this.applicationExitFullscreen1.EnterFullscreen += new System.Action(this.applicationExitFullscreen1_EnterFullscreen);
+            this.taskManagerForm1.Name = "TaskManagerForm";
+            this.taskManagerForm1.Text = "Windows Task Manager";
 
         }
 
@@ -95,7 +97,9 @@ namespace FakeWindowsLoginExperiment
         private Audio.Windows_Hardware_Insert windows_Hardware_Insert1;
         private Library.ApplicationClosing applicationClosing1;
         private Audio.Windows_Logoff_Sound windows_Logoff_Sound1;
-        private Library.ApplicationExitFullscreen applicationExitFullscreen1;
+        private Library.TaskManagerForm taskManagerForm1;
+        private ApplicationWebService applicationWebService1;
+        private FakeWindowsLoginExperiment.Library.Designers.Samples.RootViewSampleComponent rootViewSampleComponent1;
 
     }
 }

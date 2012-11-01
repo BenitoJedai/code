@@ -32,13 +32,14 @@ namespace FakeWindowsLoginExperiment.Library
 
 
                 int innerHeight = window.innerHeight;
+                int outerHeight = window.outerHeight;
 
                 dynamic screen = window.screen;
                 int height = screen.height;
 
                 if (IsFullscreen)
                 {
-                    if (height != innerHeight)
+                    if (outerHeight != innerHeight)
                     {
                         IsFullscreen = false;
 
@@ -48,7 +49,7 @@ namespace FakeWindowsLoginExperiment.Library
                 }
                 else
                 {
-                    if (height == innerHeight)
+                    if (outerHeight == innerHeight)
                     {
                         IsFullscreen = true;
 

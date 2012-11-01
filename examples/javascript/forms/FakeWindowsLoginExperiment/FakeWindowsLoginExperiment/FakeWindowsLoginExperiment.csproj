@@ -121,6 +121,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\Designers\RootDesignerView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\Designers\SampleRootDesigner.cs" />
+    <Compile Include="Library\Designers\Samples\RootViewSampleComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\Designers\Samples\RootDesignedComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Content Include="Audio\Windows Hardware Insert.wav" />
     <Content Include="Audio\Windows Hardware Remove.wav" />
     <Content Include="Audio\Windows Logoff Sound.wav" />
@@ -143,11 +153,11 @@
     <Compile Include="Audio\Windows Hardware Insert.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Design\FakeLogin.Designer.cs">
-      <DependentUpon>FakeLogin.cs</DependentUpon>
+    <Compile Include="Design\FakeMultimonitorDesktop.Designer.cs">
+      <DependentUpon>FakeMultimonitorDesktop.cs</DependentUpon>
     </Compile>
     <Compile Include="Design\FakeLoginScreen.cs" />
-    <Compile Include="Design\FakeLogin.cs">
+    <Compile Include="Design\FakeMultimonitorDesktop.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Library\Form1.cs">
@@ -158,6 +168,12 @@
     </Compile>
     <Compile Include="Library\ApplicationOverlay.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\TaskManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\TaskManagerForm.Designer.cs">
+      <DependentUpon>TaskManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationControl.cs">
@@ -180,7 +196,7 @@
     </Compile>
     <Content Include="Design\Concept.htm" />
     <Content Include="Design\FakeLoginScreen.htm" />
-    <Content Include="Design\FakeLogin.htm" />
+    <Content Include="Design\FakeMultimonitorDesktop.htm" />
     <Content Include="Design\Textures\wallpaper.jpg" />
     <Content Include="Design\Textures\ABeforeConnect.png" />
     <Content Include="Design\Textures\BBeforeTrustConnection.png" />
@@ -202,11 +218,14 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Design\FakeLogin.resx">
-      <DependentUpon>FakeLogin.cs</DependentUpon>
+    <EmbeddedResource Include="Design\FakeMultimonitorDesktop.resx">
+      <DependentUpon>FakeMultimonitorDesktop.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Library\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\TaskManagerForm.resx">
+      <DependentUpon>TaskManagerForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

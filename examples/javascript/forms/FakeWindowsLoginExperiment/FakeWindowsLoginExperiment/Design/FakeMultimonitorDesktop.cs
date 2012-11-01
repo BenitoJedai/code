@@ -9,11 +9,15 @@ using System.Text;
 
 namespace FakeWindowsLoginExperiment.Design
 {
-    sealed partial class FakeLogin
+    sealed partial class FakeMultimonitorDesktop
     {
-        public FakeLogin(IFakeLogin e)
+        IFakeMultimonitorDesktop e;
+
+        public FakeMultimonitorDesktop(IFakeMultimonitorDesktop e)
             : this()
         {
+            this.e = e;
+
             Action DialogImageToCenter = delegate
             {
                 e.DialogImage.InvokeOnComplete(
@@ -25,6 +29,7 @@ namespace FakeWindowsLoginExperiment.Design
                 );
             };
 
+            #region find monitors
             Action frame = null;
 
             frame = delegate
@@ -71,12 +76,13 @@ namespace FakeWindowsLoginExperiment.Design
 
 
             Native.Window.requestAnimationFrame += frame;
+            #endregion
+
 
             ShadowOverlay.Hide();
 
             DialogImageToCenter();
             e.DialogContainer.Show();
-            //new HTML.Audio.FromAssets.Windows_Hardware_Insert().play();
 
             e.DialogImage.onclick +=
                 delegate
@@ -92,28 +98,14 @@ namespace FakeWindowsLoginExperiment.Design
                     new Timer(
                          delegate
                          {
-
-                             //new HTML.Audio.FromAssets.Windows_Hardware_Remove().play();
-
-                             //dynamic style = e.ShadowOverlay.style;
-                             //style.cursor = "none";
-                             ////e.ShadowOverlay.style.cursor= ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.non
-                             //e.ShadowOverlay.style.backgroundColor = JSColor.Black;
-                             //e.ShadowOverlay.Show();
-
-                             //ShadowOverlay.Show();
+                             ShadowOverlay.Show();
 
                              new Timer(
                                  delegate
                                  {
-
-                                     //new HTML.Audio.FromAssets.Windows_Hardware_Insert().play();
-                                     //e.ShadowOverlay.Hide();
-
                                      ShadowOverlay.Hide();
 
                                      e.DialogContainer.Show();
-
                                  }
                                ).StartTimeout(800);
                          }
@@ -141,34 +133,41 @@ namespace FakeWindowsLoginExperiment.Design
                                      e.DialogContainer.Hide();
 
                                      ShadowOverlay.Show();
-                                     //e.ShadowOverlay.style.cursor = ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.wait;
-                                     //e.ShadowOverlay.style.backgroundColor = JSColor.FromRGB(0x18, 0x5D, 0x7B);
-                                     //e.ShadowOverlay.Show();
+
 
                                      e.PrimaryScreenFrame.onload +=
                                          delegate
                                          {
-                                             //e.ShadowOverlay.Hide();
                                              ShadowOverlay.Hide();
 
                                          };
 
                                      e.PrimaryScreenFrame.src = "/FakeLoginScreen";
                                      e.ScreenToLeftFrame.src = "/FakeLoginScreen";
+
+                                     RequireFullscreen = true;
+
                                  };
                          };
                 };
         }
 
+        bool RequireFullscreen = false;
+
         private void applicationExitFullscreen1_ExitFullscreen()
         {
-            ShadowOverlay.Show();
+            if (RequireFullscreen)
+            {
+                new HTML.Audio.FromAssets.Windows_User_Account_Control().play();
+
+                e.PrimaryScreenFrame.src = "/FakeLoginScreen";
+                e.ScreenToLeftFrame.src = "/FakeLoginScreen";
+            }
         }
 
         private void applicationExitFullscreen1_EnterFullscreen()
         {
-            ShadowOverlay.Hide();
-
+            //new HTML.Audio.FromAssets.Windows_User_Account_Control().play();
         }
     }
 

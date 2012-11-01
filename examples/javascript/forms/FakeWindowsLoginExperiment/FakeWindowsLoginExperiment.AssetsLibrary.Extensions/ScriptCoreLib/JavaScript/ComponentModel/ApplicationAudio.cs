@@ -32,13 +32,16 @@ namespace FakeWindowsLoginExperiment.Library
                 if (Native.Window == null)
                     return;
 
-                Audio().With(
-                    a =>
-                    {
-                        InternalAudio = a;
-                        InternalAudio.load();
-                    }
-                );
+                if (this.InternalAudio == null)
+                {
+                    if (this.Audio != null)
+                        this.InternalAudio = this.Audio();
+                }
+
+                if (this.InternalAudio == null)
+                    return;
+
+                this.InternalAudio.load();
             }
         }
 
@@ -49,18 +52,21 @@ namespace FakeWindowsLoginExperiment.Library
 
         public void Play()
         {
-            if (this.InternalAudio != null)
+            //this.ToTrace();
+
+            if (this.InternalAudio == null)
             {
-                this.InternalAudio.play();
-                return;
+                if (this.Audio != null)
+                    this.InternalAudio = this.Audio();
             }
 
-            if (this.Audio != null)
-            {
-                this.Audio().With(
-                    a => a.play()
-                );
-            }
+            if (this.InternalAudio == null)
+                return;
+
+            this.InternalAudio.play();
+            this.InternalAudio = this.Audio();
+            this.InternalAudio.load();
+
         }
     }
 
