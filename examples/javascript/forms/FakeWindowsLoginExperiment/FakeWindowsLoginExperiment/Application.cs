@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
@@ -53,24 +54,20 @@ namespace FakeWindowsLoginExperiment
 
         private void idleTimer1_UserLostInterest()
         {
-            new HTML.Audio.FromAssets.Windows_Hardware_Insert().play();
-
             shadowOverlay1.Show();
-            //page.ShadowOverlay.Show();
 
         }
 
         private void idleTimer1_UserShowedInterest()
         {
-
-            //new HTML.Audio.FromAssets.Windows_Hardware_Remove().play();
             shadowOverlay1.Hide();
-            //page.ShadowOverlay.Hide();
         }
 
         private void TimerForLogout_UserLostInterest()
         {
-            new HTML.Audio.FromAssets.Windows_Logoff_Sound().play();
+            // tell the server to wait
+            if (!f.AskBeforeDisconnectionSession.Checked)
+                new Cookie("FakeLoginScreen.Delay").IntegerValue = 1000;
             Native.Document.location.replace("/FakeLoginScreen");
         }
 
@@ -81,19 +78,41 @@ namespace FakeWindowsLoginExperiment
 
         private void f_FormClosed(object sender, FormClosedEventArgs e)
         {
-            new HTML.Audio.FromAssets.Windows_Logoff_Sound().play();
             page.Taskbar.Orphanize();
 
-            // we need a ceneric timer regardless of target platform
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-               delegate
-               {
+            // stop our screensaver
+            idleTimer1.Enabled = false;
 
 
-                   Native.Document.location.replace("/FakeLoginScreen");
+            if (f.RequestNoContent.Checked)
+            {
+                new Cookie("FakeLoginScreen.NoContent").BooleanValue = true;
+            }
 
-               }
-             ).StartTimeout(800);
+            if (!f.AskBeforeDisconnectionSession.Checked)
+                new Cookie("FakeLoginScreen.Delay").IntegerValue = 1000;
+
+            Native.Document.location.replace("/FakeLoginScreen");
+        }
+
+        private void applicationClosing1_onbeforeunload(IWindow.Confirmation obj)
+        {
+            if (f.AskBeforeDisconnectionSession.Checked)
+                obj.Text = "arey you sure?";
+        }
+
+        private void applicationExitFullscreen1_ExitFullscreen()
+        {
+            this.ToTrace();
+
+            shadowOverlay1.Show();
+        }
+
+        private void applicationExitFullscreen1_EnterFullscreen()
+        {
+            this.ToTrace();
+
+            shadowOverlay1.Hide();
         }
 
     }
