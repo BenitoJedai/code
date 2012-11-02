@@ -45,6 +45,7 @@
     <DocumentationFile>bin\Debug\ScriptCoreLib.XML</DocumentationFile>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <NoWarn>67, 108, 1587, 169</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -54,6 +55,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -83,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="PHP\Web\Services\WebService.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="Shared\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\CallSiteBinder.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\IAsyncMethodBuilder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Xml\Linq\Extensions.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XAttribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XContainer.cs" />
@@ -224,9 +228,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\AsyncVoidMethodBuilder.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\IAsyncStateMachine.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\IAsyncStateMachine.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\TaskAwaiter.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Threading\Task.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task.cs" />
     <Compile Include="JavaScript\DOM\IError.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IStyle.cs" />
