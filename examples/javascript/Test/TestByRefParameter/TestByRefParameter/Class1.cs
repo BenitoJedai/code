@@ -9,27 +9,48 @@ namespace TestByRefParameter
 {
     public class Class1
     {
-        //static int x;
-
         public static void foo()
         {
             var b = 0;
             var c = 0;
+            var s = "";
 
             bar_ref(ref b);
+            bar_ref(ref s);
+
+            c = b;
+            b = c;
+
             bar_value(b);
             bar_value(c);
+            bar_value(s);
         }
 
-       
+
         static void bar_ref(ref int t)
         {
             t = t + 2;
+
+            bar_ref(ref t);
         }
 
         static void bar_value(int t)
         {
             t = t + 2;
+        }
+
+        static void bar_ref(ref string t)
+        {
+            var x = t;
+
+            t = "foo";
+
+            bar_ref(ref t);
+        }
+
+        static void bar_value(string t)
+        {
+            t = "foo";
         }
     }
 }
