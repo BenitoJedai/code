@@ -9,36 +9,27 @@ namespace TestByRefParameter
 {
     public class Class1
     {
+        //static int x;
+
         public static void foo()
         {
-             var b =0;
-             var c = 0;
-             var d = new[] { 0 };
+            var b = 0;
+            var c = 0;
 
-            bar(
-                0, ref b, out c, ref d, 0, ref b, 0
-                );
+            bar_ref(ref b);
+            bar_value(b);
+            bar_value(c);
         }
 
-        public static void bar<Ta, Tb, Tc, Td>(
-            Ta a,
-            ref Tb b,
-            out Tc c,
-            ref Td[] d,
-
-            Tc cc,
-            ref Tb bb,
-            Td dd
-            )
+       
+        static void bar_ref(ref int t)
         {
-            // http://geekswithblogs.net/ftom/archive/2008/09/10/c-and-the-difference-between-out-and-ref.aspx
+            t = t + 2;
+        }
 
-            b = bb;
-
-            c = cc;
-
-            // later, we shall test this for java!
-            d = new[] { dd };
+        static void bar_value(int t)
+        {
+            t = t + 2;
         }
     }
 }
