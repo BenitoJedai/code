@@ -18,13 +18,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 // Web Worker?
 
                 if (InternalCurrentThread == null)
-                    InternalCurrentThread = (Thread)(object)new __Thread { ManagedThreadId = 1 };
+                    InternalCurrentThread = (Thread)(object)new __Thread(null) { ManagedThreadId = 1 };
 
                 return InternalCurrentThread;
             }
         }
 
         public int ManagedThreadId { get; set; }
+
+        public ThreadStart InternalMethod;
+
+        public __Thread(ThreadStart t)
+        {
+            InternalMethod = t;
+        }
+
+        public void Start()
+        {
+            // WebWorker?
+            // did jsc rewritr detect the threadstart correctly?
+        }
     }
 
 

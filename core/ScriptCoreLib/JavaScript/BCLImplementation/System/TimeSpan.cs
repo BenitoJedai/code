@@ -19,6 +19,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			return default(TimeSpan);
 		}
 
+        public static TimeSpan FromSeconds(double value)
+        {
+            return new __TimeSpan { TotalMilliseconds = value * 1000 };
+        }
+
 		public static TimeSpan FromMilliseconds(double value)
 		{
 			return new __TimeSpan { TotalMilliseconds = value };

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices
 {
     // see: http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.asyncvoidmethodbuilder(v=vs.110).aspx
-    internal class __AsyncVoidMethodBuilder
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.AsyncVoidMethodBuilder")]
+    internal class __AsyncVoidMethodBuilder : __IAsyncMethodBuilder
     {
         public static __AsyncVoidMethodBuilder Create()
         {
@@ -44,6 +46,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             /* ref */ TAwaiter awaiter,
             /* ref */ TStateMachine stateMachine
         )
+        {
+        }
+
+        public void PreBoxInitialization()
         {
         }
     }
