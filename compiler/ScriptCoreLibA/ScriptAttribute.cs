@@ -98,10 +98,7 @@ namespace ScriptCoreLib
 		/// </summary>
 		public bool IsPInvoke;
 
-		/// <summary>
-		/// if set to true, the method will never be able to throw exceptions
-		/// and all inner execptions will be caught and forgotten
-		/// </summary>
+		[Obsolete]
 		public bool NoExeptions;
 
 		public string GetConstructorAlias()

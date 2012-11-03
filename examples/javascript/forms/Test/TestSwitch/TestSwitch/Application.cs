@@ -29,7 +29,7 @@ namespace TestSwitch
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IApp page)
         {
             content.AttachControlTo(page.Content);
             content.AutoSizeControlTo(page.ContentSize);
