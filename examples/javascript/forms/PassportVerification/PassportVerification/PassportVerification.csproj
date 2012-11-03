@@ -124,11 +124,11 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Services\politsei.ee\AsyncApplicationWebService.cs">
+    <Compile Include="Services\politsei.ee\AsyncApplicationWebServiceX.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Services\politsei.ee\AsyncApplicationWebService.Designer.cs">
-      <DependentUpon>AsyncApplicationWebService.cs</DependentUpon>
+    <Compile Include="Services\politsei.ee\AsyncApplicationWebServiceX.Designer.cs">
+      <DependentUpon>AsyncApplicationWebServiceX.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationControl.cs">
@@ -154,8 +154,8 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\politsei.ee\AsyncApplicationWebService.resx">
-      <DependentUpon>AsyncApplicationWebService.cs</DependentUpon>
+    <EmbeddedResource Include="Services\politsei.ee\AsyncApplicationWebServiceX.resx">
+      <DependentUpon>AsyncApplicationWebServiceX.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

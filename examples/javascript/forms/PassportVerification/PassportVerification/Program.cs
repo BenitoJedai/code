@@ -11,10 +11,12 @@ namespace PassportVerification
     {
         public static void Main(string[] args)
         {
+
 #if DEBUG
-			DesktopFormsExtensions.Launch(
-				() => new ApplicationControl()
-			);
+            Console.ReadLine();
+            DesktopFormsExtensions.Launch(
+                () => new ApplicationControl()
+            );
 #else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
 #endif

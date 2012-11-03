@@ -23,7 +23,7 @@ namespace PassportVerification
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.applicationWebService1 = new PassportVerification.ApplicationWebService();
-            this.asyncApplicationWebService1 = new PassportVerification.AsyncApplicationWebService();
+            this.asyncApplicationWebService1 = new PassportVerification.AsyncApplicationWebServiceX();
             this.SuspendLayout();
             // 
             // textBox1
@@ -114,7 +114,7 @@ namespace PassportVerification
         private Label label1;
         private Label label2;
         private ApplicationWebService applicationWebService1;
-        private AsyncApplicationWebService asyncApplicationWebService1;
+        private AsyncApplicationWebServiceX asyncApplicationWebService1;
 
     }
 }

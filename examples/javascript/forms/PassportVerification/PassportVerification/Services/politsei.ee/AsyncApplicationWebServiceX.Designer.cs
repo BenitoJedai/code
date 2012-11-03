@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PassportVerification
 {
-    partial class AsyncApplicationWebService
+    partial class AsyncApplicationWebServiceX
     {
               /// <summary>
         /// Required designer variable.
@@ -24,7 +24,7 @@ namespace PassportVerification
 
         }
 
-        public AsyncApplicationWebService()
+        public AsyncApplicationWebServiceX()
         {
             this.InitializeComponent();
         }
