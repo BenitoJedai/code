@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace PassportVerification
 {
 
-    public sealed partial class AsyncApplicationWebService : Component
+    public sealed partial class AsyncApplicationWebServiceX : Component
     {
         // http://blogs.msdn.com/b/pfxteam/archive/2011/01/13/10115642.aspx
 

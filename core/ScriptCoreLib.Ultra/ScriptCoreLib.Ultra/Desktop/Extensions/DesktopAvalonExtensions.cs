@@ -27,7 +27,9 @@ namespace ScriptCoreLib.Desktop.Extensions
             public Func<WindowInfo<T>> CreateWindow;
         }
 
-        public delegate void LaunchOptions();
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121101/20121102
+        //public delegate void LaunchOptions();
 
         public static void Launch<T>(Func<T> Create, Action<WindowInfo<T>> Launching = null) where T : Canvas
         {
