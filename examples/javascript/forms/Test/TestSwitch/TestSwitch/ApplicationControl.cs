@@ -64,14 +64,15 @@ namespace TestSwitch
 
                 case Foo.c:
                     {
-                        try
-                        {
+                        //try
+                        //{
                             button1.Text = "c";
-                        }
-                        finally
-                        {
- 
-                        }
+                        //}
+                        //finally
+                        //{
+                        //    if (this.checkBox2.Checked)
+                        //        button1.Text = "c finally";
+                        //}
 
                         foo = Foo.b;
                         break;
