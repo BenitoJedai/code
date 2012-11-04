@@ -26,44 +26,44 @@ namespace PassportVerification
             // do CPU-bound work on a background thread.	
 
 
-            button1.Enabled = false;
+            //button1.Enabled = false;
 
-            Func<System.Threading.Tasks.Task> countdown = async delegate
-            {
-                // http://blogs.msdn.com/b/pfxteam/archive/2011/01/13/10115642.aspx
+            //Func<System.Threading.Tasks.Task> countdown = async delegate
+            //{
+            //    // http://blogs.msdn.com/b/pfxteam/archive/2011/01/13/10115642.aspx
 
 
-                button1.Text = "Please wait 3...";
+            //    button1.Text = "Please wait 3...";
 
-                await TimeSpan.FromSeconds(1);
+            await TimeSpan.FromSeconds(1);
 
-                button1.Text = "Please wait 2...";
+            button1.Text = "Please wait 2...";
 
-                await TimeSpan.FromSeconds(1);
+            await TimeSpan.FromSeconds(1);
 
-                button1.Text = "Please wait 1...";
+            button1.Text = "Please wait 1...";
 
-                await TimeSpan.FromSeconds(1);
-            };
+            //    await TimeSpan.FromSeconds(1);
+            //};
 
-            await countdown();
+            //await countdown();
 
-            button1.Text = "Connecting...";
-            // refresh?
-            //await System.Threading.Tasks.Task.Yield();
+            //button1.Text = "Connecting...";
+            //// refresh?
+            ////await System.Threading.Tasks.Task.Yield();
 
-            // Error	1	'PassportVerification.AsyncApplicationWebService.WebMethod2(string, System.Action<string>)' 
-            // does not return a Task and cannot be awaited. Consider changing 
-            // it to return Task.	
+            //// Error	1	'PassportVerification.AsyncApplicationWebService.WebMethod2(string, System.Action<string>)' 
+            //// does not return a Task and cannot be awaited. Consider changing 
+            //// it to return Task.	
 
-            await this.asyncApplicationWebService1.WebMethod2(
-                this.textBox1.Text,
-                x => MessageBox.Show(x)
-            );
+            //await this.asyncApplicationWebService1.WebMethod2(
+            //    this.textBox1.Text,
+            //    x => MessageBox.Show(x)
+            //);
 
-            button1.Text = "Verify";
+            //button1.Text = "Verify";
 
-            button1.Enabled = true;
+            //button1.Enabled = true;
         }
 
     }
