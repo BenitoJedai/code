@@ -1,0 +1,7 @@
+﻿Google Chrome Apps
+http://developer.chrome.com/trunk/apps/api_index.html
+//
+
+Chrome OS
+Chrome Web Browser for Windows
+Chrome Web Browser for Android
