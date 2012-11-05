@@ -55,5 +55,11 @@ interface RecvFromInfo
 [Constructor]
 interface CreateInfo 
 {
-	attribute long bytesWritten;
+	attribute long socketId;
 };
+
+[Constructor]
+interface CreateOptions
+{
+};
+
