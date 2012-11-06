@@ -9,7 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.TaskAwaiter´1")]
     internal class __TaskAwaiter<TResult>
     {
-        public bool IsCompleted {get;set;}
+        public bool IsCompleted { get; set; }
 
         public TResult GetResult()
         {

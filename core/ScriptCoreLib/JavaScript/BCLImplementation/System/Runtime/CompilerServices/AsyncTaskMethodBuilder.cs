@@ -22,8 +22,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         }
 
         public void Start<TStateMachine>(
-            /* ref */ TStateMachine stateMachine
-        )
+            ref  TStateMachine stateMachine
+        ) where TStateMachine : __IAsyncStateMachine
         {
             // we need ref support in JSC!
 
@@ -49,16 +49,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         }
 
         public void AwaitOnCompleted<TAwaiter, TStateMachine>(
-            /* ref */ TAwaiter awaiter,
-            /* ref */ TStateMachine stateMachine
+             ref  TAwaiter awaiter,
+             ref  TStateMachine stateMachine
 )
         {
         }
 
 
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(
-            /* ref */ TAwaiter awaiter,
-            /* ref */ TStateMachine stateMachine
+            ref  TAwaiter awaiter,
+            ref  TStateMachine stateMachine
 )
         {
         }
@@ -69,13 +69,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     }
 
     // see: http://msdn.microsoft.com/en-us/library/hh138506(v=vs.110).aspx
-    [Script(ImplementsViaAssemblyQualifiedName ="System.Runtime.CompilerServices.AsyncTaskMethodBuilder")]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.AsyncTaskMethodBuilder")]
     internal class __AsyncTaskMethodBuilder<TResult>
     {
         public __Task<TResult> Task { get; set; }
 
         public void Start<TStateMachine>(
-            /* ref */ TStateMachine stateMachine
+             ref TStateMachine stateMachine
         )
         {
             // we need ref support in JSC!

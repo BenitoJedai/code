@@ -14,10 +14,12 @@ namespace TestStructThisByRef
         }
     }
 
-    public
-        //struct 
-    class
-        _button_Click1_d__0 : IAsyncStateMachine
+    public struct foo
+    {
+        public int value;
+    }
+
+    public struct _button_Click1_d__0 : IAsyncStateMachine
     {
         public AsyncVoidMethodBuilder t__Builder;
         public ICriticalNotifyCompletion t__awaiter;
@@ -27,14 +29,57 @@ namespace TestStructThisByRef
 
 
 
+        public static void MoveNext_justacopy(_button_Click1_d__0 __this)
+        {
+            __this.__random = 3;
+
+        }
+
+        public static void MoveNext_byref(ref _button_Click1_d__0 __this, ref foo foo)
+        {
+            __this.__random = 4;
+            foo.value = 4;
+
+        }
+
         public void MoveNext()
         {
+            this.__random = 1;
+
+            foo loc1;
+
+
+            loc1.value = 1;
+
+            MoveNext_justacopy(this);
+            MoveNext_byref(ref this, ref loc1);
 
             Console.WriteLine("last time null / t__Builder.m_coreState.m_stateMachine");
 
             // Error	1	Cannot pass '<this>' as a ref or out argument because it is read-only	X:\jsc.svn\examples\rewrite\Test\TestStructThisByRef\TestStructThisByRef\Class1.cs	34	72	TestStructThisByRef
-            var x = this;
-            this.t__Builder.AwaitUnsafeOnCompleted(ref t__awaiter, ref x);
+
+
+            var __this = this;
+
+            Action foo =
+                delegate
+                {
+                    // Error	1	Anonymous methods, lambda expressions, and query expressions 
+                    // inside structs cannot access instance members of 'this'. 
+                    // Consider copying 'this' to a local variable outside the anonymous method, 
+                    // lambda expression or query expression and using the local instead.
+                    // X:\jsc.svn\examples\rewrite\Test\TestStructThisByRef\TestStructThisByRef\Class1.cs	42	21	TestStructThisByRef
+                    __this.__random = 2;
+                };
+
+            foo();
+
+            //var x = this;
+            this.t__Builder.AwaitUnsafeOnCompleted(ref t__awaiter,
+                //ref x
+                ref this
+                );
+
             ;
         }
 
@@ -95,9 +140,14 @@ namespace TestStructThisByRef
             where TAwaiter : ICriticalNotifyCompletion
             where T : IAsyncStateMachine
         {
+            var m_coreState = this.m_coreState;
+
+            //this.
             //this.m_coreState.m_stateMachine = stateMachine;
 
             stateMachine.SetStateMachine(stateMachine);
+
+            this.m_coreState = m_coreState;
         }
 
         public static AsyncVoidMethodBuilder Create()
@@ -116,11 +166,11 @@ namespace TestStructThisByRef
         }
     }
 
+
     public static class Program
     {
         public static void Main(string[] e)
         {
-
             button1_Click();
         }
 

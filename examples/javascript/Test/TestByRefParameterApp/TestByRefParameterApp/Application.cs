@@ -36,8 +36,68 @@ namespace TestByRefParameterApp
 
             foo(ref u);
 
+
             Native.Window.alert(u);
+
+            var uu = new _button_Click1_d__0();
+
+            uu.MoveNext();
         }
 
+    }
+
+    public struct _button_Click1_d__0 : __IAsyncStateMachine
+    {
+        __AsyncTaskMethodBuilder builder;
+
+        public int i;
+
+        // Error	1	Structs cannot contain explicit parameterless constructors	
+        // X:\jsc.svn\examples\javascript\Test\TestByRefParameterApp\TestByRefParameterApp\Application.cs	55	16	
+        // TestByRefParameterApp
+
+
+        public _button_Click1_d__0(int ii = 0)
+        {
+            i = ii;
+        }
+
+        public void MoveNext()
+        {
+            i = 5;
+
+            builder = new __AsyncTaskMethodBuilder();
+            builder.Start(ref this);
+
+            Console.WriteLine(new { i });
+        }
+
+        public void SetStateMachine(__IAsyncStateMachine stateMachine)
+        {
+            i = 6;
+        }
+    }
+
+
+    public interface __IAsyncStateMachine
+    {
+        void MoveNext();
+
+        void SetStateMachine(
+            __IAsyncStateMachine stateMachine
+        );
+    }
+
+    public struct __AsyncTaskMethodBuilder
+    {
+        public void Start<TStateMachine>(
+          ref  TStateMachine stateMachine
+      )
+            where TStateMachine : __IAsyncStateMachine
+        {
+            // we need ref support in JSC!
+
+            stateMachine.SetStateMachine(stateMachine);
+        }
     }
 }
