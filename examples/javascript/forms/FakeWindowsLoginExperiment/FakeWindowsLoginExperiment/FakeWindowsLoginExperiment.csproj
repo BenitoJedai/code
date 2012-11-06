@@ -231,6 +231,9 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApplicationWebService.resx">
+      <DependentUpon>ApplicationWebService.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Design\FakeMultimonitorDesktop.resx">
       <DependentUpon>FakeMultimonitorDesktop.cs</DependentUpon>
     </EmbeddedResource>

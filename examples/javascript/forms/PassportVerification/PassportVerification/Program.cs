@@ -13,7 +13,7 @@ namespace PassportVerification
         {
 
 #if DEBUG
-            Console.ReadLine();
+            //Console.ReadLine();
             DesktopFormsExtensions.Launch(
                 () => new ApplicationControl()
             );

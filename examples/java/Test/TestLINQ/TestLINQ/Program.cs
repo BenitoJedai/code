@@ -7,7 +7,6 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLibJava.Extensions;
 using System.Xml.Linq;
-using java.io;
 using java.net;
 using java.util.zip;
 using System.Collections;
@@ -29,7 +28,7 @@ namespace TestLINQ
             // generic parameter needs to be moved..
             //enumerable_10 = __Enumerable.AsEnumerable(__SZArrayEnumerator_1<String>.Of(stringArray3));
 
-            Console.WriteLine("hi!");
+            Console.WriteLine("hi! vm:" + typeof(object).FullName);
 
             var a = new[] { "x", "foo1", "bar", "foo2" }.AsEnumerable();
             //var a = new List<string> { "foo", "bar" };
@@ -38,7 +37,7 @@ namespace TestLINQ
                     where i.StartsWith("f")
                     select i;
 
-         
+
             q.WithEach(
                 x =>
                 {

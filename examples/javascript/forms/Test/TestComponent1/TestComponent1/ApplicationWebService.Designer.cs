@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace FakeWindowsLoginExperiment
+namespace TestComponent1
 {
     public partial class ApplicationWebService
     {
@@ -15,7 +15,6 @@ namespace FakeWindowsLoginExperiment
         /// </summary>
         private void InitializeComponent()
         {
-
         }
 
         public ApplicationWebService()
