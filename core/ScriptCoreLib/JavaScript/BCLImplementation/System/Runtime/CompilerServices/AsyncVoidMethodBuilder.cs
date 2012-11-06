@@ -16,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         }
 
         public void Start<TStateMachine>(
-            /* ref */ TStateMachine stateMachine
+             ref  TStateMachine stateMachine
             )
         {
             // we need ref support in JSC!
@@ -43,8 +43,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         }
 
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(
-            /* ref */ TAwaiter awaiter,
-            /* ref */ TStateMachine stateMachine
+             ref  TAwaiter awaiter,
+             ref  TStateMachine stateMachine
         )
         {
         }

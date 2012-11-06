@@ -36,7 +36,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public void Start()
         {
             // WebWorker?
-            // did jsc rewritr detect the threadstart correctly?
+            // did jsc rewriter detect the threadstart correctly?
+
+            InternalMethod();
         }
     }
 

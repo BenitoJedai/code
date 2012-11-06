@@ -37,7 +37,7 @@ namespace PassportVerification
 
             await TimeSpan.FromSeconds(1);
 
-            button1.Text = "Please wait 2...";
+            NewMethod();
 
             await TimeSpan.FromSeconds(1);
 
@@ -64,6 +64,12 @@ namespace PassportVerification
             //button1.Text = "Verify";
 
             //button1.Enabled = true;
+        }
+
+        int ii;
+        private void NewMethod()
+        {
+            button1.Text = "Please wait 2..." + ii++;
         }
 
     }
