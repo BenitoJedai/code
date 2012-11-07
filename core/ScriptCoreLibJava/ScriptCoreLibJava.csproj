@@ -364,6 +364,7 @@
     <Compile Include="BCLImplementation\System\Text\UTF8Encoding.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Threading\AutoResetEvent.cs" />
     <Compile Include="BCLImplementation\System\Threading\EventWaitHandle.cs">
       <SubType>Code</SubType>
     </Compile>
