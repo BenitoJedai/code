@@ -369,7 +369,8 @@ associated with an assembly."
 
 
 
-            var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive/*, DefaultStyleField*/);
+            var ApplicationConstructor = new StockMethodApplication(
+                ApplicationType, Context.Interactive/*, DefaultStyleField*/);
 
             ApplicationType.Methods.Add(ApplicationConstructor);
 

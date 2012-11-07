@@ -18,7 +18,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
             {
                 Type = new SolutionProjectLanguageType
                 {
-                    Name = "IDefaultPage"
+                    Name = "IApp"
                 },
 
                 Name = "page",
