@@ -38,7 +38,7 @@ namespace WebGLSpadeWarrior
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page= null)
+        public Application(IDefaultPage page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -133,7 +133,7 @@ namespace WebGLSpadeWarrior
             );
 
 
-         
+
             gl.linkProgram(shaderProgram);
             gl.useProgram(shaderProgram);
 
@@ -997,7 +997,7 @@ namespace WebGLSpadeWarrior
             drawScene();
             #endregion
 
-       
+
 
 
 
@@ -1028,6 +1028,7 @@ namespace WebGLSpadeWarrior
                 {
                     //Native.Document.title = "" + new { e.KeyCode };
 
+
                     if (e.KeyCode == 17)
                     {
                         ego_z = 0;
@@ -1042,10 +1043,6 @@ namespace WebGLSpadeWarrior
                     if (e.KeyCode == 38)
                     {
                         IsWalking = false;
-
-
-
-
                     }
 
 
