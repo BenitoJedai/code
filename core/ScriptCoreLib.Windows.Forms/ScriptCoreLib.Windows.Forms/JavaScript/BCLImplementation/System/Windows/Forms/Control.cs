@@ -350,6 +350,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected void UpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
         {
+
             // let's remember old size for anchoring..
             var old_width = this.width;
             var old_height = this.height;
@@ -367,6 +368,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.height = height;
             //this.clientWidth = clientWidth;
             //this.clientHeight = clientHeight;
+
+            // this Control is used but not shown.
+            if (this.HTMLTargetRef == null)
+                return;
+
             if (flag)
             {
                 this.HTMLTargetRef.style.SetLocation(x, y);
@@ -376,8 +382,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             if (flag2)
             {
-                if (this.HTMLTargetRef == null)
-                    throw new Exception("Html element not set: " + this.Name);
+                //throw new Exception("Html element not set: " + this.Name);
 
                 this.HTMLTargetRef.style.SetSize(width, height);
 
@@ -1424,6 +1429,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-    
+
     }
 }
