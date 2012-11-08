@@ -242,8 +242,8 @@ namespace AvalonPromotionBrandIntro
                     return Trigger;
                 };
 
-            PrepareAnimation();
-            Trigger();
+            //PrepareAnimation();
+            //Trigger();
 
             AnimationCompleted += () => PrepareAnimation();
         }

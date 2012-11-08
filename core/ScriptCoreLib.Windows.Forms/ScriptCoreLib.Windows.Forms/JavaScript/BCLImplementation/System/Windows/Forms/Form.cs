@@ -20,6 +20,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         object __FormTypeHint;
 
+        public FormStyler InternalStyler;
+
         public event FormClosedEventHandler FormClosed;
         public event FormClosingEventHandler FormClosing;
 
@@ -29,8 +31,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLDiv HTMLTarget { get; set; }
 
-        IHTMLDiv caption = new IHTMLDiv();
-        IHTMLDiv caption_foreground;
+        IHTMLDiv Caption = new IHTMLDiv();
+        IHTMLDiv CaptionShadow;
+        IHTMLDiv CaptionContent;
+        IHTMLDiv CaptionForeground;
 
         IHTMLDiv ContentContainerPadding = new IHTMLDiv();
         IHTMLDiv ContentContainer;
@@ -148,26 +152,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             #region caption
-            IHTMLImage icon = "assets/ScriptCoreLib.Windows.Forms/App.ico";
+            //IHTMLImage icon = "assets/ScriptCoreLib.Windows.Forms/App.ico";
+            IHTMLImage icon = "assets/ScriptCoreLib/jsc.ico";
 
             icon.style.SetLocation(5, 5, 16, 16);
 
             //caption.style.backgroundColor = JSColor.System.ActiveCaption;
-            caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
-            caption.style.color = Shared.Drawing.Color.White;
-            caption.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            caption.style.left = 0 + "px";
-            caption.style.top = 0 + "px";
-            caption.style.right = 0 + "px";
-            caption.style.height = "20px";
-            caption.style.paddingTop = "6px";
-            caption.style.paddingLeft = "26px";
-            caption.style.font = new Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0).ToCssString();
+            Caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
+            Caption.style.color = Shared.Drawing.Color.White;
+            Caption.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 
-            caption_foreground = (IHTMLDiv)caption.cloneNode(false);
-            caption_foreground.style.backgroundColor = ScriptCoreLib.Shared.Drawing.Color.FromRGB(255, 0, 255);
-            caption_foreground.style.Opacity = 0;
-            caption_foreground.className = "caption";
+            Caption.style.left = 0 + "px";
+            Caption.style.top = 0 + "px";
+            Caption.style.right = 0 + "px";
+            Caption.style.height = "20px";
+
+            Caption.style.paddingTop = "6px";
+            Caption.style.paddingLeft = "26px";
+            Caption.style.font = new Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0).ToCssString();
+
+            CaptionShadow = (IHTMLDiv)Caption.cloneNode(false);
+            CaptionShadow.style.backgroundColor = JSColor.Black;
+            CaptionShadow.style.Opacity = 0;
+
+            CaptionContent = (IHTMLDiv)Caption.cloneNode(false);
+            CaptionContent.style.backgroundColor = JSColor.None;
+
+            CaptionForeground = (IHTMLDiv)Caption.cloneNode(false);
+            CaptionForeground.style.backgroundColor = ScriptCoreLib.Shared.Drawing.Color.FromRGB(255, 0, 255);
+            CaptionForeground.style.Opacity = 0;
+            CaptionForeground.className = "caption";
 
             // http://dojotoolkit.org/pipermail/dojo-checkins/2005-December/002867.html
 
@@ -212,7 +226,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
 
 
-
+            #region ResizeGripElement
             var ResizeGripElement = new IHTMLDiv().AttachTo(ContentContainerPadding);
             ResizeGripElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ResizeGripElement.style.width = "12px";
@@ -221,6 +235,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ResizeGripElement.style.right = "0px";
             ResizeGripElement.style.cursor = IStyle.CursorEnum.se_resize;
             new IHTMLImage { src = "assets/ScriptCoreLib.Windows.Forms/FormResizeGrip.png" }.ToBackground(ResizeGripElement);
+            #endregion
 
             #region ResizeGripDrag
             var ResizeGripDrag = new ScriptCoreLib.JavaScript.Controls.DragHelper(ResizeGripElement);
@@ -258,17 +273,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButton.style.textAlign = IStyle.TextAlignEnum.center;
             CloseButton.style.fontWeight = "bold";
             CloseButton.style.cursor = IStyle.CursorEnum.@default;
-            CloseButton.onmouseover +=
-                delegate
-                {
-                    CloseButton.style.color = JSColor.Red;
-                };
-
-            CloseButton.onmouseout +=
-                delegate
-                {
-                    CloseButton.style.color = JSColor.None;
-                };
 
             var CloseButtonContent = new IHTMLDiv { }.AttachTo(CloseButton);
 
@@ -283,6 +287,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButtonContent.title = "Close";
             CloseButtonContent.innerHTML = "&times";
 
+            CloseButton.onmouseover +=
+             delegate
+             {
+                 CloseButtonContent.style.color = JSColor.Red;
+             };
+
+            CloseButton.onmouseout +=
+                delegate
+                {
+                    CloseButtonContent.style.color = JSColor.None;
+                };
 
             CloseButton.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             CloseButton.style.backgroundColor = JSColor.System.ThreeDFace;
@@ -316,10 +331,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
-            TargetNoBorder.appendChild(caption, icon, caption_foreground, ContentContainerPadding, CloseButton);
+            TargetNoBorder.appendChild(
+                Caption, CaptionShadow, CaptionContent,
+                icon, CaptionForeground,
+                ContentContainerPadding, CloseButton);
 
 
-            drag = new ScriptCoreLib.JavaScript.Controls.DragHelper(caption_foreground);
+            #region drag
+            drag = new ScriptCoreLib.JavaScript.Controls.DragHelper(CaptionForeground);
 
             // http://forum.mootools.net/topic.php?id=534
             // disable text selection
@@ -331,11 +350,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var FirstMove = false;
 
+
             drag.DragStart +=
                 delegate
                 {
                     TargetNoBorder.style.cursor = IStyle.CursorEnum.move;
-                    caption_foreground.style.cursor = IStyle.CursorEnum.move;
+                    CaptionForeground.style.cursor = IStyle.CursorEnum.move;
                     Native.Document.body.style.cursor = IStyle.CursorEnum.move;
 
 
@@ -345,7 +365,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     FirstMove = true;
                 };
 
-
+            #region WindowState
             Action InternalEnterFullscreen =
                 delegate
                 {
@@ -360,8 +380,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.WindowState = FormWindowState.Normal;
 
                 };
+            #endregion
 
-
+            #region DragMove
             drag.DragMove +=
                 delegate
                 {
@@ -388,15 +409,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     if (y < 0)
                     {
-                        caption.style.backgroundColor = JSColor.Black;
+                        CaptionShadow.Show();
 
                     }
                     else
                     {
-                        caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
+                        CaptionShadow.Hide();
                     }
                 };
+            #endregion
 
+            #region DragStop
             drag.DragStop +=
                 delegate
                 {
@@ -405,7 +428,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //this.Text = new { drag.Position.X, drag.Position.Y }.ToString();
 
                     TargetNoBorder.style.cursor = IStyle.CursorEnum.@default;
-                    caption_foreground.style.cursor = IStyle.CursorEnum.@default;
+                    CaptionForeground.style.cursor = IStyle.CursorEnum.@default;
                     Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
 
                     if (drag.Position.Y < 0)
@@ -417,6 +440,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
 
                 };
+            #endregion
 
 
             drag.MiddleClick +=
@@ -427,8 +451,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     else
                         InternalEnterFullscreen();
                 };
+            #endregion
 
-            caption_foreground.ondblclick +=
+            CaptionForeground.ondblclick +=
                 delegate
                 {
 
@@ -441,6 +466,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             this.Size = new Size(400, 400);
+
+            this.InternalStyler = new FormStyler
+            {
+                Context = this,
+
+                Caption = Caption,
+
+                CloseButton = CloseButton,
+                CloseButtonContent = CloseButtonContent,
+
+                TargetInnerBorder = TargetInnerBorder,
+                TargetOuterBorder = TargetOuterBorder,
+
+                TargetResizerPadding = TargetResizerPadding
+            };
+
+            FormStyler.RaiseAtFormCreated(
+                this.InternalStyler
+            );
         }
 
         public static int __FormZIndex = 0;
@@ -498,11 +542,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return caption.innerText;
+                return CaptionContent.innerText;
             }
             set
             {
-                caption.innerText = value;
+                CaptionContent.innerText = value;
             }
         }
 
@@ -692,7 +736,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             this.TargetNoBorder.style.zIndex = 0;
                         }
 
-                        caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
+                        CaptionShadow.Hide();
 
                         drag.OffsetPosition.Y = 12;
                         drag.OffsetPosition.X = this.Width / 2;
@@ -742,7 +786,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             InternalUpdateZIndex(this.TargetNoBorder);
                         }
 
-                        caption.style.backgroundColor = JSColor.Black;
+                        CaptionShadow.Show();
 
                         if (InternalMaximizedForms.Count == 1)
                         {
