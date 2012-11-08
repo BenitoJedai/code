@@ -226,6 +226,9 @@ namespace jsc.meta.Library
 </Reference>
                     */
 
+                    if (!AssemblyFile.Exists)
+                        return;
+
                     //var TargetHintPath = AssemblyFile.FullName.Substring(ProjectFileName.Directory.FullName.Length + 1);
                     var TargetHintPath = GetRelativePath(
                         ProjectFileName.Directory.FullName,

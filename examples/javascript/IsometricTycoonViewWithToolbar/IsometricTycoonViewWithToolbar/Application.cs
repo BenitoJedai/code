@@ -32,12 +32,7 @@ namespace IsometricTycoonViewWithToolbar
             new gong().AttachToDocument().play();
             new ThreeDStuff.js.Tycoon4();
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+       
         }
 
     }

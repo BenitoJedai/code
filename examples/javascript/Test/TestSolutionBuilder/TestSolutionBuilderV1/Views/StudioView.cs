@@ -29,7 +29,7 @@ namespace TestSolutionBuilderV1.Views
     {
         public readonly IHTMLDiv Content = new IHTMLDiv();
 
-        public StudioView(Action<IHTMLElement, Action<ISaveAction>> AddSaveButton)
+        public StudioView(Action<IHTMLElement, Action<ISaveAction>> AddSaveButton = null)
         {
             Content.style.position = IStyle.PositionEnum.absolute;
             Content.style.left = "0px";
