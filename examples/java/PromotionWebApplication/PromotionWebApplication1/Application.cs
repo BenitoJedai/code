@@ -6,11 +6,13 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.IO;
 using System.Text;
-using TestSolutionBuilderV1.Views;
+using System.Windows.Media;
+//using TestSolutionBuilderV1.Views;
 
 namespace PromotionWebApplication1.Assets
 {
@@ -86,24 +88,60 @@ namespace PromotionWebApplication1
 
             Analytics(Native.Document.location.hash);
 
-            var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
+            ////var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
 
-            if (Native.Document.location.host.StartsWith("studio."))
-            {
-                IsStudio = true;
-            }
+            ////if (Native.Document.location.host.StartsWith("studio."))
+            ////{
+            ////    IsStudio = true;
+            ////}
 
-            if (IsStudio)
-            {
-                app.PageContent.Clear();
-                new StudioView(
-                    AddSaveButton
-                ).Content.AttachToDocument();
-            }
-            else
+            ////if (IsStudio)
+            ////{
+            ////    app.PageContent.Clear();
+            ////    new StudioView(
+            ////        AddSaveButton
+            ////    ).Content.AttachToDocument();
+            ////}
+            ////else
             {
                 PromotionWebApplicationHome.Components.DefaultPageExtensions.AnimateHomePage(app);
             }
+
+            var canvas = new AvalonPromotionBrandIntro.ApplicationCanvas();
+
+            canvas.TriggerOnClick = false;
+            canvas.Background = Brushes.Transparent;
+
+            canvas.AnimationAllWhite +=
+                delegate
+                {
+                    Native.Document.body.style.backgroundColor = JSColor.None;
+                };
+
+            canvas.AnimationStartDelay = 1;
+
+            var JSC_robo2 = new HTML.Audio.FromAssets.JSC_robo2();
+
+            JSC_robo2.load();
+
+            canvas.AnimationShake +=
+                delegate
+                {
+                    JSC_robo2.play();
+
+                };
+            canvas.AnimationCompleted +=
+                delegate
+                {
+                    ScriptCoreLib.JavaScript.Extensions.AvalonExtensions.ToHTMLElement(
+                        canvas
+                    ).Orphanize();
+
+                };
+
+            canvas.AttachToContainer(Native.Document.body);
+
+            canvas.AutoSizeTo(Native.Document.body);
         }
 
 #if false
@@ -744,7 +782,7 @@ namespace PromotionWebApplication1
     public delegate void StringAction(string e);
     public delegate void StringActionAction(StringAction e);
 
-    
+
     public static class DownloadSDKFunction
     {
         public static void DownloadSDK(WebServiceHandler h)

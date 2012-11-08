@@ -136,7 +136,8 @@ namespace AvalonPromotionBrandIntro
                                 );
                             };
 
-
+                        if (AnimationShake != null)
+                            AnimationShake();
 
 
                         ShakeAt(30 * 2, -2, -4);
@@ -221,8 +222,7 @@ namespace AvalonPromotionBrandIntro
 
                         Next = delegate
                         {
-                            //3500.AtDelay(
-                            1.AtDelay(
+                             AnimationStartDelay.AtDelay(
                                 AnimationLoop
                             );
 
@@ -250,10 +250,13 @@ namespace AvalonPromotionBrandIntro
         public bool TriggerOnClick = true;
         public Action Trigger = null;
 
+		public int AnimationStartDelay = 3500;
+
         public readonly Func<Action> PrepareAnimation;
 
         public event Action AnimationCompleted;
         public event Action AnimationAllBlack;
         public event Action AnimationAllWhite;
+        public event Action AnimationShake;
     }
 }
