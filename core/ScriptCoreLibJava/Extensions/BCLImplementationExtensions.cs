@@ -7,6 +7,8 @@ using java.lang;
 using System.IO;
 using java.security;
 using java.net;
+using System.Reflection;
+using ScriptCoreLibJava.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLibJava.Extensions
 {
@@ -110,6 +112,12 @@ namespace ScriptCoreLibJava.Extensions
         {
             if (cSource == null)
                 throw new InvalidOperationException();
+        }
+
+
+        public static java.lang.reflect.Method ToMethod(this MethodInfo m)
+        {
+            return ((__MethodInfo)(object)m).InternalMethod;
         }
     }
 }
