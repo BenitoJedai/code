@@ -34,10 +34,10 @@ namespace InteractiveTransformA
             content.AutoSizeTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }
