@@ -168,22 +168,28 @@ namespace CSS3DMeetsFormsWithWebGL
         }
         #endregion
 
-        public void Initialize(IDefaultPage page)
+        public void Initialize(IDefaultPage page, Action yield = null)
         {
             new trans3d().Content.AttachToDocument().onload +=
                 delegate
                 {
                     InitializeContent(page);
+
+                    if (yield != null)
+                        yield();
                 };
 
         }
 
+        public FrontPanel frontcontrol;
+
         public void InitializeContent(IDefaultPage page)
         {
             var control = new UserControl1();
-            var frontcontrol = new FrontPanel();
 
+            this.frontcontrol = new FrontPanel();
 
+            Console.Write("frontcontrol set");
 
             // http://www.addyosmani.com/resources/googlebox/test.js
             var TILT_BASE = 2.0f;

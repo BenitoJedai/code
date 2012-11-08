@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1", "PromotionWebApplication1\PromotionWebApplication1.csproj", "{00A6CB37-64BC-4C54-849D-70A834E146A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1.TestTracks", "PromotionWebApplication1.TestTracks\PromotionWebApplication1.TestTracks.csproj", "{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplicationHome", "PromotionWebApplicationHome\PromotionWebApplicationHome.csproj", "{52091756-B888-4CAF-BEA5-F1D539F6FB81}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderV1", "..\..\javascript\Test\TestSolutionBuilder\TestSolutionBuilderV1\TestSolutionBuilderV1.csproj", "{A07DE0E4-E126-30A4-5F40-8F412172C72E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonPromotionBrandIntro", "..\..\javascript\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj", "{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}"
 EndProject
@@ -31,16 +27,6 @@ Global
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Release|x86.ActiveCfg = Release|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Release|x86.ActiveCfg = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -51,16 +37,6 @@ Global
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|x86.ActiveCfg = Release|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|x86.ActiveCfg = Release|Any CPU
 		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Mixed Platforms.Build.0 = Debug|x86
