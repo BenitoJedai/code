@@ -1760,9 +1760,11 @@ namespace ThreeDStuff.js
 
                                     foreach (var v in Dudes)
                                     {
-                                        if (ev.shiftKey)
-                                            v.IsSelected |= r.Contains(v.CurrentLocation.ToInt32());
-                                        else
+                                        // chrome always reports shiftKey?
+
+                                        //if (ev.shiftKey)
+                                        //    v.IsSelected |= r.Contains(v.CurrentLocation.ToInt32());
+                                        //else
                                             v.IsSelected = r.Contains(v.CurrentLocation.ToInt32());
                                     }
                                 };
