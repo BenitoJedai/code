@@ -162,6 +162,8 @@
     <Compile Include="Components\UltraSprite.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Audio\AudioGroup.htm" />
+    <Content Include="Audio\JSC_robo2.wav" />
     <Content Include="Design.UltraSource\About.css" />
     <None Include="app.config" />
     <Content Include="Design.UltraSource\CenteredLogo.htm" />
@@ -190,9 +192,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\javascript\Test\TestSolutionBuilder\TestSolutionBuilderV1\TestSolutionBuilderV1.csproj">
-      <Project>{a07de0e4-e126-30a4-5f40-8f412172c72e}</Project>
-      <Name>TestSolutionBuilderV1</Name>
+    <ProjectReference Include="..\..\..\javascript\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj">
+      <Project>{2f3573db-52c7-4ace-bedb-27c4aed70f39}</Project>
+      <Name>AvalonPromotionBrandIntro</Name>
     </ProjectReference>
     <ProjectReference Include="..\PromotionWebApplicationHome\PromotionWebApplicationHome.csproj">
       <Project>{52091756-B888-4CAF-BEA5-F1D539F6FB81}</Project>
