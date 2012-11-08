@@ -23,7 +23,11 @@ namespace CSS3DMeetsFormsWithWebGL.Library
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var f = new Form();
+            var f = new Form
+            {
+
+                Text = this.comboBox1.Text
+            };
             var c = new WebBrowser();
             c.Dock = DockStyle.Fill;
             c.Size = new System.Drawing.Size(800, 600);

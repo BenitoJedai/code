@@ -80,6 +80,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripDropDown.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContextMenuStrip.cs" />
+    <Compile Include="JavaScript\Extensions\FormStyler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\KeyEventHandler.cs" />
