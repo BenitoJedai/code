@@ -383,7 +383,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     BeforePosition = drag.Position;
 
                     FirstMove = true;
-                  ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.visible;
+                    ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.visible;
 
                 };
 
@@ -571,6 +571,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 CaptionContent.innerText = value;
+
+                InternalRaiseTextChanged();
             }
         }
 
