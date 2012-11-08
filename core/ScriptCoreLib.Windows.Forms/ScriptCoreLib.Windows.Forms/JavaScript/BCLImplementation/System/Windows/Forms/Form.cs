@@ -222,8 +222,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ContentContainer.style.top = 0 + "px";
             ContentContainer.style.right = 0 + "px";
             ContentContainer.style.bottom = 0 + "px";
-
             ContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
+
+            var ContentContainerShadow = new IHTMLDiv().AttachTo(ContentContainerPadding);
+            ContentContainerShadow.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            ContentContainerShadow.style.left = 0 + "px";
+            ContentContainerShadow.style.top = 0 + "px";
+            ContentContainerShadow.style.right = 0 + "px";
+            ContentContainerShadow.style.bottom = 0 + "px";
+            ContentContainerShadow.style.overflow = IStyle.OverflowEnum.hidden;
+            ContentContainerShadow.style.backgroundColor = JSColor.Red;
+            ContentContainerShadow.style.Opacity = 0.0;
 
 
             #region ResizeGripElement
@@ -258,11 +267,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             AtSizeChanged();
             #endregion
 
+            ResizeGripDrag.DragStart +=
+                delegate
+                {
+                    ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.visible;
+                };
             ResizeGripDrag.DragMove +=
                 delegate
                 {
                     this.Size = new Size(ResizeGripDrag.Position.X, ResizeGripDrag.Position.Y);
                 };
+
+            ResizeGripDrag.DragStop +=
+              delegate
+              {
+                  ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.hidden;
+              };
             #endregion
 
             //HTMLTarget.style.backgroundColor = "#B0B0B0";
@@ -363,6 +383,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     BeforePosition = drag.Position;
 
                     FirstMove = true;
+                  ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.visible;
+
                 };
 
             #region WindowState
@@ -423,6 +445,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             drag.DragStop +=
                 delegate
                 {
+                    ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.hidden;
+
                     //var Location = this.Location;
 
                     //this.Text = new { drag.Position.X, drag.Position.Y }.ToString();
