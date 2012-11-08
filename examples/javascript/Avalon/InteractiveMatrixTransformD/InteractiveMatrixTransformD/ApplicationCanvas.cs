@@ -27,7 +27,7 @@ namespace InteractiveMatrixTransformD
             this.SizeChanged += (s, e) =>
             {
                 SizeChanged++;
-                if (SizeChanged != 2)
+                if (SizeChanged != 1)
                     return;
                 InitializeContent();
             };

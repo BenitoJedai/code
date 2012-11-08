@@ -36,10 +36,10 @@ namespace SpaceInvadersTemplate
             style.Content.AttachToHead();
             @"Space Invaders".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"Space Invaders: Multiplayer",
-                value => value.ToDocumentTitle()
-            );
+            //service.WebMethod2(
+            //    @"Space Invaders: Multiplayer",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }
