@@ -129,6 +129,8 @@ namespace ScriptCoreLib.Java
 
         public string ReturnType;
 
+        public string[] MethodThrows;
+
         public JavaArchiveReflectorMethod()
         {
 
@@ -276,6 +278,16 @@ namespace ScriptCoreLib.Java
 
                 for (int i = 0; i < f.Length; i++)
                 {
+                    var fi = f[i];
+
+                    //Caused by: java.lang.ClassCastException: [Ljava.lang.Object; cannot be cast to [Ljava.lang.String;
+                    //        at jsc.jvmi__i__d.Internal.Java.JavaArchiveReflector.Type_GetMethods(JavaArchiveReflector.java:277)
+                    //        at jsc.jvmi._ToDelegates________02000048_.Type_GetMethods(_ToDelegates________02000048_.java:345)
+
+                    //MethodThrows = fi.ToMethod().getExceptionTypes().Select(k => k.ToType().FullName).ToArray()
+
+                    var MethodThrows = GetExceptionTypes(fi);
+
                     y[i] = new JavaArchiveReflectorMethod
                     {
                         MethodIndex = i,
@@ -288,12 +300,34 @@ namespace ScriptCoreLib.Java
                         IsPublic = f[i].IsPublic,
                         IsFamily = f[i].IsFamily,
                         IsStatic = f[i].IsStatic,
-                        IsAbstract = f[i].IsAbstract
+                        IsAbstract = f[i].IsAbstract,
+
+                        // can we use linq now?
+                        MethodThrows = MethodThrows
                     };
                 }
             }
 
             return y;
+        }
+
+        private static string[] GetExceptionTypes(MethodInfo fi)
+        {
+            var MethodThrowsList = new List<string>();
+
+            fi.ToMethod().getExceptionTypes().WithEach(
+                e =>
+                {
+                    MethodThrowsList.Add(
+                        ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToType(
+                            e
+                        ).FullName
+                    );
+                }
+            );
+
+            var MethodThrows = MethodThrowsList.ToArray();
+            return MethodThrows;
         }
 
         public JavaArchiveReflectorConstructor[] Type_GetConstructors(string TypeName)
@@ -400,7 +434,7 @@ namespace ScriptCoreLib.Java
         {
             get
             {
-                System.Console.WriteLine("JavaArchiveReflector PrimaryTypes " + this.Entries.Length);
+                //System.Console.WriteLine("JavaArchiveReflector PrimaryTypes " + this.Entries.Length);
 
                 var a = new List<string>();
 
@@ -416,12 +450,12 @@ namespace ScriptCoreLib.Java
                         }
                         else
                         {
-                            System.Console.WriteLine("JavaArchiveReflector PrimaryTypes null type: " + i);
+                            //System.Console.WriteLine("JavaArchiveReflector PrimaryTypes null type: " + i);
                         }
                     }
                     else
                     {
-                        System.Console.WriteLine("JavaArchiveReflector PrimaryTypes not a type: " + i);
+                        //System.Console.WriteLine("JavaArchiveReflector PrimaryTypes not a type: " + i);
                     }
                 }
 

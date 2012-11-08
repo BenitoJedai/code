@@ -60,6 +60,7 @@
     <Compile Include="Library\CodeWriter.cs" />
     <Compile Include="Library\ProtectiveFileStream.cs" />
     <Compile Include="OtherAttributes.cs" />
+    <Compile Include="ScriptMethodThrows.cs" />
     <Compile Include="ScriptNamespaceRenameAttribute.cs" />
     <Compile Include="ScriptType.cs" />
     <Compile Include="ScriptTypeFilterAttribute.cs" />
