@@ -811,6 +811,7 @@
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
     <Compile Include="java\lang\reflect\InvocationTargetException.cs" />
     <Compile Include="java\math\BigInteger.cs" />
+    <Compile Include="java\net\URLDecoder.cs" />
     <Compile Include="java\net\Inet6Address.cs" />
     <Compile Include="java\net\NetworkInterface.cs" />
     <Compile Include="java\net\URLConnection.cs" />
@@ -895,6 +896,7 @@
     <Compile Include="java\net\InetAddress.cs" />
     <Compile Include="java\net\Socket.cs" />
     <Compile Include="java\net\ServerSocket.cs" />
+    <Compile Include="java\net\URLEncoder.cs" />
     <Compile Include="java\nio\ByteBuffer.cs" />
     <Compile Include="java\nio\Buffer.cs" />
     <Compile Include="java\nio\channels\ServerSocketChannel.cs" />
