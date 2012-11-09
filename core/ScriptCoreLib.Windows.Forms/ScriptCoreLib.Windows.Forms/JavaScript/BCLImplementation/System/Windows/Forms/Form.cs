@@ -307,6 +307,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ResizeGripDrag.DragStart +=
                 delegate
                 {
+                    Capture = true;
                     InternalMouseCapured();
                 };
             ResizeGripDrag.DragMove +=
@@ -318,6 +319,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ResizeGripDrag.DragStop +=
               delegate
               {
+                  Capture = false;
                   InternalMouseReleased();
               };
             #endregion
@@ -433,6 +435,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     FirstMove = true;
 
+                    Capture = true;
                     InternalMouseCapured();
 
                 };
@@ -497,6 +500,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             drag.DragStop +=
                 delegate
                 {
+                    Capture = false;
                     InternalMouseReleased();
 
 

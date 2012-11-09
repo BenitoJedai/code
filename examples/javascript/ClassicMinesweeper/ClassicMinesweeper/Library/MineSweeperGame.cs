@@ -22,7 +22,7 @@ namespace MineSweeper.js
 
         public readonly MineSweeperSettings Data;
 
-        readonly MineSweeperPanel Panel;
+       public  readonly MineSweeperPanel Panel;
 
         public MineSweeperGame(MineSweeperSettings _Data = null, IHTMLElement _Owner = null)
         {

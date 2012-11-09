@@ -30,5 +30,10 @@ namespace MSVSFormStyle
 
             //this.webBrowser1.MoveTo(0, 0).SizeTo(c.Width, c.Height);
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.Text = new { this.Capture }.ToString();
+        }
     }
 }

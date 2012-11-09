@@ -11,7 +11,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace MineSweeper.js
 {
-    class MineSweeperPanel
+    public class MineSweeperPanel
     {
         public readonly IHTMLDiv Control = new IHTMLDiv();
 
@@ -19,13 +19,16 @@ namespace MineSweeper.js
 
         const int FaceSize = 26;
 
-        
 
-        public MineSweeperPanel() : this(16, 16, 0.2, Assets.Default)
+
+        public MineSweeperPanel()
+            : this(16, 16, 0.2, Assets.Default)
         {
 
         }
 
+        public int ControlWidth;
+        public int ControlHeight;
         public MineSweeperPanel(int ButtonsX, int ButtonsY, double Mines, Assets MyAssets)
         {
             Control.style.position = IStyle.PositionEnum.relative;
@@ -33,7 +36,9 @@ namespace MineSweeper.js
 
             MineField = new MineSweeperControl(ButtonsX, ButtonsY, Mines, MyAssets);
 
-            Control.style.SetSize(MineField.Width + 20, MineField.Height + 50);
+            ControlWidth = MineField.Width + 20;
+            ControlHeight = MineField.Height + 50;
+            Control.style.SetSize(ControlWidth, ControlHeight);
 
             MineField.Control.AttachTo(Control).style.SetLocation(10, 40);
 
@@ -78,7 +83,7 @@ namespace MineSweeper.js
             MineField.AllMinesFound +=
                 delegate
                 {
-                    
+
 
                     face.Source = MyAssets.face_cool;
                     actualtimer.Stop();
@@ -115,6 +120,6 @@ namespace MineSweeper.js
 
         }
 
-    
+
     }
 }
