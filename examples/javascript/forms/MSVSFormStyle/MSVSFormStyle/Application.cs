@@ -32,29 +32,56 @@ namespace MSVSFormStyle
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            FormStyler.AtFormCreated =
-                s =>
+
+            content.button1.Click +=
+                delegate
                 {
-                    if (content.checkBox1.Checked)
-                        return;
-
-                    s.TargetOuterBorder.style.boxShadow = "rgba(255, 122, 204, 0.3) 0px 0px 6px 3px";
-                    s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(255, 122, 204);
-
-                    s.TargetInnerBorder.style.borderWidth = "0px";
-
-                    s.CloseButton.style.color = JSColor.White;
-                    s.CloseButton.style.backgroundColor = JSColor.None;
-                    s.CloseButton.style.borderWidth = "0px";
-                    s.CloseButtonContent.style.borderWidth = "0px";
-
-                    s.TargetResizerPadding.style.left = "0px";
-                    s.TargetResizerPadding.style.top = "0px";
-                    s.TargetResizerPadding.style.right = "0px";
-                    s.TargetResizerPadding.style.bottom = "0px";
-
-                    s.Caption.style.backgroundColor = JSColor.FromRGB(255, 122, 204);
+                    FormStyler.AtFormCreated = FormStyler.LikeWindowsClassic;
+                    new Form1().Show();
                 };
+
+            content.button2.Click +=
+               delegate
+               {
+                   FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+                   new Form1().Show();
+               };
+
+            content.button3.Click +=
+                 delegate
+                 {
+                     FormStyler.AtFormCreated = FormStyler.LikeWindows3;
+                     new Form1().Show();
+                 };
+
+
+            content.button4.Click +=
+                 delegate
+                 {
+                     FormStyler.AtFormCreated =  s =>
+                        {
+                   
+
+                            s.TargetOuterBorder.style.boxShadow = "rgba(255, 122, 204, 0.3) 0px 0px 6px 3px";
+                            s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(255, 122, 204);
+
+                            s.TargetInnerBorder.style.borderWidth = "0px";
+
+                            s.CloseButton.style.color = JSColor.White;
+                            s.CloseButton.style.backgroundColor = JSColor.None;
+                            s.CloseButton.style.borderWidth = "0px";
+                            s.CloseButtonContent.style.borderWidth = "0px";
+
+                            s.TargetResizerPadding.style.left = "0px";
+                            s.TargetResizerPadding.style.top = "0px";
+                            s.TargetResizerPadding.style.right = "0px";
+                            s.TargetResizerPadding.style.bottom = "0px";
+
+                            s.Caption.style.backgroundColor = JSColor.FromRGB(255, 122, 204);
+                        };
+
+                     new Form1().Show();
+                 };
 
             content.AttachControlTo(page.Content);
             content.AutoSizeControlTo(page.ContentSize);

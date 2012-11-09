@@ -748,7 +748,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 var h = _Click;
                 h.Event += value;
                 if (!h) return;
-                h.EventInternal = i => h.Event(this, null);
+                h.EventInternal = i => { i.StopPropagation(); i.PreventDefault(); h.Event(this, null); };
+
                 this.HTMLTargetRef.onclick += h.EventInternal;
             }
             remove

@@ -9,6 +9,8 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Drawing;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -74,9 +76,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             TargetNoBorder.style.backgroundColor = value.ToString();
         }
 
-        static List<__Form> InternalMaximizedForms = new List<__Form>();
         IHTMLDiv TargetResizerPadding;
         IHTMLDiv TargetOuterBorder;
+
+        [Description("Hide iframes from mouse to workaround event leaks.")]
+        public static event Action InternalMouseCapured;
+        public static event Action InternalMouseReleased;
 
         public __Form()
         {
@@ -165,10 +170,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Caption.style.left = 0 + "px";
             Caption.style.top = 0 + "px";
             Caption.style.right = 0 + "px";
-            Caption.style.height = "20px";
+            Caption.style.height = "26px";
 
-            Caption.style.paddingTop = "6px";
-            Caption.style.paddingLeft = "26px";
+            //Caption.style.paddingTop = "6px";
+            //Caption.style.paddingLeft = "26px";
             Caption.style.font = new Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0).ToCssString();
 
             CaptionShadow = (IHTMLDiv)Caption.cloneNode(false);
@@ -177,6 +182,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             CaptionContent = (IHTMLDiv)Caption.cloneNode(false);
             CaptionContent.style.backgroundColor = JSColor.None;
+
+            CaptionContent.style.WithDynamic(
+                style => style.textOverflow = "ellipsis"
+            );
+            CaptionContent.style.lineHeight = "26px";
+            CaptionContent.style.left = "26px";
+            CaptionContent.style.right = "30px";
+
+            CaptionContent.style.overflow = IStyle.OverflowEnum.hidden;
 
             CaptionForeground = (IHTMLDiv)Caption.cloneNode(false);
             CaptionForeground.style.backgroundColor = ScriptCoreLib.Shared.Drawing.Color.FromRGB(255, 0, 255);
@@ -210,6 +224,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //container.style.backgroundColor = "#A0A0A0";
             //container.style.appleDashboardRegion = "dashboard-region(control rectangle)";
 
+            #region ContentContainer
             ContentContainerPadding.title = "ContentContainerPadding";
             ContentContainerPadding.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ContentContainerPadding.style.left = 0 + "px";
@@ -237,9 +252,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ContentContainerShadow.style.overflow = IStyle.OverflowEnum.hidden;
             ContentContainerShadow.style.backgroundColor = JSColor.Red;
             ContentContainerShadow.style.Opacity = 0.0;
-            ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.hidden;
+            ContentContainerShadow.style.display = IStyle.DisplayEnum.none;
             ContentContainerShadow.style.zIndex = 1001;
+            #endregion
 
+            InternalMouseCapured +=
+                delegate
+                {
+                    ContentContainerShadow.style.display = IStyle.DisplayEnum.block;
+                };
+
+            InternalMouseReleased +=
+                delegate
+                {
+                    ContentContainerShadow.style.display = IStyle.DisplayEnum.none;
+                };
 
 
             #region ResizeGripElement
@@ -279,7 +306,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ResizeGripDrag.DragStart +=
                 delegate
                 {
-                    ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.visible;
+                    InternalMouseCapured();
                 };
             ResizeGripDrag.DragMove +=
                 delegate
@@ -290,7 +317,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ResizeGripDrag.DragStop +=
               delegate
               {
-                  ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.hidden;
+                  InternalMouseReleased();
               };
             #endregion
 
@@ -404,7 +431,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     BeforePosition = drag.Position;
 
                     FirstMove = true;
-                    ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.visible;
+
+                    InternalMouseCapured();
 
                 };
 
@@ -412,6 +440,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action InternalEnterFullscreen =
                 delegate
                 {
+                    Console.WriteLine("InternalEnterFullscreen WindowState <- Maximized");
                     this.WindowState = FormWindowState.Maximized;
 
                 };
@@ -420,6 +449,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action InternalExitFullscreen =
                 delegate
                 {
+                    Console.WriteLine("InternalEnterFullscreen WindowState <- Normal");
                     this.WindowState = FormWindowState.Normal;
 
                 };
@@ -466,7 +496,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             drag.DragStop +=
                 delegate
                 {
-                    ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.hidden;
+                    InternalMouseReleased();
+
 
                     //var Location = this.Location;
 
@@ -751,6 +782,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         int __PreviousHeight;
 
         #region WindowState
+
+        static List<__Form> InternalMaximizedForms = new List<__Form>();
+
         public FormWindowState WindowState
         {
             get
@@ -762,6 +796,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                if (InternalDiagnostics.BreakAtWindowState)
+                    Debugger.Break();
+
                 if (WindowState == value)
                     return;
 
@@ -769,6 +806,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     if (InternalMaximizedForms.Contains(this))
                     {
+                        Console.WriteLine("set_WindowState <- Normal, InternalMaximizedForms.Remove");
+
                         InternalMaximizedForms.Remove(this);
 
 
@@ -796,7 +835,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 delegate
                                 {
                                     if (InternalMaximizedForms.Count == 0)
+                                    {
+                                        Console.WriteLine("set_WindowState exitFullscreen InternalMaximizedForms.Count == 0");
+
+
                                         Native.Document.exitFullscreen();
+                                    }
                                 };
 
                         }
@@ -821,6 +865,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     if (!InternalMaximizedForms.Contains(this))
                     {
+                        Console.WriteLine("set_WindowState <- Maximized, InternalMaximizedForms.Add");
                         InternalMaximizedForms.Add(this);
 
                         if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
@@ -838,6 +883,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         if (InternalMaximizedForms.Count == 1)
                         {
+                            Console.WriteLine("set_WindowState requestFullscreen");
                             Native.Document.body.requestFullscreen();
 
 
@@ -886,6 +932,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (value == global::System.Windows.Forms.FormBorderStyle.None)
                 {
+                    Console.WriteLine("set_FormBorderStyle <- None");
+
                     if (this.WindowState == FormWindowState.Maximized)
                     {
                         this.TargetNoBorder.style.zIndex = 0;
@@ -905,6 +953,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (value == global::System.Windows.Forms.FormBorderStyle.Sizable)
                 {
+                    Console.WriteLine("set_FormBorderStyle <- Sizable");
+
                     if (this.WindowState == FormWindowState.Maximized)
                     {
                         this.ContentContainer.style.zIndex = 0;
@@ -942,5 +992,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+    }
+
+    [Script]
+    public static partial class InternalDiagnostics
+    {
+        public static bool BreakAtWindowState;
+    }
+
+    [Script]
+    internal static partial class InternalExtensions
+    {
+        public static T WithDynamic<T>(this T e, Action<dynamic> y)
+        {
+            y(e);
+
+            return e;
+        }
     }
 }
