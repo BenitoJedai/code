@@ -41,6 +41,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         IHTMLDiv ContentContainerPadding = new IHTMLDiv();
         IHTMLDiv ContentContainer;
 
+
         public override IHTMLElement HTMLTargetContainerRef
         {
             get
@@ -440,7 +441,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action InternalEnterFullscreen =
                 delegate
                 {
-                    Console.WriteLine("InternalEnterFullscreen WindowState <- Maximized");
+                    //Console.WriteLine("InternalEnterFullscreen WindowState <- Maximized");
                     this.WindowState = FormWindowState.Maximized;
 
                 };
@@ -449,7 +450,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action InternalExitFullscreen =
                 delegate
                 {
-                    Console.WriteLine("InternalEnterFullscreen WindowState <- Normal");
+                    //Console.WriteLine("InternalEnterFullscreen WindowState <- Normal");
                     this.WindowState = FormWindowState.Normal;
 
                 };
@@ -556,6 +557,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 TargetInnerBorder = TargetInnerBorder,
                 TargetOuterBorder = TargetOuterBorder,
 
+                ContentContainerPadding = ContentContainerPadding,
+
                 TargetResizerPadding = TargetResizerPadding
             };
 
@@ -600,8 +603,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
+
+
+        protected override Size DefaultMinimumSize
+        {
+            get
+            {
+                return new Size(64, 32);
+            }
+        }
+
         public bool TopMost { get; set; }
         public bool ControlBox { get; set; }
+
         public Size ClientSize
         {
             get
@@ -806,7 +820,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     if (InternalMaximizedForms.Contains(this))
                     {
-                        Console.WriteLine("set_WindowState <- Normal, InternalMaximizedForms.Remove");
+                        //Console.WriteLine("set_WindowState <- Normal, InternalMaximizedForms.Remove");
 
                         InternalMaximizedForms.Remove(this);
 
@@ -836,7 +850,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 {
                                     if (InternalMaximizedForms.Count == 0)
                                     {
-                                        Console.WriteLine("set_WindowState exitFullscreen InternalMaximizedForms.Count == 0");
+                                        //Console.WriteLine("set_WindowState exitFullscreen InternalMaximizedForms.Count == 0");
 
 
                                         Native.Document.exitFullscreen();
@@ -848,15 +862,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         Native.Window.requestAnimationFrame +=
                             delegate
                             {
-
-                                InternalChildrenAnchorUpdate(
-                                        this.width,
-                                      this.height,
-                                      __PreviousWidth,
-                                      __PreviousHeight
-                               );
-
-
+                                InternalClientSizeChanged();
                             };
                     }
 
@@ -865,7 +871,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     if (!InternalMaximizedForms.Contains(this))
                     {
-                        Console.WriteLine("set_WindowState <- Maximized, InternalMaximizedForms.Add");
+                        //Console.WriteLine("set_WindowState <- Maximized, InternalMaximizedForms.Add");
                         InternalMaximizedForms.Add(this);
 
                         if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
@@ -881,29 +887,64 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         CaptionShadow.Show();
 
+               
+
                         if (InternalMaximizedForms.Count == 1)
                         {
-                            Console.WriteLine("set_WindowState requestFullscreen");
+
+                            Action<IEvent> onresize = null;
+
+                            onresize =
+                                delegate
+                                {
+                                    Native.Window.onresize -= onresize;
+
+                                    InternalClientSizeChanged();
+
+                                    #region UnmaximzeWhenLostFullscreen
+                                    var UnmaximzeWhenLostFullscreen = default(Action);
+
+                                    UnmaximzeWhenLostFullscreen =
+                                        delegate
+                                        {
+                                            // how much cpu does this check take?
+                                            // if significant then refactor 
+
+                                            if (WindowState == FormWindowState.Normal)
+                                            {
+                                                return;
+                                            }
+
+                                            dynamic window = Native.Window;
+
+
+                                            int innerHeight = window.innerHeight;
+                                            int outerHeight = window.outerHeight;
+
+                                            if (innerHeight != outerHeight)
+                                            {
+                                                this.WindowState = FormWindowState.Normal;
+                                                return;
+                                            }
+
+
+                                            Native.Window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
+                                        };
+
+                                    Native.Window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
+                                    #endregion
+                                };
+
+                            Native.Window.onresize += onresize;
+
+                            //Console.WriteLine("set_WindowState requestFullscreen");
                             Native.Document.body.requestFullscreen();
 
 
                         }
 
-                        Native.Window.requestAnimationFrame +=
-                            delegate
-                            {
-                                __PreviousWidth = ContentContainer.Bounds.Width;
-                                __PreviousHeight = ContentContainer.Bounds.Height;
-
-                                InternalChildrenAnchorUpdate(
-                                  __PreviousWidth,
-                                  __PreviousHeight,
-                                  this.width,
-                                  this.height
-                               );
 
 
-                            };
                     }
                 }
 
@@ -932,7 +973,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (value == global::System.Windows.Forms.FormBorderStyle.None)
                 {
-                    Console.WriteLine("set_FormBorderStyle <- None");
+                    //Console.WriteLine("set_FormBorderStyle <- None");
 
                     if (this.WindowState == FormWindowState.Maximized)
                     {
@@ -953,7 +994,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (value == global::System.Windows.Forms.FormBorderStyle.Sizable)
                 {
-                    Console.WriteLine("set_FormBorderStyle <- Sizable");
+                    //Console.WriteLine("set_FormBorderStyle <- Sizable");
 
                     if (this.WindowState == FormWindowState.Maximized)
                     {

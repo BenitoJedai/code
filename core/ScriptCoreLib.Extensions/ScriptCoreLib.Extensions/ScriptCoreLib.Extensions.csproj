@@ -52,6 +52,7 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
+    <Compile Include="BCLExtensions\System\Windows\Forms\ControlExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\TimerExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\DataGridViewExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ShaderExtensions.cs" />
