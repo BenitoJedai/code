@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public IHTMLDiv CloseButton;
 
         public IHTMLDiv Caption;
+        public IHTMLDiv CaptionContent;
 
         public IHTMLDiv TargetOuterBorder;
         public IHTMLDiv TargetInnerBorder;
@@ -40,6 +41,62 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public static void LikeWindowsClassic(FormStyler s)
         {
 
+        }
+
+        public static void LikeWindows3(FormStyler s)
+        {
+
+            s.TargetOuterBorder.style.boxShadow = "";
+            s.TargetOuterBorder.style.borderColor = JSColor.Black;
+            s.TargetOuterBorder.style.backgroundColor = JSColor.FromGray(0xc0);
+
+            s.Caption.style.backgroundColor = JSColor.FromRGB(0, 0, 127);
+            s.Caption.style.borderBottom = "1px solid black";
+
+            s.CloseButton.style.right = "0px";
+            s.CloseButton.style.top = "0px";
+            s.CloseButton.style.backgroundColor = JSColor.FromGray(0xc0);
+
+            s.CloseButton.style.lineHeight = "24px";
+            s.CloseButton.style.height = "24px";
+            s.CloseButton.style.width = "24px";
+
+            s.CloseButton.style.borderLeftColor = JSColor.White;
+            s.CloseButton.style.borderTopColor = JSColor.White;
+            s.CloseButton.style.borderRightColor = JSColor.FromGray(0x80);
+            s.CloseButton.style.borderBottomColor = JSColor.FromGray(0x80);
+
+
+            s.CloseButtonContent.style.borderLeft = "0px";
+            s.CloseButtonContent.style.borderTop = "0px";
+            s.CloseButtonContent.style.borderRightColor = JSColor.FromGray(0x80);
+            s.CloseButtonContent.style.borderBottomColor = JSColor.FromGray(0x80);
+
+            //s.CloseButton.style.color = JSColor.White;
+            //s.CloseButton.style.backgroundColor = JSColor.None;
+            //s.CloseButton.style.borderWidth = "0px";
+            //s.CloseButtonContent.style.borderWidth = "0px";
+
+            s.TargetInnerBorder.style.borderColor = JSColor.Black;
+            s.TargetInnerBorder.style.left = "2px";
+            s.TargetInnerBorder.style.top = "2px";
+            s.TargetInnerBorder.style.right = "2px";
+            s.TargetInnerBorder.style.bottom = "2px";
+
+            s.TargetResizerPadding.style.left = "0px";
+            s.TargetResizerPadding.style.top = "0px";
+            s.TargetResizerPadding.style.right = "0px";
+            s.TargetResizerPadding.style.bottom = "0px";
+
+
+            //dynamic style = s.CaptionContent.style;
+
+            //style.fontFamily = "System, sans-serif;";
+
+            s.CaptionContent.style.textAlign = DOM.IStyle.TextAlignEnum.center;
+            //s.CaptionContent.style.fontFamily = DOM.IStyle.FontFamilyEnum.s
+            //            font-family: System, sans-serif;
+            //font-size: 20px;
         }
 
         public static void LikeVisualStudioMetro(FormStyler s)

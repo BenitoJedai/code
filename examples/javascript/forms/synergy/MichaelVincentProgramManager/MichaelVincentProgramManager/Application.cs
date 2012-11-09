@@ -31,6 +31,8 @@ namespace MichaelVincentProgramManager
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+            FormStyler.AtFormCreated = FormStyler.LikeWindows3;
 
 
             content.WhenClickedGoFullscreen +=
@@ -46,17 +48,17 @@ namespace MichaelVincentProgramManager
               };
 
 
-            content.WhenClickedGoFullscreen +=
-              (b, f) =>
-              {
-                  var c = global::ScriptCoreLib.JavaScript.Windows.Forms.Extensions.GetHTMLTargetContainer(f);
+            //content.WhenClickedGoFullscreen +=
+            //  (b, f) =>
+            //  {
+            //      var c = global::ScriptCoreLib.JavaScript.Windows.Forms.Extensions.GetHTMLTargetContainer(f);
 
-                  b.Click +=
-                      delegate
-                      {
-                          c.requestFullscreen();
-                      };
-              };
+            //      b.Click +=
+            //          delegate
+            //          {
+            //              c.requestFullscreen();
+            //          };
+            //  };
 
 
             //content.AttachControlTo(Native.Document.body);
