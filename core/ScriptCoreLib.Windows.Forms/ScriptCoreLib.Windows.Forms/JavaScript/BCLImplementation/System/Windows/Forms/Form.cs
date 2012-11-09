@@ -210,6 +210,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //container.style.backgroundColor = "#A0A0A0";
             //container.style.appleDashboardRegion = "dashboard-region(control rectangle)";
 
+            ContentContainerPadding.title = "ContentContainerPadding";
             ContentContainerPadding.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ContentContainerPadding.style.left = 0 + "px";
             ContentContainerPadding.style.top = (26 + innerborder + 0) + "px";
@@ -217,14 +218,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ContentContainerPadding.style.bottom = 0 + "px";
 
             ContentContainer = new IHTMLDiv().AttachTo(ContentContainerPadding);
+            ContentContainer.title = "ContentContainer";
             ContentContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ContentContainer.style.left = 0 + "px";
             ContentContainer.style.top = 0 + "px";
             ContentContainer.style.right = 0 + "px";
             ContentContainer.style.bottom = 0 + "px";
             ContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
+            ContentContainer.style.zIndex = 1000;
 
             var ContentContainerShadow = new IHTMLDiv().AttachTo(ContentContainerPadding);
+            ContentContainerShadow.title = "ContentContainerShadow";
             ContentContainerShadow.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ContentContainerShadow.style.left = 0 + "px";
             ContentContainerShadow.style.top = 0 + "px";
@@ -233,10 +237,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ContentContainerShadow.style.overflow = IStyle.OverflowEnum.hidden;
             ContentContainerShadow.style.backgroundColor = JSColor.Red;
             ContentContainerShadow.style.Opacity = 0.0;
+            ContentContainerShadow.style.visibility = IStyle.VisibilityEnum.hidden;
+            ContentContainerShadow.style.zIndex = 1001;
+
 
 
             #region ResizeGripElement
             var ResizeGripElement = new IHTMLDiv().AttachTo(ContentContainerPadding);
+            ResizeGripElement.title = "ResizeGripElement";
             ResizeGripElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ResizeGripElement.style.width = "12px";
             ResizeGripElement.style.height = "12px";
@@ -244,6 +252,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ResizeGripElement.style.right = "0px";
             ResizeGripElement.style.cursor = IStyle.CursorEnum.se_resize;
             new IHTMLImage { src = "assets/ScriptCoreLib.Windows.Forms/FormResizeGrip.png" }.ToBackground(ResizeGripElement);
+            ResizeGripElement.style.zIndex = 1002;
             #endregion
 
             #region ResizeGripDrag
@@ -307,17 +316,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButtonContent.title = "Close";
             CloseButtonContent.innerHTML = "&times";
 
-            CloseButton.onmouseover +=
-             delegate
-             {
-                 CloseButtonContent.style.color = JSColor.Red;
-             };
 
-            CloseButton.onmouseout +=
-                delegate
-                {
-                    CloseButtonContent.style.color = JSColor.None;
-                };
 
             CloseButton.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             CloseButton.style.backgroundColor = JSColor.System.ThreeDFace;
@@ -343,6 +342,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButtonContent.style.borderRightColor = JSColor.System.ButtonShadow;
             CloseButtonContent.style.borderBottomColor = JSColor.System.ButtonShadow;
 
+            #region onclick
+            CloseButton.onmouseover +=
+                 delegate
+                 {
+                     CloseButtonContent.style.color = JSColor.Red;
+                 };
+
+            CloseButton.onmouseout +=
+                delegate
+                {
+                    CloseButtonContent.style.color = JSColor.None;
+                };
+
+            CloseButton.onmousedown +=
+                e =>
+                {
+                    e.StopPropagation();
+                    e.PreventDefault();
+                };
 
             CloseButton.onclick +=
                 delegate
@@ -351,10 +369,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
+            #endregion
+
             TargetNoBorder.appendChild(
                 Caption, CaptionShadow, CaptionContent,
                 icon, CaptionForeground,
-                ContentContainerPadding, CloseButton);
+                ContentContainerPadding, CloseButton
+            );
 
 
             #region drag
@@ -496,6 +517,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 Context = this,
 
                 Caption = Caption,
+                CaptionContent = CaptionContent,
 
                 CloseButton = CloseButton,
                 CloseButtonContent = CloseButtonContent,
