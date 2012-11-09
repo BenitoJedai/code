@@ -55,7 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        #region
+        #region operators
         static public implicit operator Button(__Button e)
         {
             return (Button)(object)e;

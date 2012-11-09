@@ -17,12 +17,15 @@ namespace MSVSFormStyle
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
-            new Form1().Show();
         }
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            new Form1().Show();
+        }
+
+        private void button4_Click(object sender, System.EventArgs e)
+        {
+
         }
 
     }
