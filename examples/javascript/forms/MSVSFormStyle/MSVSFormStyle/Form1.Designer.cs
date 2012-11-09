@@ -33,10 +33,11 @@
             // 
             // webBrowser1
             // 
-            this.webBrowser1.Location = new System.Drawing.Point(12, 3);
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(260, 247);
+            this.webBrowser1.Size = new System.Drawing.Size(715, 310);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.Url = new System.Uri("http://example.com", System.UriKind.Absolute);
             // 
@@ -44,10 +45,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(715, 310);
             this.Controls.Add(this.webBrowser1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.ClientSizeChanged += new System.EventHandler(this.Form1_ClientSizeChanged);
             this.ResumeLayout(false);
 
         }

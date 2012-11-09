@@ -24,6 +24,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public IHTMLDiv TargetOuterBorder;
         public IHTMLDiv TargetInnerBorder;
 
+        public IHTMLDiv ContentContainerPadding;
 
         public IHTMLDiv TargetResizerPadding;
 
@@ -115,6 +116,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
             s.TargetResizerPadding.style.top = "0px";
             s.TargetResizerPadding.style.right = "0px";
             s.TargetResizerPadding.style.bottom = "0px";
+
+            s.ContentContainerPadding.style.top = "26px";
+
 
             s.Caption.style.backgroundColor = JSColor.FromRGB(0, 122, 204);
         }

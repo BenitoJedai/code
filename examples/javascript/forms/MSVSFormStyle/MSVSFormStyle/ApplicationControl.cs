@@ -28,5 +28,10 @@ namespace MSVSFormStyle
 
         }
 
+        private void button5_Click(object sender, System.EventArgs e)
+        {
+            new Form1().Show();
+        }
+
     }
 }

@@ -45,6 +45,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     internal class __Control : __Component
     {
         public virtual DockStyle Dock { get; set; }
+        public virtual AnchorStyles Anchor { get; set; }
+
 
         public static Font DefaultFont
         {
@@ -74,6 +76,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return HTMLTargetRef;
             }
         }
+
+
 
         private Padding padding;
         public Padding Padding
@@ -302,6 +306,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void SetBounds(int x, int y, int width, int height, BoundsSpecified specified)
         {
+            #region BoundsSpecified
             if ((specified & BoundsSpecified.X) == BoundsSpecified.None)
             {
                 x = this.x;
@@ -318,7 +323,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 height = this.height;
             }
-
+            #endregion
 
             if (this.MinimumSize.Width > 0)
                 width = Math.Max(this.MinimumSize.Width, width);
@@ -366,8 +371,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.y = y;
             this.width = width;
             this.height = height;
-            //this.clientWidth = clientWidth;
-            //this.clientHeight = clientHeight;
+
+            this.clientWidth = width;
+            this.clientHeight = height;
 
             // this Control is used but not shown.
             if (this.HTMLTargetRef == null)
@@ -386,24 +392,47 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 this.HTMLTargetRef.style.SetSize(width, height);
 
-                this.OnSizeChanged(null);
-                //this.OnClientSizeChanged(EventArgs.Empty);
-                //CommonProperties.xClearPreferredSizeCache(this);
-                //LayoutTransaction.DoLayout(this.ParentInternal, this, PropertyNames.Bounds);
+                Native.Window.requestAnimationFrame +=
+                  delegate
+                  {
+                      InternalClientSizeChanged();
 
-                if (InternalLayoutSuspended)
-                {
-                }
-                else
-                {
-                    InternalChildrenAnchorUpdate(width, height, old_width, old_height);
+                  };
+            }
 
-                }
+
+        }
+
+        public void InternalClientSizeChanged()
+        {
+            this.clientWidth = this.HTMLTargetContainerRef.clientWidth;
+            this.clientHeight = this.HTMLTargetContainerRef.clientHeight;
+
+            Console.WriteLine("InternalClientSizeChanged " + new { @this = this, clientWidth, clientHeight });
+
+
+            this.OnSizeChanged(null);
+            this.OnClientSizeChanged(null);
+
+            //CommonProperties.xClearPreferredSizeCache(this);
+            //LayoutTransaction.DoLayout(this.ParentInternal, this, PropertyNames.Bounds);
+
+            if (InternalLayoutSuspended)
+            {
+            }
+            else
+            {
+                InternalChildrenAnchorUpdate(
+                    clientWidth,
+                    clientHeight,
+                    dx: 0,
+                    dy: 0
+                );
 
             }
         }
 
-        public void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height)
+        public void InternalChildrenAnchorUpdate(int width, int height, int dx, int dy)
         {
             for (int i = 0; i < this.Controls.Count; i++)
             {
@@ -412,8 +441,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalChildrenAnchorUpdate(
                     width,
                     height,
-                    old_width,
-                    old_height,
+                    dx,
+                    dy,
                     item
                 );
             }
@@ -422,11 +451,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-        public void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height, Control c)
+        int InternalChildrenAnchorUpdate_width;
+        int InternalChildrenAnchorUpdate_height;
+
+        public void InternalChildrenAnchorUpdate(int width, int height, int dx, int dy, Control c)
         {
+            dx = width - InternalChildrenAnchorUpdate_width;
+            dy = height - InternalChildrenAnchorUpdate_height;
+
+            InternalChildrenAnchorUpdate_width = width;
+            InternalChildrenAnchorUpdate_height = height;
+
             if (c.Dock == DockStyle.Fill)
             {
+                Console.WriteLine("InternalChildrenAnchorUpdate: " + new { c, width, height });
                 c.SetBounds(0, 0, width, height);
+                return;
+            }
+
+            if (c.Dock == DockStyle.Bottom)
+            {
+                c.SetBounds(0, height - c.Height, width, c.Height);
                 return;
             }
 
@@ -435,19 +480,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var IsBottom = (c.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom;
             var IsTop = (c.Anchor & AnchorStyles.Top) == AnchorStyles.Top;
 
-            var x = width - old_width;
-            var y = height - old_height;
+
 
 
             if (IsRight)
             {
                 if (IsLeft)
                 {
-                    c.Width += x;
+                    c.Width += dx;
                 }
                 else
                 {
-                    c.Left += x;
+                    c.Left += dx;
                 }
             }
             else
@@ -457,7 +501,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 else
                 {
-                    c.Left += x / 2;
+                    c.Left += dx / 2;
 
                 }
             }
@@ -466,11 +510,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 if (IsTop)
                 {
-                    c.Height += y;
+                    c.Height += dy;
                 }
                 else
                 {
-                    c.Top += y;
+                    c.Top += dy;
                 }
             }
             else
@@ -480,7 +524,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 else
                 {
-                    c.Top += y / 2;
+                    c.Top += dy / 2;
 
                 }
             }
@@ -535,11 +579,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual void OnSizeChanged(EventArgs e)
         {
+            InternalOnSizeChanged();
+
+        }
+
+        public void InternalOnSizeChanged()
+        {
             this.OnResize(null);
 
             if (SizeChanged != null)
                 SizeChanged(this, null);
-
         }
         #endregion
 
@@ -582,7 +631,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public bool AutoSize { get; set; }
 
-        public virtual AnchorStyles Anchor { get; set; }
 
 
         #region ForeColor
@@ -1040,6 +1088,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         protected virtual void OnControlAdded(ControlEventArgs e)
         {
             //Console.WriteLine("__Control OnControlAdded: " + e.Control.Name);
+            InternalChildrenAnchorUpdate(
+                this.clientWidth,
+                this.clientHeight,
+                0,
+                0
+            );
 
             if (ControlAdded != null)
                 ControlAdded(this, e);
@@ -1269,6 +1323,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         protected virtual void OnVisibleChanged(EventArgs e)
         {
             InternalVisibileChanged(e);
+
         }
 
         private void InternalVisibileChanged(EventArgs e)
@@ -1335,8 +1390,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        private int clientWidth;
-        private int clientHeight;
+        public int clientWidth;
+        public int clientHeight;
 
 
 
@@ -1361,6 +1416,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event EventHandler ClientSizeChanged;
 
         protected virtual void OnClientSizeChanged(EventArgs e)
+        {
+            InternalRaiseClientSizeChanged(e);
+        }
+
+        public void InternalRaiseClientSizeChanged(EventArgs e)
         {
             if (ClientSizeChanged != null)
             {

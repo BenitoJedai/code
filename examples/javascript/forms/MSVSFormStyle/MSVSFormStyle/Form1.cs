@@ -15,5 +15,20 @@ namespace MSVSFormStyle
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_ClientSizeChanged(object sender, EventArgs e)
+        {
+            //if (this.webBrowser1.Dock == DockStyle.Fill)
+            //    return;
+
+            //var c = this.ClientSize;
+
+            //this.webBrowser1.MoveTo(0, 0).SizeTo(c.Width, c.Height);
+        }
     }
 }

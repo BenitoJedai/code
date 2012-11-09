@@ -21,6 +21,7 @@ namespace MSVSFormStyle
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -61,9 +62,20 @@ namespace MSVSFormStyle
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(45, 42);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(211, 27);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "new Form()";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // ApplicationControl
             // 
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -88,6 +100,7 @@ namespace MSVSFormStyle
         public Button button2;
         public Button button3;
         public Button button4;
+        public Button button5;
 
     }
 }

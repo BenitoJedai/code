@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSVSFormStyle", "MSVSFormStyle\MSVSFormStyle.csproj", "{D0FCA47E-E7A6-4762-BD47-757195EF9CE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,16 @@ Global
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
