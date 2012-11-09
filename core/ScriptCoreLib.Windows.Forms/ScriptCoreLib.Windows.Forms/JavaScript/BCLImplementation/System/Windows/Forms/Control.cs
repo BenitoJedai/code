@@ -44,6 +44,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control : __Component
     {
+        public bool Capture { get; set; }
+
         public virtual DockStyle Dock { get; set; }
         public virtual AnchorStyles Anchor { get; set; }
 
@@ -239,6 +241,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
 
+        public int Right
+        {
+            get
+            {
+                return this.x + this.width;
+            }
+            set
+            {
+                this.SetBounds(value - this.width, this.y, this.width, this.height, BoundsSpecified.X);
+            }
+        }
 
         #region Location
         public int Left
@@ -330,6 +343,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (this.MinimumSize.Height > 0)
                 height = Math.Max(this.MinimumSize.Height, height);
+
+
+            if (this.MaximumSize.Width > 0)
+                width = Math.Min(this.MaximumSize.Width, width);
+
+            if (this.MaximumSize.Height > 0)
+                height = Math.Min(this.MaximumSize.Height, height);
 
 
             var _x = (this.x != x);

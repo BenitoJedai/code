@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -40,6 +42,11 @@
             this.webBrowser1.Size = new System.Drawing.Size(715, 310);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.Url = new System.Uri("http://example.com", System.UriKind.Absolute);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -58,6 +65,7 @@
         #endregion
 
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Timer timer1;
 
     }
 }

@@ -37,8 +37,11 @@ namespace FakeWindowsLoginExperiment
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
-            : this()
         {
+            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+
+            InitializeComponent();
+
             this.page = page;
 
             new HTML.Images.FromAssets.wallpaper().ToBackground(Native.Document.body);
