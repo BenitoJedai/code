@@ -122,8 +122,9 @@
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
 ) 
 if $(ConfigurationName)==Release (
-rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /AttachDebugger:false /DisableWebServiceJava:true /DisableWebServiceAndroid:false
-)</PostBuildEvent>
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /AttachDebugger:true /DisableWebServiceJava:true /DisableWebServiceAndroid:false /FilterTo:$(SolutionDir)
+)
+</PostBuildEvent>
     <PreBuildEvent>
 
 start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
