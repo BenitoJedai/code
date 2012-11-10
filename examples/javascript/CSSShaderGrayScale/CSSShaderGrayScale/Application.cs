@@ -18,15 +18,6 @@ using CSSShaderGrayScale.Shaders;
 
 namespace CSSShaderGrayScale
 {
-    public static class X
-    {
-        public static string ToDataUrl(this ScriptCoreLib.GLSL.Shader s)
-        {
-            var url = "data:x-shader/x-vertex;base64," + Convert.ToBase64String(Encoding.ASCII.GetBytes(s.ToString()));
-            return url;
-        }
-    }
-
     public
         // jsc bug: typeof(static class) will not work 
         //static 
@@ -34,49 +25,45 @@ namespace CSSShaderGrayScale
     {
         public static void InitializeGrayScaleFor(string className = "CLRForm")
         {
-            new global::CSSShaderGrayScale.Shaders.grayscaleFragmentShader().With(
-               frag =>
-               {
-                   //var frag = "assets/CSSShaderGrayScale/grayscale.frag";
 
-                   var url = frag.ToDataUrl();
+            //var frag = "assets/CSSShaderGrayScale/grayscale.frag";
 
-                   {
+            var url = new global::CSSShaderGrayScale.Shaders.grayscaleFragmentShader().ToDataUrl();
 
-                       var CLRForm = IStyleSheet.Default["." + className + ""];
-                       dynamic CLRForm_style = CLRForm.style;
+            {
 
-                       // new __grayscaleFragmentShader { amount = 1 };
-                       var webkitFilter = "custom(none mix(url(" + url + ") normal source-atop), amount 1)";
+                var CLRForm = IStyleSheet.Default["." + className + ""];
+                dynamic CLRForm_style = CLRForm.style;
+
+                // new __grayscaleFragmentShader { amount = 1 };
+                var webkitFilter = "custom(none mix(url(" + url + ") normal source-atop), amount 1)";
 
 
-                       CLRForm_style.webkitFilter = webkitFilter;
-                       CLRForm_style.webkitTransition = "-webkit-filter linear 0.2s";
-                   }
+                CLRForm_style.webkitFilter = webkitFilter;
+                CLRForm_style.webkitTransition = "-webkit-filter linear 0.2s";
+            }
 
-                   {
-                       var CLRForm_hover = IStyleSheet.Default["." + className + ":hover"];
-                       dynamic CLRForm_hover_style = CLRForm_hover.style;
+            {
+                var CLRForm_hover = IStyleSheet.Default["." + className + ":hover"];
+                dynamic CLRForm_hover_style = CLRForm_hover.style;
 
-                       // new __grayscaleFragmentShader { amount = 0 };
-                       var webkitFilter = "custom(none mix(url(" + url + ") normal source-atop), amount 0)"; ;
-                       CLRForm_hover_style.webkitFilter = webkitFilter;
-                       CLRForm_hover_style.webkitTransition = "-webkit-filter linear 0.2s";
-                   }
+                // new __grayscaleFragmentShader { amount = 0 };
+                var webkitFilter = "custom(none mix(url(" + url + ") normal source-atop), amount 0)"; ;
+                CLRForm_hover_style.webkitFilter = webkitFilter;
+                CLRForm_hover_style.webkitTransition = "-webkit-filter linear 0.2s";
+            }
 
-                   {
-                       var CLRForm = IStyleSheet.Default["." + className + "_nohover"];
-                       dynamic CLRForm_style = CLRForm.style;
+            {
+                var CLRForm = IStyleSheet.Default["." + className + "_nohover"];
+                dynamic CLRForm_style = CLRForm.style;
 
-                       // new __grayscaleFragmentShader { amount = 1 };
-                       var webkitFilter = "custom(none mix(url(" + url + ") normal source-atop), amount 1)";
+                // new __grayscaleFragmentShader { amount = 0.5 };
+                var webkitFilter = "custom(none mix(url(" + url + ") normal source-atop), amount 0.5)";
 
 
-                       CLRForm_style.webkitFilter = webkitFilter;
-                       CLRForm_style.webkitTransition = "-webkit-filter linear 0.2s";
-                   }
-               }
-           );
+                CLRForm_style.webkitFilter = webkitFilter;
+                CLRForm_style.webkitTransition = "-webkit-filter linear 0.2s";
+            }
         }
     }
 

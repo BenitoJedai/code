@@ -14,12 +14,49 @@ using System.Xml.Linq;
 using CSSShaderSphereSimple.Design;
 using CSSShaderSphereSimple.HTML.Pages;
 using System.Windows.Forms;
+using CSSShaderSphereSimple.Shaders;
+using ScriptCoreLib.GLSL;
 
 namespace CSSShaderSphereSimple
 {
     class XPlasma : PlasmaFormsControl.ApplicationControl
-    { 
-    
+    {
+
+    }
+
+    public
+        // jsc bug: typeof(static class) will not work 
+        //static 
+        class SphereRule
+    {
+        public static void InitializeSphereRuleFor(string className = "CLRForm")
+        {
+
+            //var frag = "assets/CSSShaderGrayScale/grayscale.frag";
+
+            var frag = new global::CSSShaderSphereSimple.Shaders.sphere_simpleFragmentShader().ToDataUrl();
+            var vert = new global::CSSShaderSphereSimple.Shaders.sphere_simpleVertexShader().ToDataUrl();
+
+            {
+                dynamic CLRForm_style = IStyleSheet.Default["." + className + ""].style;
+
+                //new __sphere_simpleVertexShader { amount = 1, sphereRadius = 0.35f, lightPosition = new vec3(0, 0, 1f) };
+
+                CLRForm_style.webkitFilter = "custom(url(" + vert + ") mix(url(" + frag + ") normal source-atop), 16 32, amount 1, sphereRadius 0.35, lightPosition 0.0 0.0 1.0 )";
+                CLRForm_style.webkitTransition = "-webkit-filter ease-in-out 1s";
+            }
+
+            {
+                dynamic CLRForm_hover_style = IStyleSheet.Default["." + className + ":hover"].style;
+
+                //new __sphere_simpleVertexShader { amount = 0, sphereRadius = 0.35f, lightPosition = new vec3(0, 0, 1f) };
+
+                CLRForm_hover_style.webkitFilter = "custom(url(" + vert + ") mix(url(" + frag + ") normal source-atop), 16 32, amount 0, sphereRadius 0.35, lightPosition 0.0 0.0 1.0 )";
+                //CLRForm_hover_style.webkitTransition = "-webkit-filter ease-in-out 1s";
+            }
+
+           
+        }
     }
 
     /// <summary>
@@ -40,10 +77,7 @@ namespace CSSShaderSphereSimple
 
             // http://alteredqualia.com/css-shaders/sphere_simple.html
 
-            var fs = "assets/CSSShaderSphereSimple/sphere_simple.frag";
-            var vs = "assets/CSSShaderSphereSimple/sphere_simple.vert";
-            //var fs = new Design.Shaders.sphere_simpleFragmentShader().ToString();
-            //var vs = new Design.Shaders.sphere_simpleVertexShader().ToString();
+            SphereRule.InitializeSphereRuleFor("shader");
 
             Func<Form> q = delegate
             {
