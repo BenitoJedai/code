@@ -45,7 +45,7 @@ namespace ShellWithPing
 
         private void button3_Click(object sender, System.EventArgs e)
         {
-            var c = new ConsoleWindow { Text = "Administrator Shell" }
+            var c = new ConsoleWindow { Text = "Administrator Shell", Color = Color.Red }
                 .AppendLine(" *** WARNING *** be careful!");
 
             c.Show();

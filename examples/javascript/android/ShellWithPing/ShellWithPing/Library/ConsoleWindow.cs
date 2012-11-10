@@ -119,5 +119,15 @@ namespace ShellWithPing.Library
             textBox1.Top = textBox2.Bottom;
             label2.Top = textBox2.Bottom;
         }
+
+        public Color Color
+        {
+            set
+            {
+                this.textBox1.ForeColor = value;
+                this.textBox2.ForeColor = value;
+                this.label2.ForeColor = value;
+            }
+        }
     }
 }

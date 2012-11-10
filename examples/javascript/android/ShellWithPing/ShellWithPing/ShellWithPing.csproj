@@ -98,9 +98,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
+    <Reference Include="ScriptCoreLibAndroid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -166,7 +166,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Android (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:true  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

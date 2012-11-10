@@ -1,7 +1,10 @@
+using java.io;
+using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +13,7 @@ using System.Xml.Linq;
 
 namespace ShellWithPing
 {
-    
+
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
@@ -44,8 +47,25 @@ namespace ShellWithPing
             //System.NotSupportedException:
 
 
+            //            [javac] Compiling 289 source files to R:\bin\classes
+            //[javac] R:\src\ShellWithPing\ApplicationWebService.java:58: <T>Of(T[]) in ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1 cannot be applied to <java.lang.Character>(char[])
+            //[javac]         if (__Enumerable.<Character>Any(__SZArrayEnumerator_1.<Character>Of(__String.ToCharArray(host)), ApplicationWebService.CS___9__CachedAnonymousMethodDelegate1))
+            //[javac]                                                              ^
+            //[javac] Note: R:\src\ScriptCoreLibJava\BCLImplementation\System\Threading\__Thread.java uses or overrides a deprecated API.
 
-            if (host.ToCharArray().Any(k => !(char.IsNumber(k) || char.IsLetter(k) || k == '.')))
+            var c = host.ToCharArray();
+
+            #region reverse generic array generation
+            var cc = new List<char>();
+
+            foreach (var item in c)
+            {
+                cc.Add(item);
+            }
+            #endregion
+
+
+            if (cc.Any(k => !(char.IsNumber(k) || char.IsLetter(k) || k == '.')))
             {
                 y("access denied.");
 
@@ -94,6 +114,21 @@ Options:
                     y(ms);
                 }
             );
+#elif AndroidShellAsync
+            // http://linux.die.net/man/8/ping
+
+            ShellAsync("ping -c 1 -w 4 " + host,
+                yy =>
+                {
+                    // time=592ms 
+
+                    var ms = yy.SkipUntilOrEmpty("time=").TakeUntilOrEmpty(" ms");
+                    if (string.IsNullOrEmpty(ms))
+                        return;
+
+                    y(ms);
+                }
+            );
 #else
             Thread.Sleep(500);
 
@@ -122,7 +157,50 @@ Options:
         public void ShellAsync(string e, Action<string> y)
         {
 #if AndroidShellAsync
-            y("AndroidShellAsync not implemented.");
+
+            //         System.InvalidOperationException: Sequence contains more than one element
+            //at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+            //at jsc.Languages.Java.JavaCompiler.GetArrayEnumeratorType() in x:\jsc.internal.svn\compiler\jsc\Languages\Java\JavaCompiler.overrride.cs:line 52
+            //at jsc.Languages.Java.JavaCompiler.GetImportTypes(Type t, Boolean bExcludeJavaLang) in x:\jsc.internal.svn\compiler\jsc\Languages\Java\JavaCompiler.WriteImportTypes.cs:line 363
+            //at jsc.Languages.Java.JavaCompiler.WriteImportTypes(Type ContextType) in x:\jsc.internal.svn\compiler\jsc\Languages\Java\JavaCompiler.WriteImportTypes.cs:line 22
+            //at jsc.Languages.Java.JavaCompiler.CompileType(Type z) in x:\jsc.internal.svn\compiler\jsc\Languages\Java\JavaCompiler.CompileType.cs:line 43
+            //at jsc.Languages.CompilerJob.<>c__DisplayClass1a.<CompileJava>b__17(Type xx) in x:\jsc.internal.svn\compiler\jsc\Languages\Java\CompilerJob.cs:line 120
+
+            //            IsArrayEnumerator: ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator`1, ScriptCoreLibAndroid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            //IsArrayEnumerator: ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator`1, ScriptCoreLibJava, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null
+
+
+            try
+            {
+                // http://stackoverflow.com/questions/9062182/android-icmp-ping
+
+                var p = new ProcessBuilder(new[] { "sh" }).redirectErrorStream(true).start();
+
+                var os = new DataOutputStream(p.getOutputStream());
+                //os.writeBytes(e + '\n');
+                os.writeBytes(e + "\n");
+                os.flush();
+
+                // Close the terminal
+                os.writeBytes("exit\n");
+                os.flush();
+
+                // read ping replys
+                var reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                string line = reader.readLine();
+
+
+                while (line != null)
+                {
+                    y(line);
+                    line = reader.readLine();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                y("AndroidShellAsync error: " + new { ex.Message });
+
+            }
 
 #elif ShellAsync
             try
