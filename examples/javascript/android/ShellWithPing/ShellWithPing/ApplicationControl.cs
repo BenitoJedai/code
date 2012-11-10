@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.Extensions;
 
 namespace ShellWithPing
 {
@@ -34,8 +35,23 @@ namespace ShellWithPing
 
             c.Show();
 
-            c.AtCommand += applicationWebService1.EchoAsync;
+            c.AtCommand +=
+                (x, y) =>
+                {
+                    if (x.StartsWith("go "))
+                    {
+                        var url = x.SkipUntilOrEmpty("go ");
 
+                        var f = new Form { Text = url };
+                        var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
+                        w.Navigate(url);
+                        f.Show();
+                        return;
+
+                    }
+                    applicationWebService1.EchoAsync(x, y);
+
+                };
         }
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
