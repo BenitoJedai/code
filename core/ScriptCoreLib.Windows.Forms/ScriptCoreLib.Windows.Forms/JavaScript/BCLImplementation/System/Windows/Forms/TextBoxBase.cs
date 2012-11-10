@@ -24,18 +24,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public void ScrollToCaret()
+        {
+            // ? where is our caret?
+            this.HTMLTarget.ScrollToBottom();
+        }
+
+        public int SelectionStart
+        {
+            set { this.HTMLTarget.SelectionStart = value; }
+            get { return this.HTMLTarget.SelectionStart; }
+        }
+
+        public BorderStyle InternalBorderStyle;
+        public BorderStyle BorderStyle
+        {
+            get
+            { return InternalBorderStyle; }
+
+            set
+            {
+                InternalBorderStyle = value;
+
+                if (value == global::System.Windows.Forms.BorderStyle.None)
+                {
+                    this.HTMLTarget.style.borderWidth = "0px";
+                }
+            }
+        }
 
         public __TextBoxBase()
         {
             HTMLTarget = new IHTMLTextArea();
 
-			// http://www.electrictoolbox.com/disable-textarea-resizing-safari-chrome/
-			HTMLTarget.style.resize = "none";
-			HTMLTarget.onchange +=
-				delegate
-				{
-					this.InternalRaiseTextChanged();
-				};
+            // http://www.electrictoolbox.com/disable-textarea-resizing-safari-chrome/
+            HTMLTarget.style.resize = "none";
+            this.HTMLTargetRef.style.outline = "none";
+
+            HTMLTarget.onchange +=
+                delegate
+                {
+                    this.InternalRaiseTextChanged();
+                };
 
             HTMLTarget.onkeyup +=
                 delegate
@@ -44,9 +74,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
 
             this.Size = new global::System.Drawing.Size(100, 20);
-			
-			// fixme: we should be switching between HTMLTextArea and HTMLInput...
-			this.InternalSetDefaultFont();
+
+            // fixme: we should be switching between HTMLTextArea and HTMLInput...
+            this.InternalSetDefaultFont();
         }
 
         public bool ReadOnly
@@ -55,10 +85,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set { this.HTMLTarget.readOnly = value; }
         }
 
-		public void AppendText(string text)
-		{
-			this.Text += text;
-		}
+        public void AppendText(string text)
+        {
+            this.Text += text;
+        }
 
         public void Clear()
         {

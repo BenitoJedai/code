@@ -35,12 +35,15 @@ namespace WebApplicationWindowMessaging
 
                 var a = new IHTMLIFrame
                 {
+                    allowFullScreen = true
                 }.AttachToDocument();
 
                 a.contentWindow.document.location.replace("#/child1");
 
                 var b = new IHTMLIFrame
                 {
+                    allowFullScreen = true
+
                 }.AttachToDocument();
 
                 b.contentWindow.document.location.replace("#/child2");
