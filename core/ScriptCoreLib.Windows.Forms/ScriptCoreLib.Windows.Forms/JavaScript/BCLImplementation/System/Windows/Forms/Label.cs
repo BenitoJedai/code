@@ -55,10 +55,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (this.AutoSize)
                 {
-                    this.HTMLTargetContainer.style.SetSize(
-                        this.HTMLTarget.scrollWidth,
-                        this.HTMLTarget.scrollHeight
-                    );
+                    Native.Window.requestAnimationFrame +=
+                        delegate
+                        {
+                            this.Size = new global::System.Drawing.Size(
+
+                            //this.HTMLTargetContainer.style.SetSize(
+                                this.HTMLTarget.scrollWidth,
+                                this.HTMLTarget.scrollHeight
+                            );
+                        };
                 }
             }
         }

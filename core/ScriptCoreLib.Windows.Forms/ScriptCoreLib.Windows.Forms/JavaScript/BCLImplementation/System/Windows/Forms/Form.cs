@@ -70,11 +70,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected override void InternalSetBackgroundColor(Color value)
         {
-            TargetOuterBorder.style.backgroundColor = value.ToString();
-            ContentContainer.style.backgroundColor = value.ToString();
+            ContentContainerPadding.style.backgroundColor = value.ToString();
 
-            // for firefox fullscren
-            TargetNoBorder.style.backgroundColor = value.ToString();
+            //TargetOuterBorder.style.backgroundColor = value.ToString();
+            //ContentContainer.style.backgroundColor = value.ToString();
+
+            //// for firefox fullscren
+            //TargetNoBorder.style.backgroundColor = value.ToString();
         }
 
         IHTMLDiv TargetResizerPadding;
@@ -110,6 +112,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             TargetOuterBorder.style.borderColor = JSColor.System.ThreeDDarkShadow;
             TargetOuterBorder.style.borderLeftColor = JSColor.System.ButtonFace;
             TargetOuterBorder.style.borderTopColor = JSColor.System.ButtonFace;
+            TargetOuterBorder.style.backgroundColor = JSColor.System.ButtonFace;
 
             //HTMLTarget.style.SetLocation(64, 64, 100, 100);
             TargetOuterBorder.style.padding = "0";
@@ -891,7 +894,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         CaptionShadow.Show();
 
-               
+
 
                         if (InternalMaximizedForms.Count == 1)
                         {

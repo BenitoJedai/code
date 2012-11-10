@@ -241,6 +241,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
 
+        public int Bottom
+        {
+            get
+            {
+                return this.y + this.height;
+            }
+            set
+            {
+                this.SetBounds(this.x, value - this.height, this.width, this.height, BoundsSpecified.Y);
+            }
+        }
+
         public int Right
         {
             get
@@ -705,6 +717,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public bool Focus()
         {
+
             this.HTMLTargetRef.focus();
             return false;
         }
@@ -1330,6 +1343,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.OnVisibleChanged(null /*EventArgs.Empty*/);
 
             }
+
+            this.HTMLTargetRef.Show(value);
         }
 
         public event EventHandler VisibleChanged;
