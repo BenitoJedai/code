@@ -9,6 +9,12 @@ namespace ScriptCoreLib.GLSL
     {
         // see the "new" keyword :)
 
+        // X:\jsc.svn\examples\javascript\CSSShaderGrayScale\CSSShaderGrayScale\web\assets\CSSShaderGrayScale\grayscaleFragmentShader.cs
+        static protected mat4 mat4(float f)
+        {
+            throw new NotImplementedException();
+        }
+
         // "X:\jsc.svn\examples\javascript\CSSShaderSphereSimple\CSSShaderSphereSimple.sln"
         static protected mat4 mat4(
             float x00, float x01, float x02, float x03,

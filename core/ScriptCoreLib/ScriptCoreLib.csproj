@@ -87,6 +87,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ValueType.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
+    <Compile Include="JavaScript\DOM\IStyleSheet.cs" />
     <Compile Include="PHP\Web\Services\WebService.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />

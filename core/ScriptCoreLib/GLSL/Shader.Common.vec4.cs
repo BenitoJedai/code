@@ -8,6 +8,10 @@ namespace ScriptCoreLib.GLSL
     // where the input arguments (and corresponding output)
     // can be float, vec2, vec3, or vec4, genType is used as the argument.
 
+    // Component-wise operation. T is float, vec2, vec3, vec4. 
+    // http://www.khronos.org/files/webgl/webgl-reference-card-1_0.pdf
+    // http://mew.cx/glsl_quickref.pdf
+
     using genType = vec4;
 
     partial class Shader

@@ -12,7 +12,7 @@ namespace ScriptCoreLib.GLSL
 
         
         #region []
-        public mat3 this[int i]
+        public vec4 this[int i]
         {
             get
             {

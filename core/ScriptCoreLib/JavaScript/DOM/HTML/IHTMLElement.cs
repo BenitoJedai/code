@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public partial class IHTMLElement : IElement
     {
+        // element is like exception. its a base class. not ot be created. not to be thrown.
+
         public string id;
         public string name;
 
@@ -273,8 +275,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public int height;
         public int width;
 
-
+        // this is special
         public string className;
+
+
 
         public readonly int offsetLeft;
         public readonly int offsetTop;
