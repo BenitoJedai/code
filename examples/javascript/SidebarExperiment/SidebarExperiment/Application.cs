@@ -16,6 +16,7 @@ using SidebarExperiment.HTML.Pages;
 using System.Windows.Forms;
 using SidebarExperiment.Library;
 using ScriptCoreLib.JavaScript.Runtime;
+using CSSShaderGrayScale;
 
 namespace SidebarExperiment
 {
@@ -32,12 +33,56 @@ namespace SidebarExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+            FormStyler.AtFormCreated =
+                  s =>
+                  {
+
+                      FormStyler.LikeVisualStudioMetro(s);
+
+                      s.TargetOuterBorder.style.borderColor = ScriptCoreLib.JavaScript.Runtime.JSColor.FromRGB(0, 127, 0);
+                      s.Caption.style.backgroundColor = ScriptCoreLib.JavaScript.Runtime.JSColor.FromRGB(0, 127, 0);
+                      s.TargetOuterBorder.style.boxShadow = "rgba(0, 127, 0, 0.3) 0px 0px 6px 3px";
+                  };
+
             //FormStyler.AtFormCreated = FormStyler.LikeWindows3;
 
             var SidebarIdleWidth = 32;
 
             var f = new Form { Text = "Sidebar" };
+
+            GrayScaleRule.InitializeGrayScaleFor("CLRForm");
+            f.GetHTMLTarget().className = "CLRForm";
+
+
+            #region WhileDragging
+
+
+            Action WhileDragging = null;
+
+            WhileDragging = delegate
+            {
+                if (f.Left == 0)
+                {
+                    f.GetHTMLTarget().className = "CLRForm_nohover";
+                    f.Text = "Sidebar (docked)";
+                }
+                else if (f.Capture)
+                {
+                    f.GetHTMLTarget().className = "";
+                    f.Text = "Sidebar (dragging)";
+                }
+                else
+                {
+                    f.GetHTMLTarget().className = "CLRForm";
+                    f.Text = "Sidebar";
+
+                }
+                Native.Window.requestAnimationFrame += WhileDragging;
+            };
+            Native.Window.requestAnimationFrame += WhileDragging;
+            #endregion
+
+
             var c = new Sidebar { Dock = DockStyle.Fill }.AttachTo(f);
 
             f.Show();
@@ -140,7 +185,7 @@ namespace SidebarExperiment
                         AtCapture = delegate
                         {
                             done = true;
-                            
+
                             AtCapture = null;
                             f.MinimumSize = new System.Drawing.Size(100, 100);
                             f.SizeTo(fs.Width, fs.Height);
