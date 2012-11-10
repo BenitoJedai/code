@@ -70,6 +70,7 @@ namespace AndroidOpenStreetMapViewActivity.Activities
         private MapController myMapController;
 
         org.slf4j.Logger hack;
+        org.osmdroid.views.MapView.Projection hack1;
 
         
   //<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
