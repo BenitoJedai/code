@@ -61,6 +61,8 @@ namespace SQLiteWithDataGridView
 
                 };
 
+            canvas.PrepareAnimation()();
+
             canvas.AttachToContainer(Native.Document.body);
 
             canvas.AutoSizeTo(Native.Document.body);
