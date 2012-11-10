@@ -104,13 +104,13 @@ namespace AndroidPayPalActivity.Activities
         }
 
         	//The reference token that we get from initializing the MECL library
-	    public static String _deviceReferenceToken;
+	    public static string _deviceReferenceToken;
 	
 	    // The PayPal server to be used - can also be ENV_NONE and ENV_LIVE
 	    private static int server = PayPal.ENV_SANDBOX;
 
 	    // The ID of your application that you received from PayPal
-	    private static String appID = "APP-80W284485P519543T";
+	    private static string appID = "APP-80W284485P519543T";
 	
 	    public static string build = "11.01.04.8174";
 	

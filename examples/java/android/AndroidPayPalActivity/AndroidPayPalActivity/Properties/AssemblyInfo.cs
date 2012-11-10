@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using ScriptCoreLib;
 
-[assembly: AssemblyTitle(@"Android PayPal Activity")]
+[assembly: AssemblyTitle(@"Android PayPal Activity 4")]
 [assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
 [assembly: AssemblyProduct(@"WebApplication")]
@@ -20,5 +20,4 @@ using ScriptCoreLib;
 [assembly: Guid("b6f3cd7a-c1b0-4aa6-a1c7-f3d81b809ad4")]
 
 
-[assembly: Script]
-[assembly: ScriptTypeFilter(ScriptType.Java)]
+[assembly: Obfuscation(Feature = "merge")]
