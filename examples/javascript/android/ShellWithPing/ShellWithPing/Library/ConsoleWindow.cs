@@ -129,5 +129,21 @@ namespace ShellWithPing.Library
                 this.label2.ForeColor = value;
             }
         }
+
+        private void ConsoleWindow_Resize(object sender, EventArgs e)
+        {
+            textBox1.Width = this.ClientSize.Width - textBox1.Left;
+            textBox2.Width = this.ClientSize.Width - textBox2.Left;
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

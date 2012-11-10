@@ -157,6 +157,23 @@ Options:
         public void ShellAsync(string e, Action<string> y)
         {
 #if AndroidShellAsync
+            // http://www.android.pk/blog/general/launch-app-through-adb-shell/
+            //  am start -a android.intent.action.MAIN -n com.android.settings/.Settings
+            // am start tel:210-385-0098
+            // am start -a android.intent.action.CALL tel:245007
+            // am start -a android.intent.action.SENDTO "sms:5245007" -e "sms_body" "heyy"   && input keyevent 22 && input keyevent 66
+            // am start -a android.intent.action.SENDTO -d sms:1234567890 --es sms_body ohai --ez exit_on_sent true
+            // am start -a android.intent.action.SENDTO -d smsto:245007 --es sms_body ":*" --ez exit_on_sent true && am start -a android.intent.action.SENDTO -d sms:5245007 --es sms_body ":*" --ez exit_on_sent true && input keyevent 22 && input keyevent 66
+            // pm list packages
+            // pm list packages -f
+        //http://stackoverflow.com/questions/11201659/android-adb-shell-dumpsys-tool
+            // am start -S -e sms_body 'your message body' \
+          //-e address receiver -t 'vnd.android-dir/mms-sms' \
+          //com.android.mms/com.android.mms.ui.ComposeMessageActivity \
+          //&& adb shell input keyevent 66
+
+        //am start -n com.google.android.youtube/.PlayerActivity -d http://www.youtube.com/watch?v=MTT-crZBB0k
+            // http://stackoverflow.com/questions/7095470/android-read-send-text-messages-on-ubuntu
 
             //         System.InvalidOperationException: Sequence contains more than one element
             //at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
@@ -205,7 +222,7 @@ Options:
 #elif ShellAsync
             try
             {
-                var p = Process.Start(
+                var p = System.Diagnostics.Process.Start(
                     new ProcessStartInfo("cmd")
                     {
 
@@ -236,7 +253,7 @@ Options:
                 var ww = new AutoResetEvent(false);
 
             #region timeout
-                var rr = new Thread(
+                var rr = new System.Threading.Thread(
                     delegate()
                     {
                         StandardOutput = p.StandardOutput.ReadToEnd();
@@ -251,10 +268,10 @@ Options:
 
 
             #region timeout
-                new Thread(
+                new System.Threading.Thread(
                     delegate()
                     {
-                        Thread.Sleep(5000);
+                        System.Threading.Thread.Sleep(5000);
 
 
                         if (rr.IsAlive)
@@ -274,7 +291,7 @@ Options:
                 ).Start();
             #endregion
 
-                Thread.Yield();
+                System.Threading.Thread.Yield();
 
                 ww.WaitOne();
 
@@ -286,7 +303,7 @@ Options:
                 y("exit: " + p.ExitCode);
 
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
 
                 Debugger.Break();

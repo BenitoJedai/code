@@ -49,6 +49,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 if (value == global::System.Windows.Forms.BorderStyle.None)
                 {
                     this.HTMLTarget.style.borderWidth = "0px";
+                    this.HTMLTarget.style.padding = "0px";
+
                 }
             }
         }
@@ -108,20 +110,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public bool InternalWordWrap;
         public bool WordWrap
         {
             get
             {
-                return false;
-
-                //return this.HTMLTarget.style.whiteSpace == ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.normal;
+                return InternalWordWrap;
             }
             set
             {
-                //if (value)
-                //    this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.normal;
-                //else
-                //    this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+                InternalWordWrap = value;
+                if (value)
+                    this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.normal;
+                else
+                    this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
             }
         }
