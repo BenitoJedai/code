@@ -427,6 +427,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Package.cs">
       <Link>java\lang\Package.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Process.cs">
+      <Link>java\lang\Process.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\ProcessBuilder.cs">
+      <Link>java\lang\ProcessBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\reflect\AccessibleObject.cs">
       <Link>java\lang\reflect\AccessibleObject.cs</Link>
     </Compile>
