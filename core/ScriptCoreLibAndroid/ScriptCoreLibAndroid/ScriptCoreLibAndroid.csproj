@@ -67,6 +67,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Byte.cs">
       <Link>BCLImplementation\System\Byte.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Char.cs">
+      <Link>BCLImplementation\System\Char.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\ArrayList.cs">
       <Link>BCLImplementation\System\Collections\ArrayList.cs</Link>
     </Compile>
@@ -387,6 +390,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Byte.cs">
       <Link>java\lang\Byte.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Character.cs">
+      <Link>java\lang\Character.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\CharSequence.cs">
       <Link>java\lang\CharSequence.cs</Link>

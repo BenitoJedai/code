@@ -425,6 +425,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             return default(string);
         }
+
+
+        [Script(DefineAsStatic = true)]
+        public char[] ToCharArray()
+        {
+            var x = (string)(object)this;
+            var a = new char[x.Length];
+            for (int i = 0; i < x.Length; i++)
+            {
+                a[i] = x[i];
+            }
+            return a;
+        }
     }
 
 }
