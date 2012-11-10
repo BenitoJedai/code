@@ -50,6 +50,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public virtual AnchorStyles Anchor { get; set; }
 
 
+        public object Invoke(Delegate method)
+        {
+            // multithreading!
+            ((Action)method)();
+
+            return null;
+        }
+
         public static Font DefaultFont
         {
             get

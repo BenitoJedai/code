@@ -23,7 +23,7 @@ namespace ShellWithPing
             applicationWebService1.PING_InvokeAsync("8.8.8.8",
                 y =>
                 {
-                    button1.Text = y;
+                    button1.Text += "\n" + y;
                 }
             );
         }
@@ -41,6 +41,16 @@ namespace ShellWithPing
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, System.EventArgs e)
+        {
+            var c = new ConsoleWindow { Text = "Administrator Shell" }
+                .AppendLine(" *** WARNING *** be careful!");
+
+            c.Show();
+
+            c.AtCommand += applicationWebService1.ShellAsync;
         }
 
     }

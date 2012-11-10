@@ -3,12 +3,14 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 
 namespace ShellWithPing
 {
+    
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
@@ -28,9 +30,75 @@ namespace ShellWithPing
         // jsc cannot see explicit interfaces just yet.
         public void PING_InvokeAsync(string host, Action<string> y)
         {
+
+            // Implementation not found for type import :
+            // System.String :: Char[] ToCharArray()
+            // Did you forget to add the [Script] attribute?
+            // type: ShellWithPing.ApplicationWebService offset: 0x0002  method:Void PING_InvokeAsync(System.String, System.Action`1[System.String])
+            //System.NotSupportedException:
+
+            //             Implementation not found for type import :
+            // System.Char :: Boolean IsLetterOrDigit(Char)
+            // Did you forget to add the [Script] attribute?
+            // type: ShellWithPing.ApplicationWebService offset: 0x0001  method:Boolean <PING_InvokeAsync>b__0(Char)
+            //System.NotSupportedException:
+
+
+
+            if (host.ToCharArray().Any(k => !(char.IsNumber(k) || char.IsLetter(k) || k == '.')))
+            {
+                y("access denied.");
+
+                return;
+            }
+
+#if ShellAsync
+            /*
+C:\Users\Arvo>ping /?
+
+Usage: ping [-t] [-a] [-n count] [-l size] [-f] [-i TTL] [-v TOS]
+            [-r count] [-s count] [[-j host-list] | [-k host-list]]
+            [-w timeout] [-R] [-S srcaddr] [-4] [-6] target_name
+
+Options:
+    -t             Ping the specified host until stopped.
+                   To see statistics and continue - type Control-Break;
+                   To stop - type Control-C.
+    -a             Resolve addresses to hostnames.
+    -n count       Number of echo requests to send.
+    -l size        Send buffer size.
+    -f             Set Don't Fragment flag in packet (IPv4-only).
+    -i TTL         Time To Live.
+    -v TOS         Type Of Service (IPv4-only. This setting has been deprecated
+                   and has no effect on the type of service field in the IP Header).
+    -r count       Record route for count hops (IPv4-only).
+    -s count       Timestamp for count hops (IPv4-only).
+    -j host-list   Loose source route along host-list (IPv4-only).
+    -k host-list   Strict source route along host-list (IPv4-only).
+    -w timeout     Timeout in milliseconds to wait for each reply.
+    -R             Use routing header to test reverse route also (IPv6-only).
+    -S srcaddr     Source address to use.
+    -4             Force using IPv4.
+    -6             Force using IPv6.
+             
+             */
+            ShellAsync("ping " + host + " -a -n 1 -w 4000",
+                yy =>
+                {
+                    // time=592ms 
+
+                    var ms = yy.SkipUntilOrEmpty(" time=").TakeUntilOrEmpty("ms ");
+                    if (string.IsNullOrEmpty(ms))
+                        return;
+
+                    y(ms);
+                }
+            );
+#else
             Thread.Sleep(500);
 
             y("simulated ping to [" + host + "] complete.");
+#endif
         }
 
         public void EchoAsync(string e, Action<string> y)
@@ -49,7 +117,114 @@ namespace ShellWithPing
             }
             y("echo: " + e);
         }
+
+
+        public void ShellAsync(string e, Action<string> y)
+        {
+#if AndroidShellAsync
+            y("AndroidShellAsync not implemented.");
+
+#elif ShellAsync
+            try
+            {
+                var p = Process.Start(
+                    new ProcessStartInfo("cmd")
+                    {
+
+                        //ex = {"The Process object must have the UseShellExecute property set to false in order to redirect IO streams."}
+
+                        UseShellExecute = false,
+
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true
+                    }
+
+                    );
+                y("pid: " + p.Id);
+                y("");
+
+
+                //ex = {"Timeouts are not supported on this stream."}
+                //p.StandardOutput.BaseStream.ReadTimeout = 4000;
+                //p.StandardError.BaseStream.ReadTimeout = 4000;
+
+                var StandardOutput = "";
+                var StandardError = "";
+
+                p.StandardInput.WriteLine(e);
+                p.StandardInput.WriteLine("exit");
+
+                var ww = new AutoResetEvent(false);
+
+            #region timeout
+                var rr = new Thread(
+                    delegate()
+                    {
+                        StandardOutput = p.StandardOutput.ReadToEnd();
+                        StandardError = p.StandardError.ReadToEnd();
+
+                        ww.Set();
+                    }
+                );
+
+                rr.Start();
+            #endregion
+
+
+            #region timeout
+                new Thread(
+                    delegate()
+                    {
+                        Thread.Sleep(5000);
+
+
+                        if (rr.IsAlive)
+                        {
+                            rr.Abort();
+                        }
+                        ww.Set();
+
+                        //ex = {"Process must exit before requested information can be determined."}
+
+                        if (p.HasExited)
+                            return;
+
+
+                        p.Kill();
+                    }
+                ).Start();
+            #endregion
+
+                Thread.Yield();
+
+                ww.WaitOne();
+
+
+
+                y(StandardOutput);
+                y(StandardError);
+                y("");
+                y("exit: " + p.ExitCode);
+
+            }
+            catch (Exception ex)
+            {
+
+                Debugger.Break();
+            }
+            finally
+            {
+                y = null;
+            }
+#else
+            y("ShellAsync not implemented.");
+#endif
+
+        }
     }
+
+
 
     interface PING
     {
