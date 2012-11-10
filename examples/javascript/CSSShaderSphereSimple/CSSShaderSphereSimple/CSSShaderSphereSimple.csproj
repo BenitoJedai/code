@@ -43,6 +43,7 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -123,8 +124,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="web\assets\CSSShaderSphereSimple\sphere_simpleFragmentShader.cs" />
-    <Compile Include="web\assets\CSSShaderSphereSimple\sphere_simpleVertexShader.cs" />
+    <Compile Include="Shaders\sphere_simpleFragmentShader.cs" />
+    <Compile Include="Shaders\sphere_simpleVertexShader.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,9 +136,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="web\assets\CSSShaderSphereSimple\sphere_simple.frag" />
     <Content Include="Design\Textures\grid.png" />
-    <EmbeddedResource Include="web\assets\CSSShaderSphereSimple\sphere_simple.vert" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\forms\MandelbrotFormsControl\MandelbrotFormsControl\MandelbrotFormsControl.csproj">
@@ -151,6 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Library\References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\sphere_simple.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\sphere_simple.frag" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

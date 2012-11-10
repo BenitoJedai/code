@@ -1,17 +1,4 @@
-.shader {
-			-webkit-filter: custom(url(sphere_simple.vert) mix(url(sphere_simple.frag) normal source-atop), 16 32, amount 1, sphereRadius 0.35, lightPosition 0.0 0.0 1.0 );
-			-webkit-transition: -webkit-filter ease-in-out 1s;
-		}
 
-		.shader:hover {
-			-webkit-filter: custom(url(sphere_simple.vert) mix(url(sphere_simple.frag) normal source-atop), 16 32, amount 0, sphereRadius 0.35, lightPosition 0.0 0.0 1.0 );
-		}
-
-		.thumb {
-			width: 512px;
-			height: 512px;
-			margin-bottom: 2em;
-		}
 
 		body {
 			font-family: "Trebuchet MS",tahoma,verdana,sans-serif;
