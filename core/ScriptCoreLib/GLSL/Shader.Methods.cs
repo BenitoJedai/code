@@ -9,6 +9,17 @@ namespace ScriptCoreLib.GLSL
     {
         // see the "new" keyword :)
 
+        // "X:\jsc.svn\examples\javascript\CSSShaderSphereSimple\CSSShaderSphereSimple.sln"
+        static protected mat4 mat4(
+            float x00, float x01, float x02, float x03,
+            float x10, float x11, float x12, float x13,
+            float x20, float x21, float x22, float x23,
+            float x30, float x31, float x32, float x33
+            )
+        {
+            throw new NotImplementedException();
+        }
+
         static protected mat3 mat3(float x, float y, float z)
         {
             throw new NotImplementedException();
@@ -78,7 +89,7 @@ namespace ScriptCoreLib.GLSL
         {
             throw new NotImplementedException();
         }
-     
+
         // are those valid?
 
         protected float length(float x) { throw new NotImplementedException(); }

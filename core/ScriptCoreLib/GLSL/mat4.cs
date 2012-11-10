@@ -10,6 +10,7 @@ namespace ScriptCoreLib.GLSL
     {
         // see also: http://cgkit.sourceforge.net/doc2/mat4.html
 
+        
         #region []
         public mat3 this[int i]
         {

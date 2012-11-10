@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSShaderSphereSimple", "CSSShaderSphereSimple\CSSShaderSphereSimple.csproj", "{A9A1B53D-3BC6-41DD-8E86-F87F1A773BD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlasmaFormsControl", "..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj", "{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{A9A1B53D-3BC6-41DD-8E86-F87F1A773BD8}.Debug|x86.Build.0 = Debug|x86
 		{A9A1B53D-3BC6-41DD-8E86-F87F1A773BD8}.Release|x86.ActiveCfg = Release|x86
 		{A9A1B53D-3BC6-41DD-8E86-F87F1A773BD8}.Release|x86.Build.0 = Release|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Debug|x86.ActiveCfg = Debug|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Debug|x86.Build.0 = Debug|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|x86.ActiveCfg = Release|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
