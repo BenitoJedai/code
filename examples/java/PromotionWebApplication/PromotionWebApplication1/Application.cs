@@ -140,8 +140,10 @@ namespace PromotionWebApplication1
                 };
 
             canvas.AttachToContainer(Native.Document.body);
-
             canvas.AutoSizeTo(Native.Document.body);
+
+            canvas.AnimationStartDelay = 1;
+            canvas.PrepareAnimation()();
         }
 
 #if false

@@ -118,44 +118,40 @@
     <Reference Include="PlasmaFormsControl.AssetsLibrary">
       <HintPath>..\..\forms\PlasmaFormsControl\PlasmaFormsControl\bin\staging.AssetsLibrary\PlasmaFormsControl.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="MandelbrotFormsControl.AssetsLibrary">
+      <HintPath>..\..\forms\MandelbrotFormsControl\MandelbrotFormsControl\bin\staging.AssetsLibrary\MandelbrotFormsControl.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Library\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Library\References\XPlasma.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Library\References\XPlasma.Designer.cs">
-      <DependentUpon>XPlasma.cs</DependentUpon>
-    </Compile>
     <Compile Include="web\assets\CSSShaderSphereSimple\sphere_simpleFragmentShader.cs" />
     <Compile Include="web\assets\CSSShaderSphereSimple\sphere_simpleVertexShader.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
-    <Compile Include="Application.cs" />
+    <Compile Include="Application.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Library\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="web\assets\CSSShaderSphereSimple\sphere_simple.frag" />
     <Content Include="Design\Textures\grid.png" />
     <EmbeddedResource Include="web\assets\CSSShaderSphereSimple\sphere_simple.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\forms\MandelbrotFormsControl\MandelbrotFormsControl\MandelbrotFormsControl.csproj">
+      <Project>{a9164dac-e538-45bd-a51c-b77c547f276b}</Project>
+      <Name>MandelbrotFormsControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj">
       <Project>{df8cc6e1-e494-4194-9e22-3feda8748f82}</Project>
       <Name>PlasmaFormsControl</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Library\References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -14,10 +14,14 @@ using System.Xml.Linq;
 using CSSShaderSphereSimple.Design;
 using CSSShaderSphereSimple.HTML.Pages;
 using System.Windows.Forms;
-using CSSShaderSphereSimple.Library;
 
 namespace CSSShaderSphereSimple
 {
+    class XPlasma : PlasmaFormsControl.ApplicationControl
+    { 
+    
+    }
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -32,7 +36,7 @@ namespace CSSShaderSphereSimple
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+            //FormStyler.AtFormCreated = FormStyler.LikeWindows3;
 
             // http://alteredqualia.com/css-shaders/sphere_simple.html
 
@@ -41,37 +45,60 @@ namespace CSSShaderSphereSimple
             //var fs = new Design.Shaders.sphere_simpleFragmentShader().ToString();
             //var vs = new Design.Shaders.sphere_simpleVertexShader().ToString();
 
-            var f =
-                new Form1 
-                //new Form 
-                { Text = "CSS filter shader" };
-
-            f.SizeTo(512, 512);
-            f.Show();
-
-            #region WhileDragging
-            f.GetHTMLTarget().className = "shader";
-
-
-            Action WhileDragging = null;
-
-            WhileDragging = delegate
+            Func<Form> q = delegate
             {
-                if (f.Capture)
-                {
-                    f.GetHTMLTarget().className = "";
-                    f.Text = "CSS filter shader (dragging)";
-                }
-                else
-                {
-                    f.GetHTMLTarget().className = "shader";
-                    f.Text = "CSS filter shader";
+                var f =
+                    //new Form1
+                    new Form { Text = "CSS filter shader" };
 
-                }
+                f.SizeTo(512, 512);
+                f.Show();
+
+                f.GetHTMLTarget().className = "shader";
+
+                #region WhileDragging
+
+
+                Action WhileDragging = null;
+
+                WhileDragging = delegate
+                {
+                    if (f.Capture)
+                    {
+                        f.GetHTMLTarget().className = "";
+                        f.Text = "CSS filter shader (dragging)";
+                    }
+                    else
+                    {
+                        f.GetHTMLTarget().className = "shader";
+                        f.Text = "CSS filter shader";
+
+                    }
+                    Native.Window.requestAnimationFrame += WhileDragging;
+                };
                 Native.Window.requestAnimationFrame += WhileDragging;
+                #endregion
+
+
+                //var pp = new MandelbrotFormsControl.Library.MandelbrotComponent();
+                //var pp = new XPlasma();
+                //Native.Window.requestAnimationFrame += delegate
+                //{
+                //    f.Controls.Add(pp);
+
+                //};
+
+
+                return f;
             };
-            Native.Window.requestAnimationFrame += WhileDragging;
-            #endregion
+
+            q().MoveTo(32, 32);
+            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+            q().MoveTo(96, 96);
+            FormStyler.AtFormCreated = FormStyler.LikeWindows3;
+
+            var pf = q();
+
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
