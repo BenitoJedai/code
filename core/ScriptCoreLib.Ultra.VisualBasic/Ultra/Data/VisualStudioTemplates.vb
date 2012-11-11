@@ -8,6 +8,7 @@
             <SpecificVersion>False</SpecificVersion>
             <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
         </Reference>
+        <Reference Include="Microsoft.CSharp"/>
         <Reference Include="FSharp.Core">
             <RequiredTargetFramework>4.0</RequiredTargetFramework>
         </Reference>
