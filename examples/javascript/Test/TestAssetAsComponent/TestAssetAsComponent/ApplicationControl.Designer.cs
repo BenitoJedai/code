@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SQLiteConsoleExperiment
+namespace TestAssetAsComponent
 {
     public partial class ApplicationControl
     {
@@ -17,27 +17,21 @@ namespace SQLiteConsoleExperiment
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.applicationWebService1 = new SQLiteConsoleExperiment.ApplicationWebService();
+            this.vjLogoComponent4 = new TestAssetAsComponent.Design.VJLogoComponent();
+            this.vjLogoComponent5 = new TestAssetAsComponent.Design.VJLogoComponent();
             this.SuspendLayout();
             // 
-            // button1
+            // vjLogoComponent4
             // 
-            this.button1.Location = new System.Drawing.Point(36, 56);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "SQLite";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.vjLogoComponent4.href = "http://demo.andrewgreig.com/webgl/vjlogo.html";
+            // 
+            // vjLogoComponent5
+            // 
+            this.vjLogoComponent5.href = "http://demo.andrewgreig.com/webgl/vjlogo.html";
             // 
             // ApplicationControl
             // 
-            this.BackColor = System.Drawing.Color.Transparent;
-            this.Controls.Add(this.button1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(400, 300);
-            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
 
         }
@@ -52,8 +46,12 @@ namespace SQLiteConsoleExperiment
             base.Dispose(disposing);
         }
 
-        private Button button1;
-        private ApplicationWebService applicationWebService1;
+        private Design.VJLogoComponent vjLogoComponent1;
+        private Design.VJLogoComponent vjLogoComponent2;
+        private Design.VJLogoComponent vjLogoComponent3;
+        public Design.VJLogoComponent vjLogoComponent4;
+        public Design.VJLogoComponent vjLogoComponent5;
+
 
     }
 }

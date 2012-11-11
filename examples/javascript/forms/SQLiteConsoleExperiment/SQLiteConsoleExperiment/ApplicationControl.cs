@@ -10,6 +10,9 @@ using System.Windows.Forms;
 namespace SQLiteConsoleExperiment
 {
     public partial class ApplicationControl : UserControl
+
+        // can do that yet. the referenced webservice is not correctly linked yet
+    //: ShellWithPing.ApplicationControl
     {
         public ApplicationControl()
         {
@@ -20,6 +23,7 @@ namespace SQLiteConsoleExperiment
         {
             var DefaultText =
 @"example:
+  cls
   create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null)
   insert into Table1 (ContentValue) values ('AddItem')
   select ContentKey, ContentValue from Table1
@@ -47,8 +51,11 @@ namespace SQLiteConsoleExperiment
             c.FormClosing +=
                 (s, a) =>
                 {
-                    if (MessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == DialogResult.No)
-                        a.Cancel = true;
+                    //if (MessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                    a.Cancel = true;
+
+
+                    c.WindowState = FormWindowState.Minimized;
                 };
         }
 

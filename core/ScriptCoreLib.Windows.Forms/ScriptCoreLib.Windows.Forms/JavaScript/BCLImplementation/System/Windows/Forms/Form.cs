@@ -324,6 +324,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
               {
                   Capture = false;
                   InternalMouseReleased();
+
               };
             #endregion
 
@@ -488,7 +489,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         InternalUpdateZIndex(HTMLTarget);
                     }
 
-                    var y = Math.Max(-4, drag.Position.Y);
+                    var MinimizeY = Native.Window.Height - (this.Height - ContentContainerPadding.clientHeight);
+
+                    var y = Math.Min(MinimizeY, Math.Max(-4, drag.Position.Y));
 
                     //if (Native.Document.fullscreenElement == TargetNoBorder)
                     this.Location = new Point(drag.Position.X, y);
@@ -498,11 +501,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (y < 0)
                     {
                         CaptionShadow.Show();
-
                     }
                     else
                     {
-                        CaptionShadow.Hide();
+
+                        if (y < MinimizeY)
+                            CaptionShadow.Hide();
+                        else
+                            CaptionShadow.Show();
                     }
                 };
             #endregion
@@ -523,12 +529,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     CaptionForeground.style.cursor = IStyle.CursorEnum.@default;
                     Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
 
-                    if (drag.Position.Y < 0)
+                    var MinimizeY = Native.Window.Height - (this.Height - ContentContainerPadding.clientHeight);
+                    var y = drag.Position.Y;
+
+                    if (y < 0)
                     {
                         drag.Position = BeforePosition;
                         this.Location = new Point(BeforePosition.X, BeforePosition.Y);
 
                         InternalEnterFullscreen();
+                    }
+                    else if (y >= MinimizeY)
+                    {
+                        if (this.WindowState != FormWindowState.Minimized)
+                        {
+                            // do we need this?
+
+                            var cs = this.ClientSize;
+                            var ll = this.Location;
+
+                            //drag.Position = BeforePosition;
+                            //this.Location = new Point(BeforePosition.X, BeforePosition.Y);
+
+                            this.WindowState = FormWindowState.Minimized;
+
+                            //this.InternalRestoreClientSIze = cs;
+                            this.InternalRestoreLocation = ll;
+                        }
+                    }
+                    else
+                    {
+                        //Console.WriteLine("to Normal ? " + new { this.WindowState });
+
+                        if (this.WindowState == FormWindowState.Minimized)
+                        {
+                            var cs = this.ClientSize;
+                            var ll = this.Location;
+
+                            this.WindowState = FormWindowState.Normal;
+
+                            //this.ClientSize = cs;
+                            this.Location = ll;
+                        }
                     }
 
                 };
@@ -538,6 +580,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             drag.MiddleClick +=
                 delegate
                 {
+                    if (this.WindowState == FormWindowState.Minimized)
+                    {
+                        this.WindowState = FormWindowState.Normal;
+                        return;
+                    }
+
                     if (TargetNoBorder.parentNode != TargetResizerPadding)
                         InternalExitFullscreen();
                     else
@@ -548,6 +596,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CaptionForeground.ondblclick +=
                 delegate
                 {
+                    if (this.WindowState == FormWindowState.Minimized)
+                    {
+                        this.WindowState = FormWindowState.Normal;
+                        return;
+                    }
 
 
                     if (TargetNoBorder.parentNode != TargetResizerPadding)
@@ -814,12 +867,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         static List<__Form> InternalMaximizedForms = new List<__Form>();
 
+        FormWindowState InternalWindowState;
+
         public FormWindowState WindowState
         {
             get
             {
                 if (InternalMaximizedForms.Contains(this))
                     return FormWindowState.Maximized;
+
+                if (InternalWindowState == FormWindowState.Minimized)
+                    return FormWindowState.Minimized;
 
                 return FormWindowState.Normal;
             }
@@ -831,10 +889,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 if (WindowState == value)
                     return;
 
+
                 if (value == FormWindowState.Normal)
                 {
-                    if (InternalMaximizedForms.Contains(this))
+                    CaptionShadow.Hide();
+
+                    if (InternalWindowState == FormWindowState.Minimized)
                     {
+                        this.MinimumSize = this.DefaultMinimumSize;
+                        this.MaximumSize = this.DefaultMaximumSize;
+
+                        Location = this.InternalRestoreLocation;
+                        ClientSize = this.InternalRestoreClientSIze;
+                    }
+                    else if (InternalMaximizedForms.Contains(this))
+                    {
+                        #region was fullscreen
                         //Console.WriteLine("set_WindowState <- Normal, InternalMaximizedForms.Remove");
 
                         InternalMaximizedForms.Remove(this);
@@ -852,7 +922,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             this.TargetNoBorder.style.zIndex = 0;
                         }
 
-                        CaptionShadow.Hide();
 
                         drag.OffsetPosition.Y = 12;
                         drag.OffsetPosition.X = this.Width / 2;
@@ -879,12 +948,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             {
                                 InternalClientSizeChanged();
                             };
+                        #endregion
                     }
+
+
 
                 }
                 else if (value == FormWindowState.Maximized)
                 {
-                    if (!InternalMaximizedForms.Contains(this))
+                    if (InternalWindowState == FormWindowState.Minimized)
+                    {
+                        this.MinimumSize = this.DefaultMinimumSize;
+                        this.MaximumSize = this.DefaultMaximumSize;
+
+                        Location = this.InternalRestoreLocation;
+                        ClientSize = this.InternalRestoreClientSIze;
+                    }
+                    else if (!InternalMaximizedForms.Contains(this))
                     {
                         //Console.WriteLine("set_WindowState <- Maximized, InternalMaximizedForms.Add");
                         InternalMaximizedForms.Add(this);
@@ -962,13 +1042,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     }
                 }
+                else if (value == FormWindowState.Minimized)
+                {
+                    CaptionShadow.Show();
+
+                    this.InternalRestoreLocation = this.Location;
+                    this.InternalRestoreClientSIze = this.ClientSize;
+                    this.ClientSize = new Size(200, 0);
+
+                    Native.Window.requestAnimationFrame +=
+                        delegate
+                        {
+                            this.MinimumSize = this.Size;
+                            this.MaximumSize = new Size(Native.Window.Width, this.Height);
+
+                            this.Top = Native.Window.Height - this.Height;
+                        };
+
+                }
 
 
+                InternalWindowState = value;
 
                 InternalRaiseLocationChanged();
             }
         }
         #endregion
+
+        Size InternalRestoreClientSIze;
+        Point InternalRestoreLocation;
 
         #region FormBorderStyle
         public FormBorderStyle InternalFormBorderStyle = FormBorderStyle.Sizable;
