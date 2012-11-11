@@ -1477,6 +1477,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public virtual Size MinimumSize { get; set; }
 
 
+        public event KeyEventHandler KeyDown
+        {
+            add
+            {
+                this.HTMLTargetRef.onkeydown +=
+                    e =>
+                    {
+                        var a = new KeyEventArgs((Keys)e.KeyCode);
+
+                        value(this, a);
+
+                        if (a.SuppressKeyPress)
+                        {
+                            // http://stackoverflow.com/questions/1404583/stop-keypress-event
+                            e.PreventDefault();
+                        }
+                    };
+
+            }
+
+            remove
+            {
+
+            }
+        }
 
         public event KeyEventHandler KeyUp
         {

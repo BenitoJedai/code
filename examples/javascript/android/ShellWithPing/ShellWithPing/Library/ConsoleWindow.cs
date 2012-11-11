@@ -17,6 +17,7 @@ namespace ShellWithPing.Library
             InitializeComponent();
         }
 
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             var crlf = "\r\n";
@@ -28,15 +29,30 @@ namespace ShellWithPing.Library
             {
                 var x = textBox1.Text.TakeUntilIfAny(crlf);
 
-                textBox1.Text = textBox1.Text.SkipUntilOrEmpty(crlf);
+                textBox1.Text = "";
 
-                AppendLine(x);
+                History.AddRange(
+                    HistoryDown.ToArray()
+                );
+                HistoryDown.Clear();
+                if (!string.IsNullOrEmpty(HistoryPending))
+                {
+                    History.Add(HistoryPending);
+                    HistoryPending = "";
+                }
+
+                History.Add(x);
+                AppendLine("[" + History.Count + "] " + x);
 
                 if (AtCommand != null)
                     AtCommand(x, y => AppendLine(y));
 
             }
         }
+
+        public string HistoryPending;
+        public List<string> History = new List<string>();
+        public List<string> HistoryDown = new List<string>();
 
         public event Action<string, Action<string>> AtCommand;
 
@@ -154,6 +170,41 @@ namespace ShellWithPing.Library
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Up)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                if (History.Any())
+                {
+                    var x = History.Last();
+                    HistoryPending = x;
+                    HistoryDown.Add(this.textBox1.Text);
+
+                    //var a = new { this.textBox1.SelectionStart, this.textBox1.SelectionLength };
+                    this.textBox1.Text = x;
+                    this.textBox1.Select(this.textBox1.Text.Length, 0);
+
+                    History.RemoveAt(History.Count - 1);
+                }
+            }
+
+            if (e.KeyCode == Keys.Down)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                if (HistoryDown.Any())
+                {
+                    var x = HistoryDown.Last();
+                    History.Add(this.textBox1.Text);
+
+                    HistoryPending = x;
+                    this.textBox1.Text = x;
+                    this.textBox1.Select(this.textBox1.Text.Length, 0);
+
+                    HistoryDown.RemoveAt(HistoryDown.Count - 1);
+                }
+            }
+
             if (e.KeyCode == Keys.Return)
             {
                 e.Handled = true;
