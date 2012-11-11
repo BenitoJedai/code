@@ -18,5 +18,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 			return DialogResult.OK;
 		}
+
+        public static DialogResult Show(string text, string c, MessageBoxButtons b)
+        {
+            // we could emulate this via html
+            // we could show new window/popup
+
+            if (b == MessageBoxButtons.YesNo)
+            {
+                var x = Native.Window.confirm(text);
+
+                if (x)
+                    return DialogResult.Yes;
+
+                return DialogResult.No;
+            }
+
+            Native.Window.alert(text);
+
+            return DialogResult.OK;
+        }
 	}
 }

@@ -375,7 +375,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButtonContent.style.borderRightColor = JSColor.System.ButtonShadow;
             CloseButtonContent.style.borderBottomColor = JSColor.System.ButtonShadow;
 
-            #region onclick
+            #region CloseButton onclick
             CloseButton.onmouseover +=
                  delegate
                  {
@@ -398,6 +398,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButton.onclick +=
                 delegate
                 {
+                    var a = new FormClosingEventArgs(CloseReason.UserClosing, false);
+
+                    if (FormClosing != null)
+                        FormClosing(this, a);
+
+                    if (a.Cancel)
+                        return;
+
                     Close();
                 };
             #endregion
@@ -725,7 +733,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.Location = new Point
                 {
                     X = (Native.Window.Width - this.Width) / 2,
-                    Y = (Native.Window.Height - this.Height) / 2
+                    Y = Math.Max(0, (Native.Window.Height - this.Height) / 2)
                 };
             }
 

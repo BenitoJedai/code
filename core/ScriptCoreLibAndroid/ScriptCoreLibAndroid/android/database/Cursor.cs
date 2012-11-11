@@ -16,12 +16,16 @@ namespace android.database
         bool moveToFirst();
 
         bool moveToNext();
+        int getColumnCount();
+        string getColumnName(int columnIndex);
 
         int getInt(int i);
+        long getLong(int columnIndex);
 
         string getString(int i);
 
         int getColumnIndex(string name);
+        int getType(int columnIndex);
 
         bool isAfterLast();
     }

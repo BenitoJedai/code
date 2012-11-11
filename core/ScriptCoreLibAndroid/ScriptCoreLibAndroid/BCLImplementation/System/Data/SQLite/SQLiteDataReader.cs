@@ -61,6 +61,39 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             return cursor.getInt(i);
         }
+
+        public override string GetName(int ordinal)
+        {
+            return cursor.getColumnName(ordinal);
+        }
+
+        public override long GetInt64(int ordinal)
+        {
+            return cursor.getLong(ordinal);
+        }
+
+        public override Type GetFieldType(int ordinal)
+        {
+            var t = cursor.getType(ordinal);
+
+            // http://developer.android.com/reference/android/database/Cursor.html#FIELD_TYPE_INTEGER
+
+            var FIELD_TYPE_INTEGER = 0x00000001;
+            if (t == FIELD_TYPE_INTEGER)
+                return typeof(long);
+
+            var FIELD_TYPE_STRING = 0x00000003;
+            if (t == FIELD_TYPE_STRING)
+                return typeof(string);
+
+
+            return null;
+        }
+
+        public override int FieldCount
+        {
+            get { return this.cursor.getColumnCount(); }
+        }
     }
 
 }
