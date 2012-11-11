@@ -67,6 +67,12 @@ namespace ShellWithPing.Library
             return this;
         }
 
+        public void Clear(string DefaultText = "")
+        {
+            label1.Text = DefaultText;
+            textBox2.Text = label1.Text;
+        }
+
         private ConsoleWindow InternalAppendLine(string x)
         {
 
@@ -145,5 +151,18 @@ namespace ShellWithPing.Library
         {
 
         }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+                this.textBox1.Text += "\r\n";
+            }
+        }
+
+
     }
 }
