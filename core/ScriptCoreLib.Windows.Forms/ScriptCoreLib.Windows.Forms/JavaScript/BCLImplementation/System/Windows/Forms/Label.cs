@@ -5,11 +5,12 @@ using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    using ScriptCoreLib.JavaScript.DOM.HTML;
-    using ScriptCoreLib.JavaScript.DOM;
+
 
     [Script(Implements = typeof(global::System.Windows.Forms.Label))]
     internal class __Label : __Control
