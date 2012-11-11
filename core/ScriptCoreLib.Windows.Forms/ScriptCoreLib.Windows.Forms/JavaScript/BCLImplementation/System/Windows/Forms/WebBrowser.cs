@@ -70,12 +70,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __WebBrowser()
         {
+
             this.InternalElement = new IHTMLIFrame
             {
                 frameBorder = "0",
                 allowTransparency = true,
                 allowFullScreen = true
             };
+
+            // http://www.w3schools.com/html5/att_iframe_sandbox.asp
+            dynamic iframe = this.InternalElement;
+
+            iframe.sandbox = "allow-scripts allow-forms";
 
         }
     }

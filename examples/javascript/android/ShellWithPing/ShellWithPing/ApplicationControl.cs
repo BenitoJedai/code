@@ -31,13 +31,33 @@ namespace ShellWithPing
 
         private void button2_Click(object sender, System.EventArgs e)
         {
-            var c = new ConsoleWindow().AppendLine("hello world");
+            var c = new ConsoleWindow().AppendLine(
+@"example:
+  go http://zproxy.wordpress.com
+  ping 8.8.8.8
+  bing x*x = y - 2
+");
 
             c.Show();
 
             c.AtCommand +=
                 (x, y) =>
                 {
+                    if (x.StartsWith("bing "))
+                    {
+                        var url = x.SkipUntilOrEmpty("bing ");
+
+                        var f = new Form { Text = url };
+                        var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
+                        //w.Navigate("http://lmgtfy.com/?q=" + url);
+
+                        w.Navigate("http://www.bing.com/search?q=" + url);
+
+                        f.Show();
+                        return;
+
+                    }
+
                     if (x.StartsWith("go "))
                     {
                         var url = x.SkipUntilOrEmpty("go ");
@@ -49,6 +69,7 @@ namespace ShellWithPing
                         return;
 
                     }
+
                     applicationWebService1.EchoAsync(x, y);
 
                 };

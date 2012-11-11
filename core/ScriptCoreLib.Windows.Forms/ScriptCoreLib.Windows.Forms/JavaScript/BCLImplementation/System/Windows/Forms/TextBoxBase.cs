@@ -36,6 +36,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             get { return this.HTMLTarget.SelectionStart; }
         }
 
+        public void Select(int start, int length)
+        {
+            SelectionStart = start;
+        }
+
+
         public BorderStyle InternalBorderStyle;
         public BorderStyle BorderStyle
         {
@@ -121,7 +127,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 InternalWordWrap = value;
                 if (value)
-                    this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.normal;
+                    this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.pre;
                 else
                     this.HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
