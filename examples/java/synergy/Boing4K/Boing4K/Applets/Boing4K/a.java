@@ -39,6 +39,7 @@ public class a extends Applet implements Runnable {
     new Thread(this).start();
   }
 
+
   public void run() {
 
     final int TILE_EMPTY = 0;
