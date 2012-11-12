@@ -489,7 +489,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         InternalUpdateZIndex(HTMLTarget);
                     }
 
-                    var MinimizeY = Native.Window.Height - (this.Height - ContentContainerPadding.clientHeight);
+                    var MinimizeY = Native.Window.Height - 26;
 
                     var y = Math.Min(MinimizeY, Math.Max(-4, drag.Position.Y));
 
@@ -529,7 +529,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     CaptionForeground.style.cursor = IStyle.CursorEnum.@default;
                     Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
 
-                    var MinimizeY = Native.Window.Height - (this.Height - ContentContainerPadding.clientHeight);
+                    var MinimizeY = Native.Window.Height - 26;
                     var y = drag.Position.Y;
 
                     if (y < 0)
@@ -1048,6 +1048,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     this.InternalRestoreLocation = this.Location;
                     this.InternalRestoreClientSIze = this.ClientSize;
+                    this.MinimumSize = this.DefaultMinimumSize;
                     this.ClientSize = new Size(200, 0);
 
                     Native.Window.requestAnimationFrame +=
@@ -1056,7 +1057,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             this.MinimumSize = this.Size;
                             this.MaximumSize = new Size(Native.Window.Width, this.Height);
 
-                            this.Top = Native.Window.Height - this.Height;
+                            this.Top = Native.Window.Height - 26;
                         };
 
                 }

@@ -129,6 +129,26 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             return ivalue;
         }
 
+
+        public override string GetName(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override long GetInt64(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Type GetFieldType(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int FieldCount
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 
 

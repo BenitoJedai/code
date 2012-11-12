@@ -83,7 +83,11 @@ namespace ShellWithPing
         private void button3_Click(object sender, System.EventArgs e)
         {
             var c = new ConsoleWindow { Text = "Administrator Shell", Color = Color.Red }
-                .AppendLine(" *** WARNING *** be careful!");
+                .AppendLine(
+@" *** WARNING *** be careful!
+example:
+ am start -a android.intent.action.CALL tel:245007
+");
 
             c.Show();
 

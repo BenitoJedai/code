@@ -247,21 +247,20 @@ namespace SidebarExperiment
                     }
                     else
                     {
-                        if (f.Left == page.RightSidebarContainer.offsetLeft)
-                        {
-                            LocationChangedDisabled = true;
-                            f.Left = Native.Window.Width - f.Width;
-                            SetRightSidebarWidth(f.Width);
-                            LocationChangedDisabled = false;
-                        }
+                        //if (f.Left == page.RightSidebarContainer.offsetLeft)
+                        //{
+                        //    LocationChangedDisabled = true;
+                        //    f.Left = Native.Window.Width - f.Width;
+                        //    SetRightSidebarWidth(f.Width);
+                        //    LocationChangedDisabled = false;
+                        //}
                     }
 
                     PrevRight = f.Right;
                 };
             #endregion
 
-            #region button1
-            c.button1.Click +=
+            Action AtButton1 =
                 delegate
                 {
                     c.button1.Enabled = false;
@@ -285,7 +284,12 @@ namespace SidebarExperiment
                     }
 
                     f.FormBorderStyle = FormBorderStyle.None;
-                    f.ClientSize = new System.Drawing.Size(f.ClientSize.Width, page.SidebarContainer.clientHeight);
+
+                    Native.Window.requestAnimationFrame +=
+                        delegate
+                        {
+                            f.Height = Native.Window.Height;
+                        };
 
                     c.button2.Click +=
                           delegate
@@ -312,17 +316,32 @@ namespace SidebarExperiment
 
                     cc.AttachTo(page.SidebarContainer);
                 };
+            #region button1
+            c.button1.Click +=
+                delegate
+                {
+                    AtButton1();
+                };
             #endregion
 
             c.button2.Enabled = false;
 
-            f.FormClosed +=
-                delegate
+            f.FormClosing +=
+                (ss, ee) =>
                 {
-                    Native.Document.body.Clear();
+                    ee.Cancel = true;
+                    if (c.button1.Enabled)
+                        AtButton1();
 
-                    Native.Window.close();
                 };
+
+            //f.FormClosed +=
+            //    delegate
+            //    {
+            //        Native.Document.body.Clear();
+
+            //        Native.Window.close();
+            //    };
 
 
             @"Hello world".ToDocumentTitle();

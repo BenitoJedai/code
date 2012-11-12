@@ -1,15 +1,16 @@
 
 
-		body {
-			font-family: "Trebuchet MS",tahoma,verdana,sans-serif;
-			font-size: medium;
-			background: #222;
-			padding: 2em 4em;
-			width: 512px;
-			margin: 0 auto;
-		}
+body {
+    font-family: "Trebuchet MS",tahoma,verdana,sans-serif;
+    font-size: medium;
+    background: #222;
+    padding: 2em 4em;
+    width: 512px;
+    margin: 0 auto;
+    overflow: hidden;
+}
 
-		h1 {
-			color: #fff;
-			margin-bottom: 1.25em;
-		}
+h1 {
+    color: #fff;
+    margin-bottom: 1.25em;
+}
