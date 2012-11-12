@@ -71,7 +71,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Sidebar";
             this.Padding = new System.Windows.Forms.Padding(8);
-            this.Size = new System.Drawing.Size(196, 339);
+            this.Size = new System.Drawing.Size(354, 347);
             this.ResumeLayout(false);
 
         }

@@ -19,10 +19,6 @@ using ScriptCoreLib.GLSL;
 
 namespace CSSShaderSphereSimple
 {
-    class XPlasma : PlasmaFormsControl.ApplicationControl
-    {
-
-    }
 
     public
         // jsc bug: typeof(static class) will not work 
