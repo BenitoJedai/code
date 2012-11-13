@@ -137,9 +137,17 @@ function buildCube(colour, w, h, d, x, y, z, rx, ry, rz) {
 world.addPlane(new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/wood.jpg)", 800, 800, -400, 400, 53, 180, 0, 0));
 
 // walls
-world.addPlane(new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/wall.jpg?3)", 800, 500, 400, -400, -447, 270, 0, 180));
-world.addPlane(new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/wall.jpg?3)", 800, 500, -400, -400, -447, 270, 90, 180));
-world.addPlane(new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/wall.jpg?3)", 800, 500, -400, 400, -447, 90, 00, 0, 0));
+var __wall_c = new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/wall.jpg?3)", 800, 500, 400, -400, -447, 270, 0, 180);
+
+world.addPlane(__wall_c);
+
+var __wall_a = new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/wall.jpg?3)", 800, 500, -400, -400, -447, 270, 90, 180);
+
+world.addPlane(__wall_a);
+
+var __wall_b = new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/wall.jpg?3)", 800, 500, -400, 400, -447, 90, 00, 0, 0);
+
+world.addPlane(__wall_b);
 world.addPlane(new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/wall.jpg?3)", 800, 500, 400, 400, -447, 90, 270, 0));
 
 // rug
@@ -190,7 +198,9 @@ buildCube("url(assets/CSSTransform3DFPSExperimentByKeith/desk.jpg)", 190, 50, 10
 buildCube("url(assets/CSSTransform3DFPSExperimentByKeith/desk.jpg)", 190, 50, 10, -340, 345, 30); // shelf
 
 // artwork
-world.addPlane(new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/osx.jpg)", 424, 174, -398, -240, -300, 90, 90, 0));
+var __artworkPlane = new Plane("url(assets/CSSTransform3DFPSExperimentByKeith/osx.jpg)", 424, 174, -398, -240, -300, 90, 90, 0);
+
+world.addPlane(__artworkPlane);
 
 viewport.camera.position.x = -250
 viewport.camera.position.y = 180

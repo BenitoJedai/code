@@ -25,12 +25,12 @@ namespace CSSTransform3DFPSExperimentByKeith.Controls
             f.FormClosing +=
                 (ss, ee) =>
                 {
-                    //if (ee.CloseReason == CloseReason.UserClosing)
-                    //{
-                    //    ee.Cancel = true;
+                    if (ee.CloseReason == CloseReason.UserClosing)
+                    {
+                        ee.Cancel = true;
 
-                    //    f.WindowState = FormWindowState.Minimized;
-                    //}
+                        f.WindowState = FormWindowState.Minimized;
+                    }
                 };
         }
     }
