@@ -56,6 +56,35 @@ namespace CSSTransform3DFPSExperimentByKeith
             //dynamic __osxPlane = window.__osxPlane;
             //IHTMLDiv __osxPlane_node = __osxPlane.node;
 
+            var discover = new IHTMLIFrame
+            {
+                //border = "0",
+                src = "http://discover.xavalon.net",
+                allowFullScreen = true,
+                frameBorder = "0"
+            };
+
+
+            //discover.style.transform = "scale(0.5)";
+            //discover.style.transformOrigin = "0% 0%";
+
+            var scale = 1.25;
+            var zoom = 8;
+
+            discover.style.transform = "scale(" + (1 / scale) + ")";
+            discover.style.transformOrigin = "0% 0%";
+
+            discover.style.SetSize(
+                (int)(__wall_c.clientWidth * zoom * scale),
+                 (int)(__wall_c.clientHeight * zoom * scale)
+            );
+
+            dynamic ds = discover.style;
+
+            ds.zoom = (100.0 / zoom) + "%";
+
+            discover.AttachTo(__wall_c);
+
 
             var c = new Controls.UserControl1();
 
@@ -226,9 +255,19 @@ namespace CSSTransform3DFPSExperimentByKeith
         }
 
 
+
+
+        [Script(ExternalTarget = "window.__wall_c.node")]
+        static IHTMLDiv __wall_c;
+
+        [Script(ExternalTarget = "window.__wall_b.node")]
+        static IHTMLDiv __wall_b;
+
+        [Script(ExternalTarget = "window.__wall_a.node")]
+        static IHTMLDiv __wall_a;
+
         [Script(ExternalTarget = "window.__osxPlane.node")]
         static IHTMLDiv __osxPlane_node;
-
 
         [Script(ExternalTarget = "window")]
         static XWindow window;
