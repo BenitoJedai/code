@@ -32,6 +32,8 @@ namespace CSSTransform3DFPSExperimentByKeith
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+
             // http://www.keithclark.co.uk/labs/3dcss/demo/
 
             var prefetch = new HTML.Pages.TexturesImages();
@@ -105,25 +107,35 @@ namespace CSSTransform3DFPSExperimentByKeith
             Native.Document.onmousedown +=
                 e =>
                 {
+                    if (e.Element.nodeName.ToLower() == "button")
+                        return;
 
+                    Native.Document.body.requestPointerLock();
                 };
 
-            document.addEventListener("mouseover", function (ev) {
-    pointer.x = ev.pageX;
-    pointer.y = ev.pageY;
-    document.removeEventListener("mouseover", arguments.callee)
-}, false);
+            Native.Document.onmousemove +=
+                e =>
+                {
+                    if (Native.Document.pointerLockElement == Native.Document.body)
+                    {
+                        window.viewport.camera.rotation.x -= e.movementY / 2;
+                        window.viewport.camera.rotation.z += e.movementX / 2;
+                    }
+                    else
+                    {
 
-document.addEventListener("mousemove", function (ev) {
-    viewport.camera.rotation.x -= (ev.pageY - pointer.y) / 2;
-    viewport.camera.rotation.z += (ev.pageX - pointer.x) / 2;
-    pointer.x = ev.pageX;
-    pointer.y = ev.pageY;
+                    }
+                };
 
-    //viewport.camera.rotation.x = -ev.pageY/2;
-    //viewport.camera.rotation.z = ev.pageX/2;
-}, false);
 
+            Native.Document.onmouseup +=
+                 e =>
+                 {
+                     if (Native.Document.pointerLockElement == Native.Document.body)
+                     {
+                         Native.Document.exitPointerLock();
+                     }
+                 };
 
 
 
@@ -225,6 +237,8 @@ document.addEventListener("mousemove", function (ev) {
     [Script(IsNative = true)]
     class XWindow
     {
+        public __vec3 pointer;
+
         public __keyState keyState;
 
         public double speed;

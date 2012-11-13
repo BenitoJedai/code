@@ -18,7 +18,20 @@ namespace CSSTransform3DFPSExperimentByKeith.Controls
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new Form1().Show();
+            var f = new Form1();
+
+            f.Show();
+
+            f.FormClosing +=
+                (ss, ee) =>
+                {
+                    //if (ee.CloseReason == CloseReason.UserClosing)
+                    //{
+                    //    ee.Cancel = true;
+
+                    //    f.WindowState = FormWindowState.Minimized;
+                    //}
+                };
         }
     }
 }
