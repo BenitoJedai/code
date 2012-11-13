@@ -23,17 +23,24 @@ namespace CSS3DMeetsFormsWithWebGL.Library
 
         private void button2_Click(object sender, EventArgs e)
         {
+            var url = this.comboBox1.Text;
+
+            CreateWindowAndNavigate(url);
+        }
+
+        public void CreateWindowAndNavigate(string url)
+        {
             var f = new Form
             {
 
-                Text = this.comboBox1.Text
+                Text = url
             };
             var c = new WebBrowser();
             c.Dock = DockStyle.Fill;
             c.Size = new System.Drawing.Size(800, 600);
             f.Controls.Add(c);
             f.ClientSize = new System.Drawing.Size(800, 600);
-            c.Navigate(this.comboBox1.Text);
+            c.Navigate(url);
             //c.Url = new Uri(this.comboBox1.Text);
             f.Show();
         }
