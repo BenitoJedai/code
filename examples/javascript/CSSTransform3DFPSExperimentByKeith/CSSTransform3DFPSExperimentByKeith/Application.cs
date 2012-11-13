@@ -14,6 +14,8 @@ using System.Xml.Linq;
 using CSSTransform3DFPSExperimentByKeith.Design;
 using CSSTransform3DFPSExperimentByKeith.HTML.Pages;
 using System.Drawing;
+using ScriptCoreLib.GLSL;
+using System.Windows.Forms;
 
 namespace CSSTransform3DFPSExperimentByKeith
 {
@@ -42,9 +44,6 @@ namespace CSSTransform3DFPSExperimentByKeith
                 };
         }
 
-        [Script(ExternalTarget = "window.__osxPlane.node")]
-        public static IHTMLDiv __osxPlane_node;
-
         private
             // dynamic does not work in static yet?
             //static 
@@ -72,7 +71,216 @@ namespace CSSTransform3DFPSExperimentByKeith
 
             c.AttachControlTo(__osxPlane_node);
 
+
+
+            Native.Document.body.onkeydown += e =>
+            {
+                //Console.WriteLine(new { e.KeyCode });
+
+                if (e.KeyCode == 87)
+                    window.keyState.forward = true;
+                if (e.KeyCode == 83)
+                    window.keyState.backward = true;
+                if (e.KeyCode == (int)Keys.A)
+                    window.keyState.strafeleft = true;
+                if (e.KeyCode == (int)Keys.D)
+                    window.keyState.straferight = true;
+            };
+
+            Native.Document.body.onkeyup += e =>
+            {
+                if (e.KeyCode == 87)
+                    window.keyState.forward = false;
+
+                if (e.KeyCode == 83)
+                    window.keyState.backward = false;
+
+                if (e.KeyCode == (int)Keys.A)
+                    window.keyState.strafeleft = false;
+                if (e.KeyCode == (int)Keys.D)
+                    window.keyState.straferight = false;
+
+            };
+
+            Native.Document.onmousedown +=
+                e =>
+                {
+
+                };
+
+            document.addEventListener("mouseover", function (ev) {
+    pointer.x = ev.pageX;
+    pointer.y = ev.pageY;
+    document.removeEventListener("mouseover", arguments.callee)
+}, false);
+
+document.addEventListener("mousemove", function (ev) {
+    viewport.camera.rotation.x -= (ev.pageY - pointer.y) / 2;
+    viewport.camera.rotation.z += (ev.pageX - pointer.x) / 2;
+    pointer.x = ev.pageX;
+    pointer.y = ev.pageY;
+
+    //viewport.camera.rotation.x = -ev.pageY/2;
+    //viewport.camera.rotation.z = ev.pageX/2;
+}, false);
+
+
+
+
+            Action loop = delegate
+            {
+                // is external target working bot ways?
+                //window.speed = window.speed;
+
+                //Console.WriteLine(new { window.keyState.forward });
+
+                #region speed
+                if (window.keyState.backward)
+                {
+                    if (window.speed > -window.maxSpeed)
+                        window.speed -= window.accel;
+                }
+                else if (window.keyState.forward)
+                {
+                    if (window.speed < window.maxSpeed)
+                        window.speed += window.accel;
+                }
+                else if (window.speed > 0)
+                {
+                    window.speed = Math.Max(window.speed - window.accel, 0);
+                }
+                else if (window.speed < 0)
+                {
+                    window.speed = Math.Max(window.speed + window.accel, 0);
+                }
+                else
+                {
+                    window.speed = 0;
+                }
+                #endregion
+
+
+                #region strafespeed
+                if (window.keyState.straferight)
+                {
+                    if (window.strafespeed > -window.maxSpeed)
+                        window.strafespeed -= window.accel;
+                }
+                else if (window.keyState.strafeleft)
+                {
+                    if (window.strafespeed < window.maxSpeed)
+                        window.strafespeed += window.accel;
+                }
+                else if (window.strafespeed > 0)
+                {
+                    window.strafespeed = Math.Max(window.strafespeed - window.accel, 0);
+                }
+                else if (window.strafespeed < 0)
+                {
+                    window.strafespeed = Math.Max(window.strafespeed + window.accel, 0);
+                }
+                else
+                {
+                    window.strafespeed = 0;
+                }
+                #endregion
+
+
+                // sideway
+                {
+
+                    var xo = Math.Sin(window.viewport.camera.rotation.z * 0.0174532925);
+                    var yo = Math.Cos(window.viewport.camera.rotation.z * 0.0174532925);
+
+                    window.viewport.camera.position.x -= xo * window.speed;
+                    window.viewport.camera.position.y -= yo * window.speed;
+                }
+
+                {
+                    var xo = Math.Sin(window.viewport.camera.rotation.z * 0.0174532925 - 3.14 / 2);
+                    var yo = Math.Cos(window.viewport.camera.rotation.z * 0.0174532925 - 3.14 / 2);
+
+                    window.viewport.camera.position.x -= xo * window.strafespeed;
+                    window.viewport.camera.position.y -= yo * window.strafespeed;
+                }
+
+                window.viewport.camera.update();
+
+
+            };
+
+
+            loop.AtAnimationFrame();
         }
 
+
+        [Script(ExternalTarget = "window.__osxPlane.node")]
+        static IHTMLDiv __osxPlane_node;
+
+
+        [Script(ExternalTarget = "window")]
+        static XWindow window;
+    }
+
+    [Script(IsNative = true)]
+    class XWindow
+    {
+        public __keyState keyState;
+
+        public double speed;
+        public double strafespeed;
+
+        public double accel;
+        public double maxSpeed;
+        public __Viewport viewport;
+    }
+
+    sealed class __keyState
+    {
+        public bool backward;
+
+
+        public bool forward;
+
+        public bool strafeleft;
+        public bool straferight;
+    }
+
+    sealed class __Viewport
+    {
+        public __Camera camera;
+    }
+
+    sealed class __Camera
+    {
+        public __vec3 position;
+        public __vec3 rotation;
+
+        [Script(NoDecoration = true)]
+        internal void update()
+        {
+        }
+    }
+
+    sealed class __vec3
+    {
+        public double x, y, z;
+    }
+
+    static class X
+    {
+        public static void AtAnimationFrame(this Action e)
+        {
+            Action x = null;
+
+            x = delegate
+            {
+                e();
+                Native.Window.requestAnimationFrame += x;
+
+            };
+
+            Native.Window.requestAnimationFrame += x;
+        }
     }
 }
