@@ -8,7 +8,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // see: http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
 
-  
+
     [Script(HasNoPrototype = true)]
     public partial class IStyle
     {
@@ -330,6 +330,25 @@ namespace ScriptCoreLib.JavaScript.DOM
                 style.MozTransform = value;
             }
         }
+
+        public string transformOrigin
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var style = (InternalXIStyle)(object)this;
+                return style.transformOrigin;
+            }
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                var style = (InternalXIStyle)(object)this;
+
+                style.transformOrigin = value;
+                style.webkitTransformOrigin = value;
+                style.MozTransformOrigin = value;
+            }
+        }
     }
 
     [Script(HasNoPrototype = true)]
@@ -346,6 +365,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         public string MozTransform;
         public string webkitTransform;
         public string transform;
+
+        public string MozTransformOrigin;
+        public string webkitTransformOrigin;
+        public string transformOrigin;
     }
 
 }
