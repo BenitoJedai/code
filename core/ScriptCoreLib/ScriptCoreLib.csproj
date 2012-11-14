@@ -88,6 +88,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\ValueType.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\DOM\IStyleSheet.cs" />
+    <Compile Include="PHP\Data\SQLiteToMySQLConversion.cs" />
     <Compile Include="PHP\Web\Services\WebService.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
@@ -905,6 +906,7 @@
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />
+    <Folder Include="Shared\BCLImplementation\Abstractatech\" />
     <Folder Include="Shared\BCLImplementation\System\Data\SQLite\" />
   </ItemGroup>
   <ItemGroup>
