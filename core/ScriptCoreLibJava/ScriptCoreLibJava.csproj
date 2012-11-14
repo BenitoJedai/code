@@ -916,6 +916,7 @@
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
     <Compile Include="java\sql\Connection.cs" />
+    <Compile Include="java\sql\ResultSetMetaData.cs" />
     <Compile Include="java\sql\DriverPropertyInfo.cs" />
     <Compile Include="java\sql\Driver.cs" />
     <Compile Include="java\sql\ResultSet.cs" />
@@ -1019,6 +1020,7 @@
     <Content Include="docs\exceptions.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BCLImplementation\Abstractatech\" />
     <Folder Include="BCLImplementation\System\Web\Profile\" />
     <Folder Include="javax\microedition\lcdui\" />
     <Folder Include="javax\microedition\media\" />

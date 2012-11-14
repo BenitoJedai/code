@@ -102,5 +102,82 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             }
             return value;
         }
+
+        public override string GetName(int ordinal)
+        {
+            var r = default(string);
+
+            try
+            {
+                r = this.InternalResultSet.getMetaData().getColumnName(ordinal + 1);
+            }
+            catch
+            {
+                throw;
+            }
+
+            return r;
+        }
+
+        public override long GetInt64(int ordinal)
+        {
+            var value = default(long);
+            try
+            {
+                value = this.InternalResultSet.getLong(ordinal + 1);
+            }
+            catch
+            {
+                throw;
+            }
+            return value;
+        }
+
+        public override Type GetFieldType(int ordinal)
+        {
+            var f = default(int);
+
+            try
+            {
+                f = this.InternalResultSet.getMetaData().getColumnType(ordinal + 1);
+            }
+            catch
+            {
+                throw;
+            }
+
+            if (f == 4)
+                return typeof(int);
+
+            // In MySQL 4.1.x, the four TEXT types (TINYTEXT, TEXT, MEDIUMTEXT, and LONGTEXT) return 'blob" as field types, not "string".
+            // how to fix that?
+            if (f == 2004)
+                return typeof(string);
+
+            if (f == 91)
+                return typeof(string);
+
+            // http://docs.oracle.com/javase/1.4.2/docs/api/constant-values.html#java.sql.Types.INTEGER
+            throw new InvalidOperationException("GetFieldType unknown type: " + f);
+        }
+
+        public override int FieldCount
+        {
+            get
+            {
+                var r = default(int);
+                try
+                {
+
+                    r = this.InternalResultSet.getMetaData().getColumnCount();
+
+                }
+                catch
+                {
+                    throw;
+                }
+                return r;
+            }
+        }
     }
 }
