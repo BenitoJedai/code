@@ -19,7 +19,7 @@ namespace SQLiteConsoleExperiment
 
 
 
-        public void ExecuteReaderAsync(string sql, Action<string> y)
+        public void ExecuteReaderAsync(string sql, Action<string> y, Action<XElement> AtDataGridContent = null)
         {
             var csb = new SQLiteConnectionStringBuilder
             {
