@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UsingXLinqForPopups", "UsingXLinqForPopups\UsingXLinqForPopups.vbproj", "{CA7B14D7-CCD1-45EB-AA44-D083B300DD9D}"
 EndProject
 Global

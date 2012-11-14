@@ -79,10 +79,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             };
 
             // http://www.w3schools.com/html5/att_iframe_sandbox.asp
-            dynamic iframe = this.InternalElement;
+            //dynamic iframe = this.InternalElement;
 
-            iframe.sandbox = "allow-scripts allow-forms";
+            //iframe.sandbox = "allow-scripts allow-forms";
 
+        }
+
+        public string DocumentText
+        {
+            get
+            {
+                return "";
+            }
+            set
+            {
+                // Uncaught TypeError: Cannot read property 'document' of null 
+
+                //this.InternalElement.onload +=
+                //    delegate
+                //    {
+                //        this.InternalElement.contentWindow.document.body.innerHTML = value;
+                //    };
+
+                Native.Window.requestAnimationFrame +=
+                    delegate
+                    {
+
+                        this.InternalElement.contentWindow.document.open("about:blank", "replace");
+                        this.InternalElement.contentWindow.document.write(
+                            value
+                        );
+                        this.InternalElement.contentWindow.document.close();
+
+                    };
+
+            }
         }
     }
 }
