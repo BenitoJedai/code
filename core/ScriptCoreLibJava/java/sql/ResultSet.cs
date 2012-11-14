@@ -19,5 +19,7 @@ namespace java.sql
         long getLong(int columnIndex);
 
         int findColumn(string value);
+
+        ResultSetMetaData getMetaData();
     }
 }
