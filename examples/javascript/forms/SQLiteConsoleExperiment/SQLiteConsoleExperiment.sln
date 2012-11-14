@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteConsoleExperiment", "SQLiteConsoleExperiment\SQLiteConsoleExperiment.csproj", "{C7ABAFF3-E878-463F-8064-791D8211EF7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellWithPing", "..\..\android\ShellWithPing\ShellWithPing\ShellWithPing.csproj", "{0267AB63-ECEC-4ECC-A3B3-853C3138A826}"
@@ -9,6 +9,7 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|x86 = Android|x86
 		Debug|x86 = Debug|x86
+		PHP|x86 = PHP|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -16,12 +17,16 @@ Global
 		{C7ABAFF3-E878-463F-8064-791D8211EF7C}.Android|x86.Build.0 = Android|x86
 		{C7ABAFF3-E878-463F-8064-791D8211EF7C}.Debug|x86.ActiveCfg = Debug|x86
 		{C7ABAFF3-E878-463F-8064-791D8211EF7C}.Debug|x86.Build.0 = Debug|x86
+		{C7ABAFF3-E878-463F-8064-791D8211EF7C}.PHP|x86.ActiveCfg = PHP|x86
+		{C7ABAFF3-E878-463F-8064-791D8211EF7C}.PHP|x86.Build.0 = PHP|x86
 		{C7ABAFF3-E878-463F-8064-791D8211EF7C}.Release|x86.ActiveCfg = Release|x86
 		{C7ABAFF3-E878-463F-8064-791D8211EF7C}.Release|x86.Build.0 = Release|x86
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.Android|x86.ActiveCfg = Android|x86
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.Android|x86.Build.0 = Android|x86
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.Debug|x86.ActiveCfg = Debug|x86
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.Debug|x86.Build.0 = Debug|x86
+		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.PHP|x86.ActiveCfg = PHP|x86
+		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.PHP|x86.Build.0 = PHP|x86
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.Release|x86.ActiveCfg = Release|x86
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
