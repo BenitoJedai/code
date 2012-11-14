@@ -15,7 +15,8 @@ namespace SQLiteConsoleExperiment
     /// </summary>
     public sealed partial class ApplicationWebService : Component
     {
-        public const string DataSource = "SQLiteWithDataGridView5";
+
+        public const string DataSource = "SQLiteWithDataGridView50.sqlite";
 
 
 

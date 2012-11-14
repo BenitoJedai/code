@@ -29,6 +29,7 @@ namespace SQLiteConsoleExperiment
   create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null)
   
   select * from sqlite_master
+  select * from INFORMATION_SCHEMA.TABLES
 
   insert into Table1 (ContentValue) values ('AddItem')
   select ContentKey, ContentValue from Table1
@@ -53,7 +54,10 @@ namespace SQLiteConsoleExperiment
                     Action<XElement> AtDataGridContent =
                         xml =>
                         {
-                            var ff = new Form();
+                            var ff = new Form
+                            {
+                                Text = x
+                            };
 
                             var fw = new WebBrowser { Dock = DockStyle.Fill };
 

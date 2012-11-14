@@ -173,6 +173,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             if (f == "blob")
                 return typeof(string);
 
+            if (f == "datetime")
+                return typeof(string);
+
+
             throw new Exception("GetFieldType unknown type: " + f);
             //return __Type.InternalGetTypeFromClassTokenName(f.type);
         }

@@ -73,6 +73,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
             }
             set
             {
+                InternalEnsureValue();
+
+
                 this.InternalElement.nodeValue = value;
             }
         }
