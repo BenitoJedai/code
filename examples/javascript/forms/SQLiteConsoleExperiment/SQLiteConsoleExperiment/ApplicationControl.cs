@@ -1,11 +1,13 @@
 using ShellWithPing.Library;
 using SQLiteConsoleExperiment;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace SQLiteConsoleExperiment
 {
@@ -25,6 +27,9 @@ namespace SQLiteConsoleExperiment
 @"example:
   cls
   create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null)
+  
+  select * from sqlite_master
+
   insert into Table1 (ContentValue) values ('AddItem')
   select ContentKey, ContentValue from Table1
 
@@ -45,7 +50,13 @@ namespace SQLiteConsoleExperiment
                         return;
                     }
 
-                    this.applicationWebService1.ExecuteReaderAsync(x, y);
+                    Action<XElement> AtDataGridContent =
+                        xml =>
+                        {
+                            MessageBox.Show(xml.ToString());
+                        };
+
+                    this.applicationWebService1.ExecuteReaderAsync(x, y, AtDataGridContent);
                 };
 
             c.FormClosing +=
