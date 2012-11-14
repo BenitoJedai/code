@@ -54,6 +54,15 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LOCALPHP|x86'">
+    <OutputPath>bin\x86\LOCALPHP\</OutputPath>
+    <DefineConstants>TRACE;PHP</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonPromotionBrandIntro">
       <HintPath>..\..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\bin\Debug\AvalonPromotionBrandIntro.exe</HintPath>
@@ -208,6 +217,10 @@ start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /ass
     
     )
       if $(ConfigurationName)==PHP (
+      start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
+      )
+
+      if $(ConfigurationName)==LOCALPHP (
       start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
       )
 </PostBuildEvent>
