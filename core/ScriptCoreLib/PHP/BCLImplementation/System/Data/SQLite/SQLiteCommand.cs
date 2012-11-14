@@ -68,7 +68,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 throw new Exception("mysql_query failed, mysql_errno: " + errno + " " + MySQL.API.mysql_error());
             }
 
-            if (((bool)queryResult == true))
+            var queryResult_bool = (bool)queryResult;
+            var __true = true;
+
+            if (queryResult_bool == __true)
             {
 
                 return new __SQLiteDataReader

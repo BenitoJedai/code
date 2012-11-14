@@ -122,7 +122,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             // return cursor.getString(i);
 
             var keys = (object[])cursor.Keys;
-            var name =  (string)keys[i];
+            var name = (string)keys[i];
             var value = (string)cursor[name];
             var ivalue = int.Parse(value);
 
@@ -132,22 +132,22 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         public override string GetName(int ordinal)
         {
-            throw new NotImplementedException();
+            throw new Exception("GetName NotImplementedException");
         }
 
         public override long GetInt64(int ordinal)
         {
-            throw new NotImplementedException();
+            throw new Exception("GetInt64 NotImplementedException");
         }
 
         public override Type GetFieldType(int ordinal)
         {
-            throw new NotImplementedException();
+            throw new Exception("GetFieldType NotImplementedException");
         }
 
         public override int FieldCount
         {
-            get { throw new NotImplementedException(); }
+            get { throw new Exception("FieldCount NotImplementedException"); }
         }
     }
 
