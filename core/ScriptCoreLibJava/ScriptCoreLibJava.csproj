@@ -66,6 +66,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ScriptCoreLib\PHP\Data\SQLiteToMySQLConversion.cs">
+      <Link>BCLImplementation\System\Data\SQLite\SQLiteToMySQLConversion.cs</Link>
+    </Compile>
     <Compile Include="..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>

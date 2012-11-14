@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib;
+using ScriptCoreLib.PHP.Data;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
@@ -27,12 +28,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             // http://dev.mysql.com/doc/refman/5.0/en/example-auto-increment.html
             // http://www.sqlite.org/autoinc.html
 
-            sql = sql.Replace(
-                "PRIMARY KEY AUTOINCREMENT",
-                "PRIMARY KEY AUTO_INCREMENT"
-            );
-
-            this.sql = sql;
+   
+            this.sql = SQLiteToMySQLConversion.Convert( sql, this.c.InternalConnectionString.DataSource);
 
             try
             {
@@ -73,9 +70,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r };
                 this.c.InternalLastInsertRowIdCommand = this;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                // The ResultSet can not be null for Statement.executeQuery.
+                //                Caused by: java.sql.SQLException: The ResultSet can not be null for Statement.executeQuery.
+                //at com.google.cloud.sql.jdbc.internal.Exceptions.newStatementExecuteQueryNullResultSetException(Exceptions.java:74)
+                //at com.google.cloud.sql.jdbc.Statement.executeQuery(Statement.java:328)
+                //at com.google.cloud.sql.jdbc.Statement.executeQuery(Statement.java:41)
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121101/20121114-mysql
+                // http://www.javaworld.com.tw/jute/post/view?bid=9&id=305281
+                // crude workaround
+                if (ex.StackTrace.Contains("com.google.cloud.sql.jdbc.internal.Exceptions.newStatementExecuteQueryNullResultSetException"))
+                {
+                    // no resultset.
+                    value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = null };
+                }
+
+
+                if (value == null)
+                {
+                    // implicit rethrow wont work. jsc forgot the name of the variable. 
+                    //throw;
+                    //                    [javac] V:\java\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\__SQLiteCommand.java:87: unreported exception java.lang.Throwable; must be caught or declared to be thrown
+                    //[javac]                 throw exception3;
+                    //[javac]                 ^
+                    throw new InvalidOperationException(new { ex.Message, ex.StackTrace }.ToString());
+                }
             }
 
             return value;

@@ -17,6 +17,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override void Close()
         {
+            if (this.InternalResultSet == null)
+                return;
 
             try
             {
@@ -31,6 +33,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override bool Read()
         {
+            if (this.InternalResultSet == null)
+                return false;
+
             var value = default(bool);
 
             try
@@ -149,12 +154,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             if (f == 4)
                 return typeof(int);
 
+            if (f == -5)
+                return typeof(long);
+
             // In MySQL 4.1.x, the four TEXT types (TINYTEXT, TEXT, MEDIUMTEXT, and LONGTEXT) return 'blob" as field types, not "string".
             // how to fix that?
+
+            // long varchar
+            if (f == -1)
+                return typeof(string);
+
             if (f == 2004)
                 return typeof(string);
 
             if (f == 91)
+                return typeof(string);
+
+            // timestamp
+            if (f == 93)
+                return typeof(string);
+
+            if (f == 12)
                 return typeof(string);
 
             // http://docs.oracle.com/javase/1.4.2/docs/api/constant-values.html#java.sql.Types.INTEGER
