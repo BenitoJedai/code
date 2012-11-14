@@ -21,6 +21,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
         {
             return default(string);
         }
+
+        // final public string getTraceAsString ( void )
+        public string getTraceAsString()
+        {
+            return default(string);
+        }
+
     }
 
     [Script(ImplementationType = typeof(PHPSPLException), Implements = typeof(global::System.Exception))]
@@ -37,6 +44,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
             }
         }
 
+        public string StackTrace
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return ((PHPSPLException)(object)this).getTraceAsString();
+            }
+        }
 
         public __Exception()
         {
