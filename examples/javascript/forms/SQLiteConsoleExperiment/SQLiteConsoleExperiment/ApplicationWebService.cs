@@ -29,12 +29,13 @@ namespace SQLiteConsoleExperiment
 
             //ApplyRestrictedCredentials(csb);
 
-            using (var c = new SQLiteConnection(csb.ConnectionString))
+            try
             {
-                c.Open();
-
-                try
+                using (var c = new SQLiteConnection(csb.ConnectionString))
                 {
+                    c.Open();
+
+
                     using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
                     {
                         while (reader.Read())
@@ -77,14 +78,16 @@ namespace SQLiteConsoleExperiment
                             y(w.ToString());
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    y("error:\r\n  " + ex.Message + "\r\n  " + ex.StackTrace.TakeUntilOrEmpty("\n"));
+
+                    c.Close();
                 }
 
-                c.Close();
             }
+            catch (Exception ex)
+            {
+                y("error:\r\n  " + ex.Message + "\r\n  " + ex.StackTrace.TakeUntilOrEmpty("\n"));
+            }
+
         }
 
     }

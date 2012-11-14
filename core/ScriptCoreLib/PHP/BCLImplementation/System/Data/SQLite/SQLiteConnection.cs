@@ -24,22 +24,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         public override void Open()
         {
+            // failure will result in an exception
             db = MySQL.Connect(__SQLiteConnectionHack.MyDBLoginInfo);
-            //Console.WriteLine("<-- Connect " + MySQL.API.mysql_error() + " -->");
+         
 
-
-            if (db == null)
-            {
-                Console.WriteLine("Database connect failed: db=" + __SQLiteConnectionHack.MyDBLoginInfo.Database + " ; host=" + __SQLiteConnectionHack.MyDBLoginInfo.Host + " ; user=" + __SQLiteConnectionHack.MyDBLoginInfo.User + " ; psswd=" + __SQLiteConnectionHack.MyDBLoginInfo.Pass);
-            }
-            else
-            {
-                if (debug)
-                    Console.WriteLine("Database connect success");
-            }
-
-            //Console.WriteLine("Trying hard!");
-            var r = MySQL.API.mysql_query("CREATE DATABASE IF NOT EXISTS `" + __SQLiteConnectionHack.MyDBLoginInfo.Database + "`");
+            //Console.WriteLine("<!-- CREATE DATABASE  -->");
+            var r = MySQL.API.mysql_query(
+                "CREATE DATABASE IF NOT EXISTS `" + __SQLiteConnectionHack.MyDBLoginInfo.Database + "`"
+            );
 
             //Console.WriteLine("<-- mysql_query " + MySQL.API.mysql_error() + " -->");
 

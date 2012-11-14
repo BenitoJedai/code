@@ -158,13 +158,18 @@ namespace ScriptCoreLib.PHP.Runtime
         {
             Native.Trace("MySQL.API.mysql_connect");
 
+            // http://php.net/manual/en/function.mysql-connect.php
+            // Returns a MySQL link identifier on success or FALSE on failure.
             object p = MySQL.API.mysql_connect(host, user, pass);
 
-            if (p == null)
+            if ((bool)p == false)
             {
-                Native.Trace("MySQL.API.mysql_connect, failed!");
+                // <br />
+                //<b>Fatal error</b>:  Call to undefined method _ef7d9505bc0ed131a2a13f7b63987792::_a7012fbefdc80f36a9bb4c527f19b8c1_600070e() in <b>B:\inc\ScriptCoreLib.dll\class.ScriptCoreLib_PHP_BCLImplementation_System.__InvalidOperationException.php</b> on line <b>20</b><br />
 
-                return false;
+                //throw new System.InvalidOperationException("mysql_connect failure");
+                // multiconstructor classes for native base types are broken now.
+                throw new System.Exception("mysql_connect failure");
             }
 
 
@@ -411,7 +416,9 @@ namespace ScriptCoreLib.PHP.Runtime
 
 
 
-
+            // http://www.php.net/manual/en/function.mysql-errno.php
+            [Script(IsNative = true)]
+            public static int mysql_errno() { return default(int); }
 
 
         }

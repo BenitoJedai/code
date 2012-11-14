@@ -1,0 +1,11 @@
+h1 {
+    color: blue;
+}
+
+head, title {
+    display: block;
+}
+
+title {
+    margin: 3em;
+}
