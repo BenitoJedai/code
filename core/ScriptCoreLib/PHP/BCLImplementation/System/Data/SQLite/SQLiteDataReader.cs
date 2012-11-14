@@ -26,7 +26,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             if (queryResult == null)
                 return false;
 
-            var x = MySQL.API.mysql_fetch_array(queryResult, MySQL.API.FetchArrayResult.MYSQL_BOTH);
+            var x = MySQL.API.mysql_fetch_array(
+                queryResult,
+                MySQL.API.FetchArrayResult.MYSQL_ASSOC
+            );
 
             var e = Expando.Of(x);
 
@@ -74,7 +77,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
             for (int j = 0; j < Keys.Length; j++)
             {
-                if (Keys[j] == name)
+                if ((string)Keys[j] == name)
                 {
                     i = j;
                     break;
@@ -115,12 +118,18 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             return (string)cursor[name];
         }
 
+
+
+        public override string GetName(int ordinal)
+        {
+            var keys = (object[])cursor.Keys;
+            var name = keys[ordinal];
+
+            return (string)name;
+        }
+
         public override int GetInt32(int i)
         {
-            // int i = cursor.getColumnIndex(name);
-
-            // return cursor.getString(i);
-
             var keys = (object[])cursor.Keys;
             var name = (string)keys[i];
             var value = (string)cursor[name];
@@ -130,26 +139,53 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         }
 
 
-        public override string GetName(int ordinal)
-        {
-            throw new Exception("GetName NotImplementedException");
-        }
-
         public override long GetInt64(int ordinal)
         {
-            throw new Exception("GetInt64 NotImplementedException");
+            var keys = (object[])cursor.Keys;
+            var name = (string)keys[ordinal];
+            var value = (string)cursor[name];
+
+            // Int64?
+            var ivalue = int.Parse(value);
+
+            return ivalue;
         }
 
         public override Type GetFieldType(int ordinal)
         {
-            throw new Exception("GetFieldType NotImplementedException");
+            // what are the actual types?
+            // http://www.php.net/manual/en/function.mysql-fetch-field.php
+            // http://www.w3schools.com/php/func_mysql_fetch_field.asp
+
+            // http://www.php.net/manual/en/function.mysql-field-type.php
+
+            var f = MySQL.API.mysql_field_type(this.queryResult, ordinal);
+            //"int", "real", "string", "blob", 
+
+
+            if (f == "int")
+                return typeof(int);
+
+            // In MySQL 4.1.x, the four TEXT types (TINYTEXT, TEXT, MEDIUMTEXT, and LONGTEXT) return 'blob" as field types, not "string".
+            // how to fix that?
+            if (f == "string")
+                return typeof(string);
+            if (f == "blob")
+                return typeof(string);
+
+            throw new Exception("GetFieldType unknown type: " + f);
+            //return __Type.InternalGetTypeFromClassTokenName(f.type);
         }
 
         public override int FieldCount
         {
-            get { throw new Exception("FieldCount NotImplementedException"); }
+            get
+            {
+                var keys = (object[])cursor.Keys;
+
+                return keys.Length;
+            }
         }
     }
-
 
 }

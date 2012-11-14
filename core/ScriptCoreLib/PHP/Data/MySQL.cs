@@ -402,6 +402,18 @@ namespace ScriptCoreLib.PHP.Runtime
 
             #endregion
 
+            [Script(IsNative = true)]
+            public static string mysql_field_type(object _result, int field_offset = 0) { return default(string); }
+
+
+            [Script(IsNative = true)]
+            public static mysql_fetch_field_value mysql_fetch_field(object _result, int field_offset = 0) { return default(mysql_fetch_field_value); }
+
+            [Script(IsNative = true)]
+            public class mysql_fetch_field_value
+            {
+                public string type;
+            }
 
             #region string mysql_error ( [resource link_identifier] )
 

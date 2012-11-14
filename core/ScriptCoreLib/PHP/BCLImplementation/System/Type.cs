@@ -42,9 +42,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
         RuntimeTypeHandle _TypeHandle;
 
+        public static Type InternalGetTypeFromClassTokenName(string ClassTokenName)
+        {
+            return GetTypeFromHandle((RuntimeTypeHandle)(object)(__RuntimeTypeHandle)ClassTokenName);
+        }
+
+
         public static Type GetTypeFromValue(object x)
         {
-            return GetTypeFromHandle((RuntimeTypeHandle)(object)(__RuntimeTypeHandle)API.get_class(x));
+            return InternalGetTypeFromClassTokenName(API.get_class(x));
         }
 
         public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
@@ -81,7 +87,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
         public override Type DeclaringType
         {
-            get { throw new NotImplementedException("DeclaringType"); }
+            get { throw new Exception("DeclaringType"); }
         }
 
         public override string Name
@@ -142,7 +148,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
         private static bool InternalEquals(__Type x, __Type e)
         {
-            throw new NotImplementedException("Type.InternalEquals");
+            var x_ClassTokenName = ((__IntPtr)(object)(x._TypeHandle.Value)).ClassTokenName;
+            var e_ClassTokenName = ((__IntPtr)(object)(e._TypeHandle.Value)).ClassTokenName;
+
+            return x_ClassTokenName == e_ClassTokenName;
         }
     }
 
