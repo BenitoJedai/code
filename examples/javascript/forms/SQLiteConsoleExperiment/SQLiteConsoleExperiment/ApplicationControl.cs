@@ -53,7 +53,17 @@ namespace SQLiteConsoleExperiment
                     Action<XElement> AtDataGridContent =
                         xml =>
                         {
-                            MessageBox.Show(xml.ToString());
+                            var ff = new Form();
+
+                            var fw = new WebBrowser { Dock = DockStyle.Fill };
+
+                            fw.DocumentText = xml.ToString();
+
+                            ff.Controls.Add(fw);
+
+                            ff.Show();
+
+                            //MessageBox.Show(xml.ToString());
                         };
 
                     this.applicationWebService1.ExecuteReaderAsync(x, y, AtDataGridContent);

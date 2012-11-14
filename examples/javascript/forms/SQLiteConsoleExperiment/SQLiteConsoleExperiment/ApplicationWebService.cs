@@ -21,6 +21,8 @@ namespace SQLiteConsoleExperiment
 
         public void ExecuteReaderAsync(string sql, Action<string> y, Action<XElement> AtDataGridContent = null)
         {
+            // when can we have events, out/ref and structs/sealed classes?
+
             var csb = new SQLiteConnectionStringBuilder
             {
                 DataSource = DataSource,
@@ -31,6 +33,8 @@ namespace SQLiteConsoleExperiment
 
             try
             {
+                var table = default(XElement);
+
                 using (var c = new SQLiteConnection(csb.ConnectionString))
                 {
                     c.Open();
@@ -40,7 +44,37 @@ namespace SQLiteConsoleExperiment
                     {
                         while (reader.Read())
                         {
+                            #region tr
+
+                            if (table == null)
+                            {
+                                table = new XElement("table");
+
+                                new XElement("tr").With(
+                                    header =>
+                                    {
+                                        for (int i = 0; i < reader.FieldCount; i++)
+                                        {
+                                            var n = reader.GetName(i);
+
+                                            // http://www.w3schools.com/tags/tag_th.asp
+
+                                            var th = new XElement("th");
+                                            th.Value = n;
+                                            header.Add(th);
+                                        }
+
+                                        table.Add(header);
+                                    }
+                                );
+                            }
+
+                            var tr = new XElement("tr");
+
+                            table.Add(tr);
+
                             var w = new StringBuilder();
+
 
                             w.Append("{ ");
                             for (int i = 0; i < reader.FieldCount; i++)
@@ -56,16 +90,28 @@ namespace SQLiteConsoleExperiment
 
                                 if (ft == typeof(string))
                                 {
+                                    var td = new XElement("td");
+                                    td.Value = reader.GetString(i);
+                                    tr.Add(td);
+
                                     w.Append("'");
                                     w.Append(reader.GetString(i));
                                     w.Append("'");
                                 }
                                 else if (ft == typeof(int))
                                 {
+                                    var td = new XElement("td");
+                                    td.Value = reader.GetInt32(i) + "";
+                                    tr.Add(td);
+
                                     w.Append(reader.GetInt32(i));
                                 }
                                 else if (ft == typeof(long))
                                 {
+                                    var td = new XElement("td");
+                                    td.Value = reader.GetInt64(i) + "";
+                                    tr.Add(td);
+
                                     w.Append(reader.GetInt64(i));
                                 }
                                 else
@@ -76,11 +122,17 @@ namespace SQLiteConsoleExperiment
                             w.Append("}");
 
                             y(w.ToString());
+                            #endregion
+
                         }
                     }
 
                     c.Close();
                 }
+
+                if (table != null)
+                    if (AtDataGridContent != null)
+                        AtDataGridContent(table);
 
             }
             catch (Exception ex)
