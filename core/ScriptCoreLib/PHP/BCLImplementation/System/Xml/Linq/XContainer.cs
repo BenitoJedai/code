@@ -31,15 +31,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
 
         public void Add(object content)
         {
-            if (this.InternalValue == null)
-            {
-                var doc = new DOMDocument();
-
-                var item = doc.createElement(this.InternalElementName.LocalName);
-                doc.appendChild(item);
-
-                this.InternalValue = doc.documentElement;
-            }
+            InternalEnsureValue();
 
 
             #region string
@@ -95,6 +87,19 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
             throw new NotImplementedException();
         }
 
+        public void InternalEnsureValue()
+        {
+            if (this.InternalValue == null)
+            {
+                var doc = new DOMDocument();
+
+                var item = doc.createElement(this.InternalElementName.LocalName);
+                doc.appendChild(item);
+
+                this.InternalValue = doc.documentElement;
+            }
+        }
+
         private void __adoptNode(__XElement e)
         {
             if (e.InternalValue.ownerDocument != this.InternalValue.ownerDocument)
@@ -130,7 +135,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Xml.Linq
             var a = new List<XElement>();
 
             for (int i = 0; i < e.childNodes.length; i++)
-			{
+            {
                 var item = e.childNodes.item(i);
 
                 // http://www.php.net/manual/en/dom.constants.php

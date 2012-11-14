@@ -17,6 +17,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         bool debug = false;
 
+        public string InternalDatabaseName;
+
         public __SQLiteConnection(string connectionstring)
         {
             //this.h = new LocalSQLiteOpenHelper(__SQLiteConnectionHack.Context, __SQLiteConnectionHack.MYDATABASE_NAME);
@@ -25,8 +27,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         public override void Open()
         {
             // failure will result in an exception
+            InternalDatabaseName = __SQLiteConnectionHack.MyDBLoginInfo.Database;
+
             db = MySQL.Connect(__SQLiteConnectionHack.MyDBLoginInfo);
-         
+
 
             //Console.WriteLine("<!-- CREATE DATABASE  -->");
             var r = MySQL.API.mysql_query(
