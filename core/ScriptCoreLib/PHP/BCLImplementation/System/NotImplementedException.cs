@@ -10,9 +10,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
     {
         public __NotImplementedException()
         {
+            throw new Exception("multiconstructor for PHP broken. needs a fix.");
         }
 
-        public __NotImplementedException(string message) : base(message) { }
+        public __NotImplementedException(string message)
+            : base(message)
+        {
+            throw new Exception("multiconstructor for PHP broken. needs a fix.");
+        }
 
 
     }

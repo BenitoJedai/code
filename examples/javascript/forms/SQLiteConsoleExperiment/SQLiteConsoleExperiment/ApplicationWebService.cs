@@ -85,7 +85,10 @@ namespace SQLiteConsoleExperiment
             }
             catch (Exception ex)
             {
-                y("error:\r\n  " + ex.Message + "\r\n  " + ex.StackTrace.TakeUntilOrEmpty("\n"));
+                y("error:\r\n  " + ex.Message + "\r\n  " + ex.StackTrace
+                    //.TakeUntilOrEmpty("\n")
+
+                    );
             }
 
         }
