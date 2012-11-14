@@ -54,26 +54,26 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         public __SQLiteDataReader ExecuteReader()
         {
             // http://php.net/manual/en/mysqli.query.php
+
+            // http://php.net/manual/en/function.mysql-query.php
+            // For other type of SQL statements, INSERT, UPDATE, DELETE, DROP, etc, mysql_query() returns TRUE on success or FALSE on error.
             queryResult = MySQL.API.mysql_query(sql);
 
+            var errno = MySQL.API.mysql_errno();
 
-            if ((queryResult == null))
+            //Native.echo("<!-- " + errno + " -->");
+
+            if (errno != 0)
             {
-                Native.echo(MySQL.API.mysql_error());
+                throw new Exception("mysql_query failed, mysql_errno: " + errno + " " + MySQL.API.mysql_error());
+            }
+
+            if (((bool)queryResult == true))
+            {
 
                 return new __SQLiteDataReader
                 {
                     queryResult = null
-                };
-            }
-
-            if (((bool)queryResult == false))
-            {
-                Native.echo(MySQL.API.mysql_error());
-
-                return new __SQLiteDataReader
-                {
-                    queryResult = queryResult
                 };
             }
 
