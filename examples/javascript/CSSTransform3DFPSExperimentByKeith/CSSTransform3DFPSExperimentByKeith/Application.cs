@@ -16,6 +16,7 @@ using CSSTransform3DFPSExperimentByKeith.HTML.Pages;
 using System.Drawing;
 using ScriptCoreLib.GLSL;
 using System.Windows.Forms;
+using CSSTransform3DFPSExperimentByKeith.Controls;
 
 namespace CSSTransform3DFPSExperimentByKeith
 {
@@ -88,13 +89,36 @@ namespace CSSTransform3DFPSExperimentByKeith
 
 
             var c = new Controls.UserControl1();
-            c.GetHTMLTarget().setAttribute("nolock", true);
+            c.GetHTMLTarget().className = "nolock";
 
+
+            c.button1.Click +=
+                delegate
+                {
+                    var cf = new Form1();
+
+                    cf.Show();
+
+                    cf.FormClosing +=
+                        (ss, ee) =>
+                        {
+                            if (cf.WindowState == FormWindowState.Normal)
+                            {
+                                if (ee.CloseReason == CloseReason.UserClosing)
+                                {
+                                    ee.Cancel = true;
+                                    cf.WindowState = FormWindowState.Minimized;
+                                }
+                            }
+                        };
+
+                    cf.GetHTMLTarget().className = "nolock";
+
+                };
             c.button2.Click +=
                 delegate
                 {
                     var cf = new Form();
-                    cf.GetHTMLTarget().setAttribute("nolock", true);
 
                     var cw = new WebBrowser { Dock = DockStyle.Fill };
 
@@ -115,6 +139,12 @@ namespace CSSTransform3DFPSExperimentByKeith
                             }
                         };
                     cf.Show();
+
+                    //Console.WriteLine("button2.Click");
+                    cf.GetHTMLTarget().className = "nolock";
+
+                    //cf.GetHTMLTarget().style.border = "2px solid red";
+
                 };
 
             c.BackColor = Color.Transparent;
@@ -169,7 +199,7 @@ namespace CSSTransform3DFPSExperimentByKeith
 
                     while (p != Native.Document.body)
                     {
-                        if (((IHTMLElement)p).hasAttribute("nolock"))
+                        if (((IHTMLElement)p).className == "nolock")
                             nolock = true;
 
                         p = p.parentNode;

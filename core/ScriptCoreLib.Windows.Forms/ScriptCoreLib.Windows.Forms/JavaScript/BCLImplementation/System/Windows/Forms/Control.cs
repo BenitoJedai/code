@@ -393,7 +393,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
-        protected void UpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
+        protected virtual void UpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
+        {
+            InternalUpdateBounds(x, y, width, height);
+        }
+
+        protected void InternalUpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
         {
 
             // let's remember old size for anchoring..
