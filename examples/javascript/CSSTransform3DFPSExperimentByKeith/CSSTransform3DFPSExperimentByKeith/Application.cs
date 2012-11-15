@@ -68,7 +68,8 @@ namespace CSSTransform3DFPSExperimentByKeith
             //discover.style.transform = "scale(0.5)";
             //discover.style.transformOrigin = "0% 0%";
 
-            var scale = 1.25;
+            //var scale = 1.25;
+            var scale = 1;
             var zoom = 8;
 
             discover.style.transform = "scale(" + (1 / scale) + ")";
@@ -87,6 +88,34 @@ namespace CSSTransform3DFPSExperimentByKeith
 
 
             var c = new Controls.UserControl1();
+            c.GetHTMLTarget().setAttribute("nolock", true);
+
+            c.button2.Click +=
+                delegate
+                {
+                    var cf = new Form();
+                    cf.GetHTMLTarget().setAttribute("nolock", true);
+
+                    var cw = new WebBrowser { Dock = DockStyle.Fill };
+
+                    cf.Controls.Add(cw);
+
+                    cw.Navigate("/");
+
+                    cf.FormClosing +=
+                        (ss, ee) =>
+                        {
+                            if (cf.WindowState == FormWindowState.Normal)
+                            {
+                                if (ee.CloseReason == CloseReason.UserClosing)
+                                {
+                                    ee.Cancel = true;
+                                    cf.WindowState = FormWindowState.Minimized;
+                                }
+                            }
+                        };
+                    cf.Show();
+                };
 
             c.BackColor = Color.Transparent;
 
@@ -133,16 +162,36 @@ namespace CSSTransform3DFPSExperimentByKeith
 
             };
 
-            Native.Document.onmousedown +=
+            Func<INode, bool> isnolock =
+                p =>
+                {
+                    var nolock = false;
+
+                    while (p != Native.Document.body)
+                    {
+                        if (((IHTMLElement)p).hasAttribute("nolock"))
+                            nolock = true;
+
+                        p = p.parentNode;
+                    }
+
+                    return nolock;
+                };
+
+            Native.Document.body.tabIndex = 101;
+            Native.Document.body.onmousedown +=
                 e =>
                 {
-                    if (e.Element.nodeName.ToLower() == "button")
+                    var nolock = isnolock(e.Element);
+                    if (nolock)
                         return;
 
+                    e.PreventDefault();
+                    Native.Document.body.focus();
                     Native.Document.body.requestPointerLock();
                 };
 
-            Native.Document.onmousemove +=
+            Native.Document.body.onmousemove +=
                 e =>
                 {
                     if (Native.Document.pointerLockElement == Native.Document.body)
@@ -152,12 +201,17 @@ namespace CSSTransform3DFPSExperimentByKeith
                     }
                     else
                     {
+                        var nolock = isnolock(e.Element);
 
+                        if (nolock)
+                            Native.Document.body.style.cursor = IStyle.CursorEnum.auto;
+                        else
+                            Native.Document.body.style.cursor = IStyle.CursorEnum.move;
                     }
                 };
 
 
-            Native.Document.onmouseup +=
+            Native.Document.body.onmouseup +=
                  e =>
                  {
                      if (Native.Document.pointerLockElement == Native.Document.body)
