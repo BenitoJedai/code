@@ -1151,6 +1151,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+
+        protected override void UpdateBounds(int x, int y, int width, int height)
+        {
+            // form titlebar shall remain visible
+            y = Math.Max(y, -4);
+
+            InternalUpdateBounds(x, y, width, height);
+        }
     }
 
     [Script]
