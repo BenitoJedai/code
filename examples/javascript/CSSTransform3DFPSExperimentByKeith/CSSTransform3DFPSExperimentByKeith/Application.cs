@@ -124,7 +124,12 @@ namespace CSSTransform3DFPSExperimentByKeith
 
                     cf.Controls.Add(cw);
 
-                    cw.Navigate("/");
+                    cw.Navigate(
+                "http://discover.xavalon.net"
+
+                         //"/"
+                        
+                        );
 
                     cf.FormClosing +=
                         (ss, ee) =>
