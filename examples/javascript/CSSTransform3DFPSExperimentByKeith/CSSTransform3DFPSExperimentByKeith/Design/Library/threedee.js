@@ -25,9 +25,12 @@ var CssUtils = (function () {
             if (rz !== 0) {
                 a /= 1.75;
             }
-            /* for shading:  return "background:rgb(" + (200-a*255|0) + "," + (200-a*255|0) + "," + (200-a*255|0) + ");" */
-            /* dor outline:  return "outline:1px solid #393;"; */
-            return "background:" + vendorPrefix + "linear-gradient(rgba(0,0,0," + a + "),rgba(0,0,0," + a + "))," + colour + ";";
+            // for shading: 
+            //return "background:rgb(" + (200 - a * 255 | 0) + "," + (200 - a * 255 | 0) + "," + (200 - a * 255 | 0) + ");";
+            // dor outline:  
+
+            //return "outline:1px solid #393;";
+             return "background:" + vendorPrefix + "linear-gradient(rgba(0,0,0," + a + "),rgba(0,0,0," + a + "))," + colour + ";";
         }
     }
 }());
