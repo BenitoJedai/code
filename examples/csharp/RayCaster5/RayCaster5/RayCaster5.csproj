@@ -147,7 +147,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName)
+rem call build.bat $(ProjectName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>
