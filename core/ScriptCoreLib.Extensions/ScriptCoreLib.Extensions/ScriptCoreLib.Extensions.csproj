@@ -72,6 +72,7 @@
     <Compile Include="JavaScript\WebGL\ISurface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\IO\SmartStreamReader.cs" />
+    <Compile Include="Shared\Maze\MazeGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GLSL\" />
