@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.Shared.Lambda;
+//using ScriptCoreLib.Shared.Lambda;
 
 
 

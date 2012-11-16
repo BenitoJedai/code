@@ -7,7 +7,7 @@ using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Lambda;
+//using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM;
 
