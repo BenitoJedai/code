@@ -9,47 +9,50 @@ using System.Windows.Media;
 
 namespace ScriptCoreLib.Shared.Avalon.TextSuggestions
 {
-	partial class TextSuggestionsControl
-	{
+    partial class TextSuggestionsControl
+    {
 
-		Dictionary<string, Match[]> GetDataSelected_Cache = new Dictionary<string, Match[]>();
+        Dictionary<string, Match[]> GetDataSelected_Cache = new Dictionary<string, Match[]>();
 
 
-		[Script]
-		public class Match
-		{
-			public string Data;
+        [Script]
+        public class Match
+        {
+            public string Data;
 
-			public int Weight;
-		}
-		private Match[] GetDataSelected(string Filter)
-		{
-			if (GetDataSelected_Cache.ContainsKey(Filter))
-				return GetDataSelected_Cache[Filter];
+            public int Weight;
+        }
+        private Match[] GetDataSelected(string Filter)
+        {
+            if (GetDataSelected_Cache.ContainsKey(Filter))
+                return GetDataSelected_Cache[Filter];
 
-			var Filters = Filter.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+            var Filters = Filter.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-			var DataSelectedSource = from k in InternalSuggestions
-									 let Subject = k.ToLower()
-									 where Filter != Subject
-									 let match =
-										Filters.Aggregate(0,
-											(seed, entry) =>
-											{
-												if (Subject.Contains(entry))
-													return seed + 1;
+            var DataSelectedSource = from k in InternalSuggestions
+                                     let Subject = k.ToLower()
+                                     where Filter != Subject
+                                     let match =
+                                        Filters.Aggregate(0,
+                                            (seed, entry) =>
+                                            {
+                                                if (Subject.Contains(entry))
+                                                    return seed + 1;
 
-												return seed;
-											}
-										 )
-									 orderby match descending, k
-									 select new Match { Data = k, Weight = match };
-			var DataSelectedArray = DataSelectedSource.ToArray();
-			var DataSelected = DataSelectedSource.Take(DataSelectedArray.Length.Min(MaxResults)).ToArray();
+                                                return seed;
+                                            }
+                                         )
+                                     orderby match descending, k
+                                     select new Match { Data = k, Weight = match };
+            var DataSelectedArray = DataSelectedSource.ToArray();
+            var DataSelected = DataSelectedSource.Take(
+                Math.Min(
+                    DataSelectedArray.Length, MaxResults
+                )).ToArray();
 
-			GetDataSelected_Cache[Filter] = DataSelected;
+            GetDataSelected_Cache[Filter] = DataSelected;
 
-			return DataSelected;
-		}
-	}
+            return DataSelected;
+        }
+    }
 }
