@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.Shared.Lambda;
+//using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript.Runtime;
 
