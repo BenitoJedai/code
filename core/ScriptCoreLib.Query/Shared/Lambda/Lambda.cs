@@ -687,7 +687,7 @@ namespace ScriptCoreLib.Shared.Lambda
 
         #region min max
 
-        public static double Max(this double e, double x)
+        public static double Max(double e, double x)
         {
 
             if (e > x)
@@ -696,7 +696,7 @@ namespace ScriptCoreLib.Shared.Lambda
             return x;
         }
 
-        public static double Min(this double e, double x)
+        public static double Min(double e, double x)
         {
             if (e < x)
                 return e;
@@ -704,7 +704,7 @@ namespace ScriptCoreLib.Shared.Lambda
             return x;
         }
 
-        public static int Min(this int e, int x)
+        public static int Min(int e, int x)
         {
             if (e < x)
                 return e;
@@ -712,7 +712,7 @@ namespace ScriptCoreLib.Shared.Lambda
             return x;
         }
 
-        public static int Max(this int e, int x)
+        public static int Max(int e, int x)
         {
             if (e > x)
                 return e;
