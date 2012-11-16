@@ -62,6 +62,49 @@ namespace DropFileIntoSQLite
                     evt.PreventDefault();
                     page.Header.style.color = JSColor.None;
 
+
+                    evt.dataTransfer.types.WithEach(
+                        x =>
+                        {
+                            Console.WriteLine(x);
+
+                            if (x == "text/uri-list")
+                            {
+                                var src = evt.dataTransfer.getData(x);
+
+                                new Form { Text = src }.With(
+                                    f =>
+                                    {
+                                        var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
+
+                                        w.Navigate(src);
+
+                                        f.Show();
+                                    }
+                                );
+
+                            }
+
+                            if (x == "text/html")
+                            {
+                                var DocumentText = evt.dataTransfer.getData(x);
+
+                                new Form { Text = x }.With(
+                                    f =>
+                                    {
+                                        var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
+
+                                        w.DocumentText = DocumentText;
+
+                                        f.Show();
+                                    }
+                                );
+                            }
+                        }
+                    );
+
+
+                    #region files
                     evt.dataTransfer.files.AsEnumerable().WithEachIndex(
                         (f, index) =>
                         {
@@ -120,13 +163,77 @@ namespace DropFileIntoSQLite
                                     SystemSounds.Beep.Play();
 
                                     //Console.Beep();
+                                    XElement.Parse(xhr.responseText).Elements("ContentKey").WithEach(
+                                        ContentKey =>
+                                        {
+
+                                            ff.FormClosing +=
+                                                delegate
+                                                {
+                                                    service.DeleteFileAsync(ContentKey.Value,
+                                                        delegate
+                                                        {
+
+                                                        }
+                                                    );
+                                                };
+                                        }
+                                    );
                                 }
                             );
 
                             xhr.send(d);
                         }
                     );
+                    #endregion
+
                 };
+
+            {
+                var index = 0;
+                service.EnumerateFilesAsync("",
+                    (ContentKey, ContentBytesLength) =>
+                    {
+                        var ff = new Form();
+
+
+                        ff.Text = new { ContentKey, ContentBytesLength }.ToString();
+
+
+                        ff.Show();
+
+                        ff.MoveBy(
+                            32 * index,
+                            24 * index
+                        );
+
+                        index++;
+
+                        var fc = ff.GetHTMLTargetContainer();
+                        var src = "/io/" + ContentKey;
+
+                        var i = new IHTMLImage { src = src }.AttachTo(fc);
+
+                        i.InvokeOnComplete(
+                            delegate
+                            {
+                                ff.ClientSize = new System.Drawing.Size(i.width, i.height);
+                            }
+                        );
+
+                        ff.FormClosing +=
+                            delegate
+                            {
+                                service.DeleteFileAsync(ContentKey,
+                                    delegate
+                                    {
+
+                                    }
+                                );
+                            };
+                    }
+                );
+            }
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier

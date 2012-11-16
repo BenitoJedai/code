@@ -68,6 +68,7 @@ namespace FormsDropFileIntoSQLite
             this.Controls.Add(this.dataGridView1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(400, 300);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
