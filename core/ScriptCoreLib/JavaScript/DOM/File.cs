@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.FileAPI
+namespace ScriptCoreLib.JavaScript.DOM
 {
     [Script(HasNoPrototype = true)]
     public class File

@@ -64,12 +64,12 @@
     <Content Include="JavaScript\IDL\CanvasRenderingContext2D.idl" />
     <Content Include="JavaScript\IDL\!References.htm" />
     <None Include="JavaScript\IDL\TouchEvents.idl" />
+    <None Include="JavaScript\IDL\xhr.idl" />
     <Content Include="JavaScript\IDL\typedarrays.idl" />
     <Content Include="JavaScript\IDL\webgl.idl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GLSL\" />
-    <Folder Include="JavaScript\FileAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="JavaScript\IDL\FileAPI.idl" />

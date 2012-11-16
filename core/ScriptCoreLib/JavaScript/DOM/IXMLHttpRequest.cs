@@ -8,9 +8,8 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-	/// <summary>
-	/// http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
-	/// </summary>
+	// http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
+    // http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
 	[Script(InternalConstructor = true)]
 	public class IXMLHttpRequest //: ISink
 	{

@@ -12,11 +12,11 @@ using System.Text;
 using System.Xml.Linq;
 using DropFileIntoSQLite.Design;
 using DropFileIntoSQLite.HTML.Pages;
-using ScriptCoreLib.JavaScript.FileAPI;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using System.Windows.Forms;
+using System.Media;
 
 namespace DropFileIntoSQLite
 {
@@ -92,6 +92,32 @@ namespace DropFileIntoSQLite
                                     }
                                 );
                             }
+
+                            // http://html5doctor.com/drag-and-drop-to-server/
+
+#if FUTURE
+                            service.XUpload(f, delegate { });
+#endif
+
+
+                            var d = new FormData();
+
+                            d.append("foo", f, f.name);
+
+                            var xhr = new IXMLHttpRequest();
+
+                            xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/upload");
+
+                            xhr.InvokeOnComplete(
+                                delegate
+                                {
+                                    SystemSounds.Beep.Play();
+
+                                    //Console.Beep();
+                                }
+                            );
+
+                            xhr.send(d);
                         }
                     );
                 };

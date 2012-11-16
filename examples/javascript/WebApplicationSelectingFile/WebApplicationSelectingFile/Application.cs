@@ -85,7 +85,7 @@ namespace WebApplicationSelectingFile
 
                                 }
                             );
-
+                            
                             // Read in the image file as a data URL.
                             reader.readAsDataURL(f);
 

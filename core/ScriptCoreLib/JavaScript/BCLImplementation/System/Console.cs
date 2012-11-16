@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
+using System.Media;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -214,6 +215,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static void SetOut(global::System.IO.TextWriter newOut)
         {
             Out = newOut;
+        }
+
+
+        public void Beep()
+        {
+            SystemSounds.Beep.Play();
         }
     }
 }
