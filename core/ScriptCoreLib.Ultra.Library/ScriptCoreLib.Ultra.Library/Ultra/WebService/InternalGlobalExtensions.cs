@@ -252,6 +252,29 @@ namespace ScriptCoreLib.Ultra.WebService
                     return;
                 }
 
+                #region /view-source
+                if (that.Request.Path == "/view-source")
+                {
+                    h.Context.Response.ContentType = "text/javascript";
+
+                    var app = h.Applications[0];
+                    foreach (var item in app.References)
+                    {
+                        h.Context.Response.Write("/* " + new { item.AssemblyFile, bytes = 1 } + " */\r\n");
+                    }
+
+                    foreach (var item in app.References)
+                    {
+                        // asp.net needs absolute paths
+                        h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
+                    }
+
+
+                    h.CompleteRequest();
+                    return;
+                }
+                #endregion
+
                 if (h.IsDefaultPath)
                 {
                     h.Default();

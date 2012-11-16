@@ -55,7 +55,7 @@ namespace ScriptCoreLib.Ultra.WebService
             WriteLine(@"<!DOCTYPE HTML>");
             WriteLine(@"<!-- Hello curious person, welcome to the source code. I hope you enjoy your time here. Please close the door after you've gone. --> ");
             //WriteLine(@"<html manifest=""" + WebApplicationCacheManifest.ManifestName + @""">");
-            
+
             // flash cannot be reloaded for some reason? why?
             WriteLine(@"<html>");
             WriteLine(@"<head>");
@@ -64,7 +64,8 @@ namespace ScriptCoreLib.Ultra.WebService
             //WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"" />");
 
             // whats the title going to be? :)
-            WriteLine(@"<title>Loading...</title>");
+            WriteLine(@"<title>" + app.TypeName + "</title>");
+            //WriteLine(@"<title>Loading...</title>");
 
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#rel-icon
 
@@ -97,15 +98,19 @@ namespace ScriptCoreLib.Ultra.WebService
             // jsc bootstraps always
             //WriteLine(@"<script type='text/xml' class='" + app.TypeName + "'></script>");
 
-            foreach (var item in app.References)
-            {
-                Write(@"<script type='text/javascript' src='/" + item.AssemblyFile + @".js'></script>");
+            //foreach (var item in app.References)
+            //{
+            //    Write(@"<script type='text/javascript' src='/" + item.AssemblyFile + @".js'></script>");
 
-            }
+            //}
+
+            Write(@"<script src='/view-source'></script>");
+
 
             WriteLine(@"</html>");
         }
 
+        [Obsolete]
         private static void WriteDefaultPageSource(StringAction WriteLine)
         {
             WriteLine(@"<body style='margin: 0; overflow: hidden;'><noscript>ScriptApplication cannot run without JavaScript!</noscript>");
