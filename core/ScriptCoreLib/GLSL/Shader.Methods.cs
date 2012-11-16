@@ -26,6 +26,11 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        static protected mat3 mat3(vec3 x, vec3 y, vec3 z)
+        {
+            throw new NotImplementedException();
+        }
+
         static protected mat3 mat3(float x, float y, float z)
         {
             throw new NotImplementedException();
