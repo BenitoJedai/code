@@ -58,6 +58,7 @@
     <Compile Include="BCLExtensions\System\Windows\Forms\ControlExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\TimerExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\DataGridViewExtensions.cs" />
+    <Compile Include="JavaScript\Controls\LayeredControl\LayeredControl.cs" />
     <Compile Include="JavaScript\Controls\TextEditor.cs" />
     <Compile Include="JavaScript\Extensions\ShaderExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ShaderExtensions.cs" />
@@ -101,6 +102,9 @@
     <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\toolbar-bg.gif" />
     <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\underline.gif" />
     <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\undo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\empty.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
