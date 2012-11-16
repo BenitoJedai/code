@@ -16,13 +16,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public object GetValue(object obj)
         {
-			return global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMember(obj, _Name);
-            
+            return global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMember(obj, _Name);
+
         }
 
         public void SetValue(object obj, object value)
         {
-			global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(obj, _Name, value);
+            global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(obj, _Name, value);
         }
 
         public static implicit operator global::System.Reflection.FieldInfo(__FieldInfo e)
@@ -38,6 +38,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         public override object[] GetCustomAttributes(Type x, bool inherit)
         {
             throw new NotImplementedException();
+        }
+
+        public static bool operator !=(__FieldInfo left, __FieldInfo right)
+        {
+            return left.Name != right.Name;
+        }
+
+        public static bool operator ==(__FieldInfo left, __FieldInfo right)
+        {
+            return left.Name == right.Name;
         }
     }
 }
