@@ -57,9 +57,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Controls.TextEditor">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.TextEditor.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -67,10 +64,6 @@
     <Reference Include="ScriptCoreLib.Windows.Forms">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.XLinq">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Extensions">
       <SpecificVersion>False</SpecificVersion>

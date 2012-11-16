@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextEditorDemo2Update", "TextEditorDemo2Update\TextEditorDemo2Update.csproj", "{65EB64B6-2F39-4411-B8DB-4B14E6076F7C}"
 EndProject
 Global

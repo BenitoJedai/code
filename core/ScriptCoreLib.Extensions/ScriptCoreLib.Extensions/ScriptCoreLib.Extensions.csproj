@@ -34,6 +34,9 @@
     <Reference Include="ScriptCoreLib">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibAndroid">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
@@ -55,6 +58,7 @@
     <Compile Include="BCLExtensions\System\Windows\Forms\ControlExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\TimerExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\DataGridViewExtensions.cs" />
+    <Compile Include="JavaScript\Controls\TextEditor.cs" />
     <Compile Include="JavaScript\Extensions\ShaderExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ShaderExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ISurface.cs" />
@@ -63,6 +67,40 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GLSL\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\body_back.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\bold.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\bulletedlist.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\customize.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\forecolor.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\hilitecolor.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\hot-bg.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\icon_font.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\icon_size.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\indent.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\italic.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\justifycenter.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\justifyfull.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\justifyleft.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\justifyright.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\menu.more.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\mode.design.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\mode.html.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\numberedlist.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\outdent.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\redo.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\removeformat.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\separator.horizontal.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\spinner.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\strikethrough.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\sub.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\superscript.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\text-larger.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\text-smaller.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\toolbar-bg.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\underline.gif" />
+    <EmbeddedResource Include="Extensions\web\assets\ScriptCoreLib.Extensions\undo.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

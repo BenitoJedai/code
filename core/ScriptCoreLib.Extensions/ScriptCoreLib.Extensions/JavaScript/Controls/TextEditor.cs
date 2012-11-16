@@ -13,6 +13,8 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Serialized;
 using ScriptCoreLib.Shared.Drawing;
 
+//[assembly: ScriptResources("assets/ScriptCoreLibTextEditor")]
+
 namespace ScriptCoreLib.JavaScript.Controls
 {
     using StringPair = Pair<string, string>;
@@ -34,16 +36,16 @@ namespace ScriptCoreLib.JavaScript.Controls
     public class TextEditor
     {
 
-        [Script]
-        internal class fx : WebResource
-        {
-            public const string Alias = "fx/TextEditor";
+        //[Script]
+        //internal class fx : WebResource
+        //{
+        //    public const string Alias = "assets/ScriptCoreLib.Extensions";
 
-            public static implicit operator fx(string Value)
-            {
-                return new fx { Value = Value, Directory = Alias };
-            }
-        }
+        //    public static implicit operator fx(string Value)
+        //    {
+        //        return new fx { Value = Value, Directory = Alias };
+        //    }
+        //}
 
         // http://download.dojotoolkit.org/release-0.2.2/dojo-0.2.2-widget/demos/widget/Editor.html
         // http://www.dynamicdrive.com/dynamicindex16/richtexteditor/index.htm
@@ -66,7 +68,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-        IHTMLImage Spinner = (fx)"spinner.gif";
+        IHTMLImage Spinner = "assets/ScriptCoreLibTextEditor/spinner.gif";
 
         public int Width
         {
@@ -334,7 +336,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                 var more = new IHTMLButton();
 
-                IHTMLImage more_img = (fx)"menu.more.gif";
+                IHTMLImage more_img = "assets/ScriptCoreLibTextEditor/menu.more.gif";
 
                 more.style.border = "1px solid gray";
                 more.style.backgroundColor = Color.Transparent;
@@ -519,25 +521,25 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-            var bold = AddButton((fx)"bold.gif", "Bold");
-            var underline = AddButton((fx)"underline.gif", "Underline");
-            var strike = AddButton((fx)"strikethrough.gif", "Strikethrough");
-            var italic = AddButton((fx)"italic.gif", "Italic");
-            var justifyleft = AddButton((fx)"justifyleft.gif", "JustifyLeft");
-            var justifycenter = AddButton((fx)"justifycenter.gif", "Justifycenter");
-            var justifyright = AddButton((fx)"justifyright.gif", "Justifyright");
-            var justifyfull = AddButton((fx)"justifyfull.gif", "Justifyfull");
-            var indent = AddButton((fx)"indent.gif", "Indent");
-            var outdent = AddButton((fx)"outdent.gif", "Outdent");
-            var sup = AddButton((fx)"superscript.gif", "Superscript");
-            var sub = AddButton((fx)"sub.gif", "Subscript");
-            var removeformat = AddButton((fx)"removeformat.gif", "Removeformat");
-            var insertorderedlist = AddButton((fx)"numberedlist.gif", "InsertOrderedList");
-            var insertunorderedlist = AddButton((fx)"bulletedlist.gif", "InsertUnorderedList");
-            var undo = AddButton((fx)"undo.gif", "undo");
-            var redo = AddButton((fx)"redo.gif", "redo");
+            var bold = AddButton("assets/ScriptCoreLibTextEditor/bold.gif", "Bold");
+            var underline = AddButton("assets/ScriptCoreLibTextEditor/underline.gif", "Underline");
+            var strike = AddButton("assets/ScriptCoreLibTextEditor/strikethrough.gif", "Strikethrough");
+            var italic = AddButton("assets/ScriptCoreLibTextEditor/italic.gif", "Italic");
+            var justifyleft = AddButton("assets/ScriptCoreLibTextEditor/justifyleft.gif", "JustifyLeft");
+            var justifycenter = AddButton("assets/ScriptCoreLibTextEditor/justifycenter.gif", "Justifycenter");
+            var justifyright = AddButton("assets/ScriptCoreLibTextEditor/justifyright.gif", "Justifyright");
+            var justifyfull = AddButton("assets/ScriptCoreLibTextEditor/justifyfull.gif", "Justifyfull");
+            var indent = AddButton("assets/ScriptCoreLibTextEditor/indent.gif", "Indent");
+            var outdent = AddButton("assets/ScriptCoreLibTextEditor/outdent.gif", "Outdent");
+            var sup = AddButton("assets/ScriptCoreLibTextEditor/superscript.gif", "Superscript");
+            var sub = AddButton("assets/ScriptCoreLibTextEditor/sub.gif", "Subscript");
+            var removeformat = AddButton("assets/ScriptCoreLibTextEditor/removeformat.gif", "Removeformat");
+            var insertorderedlist = AddButton("assets/ScriptCoreLibTextEditor/numberedlist.gif", "InsertOrderedList");
+            var insertunorderedlist = AddButton("assets/ScriptCoreLibTextEditor/bulletedlist.gif", "InsertUnorderedList");
+            var undo = AddButton("assets/ScriptCoreLibTextEditor/undo.gif", "undo");
+            var redo = AddButton("assets/ScriptCoreLibTextEditor/redo.gif", "redo");
 
-            var fontfamily = CreateButton((fx)"icon_font.gif");
+            var fontfamily = CreateButton("assets/ScriptCoreLibTextEditor/icon_font.gif");
 
             var FontMenu = new PopupMenu(
                 new StringPair("consolas, courier new, courier", "Courier"),
@@ -555,7 +557,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-            var fontsize = CreateButton((fx)"icon_size.gif");
+            var fontsize = CreateButton("assets/ScriptCoreLibTextEditor/icon_size.gif");
 
             var fontsize_popup = new PopupMenu(
                 new StringPair("1", "Smallest"),
@@ -575,7 +577,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-            var forecolor = CreateButton((fx)"forecolor.gif");
+            var forecolor = CreateButton("assets/ScriptCoreLibTextEditor/forecolor.gif");
 
             var forecolor_popup = new ColorPopup();
 
@@ -586,7 +588,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                     DoCommand("ForeColor", c.ToString());
                 };
 
-            var hilitecolor = CreateButton((fx)"hilitecolor.gif");
+            var hilitecolor = CreateButton("assets/ScriptCoreLibTextEditor/hilitecolor.gif");
 
             var hilitecolor_popup = new ColorPopup();
 
@@ -627,7 +629,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                     undo, redo
                 };
 
-            var customize = CreateButton((fx)"customize.gif");
+            var customize = CreateButton("assets/ScriptCoreLibTextEditor/customize.gif");
 
             customize.Control.style.Float = IStyle.FloatEnum.right;
 
@@ -693,14 +695,14 @@ namespace ScriptCoreLib.JavaScript.Controls
                     ToHTML();
                 };
 
-            design = AddButton((fx)"mode.design.gif", // "Design",
+            design = AddButton("assets/ScriptCoreLibTextEditor/mode.design.gif", // "Design",
                     delegate
                     {
                         IsDesignMode = true;
                     }
                 );
 
-            html = AddButton((fx)"mode.html.gif", // "HTML",
+            html = AddButton("assets/ScriptCoreLibTextEditor/mode.html.gif", // "HTML",
                     delegate
                     {
                         IsDesignMode = false;
@@ -826,12 +828,12 @@ namespace ScriptCoreLib.JavaScript.Controls
             }
         }
 
-        IHTMLImage Gradient = (fx)"body_back.gif";
-        IHTMLImage Toolbar = (fx)"toolbar-bg.gif";
+        IHTMLImage Gradient = "assets/ScriptCoreLibTextEditor/body_back.gif";
+        IHTMLImage Toolbar = "assets/ScriptCoreLibTextEditor/toolbar-bg.gif";
 
-        static IHTMLImage HotButton = (fx)"hot-bg.gif";
+        static IHTMLImage HotButton = "assets/ScriptCoreLibTextEditor/hot-bg.gif";
 
-        IHTMLImage Separator = (fx)"separator.horizontal.gif";
+        IHTMLImage Separator = "assets/ScriptCoreLibTextEditor/separator.horizontal.gif";
 
 
 
