@@ -23,7 +23,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public bool @checked;
         public bool @readOnly;
 
-        public FileAPI.FileList files;
+        public FileList files;
 
         [Script(DefineAsStatic = true)]
         public int GetInteger()

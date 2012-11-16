@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSound.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ValueType.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\DOM\IStyleSheet.cs" />
@@ -259,8 +261,8 @@
     <Compile Include="JavaScript\DOM\IElement.cs" />
     <Compile Include="JavaScript\DOM\IRegExp.cs" />
     <Compile Include="JavaScript\DOM\TouchEvent.cs" />
-    <Compile Include="JavaScript\FileAPI\File.cs" />
-    <Compile Include="JavaScript\FileAPI\FileList.cs" />
+    <Compile Include="JavaScript\DOM\File.cs" />
+    <Compile Include="JavaScript\DOM\FileList.cs" />
     <Compile Include="JavaScript\Runtime\Cookie.cs" />
     <Compile Include="JavaScript\Runtime\Expando.cs" />
     <Compile Include="JavaScript\DOM\IFunction.cs" />
@@ -892,6 +894,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ActionScript\todo.txt" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib\Windows Ding.wav" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib\jsc.ico" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib\loading.gif" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib\jsc.png" />
@@ -902,6 +905,7 @@
     <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
+    <Folder Include="JavaScript\IO\" />
     <Folder Include="Java\BCLImplementation\System\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />

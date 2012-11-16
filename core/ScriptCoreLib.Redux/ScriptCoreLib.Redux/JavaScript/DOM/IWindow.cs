@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.JavaScript.FileAPI;
-using ScriptCoreLib.JavaScript.HistoryAPI;
-using ScriptCoreLib.JavaScript.MessagingAPI;
-using ScriptCoreLib.JavaScript.StorageAPI;
-using ScriptCoreLib.JavaScript.TimingAPI;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -85,7 +80,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region event deviceorientation
-        public event Action<ScriptCoreLib.JavaScript.DeviceOrientationEvent> ondeviceorientation
+        public event Action<DeviceOrientationEvent> ondeviceorientation
         {
             [Script(DefineAsStatic = true)]
             add

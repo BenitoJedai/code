@@ -1,5 +1,6 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
+using System.Media;
 
 namespace DropFileIntoSQLite
 {
@@ -10,6 +11,12 @@ namespace DropFileIntoSQLite
     {
         public static void Main(string[] args)
         {
+            //SystemSounds.Beep.Play();
+            //SystemSounds.Asterisk.Play();
+            //SystemSounds.Exclamation.Play();
+            //SystemSounds.Hand.Play();
+            //SystemSounds.Question.Play();
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
