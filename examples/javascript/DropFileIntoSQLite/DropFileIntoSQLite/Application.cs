@@ -33,6 +33,8 @@ namespace DropFileIntoSQLite
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://html5doctor.com/drag-and-drop-to-server/
+
             Native.Document.body.ondragover +=
                 evt =>
                 {
@@ -58,9 +60,10 @@ namespace DropFileIntoSQLite
                 {
                     evt.StopPropagation();
                     evt.PreventDefault();
+                    page.Header.style.color = JSColor.None;
 
-                    evt.dataTransfer.files.AsEnumerable().WithEach(
-                        (File f) =>
+                    evt.dataTransfer.files.AsEnumerable().WithEachIndex(
+                        (f, index) =>
                         {
                             var ff = new Form();
 
@@ -70,7 +73,10 @@ namespace DropFileIntoSQLite
 
                             ff.Show();
 
-                            ff.MoveTo(evt.CursorX, evt.CursorY);
+                            ff.MoveTo(
+                                evt.CursorX + 32 * index,
+                                evt.CursorY + 24 * index
+                            );
 
                             var fc = ff.GetHTMLTargetContainer();
 

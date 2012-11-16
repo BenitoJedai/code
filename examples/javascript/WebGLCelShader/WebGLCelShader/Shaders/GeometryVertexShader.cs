@@ -41,7 +41,12 @@ namespace WebGLCelShader.Shaders
 
             vec4 mPosition = objectMatrix * vec4(position, 1.0f);
             vec4 mvPosition = modelViewMatrix * vec4(position, 1.0f);
-            vec3 nWorld = normalize(mat3(objectMatrix[0].xyz, objectMatrix[1].xyz, objectMatrix[2].xyz) * normal);
+            vec3 nWorld = normalize(
+                mat3(
+                    objectMatrix[0].xyz, 
+                    objectMatrix[1].xyz, 
+                    objectMatrix[2].xyz
+                ) * normal);
 
             vNormal = normalize(normalMatrix * normal);
 
