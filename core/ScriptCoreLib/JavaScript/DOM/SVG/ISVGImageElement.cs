@@ -30,7 +30,7 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
 
         internal static ISVGImageElement InternalConstructor()
         {
-            return (ISVGImageElement)new ISVGElementBase("image");
+            return (ISVGImageElement)new ISVGElementBase(SVGElementNames.image);
         }
     }
 }

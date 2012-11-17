@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
 
         internal static ISVGRectElement InternalConstructor()
         {
-            return (ISVGRectElement)new ISVGElementBase("rect");
+            return (ISVGRectElement)new ISVGElementBase(SVGElementNames.rect);
         }
     }
 }
