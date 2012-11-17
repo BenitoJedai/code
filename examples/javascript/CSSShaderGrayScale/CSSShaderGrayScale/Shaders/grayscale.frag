@@ -18,6 +18,7 @@ void main()
                                       0.33, 0.33, 0.33, 0.0,
                                        0.0,  0.0,  0.0, 1.0);
 
+
     css_ColorMatrix[0] = mix(identityMatrix[0], grayscaleMatrix[0], amount);
     css_ColorMatrix[1] = mix(identityMatrix[1], grayscaleMatrix[1], amount);
     css_ColorMatrix[2] = mix(identityMatrix[2], grayscaleMatrix[2], amount);
