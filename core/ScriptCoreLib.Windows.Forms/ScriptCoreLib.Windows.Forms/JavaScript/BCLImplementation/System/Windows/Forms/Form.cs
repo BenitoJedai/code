@@ -1018,6 +1018,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                             if (innerHeight != outerHeight)
                                             {
+                                                // how to deal with zoom?
+
+                                                Console.WriteLine("UnmaximzeWhenLostFullscreen " + new { innerHeight, outerHeight });
+
                                                 this.WindowState = FormWindowState.Normal;
                                                 return;
                                             }
@@ -1057,7 +1061,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             this.MinimumSize = this.Size;
                             this.MaximumSize = new Size(Native.Window.Width, this.Height);
 
-                            this.Top = Native.Window.Height - 26;
+                            this.Top = Native.Document.body.scrollHeight - 26;
                         };
 
                 }

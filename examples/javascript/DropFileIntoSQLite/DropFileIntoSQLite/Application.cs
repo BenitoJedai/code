@@ -117,13 +117,13 @@ namespace DropFileIntoSQLite
                                             {
                                                 href = host,
                                                 innerText = "Go to " + host
-                                            }.AttachTo(f.GetHTMLTargetContainer()).style.margin = "4em";
+                                            }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
 
                                             new IHTMLAnchor
                                             {
                                                 href = DocumentText,
                                                 innerText = "Launch " + host
-                                            }.AttachTo(f.GetHTMLTargetContainer()).style.margin = "4em";
+                                            }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
 
                                             f.Show();
                                         }
@@ -144,7 +144,15 @@ namespace DropFileIntoSQLite
                                     {
                                         var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
 
+                                        //((IHTMLIFrame)w.GetHTMLTarget()).contentWindow.onload +=
+                                        //    delegate
+                                        //    {
+                                        //        ((IHTMLIFrame)w.GetHTMLTarget()).contentWindow.document.DesignMode = true;
+                                        //    };
+
                                         w.DocumentText = DocumentText;
+
+
 
                                         f.Show();
                                     }
