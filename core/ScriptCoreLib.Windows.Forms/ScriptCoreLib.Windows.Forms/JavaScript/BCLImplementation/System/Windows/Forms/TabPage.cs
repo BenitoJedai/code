@@ -34,7 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             HTMLTarget = new IHTMLDiv();
             HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
-            HTMLTarget.style.border = "1px solid";
+            HTMLTarget.style.border = "1px solid gray";
             HTMLTarget.style.borderTop = "none";
 
             __tabButton = new IHTMLButton(this.__tabId);

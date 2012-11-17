@@ -238,6 +238,18 @@ namespace CSSMinimizeFormToSidebar
                  page.SidebarOverlay.style.Opacity = 0.3;
              };
 
+            page.SidebarOverlay.onclick +=
+                    delegate
+                    {
+                        if (IsMinimized)
+                            return;
+                        Minimize();
+
+
+
+                    };
+
+
             #region enforce overflow:hidden
             Native.Window.onscroll +=
                 e =>
@@ -252,6 +264,7 @@ namespace CSSMinimizeFormToSidebar
                 };
             #endregion
 
+            f.webBrowser1.Navigate("http://discover.xavalon.net");
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
