@@ -33,6 +33,7 @@ namespace SVGGraphExperiment
         {
             var y = page.ThePath_y;
             var x = page.ThePath_x;
+            var z = page.ThePath_z;
 
             page.TheText.textContent = "pointer lock movement";
 
@@ -41,49 +42,113 @@ namespace SVGGraphExperiment
             //pp.setAttribute("d", pp.getAttribute("d") + " l100,-10         ");
 
 
-            page.Data.onmousedown +=
+
+            var history =
+                new { x = 0.0, y = 0.0, z = 0.0 }.ToEmptyList();
+
+            new List<Point>();
+
+            50.Times(
+                delegate
+                {
+                    history.Add(
+                        // vec2?
+                       new { x = 0.0, y = 0.0, z = 0.0 }
+                   );
+
+                }
+            );
+
+            var movementX = 0.0;
+            var movementY = 0.0;
+            var movementZ = 0.0;
+
+            Native.Document.body.onmousedown +=
+                  e =>
+                  {
+                      Native.Document.body.requestPointerLock();
+                  };
+
+
+            Native.Document.body.onmousemove +=
                 e =>
                 {
-                    page.Data.requestPointerLock();
-                };
-
-            var history = new List<Point>();
-
-
-
-            page.Data.onmousemove +=
-                e =>
-                {
-                    if (page.Data == Native.Document.pointerLockElement)
+                    if (Native.Document.body == Native.Document.pointerLockElement)
                     {
-                        history.Add(
-                            // vec2?
-                            new Point(e.movementX, e.movementY)
-                        );
-
-                        if (history.Count > 500)
-                            history.RemoveAt(0);
-
-                        var xw = new StringBuilder().Append("M10,200 ");
-                        var yw = new StringBuilder().Append("M10,200 ");
-
-
-                        history.WithEach(
-                            p =>
-                            {
-                                xw.Append(" l2," + p.X);
-                                yw.Append(" l2," + p.Y);
-
-                            }
-                        );
-
-                        Console.WriteLine(new { xw, yw });
-
-                        y.d = yw.ToString();
-                        x.d = xw.ToString();
+                        movementX += e.movementX;
+                        movementY += e.movementY;
                     }
                 };
 
+            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                delegate
+                {
+                    history.Add(
+                        // vec2?
+                        new { x = movementX, y = movementY, z = movementZ }
+                            );
+
+                    movementX = 0;
+                    movementY = 0;
+                    movementZ = 0;
+
+                    if (history.Count > 500)
+                    {
+                        history.RemoveAt(0);
+                    }
+
+                    // http://www.w3.org/TR/SVG/paths.html#PathDataMovetoCommands
+                    var xw = new StringBuilder().Append("M10,200 ");
+                    var yw = new StringBuilder().Append("M10,300 ");
+                    var zw = new StringBuilder().Append("M10,400 ");
+
+
+                    history.WithEachIndex(
+                        (p, i) =>
+                        {
+                            xw.Append(" L" + (10 + 2 * i) + "," + (p.x + 200));
+                            yw.Append(" L" + (10 + 2 * i) + "," + (p.y + 300));
+                            zw.Append(" L" + (10 + 2 * i) + "," + (p.z + 400));
+
+                        }
+                    );
+
+                    xw.Append(" L" + (10 + 2 * history.Count) + "," + (201));
+                    yw.Append(" L" + (10 + 2 * history.Count) + "," + (301));
+                    zw.Append(" L" + (10 + 2 * history.Count) + "," + (401));
+
+                    //Console.WriteLine(new { xw, yw });
+
+                    y.d = yw.ToString();
+                    x.d = xw.ToString();
+                    z.d = zw.ToString();
+                }
+            ).StartInterval(1000 / 10);
+
+
+            Native.Document.onkeydown +=
+                delegate
+                {
+                    movementZ = 100;
+                };
+
+            Native.Document.onkeyup +=
+            delegate
+            {
+                movementZ = 0;
+            };
+
+
+            Native.Window.ondeviceorientation +=
+                eventData =>
+                {
+
+                    movementX = eventData.alpha;
+                    movementY = eventData.beta;
+                    movementZ = eventData.gamma;
+
+
+                };
             // An attempt was made to access a socket in a way forbidden by its access permissions
 
             @"Hello world".ToDocumentTitle();
