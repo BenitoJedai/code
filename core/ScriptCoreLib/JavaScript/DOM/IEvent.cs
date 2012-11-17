@@ -8,7 +8,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-
+    // http://www.w3.org/TR/DOM-Level-2-Events/idl-definitions.html
+    // http://www.w3.org/TR/DOM-Level-3-Events/
     [Script(HasNoPrototype = true)]
     public class IEvent
     {
@@ -195,9 +196,21 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
+        public void stopImmediatePropagation()
+        {
+        }
+
         #region StopPropagation
+
         [Script(DefineAsStatic = true)]
+        public void stopPropagation() { InternalStopPropagation(this); }
+
+
+        [Script(DefineAsStatic = true)]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [Obsolete("stopPropagation")]
         public void StopPropagation() { InternalStopPropagation(this); }
+
         [Script(OptimizedCode = @"
             if (a0['cancelBubble'] != void(0)) 
                 a0.cancelBubble = true;
