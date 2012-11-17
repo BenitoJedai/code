@@ -19,7 +19,7 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
 
         internal static ISVGTextElement InternalConstructor()
         {
-            return (ISVGTextElement)new ISVGElementBase("text");
+            return (ISVGTextElement)new ISVGElementBase(SVGElementNames.text);
         }
     }
 }
