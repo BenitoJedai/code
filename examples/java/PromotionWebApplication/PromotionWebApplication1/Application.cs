@@ -895,7 +895,7 @@ namespace PromotionWebApplication1
         {
             Console.WriteLine("download: " + f);
 
-            var bytes = File.ReadAllBytes(f);
+            var bytes = System.IO.File.ReadAllBytes(f);
 
             h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
             h.CompleteRequest();
