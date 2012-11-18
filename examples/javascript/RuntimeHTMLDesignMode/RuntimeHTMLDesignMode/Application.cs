@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using RuntimeHTMLDesignMode.Design;
 using RuntimeHTMLDesignMode.HTML.Pages;
+using System.Collections.Generic;
 
 namespace RuntimeHTMLDesignMode
 {
@@ -50,6 +51,8 @@ namespace RuntimeHTMLDesignMode
 
             return e;
         }
+
+
     }
 
     /// <summary>
@@ -78,17 +81,33 @@ namespace RuntimeHTMLDesignMode
                 {
                     var x = Native.Document.body.ToXElementClone();
 
-                    x.Nodes().SkipWhile(
+                    var nodes = x.Nodes().ToArray();
+
+                    //Console.WriteLine("nodes: " + new { nodes.Length });
+
+
+                    var toclean = x.Nodes().SkipWhile(
                          k =>
                          {
+                             //Console.WriteLine("looking at: " + new { k });
+
                              var script = k as XElement;
                              if (script != null)
+                             {
                                  if (script.Name.LocalName == "script")
+                                 {
+                                     //Console.WriteLine("done looking, found: " + new { script });
                                      return false;
+                                 }
+                             }
 
                              return true;
                          }
-                     ).ToArray().WithEach(
+                     ).ToArray();
+
+                    //Console.WriteLine("toclean: " + new { toclean.Length });
+
+                    toclean.WithEach(
                         k => k.Remove()
                     );
 
@@ -132,7 +151,9 @@ namespace RuntimeHTMLDesignMode
                         }
                     );
                 }
-            ).StartInterval(5000);
+            )
+                .StartInterval(5000)
+            ;
 
             Native.Document.DesignMode = true;
         }

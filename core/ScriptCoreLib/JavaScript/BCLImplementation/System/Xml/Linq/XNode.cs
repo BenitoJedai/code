@@ -26,5 +26,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 InternalValue = this.InternalValue.parentNode
             };
         }
+
+        public void Remove()
+        {
+            this.InternalValue.parentNode.removeChild(InternalValue);
+        }
+
     }
 }
