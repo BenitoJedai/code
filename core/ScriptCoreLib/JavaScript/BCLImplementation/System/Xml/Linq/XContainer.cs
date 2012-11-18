@@ -116,23 +116,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         #endregion
 
 
-        private void __adoptNode(__XElement e)
-		{
-			if (e.InternalValue.ownerDocument != this.InternalValue.ownerDocument)
-			{
-				var ownerDocument = this.InternalValue.ownerDocument;
-
-				try
-				{
-					// IE does not implement adoptNode yet
-					e.InternalValue = ownerDocument.adoptNode(e.InternalValue);
-				}
-				catch
-				{
-
-				}
-			}
-		}
 
 		public IEnumerable<XNode> Nodes()
 		{

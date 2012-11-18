@@ -32,10 +32,13 @@ namespace RuntimeHTMLDesignMode
             //string oldsource,
             XElement newbody,
 
-            Action<XElement> y)
+            Action<XElement> Continuation)
         {
+            Continuation(new XElement("x"));
 
-            var modified = newbody.Attribute("data-modified").Value;
+            var modified = long.Parse(newbody.Attribute("data-modified").Value);
+            var modifiedx = new DateTime(modified);
+
 
             // which is it. update the client. or update the source?
 
@@ -43,18 +46,24 @@ namespace RuntimeHTMLDesignMode
             var originalsource = XElement.Parse(RuntimeHTMLDesignMode.HTML.Pages.AppSource.Text);
             var path = originalsource.Attribute("data-source");
 
-            var diskmodified = "" + File.GetLastWriteTime(path.Value).Ticks;
+            var diskmodified = long.Parse("" + File.GetLastWriteTimeUtc(path.Value).Ticks);
+            var diskmodifiedx = new DateTime(diskmodified);
+
+
+            //Console.WriteLine(new { modifiedx, diskmodifiedx });
+
+ 
 
             if (diskmodified == modified)
             {
-                var message = "Up to date.";
+                var message = diskmodified + " Assets up to date.";
 
                 #region Green WriteLine
                 var old = new { Console.BackgroundColor, Console.ForegroundColor };
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
                 Console.ForegroundColor = ConsoleColor.Green;
 
-                Console.WriteLine(message);
+                Console.WriteLine(message.PadRight(80));
 
                 Console.BackgroundColor = old.BackgroundColor;
                 Console.ForegroundColor = old.ForegroundColor;
@@ -66,7 +75,33 @@ namespace RuntimeHTMLDesignMode
             var disksource = XElement.Parse(File.ReadAllText(path.Value));
             var diskbody = disksource.Element("body");
 
+            if (diskmodified > modified)
+            {
+                var message = diskmodified + " Updating client assets.";
 
+                #region Green WriteLine
+                var old = new { Console.BackgroundColor, Console.ForegroundColor };
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                Console.WriteLine(message.PadRight(80));
+
+                Console.BackgroundColor = old.BackgroundColor;
+                Console.ForegroundColor = old.ForegroundColor;
+                #endregion
+
+         
+                // dont show this to browser.
+                diskbody.Attribute("data-source").Remove();
+
+                diskbody.Add(
+                    new XAttribute("data-modified", "" + diskmodified)
+                );
+
+                Continuation(diskbody);
+
+                return;
+            }
 
 
             var newbodynodes = newbody.Nodes().TakeWhile(
@@ -87,7 +122,7 @@ namespace RuntimeHTMLDesignMode
             var newdisksource = disksource.ToString();
 
             {
-                var message = "Project assets have been updated.".PadRight(80);
+                var message = modified + " Project assets have been updated. ";
 
 
                 #region red WriteLine
@@ -95,7 +130,7 @@ namespace RuntimeHTMLDesignMode
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.ForegroundColor = ConsoleColor.White;
 
-                Console.WriteLine(message);
+                Console.WriteLine(message.PadRight(80));
 
                 Console.BackgroundColor = old.BackgroundColor;
                 Console.ForegroundColor = old.ForegroundColor;
@@ -107,12 +142,22 @@ namespace RuntimeHTMLDesignMode
             try
             {
                 File.WriteAllText(path.Value, newdisksource);
+                // let the file systen know when the cient changed it. timezones?
+                File.SetLastWriteTime(path.Value, new DateTime(modified, DateTimeKind.Utc));
+
+                var __diskmodified = long.Parse("" + File.GetLastWriteTimeUtc(path.Value).Ticks);
+
+
+
+                Thread.Sleep(1);
             }
             catch
             {
                 Console.WriteLine("retry");
                 Thread.Sleep(1);
                 File.WriteAllText(path.Value, newdisksource);
+                // let the file systen know when the cient changed it. timezones?
+                File.SetLastWriteTime(path.Value, modifiedx);
 
             }
 
@@ -159,8 +204,14 @@ namespace RuntimeHTMLDesignMode
 
                 // dont show this to browser.
                 diskbody.Attribute("data-source").Remove();
+
+                var diskmodified = long.Parse("" + File.GetLastWriteTimeUtc(path.Value).Ticks);
+                var diskmodifiedx = new DateTime(diskmodified);
+
+                Console.WriteLine(new { diskmodified, diskmodifiedx });
+
                 diskbody.Add(
-                    new XAttribute("data-modified", "" + File.GetLastWriteTime(path.Value).Ticks)
+                    new XAttribute("data-modified", "" + diskmodified)
                 );
 
                 #region /view-source

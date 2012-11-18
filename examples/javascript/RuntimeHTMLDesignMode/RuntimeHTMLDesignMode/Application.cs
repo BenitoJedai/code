@@ -37,20 +37,9 @@ namespace RuntimeHTMLDesignMode
             return oldxhtml.Elements().Single();
         }
 
-        public static XElement WithModifiedAttribute(this XElement e)
-        {
-            var now = DateTime.Now;
 
-            e.Add(
 
-                new XAttribute(
-                    "data-modified",
-                    "" + now.Ticks
-                  )
-                  );
 
-            return e;
-        }
 
 
     }
@@ -120,34 +109,49 @@ namespace RuntimeHTMLDesignMode
 
 
 
-            Console.WriteLine(oldxhtml);
-
-
-            var oldsource = oldxhtml.ToString();
-
             new ScriptCoreLib.JavaScript.Runtime.Timer(
-                delegate
+                t =>
                 {
                     var newxhtml = AppContentAsXElement();
 
-                    var newsource = newxhtml.ToString();
 
-                    if (oldsource != newsource)
+                    if (oldxhtml.ToString() != newxhtml.ToString())
                     {
                         Console.WriteLine("modified! right?");
                         Console.WriteLine("oldxhtml: \n\n" + oldxhtml);
                         Console.WriteLine("newxhtml: \n\n" + newxhtml);
 
-                        oldxhtml = newxhtml.WithModifiedAttribute();
+                        var now = DateTime.Now;
+
+                        // the document was updated. now lets also update time code
+                        Native.Document.body.AsXElement().Add(
+                            new XAttribute(
+                                "data-modified",
+                                "" + now.Ticks
+                              )
+                        );
+
+                        oldxhtml = AppContentAsXElement();
                         //Console.WriteLine(oldxhtml);
                     }
 
-
+                    Console.WriteLine("stopping timer");
+                    t.Stop();
                     service.Update(
                         oldxhtml,
-                        delegate
+                        xml =>
                         {
+                            if (xml.Name.LocalName == "body")
+                            {
+                                // update!
+                                // this will remove all attached events.
 
+                                Native.Document.body.AsXElement().ReplaceWith(xml);
+                                oldxhtml = AppContentAsXElement();
+                            }
+
+                            Console.WriteLine("restarting timer");
+                            t.StartInterval(5000);
                         }
                     );
                 }

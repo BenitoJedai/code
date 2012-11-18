@@ -28,7 +28,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             InternalValue = new IDate(ms);
         }
 
+        public long Ticks
+        {
+            get
+            {
+                // conversion needed
 
+                var ms = this.InternalValue.getTime();
+
+                return ms * TicksPerMillisecond + ticks_1970_1_1;
+            }
+        }
+
+        public const long ticks_1970_1_1 = 621355968000000000;
 
 
         public __DateTime(int year, int month, int day)
@@ -37,21 +49,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             InternalValue.setFullYear(year);
             InternalValue.setMonth(month - 1);
             InternalValue.setDate(day);
-			InternalValue.setHours(0);
-			InternalValue.setMinutes(0);
-			InternalValue.setSeconds(0);
+            InternalValue.setHours(0);
+            InternalValue.setMinutes(0);
+            InternalValue.setSeconds(0);
         }
 
-		public __DateTime(int year, int month, int day, int hours, int minutes, int seconds)
-		{
-			InternalValue = new IDate();
-			InternalValue.setFullYear(year);
-			InternalValue.setMonth(month - 1);
-			InternalValue.setDate(day);
-			InternalValue.setHours(hours);
-			InternalValue.setMinutes(minutes);
-			InternalValue.setSeconds(seconds);
-		}
+        public __DateTime(int year, int month, int day, int hours, int minutes, int seconds)
+        {
+            InternalValue = new IDate();
+            InternalValue.setFullYear(year);
+            InternalValue.setMonth(month - 1);
+            InternalValue.setDate(day);
+            InternalValue.setHours(hours);
+            InternalValue.setMinutes(minutes);
+            InternalValue.setSeconds(seconds);
+        }
 
 
 
@@ -64,7 +76,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
-        private const long TicksPerMillisecond = 0x10000;
+        // whoa. time travel? :)
+        private const long TicksPerMillisecond = 10000;
 
 
         public int Millisecond
@@ -131,19 +144,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
-        public long Ticks
-        {
-            get
-            {
-                // conversion needed
 
-                var ms = this.InternalValue.getTime();
-
-                return ms * TicksPerMillisecond + ticks_1970_1_1;
-            }
-        }
-
-        public const long ticks_1970_1_1 = 621355968000000000;
 
 
         public static int DaysInMonth(int year, int month)
@@ -156,7 +157,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             int[] numArray = DaysToMonth365;
 
-            if ( IsLeapYear(year) )  numArray = DaysToMonth366;
+            if (IsLeapYear(year)) numArray = DaysToMonth366;
 
             return (numArray[month] - numArray[month - 1]);
         }
@@ -206,29 +207,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public override string ToString()
         {
-			var w = new StringBuilder();
+            var w = new StringBuilder();
 
-			w.Append(this.Day.ToString().PadLeft(2, '0'));
-			w.Append(".");
-			w.Append(this.Month.ToString().PadLeft(2, '0'));
-			w.Append(".");
-			w.Append(this.Year.ToString().PadLeft(4, '0'));
-			w.Append(" ");
-			w.Append(this.Hour.ToString().PadLeft(2, '0'));
-			w.Append(":");
-			w.Append(this.Minute.ToString().PadLeft(2, '0'));
-			w.Append(":");
-			w.Append(this.Second.ToString().PadLeft(2, '0'));
+            w.Append(this.Day.ToString().PadLeft(2, '0'));
+            w.Append(".");
+            w.Append(this.Month.ToString().PadLeft(2, '0'));
+            w.Append(".");
+            w.Append(this.Year.ToString().PadLeft(4, '0'));
+            w.Append(" ");
+            w.Append(this.Hour.ToString().PadLeft(2, '0'));
+            w.Append(":");
+            w.Append(this.Minute.ToString().PadLeft(2, '0'));
+            w.Append(":");
+            w.Append(this.Second.ToString().PadLeft(2, '0'));
 
             return w.ToString();
         }
 
-		public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
-		{
-			return new __TimeSpan {
-				TotalMilliseconds = d1.InternalValue.getTime() - d2.InternalValue.getTime()
-			};
-		}
+        public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
+        {
+            return new __TimeSpan
+            {
+                TotalMilliseconds = d1.InternalValue.getTime() - d2.InternalValue.getTime()
+            };
+        }
 
     }
 }
