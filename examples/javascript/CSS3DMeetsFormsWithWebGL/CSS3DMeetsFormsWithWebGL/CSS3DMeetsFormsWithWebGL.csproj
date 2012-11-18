@@ -156,6 +156,9 @@
     <Reference Include="AvalonTycoonMansion.iPad.AssetsLibrary">
       <HintPath>..\..\..\..\..\jsc.community\avalontycoonmansion\AvalonTycoonMansion\AvalonTycoonMansion.iPad\bin\staging.AssetsLibrary\AvalonTycoonMansion.iPad.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="InteractiveTransformA.AssetsLibrary">
+      <HintPath>..\..\Avalon\InteractiveTransformA\InteractiveTransformA\bin\staging.AssetsLibrary\InteractiveTransformA.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\boxf1.png" />
@@ -239,8 +242,12 @@
       <Name>AvalonUgh.LabsActivity</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj">
-      <Project>{3bd2bd38-102c-4c19-88e1-60522b55403c}</Project>
+      <Project>{1e159c6b-6a83-491d-9b06-00465a5dbb30}</Project>
       <Name>AvalonBrowserLogos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Avalon\InteractiveTransformA\InteractiveTransformA\InteractiveTransformA.csproj">
+      <Project>{3bd2bd38-102c-4c19-88e1-60522b55403c}</Project>
+      <Name>InteractiveTransformA</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj">
       <Project>{2f3573db-52c7-4ace-bedb-27c4aed70f39}</Project>

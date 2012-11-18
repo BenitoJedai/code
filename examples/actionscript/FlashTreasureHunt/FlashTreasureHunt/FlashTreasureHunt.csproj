@@ -61,10 +61,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.RayCaster, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLib.RayCaster.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
     </Reference>
@@ -134,11 +130,8 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Content Include="docs\about.txt" />
-    <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
-    <Content Include="docs\SourceAnalysis.txt" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Promotional\x100.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\FUNKYOU.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\revealed.mp3" />
@@ -158,7 +151,6 @@
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\treasure.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="tools\build.bat" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\ammo.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\nonblock.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\head.zip" />
@@ -175,10 +167,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>pushd ..\..\tools\
-rem start /WAIT build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
-popd
-
+    <PostBuildEvent>
 
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
