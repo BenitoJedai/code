@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using RuntimeHTMLDesignMode.Design;
 using RuntimeHTMLDesignMode.HTML.Pages;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RuntimeHTMLDesignMode
 {
@@ -146,7 +147,10 @@ namespace RuntimeHTMLDesignMode
                                 // update!
                                 // this will remove all attached events.
 
-                                Native.Document.body.AsXElement().ReplaceWith(xml);
+                                Console.WriteLine(xml);
+                                //Debugger.Break();
+
+                                Native.Document.body.AsXElement().ReplaceAll(xml);
                                 oldxhtml = AppContentAsXElement();
                             }
 
@@ -158,6 +162,16 @@ namespace RuntimeHTMLDesignMode
             )
                 .StartInterval(5000)
             ;
+
+            var xxml = "<xbody>foo<button>x<button></xbody>";
+            // body is special
+            //var xxml = "<body>foo</body>";
+
+            var xx = new IHTMLDiv().AttachToDocument();
+
+
+            xx.AsXElement().ReplaceWith(XElement.Parse(xxml));
+
 
             Native.Document.DesignMode = true;
         }

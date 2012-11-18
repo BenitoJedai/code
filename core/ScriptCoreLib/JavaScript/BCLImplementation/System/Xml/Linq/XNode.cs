@@ -37,6 +37,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public void __adoptNode(__XNode e)
         {
+            // do we need this workaround?
+
             if (Expando.InternalIsMember(this.InternalValue, "innerHTML"))
             {
                 if (!Expando.InternalIsMember(e.InternalValue, "innerHTML"))
@@ -47,8 +49,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
                     // will this trigger scripts?
                     //swap.innerHTML = e.ToString();
-                    swap.innerHTML = IXMLDocument.ToXMLString(InternalValue);
-                    
+                    swap.innerHTML = IXMLDocument.ToXMLString(e.InternalValue);
+
                     e.InternalValue = swap.firstChild;
                     return;
                 }
@@ -81,8 +83,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 __adoptNode(x);
 
                 this.InternalValue.parentNode.replaceChild(
-                    this.InternalValue,
-                    x.InternalValue
+                    x.InternalValue,
+                    this.InternalValue
                 );
             }
         }
