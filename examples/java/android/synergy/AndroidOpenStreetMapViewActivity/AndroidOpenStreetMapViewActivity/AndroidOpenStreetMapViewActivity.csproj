@@ -75,23 +75,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
-      <Link>ScriptCoreLib.Android\Shader.cs</Link>
-    </Compile>
     <Compile Include="ApplicationActivity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ScriptCoreLib.Android\" />
+    <Folder Include="staging\apk\res\values\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
     <Content Include="References\osmdroid-android-3.0.8.jar" />
     <Content Include="References\slf4j-android-1.5.8.jar" />
     <Content Include="staging\apk\res\layout\main.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="staging\apk\res\values\strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
