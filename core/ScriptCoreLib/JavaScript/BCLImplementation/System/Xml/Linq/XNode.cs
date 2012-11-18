@@ -37,7 +37,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public void __adoptNode(__XNode e)
         {
-            // do we need this workaround?
+            #region we need this workaround to bring html alive
 
             if (Expando.InternalIsMember(this.InternalValue, "innerHTML"))
             {
@@ -55,6 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                     return;
                 }
             }
+            #endregion
 
             if (e.InternalValue.ownerDocument != this.InternalValue.ownerDocument)
             {

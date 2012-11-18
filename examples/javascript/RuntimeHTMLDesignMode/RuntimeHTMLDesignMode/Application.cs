@@ -118,9 +118,9 @@ namespace RuntimeHTMLDesignMode
 
                     if (oldxhtml.ToString() != newxhtml.ToString())
                     {
-                        Console.WriteLine("modified! right?");
-                        Console.WriteLine("oldxhtml: \n\n" + oldxhtml);
-                        Console.WriteLine("newxhtml: \n\n" + newxhtml);
+                        //Console.WriteLine("modified! right?");
+                        //Console.WriteLine("oldxhtml: \n\n" + oldxhtml);
+                        //Console.WriteLine("newxhtml: \n\n" + newxhtml);
 
                         var now = DateTime.Now;
 
@@ -163,14 +163,14 @@ namespace RuntimeHTMLDesignMode
                 .StartInterval(5000)
             ;
 
-            var xxml = "<xbody>foo<button>x<button></xbody>";
-            // body is special
-            //var xxml = "<body>foo</body>";
+            //var xxml = "<xbody>foo<button>x</button></xbody>";
+            //// body is special
+            ////var xxml = "<body>foo</body>";
 
-            var xx = new IHTMLDiv().AttachToDocument();
+            //var xx = new IHTMLDiv().AttachToDocument();
 
 
-            xx.AsXElement().ReplaceWith(XElement.Parse(xxml));
+            //xx.AsXElement().ReplaceWith(XElement.Parse(xxml));
 
 
             Native.Document.DesignMode = true;

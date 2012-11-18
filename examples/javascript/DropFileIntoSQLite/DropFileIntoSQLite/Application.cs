@@ -185,12 +185,15 @@ namespace DropFileIntoSQLite
 
                             fc.title = ff.Text;
 
+                            var i = default(IHTMLImage);
+
                             if (f.type.StartsWith("image/"))
                             {
                                 f.ToDataURLAsync(
                                     src =>
                                     {
-                                        var i = new IHTMLImage { src = src }.AttachTo(fc);
+                                        i = new IHTMLImage { src = src }.AttachTo(fc);
+                                        i.style.width = "100%";
 
                                         i.InvokeOnComplete(
                                             delegate
@@ -226,6 +229,12 @@ namespace DropFileIntoSQLite
                                     XElement.Parse(xhr.responseText).Elements("ContentKey").WithEach(
                                         ContentKey =>
                                         {
+                                            var src = "/io/" + ContentKey.Value;
+
+                                            if (i != null)
+                                            {
+                                                i.src = src;
+                                            }
 
                                             ff.FormClosing +=
                                                 delegate
@@ -281,6 +290,7 @@ namespace DropFileIntoSQLite
                         var src = "/io/" + ContentKey;
 
                         var i = new IHTMLImage { src = src }.AttachTo(fc);
+                        i.style.width = "100%";
 
                         i.InvokeOnComplete(
                             delegate
