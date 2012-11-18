@@ -90,13 +90,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
             if (this.InternalElement == null)
                 return;
 
-            var p = this.InternalElement.firstChild;
+            RemoveNodes();
+            RemoveAttributes();
+        }
 
-            while (p != null)
+        public void RemoveAttributes()
+        {
+            foreach (var item in Attributes().ToArray())
             {
-                this.InternalElement.removeChild(p);
-
-                p = this.InternalElement.firstChild;
+                this.InternalElement.removeAttribute(item.Name.LocalName);
             }
         }
 
@@ -138,13 +140,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         public void ReplaceAll(object content)
         {
             this.RemoveAll();
-            this.Add(content);
+
+            var x = (content as XElement);
+            if (x != null)
+            {
+                InternalAddFrom(x);
+            }
 
         }
-        public void ReplaceAll(params object[] content)
+
+        public void InternalAddFrom(XElement x)
+        {
+            var a = x.Attributes();
+            foreach (var item in a)
+            {
+                this.Add(item);
+            }
+
+            var nodes = x.Nodes().ToArray();
+            foreach (var item in nodes )
+            {
+                this.Add(item);
+            }
+        }
+
+        public void ReplaceAll(params object[] collection)
         {
             this.RemoveAll();
-            this.Add(content);
+
+            // is this correct?
+            foreach (var content in collection)
+            {
+                var x = (content as XElement);
+                if (x != null)
+                {
+                    InternalAddFrom(x);
+                }
+            }
         }
 
         public IEnumerable<XElement> DescendantsAndSelf()
