@@ -34,6 +34,9 @@
     <Reference Include="ScriptCoreLib">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
@@ -54,6 +57,19 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionScript\RayCaster\Extensions\MyExtensions.cs" />
+    <Compile Include="ActionScript\RayCaster\IVector.cs" />
+    <Compile Include="ActionScript\RayCaster\MapInfo.cs" />
+    <Compile Include="ActionScript\RayCaster\PortalInfo.cs" />
+    <Compile Include="ActionScript\RayCaster\SpriteInfo.cs" />
+    <Compile Include="ActionScript\RayCaster\SpriteInfoFromPOV.cs" />
+    <Compile Include="ActionScript\RayCaster\Texture32.cs" />
+    <Compile Include="ActionScript\RayCaster\Texture64.cs" />
+    <Compile Include="ActionScript\RayCaster\TextureBase.cs" />
+    <Compile Include="ActionScript\RayCaster\ViewEngineBase.cs" />
+    <Compile Include="ActionScript\RayCaster\ViewEngineBase.Render.cs" />
+    <Compile Include="ActionScript\RayCaster\ViewEngineBase.Textures.cs" />
+    <Compile Include="ActionScript\RayCaster\ViewInfo.cs" />
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
     <Compile Include="BCLExtensions\System\Int32Extensions.cs" />
     <Compile Include="BCLExtensions\System\DoubleExtensions.cs" />

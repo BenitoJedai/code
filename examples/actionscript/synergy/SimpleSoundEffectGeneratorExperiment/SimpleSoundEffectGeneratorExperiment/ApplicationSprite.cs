@@ -21,6 +21,5 @@ namespace SimpleSoundEffectGeneratorExperiment
 [SWCImport]
 public class SfxrApp : Sprite
 {
-    // Carlo: generation was disabled due to a bug. re-enable once fixed. 
-    // Arvo: JSC could make use of Roslyn to pick up such code comments :)
+    // for partial sdk builds use /DisableActionScriptNatives:true
 }
