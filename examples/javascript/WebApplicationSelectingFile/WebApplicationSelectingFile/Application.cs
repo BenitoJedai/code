@@ -12,7 +12,6 @@ using System.Text;
 using System.Xml.Linq;
 using WebApplicationSelectingFile.Design;
 using WebApplicationSelectingFile.HTML.Pages;
-using ScriptCoreLib.JavaScript.FileAPI;
 using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.Runtime;
 
