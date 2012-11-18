@@ -11,6 +11,7 @@ using android.widget;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 
 using org.osmdroid.views;
 using org.osmdroid.api;
@@ -88,7 +89,7 @@ namespace AndroidOpenStreetMapViewActivity.Activities
             //requestWindowFeature(Window.FEATURE_NO_TITLE);
             //getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
-            this.ShowToast("jsc-solutions.net\nWait while map loads...");
+            //this.ShowToast("jsc-solutions.net\nWait while map loads...");
 
             setContentView(R.layout.main);
 

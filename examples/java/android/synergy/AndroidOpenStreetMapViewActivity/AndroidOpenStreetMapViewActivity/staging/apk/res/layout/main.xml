@@ -7,7 +7,7 @@
   <TextView
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:text="@string/hello" />
+      android:text="" />
   <org.osmdroid.views.MapView
       android:id="@+id/openmapview"
       android:layout_width="fill_parent"
