@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A9A1B53D-3BC6-41DD-8E86-F87F1A773BD8}</ProjectGuid>
+    <ProjectGuid>{DFD24476-8598-4862-B652-D4CDABD116A8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CSSShaderSphereSimple</RootNamespace>
