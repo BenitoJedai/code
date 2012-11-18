@@ -13,18 +13,24 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
         public static IEnumerable<T> SkipWhile<T>(this IEnumerable<T> source, global::System.Func<T, bool> predicate)
         {
-            var _Where = false;
+            //tested by X:\jsc.svn\examples\javascript\RuntimeHTMLDesignMode\RuntimeHTMLDesignMode\Application.cs
+
+            var SkipModeActive = true;
 
             return source.Where(
                 k =>
                 {
-                    var r = _Where;
+                    if (SkipModeActive)
+                    {
+                        SkipModeActive = predicate(k);
 
-                    if (!_Where)
-                        if (predicate(k))
-                            _Where = true;
+                        if (SkipModeActive)
+                        {
+                            return false;
+                        }
+                    }
 
-                    return r;
+                    return true;
                 }
             );
         }
