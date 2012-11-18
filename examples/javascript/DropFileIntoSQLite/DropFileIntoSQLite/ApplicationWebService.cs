@@ -205,6 +205,7 @@ namespace DropFileIntoSQLite
             }
             #endregion
 
+            #region /io/
             var io = "/io/";
             var path = h.Context.Request.Path;
             if (path.StartsWith(io))
@@ -274,6 +275,8 @@ namespace DropFileIntoSQLite
                 h.CompleteRequest();
                 return;
             }
+            #endregion
+
         }
     }
 }
