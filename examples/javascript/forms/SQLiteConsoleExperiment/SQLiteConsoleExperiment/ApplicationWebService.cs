@@ -34,7 +34,7 @@ namespace SQLiteConsoleExperiment
 
             try
             {
-                //var table = default(XElement);
+                var table = default(XElement);
 
                 using (var c = new SQLiteConnection(csb.ConnectionString))
                 {
@@ -47,32 +47,32 @@ namespace SQLiteConsoleExperiment
                         {
                             #region tr
 
-                            //if (table == null)
-                            //{
-                            //    table = new XElement("table");
+                            if (table == null)
+                            {
+                                table = new XElement("table");
 
-                            //    new XElement("tr").With(
-                            //        header =>
-                            //        {
-                            //            for (int i = 0; i < reader.FieldCount; i++)
-                            //            {
-                            //                var n = reader.GetName(i);
+                                new XElement("tr").With(
+                                    header =>
+                                    {
+                                        for (int i = 0; i < reader.FieldCount; i++)
+                                        {
+                                            var n = reader.GetName(i);
 
-                            //                // http://www.w3schools.com/tags/tag_th.asp
+                                            // http://www.w3schools.com/tags/tag_th.asp
 
-                            //                var th = new XElement("th");
-                            //                th.Value = n;
-                            //                header.Add(th);
-                            //            }
+                                            var th = new XElement("th");
+                                            th.Value = n;
+                                            header.Add(th);
+                                        }
 
-                            //            table.Add(header);
-                            //        }
-                            //    );
-                            //}
+                                        table.Add(header);
+                                    }
+                                );
+                            }
 
-                            //var tr = new XElement("tr");
+                            var tr = new XElement("tr");
 
-                            //table.Add(tr);
+                            table.Add(tr);
 
                             var w = new StringBuilder();
 
@@ -91,9 +91,9 @@ namespace SQLiteConsoleExperiment
 
                                 if (ft == typeof(string))
                                 {
-                                    //var td = new XElement("td");
-                                    //td.Value = reader.GetString(i);
-                                    //tr.Add(td);
+                                    var td = new XElement("td");
+                                    td.Value = reader.GetString(i);
+                                    tr.Add(td);
 
                                     w.Append("'");
                                     w.Append(reader.GetString(i));
@@ -101,17 +101,17 @@ namespace SQLiteConsoleExperiment
                                 }
                                 else if (ft == typeof(int))
                                 {
-                                    //var td = new XElement("td");
-                                    //td.Value = reader.GetInt32(i) + "";
-                                    //tr.Add(td);
+                                    var td = new XElement("td");
+                                    td.Value = reader.GetInt32(i) + "";
+                                    tr.Add(td);
 
                                     w.Append(reader.GetInt32(i));
                                 }
                                 else if (ft == typeof(long))
                                 {
-                                    //var td = new XElement("td");
-                                    //td.Value = reader.GetInt64(i) + "";
-                                    //tr.Add(td);
+                                    var td = new XElement("td");
+                                    td.Value = reader.GetInt64(i) + "";
+                                    tr.Add(td);
 
                                     w.Append(reader.GetInt64(i));
                                 }
@@ -131,9 +131,9 @@ namespace SQLiteConsoleExperiment
                     c.Close();
                 }
 
-                //if (table != null)
-                //    if (AtDataGridContent != null)
-                //        AtDataGridContent(table);
+                if (table != null)
+                    if (AtDataGridContent != null)
+                        AtDataGridContent(table);
 
             }
             catch (Exception ex)

@@ -15,7 +15,7 @@ namespace RuntimeHTMLDesignMode
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed partial class ApplicationWebService
     {
         /// <summary>
         /// This Method is a javascript callable method.
@@ -52,7 +52,7 @@ namespace RuntimeHTMLDesignMode
 
             //Console.WriteLine(new { modifiedx, diskmodifiedx });
 
- 
+
 
             if (diskmodified == modified)
             {
@@ -90,7 +90,7 @@ namespace RuntimeHTMLDesignMode
                 Console.ForegroundColor = old.ForegroundColor;
                 #endregion
 
-         
+
                 // dont show this to browser.
                 diskbody.Attribute("data-source").Remove();
 
@@ -166,7 +166,8 @@ namespace RuntimeHTMLDesignMode
 
         public void InternalHandler(WebServiceHandler h)
         {
-            var app = h.Applications.Single();
+            //typeof(Application)
+            var app = h.Applications.Single(k => k.TypeName == "Application");
 
             var originalsource = XElement.Parse(app.PageSource);
             var path = originalsource.Attribute("data-source");

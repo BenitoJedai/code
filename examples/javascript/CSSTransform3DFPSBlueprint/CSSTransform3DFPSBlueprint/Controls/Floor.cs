@@ -11,6 +11,8 @@ namespace CSSTransform3DFPSBlueprint.Controls
 {
     public partial class Floor : UserControl
     {
+        public double Z { get; set; }
+
         public Floor()
         {
             InitializeComponent();
