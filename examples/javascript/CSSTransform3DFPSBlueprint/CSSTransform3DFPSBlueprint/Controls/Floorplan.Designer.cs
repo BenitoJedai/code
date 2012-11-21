@@ -28,19 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.button1 = new System.Windows.Forms.Button();
+            this.floor17 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor16 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor15 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.deskCube18 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.floor14 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor13 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor12 = new CSSTransform3DFPSBlueprint.Controls.Floor();
             this.deskCube9 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube7 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube5 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube4 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube12 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube13 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.deskCube17 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.deskCube16 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.deskCube15 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube3 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube2 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube11 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube10 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube8 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube6 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.deskCube14 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.deskCube1 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.floor11 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor10 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor9 = new CSSTransform3DFPSBlueprint.Controls.Floor();
             this.floor6 = new CSSTransform3DFPSBlueprint.Controls.Floor();
             this.floor8 = new CSSTransform3DFPSBlueprint.Controls.Floor();
             this.floor7 = new CSSTransform3DFPSBlueprint.Controls.Floor();
@@ -49,16 +64,99 @@
             this.floor3 = new CSSTransform3DFPSBlueprint.Controls.Floor();
             this.floor2 = new CSSTransform3DFPSBlueprint.Controls.Floor();
             this.floor1 = new CSSTransform3DFPSBlueprint.Controls.Floor();
-            this.button1 = new System.Windows.Forms.Button();
-            this.deskCube14 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
-            this.deskCube15 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.floor18 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor19 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor20 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.floor21 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.deskCube19 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.deskCube20 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
+            this.floor22 = new CSSTransform3DFPSBlueprint.Controls.Floor();
+            this.deskCube21 = new CSSTransform3DFPSBlueprint.Controls.DeskCube();
             this.SuspendLayout();
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(206, 428);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(106, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // floor17
+            // 
+            this.floor17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor17.Location = new System.Drawing.Point(366, 83);
+            this.floor17.Name = "floor17";
+            this.floor17.Size = new System.Drawing.Size(18, 92);
+            this.floor17.TabIndex = 8;
+            this.floor17.Z = 30D;
+            // 
+            // floor16
+            // 
+            this.floor16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor16.Location = new System.Drawing.Point(342, 83);
+            this.floor16.Name = "floor16";
+            this.floor16.Size = new System.Drawing.Size(18, 92);
+            this.floor16.TabIndex = 8;
+            this.floor16.Z = 20D;
+            // 
+            // floor15
+            // 
+            this.floor15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor15.Location = new System.Drawing.Point(318, 83);
+            this.floor15.Name = "floor15";
+            this.floor15.Size = new System.Drawing.Size(18, 92);
+            this.floor15.TabIndex = 8;
+            this.floor15.Z = 10D;
+            // 
+            // deskCube18
+            // 
+            this.deskCube18.BackColor = System.Drawing.Color.Blue;
+            this.deskCube18.ForeColor = System.Drawing.Color.Blue;
+            this.deskCube18.Location = new System.Drawing.Point(-40, 83);
+            this.deskCube18.Name = "deskCube18";
+            this.deskCube18.Size = new System.Drawing.Size(247, 196);
+            this.deskCube18.TabIndex = 7;
+            // 
+            // floor14
+            // 
+            this.floor14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor14.Location = new System.Drawing.Point(515, 83);
+            this.floor14.Name = "floor14";
+            this.floor14.Size = new System.Drawing.Size(19, 92);
+            this.floor14.TabIndex = 6;
+            this.floor14.Z = -30D;
+            // 
+            // floor13
+            // 
+            this.floor13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor13.Location = new System.Drawing.Point(540, 83);
+            this.floor13.Name = "floor13";
+            this.floor13.Size = new System.Drawing.Size(15, 92);
+            this.floor13.TabIndex = 6;
+            this.floor13.Z = -20D;
+            // 
+            // floor12
+            // 
+            this.floor12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor12.Location = new System.Drawing.Point(561, 83);
+            this.floor12.Name = "floor12";
+            this.floor12.Size = new System.Drawing.Size(18, 92);
+            this.floor12.TabIndex = 6;
+            this.floor12.Z = -10D;
             // 
             // deskCube9
             // 
             this.deskCube9.BackColor = System.Drawing.Color.Blue;
             this.deskCube9.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube9.Location = new System.Drawing.Point(410, 415);
+            this.deskCube9.Location = new System.Drawing.Point(564, 511);
             this.deskCube9.Name = "deskCube9";
             this.deskCube9.Size = new System.Drawing.Size(58, 14);
             this.deskCube9.TabIndex = 4;
@@ -67,7 +165,7 @@
             // 
             this.deskCube7.BackColor = System.Drawing.Color.Blue;
             this.deskCube7.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube7.Location = new System.Drawing.Point(228, 479);
+            this.deskCube7.Location = new System.Drawing.Point(382, 575);
             this.deskCube7.Name = "deskCube7";
             this.deskCube7.Size = new System.Drawing.Size(99, 16);
             this.deskCube7.TabIndex = 3;
@@ -76,7 +174,7 @@
             // 
             this.deskCube5.BackColor = System.Drawing.Color.Blue;
             this.deskCube5.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube5.Location = new System.Drawing.Point(386, 285);
+            this.deskCube5.Location = new System.Drawing.Point(540, 381);
             this.deskCube5.Name = "deskCube5";
             this.deskCube5.Size = new System.Drawing.Size(307, 20);
             this.deskCube5.TabIndex = 2;
@@ -85,7 +183,7 @@
             // 
             this.deskCube4.BackColor = System.Drawing.Color.Blue;
             this.deskCube4.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube4.Location = new System.Drawing.Point(52, 285);
+            this.deskCube4.Location = new System.Drawing.Point(206, 381);
             this.deskCube4.Name = "deskCube4";
             this.deskCube4.Size = new System.Drawing.Size(294, 20);
             this.deskCube4.TabIndex = 2;
@@ -94,7 +192,7 @@
             // 
             this.deskCube12.BackColor = System.Drawing.Color.Blue;
             this.deskCube12.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube12.Location = new System.Drawing.Point(199, 657);
+            this.deskCube12.Location = new System.Drawing.Point(353, 753);
             this.deskCube12.Name = "deskCube12";
             this.deskCube12.Size = new System.Drawing.Size(46, 20);
             this.deskCube12.TabIndex = 2;
@@ -103,16 +201,43 @@
             // 
             this.deskCube13.BackColor = System.Drawing.Color.Blue;
             this.deskCube13.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube13.Location = new System.Drawing.Point(537, 657);
+            this.deskCube13.Location = new System.Drawing.Point(691, 753);
             this.deskCube13.Name = "deskCube13";
             this.deskCube13.Size = new System.Drawing.Size(46, 20);
             this.deskCube13.TabIndex = 2;
+            // 
+            // deskCube17
+            // 
+            this.deskCube17.BackColor = System.Drawing.Color.Blue;
+            this.deskCube17.ForeColor = System.Drawing.Color.Blue;
+            this.deskCube17.Location = new System.Drawing.Point(721, 83);
+            this.deskCube17.Name = "deskCube17";
+            this.deskCube17.Size = new System.Drawing.Size(247, 196);
+            this.deskCube17.TabIndex = 2;
+            // 
+            // deskCube16
+            // 
+            this.deskCube16.BackColor = System.Drawing.Color.Blue;
+            this.deskCube16.ForeColor = System.Drawing.Color.Blue;
+            this.deskCube16.Location = new System.Drawing.Point(487, 181);
+            this.deskCube16.Name = "deskCube16";
+            this.deskCube16.Size = new System.Drawing.Size(88, 98);
+            this.deskCube16.TabIndex = 2;
+            // 
+            // deskCube15
+            // 
+            this.deskCube15.BackColor = System.Drawing.Color.Blue;
+            this.deskCube15.ForeColor = System.Drawing.Color.Blue;
+            this.deskCube15.Location = new System.Drawing.Point(718, 576);
+            this.deskCube15.Name = "deskCube15";
+            this.deskCube15.Size = new System.Drawing.Size(144, 20);
+            this.deskCube15.TabIndex = 2;
             // 
             // deskCube3
             // 
             this.deskCube3.BackColor = System.Drawing.Color.Blue;
             this.deskCube3.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube3.Location = new System.Drawing.Point(375, 657);
+            this.deskCube3.Location = new System.Drawing.Point(529, 753);
             this.deskCube3.Name = "deskCube3";
             this.deskCube3.Size = new System.Drawing.Size(46, 20);
             this.deskCube3.TabIndex = 2;
@@ -121,7 +246,7 @@
             // 
             this.deskCube2.BackColor = System.Drawing.Color.Blue;
             this.deskCube2.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube2.Location = new System.Drawing.Point(199, 311);
+            this.deskCube2.Location = new System.Drawing.Point(353, 407);
             this.deskCube2.Name = "deskCube2";
             this.deskCube2.Size = new System.Drawing.Size(23, 347);
             this.deskCube2.TabIndex = 1;
@@ -130,7 +255,7 @@
             // 
             this.deskCube11.BackColor = System.Drawing.Color.Blue;
             this.deskCube11.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube11.Location = new System.Drawing.Point(333, 415);
+            this.deskCube11.Location = new System.Drawing.Point(487, 511);
             this.deskCube11.Name = "deskCube11";
             this.deskCube11.Size = new System.Drawing.Size(10, 80);
             this.deskCube11.TabIndex = 1;
@@ -139,7 +264,7 @@
             // 
             this.deskCube10.BackColor = System.Drawing.Color.Blue;
             this.deskCube10.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube10.Location = new System.Drawing.Point(333, 302);
+            this.deskCube10.Location = new System.Drawing.Point(487, 398);
             this.deskCube10.Name = "deskCube10";
             this.deskCube10.Size = new System.Drawing.Size(10, 62);
             this.deskCube10.TabIndex = 1;
@@ -148,7 +273,7 @@
             // 
             this.deskCube8.BackColor = System.Drawing.Color.Blue;
             this.deskCube8.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube8.Location = new System.Drawing.Point(456, 302);
+            this.deskCube8.Location = new System.Drawing.Point(610, 398);
             this.deskCube8.Name = "deskCube8";
             this.deskCube8.Size = new System.Drawing.Size(10, 107);
             this.deskCube8.TabIndex = 1;
@@ -157,130 +282,241 @@
             // 
             this.deskCube6.BackColor = System.Drawing.Color.Blue;
             this.deskCube6.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube6.Location = new System.Drawing.Point(395, 501);
+            this.deskCube6.Location = new System.Drawing.Point(549, 597);
             this.deskCube6.Name = "deskCube6";
             this.deskCube6.Size = new System.Drawing.Size(13, 157);
             this.deskCube6.TabIndex = 1;
-            // 
-            // deskCube1
-            // 
-            this.deskCube1.BackColor = System.Drawing.Color.Blue;
-            this.deskCube1.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube1.Location = new System.Drawing.Point(560, 501);
-            this.deskCube1.Name = "deskCube1";
-            this.deskCube1.Size = new System.Drawing.Size(23, 157);
-            this.deskCube1.TabIndex = 1;
-            // 
-            // floor6
-            // 
-            this.floor6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.floor6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.floor6.Location = new System.Drawing.Point(351, 311);
-            this.floor6.Name = "floor6";
-            this.floor6.Size = new System.Drawing.Size(99, 98);
-            this.floor6.TabIndex = 0;
-            // 
-            // floor8
-            // 
-            this.floor8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.floor8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.floor8.Location = new System.Drawing.Point(52, 189);
-            this.floor8.Name = "floor8";
-            this.floor8.Size = new System.Drawing.Size(641, 90);
-            this.floor8.TabIndex = 0;
-            // 
-            // floor7
-            // 
-            this.floor7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.floor7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.floor7.Location = new System.Drawing.Point(199, 678);
-            this.floor7.Name = "floor7";
-            this.floor7.Size = new System.Drawing.Size(384, 57);
-            this.floor7.TabIndex = 0;
-            // 
-            // floor5
-            // 
-            this.floor5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.floor5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.floor5.Location = new System.Drawing.Point(349, 430);
-            this.floor5.Name = "floor5";
-            this.floor5.Size = new System.Drawing.Size(210, 70);
-            this.floor5.TabIndex = 0;
-            // 
-            // floor4
-            // 
-            this.floor4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.floor4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.floor4.Location = new System.Drawing.Point(228, 311);
-            this.floor4.Name = "floor4";
-            this.floor4.Size = new System.Drawing.Size(99, 162);
-            this.floor4.TabIndex = 0;
-            // 
-            // floor3
-            // 
-            this.floor3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.floor3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.floor3.Location = new System.Drawing.Point(467, 310);
-            this.floor3.Name = "floor3";
-            this.floor3.Size = new System.Drawing.Size(91, 120);
-            this.floor3.TabIndex = 0;
-            // 
-            // floor2
-            // 
-            this.floor2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.floor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.floor2.Location = new System.Drawing.Point(414, 501);
-            this.floor2.Name = "floor2";
-            this.floor2.Size = new System.Drawing.Size(144, 157);
-            this.floor2.TabIndex = 0;
-            // 
-            // floor1
-            // 
-            this.floor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.floor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.floor1.Location = new System.Drawing.Point(237, 501);
-            this.floor1.Name = "floor1";
-            this.floor1.Size = new System.Drawing.Size(152, 157);
-            this.floor1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(52, 332);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(106, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // deskCube14
             // 
             this.deskCube14.BackColor = System.Drawing.Color.Blue;
             this.deskCube14.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube14.Location = new System.Drawing.Point(685, 310);
+            this.deskCube14.Location = new System.Drawing.Point(839, 406);
             this.deskCube14.Name = "deskCube14";
             this.deskCube14.Size = new System.Drawing.Size(23, 157);
             this.deskCube14.TabIndex = 1;
             // 
-            // deskCube15
+            // deskCube1
             // 
-            this.deskCube15.BackColor = System.Drawing.Color.Blue;
-            this.deskCube15.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube15.Location = new System.Drawing.Point(564, 480);
-            this.deskCube15.Name = "deskCube15";
-            this.deskCube15.Size = new System.Drawing.Size(144, 20);
-            this.deskCube15.TabIndex = 2;
+            this.deskCube1.BackColor = System.Drawing.Color.Blue;
+            this.deskCube1.ForeColor = System.Drawing.Color.Blue;
+            this.deskCube1.Location = new System.Drawing.Point(714, 597);
+            this.deskCube1.Name = "deskCube1";
+            this.deskCube1.Size = new System.Drawing.Size(23, 157);
+            this.deskCube1.TabIndex = 1;
+            // 
+            // floor11
+            // 
+            this.floor11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor11.Location = new System.Drawing.Point(-171, -312);
+            this.floor11.Name = "floor11";
+            this.floor11.Size = new System.Drawing.Size(202, 176);
+            this.floor11.TabIndex = 0;
+            this.floor11.Z = 0D;
+            // 
+            // floor10
+            // 
+            this.floor10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor10.Location = new System.Drawing.Point(213, 83);
+            this.floor10.Name = "floor10";
+            this.floor10.Size = new System.Drawing.Size(99, 196);
+            this.floor10.TabIndex = 0;
+            this.floor10.Z = 0D;
+            // 
+            // floor9
+            // 
+            this.floor9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor9.Location = new System.Drawing.Point(585, 83);
+            this.floor9.Name = "floor9";
+            this.floor9.Size = new System.Drawing.Size(128, 196);
+            this.floor9.TabIndex = 0;
+            this.floor9.Z = 0D;
+            // 
+            // floor6
+            // 
+            this.floor6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor6.Location = new System.Drawing.Point(505, 407);
+            this.floor6.Name = "floor6";
+            this.floor6.Size = new System.Drawing.Size(99, 98);
+            this.floor6.TabIndex = 0;
+            this.floor6.Z = 0D;
+            // 
+            // floor8
+            // 
+            this.floor8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor8.Location = new System.Drawing.Point(585, 285);
+            this.floor8.Name = "floor8";
+            this.floor8.Size = new System.Drawing.Size(262, 90);
+            this.floor8.TabIndex = 0;
+            this.floor8.Z = 0D;
+            // 
+            // floor7
+            // 
+            this.floor7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor7.Location = new System.Drawing.Point(353, 774);
+            this.floor7.Name = "floor7";
+            this.floor7.Size = new System.Drawing.Size(384, 57);
+            this.floor7.TabIndex = 0;
+            this.floor7.Z = 0D;
+            // 
+            // floor5
+            // 
+            this.floor5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor5.Location = new System.Drawing.Point(503, 526);
+            this.floor5.Name = "floor5";
+            this.floor5.Size = new System.Drawing.Size(210, 70);
+            this.floor5.TabIndex = 0;
+            this.floor5.Z = 0D;
+            // 
+            // floor4
+            // 
+            this.floor4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor4.Location = new System.Drawing.Point(382, 407);
+            this.floor4.Name = "floor4";
+            this.floor4.Size = new System.Drawing.Size(99, 162);
+            this.floor4.TabIndex = 0;
+            this.floor4.Z = 0D;
+            // 
+            // floor3
+            // 
+            this.floor3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor3.Location = new System.Drawing.Point(621, 406);
+            this.floor3.Name = "floor3";
+            this.floor3.Size = new System.Drawing.Size(91, 120);
+            this.floor3.TabIndex = 0;
+            this.floor3.Z = 0D;
+            // 
+            // floor2
+            // 
+            this.floor2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor2.Location = new System.Drawing.Point(568, 597);
+            this.floor2.Name = "floor2";
+            this.floor2.Size = new System.Drawing.Size(144, 157);
+            this.floor2.TabIndex = 0;
+            this.floor2.Z = 0D;
+            // 
+            // floor1
+            // 
+            this.floor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor1.Location = new System.Drawing.Point(391, 597);
+            this.floor1.Name = "floor1";
+            this.floor1.Size = new System.Drawing.Size(152, 157);
+            this.floor1.TabIndex = 0;
+            this.floor1.Z = 0D;
+            // 
+            // floor18
+            // 
+            this.floor18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor18.Location = new System.Drawing.Point(313, 285);
+            this.floor18.Name = "floor18";
+            this.floor18.Size = new System.Drawing.Size(262, 90);
+            this.floor18.TabIndex = 0;
+            this.floor18.Z = 0D;
+            // 
+            // floor19
+            // 
+            this.floor19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor19.Location = new System.Drawing.Point(45, 285);
+            this.floor19.Name = "floor19";
+            this.floor19.Size = new System.Drawing.Size(262, 90);
+            this.floor19.TabIndex = 0;
+            this.floor19.Z = 0D;
+            // 
+            // floor20
+            // 
+            this.floor20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.floor20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor20.Location = new System.Drawing.Point(490, 83);
+            this.floor20.Name = "floor20";
+            this.floor20.Size = new System.Drawing.Size(19, 92);
+            this.floor20.TabIndex = 6;
+            this.floor20.Z = -40D;
+            // 
+            // floor21
+            // 
+            this.floor21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.floor21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor21.Location = new System.Drawing.Point(390, 83);
+            this.floor21.Name = "floor21";
+            this.floor21.Size = new System.Drawing.Size(18, 92);
+            this.floor21.TabIndex = 8;
+            this.floor21.Z = 40D;
+            // 
+            // deskCube19
+            // 
+            this.deskCube19.BackColor = System.Drawing.Color.Blue;
+            this.deskCube19.ForeColor = System.Drawing.Color.Blue;
+            this.deskCube19.Location = new System.Drawing.Point(318, 181);
+            this.deskCube19.Name = "deskCube19";
+            this.deskCube19.Size = new System.Drawing.Size(163, 16);
+            this.deskCube19.TabIndex = 9;
+            // 
+            // deskCube20
+            // 
+            this.deskCube20.BackColor = System.Drawing.Color.Blue;
+            this.deskCube20.ForeColor = System.Drawing.Color.Blue;
+            this.deskCube20.Location = new System.Drawing.Point(318, 263);
+            this.deskCube20.Name = "deskCube20";
+            this.deskCube20.Size = new System.Drawing.Size(163, 16);
+            this.deskCube20.TabIndex = 9;
+            // 
+            // floor22
+            // 
+            this.floor22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.floor22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.floor22.Location = new System.Drawing.Point(318, 203);
+            this.floor22.Name = "floor22";
+            this.floor22.Size = new System.Drawing.Size(163, 54);
+            this.floor22.TabIndex = 0;
+            this.floor22.Z = 0D;
+            // 
+            // deskCube21
+            // 
+            this.deskCube21.BackColor = System.Drawing.Color.Blue;
+            this.deskCube21.ForeColor = System.Drawing.Color.Blue;
+            this.deskCube21.Location = new System.Drawing.Point(13, 381);
+            this.deskCube21.Name = "deskCube21";
+            this.deskCube21.Size = new System.Drawing.Size(146, 20);
+            this.deskCube21.TabIndex = 2;
             // 
             // Floorplan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.deskCube20);
+            this.Controls.Add(this.deskCube19);
+            this.Controls.Add(this.floor21);
+            this.Controls.Add(this.floor17);
+            this.Controls.Add(this.floor16);
+            this.Controls.Add(this.floor15);
+            this.Controls.Add(this.deskCube18);
+            this.Controls.Add(this.floor20);
+            this.Controls.Add(this.floor14);
+            this.Controls.Add(this.floor13);
+            this.Controls.Add(this.floor12);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.deskCube9);
             this.Controls.Add(this.deskCube7);
             this.Controls.Add(this.deskCube5);
+            this.Controls.Add(this.deskCube21);
             this.Controls.Add(this.deskCube4);
             this.Controls.Add(this.deskCube12);
             this.Controls.Add(this.deskCube13);
+            this.Controls.Add(this.deskCube17);
+            this.Controls.Add(this.deskCube16);
             this.Controls.Add(this.deskCube15);
             this.Controls.Add(this.deskCube3);
             this.Controls.Add(this.deskCube2);
@@ -290,7 +526,13 @@
             this.Controls.Add(this.deskCube6);
             this.Controls.Add(this.deskCube14);
             this.Controls.Add(this.deskCube1);
+            this.Controls.Add(this.floor11);
+            this.Controls.Add(this.floor10);
+            this.Controls.Add(this.floor9);
+            this.Controls.Add(this.floor22);
             this.Controls.Add(this.floor6);
+            this.Controls.Add(this.floor19);
+            this.Controls.Add(this.floor18);
             this.Controls.Add(this.floor8);
             this.Controls.Add(this.floor7);
             this.Controls.Add(this.floor5);
@@ -299,7 +541,7 @@
             this.Controls.Add(this.floor2);
             this.Controls.Add(this.floor1);
             this.Name = "Floorplan";
-            this.Size = new System.Drawing.Size(808, 769);
+            this.Size = new System.Drawing.Size(998, 857);
             this.ResumeLayout(false);
 
         }
@@ -330,6 +572,26 @@
         private System.Windows.Forms.Button button1;
         private DeskCube deskCube14;
         private DeskCube deskCube15;
+        private Floor floor9;
+        private Floor floor10;
+        private Floor floor11;
+        private DeskCube deskCube16;
+        private DeskCube deskCube17;
+        private Floor floor12;
+        private Floor floor13;
+        private Floor floor14;
+        private DeskCube deskCube18;
+        private Floor floor15;
+        private Floor floor16;
+        private Floor floor17;
+        private Floor floor18;
+        private Floor floor19;
+        private Floor floor20;
+        private Floor floor21;
+        private DeskCube deskCube19;
+        private DeskCube deskCube20;
+        private Floor floor22;
+        private DeskCube deskCube21;
 
     }
 }

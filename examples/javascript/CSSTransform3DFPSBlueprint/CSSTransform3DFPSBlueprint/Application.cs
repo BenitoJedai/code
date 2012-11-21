@@ -124,59 +124,71 @@ namespace CSSTransform3DFPSBlueprint
             //}
 
             var zoom = 4;
+            var zz = 0;
 
-
-            foreach (var item in floorplan.Controls)
+            Action CreateFromFloorplan = delegate
             {
-                (item as DeskCube).With(
-                    f =>
-                    {
-                        buildCube("url(assets/CSSTransform3DFPSBlueprint/desk.jpg)",
+                foreach (var item in floorplan.Controls)
+                {
+                    (item as DeskCube).With(
+                        f =>
+                        {
+                            buildCube("url(assets/CSSTransform3DFPSBlueprint/desk.jpg)",
 
-                             //w, h, d, x, y, z, rx, ry, rz
-                            f.Width * zoom,
+                                 //w, h, d, x, y, z, rx, ry, rz
+                                f.Width * zoom,
 
-                            f.Height * zoom,
+                                f.Height * zoom,
 
-                            250,
-                            //0,
+                                250,
+                                //0,
 
-                            -f.Right * zoom,
+                                -f.Right * zoom,
 
-                            f.Top * zoom,
+                                f.Top * zoom,
 
-                            -250,
-                            //-250, 
+                                -250 + zz,
+                                //-250, 
 
-                            0, 0, 0);
+                                0, 0, 0);
 
-                    }
-                );
-                (item as Floor).With(
-                    f =>
-                    {
+                        }
+                    );
+                    (item as Floor).With(
+                        f =>
+                        {
 
-                        buildCube("url(assets/CSSTransform3DFPSBlueprint/wood.jpg)",
+                            buildCube("url(assets/CSSTransform3DFPSBlueprint/wood.jpg)",
 
-                             //w, h, d, x, y, z, rx, ry, rz
-                            f.Width * zoom,
+                                 //w, h, d, x, y, z, rx, ry, rz
+                                f.Width * zoom,
 
-                            f.Height * zoom,
+                                f.Height * zoom,
 
-                            10,
-                            //0,
+                                10,
+                                //0,
 
-                            -f.Right * zoom, f.Top * zoom,
+                                -f.Right * zoom, f.Top * zoom,
 
-                            0,
-                            //-250, 
+                                0 - f.Z * zoom + zz,
+                                //-250, 
 
-                            0, 0, 0);
+                                0, 0, 0);
 
-                    }
-                );
-            }
+                        }
+                    );
+                }
+            };
 
+            CreateFromFloorplan();
+
+            zz += 300;
+
+            CreateFromFloorplan();
+
+            zz += 300;
+
+            CreateFromFloorplan();
 
 
             c.GetHTMLTarget().className = "nolock";
