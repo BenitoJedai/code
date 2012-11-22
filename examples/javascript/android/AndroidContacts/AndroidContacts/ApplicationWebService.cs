@@ -23,6 +23,7 @@ namespace AndroidContacts
         public void WebMethod2(string e,
             Action<string> y)
         {
+#if Android
             // http://www.higherpass.com/Android/Tutorials/Working-With-Android-Contacts/
             ContentResolver cr = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.getContentResolver();
 
@@ -45,6 +46,13 @@ namespace AndroidContacts
                     y(new { id, name }.ToString());
                 }
             }
+#else
+            // emulate the data
+
+
+
+            y(new { id = 0, name = "echo" }.ToString());
+#endif
 
             // Send it back to the caller.
             //y(e);
