@@ -46,7 +46,7 @@ namespace FlashCubes
 
     }
 
-    static class X
+    public static class X
     {
         public static void wmode(this Sprite s, string value = "direct")
         {

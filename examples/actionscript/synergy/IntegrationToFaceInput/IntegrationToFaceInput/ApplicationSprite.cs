@@ -7,11 +7,16 @@ using ScriptCoreLib.Extensions;
 
 namespace IntegrationToFaceInput
 {
-    internal sealed class ApplicationSprite : Sprite
+    internal sealed class ApplicationSprite : ApplicationSpriteX
+    {
+    
+    }
+
+    public class ApplicationSpriteX : Sprite
     {
         public readonly ApplicationCanvas content = new ApplicationCanvas();
 
-        public ApplicationSprite()
+        public ApplicationSpriteX()
         {
 
             this.InvokeWhenStageIsReady(

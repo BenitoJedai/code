@@ -11,13 +11,13 @@ namespace IntegrationToFaceInput
     {
         public static void Main(string[] args)
         {
-#if DEBUG
-			DesktopAvalonExtensions.Launch(
-				() => new ApplicationCanvas()
-			);
-#else
+//#if DEBUG
+//            DesktopAvalonExtensions.Launch(
+//                () => new ApplicationCanvas()
+//            );
+//#else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
-#endif
+//#endif
         }
 
     }
