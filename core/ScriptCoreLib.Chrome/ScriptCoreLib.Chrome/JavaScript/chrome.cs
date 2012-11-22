@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript
     {
         static partial class webstore
         {
+            // https://developers.google.com/chrome/apps/docs/no_crx
             public static void install(string url, Action<string> successCallback, Action<string> failureCallback)
             {
             }
