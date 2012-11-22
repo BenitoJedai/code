@@ -13,6 +13,8 @@ namespace CSSTransform3DFPSBlueprint.Controls
     {
         public double Z { get; set; }
 
+        public string LeftWallSource { get; set; }
+
         public Floor()
         {
             InitializeComponent();

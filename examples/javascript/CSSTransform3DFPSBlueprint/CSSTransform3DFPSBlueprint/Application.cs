@@ -47,6 +47,41 @@ namespace CSSTransform3DFPSBlueprint
                 };
         }
 
+        class cube
+        {
+            // as appears on the control designer
+
+            public Plane
+                roof,
+                north,
+                east,
+                west,
+                south,
+                bottom
+                ;
+
+            public cube(string colour, double w, double h, double d, double x, double y, double z, double rx, double ry, double rz)
+            {
+                roof = new Plane(colour, h, w, x, y, z, 0, 180, 90);
+                world.addPlane(roof);
+
+                north = new Plane(colour, w, d, x, y, z, 90, 0, 0);
+                world.addPlane(north);
+
+                east = new Plane(colour, d, h, x, y, z, 0, 270, 0);
+                world.addPlane(east);
+
+                west = new Plane(colour, d, h, x + w, y, z + d, 0, 90, 0);
+                world.addPlane(west);
+
+                south = new Plane(colour, w, d, x + w, y + h, z, 90, 180, 0);
+                world.addPlane(south);
+
+                bottom = new Plane(colour, w, h, x, y, z + d, 0, 0, 0);
+                world.addPlane(bottom);
+            }
+        }
+
         private
             // dynamic does not work in static yet?
             //static 
@@ -57,71 +92,23 @@ namespace CSSTransform3DFPSBlueprint
 
             var c = new Controls.UserControl1();
 
-            // artwork
-            //var __artworkPlane = new Plane(
-            //    "url(assets/CSSTransform3DFPSBlueprint/osx.jpg)", 424, 174, -398, -240, -300, 90, 90, 0);
 
-            //world.addPlane(__artworkPlane);
-
-            //world.addPlane(
-            //    new Plane(
-            //        "url(assets/CSSTransform3DFPSBlueprint/wood.jpg)", 800, 800, -400, 400, 53, 180, 0, 0
-            //    )
-            //);
-
-
-
-            //new Plane("url(assets/CSSTransform3DFPSBlueprint/wall.jpg?3)", 800, 500, -400, -400, -447, 270, 90, 180).With(
-            //    __wall_a =>
-            //    {
-            //        world.addPlane(__wall_a);
-            //    }
-            //);
-
-            //var ix = 0;
-
-            //Action NextWallToTHeRight = delegate
-            //        {
-
-            //            ix++;
-
-            //            world.addPlane(
-            //              new Plane(
-            //                  "url(assets/CSSTransform3DFPSBlueprint/wood.jpg)", 800, 800, -400, 400 + 800 * ix, 53, 180, 0, 0
-            //              )
-            //          );
-
-            //            new Plane("url(assets/CSSTransform3DFPSBlueprint/wall.jpg?3)", 800, 500, -400, -400 + 800 * ix, -447, 270, 90, 180).With(
-            //                __wall_a =>
-            //                {
-            //                    world.addPlane(__wall_a);
-            //                }
-            //            );
-            //        }
-            //    ;
-
-            //NextWallToTHeRight();
-            //c.button3.Click += delegate { NextWallToTHeRight(); };
 
 
             Action<string, double, double, double, double, double, double, double, double, double> buildCube =
                 (colour, w, h, d, x, y, z, rx, ry, rz) =>
                 {
-                    world.addPlane(new Plane(colour, h, w, x, y, z, 0, 180, 90));
-                    world.addPlane(new Plane(colour, w, d, x, y, z, 90, 0, 0));
-                    world.addPlane(new Plane(colour, d, h, x, y, z, 0, 270, 0));
-                    world.addPlane(new Plane(colour, d, h, x + w, y, z + d, 0, 90, 0));
-                    world.addPlane(new Plane(colour, w, d, x + w, y + h, z, 90, 180, 0));
-                    world.addPlane(new Plane(colour, w, h, x, y, z + d, 0, 0, 0));
+                    new cube(colour, w, h, d, x, y, z, rx, ry, rz);
+
+                    //world.addPlane(new Plane(colour, h, w, x, y, z, 0, 180, 90));
+                    //world.addPlane(new Plane(colour, w, d, x, y, z, 90, 0, 0));
+                    //world.addPlane(new Plane(colour, d, h, x, y, z, 0, 270, 0));
+                    //world.addPlane(new Plane(colour, d, h, x + w, y, z + d, 0, 90, 0));
+                    //world.addPlane(new Plane(colour, w, d, x + w, y + h, z, 90, 180, 0));
+                    //world.addPlane(new Plane(colour, w, h, x, y, z + d, 0, 0, 0));
                 };
 
-            //buildCube0("url(assets/CSSTransform3DFPSBlueprint/desk.jpg)", 10, 50, 300, -150 + 400, 345, -250, 0, 0, 0);
 
-            //for (int xi = 0; xi < 20; xi++)
-            //{
-            //    buildCube("url(assets/CSSTransform3DFPSBlueprint/desk.jpg)", 10, 50, 300, -150 + 400, 345 + 60 * xi, -250, 0, 0, 0);
-
-            //}
 
             var zoom = 4;
             var zz = 0;
@@ -133,24 +120,81 @@ namespace CSSTransform3DFPSBlueprint
                     (item as DeskCube).With(
                         f =>
                         {
-                            buildCube("url(assets/CSSTransform3DFPSBlueprint/desk.jpg)",
+                            if (zz != 0)
+                                return;
+
+                            var cubeheight = Math.Max(250, f.CubeHeight);
+
+                            new cube(
+                                "url(assets/CSSTransform3DFPSBlueprint/desk.jpg)",
 
                                  //w, h, d, x, y, z, rx, ry, rz
                                 f.Width * zoom,
 
                                 f.Height * zoom,
 
-                                250,
+                                cubeheight,
                                 //0,
 
                                 -f.Right * zoom,
 
                                 f.Top * zoom,
 
-                                -250 + zz,
+                                -cubeheight + zz,
                                 //-250, 
 
-                                0, 0, 0);
+                                0, 0, 0
+                            ).With(
+                                cube =>
+                                {
+                                    if (!string.IsNullOrEmpty(f.LeftWallSource))
+                                        new IHTMLDiv { }.AttachTo(cube.west.node).With(
+                                            westContainer =>
+                                            {
+                                                //innerText = f.LeftWallSource
+                                                //btn.className = "nolock";
+
+
+                                                westContainer.style.transform = "rotateZ(90deg)";
+                                                westContainer.style.transformOrigin = "0% 0%";
+
+                                                westContainer.style.position = IStyle.PositionEnum.absolute;
+                                                westContainer.style.width = cube.west.node.clientHeight + "px";
+                                                westContainer.style.left = cube.west.node.clientWidth + "px";
+                                                westContainer.style.height = cube.west.node.clientWidth + "px";
+
+
+                                                new IHTMLButton { innerText = "Click to see " + f.LeftWallSource, className = "nolock" }.AttachTo(westContainer).With(
+                                                    btn =>
+                                                    {
+                                                        btn.style.position = IStyle.PositionEnum.absolute;
+                                                        btn.style.left = "2em";
+                                                        btn.style.top = "2em";
+                                                        btn.style.right = "2em";
+                                                        btn.style.bottom = "2em";
+
+                                                        btn.onclick +=
+                                                            delegate
+                                                            {
+                                                                btn.Orphanize();
+
+                                                                new IHTMLIFrame { allowFullScreen = true, src = f.LeftWallSource, frameBorder = "0" }.AttachTo(westContainer).With(
+                                                                    iframe =>
+                                                                    {
+                                                                        iframe.style.position = IStyle.PositionEnum.absolute;
+                                                                        iframe.style.left = "0px";
+                                                                        iframe.style.top = "0px";
+                                                                        iframe.style.width = "100%";
+                                                                        iframe.style.height = "100%";
+                                                                    }
+                                                                );
+                                                            };
+                                                    }
+                                                );
+                                            }
+                                        );
+                                }
+                            );
 
                         }
                     );
@@ -186,7 +230,7 @@ namespace CSSTransform3DFPSBlueprint
 
             CreateFromFloorplan();
 
-            // avoid out of memory - elements will go missing
+             //avoid out of memory - elements will go missing
             //zz += 300;
 
             //CreateFromFloorplan();
@@ -476,6 +520,8 @@ namespace CSSTransform3DFPSBlueprint
     [Script(HasNoPrototype = true, ExternalTarget = "Plane")]
     class Plane
     {
+        public IHTMLDiv node;
+
         public Triplet position;
         public Triplet rotation;
 

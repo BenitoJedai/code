@@ -11,6 +11,11 @@ namespace CSSTransform3DFPSBlueprint.Controls
 {
     public partial class DeskCube : UserControl
     {
+        [DefaultValue(250)]
+        public int CubeHeight { get; set; }
+
+        public string LeftWallSource { get; set; }
+
         public DeskCube()
         {
             InitializeComponent();
