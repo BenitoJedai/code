@@ -6,12 +6,17 @@ using ScriptCoreLib.Extensions;
 
 namespace FlashCubes
 {
-    public sealed class ApplicationSprite : Main
+    public sealed class ApplicationSprite : ApplicationSpriteX
+    { 
+    
+    }
+    
+    public class ApplicationSpriteX : Main
     {
         public const int DefaultWidth = 800;
         public const int DefaultHeight = 600;
 
-        public ApplicationSprite()
+        public ApplicationSpriteX()
         {
           
 

@@ -15,6 +15,7 @@ namespace CSSTransform3DFPSBlueprint.Controls
         public int CubeHeight { get; set; }
 
         public string LeftWallSource { get; set; }
+        public bool LeftWallSourceAutoLoad { get; set; }
 
         public DeskCube()
         {

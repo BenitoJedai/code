@@ -17,11 +17,11 @@ namespace IntegrationToFaceInput
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-        public readonly ApplicationSprite sprite = new ApplicationSprite();
+         readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
         /// This is a javascript application.

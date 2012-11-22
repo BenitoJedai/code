@@ -122,8 +122,10 @@
             // deskCube18
             // 
             this.deskCube18.BackColor = System.Drawing.Color.Blue;
+            this.deskCube18.CubeHeight = 0;
             this.deskCube18.ForeColor = System.Drawing.Color.Blue;
             this.deskCube18.LeftWallSource = null;
+            this.deskCube18.LeftWallSourceAutoLoad = false;
             this.deskCube18.Location = new System.Drawing.Point(32, 274);
             this.deskCube18.Name = "deskCube18";
             this.deskCube18.Size = new System.Drawing.Size(247, 196);
@@ -165,8 +167,10 @@
             // deskCube9
             // 
             this.deskCube9.BackColor = System.Drawing.Color.Blue;
+            this.deskCube9.CubeHeight = 0;
             this.deskCube9.ForeColor = System.Drawing.Color.Blue;
             this.deskCube9.LeftWallSource = null;
+            this.deskCube9.LeftWallSourceAutoLoad = false;
             this.deskCube9.Location = new System.Drawing.Point(636, 702);
             this.deskCube9.Name = "deskCube9";
             this.deskCube9.Size = new System.Drawing.Size(58, 14);
@@ -175,8 +179,10 @@
             // deskCube7
             // 
             this.deskCube7.BackColor = System.Drawing.Color.Blue;
+            this.deskCube7.CubeHeight = 0;
             this.deskCube7.ForeColor = System.Drawing.Color.Blue;
             this.deskCube7.LeftWallSource = null;
+            this.deskCube7.LeftWallSourceAutoLoad = false;
             this.deskCube7.Location = new System.Drawing.Point(454, 766);
             this.deskCube7.Name = "deskCube7";
             this.deskCube7.Size = new System.Drawing.Size(99, 16);
@@ -185,8 +191,10 @@
             // deskCube5
             // 
             this.deskCube5.BackColor = System.Drawing.Color.Blue;
+            this.deskCube5.CubeHeight = 0;
             this.deskCube5.ForeColor = System.Drawing.Color.Blue;
             this.deskCube5.LeftWallSource = null;
+            this.deskCube5.LeftWallSourceAutoLoad = false;
             this.deskCube5.Location = new System.Drawing.Point(612, 572);
             this.deskCube5.Name = "deskCube5";
             this.deskCube5.Size = new System.Drawing.Size(307, 20);
@@ -195,8 +203,10 @@
             // deskCube4
             // 
             this.deskCube4.BackColor = System.Drawing.Color.Blue;
+            this.deskCube4.CubeHeight = 0;
             this.deskCube4.ForeColor = System.Drawing.Color.Blue;
             this.deskCube4.LeftWallSource = null;
+            this.deskCube4.LeftWallSourceAutoLoad = false;
             this.deskCube4.Location = new System.Drawing.Point(278, 572);
             this.deskCube4.Name = "deskCube4";
             this.deskCube4.Size = new System.Drawing.Size(294, 20);
@@ -205,8 +215,10 @@
             // deskCube12
             // 
             this.deskCube12.BackColor = System.Drawing.Color.Blue;
+            this.deskCube12.CubeHeight = 0;
             this.deskCube12.ForeColor = System.Drawing.Color.Blue;
             this.deskCube12.LeftWallSource = null;
+            this.deskCube12.LeftWallSourceAutoLoad = false;
             this.deskCube12.Location = new System.Drawing.Point(425, 944);
             this.deskCube12.Name = "deskCube12";
             this.deskCube12.Size = new System.Drawing.Size(46, 20);
@@ -215,8 +227,10 @@
             // deskCube13
             // 
             this.deskCube13.BackColor = System.Drawing.Color.Blue;
+            this.deskCube13.CubeHeight = 0;
             this.deskCube13.ForeColor = System.Drawing.Color.Blue;
             this.deskCube13.LeftWallSource = null;
+            this.deskCube13.LeftWallSourceAutoLoad = false;
             this.deskCube13.Location = new System.Drawing.Point(763, 944);
             this.deskCube13.Name = "deskCube13";
             this.deskCube13.Size = new System.Drawing.Size(46, 20);
@@ -228,6 +242,7 @@
             this.deskCube17.CubeHeight = 800;
             this.deskCube17.ForeColor = System.Drawing.Color.Blue;
             this.deskCube17.LeftWallSource = "http://discover.xavalon.net";
+            this.deskCube17.LeftWallSourceAutoLoad = false;
             this.deskCube17.Location = new System.Drawing.Point(793, 274);
             this.deskCube17.Name = "deskCube17";
             this.deskCube17.Size = new System.Drawing.Size(141, 196);
@@ -236,8 +251,10 @@
             // deskCube16
             // 
             this.deskCube16.BackColor = System.Drawing.Color.Blue;
+            this.deskCube16.CubeHeight = 0;
             this.deskCube16.ForeColor = System.Drawing.Color.Blue;
             this.deskCube16.LeftWallSource = null;
+            this.deskCube16.LeftWallSourceAutoLoad = false;
             this.deskCube16.Location = new System.Drawing.Point(559, 372);
             this.deskCube16.Name = "deskCube16";
             this.deskCube16.Size = new System.Drawing.Size(88, 98);
@@ -246,8 +263,10 @@
             // deskCube15
             // 
             this.deskCube15.BackColor = System.Drawing.Color.Blue;
+            this.deskCube15.CubeHeight = 0;
             this.deskCube15.ForeColor = System.Drawing.Color.Blue;
             this.deskCube15.LeftWallSource = null;
+            this.deskCube15.LeftWallSourceAutoLoad = false;
             this.deskCube15.Location = new System.Drawing.Point(790, 767);
             this.deskCube15.Name = "deskCube15";
             this.deskCube15.Size = new System.Drawing.Size(144, 20);
@@ -256,8 +275,10 @@
             // deskCube3
             // 
             this.deskCube3.BackColor = System.Drawing.Color.Blue;
+            this.deskCube3.CubeHeight = 0;
             this.deskCube3.ForeColor = System.Drawing.Color.Blue;
             this.deskCube3.LeftWallSource = null;
+            this.deskCube3.LeftWallSourceAutoLoad = false;
             this.deskCube3.Location = new System.Drawing.Point(601, 944);
             this.deskCube3.Name = "deskCube3";
             this.deskCube3.Size = new System.Drawing.Size(46, 20);
@@ -266,8 +287,10 @@
             // deskCube2
             // 
             this.deskCube2.BackColor = System.Drawing.Color.Blue;
+            this.deskCube2.CubeHeight = 0;
             this.deskCube2.ForeColor = System.Drawing.Color.Blue;
             this.deskCube2.LeftWallSource = null;
+            this.deskCube2.LeftWallSourceAutoLoad = false;
             this.deskCube2.Location = new System.Drawing.Point(425, 598);
             this.deskCube2.Name = "deskCube2";
             this.deskCube2.Size = new System.Drawing.Size(23, 347);
@@ -276,8 +299,10 @@
             // deskCube11
             // 
             this.deskCube11.BackColor = System.Drawing.Color.Blue;
+            this.deskCube11.CubeHeight = 0;
             this.deskCube11.ForeColor = System.Drawing.Color.Blue;
             this.deskCube11.LeftWallSource = null;
+            this.deskCube11.LeftWallSourceAutoLoad = false;
             this.deskCube11.Location = new System.Drawing.Point(559, 702);
             this.deskCube11.Name = "deskCube11";
             this.deskCube11.Size = new System.Drawing.Size(10, 80);
@@ -286,8 +311,10 @@
             // deskCube10
             // 
             this.deskCube10.BackColor = System.Drawing.Color.Blue;
+            this.deskCube10.CubeHeight = 0;
             this.deskCube10.ForeColor = System.Drawing.Color.Blue;
             this.deskCube10.LeftWallSource = null;
+            this.deskCube10.LeftWallSourceAutoLoad = false;
             this.deskCube10.Location = new System.Drawing.Point(559, 589);
             this.deskCube10.Name = "deskCube10";
             this.deskCube10.Size = new System.Drawing.Size(10, 62);
@@ -296,8 +323,10 @@
             // deskCube8
             // 
             this.deskCube8.BackColor = System.Drawing.Color.Blue;
+            this.deskCube8.CubeHeight = 0;
             this.deskCube8.ForeColor = System.Drawing.Color.Blue;
             this.deskCube8.LeftWallSource = null;
+            this.deskCube8.LeftWallSourceAutoLoad = false;
             this.deskCube8.Location = new System.Drawing.Point(682, 589);
             this.deskCube8.Name = "deskCube8";
             this.deskCube8.Size = new System.Drawing.Size(10, 107);
@@ -306,8 +335,10 @@
             // deskCube6
             // 
             this.deskCube6.BackColor = System.Drawing.Color.Blue;
+            this.deskCube6.CubeHeight = 0;
             this.deskCube6.ForeColor = System.Drawing.Color.Blue;
             this.deskCube6.LeftWallSource = null;
+            this.deskCube6.LeftWallSourceAutoLoad = false;
             this.deskCube6.Location = new System.Drawing.Point(621, 788);
             this.deskCube6.Name = "deskCube6";
             this.deskCube6.Size = new System.Drawing.Size(13, 157);
@@ -316,8 +347,10 @@
             // deskCube14
             // 
             this.deskCube14.BackColor = System.Drawing.Color.Blue;
+            this.deskCube14.CubeHeight = 0;
             this.deskCube14.ForeColor = System.Drawing.Color.Blue;
             this.deskCube14.LeftWallSource = null;
+            this.deskCube14.LeftWallSourceAutoLoad = false;
             this.deskCube14.Location = new System.Drawing.Point(911, 597);
             this.deskCube14.Name = "deskCube14";
             this.deskCube14.Size = new System.Drawing.Size(23, 157);
@@ -326,8 +359,10 @@
             // deskCube1
             // 
             this.deskCube1.BackColor = System.Drawing.Color.Blue;
+            this.deskCube1.CubeHeight = 0;
             this.deskCube1.ForeColor = System.Drawing.Color.Blue;
             this.deskCube1.LeftWallSource = null;
+            this.deskCube1.LeftWallSourceAutoLoad = false;
             this.deskCube1.Location = new System.Drawing.Point(786, 788);
             this.deskCube1.Name = "deskCube1";
             this.deskCube1.Size = new System.Drawing.Size(23, 157);
@@ -501,8 +536,10 @@
             // deskCube19
             // 
             this.deskCube19.BackColor = System.Drawing.Color.Blue;
+            this.deskCube19.CubeHeight = 0;
             this.deskCube19.ForeColor = System.Drawing.Color.Blue;
             this.deskCube19.LeftWallSource = null;
+            this.deskCube19.LeftWallSourceAutoLoad = false;
             this.deskCube19.Location = new System.Drawing.Point(390, 372);
             this.deskCube19.Name = "deskCube19";
             this.deskCube19.Size = new System.Drawing.Size(163, 16);
@@ -511,8 +548,10 @@
             // deskCube20
             // 
             this.deskCube20.BackColor = System.Drawing.Color.Blue;
+            this.deskCube20.CubeHeight = 0;
             this.deskCube20.ForeColor = System.Drawing.Color.Blue;
             this.deskCube20.LeftWallSource = null;
+            this.deskCube20.LeftWallSourceAutoLoad = false;
             this.deskCube20.Location = new System.Drawing.Point(390, 454);
             this.deskCube20.Name = "deskCube20";
             this.deskCube20.Size = new System.Drawing.Size(163, 16);
@@ -532,8 +571,10 @@
             // deskCube21
             // 
             this.deskCube21.BackColor = System.Drawing.Color.Blue;
+            this.deskCube21.CubeHeight = 0;
             this.deskCube21.ForeColor = System.Drawing.Color.Blue;
             this.deskCube21.LeftWallSource = null;
+            this.deskCube21.LeftWallSourceAutoLoad = false;
             this.deskCube21.Location = new System.Drawing.Point(85, 572);
             this.deskCube21.Name = "deskCube21";
             this.deskCube21.Size = new System.Drawing.Size(146, 20);
@@ -555,7 +596,8 @@
             this.deskCube22.BackColor = System.Drawing.Color.Blue;
             this.deskCube22.CubeHeight = 800;
             this.deskCube22.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube22.LeftWallSource = "http://discover.xavalon.net";
+            this.deskCube22.LeftWallSource = "http://discover.xavalon.net/__Templates";
+            this.deskCube22.LeftWallSourceAutoLoad = true;
             this.deskCube22.Location = new System.Drawing.Point(793, 72);
             this.deskCube22.Name = "deskCube22";
             this.deskCube22.Size = new System.Drawing.Size(141, 196);

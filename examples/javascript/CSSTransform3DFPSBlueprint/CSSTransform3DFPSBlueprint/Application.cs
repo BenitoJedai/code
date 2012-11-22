@@ -163,8 +163,26 @@ namespace CSSTransform3DFPSBlueprint
                                                 westContainer.style.left = cube.west.node.clientWidth + "px";
                                                 westContainer.style.height = cube.west.node.clientWidth + "px";
 
+                                                Action LoadContent = delegate
+                                                {
 
-                                                new IHTMLButton { innerText = "Click to see " + f.LeftWallSource, className = "nolock" }.AttachTo(westContainer).With(
+                                                    new IHTMLIFrame { allowFullScreen = true, src = f.LeftWallSource, frameBorder = "0" }.AttachTo(westContainer).With(
+                                                        iframe =>
+                                                        {
+                                                            iframe.style.position = IStyle.PositionEnum.absolute;
+                                                            iframe.style.left = "0px";
+                                                            iframe.style.top = "0px";
+                                                            iframe.style.width = "100%";
+                                                            iframe.style.height = "100%";
+                                                        }
+                                                    );
+                                                };
+
+                                                if (f.LeftWallSourceAutoLoad)
+                                                {
+                                                    LoadContent();
+                                                }
+                                                else new IHTMLButton { innerText = "Click to see " + f.LeftWallSource, className = "nolock" }.AttachTo(westContainer).With(
                                                     btn =>
                                                     {
                                                         btn.style.position = IStyle.PositionEnum.absolute;
@@ -178,16 +196,7 @@ namespace CSSTransform3DFPSBlueprint
                                                             {
                                                                 btn.Orphanize();
 
-                                                                new IHTMLIFrame { allowFullScreen = true, src = f.LeftWallSource, frameBorder = "0" }.AttachTo(westContainer).With(
-                                                                    iframe =>
-                                                                    {
-                                                                        iframe.style.position = IStyle.PositionEnum.absolute;
-                                                                        iframe.style.left = "0px";
-                                                                        iframe.style.top = "0px";
-                                                                        iframe.style.width = "100%";
-                                                                        iframe.style.height = "100%";
-                                                                    }
-                                                                );
+                                                                LoadContent();
                                                             };
                                                     }
                                                 );
@@ -230,7 +239,7 @@ namespace CSSTransform3DFPSBlueprint
 
             CreateFromFloorplan();
 
-             //avoid out of memory - elements will go missing
+            //avoid out of memory - elements will go missing
             //zz += 300;
 
             //CreateFromFloorplan();
