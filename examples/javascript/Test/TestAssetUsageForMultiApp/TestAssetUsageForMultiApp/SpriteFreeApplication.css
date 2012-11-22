@@ -1,0 +1,9 @@
+p {
+    font-family: Aharoni;
+}
+button {
+    border: 1px solid green;
+    background-color: black;
+    color: green;
+    padding: 3em;
+}
