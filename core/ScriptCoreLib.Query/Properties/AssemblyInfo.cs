@@ -33,26 +33,26 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("4.1.0.0")]
 
 [assembly:
-	Script,
+    Script,
 
-	// we are not defining any native types to be renamed...
-	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = "", FilterToIsNative),
-	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
+    // we are not defining any native types to be renamed...
+    //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = "", FilterToIsNative),
+    //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 
-	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Lambda"),
-    ScriptTypeFilter(ScriptType.ActionScript, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
+    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
+    ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Lambda"),
+    //ScriptTypeFilter(ScriptType.ActionScript, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
 
-	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
-    ScriptTypeFilter(ScriptType.JavaScript, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
+    //ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
+    ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
+    //ScriptTypeFilter(ScriptType.JavaScript, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
 
-	ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
+    //ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
 
-	ScriptTypeFilter(ScriptType.PHP, "*.PHP"),
-    ScriptTypeFilter(ScriptType.PHP, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
+    //ScriptTypeFilter(ScriptType.PHP, "*.PHP"),
+    //ScriptTypeFilter(ScriptType.PHP, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
 
     // note that __DefinedError may soon be moved to ScriptCoreLib as Func was..
-    
+
 ]
 
