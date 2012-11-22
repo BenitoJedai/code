@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ScriptCoreLib.Desktop.Tools
 {
@@ -12,8 +13,15 @@ namespace ScriptCoreLib.Desktop.Tools
     {
         public static void ToJavaArchive(this DirectoryInfo source, string target, FileInfo jar)
         {
+            if (!source.Exists)
+            {
+                throw new DirectoryNotFoundException(new { source }.ToString());
+            }
 
-
+            if (!Directory.Exists(Path.GetDirectoryName(target)))
+            {
+                throw new DirectoryNotFoundException(new { target }.ToString());
+            }
 
             /*
                 Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
@@ -51,7 +59,9 @@ namespace ScriptCoreLib.Desktop.Tools
                 // root in the jar
                 + " .";
 
-            //Console.WriteLine(jar.FullName + " " + proccess_jar_args);
+            Console.WriteLine();
+            Console.WriteLine("\"" + jar.FullName + "\" " + proccess_jar_args);
+            Console.WriteLine(source.FullName);
 
             var proccess_jar =
                 new Process
@@ -79,7 +89,15 @@ namespace ScriptCoreLib.Desktop.Tools
             proccess_jar.WaitForExit();
 
             if (proccess_jar.ExitCode != 0)
-                throw new ArgumentOutOfRangeException();
+            {
+                // wtf
+                //if (Debugger.IsAttached)
+                //    Debugger.Break();
+
+                //MessageBox.Show("eek");
+
+                throw new ArgumentOutOfRangeException(new { proccess_jar.ExitCode }.ToString());
+            }
         }
     }
 }

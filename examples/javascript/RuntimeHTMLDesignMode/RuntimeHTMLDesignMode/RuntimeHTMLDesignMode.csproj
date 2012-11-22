@@ -135,6 +135,10 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\jsc.png" />
+    <Content Include="Foo.png">
+      <DependentUpon>Foo.app</DependentUpon>
+    </Content>
+             
   </ItemGroup>
   <ItemGroup>
     <None Include="Foo.app" />

@@ -186,9 +186,10 @@ namespace CSSTransform3DFPSBlueprint
 
             CreateFromFloorplan();
 
-            zz += 300;
+            // avoid out of memory - elements will go missing
+            //zz += 300;
 
-            CreateFromFloorplan();
+            //CreateFromFloorplan();
 
 
             c.GetHTMLTarget().className = "nolock";

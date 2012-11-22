@@ -30,6 +30,7 @@ namespace GoogleCloudSQLExample
                 {
                     var cs = s.getStatus(value);
 
+                    e += value.getPackageName() + ": ";
                     e += value.getName() + ": ";
 
                     e += cs.getStatus().ToString() + "; \n";

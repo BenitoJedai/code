@@ -135,7 +135,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 
-start /MIN cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:false
+start /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:false
 </PostBuildEvent>
     <PreBuildEvent>
 

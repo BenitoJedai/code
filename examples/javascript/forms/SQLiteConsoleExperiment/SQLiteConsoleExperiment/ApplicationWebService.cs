@@ -46,7 +46,7 @@ namespace SQLiteConsoleExperiment
                         while (reader.Read())
                         {
                             #region tr
-
+#if DEBUG
                             if (table == null)
                             {
                                 table = new XElement("table");
@@ -73,6 +73,8 @@ namespace SQLiteConsoleExperiment
                             var tr = new XElement("tr");
 
                             table.Add(tr);
+#endif
+
 
                             var w = new StringBuilder();
 
@@ -91,9 +93,12 @@ namespace SQLiteConsoleExperiment
 
                                 if (ft == typeof(string))
                                 {
+#if DEBUG
                                     var td = new XElement("td");
                                     td.Value = reader.GetString(i);
                                     tr.Add(td);
+#endif
+
 
                                     w.Append("'");
                                     w.Append(reader.GetString(i));
@@ -101,18 +106,21 @@ namespace SQLiteConsoleExperiment
                                 }
                                 else if (ft == typeof(int))
                                 {
+#if DEBUG
                                     var td = new XElement("td");
                                     td.Value = reader.GetInt32(i) + "";
                                     tr.Add(td);
+#endif
 
                                     w.Append(reader.GetInt32(i));
                                 }
                                 else if (ft == typeof(long))
                                 {
+#if DEBUG
                                     var td = new XElement("td");
                                     td.Value = reader.GetInt64(i) + "";
                                     tr.Add(td);
-
+#endif
                                     w.Append(reader.GetInt64(i));
                                 }
                                 else

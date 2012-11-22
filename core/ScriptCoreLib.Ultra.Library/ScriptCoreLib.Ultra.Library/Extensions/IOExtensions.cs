@@ -25,9 +25,9 @@ namespace ScriptCoreLib.Extensions
 
             return null;
         }
-        public static DirectoryInfo Clear(this DirectoryInfo that)
+        public static DirectoryInfo Clear(this DirectoryInfo that, string pattern = "*.*")
         {
-            foreach (var item in that.GetFiles())
+            foreach (var item in that.GetFiles(pattern, SearchOption.AllDirectories))
             {
                 item.Delete();
             }
