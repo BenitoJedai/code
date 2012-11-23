@@ -26,13 +26,20 @@ namespace SQLiteConsoleExperiment
             var DefaultText =
 @"example:
   cls
+  ls
+
   create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null)
-  
+  create table if not exists Table1Meta ( MetaKey INTEGER PRIMARY KEY AUTOINCREMENT , DeclaringType INTEGER  , MemberName text not null , MemberValue text not null, FOREIGN KEY(DeclaringType) REFERENCES Table1(ContentKey))
+
   select * from sqlite_master
   select * from INFORMATION_SCHEMA.TABLES
 
   insert into Table1 (ContentValue) values ('AddItem')
+  insert into Table1Meta (MemberName, MemberValue, DeclaringType)  values ('Left', '1', 0)
+
   select ContentKey, ContentValue from Table1
+  select ContentKey, ContentValue, coalesce((select MemberValue from Table1Meta where DeclaringType = ContentKey order by MetaKey desc), '0') as Left from Table1
+
 
 ";
 
@@ -51,6 +58,11 @@ namespace SQLiteConsoleExperiment
                         return;
                     }
 
+                    if (x == "ls")
+                    {
+                        x = "select * from sqlite_master";
+                    }
+
                     Action<XElement> AtDataGridContent =
                         xml =>
                         {
@@ -64,6 +76,11 @@ namespace SQLiteConsoleExperiment
                             fw.DocumentText = xml.ToString();
 
                             ff.Controls.Add(fw);
+
+                            ff.StartPosition = FormStartPosition.Manual;
+                            ff.Left = c.Right - ff.Width;
+                            ff.Top = c.Top;
+                            ff.Height = c.Height;
 
                             ff.Show();
 

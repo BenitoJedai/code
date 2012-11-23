@@ -84,6 +84,9 @@ namespace DropFileIntoSQLite
 
                                 if (src != "about:blank")
                                 {
+                                    if (src.StartsWith("http://www.youtube.com/watch?v="))
+                                        src = "http://www.youtube.com/embed/" + src.SkipUntilIfAny("http://www.youtube.com/watch?v=").TakeUntilIfAny("&");
+
                                     Console.WriteLine(new { src });
 
                                     new Form { Text = src }.With(
@@ -229,7 +232,7 @@ namespace DropFileIntoSQLite
                                     XElement.Parse(xhr.responseText).Elements("ContentKey").WithEach(
                                         ContentKey =>
                                         {
-                                            var __ContentKey = default(Table1_ContentKey);
+                                            var __ContentKey = (Table1_ContentKey)int.Parse(ContentKey.Value);
 
                                             var src = "/io/" + ContentKey.Value;
 
@@ -246,15 +249,19 @@ namespace DropFileIntoSQLite
                                                         .SetTop(ff.Top);
                                                 };
 
+                                            ff.SizeChanged +=
+                                                delegate
+                                                {
+                                                    __ContentKey
+                                                        .SetWidth(ff.Width)
+                                                        .SetHeight(ff.Height);
+                                                };
+
                                             ff.FormClosing +=
                                                 delegate
                                                 {
-                                                    service.DeleteFileAsync(ContentKey.Value,
-                                                        delegate
-                                                        {
-
-                                                        }
-                                                    );
+                                                    __ContentKey
+                                                        .Delete();
                                                 };
                                         }
                                     );
@@ -278,23 +285,30 @@ namespace DropFileIntoSQLite
 
             {
                 var index = 0;
-                service.EnumerateFilesAsync("",
-                    (ContentKey, ContentBytesLength) =>
+
+                default(Table1_ContentKey).WithEach(
+                    (__ContentKey, ContentBytesLength, Left, Top, Width, Height) =>
                     {
-                        var __ContentKey = default(Table1_ContentKey);
 
                         var ff = new Form();
 
 
-                        ff.Text = new { ContentKey, ContentBytesLength }.ToString();
+                        ff.Text = new { __ContentKey, ContentBytesLength }.ToString();
 
 
                         ff.Show();
 
-                        ff.MoveBy(
-                            32 * index,
-                            24 * index
-                        );
+                        if (int.Parse(Left) > 0)
+                            ff.MoveTo(
+                                int.Parse(Left),
+                                int.Parse(Top)
+                            );
+                        else
+
+                            ff.MoveBy(
+                                32 * index,
+                                24 * index
+                            );
 
                         index++;
 
@@ -323,17 +337,26 @@ namespace DropFileIntoSQLite
 
 
                         var fc = ff.GetHTMLTargetContainer();
-                        var src = "/io/" + ContentKey;
+                        var src = "/io/" + __ContentKey;
 
                         var i = new IHTMLImage { src = src }.AttachTo(fc);
                         i.style.width = "100%";
 
-                        i.InvokeOnComplete(
-                            delegate
-                            {
-                                ff.ClientSize = new System.Drawing.Size(i.width, i.height);
-                            }
-                        );
+                        if (int.Parse(Width) > 0)
+                            ff.SizeTo(
+                               int.Parse(Width),
+                               int.Parse(Height)
+                           );
+                        else
+                            i.InvokeOnComplete(
+                                delegate
+                                {
+
+
+                                    ff.ClientSize = new System.Drawing.Size(i.width, i.height);
+
+                                }
+                            );
 
                         ff.LocationChanged +=
                             delegate
@@ -343,15 +366,19 @@ namespace DropFileIntoSQLite
                                     .SetTop(ff.Top);
                             };
 
+                        ff.SizeChanged +=
+                            delegate
+                            {
+                                __ContentKey
+                                    .SetWidth(ff.Width)
+                                    .SetHeight(ff.Height);
+                            };
+
                         ff.FormClosing +=
                             delegate
                             {
-                                service.DeleteFileAsync(ContentKey,
-                                    delegate
-                                    {
-
-                                    }
-                                );
+                                __ContentKey
+                                    .Delete();
                             };
                     }
                 );

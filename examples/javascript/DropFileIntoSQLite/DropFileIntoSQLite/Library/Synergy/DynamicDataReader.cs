@@ -1,0 +1,264 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Dynamic;
+using System.Linq;
+using System.Text;
+
+namespace DropFileIntoSQLite.Library.Synergy
+{
+    /// <summary>
+    /// This class provides an easy way to use object.property
+    /// syntax with a DataReader by wrapping a DataReader into
+    /// a dynamic object.
+    /// 
+    /// The class also automatically fixes up DbNull values
+    /// (null into .NET and DbNUll)
+    /// </summary>
+    public class DynamicDataReader : DynamicObject, IDataReader /* = this.DataReader */
+    {
+        // http://www.west-wind.com/weblog/posts/2011/Dec/06/Creating-a-Dynamic-DataReader-for-easier-Property-Access
+
+        #region /* IDataReader = this.DataReader */
+        public void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Depth
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public DataTable GetSchemaTable()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsClosed
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool NextResult()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Read()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int RecordsAffected
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int FieldCount
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool GetBoolean(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte GetByte(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        {
+            return this.DataReader.GetBytes(i, fieldOffset, buffer, bufferoffset, length);
+        }
+
+        public char GetChar(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDataReader GetData(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetDataTypeName(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetDateTime(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal GetDecimal(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetDouble(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Type GetFieldType(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public float GetFloat(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guid GetGuid(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public short GetInt16(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetInt32(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public long GetInt64(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetOrdinal(string name)
+        {
+            return this.DataReader.GetOrdinal(name);
+        }
+
+        public string GetString(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetValue(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetValues(object[] values)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsDBNull(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object this[string name]
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public object this[int i]
+        {
+            get { throw new NotImplementedException(); }
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Cached Instance of DataReader passed in
+        /// </summary>
+        IDataReader DataReader;
+
+        /// <summary>
+        /// Pass in a loaded DataReader
+        /// </summary>
+        /// <param name="dataReader">DataReader instance to work off</param>
+        public DynamicDataReader(IDataReader dataReader)
+        {
+            DataReader = dataReader;
+        }
+
+        /// <summary>
+        /// Returns a value from the current DataReader record
+        /// If the field doesn't exist null is returned.
+        /// DbNull values are turned into .NET nulls.
+        /// </summary>
+        /// <param name="binder"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            result = null;
+
+            // 'Implement' common reader properties directly
+            if (binder.Name == "IsClosed")
+                result = DataReader.IsClosed;
+            else if (binder.Name == "RecordsAffected")
+                result = DataReader.RecordsAffected;
+            // lookup column names as fields
+            else
+            {
+                try
+                {
+                    result = DataReader[binder.Name];
+                    if (result == DBNull.Value)
+                        result = null;
+                }
+                catch
+                {
+                    result = null;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        {
+            // Implement most commonly used method
+            if (binder.Name == "Read")
+                result = DataReader.Read();
+            else if (binder.Name == "Close")
+            {
+                DataReader.Close();
+                result = null;
+            }
+            else
+                // call other DataReader methods using Reflection (slow - not recommended)
+                // recommend you use full DataReader instance
+
+                throw new NotImplementedException();
+            //typeof(IDataReader).InvokeMember(binder.Name, 
+            //result = ReflectionUtils.CallMethod(DataReader, binder.Name, args);
+
+            return true;
+        }
+
+
+
+    }
+}
