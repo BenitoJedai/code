@@ -229,12 +229,22 @@ namespace DropFileIntoSQLite
                                     XElement.Parse(xhr.responseText).Elements("ContentKey").WithEach(
                                         ContentKey =>
                                         {
+                                            var __ContentKey = default(Table1_ContentKey);
+
                                             var src = "/io/" + ContentKey.Value;
 
                                             if (i != null)
                                             {
                                                 i.src = src;
                                             }
+
+                                            ff.LocationChanged +=
+                                                delegate
+                                                {
+                                                    __ContentKey
+                                                        .SetLeft(ff.Left)
+                                                        .SetTop(ff.Top);
+                                                };
 
                                             ff.FormClosing +=
                                                 delegate
@@ -271,6 +281,8 @@ namespace DropFileIntoSQLite
                 service.EnumerateFilesAsync("",
                     (ContentKey, ContentBytesLength) =>
                     {
+                        var __ContentKey = default(Table1_ContentKey);
+
                         var ff = new Form();
 
 
@@ -286,6 +298,30 @@ namespace DropFileIntoSQLite
 
                         index++;
 
+                        var scale = 1.0;
+
+                        ff.GetHTMLTarget().With(
+                            ffh =>
+                            {
+                                dynamic ffhs = ffh.style;
+                                // http://css-infos.net/property/-webkit-transition
+                                //ffhs.webkitTransition = "webkitTransform 0.3s linear";
+
+                                ffh.onmousewheel +=
+                                    e =>
+                                    {
+                                        if (e.WheelDirection > 0)
+                                            scale += 0.1;
+                                        else
+                                            scale -= 0.1;
+
+                                        ffh.style.transform = "scale(" + scale + ")";
+                                    };
+
+                            }
+                        );
+
+
                         var fc = ff.GetHTMLTargetContainer();
                         var src = "/io/" + ContentKey;
 
@@ -298,6 +334,14 @@ namespace DropFileIntoSQLite
                                 ff.ClientSize = new System.Drawing.Size(i.width, i.height);
                             }
                         );
+
+                        ff.LocationChanged +=
+                            delegate
+                            {
+                                __ContentKey
+                                    .SetLeft(ff.Left)
+                                    .SetTop(ff.Top);
+                            };
 
                         ff.FormClosing +=
                             delegate

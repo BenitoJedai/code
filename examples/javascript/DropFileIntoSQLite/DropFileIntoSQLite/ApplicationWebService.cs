@@ -11,10 +11,57 @@ using System.Xml.Linq;
 
 namespace DropFileIntoSQLite
 {
+    // left, top, width, height, scale
+    public enum Table1_ContentKey { };
+
+    public static class Table1AsyncExtensions
+    {
+        public static Table1_ContentKey SetLeft(this Table1_ContentKey ContentKey, int value)
+        {
+            new ApplicationWebService().Table1AsyncExtensions_SetLeft("" + ContentKey, "" + value,
+                delegate
+                {
+
+                }
+            );
+
+            return ContentKey;
+        }
+
+        public static Table1_ContentKey SetTop(this Table1_ContentKey ContentKey, int value)
+        {
+            new ApplicationWebService().Table1AsyncExtensions_SetTop("" + ContentKey, "" + value,
+               delegate
+               {
+
+               }
+           );
+
+            return ContentKey;
+        }
+    }
+
+    public partial class ApplicationWebService
+    {
+        public void Table1AsyncExtensions_SetLeft(string ContentKey, string value, Action<string> yield)
+        {
+
+            yield("");
+        }
+
+        public void Table1AsyncExtensions_SetTop(string ContentKey, string value, Action<string> yield)
+        {
+
+            yield("");
+        }
+    }
+
+
+
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed partial class ApplicationWebService
     {
         /// <summary>
         /// This Method is a javascript callable method.
@@ -64,7 +111,7 @@ namespace DropFileIntoSQLite
 
                     using (var reader = cmd.ExecuteReader())
                     {
-                       
+
                     }
                 }
             }
