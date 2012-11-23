@@ -132,6 +132,22 @@ namespace DropFileIntoSQLite
                                         }
                                     );
                                 }
+                                else
+                                {
+
+                                    new Form { Text = x }.With(
+                                        f =>
+                                        {
+                                            new IHTMLPre
+                                            {
+                                                innerText = DocumentText
+                                            }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
+
+
+                                            f.Show();
+                                        }
+                                    );
+                                }
                             }
 
                             if (x == "text/html")
@@ -146,12 +162,6 @@ namespace DropFileIntoSQLite
                                     f =>
                                     {
                                         var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
-
-                                        //((IHTMLIFrame)w.GetHTMLTarget()).contentWindow.onload +=
-                                        //    delegate
-                                        //    {
-                                        //        ((IHTMLIFrame)w.GetHTMLTarget()).contentWindow.document.DesignMode = true;
-                                        //    };
 
                                         w.DocumentText = DocumentText;
 
@@ -385,61 +395,9 @@ namespace DropFileIntoSQLite
             }
 
 
-            #region CreateDialogAt
-            var CreateDialogAt =
-                new
-                {
-                    Dialog = default(IHTMLDiv),
-                    Content = default(IHTMLDiv),
-                    Width = default(string)
-                }
-                .ToFunc(
-                (Point pos, string width) =>
-                {
-                    var dialog = new IHTMLDiv();
-
-                    dialog.style.SetLocation(pos.X, pos.Y);
-
-                    dialog.style.backgroundColor = Color.Gray;
-                    dialog.style.padding = "1px";
-
-                    var caption = new IHTMLDiv().AttachTo(dialog);
-
-                    caption.style.backgroundColor = Color.Blue;
-                    caption.style.width = width;
-                    caption.style.height = "0.5em";
-                    caption.style.cursor = IStyle.CursorEnum.move;
-
-                    var drag = new DragHelper(caption);
-
-                    drag.Position = pos;
-                    drag.Enabled = true;
-                    drag.DragMove +=
-                        delegate
-                        {
-                            dialog.style.SetLocation(drag.Position.X, drag.Position.Y);
-                        };
-
-                    var _content = new IHTMLDiv().AttachTo(dialog);
-
-                    _content.style.textAlign = IStyle.TextAlignEnum.center;
-                    _content.style.backgroundColor = Color.White;
-                    _content.style.padding = "1px";
-
-                    dialog.AttachToDocument();
-
-                    return new { Dialog = dialog, Content = _content, Width = width };
-                }
-            );
-            #endregion
-
-            var toolbar = CreateDialogAt(new Point(2, 2), "8em");
-            // [blocked] The page at https://developer.mozilla.org/en-US/docs/CSS/linear-gradient ran insecure content from http://192.168.1.101:5830/view-source.
 
             #region bookmark launcher
-            new IHTMLAnchor
-            {
-                href = @"javascript:
+            var href = @"javascript:
 ((function(h,i)
 { 
     
@@ -495,10 +453,19 @@ d();
 
 }
 
-)(['view-source'],function(){}))".Replace("%%", Native.Document.location + ""),
+)(['view-source'],function(){}))".Replace("%%", Native.Document.location + "");
 
-                innerText = "Bookmark launcher"
-            }.AttachTo(toolbar.Content);
+            page.Header.draggable = true;
+            page.Header.ondragstart +=
+                e =>
+                {
+                    e.dataTransfer.setData("text/uri-list", href);
+                };
+
+
+            IStyleSheet.Default["#Header:hover"].style.color = "red";
+            IStyleSheet.Default["#Header:hover"].style.cursor = IStyle.CursorEnum.pointer;
+
             #endregion
 
             @"Hello world".ToDocumentTitle();
