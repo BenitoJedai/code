@@ -28,7 +28,7 @@ namespace AsyncResearch
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-         public Application(IDefaultPage page)
+        public Application(IDefaultPage page)
         {
             style.Content.AttachToHead();
             @"before".ToDocumentTitle();
@@ -48,4 +48,16 @@ namespace AsyncResearch
 
         }
     }
+
+    static class Foo
+    {
+        public static async void foo()
+        {
+            dynamic x = null;
+
+            var y = await x.foo;
+
+        }
+    }
+
 }
