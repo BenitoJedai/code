@@ -7,6 +7,25 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     public class IHTMLElement : IElement
     {
+        // http://dev.w3.org/html5/spec/dnd.html#event-dragstart
+        public bool draggable;
+
+        #region event ondragstart
+        public event System.Action<DragEvent> ondragstart
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "dragstart");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "dragstart");
+            }
+        }
+        #endregion
+
         #region event ondragover
         public event System.Action<DragEvent> ondragover
         {

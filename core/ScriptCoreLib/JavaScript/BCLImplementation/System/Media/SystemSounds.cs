@@ -16,7 +16,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Media
         {
             get
             {
-                return (SystemSound)(object)new __SystemSound { InternalPlay = () => InternalBeep.play() };
+                return (SystemSound)(object)new __SystemSound
+                {
+                    InternalPlay =
+                        delegate
+                        {
+                            var x = (IHTMLAudio)InternalBeep.cloneNode(true);
+
+                            InternalBeep.play();
+
+                            InternalBeep = x;
+                        }
+                };
             }
         }
     }
