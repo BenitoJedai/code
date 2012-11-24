@@ -30,7 +30,10 @@ namespace ServerSideEventExperiment
             // http://www.sitepoint.com/server-sent-events/
             //Object '/d07dea9a_2384_49f8_8c01_270582d093dc/rwqwygw27obp9zsviyqgjhqt_27.rem' has been disconnected or does not exist at the server.
 
-            if (h.Context.Request.Path == "/events")
+            //var Accepts = h.Context.Request.AcceptTypes;
+
+            if (h.Context.Request.AcceptTypes.Contains("text/event-stream"))
+            //if (h.Context.Request.Path == "/events")
             {
                 var id = h.Context.Request.Headers["Last-Event-ID"];
 
@@ -48,22 +51,22 @@ namespace ServerSideEventExperiment
                 h.Context.Response.Write("id: " + now.Ticks + "\n\n");
                 var xfoo = h.Context.Request.Headers["xfoo"];
 
-                Thread.Sleep(500);
+                Thread.Sleep(2000);
 
                 h.Context.Response.Write("data: hello 1\n\n");
                 h.Context.Response.Flush();
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
 
                 // The default event type is "message".
                 h.Context.Response.Write("event: foo\n");
                 h.Context.Response.Write("data: bar\n\n");
                 h.Context.Response.Flush();
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 h.Context.Response.Write("data: hello 2\n\n");
                 h.Context.Response.Flush();
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 h.CompleteRequest();
                 return;

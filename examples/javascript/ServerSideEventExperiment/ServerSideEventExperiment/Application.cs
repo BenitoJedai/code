@@ -34,7 +34,7 @@ namespace ServerSideEventExperiment
 
             new Cookie("xfoo").Value = "foo";
 
-            var s = new EventSource("/events");
+            var s = new EventSource();
 
             s.onopen +=
                 e =>

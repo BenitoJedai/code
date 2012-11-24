@@ -8,6 +8,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "EventSource")]
     public class EventSource : ISink
     {
+        public EventSource(string url = "/")
+        {
+        }
+
         #region event onopen
         public event Action<IEvent> onopen
         {
