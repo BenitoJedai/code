@@ -56,7 +56,7 @@ namespace AndroidAccelerometerActivity.Activities
 
             //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-            this.ShowToast("http://jsc-solutions.net");
+            //this.ShowToast("http://jsc-solutions.net");
         }
 
 

@@ -8,11 +8,11 @@
     <ProjectGuid>{B9E6DAF1-240A-48FA-9435-A03621CBD235}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ServerSideEventExperiment</RootNamespace>
-    <AssemblyName>ServerSideEventExperiment</AssemblyName>
+    <RootNamespace>AccelerometerServerEvents</RootNamespace>
+    <AssemblyName>AccelerometerServerEvents</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ServerSideEventExperiment.Program</StartupObject>
+    <StartupObject>AccelerometerServerEvents.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,8 +113,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ServerSideEventExperiment.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ServerSideEventExperiment.AssetsLibrary.dll</HintPath>
+    <Reference Include="AccelerometerServerEvents.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AccelerometerServerEvents.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -131,7 +131,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
- start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
     <PreBuildEvent>
 
