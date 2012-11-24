@@ -55,7 +55,7 @@ namespace ClassicMinesweeper
 
             var cs = new Size(g.Panel.ControlWidth + 8, g.Panel.ControlHeight + 8);
 
-            f.Text += cs;
+            //f.Text += cs;
 
 
             f.ClientSize = cs;
