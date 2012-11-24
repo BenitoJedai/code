@@ -20,11 +20,14 @@ namespace JellyworldExperiment
     /// </summary>
     public sealed class Application
     {
-        /* Lets create a new demo.
+        /* 
+         * for http://blog.sc5.fi/2012/11/announcing-finhtml5-a-day-jam-packed-with-inspiration-for-the-future/#comment-142
+         * Lets create a new demo.
          * 01. First let's tell use the screen and window size.
          * 02. If the client is flash capable tell that we have a cam
          * 03. If the client is orientation capable tell that
          * 04. Commit to svn
+         * 05. Wait anwsers from JellyworldExperiment.HardwareDetection
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
@@ -35,6 +38,16 @@ namespace JellyworldExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            new IHTMLDiv
+            {
+                innerText =
+                    new
+                    {
+                        Native.Window.Width,
+                        Native.Window.Height,
+                    }.ToString()
+            }.AttachToDocument();
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
@@ -43,5 +56,27 @@ namespace JellyworldExperiment
             );
         }
 
+    }
+
+    [Obsolete("Temporary workaround to enable multiple apps.")]
+    public sealed class Application_HardwareDetection_Sprite : global::JellyworldExperiment.HardwareDetection.XApplicationSprite
+    {
+
+    }
+
+    [Obsolete("Temporary workaround to enable multiple apps.")]
+    public sealed class Application_HardwareDetection
+    {
+        //        CreateType:  JellyworldExperiment.HardwareDetection.ApplicationSprite
+        //error: System.InvalidOperationException: Unable to change after type has been created.
+        //   at System.Reflection.Emit.TypeBuilder.ThrowIfCreated()
+
+        public readonly Application_HardwareDetection_Sprite sprite = new Application_HardwareDetection_Sprite();
+
+        public Application_HardwareDetection(global::JellyworldExperiment.HardwareDetection.HTML.Pages.IApp page)
+        {
+            // Initialize ApplicationSprite
+            sprite.AttachSpriteTo(page.Content);
+        }
     }
 }
