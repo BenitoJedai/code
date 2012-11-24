@@ -1,4 +1,11 @@
-﻿Public Module VisualStudioTemplates
+﻿Imports System.Runtime.CompilerServices
+
+Public Module VisualStudioTemplates
+
+    <Extension()>
+    Public Function Clone(ByVal xml As XElement) As XElement
+        Return XElement.Parse(xml.ToString())
+    End Function
 
     ' http://www.simple-talk.com/dotnet/.net-tools/extending-msbuild/
 

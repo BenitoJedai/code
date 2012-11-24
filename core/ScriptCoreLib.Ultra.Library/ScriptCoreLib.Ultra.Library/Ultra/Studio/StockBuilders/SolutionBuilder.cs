@@ -89,7 +89,7 @@ namespace ScriptCoreLib.Ultra.Studio
                 );
 
 
-        
+
 
                 var AssetsLibrary = new XElement("Reference",
                     new XAttribute("Include", Name + ".AssetsLibrary"),
@@ -130,37 +130,42 @@ namespace ScriptCoreLib.Ultra.Studio
             #region first project in current solution
             var proj_Content = default(XElement);
 
+            Console.WriteLine("Selecting project template by language");
+
             if (this.Language is VisualCSharpLanguage)
             {
-                proj_Content = VisualStudioTemplates.VisualCSharpProject;
+                Console.WriteLine("Selecting VisualCSharpLanguage");
+                proj_Content = VisualStudioTemplates.VisualCSharpProject.Clone();
+                //proj_Content = VisualStudioTemplates.VisualCSharpProjectReferences;
             }
 
             if (this.Language is VisualBasicLanguage)
             {
-                proj_Content = VisualStudioTemplates.VisualBasicProject;
+                Console.WriteLine("Selecting VisualBasicLanguage");
+                proj_Content = VisualStudioTemplates.VisualBasicProject.Clone();
             }
 
             if (this.Language is VisualFSharpLanguage)
             {
-                proj_Content = VisualStudioTemplates.VisualFSharpProject;
+                Console.WriteLine("Selecting VisualFSharpLanguage");
+                proj_Content = VisualStudioTemplates.VisualFSharpProject.Clone();
             }
 
 
-
+            Console.WriteLine(proj_Content.ToString());
 
             proj_Content.Elements("PropertyGroup").Elements("ProjectGuid").ReplaceContentWith(proj_Identifier);
             proj_Content.Elements("PropertyGroup").Elements("RootNamespace").ReplaceContentWith(Name);
             proj_Content.Elements("PropertyGroup").Elements("AssemblyName").ReplaceContentWith(Name);
 
+            // how many item groups are there that have references?
+            Console.WriteLine("Looking for ItemGroup for Referenes...");
             var ItemGroupReferenes = proj_Content.Elements("ItemGroup").Where(k => k.Elements("Reference").Any()).Single();
-
-
+            Console.WriteLine("ItemGroupReferenes...");
             UpdateReferences(ItemGroupReferenes);
 
-
+            // 
             var ItemGroupForCompile = proj_Content.Elements("ItemGroup").Where(k => k.Elements("Compile").Any()).Single();
-
-
             ItemGroupForCompile.RemoveAll();
 
             // new operator is the new call opcode? :)
