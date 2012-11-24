@@ -611,7 +611,7 @@ public class a extends Applet implements Runnable {
   }
 
   // to run in window, uncomment below
-  /*public static void main(String[] args) throws Throwable {
+ public static void main(String[] args) throws Throwable {
     javax.swing.JFrame frame = new javax.swing.JFrame("Boing 4K");
     frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     a applet = new a();
@@ -623,5 +623,5 @@ public class a extends Applet implements Runnable {
     frame.setVisible(true);
     Thread.sleep(250);
     applet.start();
-  }*/
+  }
 }
