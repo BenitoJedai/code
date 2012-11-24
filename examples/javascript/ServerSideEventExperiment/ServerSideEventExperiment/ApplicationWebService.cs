@@ -27,9 +27,26 @@ namespace ServerSideEventExperiment
 
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
+            // http://www.sitepoint.com/server-sent-events/
+            //Object '/d07dea9a_2384_49f8_8c01_270582d093dc/rwqwygw27obp9zsviyqgjhqt_27.rem' has been disconnected or does not exist at the server.
+
             if (h.Context.Request.Path == "/events")
             {
+                var id = h.Context.Request.Headers["Last-Event-ID"];
+
+                Console.WriteLine(new { id });
+
                 h.Context.Response.ContentType = "text/event-stream";
+
+                //                data: The information to be sent.
+                //event: The type of event being dispatched.
+                //id: An identifier for the event to be used when the client reconnects.
+                //retry: How many milliseconds should lapse before the browser attempts to reconnect to the URL.
+
+                var now = DateTime.Now;
+
+                h.Context.Response.Write("id: " + now.Ticks + "\n\n");
+                var xfoo = h.Context.Request.Headers["xfoo"];
 
                 Thread.Sleep(500);
 
