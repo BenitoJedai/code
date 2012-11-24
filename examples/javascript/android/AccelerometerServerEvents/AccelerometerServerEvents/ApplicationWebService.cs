@@ -1,4 +1,9 @@
+#if Android
+using android.content;
+#endif
+
 using ScriptCoreLib;
+using ScriptCoreLib.Android;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
@@ -8,6 +13,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Linq;
+using android.hardware;
 
 namespace AccelerometerServerEvents
 {
@@ -50,13 +56,15 @@ namespace AccelerometerServerEvents
 
                     double qx = 0.0, qy = 0.0, qz = 0.0;
 
-                    Action<double, double, double> vec3 =
+                    Action<float, float, float> vec3 =
                         (x, y, z) =>
                         {
                             if (qx == x)
                                 if (qy == y)
                                     if (qz == z)
                                         return;
+
+                            //Console.WriteLine(new { x, y, z });
 
                             qx = x;
                             qy = y;
@@ -83,6 +91,34 @@ namespace AccelerometerServerEvents
                     }
 #endif
 
+#if Android
+
+                    (ThreadLocalContextReference.CurrentContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager).With(
+                        sensorManager =>
+                        {
+                            var value = new MySensorEventListener { onaccelerometer = vec3 };
+
+                            try
+                            {
+                                Console.WriteLine("registerListener");
+                                sensorManager.registerListener(
+                                    value,
+                                    sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                                    SensorManager.SENSOR_DELAY_GAME
+                                );
+
+                                Thread.Sleep(10000);
+                            }
+                            finally
+                            {
+                                Console.WriteLine("unregisterListener");
+                                sensorManager.unregisterListener(value);
+                            }
+                        }
+                    );
+
+#endif
+
 
 
                     h.Context.Response.Write("retry: 1\n\n");
@@ -91,6 +127,32 @@ namespace AccelerometerServerEvents
                     h.CompleteRequest();
                     return;
                 }
+        }
+    }
+
+    class MySensorEventListener : SensorEventListener
+    {
+        public Action<float, float, float> onaccelerometer;
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy)
+        {
+
+        }
+        public void onSensorChanged(SensorEvent e)
+        {
+
+            // check sensor type
+            if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+            {
+
+                // assign directions
+                float x = e.values[0];
+                float y = e.values[1];
+                float z = e.values[2];
+
+                if (onaccelerometer != null)
+                    onaccelerometer(x, y, z);
+            }
         }
     }
 

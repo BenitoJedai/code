@@ -25,6 +25,8 @@ namespace ServerSideEventExperiment
             y(e);
         }
 
+        // /WebServiceType.Method{event1, event2}
+
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
             // http://www.sitepoint.com/server-sent-events/
@@ -38,6 +40,8 @@ namespace ServerSideEventExperiment
                 //if (h.Context.Request.AcceptTypes.Contains("text/event-stream"))
                 //if (h.Context.Request.Path == "/events")
                 {
+                    var xfoo = h.Context.Request.Headers["xfoo"];
+
                     var id = h.Context.Request.Headers["Last-Event-ID"];
 
                     Console.WriteLine(new { id });
@@ -52,7 +56,6 @@ namespace ServerSideEventExperiment
                     var now = DateTime.Now;
 
                     h.Context.Response.Write("id: " + now.Ticks + "\n\n");
-                    var xfoo = h.Context.Request.Headers["xfoo"];
 
                     Thread.Sleep(2000);
 
