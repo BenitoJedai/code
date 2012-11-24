@@ -34,16 +34,19 @@ namespace ServerSideEventExperiment
                 Thread.Sleep(500);
 
                 h.Context.Response.Write("data: hello 1\n\n");
-                Thread.Sleep(500);
+                h.Context.Response.Flush();
+                Thread.Sleep(1000);
 
 
                 // The default event type is "message".
                 h.Context.Response.Write("event: foo\n");
                 h.Context.Response.Write("data: bar\n\n");
-                Thread.Sleep(500);
+                h.Context.Response.Flush();
+                Thread.Sleep(1000);
 
                 h.Context.Response.Write("data: hello 2\n\n");
-                Thread.Sleep(500);
+                h.Context.Response.Flush();
+                Thread.Sleep(1000);
 
                 h.CompleteRequest();
                 return;

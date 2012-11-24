@@ -55,5 +55,21 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
         #endregion
+
+        public Action<MessageEvent> this[string EventName]
+        {
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                base.InternalEvent(true, value, EventName);
+
+            }
+
+            //[Script(DefineAsStatic = true)]
+            //get
+            //{
+            //    return null;
+            //}
+        }
     }
 }
