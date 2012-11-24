@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 
-namespace ServerSideEventExperiment
+namespace AccelerometerServerEvents
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -25,6 +25,7 @@ namespace ServerSideEventExperiment
             y(e);
         }
 
+
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
             // http://www.sitepoint.com/server-sent-events/
@@ -35,46 +36,30 @@ namespace ServerSideEventExperiment
 
             if (Accepts != null)
                 if (Accepts.Contains("text/event-stream"))
-                //if (h.Context.Request.AcceptTypes.Contains("text/event-stream"))
-                //if (h.Context.Request.Path == "/events")
                 {
-                    var id = h.Context.Request.Headers["Last-Event-ID"];
-
-                    Console.WriteLine(new { id });
-
                     h.Context.Response.ContentType = "text/event-stream";
 
-                    //                data: The information to be sent.
-                    //event: The type of event being dispatched.
-                    //id: An identifier for the event to be used when the client reconnects.
-                    //retry: How many milliseconds should lapse before the browser attempts to reconnect to the URL.
 
-                    var now = DateTime.Now;
+                    Action<XElement> data =
+                        xml =>
+                        {
+                            h.Context.Response.Write("data: " + xml.ToString() + "\n\n");
 
-                    h.Context.Response.Write("id: " + now.Ticks + "\n\n");
-                    var xfoo = h.Context.Request.Headers["xfoo"];
+                        };
 
-                    Thread.Sleep(2000);
+                    data(
+                        new XElement("onaccelerometer",
+                            new XAttribute("x", "0.0"),
+                            new XAttribute("y", "0.0"),
+                            new XAttribute("z", "0.0")
+                        )
+                    );
 
-                    h.Context.Response.Write("data: hello 1\n\n");
-                    h.Context.Response.Flush();
-                    Thread.Sleep(2000);
-
-
-                    // The default event type is "message".
-                    h.Context.Response.Write("event: foo\n");
-                    h.Context.Response.Write("data: bar\n\n");
-                    h.Context.Response.Flush();
-                    Thread.Sleep(2000);
-
-                    h.Context.Response.Write("data: hello 2\n\n");
-                    h.Context.Response.Flush();
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
 
                     h.CompleteRequest();
                     return;
                 }
         }
-
     }
 }

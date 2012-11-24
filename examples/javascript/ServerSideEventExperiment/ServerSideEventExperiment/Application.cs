@@ -29,10 +29,13 @@ namespace ServerSideEventExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //Native.Document.oner
             // http://www.w3schools.com/html/html5_serversentevents.asp
             // http://stackoverflow.com/questions/5195452/websockets-vs-server-sent-events-eventsource
 
             new Cookie("xfoo").Value = "foo";
+
+            // Uncaught ReferenceError: EventSource is not defined at http://192.168.1.104:29568/view-source:28282
 
             var s = new EventSource();
 
@@ -51,7 +54,9 @@ namespace ServerSideEventExperiment
             s.onmessage +=
                 e =>
                 {
-                    new IHTMLPre { innerText = "message " + e.data }.AttachToDocument();
+                    var now = DateTime.Now;
+
+                    new IHTMLPre { innerText = now + " message " + e.data }.AttachToDocument();
                 };
 
             //            script: error JSC1000:
