@@ -1,0 +1,1 @@
+﻿select count(*) from MY_TABLEXX

@@ -162,6 +162,12 @@ namespace PHPWiki
 
         public void Handle(WebServiceHandler h)
         {
+            if (h.Context.Request.Path == "/jsc")
+            {
+                h.Diagnostics();
+                return;
+            }
+
             // all paths are ok
             var Other = h.Applications[0];
 

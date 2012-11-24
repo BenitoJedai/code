@@ -132,6 +132,7 @@
     </Compile>
     <Content Include="Design\Preview.png" />
     <Content Include="Design\RTA_save.gif" />
+    <Content Include="Queries\QountItems.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -143,7 +144,7 @@
 )
 
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false /x'DisableWebServicePHP:false /xDisableWebServiceJava:false
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false /DisableWebServicePHP:false /xDisableWebServiceJava:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

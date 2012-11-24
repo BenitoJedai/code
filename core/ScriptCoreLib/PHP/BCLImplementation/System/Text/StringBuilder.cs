@@ -69,14 +69,19 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Text
 
 		public __StringBuilder Append(object value)
 		{
-			if (ScriptCoreLib.PHP.Runtime.Expando.Of(value).IsNumber)
+            var ref0 = value;
+            var ref1 = ScriptCoreLib.PHP.Runtime.Expando.Of(ref0);
+ 
+            // does "is int" work?
+            if (ref1.IsNumber)
 			{
 				_Value += (int)value;
 
 				return this;
 			}
 
-			if (ScriptCoreLib.PHP.Runtime.Expando.Of(value).IsBoolean)
+            // does "is bool" work?
+            if (ref1.IsBoolean)
 			{
 
 				return this.Append((bool)value);
@@ -88,7 +93,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Text
 				// fixme: should use the is string operator instead
 
 
-				if (ScriptCoreLib.PHP.Runtime.Expando.Of(value).IsString)
+                if (ref1.IsString)
 				{
 					_Value += (string)value;
 				}
