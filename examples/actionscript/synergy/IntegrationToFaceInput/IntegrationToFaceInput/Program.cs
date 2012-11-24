@@ -11,13 +11,11 @@ namespace IntegrationToFaceInput
     {
         public static void Main(string[] args)
         {
-//#if DEBUG
-//            DesktopAvalonExtensions.Launch(
-//                () => new ApplicationCanvas()
-//            );
-//#else
+
+            // partial jsc builds cause a fault:
+            //Write Assembly Failed!. ERROR:Type 'Main_ballAsset' was not completed.
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
-//#endif
         }
 
     }
