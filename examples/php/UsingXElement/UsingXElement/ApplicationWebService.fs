@@ -31,6 +31,7 @@ namespace UsingXElement
             
             ch1.Encoding <- System.Text.Encoding.UTF8
 
+            // The remote name could not be resolved: 'ctocorner.com'
             let ch2 = ch1.DownloadString(e);
 
             let body = ch2.SkipUntilIfAny("<body>").TakeUntilLastIfAny("</body>").Replace("src=\"", "src=\"" + e.TakeUntilLastIfAny("/") + "/")
