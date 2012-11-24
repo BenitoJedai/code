@@ -7,6 +7,14 @@ namespace ScriptCoreLib.JavaScript
 {
     static partial class chrome
     {
+        static partial class omnibox
+        {
+            // http://developer.chrome.com/extensions/omnibox.html
+            public static void setDefaultSuggestion(object suggestion)
+            {
+            }
+        }
+
         static partial class webstore
         {
             // https://developers.google.com/chrome/apps/docs/no_crx
