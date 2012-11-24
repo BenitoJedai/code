@@ -33,6 +33,12 @@ namespace UsingXElement
 
             // The remote name could not be resolved: 'ctocorner.com'
             let ch2 = ch1.DownloadString(e);
+            
+            // This page contains the following errors:error on line 707 at column 91: Entity 'nbsp' not defined Below is a rendering of the page up to the first error.
+            // why is this a problem when running from PHP server
+            let ch2 = ch2.Replace("&nbsp;", " ")
+
+
 
             let body = ch2.SkipUntilIfAny("<body>").TakeUntilLastIfAny("</body>").Replace("src=\"", "src=\"" + e.TakeUntilLastIfAny("/") + "/")
             let style = ch2.SkipUntilIfAny("<style type=\"text/css\">").TakeUntilLastIfAny("</style>")
