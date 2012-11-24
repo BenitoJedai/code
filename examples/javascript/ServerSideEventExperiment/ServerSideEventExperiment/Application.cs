@@ -36,40 +36,37 @@ namespace ServerSideEventExperiment
 
             var s = new EventSource("/events");
 
-            s.addEventListener("open",
+            s.onopen +=
                 e =>
                 {
                     new IHTMLPre { innerText = "open" }.AttachToDocument();
-                }
-            );
+                };
 
-            s.addEventListener("error",
+            s.onerror +=
                 e =>
                 {
                     new IHTMLPre { innerText = "error" }.AttachToDocument();
-                }
-            );
+                };
 
-            s.addEventListener("message",
+            s.onmessage +=
                 e =>
                 {
+                    new IHTMLPre { innerText = "message " + e.data }.AttachToDocument();
+                };
 
-                    var m = (MessageEvent)e;
+            //            script: error JSC1000:
+            //error:
+            //  statement cannot be a load instruction (or is it a bug?)
+            //  [0x00ad] ldloc.1    +1 -0
 
-                    new IHTMLPre { innerText = "message " + m.data }.AttachToDocument();
-                }
-            );
-
-
-            s.addEventListener("foo",
+            s["foo"] =
                 e =>
                 {
 
                     var m = (MessageEvent)e;
 
                     new IHTMLPre { innerText = "foo " + m.data }.AttachToDocument();
-                }
-            );
+                };
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
