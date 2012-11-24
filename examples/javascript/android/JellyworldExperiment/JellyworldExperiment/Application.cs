@@ -12,6 +12,9 @@ using System.Text;
 using System.Xml.Linq;
 using JellyworldExperiment.Design;
 using JellyworldExperiment.HTML.Pages;
+using ScriptCoreLib.ActionScript.flash.display;
+using JellyworldExperiment.HardwareDetection;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace JellyworldExperiment
 {
@@ -24,10 +27,11 @@ namespace JellyworldExperiment
          * for http://blog.sc5.fi/2012/11/announcing-finhtml5-a-day-jam-packed-with-inspiration-for-the-future/#comment-142
          * Lets create a new demo.
          * 01. First let's tell use the screen and window size.
-         * 02. If the client is flash capable tell that we have a cam
+         * 02. If the client is flash capable tell that we have a cam (FoundCamera)
          * 03. If the client is orientation capable tell that
          * 04. Commit to svn
          * 05. Wait anwsers from JellyworldExperiment.HardwareDetection
+         * 06. Add iframe to get messages
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
@@ -38,15 +42,39 @@ namespace JellyworldExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            new IHTMLDiv
-            {
-                innerText =
-                    new
-                    {
-                        Native.Window.Width,
-                        Native.Window.Height,
-                    }.ToString()
-            }.AttachToDocument();
+            #region /HardwareDetection onmessage
+            new IHTMLIFrame { src = "/HardwareDetection" }.With(
+                HardwareDetection =>
+                {
+                    //HardwareDetection.style.visibility = IStyle.VisibilityEnum.hidden;
+                    HardwareDetection.style.display = IStyle.DisplayEnum.none;
+
+                    Native.Window.onmessage +=
+                      e =>
+                      {
+                          // stop listening
+                          if (HardwareDetection == null)
+                              return;
+
+                          // am i talking to you?
+                          if (e.source != HardwareDetection.contentWindow)
+                              return;
+
+                          new IHTMLPre
+                          {
+                              innerText = "/HardwareDetection onmessage: " + new { e.data }.ToString()
+                          }.AttachToDocument();
+
+                          //// thanks for info. you are done!
+                          //HardwareDetection.Orphanize();
+
+                          //// stop listening
+                          //HardwareDetection = null;
+                      };
+                }
+            ).AttachToDocument();
+            #endregion
+
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -58,25 +86,80 @@ namespace JellyworldExperiment
 
     }
 
-    [Obsolete("Temporary workaround to enable multiple apps.")]
-    public sealed class Application_HardwareDetection_Sprite : global::JellyworldExperiment.HardwareDetection.XApplicationSprite
-    {
 
-    }
 
     [Obsolete("Temporary workaround to enable multiple apps.")]
     public sealed class Application_HardwareDetection
     {
-        //        CreateType:  JellyworldExperiment.HardwareDetection.ApplicationSprite
-        //error: System.InvalidOperationException: Unable to change after type has been created.
-        //   at System.Reflection.Emit.TypeBuilder.ThrowIfCreated()
+        #region Application_HardwareDetection_Sprite
+        [Obsolete("Temporary workaround to enable multiple apps.")]
+        public sealed class Application_HardwareDetection_Sprite : Sprite, IApplicationSprite
+        {
+            public event Action FoundMutedCamera;
+            public event Action FoundUnmutedCamera;
+
+            public event Action FoundCamera;
+            public event Action LookingForCamera;
+
+            public void RaiseLookingForCamera()
+            {
+                if (LookingForCamera != null)
+                    LookingForCamera();
+            }
+
+
+            public void RaiseFoundCamera()
+            {
+                if (FoundCamera != null)
+                    FoundCamera();
+            }
+
+            public void RaiseFoundMutedCamera()
+            {
+                if (FoundMutedCamera != null)
+                    FoundMutedCamera();
+            }
+
+            public void RaiseFoundUnmutedCamera()
+            {
+                if (FoundUnmutedCamera != null)
+                    FoundUnmutedCamera();
+            }
+
+            public void InitializeContent()
+            {
+                this.InternalInitializeContent();
+            }
+        }
 
         public readonly Application_HardwareDetection_Sprite sprite = new Application_HardwareDetection_Sprite();
+        #endregion
 
         public Application_HardwareDetection(global::JellyworldExperiment.HardwareDetection.HTML.Pages.IApp page)
         {
             // Initialize ApplicationSprite
             sprite.AttachSpriteTo(page.Content);
+
+            sprite.FoundCamera +=
+                delegate
+                {
+                    Native.Document.body.style.backgroundColor = JSColor.Green;
+
+                    Native.Window.parent.With(
+                          parent =>
+                          {
+                              // not talking to self
+                              if (parent == Native.Window)
+                                  return;
+
+
+
+                              parent.postMessage("FoundCamera");
+                          }
+                      );
+                };
+
+            sprite.InitializeContent();
         }
     }
 }

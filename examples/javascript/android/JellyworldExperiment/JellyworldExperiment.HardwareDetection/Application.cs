@@ -32,11 +32,32 @@ namespace JellyworldExperiment.HardwareDetection
             sprite.FoundCamera +=
                 delegate
                 {
-                    Native.Window.alert("camera");
+                    Console.WriteLine("FoundCamera");
                 };
+
+
+            sprite.LookingForCamera +=
+              delegate
+              {
+                  Console.WriteLine("LookingForCamera");
+              };
+
+            sprite.FoundMutedCamera +=
+                  delegate
+                  {
+                      Console.WriteLine("FoundMutedCamera");
+                  };
+
+            sprite.FoundUnmutedCamera +=
+              delegate
+              {
+                  Console.WriteLine("FoundUnmutedCamera");
+              };
 
             // Initialize ApplicationSprite
             sprite.AttachSpriteTo(page.Content);
+
+            sprite.InitializeContent();
 
         }
 
