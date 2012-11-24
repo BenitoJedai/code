@@ -32,7 +32,9 @@ namespace UsingXElement
                 fun (i:int) ->
                     fun (next:Action) ->
 
-                        let uri = "http://ctocorner.com/fsharp/book/ch" + Convert.ToString( i) + ".aspx"
+                    // 
+//                        let uri = "http://ctocorner.com/fsharp/book/ch" + Convert.ToString( i) + ".aspx"
+                        let uri = "http://web.archive.org/web/20110715231634/http://www.ctocorner.com/fsharp/book/ch" + Convert.ToString( i) + ".aspx"
 
                         do uri.ToDocumentTitle() |> ignore
 
