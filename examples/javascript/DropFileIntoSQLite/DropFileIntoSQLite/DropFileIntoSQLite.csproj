@@ -141,6 +141,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Queries\SetMetaValue.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

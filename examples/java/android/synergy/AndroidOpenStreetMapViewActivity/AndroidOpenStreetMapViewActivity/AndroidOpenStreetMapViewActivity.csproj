@@ -90,6 +90,7 @@
     <Content Include="References\slf4j-android-1.5.8.jar" />
     <Content Include="staging\apk\res\layout\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

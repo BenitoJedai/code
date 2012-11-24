@@ -168,10 +168,9 @@ namespace DropFileIntoSQLite
 
                 default(Table1Meta_MetaKey).CreateTable(c);
 
-                var TableName = "Table1";
 
                 var cmd = new SQLiteCommand(
-                  "insert into " + TableName + "Meta (MemberName, MemberValue, DeclaringType) "
+                  "insert into Table1Meta (MemberName, MemberValue, DeclaringType) "
                   + "values (?, ?, ?)"
                   , c);
 
