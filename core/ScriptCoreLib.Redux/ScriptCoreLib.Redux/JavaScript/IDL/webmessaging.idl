@@ -1,3 +1,5 @@
+// http://www.w3.org/TR/webmessaging/
+
 [Constructor(DOMString type)]
 interface MessageEvent : Event {
   readonly attribute any data;
@@ -27,3 +29,29 @@ interface MessagePort : EventTarget {
   // event handlers
   [TreatNonCallableAsNull] attribute Function? onmessage;
 };
+
+
+// http://www.w3.org/TR/eventsource/
+
+//[Constructor(DOMString url, optional EventSourceInit eventSourceInitDict)]
+[Constructor(DOMString url)]
+interface EventSource : EventTarget {
+  readonly attribute DOMString url;
+  readonly attribute boolean withCredentials;
+
+  // ready state
+  const unsigned short CONNECTING = 0;
+  const unsigned short OPEN = 1;
+  const unsigned short CLOSED = 2;
+  readonly attribute unsigned short readyState;
+
+  // networking
+           //attribute EventHandler onopen;
+           //attribute EventHandler onmessage;
+           //attribute EventHandler onerror;
+  void close();
+};
+
+//dictionary EventSourceInit {
+//  boolean withCredentials = false;
+//};

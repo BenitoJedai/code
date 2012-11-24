@@ -42,7 +42,7 @@ namespace JellyworldExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            #region /HardwareDetection onmessage
+            #region /HardwareDetection
 
             new IHTMLPre
             {
@@ -186,10 +186,17 @@ namespace JellyworldExperiment
                              if (parent == null)
                                  return;
 
-                             // desktop chrome misreports?
-                             if (Expando.Of(eventData).Contains("alpha"))
-                                 return;
 
+                             #region desktop chrome misreports?
+                             // Uncaught ReferenceError: alpha is not defined 
+                             if ("this.alpha == null".js<bool>(eventData))
+                             {
+                                 Console.WriteLine("ondeviceorientation without alpha? " + eventData);
+                                 Console.WriteLine("ondeviceorientation without alpha? " + eventData.alpha);
+                                 Console.WriteLine("ondeviceorientation without alpha? ");
+                                 return;
+                             }
+                             #endregion
 
                              parent.postMessage("ondeviceorientation " + new { eventData.alpha, eventData.beta, eventData.gamma });
 
@@ -198,6 +205,14 @@ namespace JellyworldExperiment
                          };
                    }
                );
+        }
+    }
+
+    public static class X
+    {
+        public static T js<T>(this string body, object that = null)
+        {
+            return (T)new IFunction("return " + body + ";").apply(that);
         }
     }
 }

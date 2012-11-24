@@ -28,6 +28,13 @@ namespace JellyworldExperiment
 
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
+            var path = h.Context.Request.Path;
+
+            #region undo asp.net
+            if (path == "/default.htm")
+                path = "/";
+            #endregion
+
             if (h.Context.Request.Path == "/jsc")
             {
                 h.Diagnostics();
@@ -44,10 +51,15 @@ namespace JellyworldExperiment
 
             var appname = apps[""];
 
-            var kk = h.Context.Request.Path.SkipUntilIfAny("/").TakeUntilIfAny("/view-source");
+            var appsrc = "/view-source";
+            var apppath = path.SkipUntilIfAny("/").TakeUntilIfAny("/view-source");
 
-            if (apps.ContainsKey(kk))
-                appname = apps[kk];
+            if (!string.IsNullOrEmpty(apppath))
+                if (apps.ContainsKey(apppath))
+                {
+                    appname = apps[apppath];
+                    appsrc = "/" + apppath + appsrc;
+                }
 
             var app = h.Applications.Single(k => k.TypeName == appname);
 
@@ -81,11 +93,10 @@ namespace JellyworldExperiment
 
             var xml = XElement.Parse(app.PageSource);
 
-            var src = h.Context.Request.Path + "/view-source";
 
             xml.Add(
                 new XElement("script",
-                    new XAttribute("src", src),
+                    new XAttribute("src", appsrc),
 
                     // android otherwise closes the tag?
                     " "
