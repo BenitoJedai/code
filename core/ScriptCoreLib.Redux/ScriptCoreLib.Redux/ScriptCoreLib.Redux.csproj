@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\DOM\EventSource.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLElement.cs" />
     <Compile Include="JavaScript\DOM\IWindow.cs" />
     <Compile Include="JavaScript\Extensions\WebGLExtensions.cs" />
