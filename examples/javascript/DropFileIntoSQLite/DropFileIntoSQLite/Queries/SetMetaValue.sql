@@ -1,0 +1,1 @@
+﻿insert into Table1Meta (MemberName, MemberValue, DeclaringType) values (?, ?, ?)
