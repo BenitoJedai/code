@@ -59,6 +59,12 @@ namespace JellyworldExperiment.HardwareDetection
 
             sprite.InitializeContent();
 
+            Native.Window.ondeviceorientation +=
+              eventData =>
+              {
+                  // works on nexus 7
+                  new IHTMLPre { innerText = "ondeviceorientation" }.AttachToDocument();
+              };
         }
 
     }

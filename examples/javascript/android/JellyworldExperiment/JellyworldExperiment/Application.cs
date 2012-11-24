@@ -28,7 +28,7 @@ namespace JellyworldExperiment
          * Lets create a new demo.
          * 01. First let's tell use the screen and window size.
          * 02. If the client is flash capable tell that we have a cam (FoundCamera)
-         * 03. If the client is orientation capable tell that
+         * 03. If the client is orientation capable tell that (ondeviceorientation)
          * 04. Commit to svn
          * 05. Wait anwsers from JellyworldExperiment.HardwareDetection
          * 06. Add iframe to get messages
@@ -43,10 +43,19 @@ namespace JellyworldExperiment
         public Application(IApp page)
         {
             #region /HardwareDetection onmessage
+
+            new IHTMLPre
+            {
+                innerText = "/HardwareDetection... "
+
+            }.AttachToDocument();
+
             new IHTMLIFrame { src = "/HardwareDetection" }.With(
                 HardwareDetection =>
                 {
                     //HardwareDetection.style.visibility = IStyle.VisibilityEnum.hidden;
+
+                    // android browser does not allow this:
                     HardwareDetection.style.display = IStyle.DisplayEnum.none;
 
                     Native.Window.onmessage +=
@@ -160,6 +169,35 @@ namespace JellyworldExperiment
                 };
 
             sprite.InitializeContent();
+
+
+            Native.Window.parent.With(
+                   parent =>
+                   {
+                       // not talking to self
+                       if (parent == Native.Window)
+                           return;
+
+
+                       Native.Window.ondeviceorientation +=
+                         eventData =>
+                         {
+                             // done talking
+                             if (parent == null)
+                                 return;
+
+                             // desktop chrome misreports?
+                             if (Expando.Of(eventData).Contains("alpha"))
+                                 return;
+
+
+                             parent.postMessage("ondeviceorientation " + new { eventData.alpha, eventData.beta, eventData.gamma });
+
+                             // stop talking
+                             parent = null;
+                         };
+                   }
+               );
         }
     }
 }
