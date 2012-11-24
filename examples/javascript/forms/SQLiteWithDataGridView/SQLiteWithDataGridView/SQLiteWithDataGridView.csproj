@@ -165,9 +165,6 @@
   <ItemGroup>
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="ApplicationWebService.Handler.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="IApplicationWebService.cs" />
     <Compile Include="Library\GridForm.cs">
       <SubType>Form</SubType>
