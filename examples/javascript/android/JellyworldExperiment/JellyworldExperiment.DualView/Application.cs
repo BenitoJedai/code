@@ -23,6 +23,13 @@ namespace JellyworldExperiment.DualView
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        class delta
+        {
+            public double oldvalue = 0;
+            public double dx = 0;
+            public double newvalue = 0;
+
+        }
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -52,7 +59,7 @@ namespace JellyworldExperiment.DualView
                 hud.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
                 hud.style.color = JSColor.White;
 
-                var c = new IHTMLCenter { innerText = "RightScreen" }.AttachTo(hud);
+                var c = new IHTMLCenter { innerText = Native.Document.location.hash }.AttachTo(hud);
 
                 new CSSTransform3DFPSBlueprint.Application().Initialize(a,
                    x =>
@@ -65,42 +72,115 @@ namespace JellyworldExperiment.DualView
                            CSSTransform3DFPSBlueprint.Application.window.viewport.node.style.marginLeft = "-100%";
 
                        var du = true;
-                       var oldvalue = 0;
-                       var dx = 0;
-                       var newvalue = 0;
+                       var qx = new delta();
+                       var qy = new delta();
+                       var qz = new delta();
+
+                       x.AfterKeystateChange +=
+                        delegate
+                        {
+                            var data = new XElement("keyState",
+                                new XAttribute("w", "" + w.keyState.forward),
+                                new XAttribute("s", "" + w.keyState.backward),
+                                new XAttribute("a", "" + w.keyState.strafeleft),
+                                new XAttribute("d", "" + w.keyState.straferight)
+                            );
+
+                            Native.Window.opener.With(
+                                parent =>
+                                {
+                                    //c.innerText = data.ToString();
+
+                                    parent.postMessage(data.ToString());
+                                }
+                            );
+
+                        };
+
+                       x.AfterCameraRotationChange +=
+                           delegate
+                           {
+                               var data = new XElement("viewport.camera.rotation",
+                                   new XAttribute("x", "" + w.viewport.camera.rotation.x),
+                                   new XAttribute("y", "" + w.viewport.camera.rotation.y),
+                                   new XAttribute("z", "" + w.viewport.camera.rotation.z)
+                               );
+
+                               Native.Window.opener.With(
+                                   parent =>
+                                   {
+                                       //c.innerText = data.ToString();
+
+                                       parent.postMessage(data.ToString());
+                                   }
+                               );
+
+                           };
+
+                       Func<string, bool> bool_Parse =
+                           xx =>
+                           {
+                               return xx.ToLower() == "true";
+                           };
 
                        Native.Window.onmessage +=
                             e =>
                             {
-                                var data = "" + e.data;
+                                var data = XElement.Parse("" + e.data);
 
-                                if (data.StartsWith("value: "))
+                                if (data.Name.LocalName == "keyState")
                                 {
-                                    newvalue = int.Parse(data.SkipUntilOrEmpty("value: "));
+                                    w.keyState.forward = bool_Parse(data.Attribute("w").Value);
+                                    w.keyState.backward = bool_Parse(data.Attribute("s").Value);
+                                    w.keyState.strafeleft = bool_Parse(data.Attribute("a").Value);
+                                    w.keyState.straferight = bool_Parse(data.Attribute("d").Value);
+
+
+
+                                }
+
+
+                                if (data.Name.LocalName == "viewport.camera.rotation")
+                                {
+                                    w.viewport.camera.rotation.x = int.Parse(data.Attribute("x").Value);
+                                    w.viewport.camera.rotation.y = int.Parse(data.Attribute("y").Value);
+                                    w.viewport.camera.rotation.z = int.Parse(data.Attribute("z").Value);
+                                }
+
+                                if (data.Name.LocalName == "range")
+                                {
+                                    qx.newvalue = int.Parse(data.Attribute("x").Value);
+                                    qy.newvalue = int.Parse(data.Attribute("y").Value);
+                                    qz.newvalue = int.Parse(data.Attribute("z").Value);
 
                                     if (du)
                                     {
-                                        Console.WriteLine("du false");
-                                        oldvalue = newvalue;
+                                        qx.oldvalue = qx.newvalue;
+                                        qy.oldvalue = qy.newvalue;
+                                        qz.oldvalue = qz.newvalue;
                                         du = false;
                                     }
                                     else
                                     {
-                                        if (newvalue == oldvalue)
+                                        if (qx.newvalue != qx.oldvalue)
                                         {
-                                            // skip it?
+                                            qx.dx = qx.newvalue - qx.oldvalue;
+                                            qx.oldvalue = qx.newvalue;
+                                            w.viewport.camera.rotation.x -= qx.dx * 0.5;
                                         }
-                                        else
+
+                                        if (qy.newvalue != qy.oldvalue)
                                         {
-                                            dx = newvalue - oldvalue;
-                                            oldvalue = newvalue;
+                                            qy.dx = qy.newvalue - qy.oldvalue;
+                                            qy.oldvalue = qy.newvalue;
+                                            w.viewport.camera.rotation.y -= qy.dx * 0.5;
+                                        }
 
-                                            // tilt?
-                                            //w.viewport.camera.rotation.y -= dx;
-
-                                            // scale down delta
-                                            w.viewport.camera.rotation.z -= dx * 0.5;
-
+                                        if (qz.newvalue != qz.oldvalue)
+                                        {
+                                            qz.dx = qz.newvalue - qz.oldvalue;
+                                            qz.oldvalue = qz.newvalue;
+                                            w.viewport.camera.rotation.z -= qz.dx * 0.5;
                                         }
                                     }
 
@@ -108,7 +188,8 @@ namespace JellyworldExperiment.DualView
 
                                 }
 
-                                c.innerText = new { data, dx, newvalue, oldvalue }.ToString();
+                                //c.innerText = new { data, dx, newvalue, oldvalue }.ToString();
+                                c.innerText = data.ToString();
 
 
                                 //oldvalue = newvalue;
@@ -124,64 +205,158 @@ namespace JellyworldExperiment.DualView
                 return;
             }
 
-            page._LeftScreen.onclick +=
-                delegate
+            Action<IHTMLButton, string, Action<IWindow, XElement>> bind =
+                (btn, hash, yield) =>
                 {
-                    page._LeftScreen.disabled = true;
-
-                    var w = Native.Window.open(
-                        "#/LeftScreen",
-                        "_blank",
-                        400,
-                        300,
-                        false
-                    );
-
-                    w.focus();
-
-                    w.onload +=
+                    btn.onclick +=
                         delegate
                         {
-                            w.postMessage("hi from " + Native.Document.location.hash);
+                            btn.disabled = true;
 
-                            page.range.onchange +=
+                            var w = Native.Window.open(
+                                hash,
+                                "_blank",
+                                400,
+                                300,
+                                false
+                            );
+
+                            w.focus();
+
+                            w.onload +=
                                 delegate
                                 {
-                                    w.postMessage("value: " + page.range.value);
+                                    Action onchange =
+                                        delegate
+                                        {
 
+
+                                            //                       JellyworldExperiment.DualView.Application+<>c__DisplayClassc+<>c__DisplayClass14+<>c__DisplayClass16+<>c__DisplayClass18
+                                            //script: error JSC1000: Method: <.ctor>b__7, Type: JellyworldExperiment.DualView.Application+<>c__DisplayClassc+<>c__DisplayClass14+<>c__DisplayClass16+<>c__DisplayClass18; emmiting failed : System.ArgumentNullException: Value cannot be null.
+                                            //   at jsc.ILFlowStackItem.InlineLogic(   )
+                                            //   at  .    .    ( ?   ,    , ILInstruction , ILFlowStackItem )
+                                            //   at  .    .    ( ?   ,    , ILInstruction , ILFlowStackItem )
+                                            //   at  . ?  .    (   , ILInstruction , ILFlowStackItem[] , Int32 , MethodBase )
+
+                                            var xml = new XElement("range",
+                                              new XAttribute("x", page.range_x.value),
+                                              new XAttribute("y", page.range_y.value),
+                                              new XAttribute("z", page.range_z.value)
+                                          );
+
+                                            w.postMessage(xml.ToString());
+
+                                        };
+
+                                    onchange();
+
+                                    page.range_x.onchange +=
+                                        delegate
+                                        {
+                                            onchange();
+                                        };
+                                    page.range_y.onchange +=
+                                        delegate
+                                        {
+                                            onchange();
+                                        };
+                                    page.range_z.onchange +=
+                                        delegate
+                                        {
+                                            onchange();
+                                        };
+
+                                    Native.Window.onmessage +=
+                                         e =>
+                                         {
+                                             if (e.source != w)
+                                                 return;
+
+                                             var data = XElement.Parse("" + e.data);
+
+                                             yield(w, data);
+
+                                         };
+
+                                    yield(w, null);
                                 };
                         };
+
+
                 };
 
-            page._RightScreen.onclick +=
-               delegate
-               {
-                   page._RightScreen.disabled = true;
+            var wLeftScreen = default(IWindow);
+            var wRightScreen = default(IWindow);
+
+            bind(page._LeftScreen, "#/LeftScreen",
+                (w, data) =>
+                {
+                    if (wLeftScreen == null)
+                    {
+                        wLeftScreen = w;
+
+                        w.onbeforeunload +=
+                            delegate
+                            {
+                                page._LeftScreen.innerText = "closed";
+                            };
+
+                        Native.Window.onbeforeunload +=
+                            delegate
+                            {
+                                wLeftScreen.close();
+                            };
+                    }
 
 
-                   var w = Native.Window.open(
-                       "#/RightScreen",
-                       "_blank",
-                       400,
-                       300,
-                       false
-                   );
+                    if (data != null)
+                    {
+                        page._LeftScreen.innerText = data.ToString();
 
-                   w.focus();
+                        if (wRightScreen != null)
+                        //if (data.Name.LocalName == "viewport.camera.rotation")
+                        {
+                            wRightScreen.postMessage(data.ToString());
+                        }
+                    }
+                }
+            );
 
-                   w.onload +=
-                       delegate
-                       {
-                           w.postMessage("hi from " + Native.Document.location.hash);
+            bind(page._RightScreen, "#/RightScreen",
+                (w, data) =>
+                {
+                    if (wRightScreen == null)
+                    {
+                        wRightScreen = w;
 
-                           page.range.onchange +=
-                               delegate
-                               {
-                                   w.postMessage("value: " + page.range.value);
+                        w.onbeforeunload +=
+                             delegate
+                             {
+                                 page._RightScreen.innerText = "closed";
+                             };
 
-                               };
-                       };
-               };
+
+                        Native.Window.onbeforeunload +=
+                            delegate
+                            {
+                                wRightScreen.close();
+                            };
+                    }
+
+                    if (data != null)
+                    {
+                        page._RightScreen.innerText = data.ToString();
+
+
+                        if (wLeftScreen != null)
+                        //if (data.Name.LocalName == "viewport.camera.rotation")
+                        {
+                            wLeftScreen.postMessage(data.ToString());
+                        }
+                    }
+                }
+            );
+
         }
 
     }

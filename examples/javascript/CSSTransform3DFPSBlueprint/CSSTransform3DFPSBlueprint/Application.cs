@@ -341,22 +341,24 @@ namespace CSSTransform3DFPSBlueprint
             {
                 //Console.WriteLine(new { e.KeyCode });
 
-                if (e.KeyCode == 87)
+                if (e.KeyCode == (int)Keys.W)
                     window.keyState.forward = true;
-                if (e.KeyCode == 83)
+                if (e.KeyCode == (int)Keys.S)
                     window.keyState.backward = true;
                 if (e.KeyCode == (int)Keys.A)
                     window.keyState.strafeleft = true;
                 if (e.KeyCode == (int)Keys.D)
                     window.keyState.straferight = true;
+
+                if (AfterKeystateChange != null)
+                    AfterKeystateChange();
             };
 
             Native.Document.body.onkeyup += e =>
             {
-                if (e.KeyCode == 87)
+                if (e.KeyCode == (int)Keys.W)
                     window.keyState.forward = false;
-
-                if (e.KeyCode == 83)
+                if (e.KeyCode == (int)Keys.S)
                     window.keyState.backward = false;
 
                 if (e.KeyCode == (int)Keys.A)
@@ -364,6 +366,8 @@ namespace CSSTransform3DFPSBlueprint
                 if (e.KeyCode == (int)Keys.D)
                     window.keyState.straferight = false;
 
+                if (AfterKeystateChange != null)
+                    AfterKeystateChange();
             };
             #endregion
 
@@ -404,6 +408,9 @@ namespace CSSTransform3DFPSBlueprint
                     {
                         window.viewport.camera.rotation.x -= e.movementY / 2;
                         window.viewport.camera.rotation.z += e.movementX / 2;
+
+                        if (AfterCameraRotationChange != null)
+                            AfterCameraRotationChange();
                     }
                     else
                     {
@@ -537,8 +544,9 @@ namespace CSSTransform3DFPSBlueprint
         static World world;
 
 
+        public event Action AfterCameraRotationChange;
+        public event Action AfterKeystateChange;
 
-        
     }
 
     [Script(HasNoPrototype = true, ExternalTarget = "Plane")]
