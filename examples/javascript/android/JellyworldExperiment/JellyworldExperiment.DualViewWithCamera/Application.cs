@@ -30,10 +30,12 @@ namespace JellyworldExperiment.DualViewWithCamera
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            sprite.ToTransparentSprite();
+            //sprite.ToTransparentSprite();
 
             sprite.AutoSizeSpriteTo(page.ContentSize);
             sprite.AttachSpriteTo(page.Content);
+
+
 
             sprite.InitializeContent();
 
@@ -46,7 +48,24 @@ namespace JellyworldExperiment.DualViewWithCamera
             a.Container.style.right = "0px";
             a.Container.style.bottom = "0px";
 
-            new JellyworldExperiment.DualView.Application(a);
+            a.range_s.value = "70";
+
+            new JellyworldExperiment.DualView.Application(a).With(
+                app =>
+                {
+
+                    sprite.AverageChanged +=
+                        (Left, Top, Width, Height) =>
+                        {
+                            app.FaceDetectedAt(
+                                int.Parse(Left),
+                                int.Parse(Top),
+                                int.Parse(Width),
+                                int.Parse(Height)
+                            );
+                        };
+                }
+            );
 
         }
 
