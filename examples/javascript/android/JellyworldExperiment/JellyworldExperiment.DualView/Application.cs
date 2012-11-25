@@ -203,7 +203,24 @@ namespace JellyworldExperiment.DualView
                                         {
                                             qy.dx = qy.newvalue - qy.oldvalue;
                                             qy.oldvalue = qy.newvalue;
-                                            w.viewport.camera.rotation.y -= qy.dx * 0.1;
+
+                                            var newy = w.viewport.camera.rotation.y - qy.dx * 0.1;
+
+                                            Console.WriteLine(
+                                                 new
+                                                 {
+                                                     w.viewport.camera.rotation.y,
+                                                     newy
+                                                 }
+                                            );
+
+                                            // { y = 0.09999999999999937, newy = -6.38378239159465e-16 }
+                                            //-6.38378239159465e-16
+                                            // small values cause an anomaly?
+                                            if (Math.Abs(newy) < 0.05)
+                                                w.viewport.camera.rotation.y = 0;
+                                            else
+                                                w.viewport.camera.rotation.y = newy;
                                         }
 
                                         if (qz.newvalue != qz.oldvalue)
@@ -213,15 +230,6 @@ namespace JellyworldExperiment.DualView
                                             w.viewport.camera.rotation.z -= qz.dx * 0.5;
                                         }
 
-                                        Console.WriteLine(
-                                            new
-                                            {
-                                                w.viewport.camera.rotation.x,
-                                                w.viewport.camera.rotation.y,
-                                                w.viewport.camera.rotation.z
-                                            }
-
-                                            );
 
                                         if (qp.newvalue != qp.oldvalue)
                                         {
@@ -378,7 +386,6 @@ namespace JellyworldExperiment.DualView
                         page._LeftScreen.innerText = data.ToString();
 
                         if (wRightScreen != null)
-                        //if (data.Name.LocalName == "viewport.camera.rotation")
                         {
                             wRightScreen.postMessage(data.ToString());
                         }
@@ -413,7 +420,6 @@ namespace JellyworldExperiment.DualView
 
 
                         if (wLeftScreen != null)
-                        //if (data.Name.LocalName == "viewport.camera.rotation")
                         {
                             wLeftScreen.postMessage(data.ToString());
                         }
@@ -493,16 +499,15 @@ namespace JellyworldExperiment.DualView
                             Action onchange =
                                 delegate
                                 {
-                                    page.range_x.value = "" + Math.Max(0, (100 * f.Top / (Native.Window.Height - f.Height))).Min(100);
+                                    page.range_x.value = "" + (100 - Math.Max(0, (100 * f.Top / (Native.Window.Height - f.Height))).Min(100));
 
                                     var range_y_old = int.Parse(page.range_y.value);
                                     var range_z_old = int.Parse(page.range_z.value);
                                     var range_z_new =
-                                        (int)(100.0 * f.Left / (Native.Window.Width - f.Left)).Max(0).Min(100);
+                                        (int)(100.0 * f.Left / (Native.Window.Width - f.Width)).Max(0).Min(100);
 
                                     page.range_z.value = "" + range_z_new;
 
-                                    //Console.WriteLine(new { range_z_old, range_z_new });
                                     if (range_z_old == range_z_new)
                                     {
                                         if (attimer)

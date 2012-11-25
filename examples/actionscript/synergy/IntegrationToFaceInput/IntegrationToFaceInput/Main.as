@@ -164,8 +164,13 @@ package
 
 		//
 
+		public var DisableSetupScene : int = 0;
+
 		public function setupScene() : void
 		{
+			if (DisableSetupScene > 0)
+				return;
+
 			// renderer
 
 			renderer = new CommonRenderer();
