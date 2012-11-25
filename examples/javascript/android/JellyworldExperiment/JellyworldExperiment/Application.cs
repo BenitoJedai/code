@@ -50,9 +50,15 @@ namespace JellyworldExperiment
                 innerText = "Looking at your hardware... "
             }.AttachToDocument();
 
+
             new IHTMLPre
             {
-                innerText = "Window width is " + Native.Window.Width + "px..."
+                innerText = "We need flash, camera, CSS 3D, fast WiFi and your android..."
+            }.AttachToDocument();
+
+            new IHTMLPre
+            {
+                innerText = "Screen width is " + Native.Screen.width + "px..."
             }.AttachToDocument();
 
             new IHTMLIFrame { src = "/HardwareDetection" }.With(
@@ -74,11 +80,81 @@ namespace JellyworldExperiment
                           if (e.source != HardwareDetection.contentWindow)
                               return;
 
-                          new IHTMLPre
+                          var data = "" + e.data;
+
+                          var pre = new IHTMLPre
                           {
                               innerText = e.data + "..."
                           }.AttachToDocument();
 
+                          if (data == "Found orientation sensor")
+                          {
+                              new IHTMLPre
+                              {
+                                  innerText = "I hope this is your android device!"
+                              }.AttachToDocument();
+
+                              new IHTMLPre
+                              {
+                                  innerText = "From your laptop and open " + Native.Document.location
+                              }.AttachToDocument();
+                          }
+
+
+                          if (data == "Found flash camera")
+                          {
+                              Action open =
+                                  delegate
+                                  {
+                                      new IHTMLPre
+                                      {
+                                          innerText = "Opening..."
+                                      }.AttachToDocument();
+
+                                      new IHTMLIFrame
+                                      {
+                                          src = "/DualViewWithCamera",
+                                          frameBorder = "0"
+                                      }.With(
+                                        DualViewWithCamera =>
+                                        {
+                                            DualViewWithCamera.style.position = IStyle.PositionEnum.absolute;
+                                            DualViewWithCamera.style.left = "0px";
+                                            DualViewWithCamera.style.top = "0px";
+                                            DualViewWithCamera.style.width = "100%";
+                                            DualViewWithCamera.style.height = "100%";
+
+                                            DualViewWithCamera.onload +=
+                                                delegate
+                                                {
+                                                    new IHTMLPre
+                                                    {
+                                                        innerText = "Then, open left and/or right screen..."
+                                                    }.AttachToDocument();
+
+                                                    new IHTMLPre
+                                                    {
+                                                        innerText = "Then, use shared perspective..."
+                                                    }.AttachToDocument();
+
+                                                    new IHTMLPre
+                                                    {
+                                                        innerText = "Then, allow flash camera..."
+                                                    }.AttachToDocument();
+
+                                                    new IHTMLPre
+                                                    {
+                                                        innerText = "Then, go fullscreen!"
+                                                    }.AttachToDocument();
+                                                };
+
+                                            DualViewWithCamera.AttachToDocument();
+                                        }
+                                      );
+                                  };
+
+                              open();
+                          }
 
                           // if we found a camera
                           //// thanks for info. you are done!
@@ -102,7 +178,212 @@ namespace JellyworldExperiment
 
     }
 
+    [Obsolete("Temporary workaround to enable multiple apps.")]
+    public sealed class Application_DualViewWithCamera
+    {
+        [Obsolete("Temporary workaround to enable multiple apps.")]
+        public sealed class ApplicationSprite : Sprite, JellyworldExperiment.DualViewWithCamera.IApplicationSprite
+        {
+            public void InitializeContent()
+            {
+                JellyworldExperiment.DualViewWithCamera.ApplicationSpriteContent.InternalInitializeContent(
+                    this,
+                    (Left, Top, Width, Height) =>
+                    {
+                        if (AverageChanged != null)
+                            AverageChanged("" + Left, "" + Top, "" + Width, "" + Height);
+                    }
+                );
+            }
 
+            // does not work?
+            //public event Action<double, double, double, double> AverageChanged;
+
+            //  Error: Implicit coercion of a value of type int to an unrelated type String.
+            public event Action<string, string, string, string> AverageChanged;
+
+        }
+
+        public Application_DualViewWithCamera(global::JellyworldExperiment.DualViewWithCamera.HTML.Pages.IApp page)
+        {
+            var borders = new IHTMLDiv();
+
+            borders.style.position = IStyle.PositionEnum.absolute;
+            borders.style.left = "0px";
+            borders.style.top = "0px";
+            borders.style.right = "0px";
+            borders.style.bottom = "0px";
+
+            borders.style.borderLeftColor = "rgba(255, 255, 255, 0.3)";
+            borders.style.borderWidth = "3em";
+            borders.style.borderStyle = "solid";
+
+            borders.AttachToDocument();
+
+            var sprite = new ApplicationSprite();
+
+            sprite.ToTransparentSprite();
+
+            sprite.AutoSizeSpriteTo(page.ContentSize);
+
+            page.Content.AttachToDocument();
+
+            sprite.AttachSpriteTo(page.Content);
+
+            sprite.InitializeContent();
+
+
+            var app = new JellyworldExperiment.DualView.HTML.Pages.App();
+
+            app.Container.AttachToDocument();
+            app.Container.style.position = IStyle.PositionEnum.absolute;
+            app.Container.style.left = "0px";
+            app.Container.style.right = "0px";
+            app.Container.style.bottom = "0px";
+
+            app.range_s.value = "70";
+
+            var xapp = new JellyworldExperiment.DualView.Application(app);
+
+            sprite.AverageChanged +=
+                (Left, Top, Width, Height) =>
+                {
+                    xapp.FaceDetectedAt(
+                        int.Parse(Left),
+                        int.Parse(Top),
+                        int.Parse(Width),
+                        int.Parse(Height)
+                    );
+                };
+
+
+            app.Automatisation.Hide();
+            app.StyleMe.style.color = JSColor.White;
+
+
+
+            var movementX = 0.0;
+            var movementY = 0.0;
+            var movementZ = 0.0;
+
+            try
+            {
+                // this is like a ComponentModel timer where handler can raise events
+                new EventSource().onmessage +=
+                     e =>
+                     {
+                         var xml = XElement.Parse((string)e.data);
+
+                         movementX = double.Parse(xml.Attribute("x").Value);
+                         movementY = -double.Parse(xml.Attribute("y").Value);
+                         movementZ = -double.Parse(xml.Attribute("z").Value);
+
+                         Console.WriteLine(
+                             new { movementX, movementY, movementZ }
+                             );
+
+                         borders.style.borderRightColor = "";
+                         borders.style.borderLeftColor = "";
+                         borders.style.borderBottomColor = "";
+                         borders.style.borderTopColor = "";
+
+                         xapp.forward = false;
+                         xapp.backward = false;
+                         xapp.strafeleft = false;
+                         xapp.straferight = false;
+
+                         if (movementY < -2)
+                         {
+                             borders.style.borderTopColor = "rgba(255, 255, 255, 0.3)";
+                             xapp.forward = true;
+                         }
+                         else if (movementY > 33)
+                         {
+                             borders.style.borderBottomColor = "rgba(255, 255, 255, 0.3)";
+                             xapp.backward = true;
+                         }
+                         
+                         if (movementZ < -15)
+                         {
+                             xapp.strafeleft = true;
+                             borders.style.borderLeftColor = "rgba(255, 255, 255, 0.3)";
+                         }
+                         else if (movementZ > 15)
+                         {
+                             borders.style.borderRightColor = "rgba(255, 255, 255, 0.3)";
+                             xapp.straferight = true;
+
+                         }
+                        
+                         xapp.AfterKeystateChange();
+
+                         //page.Content.Clear();
+
+                         //new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.Content);
+                     };
+            }
+            catch
+            {
+                // not available on built in web browser for android
+            }
+
+            Native.Window.ondeviceorientation +=
+                eventData =>
+                {
+                    #region desktop chrome misreports?
+                    // Uncaught ReferenceError: alpha is not defined 
+                    if ("this.alpha == null".js<bool>(eventData))
+                    {
+                        Console.WriteLine("ondeviceorientation without alpha? " + eventData);
+                        Console.WriteLine("ondeviceorientation without alpha? " + eventData.alpha);
+                        Console.WriteLine("ondeviceorientation without alpha? ");
+                        return;
+                    }
+                    #endregion
+
+
+
+
+                    movementX = eventData.alpha;
+                    movementY = eventData.beta;
+                    movementZ = eventData.gamma;
+
+                    borders.style.borderRightColor = "";
+                    borders.style.borderLeftColor = "";
+                    borders.style.borderBottomColor = "";
+                    borders.style.borderTopColor = "";
+
+                    if (movementY < -2)
+                    {
+                        borders.style.borderTopColor = "rgba(255, 255, 255, 0.3)";
+                    }
+                    else if (movementY > 33)
+                    {
+                        borders.style.borderBottomColor = "rgba(255, 255, 255, 0.3)";
+                    }
+                    else if (movementZ < -15)
+                    {
+                        borders.style.borderLeftColor = "rgba(255, 255, 255, 0.3)";
+                    }
+                    else if (movementZ > 15)
+                    {
+                        borders.style.borderRightColor = "rgba(255, 255, 255, 0.3)";
+
+                    }
+                    else
+                    {
+
+                    }
+
+
+
+
+                    //page.Content2.Clear();
+                    //new IHTMLPre { innerText = new { movementX, movementY, movementZ }.ToString().Replace(",", ",\n") }.AttachTo(page.Content2);
+                };
+
+        }
+    }
 
     [Obsolete("Temporary workaround to enable multiple apps.")]
     public sealed class Application_HardwareDetection

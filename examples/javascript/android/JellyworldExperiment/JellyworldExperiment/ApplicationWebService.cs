@@ -100,7 +100,7 @@ namespace JellyworldExperiment
                         // http://stackoverflow.com/questions/1316681/getting-mouse-position-in-c-sharp
                         var p = user32.GetCursorPosition();
 
-                        vec3(p.X, p.Y, 0);
+                        vec3(0, -(p.Y - 200), -p.X);
                         Thread.Sleep(1000 / 30);
                     }
 #endif
@@ -148,7 +148,11 @@ namespace JellyworldExperiment
             var apps = new Dictionary<string, string> 
             {
                 {"", "Application"},
-                {"HardwareDetection", "Application_HardwareDetection"}
+                {"HardwareDetection", "Application_HardwareDetection"},
+                {"DualViewWithCamera", "Application_DualViewWithCamera"},
+
+                
+
             };
 
             var appname = apps[""];

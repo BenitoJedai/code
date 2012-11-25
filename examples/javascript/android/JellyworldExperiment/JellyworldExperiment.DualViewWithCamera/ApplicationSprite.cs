@@ -32,7 +32,7 @@ namespace JellyworldExperiment.DualViewWithCamera
 
     public interface IApplicationSprite
     {
-
+        event Action<string, string, string, string> AverageChanged;
     }
 
     public static class ApplicationSpriteContent
@@ -60,6 +60,8 @@ namespace JellyworldExperiment.DualViewWithCamera
                     //);
 
                     var x = new Main();
+
+                    x.alpha = 0.8;
 
                     x.DisableSetupScene = 1;
 
