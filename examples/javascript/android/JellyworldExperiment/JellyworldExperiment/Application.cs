@@ -89,15 +89,17 @@ namespace JellyworldExperiment
 
                           if (data == "Found orientation sensor")
                           {
+
                               new IHTMLPre
                               {
-                                  innerText = "I hope this is your android device!"
+                                  innerText = "From your laptop open " + Native.Document.location
                               }.AttachToDocument();
 
                               new IHTMLPre
                               {
-                                  innerText = "From your laptop and open " + Native.Document.location
+                                  innerText = "Your android device becomes the tilt sensor!"
                               }.AttachToDocument();
+
                           }
 
 
@@ -256,7 +258,7 @@ namespace JellyworldExperiment
                     );
                 };
 
-
+            app.SimulateFace.Hide();
             app.Automatisation.Hide();
             app.StyleMe.style.color = JSColor.White;
 
@@ -269,9 +271,26 @@ namespace JellyworldExperiment
             try
             {
                 // this is like a ComponentModel timer where handler can raise events
-                new EventSource().onmessage +=
+
+                dynamic ss = borders.style;
+
+                ss.webkitTransition = "all 0.3s linear";
+
+                var events = new EventSource();
+
+                events.onerror +=
+                    delegate
+                    {
+                        borders.style.borderRightColor = "rgba(255, 0, 0, 0.5)";
+                        borders.style.borderLeftColor = "rgba(255, 0, 0, 0.5)";
+                        borders.style.borderBottomColor = "rgba(255, 0, 0, 0.5)";
+                        borders.style.borderTopColor = "rgba(255, 0, 0, 0.5)";
+                    };
+
+                events.onmessage +=
                      e =>
                      {
+
                          var xml = XElement.Parse((string)e.data);
 
                          movementX = double.Parse(xml.Attribute("x").Value);
@@ -282,10 +301,10 @@ namespace JellyworldExperiment
                              new { movementX, movementY, movementZ }
                              );
 
-                         borders.style.borderRightColor = "";
-                         borders.style.borderLeftColor = "";
-                         borders.style.borderBottomColor = "";
-                         borders.style.borderTopColor = "";
+                         borders.style.borderRightColor = "rgba(255, 255, 255, 0.0)";
+                         borders.style.borderLeftColor = "rgba(255, 255, 255, 0.0)";
+                         borders.style.borderBottomColor = "rgba(255, 255, 255, 0.0)";
+                         borders.style.borderTopColor = "rgba(255, 255, 255, 0.0)";
 
                          xapp.forward = false;
                          xapp.backward = false;
@@ -302,7 +321,7 @@ namespace JellyworldExperiment
                              borders.style.borderBottomColor = "rgba(255, 255, 255, 0.3)";
                              xapp.backward = true;
                          }
-                         
+
                          if (movementZ < -15)
                          {
                              xapp.strafeleft = true;
@@ -314,7 +333,7 @@ namespace JellyworldExperiment
                              xapp.straferight = true;
 
                          }
-                        
+
                          xapp.AfterKeystateChange();
 
                          //page.Content.Clear();
