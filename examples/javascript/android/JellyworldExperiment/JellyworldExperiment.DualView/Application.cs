@@ -549,7 +549,7 @@ namespace JellyworldExperiment.DualView
 
                     page.range_x.value = "" + (100 - Math.Max(0, (100 * f.Top / (Native.Window.Height - f.Height))).Min(100));
 
-                    Console.WriteLine(new { f, page.range_x.value });
+                    //Console.WriteLine(new { f, page.range_x.value });
 
                     var range_y_old = int.Parse(page.range_y.value);
                     var range_z_old = int.Parse(page.range_z.value);
