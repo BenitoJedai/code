@@ -7,25 +7,48 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JellyworldExperiment.Hardwa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{65593BCE-68C4-4719-8EA8-C489DC605F1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSTransform3DFPSBlueprint", "..\..\CSSTransform3DFPSBlueprint\CSSTransform3DFPSBlueprint\CSSTransform3DFPSBlueprint.csproj", "{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JellyworldExperiment.DualView", "JellyworldExperiment.DualView\JellyworldExperiment.DualView.csproj", "{616ED677-669C-4583-9658-C06200E47BAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|x86 = Android|x86
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9E6DAF1-240A-48FA-9435-A03621CBD235}.Android|x86.ActiveCfg = Release|x86
+		{B9E6DAF1-240A-48FA-9435-A03621CBD235}.Android|x86.Build.0 = Release|x86
 		{B9E6DAF1-240A-48FA-9435-A03621CBD235}.Debug|x86.ActiveCfg = Debug|x86
 		{B9E6DAF1-240A-48FA-9435-A03621CBD235}.Debug|x86.Build.0 = Debug|x86
 		{B9E6DAF1-240A-48FA-9435-A03621CBD235}.Release|x86.ActiveCfg = Release|x86
 		{B9E6DAF1-240A-48FA-9435-A03621CBD235}.Release|x86.Build.0 = Release|x86
+		{E81FCEF4-AF71-4969-BEAC-C8C5197F4091}.Android|x86.ActiveCfg = Release|x86
+		{E81FCEF4-AF71-4969-BEAC-C8C5197F4091}.Android|x86.Build.0 = Release|x86
 		{E81FCEF4-AF71-4969-BEAC-C8C5197F4091}.Debug|x86.ActiveCfg = Debug|x86
 		{E81FCEF4-AF71-4969-BEAC-C8C5197F4091}.Debug|x86.Build.0 = Debug|x86
 		{E81FCEF4-AF71-4969-BEAC-C8C5197F4091}.Release|x86.ActiveCfg = Release|x86
 		{E81FCEF4-AF71-4969-BEAC-C8C5197F4091}.Release|x86.Build.0 = Release|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Android|x86.ActiveCfg = Android|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Android|x86.Build.0 = Android|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Debug|x86.ActiveCfg = Debug|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Debug|x86.Build.0 = Debug|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|x86.ActiveCfg = Release|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|x86.Build.0 = Release|x86
+		{616ED677-669C-4583-9658-C06200E47BAB}.Android|x86.ActiveCfg = Release|x86
+		{616ED677-669C-4583-9658-C06200E47BAB}.Android|x86.Build.0 = Release|x86
+		{616ED677-669C-4583-9658-C06200E47BAB}.Debug|x86.ActiveCfg = Debug|x86
+		{616ED677-669C-4583-9658-C06200E47BAB}.Debug|x86.Build.0 = Debug|x86
+		{616ED677-669C-4583-9658-C06200E47BAB}.Release|x86.ActiveCfg = Release|x86
+		{616ED677-669C-4583-9658-C06200E47BAB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E81FCEF4-AF71-4969-BEAC-C8C5197F4091} = {65593BCE-68C4-4719-8EA8-C489DC605F1C}
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9} = {65593BCE-68C4-4719-8EA8-C489DC605F1C}
+		{616ED677-669C-4583-9658-C06200E47BAB} = {65593BCE-68C4-4719-8EA8-C489DC605F1C}
 	EndGlobalSection
 EndGlobal

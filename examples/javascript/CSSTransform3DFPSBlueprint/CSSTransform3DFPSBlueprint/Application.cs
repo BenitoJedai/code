@@ -31,7 +31,15 @@ namespace CSSTransform3DFPSBlueprint
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public Application(IApp page = null)
+        {
+            if (page == null)
+                return;
+
+            Initialize(page);
+        }
+
+        public void Initialize(IApp page, Action<Application> yield = null)
         {
             FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
 
@@ -44,6 +52,8 @@ namespace CSSTransform3DFPSBlueprint
                 {
                     InitializeContent();
 
+                    if (yield != null)
+                        yield(this);
                 };
         }
 
@@ -113,6 +123,7 @@ namespace CSSTransform3DFPSBlueprint
             var zoom = 4;
             var zz = 0;
 
+            #region CreateFromFloorplan
             Action CreateFromFloorplan = delegate
             {
                 foreach (var item in floorplan.Controls)
@@ -235,9 +246,11 @@ namespace CSSTransform3DFPSBlueprint
 
             CreateFromFloorplan();
 
-            zz += 300;
+            //zz += 300;
 
-            CreateFromFloorplan();
+            //CreateFromFloorplan();
+            #endregion
+
 
             //avoid out of memory - elements will go missing
             //zz += 300;
@@ -505,8 +518,6 @@ namespace CSSTransform3DFPSBlueprint
         }
 
 
-
-
         [Script(ExternalTarget = "window.__wall_c.node")]
         static IHTMLDiv __wall_c;
 
@@ -520,14 +531,18 @@ namespace CSSTransform3DFPSBlueprint
         static IHTMLDiv __osxPlane_node;
 
         [Script(ExternalTarget = "window")]
-        static XWindow window;
+        public static XWindow window;
 
         [Script(ExternalTarget = "window.world")]
         static World world;
+
+
+
+        
     }
 
     [Script(HasNoPrototype = true, ExternalTarget = "Plane")]
-    class Plane
+    public class Plane
     {
         public IHTMLDiv node;
 
@@ -547,7 +562,7 @@ namespace CSSTransform3DFPSBlueprint
     }
 
     [Script(HasNoPrototype = true, ExternalTarget = "World")]
-    class World
+    public class World
     {
         public void addPlane(Plane p)
         {
@@ -555,7 +570,7 @@ namespace CSSTransform3DFPSBlueprint
     }
 
     [Script(HasNoPrototype = true, ExternalTarget = "World")]
-    sealed class Triplet
+    public sealed class Triplet
     {
         public double x, y, z;
         public Triplet(double x, double y, double z)
@@ -564,7 +579,7 @@ namespace CSSTransform3DFPSBlueprint
         }
     }
     [Script(IsNative = true)]
-    class XWindow
+    public class XWindow
     {
         public __vec3 pointer;
 
@@ -578,7 +593,7 @@ namespace CSSTransform3DFPSBlueprint
         public __Viewport viewport;
     }
 
-    sealed class __keyState
+    public sealed class __keyState
     {
         public bool backward;
 
@@ -589,12 +604,13 @@ namespace CSSTransform3DFPSBlueprint
         public bool straferight;
     }
 
-    sealed class __Viewport
+    public sealed class __Viewport
     {
+        public IHTMLDiv node;
         public __Camera camera;
     }
 
-    sealed class __Camera
+    public sealed class __Camera
     {
         public __vec3 position;
         public __vec3 rotation;
@@ -605,7 +621,7 @@ namespace CSSTransform3DFPSBlueprint
         }
     }
 
-    sealed class __vec3
+    public sealed class __vec3
     {
         public double x, y, z;
     }

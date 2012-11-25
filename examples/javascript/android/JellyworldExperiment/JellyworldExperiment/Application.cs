@@ -32,6 +32,7 @@ namespace JellyworldExperiment
          * 04. Commit to svn
          * 05. Wait anwsers from JellyworldExperiment.HardwareDetection
          * 06. Add iframe to get messages
+         * 07. Test dual view.
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
