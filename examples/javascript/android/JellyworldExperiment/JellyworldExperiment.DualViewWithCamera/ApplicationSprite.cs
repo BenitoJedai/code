@@ -13,8 +13,21 @@ namespace JellyworldExperiment.DualViewWithCamera
     {
         public void InitializeContent()
         {
-            this.InternalInitializeContent();
+            this.InternalInitializeContent(
+                (Left, Top, Width, Height) =>
+                {
+                    if (AverageChanged != null)
+                        AverageChanged("" + Left, "" + Top, "" + Width, "" + Height);
+                }
+            );
         }
+
+        // does not work?
+        //public event Action<double, double, double, double> AverageChanged;
+
+        //  Error: Implicit coercion of a value of type int to an unrelated type String.
+        public event Action<string, string, string, string> AverageChanged;
+
     }
 
     public interface IApplicationSprite
@@ -26,11 +39,16 @@ namespace JellyworldExperiment.DualViewWithCamera
     {
 
 
-        public static void InternalInitializeContent<TApplicationSprite>(this TApplicationSprite that)
+        public static void InternalInitializeContent<TApplicationSprite>(
+            this TApplicationSprite that,
+             Action<double, double, double, double> RaiseAverageChanged
+        )
             where TApplicationSprite : Sprite, IApplicationSprite
         {
 
             ApplicationCanvas content = new ApplicationCanvas();
+
+            content.AverageChanged += RaiseAverageChanged;
 
             that.InvokeWhenStageIsReady(
                 delegate()
@@ -88,18 +106,25 @@ namespace JellyworldExperiment.DualViewWithCamera
                                               r.height * scaleFactor * scale
                                              );
 
-                                         scale = content.Width / 640;
 
-                                         ScriptCoreLib.Shared.Avalon.Extensions.SupportsContainerExtensions.MoveTo(
-                                              content.r,
+
+
+                                         var scalex = content.Width / 640;
+                                         var scaley = content.Height / 480;
+
+                                         content.MoveTrackerTo(
+
+                                         //ScriptCoreLib.Shared.Avalon.Extensions.SupportsContainerExtensions.MoveTo(
+                                             //     content.r,
                                              // huh? :p  
-                                              (640 - r.x * 4.0) * scale - r.width * scaleFactor * scale
-                                                , r.y * scaleFactor * scale
-                                             );
-                                         ScriptCoreLib.Shared.Avalon.Extensions.SupportsContainerExtensions.SizeTo(
-                                             content.r,
-                                              r.width * scaleFactor * scale,
-                                              r.height * scaleFactor * scale
+                                              (640 - r.x * 4.0) * scalex - r.width * scaleFactor * scalex
+                                                , r.y * scaleFactor * scaley
+                                             //    );
+                                             //ScriptCoreLib.Shared.Avalon.Extensions.SupportsContainerExtensions.SizeTo(
+                                             //    content.r
+                                             ,
+                                              r.width * scaleFactor * scalex,
+                                              r.height * scaleFactor * scaley
                                              );
 
                                          //ScriptCoreLib.Shared.Avalon.Extensions.SupportsContainerExtensions.MoveTo(

@@ -78,10 +78,6 @@ namespace JellyworldExperiment.DualView
                    {
                        var w = CSSTransform3DFPSBlueprint.Application.window;
 
-                       w.viewport.node.style.width = "200%";
-
-                       if (IsRightScreen)
-                           CSSTransform3DFPSBlueprint.Application.window.viewport.node.style.marginLeft = "-100%";
 
                        var du = true;
                        var qx = new delta();
@@ -141,6 +137,14 @@ namespace JellyworldExperiment.DualView
                             {
                                 var data = XElement.Parse("" + e.data);
 
+                                if (data.Name.LocalName == "shared.perspective")
+                                {
+                                    w.viewport.node.style.width = "200%";
+
+                                    if (IsRightScreen)
+                                        CSSTransform3DFPSBlueprint.Application.window.viewport.node.style.marginLeft = "-100%";
+                                }
+
                                 if (data.Name.LocalName == "keyState")
                                 {
                                     w.keyState.forward = bool_Parse(data.Attribute("w").Value);
@@ -180,6 +184,11 @@ namespace JellyworldExperiment.DualView
                                     qx.newvalue = int.Parse(data.Attribute("x").Value);
                                     qy.newvalue = int.Parse(data.Attribute("y").Value);
                                     qz.newvalue = int.Parse(data.Attribute("z").Value);
+                                    var s = int.Parse(data.Attribute("s").Value) / 50.0;
+
+                                    s *= s;
+                                    s *= s;
+
                                     qp.newvalue = int.Parse(data.Attribute("p").Value);
 
                                     if (du)
@@ -196,7 +205,7 @@ namespace JellyworldExperiment.DualView
                                         {
                                             qx.dx = qx.newvalue - qx.oldvalue;
                                             qx.oldvalue = qx.newvalue;
-                                            w.viewport.camera.rotation.x -= qx.dx * 0.5;
+                                            w.viewport.camera.rotation.x -= qx.dx * 0.5 * s;
                                         }
 
                                         if (qy.newvalue != qy.oldvalue)
@@ -204,15 +213,15 @@ namespace JellyworldExperiment.DualView
                                             qy.dx = qy.newvalue - qy.oldvalue;
                                             qy.oldvalue = qy.newvalue;
 
-                                            var newy = w.viewport.camera.rotation.y - qy.dx * 0.1;
+                                            var newy = w.viewport.camera.rotation.y - qy.dx * 0.1 * s;
 
-                                            Console.WriteLine(
-                                                 new
-                                                 {
-                                                     w.viewport.camera.rotation.y,
-                                                     newy
-                                                 }
-                                            );
+                                            //Console.WriteLine(
+                                            //     new
+                                            //     {
+                                            //         w.viewport.camera.rotation.y,
+                                            //         newy
+                                            //     }
+                                            //);
 
                                             // { y = 0.09999999999999937, newy = -6.38378239159465e-16 }
                                             //-6.38378239159465e-16
@@ -227,7 +236,7 @@ namespace JellyworldExperiment.DualView
                                         {
                                             qz.dx = qz.newvalue - qz.oldvalue;
                                             qz.oldvalue = qz.newvalue;
-                                            w.viewport.camera.rotation.z -= qz.dx * 0.5;
+                                            w.viewport.camera.rotation.z -= qz.dx * 0.5 * s;
                                         }
 
 
@@ -235,7 +244,7 @@ namespace JellyworldExperiment.DualView
                                         {
                                             //qz.dx = qz.newvalue - qz.oldvalue;
                                             qp.oldvalue = qp.newvalue;
-                                            w.viewport.node.style.perspective = "" + (500 + qp.newvalue * 4);
+                                            w.viewport.node.style.perspective = "" + (500 + qp.newvalue * 4 * s);
                                         }
                                     }
 
@@ -303,6 +312,7 @@ namespace JellyworldExperiment.DualView
                                               new XAttribute("x", page.range_x.value),
                                               new XAttribute("y", page.range_y.value),
                                               new XAttribute("z", page.range_z.value),
+                                              new XAttribute("s", page.range_s.value),
                                               new XAttribute("p", page.range_p.value)
                                           );
 
@@ -327,6 +337,11 @@ namespace JellyworldExperiment.DualView
                                         {
                                             onchange();
                                         };
+                                    page.range_s.onchange +=
+                                     delegate
+                                     {
+                                         onchange();
+                                     };
 
                                     page.range_p.onchange +=
                                         delegate
@@ -428,6 +443,20 @@ namespace JellyworldExperiment.DualView
             );
             #endregion
 
+            page._SharedPerspective.onclick +=
+                delegate
+                {
+                    var data = new XElement("shared.perspective", "dummy");
+
+                    if (wLeftScreen != null)
+                        wLeftScreen.postMessage(data.ToString());
+
+                    if (wRightScreen != null)
+                        wRightScreen.postMessage(data.ToString());
+
+
+                };
+
             var forward = false;
             var backward = false;
             var strafeleft = false;
@@ -486,6 +515,87 @@ namespace JellyworldExperiment.DualView
             };
             #endregion
 
+            #region FaceDetectedAt
+
+            var attimer = false;
+            ScriptCoreLib.JavaScript.Runtime.Timer t = null;
+
+            FaceDetectedAt =
+                (Left, Top, Width, Height) =>
+                {
+                    page.SimulateFace.disabled = true;
+
+                    var f = new { Left, Top, Width, Height };
+
+
+                    if (t != null)
+                        t.Stop();
+
+                    t = new ScriptCoreLib.JavaScript.Runtime.Timer(
+                        delegate
+                        {
+                            attimer = true;
+                            FaceDetectedAt(Left, Top, Width, Height);
+                        }
+                    );
+
+                    t.StartInterval(1000 / 100);
+
+                    page.range_x.value = "" + (100 - Math.Max(0, (100 * f.Top / (Native.Window.Height - f.Height))).Min(100));
+
+                    Console.WriteLine(new { f, page.range_x.value });
+
+                    var range_y_old = int.Parse(page.range_y.value);
+                    var range_z_old = int.Parse(page.range_z.value);
+                    var range_z_new =
+                        (int)(100.0 * f.Left / (Native.Window.Width - f.Width)).Max(0).Min(100);
+
+                    page.range_z.value = "" + range_z_new;
+
+                    if (range_z_old == range_z_new)
+                    {
+                        if (attimer)
+                        {
+                            attimer = false;
+
+                            if (range_y_old != 50)
+                            {
+                                if (range_y_old > 50)
+                                    page.range_y.value = "" + (int)(range_y_old - 1);
+                                else
+                                    page.range_y.value = "" + (int)(range_y_old + 1);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //var range_y_new = (Math.Sign(range_z_old - range_z_new) * 4 + range_y_old).Min(100).Max(0);
+
+                        //page.range_y.value = "" + range_y_new;
+                    }
+
+
+                    range_onchange();
+                };
+            #endregion
+
+
+            page.AskForDragPermission.onmousedown +=
+                e =>
+                {
+                    e.PreventDefault();
+                    e.CaptureMouse();
+
+                    Native.Document.body.requestPointerLock();
+                };
+
+            page.AskForDragPermission.onmouseup +=
+               delegate
+               {
+                   Native.Document.exitPointerLock();
+               };
+
+
             page.SimulateFace.onclick +=
                 delegate
                 {
@@ -494,65 +604,18 @@ namespace JellyworldExperiment.DualView
                     new Form { Text = "Simulated Face Detection" }.With(
                         f =>
                         {
-                            var attimer = false;
-
-                            Action onchange =
-                                delegate
-                                {
-                                    page.range_x.value = "" + (100 - Math.Max(0, (100 * f.Top / (Native.Window.Height - f.Height))).Min(100));
-
-                                    var range_y_old = int.Parse(page.range_y.value);
-                                    var range_z_old = int.Parse(page.range_z.value);
-                                    var range_z_new =
-                                        (int)(100.0 * f.Left / (Native.Window.Width - f.Width)).Max(0).Min(100);
-
-                                    page.range_z.value = "" + range_z_new;
-
-                                    if (range_z_old == range_z_new)
-                                    {
-                                        if (attimer)
-                                        {
-                                            attimer = false;
-
-                                            if (range_y_old != 50)
-                                            {
-                                                if (range_y_old > 50)
-                                                    page.range_y.value = "" + (int)(range_y_old - 1);
-                                                else
-                                                    page.range_y.value = "" + (int)(range_y_old + 1);
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        var range_y_new = (Math.Sign(range_z_old - range_z_new) * 4 + range_y_old).Min(100).Max(0);
-
-                                        page.range_y.value = "" + range_y_new;
-                                    }
-
-
-                                    range_onchange();
-                                };
-
                             f.LocationChanged +=
                                 delegate
                                 {
-                                    onchange();
+                                    FaceDetectedAt(f.Left, f.Top, f.Width, f.Height);
                                 };
 
                             f.SizeChanged +=
                                 delegate
                                 {
-                                    onchange();
+                                    FaceDetectedAt(f.Left, f.Top, f.Width, f.Height);
                                 };
 
-                            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                                delegate
-                                {
-                                    attimer = true;
-                                    onchange();
-                                }
-                            ).StartInterval(1000 / 60);
                         }
                     ).Show();
 
@@ -560,5 +623,6 @@ namespace JellyworldExperiment.DualView
                 };
         }
 
+        public Action<int, int, int, int> FaceDetectedAt;
     }
 }

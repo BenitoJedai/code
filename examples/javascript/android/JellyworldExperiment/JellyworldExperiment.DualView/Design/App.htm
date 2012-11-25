@@ -1,41 +1,54 @@
 <html>
-  <head>
+<head>
     <link rel='stylesheet' href='App.css' />
     <title>App</title>
-  </head>
-  <body style='overflow: hidden;'>
-
+</head>
+<body style='overflow: hidden;'>
+    <div id="AskForDragPermission">
+        Drag this to enable mouse lock.
+    </div>
     <div>
-      <button>
-        Left Screen
-      </button>
+        <button>
+            Left Screen
+        </button>
 
-      <button>
-        Right Screen
-      </button>
+        <button>
+            Right Screen
+        </button>
     </div>
 
     <div>
-      x:
+        <button>
+            Shared Perspective
+        </button>
+    </div>
+
+    <div>
+        x:
       <input id="range_x" type="range" />
     </div>
     <div>
-      y:
+        y:
       <input id="range_y" type="range" />
     </div>
     <div>
-      z:
+        z:
       <input id="range_z" type="range" />
     </div>
 
-    <div>
-      perspective:
-      <input id="range_p" type="range" />
-    </div>
-    
-    <div>
-      <button>Simulate Face</button>
+        <div>
+        sensitivity:
+      <input id="range_s" type="range" />
     </div>
 
-  </body>
+    <div>
+        perspective:
+      <input id="range_p" type="range" />
+    </div>
+
+    <div>
+        <button>Simulate Face</button>
+    </div>
+
+</body>
 </html>
