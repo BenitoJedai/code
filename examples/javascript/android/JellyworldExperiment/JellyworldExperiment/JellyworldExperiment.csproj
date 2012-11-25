@@ -119,6 +119,18 @@
     <Reference Include="JellyworldExperiment.HardwareDetection.AssetsLibrary">
       <HintPath>..\JellyworldExperiment.HardwareDetection\bin\staging.AssetsLibrary\JellyworldExperiment.HardwareDetection.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="JellyworldExperiment.DualViewWithCamera.AssetsLibrary">
+      <HintPath>..\JellyworldExperiment.DualViewWithCamera\bin\staging.AssetsLibrary\JellyworldExperiment.DualViewWithCamera.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IntegrationToFaceInput.AssetsLibrary">
+      <HintPath>..\..\..\..\actionscript\synergy\IntegrationToFaceInput\IntegrationToFaceInput\bin\staging.AssetsLibrary\IntegrationToFaceInput.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="JellyworldExperiment.DualView.AssetsLibrary">
+      <HintPath>..\JellyworldExperiment.DualView\bin\staging.AssetsLibrary\JellyworldExperiment.DualView.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CSSTransform3DFPSBlueprint.AssetsLibrary">
+      <HintPath>..\..\..\CSSTransform3DFPSBlueprint\CSSTransform3DFPSBlueprint\bin\staging.AssetsLibrary\CSSTransform3DFPSBlueprint.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -131,6 +143,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JellyworldExperiment.DualViewWithCamera\JellyworldExperiment.DualViewWithCamera.csproj">
+      <Project>{91d7be5a-6af7-4eba-8f39-9c69af7a85c7}</Project>
+      <Name>JellyworldExperiment.DualViewWithCamera</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JellyworldExperiment.DualView\JellyworldExperiment.DualView.csproj">
+      <Project>{616ed677-669c-4583-9658-c06200e47bab}</Project>
+      <Name>JellyworldExperiment.DualView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JellyworldExperiment.HardwareDetection\JellyworldExperiment.HardwareDetection.csproj">
       <Project>{e81fcef4-af71-4969-beac-c8c5197f4091}</Project>
       <Name>JellyworldExperiment.HardwareDetection</Name>

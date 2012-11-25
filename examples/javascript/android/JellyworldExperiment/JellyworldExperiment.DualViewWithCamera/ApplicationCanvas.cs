@@ -27,7 +27,7 @@ namespace JellyworldExperiment.DualViewWithCamera
             avg.Fill = Brushes.Red;
             avg.AttachTo(this);
             avg.SizeTo(16, 16);
-            avg.Opacity = 1;
+            avg.Opacity = 0.2;
 
             //Canvas.SetZIndex(avg, 1000);
 

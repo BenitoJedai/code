@@ -20,25 +20,24 @@ namespace JellyworldExperiment.DualViewWithCamera
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
-
-        public readonly ApplicationSprite sprite = new ApplicationSprite();
-
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            //sprite.ToTransparentSprite();
+            var sprite = new ApplicationSprite();
 
             sprite.AutoSizeSpriteTo(page.ContentSize);
             sprite.AttachSpriteTo(page.Content);
 
-
-
             sprite.InitializeContent();
 
+            sprite.AfterInitializeContent();
+        }
+
+    }
+
+    public static class ApplicationContent
+    {
+        public static void AfterInitializeContent(this IApplicationSprite sprite)
+        {
             var a = new JellyworldExperiment.DualView.HTML.Pages.App();
 
             a.Container.AttachToDocument();
@@ -68,6 +67,6 @@ namespace JellyworldExperiment.DualViewWithCamera
             );
 
         }
-
     }
+
 }
