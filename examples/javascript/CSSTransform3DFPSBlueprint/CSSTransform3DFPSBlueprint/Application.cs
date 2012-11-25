@@ -121,7 +121,7 @@ namespace CSSTransform3DFPSBlueprint
 
 
             var zoom = 4;
-            var zz = 0;
+            var zz = 60;
 
             #region CreateFromFloorplan
             Action CreateFromFloorplan = delegate
@@ -131,10 +131,9 @@ namespace CSSTransform3DFPSBlueprint
                     (item as DeskCube).With(
                         f =>
                         {
-                            if (zz != 0)
-                                return;
+                     
 
-                            var cubeheight = Math.Max(250, f.CubeHeight);
+                            var cubeheight = Math.Max(300, f.CubeHeight) ;
 
                             new cube(
                                 "url(assets/CSSTransform3DFPSBlueprint/desk.jpg)",
@@ -234,7 +233,7 @@ namespace CSSTransform3DFPSBlueprint
 
                                 -f.Right * zoom, f.Top * zoom,
 
-                                0 - f.Z * zoom + zz,
+                                0 - f.Z * zoom + zz ,
                                 //-250, 
 
                                 0, 0, 0);

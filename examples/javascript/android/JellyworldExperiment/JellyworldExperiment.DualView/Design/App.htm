@@ -1,23 +1,41 @@
 <html>
-<head>
+  <head>
     <link rel='stylesheet' href='App.css' />
     <title>App</title>
-</head>
-<body>
+  </head>
+  <body style='overflow: hidden;'>
 
     <div>
-        <button>
-            Left Screen
-        </button>
+      <button>
+        Left Screen
+      </button>
 
-        <button>
-            Right Screen
-        </button>
+      <button>
+        Right Screen
+      </button>
     </div>
 
+    <div>
+      x:
+      <input id="range_x" type="range" />
+    </div>
+    <div>
+      y:
+      <input id="range_y" type="range" />
+    </div>
+    <div>
+      z:
+      <input id="range_z" type="range" />
+    </div>
 
-    <input id="range_x" type="range" />
-    <input id="range_y" type="range" />
-    <input id="range_z" type="range" />
-</body>
+    <div>
+      perspective:
+      <input id="range_p" type="range" />
+    </div>
+    
+    <div>
+      <button>Simulate Face</button>
+    </div>
+
+  </body>
 </html>
