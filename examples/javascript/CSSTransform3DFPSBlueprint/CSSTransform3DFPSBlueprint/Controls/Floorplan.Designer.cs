@@ -347,9 +347,9 @@
             // deskCube14
             // 
             this.deskCube14.BackColor = System.Drawing.Color.Blue;
-            this.deskCube14.CubeHeight = 0;
+            this.deskCube14.CubeHeight = 500;
             this.deskCube14.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube14.LeftWallSource = null;
+            this.deskCube14.LeftWallSource = "http://idea-remixer.tumblr.com";
             this.deskCube14.LeftWallSourceAutoLoad = false;
             this.deskCube14.Location = new System.Drawing.Point(911, 597);
             this.deskCube14.Name = "deskCube14";
@@ -597,7 +597,7 @@
             this.deskCube22.CubeHeight = 800;
             this.deskCube22.ForeColor = System.Drawing.Color.Blue;
             this.deskCube22.LeftWallSource = "http://discover.xavalon.net/__Templates";
-            this.deskCube22.LeftWallSourceAutoLoad = true;
+            this.deskCube22.LeftWallSourceAutoLoad = false;
             this.deskCube22.Location = new System.Drawing.Point(793, 72);
             this.deskCube22.Name = "deskCube22";
             this.deskCube22.Size = new System.Drawing.Size(141, 196);

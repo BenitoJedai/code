@@ -139,10 +139,16 @@ namespace JellyworldExperiment.DualView
 
                                 if (data.Name.LocalName == "shared.perspective")
                                 {
+                                    CSSTransform3DFPSBlueprint.Application.window.viewport.node.style.marginTop = "-25%";
+                                    w.viewport.node.style.height = "150%";
+
+
                                     w.viewport.node.style.width = "200%";
 
                                     if (IsRightScreen)
+                                    {
                                         CSSTransform3DFPSBlueprint.Application.window.viewport.node.style.marginLeft = "-100%";
+                                    }
                                 }
 
                                 if (data.Name.LocalName == "keyState")
@@ -205,7 +211,7 @@ namespace JellyworldExperiment.DualView
                                         {
                                             qx.dx = qx.newvalue - qx.oldvalue;
                                             qx.oldvalue = qx.newvalue;
-                                            w.viewport.camera.rotation.x -= qx.dx * 0.5 * s;
+                                            w.viewport.camera.rotation.x -= qx.dx * 0.2 * s;
                                         }
 
                                         if (qy.newvalue != qy.oldvalue)
@@ -457,12 +463,12 @@ namespace JellyworldExperiment.DualView
 
                 };
 
-            var forward = false;
-            var backward = false;
-            var strafeleft = false;
-            var straferight = false;
+            forward = false;
+            backward = false;
+            strafeleft = false;
+            straferight = false;
 
-            Action AfterKeystateChange =
+            this.AfterKeystateChange =
                 delegate
                 {
                     var data = new XElement("keyState",
@@ -622,6 +628,13 @@ namespace JellyworldExperiment.DualView
 
                 };
         }
+
+        public bool forward = false;
+        public bool backward = false;
+        public bool strafeleft = false;
+        public bool straferight = false;
+
+        public Action AfterKeystateChange;
 
         public Action<int, int, int, int> FaceDetectedAt;
     }

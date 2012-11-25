@@ -39,6 +39,7 @@ namespace AccelerometerServerEvents
             // http://www.sitepoint.com/server-sent-events/
             //Object '/d07dea9a_2384_49f8_8c01_270582d093dc/rwqwygw27obp9zsviyqgjhqt_27.rem' has been disconnected or does not exist at the server.
 
+            #region text/event-stream
             // http://www.w3.org/Protocols/HTTP/HTRQ_Headers.html
             var Accepts = h.Context.Request.Headers["Accept"];
 
@@ -103,7 +104,8 @@ namespace AccelerometerServerEvents
                                 Console.WriteLine("registerListener");
                                 sensorManager.registerListener(
                                     value,
-                                    sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                                    //sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                                    sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                                     SensorManager.SENSOR_DELAY_GAME
                                 );
 
@@ -127,6 +129,8 @@ namespace AccelerometerServerEvents
                     h.CompleteRequest();
                     return;
                 }
+            #endregion
+
         }
     }
 
@@ -142,10 +146,14 @@ namespace AccelerometerServerEvents
         {
 
             // check sensor type
-            if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+            //if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+            if (e.sensor.getType() == Sensor.TYPE_ORIENTATION)
             {
+                //                values[0]: Azimuth - (the compass bearing east of magnetic north)
+                //values[1]: Pitch, rotation around x-axis (is the phone leaning forward or back)
+                //values[2]: Roll, rotation around y-axis (is the phone leaning over on its left or right side)
 
-                // assign directions
+                // this is different than the browser device orientation.
                 float x = e.values[0];
                 float y = e.values[1];
                 float z = e.values[2];

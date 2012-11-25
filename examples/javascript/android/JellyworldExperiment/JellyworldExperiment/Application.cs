@@ -47,8 +47,12 @@ namespace JellyworldExperiment
 
             new IHTMLPre
             {
-                innerText = "/HardwareDetection... "
+                innerText = "Looking at your hardware... "
+            }.AttachToDocument();
 
+            new IHTMLPre
+            {
+                innerText = "Window width is " + Native.Window.Width + "px..."
             }.AttachToDocument();
 
             new IHTMLIFrame { src = "/HardwareDetection" }.With(
@@ -72,9 +76,11 @@ namespace JellyworldExperiment
 
                           new IHTMLPre
                           {
-                              innerText = "/HardwareDetection onmessage: " + new { e.data }.ToString()
+                              innerText = e.data + "..."
                           }.AttachToDocument();
 
+
+                          // if we found a camera
                           //// thanks for info. you are done!
                           //HardwareDetection.Orphanize();
 
@@ -164,7 +170,7 @@ namespace JellyworldExperiment
 
 
 
-                              parent.postMessage("FoundCamera");
+                              parent.postMessage("Found flash camera");
                           }
                       );
                 };
@@ -199,7 +205,7 @@ namespace JellyworldExperiment
                              }
                              #endregion
 
-                             parent.postMessage("ondeviceorientation " + new { eventData.alpha, eventData.beta, eventData.gamma });
+                             parent.postMessage("Found orientation sensor");
 
                              // stop talking
                              parent = null;

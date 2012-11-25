@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using AccelerometerServerEvents.Design;
 using AccelerometerServerEvents.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace AccelerometerServerEvents
 {
@@ -65,7 +66,7 @@ namespace AccelerometerServerEvents
                     //movementY = 0;
                     //movementZ = 0;
 
-                    if (history.Count > 500)
+                    if (history.Count > 200)
                     {
                         history.RemoveAt(0);
                     }
@@ -99,21 +100,105 @@ namespace AccelerometerServerEvents
             ).StartInterval(1000 / 10);
 
 
-            // this is like a ComponentModel timer where handler can raise events
-            new EventSource().onmessage +=
-                 e =>
-                 {
-                     var xml = XElement.Parse((string)e.data);
+            try
+            {
+                // this is like a ComponentModel timer where handler can raise events
+                new EventSource().onmessage +=
+                     e =>
+                     {
+                         var xml = XElement.Parse((string)e.data);
 
-                     movementX = double.Parse(xml.Attribute("x").Value) * 4.0;
-                     movementY = double.Parse(xml.Attribute("y").Value) * 4.0;
-                     movementZ = double.Parse(xml.Attribute("z").Value) * 4.0;
+                         movementX = double.Parse(xml.Attribute("x").Value) ;
+                         movementY = -double.Parse(xml.Attribute("y").Value) ;
+                         movementZ = -double.Parse(xml.Attribute("z").Value) ;
 
-                     page.Content.Clear();
 
-                     new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.Content);
-                 };
+                         if (movementY < -2)
+                         {
+                             Native.Document.body.style.backgroundColor = JSColor.Green;
+                         }
+                         else if (movementY > 33)
+                         {
+                             Native.Document.body.style.backgroundColor = JSColor.Red;
+                         }
+                         else if (movementZ < -15)
+                         {
+                             Native.Document.body.style.backgroundColor = JSColor.Yellow;
+                         }
+                         else if (movementZ > 15)
+                         {
+                             Native.Document.body.style.backgroundColor = JSColor.Blue;
+                         }
+                         else
+                             Native.Document.body.style.backgroundColor = JSColor.None;
+
+
+
+                         page.Content.Clear();
+
+                         new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.Content);
+                     };
+            }
+            catch
+            {
+                // not available on built in web browser for android
+            }
+
+            Native.Window.ondeviceorientation +=
+                eventData =>
+                {
+                    #region desktop chrome misreports?
+                    // Uncaught ReferenceError: alpha is not defined 
+                    if ("this.alpha == null".js<bool>(eventData))
+                    {
+                        Console.WriteLine("ondeviceorientation without alpha? " + eventData);
+                        Console.WriteLine("ondeviceorientation without alpha? " + eventData.alpha);
+                        Console.WriteLine("ondeviceorientation without alpha? ");
+                        return;
+                    }
+                    #endregion
+
+
+
+
+                    movementX = eventData.alpha;
+                    movementY = eventData.beta;
+                    movementZ = eventData.gamma;
+
+
+                    if (movementY < -2)
+                    {
+                        Native.Document.body.style.backgroundColor = JSColor.Green;
+                    }
+                    else if (movementY > 33)
+                    {
+                        Native.Document.body.style.backgroundColor = JSColor.Red;
+                    }
+                    else if (movementZ < -15)
+                    {
+                        Native.Document.body.style.backgroundColor = JSColor.Yellow;
+                    }
+                    else if (movementZ > 15)
+                    {
+                        Native.Document.body.style.backgroundColor = JSColor.Blue;
+                    }
+                    else
+                        Native.Document.body.style.backgroundColor = JSColor.None;
+
+
+
+                    page.Content2.Clear();
+                    new IHTMLPre { innerText = new { movementX, movementY, movementZ }.ToString().Replace(",", ",\n") }.AttachTo(page.Content2);
+                };
         }
 
+    }
+
+    public static class X
+    {
+        public static T js<T>(this string body, object that = null)
+        {
+            return (T)new IFunction("return " + body + ";").apply(that);
+        }
     }
 }
