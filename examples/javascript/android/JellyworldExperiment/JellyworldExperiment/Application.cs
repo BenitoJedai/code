@@ -53,12 +53,22 @@ namespace JellyworldExperiment
 
             new IHTMLPre
             {
-                innerText = "We need flash, camera, CSS 3D, fast WiFi and your android..."
+                innerText = "We need a laptop with flash, camera, CSS 3D,..."
             }.AttachToDocument();
 
             new IHTMLPre
             {
-                innerText = "Screen width is " + Native.Screen.width + "px..."
+                innerText = "From your laptop open " + Native.Document.location
+            }.AttachToDocument();
+
+            new IHTMLPre
+            {
+                innerText = "Your android device becomes the tilt sensor!"
+            }.AttachToDocument();
+
+            new IHTMLPre
+            {
+                innerText = "Screen is " + Native.Screen.width + "x" + Native.Screen.height + "..."
             }.AttachToDocument();
 
             new IHTMLIFrame { src = "/HardwareDetection" }.With(
@@ -87,18 +97,11 @@ namespace JellyworldExperiment
                               innerText = e.data + "..."
                           }.AttachToDocument();
 
+                          // android 2.3 wont find this.
                           if (data == "Found orientation sensor")
                           {
 
-                              new IHTMLPre
-                              {
-                                  innerText = "From your laptop open " + Native.Document.location
-                              }.AttachToDocument();
-
-                              new IHTMLPre
-                              {
-                                  innerText = "Your android device becomes the tilt sensor!"
-                              }.AttachToDocument();
+                           
 
                           }
 
@@ -346,60 +349,7 @@ namespace JellyworldExperiment
                 // not available on built in web browser for android
             }
 
-            Native.Window.ondeviceorientation +=
-                eventData =>
-                {
-                    #region desktop chrome misreports?
-                    // Uncaught ReferenceError: alpha is not defined 
-                    if ("this.alpha == null".js<bool>(eventData))
-                    {
-                        Console.WriteLine("ondeviceorientation without alpha? " + eventData);
-                        Console.WriteLine("ondeviceorientation without alpha? " + eventData.alpha);
-                        Console.WriteLine("ondeviceorientation without alpha? ");
-                        return;
-                    }
-                    #endregion
 
-
-
-
-                    movementX = eventData.alpha;
-                    movementY = eventData.beta;
-                    movementZ = eventData.gamma;
-
-                    borders.style.borderRightColor = "";
-                    borders.style.borderLeftColor = "";
-                    borders.style.borderBottomColor = "";
-                    borders.style.borderTopColor = "";
-
-                    if (movementY < -2)
-                    {
-                        borders.style.borderTopColor = "rgba(255, 255, 255, 0.3)";
-                    }
-                    else if (movementY > 33)
-                    {
-                        borders.style.borderBottomColor = "rgba(255, 255, 255, 0.3)";
-                    }
-                    else if (movementZ < -15)
-                    {
-                        borders.style.borderLeftColor = "rgba(255, 255, 255, 0.3)";
-                    }
-                    else if (movementZ > 15)
-                    {
-                        borders.style.borderRightColor = "rgba(255, 255, 255, 0.3)";
-
-                    }
-                    else
-                    {
-
-                    }
-
-
-
-
-                    //page.Content2.Clear();
-                    //new IHTMLPre { innerText = new { movementX, movementY, movementZ }.ToString().Replace(",", ",\n") }.AttachTo(page.Content2);
-                };
 
         }
     }
