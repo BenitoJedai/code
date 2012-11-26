@@ -14,8 +14,10 @@ using android.database;
 
 namespace AndroidDownloadManagerActivity.Activities
 {
+
     public class ApplicationActivity : Activity
     {
+
         // inspired by http://android-er.blogspot.com/2011/07/sample-code-using-androidappdownloadman.html
 
         const string strPref_Download_ID = "PREF_DOWNLOAD_ID";
@@ -35,17 +37,24 @@ namespace AndroidDownloadManagerActivity.Activities
             //ll.setOrientation(LinearLayout.VERTICAL);
             sv.addView(ll);
 
-            var b = new Button(this).AttachTo(ll);
+            var b = new android.widget.Button(this).AttachTo(ll);
 
             downloadReceiver = new MyDownloadReceiver
             {
 
             };
 
+            //            O:\src\AndroidDownloadManagerActivity\Activities\ApplicationActivity___c__DisplayClass2___c__DisplayClass4.java:60: cannot find symbol
+            //symbol  : class Button
+            //location: class AndroidDownloadManagerActivity.Activities.ApplicationActivity___c__DisplayClass2___c__DisplayClass4
+            //                    ViewExtensions.<Button>WithText(this.CS___8__locals3.b, "Download " + this.CS___8__locals3.name1);
+            //                                    ^
+
             b.WithText("Download " + name1);
             b.AtClick(
                 v =>
                 {
+
                     b.setText("Downloading...");
                     b.setEnabled(false);
 
@@ -98,6 +107,9 @@ namespace AndroidDownloadManagerActivity.Activities
 
 
                                 Toast.makeText(this, new { id, uri }.ToString(), Toast.LENGTH_LONG).show();
+
+                                // jsc ignores this type in import?
+                                Button __ref0;
 
                                 b.WithText("Download " + name1);
                                 b.setEnabled(true);
