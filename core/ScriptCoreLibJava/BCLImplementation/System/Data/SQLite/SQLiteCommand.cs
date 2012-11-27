@@ -49,10 +49,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 // http://www.javaworld.com/javaworld/jw-04-2007/jw-04-jdbc.html
                 if (this.InternalParameters.InternalParameters.Count > 0)
                 {
-                    Console.WriteLine("we have InternalParameters");
+                    var sql = this.sql;
+
+                    Console.WriteLine("we have InternalParameters for " + sql);
+
+
+                    this.InternalPreparedStatement = this.c.InternalConnection.prepareStatement(sql);
+
+                    // add values
+
+                    this.InternalStatement = this.InternalPreparedStatement;
                 }
 
-                this.InternalStatement = this.c.InternalConnection.createStatement();
+                if (this.InternalStatement == null)
+                    this.InternalStatement = this.c.InternalConnection.createStatement();
             }
             catch
             {
@@ -68,7 +78,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             try
             {
-                value = this.InternalStatement.executeUpdate(this.sql);
+                if (this.InternalPreparedStatement != null)
+                    value = this.InternalPreparedStatement.executeUpdate();
+                else
+                    value = this.InternalStatement.executeUpdate(this.sql);
+
                 this.c.InternalLastInsertRowIdCommand = this;
             }
             catch
@@ -90,7 +104,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             try
             {
-                var r = this.InternalStatement.executeQuery(this.sql);
+                var r = default(java.sql.ResultSet);
+
+                if (this.InternalPreparedStatement != null)
+                    r = this.InternalPreparedStatement.executeQuery();
+                else
+                    r = this.InternalStatement.executeQuery(this.sql);
 
                 value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r };
                 this.c.InternalLastInsertRowIdCommand = this;

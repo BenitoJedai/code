@@ -83,7 +83,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public int Count
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return InternalList.size();
+            }
         }
 
         public bool IsReadOnly
