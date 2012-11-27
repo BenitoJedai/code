@@ -95,6 +95,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
                 Name = name,
 
                 flags = flags,
+                typeArguments = typeArguments,
+
                 context = context,
                 argumentInfo = argumentInfo
             };

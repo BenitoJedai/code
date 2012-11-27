@@ -43,10 +43,24 @@ namespace TestDynamic
                 string foo = y.foo;
 
                 Console.WriteLine(foo);
+
+                y.bar();
+
+
+
+                string bar = y.foo();
+                Console.WriteLine(bar);
+
+                y.bar("foo");
+
+
             }
             catch (Exception ex)
             {
+                //((java.lang.Throwable)(object)ex).printStackTrace();
+
                 Console.WriteLine("error: " + new { ex.Message, ex.StackTrace });
+
             }
 
             CLRProgram.XML = new XElement("hello", "world");
@@ -60,6 +74,24 @@ namespace TestDynamic
 
     public class MyDynamicObject : DynamicObject
     {
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        {
+            Console.WriteLine("TryInvokeMember: " + new { binder.Name, args.Length });
+
+            args.WithEachIndex(
+                (arg, i) =>
+                {
+                    Console.WriteLine("TryInvokeMember: " + new { arg, i });
+                }
+            );
+
+            result = "result from TryInvokeMember";
+
+            var retvalue = true;
+
+            return retvalue;
+        }
+
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = "helo world for " + binder.Name;
