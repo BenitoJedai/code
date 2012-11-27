@@ -10,6 +10,141 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 {
+    [Script]
+    internal class __CallSite__InvokeMemberBinder
+    {
+        public static __CallSite<T> __InvokeMemberBinder<T>(__InvokeMemberBinder InvokeMember)
+        {
+            var r = default(Delegate);
+
+            var argumentInfo = InvokeMember.argumentInfo;
+            var argumentInfoCount = argumentInfo.Count();
+
+            //Console.WriteLine("__InvokeMemberBinder: " + new
+            //{
+            //    InvokeMember.Name,
+            //    argumentInfoCount
+            //});
+
+            if (InvokeMember.flags == global::Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags.ResultDiscarded)
+            {
+                if (argumentInfoCount == 2)
+                {
+                    r = new Action<__CallSite, object, object>(
+                     (site, subject, arg1) =>
+                     {
+                         object result = null;
+
+                         var x = subject as DynamicObject;
+                         if (x != null)
+                         {
+
+                             if (x.TryInvokeMember(
+                                 (InvokeMemberBinder)(object)InvokeMember,
+                                 new[] { arg1 },
+                                  out result)
+                             )
+                                 return;
+                         }
+
+                         Console.WriteLine("__CallSite __InvokeMemberBinder " + new { subject });
+
+
+
+                         throw new NotImplementedException("__CallSite __InvokeMemberBinder");
+                     }
+                    );
+                }
+                else
+                {
+                    r = new Action<__CallSite, object>(
+                     (site, subject) =>
+                     {
+                         object result = null;
+
+                         var x = subject as DynamicObject;
+                         if (x != null)
+                         {
+
+                             if (x.TryInvokeMember(
+                                 (InvokeMemberBinder)(object)InvokeMember,
+                                 new object[0],
+                                  out result)
+                             )
+                                 return;
+                         }
+
+                         Console.WriteLine("__CallSite __InvokeMemberBinder " + new { subject });
+
+
+
+                         throw new NotImplementedException("__CallSite __InvokeMemberBinder");
+                     }
+                    );
+                }
+            }
+            else
+            {
+                if (argumentInfoCount == 2)
+                {
+                    r = new Func<__CallSite, object, object, object>(
+                     (site, subject, arg1) =>
+                     {
+                         object result = null;
+
+                         var x = subject as DynamicObject;
+                         if (x != null)
+                         {
+
+                             if (x.TryInvokeMember(
+                                 (InvokeMemberBinder)(object)InvokeMember,
+                                 new[] { arg1 },
+                                  out result)
+                             )
+                                 return result;
+                         }
+
+                         Console.WriteLine("__CallSite __InvokeMemberBinder " + new { subject });
+
+
+
+                         throw new NotImplementedException("__CallSite __InvokeMemberBinder");
+                     }
+                 );
+                }
+                else
+                {
+                    r = new Func<__CallSite, object, object>(
+                       (site, subject) =>
+                       {
+                           object result = null;
+
+                           var x = subject as DynamicObject;
+                           if (x != null)
+                           {
+
+                               if (x.TryInvokeMember(
+                                   (InvokeMemberBinder)(object)InvokeMember,
+                                   new object[0],
+                                    out result)
+                               )
+                                   return result;
+                           }
+
+                           Console.WriteLine("__CallSite __InvokeMemberBinder " + new { subject });
+
+
+
+                           throw new NotImplementedException("__CallSite __InvokeMemberBinder");
+                       }
+                   );
+                }
+            }
+
+            return r;
+        }
+    }
+
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite<>))]
     internal class __CallSite<T> : __CallSite
     {
@@ -77,9 +212,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
             return r;
         }
 
+
+
         public static __CallSite<T> Create(CallSiteBinder binder)
         {
             // DynamicObject
+
+            #region InvokeMemberBinder
+            {
+                var InvokeMemberBinder = (object)binder as __InvokeMemberBinder;
+                if (InvokeMemberBinder != null)
+                {
+                    return __CallSite__InvokeMemberBinder.__InvokeMemberBinder<T>(InvokeMemberBinder);
+                }
+            }
+            #endregion
 
             #region GetMember
             {
