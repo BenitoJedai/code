@@ -6,7 +6,7 @@ using System.Text;
 
 namespace java.sql
 {
-    // http://docs.oracle.com/javase/1.4.2/docs/api/java/sql/Statement.html
+    // http://docs.oracle.com/javase/6/docs/api/java/sql/Statement.html
     [Script(IsNative = true)]
     public interface Statement
     {

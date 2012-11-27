@@ -20,6 +20,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         string sql;
 
         public java.sql.Statement InternalStatement;
+        public java.sql.PreparedStatement InternalPreparedStatement;
 
         public __SQLiteCommand(string sql, SQLiteConnection c)
         {
@@ -28,23 +29,42 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             // http://dev.mysql.com/doc/refman/5.0/en/example-auto-increment.html
             // http://www.sqlite.org/autoinc.html
 
-   
-            this.sql = SQLiteToMySQLConversion.Convert( sql, this.c.InternalConnectionString.DataSource);
+
+            this.sql = SQLiteToMySQLConversion.Convert(sql, this.c.InternalConnectionString.DataSource);
+
+            //InternalCreateStatement();
+
+            this.InternalParameters = new __SQLiteParameterCollection { Context = this };
+            this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
+
+        }
+
+        private void InternalCreateStatement()
+        {
+            if (this.InternalStatement != null)
+                return;
 
             try
             {
+                // http://www.javaworld.com/javaworld/jw-04-2007/jw-04-jdbc.html
+                if (this.InternalParameters.InternalParameters.Count > 0)
+                {
+                    Console.WriteLine("we have InternalParameters");
+                }
+
                 this.InternalStatement = this.c.InternalConnection.createStatement();
             }
             catch
             {
                 throw;
             }
-
         }
 
         public override int ExecuteNonQuery()
         {
             var value = default(int);
+
+            InternalCreateStatement();
 
             try
             {
@@ -59,9 +79,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             return value;
         }
 
+        public __SQLiteParameterCollection InternalParameters;
+        public SQLiteParameterCollection Parameters { get; set; }
+
         public SQLiteDataReader ExecuteReader()
         {
             var value = default(SQLiteDataReader);
+
+            InternalCreateStatement();
 
             try
             {

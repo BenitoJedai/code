@@ -49,9 +49,13 @@ namespace TestDynamic
 
 
                 string bar = y.foo();
-                Console.WriteLine(bar);
+                Console.WriteLine(new { bar });
 
                 y.bar("foo");
+
+
+                string goo = y.bar("foo");
+                Console.WriteLine(new { goo });
 
 
             }

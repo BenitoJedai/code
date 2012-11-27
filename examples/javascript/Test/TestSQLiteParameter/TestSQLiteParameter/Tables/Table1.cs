@@ -12,7 +12,7 @@ using TestSQLiteParameter.Tables;
 
 namespace TestSQLiteParameter
 {
-  
+
 
     // generated for namespace Tables
     class Table1
@@ -99,7 +99,9 @@ namespace TestSQLiteParameter
                               new DynamicDataReader(reader).With(
                                   (dynamic r) =>
                                   {
-                                      yield(r.ContentKey);
+                                      long ContentKey = r.ContentKey;
+
+                                      yield(ContentKey);
                                   }
                               );
                           }

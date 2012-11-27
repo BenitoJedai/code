@@ -132,10 +132,12 @@
     </Compile>
     <Compile Include="BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="BCLImplementation\System\ArgumentException.cs" />
+    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
+    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />
     <Compile Include="BCLImplementation\System\Decimal.cs" />
     <Compile Include="BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs" />
     <Compile Include="BCLImplementation\System\Net\WebHeaderCollection.cs" />
@@ -921,6 +923,7 @@
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
     <Compile Include="java\sql\Connection.cs" />
+    <Compile Include="java\sql\PreparedStatement.cs" />
     <Compile Include="java\sql\ResultSetMetaData.cs" />
     <Compile Include="java\sql\DriverPropertyInfo.cs" />
     <Compile Include="java\sql\Driver.cs" />
