@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite<>))]
     internal class __CallSite<T> : __CallSite
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs
+
         public T Target;
 
 

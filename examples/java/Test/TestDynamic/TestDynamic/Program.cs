@@ -12,6 +12,7 @@ using java.util.zip;
 using System.Collections;
 using System.IO;
 using System.Data;
+using System.Dynamic;
 
 namespace TestDynamic
 {
@@ -31,10 +32,22 @@ namespace TestDynamic
 
             Console.WriteLine("hi! vm:" + typeof(object).FullName);
 
+            try
+            {
 
-            // will this compile?
-            var x = new DynamicDataReader(null);
+                // will this compile?
+                var x = default(DynamicDataReader);
 
+                dynamic y = new MyDynamicObject();
+
+                string foo = y.foo;
+
+                Console.WriteLine(foo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error: " + new { ex.Message, ex.StackTrace });
+            }
 
             CLRProgram.XML = new XElement("hello", "world");
             CLRProgram.CLRMain(
@@ -44,6 +57,20 @@ namespace TestDynamic
 
 
     }
+
+    public class MyDynamicObject : DynamicObject
+    {
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            result = "helo world for " + binder.Name;
+
+            var retvalue = true;
+
+
+            return retvalue;
+        }
+    }
+
 
     public delegate XElement XElementFunc();
 

@@ -139,6 +139,7 @@
     <Compile Include="BCLImplementation\System\Decimal.cs" />
     <Compile Include="BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs" />
     <Compile Include="BCLImplementation\System\Net\WebHeaderCollection.cs" />
+    <Compile Include="BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="BCLImplementation\System\Single.cs" />
     <Compile Include="BCLImplementation\System\DateTime.cs">
       <SubType>Code</SubType>
