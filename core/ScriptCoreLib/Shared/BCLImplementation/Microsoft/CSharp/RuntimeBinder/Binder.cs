@@ -1,4 +1,5 @@
 ﻿using Microsoft.CSharp.RuntimeBinder;
+using ScriptCoreLib.Shared.BCLImplementation.System.Dynamic;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
@@ -62,15 +63,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
         }
         #endregion
 
-        #region GetMember
-        [Script]
-        public class __GetMemberBinder : __CallSiteBinder
-        {
-            public CSharpBinderFlags flags;
-            public string name;
-            public Type context;
-            public IEnumerable<CSharpArgumentInfo> argumentInfo;
-        }
+
 
         public static CallSiteBinder GetMember(
             CSharpBinderFlags flags, 
@@ -81,12 +74,30 @@ namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
         {
             return (CallSiteBinder)(object)new __GetMemberBinder
             {
+                Name = name,
+
                 flags = flags,
-                name = name,
                 context = context,
                 argumentInfo = argumentInfo
             };
         }
-        #endregion
+
+        public static CallSiteBinder InvokeMember(
+            CSharpBinderFlags flags, 
+            string name, 
+            IEnumerable<Type> typeArguments, 
+            Type context, 
+            IEnumerable<CSharpArgumentInfo> argumentInfo
+            )
+        {
+            return (CallSiteBinder)(object)new __InvokeMemberBinder
+            {
+                Name = name,
+
+                flags = flags,
+                context = context,
+                argumentInfo = argumentInfo
+            };
+        }
     }
 }
