@@ -10,6 +10,7 @@ namespace java.sql
     [Script(IsNative = true)]
     public interface PreparedStatement : Statement
     {
-
+        ResultSet executeQuery();
+        int executeUpdate();
     }
 }
