@@ -1,3 +1,4 @@
+using DropFileIntoSQLite.Definitions;
 using DropFileIntoSQLite.Library.Synergy;
 using DropFileIntoSQLite.Queries;
 using ScriptCoreLib;
@@ -6,6 +7,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Ultra.WebService;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
@@ -23,21 +25,21 @@ namespace DropFileIntoSQLite
         public static void CreateTable(this Table1Meta_MetaKey e, SQLiteConnection c)
         {
             {
-                var sql =
-                     "create table if not exists Table1Meta ("
-                    + "MetaKey INTEGER PRIMARY KEY AUTOINCREMENT"
+                using (var reader = new SQLiteCommand(
+                    CreateTable1Meta.GetSource()
+                    , c).ExecuteReader())
+                {
 
-                    + ", DeclaringType INTEGER "
+                }
+            }
+        }
 
-                    + ", MemberName text not null"
-                    + ", MemberValue text not null"
-
-                    + ", FOREIGN KEY(DeclaringType) REFERENCES Table1(ContentKey)"
-                    + ")";
-
-
-
-                using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
+        public static void CreateTable(this Table1_ContentKey e, SQLiteConnection c)
+        {
+            {
+                using (var reader = new SQLiteCommand(
+                    CreateTable1.GetSource()
+                    , c).ExecuteReader())
                 {
 
                 }
@@ -48,6 +50,7 @@ namespace DropFileIntoSQLite
 
     #region Table1_ContentKey
     public enum Table1_ContentKey { };
+    [Description("Client side")]
     public static class Table1AsyncExtensions
     {
         public static Table1_ContentKey SetLeft(this Table1_ContentKey ContentKey, int value)
@@ -165,30 +168,25 @@ namespace DropFileIntoSQLite
 
                 default(Table1Meta_MetaKey).CreateTable(c);
 
-                var xmd = new SetMetaValue
-                {
-                    MemberName = MemberName,
-                    MemberValue = MemberValue,
-                    DeclaringType = long.Parse(DeclaringType)
-                };
-
                 //xmd.ExecuteAsync
 
-                // http://www.sqlite.org/lang_expr.html
-                // near "MemberName": syntax error
-                // near "@MemberValue": syntax error
                 var cmd = new SQLiteCommand(
                     Queries.SetMetaValue.GetSource(),
                     c
                 );
-                
-                // JIT Compiler encountered an internal limitation.
 
-                cmd.Parameters.AddWithValue(xmd);
+                cmd.Parameters.AddWithValue(
+                    new SetMetaValue
+                    {
+                        MemberName = MemberName,
+                        MemberValue = MemberValue,
+                        DeclaringType = long.Parse(DeclaringType)
+                    }
+                );
 
-                //cmd.Parameters.AddWithValue("MemberName", MemberName);
-                //cmd.Parameters.AddWithValue("MemberValue", MemberValue);
-                //cmd.Parameters.AddWithValue("DeclaringType", long.Parse(DeclaringType));
+                //cmd.Parameters.AddWithValue("@MemberName", MemberName);
+                //cmd.Parameters.AddWithValue("@MemberValue", MemberValue);
+                //cmd.Parameters.AddWithValue("@DeclaringType", long.Parse(DeclaringType));
 
 
 
@@ -308,8 +306,8 @@ namespace DropFileIntoSQLite
                 c.Open();
 
                 {
-                    var sql = "create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null, ContentBytes blob)";
-                    using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
+                    using (var reader = new SQLiteCommand(
+                        CreateTable1.GetSource(), c).ExecuteReader())
                     {
                     }
                 }
@@ -318,16 +316,18 @@ namespace DropFileIntoSQLite
 
 
                 {
-                    var sql = "select ContentKey, ContentBytes";
+                    //var sql = "select ContentKey, ContentBytes";
 
-                    sql += ", coalesce((select MemberValue from Table1Meta where MemberName = 'Left' and DeclaringType = ContentKey order by MetaKey desc), '0') as Left";
-                    sql += ", coalesce((select MemberValue from Table1Meta where MemberName = 'Top' and DeclaringType = ContentKey order by MetaKey desc), '0') as Top";
-                    sql += ", coalesce((select MemberValue from Table1Meta where MemberName = 'Width' and DeclaringType = ContentKey order by MetaKey desc), '0') as Width";
-                    sql += ", coalesce((select MemberValue from Table1Meta where MemberName = 'Height' and DeclaringType = ContentKey order by MetaKey desc), '0') as Height";
+                    //sql += ", coalesce((select MemberValue from Table1Meta where MemberName = 'Left' and DeclaringType = ContentKey order by MetaKey desc), '0') as Left";
+                    //sql += ", coalesce((select MemberValue from Table1Meta where MemberName = 'Top' and DeclaringType = ContentKey order by MetaKey desc), '0') as Top";
+                    //sql += ", coalesce((select MemberValue from Table1Meta where MemberName = 'Width' and DeclaringType = ContentKey order by MetaKey desc), '0') as Width";
+                    //sql += ", coalesce((select MemberValue from Table1Meta where MemberName = 'Height' and DeclaringType = ContentKey order by MetaKey desc), '0') as Height";
 
-                    sql += " from Table1";
+                    //sql += " from Table1";
 
-                    new SQLiteCommand(sql, c).ExecuteReaderForEach(
+                    new SQLiteCommand(
+                        FromTable1Select.GetSource(), c
+                    ).ExecuteReaderForEach(
                         xx =>
                         {
                             var reader = xx as IDataReader;
@@ -428,18 +428,24 @@ namespace DropFileIntoSQLite
                     {
                         c.Open();
 
-                        {
-                            var sql = "create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null, ContentBytes blob)";
-                            using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
-                            {
-                            }
-                        }
+                        default(Table1_ContentKey).CreateTable(c);
+
+
 
                         {
-                            var sql = "insert into Table1 (ContentValue, ContentBytes) values (?, ?)";
-                            var cmd = new SQLiteCommand(sql, c);
-                            cmd.Parameters.AddWithValue("", item.FileName);
-                            cmd.Parameters.AddWithValue("", bytes);
+                            //var sql = "insert into Table1 (ContentValue, ContentBytes) values (?, ?)";
+                            var cmd = new SQLiteCommand(
+                                UploadContentBytes.GetSource()
+                                , c);
+
+                            cmd.Parameters.AddWithValue(
+                                new UploadContentBytes
+                                {
+                                    ContentValue = item.FileName,
+                                    ContentBytes = cmd.Parameters.AddWithValue("", bytes)
+                                }
+                            );
+
 
                             using (var reader = cmd.ExecuteReader())
                             {
@@ -487,9 +493,11 @@ namespace DropFileIntoSQLite
                 {
                     c.Open();
 
-                    var sql = "select ContentBytes from Table1 where ContentKey = ?";
-                    var cmd = new SQLiteCommand(sql, c);
-                    cmd.Parameters.AddWithValue("", filepath);
+                    //var sql = "select ContentBytes from Table1 where ContentKey = ?";
+                    var cmd = new SQLiteCommand(GetContentBytes.GetSource(), c);
+                    cmd.Parameters.AddWithValue(
+                        new GetContentBytes { ContentKey = filepath }
+                    );
 
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -507,6 +515,8 @@ namespace DropFileIntoSQLite
                             while (bytesread < bytesize)
                             {
                                 // chunkSize is an arbitrary application defined value 
+
+                                // can we stream it to the client instead?
                                 bytesread += reader.GetBytes(reader.GetOrdinal("ContentBytes"), curpos, imageData, curpos, chunkSize);
                                 curpos += chunkSize;
                             }
