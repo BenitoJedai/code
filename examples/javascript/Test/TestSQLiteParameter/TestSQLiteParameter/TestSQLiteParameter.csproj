@@ -140,9 +140,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tables\Table1.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Tables\Table1.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />

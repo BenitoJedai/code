@@ -17,7 +17,7 @@ namespace TestSQLiteParameter
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed partial class ApplicationWebService : Component, ITable1
+    public sealed partial class ApplicationWebService : Component
     {
 
         public const string MyDataSource = "SQLiteWithDataGridView51.sqlite";
@@ -25,11 +25,18 @@ namespace TestSQLiteParameter
         // http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/ada5def5-0d80-43d6-ab5d-9fb1934e6556/
         //public const SecureString MyDataSource = "SQLiteWithDataGridView51.sqlite";
 
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
+        public void Table1_Last(Action<string> y)
+        {
+            new Table1(MyDataSource).With(
+                Table1 =>
+                {
+                    Table1.Last(
+                        value => y("" + value)
+                    );
+                }
+           );
+        }
+
         public void WebMethod2(string e, Action<string> y)
         {
             try
@@ -37,21 +44,24 @@ namespace TestSQLiteParameter
                 new Table1(MyDataSource).With(
                     Table1 =>
                     {
-                        var Last = -1L;
+                        if (!string.IsNullOrEmpty(e))
+                        {
+                            var Last = -1L;
 
-                        Table1.Last(
-                            //value => Last
-                            value => Last = value
-                        );
+                            Table1.Last(
+                                //value => Last
+                                value => Last = value
+                            );
 
-                        Table1.Add(
-                            // new Tables.Table1.AddQueryParameters
-                            new Tables.Table1.AddQuery
-                            {
-                                // implicit?
-                                ContentValue = new { Last, e }.ToString()
-                            }
-                        );
+                            Table1.Add(
+                                // new Tables.Table1.AddQueryParameters
+                                new Tables.Table1.AddQuery
+                                {
+                                    // implicit?
+                                    ContentValue = new { Last, e }.ToString()
+                                }
+                            );
+                        }
 
                         Table1.Enumerate(
                             // dynamic until we can actually infer what
@@ -73,31 +83,17 @@ namespace TestSQLiteParameter
             }
         }
 
-#if DEBUG
-        // we need type conversion support
-        public void Add(Tables.Table1.AddQuery value)
-        {
-            new Table1(MyDataSource).Add(value);
-        }
-
-
-        // jsc cannot translate dynamic or can it?
-        public void Enumerate(Action<dynamic> yield)
-        {
-            new Table1(MyDataSource).Enumerate(yield);
-        }
-#endif
 
     }
 
 
     public static partial class XX
     {
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource)
+        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
         {
             return y =>
             {
-                using (var c = DataSource.ToConnection())
+                using (var c = DataSource.ToConnection(Version))
                 {
                     c.Open();
 
@@ -106,12 +102,12 @@ namespace TestSQLiteParameter
             };
         }
 
-        public static SQLiteConnection ToConnection(this string DataSource)
+        public static SQLiteConnection ToConnection(this string DataSource, int Version = 3)
         {
             var csb = new SQLiteConnectionStringBuilder
             {
                 DataSource = DataSource,
-                Version = 3
+                Version = Version
             };
 
             var c = new SQLiteConnection(csb.ConnectionString);

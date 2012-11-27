@@ -92,8 +92,8 @@ namespace ScriptCoreLib.Desktop.Forms.Extensions
 
                     f.Controls.Add(c);
 
-                    w.Width = c.Width;
-                    w.Height = c.Height;
+                    //w.Width = c.Width;
+                    //w.Height = c.Height;
 
                     w.Text = c.GetType().Name;
 

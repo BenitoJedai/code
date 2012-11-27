@@ -12,55 +12,10 @@ using TestSQLiteParameter.Tables;
 
 namespace TestSQLiteParameter
 {
-    // can we have this as a component?
-    public class Table1Component : Component, ITable1
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private IContainer components;
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
-
-        public Table1Component()
-        {
-            this.InitializeComponent();
-        }
-
-        public ITable1 Proxy { get; set; }
-
-        public void Add(Tables.Table1.AddQuery value)
-        {
-#if DEBUG
-            Proxy.With(p => p.Add(value));
-#endif
-        }
-
-        public void Enumerate(Action<dynamic> yield)
-        {
-#if DEBUG
-            Proxy.With(p => p.Enumerate(yield));
-#endif
-        }
-    }
-
-    public interface ITable1
-    {
-#if DEBUG
-
-        void Add(Tables.Table1.AddQuery value);
-        void Enumerate(Action<dynamic> yield);
-#endif
-    }
+  
 
     // generated for namespace Tables
-    class Table1 : ITable1
+    class Table1
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 

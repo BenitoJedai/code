@@ -19,37 +19,65 @@ namespace TestSQLiteParameter
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
             var now = DateTime.Now;
+            InitializeContent("ApplicationControl_Load: " + now);
+        }
 
-#if xDEBUG
-            this.table1Component1.Add(
-                // new Tables.Table1.AddQueryParameters
-                       new Tables.Table1.AddQuery
-                       {
-                           // implicit?
-                           ContentValue = "Load: " + now
-                       }
-                   );
+        private void InitializeContent(string text = "")
+        {
 
-            this.table1Component1.Enumerate(
-                // dynamic until we can actually infer what
-                // fields we are getting
-                reader =>
-                {
-                    var data = new { reader.ContentKey, reader.ContentValue };
 
-                    // Send it back to the caller.
-                    this.listBox1.Items.Add(data.ToString());
-                }
-            );
-#else
-
-            this.applicationWebService1.WebMethod2("Load: " + now,
+            this.listBox1.Items.Clear();
+            this.applicationWebService1.WebMethod2(text,
                 y =>
                 {
                     this.listBox1.Items.Add(y);
                 }
             );
-#endif
+        }
+
+        class Last
+        {
+            public long value;
+        }
+        Last last;
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            var Last = -1L;
+
+            this.applicationWebService1.Table1_Last(
+                svalue =>
+                {
+                    var value = long.Parse(svalue);
+
+                    if (this.last == null)
+                    {
+                        this.last = new Last { value = value };
+                        return;
+                    }
+
+                    if (value == this.last.value)
+                        return;
+
+
+                    this.last.value = value;
+
+                    InitializeContent();
+
+                }
+            );
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+            button1.Enabled = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var now = DateTime.Now;
+            InitializeContent("button2_Click " + now);
         }
 
     }
