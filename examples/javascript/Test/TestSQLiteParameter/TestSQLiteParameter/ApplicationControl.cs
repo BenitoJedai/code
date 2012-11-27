@@ -20,12 +20,36 @@ namespace TestSQLiteParameter
         {
             var now = DateTime.Now;
 
+#if xDEBUG
+            this.table1Component1.Add(
+                // new Tables.Table1.AddQueryParameters
+                       new Tables.Table1.AddQuery
+                       {
+                           // implicit?
+                           ContentValue = "Load: " + now
+                       }
+                   );
+
+            this.table1Component1.Enumerate(
+                // dynamic until we can actually infer what
+                // fields we are getting
+                reader =>
+                {
+                    var data = new { reader.ContentKey, reader.ContentValue };
+
+                    // Send it back to the caller.
+                    this.listBox1.Items.Add(data.ToString());
+                }
+            );
+#else
+
             this.applicationWebService1.WebMethod2("Load: " + now,
                 y =>
                 {
                     this.listBox1.Items.Add(y);
                 }
             );
+#endif
         }
 
     }

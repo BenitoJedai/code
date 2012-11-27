@@ -140,6 +140,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tables\Table1.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,6 +165,7 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Content Include="Tables\Table1\Add.sql" />
+    <Content Include="Tables\Table1\Last.sql" />
     <Content Include="Tables\Table1\Enumerate.sql" />
     <Content Include="Tables\Table1\Create.sql" />
   </ItemGroup>
