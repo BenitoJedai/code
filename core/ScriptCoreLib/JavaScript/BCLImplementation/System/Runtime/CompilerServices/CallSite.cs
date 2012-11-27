@@ -1,5 +1,6 @@
 ﻿using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp;
+using ScriptCoreLib.Shared.BCLImplementation.System.Dynamic;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
             #region GetMember
             {
-                var GetMember = (object)binder as __Binder.__GetMemberBinder;
+                var GetMember = (object)binder as __GetMemberBinder;
                 if (GetMember != null)
                 {
                     var r = new Func<__CallSite, object, object>(
@@ -72,7 +73,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
                             var value = new IFunction("subject", "name", "return subject[name];").apply(null,
                                 subject,
-                                GetMember.name
+                                GetMember.Name
                             );
 
                             return value;

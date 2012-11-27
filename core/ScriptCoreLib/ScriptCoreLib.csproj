@@ -102,6 +102,8 @@
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\CancelEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\LicenseManager.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\Common\DbParameter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\Common\DbParameterCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumnCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumn.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRowCollection.cs" />
