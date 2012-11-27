@@ -139,16 +139,26 @@ namespace JellyworldExperiment.DualView
 
                                 if (data.Name.LocalName == "shared.perspective")
                                 {
-                                    CSSTransform3DFPSBlueprint.Application.window.viewport.node.style.marginTop = "-25%";
-                                    w.viewport.node.style.height = "150%";
-
-
                                     w.viewport.node.style.width = "200%";
 
                                     if (IsRightScreen)
                                     {
-                                        CSSTransform3DFPSBlueprint.Application.window.viewport.node.style.marginLeft = "-100%";
+                                        w.viewport.node.style.marginLeft = "-100%";
+
                                     }
+
+
+                                    CSSTransform3DFPSBlueprint.Application.window.viewport.node.style.marginTop = "-25%";
+                                    w.viewport.node.style.height = "150%";
+
+
+
+
+
+
+                                    //if (IsRightScreen)
+                                    //{
+                                    //}
                                 }
 
                                 if (data.Name.LocalName == "keyState")

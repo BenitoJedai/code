@@ -1,4 +1,5 @@
 using DropFileIntoSQLite.Library.Synergy;
+using DropFileIntoSQLite.Queries;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -21,11 +22,9 @@ namespace DropFileIntoSQLite
     {
         public static void CreateTable(this Table1Meta_MetaKey e, SQLiteConnection c)
         {
-            var TableName = "Table1";
-
             {
                 var sql =
-                     "create table if not exists " + TableName + "Meta ("
+                     "create table if not exists Table1Meta ("
                     + "MetaKey INTEGER PRIMARY KEY AUTOINCREMENT"
 
                     + ", DeclaringType INTEGER "
@@ -33,9 +32,7 @@ namespace DropFileIntoSQLite
                     + ", MemberName text not null"
                     + ", MemberValue text not null"
 
-
-                    // unknown column "DeclaringType" in foreign key definition
-                    + ", FOREIGN KEY(DeclaringType) REFERENCES " + TableName + "(ContentKey)"
+                    + ", FOREIGN KEY(DeclaringType) REFERENCES Table1(ContentKey)"
                     + ")";
 
 
@@ -168,17 +165,37 @@ namespace DropFileIntoSQLite
 
                 default(Table1Meta_MetaKey).CreateTable(c);
 
+                var xmd = new SetMetaValue
+                {
+                    MemberName = MemberName,
+                    MemberValue = MemberValue,
+                    DeclaringType = long.Parse(DeclaringType)
+                };
 
+                //xmd.ExecuteAsync
+
+                // http://www.sqlite.org/lang_expr.html
+                // near "MemberName": syntax error
+                // near "@MemberValue": syntax error
                 var cmd = new SQLiteCommand(
-                  "insert into Table1Meta (MemberName, MemberValue, DeclaringType) "
-                  + "values (?, ?, ?)"
-                  , c);
+                    Queries.SetMetaValue.GetSource(),
+                    c
+                );
+                
+                // JIT Compiler encountered an internal limitation.
 
-                cmd.Parameters.AddWithValue("", MemberName);
-                cmd.Parameters.AddWithValue("", MemberValue);
-                cmd.Parameters.AddWithValue("", long.Parse(DeclaringType));
+                cmd.Parameters.AddWithValue(xmd);
 
-                cmd.ExecuteNonQuery();
+                //cmd.Parameters.AddWithValue("MemberName", MemberName);
+                //cmd.Parameters.AddWithValue("MemberValue", MemberValue);
+                //cmd.Parameters.AddWithValue("DeclaringType", long.Parse(DeclaringType));
+
+
+
+                cmd.ExecuteReader().Dispose();
+
+
+
 
                 Console.WriteLine(new { DeclaringType, MemberName, MemberValue });
 
