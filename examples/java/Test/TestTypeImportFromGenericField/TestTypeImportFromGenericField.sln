@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypeImportFromGenericField", "TestTypeImportFromGenericField\TestTypeImportFromGenericField.csproj", "{D4A8FE1E-E64D-49AF-9363-5F70A1D14E59}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4A8FE1E-E64D-49AF-9363-5F70A1D14E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4A8FE1E-E64D-49AF-9363-5F70A1D14E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4A8FE1E-E64D-49AF-9363-5F70A1D14E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4A8FE1E-E64D-49AF-9363-5F70A1D14E59}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
