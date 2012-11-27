@@ -72,6 +72,7 @@
     <Compile Include="ActionScript\RayCaster\ViewInfo.cs" />
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
     <Compile Include="BCLExtensions\System\CharExtensions.cs" />
+    <Compile Include="BCLExtensions\System\Data\DynamicDataReader.cs" />
     <Compile Include="BCLExtensions\System\Int32Extensions.cs" />
     <Compile Include="BCLExtensions\System\DoubleExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\ControlExtensions.cs" />
