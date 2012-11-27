@@ -108,9 +108,16 @@
     <Compile Include="Shared\BCLImplementation\System\Data\DataRow.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataTable.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataSet.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\IDataReader.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\IDataRecord.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDbTransaction.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDbConnection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Linq\DataColumn.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\InvokeMemberBinder.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\DynamicMetaObjectBinder.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\GetMemberBinder.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\IDynamicMetaObjectProvider.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\DynamicObject.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
