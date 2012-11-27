@@ -8,6 +8,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
     [Script(Implements = typeof(global::System.Data.IDataReader))]
     internal interface __IDataReader : IDisposable, __IDataRecord
     {
+        bool IsClosed { get; }
+
+        int RecordsAffected { get; }
+
         void Close();
         bool Read();
     }

@@ -8,5 +8,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
     [Script(Implements = typeof(global::System.Dynamic.InvokeMemberBinder))]
     internal class __InvokeMemberBinder : __DynamicMetaObjectBinder
     {
+        public string Name { get; set; }
     }
 }

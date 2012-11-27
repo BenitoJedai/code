@@ -214,7 +214,7 @@ namespace System.Data
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = null;
-
+            var retvalue = true;
             // 'Implement' common reader properties directly
             if (binder.Name == "IsClosed")
                 result = DataReader.IsClosed;
@@ -232,11 +232,11 @@ namespace System.Data
                 catch
                 {
                     result = null;
-                    return false;
+                    retvalue = false;
                 }
             }
 
-            return true;
+            return retvalue;
         }
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
