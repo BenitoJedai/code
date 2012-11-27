@@ -184,15 +184,7 @@ namespace DropFileIntoSQLite
                     }
                 );
 
-                //cmd.Parameters.AddWithValue("@MemberName", MemberName);
-                //cmd.Parameters.AddWithValue("@MemberValue", MemberValue);
-                //cmd.Parameters.AddWithValue("@DeclaringType", long.Parse(DeclaringType));
-
-
-
                 cmd.ExecuteReader().Dispose();
-
-
 
 
                 Console.WriteLine(new { DeclaringType, MemberName, MemberValue });
@@ -271,16 +263,21 @@ namespace DropFileIntoSQLite
                 c.Open();
 
                 {
-                    var sql = "create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null, ContentBytes blob)";
-                    using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
+                    using (var reader = new SQLiteCommand(
+                        CreateTable1.GetSource()
+                        , c).ExecuteReader())
                     {
                     }
                 }
 
                 {
-                    var sql = "delete from Table1 where ContentKey = ?";
-                    var cmd = new SQLiteCommand(sql, c);
-                    cmd.Parameters.AddWithValue("", ContentKey);
+                    //var sql = "delete from Table1 where ContentKey = ?";
+                    var cmd = new SQLiteCommand(
+                        DeleteContentBytes.GetSource()
+                        , c);
+                    cmd.Parameters.AddWithValue(
+                        new DeleteContentBytes { ContentKey = ContentKey }
+                    );
 
 
                     using (var reader = cmd.ExecuteReader())
@@ -330,7 +327,7 @@ namespace DropFileIntoSQLite
                     ).ExecuteReaderForEach(
                         xx =>
                         {
-                            var reader = xx as IDataReader;
+                            //var reader = xx as IDataReader;
 
                             string
                                 Left = xx.Left,
@@ -339,7 +336,8 @@ namespace DropFileIntoSQLite
                                 Height = xx.Height;
 
                             long
-                                ContentKey = xx.ContentKey;
+                                ContentKey = xx.ContentKey,
+                                ContentBytesLength = xx.ContentBytesLength;
 
                             //var Left = reader.GetString(reader.GetOrdinal("Left"));
                             //var Top = reader.GetString(reader.GetOrdinal("Top"));
@@ -350,33 +348,17 @@ namespace DropFileIntoSQLite
 
                             Console.WriteLine(new { ContentKey, Left, Top });
 
-                            // Get size of image data–pass null as the byte array parameter
-                            long bytesize = reader.GetBytes(reader.GetOrdinal("ContentBytes"), 0, null, 0, 0);
-                            // Allocate byte array to hold image data
-                            ////byte[] imageData = new byte[bytesize];
-                            ////long bytesread = 0;
-                            ////int curpos = 0;
-                            ////while (bytesread < bytesize)
-                            ////{
-                            ////    // chunkSize is an arbitrary application defined value 
-                            ////    bytesread += reader.GetBytes(0, curpos, imageData, curpos, chunkSize);
-                            ////    curpos += chunkSize;
-                            ////}
-
+                
                             y(
                                 ContentKey: "" + ContentKey,
-                                Length: "" + bytesize,
+                                Length: "" + ContentBytesLength,
                                 Left: Left,
                                 Top: Top,
                                 Width: Width,
                                 Height: Height
                             );
 
-                            //dataGridView1.Rows.Add(
-                            //    "",
-                            //    ContentValue,
-                            //    "" + bytesize
-                            //);
+                   
                         }
                     );
                 }
@@ -442,7 +424,7 @@ namespace DropFileIntoSQLite
                                 new UploadContentBytes
                                 {
                                     ContentValue = item.FileName,
-                                    ContentBytes = cmd.Parameters.AddWithValue("", bytes)
+                                    ContentBytes = bytes
                                 }
                             );
 

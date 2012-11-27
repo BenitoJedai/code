@@ -75,9 +75,10 @@ namespace DropFileIntoSQLite
                         {
                             Console.WriteLine(x);
 
-                            SystemSounds.Beep.Play();
+                            //SystemSounds.Beep.Play();
                             //Console.Beep();
 
+                            #region text/uri-list
                             if (x == "text/uri-list")
                             {
                                 var src = evt.dataTransfer.getData(x);
@@ -102,7 +103,10 @@ namespace DropFileIntoSQLite
 
                                 }
                             }
+                            #endregion
 
+
+                            #region text/plain
                             if (x == "text/plain")
                             {
                                 var DocumentText = evt.dataTransfer.getData(x);
@@ -149,7 +153,10 @@ namespace DropFileIntoSQLite
                                     );
                                 }
                             }
+                            #endregion
 
+
+                            #region text/html
                             if (x == "text/html")
                             {
                                 var DocumentText = evt.dataTransfer.getData(x);
@@ -171,6 +178,8 @@ namespace DropFileIntoSQLite
                                     }
                                 );
                             }
+                            #endregion
+
                         }
                     );
                     #endregion
@@ -250,6 +259,10 @@ namespace DropFileIntoSQLite
                                             {
                                                 i.src = src;
                                             }
+
+                                            __ContentKey
+                                                     .SetLeft(ff.Left)
+                                                     .SetTop(ff.Top);
 
                                             ff.LocationChanged +=
                                                 delegate
