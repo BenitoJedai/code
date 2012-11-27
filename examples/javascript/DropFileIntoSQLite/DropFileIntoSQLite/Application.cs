@@ -50,6 +50,13 @@ namespace DropFileIntoSQLite
 
                     page.Header.style.color = JSColor.Green;
 
+                    Console.WriteLine("ondragover: " + new
+                        {
+
+                            types = evt.dataTransfer.types.Length,
+                            files = evt.dataTransfer.files.length
+                        }
+                    );
                 };
 
 
