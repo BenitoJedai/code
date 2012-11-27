@@ -1,4 +1,8 @@
-﻿create table if not exists Table1Meta (
+﻿create table if not exists 
+
+Table1Meta 
+
+(
 MetaKey INTEGER PRIMARY KEY AUTOINCREMENT
 
 , DeclaringType INTEGER 
