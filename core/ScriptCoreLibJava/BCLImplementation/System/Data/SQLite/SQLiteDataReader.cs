@@ -199,5 +199,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 return r;
             }
         }
+
+        public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

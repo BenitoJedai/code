@@ -190,6 +190,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 return keys.Length;
             }
         }
+
+        public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        {
+            throw new Exception("GetBytes");
+        }
     }
 
 }

@@ -25,6 +25,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         {
             this.Close();
         }
+
+        public abstract long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length);
+
+        public bool IsClosed
+        {
+            get;
+            set;
+        }
+
+        public int RecordsAffected
+        {
+            get;
+            set;
+        }
     }
 
 }
