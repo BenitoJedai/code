@@ -18,17 +18,21 @@ namespace TestSQLiteParameter
         private void InitializeComponent()
         {
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.table1Component1 = new TestSQLiteParameter.Table1Component();
             this.applicationWebService1 = new TestSQLiteParameter.ApplicationWebService();
             this.SuspendLayout();
             // 
             // listBox1
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Location = new System.Drawing.Point(12, 18);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(396, 295);
+            this.listBox1.Size = new System.Drawing.Size(367, 199);
             this.listBox1.TabIndex = 0;
+            // 
+            // table1Component1
+            // 
+            this.table1Component1.Proxy = this.applicationWebService1;
             // 
             // ApplicationControl
             // 
@@ -51,6 +55,7 @@ namespace TestSQLiteParameter
         }
 
         private ListBox listBox1;
+        private Table1Component table1Component1;
         private ApplicationWebService applicationWebService1;
 
     }
