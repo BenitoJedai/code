@@ -61,6 +61,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Array.cs">
       <Link>BCLImplementation\System\Array.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Attribute.cs">
+      <Link>BCLImplementation\System\Attribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Boolean.cs">
       <Link>BCLImplementation\System\Boolean.cs</Link>
     </Compile>
@@ -105,6 +108,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Decimal.cs">
       <Link>BCLImplementation\System\Decimal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Delegate.cs">
+      <Link>BCLImplementation\System\Delegate.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Double.cs">
       <Link>BCLImplementation\System\Double.cs</Link>
@@ -153,6 +159,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Math.cs">
       <Link>BCLImplementation\System\Math.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\MulticastDelegate.cs">
+      <Link>BCLImplementation\System\MulticastDelegate.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Dns.cs">
       <Link>BCLImplementation\System\Net\Dns.cs</Link>
@@ -231,6 +240,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs">
       <Link>BCLImplementation\System\Runtime\InteropServices\_Assembly.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\InteropServices\_Attribute.cs">
+      <Link>BCLImplementation\System\Runtime\InteropServices\_Attribute.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs">
       <Link>BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs</Link>
@@ -842,17 +854,12 @@
     <Compile Include="android\widget\ScrollView.cs" />
     <Compile Include="android\widget\TextView.cs" />
     <Compile Include="android\widget\LinearLayout.cs" />
-    <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
-    <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
-    <Compile Include="BCLImplementation\System\Delegate.cs" />
-    <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
-    <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpCookie.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpCookieCollection.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
