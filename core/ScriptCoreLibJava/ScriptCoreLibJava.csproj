@@ -81,9 +81,6 @@
     <Compile Include="BCLImplementation\System\Array.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\AsyncCallback.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Attribute.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -165,9 +162,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Globalization\CultureInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\IAsyncResult.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Int16.cs">

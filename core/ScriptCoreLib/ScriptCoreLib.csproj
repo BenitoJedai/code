@@ -96,6 +96,7 @@
     <Compile Include="PHP\Web\Services\WebService.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
+    <Compile Include="Shared\BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\CancelEventHandler.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Shared\BCLImplementation\System\Dynamic\GetMemberBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\IDynamicMetaObjectProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\DynamicObject.cs" />
+    <Compile Include="Shared\BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
