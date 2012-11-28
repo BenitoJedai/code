@@ -160,10 +160,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
             var r = new Func<__CallSite, object, object>(
                 (site, value) =>
                 {
+                    var t = default(Type);
+
                     // its the same type. no conversion required!
-                    if (value != null)
+                    if (value == null)
                     {
-                        if (value.GetType() == Convert.type)
+
+                    }
+                    else
+                    {
+                        t = value.GetType();
+                        if (t == Convert.type)
                             return value;
 
                         if (value is int)
@@ -184,8 +191,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                     {
                         value,
 
-                        context = Convert.context.FullName,
-                        type = Convert.type.FullName
+                        context = Convert.context,
+
+                        t,
+                        Convert.type
                     });
 
                     // should we do some reflection and conversion?

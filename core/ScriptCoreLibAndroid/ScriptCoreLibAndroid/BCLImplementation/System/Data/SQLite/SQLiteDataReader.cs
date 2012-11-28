@@ -47,8 +47,12 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             get
             {
                 int i = GetOrdinal(name);
+                var t = GetFieldType(i);
 
-                return cursor.getString(i);
+                if (t == typeof(long))
+                    return this.GetInt64(i);
+
+                return this.GetString(i);
             }
         }
 
@@ -87,7 +91,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                 return typeof(string);
 
 
-            return null;
+            throw new NotImplementedException("GetFieldType");
         }
 
         public override int FieldCount

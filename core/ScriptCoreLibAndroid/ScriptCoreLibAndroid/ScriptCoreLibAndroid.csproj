@@ -298,6 +298,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\Extensions\BCLImplementationExtensions.cs">
       <Link>Extensions\BCLImplementationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\Extensions\StringExtensions.cs">
+      <Link>Extensions\StringExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\javax\xml\parsers\DocumentBuilder.cs">
       <Link>javax\xml\parsers\DocumentBuilder.cs</Link>
     </Compile>

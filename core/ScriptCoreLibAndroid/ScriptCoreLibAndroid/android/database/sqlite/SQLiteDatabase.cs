@@ -22,6 +22,11 @@ namespace android.database.sqlite
             throw new NotImplementedException();
         }
 
+        public void execSQL(string sql, object[] bindArgs)
+        {
+            throw new NotImplementedException();
+        }
+
         public Cursor rawQuery(string sql, string[] selectionArgs)
         {
             throw new NotImplementedException();

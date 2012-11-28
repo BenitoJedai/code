@@ -27,12 +27,19 @@ namespace TestSQLiteParameter
             WithConnection(
                 c =>
                 {
-                    using (var reader = new SQLiteCommand(
-                        Tables.Table1.CreateQuery.GetSource()
-                        , c).ExecuteReader())
-                    {
+                    Console.WriteLine("Table1 create...");
 
-                    }
+                    new SQLiteCommand(
+                        Tables.Table1.CreateQuery.GetSource()
+                        , c).ExecuteNonQuery();
+
+                    //using (var reader = new SQLiteCommand(
+                    //    Tables.Table1.CreateQuery.GetSource()
+                    //    , c).ExecuteReader())
+                    //{
+
+                    //}
+                    Console.WriteLine("Table1 create... done");
                 }
             );
         }
@@ -42,6 +49,8 @@ namespace TestSQLiteParameter
             WithConnection(
                   c =>
                   {
+                      Console.WriteLine("before Add");
+
                       var cmd = new SQLiteCommand(
                           Tables.Table1.AddQuery.GetSource()
                       , c);
@@ -51,10 +60,10 @@ namespace TestSQLiteParameter
                            value
                       );
 
-                      using (var reader = cmd.ExecuteReader())
-                      {
+                      cmd.ExecuteNonQuery();
 
-                      }
+
+                      Console.WriteLine("after Add");
                   }
              );
         }
@@ -99,8 +108,10 @@ namespace TestSQLiteParameter
                               new DynamicDataReader(reader).With(
                                   (dynamic r) =>
                                   {
+                                      Console.WriteLine("Last before ContentKey");
                                       long ContentKey = r.ContentKey;
 
+                                      Console.WriteLine("Last before yield");
                                       yield(ContentKey);
                                   }
                               );
