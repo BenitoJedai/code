@@ -162,8 +162,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                 {
                     // its the same type. no conversion required!
                     if (value != null)
+                    {
                         if (value.GetType() == Convert.type)
                             return value;
+
+                        if (value is int)
+                        {
+                            if (Convert.type == typeof(long))
+                            {
+                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121101/20121127
+
+                                var value_int32 = (int)value;
+                                var value_int64 = (long)value_int32;
+
+                                return value_int64;
+                            }
+                        }
+                    }
 
                     Console.WriteLine("__CallSite Convert " + new
                     {

@@ -14,6 +14,11 @@ using System.IO;
 
 namespace TestLINQ
 {
+    class x
+    {
+        public string Name;
+        public string Value;
+    }
 
     static class Program
     {
@@ -49,8 +54,36 @@ namespace TestLINQ
             System.Console.WriteLine("done");
 
 
+            var query = @"insert into @bar Table1 (@ContentValue)  @foo values (@ContentValue) @bar";
 
+            Console.WriteLine(query);
 
+            var parameters = new[]
+            {
+                new x { Name = "@ContentValue", Value = "Foo" },
+                new x { Name = "@foo", Value = "Foo2" },
+                new x { Name = "@bar", Value = "Foo3" }
+            };
+
+            foreach (var item in
+                from p in parameters
+                from i in query.GetIndecies(p.Name)
+                orderby i
+                select new { p.Name, p.Value, i }
+
+                )
+            {
+                Console.WriteLine(new { item }.ToString());
+            }
+
+            parameters.WithEach(
+                p =>
+                {
+                    query = query.Replace(p.Name, "?");
+                }
+            );
+
+            Console.WriteLine(query);
 
             System.Console.WriteLine("jvm");
 
@@ -62,6 +95,27 @@ namespace TestLINQ
         }
 
 
+    }
+
+    static class XX
+    {
+        public static IEnumerable<int> GetIndecies(this string e, string f)
+        {
+            var a = new List<int>();
+
+            var p = 0;
+            var i = e.IndexOf(f, p);
+            while (i >= 0)
+            {
+                p = i + 1;
+
+                a.Add(i);
+
+                i = e.IndexOf(f, p);
+            }
+
+            return a;
+        }
     }
 
     public delegate XElement XElementFunc();
