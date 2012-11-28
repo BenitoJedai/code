@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
+using ScriptCoreLibJava.BCLImplementation.System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -10,6 +11,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
     internal class __SQLiteCommand : __DbCommand
     {
+        // see also: X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
+
         __SQLiteConnection c;
         string sql;
 
@@ -17,6 +20,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             this.c = (__SQLiteConnection)(object)c;
             this.sql = sql;
+
+            this.InternalParameters = new __SQLiteParameterCollection { };
+            this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
         }
 
         public override int ExecuteNonQuery()
@@ -32,6 +38,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             return new __SQLiteDataReader { cursor = c.db.rawQuery(sql, null) };
         }
+
+        public __SQLiteParameterCollection InternalParameters;
+        public SQLiteParameterCollection Parameters { get; set; }
     }
 
 }

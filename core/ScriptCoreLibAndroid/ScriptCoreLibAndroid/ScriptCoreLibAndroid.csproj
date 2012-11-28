@@ -94,8 +94,17 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Configuration\SettingsBase.cs">
       <Link>BCLImplementation\System\Configuration\SettingsBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs">
+      <Link>BCLImplementation\System\Data\SQLite\SQLiteParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs">
+      <Link>BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs">
       <Link>BCLImplementation\System\DateTime.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Decimal.cs">
+      <Link>BCLImplementation\System\Decimal.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Double.cs">
       <Link>BCLImplementation\System\Double.cs</Link>
@@ -216,6 +225,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\RuntimeTypeHandle.cs">
       <Link>BCLImplementation\System\RuntimeTypeHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs">
+      <Link>BCLImplementation\System\Runtime\CompilerServices\CallSite.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs">
       <Link>BCLImplementation\System\Runtime\InteropServices\_Assembly.cs</Link>
