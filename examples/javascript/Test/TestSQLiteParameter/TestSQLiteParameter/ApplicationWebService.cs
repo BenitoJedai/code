@@ -63,6 +63,8 @@ namespace TestSQLiteParameter
                             );
                         }
 
+                        Console.WriteLine("before Enumerate");
+
                         Table1.Enumerate(
                             // dynamic until we can actually infer what
                             // fields we are getting
@@ -74,6 +76,9 @@ namespace TestSQLiteParameter
                                 y(data.ToString());
                             }
                         );
+
+                        Console.WriteLine("after Enumerate");
+
                     }
                 );
             }
@@ -91,13 +96,28 @@ namespace TestSQLiteParameter
     {
         public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
         {
+            Console.WriteLine("AsWithConnection...");
+
             return y =>
             {
+                Console.WriteLine("AsWithConnection... invoke");
+
                 using (var c = DataSource.ToConnection(Version))
                 {
                     c.Open();
 
-                    y(c);
+                    try
+                    {
+                        y(c);
+                    }
+                    catch (Exception ex)
+                    {
+                        var message = new { ex.Message, ex.StackTrace }.ToString();
+
+                        Console.WriteLine("AsWithConnection... error: " + message);
+
+                        throw new InvalidOperationException(message);
+                    }
                 }
             };
         }

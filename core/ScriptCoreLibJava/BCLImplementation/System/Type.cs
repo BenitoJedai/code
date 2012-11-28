@@ -140,10 +140,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
             catch
             {
- 
+
             }
 
-            return (__MethodInfo) m ;
+            return (__MethodInfo)m;
         }
 
         public MethodInfo[] GetMethods()
@@ -158,7 +158,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
                 // suppressing default Java language access control checks
                 // - does it actually do that?
 
-                //  access denied (java.lang.reflect.ReflectPermission suppressAccessChecks), StackTrace = java.security.AccessControlException: access denied (java.lang.reflect.ReflectPermission suppressAccessChecks)                //a[i].setAccessible(true);
+                //  access denied (java.lang.reflect.ReflectPermission suppressAccessChecks), StackTrace = java.security.AccessControlException: access denied (java.lang.reflect.ReflectPermission suppressAccessChecks)
+                //a[i].setAccessible(true);
 
                 n[i] = (MethodInfo)(object)new __MethodInfo { InternalMethod = a[i] };
 
@@ -469,6 +470,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
                 return this.FullName + ", " + this.Assembly.FullName;
             }
+        }
+
+        public override string ToString()
+        {
+            return this.FullName;
         }
     }
 }
