@@ -99,9 +99,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             throw new NotImplementedException();
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public List<T>.Enumerator GetEnumerator()
+        //public __Enumerator GetEnumerator()
         {
-            return new __Enumerator(this);
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121101/20121127
+
+            return (List<T>.Enumerator)(object)new __Enumerator(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -109,7 +112,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             return new __Enumerator(this);
         }
 
-
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return new __Enumerator(this);
+        }
 
 
         public void Reverse()
@@ -190,6 +196,70 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
             #endregion
         }
+
+        int IList<T>.IndexOf(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IList<T>.Insert(int index, T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IList<T>.RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        T IList<T>.this[int index]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        void ICollection<T>.Add(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ICollection<T>.Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ICollection<T>.Contains(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        int ICollection<T>.Count
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        bool ICollection<T>.IsReadOnly
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        bool ICollection<T>.Remove(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+     
     }
 }
 

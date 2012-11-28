@@ -12,5 +12,9 @@ namespace java.sql
     {
         ResultSet executeQuery();
         int executeUpdate();
+
+        void setInt(int parameterIndex, int x);
+        void setLong(int parameterIndex, long x);
+        void setString(int parameterIndex, string x);
     }
 }

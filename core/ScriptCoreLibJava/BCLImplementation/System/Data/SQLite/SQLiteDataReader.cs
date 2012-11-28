@@ -58,6 +58,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
                 var i = this.GetOrdinal(name);
 
+                var t = this.GetFieldType(i);
+
+                Console.WriteLine("__SQLiteDataReader get_Item " + new { name, i, t.FullName });
+
+                if (t == typeof(int))
+                    return this.GetInt32(i);
+
+                if (t == typeof(long))
+                    return this.GetInt64(i);
+
+
                 return this.GetString(i);
             }
         }

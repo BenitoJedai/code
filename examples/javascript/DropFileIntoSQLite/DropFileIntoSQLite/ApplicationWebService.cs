@@ -26,7 +26,7 @@ namespace DropFileIntoSQLite
         {
             {
                 using (var reader = new SQLiteCommand(
-                    CreateTable1Meta.GetSource()
+                    CreateTable1MetaQuery.GetSource()
                     , c).ExecuteReader())
                 {
 
@@ -38,7 +38,7 @@ namespace DropFileIntoSQLite
         {
             {
                 using (var reader = new SQLiteCommand(
-                    CreateTable1.GetSource()
+                    CreateTable1MetaQuery.GetSource()
                     , c).ExecuteReader())
                 {
 
@@ -171,12 +171,12 @@ namespace DropFileIntoSQLite
                 //xmd.ExecuteAsync
 
                 var cmd = new SQLiteCommand(
-                    Queries.SetMetaValue.GetSource(),
+                    Queries.SetMetaValueQuery.GetSource(),
                     c
                 );
 
                 cmd.Parameters.AddWithValue(
-                    new SetMetaValue
+                    new SetMetaValueQuery
                     {
                         MemberName = MemberName,
                         MemberValue = MemberValue,
@@ -264,7 +264,7 @@ namespace DropFileIntoSQLite
 
                 {
                     using (var reader = new SQLiteCommand(
-                        CreateTable1.GetSource()
+                        CreateTable1Query.GetSource()
                         , c).ExecuteReader())
                     {
                     }
@@ -273,10 +273,10 @@ namespace DropFileIntoSQLite
                 {
                     //var sql = "delete from Table1 where ContentKey = ?";
                     var cmd = new SQLiteCommand(
-                        DeleteContentBytes.GetSource()
+                        DeleteContentBytesQuery.GetSource()
                         , c);
                     cmd.Parameters.AddWithValue(
-                        new DeleteContentBytes { ContentKey = ContentKey }
+                        new DeleteContentBytesQuery { ContentKey = ContentKey }
                     );
 
 
@@ -304,7 +304,7 @@ namespace DropFileIntoSQLite
 
                 {
                     using (var reader = new SQLiteCommand(
-                        CreateTable1.GetSource(), c).ExecuteReader())
+                        CreateTable1Query.GetSource(), c).ExecuteReader())
                     {
                     }
                 }
@@ -323,7 +323,7 @@ namespace DropFileIntoSQLite
                     //sql += " from Table1";
 
                     new SQLiteCommand(
-                        FromTable1Select.GetSource(), c
+                        FromTable1SelectQuery.GetSource(), c
                     ).ExecuteReaderForEach(
                         xx =>
                         {
@@ -417,11 +417,11 @@ namespace DropFileIntoSQLite
                         {
                             //var sql = "insert into Table1 (ContentValue, ContentBytes) values (?, ?)";
                             var cmd = new SQLiteCommand(
-                                UploadContentBytes.GetSource()
+                                UploadContentBytesQuery.GetSource()
                                 , c);
 
                             cmd.Parameters.AddWithValue(
-                                new UploadContentBytes
+                                new UploadContentBytesQuery
                                 {
                                     ContentValue = item.FileName,
                                     ContentBytes = bytes
@@ -476,9 +476,9 @@ namespace DropFileIntoSQLite
                     c.Open();
 
                     //var sql = "select ContentBytes from Table1 where ContentKey = ?";
-                    var cmd = new SQLiteCommand(GetContentBytes.GetSource(), c);
+                    var cmd = new SQLiteCommand(GetContentBytesQuery.GetSource(), c);
                     cmd.Parameters.AddWithValue(
-                        new GetContentBytes { ContentKey = filepath }
+                        new GetContentBytesQuery { ContentKey = filepath }
                     );
 
                     using (var reader = cmd.ExecuteReader())

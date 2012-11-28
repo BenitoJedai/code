@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using ScriptCoreLibJava.Extensions;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
@@ -53,8 +54,40 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
                     Console.WriteLine("we have InternalParameters for " + sql);
 
+                    var parameters = this.InternalParameters.InternalParameters;
+
+                    var index =
+                       from p in parameters
+                       from i in this.sql.GetIndecies(p.ParameterName)
+                       orderby i
+                       select new { p, i };
+
+
+
+                    foreach (var p in parameters)
+                    {
+                        // java seems to like indexed parameters instead
+                        sql = sql.Replace(p.ParameterName, "?");
+                    }
 
                     this.InternalPreparedStatement = this.c.InternalConnection.prepareStatement(sql);
+
+                    var c = 0;
+                    foreach (var item in index)
+                    {
+                        c++;
+
+                        if (item.p.Value is int)
+                            this.InternalPreparedStatement.setInt(c, (int)item.p.Value);
+                        else if (item.p.Value is long)
+                            this.InternalPreparedStatement.setLong(c, (long)item.p.Value);
+                        else if (item.p.Value is string)
+                            this.InternalPreparedStatement.setString(c, (string)item.p.Value);
+                        else
+                            throw new InvalidOperationException(
+                                "InternalCreateStatement " + new { this.sql, item }
+                            );
+                    }
 
                     // add values
 

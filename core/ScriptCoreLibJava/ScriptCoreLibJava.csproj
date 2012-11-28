@@ -404,6 +404,7 @@
     <Compile Include="BCLImplementation\System\Xml\Linq\XObject.cs" />
     <Compile Include="Extensions\BCLImplementationExtensions.cs" />
     <Compile Include="Extensions\ConfigurationProvider.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
     <Compile Include="javax.common\runtime\Helper.cs" />
