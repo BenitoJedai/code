@@ -33,9 +33,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             this.sql = SQLiteToMySQLConversion.Convert(sql, this.c.InternalConnectionString.DataSource);
 
-            //InternalCreateStatement();
-
-            this.InternalParameters = new __SQLiteParameterCollection { Context = this };
+            this.InternalParameters = new __SQLiteParameterCollection {  };
             this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
 
         }

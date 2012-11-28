@@ -11,7 +11,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteParameterCollection))]
     internal class __SQLiteParameterCollection : __DbParameterCollection
     {
-        public __SQLiteCommand Context;
+        //public __SQLiteCommand Context;
 
         public List<__SQLiteParameter> InternalParameters = new List<__SQLiteParameter>();
 

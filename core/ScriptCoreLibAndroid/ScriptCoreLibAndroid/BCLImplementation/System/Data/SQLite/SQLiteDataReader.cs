@@ -94,6 +94,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             get { return this.cursor.getColumnCount(); }
         }
+
+        public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

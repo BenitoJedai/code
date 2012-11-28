@@ -201,7 +201,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServiceJava:false /DisableWebServicePHP:true /DisableWebServiceAndroid:true /xAttachDebugger:true
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /xDisableWebServiceJava:false /DisableWebServicePHP:true /DisableWebServiceAndroid:false /xAttachDebugger:true
 )</PostBuildEvent>
     <PreBuildEvent>
 
