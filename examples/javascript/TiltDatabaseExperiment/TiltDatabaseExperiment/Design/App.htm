@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>App</title>
+  </head>
+  <body style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px;">
+
+    <noscript>Error: This Application requires JavaScript.</noscript>
+    <link rel='stylesheet' href='App.css'/>
+    <div id='PageContainer'>
+      <div>Touch and tilt input shall be streamed to the server</div>
+      <div>
+        id: <span id='idelement'>?</span>
+      </div>
+
+      <div>
+        dx: <span id='dx'>?</span>
+      </div>
+
+      <div>
+        dy: <span id='dy'>?</span>
+      </div>
+    </div>
+
+    <div>
+      Each delta input sent to the server will be attached to a timestamp.
+      
+      When other clients ask for updates they will be sent the sum of the deltas between timestamps.
+      
+    </div>
+  </body>
+</html>
