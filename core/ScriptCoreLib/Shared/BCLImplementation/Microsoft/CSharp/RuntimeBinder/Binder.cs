@@ -12,15 +12,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
     [Script(Implements = typeof(global::Microsoft.CSharp.RuntimeBinder.Binder))]
     internal static class __Binder
     {
-        #region SetMember
-        [Script]
-        public class __SetMemberBinder : __CallSiteBinder
-        {
-            public CSharpBinderFlags flags;
-            public string name;
-            public Type context;
-            public IEnumerable<CSharpArgumentInfo> argumentInfo;
-        }
 
         public static CallSiteBinder SetMember(
             CSharpBinderFlags flags,
@@ -34,13 +25,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
             // will be called after: __CallSite.Create
             return (CallSiteBinder)(object)new __SetMemberBinder
             {
+                Name = name,
+
                 flags = flags,
-                name = name,
                 context = context,
                 argumentInfo = argumentInfo
             };
         }
-        #endregion
+       
 
         #region Convert
         [Script]
