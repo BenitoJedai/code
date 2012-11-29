@@ -35,7 +35,10 @@ namespace DynamicObjectExperiment
             dynamic bar = foo;
 
             bar.foo = "foo";
-            Console.WriteLine("after foo");
+
+            var goo = bar.goo;
+
+            Console.WriteLine("after foo: " + new { goo });
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -47,7 +50,7 @@ namespace DynamicObjectExperiment
 
     }
 
-    class MyDynamic : __DynamicObject
+    class MyDynamic : DynamicObject
     {
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
@@ -57,7 +60,7 @@ namespace DynamicObjectExperiment
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            result = null;
+            result = "MyDynamic" + new { binder.Name };
             return true;
         }
 
