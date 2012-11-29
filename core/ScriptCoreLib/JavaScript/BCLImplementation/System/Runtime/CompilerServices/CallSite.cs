@@ -37,7 +37,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
                             var x = subject as DynamicObject;
                             if (x != null)
                             {
-                                Console.WriteLine("__SetMemberBinder DynamicObject");
+                                //Console.WriteLine("__SetMemberBinder DynamicObject");
 
                                 if (x.TrySetMember((SetMemberBinder)(object)SetMember, value))
                                 {
@@ -81,6 +81,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
                     var r = new Func<__CallSite, object, object>(
                         (site, subject) =>
                         {
+                            var x = subject as DynamicObject;
+                            if (x != null)
+                            {
+                                //Console.WriteLine("__SetMemberBinder DynamicObject");
+                                var result = default(object);
+
+                                if (x.TryGetMember((GetMemberBinder)(object)GetMember, out result))
+                                {
+                                    return result;
+                                }
+                            }
                             //Console.WriteLine("__CallSite GetMember " + new { subject, GetMember.name });
 
                             var value = new IFunction("subject", "name", "return subject[name];").apply(null,
