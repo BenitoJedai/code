@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSound.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Shared\BCLImplementation\System\Data\IDbConnection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Linq\DataColumn.cs" />
     <Compile Include="Shared\BCLImplementation\System\DBNull.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\DynamicMetaObject.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\SetMemberBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\InvokeMemberBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\DynamicMetaObjectBinder.cs" />

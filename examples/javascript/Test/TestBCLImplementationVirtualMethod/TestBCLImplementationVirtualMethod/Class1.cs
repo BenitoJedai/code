@@ -5,7 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-[assembly: Script, ScriptTypeFilter(ScriptType.JavaScript)]
+[assembly: Script,
+ScriptTypeFilter(ScriptType.JavaScript),
+ScriptTypeFilter(ScriptType.ActionScript)
+]
 
 namespace TestBCLImplementationVirtualMethod
 {
@@ -13,6 +16,12 @@ namespace TestBCLImplementationVirtualMethod
     {
         public virtual void foo()
         {
+
+        }
+
+        public virtual void foon(string ax, ref string bx)
+        {
+
         }
     }
 
@@ -20,6 +29,11 @@ namespace TestBCLImplementationVirtualMethod
     public class Class2
     {
         public virtual void foo()
+        {
+
+        }
+
+        public virtual void foon(string ax, ref string bx)
         {
 
         }
@@ -38,6 +52,11 @@ namespace TestBCLImplementationVirtualMethod
     public class Class5 : Class1
     {
         public override void foo()
+        {
+
+        }
+
+        public override void foon(string ax, ref string bx)
         {
 
         }

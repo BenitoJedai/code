@@ -9,5 +9,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     internal static class __Expression
     {
         // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\ApplicationWebService.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121101/20121127
+
     }
 }
