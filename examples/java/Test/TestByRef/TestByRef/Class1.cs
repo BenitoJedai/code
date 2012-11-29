@@ -17,12 +17,15 @@ namespace TestByRef
 
         static void foo()
         {
+            var r = 0;
             var c = new Class1();
-            bar(ref c);
+            bar(ref c, out r);
         }
 
-        static void bar(ref Class1 c)
+        static void bar(ref Class1 c, out int r)
         {
+            r = 2;
+
             var x = c;
             var y = c;
             var z = new[] { c };
@@ -31,7 +34,7 @@ namespace TestByRef
 
             c = null;
 
-            bar(ref y);
+            bar(ref y, out r);
         }
     }
 }

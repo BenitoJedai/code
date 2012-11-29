@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Media;
+using System.Reflection;
 
 namespace ScriptCoreLib.Desktop.Extensions
 {
@@ -68,7 +69,7 @@ namespace ScriptCoreLib.Desktop.Extensions
 
                     if (double.IsNaN(c.Width))
                     {
-                      
+
                     }
                     else
                     {
@@ -77,6 +78,12 @@ namespace ScriptCoreLib.Desktop.Extensions
                     }
 
                     c.AttachTo(ActualSize);
+
+                    // hack
+                    // Could not load file or assembly 'c:\/util\/jsc\/bin\/ScriptCoreLib.Ultra.Components.Volatile.dll' or one of its dependencies. The given assembly name or codebase was invalid. (Exception from HRESULT: 0x80131047)
+                    //var JSCBrandedWindow = Assembly.Load(@"c:\util\jsc\bin\ScriptCoreLib.Ultra.Components.Volatile.dll").GetType("ScriptCoreLib.Avalon.Desktop.JSCBrandedWindow");
+
+                    //var branded = (Window)Activator.CreateInstance(JSCBrandedWindow);
 
                     var w = ActualSize.ToWindow();
 

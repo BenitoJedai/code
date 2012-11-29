@@ -37,5 +37,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
 
             return default(bool);
         }
+
+        public DynamicMetaObject GetMetaObject(global::System.Linq.Expressions.Expression parameter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
