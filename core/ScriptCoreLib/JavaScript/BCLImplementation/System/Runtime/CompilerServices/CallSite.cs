@@ -4,6 +4,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Dynamic;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -27,20 +28,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
             #region SetMember
             {
-                var SetMember = (object)binder as __Binder.__SetMemberBinder;
+                var SetMember = (object)binder as __SetMemberBinder;
                 if (SetMember != null)
                 {
                     var r = new Func<__CallSite, object, object, object>(
                         (site, subject, value) =>
                         {
+                            var x = subject as DynamicObject;
+                            if (x != null)
+                            {
+                                Console.WriteLine("__SetMemberBinder DynamicObject");
+
+                                if (x.TrySetMember((SetMemberBinder)(object)SetMember, value))
+                                {
+                                    return null;
+                                }
+                            }
+
                             #region special rule - boundary DOM / BCL
                             if (subject == Native.Window)
                             {
-                                var x = value as Delegate;
+                                var xx = value as Delegate;
 
-                                if (x != null)
+                                if (xx != null)
                                 {
-                                    value = IFunction.OfDelegate(x);
+                                    value = IFunction.OfDelegate(xx);
                                 }
                             }
                             #endregion
@@ -49,7 +61,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
                             new IFunction("subject", "name", "value", "subject[name] = value;").apply(null,
                                 subject,
-                                SetMember.name,
+                                SetMember.Name,
                                 value
                             );
 

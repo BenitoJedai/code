@@ -7,8 +7,23 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
 {
     [Script(Implements = typeof(global::System.Dynamic.DynamicObject))]
-    internal class __DynamicObject : __IDynamicMetaObjectProvider
+    public class __DynamicObject : __IDynamicMetaObjectProvider
     {
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Dynamic.DynamicObject.TrySetMember(System.Dynamic.SetMemberBinder, System.Object)]
+
+        //public bool InternalTrySetMember(SetMemberBinder binder, object value)
+        //{
+        //    Console.WriteLine("__DynamicObject InternalTrySetMember");
+        //    return this.TrySetMember(binder, value);
+        //}
+
+        public virtual bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            Console.WriteLine("__DynamicObject TrySetMember");
+
+            return default(bool);
+        }
+
         public virtual bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = default(object);

@@ -117,6 +117,7 @@
     <Compile Include="Shared\BCLImplementation\System\Data\IDbConnection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Linq\DataColumn.cs" />
     <Compile Include="Shared\BCLImplementation\System\DBNull.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\SetMemberBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\InvokeMemberBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\DynamicMetaObjectBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\GetMemberBinder.cs" />
