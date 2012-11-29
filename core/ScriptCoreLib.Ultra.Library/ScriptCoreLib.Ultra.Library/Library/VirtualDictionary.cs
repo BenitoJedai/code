@@ -14,6 +14,7 @@ namespace jsc.Library
     {
         public abstract IDisposable ToTransientTransaction();
 
+
         public static VirtualDictionary<TKey, TValue> Create<TKey, TValue>(Func<TKey, TValue> handler)
         {
             var v = new VirtualDictionary<TKey, TValue>();
@@ -76,18 +77,23 @@ namespace jsc.Library
         }
 
 
+        public object GetItemSync = new object();
+
         public TValue this[TKey k]
         {
             //[method: DebuggerStepThrough]
             get
             {
-                if (!BaseDictionary.ContainsKey(k))
+                lock (GetItemSync)
                 {
+                    if (!BaseDictionary.ContainsKey(k))
+                    {
 
-                    RaiseResolve(k);
+                        RaiseResolve(k);
+                    }
+
+                    return BaseDictionary[k];
                 }
-
-                return BaseDictionary[k];
             }
             set
             {
