@@ -131,9 +131,9 @@ namespace CSSTransform3DFPSBlueprint
                     (item as DeskCube).With(
                         f =>
                         {
-                     
 
-                            var cubeheight = Math.Max(300, f.CubeHeight) ;
+
+                            var cubeheight = Math.Max(300, f.CubeHeight);
 
                             new cube(
                                 "url(assets/CSSTransform3DFPSBlueprint/desk.jpg)",
@@ -233,7 +233,7 @@ namespace CSSTransform3DFPSBlueprint
 
                                 -f.Right * zoom, f.Top * zoom,
 
-                                0 - f.Z * zoom + zz ,
+                                0 - f.Z * zoom + zz,
                                 //-250, 
 
                                 0, 0, 0);
@@ -432,6 +432,49 @@ namespace CSSTransform3DFPSBlueprint
                      }
                  };
             #endregion
+
+            var touchx = 0;
+            var touchy = 0;
+
+            Native.Document.body.ontouchstart +=
+             e =>
+             {
+                 touchx = e.touches[0].pageX;
+                 touchy = e.touches[0].pageY;
+
+                 // to be lowercased
+                 e.PreventDefault();
+             };
+
+            Native.Document.body.ontouchmove +=
+              e =>
+              {
+                  e.PreventDefault();
+
+                  var ztouchx = e.touches[0].pageX;
+                  var ztouchy = e.touches[0].pageY;
+
+                  window.viewport.camera.rotation.x -= (ztouchy - touchy) / 2;
+                  window.viewport.camera.rotation.z += (ztouchx - touchx) / 2;
+
+                  touchx = ztouchx;
+                  touchy = ztouchy;
+              };
+            //document.addEventListener("touchstart", function (ev) {
+            //    pointer.x = ev.targetTouches[0].pageX;
+            //    pointer.y = ev.targetTouches[0].pageY;
+            //    ev.preventDefault();
+            //}, false);
+
+            //document.addEventListener("touchmove", function (ev) {
+            //    viewport.camera.rotation.x -= (ev.targetTouches[0].pageY - pointer.y) / 2;
+            //    viewport.camera.rotation.z += (ev.targetTouches[0].pageX - pointer.x) / 2;
+            //    pointer.x = ev.targetTouches[0].pageX;
+            //    pointer.y = ev.targetTouches[0].pageY;
+            //    ev.preventDefault();
+            //}, false);
+
+
 
 
             #region loop

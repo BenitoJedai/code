@@ -171,6 +171,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Library\threedee.js" />
+    <Content Include="Design\Preview.png" />
     <Content Include="Textures\desk.jpg" />
     <Content Include="Textures\mac-keybd.png" />
     <Content Include="Textures\osx.jpg" />
@@ -206,7 +207,7 @@
 start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
 )
 
-if $(ConfigurationName)==Release (
+if $(ConfigurationName)==Android (
 start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /FilterTo:$(SolutionDir)
 )</PostBuildEvent>
     <PreBuildEvent>

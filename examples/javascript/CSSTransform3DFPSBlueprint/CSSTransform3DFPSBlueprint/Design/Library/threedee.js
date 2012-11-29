@@ -220,17 +220,3 @@ viewport.camera.update();
 //    keyState.backward = ev.accelerationIncludingGravity.z > 3;
 //}, false);
 
-//document.addEventListener("touchstart", function (ev) {
-//    pointer.x = ev.targetTouches[0].pageX;
-//    pointer.y = ev.targetTouches[0].pageY;
-//    ev.preventDefault();
-//}, false);
-
-//document.addEventListener("touchmove", function (ev) {
-//    viewport.camera.rotation.x -= (ev.targetTouches[0].pageY - pointer.y) / 2;
-//    viewport.camera.rotation.z += (ev.targetTouches[0].pageX - pointer.x) / 2;
-//    pointer.x = ev.targetTouches[0].pageX;
-//    pointer.y = ev.targetTouches[0].pageY;
-//    ev.preventDefault();
-//}, false);
-
