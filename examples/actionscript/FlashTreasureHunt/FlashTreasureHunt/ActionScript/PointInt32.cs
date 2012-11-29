@@ -6,7 +6,6 @@ using ScriptCoreLib;
 
 namespace FlashTreasureHunt.ActionScript
 {
-	[Script]
 	public class PointInt32
 	{
 		public int X;

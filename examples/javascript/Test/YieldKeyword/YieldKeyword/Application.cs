@@ -28,7 +28,9 @@ namespace YieldKeyword
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            Foo().WithEach(
+            var q = new[] { "foo", "bar" };
+
+            Foo(q).WithEach(
                 k => new IHTMLDiv { innerText = k }.AttachTo(page.Content)
             );
 
@@ -41,9 +43,19 @@ namespace YieldKeyword
         }
 
 
-        public static IEnumerable<string> Foo()
+        public static IEnumerable<string> Foo(IEnumerable<string> content)
         {
             yield return "hello";
+
+            var e = content.AsEnumerable().GetEnumerator();
+
+            while (e.MoveNext())
+            {
+                var item = e.Current;
+
+                yield return "content " + item;
+            }
+
             yield return "world";
         }
     }

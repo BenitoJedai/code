@@ -12,12 +12,12 @@ namespace FlashTreasureHunt
 	/// Without this class some assemblies are not referenced as they only contain
 	/// type mappings but no real type usage.
 	/// </summary>
-	public interface IAssemblyReferenceToken :
-		ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
-		ScriptCoreLib.Shared.IAssemblyReferenceToken
-        //,
-        //ScriptCoreLib.Shared.Maze.IAssemblyReferenceToken,
-        //ScriptCoreLib.Shared.RayCaster.IAssemblyReferenceToken
-	{
-	}
+    //public interface IAssemblyReferenceToken :
+    //    ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
+    //    ScriptCoreLib.Shared.IAssemblyReferenceToken
+    //    //,
+    //    //ScriptCoreLib.Shared.Maze.IAssemblyReferenceToken,
+    //    //ScriptCoreLib.Shared.RayCaster.IAssemblyReferenceToken
+    //{
+    //}
 }
