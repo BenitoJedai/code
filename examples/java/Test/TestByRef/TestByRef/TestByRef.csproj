@@ -45,7 +45,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -js
-c:\util\jsc\bin\jsc.exe $(TargetPath) -java</PostBuildEvent>
+c:\util\jsc\bin\jsc.exe $(TargetPath) -java
+c:\util\jsc\bin\jsc.exe $(TargetPath) -as</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
