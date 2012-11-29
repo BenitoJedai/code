@@ -8,6 +8,7 @@ using ScriptCoreLibJava.AppEngine.API.memcache;
 namespace ScriptCoreLibJava.AppEngine.Extensions.memcache
 {
 	[Script]
+    [Obsolete]
 	public class MemcacheEntry
 	{
 		public MemcacheService Context;
