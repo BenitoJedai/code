@@ -6,8 +6,6 @@ using ScriptCoreLib;
 
 namespace FlashTreasureHunt.ActionScript
 {
-
-	[Script]
 	public class JoinAction
 	{
 		int _counter = 0;

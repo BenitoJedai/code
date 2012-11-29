@@ -16,7 +16,6 @@ namespace FlashTreasureHunt.ActionScript
 	/// <summary>
 	/// This class defines the extension methods for this project
 	/// </summary>
-	[Script]
 	public static class Extensions
 	{
 		public static double GetDistance(this Point a, Point b)

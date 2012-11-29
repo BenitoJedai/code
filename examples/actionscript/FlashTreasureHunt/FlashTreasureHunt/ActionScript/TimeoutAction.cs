@@ -7,7 +7,6 @@ using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace FlashTreasureHunt.ActionScript
 {
-	[Script]
 	public class TimeoutAction
 	{
 		// 5 minutes

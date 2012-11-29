@@ -10,7 +10,6 @@ using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashTreasureHunt.ActionScript
 {
-	[Script]
 	public class SpriteInfoExtended : SpriteInfo
 	{
 		public bool IsTaken;

@@ -7,7 +7,6 @@ using ScriptCoreLib;
 
 namespace FlashTreasureHunt.ActionScript
 {
-	[Script]
 	public static class Filters
 	{
 		const double r = 0.212671;

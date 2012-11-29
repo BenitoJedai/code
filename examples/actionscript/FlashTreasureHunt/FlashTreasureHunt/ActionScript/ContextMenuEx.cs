@@ -7,7 +7,6 @@ using ScriptCoreLib;
 
 namespace FlashTreasureHunt.ActionScript
 {
-	[Script]
 	public class ContextMenuEx : IEnumerable<ContextMenuItem>
 	{
 		readonly ContextMenu Element = new ContextMenu();
