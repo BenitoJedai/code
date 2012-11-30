@@ -33,7 +33,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             this.sql = SQLiteToMySQLConversion.Convert(sql, this.c.InternalConnectionString.DataSource);
 
-            this.InternalParameters = new __SQLiteParameterCollection {  };
+            this.InternalParameters = new __SQLiteParameterCollection { };
             this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
 
         }
@@ -75,16 +75,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                     {
                         c++;
 
-                        if (item.p.Value is int)
+                        if (item.p.Value == null)
+                        {
+                            // set null?
+                        }
+                        else if (item.p.Value is int)
                             this.InternalPreparedStatement.setInt(c, (int)item.p.Value);
                         else if (item.p.Value is long)
                             this.InternalPreparedStatement.setLong(c, (long)item.p.Value);
                         else if (item.p.Value is string)
                             this.InternalPreparedStatement.setString(c, (string)item.p.Value);
                         else
-                            throw new InvalidOperationException(
-                                "InternalCreateStatement " + new { this.sql, item }
-                            );
+                        {
+                            var message = "InternalCreateStatement, what to do with this? " + new
+                            {
+                                this.sql,
+                                item,
+                                type = item.GetType()
+                            };
+
+                            throw new InvalidOperationException(message);
+                        }
                     }
 
                     // add values
