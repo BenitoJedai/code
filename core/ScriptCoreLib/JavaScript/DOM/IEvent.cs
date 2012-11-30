@@ -287,7 +287,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         #region PreventDefault
         [Script(DefineAsStatic = true)]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [Obsolete("preventDefault")]
         public void PreventDefault() { InternalPreventDefault(this); }
+
+        [Script(DefineAsStatic = true)]
+        public void preventDefault() { InternalPreventDefault(this); }
 
         internal string returnValue;
 

@@ -1,7 +1,9 @@
 using DeltaExperiment;
+using ScriptCoreLib.GLSL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -55,25 +57,29 @@ namespace DeltaExperiment
         private void button3_Click(object sender, EventArgs e)
         {
 #if DEBUG
-            // cannot_do_this_just_yet
-            // using a field component from the serverside shall cause
-            // this function to run on serverside.
-            // implicit rewrite
-            // any incoming parameter read shall be performed ahead of time
-            var now = DateTime.Now;
+            var data = new List<ivec3>();
 
-            applicationWebService1.delta.Add(
-                ticks: now.Ticks,
-                x: int.Parse(x)
+            applicationWebService1.delta.Enumerate(
+                reader =>
+                {
+                    long id = reader.id;
+                    long ticks = reader.ticks;
+
+                    ivec3 xyz = reader.xyz;
+
+                    data.Add(xyz);
+
+                    //Debugger.Break();
+                }
             );
 
-            // what if there is a continuation
-            // what if we want to consult the client side
-            // and then continue on the server side?
-            // the simple approach could be to allow this if stack is empty.
+            this.dataGridView1.DataSource = data;
+
+
+     
 #else
 
-            applicationWebService1.__button2_Click(x);
+            //applicationWebService1.__button2_Click(x);
 #endif
         }
 

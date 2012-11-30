@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.GLSL;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
@@ -213,6 +214,8 @@ namespace System.Data
         /// <returns></returns>
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
+            var Name = binder.Name;
+
             result = null;
             var retvalue = true;
             // 'Implement' common reader properties directly
@@ -223,16 +226,46 @@ namespace System.Data
             // lookup column names as fields
             else
             {
-                try
+                if (DataReader.FieldNames().Contains(Name))
                 {
-                    result = DataReader[binder.Name];
-                    if (result == DBNull.Value)
+                    try
+                    {
+                        // { Message = 'System.Data.DynamicDataReader' does not contain a definition for 'xyz', S
+
+
+                        result = DataReader[Name];
+                        if (result == DBNull.Value)
+                            result = null;
+
+
+                    }
+                    catch (Exception ex)
+                    {
+
                         result = null;
+                        retvalue = false;
+                    }
+
                 }
-                catch
+                else
                 {
-                    result = null;
-                    retvalue = false;
+                    // otherwise check if we can map to GLSL?
+                    if (Name == "xyz")
+                    {
+                        var ivec3 = new ivec3();
+
+                        // sqlite defaults to long
+                        // while glsl does not have long vec.
+                        var x = DataReader["x"];
+                        var y = DataReader["y"];
+                        var z = DataReader["z"];
+
+                        ivec3.x = (int)(long)x;
+                        ivec3.y = (int)(long)y;
+                        ivec3.z = (int)(long)z;
+
+                        result = ivec3;
+                    }
                 }
             }
 

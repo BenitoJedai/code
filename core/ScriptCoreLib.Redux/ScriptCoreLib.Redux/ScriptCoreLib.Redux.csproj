@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GLSL\ivec3.cs" />
     <Compile Include="JavaScript\DOM\EventSource.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLElement.cs" />
     <Compile Include="JavaScript\DOM\IWindow.cs" />
@@ -69,9 +70,7 @@
     <Content Include="JavaScript\IDL\typedarrays.idl" />
     <Content Include="JavaScript\IDL\webgl.idl" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GLSL\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="JavaScript\IDL\FileAPI.idl" />
   </ItemGroup>
