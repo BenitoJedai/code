@@ -1,4 +1,4 @@
-﻿using DeltaExperiment.Schema.DeltaTable;
+﻿using DeltaExperiment.Schema;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,11 +12,11 @@ using System.Windows.Forms;
 namespace DeltaExperiment
 {
     [Description("Auto generated. Server side only.")]
-    public class DeltaTable
+    public class Delta : DeltaQueries
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
-        public DeltaTable(string DataSource = "BatchOfAggregatedTimedDeltas.sqlite")
+        public Delta(string DataSource = "BatchOfAggregatedTimedDeltas.sqlite")
         {
             #region abort if in design mode
             if (new StackTrace().ToString().Contains("System.ComponentModel.Design.DesignerHost.System.ComponentModel.Design.IDesignerHost"))
@@ -25,13 +25,13 @@ namespace DeltaExperiment
 
             this.WithConnection = DataSource.AsWithConnection();
 
-            new CreateQuery { }.ExecuteNonQuery(WithConnection);
+            new Create { }.ExecuteNonQuery(WithConnection);
         }
 
         public void Add(object ticks = null, object x = null, object y = null, object z = null)
         {
             Add(
-                new AddQuery
+                new InsertVector
                 {
                     ticks = ticks,
                     x = x,
@@ -41,7 +41,7 @@ namespace DeltaExperiment
             );
         }
 
-        public void Add(AddQuery value)
+        public void Add(InsertVector value)
         {
             value.ExecuteNonQuery(WithConnection);
         }
@@ -51,9 +51,9 @@ namespace DeltaExperiment
             WithConnection(
                 c =>
                 {
-                   
 
-                    using (var reader = new LastQuery().Command(c).ExecuteReader())
+
+                    using (var reader = new SelectLast().Command(c).ExecuteReader())
                     {
                         if (reader.Read())
                         {
@@ -70,7 +70,7 @@ namespace DeltaExperiment
             );
         }
 
-        public void Sum(SumQuery e, Action<dynamic> yield)
+        public void Sum(SelectSum e, Action<dynamic> yield)
         {
             WithConnection(
                    c =>
@@ -96,7 +96,7 @@ namespace DeltaExperiment
             WithConnection(
                 c =>
                 {
-                    var cmd = new EnumerateQuery
+                    var cmd = new SelectAll
                     {
 
                     }.Command(c);
@@ -113,16 +113,57 @@ namespace DeltaExperiment
         }
     }
 
+    [Description("inferred by running create command")]
+    class DeltaColumns
+    {
+        public long id;
+
+        public long ticks;
+
+        public int x;
+        public int y;
+        public int z;
+    }
+
+    [Description("enables dlinq")]
+    class DeltaQuery : Delta, IQueryable<DeltaColumns>
+    {
+
+        IEnumerator<DeltaColumns> IEnumerable<DeltaColumns>.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        Type IQueryable.ElementType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        System.Linq.Expressions.Expression IQueryable.Expression
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        IQueryProvider IQueryable.Provider
+        {
+            get { throw new NotImplementedException(); }
+        }
+    }
 
     public static partial class XX
     {
 
-        public static int ExecuteNonQuery(this AddQuery e, string DataSource = "BatchOfAggregatedTimedDeltas.sqlite")
+        public static int ExecuteNonQuery(this DeltaQueries.InsertVector e, string DataSource = "BatchOfAggregatedTimedDeltas.sqlite")
         {
             return e.ExecuteNonQuery(DataSource.AsWithConnection());
         }
 
-        public static int ExecuteNonQuery(this AddQuery e, Action<Action<SQLiteConnection>> WithConnection)
+        public static int ExecuteNonQuery(this DeltaQueries.InsertVector e, Action<Action<SQLiteConnection>> WithConnection)
         {
             var i = default(int);
             WithConnection(
@@ -131,14 +172,14 @@ namespace DeltaExperiment
             return i;
         }
 
-        public static int ExecuteNonQuery(this AddQuery e, SQLiteConnection c)
+        public static int ExecuteNonQuery(this DeltaQueries.InsertVector e, SQLiteConnection c)
         {
             var cmd = e.Command(c);
             cmd.Parameters.AddWithValue(e);
             return cmd.ExecuteNonQuery();
         }
 
-        public static int ExecuteNonQuery(this CreateQuery e, Action<Action<SQLiteConnection>> WithConnection)
+        public static int ExecuteNonQuery(this DeltaQueries.Create e, Action<Action<SQLiteConnection>> WithConnection)
         {
             var i = default(int);
             WithConnection(
@@ -147,7 +188,7 @@ namespace DeltaExperiment
             return i;
         }
 
-        public static int ExecuteNonQuery(this CreateQuery e, SQLiteConnection c)
+        public static int ExecuteNonQuery(this DeltaQueries.Create e, SQLiteConnection c)
         {
             return e.Command(c).ExecuteNonQuery();
         }

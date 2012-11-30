@@ -1,3 +1,4 @@
+using DeltaExperiment.Schema;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -16,7 +17,7 @@ namespace DeltaExperiment
     {
         // http://www.isbe.state.il.us/ILDS/pdf/SQL_server_standards.pdf
 
-        public readonly DeltaTable delta = new DeltaTable();
+        public readonly Delta delta = new Delta();
 
         // write only
         public void __button2_Click(string x)
@@ -60,8 +61,10 @@ namespace DeltaExperiment
 
         public void __button5_Click(string ticks, Action3<string> yield)
         {
+
+
             delta.Sum(
-                new Schema.DeltaTable.SumQuery { ticks = long.Parse(ticks) },
+                new DeltaQueries.SelectSum { ticks = long.Parse(ticks) },
                 reader =>
                 {
                     ivec3 xyz = reader.xyz;

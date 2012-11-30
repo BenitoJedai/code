@@ -125,7 +125,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Schema\DeltaTable.cs" />
+    <Compile Include="Schema\Delta.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -147,11 +147,11 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <Content Include="Schema\DeltaTable\Add.sql" />
-    <Content Include="Schema\DeltaTable\Sum.sql" />
-    <Content Include="Schema\DeltaTable\Last.sql" />
-    <Content Include="Schema\DeltaTable\Enumerate.sql" />
-    <Content Include="Schema\DeltaTable\Create.sql" />
+    <Content Include="Schema\Delta\insert vector.sql" />
+    <Content Include="Schema\Delta\select sum.sql" />
+    <Content Include="Schema\Delta\select last.sql" />
+    <Content Include="Schema\Delta\select all.sql" />
+    <Content Include="Schema\Delta\create.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
