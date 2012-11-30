@@ -88,6 +88,10 @@ namespace DeltaExperiment
                 );
             }
 
+            while (this.dataGridView1.Rows.Count > 0)
+            {
+                this.dataGridView1.Rows.RemoveAt(0);
+            }
             //this.dataGridView1.Rows.Clear();
 
             Action3<string> yield =

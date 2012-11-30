@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.Lambda;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,14 +12,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewRowCollection))]
     internal class __DataGridViewRowCollection : __BaseCollection, IEnumerable
     {
-        public BindingList<__DataGridViewRow> InternalItems = new BindingList<__DataGridViewRow>();
+        public BindingListWithEvents<__DataGridViewRow> InternalItems = new BindingListWithEvents<__DataGridViewRow>();
 
         public virtual int Add(DataGridViewRow e)
         {
             var x = (__DataGridViewRow)(object)e;
 
-            InternalItems.Add(x);
-            return InternalItems.Count - 1;
+            InternalItems.Source.Add(x);
+            return InternalItems.Source.Count - 1;
         }
 
         public virtual void AddRange(params DataGridViewRow[] dataGridViewColumns)
@@ -29,11 +30,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public void Clear()
+        {
+
+        }
+
+        public void RemoveAt(int i)
+        {
+ 
+        }
+
         public override int Count
         {
             get
             {
-                return this.InternalItems.Count;
+                return this.InternalItems.Source.Count;
             }
             set
             {
@@ -43,14 +54,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IEnumerator GetEnumerator()
         {
-            return this.InternalItems.GetEnumerator();
+            return this.InternalItems.Source.GetEnumerator();
         }
 
         public DataGridViewRow this[int index]
         {
             get
             {
-                return this.InternalItems[index];
+                return this.InternalItems.Source[index];
             }
         }
     }

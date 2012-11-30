@@ -47,13 +47,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRows = new __DataGridViewRowCollection();
             this.Rows = (DataGridViewRowCollection)(object)this.InternalRows;
 
-            this.InternalRows.InternalItems.ListChanged +=
-                (s, e) =>
+            this.InternalRows.InternalItems.Added +=
+                (s, i) =>
                 {
-                    if (e.ListChangedType == ListChangedType.ItemAdded)
-                    {
-                        this.InternalRows.InternalItems[e.NewIndex].InternalContext = this;
-                    }
+                    s.InternalContext = this;
                 };
             #endregion
 
@@ -108,7 +105,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalNewRow.InternalTableRow = __ContentTableBody.AddRow();
             InternalNewRow.InternalTableRow.style.height = "22px";
 
-            this.InternalRows.InternalItems.Add(InternalNewRow);
+            this.InternalRows.InternalItems.Source.Add(InternalNewRow);
 
             var __ColumnsTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
             IHTMLTable __ColumnsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ColumnsTableContainer);
@@ -409,7 +406,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             var value = default(__DataGridViewCell);
 
-                            var Row = this.InternalRows.InternalItems.ElementAtOrDefault(
+                            var Row = this.InternalRows.InternalItems.Source.ElementAtOrDefault(
                                 SourceRow.Index + y
                             );
 
@@ -900,7 +897,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //InternalNewRow.InternalCells.InternalItems.Add(InternalNewCell);
                     //InitializeCell(InternalNewCell, InternalNewRow);
 
-                    foreach (var SourceRow in this.InternalRows.InternalItems)
+                    foreach (var SourceRow in this.InternalRows.InternalItems.Source)
                     {
                         CreateMissingCells(SourceRow);
                     }
@@ -991,7 +988,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
-                    this.InternalRows.InternalItems.ListChanged +=
+                    this.InternalRows.InternalItems.Source.ListChanged +=
                         delegate
                         {
                             ColumnUpdateToHorizontalResizerScroll();
@@ -1237,51 +1234,53 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InitializeZeroColumnCell(InternalNewRow);
 
             #region InternalRows
-            this.InternalRows.InternalItems.ListChanged +=
-                  (_s, _e) =>
+
+            this.InternalRows.InternalItems.Added +=
+                  (SourceRow, CurrentRowIndex) =>
                   {
-                      if (_e.ListChangedType == ListChangedType.ItemAdded)
+                      //if (_e.ListChangedType == ListChangedType.ItemAdded)
+                      //{
+
+                      //Console.WriteLine("InternalRows ItemAdded " + new { _e.NewIndex });
+
+                      //var CurrentRowIndex = _e.NewIndex;
+                      //var SourceRow = this.InternalRows.InternalItems[_e.NewIndex];
+
+                      if (SourceRow.InternalTableRow != null)
+                          return;
+
+                      if (InternalNewRow != null)
                       {
-                          Console.WriteLine("InternalRows ItemAdded " + new { _e.NewIndex });
-
-                          var CurrentRowIndex = _e.NewIndex;
-                          var SourceRow = this.InternalRows.InternalItems[_e.NewIndex];
-
-                          if (SourceRow.InternalTableRow != null)
-                              return;
-
-                          if (InternalNewRow != null)
-                          {
-                              InternalNewRow.InternalTableRow.Orphanize();
-                              InternalNewRow.InternalZeroColumnTableRow.Orphanize();
-                              this.InternalRows.InternalItems.Remove(InternalNewRow);
-                              this.InternalRows.InternalItems.Add(InternalNewRow);
-                          }
-
-                          SourceRow.InternalTableRow = __ContentTableBody.AddRow();
-
-                          #region AtInternalHeightChanged
-                          Action AtInternalHeightChanged = delegate
-                          {
-                              SourceRow.InternalTableRow.style.height = SourceRow.InternalHeight + "px";
-                          };
-
-                          AtInternalHeightChanged();
-                          SourceRow.InternalHeightChanged += AtInternalHeightChanged;
-                          #endregion
-
-
-                          CreateMissingCells(SourceRow);
-
-
-
-                          InitializeZeroColumnCell(SourceRow);
-                          if (InternalNewRow != null)
-                          {
-                              InternalNewRow.InternalTableRow.AttachTo(__ContentTableBody);
-                              InternalNewRow.InternalZeroColumnTableRow.AttachTo(__RowsTableBody);
-                          }
+                          InternalNewRow.InternalTableRow.Orphanize();
+                          InternalNewRow.InternalZeroColumnTableRow.Orphanize();
+                          this.InternalRows.InternalItems.Source.Remove(InternalNewRow);
+                          this.InternalRows.InternalItems.Source.Add(InternalNewRow);
                       }
+
+                      SourceRow.InternalTableRow = __ContentTableBody.AddRow();
+
+                      #region AtInternalHeightChanged
+                      Action AtInternalHeightChanged = delegate
+                      {
+                          SourceRow.InternalTableRow.style.height = SourceRow.InternalHeight + "px";
+                      };
+
+                      AtInternalHeightChanged();
+                      SourceRow.InternalHeightChanged += AtInternalHeightChanged;
+                      #endregion
+
+
+                      CreateMissingCells(SourceRow);
+
+
+
+                      InitializeZeroColumnCell(SourceRow);
+                      if (InternalNewRow != null)
+                      {
+                          InternalNewRow.InternalTableRow.AttachTo(__ContentTableBody);
+                          InternalNewRow.InternalZeroColumnTableRow.AttachTo(__RowsTableBody);
+                      }
+                      //}
                   };
             #endregion
 
@@ -1301,7 +1300,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         InternalNewRow = null;
                         PendingNewRow = SourceRow;
 
-                        this.InternalRows.InternalItems.Add(n);
+                        this.InternalRows.InternalItems.Source.Add(n);
 
                         InternalNewRow = n;
 
@@ -1355,7 +1354,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         var ColumnIndex = SourceCell.ColumnIndex;
                         var RowIndex = SourceRow.Index;
 
-                        this.InternalRows.InternalItems.Remove(SourceRow);
+                        this.InternalRows.InternalItems.Source.Remove(SourceRow);
 
                         SourceRow.InternalTableRow.Orphanize();
                         SourceRow.InternalZeroColumnTableRow.Orphanize();
@@ -1365,7 +1364,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         PendingNewRow = null;
 
-                        this.InternalRows.InternalItems[RowIndex].InternalCells.InternalItems[ColumnIndex].InternalContentContainer.focus();
+                        this.InternalRows.InternalItems.Source[RowIndex].InternalCells.InternalItems[ColumnIndex].InternalContentContainer.focus();
                         //this[SourceCell.ColumnIndex, SourceRow.Index].Selected = true;
                     }
                     #endregion
@@ -1423,7 +1422,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return (DataGridViewCell)(object)this.InternalRows.InternalItems[rowIndex].InternalCells.InternalItems[columnIndex];
+                return (DataGridViewCell)(object)this.InternalRows.InternalItems.Source[rowIndex].InternalCells.InternalItems[columnIndex];
             }
             set
             {

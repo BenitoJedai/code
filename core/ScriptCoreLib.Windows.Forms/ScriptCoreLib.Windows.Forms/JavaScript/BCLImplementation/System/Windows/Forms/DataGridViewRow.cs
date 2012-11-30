@@ -52,7 +52,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (r == null)
                 return -1;
 
-            return InternalContext.InternalRows.InternalItems.IndexOf(r);
+            return InternalContext.InternalRows.InternalItems.Source.IndexOf(r);
         }
 
         public __DataGridViewRow()

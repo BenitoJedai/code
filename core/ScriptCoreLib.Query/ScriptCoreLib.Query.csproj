@@ -58,7 +58,6 @@
     </Compile>
     <Compile Include="ActionScript\Extensions\DynamicDelegatesContainer.cs" />
     <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />
-    <Compile Include="Shared\Lambda\BindingListWithEvents.cs" />
     <Compile Include="Shared\Lambda\Lambda.Concat.cs" />
     <Compile Include="Shared\Lambda\Lambda.ToFlaggable.cs" />
     <Compile Include="Shared\Lambda\Lambda.FixParam.cs" />
