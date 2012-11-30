@@ -62,6 +62,7 @@ using ScriptCoreLib.Shared;
 
 
 [assembly: InternalsVisibleTo("ScriptCoreLibJava")]
+[assembly: InternalsVisibleTo("ScriptCoreLibJava.Web")]
 [assembly: InternalsVisibleTo("ScriptCoreLibJava.Windows.Forms")]
 [assembly: InternalsVisibleTo("ScriptCoreLibAndroid")]
 
