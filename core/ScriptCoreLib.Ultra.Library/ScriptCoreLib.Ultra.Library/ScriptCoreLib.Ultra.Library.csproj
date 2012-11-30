@@ -49,6 +49,9 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="PresentationFramework" />
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
@@ -220,12 +223,6 @@
     <Content Include="Ultra\Components\comments.txt" />
     <Content Include="Ultra\Studio\Languages\comments.txt" />
     <Content Include="Ultra\WebService\comment.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ScriptCoreLib.Ultra.VisualBasic\ScriptCoreLib.Ultra.VisualBasic.vbproj">
-      <Project>{9CF379F4-DC30-4793-B379-653AF2E2F0FA}</Project>
-      <Name>ScriptCoreLib.Ultra.VisualBasic</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ListExtensions.cs" />

@@ -11,6 +11,7 @@ using java.net;
 using java.util.zip;
 using System.Collections;
 using System.IO;
+using ScriptCoreLib.GLSL;
 
 namespace TestLINQ
 {
@@ -34,6 +35,10 @@ namespace TestLINQ
             //enumerable_10 = __Enumerable.AsEnumerable(__SZArrayEnumerator_1<String>.Of(stringArray3));
 
             Console.WriteLine("hi! vm:" + typeof(object).FullName);
+
+            var a1 = new ivec3(3, 3, 3);
+
+            Console.WriteLine(a1);
 
             var a = new[] { "x", "foo1", "bar", "foo2" }.AsEnumerable();
             //var a = new List<string> { "foo", "bar" };
