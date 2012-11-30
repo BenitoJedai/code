@@ -1,4 +1,5 @@
 using DeltaExperiment;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.GLSL;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace DeltaExperiment
 
         private void button3_Click(object sender, EventArgs e)
         {
-#if DEBUG
+#if DataGridView_Implements_DataSource
             var data = new List<ivec3>();
 
             applicationWebService1.delta.Enumerate(
@@ -78,8 +79,53 @@ namespace DeltaExperiment
 
      
 #else
+            if (this.dataGridView1.Columns.Count == 0)
+            {
+                this.dataGridView1.Columns.AddTextRange(
+                    "x",
+                    "y",
+                    "z"
+                );
+            }
 
-            //applicationWebService1.__button2_Click(x);
+            //this.dataGridView1.Rows.Clear();
+
+            Action3<string> yield =
+                 (x, y, z) =>
+                 {
+                     var r = new DataGridViewRow();
+
+                     r.Cells.AddTextRange(
+                         x,
+                         y,
+                         z
+                     );
+
+                     this.dataGridView1.Rows.Add(r);
+                 };
+
+#if false // ImplementsImplicitWebServiceCallSite
+            applicationWebService1.delta.Enumerate(
+                reader =>
+                {
+                    long id = reader.id;
+                    long ticks = reader.ticks;
+
+                    ivec3 xyz = reader.xyz;
+
+                    yield(
+                        "" + xyz.x,
+                        "" + xyz.y,
+                        "" + xyz.z
+                    );
+                }
+            );
+#else
+
+            applicationWebService1.__button3_Click(yield);
+#endif
+
+
 #endif
         }
 
