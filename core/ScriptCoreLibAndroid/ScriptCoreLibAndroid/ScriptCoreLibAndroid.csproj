@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
@@ -129,6 +132,12 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
       <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Directory.cs">
+      <Link>BCLImplementation\System\IO\Directory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\DirectoryInfo.cs">
+      <Link>BCLImplementation\System\IO\DirectoryInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\File.cs">
       <Link>BCLImplementation\System\IO\File.cs</Link>
@@ -691,129 +700,6 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
-    <!--<Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
-      <Link>BCLImplementation\System\Action.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\ICollection.cs">
-      <Link>BCLImplementation\System\Collection\Generic\ICollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IDictionary.cs">
-      <Link>BCLImplementation\System\Collection\Generic\IDictionary.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerable.cs">
-      <Link>BCLImplementation\System\Collection\Generic\IEnumerable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IEnumerator.cs">
-      <Link>BCLImplementation\System\Collection\Generic\IEnumerator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\IList.cs">
-      <Link>BCLImplementation\System\Collection\Generic\IList.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Generic\KeyValuePair.cs">
-      <Link>BCLImplementation\System\Collection\Generic\KeyValuePair.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ICollection.cs">
-      <Link>BCLImplementation\System\Collection\ICollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerable.cs">
-      <Link>BCLImplementation\System\Collection\IEnumerable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IEnumerator.cs">
-      <Link>BCLImplementation\System\Collection\IEnumerator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\IList.cs">
-      <Link>BCLImplementation\System\Collection\IList.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\Queue.cs">
-      <Link>BCLImplementation\System\Collection\Queue.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs">
-      <Link>BCLImplementation\System\Collection\ReadOnlyCollectionBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Comparision.cs">
-      <Link>BCLImplementation\System\Comparision.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\Component.cs">
-      <Link>BCLImplementation\System\ComponentModel\Component.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\ComponentCollection.cs">
-      <Link>BCLImplementation\System\ComponentModel\ComponentCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\IComponent.cs">
-      <Link>BCLImplementation\System\ComponentModel\IComponent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\IContainer.cs">
-      <Link>BCLImplementation\System\ComponentModel\IContainer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\ISite.cs">
-      <Link>BCLImplementation\System\ComponentModel\ISite.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Convert.cs">
-      <Link>BCLImplementation\System\Convert.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbCommand.cs">
-      <Link>BCLImplementation\System\Data\Common\DbCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbConnection.cs">
-      <Link>BCLImplementation\System\Data\Common\DbConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs">
-      <Link>BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataReader.cs">
-      <Link>BCLImplementation\System\Data\Common\DbDataReader.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\IDbConnection.cs">
-      <Link>BCLImplementation\System\Data\IDbConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Data\IDbTransaction.cs">
-      <Link>BCLImplementation\System\Data\IDbTransaction.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\EventArgs.cs">
-      <Link>BCLImplementation\System\EventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\EventHandler.cs">
-      <Link>BCLImplementation\System\EventHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Func.cs">
-      <Link>BCLImplementation\System\Func.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\ICloneable.cs">
-      <Link>BCLImplementation\System\ICloneable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\IDisposable.cs">
-      <Link>BCLImplementation\System\IDisposable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.cs">
-      <Link>BCLImplementation\System\Linq\Enumerable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\Expression.cs">
-      <Link>BCLImplementation\System\Linq\Expressions\Expression.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Queryable.cs">
-      <Link>BCLImplementation\System\Linq\Queryable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\MarshalByRefObject.cs">
-      <Link>BCLImplementation\System\MarshalByRefObject.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Predicate.cs">
-      <Link>BCLImplementation\System\Predicate.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs">
-      <Link>BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
-      <Link>BCLImplementation\System\Runtime\Serialization\ISerializable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\SZArrayEnumerator.cs">
-      <Link>BCLImplementation\System\SZArrayEnumerator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Threading\ThreadStart.cs">
-      <Link>BCLImplementation\System\Threading\ThreadStart.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Uri.cs">
-      <Link>BCLImplementation\System\Uri.cs</Link>
-    </Compile>-->
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
     <Compile Include="android\content\Intent.cs" />
@@ -876,11 +762,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadLocalContextReference.cs" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\**\*.*">
       <Link>BCLImplementation\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <Folder Include="Documents\" />
   </ItemGroup>

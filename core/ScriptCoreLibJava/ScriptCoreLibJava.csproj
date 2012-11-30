@@ -44,6 +44,9 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -382,9 +385,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\UInt32.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\ValueType.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Web\Services\WebService.cs" />
@@ -1013,11 +1013,11 @@
     <Compile Include="javax.common\runtime\Console.cs" />
     <Compile Include="javax.common\runtime\Convert.cs" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <Compile Include="..\ScriptCoreLib\Shared\BCLImplementation\**\*.*">
       <Link>BCLImplementation\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\exceptions.txt" />

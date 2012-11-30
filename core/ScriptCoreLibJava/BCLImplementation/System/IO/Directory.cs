@@ -7,20 +7,40 @@ using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
-	[Script(Implements = typeof(global::System.IO.Directory))]
-	internal static class __Directory 
-	{
-		public static DirectoryInfo CreateDirectory(string e)
-		{
-			var f = Path.GetFullPath(e);
+    [Script(Implements = typeof(global::System.IO.Directory))]
+    internal static class __Directory
+    {
 
-			if (!new java.io.File(e).mkdir())
-				f = null;
+        public static string __GetFullPath(string e)
+        {
+            // http://www.devx.com/tips/Tip/13804
 
-			if (f == null)
-				return null;
+            var f = new java.io.File(e);
+            var c = default(string);
 
-			return new DirectoryInfo(f);
-		}
-	}
+            try
+            {
+                c = f.getCanonicalPath();
+            }
+            catch
+            {
+                throw;
+            }
+
+            return c;
+        }
+
+        public static DirectoryInfo CreateDirectory(string e)
+        {
+            var f = __GetFullPath(e);
+
+            if (!new java.io.File(e).mkdir())
+                f = null;
+
+            if (f == null)
+                return null;
+
+            return new DirectoryInfo(f);
+        }
+    }
 }

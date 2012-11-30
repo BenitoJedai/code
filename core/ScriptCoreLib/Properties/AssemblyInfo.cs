@@ -34,7 +34,7 @@ using ScriptCoreLib.Shared;
 [assembly: AssemblyVersion("4.1.0.0")]
 [assembly: AssemblyFileVersion("4.1.0.0")]
 
-[assembly: 
+[assembly:
     Script(IsCoreLib = true)
     //ScriptResources("assets/ScriptCoreLib")
 ]
@@ -43,21 +43,26 @@ using ScriptCoreLib.Shared;
     ScriptTypeFilter(ScriptType.GLSL, typeof(global::ScriptCoreLib.GLSL.vec2)),
 
     ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.ActionScript.Function)),
-	ScriptTypeFilter(ScriptType.JavaScript, typeof(global::ScriptCoreLib.JavaScript.Native)),
+    ScriptTypeFilter(ScriptType.JavaScript, typeof(global::ScriptCoreLib.JavaScript.Native)),
 
-	ScriptTypeFilter(ScriptType.PHP, "*.PHP"),
+    ScriptTypeFilter(ScriptType.PHP, "*.PHP"),
 
     ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
     ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.PHP, "*.Shared"),
+    ScriptTypeFilter(ScriptType.PHP, "*.Shared"),
+
+    ScriptTypeFilter(ScriptType.Java, "*.Shared.BCLImplementation"),
 
 
-	// some namespace mangling
-	ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = "", FilterToIsNative = true),
-	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
+    // some namespace mangling
+    ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = "", FilterToIsNative = true),
+    //ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = ""),
 ]
 
 
+
+[assembly: InternalsVisibleTo("ScriptCoreLibJava")]
+[assembly: InternalsVisibleTo("ScriptCoreLibAndroid")]
 
 [assembly: InternalsVisibleTo("ScriptCoreLib.Query")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Windows.Forms")]
@@ -75,41 +80,41 @@ using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.Shared
 {
-	[Script, Obsolete]
-	public class AssemblyInfo : IAssemblyInfo
-	{
-		public static AssemblyInfo Current = new AssemblyInfo();
+    [Script, Obsolete]
+    public class AssemblyInfo : IAssemblyInfo
+    {
+        public static AssemblyInfo Current = new AssemblyInfo();
 
-		#region BuildDateTimeString
-		/// <summary>
-		/// date when library was compiled
-		/// </summary>
-		public string BuildDateTimeString
-		{
-			[Script(
-				UseCompilerConstants = true,
-				OptimizedCode = @"return '{BuildDate} UTC';"
-				)]
-			get
-			{
-				return default(string);
-			}
-		}
-		#endregion
+        #region BuildDateTimeString
+        /// <summary>
+        /// date when library was compiled
+        /// </summary>
+        public string BuildDateTimeString
+        {
+            [Script(
+                UseCompilerConstants = true,
+                OptimizedCode = @"return '{BuildDate} UTC';"
+                )]
+            get
+            {
+                return default(string);
+            }
+        }
+        #endregion
 
-		#region ModuleName
-		public string ModuleName
-		{
-			[Script(
-				UseCompilerConstants = true,
-				OptimizedCode = @"return '{Module.Name}';"
-				)]
-			get
-			{
-				return default(string);
-			}
-		}
-		#endregion
+        #region ModuleName
+        public string ModuleName
+        {
+            [Script(
+                UseCompilerConstants = true,
+                OptimizedCode = @"return '{Module.Name}';"
+                )]
+            get
+            {
+                return default(string);
+            }
+        }
+        #endregion
 
-	}
+    }
 }

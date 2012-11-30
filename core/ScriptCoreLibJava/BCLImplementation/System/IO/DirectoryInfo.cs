@@ -26,7 +26,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		{
 			get
 			{
-				return Path.GetFullPath(InternalPath);
+                return __Directory.__GetFullPath(InternalPath);
 			}
 		}
 
