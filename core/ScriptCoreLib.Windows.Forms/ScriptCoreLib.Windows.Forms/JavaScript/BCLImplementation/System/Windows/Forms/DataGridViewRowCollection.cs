@@ -32,12 +32,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void Clear()
         {
-
+            // keep newrow
+            while (this.Count > 1)
+                this.InternalItems.Source.RemoveAt(0);
         }
 
         public void RemoveAt(int i)
         {
- 
+
+            this.InternalItems.Source.RemoveAt(i);
         }
 
         public override int Count

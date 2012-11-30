@@ -1238,14 +1238,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRows.InternalItems.Added +=
                   (SourceRow, CurrentRowIndex) =>
                   {
-                      //if (_e.ListChangedType == ListChangedType.ItemAdded)
-                      //{
-
-                      //Console.WriteLine("InternalRows ItemAdded " + new { _e.NewIndex });
-
-                      //var CurrentRowIndex = _e.NewIndex;
-                      //var SourceRow = this.InternalRows.InternalItems[_e.NewIndex];
-
                       if (SourceRow.InternalTableRow != null)
                           return;
 
@@ -1280,9 +1272,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           InternalNewRow.InternalTableRow.AttachTo(__ContentTableBody);
                           InternalNewRow.InternalZeroColumnTableRow.AttachTo(__RowsTableBody);
                       }
-                      //}
                   };
             #endregion
+
+            this.InternalRows.InternalItems.Removed +=
+                (SourceRow, i) =>
+                {
+                    SourceRow.InternalTableRow.Orphanize();
+                    SourceRow.InternalZeroColumnTableRow.Orphanize();
+
+                    // raise any events
+                };
 
             __DataGridViewRow PendingNewRow = null;
 
