@@ -162,7 +162,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <Content Include="Tables\Table1\Add.sql" />
+    <Content Include="Tables\Table1\Insert.sql" />
     <Content Include="Tables\Table1\Last.sql" />
     <Content Include="Tables\Table1\Enumerate.sql" />
     <Content Include="Tables\Table1\Create.sql" />

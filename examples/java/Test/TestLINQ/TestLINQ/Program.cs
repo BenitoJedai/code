@@ -38,7 +38,7 @@ namespace TestLINQ
 
             var a1 = new ivec3(3, 3, 3);
 
-            Console.WriteLine(a1);
+            Console.WriteLine(new { a1 }.ToString());
 
             var a = new[] { "x", "foo1", "bar", "foo2" }.AsEnumerable();
             //var a = new List<string> { "foo", "bar" };
