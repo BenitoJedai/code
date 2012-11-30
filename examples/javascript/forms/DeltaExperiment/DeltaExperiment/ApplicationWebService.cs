@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.GLSL;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -28,5 +29,23 @@ namespace DeltaExperiment
             );
         }
 
+        public void __button3_Click(Action3<string> yield)
+        {
+            delta.Enumerate(
+                reader =>
+                {
+                    long id = reader.id;
+                    long ticks = reader.ticks;
+
+                    ivec3 xyz = reader.xyz;
+
+                    yield(
+                        "" + xyz.x,
+                        "" + xyz.y,
+                        "" + xyz.z
+                    );
+                }
+            );
+        }
     }
 }

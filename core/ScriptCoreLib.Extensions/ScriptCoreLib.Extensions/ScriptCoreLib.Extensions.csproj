@@ -77,8 +77,11 @@
     <Compile Include="BCLExtensions\System\Int32Extensions.cs" />
     <Compile Include="BCLExtensions\System\DoubleExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\ControlExtensions.cs" />
+    <Compile Include="BCLExtensions\System\Windows\Forms\DataGridViewCellCollection.cs" />
+    <Compile Include="BCLExtensions\System\Windows\Forms\DataGridViewColumnCollection.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\TimerExtensions.cs" />
     <Compile Include="BCLExtensions\System\Windows\Forms\DataGridViewExtensions.cs" />
+    <Compile Include="Extensions\Action3.cs" />
     <Compile Include="JavaScript\Controls\LayeredControl\LayeredControl.cs" />
     <Compile Include="JavaScript\Controls\NatureBoy\Assets.cs" />
     <Compile Include="JavaScript\Controls\NatureBoy\CoordTranslator.cs" />

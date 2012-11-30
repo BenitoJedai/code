@@ -13,6 +13,9 @@ namespace ScriptCoreLib.GLSL
     [StructLayout(LayoutKind.Explicit)]
     public struct ivec3
     {
+        // reference implementation:
+        // X:\opensource\github\SLSharp\IIS.SLSharp\Shaders\ShaderDefinition.Int32Vector.cs
+
         [FieldOffset(0)]
         genType _x;
 
