@@ -22,8 +22,11 @@ namespace DeltaExperiment
             this.button3 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.applicationWebService1 = new DeltaExperiment.ApplicationWebService();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.applicationWebService1 = new DeltaExperiment.ApplicationWebService();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,8 +86,39 @@ namespace DeltaExperiment
             this.dataGridView1.Size = new System.Drawing.Size(714, 437);
             this.dataGridView1.TabIndex = 4;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(21, 286);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "ticks:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(59, 286);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(13, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "?";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(24, 312);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "Get ticks";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -93,6 +127,7 @@ namespace DeltaExperiment
             this.Controls.Add(this.button1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(859, 477);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -116,6 +151,9 @@ namespace DeltaExperiment
         private Label label2;
         private ApplicationWebService applicationWebService1;
         private DataGridView dataGridView1;
+        private Label label3;
+        private Label label4;
+        private Button button4;
 
     }
 }
