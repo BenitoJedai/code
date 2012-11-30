@@ -13,6 +13,8 @@ namespace java.sql
         ResultSet executeQuery();
         int executeUpdate();
 
+        // http://stackoverflow.com/questions/4243513/why-does-preparedstatement-setnull-requires-sqltype
+        void setObject(int parameterIndex, object x);
         void setInt(int parameterIndex, int x);
         void setLong(int parameterIndex, long x);
         void setString(int parameterIndex, string x);
