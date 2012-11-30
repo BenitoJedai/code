@@ -77,7 +77,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
                         if (item.p.Value == null)
                         {
-                            // set null?
+                            this.InternalPreparedStatement.setObject(c, null);
                         }
                         else if (item.p.Value is int)
                             this.InternalPreparedStatement.setInt(c, (int)item.p.Value);
