@@ -33,14 +33,28 @@ namespace TestDataGridViewClear
             Add("foo3");
             Add("foo4");
             Add("foo5");
-        }
 
+            int i = 5;
+
+            button2.Click +=
+                delegate
+                {
+                    i++;
+                    Add("foox " + i);
+                };
+        }
+      
         private void button1_Click(object sender, System.EventArgs e)
         {
             if (this.dataGridView1.Rows.Count > 3)
                 this.dataGridView1.Rows.RemoveAt(1);
             else
                 this.dataGridView1.Rows.Clear();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
