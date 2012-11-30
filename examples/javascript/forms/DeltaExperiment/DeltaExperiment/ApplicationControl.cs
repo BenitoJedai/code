@@ -32,6 +32,9 @@ namespace DeltaExperiment
         {
             var x = "" + dx;
 
+            dx = 0;
+            this.label2.Text = "" + dx;
+
 #if DEBUG
             // cannot_do_this_just_yet
             // using a field component from the serverside shall cause
@@ -79,20 +82,8 @@ namespace DeltaExperiment
 
      
 #else
-            if (this.dataGridView1.Columns.Count == 0)
-            {
-                this.dataGridView1.Columns.AddTextRange(
-                    "x",
-                    "y",
-                    "z"
-                );
-            }
 
-            while (this.dataGridView1.Rows.Count > 0)
-            {
-                this.dataGridView1.Rows.RemoveAt(0);
-            }
-            //this.dataGridView1.Rows.Clear();
+            this.dataGridView1.Rows.Clear();
 
             Action3<string> yield =
                  (x, y, z) =>
@@ -131,6 +122,25 @@ namespace DeltaExperiment
 
 
 #endif
+        }
+
+        private void ApplicationControl_Load(object sender, EventArgs e)
+        {
+            this.dataGridView1.Columns.AddTextRange(
+               "x",
+               "y",
+               "z"
+           );
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            applicationWebService1.delta.Last(
+              ticks =>
+              {
+                  label4.Text = "" + ticks;
+              }
+          );
         }
 
     }

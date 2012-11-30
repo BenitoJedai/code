@@ -46,6 +46,46 @@ namespace DeltaExperiment
             value.ExecuteNonQuery(WithConnection);
         }
 
+        public void Last(Action<long> yield)
+        {
+            WithConnection(
+                c =>
+                {
+                    var x = new LastQuery().Command(c).ExecuteReader();
+
+                    using (var reader = new LastQuery().Command(c).ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            dynamic r = new DynamicDataReader(reader);
+
+                            yield(r.ticks);
+                        }
+                        else
+                        {
+                            yield(0);
+                        }
+                    }
+                }
+            );
+        }
+
+        public void Sum(SumQuery e, Action<dynamic> yield)
+        {
+            WithConnection(
+                   c =>
+                   {
+                       using (var reader = e.Command(c).ExecuteReader())
+                       {
+                           while (reader.Read())
+                           {
+                               yield(new DynamicDataReader(reader));
+                           }
+                       }
+                   }
+               );
+        }
+
         public void Enumerate(Action<dynamic> yield)
         {
             WithConnection(

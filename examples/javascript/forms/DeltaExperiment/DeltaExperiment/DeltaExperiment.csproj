@@ -148,6 +148,8 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Content Include="Schema\DeltaTable\Add.sql" />
+    <Content Include="Schema\DeltaTable\Sum.sql" />
+    <Content Include="Schema\DeltaTable\Last.sql" />
     <Content Include="Schema\DeltaTable\Enumerate.sql" />
     <Content Include="Schema\DeltaTable\Create.sql" />
   </ItemGroup>
