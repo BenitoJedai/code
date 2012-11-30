@@ -59,7 +59,9 @@ namespace DeltaExperiment
                         {
                             dynamic r = new DynamicDataReader(reader);
 
-                            yield(r.ticks);
+                            long ticks = r.ticks;
+
+                            yield(ticks);
                         }
                         else
                         {

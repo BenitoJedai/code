@@ -14,6 +14,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         int FieldCount { get; }
 
+        string GetName(int i);
+
         object this[string name] { get; }
         //object this[int i] { get; }
     }
