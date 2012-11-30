@@ -884,6 +884,7 @@
     <Compile Include="Shared\IAssemblyInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.AsEnumerable.cs" />
     <Compile Include="Shared\BCLImplementation\System\SZArrayEnumerator.cs" />
+    <Compile Include="Shared\Lambda\BindingListWithEvents.cs" />
     <Compile Include="Shared\Serialized\SimpleEmailTag.cs" />
     <Compile Include="Shared\TextWriter.cs" />
     <Compile Include="PHP\BCLImplementation\System\Byte.cs" />
