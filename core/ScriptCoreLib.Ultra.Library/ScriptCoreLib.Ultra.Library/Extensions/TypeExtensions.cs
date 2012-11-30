@@ -45,25 +45,34 @@ namespace ScriptCoreLib.Extensions
 
         public static TMethod TryGetGenericTypeDefinitionMethod<TMethod>(this TMethod _Member) where TMethod : MemberInfo
         {
-            var _Method = (_Member as MethodBase);
-            if (_Method == null)
+            var SourceMethod = (_Member as MethodBase);
+            if (SourceMethod == null)
                 return _Member;
 
-            var Methods = _Method.DeclaringType.TryGetGenericTypeDefinition().GetMethods(
-                            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly
-                        );
-
-            var Constructors = _Method.DeclaringType.TryGetGenericTypeDefinition().GetMethods(
+            var Methods = SourceMethod.DeclaringType.TryGetGenericTypeDefinition().GetMethods(
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly
-                );
+            );
 
-            var _MethodBase =
-                 (MemberInfo)(Methods.SingleOrDefault(kk => kk.MetadataToken == _Method.MetadataToken)) ??
-                (MemberInfo)(Constructors.SingleOrDefault(kk => kk.MetadataToken == _Method.MetadataToken));
+            var Constructors = SourceMethod.DeclaringType.TryGetGenericTypeDefinition().GetConstructors(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly
+            );
+
+            try
+            {
+                var _MethodBase =
+                     (MemberInfo)(Methods.SingleOrDefault(kk => kk.MetadataToken == SourceMethod.MetadataToken && kk.GetParameters().Length == SourceMethod.GetParameters().Length)) ??
+                    (MemberInfo)(Constructors.SingleOrDefault(kk => kk.MetadataToken == SourceMethod.MetadataToken && kk.GetParameters().Length == SourceMethod.GetParameters().Length));
 
 
 
-            return (TMethod)_MethodBase ?? _Member;
+                return (TMethod)_MethodBase ?? _Member;
+            }
+            catch
+            {
+                Console.WriteLine("TryGetGenericTypeDefinitionMethod: " + SourceMethod);
+
+                throw;
+            }
         }
 
 

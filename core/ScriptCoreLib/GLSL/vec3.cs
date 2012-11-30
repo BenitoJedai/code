@@ -144,5 +144,9 @@ namespace ScriptCoreLib.GLSL
         public vec4 xxxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec4 yyyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec4 zzzz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+
     }
+
+
 }
