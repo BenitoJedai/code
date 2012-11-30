@@ -226,7 +226,18 @@ namespace System.Data
             // lookup column names as fields
             else
             {
-                var FieldNames = DataReader.FieldNames().ToArray();
+                Console.WriteLine("Will read field names");
+
+                var FieldNamesE = DataReader.FieldNames();
+
+                foreach (var item in FieldNamesE)
+                {
+                    Console.WriteLine("FieldName: " + new { item });
+                }
+
+                Console.WriteLine("Will put into array");
+
+                var FieldNames = FieldNamesE.ToArray();
 
                 if (FieldNames.Contains(Name))
                 {
