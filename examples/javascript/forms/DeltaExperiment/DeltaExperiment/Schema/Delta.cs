@@ -18,9 +18,17 @@ namespace DeltaExperiment
 
         public Delta(string DataSource = "BatchOfAggregatedTimedDeltas.sqlite")
         {
+
             #region abort if in design mode
             if (new StackTrace().ToString().Contains("System.ComponentModel.Design.DesignerHost.System.ComponentModel.Design.IDesignerHost"))
+            {
+                // Y:\DeltaExperiment.ApplicationWebService\staging.java\web\java\DeltaExperiment\Delta.java:35: variable WithConnection might already have been assigned
+
+                // make javac happy
+                this.WithConnection = null;
+
                 return;
+            }
             #endregion
 
             this.WithConnection = DataSource.AsWithConnection();
