@@ -133,14 +133,77 @@ namespace DeltaExperiment
            );
         }
 
+        long ticks;
+
         private void button4_Click(object sender, EventArgs e)
         {
+#if false // ImplementsImplicitWebServiceCallSite
+
             applicationWebService1.delta.Last(
               ticks =>
               {
+                  this.ticks = ticks;
+
                   label4.Text = "" + ticks;
               }
-          );
+            );
+#else
+            applicationWebService1.__button4_Click(
+                ticks =>
+                {
+                    this.ticks = long.Parse(ticks);
+
+                    label4.Text = ticks;
+                }
+            );
+#endif
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Action3<string> yield =
+              (x, y, z) =>
+              {
+                  var r = new DataGridViewRow();
+
+                  r.Cells.AddTextRange(
+                      x,
+                      y,
+                      z
+                  );
+
+                  this.dataGridView1.Rows.Add(r);
+              };
+
+            this.dataGridView1.Rows.Clear();
+
+#if false // ImplementsImplicitWebServiceCallSite
+            applicationWebService1.delta.Sum(
+                new Schema.DeltaTable.SumQuery { ticks = ticks },
+                reader =>
+                {
+
+                    ivec3 xyz = reader.xyz;
+
+                    yield(
+                        "" + xyz.x,
+                        "" + xyz.y,
+                        "" + xyz.z
+                    );
+                }
+            );
+#else
+            applicationWebService1.__button5_Click(
+                "" + this.ticks, yield
+            );
+#endif
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.ticks = 0;
+
+            label4.Text = "" + ticks;
         }
 
     }
