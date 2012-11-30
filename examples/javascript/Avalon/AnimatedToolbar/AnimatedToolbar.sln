@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimatedToolbar", "AnimatedToolbar\AnimatedToolbar.csproj", "{34EB8D16-A247-4C6E-A93D-08D46F22B44A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimatedToolbar.Library", "AnimatedToolbar.Library\AnimatedToolbar.Library.csproj", "{462E3395-A5E5-4466-8A97-61B9880A35FC}"
