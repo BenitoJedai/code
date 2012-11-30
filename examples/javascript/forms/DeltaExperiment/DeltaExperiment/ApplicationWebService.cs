@@ -47,5 +47,32 @@ namespace DeltaExperiment
                 }
             );
         }
+
+        public void __button4_Click(Action<string> yield)
+        {
+            delta.Last(
+                ticks =>
+                {
+                    yield("" + ticks);
+                }
+            );
+        }
+
+        public void __button5_Click(string ticks, Action3<string> yield)
+        {
+            delta.Sum(
+                new Schema.DeltaTable.SumQuery { ticks = long.Parse(ticks) },
+                reader =>
+                {
+                    ivec3 xyz = reader.xyz;
+
+                    yield(
+                        "" + xyz.x,
+                        "" + xyz.y,
+                        "" + xyz.z
+                    );
+                }
+            );
+        }
     }
 }

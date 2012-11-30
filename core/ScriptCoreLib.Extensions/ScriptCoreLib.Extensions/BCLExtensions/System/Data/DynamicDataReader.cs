@@ -226,7 +226,9 @@ namespace System.Data
             // lookup column names as fields
             else
             {
-                if (DataReader.FieldNames().Contains(Name))
+                var FieldNames = DataReader.FieldNames().ToArray();
+
+                if (FieldNames.Contains(Name))
                 {
                     try
                     {

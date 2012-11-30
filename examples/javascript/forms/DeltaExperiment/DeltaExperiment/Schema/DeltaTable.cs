@@ -51,7 +51,7 @@ namespace DeltaExperiment
             WithConnection(
                 c =>
                 {
-                    var x = new LastQuery().Command(c).ExecuteReader();
+                   
 
                     using (var reader = new LastQuery().Command(c).ExecuteReader())
                     {
@@ -75,7 +75,12 @@ namespace DeltaExperiment
             WithConnection(
                    c =>
                    {
-                       using (var reader = e.Command(c).ExecuteReader())
+                       var cmd = e.Command(c);
+
+                       cmd.Parameters.AddWithValue(e);
+
+
+                       using (var reader = cmd.ExecuteReader())
                        {
                            while (reader.Read())
                            {
