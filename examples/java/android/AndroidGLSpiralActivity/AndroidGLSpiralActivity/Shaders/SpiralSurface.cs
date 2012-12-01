@@ -101,7 +101,7 @@ namespace AndroidGLSpiralActivity.Shaders
 
                            // Set values to program variables
 
-                           dynamic spiral_uniforms = new SpiralUniforms
+                           dynamic program_uniforms = new ShaderProgramUniforms
                            {
                                gl = gl,
                                program = program
@@ -110,9 +110,9 @@ namespace AndroidGLSpiralActivity.Shaders
                            var resolution = new __vec2 { x = parameters_screenWidth, y = parameters_screenHeight };
                            var aspect = new __vec2 { x = parameters_aspectX, y = parameters_aspectY };
 
-                           spiral_uniforms.time = time;
-                           spiral_uniforms.resolution = resolution;
-                           spiral_uniforms.aspect = aspect;
+                           program_uniforms.time = time;
+                           program_uniforms.resolution = resolution;
+                           program_uniforms.aspect = aspect;
 
                            // Render geometry
 
@@ -134,7 +134,7 @@ namespace AndroidGLSpiralActivity.Shaders
     }
 
 
-    class SpiralUniforms : DynamicObject
+    class ShaderProgramUniforms : DynamicObject
     {
         public WebGLProgram program;
         public gl gl;

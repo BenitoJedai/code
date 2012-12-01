@@ -24,6 +24,8 @@ using java.io;
 namespace AndroidGLDisturbActivity.Activities
 {
     using gl = WebGLRenderingContext;
+    using System.Dynamic;
+    using ScriptCoreLib.Shared.BCLImplementation.GLSL;
     //using opengl = GLES20;
 
 
@@ -190,8 +192,20 @@ namespace AndroidGLDisturbActivity.Activities
 
                             // Set values to program variables
 
-                            gl.uniform1f(gl.getUniformLocation(program, "time"), time);
-                            gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
+
+                            dynamic program_uniforms = new ShaderProgramUniforms
+                            {
+                                gl = gl,
+                                program = program
+                            };
+
+                            var resolution = new __vec2 { x = parameters_screenWidth, y = parameters_screenHeight };
+
+                            program_uniforms.time = time;
+                            program_uniforms.resolution = resolution;
+
+                            //gl.uniform1f(gl.getUniformLocation(program, "time"), time);
+                            //gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
 
                             gl.uniform1i(textureLocation, 0);
                             gl.activeTexture(gl.TEXTURE0);
@@ -226,5 +240,30 @@ namespace AndroidGLDisturbActivity.Activities
 
     }
 
+    class ShaderProgramUniforms : DynamicObject
+    {
+        public WebGLProgram program;
+        public gl gl;
 
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            // cache location
+
+            var isvec2 = value is __vec2;
+            if (isvec2)
+            {
+                var value_vec2 = (__vec2)value;
+
+                gl.uniform2f(
+                    gl.getUniformLocation(program, binder.Name),
+                    value_vec2
+                );
+
+                return true;
+            }
+
+            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
+            return true;
+        }
+    }
 }
