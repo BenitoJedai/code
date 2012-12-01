@@ -1,29 +1,24 @@
-﻿//using System.Linq;
-
-using ScriptCoreLib;
-
-
+﻿using ScriptCoreLib;
 using ScriptCoreLib.Shared.Query;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
-
-using global::System.Collections.Generic;
-using global::System.Linq;
-using global::ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Drawing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using ScriptCoreLib.Shared.Lambda;
 
 
 namespace NatureBoy.js
 {
     using div = IHTMLDiv;
     using img = IHTMLImage;
-    using ScriptCoreLib.Shared;
-    using ScriptCoreLib.Shared.Drawing;
-    using System;
 
-    [Script]
+
     public class Dude : DudeBase
     {
         public const int TileWidth = 64;

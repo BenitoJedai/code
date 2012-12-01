@@ -14,7 +14,6 @@ using ScriptCoreLib.JavaScript.Controls.Effects;
 
 namespace NatureBoy.js
 {
-    [Script]
     static class Extensions
     {
         public static TResult[] ToArray<T, TResult>(this IEnumerable<T> source, Func<T, TResult> selector)

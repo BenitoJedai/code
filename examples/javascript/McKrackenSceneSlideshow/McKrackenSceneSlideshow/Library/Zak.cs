@@ -7,7 +7,6 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace NatureBoy.js.Zak
 {
-    [Script]
     public static class Settings
     {
 
