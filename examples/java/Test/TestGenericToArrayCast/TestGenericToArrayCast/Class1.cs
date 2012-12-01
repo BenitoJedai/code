@@ -37,5 +37,21 @@ namespace TestGenericToArrayCast
 
         }
 
+        static void Invoke<T>(IEnumerable<T> f)
+        {
+            var z = f.ToArray();
+
+        }
+         void Invoke<T>(IEnumerable<List<T>> f)
+        {
+            var z = f.ToArray();
+
+        }
+
+         static void Invoke<T>(IEnumerable<Action<T>> f)
+         {
+             var z = f.ToArray();
+
+         }
     }
 }

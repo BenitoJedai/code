@@ -18,7 +18,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         // X:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
 
         __SQLiteConnection c;
-        string sql;
+
+        public string sql;
 
         public java.sql.Statement InternalStatement;
         public java.sql.PreparedStatement InternalPreparedStatement;
@@ -153,7 +154,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 else
                     r = this.InternalStatement.executeQuery(this.sql);
 
-                value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r };
+                value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r, InternalCommand = this };
                 this.c.InternalLastInsertRowIdCommand = this;
             }
             catch (Exception ex)

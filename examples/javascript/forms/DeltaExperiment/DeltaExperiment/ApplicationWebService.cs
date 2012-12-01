@@ -35,15 +35,17 @@ namespace DeltaExperiment
             delta.Enumerate(
                 reader =>
                 {
-                    long id = reader.id;
                     long ticks = reader.ticks;
 
-                    ivec3 xyz = reader.xyz;
+                    //ivec3 xyz = reader.xyz;
+                    long x = reader.x;
+                    long y = reader.y;
+                    long z = reader.z;
 
                     yield(
-                        "" + xyz.x,
-                        "" + xyz.y,
-                        "" + xyz.z
+                        "" + x,
+                        "" + y,
+                        "" + z
                     );
                 }
             );
@@ -67,12 +69,18 @@ namespace DeltaExperiment
                 new DeltaQueries.SelectSum { ticks = long.Parse(ticks) },
                 reader =>
                 {
-                    ivec3 xyz = reader.xyz;
+                    //ivec3 xyz = reader.xyz;
+                    Console.WriteLine("Sum .x");
+                    long x = reader.x;
+                    Console.WriteLine("Sum .y");
+                    long y = reader.y;
+                    Console.WriteLine("Sum .z");
+                    long z = reader.z;
 
                     yield(
-                        "" + xyz.x,
-                        "" + xyz.y,
-                        "" + xyz.z
+                        "" + x,
+                        "" + y,
+                        "" + z
                     );
                 }
             );

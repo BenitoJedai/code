@@ -36,6 +36,10 @@ namespace TestLINQ
 
             Console.WriteLine("hi! vm:" + typeof(object).FullName);
 
+            //var aa = new[] { 
+            //    new { foo = 5}
+            //};
+
             var a1 = new ivec3(3, 3, 3);
 
             Console.WriteLine(new { a1 }.ToString());

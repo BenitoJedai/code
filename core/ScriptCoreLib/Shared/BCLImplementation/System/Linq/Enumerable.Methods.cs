@@ -242,6 +242,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             foreach (var v in source.AsEnumerable())
             {
+                if (value != null)
+                {
+                    // order by comparator?
+                    if (value.GetType() == typeof(string))
+                    {
+                        if ((string)(object)value == (string)(object)v)
+                        {
+                            r = true;
+
+                            break;
+                        }
+                    }
+                }
+
                 if (object.ReferenceEquals(v, value))
                 {
                     r = true;
@@ -340,7 +354,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         }
 
 
-     
+
 
 
 
