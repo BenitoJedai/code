@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
 	[Script(Implements = typeof(global::System.ComponentModel.IComponent))]
-	internal interface __IComponent : IDisposable
+	public interface __IComponent : IDisposable
 	{
         ISite Site { get; set; }
 

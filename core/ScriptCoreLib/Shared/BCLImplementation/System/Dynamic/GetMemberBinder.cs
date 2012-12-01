@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
 {
     [Script(Implements = typeof(global::System.Dynamic.GetMemberBinder))]
-    internal class __GetMemberBinder : __DynamicMetaObjectBinder
+    public class __GetMemberBinder : __DynamicMetaObjectBinder
     {
         public CSharpBinderFlags flags;
 

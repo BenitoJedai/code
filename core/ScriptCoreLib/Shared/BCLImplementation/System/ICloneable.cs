@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.ICloneable))]
-    internal interface __ICloneable
+    public interface __ICloneable
     {
 		//object Clone();
     }

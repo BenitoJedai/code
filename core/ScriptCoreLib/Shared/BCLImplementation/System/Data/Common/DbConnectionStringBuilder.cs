@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     [Script(Implements = typeof(global::System.Data.Common.DbConnectionStringBuilder))]
-    internal class __DbConnectionStringBuilder
+    public class __DbConnectionStringBuilder
     {
         public string ConnectionString
         {

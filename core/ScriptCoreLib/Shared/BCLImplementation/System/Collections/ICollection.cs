@@ -8,7 +8,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections
 {
 	[Script(Implements = typeof(ICollection))]
-	internal interface __ICollection : __IEnumerable
+	public interface __ICollection : __IEnumerable
 	{
 
 		int Count { get; }

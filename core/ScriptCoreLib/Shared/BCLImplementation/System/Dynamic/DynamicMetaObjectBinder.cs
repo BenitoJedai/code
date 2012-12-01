@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
 {
     [Script(Implements = typeof(global::System.Dynamic.DynamicMetaObjectBinder))]
-    internal class __DynamicMetaObjectBinder : __CallSiteBinder
+    public class __DynamicMetaObjectBinder : __CallSiteBinder
     {
     }
 }

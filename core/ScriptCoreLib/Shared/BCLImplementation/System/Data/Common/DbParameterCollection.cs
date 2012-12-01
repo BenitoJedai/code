@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     [Script(Implements = typeof(global::System.Data.Common.DbParameterCollection))]
-    internal abstract class __DbParameterCollection 
+    public abstract class __DbParameterCollection 
     {
     }
 }

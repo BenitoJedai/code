@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     [Script(Implements = typeof(global::System.Data.Common.DbDataReader))]
-    internal abstract class __DbDataReader : IDisposable, __IDataReader
+    public abstract class __DbDataReader : IDisposable, __IDataReader
     {
         public abstract void Close();
         public abstract bool Read();
