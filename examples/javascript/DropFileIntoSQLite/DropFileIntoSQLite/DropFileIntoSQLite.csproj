@@ -151,7 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="staging\DropFileIntoSQLite.ApplicationWebService\staging.net.debug\SQLiteWithDataGridView51.sqlite" />
+    <None Include="staging\DropFileIntoSQLite.ApplicationWebService\staging.net.debug\SQLiteWithDataGridView51.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Library\About.resx">

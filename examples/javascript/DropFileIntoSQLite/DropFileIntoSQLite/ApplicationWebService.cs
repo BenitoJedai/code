@@ -143,7 +143,7 @@ namespace DropFileIntoSQLite
                 }
             );
 
-            Console.WriteLine(new { DeclaringType, MemberName, MemberValue });
+            //Console.WriteLine(new { DeclaringType, MemberName, MemberValue });
 
             yield("");
         }
