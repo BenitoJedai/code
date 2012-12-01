@@ -61,10 +61,12 @@ using ScriptCoreLib.Shared;
 
 
 
-[assembly: InternalsVisibleTo("ScriptCoreLibJava")]
-[assembly: InternalsVisibleTo("ScriptCoreLibJava.Web")]
-[assembly: InternalsVisibleTo("ScriptCoreLibJava.Windows.Forms")]
-[assembly: InternalsVisibleTo("ScriptCoreLibAndroid")]
+//[assembly: InternalsVisibleTo("ScriptCoreLibJava")]
+//[assembly: InternalsVisibleTo("ScriptCoreLibJava.Web")]
+//[assembly: InternalsVisibleTo("ScriptCoreLibJava.Windows.Forms")]
+
+//to be reenabled part of build process
+//[assembly: InternalsVisibleTo("ScriptCoreLibAndroid")]
 
 [assembly: InternalsVisibleTo("ScriptCoreLib.Query")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Windows.Forms")]

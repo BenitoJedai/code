@@ -19,7 +19,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         }
     }
 
-    internal static class __Enumerable_AsEnumerable
+    public static class __Enumerable_AsEnumerable
     {
         // this class is will not be translated to the target language.
         // each language can do special checks here to convert from native enumerations

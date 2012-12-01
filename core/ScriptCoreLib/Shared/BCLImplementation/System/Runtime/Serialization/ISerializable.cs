@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization
 {
 	[Script(Implements = typeof(ISerializable))]
-	internal interface __ISerializable
+    public interface __ISerializable
 	{
 	}
 }

@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.IDisposable))]
-    internal interface __IDisposable
+    public interface __IDisposable
     {
         void Dispose();
     }

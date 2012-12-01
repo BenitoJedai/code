@@ -10,7 +10,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
 {
     [Script(Implements = typeof(global::Microsoft.CSharp.RuntimeBinder.Binder))]
-    internal static class __Binder
+    public static class __Binder
     {
 
         public static CallSiteBinder SetMember(

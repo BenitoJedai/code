@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 {
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSiteBinder))]
-    internal abstract class __CallSiteBinder
+    public abstract class __CallSiteBinder
     {
      
     }

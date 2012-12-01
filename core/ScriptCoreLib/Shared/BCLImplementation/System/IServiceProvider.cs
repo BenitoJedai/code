@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.IServiceProvider))]
-	internal interface __IServiceProvider
+	public interface __IServiceProvider
 	{
 	}
 }

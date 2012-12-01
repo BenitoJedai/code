@@ -7,7 +7,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
 
     [Script(Implements = typeof(global::System.ComponentModel.CancelEventHandler))]
-    internal delegate void __CancelEventHandler(object sender, ListChangedEventArgs e);
+    public delegate void __CancelEventHandler(object sender, ListChangedEventArgs e);
 
 
 }

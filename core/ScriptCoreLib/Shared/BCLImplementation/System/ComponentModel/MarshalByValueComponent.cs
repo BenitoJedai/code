@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
 	[Script(Implements = typeof(global::System.ComponentModel.MarshalByValueComponent))]
-	internal class __MarshalByValueComponent : IComponent, IDisposable, IServiceProvider
+	public class __MarshalByValueComponent : IComponent, IDisposable, IServiceProvider
 	{
 		public __MarshalByValueComponent()
 		{

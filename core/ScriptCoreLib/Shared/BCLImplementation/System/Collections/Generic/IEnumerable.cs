@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.IEnumerable<>))]
-    internal interface __IEnumerable<T> : __IEnumerable
+    public interface __IEnumerable<T> : __IEnumerable
     {
         IEnumerator<T> GetEnumerator();
     }
