@@ -220,12 +220,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 
         private static __CallSite<T> __GetMember(__GetMemberBinder GetMember)
         {
-            Console.WriteLine("__CallSite GetMember prep " + new { GetMember.Name });
+            //Console.WriteLine("__CallSite GetMember prep " + new { GetMember.Name });
 
             var r = new Func<__CallSite, object, object>(
                 (site, subject) =>
                 {
-                    Console.WriteLine("__CallSite GetMember " + new { subject, GetMember.Name });
+                    //Console.WriteLine("__CallSite GetMember " + new { subject, GetMember.Name });
 
 
                     object result = null;
@@ -233,7 +233,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                     var x = subject as DynamicObject;
                     if (x != null)
                     {
-                        Console.WriteLine("__CallSite GetMember is DynamicObject " + new { subject, GetMember.Name });
+                        //Console.WriteLine("__CallSite GetMember is DynamicObject " + new { subject, GetMember.Name });
 
                         if (x.TryGetMember((GetMemberBinder)(object)GetMember, out result))
                         {
@@ -241,11 +241,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                         }
                         else
                         {
-                            Console.WriteLine("__CallSite GetMember is DynamicObject TryGetMember false");
+                            //Console.WriteLine("__CallSite GetMember is DynamicObject TryGetMember false");
                         }
                     }
 
-                    Console.WriteLine("__CallSite GetMember not DynamicObject " + new { subject, GetMember.Name });
+                    //Console.WriteLine("__CallSite GetMember not DynamicObject " + new { subject, GetMember.Name });
 
 
                     //var value = 
@@ -278,6 +278,35 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                 }
             }
             #endregion
+
+            #region SetMember
+            {
+                var SetMember = (object)binder as __SetMemberBinder;
+                if (SetMember != null)
+                {
+                    var r = new Func<__CallSite, object, object, object>(
+                        (site, subject, value) =>
+                        {
+                            var x = subject as DynamicObject;
+                            if (x != null)
+                            {
+                                //Console.WriteLine("__SetMemberBinder DynamicObject");
+
+                                if (x.TrySetMember((SetMemberBinder)(object)SetMember, value))
+                                {
+                                    return null;
+                                }
+                            }
+
+
+                            throw new InvalidOperationException("SetMemberBinder");
+                        }
+                    );
+                    return r;
+                }
+            }
+            #endregion
+
 
             #region GetMember
             {

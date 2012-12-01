@@ -13,6 +13,8 @@ namespace WebGLEscherDrosteEffect
     using gl = WebGLRenderingContext;
     using WebGLFloatArray = Float32Array;
     using WebGLUnsignedShortArray = Uint16Array;
+    using System.Dynamic;
+    using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -194,7 +196,15 @@ namespace WebGLEscherDrosteEffect
 
                  var t = (new IDate().getTime() - start_time) / 1000;
 
-                 gl.uniform1f(gl.getUniformLocation(program, "t"), t);
+                 dynamic program_uniforms = new ShaderProgramUniforms
+                 {
+                     gl = gl,
+                     program = program
+                 };
+
+                 program_uniforms.t = t;
+
+                 //gl.uniform1f(gl.getUniformLocation(program, "t"), t);
                  gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
                  gl.flush();
 
@@ -232,5 +242,31 @@ namespace WebGLEscherDrosteEffect
         public readonly Action Dispose;
 
 
+    }
+
+    // whats the performance hit?
+    class ShaderProgramUniforms : DynamicObject
+    {
+        public WebGLProgram program;
+        public gl gl;
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            // cache location
+
+            var isvec2 = value is __vec2;
+            if (isvec2)
+            {
+                var value_vec2 = (__vec2)value;
+                gl.uniform2f(
+                    gl.getUniformLocation(program, binder.Name),
+                    value_vec2
+                );
+                return true;
+            }
+
+            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
+            return true;
+        }
     }
 }

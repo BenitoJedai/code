@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.WebGL;
 namespace ScriptCoreLib.JavaScript.WebGL
 {
     using gl = WebGLRenderingContext;
+    using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 
     public static class ShaderExtensions
     {
@@ -74,9 +75,15 @@ namespace ScriptCoreLib.JavaScript.WebGL
             gl.bufferData(target, new Float32Array(vertices), usage);
         }
 
-        public static void bufferData(this WebGLRenderingContext gl, uint target, ushort[] i, uint usage)
+        public static void bufferData(this gl gl, uint target, ushort[] i, uint usage)
         {
             gl.bufferData(target, new Uint16Array(i), usage);
+        }
+
+        [Obsolete("Shall revert to vec2 as soon as possible.")]
+        public static void uniform2f(this gl gl, WebGLUniformLocation location, __vec2 xy)
+        {
+            gl.uniform2f(location, xy.x, xy.y);
         }
     }
 }
