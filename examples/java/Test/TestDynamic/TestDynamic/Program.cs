@@ -53,6 +53,7 @@ namespace TestDynamic
 
                 y.bar("foo");
 
+                y.foo = "hey";
 
                 string goo = y.bar("foo");
                 Console.WriteLine(new { goo });
@@ -104,6 +105,13 @@ namespace TestDynamic
 
 
             return retvalue;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            Console.WriteLine("TrySetMember: " + new { binder.Name, value });
+
+            return true;
         }
     }
 

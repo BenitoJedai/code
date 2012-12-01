@@ -101,7 +101,7 @@ namespace WebGLSpiral.Shaders
 
                            // Set values to program variables
 
-                           dynamic spiral_uniforms = new SpiralUniforms
+                           dynamic spiral_uniforms = new ShaderProgramUniforms
                            {
                                gl = gl,
                                program = program
@@ -143,17 +143,10 @@ namespace WebGLSpiral.Shaders
     }
 
     // whats the performance hit?
-    class SpiralUniforms : DynamicObject
+    class ShaderProgramUniforms : DynamicObject
     {
         public WebGLProgram program;
         public gl gl;
-
-        //[uniform]
-        //float time;
-        //[uniform]
-        //vec2 resolution;
-        //[uniform]
-        //vec2 aspect;
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
@@ -165,8 +158,7 @@ namespace WebGLSpiral.Shaders
                 var value_vec2 = (__vec2)value;
                 gl.uniform2f(
                     gl.getUniformLocation(program, binder.Name),
-                    value_vec2.x,
-                    value_vec2.y
+                    value_vec2
                 );
                 return true;
             }

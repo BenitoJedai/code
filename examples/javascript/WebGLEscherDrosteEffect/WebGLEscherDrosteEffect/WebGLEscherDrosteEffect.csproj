@@ -42,6 +42,7 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -126,8 +127,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Templates\escher.jpg" />
-    <Content Include="Templates\Preview.png" />
+    <Content Include="Textures\escher.jpg" />
+    <Content Include="Textures\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\EscherDorste.frag" />

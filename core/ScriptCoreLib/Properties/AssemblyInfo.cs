@@ -73,7 +73,6 @@ using ScriptCoreLib.Shared;
 [assembly: InternalsVisibleTo("ScriptCoreLib.Drawing")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Avalon")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Web.Services")]
-[assembly: InternalsVisibleTo("ScriptCoreLib.Controls.TextEditor")]
 //[assembly: InternalsVisibleTo("ScriptCoreLib.Ultra")]
 //[assembly: InternalsVisibleTo("ScriptCoreLib.Ultra.BCLImplementation")]
 [assembly: InternalsVisibleTo("jsc.meta")]
