@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared.Lambda;
-
+using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Drawing;
+using System;
+using ScriptCoreLib;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.DOM;
 namespace NatureBoy.js
 {
     using div = IHTMLDiv;
     using img = IHTMLImage;
-    using ScriptCoreLib.Shared;
-    using ScriptCoreLib.Shared.Drawing;
-    using System;
-    using ScriptCoreLib;
-    using ScriptCoreLib.JavaScript.Runtime;
-    using ScriptCoreLib.JavaScript.DOM;
 
-    [Script]
+
     public abstract class DudeBase
     {
         public img Shadow;

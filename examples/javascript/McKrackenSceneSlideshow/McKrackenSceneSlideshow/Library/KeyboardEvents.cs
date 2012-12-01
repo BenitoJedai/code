@@ -7,7 +7,6 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace NatureBoy.js
 {
-    [Script]
     class KeyboardEvents
     {
         public bool Enabled { get; set; }
