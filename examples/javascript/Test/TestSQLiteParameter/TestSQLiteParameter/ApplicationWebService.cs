@@ -55,7 +55,7 @@ namespace TestSQLiteParameter
 
                             Table1.Add(
                                 // new Tables.Table1.AddQueryParameters
-                                new Tables.Table1.AddQuery
+                                new Table1Queries.Insert
                                 {
                                     // implicit?
                                     ContentValue = new { Last, e }.ToString()

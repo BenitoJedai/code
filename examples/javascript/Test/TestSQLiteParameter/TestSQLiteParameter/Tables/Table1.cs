@@ -15,7 +15,7 @@ namespace TestSQLiteParameter
 
 
     // generated for namespace Tables
-    class Table1
+    class Table1 : Table1Queries
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
@@ -29,34 +29,24 @@ namespace TestSQLiteParameter
                 {
                     Console.WriteLine("Table1 create...");
 
-                    new SQLiteCommand(
-                        Tables.Table1.CreateQuery.GetSource()
-                        , c).ExecuteNonQuery();
+                    new Create().Command(c).ExecuteNonQuery();
 
-                    //using (var reader = new SQLiteCommand(
-                    //    Tables.Table1.CreateQuery.GetSource()
-                    //    , c).ExecuteReader())
-                    //{
-
-                    //}
+                
                     Console.WriteLine("Table1 create... done");
                 }
             );
         }
 
-        public void Add(Tables.Table1.AddQuery value)
+        public void Add(Insert value)
         {
             WithConnection(
                   c =>
                   {
                       Console.WriteLine("before Add");
 
-                      var cmd = new SQLiteCommand(
-                          Tables.Table1.AddQuery.GetSource()
-                      , c);
+                      var cmd = value.Command(c);
 
-                      Tables.Table1.AddQueryExtensions.AddWithValue(
-                           cmd.Parameters,
+                      cmd.Parameters.AddWithValue(
                            value
                       );
 
@@ -73,11 +63,7 @@ namespace TestSQLiteParameter
             WithConnection(
                   c =>
                   {
-                      var cmd = new SQLiteCommand(
-                          Tables.Table1.EnumerateQuery.GetSource()
-                      , c);
-
-
+                      var cmd = new SelectAll().Command(c);
 
                       using (var reader = cmd.ExecuteReader())
                       {
@@ -95,11 +81,7 @@ namespace TestSQLiteParameter
             WithConnection(
                   c =>
                   {
-                      var cmd = new SQLiteCommand(
-                          Tables.Table1.LastQuery.GetSource()
-                      , c);
-
-
+                      var cmd = new SelectLast().Command(c);
 
                       using (var reader = cmd.ExecuteReader())
                       {

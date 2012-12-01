@@ -168,10 +168,7 @@ namespace DeltaExperiment
     public static partial class XX
     {
 
-        public static int ExecuteNonQuery(this DeltaQueries.InsertVector e, string DataSource = "BatchOfAggregatedTimedDeltas.sqlite")
-        {
-            return e.ExecuteNonQuery(DataSource.AsWithConnection());
-        }
+
 
         public static int ExecuteNonQuery(this DeltaQueries.InsertVector e, Action<Action<SQLiteConnection>> WithConnection)
         {
