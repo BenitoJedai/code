@@ -178,9 +178,15 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
 
                             parameters_time += 100;
 
+                            dynamic program_uniforms = new ShaderProgramUniforms
+                            {
+                                gl = gl,
+                                program = program
+                            };
 
+                            program_uniforms.t = t;
 
-                            gl.uniform1f(gl.getUniformLocation(program, "t"), t);
+                            //gl.uniform1f(gl.getUniformLocation(program, "t"), t);
                             gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
                             gl.flush();
 
