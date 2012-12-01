@@ -114,8 +114,24 @@ namespace DropFileIntoSQLite.Schema
         }
     }
 
-    
 
+
+
+    public static partial class XX
+    {
+
+
+        public static void ExecuteReaderForEach(this SQLiteCommand cmd, Action<dynamic> y)
+        {
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    y(new DynamicDataReader(reader));
+                }
+            }
+        }
+    }
 
     public static partial class XX
     {
