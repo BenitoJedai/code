@@ -16,7 +16,7 @@ namespace DeltaExperiment
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
-        public Delta(string DataSource = "BatchOfAggregatedTimedDeltas.sqlite")
+        public Delta(string DataSource = "BatchOfAggregatedTimedDeltas01.sqlite")
         {
 
             #region abort if in design mode

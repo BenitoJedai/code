@@ -10,6 +10,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
     internal class __SQLiteDataReader : __DbDataReader
     {
+        public __SQLiteCommand InternalCommand;
         public java.sql.ResultSet InternalResultSet;
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
         // http://msdn.microsoft.com/en-us/library/ms379039.aspx
@@ -151,45 +152,50 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override Type GetFieldType(int ordinal)
         {
-            var f = default(int);
+            var ColumnType = default(int);
 
             try
             {
-                f = this.InternalResultSet.getMetaData().getColumnType(ordinal + 1);
+                ColumnType = this.InternalResultSet.getMetaData().getColumnType(ordinal + 1);
             }
             catch
             {
                 throw;
             }
 
-            if (f == 4)
+            // GetFieldType unknown type: 3,
+            // http://docs.oracle.com/javase/1.4.2/docs/api/constant-values.html#java.sql
+
+            if (ColumnType == 4)
                 return typeof(int);
 
-            if (f == -5)
+            if (ColumnType == -5)
                 return typeof(long);
 
             // In MySQL 4.1.x, the four TEXT types (TINYTEXT, TEXT, MEDIUMTEXT, and LONGTEXT) return 'blob" as field types, not "string".
             // how to fix that?
 
             // long varchar
-            if (f == -1)
+            if (ColumnType == -1)
                 return typeof(string);
 
-            if (f == 2004)
+            if (ColumnType == 2004)
                 return typeof(string);
 
-            if (f == 91)
+            if (ColumnType == 91)
                 return typeof(string);
 
             // timestamp
-            if (f == 93)
+            if (ColumnType == 93)
                 return typeof(string);
 
-            if (f == 12)
+            if (ColumnType == 12)
                 return typeof(string);
 
             // http://docs.oracle.com/javase/1.4.2/docs/api/constant-values.html#java.sql.Types.INTEGER
-            throw new InvalidOperationException("GetFieldType unknown type: " + f);
+            var message = "GetFieldType fault: " + new { ColumnType, ordinal, InternalCommand.sql };
+
+            throw new InvalidOperationException(message);
         }
 
         public override int FieldCount

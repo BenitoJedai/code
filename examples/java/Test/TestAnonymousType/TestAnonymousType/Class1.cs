@@ -16,7 +16,9 @@ namespace TestAnonymousType
 
             var q = u.ToString();
 
-            
+            var aa = new[] { 
+                new { foo = 5}
+            };
         }
     }
 }

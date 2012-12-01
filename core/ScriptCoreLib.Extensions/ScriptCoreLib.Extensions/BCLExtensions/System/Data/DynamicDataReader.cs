@@ -226,27 +226,20 @@ namespace System.Data
             // lookup column names as fields
             else
             {
-                Console.WriteLine("Will read field names");
-
                 var FieldNamesE = DataReader.FieldNames();
-
-                foreach (var item in FieldNamesE)
-                {
-                    Console.WriteLine("FieldName: " + new { item });
-                }
-
-                Console.WriteLine("Will put into array");
-
                 var FieldNames = FieldNamesE.ToArray();
 
                 if (FieldNames.Contains(Name))
                 {
+                    Console.WriteLine("TryGetMember: " + Name);
+
                     try
                     {
                         // { Message = 'System.Data.DynamicDataReader' does not contain a definition for 'xyz', S
 
 
                         result = DataReader[Name];
+
                         if (result == DBNull.Value)
                             result = null;
 
@@ -254,6 +247,8 @@ namespace System.Data
                     }
                     catch (Exception ex)
                     {
+                        Console.WriteLine("TryGetMember error: " + new { ex.Message, ex.StackTrace });
+
 
                         result = null;
                         retvalue = false;
@@ -262,6 +257,13 @@ namespace System.Data
                 }
                 else
                 {
+                    Console.WriteLine("Field not found: " + Name);
+
+                    foreach (var item in DataReader.FieldNames())
+                    {
+                        Console.WriteLine("" + new { item, Name });
+                    }
+
                     // otherwise check if we can map to GLSL?
                     if (Name == "xyz")
                     {

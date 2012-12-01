@@ -7,6 +7,8 @@ namespace ScriptCoreLibJava
 {
     [Script]
     public interface IAssemblyReferenceToken
+    // : global::ScriptCoreLib.Shared.IAssemblyReferenceToken
     {
+
     }
 }

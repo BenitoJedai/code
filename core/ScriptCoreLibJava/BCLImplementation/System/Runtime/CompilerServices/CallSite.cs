@@ -165,7 +165,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                     // its the same type. no conversion required!
                     if (value == null)
                     {
+                        // why is the value null?
 
+                        if (Convert.type == typeof(int))
+                        {
+                            var value_int32 = (int)0;
+
+                            return value_int32;
+                        }
+
+                        if (Convert.type == typeof(long))
+                        {
+                            var value_int64 = (long)0;
+
+                            return value_int64;
+                        }
                     }
                     else
                     {
@@ -206,19 +220,32 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 
         private static __CallSite<T> __GetMember(__GetMemberBinder GetMember)
         {
+            Console.WriteLine("__CallSite GetMember prep " + new { GetMember.Name });
+
             var r = new Func<__CallSite, object, object>(
                 (site, subject) =>
                 {
+                    Console.WriteLine("__CallSite GetMember " + new { subject, GetMember.Name });
+
+
                     object result = null;
 
                     var x = subject as DynamicObject;
                     if (x != null)
                     {
+                        Console.WriteLine("__CallSite GetMember is DynamicObject " + new { subject, GetMember.Name });
+
                         if (x.TryGetMember((GetMemberBinder)(object)GetMember, out result))
+                        {
                             return result;
+                        }
+                        else
+                        {
+                            Console.WriteLine("__CallSite GetMember is DynamicObject TryGetMember false");
+                        }
                     }
 
-                    Console.WriteLine("__CallSite GetMember " + new { subject, GetMember.Name });
+                    Console.WriteLine("__CallSite GetMember not DynamicObject " + new { subject, GetMember.Name });
 
 
                     //var value = 
@@ -277,6 +304,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 
         public static implicit operator __CallSite<T>(Delegate Target)
         {
+            if (Target == null)
+                throw new InvalidOperationException("CallSite Target not initialized!");
+
             // crude casting.
             // this will work in JavaScript.
 
