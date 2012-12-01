@@ -162,10 +162,10 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <Content Include="Tables\Table1\Insert.sql" />
-    <Content Include="Tables\Table1\Last.sql" />
-    <Content Include="Tables\Table1\Enumerate.sql" />
-    <Content Include="Tables\Table1\Create.sql" />
+    <Content Include="Tables\Table1\insert.sql" />
+    <Content Include="Tables\Table1\select last.sql" />
+    <Content Include="Tables\Table1\select all.sql" />
+    <Content Include="Tables\Table1\create.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
