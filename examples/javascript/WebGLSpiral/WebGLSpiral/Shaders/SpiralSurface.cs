@@ -6,6 +6,9 @@ using System.Text;
 
 namespace WebGLSpiral.Shaders
 {
+    using ScriptCoreLib.GLSL;
+    using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+    using System.Dynamic;
     using gl = WebGLRenderingContext;
 
 
@@ -95,19 +98,36 @@ namespace WebGLSpiral.Shaders
 
                            // Get var locations
 
-                           var vertex_position = gl.getAttribLocation(program, "position");
 
                            // Set values to program variables
 
-                           gl.uniform1f(gl.getUniformLocation(program, "time"), time);
-                           gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
-                           gl.uniform2f(gl.getUniformLocation(program, "aspect"), parameters_aspectX, parameters_aspectY);
+                           dynamic spiral_uniforms = new SpiralUniforms
+                           {
+                               gl = gl,
+                               program = program
+                           };
+
+                           var resolution = new __vec2 { x = parameters_screenWidth, y = parameters_screenHeight };
+                           var aspect = new __vec2 { x = parameters_aspectX, y = parameters_aspectY };
+
+                           spiral_uniforms.time = time;
+                           spiral_uniforms.resolution = resolution;
+                           spiral_uniforms.aspect = aspect;
+
+
+                           //gl.uniform1f(gl.getUniformLocation(program, "time"), time);
+                           //gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
+                           //gl.uniform2f(gl.getUniformLocation(program, "aspect"), parameters_aspectX, parameters_aspectY);
 
                            // Render geometry
 
                            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+                           var vertex_position = gl.getAttribLocation(program, "position");
+
                            //opengl.glVertexAttribPointer(vertex_position, 2, (int)gl.FLOAT, false, 0, 0);
                            gl.vertexAttribPointer((uint)vertex_position, 2, gl.FLOAT, false, 0, 0);
+
                            gl.enableVertexAttribArray((uint)vertex_position);
                            gl.drawArrays(gl.TRIANGLES, 0, 6);
                            gl.disableVertexAttribArray((uint)vertex_position);
@@ -122,4 +142,37 @@ namespace WebGLSpiral.Shaders
         }
     }
 
+    // whats the performance hit?
+    class SpiralUniforms : DynamicObject
+    {
+        public WebGLProgram program;
+        public gl gl;
+
+        //[uniform]
+        //float time;
+        //[uniform]
+        //vec2 resolution;
+        //[uniform]
+        //vec2 aspect;
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            // cache location
+
+            var isvec2 = value is __vec2;
+            if (isvec2)
+            {
+                var value_vec2 = (__vec2)value;
+                gl.uniform2f(
+                    gl.getUniformLocation(program, binder.Name),
+                    value_vec2.x,
+                    value_vec2.y
+                );
+                return true;
+            }
+
+            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
+            return true;
+        }
+    }
 }
