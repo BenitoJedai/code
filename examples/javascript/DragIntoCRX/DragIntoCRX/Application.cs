@@ -32,8 +32,7 @@ namespace DragIntoCRX
         {
             // https://developer.chrome.com/extensions/crx.html
 
-
-            //page.DragCRX.draggable = true;
+            #region DownloadURL
 
             page.DragCRX.ondragstart +=
                 e =>
@@ -54,7 +53,6 @@ namespace DragIntoCRX
                 };
 
 
-            //page.DragEXE.draggable = true;
 
             page.DragEXE.ondragstart +=
                 e =>
@@ -93,125 +91,160 @@ namespace DragIntoCRX
                     e.dataTransfer.setData("DownloadURL", "application/octet-stream:DragIntoCRX.app:data:application/octet-stream;base64," + data64);
                 };
 
+            #endregion
 
 
             page.DragHTM.style.color = JSColor.Red;
             page.DragHtmlSource.style.color = JSColor.Red;
 
-            var hassource = Native.Document.getElementsByTagName("script").AsEnumerable().Any(k => ((IHTMLScript)k).src.EndsWith("/view-source"));
+            var source = Native.Document
+                .getElementsByTagName("script")
+                .Select(k => (IHTMLScript)k)
+                .FirstOrDefault(k => k.src.EndsWith("/view-source"));
 
-            if (!hassource)
+            if (source == null)
             {
-                new IHTMLPre { innerText = " probably the drag already happened. running as a clone." }.AttachToDocument();
+                new IHTMLPre
+                {
+                    innerText =
+                        @"Probably the drag already happened. running as a clone.
+We could look what script and style elements we have to package again.
+WebService avilability is unknown. Should ask the server if it is there.
+Could post message to see if we are being hosted in an iframe.
+"
+                }.AttachToDocument();
 
                 page.DragHTM.Orphanize();
                 page.DragHtmlSource.Orphanize();
             }
-            else new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET, "/view-source",
-                    r =>
+            else
+            {
+                #region PackageAsApplication
+                Action<IHTMLScript, XElement, Action<string>> PackageAsApplication =
+                    (source0, xml, yield) =>
                     {
-                        var xml = XElement.Parse(new App.XMLSourceSource().Text);
-
-                        xml.Add(
-                            new XElement("script",
-                                "/* source */"
-                           )
-                        );
-
-                        var data = "";
-
-                        Action later = delegate
-                        {
-
-                            data = data.Replace("/* source */", r.responseText);
-
-                        };
-
-                        //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
-
-                        xml.Elements("link").ToList().ForEach(
-                            (XElement link, Action next) =>
+                        new IXMLHttpRequest(
+                            ScriptCoreLib.Shared.HTTPMethodEnum.GET, source0.src,
+                            r =>
                             {
-                                var rel = link.Attribute("rel");
-                                if (rel.Value != "stylesheet")
-                                {
-                                    next();
-                                    return;
-                                }
-
-                                var href = link.Attribute("href");
-
-                                var placeholder = "/* " + href.Value + " */";
-
-                                page.DragHTM.innerText += " " + placeholder;
-
-
-                                xml.Add(new XElement("style", placeholder));
-
-                                new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET, href.Value,
-                                    rr =>
-                                    {
-
-                                        later += delegate
-                                        {
-
-
-                                            data = data.Replace(placeholder, rr.responseText);
-
-                                        };
-
-                                        Console.WriteLine("link Remove");
-                                        link.Remove();
-
-                                        next();
-                                    }
+                                #region script
+                                xml.Add(
+                                    new XElement("script",
+                                        "/* source */"
+                                   )
                                 );
 
-
-                            }
-                        )(
-                            delegate
-                            {
+                                var data = "";
 
 
-                                data = xml.ToString();
-                                Console.WriteLine("data: " + data);
+                                Action later = delegate
+                                {
+
+                                    data = data.Replace("/* source */", r.responseText);
+
+                                };
+                                #endregion
 
 
-                                later();
+                                //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
 
-                                var bytes = Encoding.ASCII.GetBytes(data);
+                                xml.Elements("link").ToList().ForEach(
+                                    (XElement link, Action next) =>
+                                    {
+                                        #region style
+                                        var rel = link.Attribute("rel");
+                                        if (rel.Value != "stylesheet")
+                                        {
+                                            next();
+                                            return;
+                                        }
 
-                                var data64 = System.Convert.ToBase64String(bytes);
+                                        var href = link.Attribute("href");
 
-                                page.DragHTM.style.color = JSColor.Blue;
+                                        var placeholder = "/* " + href.Value + " */";
 
-                                page.DragHTM.ondragstart +=
-                                     e =>
-                                     {
-
-                                         e.dataTransfer.setData("text/plain", "DragIntoCRX");
-                                         //e.dataTransfer.setData("text/uri-list", Native.Document.location + "");
-
-                                         // http://codebits.glennjones.net/downloadurl/virtualdownloadurl.htm
+                                        page.DragHTM.innerText += " " + placeholder;
 
 
+                                        xml.Add(new XElement("style", placeholder));
+
+                                        new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET, href.Value,
+                                            rr =>
+                                            {
+
+                                                later += delegate
+                                                {
 
 
-                                         e.dataTransfer.setData("DownloadURL", "application/octet-stream:DragIntoCRX.htm:data:application/octet-stream;base64," + data64);
-                                     };
+                                                    data = data.Replace(placeholder, rr.responseText);
 
-                                page.DragHtmlSource.style.color = JSColor.Blue;
+                                                };
 
-                                page.DragHtmlSource.ondragstart +=
-                                     e =>
-                                     {
-                                         e.dataTransfer.setData("text/html", data);
-                                     };
+                                                Console.WriteLine("link Remove");
+                                                link.Remove();
+
+                                                next();
+                                            }
+                                        );
+
+                                        #endregion
+                                    }
+                                )(
+                                    delegate
+                                    {
+
+
+                                        data = xml.ToString();
+                                        Console.WriteLine("data: " + data);
+                                        later();
+
+                                        yield(data);
+                                    }
+                                );
                             }
                         );
+
+                    };
+                #endregion
+
+
+                PackageAsApplication(
+                    source,
+                    XElement.Parse(new App.XMLSourceSource().Text),
+                    data =>
+                    {
+                        var bytes = Encoding.ASCII.GetBytes(data);
+                        var data64 = System.Convert.ToBase64String(bytes);
+
+                        #region ondragstart
+                        page.DragHTM.style.color = JSColor.Blue;
+                        page.DragHTM.ondragstart +=
+                                e =>
+                                {
+
+                                    e.dataTransfer.setData("text/plain", "DragIntoCRX");
+                                    //e.dataTransfer.setData("text/uri-list", Native.Document.location + "");
+
+                                    // http://codebits.glennjones.net/downloadurl/virtualdownloadurl.htm
+
+
+
+
+                                    e.dataTransfer.setData("DownloadURL", "application/octet-stream:DragIntoCRX.htm:data:application/octet-stream;base64," + data64);
+                                };
+
+                        page.DragHtmlSource.style.color = JSColor.Blue;
+                        page.DragHtmlSource.ondragstart +=
+                                e =>
+                                {
+                                    e.dataTransfer.setData("text/html", data);
+                                };
+                        #endregion
+
+
                     }
-                  );
+                );
+            }
         }
 
     }
