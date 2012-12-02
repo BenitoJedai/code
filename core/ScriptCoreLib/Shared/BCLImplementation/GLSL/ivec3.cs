@@ -36,6 +36,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.GLSL
         #endregion
 
         public __ivec3()
+            : this(0, 0, 0)
         {
 
         }
