@@ -311,7 +311,7 @@ namespace DropFileIntoSQLite
                     evt.stopPropagation();
                     evt.stopImmediatePropagation();
 
-                    evt.PreventDefault();
+                    evt.preventDefault();
                 };
 
             {

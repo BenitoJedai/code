@@ -189,6 +189,52 @@ namespace CSS3DMeetsFormsWithWebGL
 
             this.frontcontrol = new FrontPanel();
 
+            Native.Document.body.ondragover +=
+                evt =>
+                {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+
+                    evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
+                };
+
+            Native.Document.body.ondrop +=
+                evt =>
+                {
+                    #region dataTransfer
+                    evt.dataTransfer.types.WithEach(
+                        x =>
+                        {
+                            Console.WriteLine(x);
+
+                            //SystemSounds.Beep.Play();
+                            //Console.Beep();
+
+                            #region text/uri-list
+                            if (x == "text/uri-list")
+                            {
+                                var src = evt.dataTransfer.getData(x);
+
+                                if (src != "about:blank")
+                                {
+                                    if (src.StartsWith("http://www.youtube.com/watch?v="))
+                                        src = "http://www.youtube.com/embed/" + src.SkipUntilIfAny("http://www.youtube.com/watch?v=").TakeUntilIfAny("&");
+
+                                    Console.WriteLine(new { src });
+
+
+                                    frontcontrol.CreateWindowAndNavigate(src);
+                                }
+                            }
+                            #endregion
+
+
+
+                        }
+                    );
+                    #endregion
+                };
+
             Console.Write("frontcontrol set");
 
             // http://www.addyosmani.com/resources/googlebox/test.js
@@ -523,7 +569,7 @@ namespace CSS3DMeetsFormsWithWebGL
             page.search_fullscreen.onmousedown +=
                 e =>
                 {
-                    e.PreventDefault();
+                    e.preventDefault();
 
                     if (e.MouseButton != IEvent.MouseButtonEnum.Left)
                         Native.Document.body.requestPointerLock();
