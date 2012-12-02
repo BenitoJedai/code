@@ -3,52 +3,57 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using System.Dynamic;
 
 namespace WebGLSphereRayTrace.Shaders
 {
+    using xyz = __vec3;
+
     using gl = WebGLRenderingContext;
 
 
     public class RaySurface
     {
-        class xyz
-        {
-            public float x;
-            public float y;
-            public float z;
-        }
 
         public RaySurface(ISurface s)
         {
             s.onsurface +=
                gl =>
                {
-                   var shaderProgram = default(WebGLProgram);
+                   var program = default(WebGLProgram);
 
                    #region init
 
-                   shaderProgram = gl.createProgram(
+                   program = gl.createProgram(
                        new RayVertexShader(),
                        new RayFragmentShader()
                    );
 
-                   gl.bindAttribLocation(shaderProgram, 0, "position");
+                   gl.bindAttribLocation(program, 0, "position");
 
-                   gl.linkProgram(shaderProgram);
+                   gl.linkProgram(program);
 
-                   gl.useProgram(shaderProgram);
+                   gl.useProgram(program);
                    #endregion
 
-                   var aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+                   dynamic program_uniforms = new ShaderProgramUniforms
+                   {
+                       gl = gl,
+                       program = program
+                   };
+
+
+                   var aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
                    gl.enableVertexAttribArray((uint)aVertexPosition);
 
-                   var aPlotPosition = gl.getAttribLocation(shaderProgram, "aPlotPosition");
+                   var aPlotPosition = gl.getAttribLocation(program, "aPlotPosition");
                    gl.enableVertexAttribArray((uint)aPlotPosition);
 
-                   var cameraPos = gl.getUniformLocation(shaderProgram, "cameraPos");
-                   var sphere1Center = gl.getUniformLocation(shaderProgram, "sphere1Center");
-                   var sphere2Center = gl.getUniformLocation(shaderProgram, "sphere2Center");
-                   var sphere3Center = gl.getUniformLocation(shaderProgram, "sphere3Center");
+                   var cameraPos = gl.getUniformLocation(program, "cameraPos");
+                   var sphere1Center = gl.getUniformLocation(program, "sphere1Center");
+                   var sphere2Center = gl.getUniformLocation(program, "sphere2Center");
+                   var sphere3Center = gl.getUniformLocation(program, "sphere3Center");
 
 
 
@@ -181,7 +186,8 @@ namespace WebGLSphereRayTrace.Shaders
 
                            gl.bufferData(gl.ARRAY_BUFFER, corners.ToArray(), gl.STATIC_DRAW);
 
-                           gl.uniform3f(cameraPos, cameraFrom.x, cameraFrom.y, cameraFrom.z);
+
+                           gl.uniform3f(cameraPos, cameraFrom);
                            gl.uniform3f(sphere1Center, x1, y1, z1);
                            gl.uniform3f(sphere2Center, x2, y2, z2);
                            gl.uniform3f(sphere3Center, x3, y3, z3);
@@ -197,6 +203,46 @@ namespace WebGLSphereRayTrace.Shaders
 
                        };
                };
+        }
+    }
+
+    class ShaderProgramUniforms : DynamicObject
+    {
+        public WebGLProgram program;
+        public gl gl;
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            // cache location
+
+            var isvec2 = value is __vec2;
+            if (isvec2)
+            {
+                var value_vec2 = (__vec2)value;
+
+                gl.uniform2f(
+                    gl.getUniformLocation(program, binder.Name),
+                    value_vec2
+                );
+
+                return true;
+            }
+
+            var isvec3 = value is __vec3;
+            if (isvec3)
+            {
+                var value_vec3 = (__vec3)value;
+
+                gl.uniform3f(
+                    gl.getUniformLocation(program, binder.Name),
+                    value_vec3
+                );
+
+                return true;
+            }
+
+            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
+            return true;
         }
     }
 }
