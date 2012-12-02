@@ -10,9 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon", "..\
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Assets|Any CPU = Assets|Any CPU
-		Assets|Mixed Platforms = Assets|Mixed Platforms
-		Assets|x86 = Assets|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
@@ -21,11 +18,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3948D2D2-2538-4B27-9F71-C08E00520514}.Assets|Any CPU.ActiveCfg = Release|x86
-		{3948D2D2-2538-4B27-9F71-C08E00520514}.Assets|Mixed Platforms.ActiveCfg = Release|x86
-		{3948D2D2-2538-4B27-9F71-C08E00520514}.Assets|Mixed Platforms.Build.0 = Release|x86
-		{3948D2D2-2538-4B27-9F71-C08E00520514}.Assets|x86.ActiveCfg = Release|x86
-		{3948D2D2-2538-4B27-9F71-C08E00520514}.Assets|x86.Build.0 = Release|x86
 		{3948D2D2-2538-4B27-9F71-C08E00520514}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{3948D2D2-2538-4B27-9F71-C08E00520514}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{3948D2D2-2538-4B27-9F71-C08E00520514}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -36,11 +28,6 @@ Global
 		{3948D2D2-2538-4B27-9F71-C08E00520514}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3948D2D2-2538-4B27-9F71-C08E00520514}.Release|x86.ActiveCfg = Release|x86
 		{3948D2D2-2538-4B27-9F71-C08E00520514}.Release|x86.Build.0 = Release|x86
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.Build.0 = Assets|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Mixed Platforms.Build.0 = Assets|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|x86.ActiveCfg = Assets|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

@@ -235,7 +235,7 @@ namespace AvalonWindowDrawer.Library
             r.TouchDown +=
                (s, e) =>
                {
-
+                   
                    h = new Rectangle
                    {
                        Fill = Brushes.Black,
