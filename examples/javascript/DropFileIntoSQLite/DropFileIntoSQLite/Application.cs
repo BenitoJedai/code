@@ -172,12 +172,13 @@ namespace DropFileIntoSQLite
 
 
 
-                                new Form { Text = x }.With(
+                                new Form { Text = x + " " + DocumentText.Length + " bytes" }.With(
                                     f =>
                                     {
                                         var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
 
                                         w.DocumentText = DocumentText;
+
 
 
 

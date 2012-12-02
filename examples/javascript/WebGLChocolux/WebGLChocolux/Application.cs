@@ -255,6 +255,9 @@ namespace WebGLChocolux
                                           ScriptCoreLib.Shared.HTTPMethodEnum.GET, source0.src,
                                           (IXMLHttpRequest r) =>
                                           {
+                                              // store hash
+                                              xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.Document.location.hash)));
+
                                               #region script
                                               xml.Add(
                                                   new XElement("script",

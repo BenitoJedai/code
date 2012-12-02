@@ -97,6 +97,16 @@ namespace DragIntoCRX
             page.DragHTM.style.color = JSColor.Red;
             page.DragHtmlSource.style.color = JSColor.Red;
 
+            Native.Document.getElementsByTagName("link").Select(k => (IHTMLLink)k).Where(k => k.rel == "location").ToList().ForEach(
+                location =>
+                {
+                    new IHTMLPre
+                    {
+                        innerText = new { location }.ToString()
+                    }.AttachToDocument();
+                }
+            );
+
             var source = Native.Document
                 .getElementsByTagName("script")
                 .Select(k => (IHTMLScript)k)
@@ -127,6 +137,9 @@ Could post message to see if we are being hosted in an iframe.
                             ScriptCoreLib.Shared.HTTPMethodEnum.GET, source0.src,
                             r =>
                             {
+                                // store hash
+                                xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.Document.location.hash)));
+
                                 #region script
                                 xml.Add(
                                     new XElement("script",

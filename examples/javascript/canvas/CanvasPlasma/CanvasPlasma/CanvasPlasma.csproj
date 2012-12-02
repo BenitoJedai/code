@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Preview.png" />
-    <Content Include="Styles\Default.css" />
+    <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\Plasma.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
