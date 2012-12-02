@@ -16,6 +16,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             [Script(DefineAsStatic = true)]
             add
             {
+                this.draggable = true;
                 base.InternalEvent(true, value, "dragstart");
             }
             [Script(DefineAsStatic = true)]
