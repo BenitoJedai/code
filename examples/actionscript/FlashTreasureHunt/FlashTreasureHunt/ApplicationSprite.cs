@@ -11,7 +11,20 @@ namespace FlashTreasureHunt
 
         public ApplicationSprite()
         {
+            this.doubleClickEnabled = true;
+            this.doubleClick +=
+                delegate
+                {
+                    this.stage.displayState = StageDisplayState.FULL_SCREEN;
+                    //this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+                };
         }
 
+        // internal causes a fault
+        public void GoFullscreen()
+        {
+            //this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+            this.stage.displayState = StageDisplayState.FULL_SCREEN;
+        }
     }
 }

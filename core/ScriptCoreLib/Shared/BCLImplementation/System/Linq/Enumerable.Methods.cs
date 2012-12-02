@@ -245,14 +245,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
                 if (value != null)
                 {
                     // order by comparator?
-                    if (value.GetType() == typeof(string))
-                    {
-                        if ((string)(object)value == (string)(object)v)
-                        {
-                            r = true;
 
-                            break;
-                        }
+                    if (Comparer<TSource>.Default.Compare(v, value) == 0)
+                    {
+                        r = true;
+
+                        break;
                     }
                 }
 

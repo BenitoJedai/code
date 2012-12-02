@@ -50,7 +50,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 
 
             if (r == -2)
-                throw new NotSupportedException();
+            {
+                if (ka == kb)
+                    return 0;
+
+                // how do we compare two objects?
+                // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Collections\Comparer.cs
+                return 1;
+            }
 
             return r;
 
