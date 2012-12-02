@@ -36,14 +36,8 @@ namespace WebGLSphereRayTrace
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page  = null)
+        public Application(IDefaultPage page = null)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
 
             InitializeContent();
         }
@@ -55,6 +49,12 @@ namespace WebGLSphereRayTrace
 
         public event Action<gl> onsurface;
         #endregion
+
+        sealed class __preserveDrawingBuffer
+        {
+            public bool alpha = false;
+            public bool preserveDrawingBuffer = true;
+        }
 
         public void InitializeContent()
         {
@@ -73,8 +73,8 @@ namespace WebGLSphereRayTrace
 
             try
             {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
+                // if canvas object makes use of toDataUrl then this arg is required!
+                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new __preserveDrawingBuffer());
 
             }
             catch { }
@@ -86,15 +86,11 @@ namespace WebGLSphereRayTrace
             }
             #endregion
 
-        
-
-            var t = 0f;
-
             var s = new RaySurface(this);
 
             this.onsurface(gl);
 
-          
+
 
             #region Dispose
             var IsDisposed = false;
@@ -132,7 +128,33 @@ namespace WebGLSphereRayTrace
             };
             #endregion
 
-            #region loop
+            Func<string> newicon = delegate
+            {
+                var icon = canvas.toDataURL("image/png");
+
+                Native.Document.getElementsByTagName("link").AsEnumerable().ToList().WithEach(
+                    e =>
+                    {
+                        var link = (IHTMLLink)e;
+
+                        if (link.rel == "icon")
+                        {
+                            if (link.type == "image/png")
+                            {
+
+                                link.href = icon;
+                            }
+                            else
+                            {
+                                link.Orphanize();
+                            }
+                        }
+                    }
+                );
+
+                return icon;
+            };
+
             Action loop = null;
 
             loop = delegate
@@ -144,31 +166,73 @@ namespace WebGLSphereRayTrace
 
                 Native.Window.requestAnimationFrame += loop;
 
+
             };
 
             Native.Window.requestAnimationFrame += loop;
-            #endregion
+
+            Native.Document.body.onclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    newicon();
+                };
 
 
-            #region requestFullscreen
             Native.Document.body.ondblclick +=
                 delegate
                 {
                     if (IsDisposed)
                         return;
 
-                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
                     Native.Document.body.requestFullscreen();
+                };
 
+            #region draggable
+
+            // http://www.thecssninja.com/javascript/gmail-dragout
+            // can we drag ourself into crx?
+            Native.Document.body.title = "Drag me!";
+            Native.Document.body.draggable = true;
+            @"Sphere Ray Trace".ToDocumentTitle();
+
+            Native.Window.requestAnimationFrame +=
+                delegate
+                {
+                    var icon = newicon();
+                    var img = new IHTMLImage { src = icon };
+
+                    //img.width = Native.Window.Width / 2;
+                    //img.height = Native.Window.Height / 2;
+
+                    Native.Document.body.ondragstart +=
+                        e =>
+                        {
+                            //e.dataTransfer.setData("text/uri-list", Native.Document.location.ToString());
+                            e.dataTransfer.setData("text/plain", "Sphere");
+                            e.dataTransfer.setData("text/uri-list", Native.Document.location + "");
+
+                            // http://codebits.glennjones.net/downloadurl/virtualdownloadurl.htm
+
+                            e.dataTransfer.setData("DownloadURL", "image/png:Sphere.png:" + icon);
+                            //e.dataTransfer.setData("DownloadURL", img);
+
+                            e.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
+
+                        };
 
                 };
+
+
             #endregion
 
         }
         public Action Dispose;
 
-  
+
 
     }
 }

@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ScriptCoreLib.Extensions.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -100,6 +101,7 @@
     <Compile Include="JavaScript\Extensions\ShaderExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ShaderExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ISurface.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLDynamicUniforms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\IO\SmartStreamReader.cs" />
     <Compile Include="Shared\Maze\MazeGenerator.cs" />

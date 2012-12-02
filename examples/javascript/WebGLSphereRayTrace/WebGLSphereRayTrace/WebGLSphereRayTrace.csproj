@@ -127,6 +127,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.ico" />
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,7 @@ namespace WebGLDopamineMolecule
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 
 
 
@@ -150,6 +151,8 @@ namespace WebGLDopamineMolecule
             gl.linkProgram(prog);
             gl.useProgram(prog);
 
+            var uniforms = prog.Uniforms(gl);
+
             var nPhi = 100;
             var nTheta = 50;
             var dPhi = 2 * Math.PI / nPhi;
@@ -198,8 +201,7 @@ namespace WebGLDopamineMolecule
             var mvMatrix = new CanvasMatrix4();
 
             var mvMatLoc = gl.getUniformLocation(prog, "mvMatrix");
-            var colorLoc = gl.getUniformLocation(prog, "color");
-            var scaleLoc = gl.getUniformLocation(prog, "scale");
+
 
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LEQUAL);
@@ -232,8 +234,16 @@ namespace WebGLDopamineMolecule
                     mvMatrix.multRight(rotMat);
                     mvMatrix.translate(0, 0, transl);
                     gl.uniformMatrix4fv(mvMatLoc, false, new Float32Array(mvMatrix.getAsArray()));
-                    gl.uniform1f(scaleLoc, scale);
-                    gl.uniform3f(colorLoc, r, g, b);
+
+                    //var colorLoc = gl.getUniformLocation(prog, "color");
+                    //var scaleLoc = gl.getUniformLocation(prog, "scale");
+
+                    uniforms.color = new __vec3(r, g, b);
+                    uniforms.scale = scale;
+
+                    //gl.uniform1f(scaleLoc, scale);
+                    //gl.uniform3f(colorLoc, r, g, b);
+
                     for (var i = 0; i < nTheta; i++)
                         gl.drawElements(gl.TRIANGLE_STRIP, 2 * (nPhi + 1), gl.UNSIGNED_SHORT,
                           4 * (nPhi + 1) * i);
