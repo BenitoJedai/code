@@ -122,7 +122,6 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="Design\WebGL_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Spiral.frag" />
