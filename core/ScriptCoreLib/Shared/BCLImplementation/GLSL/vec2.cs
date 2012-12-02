@@ -29,7 +29,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.GLSL
         public genType y { get { return _y; } set { _y = value; } }
         #endregion
 
-        public __vec2()
+        public __vec2() : this(0, 0)
         {
 
         }

@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp;
+﻿using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp;
 using ScriptCoreLib.Shared.BCLImplementation.System.Dynamic;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
 using System;
@@ -45,6 +46,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Runtime.CompilerSe
                             }
 
 
+                            DynamicContainer.SetValue(subject, SetMember.Name, value);
                             return null;
                         }
                     );
@@ -72,9 +74,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Runtime.CompilerSe
                                     return result;
                                 }
                             }
-                            //Console.WriteLine("__CallSite GetMember " + new { subject, GetMember.name });
 
-                            return null;
+                            return DynamicContainer.GetValue(subject, GetMember.Name);
                         }
                     );
                     return r;
