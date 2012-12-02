@@ -31,13 +31,22 @@ namespace FlashTreasureHunt
         public Application(IApp page)
         {
             // Initialize ApplicationSprite
-            sprite.AttachSpriteTo(page.Content);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            sprite.AttachSpriteToDocument();
+
+            page.GoFullscreenFromFlash.onclick +=
+                delegate
+                {
+                    sprite.GoFullscreen();
+                };
+
+            page.GoFullscreenFromDOM.onclick +=
+             delegate
+             {
+                 SpriteExtensions.ToHTMLElement(sprite).requestFullscreen();
+             };
+
+            @"FlashTreasureHunt".ToDocumentTitle();
+
         }
 
     }

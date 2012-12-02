@@ -131,7 +131,6 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Content Include="docs\description.txt" />
     <Content Include="docs\help.txt" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Promotional\x100.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\FUNKYOU.mp3" />

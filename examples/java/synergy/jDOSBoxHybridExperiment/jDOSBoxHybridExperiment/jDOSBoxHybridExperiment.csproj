@@ -11,7 +11,8 @@
     <RootNamespace>jDOSBoxHybridExperiment</RootNamespace>
     <AssemblyName>jDOSBoxHybridExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile></TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -116,7 +117,8 @@ start /WAIT c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /Projec
 )
 
 if $(ConfigurationName)==Release (
-start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath) /DiagnosticsShowStagingFolder:true
+start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath) /DiagnosticsShowStagingFolder:true  /FilterTo:$(SolutionDir)
+)
 )
 </PostBuildEvent>
   </PropertyGroup>
