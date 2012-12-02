@@ -85,5 +85,11 @@ namespace ScriptCoreLib.JavaScript.WebGL
         {
             gl.uniform2f(location, xy.x, xy.y);
         }
+
+        [Obsolete("Shall revert to vec2 as soon as possible.")]
+        public static void uniform3f(this gl gl, WebGLUniformLocation location, __vec3 xyz)
+        {
+            gl.uniform3f(location, xyz.x, xyz.y, xyz.z);
+        }
     }
 }
