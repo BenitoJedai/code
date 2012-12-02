@@ -11,6 +11,7 @@ namespace WebGLSphereRayTrace.Shaders
     using xyz = __vec3;
 
     using gl = WebGLRenderingContext;
+    using ScriptCoreLib.GLSL;
 
 
     public class RaySurface
@@ -37,11 +38,7 @@ namespace WebGLSphereRayTrace.Shaders
                    gl.useProgram(program);
                    #endregion
 
-                   dynamic program_uniforms = new ShaderProgramUniforms
-                   {
-                       gl = gl,
-                       program = program
-                   };
+                   var program_uniforms = program.Uniforms(gl);
 
 
                    var aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
@@ -50,11 +47,7 @@ namespace WebGLSphereRayTrace.Shaders
                    var aPlotPosition = gl.getAttribLocation(program, "aPlotPosition");
                    gl.enableVertexAttribArray((uint)aPlotPosition);
 
-                   var cameraPos = gl.getUniformLocation(program, "cameraPos");
-                   var sphere1Center = gl.getUniformLocation(program, "sphere1Center");
-                   var sphere2Center = gl.getUniformLocation(program, "sphere2Center");
-                   var sphere3Center = gl.getUniformLocation(program, "sphere3Center");
-
+               
 
 
                    gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -186,11 +179,12 @@ namespace WebGLSphereRayTrace.Shaders
 
                            gl.bufferData(gl.ARRAY_BUFFER, corners.ToArray(), gl.STATIC_DRAW);
 
+                           program_uniforms.cameraPos = cameraFrom;
+                           program_uniforms.sphere1Center = new xyz(x1, y1, z1);
+                           program_uniforms.sphere2Center = new xyz(x2, y2, z2);
+                           program_uniforms.sphere3Center = new xyz(x3, y3, z3);
 
-                           gl.uniform3f(cameraPos, cameraFrom);
-                           gl.uniform3f(sphere1Center, x1, y1, z1);
-                           gl.uniform3f(sphere2Center, x2, y2, z2);
-                           gl.uniform3f(sphere3Center, x3, y3, z3);
+                      
 
                            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
@@ -206,43 +200,5 @@ namespace WebGLSphereRayTrace.Shaders
         }
     }
 
-    class ShaderProgramUniforms : DynamicObject
-    {
-        public WebGLProgram program;
-        public gl gl;
-
-        public override bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            // cache location
-
-            var isvec2 = value is __vec2;
-            if (isvec2)
-            {
-                var value_vec2 = (__vec2)value;
-
-                gl.uniform2f(
-                    gl.getUniformLocation(program, binder.Name),
-                    value_vec2
-                );
-
-                return true;
-            }
-
-            var isvec3 = value is __vec3;
-            if (isvec3)
-            {
-                var value_vec3 = (__vec3)value;
-
-                gl.uniform3f(
-                    gl.getUniformLocation(program, binder.Name),
-                    value_vec3
-                );
-
-                return true;
-            }
-
-            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
-            return true;
-        }
-    }
+   
 }

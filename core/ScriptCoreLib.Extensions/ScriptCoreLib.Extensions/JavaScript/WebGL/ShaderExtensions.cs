@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.WebGL
 {
     using gl = WebGLRenderingContext;
     using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+    using System.ComponentModel;
 
     public static class ShaderExtensions
     {
@@ -48,8 +49,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
             var shader = gl.createShader(type);
 
-       
-        
+
+
             // we could just use object.ToString
 
             // later we might want to update jsc to create a special interface method for that..
@@ -68,6 +69,18 @@ namespace ScriptCoreLib.JavaScript.WebGL
             gl.compileShader(shader);
 
             return shader;
+        }
+
+        /// <summary>
+        /// http://go.jsc-solutions.net/Uniforms Access GLSL uniforms via dynamic dispatch.
+        /// </summary>
+        public static dynamic Uniforms(this WebGLProgram program, WebGLRenderingContext gl)
+        {
+            return new WebGLDynamicUniforms
+            {
+                gl = gl,
+                program = program
+            };
         }
 
         public static void bufferData(this WebGLRenderingContext gl, uint target, float[] vertices, uint usage)
@@ -91,5 +104,6 @@ namespace ScriptCoreLib.JavaScript.WebGL
         {
             gl.uniform3f(location, xyz.x, xyz.y, xyz.z);
         }
+
     }
 }

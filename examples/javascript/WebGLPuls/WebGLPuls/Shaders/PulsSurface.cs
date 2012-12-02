@@ -29,7 +29,7 @@ namespace WebGLPuls.Shaders
 
                     gl.useProgram(p);
 
-
+                    var u = p.Uniforms(gl);
 
                     var pos = 0;
                     //var in_color = gl.getUniformLocation(p, "in_color");
@@ -60,7 +60,8 @@ namespace WebGLPuls.Shaders
                     s.onresize +=
                         (w, h) =>
                         {
-                            gl.uniform1f(gl.getUniformLocation(p, "h"), (float)h / (float)w);
+                            u.h = (float)h / (float)w;
+                            //gl.uniform1f(gl.getUniformLocation(p, "h"), (float)h / (float)w);
                             gl.viewport(0, 0, w, h);
                         };
 
@@ -74,7 +75,8 @@ namespace WebGLPuls.Shaders
                             t += 3;
 
                             // INVALID_OPERATION <= getUniformLocation([Program 2], "t")
-                            gl.uniform1f(gl.getUniformLocation(p, "t"), t);
+                            u.t = t;
+                            //gl.uniform1f(gl.getUniformLocation(p, "t"), t);
 
                             // INVALID_OPERATION <= drawElements(TRIANGLE_STRIP, 4, UNSIGNED_SHORT, 0)
                             gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);

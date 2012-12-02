@@ -22,9 +22,29 @@ interface HTMLCanvasElement : HTMLElement {
     [Script(InternalConstructor = true)]
     public class IHTMLCanvas : IHTMLElement
     {
-        public string toDataURL(string type)
+        /// <summary>
+        /// http://my.jsc-solutions.net/toDataURL
+        /// or
+        /// <see cref="http://my.jsc-solutions.net/toDataURL" />
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public string toDataURL(string type = "image/png")
         {
             return default(string);
+        }
+
+
+        public object getContext(string contextId, object args)
+        {
+            // a call on this to toDataURL shall trigger args:
+
+            // {
+            //    public bool alpha = false;
+            //    public bool preserveDrawingBuffer = true;
+            //}
+
+            return default(object);
         }
 
         public object getContext(string contextId)
@@ -47,4 +67,6 @@ interface HTMLCanvasElement : HTMLElement {
         #endregion
 
     }
+
+
 }
