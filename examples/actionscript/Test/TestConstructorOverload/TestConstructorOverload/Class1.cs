@@ -10,6 +10,8 @@ using System.Windows;
 
 namespace TestConstructorOverload
 {
+    using genType = Single;
+
     [Script(Implements = typeof(global::System.Collections.Generic.IEnumerable<>))]
     internal interface __IEnumerable<T> 
     {
@@ -96,6 +98,28 @@ namespace TestConstructorOverload
     }
 
 
+
+    [Script(Implements = typeof(global::System.Collections.Generic.KeyValuePair<,>))]
+    internal class __KeyValuePair<TKey, TValue>
+    {
+        public TKey Key { get; set; }
+        public TValue Value { get; set; }
+
+        public __KeyValuePair()
+            : this(default(TKey), default(TValue))
+        {
+
+        }
+
+        // does this work for PHP?
+        public __KeyValuePair(TKey Key, TValue Value)
+        {
+            this.Key = Key;
+            this.Value = Value;
+        }
+
+
+    }
     class MyClass
     {
         void Foo()
@@ -108,9 +132,20 @@ namespace TestConstructorOverload
             var x = new Vector(1, 1);
         }
 
+        static void Goo<T>(ref KeyValuePair<T, string> e)
+        { 
+        
+        }
         public MyClass()
         {
+            var a = new KeyValuePair<string, string>();
+            KeyValuePair<string, string> b;
+
+            Goo<string>(ref a);
+
+
             var u1 = new Class1<object>("e");
+
             var u2 = new Class1<object>("x", "y");
 
             var u3 = new Class1<object>(

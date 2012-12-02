@@ -131,23 +131,22 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\Assets.htm" />
-    <Content Include="Design\Images\dual-monitor-wallpaper.jpg" />
-    <Content Include="Design\Images\s_b.png" />
-    <Content Include="Design\Images\s_bg.png" />
-    <Content Include="Design\Images\s_bl.png" />
-    <Content Include="Design\Images\s_br.png" />
-    <Content Include="Design\Images\s_l.png" />
-    <Content Include="Design\Images\s_r.png" />
-    <Content Include="Design\Images\s_t.png" />
-    <Content Include="Design\Images\s_tl.png" />
-    <Content Include="Design\Images\s_tr.png" />
+    <Content Include="Textures\dual-monitor-wallpaper.jpg" />
+    <Content Include="Textures\s_b.png" />
+    <Content Include="Textures\s_bg.png" />
+    <Content Include="Textures\s_bl.png" />
+    <Content Include="Textures\s_br.png" />
+    <Content Include="Textures\s_l.png" />
+    <Content Include="Textures\s_r.png" />
+    <Content Include="Textures\s_t.png" />
+    <Content Include="Textures\s_tl.png" />
+    <Content Include="Textures\s_tr.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
- start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false  /FilterTo:$(SolutionDir)
+ rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false  /FilterTo:$(SolutionDir)
 )</PostBuildEvent>
     <PreBuildEvent>
 

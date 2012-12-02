@@ -19,6 +19,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.GLSL
         // does jsc already support struct for all platforms?
         class __vec2
     {
+        // what about System.Windows.Vector
+
         #region [0]
         genType _x;
         public genType x { get { return _x; } set { _x = value; } }

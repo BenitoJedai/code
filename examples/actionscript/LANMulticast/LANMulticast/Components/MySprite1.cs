@@ -80,6 +80,7 @@ namespace LANMulticast.Components
                     }
                 };
 
+            // http://stackoverflow.com/questions/5332762/rtmfp-and-firewalls-routers
             nc.connect("rtmfp:");
 
         }
