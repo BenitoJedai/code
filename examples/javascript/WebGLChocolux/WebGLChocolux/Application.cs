@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using System.Xml.Linq;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -39,6 +40,13 @@ namespace WebGLChocolux
             Initialize(page);
         }
 
+        sealed class __preserveDrawingBuffer
+        {
+            public bool alpha = false;
+            public bool preserveDrawingBuffer = true;
+        }
+
+
         private void Initialize(IXDefaultPage page = null)
         {
             int w = Native.Window.Width;
@@ -56,7 +64,7 @@ namespace WebGLChocolux
             try
             {
 
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
+                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new __preserveDrawingBuffer());
 
             }
             catch { }
@@ -92,11 +100,14 @@ namespace WebGLChocolux
                 new ChocoluxFragmentShader()
             );
 
-  
+
             gl.bindAttribLocation(p, 0, "position");
             gl.linkProgram(p);
 
             gl.useProgram(p);
+
+            var uniforms = p.Uniforms(gl);
+
             gl.viewport(0, 0, w, h);
 
             gl.enableVertexAttribArray(0);
@@ -105,8 +116,8 @@ namespace WebGLChocolux
             var verts = gl.createBuffer();
 
             gl.bindBuffer(gl.ARRAY_BUFFER, verts);
-            gl.bufferData(gl.ARRAY_BUFFER, 
-              new [] { -1f, -1f, -1f, 1f, 1f, -1f, 1f, 1f }
+            gl.bufferData(gl.ARRAY_BUFFER,
+              new[] { -1f, -1f, -1f, 1f, 1f, -1f, 1f, 1f }
             , gl.STATIC_DRAW);
             gl.vertexAttribPointer((uint)0, 2, gl.FLOAT, false, 0, 0);
 
@@ -122,15 +133,15 @@ namespace WebGLChocolux
 
             var start = new IDate().getTime();
             Action redraw = null;
-            
+
             redraw = delegate
             {
                 var timestamp = new IDate().getTime();
                 var t = (timestamp - start) / 1000.0f * 30f;
 
 
-
-                gl.uniform1f(gl.getUniformLocation(p, "t"), t * 100);
+                uniforms.t = t * 100;
+                //gl.uniform1f(gl.getUniformLocation(p, "t"), t * 100);
                 gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
                 gl.flush();
 
@@ -141,7 +152,7 @@ namespace WebGLChocolux
 
             Native.Window.requestAnimationFrame += redraw;
 
-   
+
 
             #region AtResize
             Action AtResize = delegate
@@ -182,6 +193,184 @@ namespace WebGLChocolux
                 };
             #endregion
 
+
+            Func<string> newicon = delegate
+            {
+                var icon = canvas.toDataURL("image/png");
+
+                Native.Document.getElementsByTagName("link").AsEnumerable().ToList().WithEach(
+                    e =>
+                    {
+                        var link = (IHTMLLink)e;
+
+                        if (link.rel == "icon")
+                        {
+                            if (link.type == "image/png")
+                            {
+
+                                link.href = icon;
+                            }
+                            else
+                            {
+                                link.Orphanize();
+                            }
+                        }
+                    }
+                );
+
+                return icon;
+            };
+
+            Native.Document.body.onclick +=
+                  delegate
+                  {
+                      if (IsDisposed)
+                          return;
+
+                      newicon();
+                  };
+
+            @"Spiral".ToDocumentTitle();
+
+            Native.Window.requestAnimationFrame +=
+              delegate
+              {
+                  var icon = newicon();
+                  var img = new IHTMLImage { src = icon };
+
+                  //img.width = Native.Window.Width / 2;
+                  //img.height = Native.Window.Height / 2;
+
+                  Native.Document.getElementsByTagName("script")
+                      .Select(k => (IHTMLScript)k)
+                      .FirstOrDefault(k => k.src.EndsWith("/view-source"))
+                      .With(
+                          source =>
+                          {
+                              #region PackageAsApplication
+                              Action<IHTMLScript, XElement, Action<string>> PackageAsApplication =
+                                  (source0, xml, yield) =>
+                                  {
+                                      new IXMLHttpRequest(
+                                          ScriptCoreLib.Shared.HTTPMethodEnum.GET, source0.src,
+                                          (IXMLHttpRequest r) =>
+                                          {
+                                              #region script
+                                              xml.Add(
+                                                  new XElement("script",
+                                                      "/* source */"
+                                                 )
+                                              );
+
+                                              var data = "";
+
+
+                                              Action later = delegate
+                                              {
+
+                                                  data = data.Replace("/* source */", r.responseText);
+
+                                              };
+                                              #endregion
+
+
+                                              //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
+
+                                              xml.Elements("link").ToList().ForEach(
+                                                  (XElement link, Action next) =>
+                                                  {
+                                                      #region style
+                                                      var rel = link.Attribute("rel");
+                                                      if (rel.Value != "stylesheet")
+                                                      {
+                                                          next();
+                                                          return;
+                                                      }
+
+                                                      var href = link.Attribute("href");
+
+                                                      var placeholder = "/* " + href.Value + " */";
+
+                                                      //page.DragHTM.innerText += " " + placeholder;
+
+
+                                                      xml.Add(new XElement("style", placeholder));
+
+                                                      new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET, href.Value,
+                                                          rr =>
+                                                          {
+
+                                                              later += delegate
+                                                              {
+
+
+                                                                  data = data.Replace(placeholder, rr.responseText);
+
+                                                              };
+
+                                                              Console.WriteLine("link Remove");
+                                                              link.Remove();
+
+                                                              next();
+                                                          }
+                                                      );
+
+                                                      #endregion
+                                                  }
+                                              )(
+                                                  delegate
+                                                  {
+
+
+                                                      data = xml.ToString();
+                                                      Console.WriteLine("data: " + data);
+                                                      later();
+
+                                                      yield(data);
+                                                  }
+                                              );
+                                          }
+                                      );
+
+                                  };
+                              #endregion
+
+
+                              PackageAsApplication(
+                                   source,
+                                   XElement.Parse(new XDefaultPage.XMLSourceSource().Text),
+                                   data =>
+                                   {
+                                       var bytes = Encoding.ASCII.GetBytes(data);
+                                       var data64 = System.Convert.ToBase64String(bytes);
+
+
+                                       Native.Document.body.title = "Drag me!";
+
+                                       Native.Document.body.ondragstart +=
+                                               e =>
+                                               {
+                                                   //e.dataTransfer.setData("text/plain", "Sphere");
+
+                                                   // http://codebits.glennjones.net/downloadurl/virtualdownloadurl.htm
+                                                   //e.dataTransfer.setData("DownloadURL", "image/png:Sphere.png:" + icon);
+
+                                                   e.dataTransfer.setData("DownloadURL", "application/octet-stream:Chocolux.htm:data:application/octet-stream;base64," + data64);
+                                                   e.dataTransfer.setData("text/html", data);
+                                                   e.dataTransfer.setData("text/uri-list", Native.Document.location + "");
+                                                   e.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
+                                               };
+
+
+                                   }
+                               );
+                          }
+                  );
+
+
+
+
+              };
         }
 
         public Action Dispose;

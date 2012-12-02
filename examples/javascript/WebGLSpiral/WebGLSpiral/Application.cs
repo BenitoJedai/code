@@ -347,7 +347,7 @@ namespace WebGLSpiral
                                                    // http://codebits.glennjones.net/downloadurl/virtualdownloadurl.htm
                                                    //e.dataTransfer.setData("DownloadURL", "image/png:Sphere.png:" + icon);
 
-                                                   e.dataTransfer.setData("DownloadURL", "application/octet-stream:Sphere.htm:data:application/octet-stream;base64," + data64);
+                                                   e.dataTransfer.setData("DownloadURL", "application/octet-stream:Spiral.htm:data:application/octet-stream;base64," + data64);
                                                    e.dataTransfer.setData("text/html", data);
                                                    e.dataTransfer.setData("text/uri-list", Native.Document.location + "");
                                                    e.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
