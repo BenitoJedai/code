@@ -245,8 +245,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
                 if (value != null)
                 {
                     // order by comparator?
+                    // http://bugs.sun.com/view_bug.do?bug_id=6608961
+                    var comparer = Comparer<TSource>.Default;
 
-                    if (Comparer<TSource>.Default.Compare(v, value) == 0)
+                    if (comparer.Compare(v, value) == 0)
                     {
                         r = true;
 

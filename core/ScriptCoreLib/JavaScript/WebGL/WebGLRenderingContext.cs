@@ -41,5 +41,23 @@ namespace ScriptCoreLib.JavaScript.WebGL
         {
 
         }
+
+        public WebGLUniformLocation getUniformLocation(WebGLProgram p, string name)
+        {
+            return null;
+        }
+
+
+        public void uniform1f(WebGLUniformLocation location, float x)
+        {
+        }
+
+        public void uniform2f(WebGLUniformLocation location, float x, float y)
+        {
+        }
+
+        public void uniform3f(WebGLUniformLocation location, float x, float y, float z)
+        {
+        }
     }
 }
