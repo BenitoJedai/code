@@ -47,7 +47,7 @@ namespace CSSTransform3DFPSBlueprint
 
             var prefetch = new HTML.Pages.TexturesImages();
 
-            new Design.Library.Threedee().Content.AttachToHead().onload +=
+            new Design.Library.threedee().Content.AttachToHead().onload +=
                 delegate
                 {
                     InitializeContent();
