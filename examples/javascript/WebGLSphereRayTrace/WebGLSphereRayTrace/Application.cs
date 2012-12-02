@@ -196,8 +196,6 @@ namespace WebGLSphereRayTrace
 
             // http://www.thecssninja.com/javascript/gmail-dragout
             // can we drag ourself into crx?
-            Native.Document.body.title = "Drag me!";
-            Native.Document.body.draggable = true;
             @"Sphere Ray Trace".ToDocumentTitle();
 
             Native.Window.requestAnimationFrame +=
@@ -313,11 +311,12 @@ namespace WebGLSphereRayTrace
                                          var data64 = System.Convert.ToBase64String(bytes);
 
 
+                                         Native.Document.body.title = "Drag me!";
 
                                          Native.Document.body.ondragstart +=
                                                  e =>
                                                  {
-                                                     e.dataTransfer.setData("text/plain", "Sphere");
+                                                     //e.dataTransfer.setData("text/plain", "Sphere");
 
                                                      // http://codebits.glennjones.net/downloadurl/virtualdownloadurl.htm
                                                      //e.dataTransfer.setData("DownloadURL", "image/png:Sphere.png:" + icon);

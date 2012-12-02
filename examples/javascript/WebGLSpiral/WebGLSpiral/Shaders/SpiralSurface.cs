@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.GLSL;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using System.Dynamic;
 
 namespace WebGLSpiral.Shaders
 {
-    using ScriptCoreLib.GLSL;
-    using ScriptCoreLib.Shared.BCLImplementation.GLSL;
-    using System.Dynamic;
+
     using gl = WebGLRenderingContext;
 
 
@@ -52,7 +53,7 @@ namespace WebGLSpiral.Shaders
                    gl.linkProgram(program);
                    gl.useProgram(program);
 
-
+                   var uniforms = program.Uniforms(gl);
 
                    #endregion
 
@@ -101,23 +102,11 @@ namespace WebGLSpiral.Shaders
 
                            // Set values to program variables
 
-                           dynamic spiral_uniforms = new ShaderProgramUniforms
-                           {
-                               gl = gl,
-                               program = program
-                           };
 
-                           var resolution = new __vec2 { x = parameters_screenWidth, y = parameters_screenHeight };
-                           var aspect = new __vec2 { x = parameters_aspectX, y = parameters_aspectY };
+                           uniforms.time = time;
+                           uniforms.resolution = new __vec2(parameters_screenWidth, parameters_screenHeight);
+                           uniforms.aspect = new __vec2(parameters_aspectX, parameters_aspectY);
 
-                           spiral_uniforms.time = time;
-                           spiral_uniforms.resolution = resolution;
-                           spiral_uniforms.aspect = aspect;
-
-
-                           //gl.uniform1f(gl.getUniformLocation(program, "time"), time);
-                           //gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
-                           //gl.uniform2f(gl.getUniformLocation(program, "aspect"), parameters_aspectX, parameters_aspectY);
 
                            // Render geometry
 
@@ -142,29 +131,5 @@ namespace WebGLSpiral.Shaders
         }
     }
 
-    // whats the performance hit?
-    class ShaderProgramUniforms : DynamicObject
-    {
-        public WebGLProgram program;
-        public gl gl;
 
-        public override bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            // cache location
-
-            var isvec2 = value is __vec2;
-            if (isvec2)
-            {
-                var value_vec2 = (__vec2)value;
-                gl.uniform2f(
-                    gl.getUniformLocation(program, binder.Name),
-                    value_vec2
-                );
-                return true;
-            }
-
-            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
-            return true;
-        }
-    }
 }
