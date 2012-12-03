@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using ApplicationSnapshotStorage.Design;
 using ApplicationSnapshotStorage.HTML.Pages;
+using System.Windows.Forms;
 
 namespace ApplicationSnapshotStorage
 {
@@ -28,6 +29,7 @@ namespace ApplicationSnapshotStorage
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\WebGLSpiral\WebGLSpiral\Application.cs
 
 
             Native.Document.body.ondragover +=
@@ -41,93 +43,14 @@ namespace ApplicationSnapshotStorage
             Native.Document.body.ondrop +=
               evt =>
               {
+                  evt.preventDefault();
+                  evt.stopPropagation();
 
                   #region dataTransfer
                   evt.dataTransfer.types.WithEach(
                       x =>
                       {
                           Console.WriteLine(x);
-
-                          //SystemSounds.Beep.Play();
-                          //Console.Beep();
-
-                          #region text/uri-list
-                          if (x == "text/uri-list")
-                          {
-                              var src = evt.dataTransfer.getData(x);
-
-                              if (src != "about:blank")
-                              {
-                                  if (src.StartsWith("http://www.youtube.com/watch?v="))
-                                      src = "http://www.youtube.com/embed/" + src.SkipUntilIfAny("http://www.youtube.com/watch?v=").TakeUntilIfAny("&");
-
-                                  Console.WriteLine(new { src });
-
-                                  new Form { Text = src }.With(
-                                      f =>
-                                      {
-                                          var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
-
-                                          w.Navigate(src);
-
-                                          f.Show();
-                                      }
-                                  );
-
-                              }
-                          }
-                          #endregion
-
-
-                          #region text/plain
-                          if (x == "text/plain")
-                          {
-                              var DocumentText = evt.dataTransfer.getData(x);
-
-                              Console.WriteLine(new { DocumentText });
-
-                              if (DocumentText.StartsWith("javascript:"))
-                              {
-                                  var host = DocumentText.SkipUntilOrEmpty("href='").TakeUntilOrEmpty("'");
-
-                                  new Form { Text = "Application " + host }.With(
-                                      f =>
-                                      {
-                                          new IHTMLAnchor
-                                          {
-                                              href = host,
-                                              innerText = "Go to " + host
-                                          }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
-
-                                          new IHTMLAnchor
-                                          {
-                                              href = DocumentText,
-                                              innerText = "Launch " + host
-                                          }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
-
-                                          f.Show();
-                                      }
-                                  );
-                              }
-                              else
-                              {
-
-                                  new Form { Text = x }.With(
-                                      f =>
-                                      {
-                                          new IHTMLPre
-                                          {
-                                              innerText = DocumentText
-                                          }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
-
-
-                                          f.Show();
-                                      }
-                                  );
-                              }
-                          }
-                          #endregion
-
 
                           #region text/html
                           if (x == "text/html")

@@ -12,6 +12,8 @@ namespace ApplicationSnapshotStorage
     /// </summary>
     public sealed class ApplicationWebService
     {
+        public AppSnapshot snapshot = new AppSnapshot();
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
