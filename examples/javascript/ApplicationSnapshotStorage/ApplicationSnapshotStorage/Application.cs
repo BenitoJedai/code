@@ -31,7 +31,7 @@ namespace ApplicationSnapshotStorage
         {
             // X:\jsc.svn\examples\javascript\WebGLSpiral\WebGLSpiral\Application.cs
 
-
+            #region ondrop put html into service.snapshot
             Native.Document.body.ondragover +=
               evt =>
               {
@@ -46,7 +46,6 @@ namespace ApplicationSnapshotStorage
                   evt.preventDefault();
                   evt.stopPropagation();
 
-                  #region dataTransfer
                   evt.dataTransfer.types.WithEach(
                       x =>
                       {
@@ -57,21 +56,24 @@ namespace ApplicationSnapshotStorage
                           {
                               var DocumentText = evt.dataTransfer.getData(x);
 
-                              //Console.WriteLine(new { DocumentText });
-
-
-
-                              new Form { Text = x + " " + DocumentText.Length + " bytes" }.With(
+                              new Form { Text = DocumentText.Length + " bytes" }.With(
                                   f =>
                                   {
-                                      var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
-
-                                      w.DocumentText = DocumentText;
-
-
-
+                                      var w = new WebBrowser
+                                      {
+                                          Dock = DockStyle.Fill,
+                                          DocumentText = DocumentText
+                                      }.AttachTo(f);
 
                                       f.Show();
+
+                                      service.snapshot_Insert(x,
+                                        AppSnapshotKey =>
+                                        {
+                                            f.Text = new { AppSnapshotKey }.ToString();
+                                        }
+                                      );
+
                                   }
                               );
                           }
@@ -79,8 +81,9 @@ namespace ApplicationSnapshotStorage
 
                       }
                   );
-                  #endregion
               };
+            #endregion
+
         }
 
     }

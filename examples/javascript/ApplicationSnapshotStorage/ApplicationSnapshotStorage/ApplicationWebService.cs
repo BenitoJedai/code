@@ -2,6 +2,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -25,5 +26,10 @@ namespace ApplicationSnapshotStorage
             y(e);
         }
 
+        [Obsolete("jsc shall generate a callsite like this")]
+        public void snapshot_Insert(string content, Action<string> key)
+        {
+            this.snapshot.Insert(content, key);
+        }
     }
 }
