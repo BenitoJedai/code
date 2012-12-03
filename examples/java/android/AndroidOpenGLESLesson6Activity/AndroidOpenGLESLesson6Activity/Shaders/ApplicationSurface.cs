@@ -690,6 +690,7 @@ namespace AndroidOpenGLESLesson6Activity.Shaders
                          // Set our per-vertex lighting program.
                          gl.useProgram(program);
 
+                         var uniforms = program.Uniforms(gl);
 
                          // Set program handles for cube drawing.
                          mMVPMatrixHandle = gl.getUniformLocation(program, "u_MVPMatrix");
