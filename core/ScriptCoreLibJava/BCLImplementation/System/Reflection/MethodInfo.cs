@@ -104,12 +104,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
         public static bool operator ==(__MethodInfo a, __MethodInfo b)
         {
+            return InternalEquals(a, b);
+        }
+
+        private static bool InternalEquals(__MethodInfo a, __MethodInfo b)
+        {
+            var na = ((object)a) == null;
+            var nb = ((object)b) == null;
+
+            if (na)
+                if (nb)
+                    return true;
+
+            var ab = na ^ nb;
+            if (ab)
+                return false;
+
             return a.InternalMethod == b.InternalMethod;
         }
 
         public static bool operator !=(__MethodInfo a, __MethodInfo b)
         {
-            return a.InternalMethod != b.InternalMethod;
+            return !InternalEquals(a, b);
         }
 
 

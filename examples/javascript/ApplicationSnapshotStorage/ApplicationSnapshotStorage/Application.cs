@@ -30,6 +30,11 @@ namespace ApplicationSnapshotStorage
         public Application(IApp page)
         {
             // X:\jsc.svn\examples\javascript\WebGLSpiral\WebGLSpiral\Application.cs
+            // "X:\jsc.svn\examples\javascript\forms\MSVSFormStyle\MSVSFormStyle.sln"
+            // X:\jsc.svn\examples\javascript\canvas\CanvasPlasma\CanvasPlasma\Application.cs
+
+            new IHTMLPre { innerText = (Native.Document.location + "") }.AttachToDocument();
+            // does it work for android?
 
             #region ondrop put html into service.snapshot
             Native.Document.body.ondragover +=
@@ -66,13 +71,43 @@ namespace ApplicationSnapshotStorage
                                       }.AttachTo(f);
 
                                       f.Show();
+                                      f.Opacity = 0.2;
 
-                                      service.snapshot_Insert(x,
+                                      Console.WriteLine("service.snapshot_Insert");
+
+                                      //03.12.2012 18:25:28 AppSnapshot
+                                      //AsWithConnection...
+                                      //AsWithConnection... invoke
+                                      //03.12.2012 18:27:02 AppSnapshot
+                                      //AsWithConnection...
+                                      //AsWithConnection... invoke
+                                      //snapshot_Insert
+                                      //03.12.2012 18:27:02 Insert... { Length = 1155962 }
+                                      //AsWithConnection... invoke
+                                      //03.12.2012 18:27:02 Insert... Command
+                                      //03.12.2012 18:27:02 Insert... AddWithValue
+                                      //03.12.2012 18:27:02 Insert... ExecuteNonQuery
+                                      //we have InternalParameters for insert into AppSnapshot (AppSnapshotContent) values (@AppSnapshotContent)
+                                      //03.12.2012 18:27:03 Insert { LastInsertRowId = 4 }
+
+                                      //for app engine this might take 2 minutes? is it a problem in our encoder?
+                                      // time to switch to unencoded post by bytes?
+
+                                      service.snapshot_Insert(DocumentText,
                                         AppSnapshotKey =>
                                         {
-                                            f.Text = new { AppSnapshotKey }.ToString();
+                                            f.Text = ApplicationWebService.prefix + AppSnapshotKey;
+                                            w.Navigate(ApplicationWebService.prefix + AppSnapshotKey);
+                                            f.Opacity = 1;
+
+                                            f.FormClosing +=
+                                               delegate
+                                               {
+                                                   service.snapshot_Delete(AppSnapshotKey);
+                                               };
                                         }
                                       );
+
 
                                   }
                               );
@@ -84,6 +119,37 @@ namespace ApplicationSnapshotStorage
               };
             #endregion
 
+            var y = 0;
+            service.snapshot_SelectAll(
+                AppSnapshotKey =>
+                {
+                    y++;
+
+                    new Form { Text = ApplicationWebService.prefix + AppSnapshotKey }.With(
+                        f =>
+                        {
+                            var w = new WebBrowser
+                            {
+                                Dock = DockStyle.Fill,
+                            }.AttachTo(f);
+
+                            w.Navigate(ApplicationWebService.prefix + AppSnapshotKey);
+
+                            f.StartPosition = FormStartPosition.Manual;
+                            f.MoveTo(y * 96, y * 64);
+
+                            f.Show();
+
+
+                            f.FormClosing +=
+                                delegate
+                                {
+                                    service.snapshot_Delete(AppSnapshotKey);
+                                };
+                        }
+                    );
+                }
+            );
         }
 
     }

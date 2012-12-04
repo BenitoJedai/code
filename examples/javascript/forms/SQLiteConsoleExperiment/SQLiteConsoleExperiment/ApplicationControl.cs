@@ -35,6 +35,8 @@ namespace SQLiteConsoleExperiment
   select * from INFORMATION_SCHEMA.TABLES
 
   insert into Table1 (ContentValue) values ('AddItem')
+  insert into Table1 (ContentValue) values (cast( 'AddItem' as longtext))
+
   insert into Table1Meta (MemberName, MemberValue, DeclaringType)  values ('Left', '1', 0)
 
   select ContentKey, ContentValue from Table1

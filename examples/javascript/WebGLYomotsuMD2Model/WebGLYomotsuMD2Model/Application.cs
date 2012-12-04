@@ -81,10 +81,7 @@ namespace WebGLYomotsuMD2Model
 
             public motion
 
-                // why?
-                __first_broken = null,
-
-
+  
               stand = new motion { min = 0, max = 39, fps = 9, state = "stand", action = false },   // STAND
 
               run = new motion { min = 40, max = 45, fps = 10, state = "stand", action = false },   // RUN

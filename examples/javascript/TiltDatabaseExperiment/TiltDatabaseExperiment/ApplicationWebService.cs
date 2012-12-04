@@ -26,8 +26,9 @@ namespace TiltDatabaseExperiment
             string id,
             string frame,
             string dx,
-            string dy
-            //, Action<string> y
+            string dy, 
+            
+            Action<string> yield
             )
         {
 #if DEBUG
@@ -36,6 +37,7 @@ namespace TiltDatabaseExperiment
 #endif
 
             // Send it back to the caller.
+            yield("");
         }
 
     }

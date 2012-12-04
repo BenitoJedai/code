@@ -6,7 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 
-namespace System.Data
+namespace ScriptCoreLib.Shared.Data
 {
     /// <summary>
     /// This class provides an easy way to use object.property

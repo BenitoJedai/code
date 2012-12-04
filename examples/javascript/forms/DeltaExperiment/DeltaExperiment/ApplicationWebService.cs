@@ -24,13 +24,26 @@ namespace DeltaExperiment
         {
             var now = DateTime.Now;
 
+            //634902317876105299 
+            //634902317876105300
+            // javascript side will turnacate last digits!
+
+            var ms = now.Ticks / 1000;
+
+                 
             delta.Add(
-                ticks: now.Ticks,
-                x: int.Parse(x)
+                new DeltaQueries.InsertVector
+                {
+                    ticks = ms,
+                    x = int.Parse(x),
+                    y = 10,
+                    //z 
+                }
+
             );
         }
 
-        public void __button3_Click(Action3<string> yield)
+        public void __button3_Click(Action<string, string, string, string> yield)
         {
             delta.Enumerate(
                 reader =>
@@ -43,6 +56,8 @@ namespace DeltaExperiment
                     long z = reader.z;
 
                     yield(
+                        "" + ticks,
+
                         "" + x,
                         "" + y,
                         "" + z
@@ -61,14 +76,19 @@ namespace DeltaExperiment
             );
         }
 
-        public void __button5_Click(string ticks, Action3<string> yield)
+        public void __button5_Click(string ticks, Action<string, string, string, string> yield)
         {
+            var in_ticks = long.Parse(ticks);
 
+            Console.WriteLine(new { in_ticks });
 
             delta.Sum(
-                new DeltaQueries.SelectSum { ticks = long.Parse(ticks) },
+                in_ticks,
                 reader =>
                 {
+                    long out_ticks = reader.ticks;
+                    Console.WriteLine(new { out_ticks });
+
                     //ivec3 xyz = reader.xyz;
                     Console.WriteLine("Sum .x");
                     long x = reader.x;
@@ -78,6 +98,7 @@ namespace DeltaExperiment
                     long z = reader.z;
 
                     yield(
+                        "" + out_ticks,
                         "" + x,
                         "" + y,
                         "" + z

@@ -139,7 +139,7 @@ namespace DropFileIntoSQLite
                 {
                     MemberName = MemberName,
                     MemberValue = MemberValue,
-                    DeclaringType = long.Parse(DeclaringType)
+                    DeclaringType = int.Parse(DeclaringType)
                 }
             );
 
@@ -179,12 +179,7 @@ namespace DropFileIntoSQLite
 
         public void DeleteFileAsync(string ContentKey, Action<string, string> y)
         {
-            new Table1().Delete(
-                new Table1Queries.Delete
-                {
-                    ContentKey = ContentKey
-                }
-            );
+            new Table1().Delete(int.Parse(ContentKey));
         }
 
         public void EnumerateFilesAsync(string e, AtFile y)
@@ -299,7 +294,7 @@ namespace DropFileIntoSQLite
 
 
                 new Table1().SelectBytes(
-                    new Table1Queries.SelectBytes { ContentKey = filepath },
+                     int.Parse(filepath),
                     reader =>
                     {
                         var chunkSize = 4096;

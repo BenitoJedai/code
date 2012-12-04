@@ -18,7 +18,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public static void WriteLine(string e)
         {
-            android.util.Log.wtf("System.Console", e);
+            android.util.Log.i("System.Console", e);
         }
     }
 }

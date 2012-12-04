@@ -33,5 +33,10 @@ namespace MSVSFormStyle
             new Form1().Show();
         }
 
+        private void button6_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
     }
 }

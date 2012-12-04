@@ -30,7 +30,32 @@ namespace jDOSBoxAppletExperiment
         public Application(IApp page)
         {
             // Initialize ApplicationApplet
-            new ApplicationApplet().AttachAppletTo(page.Content);
+            var applet = new ApplicationApplet();
+
+            applet.AttachAppletToDocument();
+
+            page.Keyboard.onkeydown +=
+                e =>
+                {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    applet.__MainApplet_keyPressed("" + e.KeyCode,
+                        message => Native.Window.alert(message)
+                    );
+                };
+
+            page.Keyboard.onkeyup +=
+                e =>
+                {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    applet.__MainApplet_keyReleased("" + e.KeyCode,
+                        message => Native.Window.alert(message)
+                    );
+                };
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(

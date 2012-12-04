@@ -10,8 +10,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     internal class __Int64
     {
 
-        [Script(OptimizedCode = "return parseInt(e);")]
         static public long Parse(string e)
+        {
+            var value = parseInt(e);
+
+            var x = "" + value;
+
+            if (x == e)
+                return value;
+
+            // tested by X:\jsc.svn\examples\javascript\Test\TestLongParse\TestLongParse\Application.cs
+
+            throw new InvalidOperationException("parseInt failed for " + e);
+        }
+
+        [Script(OptimizedCode = "return parseInt(e);")]
+        static public long parseInt(string e)
         {
             return default(long);
         }
@@ -20,7 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public int CompareTo(long e)
         {
             return Expando.Compare(this, e);
-           
+
         }
 
         [Script(DefineAsStatic = true)]
