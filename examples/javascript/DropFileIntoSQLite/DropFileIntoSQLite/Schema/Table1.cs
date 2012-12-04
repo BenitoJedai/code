@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.Data;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -10,7 +11,7 @@ namespace DropFileIntoSQLite.Schema
 {
     class Table1 : Table1Queries
     {
-        public const string DefaultDataSource = "SQLiteWithDataGridView51.sqlite";
+        public const string DefaultDataSource = "SQLiteWithDataGridView52.sqlite";
 
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
@@ -34,10 +35,8 @@ namespace DropFileIntoSQLite.Schema
             WithConnection(
                 c =>
                 {
-                    new Create { }.Command(c).ExecuteNonQuery();
-                    new Table1MetaQueries.CreateMeta { }.Command(c).ExecuteNonQuery();
-
-                    //cmd.Dispose();
+                    new Create { }.ExecuteNonQuery(c);
+                    new Table1MetaQueries.CreateMeta { }.ExecuteNonQuery(c);
                 }
              );
         }
@@ -49,9 +48,7 @@ namespace DropFileIntoSQLite.Schema
             WithConnection(
                 c =>
                 {
-                    var cmd = value.Command(c);
-                    cmd.Parameters.AddWithValue(value);
-                    cmd.ExecuteNonQuery();
+                    value.ExecuteNonQuery(c);
                 }
             );
         }
@@ -61,9 +58,7 @@ namespace DropFileIntoSQLite.Schema
             WithConnection(
               c =>
               {
-                  var value = new SelectAll();
-                  var cmd = value.Command(c);
-                  cmd.ExecuteReaderForEach(yield);
+                  new SelectAll().ExecuteReader(c).WithEach(yield);
               }
             );
         }
@@ -73,14 +68,7 @@ namespace DropFileIntoSQLite.Schema
             WithConnection(
                c =>
                {
-                   var cmd = value.Command(c);
-                   cmd.Parameters.AddWithValue(value);
-
-                   using (var r = cmd.ExecuteReader())
-                   {
-                       while (r.Read())
-                           yield(r);
-                   }
+                   value.ExecuteReader(c).WithEach(yield);
                }
              );
         }
@@ -90,9 +78,7 @@ namespace DropFileIntoSQLite.Schema
             WithConnection(
              c =>
              {
-                 var cmd = value.Command(c);
-                 cmd.Parameters.AddWithValue(value);
-                 cmd.ExecuteNonQuery();
+                 value.ExecuteNonQuery(c);
 
                  yield(c.LastInsertRowId);
              }
@@ -104,11 +90,7 @@ namespace DropFileIntoSQLite.Schema
             WithConnection(
                 c =>
                 {
-                    var cmd = value.Command(c);
-
-                    cmd.Parameters.AddWithValue(value);
-
-                    cmd.ExecuteNonQuery();
+                    value.ExecuteNonQuery(c);
                 }
             );
         }
@@ -119,11 +101,9 @@ namespace DropFileIntoSQLite.Schema
 
     public static partial class XX
     {
-
-
-        public static void ExecuteReaderForEach(this SQLiteCommand cmd, Action<dynamic> y)
+        public static void WithEach(this SQLiteDataReader reader, Action<IDataReader> y)
         {
-            using (var reader = cmd.ExecuteReader())
+            using (reader)
             {
                 while (reader.Read())
                 {
@@ -131,17 +111,28 @@ namespace DropFileIntoSQLite.Schema
                 }
             }
         }
-    }
 
-    public static partial class XX
-    {
+        public static void WithEach(this SQLiteDataReader reader, Action<dynamic> y)
+        {
+            using (reader)
+            {
+                while (reader.Read())
+                {
+                    y(new DynamicDataReader(reader));
+                }
+            }
+        }
+
+
+     
+
         public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
         {
-            Console.WriteLine("AsWithConnection...");
+            //Console.WriteLine("AsWithConnection...");
 
             return y =>
             {
-                Console.WriteLine("AsWithConnection... invoke");
+                //Console.WriteLine("AsWithConnection... invoke");
 
                 using (var c = DataSource.ToConnection(Version))
                 {
@@ -155,7 +146,7 @@ namespace DropFileIntoSQLite.Schema
                     {
                         var message = new { ex.Message, ex.StackTrace }.ToString();
 
-                        Console.WriteLine("AsWithConnection... error: " + message);
+                        //Console.WriteLine("AsWithConnection... error: " + message);
 
                         throw new InvalidOperationException(message);
                     }

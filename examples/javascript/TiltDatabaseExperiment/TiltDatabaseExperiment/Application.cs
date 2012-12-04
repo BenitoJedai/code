@@ -115,7 +115,9 @@ namespace TiltDatabaseExperiment
             var zdx = 0;
             var zdy = 0;
 
-            Action loop = delegate
+            Action loop = null;
+
+            loop = delegate
             {
                 frame++;
 
@@ -128,16 +130,26 @@ namespace TiltDatabaseExperiment
                 if (frame > 1)
                     if (dx == zdx)
                         if (dy == zdy)
+                        {
+                            // check again
+                            Native.Window.requestAnimationFrame += loop;
+
                             return;
-
-
-                service.AtFrame("" + id, "" + frame, "" + dx, "" + dy);
+                        }
 
                 zdx = dx;
                 zdy = dy;
+
+                service.AtFrame("" + id, "" + frame, "" + dx, "" + dy,
+                    yield:
+                        delegate
+                        {
+                            Native.Window.requestAnimationFrame += loop;
+                        }
+                );
             };
 
-            loop.AtAnimationFrame();
+            Native.Window.requestAnimationFrame += loop;
 
             @"Hello world".ToDocumentTitle();
 

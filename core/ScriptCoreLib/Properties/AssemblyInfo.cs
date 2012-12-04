@@ -53,6 +53,11 @@ using ScriptCoreLib.Shared;
 
     ScriptTypeFilter(ScriptType.Java, "*.Shared.BCLImplementation"),
 
+    ScriptTypeFilter(ScriptType.ActionScript, "*.Extensions"),
+    ScriptTypeFilter(ScriptType.JavaScript, "*.Extensions"),
+    ScriptTypeFilter(ScriptType.PHP, "*.Extensions"),
+    ScriptTypeFilter(ScriptType.Java, "*.Extensions"),
+
 
     // some namespace mangling
     ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = "", FilterToIsNative = true),

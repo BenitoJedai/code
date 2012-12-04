@@ -75,9 +75,6 @@
     <Compile Include="..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
-    <Compile Include="BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Activator.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -398,7 +395,6 @@
     <Compile Include="BCLImplementation\System\Xml\Linq\XObject.cs" />
     <Compile Include="Extensions\BCLImplementationExtensions.cs" />
     <Compile Include="Extensions\ConfigurationProvider.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
     <Compile Include="javax.common\runtime\Helper.cs" />

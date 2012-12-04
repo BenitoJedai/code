@@ -184,8 +184,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                     else
                     {
                         t = value.GetType();
+
                         if (t == Convert.type)
                             return value;
+
+                        if (value is string)
+                        {
+                            // getType is unavailable at API 8
+                            // as will always return string
+
+                            if (Convert.type == typeof(int))
+                            {
+                                return long.Parse((string)value);
+                            }
+
+                            if (Convert.type == typeof(long))
+                            {
+                                return long.Parse((string)value);
+                            }
+                        }
+
 
                         if (value is int)
                         {
@@ -201,7 +219,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                         }
                     }
 
-                    Console.WriteLine("__CallSite Convert " + new
+                    var message = "__CallSite Convert " + new
                     {
                         value,
 
@@ -209,10 +227,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 
                         t,
                         Convert.type
-                    });
+                    };
 
-                    // should we do some reflection and conversion?
-                    return value;
+                    throw new InvalidOperationException(message);
                 }
             );
             return r;

@@ -43,7 +43,7 @@ namespace DropFileIntoSQLite
                 evt =>
                 {
                     evt.stopPropagation();
-                    evt.PreventDefault();
+                    evt.preventDefault();
 
                     evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
 
@@ -75,122 +75,6 @@ namespace DropFileIntoSQLite
 
 
                     page.Header.style.color = JSColor.None;
-
-                    #region dataTransfer
-                    evt.dataTransfer.types.WithEach(
-                        x =>
-                        {
-                            Console.WriteLine(x);
-
-                            //SystemSounds.Beep.Play();
-                            //Console.Beep();
-
-                            #region text/uri-list
-                            if (x == "text/uri-list")
-                            {
-                                var src = evt.dataTransfer.getData(x);
-
-                                if (src != "about:blank")
-                                {
-                                    if (src.StartsWith("http://www.youtube.com/watch?v="))
-                                        src = "http://www.youtube.com/embed/" + src.SkipUntilIfAny("http://www.youtube.com/watch?v=").TakeUntilIfAny("&");
-
-                                    Console.WriteLine(new { src });
-
-                                    new Form { Text = src }.With(
-                                        f =>
-                                        {
-                                            var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
-
-                                            w.Navigate(src);
-
-                                            f.Show();
-                                        }
-                                    );
-
-                                }
-                            }
-                            #endregion
-
-
-                            #region text/plain
-                            if (x == "text/plain")
-                            {
-                                var DocumentText = evt.dataTransfer.getData(x);
-
-                                Console.WriteLine(new { DocumentText });
-
-                                if (DocumentText.StartsWith("javascript:"))
-                                {
-                                    var host = DocumentText.SkipUntilOrEmpty("href='").TakeUntilOrEmpty("'");
-
-                                    new Form { Text = "Application " + host }.With(
-                                        f =>
-                                        {
-                                            new IHTMLAnchor
-                                            {
-                                                href = host,
-                                                innerText = "Go to " + host
-                                            }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
-
-                                            new IHTMLAnchor
-                                            {
-                                                href = DocumentText,
-                                                innerText = "Launch " + host
-                                            }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
-
-                                            f.Show();
-                                        }
-                                    );
-                                }
-                                else
-                                {
-
-                                    new Form { Text = x }.With(
-                                        f =>
-                                        {
-                                            new IHTMLPre
-                                            {
-                                                innerText = DocumentText
-                                            }.AttachTo(f.GetHTMLTargetContainer()).style.display = IStyle.DisplayEnum.block;
-
-
-                                            f.Show();
-                                        }
-                                    );
-                                }
-                            }
-                            #endregion
-
-
-                            #region text/html
-                            if (x == "text/html")
-                            {
-                                var DocumentText = evt.dataTransfer.getData(x);
-
-                                //Console.WriteLine(new { DocumentText });
-
-
-
-                                new Form { Text = x + " " + DocumentText.Length + " bytes" }.With(
-                                    f =>
-                                    {
-                                        var w = new WebBrowser { Dock = DockStyle.Fill }.AttachTo(f);
-
-                                        w.DocumentText = DocumentText;
-
-
-
-
-                                        f.Show();
-                                    }
-                                );
-                            }
-                            #endregion
-
-                        }
-                    );
-                    #endregion
 
 
 
@@ -294,6 +178,37 @@ namespace DropFileIntoSQLite
                                                     __ContentKey
                                                         .Delete();
                                                 };
+
+
+                                            ff.GetHTMLTarget().With(
+                                                ffh =>
+                                                {
+                                                    dynamic ffhs = ffh.style;
+                                                    // http://css-infos.net/property/-webkit-transition
+                                                    //ffhs.webkitTransition = "webkitTransform 0.3s linear";
+
+                                                    ffh.onmousewheel +=
+                                                        e =>
+                                                        {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+
+
+                                                            if (e.WheelDirection > 0)
+                                                            {
+                                                                ff.Width = (int)(ff.Width * 1.1);
+                                                                ff.Height = (int)(ff.Height * 1.1);
+                                                            }
+                                                            else
+                                                            {
+                                                                ff.Width = (int)(ff.Width * 0.9);
+                                                                ff.Height = (int)(ff.Height * 0.9);
+                                                            }
+
+                                                        };
+
+                                                }
+                                            );
                                         }
                                     );
                                 }
@@ -343,8 +258,6 @@ namespace DropFileIntoSQLite
 
                         index++;
 
-                        var scale = 1.0;
-
                         ff.GetHTMLTarget().With(
                             ffh =>
                             {
@@ -355,12 +268,20 @@ namespace DropFileIntoSQLite
                                 ffh.onmousewheel +=
                                     e =>
                                     {
-                                        if (e.WheelDirection > 0)
-                                            scale += 0.1;
-                                        else
-                                            scale -= 0.1;
+                                        e.preventDefault();
+                                        e.stopPropagation();
 
-                                        ffh.style.transform = "scale(" + scale + ")";
+                                        if (e.WheelDirection > 0)
+                                        {
+                                            ff.Width = (int)(ff.Width * 1.1);
+                                            ff.Height = (int)(ff.Height * 1.1);
+                                        }
+                                        else
+                                        {
+                                            ff.Width = (int)(ff.Width * 0.9);
+                                            ff.Height = (int)(ff.Height * 0.9);
+                                        }
+
                                     };
 
                             }

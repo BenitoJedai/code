@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.PHP.Data;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;

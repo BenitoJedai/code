@@ -78,20 +78,38 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
         public override Type GetFieldType(int ordinal)
         {
-            var t = cursor.getType(ordinal);
+            var FIELD_TYPE_INTEGER = 0x00000001;
+            var FIELD_TYPE_STRING = 0x00000003;
+
+
+            var t = FIELD_TYPE_STRING;
+
+            if (((object)cursor).GetType().GetMethod("getType", new Type[] { typeof(int) }) == null)
+            {
+                Console.WriteLine("getType is unavailable at API 8");
+
+            }
+            else
+            {
+                t = cursor.getType(ordinal);
+            }
 
             // http://developer.android.com/reference/android/database/Cursor.html#FIELD_TYPE_INTEGER
 
-            var FIELD_TYPE_INTEGER = 0x00000001;
             if (t == FIELD_TYPE_INTEGER)
                 return typeof(long);
 
-            var FIELD_TYPE_STRING = 0x00000003;
             if (t == FIELD_TYPE_STRING)
                 return typeof(string);
 
+            //            12-04 10:56:47.453: W/dalvikvm(18774): VFY: unable to resolve interface method 2121: Landroid/database/Cursor;.getType (I)I
+            //12-04 10:56:47.453: D/dalvikvm(18774): VFY: replacing opcode 0x72 at 0x0002
+            //12-04 10:56:47.453: D/dalvikvm(18774): VFY: dead code 0x0005-0029 in LScriptCoreLib/Android/BCLImplementation/System/Data/SQLite/__SQLiteDataReader;.GetFieldType (I)LScriptCoreLibJava/BCLImplementation/System/__Type;
 
-            throw new NotImplementedException("GetFieldType");
+
+            throw new NotImplementedException("GetFieldType fault " +
+                new { ordinal, t }
+            );
         }
 
         public override int FieldCount

@@ -3,6 +3,7 @@ using MSVSFormStyle.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
@@ -58,9 +59,9 @@ namespace MSVSFormStyle
             content.button4.Click +=
                  delegate
                  {
-                     FormStyler.AtFormCreated =  s =>
+                     FormStyler.AtFormCreated = s =>
                         {
-                   
+
 
                             s.TargetOuterBorder.style.boxShadow = "rgba(255, 122, 204, 0.3) 0px 0px 6px 3px";
                             s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(255, 122, 204);
@@ -83,14 +84,166 @@ namespace MSVSFormStyle
                      new Form1().Show();
                  };
 
-            content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+            content.button6.Click +=
+               delegate
+               {
+                   FormStyler.AtFormCreated = s =>
+                   {
+                       FormStyler.LikeWindowsClassic(s);
+
+                       // http://css-tricks.com/examples/CSS3Gradient/
+                       ;
+
+                       // http://www.codeguru.com/cpp/misc/misc/titlebar/article.php/c387/Win98-like-Gradient-Caption-Bar.htm
+                       //= RGB(16, 132, 208)
+
+                       s.Caption.style.background = "-webkit-linear-gradient(left, rgb(0, 0, 127), rgb(16, 132, 208))";
+                   };
+
+                   new Form1().Show();
+               };
+
+
+            content.AttachControlTo(Native.Document.body);
+
+            //content.AttachControlTo(page.Content);
+            //content.AutoSizeControlTo(page.ContentSize);
+
+            @"Style".ToDocumentTitle();
+
+
+
+
+            Native.Document.getElementsByTagName("script")
+                .Select(k => (IHTMLScript)k)
+                .FirstOrDefault(k => k.src.EndsWith("/view-source"))
+                .With(
+                    source =>
+                    {
+                        #region PackageAsApplication
+                        Action<IHTMLScript, XElement, Action<string>> PackageAsApplication =
+                            (source0, xml, yield) =>
+                            {
+                                new IXMLHttpRequest(
+                                    ScriptCoreLib.Shared.HTTPMethodEnum.GET, source0.src,
+                                    (IXMLHttpRequest r) =>
+                                    {
+                                        // store hash
+                                        xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.Document.location.hash)));
+
+
+                                        #region script
+                                        xml.Add(
+                                            new XElement("script",
+                                                "/* source */"
+                                           )
+                                        );
+
+                                        var data = "";
+
+
+                                        Action later = delegate
+                                        {
+
+                                            data = data.Replace("/* source */", r.responseText);
+
+                                        };
+                                        #endregion
+
+
+                                        //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
+
+                                        xml.Elements("link").ToList().ForEach(
+                                            (XElement link, Action next) =>
+                                            {
+                                                #region style
+                                                var rel = link.Attribute("rel");
+                                                if (rel.Value != "stylesheet")
+                                                {
+                                                    next();
+                                                    return;
+                                                }
+
+                                                var href = link.Attribute("href");
+
+                                                var placeholder = "/* " + href.Value + " */";
+
+                                                //page.DragHTM.innerText += " " + placeholder;
+
+
+                                                xml.Add(new XElement("style", placeholder));
+
+                                                new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET, href.Value,
+                                                    rr =>
+                                                    {
+
+                                                        later += delegate
+                                                        {
+
+
+                                                            data = data.Replace(placeholder, rr.responseText);
+
+                                                        };
+
+                                                        Console.WriteLine("link Remove");
+                                                        link.Remove();
+
+                                                        next();
+                                                    }
+                                                );
+
+                                                #endregion
+                                            }
+                                        )(
+                                            delegate
+                                            {
+
+
+                                                data = xml.ToString();
+                                                Console.WriteLine("data: " + data);
+                                                later();
+
+                                                yield(data);
+                                            }
+                                        );
+                                    }
+                                );
+
+                            };
+                        #endregion
+
+
+                        PackageAsApplication(
+                             source,
+                             XElement.Parse(new App.XMLSourceSource().Text),
+                             data =>
+                             {
+                                 var bytes = Encoding.ASCII.GetBytes(data);
+                                 var data64 = System.Convert.ToBase64String(bytes);
+
+
+                                 Native.Document.body.title = "Drag me!";
+
+                                 Native.Document.body.ondragstart +=
+                                         e =>
+                                         {
+                                             //e.dataTransfer.setData("text/plain", "Sphere");
+
+                                             // http://codebits.glennjones.net/downloadurl/virtualdownloadurl.htm
+                                             //e.dataTransfer.setData("DownloadURL", "image/png:Sphere.png:" + icon);
+
+                                             e.dataTransfer.setData("DownloadURL", "application/octet-stream:Spiral.htm:data:application/octet-stream;base64," + data64);
+                                             e.dataTransfer.setData("text/html", data);
+                                             e.dataTransfer.setData("text/uri-list", Native.Document.location + "");
+                                             //e.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
+                                         };
+
+
+                             }
+                         );
+                    }
             );
+
         }
 
     }

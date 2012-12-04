@@ -1,4 +1,5 @@
 ﻿using DeltaExperiment.Schema;
+using ScriptCoreLib.Shared.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ namespace DeltaExperiment
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
-        public Delta(string DataSource = "BatchOfAggregatedTimedDeltas01.sqlite")
+        public Delta(string DataSource = "BatchOfAggregatedTimedDeltas02.sqlite")
         {
 
             #region abort if in design mode
@@ -33,25 +34,24 @@ namespace DeltaExperiment
 
             this.WithConnection = DataSource.AsWithConnection();
 
-            new Create { }.ExecuteNonQuery(WithConnection);
-        }
-
-        public void Add(object ticks = null, object x = null, object y = null, object z = null)
-        {
-            Add(
-                new InsertVector
-                {
-                    ticks = ticks,
-                    x = x,
-                    y = y,
-                    z = z
-                }
+            WithConnection(
+               c =>
+               {
+                   new Create { }.ExecuteNonQuery(c);
+               }
             );
         }
 
+
+
         public void Add(InsertVector value)
         {
-            value.ExecuteNonQuery(WithConnection);
+            WithConnection(
+                c =>
+                {
+                    value.ExecuteNonQuery(c);
+                }
+             );
         }
 
         public void Last(Action<long> yield)
@@ -59,8 +59,6 @@ namespace DeltaExperiment
             WithConnection(
                 c =>
                 {
-
-
                     using (var reader = new SelectLast().Command(c).ExecuteReader())
                     {
                         if (reader.Read())
@@ -83,22 +81,11 @@ namespace DeltaExperiment
         public void Sum(SelectSum e, Action<dynamic> yield)
         {
             WithConnection(
-                   c =>
-                   {
-                       var cmd = e.Command(c);
-
-                       cmd.Parameters.AddWithValue(e);
-
-
-                       using (var reader = cmd.ExecuteReader())
-                       {
-                           while (reader.Read())
-                           {
-                               yield(new DynamicDataReader(reader));
-                           }
-                       }
-                   }
-               );
+                c =>
+                {
+                    e.ExecuteReader(c).WithEach(yield);
+                }
+            );
         }
 
         public void Enumerate(Action<dynamic> yield)
@@ -106,21 +93,14 @@ namespace DeltaExperiment
             WithConnection(
                 c =>
                 {
-                    var cmd = new SelectAll
-                    {
+                    new SelectAll().ExecuteReader(c).WithEach(yield);
 
-                    }.Command(c);
-
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            yield(new DynamicDataReader(reader));
-                        }
-                    }
+                   
                 }
             );
         }
+
+ 
     }
 
     [Description("inferred by running create command")]
@@ -167,38 +147,20 @@ namespace DeltaExperiment
 
     public static partial class XX
     {
-
-
-
-        public static int ExecuteNonQuery(this DeltaQueries.InsertVector e, Action<Action<SQLiteConnection>> WithConnection)
+        public static void WithEach(this SQLiteDataReader reader, Action<dynamic> y)
         {
-            var i = default(int);
-            WithConnection(
-                c => i = e.ExecuteNonQuery(c)
-            );
-            return i;
+            using (reader)
+            {
+                while (reader.Read())
+                {
+                    y(new DynamicDataReader(reader));
+                }
+            }
         }
 
-        public static int ExecuteNonQuery(this DeltaQueries.InsertVector e, SQLiteConnection c)
-        {
-            var cmd = e.Command(c);
-            cmd.Parameters.AddWithValue(e);
-            return cmd.ExecuteNonQuery();
-        }
 
-        public static int ExecuteNonQuery(this DeltaQueries.Create e, Action<Action<SQLiteConnection>> WithConnection)
-        {
-            var i = default(int);
-            WithConnection(
-                c => i = e.ExecuteNonQuery(c)
-            );
-            return i;
-        }
 
-        public static int ExecuteNonQuery(this DeltaQueries.Create e, SQLiteConnection c)
-        {
-            return e.Command(c).ExecuteNonQuery();
-        }
+      
 
         public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
         {

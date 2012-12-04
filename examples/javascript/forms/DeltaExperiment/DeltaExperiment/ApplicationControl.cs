@@ -35,27 +35,8 @@ namespace DeltaExperiment
             dx = 0;
             this.label2.Text = "" + dx;
 
-#if DEBUG
-            // cannot_do_this_just_yet
-            // using a field component from the serverside shall cause
-            // this function to run on serverside.
-            // implicit rewrite
-            // any incoming parameter read shall be performed ahead of time
-            var now = DateTime.Now;
-
-            applicationWebService1.delta.Add(
-                ticks: now.Ticks,
-                x: int.Parse(x)
-            );
-
-            // what if there is a continuation
-            // what if we want to consult the client side
-            // and then continue on the server side?
-            // the simple approach could be to allow this if stack is empty.
-#else
 
             applicationWebService1.__button2_Click(x);
-#endif
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -85,12 +66,13 @@ namespace DeltaExperiment
 
             this.dataGridView1.Rows.Clear();
 
-            Action3<string> yield =
-                 (x, y, z) =>
+            Action<string, string, string, string> yield =
+                 (ticks, x, y, z) =>
                  {
                      var r = new DataGridViewRow();
 
                      r.Cells.AddTextRange(
+                         ticks,
                          x,
                          y,
                          z
@@ -127,13 +109,14 @@ namespace DeltaExperiment
         private void ApplicationControl_Load(object sender, EventArgs e)
         {
             this.dataGridView1.Columns.AddTextRange(
+               "ticks",
                "x",
                "y",
                "z"
            );
         }
 
-        long ticks;
+        long ticks_int64;
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -151,8 +134,9 @@ namespace DeltaExperiment
             applicationWebService1.__button4_Click(
                 ticks =>
                 {
-                    this.ticks = long.Parse(ticks);
+                    this.ticks_int64 = long.Parse(ticks);
 
+                    Console.WriteLine(new { ticks, ticks_int64 });
                     label4.Text = ticks;
                 }
             );
@@ -161,19 +145,20 @@ namespace DeltaExperiment
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Action3<string> yield =
-              (x, y, z) =>
-              {
-                  var r = new DataGridViewRow();
+            Action<string, string, string, string> yield =
+                 (ticks, x, y, z) =>
+                 {
+                     var r = new DataGridViewRow();
 
-                  r.Cells.AddTextRange(
-                      x,
-                      y,
-                      z
-                  );
+                     r.Cells.AddTextRange(
+                         ticks,
+                         x,
+                         y,
+                         z
+                     );
 
-                  this.dataGridView1.Rows.Add(r);
-              };
+                     this.dataGridView1.Rows.Add(r);
+                 };
 
             this.dataGridView1.Rows.Clear();
 
@@ -194,16 +179,16 @@ namespace DeltaExperiment
             );
 #else
             applicationWebService1.__button5_Click(
-                "" + this.ticks, yield
+                "" + this.ticks_int64, yield
             );
 #endif
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            this.ticks = 0;
+            this.ticks_int64 = 0;
 
-            label4.Text = "" + ticks;
+            label4.Text = "" + ticks_int64;
         }
 
     }
