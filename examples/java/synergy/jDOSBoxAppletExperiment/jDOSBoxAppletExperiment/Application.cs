@@ -40,7 +40,15 @@ namespace jDOSBoxAppletExperiment
                     e.preventDefault();
                     e.stopPropagation();
 
-                    applet.__MainApplet_keyPressed("" + e.KeyCode,
+
+                    int KeyCode = e.KeyCode;
+                    if (KeyCode == 13)
+                        KeyCode = 10;
+                    int KeyChar = KeyCode;
+
+            
+
+                    applet.__MainApplet_keyPressed("" + KeyCode, "" + KeyChar,
                         message => Native.Window.alert(message)
                     );
                 };
@@ -51,9 +59,42 @@ namespace jDOSBoxAppletExperiment
                     e.preventDefault();
                     e.stopPropagation();
 
-                    applet.__MainApplet_keyReleased("" + e.KeyCode,
+                    int KeyCode = e.KeyCode;
+                    if (KeyCode == 13)
+                        KeyCode = 10;
+                    int KeyChar = KeyCode;
+
+
+
+                    applet.__MainApplet_keyReleased("" + KeyCode, "" + KeyChar,
                         message => Native.Window.alert(message)
                     );
+                };
+
+            page.Keyboard.onmousedown +=
+                e =>
+                {
+                    page.Keyboard.requestPointerLock();
+
+                };
+
+            page.Keyboard.onmousemove +=
+             e =>
+             {
+                 if (Native.Document.pointerLockElement == page.Keyboard)
+                 {
+                     var dx = e.movementX;
+                     var dy = e.movementY;
+
+                     applet.__MainApplet_mousemove("" + dx, "" + dy);
+
+                 }
+             };
+
+            page.Keyboard.onmouseup +=
+                e =>
+                {
+                    Native.Document.exitPointerLock();
                 };
 
             @"Hello world".ToDocumentTitle();
