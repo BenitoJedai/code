@@ -95,9 +95,9 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// <summary>
         /// Returns an array of objects that lie under the specified point and are children (or grandchildren, and so on) of this DisplayObjectContainer instance.
         /// </summary>
-        public Array getObjectsUnderPoint(Point point)
+        public object[] getObjectsUnderPoint(Point point)
         {
-            return default(Array);
+            return default(object[]);
         }
 
         /// <summary>
