@@ -10,7 +10,9 @@ namespace ScriptCoreLib.ActionScript.flash.events
     [Script(IsNative = true)]
     public class MouseEvent : Event
     {
-
+        public MouseEvent(string type)
+        {
+        }
 
 
         #region Constants
