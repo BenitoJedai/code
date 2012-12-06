@@ -29,8 +29,6 @@ namespace TiltDatabaseExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            var touchx = 0;
-            var touchy = 0;
 
             var dx = 0;
             var dy = 0;
@@ -40,7 +38,7 @@ namespace TiltDatabaseExperiment
             Native.Document.body.onmousedown +=
                 e =>
                 {
-                    e.PreventDefault();
+                    e.preventDefault();
                     Native.Document.body.focus();
                     Native.Document.body.requestPointerLock();
                     Native.Document.body.style.backgroundColor = JSColor.Yellow;
@@ -75,6 +73,10 @@ namespace TiltDatabaseExperiment
             #endregion
 
             #region ontouchmove
+            var touchx = 0;
+            var touchy = 0;
+
+
             Native.Document.body.ontouchend +=
                 e =>
                 {
@@ -88,14 +90,13 @@ namespace TiltDatabaseExperiment
                  touchx = e.touches[0].pageX;
                  touchy = e.touches[0].pageY;
 
-                 // to be lowercased
-                 e.PreventDefault();
+                 e.preventDefault();
              };
 
             Native.Document.body.ontouchmove +=
               e =>
               {
-                  e.PreventDefault();
+                  e.preventDefault();
 
                   var ztouchx = e.touches[0].pageX;
                   var ztouchy = e.touches[0].pageY;
