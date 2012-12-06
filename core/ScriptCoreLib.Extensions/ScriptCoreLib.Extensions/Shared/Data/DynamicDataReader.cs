@@ -231,7 +231,7 @@ namespace ScriptCoreLib.Shared.Data
 
                 if (FieldNames.Contains(Name))
                 {
-                    Console.WriteLine("TryGetMember: " + Name);
+                    //Console.WriteLine("TryGetMember: " + Name);
 
                     try
                     {
