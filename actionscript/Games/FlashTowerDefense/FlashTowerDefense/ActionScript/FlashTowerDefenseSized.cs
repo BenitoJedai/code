@@ -411,8 +411,8 @@ namespace FlashTowerDefense.ActionScript
                     else
                         Ego.MoveToArc(EgoAimDirection, EgoMoveSpeed);
 
-                    Ego.x = Ego.x.Max(0).Min(DefaultWidth);
-                    Ego.y = Ego.y.Max(0).Min(DefaultHeight);
+                    Ego.x = Math.Min(Math.Max(Ego.x, 0), DefaultWidth);
+                    Ego.y = Math.Min(Math.Max(Ego.y, 0), DefaultHeight);
                     ReorderThrottle();
 
                     UpdateEgoAim();

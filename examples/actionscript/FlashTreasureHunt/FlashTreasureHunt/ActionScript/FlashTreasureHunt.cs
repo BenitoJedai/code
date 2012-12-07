@@ -126,35 +126,35 @@ namespace FlashTreasureHunt.ActionScript
 
 		private void Initialize()
 		{
-			this.stage.fullScreenSourceRect = new Rectangle
-			{
-				width = DefaultControlWidth,
-				height = DefaultControlHeight
-			};
+            //this.stage.fullScreenSourceRect = new Rectangle
+            //{
+            //    width = DefaultControlWidth,
+            //    height = DefaultControlHeight
+            //};
 
-			#region fullscreen support
-			bool NextFullscreenMode = true;
+            //#region fullscreen support
+            //bool NextFullscreenMode = true;
 
-			this.stage.fullScreen +=
-				e =>
-				{
-					NextFullscreenMode = !e.fullScreen;
+            //this.stage.fullScreen +=
+            //    e =>
+            //    {
+            //        NextFullscreenMode = !e.fullScreen;
 
-					// hide chat while fullscreen zoom
-                    //this.GetStageChild().Siblings().ForEach(k => k.visible = !e.fullScreen);
-				};
+            //        // hide chat while fullscreen zoom
+            //        //this.GetStageChild().Siblings().ForEach(k => k.visible = !e.fullScreen);
+            //    };
 			
 		
-			this.contextMenu = new ContextMenuEx
-			{
-				{ "Fullscreen", 
-					delegate
-					{
-						this.stage.SetFullscreen(NextFullscreenMode);
-					}
-				}
-			};
-			#endregion
+            //this.contextMenu = new ContextMenuEx
+            //{
+            //    { "Fullscreen", 
+            //        delegate
+            //        {
+            //            this.stage.SetFullscreen(NextFullscreenMode);
+            //        }
+            //    }
+            //};
+            //#endregion
 
 
 

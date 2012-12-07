@@ -24,10 +24,17 @@ namespace NatureBoyTestPad.js
 
     public class NatureBoyTestPad
     {
+        public static string Title =
+            "NatureBoyTestPad. Middle click to pan around. Drag to select actors and then click to order them move. Use toolbar to build new actors.";
+
+        public static double DefaultActiorZoom = 1.0;
+
         public NatureBoyTestPad()
         {
 
         }
+
+        public static bool FilterToImpAndSoldier;
 
         public static void InitializeContent()
         {
@@ -47,7 +54,7 @@ namespace NatureBoyTestPad.js
             arena.Control.AttachToDocument();
 
 
-            arena.DrawTextToInfo("NatureBoyTestPad. Middle click to pan around. Drag to select actors and then click to order them move. Use toolbar to build new actors.", new Point(8, 8), Color.Blue);
+            arena.DrawTextToInfo(Title, new Point(8, 8), Color.Blue);
 
             Native.Window.onresize +=
                 delegate
@@ -99,7 +106,7 @@ namespace NatureBoyTestPad.js
                     actor.Zoom.DynamicZoomFunc = a => 1;
                     actor.SetSize(48, 72);
                     actor.TeleportTo(_coords.X, _coords.Y);
-                    actor.Zoom.StaticZoom = 1;
+                    actor.Zoom.StaticZoom = DefaultActiorZoom;
                     actor.Direction = Math.PI * 0.5;
                     actor.Control.AttachTo(arena.Layers.Canvas);
                     //actor.HasShadow = _frames.Frames_Stand.Length > 1;
@@ -395,44 +402,52 @@ namespace NatureBoyTestPad.js
 
             #endregion
 
-
-            #region step 6
-
+            if (FilterToImpAndSoldier)
+            { }
+            else
             {
-                var n = "NPC";
+                #region step 6
 
-                arsenal.Add(n, MyFrames.NPC3);
-                combo.Add(n);
+                {
+                    var n = "NPC";
+
+                    arsenal.Add(n, MyFrames.NPC3);
+                    combo.Add(n);
+                }
+
+                #endregion
+
+
+                {
+                    var n = "ManWithHorns";
+
+                    arsenal.Add(n, MyFrames.ManWithHorns);
+                    combo.Add(n);
+                }
+                {
+                    var n = "TheSheep";
+
+                    arsenal.Add(n, MyFrames.TheSheep);
+                    combo.Add(n);
+                }
+                {
+                    var n = "ThePig";
+
+                    arsenal.Add(n, MyFrames.ThePig);
+                    combo.Add(n);
+                }
+
+                {
+                    var n = "TheCactus";
+
+                    arsenal.Add(n, MyFrames.TheCactus);
+                    combo.Add(n);
+                }
             }
 
-            #endregion
 
-
-            {
-                var n = "ManWithHorns";
-
-                arsenal.Add(n, MyFrames.ManWithHorns);
-                combo.Add(n);
-            }
-            {
-                var n = "TheSheep";
-
-                arsenal.Add(n, MyFrames.TheSheep);
-                combo.Add(n);
-            }
-            {
-                var n = "ThePig";
-
-                arsenal.Add(n, MyFrames.ThePig);
-                combo.Add(n);
-            }
-
-            {
-                var n = "TheCactus";
-
-                arsenal.Add(n, MyFrames.TheCactus);
-                combo.Add(n);
-            }
+            if (BeforeAddingDebris != null)
+                BeforeAddingDebris(arena.Layers.Canvas);
 
             3.Times(
               delegate()
@@ -455,7 +470,7 @@ namespace NatureBoyTestPad.js
 
 
 
-
+        public static Action<IHTMLDiv> BeforeAddingDebris;
     }
 
 }
