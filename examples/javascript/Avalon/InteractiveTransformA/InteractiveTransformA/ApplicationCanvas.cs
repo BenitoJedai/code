@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace InteractiveTransformA
 {
-   
+
     public class ApplicationCanvas : Canvas
     {
         public const int DefaultWidth = 800;
@@ -38,6 +38,14 @@ namespace InteractiveTransformA
 
         }
 
+        public virtual bool SkipNonEssentials
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         Canvas Shadow;
 
         public Action<object, int> AtMouseDown;
@@ -48,6 +56,7 @@ namespace InteractiveTransformA
         public readonly List<Action<object>> _AtMouseUp = new List<Action<object>>();
         public readonly List<Action<object, int, int>> _AtMouseMove = new List<Action<object, int, int>>();
 
+        TextBox t2;
 
         void InitializeContent()
         {
@@ -59,65 +68,71 @@ namespace InteractiveTransformA
             var DefaultHeight = Convert.ToInt32(Height);
             var DefaultWidth = Convert.ToInt32(Width);
 
-            Colors.Cyan.ToGradient(Colors.White, DefaultHeight / 4).Select(
-                (c, i) =>
-                    new Rectangle
-                    {
-                        Fill = new SolidColorBrush(c),
-                        Width = DefaultWidth,
-                        Height = 4,
-                    }.MoveTo(0, i * 4).AttachTo(this)
-            ).ToArray();
-
-            #region text
-            var tbg1 = new Rectangle
+            if (!SkipNonEssentials)
             {
-                Width = 300 - 14,
-                Height = 100,
-                Fill = Brushes.Black,
-                Opacity = 0.5
-            }.MoveTo(12, 12).AttachTo(this);
+                Colors.Cyan.ToGradient(Colors.White, DefaultHeight / 4).Select(
+                    (c, i) =>
+                        new Rectangle
+                        {
+                            Fill = new SolidColorBrush(c),
+                            Width = DefaultWidth,
+                            Height = 4,
+                        }.MoveTo(0, i * 4).AttachTo(this)
+                ).ToArray();
 
+                #region text
+                var tbg1 = new Rectangle
+                {
+                    Width = 300 - 14,
+                    Height = 100,
+                    Fill = Brushes.Black,
+                    Opacity = 0.5
+                }.MoveTo(12, 12).AttachTo(this);
+            }
             this.Shadow = new Canvas
             {
 
             }.AttachTo(this);
 
-            var t1 = new TextBox
+            if (!SkipNonEssentials)
             {
-                AcceptsReturn = true,
-                FontSize = 10,
-                Text = "ScriptCoreLib needs to be updated before jsc can translate this!",
-                BorderThickness = new Thickness(0),
-                Foreground = Brushes.White,
-                Background = Brushes.Transparent,
-                IsReadOnly = true,
-                Width = 300 - 14,
-                Height = 100,
-            }.MoveTo(12, 12).AttachTo(this);
+                var t1 = new TextBox
+                {
+                    AcceptsReturn = true,
+                    FontSize = 10,
+                    Text = "ScriptCoreLib needs to be updated before jsc can translate this!",
+                    BorderThickness = new Thickness(0),
+                    Foreground = Brushes.White,
+                    Background = Brushes.Transparent,
+                    IsReadOnly = true,
+                    Width = 300 - 14,
+                    Height = 100,
+                }.MoveTo(12, 12).AttachTo(this);
 
 
-            var tbg2 = new Rectangle
-            {
-                Width = 500 - 14,
-                Height = 100,
-                Fill = Brushes.Black,
-                Opacity = 0.5
-            }.MoveTo(302, 12).AttachTo(this);
+                var tbg2 = new Rectangle
+                {
+                    Width = 500 - 14,
+                    Height = 100,
+                    Fill = Brushes.Black,
+                    Opacity = 0.5
+                }.MoveTo(302, 12).AttachTo(this);
 
-            var t2 = new TextBox
-            {
-                AcceptsReturn = true,
-                FontSize = 10,
-                Text = "",
-                BorderThickness = new Thickness(0),
-                Foreground = Brushes.White,
-                Background = Brushes.Transparent,
-                IsReadOnly = true,
-                Width = 500 - 14,
-                Height = 100,
-            }.MoveTo(302, 12).AttachTo(this);
-            #endregion
+                t2 = new TextBox
+               {
+                   AcceptsReturn = true,
+                   FontSize = 10,
+                   Text = "",
+                   BorderThickness = new Thickness(0),
+                   Foreground = Brushes.White,
+                   Background = Brushes.Transparent,
+                   IsReadOnly = true,
+                   Width = 500 - 14,
+                   Height = 100,
+               }.MoveTo(302, 12).AttachTo(this);
+                #endregion
+
+            }
 
             var blocksize = 24;
             var blockx = 100;
@@ -163,9 +178,11 @@ namespace InteractiveTransformA
 
             #endregion
 
-
-            CreateTransformer(t2, 120, 120, 550, 150);
-            CreateTransformer(t2, 100, 100, 350, 250);
+            if (!SkipNonEssentials)
+            {
+                CreateTransformer(t2, 120, 120, 550, 150);
+                CreateTransformer(t2, 100, 100, 350, 250);
+            }
         }
 
         private void CreateIsometricFloor(int blocksize, int blockx, int blocky, ImageSource blocksrc)
@@ -637,7 +654,7 @@ namespace InteractiveTransformA
                         GB.Hide();
                         RB.Hide();
 
-                        Orange.Opacity = 0.2;
+                        Orange.Opacity = 0.05;
 
                         var e = new[] { M, R, G, Y, White, Black };
 

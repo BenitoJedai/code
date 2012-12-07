@@ -40,9 +40,9 @@ namespace InteractiveMatrixTransformB
             var SizeChanged = 0;
             this.SizeChanged += (s, e) =>
             {
-                SizeChanged++;
-                if (SizeChanged != 2)
-                    return;
+                //SizeChanged++;
+                //if (SizeChanged != 2)
+                //    return;
                 InitializeContent();
             };
 
