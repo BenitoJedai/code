@@ -64,8 +64,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             get
             {
-                // fixme: should return .net styled names
-                return InternalFullName;
+                var n = InternalFullName;
+
+           
+
+                return n;
             }
         }
 
@@ -125,7 +128,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return n;
         }
 
-     
+
         public MethodInfo GetMethod(string name, global::System.Type[] parameters)
         {
             var c = new List<java.lang.Class>();
@@ -263,29 +266,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public bool Equals(__Type e)
         {
-            return this == e;
+            return InternalEquals(this, e);
         }
 
         private static bool InternalEquals(__Type e, __Type k)
         {
-            // .net 4.0 seems to also add == operator. jsc should choose equals until then?
-            if (k.InternalTypeDescription.isAssignableFrom(e.InternalTypeDescription))
-                return k.FullName == e.FullName;
-
-            return false;
-        }
-
-
-        public static bool operator !=(__Type left, __Type right)
-        {
-            return !(left == right);
-        }
-
-        public static bool operator ==(__Type left, __Type right)
-        {
             #region null checks
-            var oleft = (object)left;
-            var oright = (object)right;
+            var oleft = (object)e;
+            var oright = (object)k;
 
             if (oleft == null)
             {
@@ -300,6 +288,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System
                     return false;
             }
             #endregion
+
+            // .net 4.0 seems to also add == operator. jsc should choose equals until then?
+            if (k.InternalTypeDescription.isAssignableFrom(e.InternalTypeDescription))
+                return k.FullName == e.FullName;
+
+            return false;
+        }
+
+
+        public static bool operator !=(__Type left, __Type right)
+        {
+            return !InternalEquals(left, right);
+        }
+
+        public static bool operator ==(__Type left, __Type right)
+        {
+
 
             return InternalEquals(left, right);
         }
