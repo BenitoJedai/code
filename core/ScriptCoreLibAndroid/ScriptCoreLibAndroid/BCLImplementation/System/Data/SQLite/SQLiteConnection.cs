@@ -55,11 +55,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             //);
 
 
-            Console.WriteLine(
-                "InternalConnectionString: " + InternalConnectionString + ", " +
-                "InternalDatabaseName: " + InternalDatabaseName + ", " +
-                "InternalReadOnly: " + InternalReadOnly
-            );
+            //Console.WriteLine(
+            //    "InternalConnectionString: " + InternalConnectionString + ", " +
+            //    "InternalDatabaseName: " + InternalDatabaseName + ", " +
+            //    "InternalReadOnly: " + InternalReadOnly
+            //);
 
             this.h = new LocalSQLiteOpenHelper(
                 ThreadLocalContextReference.CurrentContext,

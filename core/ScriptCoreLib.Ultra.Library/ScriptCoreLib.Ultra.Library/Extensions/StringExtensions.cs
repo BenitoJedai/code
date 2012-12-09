@@ -23,6 +23,9 @@ namespace ScriptCoreLib.Extensions
 
         public static string SkipUntilLastIfAny(this string e, string u)
         {
+            if (e == null)
+                return e;
+
             var i = e.LastIndexOf(u);
 
             if (i < 0)

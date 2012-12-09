@@ -160,12 +160,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
             var r = new Func<__CallSite, object, object>(
                 (site, value) =>
                 {
+                    var equals = false;
+
                     var t = default(Type);
 
                     // its the same type. no conversion required!
                     if (value == null)
                     {
-                        // why is the value null?
+                        #region why is the value null?
 
                         if (Convert.type == typeof(int))
                         {
@@ -180,12 +182,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 
                             return value_int64;
                         }
+                        #endregion
                     }
                     else
                     {
                         t = value.GetType();
 
-                        if (t == Convert.type)
+                        equals = t == Convert.type;
+
+                        if (equals)
                             return value;
 
                         if (value is string)
@@ -226,7 +231,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                         context = Convert.context,
 
                         t,
-                        Convert.type
+                        Convert.type,
+                        equals
                     };
 
                     throw new InvalidOperationException(message);

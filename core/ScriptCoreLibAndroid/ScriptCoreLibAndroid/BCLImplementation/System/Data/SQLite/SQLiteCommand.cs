@@ -36,7 +36,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
         internal __InternalCreateStatement InternalCreateStatement()
         {
-            Console.WriteLine("InternalCreateStatement...");
+            //Console.WriteLine("InternalCreateStatement...");
 
             var sql = this.sql;
             var parameters = this.InternalParameters.InternalParameters;
@@ -53,7 +53,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             }
 
 
-            Console.WriteLine("InternalCreateStatement: " + sql);
+            //Console.WriteLine("InternalCreateStatement: " + sql);
 
             // http://stackoverflow.com/questions/8776861/sqlite3-rawquery-update-does-not-work
             // http://stackoverflow.com/questions/9341204/android-sqlite-rawquery-parameters

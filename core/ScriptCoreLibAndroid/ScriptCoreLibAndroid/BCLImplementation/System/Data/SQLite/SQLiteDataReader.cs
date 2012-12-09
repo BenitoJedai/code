@@ -97,7 +97,15 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             // http://developer.android.com/reference/android/database/Cursor.html#FIELD_TYPE_INTEGER
 
             if (t == FIELD_TYPE_INTEGER)
-                return typeof(long);
+            {
+                long int64 = 0;
+                object int64box = int64;
+
+                return int64box.GetType();
+
+                // jsc is giving us the primitive? 
+                //return typeof(long);
+            }
 
             if (t == FIELD_TYPE_STRING)
                 return typeof(string);
