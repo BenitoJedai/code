@@ -58,7 +58,7 @@ package
 		private var w : int = 640;
 		private var h : int = 480;
 
-		private var webcam : Sprite;
+		public var webcam : Sprite;
 		private var faceSprite : Sprite;
 		private var faceRect : Vector3D;
 		
