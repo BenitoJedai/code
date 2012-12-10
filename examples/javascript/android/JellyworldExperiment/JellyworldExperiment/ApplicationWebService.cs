@@ -1,5 +1,6 @@
 using android.content;
 using android.hardware;
+using JellyworldExperiment.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Delegates;
@@ -18,7 +19,7 @@ namespace JellyworldExperiment
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed partial class ApplicationWebService
     {
         /// <summary>
         /// This Method is a javascript callable method.
@@ -34,6 +35,16 @@ namespace JellyworldExperiment
 
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
+            
+            var Accepts = h.Context.Request.Headers["Accept"];
+
+            if (Accepts != null)
+                if (Accepts.Contains(EventSourceGenerator.ContentType))
+                {
+                    // handled in the other handler?
+                    return;
+                }
+
             var path = h.Context.Request.Path;
 
             #region undo asp.net
@@ -51,6 +62,7 @@ namespace JellyworldExperiment
             }
             #endregion
 
+#if false
 
             #region text/event-stream
             // http://www.w3.org/Protocols/HTTP/HTRQ_Headers.html
@@ -94,18 +106,8 @@ namespace JellyworldExperiment
                         };
 
 
-#if DEBUG
-                    for (int i = 0; i < 32; i++)
-                    {
-                        // http://stackoverflow.com/questions/1316681/getting-mouse-position-in-c-sharp
-                        var p = user32.GetCursorPosition();
 
-                        vec3(0, -(p.Y - 200), -p.X);
-                        Thread.Sleep(1000 / 30);
-                    }
-#endif
 
-#if Android
 
                     (ThreadLocalContextReference.CurrentContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager).With(
                         sensorManager =>
@@ -132,7 +134,6 @@ namespace JellyworldExperiment
                         }
                     );
 
-#endif
 
 
 
@@ -143,6 +144,7 @@ namespace JellyworldExperiment
                     return;
                 }
             #endregion
+#endif
 
 
             var apps = new Dictionary<string, string> 

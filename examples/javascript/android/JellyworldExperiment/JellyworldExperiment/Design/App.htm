@@ -4,6 +4,32 @@
     <title>App</title>
 </head>
 <body style="text-align: center; color: white; background-color: black; overflow: hidden;">
-    <pre>Please wait...</pre>
+    <style>
+        body {
+            overflow: hidden;
+            color: white;
+            background: black;
+            text-align: center;
+            margin: 0px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            border-width: 3em;
+            border-style: solid;
+            border-left-color: rgba(255, 0, 0, 0);
+            border-top-color: rgba(255, 0, 0, 1);
+            border-right-color: rgba(255, 0, 0, 0);
+            border-bottom-color: rgba(255, 0, 0, 0);
+        }
+
+        .init {
+            position: absolute;
+            top: -2em;
+        }
+    </style>
+
+    <center id="init" class="init"><code>initializing, please wait...</code></center>
 </body>
 </html>

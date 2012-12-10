@@ -43,6 +43,8 @@ namespace JellyworldExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            var borders = Native.Document.body;
+
             #region /HardwareDetection
 
             new IHTMLPre
@@ -71,6 +73,53 @@ namespace JellyworldExperiment
                 innerText = "Screen is " + Native.Screen.width + "x" + Native.Screen.height + "..."
             }.AttachToDocument();
 
+
+            dynamic ss = borders.style;
+
+            ss.webkitTransition = "all 0.3s linear";
+
+
+            #region FlashGreen
+            Action<Action> FlashGreen =
+                yield =>
+                {
+                    page.init.Hide();
+
+
+                    borders.style.borderRightColor = "rgba(0, 255, 0, 0.5)";
+                    borders.style.borderLeftColor = "rgba(0, 255, 0, 0.5)";
+                    borders.style.borderBottomColor = "rgba(0, 255, 0, 0.5)";
+                    borders.style.borderTopColor = "rgba(0, 255, 0, 0.5)";
+
+                    new ScriptCoreLib.JavaScript.Runtime.Timer(
+                        delegate
+                        {
+                            borders.style.borderRightColor = "rgba(255, 255, 0, 0)";
+                            borders.style.borderLeftColor = "rgba(255, 255, 0, 0)";
+                            borders.style.borderBottomColor = "rgba(255, 255, 0, 0)";
+                            borders.style.borderTopColor = "rgba(255, 255, 0, 0)";
+
+                            yield();
+                        }
+                    ).StartTimeout(500);
+                };
+            #endregion
+
+
+
+            var disable_ondeviceorientation = false;
+
+            var errortimer = new ScriptCoreLib.JavaScript.Runtime.Timer(
+                delegate
+                {
+                    disable_ondeviceorientation = true;
+                    borders.style.borderRightColor = "rgba(255, 0, 0, 0.2)";
+                    borders.style.borderLeftColor = "rgba(255, 0, 0, 0.2)";
+                    borders.style.borderBottomColor = "rgba(255, 0, 0, 0.2)";
+                    borders.style.borderTopColor = "rgba(255, 0, 0, 0.2)";
+                }
+            );
+
             new IHTMLIFrame { src = "/HardwareDetection" }.With(
                 HardwareDetection =>
                 {
@@ -80,34 +129,253 @@ namespace JellyworldExperiment
                     HardwareDetection.style.display = IStyle.DisplayEnum.none;
 
                     Native.Window.onmessage +=
-                      e =>
+                      ee =>
                       {
                           // stop listening
                           if (HardwareDetection == null)
                               return;
 
                           // am i talking to you?
-                          if (e.source != HardwareDetection.contentWindow)
+                          if (ee.source != HardwareDetection.contentWindow)
                               return;
 
-                          var data = "" + e.data;
+                          var data = "" + ee.data;
 
                           var pre = new IHTMLPre
                           {
-                              innerText = e.data + "..."
+                              innerText = data + "..."
                           }.AttachToDocument();
 
                           // android 2.3 wont find this.
+                          #region Found orientation sensor
                           if (data == "Found orientation sensor")
                           {
+                              Native.Document.title = "Sensor mode";
 
-                           
+                              FlashGreen(
+                                  delegate
+                                  {
+                                      var goup = false;
+                                      var goright = false;
+                                      var godown = false;
+                                      var goleft = false;
 
+                                      var zyx = new IHTMLPre { innerText = "" }.AttachToDocument();
+
+                                      #region ondeviceorientation
+                                      Native.Window.ondeviceorientation +=
+                                          e =>
+                                          {
+                                              if (disable_ondeviceorientation)
+                                              {
+
+                                                  return;
+                                              }
+
+
+                                              #region desktop chrome misreports?
+                                              // Uncaught ReferenceError: alpha is not defined 
+                                              if ("this.alpha == null".js<bool>(e))
+                                              {
+                                                  return;
+                                              }
+                                              #endregion
+
+
+                                              // http://code.google.com/p/chromium/issues/detail?id=135317
+                                              var orientation = Native.Window.orientation;
+
+                                              e.preventDefault();
+                                              e.stopPropagation();
+
+                                              zyx.innerText = new
+                                              {
+                                                  alpha = (int)e.alpha,
+                                                  beta = (int)e.beta,
+                                                  gamma = (int)e.gamma,
+                                                  orientation
+                                              }.ToString();
+
+
+                                              borders.style.borderRightColor = "rgba(255, 255, 255, 0.0)";
+                                              borders.style.borderLeftColor = "rgba(255, 255, 255, 0.0)";
+                                              borders.style.borderBottomColor = "rgba(255, 255, 255, 0.0)";
+                                              borders.style.borderTopColor = "rgba(255, 255, 255, 0.0)";
+
+                                              goup = false;
+                                              goright = false;
+                                              godown = false;
+                                              goleft = false;
+
+                                              #region decide
+                                              Action<double, double> decide =
+                                                  (movementY, movementZ) =>
+                                                  {
+
+
+                                                      if (movementY < 35)
+                                                      {
+                                                          // device is on the table. discard the sensor.
+                                                          if (movementY > 5)
+                                                          {
+                                                              borders.style.borderTopColor = "rgba(0, 255, 0, 1.0)";
+                                                              goup = true;
+                                                          }
+                                                      }
+                                                      //else if (movementY > 33)
+                                                      else if (movementY > 60)
+                                                      {
+                                                          borders.style.borderBottomColor = "rgba(255, 0, 0, 1)";
+                                                          godown = true;
+                                                      }
+
+                                                      if (movementZ < -10)
+                                                      {
+                                                          goleft = true;
+                                                          borders.style.borderLeftColor = "rgba(255, 255, 0, 0.5)";
+                                                      }
+                                                      else if (movementZ > 10)
+                                                      {
+                                                          goright = true;
+                                                          borders.style.borderRightColor = "rgba(255, 255, 0, 0.5)";
+
+                                                      }
+                                                  };
+                                              #endregion
+
+                                              //if (movementY < -2)
+                                              if (orientation == 0)
+                                              {
+                                                  //  which is it 0 or 180
+
+                                                  var movementY = e.beta;
+                                                  var movementZ = e.gamma;
+
+                                                  if (e.beta < 0)
+                                                  {
+                                                      // up side down!
+                                                      movementY = -e.beta;
+                                                      movementZ = -e.gamma;
+                                                  }
+
+                                                  decide(movementY, movementZ);
+                                              }
+                                              else if (orientation == 180)
+                                              {
+                                                  // when is 180 reported?
+
+                                                  var movementY = -e.beta;
+                                                  var movementZ = -e.gamma;
+
+
+                                                  decide(movementY, movementZ);
+
+                                              }
+                                              #region landscape
+                                              else if (orientation == -90)
+                                              {
+                                                  var movementY = e.gamma;
+                                                  var movementZ = -e.beta;
+
+                                                  decide(movementY, movementZ);
+
+                                              }
+                                              else if (orientation == 90)
+                                              {
+                                                  var movementY = -e.gamma;
+                                                  var movementZ = e.beta;
+
+                                                  decide(movementY, movementZ);
+
+                                              }
+                                              #endregion
+
+                                          };
+                                      #endregion
+
+
+                                      var id = new Random().Next();
+                                      var frame = 0;
+
+                                      #region loop
+                                      Action loop = null;
+
+                                      //var zdx = 0;
+                                      //var zdy = 0;
+                                      var zgoup = false;
+                                      var zgoright = false;
+                                      var zgodown = false;
+                                      var zgoleft = false;
+
+                                      loop = delegate
+                                      {
+                                          frame++;
+
+
+
+                                          if (frame > 1)
+                                              if (zgoup == goup)
+                                                  if (zgoright == goright)
+                                                      if (zgodown == godown)
+                                                          if (zgoleft == goleft)
+                                                          {
+                                                              // check again
+                                                              Native.Window.requestAnimationFrame += loop;
+
+                                                              return;
+                                                          }
+
+                                          //zdx = dx;
+                                          //zdy = dy;
+
+                                          zgoup = goup;
+                                          zgoright = goright;
+                                          zgodown = godown;
+                                          zgoleft = goleft;
+
+                                          //dx = 0;
+                                          //dy = 0;
+
+                                          errortimer.Stop();
+                                          errortimer.StartTimeout(2000);
+
+                                          service.AtFrame(
+                                              "" + id,
+                                              "" + frame,
+
+
+                                              goleft: "" + System.Convert.ToInt32(zgoleft),
+                                              goup: "" + System.Convert.ToInt32(zgoup),
+                                              goright: "" + System.Convert.ToInt32(zgoright),
+                                              godown: "" + System.Convert.ToInt32(zgodown),
+
+                                              yield:
+                                                  delegate
+                                                  {
+                                                      disable_ondeviceorientation = false;
+                                                      errortimer.Stop();
+
+                                                      Native.Window.requestAnimationFrame += loop;
+                                                  }
+                                          );
+
+
+                                      };
+
+                                      Native.Window.requestAnimationFrame += loop;
+                                      #endregion
+                                  }
+                              );
                           }
+                          #endregion
 
 
+
+                          #region Found flash camera
                           if (data == "Found flash camera")
                           {
+                              Native.Document.title = "Camera mode";
+
                               Action open =
                                   delegate
                                   {
@@ -125,13 +393,20 @@ namespace JellyworldExperiment
                                         {
                                             DualViewWithCamera.style.position = IStyle.PositionEnum.absolute;
                                             DualViewWithCamera.style.left = "0px";
-                                            DualViewWithCamera.style.top = "0px";
+                                            DualViewWithCamera.style.top = "-100%";
                                             DualViewWithCamera.style.width = "100%";
                                             DualViewWithCamera.style.height = "100%";
 
                                             DualViewWithCamera.onload +=
                                                 delegate
                                                 {
+
+
+                                                    // that iframe will have its own borders now.
+                                                    Native.Document.body.style.borderWidth = "0px";
+
+                                                    DualViewWithCamera.style.top = "0px";
+
                                                     new IHTMLPre
                                                     {
                                                         innerText = "Then, open left and/or right screen..."
@@ -153,13 +428,22 @@ namespace JellyworldExperiment
                                                     }.AttachToDocument();
                                                 };
 
-                                            DualViewWithCamera.AttachToDocument();
+
+                                            FlashGreen(
+                                                delegate
+                                                {
+                                                    ss.webkitTransition = "";
+                                                    DualViewWithCamera.AttachToDocument();
+                                                }
+                                            );
                                         }
                                       );
                                   };
 
                               open();
                           }
+                          #endregion
+
 
                           // if we found a camera
                           //// thanks for info. you are done!
@@ -173,12 +457,7 @@ namespace JellyworldExperiment
             #endregion
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
     }
@@ -211,32 +490,33 @@ namespace JellyworldExperiment
 
         public Application_DualViewWithCamera(global::JellyworldExperiment.DualViewWithCamera.HTML.Pages.IApp page)
         {
-            var borders = new IHTMLDiv();
 
-            borders.style.position = IStyle.PositionEnum.absolute;
-            borders.style.left = "0px";
-            borders.style.top = "0px";
-            borders.style.right = "0px";
-            borders.style.bottom = "0px";
+            IHTMLElement borders = null;
 
-            borders.style.borderLeftColor = "rgba(255, 255, 255, 0.3)";
-            borders.style.borderWidth = "3em";
-            borders.style.borderStyle = "solid";
 
-            borders.AttachToDocument();
 
-            var sprite = new ApplicationSprite();
+            ApplicationSprite sprite = null;
 
-            sprite.ToTransparentSprite();
+            if (Native.Document.location.hash == "")
+            {
+                sprite = new ApplicationSprite();
+                sprite.ToTransparentSprite();
+                sprite.AutoSizeSpriteTo(page.ContentSize);
+                page.Content.AttachToDocument();
+                sprite.AttachSpriteTo(page.Content);
+                sprite.InitializeContent();
 
-            sprite.AutoSizeSpriteTo(page.ContentSize);
 
-            page.Content.AttachToDocument();
+                borders = Native.Document.body;
 
-            sprite.AttachSpriteTo(page.Content);
+                borders.style.margin = "0em";
+                borders.style.borderWidth = "3em";
+                borders.style.borderStyle = "solid";
 
-            sprite.InitializeContent();
+                dynamic ss = borders.style;
 
+                ss.webkitTransition = "all 0.3s linear";
+            }
 
             var app = new JellyworldExperiment.DualView.HTML.Pages.App();
 
@@ -250,105 +530,127 @@ namespace JellyworldExperiment
 
             var xapp = new JellyworldExperiment.DualView.Application(app);
 
-            sprite.AverageChanged +=
-                (Left, Top, Width, Height) =>
-                {
-                    xapp.FaceDetectedAt(
-                        int.Parse(Left),
-                        int.Parse(Top),
-                        int.Parse(Width),
-                        int.Parse(Height)
-                    );
-                };
+            if (Native.Document.location.hash == "")
+            {
+                sprite.AverageChanged +=
+                    (Left, Top, Width, Height) =>
+                    {
+                        xapp.FaceDetectedAt(
+                            int.Parse(Left),
+                            int.Parse(Top),
+                            int.Parse(Width),
+                            int.Parse(Height)
+                        );
+                    };
+            }
 
             app.SimulateFace.Hide();
             app.Automatisation.Hide();
             app.StyleMe.style.color = JSColor.White;
 
-
-
-            var movementX = 0.0;
-            var movementY = 0.0;
-            var movementZ = 0.0;
-
-            try
+            if (Native.Document.location.hash == "")
             {
-                // this is like a ComponentModel timer where handler can raise events
 
-                dynamic ss = borders.style;
 
-                ss.webkitTransition = "all 0.3s linear";
+                #region EventSource
+                try
+                {
+                    // this is like a ComponentModel timer where handler can raise events
 
-                var events = new EventSource();
+                    var status = new IHTMLPre { innerText = "" }.AttachToDocument();
+                    //var onmessage = new IHTMLPre { innerText = "" }.AttachToDocument();
+                    status.style.color = JSColor.Gray;
+                    status.style.Float = IStyle.FloatEnum.right;
 
-                events.onerror +=
-                    delegate
-                    {
-                        borders.style.borderRightColor = "rgba(255, 0, 0, 0.5)";
-                        borders.style.borderLeftColor = "rgba(255, 0, 0, 0.5)";
-                        borders.style.borderBottomColor = "rgba(255, 0, 0, 0.5)";
-                        borders.style.borderTopColor = "rgba(255, 0, 0, 0.5)";
-                    };
+                    new EventSource().With(
+                      s =>
+                      {
+                          //s.status =
+                          s["status"] =
+                              e =>
+                              {
+                                  //Native.Document.title = "" + e.data;
+                                  status.innerText = "" + e.data;
+                              };
 
-                events.onmessage +=
-                     e =>
-                     {
 
-                         var xml = XElement.Parse((string)e.data);
 
-                         movementX = double.Parse(xml.Attribute("x").Value);
-                         movementY = -double.Parse(xml.Attribute("y").Value);
-                         movementZ = -double.Parse(xml.Attribute("z").Value);
+                          s.onerror +=
+                              e =>
+                              {
+                                  //Native.Document.title = "error";
+                                  //errortimer.StartTimeout(500);
+                              };
 
-                         Console.WriteLine(
-                             new { movementX, movementY, movementZ }
-                             );
+                          #region onmessage
+                          s.onmessage +=
+                              e =>
+                              {
+                                  //errortimer.Stop();
+                                  status.innerText = "..";
 
-                         borders.style.borderRightColor = "rgba(255, 255, 255, 0.0)";
-                         borders.style.borderLeftColor = "rgba(255, 255, 255, 0.0)";
-                         borders.style.borderBottomColor = "rgba(255, 255, 255, 0.0)";
-                         borders.style.borderTopColor = "rgba(255, 255, 255, 0.0)";
+                                  var xml = "" + e.data;
+                                  var data = XElement.Parse(xml);
 
-                         xapp.forward = false;
-                         xapp.backward = false;
-                         xapp.strafeleft = false;
-                         xapp.straferight = false;
 
-                         if (movementY < -2)
-                         {
-                             borders.style.borderTopColor = "rgba(255, 255, 255, 0.3)";
-                             xapp.forward = true;
-                         }
-                         else if (movementY > 33)
-                         {
-                             borders.style.borderBottomColor = "rgba(255, 255, 255, 0.3)";
-                             xapp.backward = true;
-                         }
+                                  bool
+                                      goleft = 0 < long.Parse(data.Attribute("goleft").Value),
+                                      goup = 0 < long.Parse(data.Attribute("goup").Value),
+                                      goright = 0 < long.Parse(data.Attribute("goright").Value),
+                                      godown = 0 < long.Parse(data.Attribute("godown").Value);
 
-                         if (movementZ < -15)
-                         {
-                             xapp.strafeleft = true;
-                             borders.style.borderLeftColor = "rgba(255, 255, 255, 0.3)";
-                         }
-                         else if (movementZ > 15)
-                         {
-                             borders.style.borderRightColor = "rgba(255, 255, 255, 0.3)";
-                             xapp.straferight = true;
+                                  status.innerText = new { goleft, goup, goright, godown }.ToString();
 
-                         }
 
-                         xapp.AfterKeystateChange();
+                                  borders.style.borderRightColor = "rgba(255, 255, 0, 0)";
+                                  borders.style.borderLeftColor = "rgba(255, 255, 0, 0)";
+                                  borders.style.borderBottomColor = "rgba(255, 255, 0, 0)";
+                                  borders.style.borderTopColor = "rgba(255, 255, 0, 0)";
 
-                         //page.Content.Clear();
+                                  xapp.forward = false;
+                                  xapp.backward = false;
+                                  xapp.strafeleft = false;
+                                  xapp.straferight = false;
 
-                         //new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.Content);
-                     };
+
+
+                                  if (goup)
+                                  {
+                                      borders.style.borderTopColor = "rgba(0, 255, 0, 1.0)";
+                                      xapp.forward = true;
+                                  }
+                                  else if (godown)
+                                  {
+                                      borders.style.borderBottomColor = "rgba(255, 0, 0, 1.0)";
+                                      xapp.backward = true;
+                                  }
+                                  if (goleft)
+                                  {
+                                      xapp.strafeleft = true;
+                                      borders.style.borderLeftColor = "rgba(255, 255, 0, 0.2)";
+                                  }
+                                  else if (goright)
+                                  {
+                                      xapp.straferight = true;
+                                      borders.style.borderRightColor = "rgba(255, 255, 0, 0.2)";
+                                  }
+
+                                  xapp.AfterKeystateChange();
+                              };
+                          #endregion
+
+                      }
+                    );
+
+
+                }
+                catch
+                {
+                    // not available on built in web browser for android
+                }
+                #endregion
+
             }
-            catch
-            {
-                // not available on built in web browser for android
-            }
-
 
 
         }

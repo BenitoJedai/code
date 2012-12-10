@@ -1,0 +1,2 @@
+﻿Notice that we will need full build of ScriptCoreLib.
+

@@ -137,6 +137,7 @@ namespace JellyworldExperiment.DualView
                             {
                                 var data = XElement.Parse("" + e.data);
 
+                                #region shared.perspective
                                 if (data.Name.LocalName == "shared.perspective")
                                 {
                                     w.viewport.node.style.width = "200%";
@@ -160,6 +161,9 @@ namespace JellyworldExperiment.DualView
                                     //{
                                     //}
                                 }
+                                #endregion
+
+                                var hasupdate = true;
 
                                 if (data.Name.LocalName == "keyState")
                                 {
@@ -167,7 +171,6 @@ namespace JellyworldExperiment.DualView
                                     w.keyState.backward = bool_Parse(data.Attribute("s").Value);
                                     w.keyState.strafeleft = bool_Parse(data.Attribute("a").Value);
                                     w.keyState.straferight = bool_Parse(data.Attribute("d").Value);
-
 
 
                                 }
@@ -217,11 +220,14 @@ namespace JellyworldExperiment.DualView
                                     }
                                     else
                                     {
+                                        hasupdate = false;
+
                                         if (qx.newvalue != qx.oldvalue)
                                         {
                                             qx.dx = qx.newvalue - qx.oldvalue;
                                             qx.oldvalue = qx.newvalue;
                                             w.viewport.camera.rotation.x -= qx.dx * 0.2 * s;
+                                            hasupdate = true;
                                         }
 
                                         if (qy.newvalue != qy.oldvalue)
@@ -246,6 +252,7 @@ namespace JellyworldExperiment.DualView
                                                 w.viewport.camera.rotation.y = 0;
                                             else
                                                 w.viewport.camera.rotation.y = newy;
+                                            hasupdate = true;
                                         }
 
                                         if (qz.newvalue != qz.oldvalue)
@@ -253,6 +260,7 @@ namespace JellyworldExperiment.DualView
                                             qz.dx = qz.newvalue - qz.oldvalue;
                                             qz.oldvalue = qz.newvalue;
                                             w.viewport.camera.rotation.z -= qz.dx * 0.5 * s;
+                                            hasupdate = true;
                                         }
 
 
@@ -261,6 +269,7 @@ namespace JellyworldExperiment.DualView
                                             //qz.dx = qz.newvalue - qz.oldvalue;
                                             qp.oldvalue = qp.newvalue;
                                             w.viewport.node.style.perspective = "" + (500 + qp.newvalue * 4 * s);
+                                            hasupdate = true;
                                         }
                                     }
 
@@ -269,7 +278,9 @@ namespace JellyworldExperiment.DualView
                                 }
 
                                 //c.innerText = new { data, dx, newvalue, oldvalue }.ToString();
-                                c.innerText = data.ToString();
+
+                                if (hasupdate)
+                                    c.innerText = data.ToString();
 
 
                                 //oldvalue = newvalue;
@@ -487,6 +498,8 @@ namespace JellyworldExperiment.DualView
                            new XAttribute("a", "" + strafeleft),
                            new XAttribute("d", "" + straferight)
                        );
+
+                    Console.WriteLine("AfterKeystateChange: " + data);
 
                     if (wLeftScreen != null)
                         wLeftScreen.postMessage(data.ToString());
