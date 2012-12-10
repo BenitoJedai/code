@@ -192,11 +192,24 @@ namespace JellyworldExperiment.DualView
 
                                         }
                                     );
-
-
-
-
                                 }
+
+                                if (data.Name.LocalName == "ChangeRotationBy")
+                                {
+                                    new
+                                    {
+                                        x = int.Parse(data.Attribute("x").Value),
+                                        y = int.Parse(data.Attribute("y").Value),
+                                    }.With(
+                                        r =>
+                                        {
+                                            w.viewport.camera.rotation.x -= r.y;
+                                            w.viewport.camera.rotation.z += r.x;
+
+                                        }
+                                    );
+                                }
+
 
                                 if (data.Name.LocalName == "range")
                                 {
@@ -509,6 +522,23 @@ namespace JellyworldExperiment.DualView
 
                 };
 
+            ChangeRotationBy =
+                (x, y) =>
+                {
+                    var data = new XElement("ChangeRotationBy",
+                        new XAttribute("x", "" + x),
+                        new XAttribute("y", "" + y)
+                    );
+
+                    Console.WriteLine("AfterKeystateChange: " + data);
+
+                    if (wLeftScreen != null)
+                        wLeftScreen.postMessage(data.ToString());
+
+                    if (wRightScreen != null)
+                        wRightScreen.postMessage(data.ToString());
+                };
+
             #region onkeydown
             Native.Document.body.onkeydown += e =>
             {
@@ -609,18 +639,40 @@ namespace JellyworldExperiment.DualView
             #endregion
 
 
-            page.AskForDragPermission.onmousedown +=
+            Native.Document.body.onmousedown +=
                 e =>
                 {
-                    e.PreventDefault();
-                    e.CaptureMouse();
+                    if (e.Element != page.AskForDragPermission)
+                        if (e.Element != Native.Document.body)
+                        {
+                            return;
+                        }
+
+                    e.preventDefault();
 
                     Native.Document.body.requestPointerLock();
                 };
 
-            page.AskForDragPermission.onmouseup +=
-               delegate
+            Native.Document.body.onmousemove +=
+                e =>
+                {
+                    if (Native.Document.pointerLockElement != Native.Document.body)
+                        return;
+
+
+                    this.ChangeRotationBy(
+                        e.movementX,
+                        e.movementY
+                    );
+
+                };
+
+            Native.Document.body.onmouseup +=
+               e =>
                {
+                   if (Native.Document.pointerLockElement != Native.Document.body)
+                       return;
+
                    Native.Document.exitPointerLock();
                };
 
@@ -660,5 +712,7 @@ namespace JellyworldExperiment.DualView
         public Action AfterKeystateChange;
 
         public Action<int, int, int, int> FaceDetectedAt;
+
+        public Action<int, int> ChangeRotationBy;
     }
 }
