@@ -8,7 +8,7 @@ using System.Reflection;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle(@"The Jellyworld Experiment")]
-[assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
+[assembly: AssemblyDescription(@"A demonstration of complex multiscreen cient server application.")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
 [assembly: AssemblyProduct(@"WebApplication")]
 [assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2012")]

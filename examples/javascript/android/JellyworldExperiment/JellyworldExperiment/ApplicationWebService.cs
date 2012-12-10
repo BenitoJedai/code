@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Linq;
 
-namespace com.abstractatech.gamification.jellyworldexperiment
+namespace com.abstractatech.gamification.jwe
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -62,96 +62,13 @@ namespace com.abstractatech.gamification.jellyworldexperiment
             }
             #endregion
 
-#if false
-
-            #region text/event-stream
-            // http://www.w3.org/Protocols/HTTP/HTRQ_Headers.html
-            var Accepts = h.Context.Request.Headers["Accept"];
-
-            if (Accepts != null)
-                if (Accepts.Contains("text/event-stream"))
-                {
-                    h.Context.Response.ContentType = "text/event-stream";
-
-                    Action<XElement> data =
-                        xml =>
-                        {
-                            h.Context.Response.Write("data: " + xml.ToString() + "\n\n");
-                            h.Context.Response.Flush();
-                        };
-
-                    double qx = 0.0, qy = 0.0, qz = 0.0;
-
-                    Action<float, float, float> vec3 =
-                        (x, y, z) =>
-                        {
-                            if (qx == x)
-                                if (qy == y)
-                                    if (qz == z)
-                                        return;
-
-                            //Console.WriteLine(new { x, y, z });
-
-                            qx = x;
-                            qy = y;
-                            qz = z;
-
-                            data(
-                                new XElement("onaccelerometer",
-                                    new XAttribute("x", "" + x),
-                                    new XAttribute("y", "" + y),
-                                    new XAttribute("z", "" + z)
-                                )
-                            );
-                        };
-
-
-
-
-
-                    (ThreadLocalContextReference.CurrentContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager).With(
-                        sensorManager =>
-                        {
-                            var value = new MySensorEventListener { onaccelerometer = vec3 };
-
-                            try
-                            {
-                                Console.WriteLine("registerListener");
-                                sensorManager.registerListener(
-                                    value,
-                                    //sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                                    sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-                                    SensorManager.SENSOR_DELAY_GAME
-                                );
-
-                                Thread.Sleep(10000);
-                            }
-                            finally
-                            {
-                                Console.WriteLine("unregisterListener");
-                                sensorManager.unregisterListener(value);
-                            }
-                        }
-                    );
-
-
-
-
-                    h.Context.Response.Write("retry: 1\n\n");
-                    h.Context.Response.Flush();
-
-                    h.CompleteRequest();
-                    return;
-                }
-            #endregion
-#endif
 
 
             var apps = new Dictionary<string, string> 
             {
                 {"", "Application"},
-                {"HardwareDetection", "Application_HardwareDetection"},
-                {"DualViewWithCamera", "Application_DualViewWithCamera"},
+                {"HardwareDetection", "__HardwareDetection"},
+                {"DualViewWithCamera", "__WithCamera"},
 
                 
 

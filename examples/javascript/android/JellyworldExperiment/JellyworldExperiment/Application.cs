@@ -549,10 +549,10 @@ namespace com.abstractatech.gamification.jwe
     }
 
     [Obsolete("Temporary workaround to enable multiple apps.")]
-    public sealed class Application_DualViewWithCamera
+    public sealed class __WithCamera
     {
         [Obsolete("Temporary workaround to enable multiple apps.")]
-        public sealed class ApplicationSprite : Sprite, JellyworldExperiment.DualViewWithCamera.IApplicationSprite
+        public sealed class __Sprite : Sprite, JellyworldExperiment.DualViewWithCamera.IApplicationSprite
         {
             public void InitializeContent()
             {
@@ -574,18 +574,18 @@ namespace com.abstractatech.gamification.jwe
 
         }
 
-        public Application_DualViewWithCamera(global::JellyworldExperiment.DualViewWithCamera.HTML.Pages.IApp page)
+        public __WithCamera(global::JellyworldExperiment.DualViewWithCamera.HTML.Pages.IApp page)
         {
 
             IHTMLElement borders = null;
 
 
 
-            ApplicationSprite sprite = null;
+            __Sprite sprite = null;
 
             if (Native.Document.location.hash == "")
             {
-                sprite = new ApplicationSprite();
+                sprite = new __Sprite();
                 sprite.ToTransparentSprite();
                 sprite.AutoSizeSpriteTo(page.ContentSize);
                 page.Content.AttachToDocument();
@@ -759,11 +759,11 @@ namespace com.abstractatech.gamification.jwe
     }
 
     [Obsolete("Temporary workaround to enable multiple apps.")]
-    public sealed class Application_HardwareDetection
+    public sealed class __HardwareDetection
     {
         #region Application_HardwareDetection_Sprite
         [Obsolete("Temporary workaround to enable multiple apps.")]
-        public sealed class Application_HardwareDetection_Sprite : Sprite, IApplicationSprite
+        public sealed class __Sprite : Sprite, IApplicationSprite
         {
             public event Action FoundMutedCamera;
             public event Action FoundUnmutedCamera;
@@ -802,10 +802,10 @@ namespace com.abstractatech.gamification.jwe
             }
         }
 
-        public readonly Application_HardwareDetection_Sprite sprite = new Application_HardwareDetection_Sprite();
+        public readonly __Sprite sprite = new __Sprite();
         #endregion
 
-        public Application_HardwareDetection(global::JellyworldExperiment.HardwareDetection.HTML.Pages.IApp page)
+        public __HardwareDetection(global::JellyworldExperiment.HardwareDetection.HTML.Pages.IApp page)
         {
             // Initialize ApplicationSprite
             sprite.AttachSpriteTo(page.Content);
