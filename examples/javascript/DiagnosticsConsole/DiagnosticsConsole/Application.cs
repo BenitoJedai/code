@@ -55,6 +55,13 @@ namespace DiagnosticsConsole
                     diagnostics.style.backgroundColor = "rgba(255, 255, 255, 0)";
                 };
 
+            Action Show =
+                delegate
+                {
+                    diagnostics.style.top = "0%";
+                    diagnostics.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
+                };
+
             Action Toggle =
                 delegate
                 {
@@ -65,8 +72,7 @@ namespace DiagnosticsConsole
                     }
                     else
                     {
-                        diagnostics.style.top = "0%";
-                        diagnostics.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
+                        Show();
 
                     }
                 };
@@ -117,6 +123,17 @@ namespace DiagnosticsConsole
                     AtKeyCode(e.KeyCode);
                 };
 
+            Native.Window.onorientationchange +=
+                delegate
+                {
+                    if (Native.Window.orientation == 90)
+                        Show();
+                    else if (Native.Window.orientation == -90)
+                        Show();
+                    else
+                        Hide();
+
+                };
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
