@@ -16,7 +16,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using JellyworldExperiment.HardwareDetection;
 using ScriptCoreLib.JavaScript.Runtime;
 
-namespace JellyworldExperiment
+namespace com.abstractatech.gamification.jwe
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -160,15 +160,93 @@ namespace JellyworldExperiment
                                       var godown = false;
                                       var goleft = false;
 
+
+                                      var dx = 0;
+                                      var dy = 0;
+
+                                      var dxdy = new IHTMLPre { innerText = "" }.AttachToDocument();
+
+                                      var disable_ondeviceorientation_bytouch = false;
+
+                                      #region ontouchmove
+                                      var touchx = 0;
+                                      var touchy = 0;
+
+
+                                      Native.Document.body.ontouchend +=
+                                          e =>
+                                          {
+
+                                              //Native.Document.body.style.backgroundColor = JSColor.None;
+
+
+                                          };
+
+                                      Native.Document.body.ontouchstart +=
+                                       e =>
+                                       {
+                                           //Native.Document.body.style.backgroundColor = JSColor.Yellow;
+                                           touchx = e.touches[0].pageX;
+                                           touchy = e.touches[0].pageY;
+
+                                           e.preventDefault();
+
+                                           // special rule:
+                                           //goupspecial = true;
+                                       };
+
+                                      Native.Document.body.ontouchmove +=
+                                        e =>
+                                        {
+
+                                            e.preventDefault();
+
+                                            var ztouchx = e.touches[0].pageX;
+                                            var ztouchy = e.touches[0].pageY;
+
+                                            dy += (ztouchy - touchy);
+                                            dx += (ztouchx - touchx);
+
+                                            if (dx > 0)
+
+                                                borders.style.borderRightColor = "rgba(0, 255, 0, 0.5)";
+                                            if (dx < 0)
+                                                borders.style.borderLeftColor = "rgba(0, 255, 0, 0.5)";
+                                            if (dy > 0)
+                                                borders.style.borderBottomColor = "rgba(0, 255, 0, 0.5)";
+                                            if (dy < 0)
+                                                borders.style.borderTopColor = "rgba(0, 255, 0, 0.5)";
+
+
+                                            //shadow_table_dx += (ztouchx - touchx);
+                                            //shadow_table_dy += (ztouchy - touchy);
+                                            //shadow_table.style.SetLocation(shadow_table_dx, shadow_table_dy);
+
+                                            dxdy.innerText = new { dx, dy }.ToString();
+
+
+
+                                            touchx = ztouchx;
+                                            touchy = ztouchy;
+                                        };
+                                      #endregion
+
+
                                       var zyx = new IHTMLPre { innerText = "" }.AttachToDocument();
+
+
 
                                       #region ondeviceorientation
                                       Native.Window.ondeviceorientation +=
                                           e =>
                                           {
+                                              if (disable_ondeviceorientation_bytouch)
+                                              {
+                                                  return;
+                                              }
+
                                               if (disable_ondeviceorientation)
                                               {
-
                                                   return;
                                               }
 
@@ -300,8 +378,8 @@ namespace JellyworldExperiment
                                       #region loop
                                       Action loop = null;
 
-                                      //var zdx = 0;
-                                      //var zdy = 0;
+                                      var zdx = 0;
+                                      var zdy = 0;
                                       var zgoup = false;
                                       var zgoright = false;
                                       var zgodown = false;
@@ -314,35 +392,43 @@ namespace JellyworldExperiment
 
 
                                           if (frame > 1)
-                                              if (zgoup == goup)
-                                                  if (zgoright == goright)
-                                                      if (zgodown == godown)
-                                                          if (zgoleft == goleft)
-                                                          {
-                                                              // check again
-                                                              Native.Window.requestAnimationFrame += loop;
 
-                                                              return;
-                                                          }
+                                              if (dx == zdx)
+                                                  if (dy == zdy)
 
-                                          //zdx = dx;
-                                          //zdy = dy;
+                                                      if (zgoup == goup)
+                                                          if (zgoright == goright)
+                                                              if (zgodown == godown)
+                                                                  if (zgoleft == goleft)
+                                                                  {
+                                                                      // check again
+                                                                      Native.Window.requestAnimationFrame += loop;
+
+                                                                      return;
+                                                                  }
+
+                                          zdx = dx;
+                                          zdy = dy;
 
                                           zgoup = goup;
                                           zgoright = goright;
                                           zgodown = godown;
                                           zgoleft = goleft;
 
-                                          //dx = 0;
-                                          //dy = 0;
+                                          dx = 0;
+                                          dy = 0;
 
                                           errortimer.Stop();
                                           errortimer.StartTimeout(2000);
+
 
                                           service.AtFrame(
                                               "" + id,
                                               "" + frame,
 
+
+                                              dx: "" + zdx,
+                                              dy: "" + zdy,
 
                                               goleft: "" + System.Convert.ToInt32(zgoleft),
                                               goup: "" + System.Convert.ToInt32(zgoup),
@@ -592,6 +678,22 @@ namespace JellyworldExperiment
                                   var xml = "" + e.data;
                                   var data = XElement.Parse(xml);
 
+                                  long
+                                   last_ms = long.Parse(data.Attribute("last_ms").Value),
+
+                                   x = long.Parse(data.Attribute("x").Value),
+                                   y = long.Parse(data.Attribute("y").Value);
+
+                                  if (x != 0)
+                                      if (y != 0)
+                                      {
+
+                                          // less sensitivity, due to higher dpi?
+                                          var report_dx = (int)(x * 0.3);
+                                          var report_dy = (int)(y * 0.3);
+
+                                          xapp.ChangeRotationBy(report_dx, report_dy);
+                                      }
 
                                   bool
                                       goleft = 0 < long.Parse(data.Attribute("goleft").Value),
@@ -750,9 +852,9 @@ namespace JellyworldExperiment
                              // Uncaught ReferenceError: alpha is not defined 
                              if ("this.alpha == null".js<bool>(eventData))
                              {
-                                 Console.WriteLine("ondeviceorientation without alpha? " + eventData);
-                                 Console.WriteLine("ondeviceorientation without alpha? " + eventData.alpha);
-                                 Console.WriteLine("ondeviceorientation without alpha? ");
+                                 //Console.WriteLine("ondeviceorientation without alpha? " + eventData);
+                                 //Console.WriteLine("ondeviceorientation without alpha? " + eventData.alpha);
+                                 //Console.WriteLine("ondeviceorientation without alpha? ");
                                  return;
                              }
                              #endregion

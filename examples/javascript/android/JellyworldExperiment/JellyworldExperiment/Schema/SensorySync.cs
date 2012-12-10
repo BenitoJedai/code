@@ -11,7 +11,7 @@ using System.Xml.Linq;
 using JellyworldExperiment.Library;
 using JellyworldExperiment.Schema;
 
-namespace JellyworldExperiment
+namespace com.abstractatech.gamification.jellyworldexperiment
 {
     public partial class ApplicationWebService
     {
@@ -62,6 +62,7 @@ namespace JellyworldExperiment
         }
 
 
+
         public /* will not be part of web service itself */ void SensorySync_Handler(WebServiceHandler h)
         {
             // X:\jsc.svn\examples\javascript\ServerSideEventExperiment\ServerSideEventExperiment\ApplicationWebService.cs
@@ -109,7 +110,7 @@ namespace JellyworldExperiment
                             }
 
 
-                            s.retry = 1000 / 20;
+                            s.retry = 1000 / 60;
 
                             var DoNextFrame = true;
                             var RetryCount = 60;
@@ -190,7 +191,10 @@ namespace JellyworldExperiment
                 }
         }
     }
+}
 
+namespace JellyworldExperiment
+{
     namespace Schema
     {
         public class SensorySync : SensorySyncQueries
