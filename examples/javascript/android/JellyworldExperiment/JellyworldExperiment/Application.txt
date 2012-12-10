@@ -1,2 +1,16 @@
 ﻿Notice that we will need full build of ScriptCoreLib.
 
+apk will be built in Release mode:
+
+"X:\jsc.svn\examples\javascript\android\JellyworldExperiment\JellyworldExperiment\bin\Release\staging\com.abstractatech.gamification.jwe.ApplicationWebService\staging.apk\staging\apk\bin\com.abstractatech.gamification.jwe-release.apk"
+
+due to long path need manually instal it iwth adb.
+
+"C:\util\android-sdk-windows\platform-tools\adb.exe" install com.abstractatech.gamification.jwe-release.apk
+
+
+https://play.google.com/apps/publish
+c:\util\android-sdk-windows\tools\ddms.bat
+
+
+https://play.google.com/store/apps/details?id=com.abstractatech.gamification.jwe
