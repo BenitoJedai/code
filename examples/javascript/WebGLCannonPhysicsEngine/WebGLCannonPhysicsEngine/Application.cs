@@ -15,6 +15,7 @@ using WebGLCannonPhysicsEngine.HTML.Pages;
 
 namespace WebGLCannonPhysicsEngine
 {
+    using System.Collections.Generic;
     using WebGLCannonPhysicsEngine.Design.Cannon;
     using WebGLCannonPhysicsEngine.Design.THREE;
     using f = Single;
@@ -44,7 +45,10 @@ namespace WebGLCannonPhysicsEngine
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            //var sphereShape, sphereBody, world, physicsMaterial, walls=[], balls=[], ballMeshes=[], boxes=[], boxMeshes=[];
+            //var sphereShape, sphereBody, world, physicsMaterial, 
+            //walls=[], balls=[], ballMeshes=[], 
+            var boxes = new List<RigidBody>();
+            var boxMeshes = new List<Mesh>();
 
             //var camera, scene, renderer;
             //var geometry, material, mesh;
@@ -53,6 +57,7 @@ namespace WebGLCannonPhysicsEngine
             //var blocker = document.getElementById( 'blocker' );
             //var instructions = document.getElementById( 'instructions' );
 
+            #region havePointerLock
             //var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
             //if ( havePointerLock ) {
@@ -134,10 +139,10 @@ namespace WebGLCannonPhysicsEngine
             //    instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
 
             //}
+            #endregion
 
-            //initCannon();
-            //init();
-            //animate();
+
+
 
             #region initCannon
             //    // Setup our world
@@ -235,9 +240,9 @@ namespace WebGLCannonPhysicsEngine
 
             renderer.domElement.AttachToDocument();
 
-            //    window.addEventListener( 'resize', onWindowResize, false );
 
-            {    // Add boxes
+            #region Add boxes
+            {    // 
                 var halfExtents = new Vec3(1, 1, 1);
                 var boxShape = new Box(halfExtents);
                 var boxGeometry = new CubeGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2);
@@ -255,13 +260,15 @@ namespace WebGLCannonPhysicsEngine
                     boxMesh.castShadow = true;
                     boxMesh.receiveShadow = true;
                     boxMesh.useQuaternion = true;
-                    //        boxes.push(boxBody);
-                    //        boxMeshes.push(boxMesh);
+
+                    boxes.Add(boxBody);
+                    boxMeshes.Add(boxMesh);
                 }
             }
+            #endregion
 
-
-            {    // Add linked boxes
+            #region Add linked boxes
+            {    // 
                 var size = 0.5;
                 var he = new Vec3(size, size, size * 0.1);
                 var boxShape = new Box(he);
@@ -282,17 +289,19 @@ namespace WebGLCannonPhysicsEngine
                     boxMesh.useQuaternion = true;
                     boxMesh.castShadow = true;
                     boxMesh.receiveShadow = true;
-                    //        world.add(boxbody);
-                    //        scene.add(boxMesh);
-                    //        boxes.push(boxbody);
-                    //        boxMeshes.push(boxMesh);
+
+                    world.add(boxbody);
+                    scene.add(boxMesh);
+
+                    boxes.Add(boxbody);
+                    boxMeshes.Add(boxMesh);
 
                     if (i != 0)
                     {
                         // Connect this body to the last one
                         var c1 = new PointToPointConstraint(boxbody, new Vec3(-size, size + space, 0), last, new Vec3(-size, -size - space, 0));
                         var c2 = new PointToPointConstraint(boxbody, new Vec3(size, size + space, 0), last, new Vec3(size, -size - space, 0));
-                        
+
                         world.addConstraint(c1);
                         world.addConstraint(c2);
                     }
@@ -305,45 +314,56 @@ namespace WebGLCannonPhysicsEngine
             }
             #endregion
 
-
-            //function onWindowResize() {
-            //    camera.aspect = window.innerWidth / window.innerHeight;
-            //    camera.updateProjectionMatrix();
-            //    renderer.setSize( window.innerWidth, window.innerHeight );
-            //}
-
-            #region animate
-            //var dt = 1/60;
-            //function animate() {
-            //    requestAnimationFrame( animate );
-            //    if(controls.enabled){
-            //        world.step(dt);
-
-            //        // Update ball positions
-            //        for(var i=0; i<balls.length; i++){
-            //            balls[i].position.copy(ballMeshes[i].position);
-            //            balls[i].quaternion.copy(ballMeshes[i].quaternion);
-            //        }
-
-            //        // Update box positions
-            //        for(var i=0; i<boxes.length; i++){
-            //            boxes[i].position.copy(boxMeshes[i].position);
-            //            boxes[i].quaternion.copy(boxMeshes[i].quaternion);
-            //        }
-            //    }
-
-            //    controls.update( Date.now() - time );
-            //    renderer.render( scene, camera );
-            //    time = Date.now();
-
-            //}
             #endregion
 
-            //var ballShape = new CANNON.Sphere(0.2);
-            //var ballGeometry = new THREE.SphereGeometry(ballShape.radius);
-            //var shootDirection = new THREE.Vector3();
-            //var shootVelo = 15;
-            //var projector = new THREE.Projector();
+            Native.Window.onresize +=
+                delegate
+                {
+                    camera.aspect = Native.Window.Width / Native.Window.Height;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(Native.Window.Width, Native.Window.Height);
+                };
+
+            #region animate
+            var dt = 1.0 / 60;
+            Action animate = null;
+
+            animate = delegate
+            {
+                //    if(controls.enabled){
+                world.step(dt);
+
+                //        // Update ball positions
+                //        for(var i=0; i<balls.length; i++){
+                //            balls[i].position.copy(ballMeshes[i].position);
+                //            balls[i].quaternion.copy(ballMeshes[i].quaternion);
+                //        }
+
+                // Update box positions
+                for (var i = 0; i < boxes.Count; i++)
+                {
+                    //boxes[i].position.copy(boxMeshes[i].position);
+                    //boxes[i].quaternion.copy(boxMeshes[i].quaternion);
+                }
+                //}
+
+                //    controls.update( Date.now() - time );
+                renderer.render(scene, camera);
+                //    time = Date.now();
+
+                Native.Window.requestAnimationFrame += animate;
+
+            };
+
+            animate();
+
+            #endregion
+
+            var ballShape = new Sphere(0.2);
+            var ballGeometry = new SphereGeometry(ballShape.radius);
+            var shootDirection = new Vector3();
+            var shootVelo = 15;
+            var projector = new Projector();
             //function getShootDir(targetVec){
             //    var vector = targetVec;
             //    targetVec.set(0,0,1);
