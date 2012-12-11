@@ -126,11 +126,11 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="References\Cannon.idl" />
-    <Content Include="References\Cannon.js" />
-    <Content Include="References\!References.htm" />
-    <Content Include="References\Three.idl" />
-    <Content Include="References\Three.js" />
+    <Content Include="Design\References\Cannon.idl" />
+    <Content Include="Design\References\Cannon.js" />
+    <Content Include="Design\References\!References.htm" />
+    <Content Include="Design\References\Three.idl" />
+    <Content Include="Design\References\Three.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

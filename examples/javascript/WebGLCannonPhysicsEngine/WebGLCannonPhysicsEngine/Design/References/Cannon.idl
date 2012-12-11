@@ -25,6 +25,8 @@ interface Cannon.ContactMaterial
 [Constructor(double radius)]
 interface Cannon.Sphere 
 { 
+     attribute double        radius;
+
 };
 
 [Constructor(double mass, any sphereShape, any physicsMaterial),
@@ -52,6 +54,7 @@ interface Cannon.World
 	 void add(any value);
 
 	 void addConstraint(any value);
+	 void step(double value);
 };
 
 [Constructor(double x, double y, double z)]
