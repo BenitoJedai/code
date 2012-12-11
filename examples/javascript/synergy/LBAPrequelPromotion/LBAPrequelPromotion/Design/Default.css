@@ -1,0 +1,18 @@
+   .p512 {
+                display: inline-block;
+            }
+
+           .p96{
+                display: none;
+            }
+   @media all and (max-height: 40em) {
+
+          .p96 {
+                display: inline-block;
+            }
+
+           .p512{
+                display: none;
+            }
+         
+        }

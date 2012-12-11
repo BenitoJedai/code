@@ -82,13 +82,17 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 
             //Layers.User.style.backgroundColor = Color.Red;
             //Layers.User.style.zIndex = 0x1000;
-            Layers.User.style.Opacity = 0.0;
 
             // safari not supported: something wrong with zIndex
             // also check http://unixpapa.com/js/mouse.html
 
 
-            Layers.User.style.backgroundColor = Color.Yellow;
+            // android webview shows this for a few frames..
+            Layers.User.style.backgroundColor = "rgba(0, 0, 0, 0.0)";
+            //Layers.User.style.Opacity = 0.5;
+            //Layers.User.style.Opacity = 0.01;
+            //Layers.User.style.Opacity = 0;
+
             //Layers.User.style.Opacity = 0.5;
             //Layers.User.style.zIndex = 99999;
 
