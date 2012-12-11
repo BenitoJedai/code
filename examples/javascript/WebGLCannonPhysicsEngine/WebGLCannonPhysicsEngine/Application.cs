@@ -16,7 +16,7 @@ using WebGLCannonPhysicsEngine.HTML.Pages;
 namespace WebGLCannonPhysicsEngine
 {
     using WebGLCannonPhysicsEngine.Design.Cannon;
-
+    using WebGLCannonPhysicsEngine.Design.THREE;
     using f = Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
@@ -173,32 +173,32 @@ namespace WebGLCannonPhysicsEngine
 
             #region init
 
-            //    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+            var camera = new PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 0.1, 1000);
 
-            //    scene = new THREE.Scene();
-            //    scene.fog = new THREE.Fog( 0x000000, 0, 500 );
+            var scene = new Scene();
+            scene.fog = new Fog(0x000000, 0, 500);
 
-            //    var ambient = new THREE.AmbientLight( 0x111111 );
-            //    scene.add( ambient );
+            var ambient = new AmbientLight(0x111111);
+            scene.add(ambient);
 
-            //    light = new THREE.SpotLight( 0xffffff );
+            var light = new SpotLight(0xffffff);
             //    light.position.set( 10, 30, 20 );
             //    light.target.position.set( 0, 0, 0 );
             //    if(true){
-            //        light.castShadow = true;
+            light.castShadow = true;
 
-            //        light.shadowCameraNear = 20;
-            //        light.shadowCameraFar = 50;//camera.far;
-            //        light.shadowCameraFov = 40;
+            light.shadowCameraNear = 20;
+            light.shadowCameraFar = 50;//camera.far;
+            light.shadowCameraFov = 40;
 
-            //        light.shadowMapBias = 0.1;
-            //        light.shadowMapDarkness = 0.7;
-            //        light.shadowMapWidth = 2*512;
-            //        light.shadowMapHeight = 2*512;
+            light.shadowMapBias = 0.1;
+            light.shadowMapDarkness = 0.7;
+            light.shadowMapWidth = 2 * 512;
+            light.shadowMapHeight = 2 * 512;
 
             //        //light.shadowCameraVisible = true;
             //    }
-            //    scene.add( light );
+            scene.add(light);
 
 
 
