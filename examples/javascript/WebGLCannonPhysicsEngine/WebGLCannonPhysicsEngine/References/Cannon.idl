@@ -27,10 +27,16 @@ interface Cannon.Sphere
 { 
 };
 
-[Constructor(double mass, any sphereShape, any physicsMaterial)]
+[Constructor(double mass, any sphereShape, any physicsMaterial),
+ Constructor(double mass, any sphereShape)]
 interface Cannon.RigidBody 
 { 
      attribute double        linearDamping;
+     attribute double        angularDamping;
+
+     attribute boolean        useQuaternion;
+     attribute boolean        castShadow;
+     attribute boolean        receiveShadow;
 
 };
 
@@ -44,14 +50,29 @@ interface Cannon.World
 
 	 void addContactMaterial(any value);
 	 void add(any value);
+
+	 void addConstraint(any value);
 };
 
 [Constructor(double x, double y, double z)]
 interface Cannon.Vec3 
 { 
+	attribute double x; 
+	attribute double y;
+	attribute double z;
 };
 
 [Constructor(any x)]
 interface Cannon.Box 
+{ 
+};
+
+[Constructor(double x, double y, double z)]
+interface Cannon.CubeGeometry 
+{ 
+};
+
+[Constructor(any body1, any xyz1, any body2, any xyz2)]
+interface Cannon.PointToPointConstraint 
 { 
 };
