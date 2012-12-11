@@ -214,6 +214,21 @@ namespace ScriptCoreLib.Ultra.IDL
             i.InterfaceBody.Item1 = i.Name.SkipTo().UntilSelected(
                 pp =>
                 {
+                    // what if javascript library wants to use nested types?
+                    // tested by: X:\jsc.svn\examples\javascript\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine\Application.cs
+                    if (pp.Text == ".")
+                    {
+                        var NameFragment = pp.SkipTo().AssertName();
+
+                        i.Name = new[] { 
+                            i.Name,
+                            pp,
+                            NameFragment
+                        }.Combine();
+
+                        return NameFragment.SkipTo();
+                    }
+
                     if (pp.Text == ":")
                     {
                         i.BaseType = pp.SkipTo().AssertName();
