@@ -1,81 +1,105 @@
 ﻿// we will need TargetConstructor with a dot
 // should enable nesting instead
-// interface Cannon
+// interface CANNON
 
 [Constructor()]
-interface Cannon.NaiveBroadphase 
+interface CANNON.NaiveBroadphase 
 { 
 };
 
 [Constructor()]
-interface Cannon.Plane 
+interface CANNON.Plane 
 { 
 };
 
 [Constructor(DOMString e)]
-interface Cannon.Material 
+interface CANNON.Material 
 { 
 };
 
 [Constructor(any m1, any m2, double friction, double restitution)]
-interface Cannon.ContactMaterial 
+interface CANNON.ContactMaterial 
 { 
 };
 
 [Constructor(double radius)]
-interface Cannon.Sphere 
+interface CANNON.Sphere 
 { 
-     attribute double        radius;
-
-};
-
-[Constructor(double mass, any sphereShape, any physicsMaterial),
- Constructor(double mass, any sphereShape)]
-interface Cannon.RigidBody 
-{ 
-     attribute double        linearDamping;
-     attribute double        angularDamping;
-
-     attribute boolean        useQuaternion;
-     attribute boolean        castShadow;
-     attribute boolean        receiveShadow;
+	attribute double        radius;
 
 };
 
 [Constructor()]
-interface Cannon.World 
+interface CANNON.Quaternion 
 { 
-     attribute long        quatNormalizeSkip;
-     attribute boolean        quatNormalizeFast;
+	void setFromAxisAngle(CANNON.Vec3 xyz, double q);
+	void copy(any xyz);
 
-     attribute /* NaiveBroadphase */ any        broadphase;
+};
 
-	 void addContactMaterial(any value);
-	 void add(any value);
 
-	 void addConstraint(any value);
-	 void step(double value);
+[Constructor(double mass, any sphereShape, any physicsMaterial),
+	Constructor(double mass, any sphereShape)]
+interface CANNON.RigidBody 
+{ 
+	attribute CANNON.Quaternion        quaternion;
+	attribute CANNON.Vec3        position;
+
+	attribute double        linearDamping;
+	attribute double        angularDamping;
+
+	attribute boolean        useQuaternion;
+	attribute boolean        castShadow;
+	attribute boolean        receiveShadow;
+
+};
+
+
+[Constructor()]
+interface CANNON.Solver 
+{ 
+	attribute long        iterations;
+	void setSpookParams(long x, long y);
+};
+
+[Constructor()]
+interface CANNON.World 
+{  
+
+	attribute CANNON.Solver        solver;
+	attribute CANNON.Vec3        gravity;
+
+	attribute long        quatNormalizeSkip;
+	attribute boolean        quatNormalizeFast;
+
+	attribute /* NaiveBroadphase */ any        broadphase;
+
+	void addContactMaterial(any value);
+	void add(any value);
+
+	void addConstraint(any value);
+	void step(double value);
 };
 
 [Constructor(double x, double y, double z)]
-interface Cannon.Vec3 
+interface CANNON.Vec3 
 { 
 	attribute double x; 
 	attribute double y;
 	attribute double z;
+
+	void set(double x, double y, double z);
+	void copy(any xyz);
 };
 
 [Constructor(any x)]
-interface Cannon.Box 
+interface CANNON.Box 
 { 
 };
 
-[Constructor(double x, double y, double z)]
-interface Cannon.CubeGeometry 
-{ 
-};
 
 [Constructor(any body1, any xyz1, any body2, any xyz2)]
-interface Cannon.PointToPointConstraint 
+interface CANNON.PointToPointConstraint 
 { 
 };
+

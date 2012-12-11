@@ -1,0 +1,7 @@
+﻿[Constructor(any camera, any body)]
+interface PointerLockControls
+{ 
+	attribute boolean        enabled;
+	any getObject();
+	void update(long long e);
+};
