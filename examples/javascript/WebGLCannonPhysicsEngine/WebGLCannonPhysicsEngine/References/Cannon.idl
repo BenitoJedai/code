@@ -1,1 +1,47 @@
-﻿
+﻿// we will need TargetConstructor with a dot
+// should enable nesting instead
+// interface Cannon
+
+[Constructor()]
+interface Cannon.NaiveBroadphase 
+{ 
+};
+
+[Constructor()]
+interface Cannon.Plane 
+{ 
+};
+
+[Constructor(DOMString e)]
+interface Cannon.Material 
+{ 
+};
+
+[Constructor(any m1, any m2, double friction, double restitution)]
+interface Cannon.ContactMaterial 
+{ 
+};
+
+[Constructor(double radius)]
+interface Cannon.Sphere 
+{ 
+};
+
+[Constructor(double mass, any sphereShape, any physicsMaterial)]
+interface Cannon.RigidBody 
+{ 
+     attribute double        linearDamping;
+
+};
+
+[Constructor()]
+interface Cannon.World 
+{ 
+     attribute long        quatNormalizeSkip;
+     attribute boolean        quatNormalizeFast;
+
+     attribute /* NaiveBroadphase */ any        broadphase;
+
+	 void addContactMaterial(any value);
+	 void add(any value);
+};
