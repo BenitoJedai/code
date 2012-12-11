@@ -110,7 +110,8 @@ namespace WebGLYomotsuMD2Model
 
         void InitializeContent(IDefaultPage page = null)
         {
-            var fov = 40;
+            //var fov = 40;
+            var fov = 100;
 
             #region container
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
@@ -130,7 +131,12 @@ namespace WebGLYomotsuMD2Model
 
             var scene = new THREE.Scene();
 
-            var camera = new THREE.PerspectiveCamera(fov, width / height, 1, 1000);
+            var camera = new THREE.PerspectiveCamera(
+                fov, 
+                width / height, 
+                1, 
+                1000
+            );
 
             scene.add(camera);
 
