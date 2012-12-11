@@ -32,6 +32,7 @@ namespace ScriptCoreLib.Ultra.IDL
 
             }
 
+            #region long long
             if (Name.Text == "long")
             {
                 var k = Name.SkipTo();
@@ -41,6 +42,14 @@ namespace ScriptCoreLib.Ultra.IDL
                     Name = new[] { Name, Name.Next, k }.Combine();
                 }
             }
+            #endregion
+
+            if (Name.Next.Text == ".")
+            {
+                var k = Name.Next.SkipTo();
+
+                Name = new[] { Name, Name.Next, k }.Combine();
+            }
 
             var r = new IDLTypeReference
             {
@@ -49,6 +58,7 @@ namespace ScriptCoreLib.Ultra.IDL
                 Namespace = Namespace
             };
 
+            #region generic
             if (Name.Next.Text == "<")
             {
                 r.GenericParameterSymbols.Item1 = Name.Next;
@@ -73,6 +83,8 @@ namespace ScriptCoreLib.Ultra.IDL
                     }
                 ).AssertSymbol(">");
             }
+            #endregion
+
 
             if (Name.Next.Text == "[")
             {

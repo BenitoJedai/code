@@ -129,6 +129,8 @@
     <Content Include="Design\References\Cannon.idl" />
     <Content Include="Design\References\Cannon.js" />
     <Content Include="Design\References\!References.htm" />
+    <Content Include="Design\References\PointerLockControls.idl" />
+    <Content Include="Design\References\PointerLockControls.js" />
     <Content Include="Design\References\Three.idl" />
     <Content Include="Design\References\Three.js" />
   </ItemGroup>

@@ -11,14 +11,16 @@ interface THREE.PerspectiveCamera
 [Constructor()]
 interface THREE.Scene 
 { 
-	attribute /* Fog */ any        fog;
+	attribute THREE.Fog         fog;
 
 	void add(any value);
 };
 
-[Constructor(long x, long y, long z)]
+[Constructor(long color, long y, long z)]
 interface THREE.Fog 
 { 
+	attribute long        color;
+	
 };
 
 [Constructor(long x)]
@@ -29,6 +31,9 @@ interface THREE.AmbientLight
 [Constructor(long x)]
 interface THREE.SpotLight 
 { 
+	attribute THREE.Vector3  position;
+	attribute THREE.Object3D target;
+
 	attribute boolean        castShadow;
 	attribute long        shadowCameraNear;
 	attribute long        shadowCameraFar;
@@ -56,9 +61,19 @@ interface THREE.MeshLambertMaterial
 { 
 };
 
+[Constructor()]
+interface THREE.Object3D
+{ 
+	attribute THREE.Vector3  position;
+};
+
+
 [Constructor(any geometry, any material)]
 interface THREE.Mesh 
 { 
+	attribute THREE.Vector3  position;
+	attribute any quaternion;
+
 	attribute boolean        castShadow;
 	attribute boolean        receiveShadow;
 	attribute boolean        useQuaternion;
@@ -74,8 +89,9 @@ interface THREE.WebGLRenderer
 
 	attribute Element domElement;
 
+	void setClearColor(long color, long h);
 	void setSize(long w, long h);
-	void setSize(any scene, any camera);
+	void render(any scene, any camera);
 };
 
 [Constructor(double radius)]
@@ -87,9 +103,20 @@ interface THREE.SphereGeometry
 [Constructor()]
 interface THREE.Vector3 
 { 
+	attribute double x; 
+	attribute double y;
+	attribute double z;
+
+	void set(double x, double y, double z);
 };
 
 [Constructor()]
 interface THREE.Projector 
+{ 
+};
+
+
+[Constructor(double x, double y, double z)]
+interface THREE.CubeGeometry 
 { 
 };
