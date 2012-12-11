@@ -33,3 +33,38 @@ interface THREE.SpotLight
      attribute long        shadowMapWidth;
      attribute long        shadowMapHeight;
 };
+
+[Constructor(long x, long y, long z, long q)]
+interface THREE.PlaneGeometry 
+{ 
+	 void applyMatrix(any value);
+};
+
+[Constructor()]
+interface THREE.Matrix4 
+{ 
+	 any makeRotationX(double value);
+};
+
+[Constructor(any x)]
+interface THREE.MeshLambertMaterial 
+{ 
+};
+
+[Constructor(any geometry, any material)]
+interface THREE.Mesh 
+{ 
+     attribute boolean        castShadow;
+     attribute boolean        receiveShadow;
+};
+
+[Constructor()]
+interface THREE.WebGLRenderer 
+{ 
+     attribute boolean        shadowMapEnabled;
+     attribute boolean        shadowMapSoft;
+
+	 attribute Element domElement;
+
+	 void setSize(long w, long h);
+};

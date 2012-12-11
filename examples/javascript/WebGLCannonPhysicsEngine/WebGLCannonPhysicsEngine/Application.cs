@@ -20,6 +20,15 @@ namespace WebGLCannonPhysicsEngine
     using f = Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
+
+    sealed class MeshLambertMaterialArguments
+    {
+        public int color;
+        public bool morphTargets;
+        public int vertexColors;
+    }
+
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -206,29 +215,29 @@ namespace WebGLCannonPhysicsEngine
             //    scene.add( controls.getObject() );
 
             //    // floor
-            //    geometry = new THREE.PlaneGeometry( 300, 300, 50, 50 );
-            //    geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+            var geometry = new PlaneGeometry(300, 300, 50, 50);
+            geometry.applyMatrix(new Matrix4().makeRotationX(-Math.PI / 2));
 
-            //    material = new THREE.MeshLambertMaterial( { color: 0xdddddd } );
+            var material = new MeshLambertMaterial(new MeshLambertMaterialArguments { color = 0xdddddd });
             //    THREE.ColorUtils.adjustHSV( material.color, 0, 0, 0.9 );
 
-            //    mesh = new THREE.Mesh( geometry, material );
-            //    mesh.castShadow = true;
-            //    mesh.receiveShadow = true;
-            //    scene.add( mesh );
+            var mesh = new Mesh(geometry, material);
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            scene.add(mesh);
 
-            //    renderer = new THREE.WebGLRenderer();
-            //    renderer.shadowMapEnabled = true;
-            //    renderer.shadowMapSoft = true;
-            //    renderer.setSize( window.innerWidth, window.innerHeight );
+            var renderer = new WebGLRenderer();
+            renderer.shadowMapEnabled = true;
+            renderer.shadowMapSoft = true;
+            renderer.setSize(Native.Window.Width, Native.Window.Height);
             //    renderer.setClearColor( scene.fog.color, 1 );
 
-            //    document.body.appendChild( renderer.domElement );
+            renderer.domElement.AttachToDocument();
 
             //    window.addEventListener( 'resize', onWindowResize, false );
 
             //    // Add boxes
-            //    var halfExtents = new CANNON.Vec3(1,1,1);
+            var halfExtents = new Vec3(1, 1, 1);
             //    var boxShape = new CANNON.Box(halfExtents);
             //    var boxGeometry = new THREE.CubeGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
             //    for(var i=0; i<7; i++){

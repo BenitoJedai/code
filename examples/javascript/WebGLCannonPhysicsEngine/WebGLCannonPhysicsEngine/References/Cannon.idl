@@ -45,3 +45,13 @@ interface Cannon.World
 	 void addContactMaterial(any value);
 	 void add(any value);
 };
+
+[Constructor(double x, double y, double z)]
+interface Cannon.Vec3 
+{ 
+};
+
+[Constructor(any x)]
+interface Cannon.Box 
+{ 
+};
