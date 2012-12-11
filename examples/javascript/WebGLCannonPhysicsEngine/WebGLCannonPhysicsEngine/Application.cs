@@ -164,20 +164,21 @@ namespace WebGLCannonPhysicsEngine
             //    // We must add the contact materials to the world
             world.addContactMaterial(physicsContactMaterial);
 
-            //    // Create a sphere
-            var mass = 5;
-            var radius = 1.3;
-            var sphereShape = new Sphere(radius);
-            var sphereBody = new RigidBody(mass, sphereShape, physicsMaterial);
-            //    sphereBody.position.set(0,5,0);
-            sphereBody.linearDamping = 0.05;
-            world.add(sphereBody);
+            {    // Create a sphere
+                var mass = 5;
+                var radius = 1.3;
+                var sphereShape = new Sphere(radius);
+                var sphereBody = new RigidBody(mass, sphereShape, physicsMaterial);
+                //    sphereBody.position.set(0,5,0);
+                sphereBody.linearDamping = 0.05;
+                world.add(sphereBody);
 
-            //    // Create a plane
-            var groundShape = new Plane();
-            var groundBody = new RigidBody(0, groundShape, physicsMaterial);
-            //    groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
-            world.add(groundBody);
+                //    // Create a plane
+                var groundShape = new Plane();
+                var groundBody = new RigidBody(0, groundShape, physicsMaterial);
+                //    groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
+                world.add(groundBody);
+            }
             #endregion
 
             #region init
@@ -236,61 +237,72 @@ namespace WebGLCannonPhysicsEngine
 
             //    window.addEventListener( 'resize', onWindowResize, false );
 
-            //    // Add boxes
-            var halfExtents = new Vec3(1, 1, 1);
-            //    var boxShape = new CANNON.Box(halfExtents);
-            //    var boxGeometry = new THREE.CubeGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
-            //    for(var i=0; i<7; i++){
-            //        var x = (Math.random()-0.5)*20;
-            //        var y = 1 + (Math.random()-0.5)*1;
-            //        var z = (Math.random()-0.5)*20;
-            //        var boxBody = new CANNON.RigidBody(5,boxShape);
-            //        var boxMesh = new THREE.Mesh( boxGeometry, material );
-            //        world.add(boxBody);
-            //        scene.add(boxMesh);
-            //        boxBody.position.set(x,y,z);
-            //        boxMesh.position.set(x,y,z);
-            //        boxMesh.castShadow = true;
-            //        boxMesh.receiveShadow = true;
-            //        boxMesh.useQuaternion = true;
-            //        boxes.push(boxBody);
-            //        boxMeshes.push(boxMesh);
-            //    }
+            {    // Add boxes
+                var halfExtents = new Vec3(1, 1, 1);
+                var boxShape = new Box(halfExtents);
+                var boxGeometry = new CubeGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2);
+                for (var i = 0; i < 7; i++)
+                {
+                    //        var x = (Math.random()-0.5)*20;
+                    //        var y = 1 + (Math.random()-0.5)*1;
+                    //        var z = (Math.random()-0.5)*20;
+                    var boxBody = new RigidBody(5, boxShape);
+                    var boxMesh = new Mesh(boxGeometry, material);
+                    world.add(boxBody);
+                    scene.add(boxMesh);
+                    //        boxBody.position.set(x,y,z);
+                    //        boxMesh.position.set(x,y,z);
+                    boxMesh.castShadow = true;
+                    boxMesh.receiveShadow = true;
+                    boxMesh.useQuaternion = true;
+                    //        boxes.push(boxBody);
+                    //        boxMeshes.push(boxMesh);
+                }
+            }
 
 
-            //    // Add linked boxes
-            //    var size = 0.5;
-            //    var he = new CANNON.Vec3(size,size,size*0.1);
-            //    var boxShape = new CANNON.Box(he);
-            //    var mass = 0;
-            //    var space = 0.1*size;
-            //    var N=5, last;
-            //    var boxGeometry = new THREE.CubeGeometry(he.x*2,he.y*2,he.z*2);
-            //    for(var i=0; i<N; i++){
-            //        var boxbody = new CANNON.RigidBody(mass,boxShape);
-            //        var boxMesh = new THREE.Mesh( boxGeometry, material );
-            //        boxbody.position.set(5,(N-i)*(size*2+2*space) + size*2+space,0);
-            //        boxbody.linearDamping=0.01;
-            //        boxbody.angularDamping=0.01;
-            //        boxMesh.useQuaternion = true;
-            //        boxMesh.castShadow = true;
-            //        boxMesh.receiveShadow = true;
-            //        world.add(boxbody);
-            //        scene.add(boxMesh);
-            //        boxes.push(boxbody);
-            //        boxMeshes.push(boxMesh);
+            {    // Add linked boxes
+                var size = 0.5;
+                var he = new Vec3(size, size, size * 0.1);
+                var boxShape = new Box(he);
+                var mass = 0.0;
+                var space = 0.1 * size;
+                var N = 5;
+                var last = default(RigidBody);
 
-            //        if(i!=0){
-            //            // Connect this body to the last one
-            //            var c1 = new CANNON.PointToPointConstraint(boxbody,new CANNON.Vec3(-size,size+space,0),last,new CANNON.Vec3(-size,-size-space,0));
-            //            var c2 = new CANNON.PointToPointConstraint(boxbody,new CANNON.Vec3(size,size+space,0),last,new CANNON.Vec3(size,-size-space,0));
-            //            world.addConstraint(c1);
-            //            world.addConstraint(c2);
-            //        } else {
-            //            mass=0.3;
-            //        }
-            //        last = boxbody;
-            //    }
+                var boxGeometry = new CubeGeometry(he.x * 2, he.y * 2, he.z * 2);
+
+                for (var i = 0; i < N; i++)
+                {
+                    var boxbody = new RigidBody(mass, boxShape);
+                    var boxMesh = new Mesh(boxGeometry, material);
+                    //        boxbody.position.set(5,(N-i)*(size*2+2*space) + size*2+space,0);
+                    boxbody.linearDamping = 0.01;
+                    boxbody.angularDamping = 0.01;
+                    boxMesh.useQuaternion = true;
+                    boxMesh.castShadow = true;
+                    boxMesh.receiveShadow = true;
+                    //        world.add(boxbody);
+                    //        scene.add(boxMesh);
+                    //        boxes.push(boxbody);
+                    //        boxMeshes.push(boxMesh);
+
+                    if (i != 0)
+                    {
+                        // Connect this body to the last one
+                        var c1 = new PointToPointConstraint(boxbody, new Vec3(-size, size + space, 0), last, new Vec3(-size, -size - space, 0));
+                        var c2 = new PointToPointConstraint(boxbody, new Vec3(size, size + space, 0), last, new Vec3(size, -size - space, 0));
+                        
+                        world.addConstraint(c1);
+                        world.addConstraint(c2);
+                    }
+                    else
+                    {
+                        mass = 0.3;
+                    }
+                    last = boxbody;
+                }
+            }
             #endregion
 
 
@@ -300,6 +312,7 @@ namespace WebGLCannonPhysicsEngine
             //    renderer.setSize( window.innerWidth, window.innerHeight );
             //}
 
+            #region animate
             //var dt = 1/60;
             //function animate() {
             //    requestAnimationFrame( animate );
@@ -324,6 +337,7 @@ namespace WebGLCannonPhysicsEngine
             //    time = Date.now();
 
             //}
+            #endregion
 
             //var ballShape = new CANNON.Sphere(0.2);
             //var ballGeometry = new THREE.SphereGeometry(ballShape.radius);
