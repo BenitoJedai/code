@@ -20,7 +20,7 @@ namespace WebGLCannonPhysicsEngine
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
 
-    sealed class MeshLambertMaterialArguments
+    sealed class MeshLambertMaterialDictionary
     {
         public int color;
         public bool morphTargets;
@@ -41,7 +41,7 @@ namespace WebGLCannonPhysicsEngine
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public Application(IApp page = null)
         {
             var boxes = new List<CANNON_RigidBody>();
             var boxMeshes = new List<THREE_Mesh>();
@@ -155,7 +155,7 @@ namespace WebGLCannonPhysicsEngine
             var geometry = new THREE_PlaneGeometry(300, 300, 50, 50);
             geometry.applyMatrix(new THREE_Matrix4().makeRotationX(-Math.PI / 2));
 
-            var material = new THREE_MeshLambertMaterial(new MeshLambertMaterialArguments { color = 0xdddddd });
+            var material = new THREE_MeshLambertMaterial(new MeshLambertMaterialDictionary { color = 0xdddddd });
 
             //Native.Window.
             THREE.ColorUtils.adjustHSV(material.color, 0, 0, 0.9);
