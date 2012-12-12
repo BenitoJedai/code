@@ -44,6 +44,7 @@ interface CANNON.RigidBody
 { 
 	attribute CANNON.Quaternion        quaternion;
 	attribute CANNON.Vec3        position;
+	attribute CANNON.Vec3        velocity;
 
 	attribute double        linearDamping;
 	attribute double        angularDamping;
