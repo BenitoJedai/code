@@ -318,6 +318,15 @@ namespace ScriptCoreLib.Ultra.IDL
                          pp = AnnotationArray.Symbols.Item2.SkipTo();
                      }
 
+                     #region static
+                     var KeywordStatic = default(IDLParserToken);
+                     if (pp.Text == "static")
+                     {
+                         KeywordStatic = pp;
+                         pp = pp.SkipTo();
+                     }
+                     #endregion
+
                      #region attribute
                      if (pp.Text == "attribute")
                      {
@@ -332,6 +341,7 @@ namespace ScriptCoreLib.Ultra.IDL
 
                          var a = new IDLMemberAttribute
                          {
+                             KeywordStatic = KeywordStatic,
                              KeywordReadOnly = KeywordReadOnly,
                              Keyword = Keyword,
                              Annotations = AnnotationArray,
@@ -374,7 +384,7 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
                      #endregion
 
-                     #region setter
+                     #region creator
                      var KeywordCreator = default(IDLParserToken);
                      if (pp.Text == "creator")
                      {
@@ -383,9 +393,16 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
                      #endregion
 
+                 
 
                      // method!!
-                     var Method = ToMemberMethod(pp, KeywordGetter, KeywordSetter, KeywordDeleter);
+                     var Method = ToMemberMethod(
+                         pp,
+                         KeywordGetter,
+                         KeywordSetter,
+                         KeywordDeleter,
+                         KeywordStatic
+                     );
 
                      i.Members.Add(Method);
 
@@ -406,7 +423,13 @@ namespace ScriptCoreLib.Ultra.IDL
             return i;
         }
 
-        private static IDLMemberMethod ToMemberMethod(IDLParserToken pp, IDLParserToken KeywordGetter, IDLParserToken KeywordSetter, IDLParserToken KeywordDeleter)
+        private static IDLMemberMethod ToMemberMethod(
+            IDLParserToken pp,
+            IDLParserToken KeywordGetter,
+            IDLParserToken KeywordSetter,
+            IDLParserToken KeywordDeleter,
+            IDLParserToken KeywordStatic
+            )
         {
             var Type = default(IDLTypeReference);
             var Name = default(IDLParserToken.Literal);

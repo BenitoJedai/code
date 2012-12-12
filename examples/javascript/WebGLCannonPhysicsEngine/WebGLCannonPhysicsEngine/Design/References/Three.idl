@@ -1,5 +1,20 @@
 ﻿// replace any with dynamic?
 
+
+interface THREE
+{ 
+	static attribute THREE.ColorUtilsType ColorUtils; 
+	
+
+};
+
+// this is an anonymous type actually
+interface THREE.ColorUtilsType
+{ 
+	void adjustHSV(long color, long x, long y, double z);
+	
+};
+
 [Constructor(double x, double ratio, double a, double fov)]
 interface THREE.PerspectiveCamera 
 { 
@@ -59,6 +74,8 @@ interface THREE.Matrix4
 [Constructor(any x)]
 interface THREE.MeshLambertMaterial 
 { 
+	attribute long        color;
+
 };
 
 [Constructor()]
@@ -108,15 +125,26 @@ interface THREE.Vector3
 	attribute double z;
 
 	void set(double x, double y, double z);
+
+	THREE.Vector3 subSelf(any xyz);
+	THREE.Vector3 normalize();
+
 };
 
 [Constructor()]
 interface THREE.Projector 
 { 
+	void unprojectVector(any vector, any camera);
 };
 
 
 [Constructor(double x, double y, double z)]
 interface THREE.CubeGeometry 
 { 
+};
+
+[Constructor(any position, any n)]
+interface THREE.Ray 
+{ 
+	attribute THREE.Vector3  direction;
 };
