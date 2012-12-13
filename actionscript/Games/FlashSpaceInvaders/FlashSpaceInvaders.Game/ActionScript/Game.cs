@@ -21,972 +21,972 @@ using FlashSpaceInvaders.ActionScript;
 
 namespace FlashSpaceInvaders.ActionScript
 {
-	[Script]
-	public partial class Game : FixedBorderCanvas
-	{
-		public const int DefaultWidth = 480;
-		public const int DefaultHeight = 480;
+    [Script]
+    public partial class Game : FixedBorderCanvas
+    {
+        public const int DefaultWidth = 480;
+        public const int DefaultHeight = 480;
 
 
 
 
 
-		const string LinkPoweredByJSC = @"<a href='http:/jsc.sf.net' target='_blank'><u>powered by jsc</u></a>";
-		const string LinkPlayMoreGames = @"<a href='http://nonoba.com/zproxy/' target='_blank'><u>play more games</u></a>";
+        const string LinkPoweredByJSC = @"<a href='http:/jsc.sf.net' target='_blank'><u>powered by jsc</u></a>";
+        const string LinkPlayMoreGames = @"<a href='http://nonoba.com/zproxy/' target='_blank'><u>play more games</u></a>";
 
-		public bool SoundEnabled { get; set; }
+        public bool SoundEnabled { get; set; }
 
-		public event Action GameOver;
+        public event Action GameOver;
 
-		public readonly Statusbar Statusbar = new Statusbar();
-		public PlayerInput PlayerInput;
+        public readonly Statusbar Statusbar = new Statusbar();
+        public PlayerInput PlayerInput;
 
 
-		readonly Int32Property PlaysSurvived = 0;
+        readonly Int32Property PlaysSurvived = 0;
 
-		public Game()
-			: base(DefaultWidth, DefaultHeight)
-		{
-			InitializeRoutedActions();
-			InitializeSharedState();
+        public Game()
+            : base(DefaultWidth, DefaultHeight)
+        {
+            InitializeRoutedActions();
+            InitializeSharedState();
 
-			SoundEnabled = true;
+            SoundEnabled = true;
 
-			Action<Sound> play =
-				s =>
-				{
-					if (CanvasOverlay.parent == null)
-						return;
+            Action<Sound> play =
+                s =>
+                {
+                    if (CanvasOverlay.parent == null)
+                        return;
 
-					if (SoundEnabled)
-						s.play();
-				};
+                    if (SoundEnabled)
+                        s.play();
+                };
 
-			var Menu = new MenuSprite(DefaultWidth).AttachTo(base.InfoOverlay);
+            var Menu = new MenuSprite(DefaultWidth).AttachTo(base.InfoOverlay);
 
-			Menu.TextExternalLink2.htmlText = LinkPlayMoreGames;
+            Menu.TextExternalLink2.htmlText = LinkPlayMoreGames;
 
-			var DefenseY = 420;
+            var DefenseY = 420;
 
-			#region DebugDump
-			var DebugDump = new DebugDumpTextField();
+            #region DebugDump
+            var DebugDump = new DebugDumpTextField();
 
-			DebugDump.Field.y = DefaultHeight / 4;
-			DebugDump.Field.x = 0;
+            DebugDump.Field.y = DefaultHeight / 4;
+            DebugDump.Field.x = 0;
 
-			DebugDump.Field.width = DefaultWidth;
-			DebugDump.Field.height = DefaultHeight / 2;
+            DebugDump.Field.width = DefaultWidth;
+            DebugDump.Field.height = DefaultHeight / 2;
 
-			DebugDump.Visible.ValueChangedToTrue +=
-				delegate
-				{
-					Menu.TextExternalLink2.htmlText = LinkPoweredByJSC;
-					DebugDump.Field.AttachToBefore(BorderOverlay);
-					DebugDump.DebugDumpUpdate();
-				};
+            DebugDump.Visible.ValueChangedToTrue +=
+                delegate
+                {
+                    Menu.TextExternalLink2.htmlText = LinkPoweredByJSC;
+                    DebugDump.Field.AttachToBefore(BorderOverlay);
+                    DebugDump.DebugDumpUpdate();
+                };
 
-			DebugDump.Visible.ValueChangedToFalse +=
-				delegate
-				{
-					Menu.TextExternalLink2.htmlText = LinkPlayMoreGames;
-				};
-			#endregion
+            DebugDump.Visible.ValueChangedToFalse +=
+                delegate
+                {
+                    Menu.TextExternalLink2.htmlText = LinkPlayMoreGames;
+                };
+            #endregion
 
-			RoutedActions.SendTextMessage.Direct =
-				e => DebugDump.Write(new { Message = e });
+            RoutedActions.SendTextMessage.Direct =
+                e => DebugDump.Write(new { Message = e });
 
-			this.Statusbar = new Statusbar();
+            this.Statusbar = new Statusbar();
 
-			Statusbar.Lives.Value = 3;
-			Statusbar.Score.Value = 0;
+            Statusbar.Lives.Value = 3;
+            Statusbar.Score.Value = 0;
 
-			Statusbar.Element.AttachTo(InfoOverlay);
+            Statusbar.Element.AttachTo(InfoOverlay);
 
-			var MenuFader = new DualFader { Value = Menu };
+            var MenuFader = new DualFader { Value = Menu };
 
-		
 
-			#region common keys
-			this.InvokeWhenStageIsReady(
-				delegate
-				{
-					stage.click +=
-						delegate
-						{
-							if (MenuFader.Value != CanvasOverlay)
-								MenuFader.Value = CanvasOverlay;
-						};
 
+            #region common keys
+            this.InvokeWhenStageIsReady(
+                delegate
+                {
+                    stage.click +=
+                        delegate
+                        {
+                            if (MenuFader.Value != CanvasOverlay)
+                                MenuFader.Value = CanvasOverlay;
+                        };
 
-					stage.keyUp +=
-						e =>
-						{
-							if (e.keyCode == Keyboard.ENTER)
-							{
-								MenuFader.Value = CanvasOverlay;
-							}
 
-							if (e.keyCode == Keyboard.ESCAPE)
-							{
-								MenuFader.Value = Menu;
-							}
+                    stage.keyUp +=
+                        e =>
+                        {
+                            if (e.keyCode == Keyboard.ENTER)
+                            {
+                                MenuFader.Value = CanvasOverlay;
+                            }
 
-							if (e.keyCode == Keyboard.T)
-							{
-								DebugDump.Visible.Toggle();
+                            if (e.keyCode == Keyboard.ESCAPE)
+                            {
+                                MenuFader.Value = Menu;
+                            }
 
-							}
+                            if (e.keyCode == Keyboard.T)
+                            {
+                                DebugDump.Visible.Toggle();
 
-							if (e.keyCode == Keyboard.M)
-							{
-								SoundEnabled = !SoundEnabled;
+                            }
 
-							}
+                            if (e.keyCode == Keyboard.M)
+                            {
+                                SoundEnabled = !SoundEnabled;
 
-							if (e.keyCode == Keyboard.C)
-							{
-								play(Sounds.miu);
+                            }
 
-								foreach (var v in cloud1.Members)
-								{
-									DebugDump.Write(new { v.Element.x, v.Element.y });
-								}
+                            if (e.keyCode == Keyboard.C)
+                            {
+                                play(Sounds.miu);
 
-								DebugDump.Write(new { PlaysSurvived = this.PlaysSurvived.Value });
+                                foreach (var v in cloud1.Members)
+                                {
+                                    DebugDump.Write(new { v.Element.x, v.Element.y });
+                                }
 
-							}
-						};
-				}
-			);
+                                DebugDump.Write(new { PlaysSurvived = this.PlaysSurvived.Value });
 
-			#endregion
+                            }
+                        };
+                }
+            );
 
+            #endregion
 
 
 
 
 
-			this.Ego = new PlayerShip(DefaultWidth, DefaultHeight)
-				{
-					Name = "Ego"
-				};
 
-			// addding our entities to list ensures we know under what id to send them
-			this.Ego.AddTo(this.SharedState.LocalObjects);
-			this.Ego.GoodEgo.AddTo(this.SharedState.LocalObjects);
-			this.Ego.EvilEgo.AddTo(this.SharedState.LocalObjects);
+            this.Ego = new PlayerShip(DefaultWidth, DefaultHeight)
+                {
+                    Name = "Ego"
+                };
 
-			// our ego cannot be hit while the menu is showing
-			this.Ego.GodMode.ValueChangedTo +=
-				GodMode => DebugDump.Write(new { GodMode });
+            // addding our entities to list ensures we know under what id to send them
+            this.Ego.AddTo(this.SharedState.LocalObjects);
+            this.Ego.GoodEgo.AddTo(this.SharedState.LocalObjects);
+            this.Ego.EvilEgo.AddTo(this.SharedState.LocalObjects);
 
-			// MenuFader.ValueChangedTo += e => this.Ego.GodMode.Value = e == Menu;
-			// this.Ego.GodMode.Value = true;
+            // our ego cannot be hit while the menu is showing
+            this.Ego.GodMode.ValueChangedTo +=
+                GodMode => DebugDump.Write(new { GodMode });
 
+            // MenuFader.ValueChangedTo += e => this.Ego.GodMode.Value = e == Menu;
+            // this.Ego.GodMode.Value = true;
 
 
-			var ReportedScore = 0;
 
-			#region lives and gameover
+            var ReportedScore = 0;
 
-			Action<StarShip> ApplyEgoRespawn =
-				xego =>
-				{
-					var WaitingForRespawn = false;
+            #region lives and gameover
 
-					xego.IsAlive.ValueChangedToFalse +=
-						delegate
-						{
-							if (WaitingForRespawn)
-								return;
+            Action<StarShip> ApplyEgoRespawn =
+                xego =>
+                {
+                    var WaitingForRespawn = false;
 
-							WaitingForRespawn = true;
+                    xego.IsAlive.ValueChangedToFalse +=
+                        delegate
+                        {
+                            if (WaitingForRespawn)
+                                return;
 
-							this.ApplyFilter(Filters.GrayScaleFilter);
-							this.RoutedActions.SendTextMessage.Direct("waiting for respawn...");
+                            WaitingForRespawn = true;
 
-							if (PlayerInput != null)
-								PlayerInput.Enabled.Value = false;
+                            this.ApplyFilter(Filters.GrayScaleFilter);
+                            this.RoutedActions.SendTextMessage.Direct("waiting for respawn...");
 
-							Statusbar.Lives.Value--;
+                            if (PlayerInput != null)
+                                PlayerInput.Enabled.Value = false;
 
-							if (Statusbar.Lives <= 0)
-							{
-								var ScoreMinStep = this.Statusbar.Score.Value / 30;
+                            Statusbar.Lives.Value--;
 
-								100.AtInterval(
-									t =>
-									{
-										var v = (this.Statusbar.Score.Value - ScoreMinStep).Max(0);
+                            if (Statusbar.Lives <= 0)
+                            {
+                                var ScoreMinStep = this.Statusbar.Score.Value / 30;
 
-										Statusbar.Score.Value = v;
+                                100.AtInterval(
+                                    t =>
+                                    {
+                                        var v = Math.Max((this.Statusbar.Score.Value - ScoreMinStep),0);
 
-										if (v == 0)
-											t.stop();
-									}
-								);
-							}
+                                        Statusbar.Score.Value = v;
 
-							3100.AtDelayDo(
-								delegate
-								{
-									this.RoutedActions.SendTextMessage.Direct("respawn!");
+                                        if (v == 0)
+                                            t.stop();
+                                    }
+                                );
+                            }
 
+                            3100.AtDelayDo(
+                                delegate
+                                {
+                                    this.RoutedActions.SendTextMessage.Direct("respawn!");
 
-									if (Statusbar.Lives == 0)
-									{
-										Statusbar.Lives.Value = 3;
-										Statusbar.Score.Value = 0;
-										PlaysSurvived.Value = 0;
-									}
-								
 
+                                    if (Statusbar.Lives == 0)
+                                    {
+                                        Statusbar.Lives.Value = 3;
+                                        Statusbar.Score.Value = 0;
+                                        PlaysSurvived.Value = 0;
+                                    }
 
-									if (Statusbar.Score.Value > 0)
-									{
-										this.RoutedActions.AddRankingScore.Chained(Statusbar.Score.Value - ReportedScore);
 
-										ReportedScore = Statusbar.Score.Value;
-									}
 
-									WaitingForRespawn = false;
-									
-									this.RoutedActions.RestoreStarship.Chained(xego);
+                                    if (Statusbar.Score.Value > 0)
+                                    {
+                                        this.RoutedActions.AddRankingScore.Chained(Statusbar.Score.Value - ReportedScore);
 
-									this.filters = null;
+                                        ReportedScore = Statusbar.Score.Value;
+                                    }
 
-									if (PlayerInput != null)
-										PlayerInput.Enabled.Value = true;
+                                    WaitingForRespawn = false;
 
-									play(Sounds.insertcoin);
-								}
-							);
+                                    this.RoutedActions.RestoreStarship.Chained(xego);
 
-						};
-				};
+                                    this.filters = null;
 
+                                    if (PlayerInput != null)
+                                        PlayerInput.Enabled.Value = true;
 
-			ApplyEgoRespawn(this.Ego.GoodEgo);
-			ApplyEgoRespawn(this.Ego.EvilEgo);
+                                    play(Sounds.insertcoin);
+                                }
+                            );
 
-			#endregion
+                        };
+                };
 
 
-			#region input
-			RoutedActions.DoPlayerMovement.Direct +=
-				(e, p) =>
-				{
-					e.GoodEgo.MoveToTarget.Value = p;
-				};
+            ApplyEgoRespawn(this.Ego.GoodEgo);
+            ApplyEgoRespawn(this.Ego.EvilEgo);
 
-			Action<double, double> DoEgoPlayerMovement =
-				(arc, length) =>
-					 RoutedActions.DoPlayerMovement.Chained(Ego, Ego.GoodEgo.ToPoint().MoveToArc(arc, Ego.GoodEgo.MaxStep * length));
+            #endregion
 
-			this.RoutedActions.RestoreStarship.Direct =
-				s =>
-				{
-					DebugDump.Write("restore starship: " + s.Name);
 
-					
-					s.GodMode.Value = true;
-					s.TakeDamage(0);
-					s.ApplyFilter(new BlurFilter());
-					s.alpha = 1;
+            #region input
+            RoutedActions.DoPlayerMovement.Direct +=
+                (e, p) =>
+                {
+                    e.GoodEgo.MoveToTarget.Value = p;
+                };
 
-					2000.AtDelayDo(
-						delegate
-						{
-							s.GodMode.Value = false;
-							s.filters = null;
+            Action<double, double> DoEgoPlayerMovement =
+                (arc, length) =>
+                     RoutedActions.DoPlayerMovement.Chained(Ego, Ego.GoodEgo.ToPoint().MoveToArc(arc, Ego.GoodEgo.MaxStep * length));
 
-							if (this.CoPlayers.Any(k => s == k.GoodEgo))
-								s.ApplyFilter(Filters.ColorFillFilter(0xff));
-						}
-					);
-				};
+            this.RoutedActions.RestoreStarship.Direct =
+                s =>
+                {
+                    DebugDump.Write("restore starship: " + s.Name);
 
-			this.InvokeWhenStageIsReady(
-				delegate
-				{
 
-					PlayerInput = new PlayerInput(stage, Ego, this)
-					{
-						StepLeft = () => DoEgoPlayerMovement(Math.PI, 2),
-						StepLeftEnd = () => DoEgoPlayerMovement(Math.PI, 0.5),
+                    s.GodMode.Value = true;
+                    s.TakeDamage(0);
+                    s.ApplyFilter(new BlurFilter());
+                    s.alpha = 1;
 
-						StepRight = () => DoEgoPlayerMovement(0, 2),
-						StepRightEnd = () => DoEgoPlayerMovement(0, 0.5),
+                    2000.AtDelayDo(
+                        delegate
+                        {
+                            s.GodMode.Value = false;
+                            s.filters = null;
 
-						FireBullet = () => Ego.FireBullet(),
+                            if (this.CoPlayers.Any(k => s == k.GoodEgo))
+                                s.ApplyFilter(Filters.ColorFillFilter(0xff));
+                        }
+                    );
+                };
 
-						SmartMoveTo = (x, y) =>
-							{
-								// ignore mouse while out of bounds
-								if (x < 0)
-									return;
+            this.InvokeWhenStageIsReady(
+                delegate
+                {
 
-								if (x > DefaultWidth)
-									return;
+                    PlayerInput = new PlayerInput(stage, Ego, this)
+                    {
+                        StepLeft = () => DoEgoPlayerMovement(Math.PI, 2),
+                        StepLeftEnd = () => DoEgoPlayerMovement(Math.PI, 0.5),
 
-								RoutedActions.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x, y), Ego.GoodEgoY));
+                        StepRight = () => DoEgoPlayerMovement(0, 2),
+                        StepRightEnd = () => DoEgoPlayerMovement(0, 0.5),
 
-							}
+                        FireBullet = () => Ego.FireBullet(),
 
-					};
+                        SmartMoveTo = (x, y) =>
+                            {
+                                // ignore mouse while out of bounds
+                                if (x < 0)
+                                    return;
 
-					PlayerInput.Enabled.ValueChangedTo +=
-						InputEnabled =>
-						{
-							DebugDump.Write(new { InputEnabled });
+                                if (x > DefaultWidth)
+                                    return;
 
-						};
+                                RoutedActions.DoPlayerMovement.Chained(Ego, new Point(Ego.Wrapper(x, y), Ego.GoodEgoY));
 
+                            }
 
-				}
-			);
-			#endregion
+                    };
 
-			this.GroupEnemies.Add(this.Ego.EvilEgo);
+                    PlayerInput.Enabled.ValueChangedTo +=
+                        InputEnabled =>
+                        {
+                            DebugDump.Write(new { InputEnabled });
 
-			// hide menu for fast start
-			// MenuFader.Value = CanvasOverlay;
+                        };
 
-			this.PlaysSurvived.ValueChangedTo +=
-				PlaysSurvived => DebugDump.Write(new { PlaysSurvived });
 
-			this.PlaysSurvived.ValueChangedTo +=
-				PlaysSurvived =>
-				{
-					if (PlaysSurvived == 5)
-						this.RoutedActions.AddAchivementFiver.ChainedOnce();
+                }
+            );
+            #endregion
 
-					if (PlaysSurvived == 1)
-						this.RoutedActions.AddAchivementFirst.ChainedOnce();
-				};
+            this.GroupEnemies.Add(this.Ego.EvilEgo);
 
+            // hide menu for fast start
+            // MenuFader.Value = CanvasOverlay;
 
-			const int ClipMargin = 20;
+            this.PlaysSurvived.ValueChangedTo +=
+                PlaysSurvived => DebugDump.Write(new { PlaysSurvived });
 
-			#region evilmode
+            this.PlaysSurvived.ValueChangedTo +=
+                PlaysSurvived =>
+                {
+                    if (PlaysSurvived == 5)
+                        this.RoutedActions.AddAchivementFiver.ChainedOnce();
 
-			this.Ego.EvilMode.ValueChangedToTrue +=
-				delegate
-				{
-					play(Sounds.fade);
+                    if (PlaysSurvived == 1)
+                        this.RoutedActions.AddAchivementFirst.ChainedOnce();
+                };
 
-					#region keep ego here for 10 secs
 
-					this.Ego.GoodEgo.Clip =
-						p =>
-						{
-							if (p.x < DefaultWidth / 2)
-							{
-								p.x = p.x.Min(-ClipMargin);
-							}
-							else
-							{
-								p.x = p.x.Max(DefaultWidth + ClipMargin);
-							}
+            const int ClipMargin = 20;
 
-							return p;
-						};
+            #region evilmode
 
-					5000.AtDelayDo(
-						delegate
-						{
-							this.Ego.GoodEgo.Clip = null;
-							play(Sounds.fade);
-						}
-					);
-					#endregion
+            this.Ego.EvilMode.ValueChangedToTrue +=
+                delegate
+                {
+                    play(Sounds.fade);
 
-				};
+                    #region keep ego here for 10 secs
 
-			this.Ego.EvilMode.ValueChangedToFalse +=
-				delegate
-				{
-					play(Sounds.insertcoin);
-				};
+                    this.Ego.GoodEgo.Clip =
+                        p =>
+                        {
+                            if (p.x < DefaultWidth / 2)
+                            {
+                                p.x = Math.Min(p.x, -ClipMargin);
+                            }
+                            else
+                            {
+                                p.x = Math.Max(p.x, DefaultWidth + ClipMargin);
+                            }
 
-			#endregion
+                            return p;
+                        };
 
-			this.Ego.EvilMode.LinkTo(Statusbar.EvilMode);
+                    5000.AtDelayDo(
+                        delegate
+                        {
+                            this.Ego.GoodEgo.Clip = null;
+                            play(Sounds.fade);
+                        }
+                    );
+                    #endregion
 
-			#region evilmode indicator
-			this.Ego.EvilMode.ValueChangedToTrue +=
-				delegate
-				{
-					this.filters = new[] { Filters.RedChannelFilter };
-				};
+                };
 
-			this.Ego.EvilMode.ValueChangedToFalse +=
-				delegate
-				{
-					this.filters = null;
-				};
-			#endregion
+            this.Ego.EvilMode.ValueChangedToFalse +=
+                delegate
+                {
+                    play(Sounds.insertcoin);
+                };
 
-			this.Ego.GoodEgo.FireBullet = RoutedActions.FireBullet;
-			this.Ego.GoodEgo.AttachTo(CanvasOverlay);
+            #endregion
 
-			this.Ego.EvilEgo.FireBullet = RoutedActions.FireBullet;
-			this.Ego.EvilEgo.AttachTo(CanvasOverlay);
+            this.Ego.EvilMode.LinkTo(Statusbar.EvilMode);
 
-			#region  build shared defense buildings
-			for (int i = 0; i < 4; i++)
-			{
-				var offset = DefaultWidth * (i * 2 + 1) / 8;
+            #region evilmode indicator
+            this.Ego.EvilMode.ValueChangedToTrue +=
+                delegate
+                {
+                    this.filters = new[] { Filters.RedChannelFilter };
+                };
 
+            this.Ego.EvilMode.ValueChangedToFalse +=
+                delegate
+                {
+                    this.filters = null;
+                };
+            #endregion
 
-				foreach (var v in DefenseBlock.CreateDefenseArray(offset, DefenseY))
-				{
-					v.AttachTo(CanvasOverlay);
-					v.AddTo(DefenseBlocks);
-					v.AddTo(FragileEntities.Items);
+            this.Ego.GoodEgo.FireBullet = RoutedActions.FireBullet;
+            this.Ego.GoodEgo.AttachTo(CanvasOverlay);
 
-					// defense blocks like invaders cloud are shared
-					this.SharedState.SharedObjects.Add(v);
-				}
-			}
-			#endregion
+            this.Ego.EvilEgo.FireBullet = RoutedActions.FireBullet;
+            this.Ego.EvilEgo.AttachTo(CanvasOverlay);
 
+            #region  build shared defense buildings
+            for (int i = 0; i < 4; i++)
+            {
+                var offset = DefaultWidth * (i * 2 + 1) / 8;
 
-			Ego.AddTo(FragileEntities);
 
-			#region Create and Move CoPlayer
+                foreach (var v in DefenseBlock.CreateDefenseArray(offset, DefenseY))
+                {
+                    v.AttachTo(CanvasOverlay);
+                    v.AddTo(DefenseBlocks);
+                    v.AddTo(FragileEntities.Items);
 
-			RoutedActions.CreateCoPlayer.Direct =
-				(user, handler) =>
-				{
-					var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
-						{
-							Name = "CoPlayer"
-						}.AddTo(CoPlayers);
+                    // defense blocks like invaders cloud are shared
+                    this.SharedState.SharedObjects.Add(v);
+                }
+            }
+            #endregion
 
-					cp1.GoodEgo.AttachTo(CanvasOverlay);
-					cp1.EvilEgo.AttachTo(CanvasOverlay);
 
-					// we are adding remote controlled objects
-					cp1.AddTo(this.SharedState.RemoteObjects[user]);
+            Ego.AddTo(FragileEntities);
 
-					cp1.GoodEgo.AddTo(this.SharedState.RemoteObjects[user]);
-					cp1.EvilEgo.AddTo(this.SharedState.RemoteObjects[user]);
+            #region Create and Move CoPlayer
 
-					// group as enemies
-					cp1.EvilEgo.AddTo(this.GroupEnemies);
-					cp1.GoodEgo.ApplyFilter(Filters.ColorFillFilter(0xff));
-					cp1.AddTo(FragileEntities);
+            RoutedActions.CreateCoPlayer.Direct =
+                (user, handler) =>
+                {
+                    var cp1 = new PlayerShip(DefaultWidth, DefaultHeight)
+                        {
+                            Name = "CoPlayer"
+                        }.AddTo(CoPlayers);
 
-					handler(cp1);
+                    cp1.GoodEgo.AttachTo(CanvasOverlay);
+                    cp1.EvilEgo.AttachTo(CanvasOverlay);
 
-					// this entity only moves when that player wants to move...
+                    // we are adding remote controlled objects
+                    cp1.AddTo(this.SharedState.RemoteObjects[user]);
 
-					// yet we might need to notify of damage
-				};
+                    cp1.GoodEgo.AddTo(this.SharedState.RemoteObjects[user]);
+                    cp1.EvilEgo.AddTo(this.SharedState.RemoteObjects[user]);
 
-			RoutedActions.RemoveCoPlayer.Direct =
-				user =>
-				{
-					var CoPlayer = (PlayerShip)this.SharedState.RemoteObjects[user][0];
+                    // group as enemies
+                    cp1.EvilEgo.AddTo(this.GroupEnemies);
+                    cp1.GoodEgo.ApplyFilter(Filters.ColorFillFilter(0xff));
+                    cp1.AddTo(FragileEntities);
 
-					this.SharedState.RemoteObjects[user].Clear();
+                    handler(cp1);
 
-					CoPlayers.Remove(CoPlayer);
+                    // this entity only moves when that player wants to move...
 
-					CoPlayer.EvilEgo.Orphanize();
-					CoPlayer.GoodEgo.Orphanize();
+                    // yet we might need to notify of damage
+                };
 
-					GroupEnemies.Remove(CoPlayer.EvilEgo);
+            RoutedActions.RemoveCoPlayer.Direct =
+                user =>
+                {
+                    var CoPlayer = (PlayerShip)this.SharedState.RemoteObjects[user][0];
 
-					CoPlayer.EvilEgo.RemoveFrom(FragileEntities.Items);
-					CoPlayer.GoodEgo.RemoveFrom(FragileEntities.Items);
-				};
+                    this.SharedState.RemoteObjects[user].Clear();
 
-			RoutedActions.MoveCoPlayer.Direct =
-				(ego, p) =>
-				{
-					ego.GoodEgo.TweenMoveTo(p.x, p.y);
-				};
+                    CoPlayers.Remove(CoPlayer);
 
-			#endregion
+                    CoPlayer.EvilEgo.Orphanize();
+                    CoPlayer.GoodEgo.Orphanize();
 
+                    GroupEnemies.Remove(CoPlayer.EvilEgo);
 
+                    CoPlayer.EvilEgo.RemoveFrom(FragileEntities.Items);
+                    CoPlayer.GoodEgo.RemoveFrom(FragileEntities.Items);
+                };
 
-			#region AddEnemy
-			RoutedActions.AddEnemy.Direct +=
-				(e, p) =>
-				{
-					e.Name = "Enemy";
+            RoutedActions.MoveCoPlayer.Direct =
+                (ego, p) =>
+                {
+                    ego.GoodEgo.TweenMoveTo(p.x, p.y);
+                };
 
-					e.TeleportTo(p.x, p.y)
-					.AttachTo(CanvasOverlay)
-					.AddTo(FragileEntities.Items)
-					.AddTo(GroupEnemies);
-				};
-			#endregion
+            #endregion
 
-			#region cloud
-			cloud1 = new EnemyCloud
-		   {
-			   PlaySound = play
-		   };
 
-			cloud1.Members.ForEach(
-				m =>
-				{
-					// if a cloud member fires, it will go across network...
-					m.Element.FireBullet = RoutedActions.FireBullet;
 
-					this.SharedState.SharedObjects.Add(m.Element);
+            #region AddEnemy
+            RoutedActions.AddEnemy.Direct +=
+                (e, p) =>
+                {
+                    e.Name = "Enemy";
 
-					// we are adding enemies over network - but they actually are shared objects
-					RoutedActions.AddEnemy.Chained(m.Element, m.Element.ToPoint());
-				}
-			);
+                    e.TeleportTo(p.x, p.y)
+                    .AttachTo(CanvasOverlay)
+                    .AddTo(FragileEntities.Items)
+                    .AddTo(GroupEnemies);
+                };
+            #endregion
 
-			cloud1.TickSounds =
-					new Sound[] {
+            #region cloud
+            cloud1 = new EnemyCloud
+           {
+               PlaySound = play
+           };
+
+            cloud1.Members.ForEach(
+                m =>
+                {
+                    // if a cloud member fires, it will go across network...
+                    m.Element.FireBullet = RoutedActions.FireBullet;
+
+                    this.SharedState.SharedObjects.Add(m.Element);
+
+                    // we are adding enemies over network - but they actually are shared objects
+                    RoutedActions.AddEnemy.Chained(m.Element, m.Element.ToPoint());
+                }
+            );
+
+            cloud1.TickSounds =
+                    new Sound[] {
 						Sounds.duh0,
 						Sounds.duh1,
 						Sounds.duh2,
 						Sounds.duh3,
 					};
 
-			cloud1.AttachTo(this.CanvasOverlay);
+            cloud1.AttachTo(this.CanvasOverlay);
 
 
 
 
-			cloud1.TickInterval.ValueChangedTo +=
-				e => DebugDump.Write(new { TickInterval = e });
+            cloud1.TickInterval.ValueChangedTo +=
+                e => DebugDump.Write(new { TickInterval = e });
 
 
 
-			//var CloudSpeedAcc = 1.04;
-			//var CloudSpeed = 12.0;
-			//var CloudMove = new Point();
+            //var CloudSpeedAcc = 1.04;
+            //var CloudSpeed = 12.0;
+            //var CloudMove = new Point();
 
-			Action ResetCloudLocal =
-				delegate
-				{
-					cloud1.Speed = 12;
-					cloud1.NextMove.x = cloud1.Speed;
-					cloud1.NextMove.y = 0;
+            Action ResetCloudLocal =
+                delegate
+                {
+                    cloud1.Speed = 12;
+                    cloud1.NextMove.x = cloud1.Speed;
+                    cloud1.NextMove.y = 0;
 
-					
-					
-					cloud1.TeleportTo(60, 80);
-					cloud1.TickInterval.Value = 1000;
 
-					// rebuild defense
 
-					foreach (var v in DefenseBlocks)
-					{
-						v.alpha = 1;
-					}
+                    cloud1.TeleportTo(60, 80);
+                    cloud1.TickInterval.Value = 1000;
 
-					foreach (var v in KnownEgos)
-					{
-						v.GoodEgo.alpha = 1;
-						v.EvilEgo.alpha = 1;
-					}
-	
-				};
+                    // rebuild defense
 
-			ResetCloudLocal();
+                    foreach (var v in DefenseBlocks)
+                    {
+                        v.alpha = 1;
+                    }
 
-			bool ResetCloudSoonDisabled = false;
+                    foreach (var v in KnownEgos)
+                    {
+                        v.GoodEgo.alpha = 1;
+                        v.EvilEgo.alpha = 1;
+                    }
 
-			RoutedActions.KillAllInvaders.Direct =
-				delegate
-				{
-					cloud1.Members.ForEach(m => m.Element.alpha = 0);
-				};
+                };
 
-			Action ResetCloudSoon =
-				delegate
-				{
-					if (ResetCloudSoonDisabled)
-						return;
+            ResetCloudLocal();
 
-					ResetCloudSoonDisabled = true;
+            bool ResetCloudSoonDisabled = false;
 
-					RoutedActions.KillAllInvaders.Chained();
+            RoutedActions.KillAllInvaders.Direct =
+                delegate
+                {
+                    cloud1.Members.ForEach(m => m.Element.alpha = 0);
+                };
 
-					// do not count evil mode
-					if (!Ego.EvilMode)
-						PlaysSurvived.Value++;
+            Action ResetCloudSoon =
+                delegate
+                {
+                    if (ResetCloudSoonDisabled)
+                        return;
 
-					cloud1.TickInterval.Value = 0;
-					cloud1.TeleportTo(60, 80);
+                    ResetCloudSoonDisabled = true;
 
-					cloud1.Speed = 12;
-					cloud1.NextMove.x = cloud1.Speed;
-					cloud1.NextMove.y = 0;
-					
+                    RoutedActions.KillAllInvaders.Chained();
 
-					3000.AtDelayDo(
-						delegate
-						{
-							cloud1.ResetColors();
+                    // do not count evil mode
+                    if (!Ego.EvilMode)
+                        PlaysSurvived.Value++;
 
-							ResetCloudLocal();
+                    cloud1.TickInterval.Value = 0;
+                    cloud1.TeleportTo(60, 80);
 
-							cloud1.ResetLives();
+                    cloud1.Speed = 12;
+                    cloud1.NextMove.x = cloud1.Speed;
+                    cloud1.NextMove.y = 0;
 
-							ResetCloudSoonDisabled = false;
 
-						}
-					);
+                    3000.AtDelayDo(
+                        delegate
+                        {
+                            cloud1.ResetColors();
 
-				};
+                            ResetCloudLocal();
 
+                            cloud1.ResetLives();
 
-			cloud1.Tick +=
-				delegate
-				{
-					var r = cloud1.Warzone;
+                            ResetCloudSoonDisabled = false;
 
-					if (r == null)
-					{
-						ResetCloudSoon();
+                        }
+                    );
 
-						return;
-					}
+                };
 
-					//this.graphics.clear();
-					//this.graphics.beginFill(0xffffff);
-					//this.graphics.drawRect(r.x, r.y, r.width, r.height);
 
-					//DebugDump.Write(new { r.left, r.right, cloud1.FrontRow.Length });
+            cloud1.Tick +=
+                delegate
+                {
+                    var r = cloud1.Warzone;
 
-					if (r.bottom > DefenseY)
-					{
-						ResetCloudSoon();
+                    if (r == null)
+                    {
+                        ResetCloudSoon();
 
-						return;
-					}
+                        return;
+                    }
 
-					var Skip = 4 * (CoPlayers.Count + 1);
+                    //this.graphics.clear();
+                    //this.graphics.beginFill(0xffffff);
+                    //this.graphics.drawRect(r.x, r.y, r.width, r.height);
 
-					if (cloud1.Counter % Skip == 0)
-					{
-						// fire some bullets
-						var rr = cloud1.FrontRow.Random();
+                    //DebugDump.Write(new { r.left, r.right, cloud1.FrontRow.Length });
 
-						// invaders bullets should have different sound or be silent
-						rr.Element.FireBulletChained(1, new Point(rr.Element.x, rr.Element.y), new Point(rr.Element.x, DefaultHeight), Ego.GoodEgoY);
+                    if (r.bottom > DefenseY)
+                    {
+                        ResetCloudSoon();
 
-						//rb.Silent = true;
+                        return;
+                    }
 
-						//AddBullet.Chained(
-						//    rb
-						//);
-					}
+                    var Skip = 4 * (CoPlayers.Count + 1);
 
-					var IsFarRight = r.right >= (DefaultWidth - EnemyCloud.DefaultCloudMargin);
+                    if (cloud1.Counter % Skip == 0)
+                    {
+                        // fire some bullets
+                        var rr = cloud1.FrontRow.Random();
 
-					if (cloud1.NextMove.x < 0)
-						IsFarRight = false;
+                        // invaders bullets should have different sound or be silent
+                        rr.Element.FireBulletChained(1, new Point(rr.Element.x, rr.Element.y), new Point(rr.Element.x, DefaultHeight), Ego.GoodEgoY);
 
-					var IsFarLeft = r.left <= (EnemyCloud.DefaultCloudMargin);
+                        //rb.Silent = true;
 
-					if (cloud1.NextMove.x > 0)
-						IsFarLeft = false;
+                        //AddBullet.Chained(
+                        //    rb
+                        //);
+                    }
 
+                    var IsFarRight = r.right >= (DefaultWidth - EnemyCloud.DefaultCloudMargin);
 
-					var WillStartVerticalMovement = IsFarLeft || IsFarRight;
+                    if (cloud1.NextMove.x < 0)
+                        IsFarRight = false;
 
+                    var IsFarLeft = r.left <= (EnemyCloud.DefaultCloudMargin);
 
-					if (WillStartVerticalMovement && cloud1.NextMove.y == 0)
-					{
+                    if (cloud1.NextMove.x > 0)
+                        IsFarLeft = false;
 
 
-						cloud1.NextMove.x = 0;
-						cloud1.NextMove.y = 8;
+                    var WillStartVerticalMovement = IsFarLeft || IsFarRight;
 
-						cloud1.Speed *= cloud1.SpeedAcc;
-					}
-					else
-					{
-						if (WillStartVerticalMovement)
-							cloud1.NextMove.y -= cloud1.Speed / 2;
-						else
-						{
 
-						}
+                    if (WillStartVerticalMovement && cloud1.NextMove.y == 0)
+                    {
 
-						if (cloud1.NextMove.y <= 0)
-						{
-							cloud1.NextMove.y = 0;
 
-							if (IsFarLeft)
-								cloud1.NextMove.x = cloud1.Speed;
-							else if (IsFarRight)
-								cloud1.NextMove.x = -cloud1.Speed;
-						}
-					}
+                        cloud1.NextMove.x = 0;
+                        cloud1.NextMove.y = 8;
 
-					//DebugDump.Write(new { CloudMove.x, CloudMove.y });
+                        cloud1.Speed *= cloud1.SpeedAcc;
+                    }
+                    else
+                    {
+                        if (WillStartVerticalMovement)
+                            cloud1.NextMove.y -= cloud1.Speed / 2;
+                        else
+                        {
 
-					cloud1.MoveToOffset(cloud1.NextMove);
+                        }
 
-				};
+                        if (cloud1.NextMove.y <= 0)
+                        {
+                            cloud1.NextMove.y = 0;
 
+                            if (IsFarLeft)
+                                cloud1.NextMove.x = cloud1.Speed;
+                            else if (IsFarRight)
+                                cloud1.NextMove.x = -cloud1.Speed;
+                        }
+                    }
 
+                    //DebugDump.Write(new { CloudMove.x, CloudMove.y });
 
-			#endregion
+                    cloud1.MoveToOffset(cloud1.NextMove);
 
+                };
 
 
-			//AddEnemy.Chained(new EnemyA(), new Point(200, 200));
-			//AddEnemy.Chained(new EnemyB(), new Point(240, 200));
-			//AddEnemy.Chained(new EnemyC(), new Point(280, 200));
-			//AddEnemy.Chained(new EnemyUFO(), new Point(160, 200));
-			//AddEnemy.Chained(new EnemyBigGun(), new Point(120, 200));
 
-			#region FireBullet
+            #endregion
 
-			RoutedActions.FireBullet.Direct =
-				(StarShip starship, int Multiplier, Point From, Point To, double Limit, Action<BulletInfo> handler) =>
-				{
-					var bullet = new SpriteWithMovement();
 
-					Multiplier = Multiplier.Max(1);
 
-					for (int i = 1; i <= Multiplier; i++)
-					{
-						bullet.graphics.beginFill(Colors.Green);
-						bullet.graphics.drawRect((i - Multiplier) * 2, -8, 1, 16);
-					}
+            //AddEnemy.Chained(new EnemyA(), new Point(200, 200));
+            //AddEnemy.Chained(new EnemyB(), new Point(240, 200));
+            //AddEnemy.Chained(new EnemyC(), new Point(280, 200));
+            //AddEnemy.Chained(new EnemyUFO(), new Point(160, 200));
+            //AddEnemy.Chained(new EnemyBigGun(), new Point(120, 200));
 
+            #region FireBullet
 
-					bullet.StepMultiplier = 0.3;
-					bullet.MaxStep = 24;
+            RoutedActions.FireBullet.Direct =
+                (StarShip starship, int Multiplier, Point From, Point To, double Limit, Action<BulletInfo> handler) =>
+                {
+                    var bullet = new SpriteWithMovement();
 
-					if (From.y < To.y)
-					{
-						bullet.TeleportTo(From.x, From.y);
-						bullet.TweenMoveTo(To.x + 0.00001, To.y);
+                    Multiplier = Math.Max(Multiplier, 1);
 
-						bullet.PositionChanged +=
-							delegate
-							{
-								if (bullet.y > Limit)
-									bullet.Orphanize();
-							};
-					}
-					else
-					{
-						bullet.TeleportTo(From.x, From.y);
-						bullet.TweenMoveTo(To.x + 0.00001, To.y);
+                    for (int i = 1; i <= Multiplier; i++)
+                    {
+                        bullet.graphics.beginFill(Colors.Green);
+                        bullet.graphics.drawRect((i - Multiplier) * 2, -8, 1, 16);
+                    }
 
 
-						bullet.PositionChanged +=
-							delegate
-							{
-								if (bullet.y < Limit)
-									bullet.Orphanize();
-							};
-					}
+                    bullet.StepMultiplier = 0.3;
+                    bullet.MaxStep = 24;
 
-					// it should not be null and provide the correct parent for the bullet
-					if (starship == null)
-						starship = this.Ego.ActiveEgo;
+                    if (From.y < To.y)
+                    {
+                        bullet.TeleportTo(From.x, From.y);
+                        bullet.TweenMoveTo(To.x + 0.00001, To.y);
 
-					var bulletp = new BulletInfo(bullet.WithParent(starship)) { Multiplier = Multiplier };
+                        bullet.PositionChanged +=
+                            delegate
+                            {
+                                if (bullet.y > Limit)
+                                    bullet.Orphanize();
+                            };
+                    }
+                    else
+                    {
+                        bullet.TeleportTo(From.x, From.y);
+                        bullet.TweenMoveTo(To.x + 0.00001, To.y);
 
-					// local only
-					FragileEntities.AddBullet(bulletp);
 
-					bulletp.Element.AttachTo(CanvasOverlay);
-					bulletp.Element.removed +=
-						delegate
-						{
-							FragileEntities.Bullets.Remove(bulletp);
-						};
+                        bullet.PositionChanged +=
+                            delegate
+                            {
+                                if (bullet.y < Limit)
+                                    bullet.Orphanize();
+                            };
+                    }
 
-					if (!bulletp.Silent)
-						play(Sounds.firemissile);
+                    // it should not be null and provide the correct parent for the bullet
+                    if (starship == null)
+                        starship = this.Ego.ActiveEgo;
 
-					if (handler != null)
-						handler(bulletp);
-				};
+                    var bulletp = new BulletInfo(bullet.WithParent(starship)) { Multiplier = Multiplier };
 
-			#endregion
+                    // local only
+                    FragileEntities.AddBullet(bulletp);
 
+                    bulletp.Element.AttachTo(CanvasOverlay);
+                    bulletp.Element.removed +=
+                        delegate
+                        {
+                            FragileEntities.Bullets.Remove(bulletp);
+                        };
 
+                    if (!bulletp.Silent)
+                        play(Sounds.firemissile);
 
+                    if (handler != null)
+                        handler(bulletp);
+                };
 
+            #endregion
 
 
-			#region SetWeaponMultiplier
 
-			RoutedActions.SetWeaponMultiplier.Direct =
-				(p, value) =>
-				{
-					p.CurrentBulletMultiplier.Value = value;
-				};
-			#endregion
 
-			#region AddDamage
-			RoutedActions.AddDamage.Direct +=
-				(target, damage, shooter) =>
-				{
-					target.TakeDamage(damage);
 
-					if (target.HitPoints <= 0)
-					{
-						// did we kill anything?
-						// shall we take credit?
 
-						if (GroupEnemies.Any(k => k == target))
-						{
-							cloud1.TickInterval.Value = (cloud1.TickInterval.Value - 25).Max(200);
-							cloud1.Speed *= cloud1.SpeedAcc;
-						}
+            #region SetWeaponMultiplier
 
-						// we shot a coplayer while in evil mode! yay!
-						if (shooter == Ego.EvilEgo)
-							if (KnownEgos.Any(k => k.GoodEgo == target))
-								this.RoutedActions.AddAchivementUFO.Chained();
+            RoutedActions.SetWeaponMultiplier.Direct =
+                (p, value) =>
+                {
+                    p.CurrentBulletMultiplier.Value = value;
+                };
+            #endregion
 
-						#region award localplayer and upgrade weapon
-						if (shooter == Ego.ActiveEgo)
-						{
-							Statusbar.Score.Value += target.ScorePoints;
+            #region AddDamage
+            RoutedActions.AddDamage.Direct +=
+                (target, damage, shooter) =>
+                {
+                    target.TakeDamage(damage);
 
-							TryUpgradeWeapon();
-						}
-						#endregion
+                    if (target.HitPoints <= 0)
+                    {
+                        // did we kill anything?
+                        // shall we take credit?
 
+                        if (GroupEnemies.Any(k => k == target))
+                        {
+                            cloud1.TickInterval.Value = Math.Max((cloud1.TickInterval.Value - 25),200);
+                            cloud1.Speed *= cloud1.SpeedAcc;
+                        }
 
-						play(target.GetDeathSound());
-					}
-					else
-					{
-						play(Sounds.shortwhite);
-					}
+                        // we shot a coplayer while in evil mode! yay!
+                        if (shooter == Ego.EvilEgo)
+                            if (KnownEgos.Any(k => k.GoodEgo == target))
+                                this.RoutedActions.AddAchivementUFO.Chained();
 
-					//DebugDump.Write(
-					//    new
-					//    {
-					//        From = bullet.Parent.Name,
-					//        Delta = bullet.TotalDamage,
-					//        target.HitPoints,
-					//        To = target.Name
-					//    }
-					//);
-				};
-			#endregion
+                        #region award localplayer and upgrade weapon
+                        if (shooter == Ego.ActiveEgo)
+                        {
+                            Statusbar.Score.Value += target.ScorePoints;
 
+                            TryUpgradeWeapon();
+                        }
+                        #endregion
 
 
-			#region FragileEntities
-			this.FragileEntities.AddDamage = RoutedActions.AddDamage;
+                        play(target.GetDeathSound());
+                    }
+                    else
+                    {
+                        play(Sounds.shortwhite);
+                    }
 
-			this.FragileEntities.PrepareFilter =
-				delegate
-				{
-					var GroupGood = KnownEgos.Select(i => i.GoodEgo).ToArray();
-					var GroupEvil = GroupEnemies.ToArray();
+                    //DebugDump.Write(
+                    //    new
+                    //    {
+                    //        From = bullet.Parent.Name,
+                    //        Delta = bullet.TotalDamage,
+                    //        target.HitPoints,
+                    //        To = target.Name
+                    //    }
+                    //);
+                };
+            #endregion
 
-					this.FragileEntities.Filter =
-						(source, n) =>
-						{
-							// spare yourself
-							var query = source;
 
-							// spare coplayers in the same mode
-							if (GroupEnemies.Contains(n.Parent))
-								query = query.Where(x => !GroupEvil.Contains(x));
-							else
-								query = query.Where(x => !GroupGood.Contains(x));
 
-							return query;
-						};
-				};
-			#endregion
+            #region FragileEntities
+            this.FragileEntities.AddDamage = RoutedActions.AddDamage;
 
-			this.RoutedActions.AddAchivementFiver.Direct =
-				delegate
-				{
-					play(Sounds.insertcoin);
-				};
+            this.FragileEntities.PrepareFilter =
+                delegate
+                {
+                    var GroupGood = KnownEgos.Select(i => i.GoodEgo).ToArray();
+                    var GroupEvil = GroupEnemies.ToArray();
 
-			this.RoutedActions.AddAchivementMaxGun.Direct =
-				delegate
-				{
-					play(Sounds.insertcoin);
-				};
+                    this.FragileEntities.Filter =
+                        (source, n) =>
+                        {
+                            // spare yourself
+                            var query = source;
 
-			this.RoutedActions.AddAchivementUFO.Direct =
-				delegate
-				{
-					play(Sounds.mothershiploop);
-				};
+                            // spare coplayers in the same mode
+                            if (GroupEnemies.Contains(n.Parent))
+                                query = query.Where(x => !GroupEvil.Contains(x));
+                            else
+                                query = query.Where(x => !GroupGood.Contains(x));
 
-			Action<RoutedActionInfoBase> BaseHandler =
-				e => DebugDump.Write(new { e.EventName });
+                            return query;
+                        };
+                };
+            #endregion
 
-			// events for network
-			// RoutedActions.AddDamage.BaseHandler += BaseHandler;
-			RoutedActions.RestoreStarship.BaseHandler += BaseHandler;
-			RoutedActions.AddAchivementFiver.BaseHandler += BaseHandler;
-			RoutedActions.AddAchivementUFO.BaseHandler += BaseHandler;
-			RoutedActions.AddAchivementMaxGun.BaseHandler += BaseHandler;
+            this.RoutedActions.AddAchivementFiver.Direct =
+                delegate
+                {
+                    play(Sounds.insertcoin);
+                };
 
-			//this.AddEnemy.BaseHandler += BaseHandler;
-			////this.AddBullet.BaseHandler += BaseHandler;
-			//this.DoPlayerMovement.BaseHandler += BaseHandler;
-			//this.SetWeaponMultiplier.BaseHandler += BaseHandler;
+            this.RoutedActions.AddAchivementMaxGun.Direct =
+                delegate
+                {
+                    play(Sounds.insertcoin);
+                };
 
-		}
+            this.RoutedActions.AddAchivementUFO.Direct =
+                delegate
+                {
+                    play(Sounds.mothershiploop);
+                };
 
-		private void TryUpgradeWeapon()
-		{
-			if (Statusbar.Score < 50)
-				RoutedActions.SetWeaponMultiplier.Chained(Ego, 1);
-			else
-				if (Statusbar.Score < 100)
-					RoutedActions.SetWeaponMultiplier.Chained(Ego, 2);
-				else if (Statusbar.Score < 200)
-					RoutedActions.SetWeaponMultiplier.Chained(Ego, 3);
-				else
-				{
-					RoutedActions.SetWeaponMultiplier.Chained(Ego, 4);
-					
-					RoutedActions.AddAchivementMaxGun.ChainedOnce();
-				}
-		}
+            Action<RoutedActionInfoBase> BaseHandler =
+                e => DebugDump.Write(new { e.EventName });
 
+            // events for network
+            // RoutedActions.AddDamage.BaseHandler += BaseHandler;
+            RoutedActions.RestoreStarship.BaseHandler += BaseHandler;
+            RoutedActions.AddAchivementFiver.BaseHandler += BaseHandler;
+            RoutedActions.AddAchivementUFO.BaseHandler += BaseHandler;
+            RoutedActions.AddAchivementMaxGun.BaseHandler += BaseHandler;
 
+            //this.AddEnemy.BaseHandler += BaseHandler;
+            ////this.AddBullet.BaseHandler += BaseHandler;
+            //this.DoPlayerMovement.BaseHandler += BaseHandler;
+            //this.SetWeaponMultiplier.BaseHandler += BaseHandler;
 
+        }
 
+        private void TryUpgradeWeapon()
+        {
+            if (Statusbar.Score < 50)
+                RoutedActions.SetWeaponMultiplier.Chained(Ego, 1);
+            else
+                if (Statusbar.Score < 100)
+                    RoutedActions.SetWeaponMultiplier.Chained(Ego, 2);
+                else if (Statusbar.Score < 200)
+                    RoutedActions.SetWeaponMultiplier.Chained(Ego, 3);
+                else
+                {
+                    RoutedActions.SetWeaponMultiplier.Chained(Ego, 4);
 
+                    RoutedActions.AddAchivementMaxGun.ChainedOnce();
+                }
+        }
 
-		public readonly FragileEntitiesContainer FragileEntities = new FragileEntitiesContainer();
 
-		public readonly List<StarShip> GroupEnemies = new List<StarShip>();
 
-		public readonly List<DefenseBlock> DefenseBlocks =
-			new List<DefenseBlock>();
 
-		#region friendly units, human controlled
-		public readonly List<PlayerShip> CoPlayers = new List<PlayerShip>();
 
-		public PlayerShip Ego;
 
-		public PlayerShip[] KnownEgos
-		{
-			get
-			{
-				return this.CoPlayers.Concat(this.Ego).ToArray();
-			}
-		}
-		#endregion
+        public readonly FragileEntitiesContainer FragileEntities = new FragileEntitiesContainer();
 
-		public EnemyCloud cloud1;
-	}
+        public readonly List<StarShip> GroupEnemies = new List<StarShip>();
+
+        public readonly List<DefenseBlock> DefenseBlocks =
+            new List<DefenseBlock>();
+
+        #region friendly units, human controlled
+        public readonly List<PlayerShip> CoPlayers = new List<PlayerShip>();
+
+        public PlayerShip Ego;
+
+        public PlayerShip[] KnownEgos
+        {
+            get
+            {
+                return this.CoPlayers.Concat(this.Ego).ToArray();
+            }
+        }
+        #endregion
+
+        public EnemyCloud cloud1;
+    }
 }

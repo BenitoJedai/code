@@ -29,9 +29,14 @@ namespace ScriptCoreLib.ActionScript
         {
             this.source = source;
 
-			this.mimeType = EmbedMimeTypes.Resolve(source);
-
-      
+            EmbedAttributeImplementation.Resolve(source,
+                (mimeType, fontName, embedAsCFF) =>
+                {
+                    this.mimeType = mimeType;
+                    this.fontName = fontName;
+                    this.embedAsCFF = embedAsCFF;
+                }
+            );
 
         }
         /// <summary>
@@ -61,6 +66,8 @@ namespace ScriptCoreLib.ActionScript
         public string unicodeRange;
         public string advancedAntiAliasing;
 
+        // http://divillysausages.com/blog/as3_font_embedding_masterclass
+        public string embedAsCFF;
 
         // image
 

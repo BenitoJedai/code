@@ -17,6 +17,10 @@ namespace FlashSpaceInvaders.ActionScript
 
 		public static readonly string FontFixedSys = "Fixedsys500c";
 
+        // Error: font transcoding requires you to specify 'fontName' and one of 'source', 'systemFont', or 'sourceList'
+        //   [Embed(source = "/assets/FlashSpaceInvaders.Assets/Fixedsys500c.ttf", mimeType = "application/x-font")]
+        // what?
+
 		[Embed(Path + "/Fixedsys500c.ttf", fontName = "Fixedsys500c")]
 		// You do not use this variable directly. It exists so that 
 		// the compiler will link in the font.
