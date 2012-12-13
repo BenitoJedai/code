@@ -196,7 +196,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                 mTriangle3Vertices.put(triangle3VerticesData).position(0);
             }
 
-            public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
+            public void onSurfaceCreated(GL10 glUnused, javax.microedition.khronos.egl.EGLConfig config)
             {
                 // Set the background clear color to gray.
                 gl.clearColor(0.5f, 0.5f, 0.5f, 0.5f);
