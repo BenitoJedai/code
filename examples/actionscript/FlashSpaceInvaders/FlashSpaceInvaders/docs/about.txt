@@ -1,0 +1,9 @@
+﻿This project template is for Microsoft Visual Studio 9 and allows you to 
+create new jsc:javascript application.
+
+Steps taken while creating this template:
+1. Add a post-build event.
+2. Add references to ScriptCoreLib dlls.
+3. Add Attributes to AssemblyInfo.cs
+4. Create Class1
+5. Implement Setup.cs
