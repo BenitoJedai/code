@@ -14,61 +14,61 @@ using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashSpaceInvaders.ActionScript.StarShips
 {
-	[Script]
-	public class EnemyCloud
-	{
-		[Script]
-		public class Member : ParentRelation<StarShip, EnemyCloud>
-		{
-			public int x;
-			public int y;
+    [Script]
+    public class EnemyCloud
+    {
+        [Script]
+        public class Member : ParentRelation<StarShip, EnemyCloud>
+        {
+            public int x;
+            public int y;
 
-			public Member(StarShip Element, EnemyCloud Parent, int x, int y)
-			{
-				this.Element = Element;
-				this.Parent = Parent;
-				this.x = x;
-				this.y = y;
-			}
-		}
+            public Member(StarShip Element, EnemyCloud Parent, int x, int y)
+            {
+                this.Element = Element;
+                this.Parent = Parent;
+                this.x = x;
+                this.y = y;
+            }
+        }
 
-		public double Speed = 10.0;
-		public double SpeedAcc = 1.02;
-		public Point NextMove = new Point();
-
-
-		const int DefaultCloudWidth = 9;
-		const int DefaultCloudHeight = 5;
-
-		//const int DefaultCloudWidth = 2;
-		//const int DefaultCloudHeight = 2;
-
-		public const int DefaultCloudMargin = 32;
-
-		public readonly List<Member> Members = new List<Member>();
-
-		public Action<Sound> PlaySound;
-		public Sound[] TickSounds;
-		
-		public int Counter = 0;
+        public double Speed = 10.0;
+        public double SpeedAcc = 1.02;
+        public Point NextMove = new Point();
 
 
-		public EnemyCloud()
-		{
-			Action<int, Func<int, StarShip>> Spawn =
-				(y, ctor) =>
-				{
-					for (int x = 0; x < DefaultCloudWidth; x++)
-					{
-						var n = ctor(y);
+        const int DefaultCloudWidth = 9;
+        const int DefaultCloudHeight = 5;
 
-						n.MaxStep = DefaultCloudMargin / 2;
-						Members.Add(new Member(n, this, x, y));
-					}
-				};
+        //const int DefaultCloudWidth = 2;
+        //const int DefaultCloudHeight = 2;
+
+        public const int DefaultCloudMargin = 32;
+
+        public readonly List<Member> Members = new List<Member>();
+
+        public Action<Sound> PlaySound;
+        public Sound[] TickSounds;
+
+        public int Counter = 0;
 
 
-			var colors = new[]
+        public EnemyCloud()
+        {
+            Action<int, Func<int, StarShip>> Spawn =
+                (y, ctor) =>
+                {
+                    for (int x = 0; x < DefaultCloudWidth; x++)
+                    {
+                        var n = ctor(y);
+
+                        n.MaxStep = DefaultCloudMargin / 2;
+                        Members.Add(new Member(n, this, x, y));
+                    }
+                };
+
+
+            var colors = new[]
 			{
 				Filters.ColorFillFilter(0xffffff.Random()),
 				Filters.ColorFillFilter(0xffffff.Random()),
@@ -78,7 +78,7 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 			};
 
-			var factory = new Func<StarShip>[]
+            var factory = new Func<StarShip>[]
 				{
 					() => new EnemyA(),
 					() => new EnemyB(),
@@ -87,79 +87,79 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 					() => new EnemyC(),
 				};
 
-			for (int i = 0; i < DefaultCloudHeight; i++)
-			{
-				Spawn(i, y => factory[y]().ApplyFilter(colors[y]));
-				
-			}
+            for (int i = 0; i < DefaultCloudHeight; i++)
+            {
+                Spawn(i, y => factory[y]().ApplyFilter(colors[y]));
+
+            }
 
 
-			var Timer = default(Timer);
+            var Timer = default(Timer);
 
-			Action InternalTick =
-				delegate
-				{
-					Counter++;
+            Action InternalTick =
+                delegate
+                {
+                    Counter++;
 
-					if (PlaySound != null)
-						if (TickSounds != null)
-							PlaySound(TickSounds[Counter  % TickSounds.Length]);
+                    if (PlaySound != null)
+                        if (TickSounds != null)
+                            PlaySound(TickSounds[Counter % TickSounds.Length]);
 
-					if (this.Tick != null)
-						this.Tick();
-				};
+                    if (this.Tick != null)
+                        this.Tick();
+                };
 
-			Action Reset =
-				delegate
-				{
-					if (TickInterval.Value > 0)
-					{
-						Timer = TickInterval.Value.AtInterval(
-							t =>
-							{
-								InternalTick();
+            Action Reset =
+                delegate
+                {
+                    if (TickInterval.Value > 0)
+                    {
+                        Timer = TickInterval.Value.AtInterval(
+                            t =>
+                            {
+                                InternalTick();
 
-							}
-						);
+                            }
+                        );
 
-						InternalTick();
-					}
+                        InternalTick();
+                    }
 
-				};
-
-
-			TickInterval.ValueChangedTo +=
-				e =>
-				{
-					if (Timer != null)
-						Timer.stop();
-
-					if (e > 0)
-						Reset();
-				};
-
-		}
-
-		public void AttachTo(DisplayObjectContainer c)
-		{
-			foreach (var v in Members)
-			{
-				v.Element.AttachTo(c);
-			}
-		}
-
-		public void TeleportTo(double x, double y)
-		{
-			foreach (var v in Members)
-			{
-				v.Element.TeleportTo(x + DefaultCloudMargin * v.x, y + DefaultCloudMargin * v.y);
-			}
-		}
+                };
 
 
-		public void ResetColors()
-		{
-			var colors = new[]
+            TickInterval.ValueChangedTo +=
+                e =>
+                {
+                    if (Timer != null)
+                        Timer.stop();
+
+                    if (e > 0)
+                        Reset();
+                };
+
+        }
+
+        public void AttachTo(DisplayObjectContainer c)
+        {
+            foreach (var v in Members)
+            {
+                v.Element.AttachTo(c);
+            }
+        }
+
+        public void TeleportTo(double x, double y)
+        {
+            foreach (var v in Members)
+            {
+                v.Element.TeleportTo(x + DefaultCloudMargin * v.x, y + DefaultCloudMargin * v.y);
+            }
+        }
+
+
+        public void ResetColors()
+        {
+            var colors = new[]
 			{
 				Filters.ColorFillFilter(0xffffff.Random()),
 				Filters.ColorFillFilter(0xffffff.Random()),
@@ -169,104 +169,104 @@ namespace FlashSpaceInvaders.ActionScript.StarShips
 
 			};
 
-			foreach (var v in Members)
-			{
-				v.Element.ApplyFilter(colors[v.y]);
-			}
-		}
+            foreach (var v in Members)
+            {
+                v.Element.ApplyFilter(colors[v.y]);
+            }
+        }
 
 
-		public void ResetLives()
-		{
+        public void ResetLives()
+        {
 
-			foreach (var v in Members)
-			{
-				v.Element.alpha = 1;
-			}
-		}
+            foreach (var v in Members)
+            {
+                v.Element.alpha = 1;
+            }
+        }
 
-		public readonly Int32Property TickInterval = 0;
+        public readonly Int32Property TickInterval = 0;
 
-		public event Action Tick;
+        public event Action Tick;
 
-		public double Direction;
+        public double Direction;
 
-		public void MoveToOffset(Point p)
-		{
-			var x = p.x;
-			var y = p.y;
+        public void MoveToOffset(Point p)
+        {
+            var x = p.x;
+            var y = p.y;
 
-			foreach (var v in Members)
-			{
-				var _y = v.Element.MoveToTarget.Value.y + y;
+            foreach (var v in Members)
+            {
+                var _y = v.Element.MoveToTarget.Value.y + y;
 
-				if (_y < 80)
-					_y = 80;
+                if (_y < 80)
+                    _y = 80;
 
-				v.Element.TweenMoveTo(v.Element.MoveToTarget.Value.x + x, _y);
-			}
-		}
+                v.Element.TweenMoveTo(v.Element.MoveToTarget.Value.x + x, _y);
+            }
+        }
 
-		public Rectangle Warzone
-		{
-			get
-			{
-				var r = default(Rectangle);
-
-
-
-				foreach (var item in Members)
-				{
-					if (item.Element.HitPoints > 0)
-						if (r == null)
-							r = new Rectangle(item.Element.x, item.Element.y, 0, 0);
-						else
-						{
-							r.left = item.Element.x.Min(r.left);
-							r.top = item.Element.y.Min(r.top);
-
-							r.right = item.Element.x.Max(r.right);
-							r.bottom = item.Element.y.Max(r.bottom);
-						}
-				}
-
-				return r;
-			}
-		}
+        public Rectangle Warzone
+        {
+            get
+            {
+                var r = default(Rectangle);
 
 
 
+                foreach (var item in Members)
+                {
+                    if (item.Element.HitPoints > 0)
+                        if (r == null)
+                            r = new Rectangle(item.Element.x, item.Element.y, 0, 0);
+                        else
+                        {
+                            r.left = Math.Min(item.Element.x, r.left);
+                            r.top = Math.Min(item.Element.y, r.top);
 
-		public void Stop()
-		{
-			foreach (var v in Members)
-			{
-				v.Element.TeleportTo(v.Element.x, v.Element.y);
-			}
-		}
+                            r.right = Math.Min(item.Element.x, r.right);
+                            r.bottom = Math.Min(item.Element.y, r.bottom);
+                        }
+                }
 
-		public Member[] FrontRow
-		{
-			get
-			{
-				var a = new List<Member>();
+                return r;
+            }
+        }
 
-				for (int i = 0; i < DefaultCloudWidth; i++)
-				{
-					var p = Enumerable.LastOrDefault(
-						from m in Members
-						where m.Element.HitPoints > 0
-						where m.x == i
-						//orderby m.y descending
-						select m
-					);
 
-					if (p != null)
-						a.Add(p);
-				}
 
-				return a.ToArray();
-			}
-		}
-	}
+
+        public void Stop()
+        {
+            foreach (var v in Members)
+            {
+                v.Element.TeleportTo(v.Element.x, v.Element.y);
+            }
+        }
+
+        public Member[] FrontRow
+        {
+            get
+            {
+                var a = new List<Member>();
+
+                for (int i = 0; i < DefaultCloudWidth; i++)
+                {
+                    var p = Enumerable.LastOrDefault(
+                        from m in Members
+                        where m.Element.HitPoints > 0
+                        where m.x == i
+                        //orderby m.y descending
+                        select m
+                    );
+
+                    if (p != null)
+                        a.Add(p);
+                }
+
+                return a.ToArray();
+            }
+        }
+    }
 }

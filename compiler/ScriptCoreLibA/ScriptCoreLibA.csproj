@@ -45,6 +45,7 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="ActionScript\DynamicTypeAttribute.cs" />
+    <Compile Include="ActionScript\EmbedAttributeImplementation.cs" />
     <Compile Include="ActionScript\EmbedByFileNameAttribute.cs" />
     <Compile Include="ActionScript\EmbedFieldsAttribute.cs" />
     <Compile Include="ActionScript\EmbedResourcesAttribute.cs" />
