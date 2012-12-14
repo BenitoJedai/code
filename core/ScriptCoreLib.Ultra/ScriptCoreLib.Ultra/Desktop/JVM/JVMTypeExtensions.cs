@@ -7,8 +7,6 @@ using System.Text;
 
 namespace ScriptCoreLib.Desktop.JVM
 {
-    using Enum = jvm::java.lang.Enum;
-
     public static class JVMTypeExtensions
     {
         /// <summary>
@@ -22,16 +20,24 @@ namespace ScriptCoreLib.Desktop.JVM
             if (SourceType == null)
                 return false;
 
+            // see java.sql.Connection
+
             if (SourceType.IsInterface && SourceType.GetFields(
                 System.Reflection.BindingFlags.Public
                 | System.Reflection.BindingFlags.DeclaredOnly
                 | System.Reflection.BindingFlags.Static).Any())
             {
                 // oldschool enums for java :)
-                return true;
+                return SourceType.GetMethods().Length < 4;
             }
 
-            return SourceType.BaseType != null && SourceType.BaseType.FullName == typeof(Enum).FullName;
+            if (SourceType.BaseType != null
+                && SourceType.BaseType.FullName == typeof(jvm::java.lang.Enum).FullName)
+            {
+                return SourceType.GetMethods().Length < 4;
+            }
+
+            return false;
         }
     }
 }
