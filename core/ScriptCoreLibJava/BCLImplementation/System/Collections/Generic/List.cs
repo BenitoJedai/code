@@ -5,11 +5,15 @@ using System.Text;
 using ScriptCoreLib;
 using System.Collections;
 using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
-    internal class __List<T> : IList<T>, IEnumerable
+    internal class __List<T> :
+        __IList<T>,
+        __IEnumerable
     {
         readonly global::java.util.ArrayList<T> InternalList = new global::java.util.ArrayList<T>();
 
@@ -41,7 +45,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            this.InternalList.add(index, item);
         }
 
         public void RemoveAt(int index)
@@ -107,12 +111,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             return (List<T>.Enumerator)(object)new __Enumerator(this);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        IEnumerator __IEnumerable.GetEnumerator()
         {
             return new __Enumerator(this);
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        IEnumerator<T> __IEnumerable<T>.GetEnumerator()
         {
             return new __Enumerator(this);
         }
@@ -197,22 +201,22 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             #endregion
         }
 
-        int IList<T>.IndexOf(T item)
+        int __IList<T>.IndexOf(T item)
         {
             throw new NotImplementedException();
         }
 
-        void IList<T>.Insert(int index, T item)
+        void __IList<T>.Insert(int index, T item)
+        {
+            this.Insert(0, item);
+        }
+
+        void __IList<T>.RemoveAt(int index)
         {
             throw new NotImplementedException();
         }
 
-        void IList<T>.RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        T IList<T>.this[int index]
+        T __IList<T>.this[int index]
         {
             get
             {
@@ -224,42 +228,42 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             }
         }
 
-        void ICollection<T>.Add(T item)
+        void __ICollection<T>.Add(T item)
+        {
+            this.Add(item);
+        }
+
+        void __ICollection<T>.Clear()
         {
             throw new NotImplementedException();
         }
 
-        void ICollection<T>.Clear()
+        bool __ICollection<T>.Contains(T item)
         {
             throw new NotImplementedException();
         }
 
-        bool ICollection<T>.Contains(T item)
+        void __ICollection<T>.CopyTo(T[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
-        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+        int __ICollection<T>.Count
         {
-            throw new NotImplementedException();
+            get { return this.Count; }
         }
 
-        int ICollection<T>.Count
+        bool __ICollection<T>.IsReadOnly
         {
             get { throw new NotImplementedException(); }
         }
 
-        bool ICollection<T>.IsReadOnly
+        bool __ICollection<T>.Remove(T item)
         {
-            get { throw new NotImplementedException(); }
+            return this.Remove(item);
         }
 
-        bool ICollection<T>.Remove(T item)
-        {
-            throw new NotImplementedException();
-        }
 
-     
     }
 }
 
