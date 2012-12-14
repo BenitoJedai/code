@@ -206,23 +206,34 @@ namespace ScriptCoreLib.Java
 
         public static bool SignatureEquals(this MethodInfo a, string MethodName, Type ReturnType, Type[] ParameterTypes)
         {
-            if (a.Name != MethodName)
+            return SignatureEquals(
+                a.Name, a.ReturnType, a.GetParameterTypes(),
+                MethodName, ReturnType, ParameterTypes
+                    );
+
+        }
+
+        public static bool SignatureEquals(
+            string aMethodName, Type aReturnType, Type[] aParameterTypes,
+            string MethodName, Type ReturnType, Type[] ParameterTypes)
+        {
+
+            if (aMethodName != MethodName)
                 return false;
 
             // comparing void?
 
-            if (a.ReturnType != ReturnType)
+            if (aReturnType != ReturnType)
                 return false;
 
-            var a_Parameters = a.GetParameters();
 
-            if (a_Parameters.Length != ParameterTypes.Length)
+            if (aParameterTypes.Length != ParameterTypes.Length)
                 return false;
 
             var value = true;
-            for (int i = 0; i < a_Parameters.Length; i++)
+            for (int i = 0; i < aParameterTypes.Length; i++)
             {
-                if (a_Parameters[i].ParameterType != ParameterTypes[i])
+                if (aParameterTypes[i] != ParameterTypes[i])
                 {
                     value = false;
                     break;
