@@ -4,11 +4,12 @@ using System.Text;
 using System.ComponentModel;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.ObjectModel;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel
+namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
     [Script(Implements = typeof(global::System.ComponentModel.BindingList<>))]
-	internal class __BindingList<T> : Collections.ObjectModel.__Collection<T>, __IBindingList, __IList
+	internal class __BindingList<T> : __Collection<T>, __IBindingList, __IList
     {
         public __BindingList()
         {
