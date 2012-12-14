@@ -209,7 +209,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.ObjectModel
 
         global::System.Collections.IEnumerator __IEnumerable.GetEnumerator()
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException("The method or operation is not implemented.");
         }
 
         #endregion
