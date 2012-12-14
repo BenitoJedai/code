@@ -443,10 +443,8 @@
     <Compile Include="Shared\BCLImplementation\System\Collections\IList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\Queue.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\IRaiseItemChangedEvents.cs" />
@@ -748,8 +746,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Attribute.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\BindingList.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Array.cs" />
     <Compile Include="Shared\BCLImplementation\System\Comparision.cs" />
@@ -926,12 +924,15 @@
     <EmbeddedResource Include="web\assets\ScriptCoreLib\jsc.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ActionScript\BCLImplementation\System\Collections\ObjectModel\" />
     <Folder Include="ActionScript\BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="ActionScript\Documents\" />
     <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
     <Folder Include="JavaScript\BCLImplementation\Abstractatech\" />
+    <Folder Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
+    <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
     <Folder Include="Java\BCLImplementation\System\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />

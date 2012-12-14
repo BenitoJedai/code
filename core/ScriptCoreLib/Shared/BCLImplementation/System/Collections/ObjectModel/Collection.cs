@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.ObjectModel
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.ObjectModel
 {
     [Script(Implements = typeof(global::System.Collections.ObjectModel.Collection<>))]
     internal class __Collection<T> : __IList<T>, __ICollection<T>
