@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ScriptCoreLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.Extensions
+namespace System
 {
     [Script]
     public static class CoreStringExtensions
@@ -24,6 +25,15 @@ namespace ScriptCoreLib.Extensions
             }
 
             return a;
+        }
+
+        internal static string InternalToString(this object e)
+        {
+            // dumb workaround for __ivec
+            // Parse error: syntax error, unexpected '->' (T_OBJECT_OPERATOR) in
+            // jsc should be the one to apply a workaround 
+
+            return e.ToString();
         }
     }
 }

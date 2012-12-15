@@ -45,7 +45,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.GLSL
 
         public override string ToString()
         {
-            return new { x, y }.ToString();
+            return new { x, y }.InternalToString();
         }
     }
 
