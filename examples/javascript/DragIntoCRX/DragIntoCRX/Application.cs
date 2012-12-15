@@ -32,6 +32,10 @@ namespace DragIntoCRX
         {
             // https://developer.chrome.com/extensions/crx.html
 
+            // http://dev.opera.com/articles/view/opera-extensions-hello-world/
+
+
+
             #region DownloadURL
 
             page.DragCRX.ondragstart +=
