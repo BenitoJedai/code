@@ -96,17 +96,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\sourceforge\jdosbox\lib\**\*.*">
+    <Content Include="x:\opensource\sourceforge\jdosbox\lib\**\*.*">
       <Link>opensource\sourceforge\jdosbox\lib\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\sourceforge\jdosbox\src\**\*.*">
+    <Content Include="x:\opensource\sourceforge\jdosbox\src\**\*.*">
       <Link>opensource\sourceforge\jdosbox\src\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\sourceforge\jdosbox\src_compiler\**\*.*">
+    <Content Include="x:\opensource\sourceforge\jdosbox\src_compiler\**\*.*">
       <Link>opensource\sourceforge\jdosbox\src_compiler\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>

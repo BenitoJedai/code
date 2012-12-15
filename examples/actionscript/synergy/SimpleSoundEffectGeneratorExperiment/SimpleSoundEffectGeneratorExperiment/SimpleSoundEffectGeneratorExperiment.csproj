@@ -127,7 +127,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\googlecode\as3sfxr\src\**\*.*">
+    <Content Include="x:\opensource\googlecode\as3sfxr\src\**\*.*">
       <Link>opensource\googlecode\as3sfxr\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
