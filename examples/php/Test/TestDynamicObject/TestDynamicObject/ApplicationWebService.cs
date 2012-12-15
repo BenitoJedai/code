@@ -19,9 +19,24 @@ namespace TestDynamicObject
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
+            var x = e;
+
+            // cannot use e directly just yet
+            X.foo(ref x);
+
             // Send it back to the caller.
             y(e);
         }
 
     }
+
+    static class X
+    {
+        public static void foo(ref string e)
+        {
+            e = "ref " + e;
+
+        }
+    }
+
 }
