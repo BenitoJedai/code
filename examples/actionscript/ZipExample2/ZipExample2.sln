@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZipExample2", "ZipExample2\ZipExample2.csproj", "{1A598364-BC63-414E-9552-78485C2D9C38}"
 EndProject
 Global

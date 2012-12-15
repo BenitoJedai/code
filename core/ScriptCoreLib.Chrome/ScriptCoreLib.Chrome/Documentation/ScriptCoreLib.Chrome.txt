@@ -1,4 +1,11 @@
-﻿Google Chrome Apps
+﻿Chrome as in the client side.
+
+This assembly shall define user agent, navigator, external extensions.
+- Google Chrome
+- Opera
+- Firefox
+
+Google Chrome Apps
 http://developer.chrome.com/trunk/apps/api_index.html
 //
 
