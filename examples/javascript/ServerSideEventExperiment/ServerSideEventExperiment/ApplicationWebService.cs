@@ -40,6 +40,16 @@ namespace ServerSideEventExperiment
                 //if (h.Context.Request.AcceptTypes.Contains("text/event-stream"))
                 //if (h.Context.Request.Path == "/events")
                 {
+                    Console.WriteLine(new { h.Context.Request.Path });
+
+
+                    if (h.Context.Request.Path == "/foo")
+                    {
+                        h.Context.Response.Redirect("/xoo", true);
+                        h.CompleteRequest();
+                        return;
+                    }
+
                     var xfoo = h.Context.Request.Headers["xfoo"];
 
                     var id = h.Context.Request.Headers["Last-Event-ID"];
@@ -55,7 +65,14 @@ namespace ServerSideEventExperiment
 
                     var now = DateTime.Now;
 
-                    h.Context.Response.Write("id: " + now.Ticks + "\n\n");
+                    // its like a continuation of the last value we already sent.
+
+                    var xml = new XElement("id",
+                        new XAttribute("Ticks", now.Ticks),
+                        new XAttribute("Path", h.Context.Request.Path)
+                    );
+
+                    h.Context.Response.Write("id: " + xml.ToString() + "\n\n");
 
                     Thread.Sleep(2000);
 

@@ -21,12 +21,13 @@ namespace ZIPExample1.ActionScript
     public class ZIPExample1 : Sprite
     {
 
+        //string ref0 = "assets/ZIPExampleApp/dude5.zip";
 
-        [Embed("/assets/ZIPExample1/dude5.zip")]
+        [Embed("/assets/ZIPExampleApp/dude5.zip")]
         Class MyZipFile;
 
 
-	
+
 
 
         /// <summary>
@@ -38,16 +39,16 @@ namespace ZIPExample1.ActionScript
 
             var Bitmaps = Enumerable.ToArray(
                 from File in
-					from f in MyZipFile.ToZIPFile().Entries
-					//from f in MyZipFile.ToFiles()
+                    from f in MyZipFile.ToZIPFile().Entries
+                    //from f in MyZipFile.ToFiles()
                     // you can filter your images here
                     where f.FileName.EndsWith(".png")
                     select f
                 select new { File, GetBitmap = File.Data.ToByteArray().LoadBytes<Bitmap>(i => BitmapsLoaded++) }
             );
 
-    
-            
+
+
 
 
             (200).AtInterval(
@@ -56,7 +57,7 @@ namespace ZIPExample1.ActionScript
                     if (BitmapsLoaded != Bitmaps.Length)
                         return;
 
-           
+
                     var Entry = Bitmaps[t.currentCount % Bitmaps.Length];
                     var Bitmap = Entry.GetBitmap();
 

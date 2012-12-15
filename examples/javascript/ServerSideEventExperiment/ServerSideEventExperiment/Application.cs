@@ -37,7 +37,7 @@ namespace ServerSideEventExperiment
 
             // Uncaught ReferenceError: EventSource is not defined at http://192.168.1.104:29568/view-source:28282
 
-            var s = new EventSource();
+            var s = new EventSource(url: "/foo?bar=2");
 
             s.onopen +=
                 e =>
@@ -48,7 +48,9 @@ namespace ServerSideEventExperiment
             s.onerror +=
                 e =>
                 {
-                    new IHTMLPre { innerText = "error" }.AttachToDocument();
+                    new IHTMLPre { innerText = "error " + new { s.readyState } }.AttachToDocument();
+
+                    //s.close();
                 };
 
             s.onmessage +=
@@ -56,7 +58,7 @@ namespace ServerSideEventExperiment
                 {
                     var now = DateTime.Now;
 
-                    new IHTMLPre { innerText = now + " message " + e.data }.AttachToDocument();
+                    new IHTMLPre { innerText = now + " message " + e.data + " " + e.lastEventId }.AttachToDocument();
                 };
 
             //            script: error JSC1000:
