@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
-using ScriptCoreLibJava.BCLImplementation.System.ComponentModel;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Configuration
 {

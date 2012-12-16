@@ -64,9 +64,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Array.cs">
       <Link>BCLImplementation\System\Array.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Attribute.cs">
-      <Link>BCLImplementation\System\Attribute.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Boolean.cs">
       <Link>BCLImplementation\System\Boolean.cs</Link>
     </Compile>
@@ -246,18 +243,6 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs">
       <Link>BCLImplementation\System\Runtime\CompilerServices\CallSite.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs">
-      <Link>BCLImplementation\System\Runtime\InteropServices\_Assembly.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\InteropServices\_Attribute.cs">
-      <Link>BCLImplementation\System\Runtime\InteropServices\_Attribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs">
-      <Link>BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\Serialization\StreamingContext.cs">
-      <Link>BCLImplementation\System\Runtime\Serialization\StreamingContext.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\IEvidenceFactory.cs">
       <Link>BCLImplementation\System\Security\IEvidenceFactory.cs</Link>
@@ -765,6 +750,8 @@
     </Compile>
   </ItemGroup>-->
   <ItemGroup>
+    <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
+    <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
