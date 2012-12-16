@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.PHP;
 
 namespace SimpleMySQLiConsole.Schema
 {
@@ -69,7 +70,7 @@ create table
             Action<string> yield = x => Console.WriteLine("History.Insert " + x);
 
             var sql = @"
-insert into History1 (query) values (
+insert into History1 (query, context) values (
 ? /* text */,
 ? /* context */
 )
@@ -82,9 +83,13 @@ insert into History1 (query) values (
 
             m.query("use `datasource1001`");
 
+            yield("before prepare");
+
             (m.prepare(sql) as mysqli_stmt).With(
                 stmt =>
                 {
+                    yield("in prepare");
+
                     {
                         var message = new { stmt.errno, stmt.error };
 
@@ -93,13 +98,19 @@ insert into History1 (query) values (
 
                     // <b>Strict Standards</b>:  Only variables should be passed by reference
 
+                    // errno = 1136, error = Column count doesn't match value count at row 1
+                    //var arg1 = value.query;
+                    //stmt.bind_param("s", arg1);
 
-                    var arg1 = value.query;
-                    stmt.bind_param("s", arg1);
+                    //var arg2 = value.context;
+                    //stmt.bind_param("s", arg2);
 
-                    var arg2 = value.context;
-                    stmt.bind_param("s", arg2);
+                    yield("bind_param_array");
 
+                    stmt.bind_param_array("ss",
+                        value.query,
+                        value.context
+                    );
 
                     stmt.execute();
 
@@ -111,6 +122,8 @@ insert into History1 (query) values (
                     stmt.close();
                 }
             );
+
+            yield("after prepare");
 
             {
                 var message = new { m.errno, m.error, sql };

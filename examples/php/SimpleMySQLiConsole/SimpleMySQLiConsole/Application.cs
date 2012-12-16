@@ -130,7 +130,12 @@ namespace SimpleMySQLiConsole
                     sql += page.sql.value;
 
                     service.__mysqli_query(sql,
-                        y: value => value.ToDocumentTitle(),
+                        __y: value =>
+                            {
+                                Console.WriteLine(value);
+                                value.ToDocumentTitle();
+                            },
+
                         yield_field: yield_field,
                        yield_resultset: yield_resultset
 

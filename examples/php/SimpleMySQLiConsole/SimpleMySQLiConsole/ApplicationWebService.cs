@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 using SimpleMySQLiConsole.Library;
+using System.Collections.Generic;
 
 namespace SimpleMySQLiConsole
 {
@@ -75,15 +76,17 @@ namespace SimpleMySQLiConsole
 
         public void __mysqli_query(
             string sql,
-            Action<string> y,
+            Action<string> __y,
             Action<string, string> yield_field,
             Action<XElement> yield_resultset
             )
         {
-            y.ToConsoleOut();
+            __y.ToConsoleOut();
 
-            Action<string> yield = x => Console.WriteLine("History.Insert " + x);
-            
+            Action<string> y = x => Console.WriteLine("__mysqli_query" + x);
+
+            Console.WriteLine("hey!");
+
             var h = new History();
 
 
@@ -271,6 +274,53 @@ namespace SimpleMySQLiConsole
         public int type;
 
 
+    }
+
+    static class __mysqli_stmt
+    {
+        // http://stackoverflow.com/questions/793471/use-one-bind-param-with-variable-number-of-input-vars
+
+        // http://stackoverflow.com/questions/2045875/pass-by-reference-problem-with-php-5-3-1
+
+        [Script(OptimizedCode = @"
+$refs = array(); 
+$c = 0;
+foreach($args as $key => $value) 
+{
+    if ($c == 0)
+        $refs[$key] = $args[$key]; 
+    else
+        $refs[$key] = &$args[$key]; 
+
+    $c++;
+}
+
+return call_user_func_array(array(&$stmt, 'bind_param'), $refs);")]
+        static void __bind_param(object stmt, object[] args)
+        {
+        }
+
+        public static void bind_param_array(this mysqli_stmt that, string types, params object[] e)
+        {
+            var a = new List<object>();
+
+            a.Add(types);
+
+            for (int i = 0; i < e.Length; i++)
+            {
+                var k = e[i];
+
+                Console.WriteLine("will call bind_param " + new { i, k });
+
+                a.Add(k);
+            }
+
+            var aa = a.ToArray();
+
+            Console.WriteLine("will call bind_param " + new { aa.Length });
+
+            __bind_param(that, aa);
+        }
     }
 
     // http://php.net/manual/en/class.mysqli-stmt.php
