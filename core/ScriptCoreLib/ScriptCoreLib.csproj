@@ -95,6 +95,8 @@
     <Compile Include="Shared\BCLImplementation\GLSL\vec2.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs" />
     <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackTrace.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\_Attribute.cs" />
     <Compile Include="Shared\BCLImplementation\System\ValueType.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\DOM\IStyleSheet.cs" />
@@ -597,7 +599,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\RuntimeTypeHandle.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\String.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -777,7 +778,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\AssemblyName.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MemberInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\FieldInfo.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Monitor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Object.cs" />
@@ -938,6 +939,7 @@
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />
+    <Folder Include="PHP\BCLImplementation\System\Runtime\" />
     <Folder Include="Shared\BCLImplementation\Abstractatech\" />
     <Folder Include="Shared\BCLImplementation\System\Data\SQLite\" />
   </ItemGroup>
