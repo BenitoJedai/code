@@ -39,6 +39,8 @@ namespace SimpleMySQLiConsole
                        title =>
                        {
 
+
+
                            if (title.innerText.Contains("errno"))
                                if (!title.innerText.Contains("errno = 0"))
                                {
@@ -100,6 +102,8 @@ namespace SimpleMySQLiConsole
             page.Go.onclick +=
                 delegate
                 {
+                    "...".ToDocumentTitle();
+
                     Action<string, string> yield_field =
                         (name, type) =>
                         {

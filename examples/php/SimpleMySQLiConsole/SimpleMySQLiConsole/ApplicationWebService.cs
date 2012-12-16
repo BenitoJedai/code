@@ -2,6 +2,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.PHP;
+using SimpleMySQLiConsole.Schema;
 using System;
 using System.Linq;
 using System.Xml.Linq;
@@ -77,6 +78,9 @@ namespace SimpleMySQLiConsole
             Action<XElement> yield_resultset
             )
         {
+            var h = new History();
+
+
             var m = new mysqli(
                 "localhost",
                 "root",

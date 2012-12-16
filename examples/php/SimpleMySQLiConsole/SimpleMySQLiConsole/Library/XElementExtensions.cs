@@ -15,7 +15,10 @@ namespace SimpleMySQLiConsole.Library
     {
         public static Form ToForm(this XElement xml)
         {
-            var f = new Form();
+            var f = new Form
+            {
+                Text = "SQL results"
+            };
 
 
             var g = new DataGridView();
