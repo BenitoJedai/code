@@ -2,6 +2,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
+using System.Dynamic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -25,7 +26,7 @@ namespace TestDynamicObject
             X.foo(ref x);
 
             // Send it back to the caller.
-            y(e);
+            y(x);
         }
 
     }
@@ -34,9 +35,33 @@ namespace TestDynamicObject
     {
         public static void foo(ref string e)
         {
-            e = "ref " + e;
+
+            dynamic x = new XDynamicObject();
+
+            x.bar = "zoo";
+
+            string bar = x.bar;
+
+            e = "ref " + e + ", " + bar;
 
         }
     }
 
+    class XDynamicObject : DynamicObject
+    {
+        public string value;
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            this.value = binder.Name + " <- " + value;
+            return true;
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            result = "TryGetMember: " + value;
+
+            return true;
+        }
+    }
 }
