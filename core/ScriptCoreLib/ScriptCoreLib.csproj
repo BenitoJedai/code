@@ -84,7 +84,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int64.cs" />
@@ -94,9 +93,13 @@
     <Compile Include="Shared\BCLImplementation\GLSL\vec3.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec2.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs" />
     <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackTrace.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\_Attribute.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\StreamingContext.cs" />
     <Compile Include="Shared\BCLImplementation\System\ValueType.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\DOM\IStyleSheet.cs" />
@@ -446,9 +449,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Shared\BCLImplementation\System\Collections\Queue.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\IRaiseItemChangedEvents.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\IBindingList.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ICancelAddNew.cs" />
@@ -746,7 +747,7 @@
     <Compile Include="ActionScript\XMLList.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Attribute.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Attribute.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\ObjectModel\Collection.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\BindingList.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\Container.cs" />
@@ -926,6 +927,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionScript\BCLImplementation\System\Collections\ObjectModel\" />
+    <Folder Include="ActionScript\BCLImplementation\System\ComponentModel\" />
     <Folder Include="ActionScript\BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="ActionScript\Documents\" />
     <Folder Include="ActionScript\Extensions\mx\core\" />

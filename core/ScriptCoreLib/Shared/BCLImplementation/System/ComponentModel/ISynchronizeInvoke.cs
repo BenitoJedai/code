@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.ComponentModel
+namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
 	[Script(Implements = typeof(global::System.ComponentModel.ISynchronizeInvoke))]
 	internal interface __ISynchronizeInvoke

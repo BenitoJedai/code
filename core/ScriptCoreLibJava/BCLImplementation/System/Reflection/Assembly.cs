@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
-using ScriptCoreLibJava.BCLImplementation.System.Runtime.InteropServices;
 using ScriptCoreLibJava.Extensions;
 using ScriptCoreLibJava.BCLImplementation.System.Security;
 using System.Reflection;
 using System.IO;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization;
+using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.InteropServices;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {

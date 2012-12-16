@@ -7,7 +7,8 @@ using ScriptCoreLib;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.InteropServices
 {
 	[Script(Implements = typeof(global::System.Runtime.InteropServices._Attribute))]
-	internal interface ___Attribute
+    [Obsolete("internal")]
+    public interface ___Attribute
 	{
 	}
 }
