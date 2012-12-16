@@ -14,17 +14,17 @@ title {
     font-size: xx-large;
     text-shadow: 2px 2px 2px #333;
     color: white;
-   background-color: rgba(0, 0, 0, 0.8);
+   background-color: rgba(0, 0, 0, 0.6);
     padding: 0.2em;
 
     text-align: center;
-    box-shadow: rgba(0,0,0,0.5) 0px 0px 32px;
+    box-shadow: 
+        rgba(0, 0, 0, 0.6) 00px 0px 1em 0.1em;
     position: fixed;
     top: 0px;
-    left: 2em;
-    right: 2em;
+    left: 1em;
+    right: 1em;
     z-index: 1000;
-
     transition: all .35s linear;
     -webkit-transition: all .35s linear;
 }
