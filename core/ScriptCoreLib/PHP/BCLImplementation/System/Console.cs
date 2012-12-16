@@ -19,7 +19,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
             public override void WriteLine(string value)
             {
-                InternalOut.Write(value + Environment.NewLine);
+                InternalWrite(value + Environment.NewLine);
             }
 
             public static void InternalWrite(string e)

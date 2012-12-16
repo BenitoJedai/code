@@ -20,7 +20,7 @@ namespace SimpleMySQLiConsole.Library
 
             public override void Write(string value)
             {
-
+                y(value);
             }
 
             public override Encoding Encoding
