@@ -15,6 +15,8 @@ namespace TestByRefParameter
             var c = 0;
             var s = "";
 
+            b = 7;
+
             bar_ref(ref b);
             bar_ref(ref s);
 
@@ -29,6 +31,11 @@ namespace TestByRefParameter
 
         static void bar_ref(ref int t)
         {
+            var tt2 = new int[1];
+            var tt = new[] { 7 };
+
+            bar_value(tt[0]);
+
             t = t + 2;
 
             bar_ref(ref t);
