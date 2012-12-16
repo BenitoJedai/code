@@ -9,6 +9,7 @@ namespace ScriptCoreLib.PHP.Net
 {
 
     [Script]
+    [System.Obsolete]
     public class LDAPClient
     {
         public static bool IsSupported
