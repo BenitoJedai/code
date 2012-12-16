@@ -114,6 +114,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\ActionExtensions.cs" />
     <Compile Include="Schema\History.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />

@@ -5,32 +5,36 @@ using System.Text;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 {
-	[Script(Implements = typeof(global::System.IO.TextWriter))]
-	internal abstract class __TextWriter : IDisposable
-	{
-		public virtual void Write(string value)
-		{
-		}
+    [Script(Implements = typeof(global::System.IO.TextWriter))]
+    internal abstract class __TextWriter : IDisposable
+    {
+        public virtual void Write(string value)
+        {
+        }
 
-		public virtual void WriteLine()
-		{
-		}
+        public virtual void WriteLine()
+        {
+            Write(Environment.NewLine);
+        }
 
-		public virtual void WriteLine(string value)
-		{
+        public virtual void WriteLine(string value)
+        {
+            Write(value + Environment.NewLine);
+        }
 
-		}
+        public virtual void Flush()
+        {
 
-		public virtual void Flush()
-		{
+        }
 
-		}
-		#region IDisposable Members
+        public abstract Encoding Encoding { get; }
 
-		public void Dispose()
-		{
-		}
+        #region IDisposable Members
 
-		#endregion
-	}
+        public void Dispose()
+        {
+        }
+
+        #endregion
+    }
 }
