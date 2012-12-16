@@ -5,8 +5,24 @@
 	<body>
 		<noscript>Error: This Application requires JavaScript.</noscript>
 		<link rel='stylesheet' href='App.css'/>
-		
-        <textarea style="height: 320px; width: 524px">
+		<pre>
+  create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null)
+  create table if not exists Table1Meta ( MetaKey INTEGER PRIMARY KEY AUTOINCREMENT , DeclaringType INTEGER  , MemberName text not null , MemberValue text not null, FOREIGN KEY(DeclaringType) REFERENCES Table1(ContentKey))
+
+  select * from sqlite_master
+  select * from INFORMATION_SCHEMA.TABLES
+
+  insert into Table1 (ContentValue) values ('AddItem')
+  insert into Table1 (ContentValue) values (cast( 'AddItem' as longtext))
+
+  insert into Table1Meta (MemberName, MemberValue, DeclaringType)  values ('Left', '1', 0)
+
+  select ContentKey, ContentValue from Table1
+  select ContentKey, ContentValue, coalesce((select MemberValue from Table1Meta where DeclaringType = ContentKey order by MetaKey desc), '0') as Left from Table1
+
+
+		</pre>
+        <textarea id="sql" style="height: 320px; width: 524px">
 
         </textarea><br />
         <br />
