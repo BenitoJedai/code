@@ -1,16 +1,16 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Drawing;
+using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.JavaScript.DOM.HTML;
-using System.Drawing;
-using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.Drawing;
-using ScriptCoreLib.JavaScript.Runtime;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -109,11 +109,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             TargetOuterBorder.style.borderWidth = "1px";
             TargetOuterBorder.style.borderStyle = "solid";
-            TargetOuterBorder.style.borderColor = JSColor.System.ThreeDDarkShadow;
-            TargetOuterBorder.style.borderLeftColor = JSColor.System.ButtonFace;
-            TargetOuterBorder.style.borderTopColor = JSColor.System.ButtonFace;
-            TargetOuterBorder.style.backgroundColor = JSColor.System.ButtonFace;
-
+            TargetOuterBorder.style.borderBottomColor = "#424142";
+            TargetOuterBorder.style.borderRightColor = "#424142";
+            TargetOuterBorder.style.borderLeftColor = "#D6D3CE";
+            TargetOuterBorder.style.borderTopColor = "#D6D3CE";
             //HTMLTarget.style.SetLocation(64, 64, 100, 100);
             TargetOuterBorder.style.padding = "0";
             #endregion
@@ -129,10 +128,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             TargetInnerBorder.style.borderWidth = "1px";
             TargetInnerBorder.style.borderStyle = "solid";
-            TargetInnerBorder.style.borderLeftColor = JSColor.System.ButtonHighlight;
-            TargetInnerBorder.style.borderTopColor = JSColor.System.ButtonHighlight;
-            TargetInnerBorder.style.borderRightColor = JSColor.System.ButtonShadow;
-            TargetInnerBorder.style.borderBottomColor = JSColor.System.ButtonShadow;
+            TargetInnerBorder.style.borderLeftColor = "#FFFFFF";
+            TargetInnerBorder.style.borderTopColor = "#FFFFFF";
+            TargetInnerBorder.style.borderRightColor = "#848284";
+            TargetInnerBorder.style.borderBottomColor = "#848284";
+
+            TargetInnerBorder.style.backgroundColor = "#D6D3CE";
 
             //HTMLTarget.style.SetLocation(64, 64, 100, 100);
             #endregion
@@ -167,7 +168,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             icon.style.SetLocation(5, 5, 16, 16);
 
             //caption.style.backgroundColor = JSColor.System.ActiveCaption;
-            Caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0x7F);
+            Caption.style.backgroundColor = JSColor.FromRGB(0x08, 0x24, 0x6B);
+
             Caption.style.color = Shared.Drawing.Color.White;
             Caption.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 
@@ -329,7 +331,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
             //HTMLTarget.style.backgroundColor = "#B0B0B0";
-            this.BackColor = SystemColors.ButtonFace;
+            this.BackColor = Color.FromArgb(0xD6, 0xD3, 0xCE);
 
             #region CloseButton
             CloseButton = new IHTMLDiv { name = "CloseButton" };
