@@ -45,7 +45,7 @@ namespace SimpleMySQLiConsole
                 ""
             );
 
-            var message = new { m.connect_errno };
+            var message = new { m.connect_errno, m.errno };
             y(message.ToString());
         }
 
@@ -62,9 +62,9 @@ namespace SimpleMySQLiConsole
 
             // http://svn2.assembla.com/svn/nooku-framework/trunk/code/libraries/koowa/database/adapter/mysqli.php
             // http://stackoverflow.com/questions/2203110/check-if-a-variable-is-of-type-mysqli-object
-            var __is_mysqli = m is mysqli;
+            //var __is_mysqli = m is mysqli;
 
-            var message = new { m.server_info, m.server_version, __is_mysqli };
+            var message = new { m.server_info, m.server_version, m.stat };
 
             // Send it back to the caller.
             y(message.ToString());
@@ -83,116 +83,164 @@ namespace SimpleMySQLiConsole
                 ""
             );
 
-            var r = m.query(sql);
+            var flag = m.multi_query(sql);
+
+            var sqlindex = 0;
 
             {
                 var message = new
                 {
-                    m.error
+                    sqlindex,
+                    m.errno,
+                    m.error,
+                    m.insert_id,
                 };
                 y(message.ToString());
             }
 
-            (r as mysqli_result).With(
-                result =>
-                {
-                    //var f0 = result.fetch_field_direct(0);
-                    //var d0 = Native.DumpToString(f0);
+            while (flag)
+            {
 
-                    var message = new
+                var rr = m.store_result();
+
+                //Native.Dump(rr);
+
+                (rr as mysqli_result).With(
+                    result =>
                     {
-                        result.field_count,
-                        result.num_rows,
-                        m.error
-                        //, d0 
-                    };
-                    y(message.ToString());
+                        #region mysqli_result
+                        //var f0 = result.fetch_field_direct(0);
+                        //var d0 = Native.DumpToString(f0);
 
-                    //Console.WriteLine("before fields");
-
-                    var resultset = new XElement("table");
-
-                    var resultset_th = new XElement("th");
-
-                    resultset.Add(resultset_th);
-
-
-                    var fields = Enumerable.Range(0, result.field_count).Select(
-                        // jsc can we have implicit delegates to natives?
-                        x => result.fetch_field_direct(x)
-                    ).Select(
-                        (f, i) =>
+                        var message = new
                         {
-                            var n = new { f.name, i, f.type };
+                            sqlindex,
 
-                            //Console.WriteLine("field: " + n);
-                            resultset_th.Add(
-                                new XElement("td",
-                                    new XAttribute("title", "type " + f.type),
-                                     f.name
-                                )
+                            m.errno,
+                            m.error,
+
+                            result.field_count,
+                            result.num_rows,
+
+                            m.insert_id,
+
+                            //, d0 
+                        };
+                        y(message.ToString());
+
+                        //Console.WriteLine("before fields");
+
+                        var resultset = new XElement("table");
+
+                        var resultset_th = new XElement("th");
+
+                        resultset.Add(resultset_th);
+
+
+                        var fields = Enumerable.Range(0, result.field_count).Select(
+                            // jsc can we have implicit delegates to natives?
+                            x => result.fetch_field_direct(x)
+                        ).Select(
+                            (f, i) =>
+                            {
+                                var n = new { f.name, i, f.type };
+
+                                //Console.WriteLine("field: " + n);
+                                resultset_th.Add(
+                                    new XElement("td",
+                                        new XAttribute("title", "type " + f.type),
+                                         f.name
+                                    )
+                                );
+
+                                yield_field(f.name, "" + f.type);
+
+                                return n;
+                            }
+                        ).ToArray();
+
+                        //Console.WriteLine("after fields");
+
+
+                        for (int row = 0; row < result.num_rows; row++)
+                        {
+                            result.data_seek(row);
+
+                            var resultset_row = new XElement("tr");
+
+                            resultset_row.Add(
+                                new XAttribute("title", "row " + row)
                             );
 
-                            yield_field(f.name, "" + f.type);
+                            var row_data = result.fetch_row();
 
-                            return n;
-                        }
-                    ).ToArray();
+                            //Console.WriteLine("row: " + row);
 
-                    //Console.WriteLine("after fields");
+                            // broken?
+                            //fields.WithEach(
+
+                            for (int i = 0; i < fields.Length; i++)
+                            {
+                                fields[i].With(
+                                               f =>
+                                               {
+                                                   //Console.WriteLine("field: " + f.name);
+
+                                                   var data = row_data[f.i];
+
+                                                   resultset_row.Add(
+                                                       new XElement("td",
+                                                           "" + data
+                                                       )
+                                                   );
+
+                                               }
+
+                                           );
+                            }
+
+                            //resultset_row.Add(
+                            //    new XElement("dump", Native.DumpToString(row_data))
+                            //);
 
 
-                    for (int row = 0; row < result.num_rows; row++)
-                    {
-                        result.data_seek(row);
-
-                        var resultset_row = new XElement("tr");
-
-                        resultset_row.Add(
-                            new XAttribute("title", "row " + row)
-                        );
-
-                        var row_data = result.fetch_row();
-
-                        //Console.WriteLine("row: " + row);
-
-                        // broken?
-                        //fields.WithEach(
-
-                        for (int i = 0; i < fields.Length; i++)
-                        {
-                            fields[i].With(
-                                           f =>
-                                           {
-                                               //Console.WriteLine("field: " + f.name);
-
-                                               var data = row_data[f.i];
-
-                                               resultset_row.Add(
-                                                   new XElement("td",
-                                                       "" + data
-                                                   )
-                                               );
-
-                                           }
-
-                                       );
+                            resultset.Add(resultset_row);
                         }
 
-                        //resultset_row.Add(
-                        //    new XElement("dump", Native.DumpToString(row_data))
-                        //);
+
+                        yield_resultset(resultset);
+
+                        result.close();
+                        #endregion
 
 
-                        resultset.Add(resultset_row);
                     }
+                );
 
+                //  mysqli::next_result(): There is no next result set. Please, call mysqli_more_results()/mysqli::more_results() to check whether to call this function/method
 
-                    yield_resultset(resultset);
+                flag = m.more_results();
 
-                    result.close();
+                if (flag)
+                {
+                    flag = m.next_result();
+
+                    {
+                        var message = new
+                        {
+                            sqlindex,
+                            m.errno,
+                            m.error,
+                            m.insert_id,
+                        };
+                        y(message.ToString());
+                    }
                 }
-            );
+
+                sqlindex++;
+            }
+
+            m.close();
         }
     }
 
@@ -257,9 +305,14 @@ namespace SimpleMySQLiConsole
 
         }
 
+        public string stat;
+
+        public object insert_id;
+
         public string connect_errno;
 
         // http://php.net/manual/en/mysqli.error.php
+        public string errno;
         public string error;
 
         // http://php.net/manual/en/mysqli.get-server-version.php
@@ -270,6 +323,35 @@ namespace SimpleMySQLiConsole
 
         // http://php.net/manual/en/mysqli.query.php
         public object query(string sql)
+        {
+            return default(mysqli_result);
+        }
+
+        // http://php.net/manual/en/mysqli.next-result.php
+        public bool next_result()
+        {
+            return default(bool);
+        }
+
+        public bool more_results()
+        {
+            return default(bool);
+        }
+
+
+        public bool multi_query(string query)
+        {
+            return default(bool);
+        }
+
+        // http://php.net/manual/en/mysqli.use-result.php
+        public object use_result()
+        {
+            return default(mysqli_result);
+        }
+
+        // http://php.net/manual/en/mysqli.store-result.php
+        public object store_result()
         {
             return default(mysqli_result);
         }

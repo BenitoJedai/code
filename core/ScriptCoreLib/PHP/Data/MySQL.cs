@@ -1,9 +1,8 @@
 using ScriptCoreLib;
 using ScriptCoreLib.PHP.IO;
-
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
-
+using System;
 using Serializable = System.SerializableAttribute;
 
 
@@ -13,6 +12,7 @@ namespace ScriptCoreLib.PHP.Runtime
 
 
     [Script]
+    [Obsolete]
     public class MySQL
     {
         public static void DumpTable(string text, params IArray[] e)
@@ -68,7 +68,7 @@ namespace ScriptCoreLib.PHP.Runtime
             Native.Message(text, w.Text, Color.Blue, false);
         }
 
-        [Serializable]
+        [@Serializable]
         [Script]
         public class LoginInfo
         {

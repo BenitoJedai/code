@@ -12,6 +12,9 @@ using System.Text;
 using System.Xml.Linq;
 using SimpleMySQLiConsole.Design;
 using SimpleMySQLiConsole.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
+
+using SimpleMySQLiConsole.Library;
 
 namespace SimpleMySQLiConsole
 {
@@ -28,27 +31,49 @@ namespace SimpleMySQLiConsole
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            #region onscroll
-            Native.Window.onscroll +=
+            #region titlestyle
+            Action titlestyle =
                 delegate
                 {
                     Native.Document.getElementsByTagName("title").WithEach(
-                        title =>
-                        {
+                       title =>
+                       {
 
+                           if (title.innerText.Contains("errno"))
+                               if (!title.innerText.Contains("errno = 0"))
+                               {
+                                   title.className = "onerror";
+                                   return;
 
-                            if (Native.Document.body.scrollTop != 0)
-                            {
+                               }
 
-                                title.className = "onscroll";
-                            }
-                            else
-                            {
-                                title.className = "";
-                            }
-                        }
-                    );
+                           if (Native.Document.body.scrollTop != 0)
+                           {
+
+                               title.className = "onscroll";
+                           }
+                           else
+                           {
+                               title.className = "";
+                           }
+
+                           Native.Document.body.style.paddingTop = title.clientHeight + "px";
+                       }
+                   );
                 };
+
+            Native.Window.onscroll +=
+                delegate
+                {
+                    titlestyle();
+                };
+
+            new Timer(
+                delegate
+                {
+                    titlestyle();
+                }
+            ).StartInterval(1000 / 15);
             #endregion
 
             page.Badhost.onclick +=
@@ -82,13 +107,25 @@ namespace SimpleMySQLiConsole
 
                         };
 
-                    Action<XElement> yield_resultset = resultset =>
-                            {
-                                page.output.Add(resultset);
+                    Action<XElement> yield_resultset =
+                        resultset =>
+                        {
+                            page.output.Add(resultset);
 
-                            };
 
-                    service.__mysqli_query(page.sql.value,
+                            resultset.ToForm();
+                        };
+
+                    var sql = "";
+
+                    sql += page.sql0.value;
+
+                    if (sql.Length > 0)
+                        sql += ";";
+
+                    sql += page.sql.value;
+
+                    service.__mysqli_query(sql,
                         y: value => value.ToDocumentTitle(),
                         yield_field: yield_field,
                        yield_resultset: yield_resultset

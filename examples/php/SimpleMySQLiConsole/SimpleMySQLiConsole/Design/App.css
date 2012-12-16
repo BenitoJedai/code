@@ -2,36 +2,53 @@ head, title {
     display: block;
 }
 
-title.onscroll {
-
-    background-color: rgba(0, 0, 0, 0.4);
-
-}
-
+    title.onscroll {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    title.onerror {
+        background-color: rgba(255, 0, 0, 1);
+    }
+ 
 title {
     font-family: Verdana;
     font-size: xx-large;
     text-shadow: 2px 2px 2px #333;
     color: white;
-    background-color: rgba(0, 0, 0, 0.8);
+   background-color: rgba(0, 0, 0, 0.8);
     padding: 0.2em;
-    padding-left: 0.5em;
+
+    text-align: center;
     box-shadow: rgba(0,0,0,0.5) 0px 0px 32px;
     position: fixed;
     top: 0px;
-    left: 0px;
-    right: 0px;
+    left: 2em;
+    right: 2em;
     z-index: 1000;
 
-    transition: background-color .15s linear;
-    -webkit-transition: background-color .15s linear;
+    transition: all .35s linear;
+    -webkit-transition: all .35s linear;
 }
 
 body {
     padding-top: 4em;
+
+        transition: padding-top .35s linear;
+    -webkit-transition: padding-top .35s linear;
+
     position: absolute;
     top: 0px;
     right: 0px;
     left: 0px;
     bottom: 0px;
+
+    overflow: auto;
+    margin: 0px;
+}
+
+html {
+    overflow: hidden;
+}
+
+textarea {
+    display: block;
 }

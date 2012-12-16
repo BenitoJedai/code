@@ -5,6 +5,7 @@ using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.PHP.Net
 {
+    [System.Obsolete]
     public partial class ServerTransport<TType>
     {
         [Script]
