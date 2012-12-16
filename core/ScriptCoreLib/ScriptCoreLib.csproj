@@ -90,6 +90,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSound.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
     <Compile Include="JavaScript\WebGL\WebGLUniformLocation.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec3.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec2.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs" />
@@ -941,7 +942,6 @@
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />
-    <Folder Include="PHP\BCLImplementation\System\Runtime\" />
     <Folder Include="Shared\BCLImplementation\Abstractatech\" />
     <Folder Include="Shared\BCLImplementation\System\Data\SQLite\" />
   </ItemGroup>
