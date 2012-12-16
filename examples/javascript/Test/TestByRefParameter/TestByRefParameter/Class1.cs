@@ -59,5 +59,10 @@ namespace TestByRefParameter
         {
             t = "foo";
         }
+
+        public static void foo(ref string e)
+        {
+            e = "ref " + e;
+        }
     }
 }
