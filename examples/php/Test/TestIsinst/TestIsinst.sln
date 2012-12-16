@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestIsinst", "TestIsinst\TestIsinst.csproj", "{31BD4B84-014D-4291-BF5A-552A372194BB}"
 EndProject
 Global

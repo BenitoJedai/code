@@ -48,9 +48,19 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
         }
 
 
-        public static Type GetTypeFromValue(object x)
+        public static Type InternalGetTypeFromValue(object x)
         {
-            return InternalGetTypeFromClassTokenName(API.get_class(x));
+            var is_string = x is string;
+
+            if (is_string)
+                return typeof(string);
+
+            // http://php.net/manual/en/function.is-object.php
+
+            // <b>Warning</b>:  get_class() expects parameter 1 to be object, string given in
+            var c = API.get_class(x);
+
+            return InternalGetTypeFromClassTokenName(c);
         }
 
         public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
@@ -94,7 +104,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
         {
             get
             {
-                return "<Name>";
+                var ClassTokenName = ((__IntPtr)(object)(this._TypeHandle.Value)).ClassTokenName;
+
+                return ClassTokenName;
             }
         }
 
@@ -152,6 +164,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
             var e_ClassTokenName = ((__IntPtr)(object)(e._TypeHandle.Value)).ClassTokenName;
 
             return x_ClassTokenName == e_ClassTokenName;
+        }
+
+        public override string ToString()
+        {
+            return this.FullName;
         }
     }
 

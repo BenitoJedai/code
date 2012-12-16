@@ -10,12 +10,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Media
     [Script(Implements = typeof(global::System.Media.SystemSounds))]
     internal class __SystemSounds
     {
-        static IHTMLAudio InternalBeep = new IHTMLAudio { src = "assets/ScriptCoreLib/Windows Ding.wav", autobuffer = true };
 
         public static SystemSound Beep
         {
             get
             {
+                IHTMLAudio InternalBeep = new IHTMLAudio { src = "assets/ScriptCoreLib/Windows Ding.wav", autobuffer = true };
+
                 return (SystemSound)(object)new __SystemSound
                 {
                     InternalPlay =

@@ -11,5 +11,6 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Reflection
 		public abstract Type DeclaringType { get; }
 
 		public abstract string Name { get; }
+
 	}
 }
