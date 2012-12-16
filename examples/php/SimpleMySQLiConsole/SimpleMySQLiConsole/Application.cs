@@ -51,17 +51,53 @@ namespace SimpleMySQLiConsole
                 };
             #endregion
 
+            page.Badhost.onclick +=
+                delegate
+                {
+                    service.__connect_badhost("", value => value.ToDocumentTitle());
+
+                };
+
+            page.Baduser.onclick +=
+            delegate
+            {
+                service.__connect_baduser("", value => value.ToDocumentTitle());
+
+            };
+
+            page.Clear.onclick +=
+                delegate
+                {
+                    page.sql.value = "";
+                    page.output.Clear();
+                };
+
             page.Go.onclick +=
                 delegate
                 {
+                    Action<string, string> yield_field =
+                        (name, type) =>
+                        {
+                            page.sql.value += "\n" + new { name, type };
+
+                        };
+
+                    Action<XElement> yield_resultset = resultset =>
+                            {
+                                page.output.Add(resultset);
+
+                            };
+
                     service.__mysqli_query(page.sql.value,
-                        value => value.ToDocumentTitle()
+                        y: value => value.ToDocumentTitle(),
+                        yield_field: yield_field,
+                       yield_resultset: yield_resultset
+
                     );
 
                     page.sql.value = "";
                 };
 
-            @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
                 @"A string from JavaScript.",

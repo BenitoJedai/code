@@ -1,11 +1,11 @@
 <html>
-	<head>
-		<title>App</title>
-	</head>
-	<body>
-		<noscript>Error: This Application requires JavaScript.</noscript>
-		<link rel='stylesheet' href='App.css'/>
-		<pre>
+<head>
+    <title>App</title>
+</head>
+<body>
+    <noscript>Error: This Application requires JavaScript.</noscript>
+    <link rel='stylesheet' href='App.css' />
+    <pre>
   create table if not exists Table1 (ContentKey INTEGER PRIMARY KEY AUTOINCREMENT, ContentValue text not null)
   create table if not exists Table1Meta ( MetaKey INTEGER PRIMARY KEY AUTOINCREMENT , DeclaringType INTEGER  , MemberName text not null , MemberValue text not null, FOREIGN KEY(DeclaringType) REFERENCES Table1(ContentKey))
 
@@ -22,10 +22,14 @@
 
 
 		</pre>
-        <textarea id="sql" style="height: 320px; width: 524px">
+    <textarea id="sql" style="height: 320px; width: 524px">
 
         </textarea><br />
-        <br />
-        <button>go</button>
-	</body>
+    <br />
+    <button>go</button>
+    <button>clear</button>
+    <button>badhost</button>
+    <button>baduser</button>
+    <output id="output"></output>
+</body>
 </html>
