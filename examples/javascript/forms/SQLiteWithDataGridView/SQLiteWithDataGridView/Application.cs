@@ -33,7 +33,7 @@ namespace SQLiteWithDataGridView
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+            //FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
             content.AttachControlTo(page.Content);
             content.AutoSizeControlTo(page.ContentSize);
 
