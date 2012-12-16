@@ -32,7 +32,7 @@ namespace SimpleMySQLiConsole.Library
 
             g.Columns.AddRange(
                 xml.Element("th").Elements().Select(
-                    td => new DataGridViewTextBoxColumn { HeaderText = td.Value }
+                    td => new DataGridViewTextBoxColumn { HeaderText = td.Value + " " + td.Attribute("title").Value }
                 ).ToArray()
             );
 
