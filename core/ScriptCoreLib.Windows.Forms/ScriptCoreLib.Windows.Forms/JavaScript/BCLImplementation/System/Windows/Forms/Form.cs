@@ -355,7 +355,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             CloseButton.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            CloseButton.style.backgroundColor = JSColor.System.ThreeDFace;
+
+            //CloseButton.style.backgroundColor = JSColor.System.ThreeDFace;
+            CloseButton.style.backgroundColor = "#D6D3CE";
 
             CloseButton.style.height = "18px";
             CloseButton.style.width = "18px";
@@ -364,19 +366,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             CloseButton.style.borderWidth = "1px";
             CloseButton.style.borderStyle = "solid";
-            CloseButton.style.borderColor = JSColor.System.ThreeDDarkShadow;
-            CloseButton.style.borderLeftColor = JSColor.System.ButtonHighlight;
-            CloseButton.style.borderTopColor = JSColor.System.ButtonHighlight;
+
+            CloseButton.style.borderRightColor = "#424142";
+            CloseButton.style.borderBottomColor = "#424142";
+            CloseButton.style.borderLeftColor = "#FFFFFF";
+            CloseButton.style.borderTopColor = "#FFFFFF";
 
 
 
             CloseButtonContent.style.borderWidth = "1px";
             CloseButtonContent.style.borderStyle = "solid";
-            CloseButtonContent.style.borderLeftColor = JSColor.System.ButtonFace;
-            CloseButtonContent.style.borderTopColor = JSColor.System.ButtonFace;
 
-            CloseButtonContent.style.borderRightColor = JSColor.System.ButtonShadow;
-            CloseButtonContent.style.borderBottomColor = JSColor.System.ButtonShadow;
+            CloseButtonContent.style.borderLeftColor = "#D6D3CE";
+            CloseButtonContent.style.borderTopColor = "#D6D3CE";
+            CloseButtonContent.style.borderRightColor = "#848284";
+            CloseButtonContent.style.borderBottomColor = "#848284";
 
             #region CloseButton onclick
             CloseButton.onmouseover +=
