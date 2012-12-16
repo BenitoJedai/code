@@ -6,9 +6,11 @@ using SimpleMySQLiConsole.Schema;
 using System;
 using System.Linq;
 using System.Xml.Linq;
+using SimpleMySQLiConsole.Library;
 
 namespace SimpleMySQLiConsole
 {
+
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
@@ -78,8 +80,20 @@ namespace SimpleMySQLiConsole
             Action<XElement> yield_resultset
             )
         {
+            y.ToConsoleOut();
+
+            Action<string> yield = x => Console.WriteLine("History.Insert " + x);
+            
             var h = new History();
 
+
+            h.Insert(
+                new HistoryQueries.Insert
+                {
+                    query = sql,
+                    context = "__mysqli_query"
+                }
+            );
 
             var m = new mysqli(
                 "localhost",
@@ -255,6 +269,47 @@ namespace SimpleMySQLiConsole
     {
         public string name;
         public int type;
+
+
+    }
+
+    // http://php.net/manual/en/class.mysqli-stmt.php
+    [Script(IsNative = true)]
+    class mysqli_stmt
+    {
+        // http://php.net/manual/en/mysqli-stmt.bind-param.php
+        public bool bind_param(string types, object var1)
+        {
+            return default(bool);
+        }
+
+        public bool close()
+        {
+            return default(bool);
+        }
+
+        public bool execute()
+        {
+            return default(bool);
+        }
+
+        public bool fetch()
+        {
+            return default(bool);
+        }
+
+        public object get_result()
+        {
+            return default(object);
+        }
+
+        public int field_count;
+        public int num_rows;
+
+        public int insert_id;
+
+        public int errno;
+        public string error;
     }
 
     [Script(IsNative = true)]
@@ -309,9 +364,16 @@ namespace SimpleMySQLiConsole
 
         }
 
+        // http://php.net/manual/en/mysqli.prepare.php
+        public object prepare(string query)
+        {
+            return default(object);
+        }
+
+
         public string stat;
 
-        public object insert_id;
+        public int insert_id;
 
         public string connect_errno;
 
