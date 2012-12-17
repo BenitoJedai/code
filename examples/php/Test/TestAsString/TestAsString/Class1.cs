@@ -8,6 +8,26 @@ namespace TestAsString
 {
     public class Class1
     {
+        public static void foo0int(object e)
+        {
+            var xx = e is int;
+
+
+        }
+
+        public static void foo0double(object e)
+        {
+            var xx = e is double;
+
+        }
+
+        public static void foo0bool(object e)
+        {
+            var xx = e is bool;
+
+        }
+
+
         public static void foo0(object e)
         {
             var xx = e is string;

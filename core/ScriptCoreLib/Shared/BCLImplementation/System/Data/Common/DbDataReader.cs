@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         public abstract int GetInt32(int i);
         public abstract string GetName(int ordinal);
         public abstract long GetInt64(int ordinal);
+        public abstract double GetDouble(int ordinal);
+
         public abstract Type GetFieldType(int ordinal);
         public abstract int FieldCount { get; }
 

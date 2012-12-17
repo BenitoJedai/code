@@ -67,37 +67,30 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 {
                     c++;
 
-                    types += "s";
-                    values.Add(item.p.Value);
+                    // what about blobs?
 
-                    //if (item.p.Value == null)
-                    //{
-                    //    this.InternalPreparedStatement.setObject(c, null);
-                    //}
-                    //else if (item.p.Value is int)
-                    //    this.InternalPreparedStatement.setInt(c, (int)item.p.Value);
-                    //else if (item.p.Value is long)
-                    //    this.InternalPreparedStatement.setLong(c, (long)item.p.Value);
-                    //else if (item.p.Value is string)
-                    //    this.InternalPreparedStatement.setString(c, (string)item.p.Value);
-                    //else
-                    //{
-                    //    var message = "InternalCreateStatement, what to do with this? " + new
-                    //    {
-                    //        this.sql,
-                    //        item,
-                    //        type = item.GetType()
-                    //    };
+                    if (item.p.Value is int)
+                    {
+                        types += "i";
+                        values.Add(item.p.Value);
+                    }
+                    else if (item.p.Value is double)
+                    {
+                        types += "d";
+                        values.Add(item.p.Value);
+                    }
+                    else
+                    {
+                        types += "s";
+                        values.Add(item.p.Value);
+                    }
 
-                    //    throw new Exception(message);
-                    //}
+                   
                 }
 
                 this.InternalPreparedStatement.bind_param_array(types, values.ToArray());
 
                 // add values
-
-                //this.InternalStatement = this.InternalPreparedStatement;
             }
         }
 

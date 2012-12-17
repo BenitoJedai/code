@@ -63,8 +63,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             get
             {
                 var i = GetOrdinal(name);
+                var t = GetFieldType(i);
 
-                if (GetFieldType(i) == typeof(int))
+                if (t == typeof(double))
+                {
+                    return GetDouble(i);
+                }
+
+                if (t == typeof(int))
                 {
                     return GetInt32(i);
                 }
@@ -98,6 +104,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         {
             return (long)this.__row[i];
 
+        }
+
+        public override double GetDouble(int i)
+        {
+            return (double)this.__row[i];
         }
 
         public override Type GetFieldType(int ordinal)
