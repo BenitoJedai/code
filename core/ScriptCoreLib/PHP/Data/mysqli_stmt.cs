@@ -44,6 +44,7 @@ namespace ScriptCoreLib.PHP.Data
         public string error;
     }
 
+    [Script]
     static class __mysqli_stmt
     {
         // http://stackoverflow.com/questions/793471/use-one-bind-param-with-variable-number-of-input-vars
