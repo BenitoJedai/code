@@ -111,7 +111,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
                 }
 
-                this.InternalPreparedStatement.bind_param_array(types, values.ToArray());
+                var args = values.ToArray();
+                this.InternalPreparedStatement.bind_param_array(types, args);
 
                 // add values
             }
