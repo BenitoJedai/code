@@ -117,6 +117,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             while (p.prev != null) p = p.prev;
 
+
+
             TSource[] array = p.source.ToArray();
 
             Array.Sort(array,
@@ -139,7 +141,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
                 }
             );
 
-            return array.AsEnumerable().GetEnumerator();
+            var enumerable = array.AsEnumerable();
+            var enumerator = enumerable.GetEnumerator();
+            return enumerator;
         }
 
 
