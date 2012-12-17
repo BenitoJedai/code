@@ -17,7 +17,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
             }
             set
             {
-                
+
             }
         }
 
@@ -31,6 +31,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
             {
                 Native.SetContentType(value);
             }
+        }
+
+        public void Flush()
+        {
+            Native.API.flush();
         }
 
         public void Write(string s)
