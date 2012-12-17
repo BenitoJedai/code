@@ -626,6 +626,9 @@ namespace ScriptCoreLib.PHP
 
 			#endregion
 
+            [Script(IsNative = true)]
+            public static bool is_array(object e) { return default(bool); }
+
 
 			#region string readdir ( resource dir_handle )
 
