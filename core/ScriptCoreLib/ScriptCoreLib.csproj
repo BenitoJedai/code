@@ -112,7 +112,7 @@
     <Compile Include="JavaScript\DOM\IStyleSheet.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGPathElement.cs" />
     <Compile Include="PHP\Data\SQLiteToMySQLConversion.cs" />
-    <Compile Include="PHP\Web\Services\WebService.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Web\Services\WebService.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\AsyncCallback.cs" />
@@ -948,6 +948,7 @@
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />
+    <Folder Include="PHP\Web\" />
     <Folder Include="Shared\BCLImplementation\Abstractatech\" />
     <Folder Include="Shared\BCLImplementation\System\Data\SQLite\" />
   </ItemGroup>
