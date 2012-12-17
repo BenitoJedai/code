@@ -21,7 +21,9 @@ namespace DeltaExperiment
         {
 
             #region abort if in design mode
-            if (new StackTrace().ToString().Contains("System.ComponentModel.Design.DesignerHost.System.ComponentModel.Design.IDesignerHost"))
+            var s = new StackTrace();
+
+            if (s.ToString().Contains("System.ComponentModel.Design.DesignerHost.System.ComponentModel.Design.IDesignerHost"))
             {
                 // Y:\DeltaExperiment.ApplicationWebService\staging.java\web\java\DeltaExperiment\Delta.java:35: variable WithConnection might already have been assigned
 
@@ -95,12 +97,12 @@ namespace DeltaExperiment
                 {
                     new SelectAll().ExecuteReader(c).WithEach(yield);
 
-                   
+
                 }
             );
         }
 
- 
+
     }
 
     [Description("inferred by running create command")]
@@ -160,15 +162,15 @@ namespace DeltaExperiment
 
 
 
-      
+
 
         public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
         {
-            Console.WriteLine("AsWithConnection...");
+            //Console.WriteLine("AsWithConnection...");
 
             return y =>
             {
-                Console.WriteLine("AsWithConnection... invoke");
+                //Console.WriteLine("AsWithConnection... invoke");
 
                 using (var c = DataSource.ToConnection(Version))
                 {
@@ -180,11 +182,15 @@ namespace DeltaExperiment
                     }
                     catch (Exception ex)
                     {
-                        var message = new { ex.Message, ex.StackTrace }.ToString();
+                        var message = new { ex.Message, ex.StackTrace };
 
-                        Console.WriteLine("AsWithConnection... error: " + message);
+                        //Console.WriteLine("AsWithConnection... error: " + message);
 
-                        throw new InvalidOperationException(message);
+                        //java
+                        //throw new InvalidOperationException(message.ToString());
+
+                        // php
+                        throw new Exception(message.ToString());
                     }
                 }
             };

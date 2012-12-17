@@ -265,22 +265,22 @@ namespace ScriptCoreLib.Shared.Data
                     }
 
                     // otherwise check if we can map to GLSL?
-                    if (Name == "xyz")
-                    {
-                        var ivec3 = new ivec3();
+                    ////if (Name == "xyz")
+                    ////{
+                    ////    var ivec3 = new ivec3();
 
-                        // sqlite defaults to long
-                        // while glsl does not have long vec.
-                        var x = DataReader["x"];
-                        var y = DataReader["y"];
-                        var z = DataReader["z"];
+                    ////    // sqlite defaults to long
+                    ////    // while glsl does not have long vec.
+                    ////    var x = DataReader["x"];
+                    ////    var y = DataReader["y"];
+                    ////    var z = DataReader["z"];
 
-                        ivec3.x = (int)(long)x;
-                        ivec3.y = (int)(long)y;
-                        ivec3.z = (int)(long)z;
+                    ////    ivec3.x = (int)(long)x;
+                    ////    ivec3.y = (int)(long)y;
+                    ////    ivec3.z = (int)(long)z;
 
-                        result = ivec3;
-                    }
+                    ////    result = ivec3;
+                    ////}
                 }
             }
 

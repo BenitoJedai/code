@@ -80,7 +80,7 @@ namespace DeltaExperiment
         {
             var in_ticks = long.Parse(ticks);
 
-            Console.WriteLine(new { in_ticks });
+            //Console.WriteLine(new { in_ticks });
 
             delta.Sum(
                 in_ticks,

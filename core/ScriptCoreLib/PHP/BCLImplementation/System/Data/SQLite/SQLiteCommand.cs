@@ -28,6 +28,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 sql,
                 __SQLiteConnectionStringBuilder.InternalConnectionString.DataSource
             );
+
+
+            this.InternalParameters = new __SQLiteParameterCollection { };
+            this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
         }
 
         public mysqli_stmt InternalPreparedStatement;
