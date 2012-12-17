@@ -7,22 +7,11 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 {
-
-    [Obsolete("This class should be refactored into __SQLiteConnectionStringBuilder")]
-    [Script]
-    internal static class __SQLiteConnectionHack
-    {
-        // public static Context Context;
-
-        public static bool ForceReadOnly;
-
-        public static MySQL.LoginInfo MyDBLoginInfo = new MySQL.LoginInfo();
-    }
-
-
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
     internal class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs
+
         public string DataSource { get; set; }
         public int Version { get; set; }
         public bool ReadOnly { get; set; }
@@ -49,26 +38,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         }
 
+        public static __SQLiteConnectionStringBuilder InternalConnectionString;
+
         protected override string InternalGetConnectionString()
         {
-
             var r = "";
 
-            //r += "Data Source=" + this.DataSource + ";";
-
-            __SQLiteConnectionHack.MyDBLoginInfo.Database = DataSource;     // __SQLiteConnectionHack.MYDATABASE_NAME;
-            __SQLiteConnectionHack.MyDBLoginInfo.Host = this.InternalHost;
-            __SQLiteConnectionHack.MyDBLoginInfo.User = this.InternalUser;     //     //"root";
-            __SQLiteConnectionHack.MyDBLoginInfo.Pass = this.Password;
-
-            //r += "Version=" + ((object)this.Version)+";";//.ToString() + ";";
-
-            if (this.ReadOnly)
-            {
-                // r += "Read Only=True;";
-                __SQLiteConnectionHack.ForceReadOnly = true;
-            }
-
+            // we should serialize to string here
+            // this will break once multiple connections are needed!
+            InternalConnectionString = this;
 
             return r;
         }

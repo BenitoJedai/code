@@ -115,7 +115,7 @@ insert into History1 (query, context) values (
                     stmt.execute();
 
                     {
-                        var message = new { stmt.errno, stmt.error, sql };
+                        var message = new { stmt = new { stmt.errno, stmt.error, stmt.insert_id }, m.insert_id, sql };
                         yield(message.ToString());
                     }
 

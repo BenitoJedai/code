@@ -90,8 +90,13 @@
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSound.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
     <Compile Include="JavaScript\WebGL\WebGLUniformLocation.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
     <Compile Include="PHP\BCLImplementation\System\Int64.cs" />
     <Compile Include="PHP\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
+    <Compile Include="PHP\Data\mysqli_stmt.cs" />
+    <Compile Include="PHP\Data\mysqli_result.cs" />
+    <Compile Include="PHP\Data\mysqli.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec3.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec2.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs" />

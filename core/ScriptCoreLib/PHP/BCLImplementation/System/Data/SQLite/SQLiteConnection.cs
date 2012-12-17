@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.PHP.Runtime;
+﻿using ScriptCoreLib.PHP.Data;
+using ScriptCoreLib.PHP.Runtime;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
@@ -10,67 +11,40 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
     internal class __SQLiteConnection : __DbConnection
     {
-        //private LocalSQLiteOpenHelper h;
-        public object db; // SQLiteDatabase db;
+        // tested by X:\jsc.svn\examples\php\SimpleMySQLiConsole\SimpleMySQLiConsole\ApplicationWebService.cs
 
-        bool ForceReadOnly;
-
-        bool debug = false;
-
-        public string InternalDatabaseName;
+        public mysqli InternalConnection;
 
         public __SQLiteConnection(string connectionstring)
         {
-            //this.h = new LocalSQLiteOpenHelper(__SQLiteConnectionHack.Context, __SQLiteConnectionHack.MYDATABASE_NAME);
         }
 
         public override void Open()
         {
-            // failure will result in an exception
-            InternalDatabaseName = __SQLiteConnectionHack.MyDBLoginInfo.Database;
-
-            db = MySQL.Connect(__SQLiteConnectionHack.MyDBLoginInfo);
-
-
-            //Console.WriteLine("<!-- CREATE DATABASE  -->");
-            var r = MySQL.API.mysql_query(
-                "CREATE DATABASE IF NOT EXISTS `" + __SQLiteConnectionHack.MyDBLoginInfo.Database + "`"
+            this.InternalConnection = new mysqli(
+                host: __SQLiteConnectionStringBuilder.InternalConnectionString.InternalHost,
+                user: __SQLiteConnectionStringBuilder.InternalConnectionString.InternalUser,
+                password: __SQLiteConnectionStringBuilder.InternalConnectionString.Password
             );
 
-            //Console.WriteLine("<-- mysql_query " + MySQL.API.mysql_error() + " -->");
+            this.InternalConnection.query(
+                "CREATE DATABASE IF NOT EXISTS `" + __SQLiteConnectionStringBuilder.InternalConnectionString.DataSource + "`"
+            );
 
-
-
-
-
-
-
-            if (!MySQL.API.mysql_select_db(__SQLiteConnectionHack.MyDBLoginInfo.Database))
-            {
-                Console.WriteLine("Database select failed, db=" + __SQLiteConnectionHack.MyDBLoginInfo.Database);
-            }
-            else
-            {
-                if (debug)
-                    Console.WriteLine("Database select success");
-            }
-
-            /*
-            if (__SQLiteConnectionHack.ForceReadOnly)
-                db = h.getReadableDatabase();
-            else
-                db = h.getWritableDatabase();
-            */
+            this.InternalConnection.query(
+                "use `" + __SQLiteConnectionStringBuilder.InternalConnectionString.DataSource + "`"
+            );
         }
 
 
 
         public override void Close()
         {
-            // h.close();  
+            if (this.InternalConnection == null)
+                return;
 
-            // no PHP my_sql Close command implemented yet
-
+            this.InternalConnection.close();
+            this.InternalConnection = null;
         }
 
         public override void Dispose()
@@ -83,11 +57,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         {
             get
             {
-                // http://php.net/manual/en/function.mysql-insert-id.php
-                // http://php.net/manual/en/mysqli.insert-id.php
-
-
-                return MySQL.API.mysql_insert_id();
+                return this.InternalConnection.insert_id;
             }
         }
     }

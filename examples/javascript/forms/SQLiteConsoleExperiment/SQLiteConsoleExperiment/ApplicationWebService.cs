@@ -136,7 +136,7 @@ namespace SQLiteConsoleExperiment
                         }
                     }
 
-                    c.Close();
+                    //c.Close();
                 }
 
                 if (table != null)

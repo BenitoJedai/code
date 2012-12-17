@@ -1,5 +1,4 @@
 ﻿using ScriptCoreLib.PHP.Data;
-using ScriptCoreLib.PHP.Runtime;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
@@ -12,71 +11,153 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
     internal class __SQLiteCommand : __DbCommand
     {
-        __SQLiteConnection c;
-        string sql;
-        object queryResult;
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
 
-        bool debug = false;
+        __SQLiteConnection c;
+
+        string sql;
+
+
 
         public __SQLiteCommand(string sql, SQLiteConnection c)
         {
             this.c = (__SQLiteConnection)(object)c;
 
 
-            this.sql = SQLiteToMySQLConversion.Convert(sql, this.c.InternalDatabaseName);
+            this.sql = SQLiteToMySQLConversion.Convert(
+                sql,
+                __SQLiteConnectionStringBuilder.InternalConnectionString.DataSource
+            );
+        }
+
+        public mysqli_stmt InternalPreparedStatement;
+
+
+        private void InternalCreateStatement()
+        {
+            if (this.InternalParameters.InternalParameters.Count > 0)
+            {
+                var sql = this.sql;
+
+                //Console.WriteLine("we have InternalParameters for " + sql);
+
+                var parameters = this.InternalParameters.InternalParameters;
+
+                var index =
+                   from p in parameters
+                   from i in this.sql.GetIndecies(p.ParameterName)
+                   orderby i
+                   select new { p, i };
+
+
+
+                foreach (var p in parameters)
+                {
+                    // java seems to like indexed parameters instead
+                    sql = sql.Replace(p.ParameterName, "?");
+                }
+
+                this.InternalPreparedStatement = this.c.InternalConnection.prepare(sql) as mysqli_stmt;
+
+                var types = "";
+                var values = new List<object>();
+
+                var c = 0;
+                foreach (var item in index)
+                {
+                    c++;
+
+                    types += "s";
+                    values.Add(item.p.Value);
+
+                    //if (item.p.Value == null)
+                    //{
+                    //    this.InternalPreparedStatement.setObject(c, null);
+                    //}
+                    //else if (item.p.Value is int)
+                    //    this.InternalPreparedStatement.setInt(c, (int)item.p.Value);
+                    //else if (item.p.Value is long)
+                    //    this.InternalPreparedStatement.setLong(c, (long)item.p.Value);
+                    //else if (item.p.Value is string)
+                    //    this.InternalPreparedStatement.setString(c, (string)item.p.Value);
+                    //else
+                    //{
+                    //    var message = "InternalCreateStatement, what to do with this? " + new
+                    //    {
+                    //        this.sql,
+                    //        item,
+                    //        type = item.GetType()
+                    //    };
+
+                    //    throw new Exception(message);
+                    //}
+                }
+
+                this.InternalPreparedStatement.bind_param_array(types, values.ToArray());
+
+                // add values
+
+                //this.InternalStatement = this.InternalPreparedStatement;
+            }
         }
 
         public override int ExecuteNonQuery()
         {
-            //Native.API.error_log("ExecuteNonQuery " + sql);
-            // c.db.execSQL(sql);
+            InternalCreateStatement();
 
-            object o = MySQL.API.mysql_query(sql);  //no NonQuery Native Avail for PHP
+            var r = default(mysqli_result);
 
-            if (debug)
+            if (this.InternalPreparedStatement != null)
             {
-                string s = "<empty>";
-                if (o != null)
-                    s = (string)o;
+                this.InternalPreparedStatement.execute();
 
-                Console.WriteLine("ExecuteNonQuery result:" + s);
+                r = this.InternalPreparedStatement.get_result() as mysqli_result;
+            }
+            else
+            {
+                r = this.c.InternalConnection.query(this.sql) as mysqli_result;
+            }
+
+            if (this.c.InternalConnection.errno != 0)
+            {
+                var message = new { this.c.InternalConnection.errno, this.c.InternalConnection.error };
+
+                throw new Exception(message.ToString());
             }
 
             return 0;
         }
 
+        public __SQLiteParameterCollection InternalParameters;
+        public SQLiteParameterCollection Parameters { get; set; }
+
         public __SQLiteDataReader ExecuteReader()
         {
-            // http://php.net/manual/en/mysqli.query.php
+            InternalCreateStatement();
 
-            // http://php.net/manual/en/function.mysql-query.php
-            // For other type of SQL statements, INSERT, UPDATE, DELETE, DROP, etc, mysql_query() returns TRUE on success or FALSE on error.
-            queryResult = MySQL.API.mysql_query(sql);
+            var r = default(mysqli_result);
 
-            var errno = MySQL.API.mysql_errno();
-
-            //Native.echo("<!-- " + errno + " -->");
-
-            if (errno != 0)
+            if (this.InternalPreparedStatement != null)
             {
-                throw new Exception("mysql_query failed, mysql_errno: " + errno + " " + MySQL.API.mysql_error());
+                this.InternalPreparedStatement.execute();
+
+                r = this.InternalPreparedStatement.get_result() as mysqli_result;
+            }
+            else
+            {
+                r = this.c.InternalConnection.query(this.sql) as mysqli_result;
             }
 
-            var queryResult_bool = (bool)queryResult;
-            var __true = true;
-
-            if (queryResult_bool == __true)
+            if (this.c.InternalConnection.errno != 0)
             {
+                var message = new { this.c.InternalConnection.errno, this.c.InternalConnection.error };
 
-                return new __SQLiteDataReader
-                {
-                    queryResult = null
-                };
+                throw new Exception(message.ToString());
             }
 
             return new __SQLiteDataReader
             {
-                queryResult = queryResult
+                InternalResultSet = r
             };
         }
     }
