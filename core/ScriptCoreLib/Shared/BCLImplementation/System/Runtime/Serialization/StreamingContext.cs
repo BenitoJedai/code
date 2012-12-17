@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization
 {
 	[Script(Implements = typeof(global::System.Runtime.Serialization.StreamingContext))]
-	internal class StreamingContext
+    public class StreamingContext
 	{
 	}
 }

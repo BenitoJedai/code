@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization
 {
 	[Script(Implements = typeof(global::System.Runtime.Serialization.SerializationInfo))]
-	internal sealed class __SerializationInfo
+	public sealed class __SerializationInfo
 	{
 	}
 }
