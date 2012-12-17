@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
 	[Script(Implements = typeof(global::System.ComponentModel.ISynchronizeInvoke))]
-	internal interface __ISynchronizeInvoke
+	public interface __ISynchronizeInvoke
 	{
 	}
 }
