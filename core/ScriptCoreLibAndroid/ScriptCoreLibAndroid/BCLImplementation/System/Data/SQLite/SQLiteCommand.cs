@@ -1,4 +1,4 @@
-﻿//using ScriptCoreLib.Extensions;
+﻿using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using ScriptCoreLibJava.BCLImplementation.System.Data.SQLite;
 using ScriptCoreLibJava.Extensions;

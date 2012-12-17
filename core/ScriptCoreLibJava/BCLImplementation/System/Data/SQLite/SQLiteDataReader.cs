@@ -221,5 +221,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         {
             throw new NotImplementedException();
         }
+
+        public override double GetDouble(int ordinal)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
