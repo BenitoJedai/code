@@ -8,6 +8,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.Data
 {
+    using NotImplementedException = Exception;
+
     /// <summary>
     /// This class provides an easy way to use object.property
     /// syntax with a DataReader by wrapping a DataReader into
@@ -301,7 +303,7 @@ namespace ScriptCoreLib.Shared.Data
                 // call other DataReader methods using Reflection (slow - not recommended)
                 // recommend you use full DataReader instance
 
-                throw new NotImplementedException();
+                throw new Exception("TryInvokeMember");
             //typeof(IDataReader).InvokeMember(binder.Name, 
             //result = ReflectionUtils.CallMethod(DataReader, binder.Name, args);
 

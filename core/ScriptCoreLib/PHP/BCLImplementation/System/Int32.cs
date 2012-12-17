@@ -15,6 +15,23 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
         }
 
+        [Script(DefineAsStatic = true)]
+        public int CompareTo(int value)
+        {
+            var v = (int)(object)this;
+
+            if (v < value)
+            {
+                return -1;
+            }
+            if (v > value)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+
         public static int Parse(string e)
         {
             return Native.API.intval(e);

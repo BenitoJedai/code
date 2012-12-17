@@ -22,22 +22,41 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections
 
         #region __IComparer Members
 
-        public int Compare(object ka, object kb)
+        public int Compare(object a, object b)
         {
-            if (ka == kb)
+            if (a == b)
             {
                 return 0;
             }
-            if (ka == null)
+            if (a == null)
             {
                 return -1;
             }
-            if (kb == null)
+            if (b == null)
             {
                 return 1;
             }
 
             var r = -2;
+
+            if (a is int)
+                if (b is int)
+                {
+                    var x = (int)a;
+                    var y = (int)b;
+
+                    return x.CompareTo(y);
+                }
+
+            if (a is string)
+                if (b is string)
+                {
+                    var x = (string)a;
+                    var y = (string)b;
+
+                    return x.CompareTo(y);
+                }
+
 
             //if (Expando.Of(ka).IsString)
             //    r = Expando.Compare(ka, kb);
@@ -50,7 +69,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections
 
 
             if (r == -2)
-                throw new NotSupportedException();
+            {
+                Native.API.var_dump(a);
+                Native.API.var_dump(b);
+
+                throw new Exception("CompareTo not implemented " + new { a, b });
+            }
 
             return r;
 

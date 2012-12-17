@@ -30,7 +30,7 @@ namespace DeltaExperiment
 
             var ms = now.Ticks / 1000;
 
-                 
+
             delta.Add(
                 new DeltaQueries.InsertVector
                 {
@@ -87,14 +87,14 @@ namespace DeltaExperiment
                 reader =>
                 {
                     long out_ticks = reader.ticks;
-                    Console.WriteLine(new { out_ticks });
+                    //Console.WriteLine(new { out_ticks });
 
                     //ivec3 xyz = reader.xyz;
-                    Console.WriteLine("Sum .x");
+                    //Console.WriteLine("Sum .x");
                     long x = reader.x;
-                    Console.WriteLine("Sum .y");
+                    //Console.WriteLine("Sum .y");
                     long y = reader.y;
-                    Console.WriteLine("Sum .z");
+                    //Console.WriteLine("Sum .z");
                     long z = reader.z;
 
                     yield(

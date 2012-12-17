@@ -44,26 +44,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             {
                 var sql = this.sql;
 
-                Console.WriteLine("we have InternalParameters for " + sql);
+                //Console.WriteLine("we have InternalParameters for " + sql);
 
                 var parameters = this.InternalParameters.InternalParameters;
 
-                Console.WriteLine("we have InternalParameters for " + new { parameters.Count });
+                //Console.WriteLine("we have InternalParameters for " + new { parameters.Count });
 
-                //var pi = parameters.Select(
-                //    p =>
-                //    {
-                //        var i = this.sql.GetIndecies(p.ParameterName);
-
-                //        return new { p, i };
-                //    }
-                //);
-
-                //Console.WriteLine("we have InternalParameters for before order by");
-
-                //var index = pi.OrderBy(k => k.i).ToArray();
-
-                // broken:
+             
                 var index = Enumerable.ToArray(
                    from p in parameters.AsEnumerable()
                    from i in this.sql.GetIndecies(p.ParameterName)
@@ -71,7 +58,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                    select new { p, i }
                 );
 
-                Console.WriteLine("we have InternalParameters for index: " + new { index.Length });
+                //Console.WriteLine("we have InternalParameters for index: " + new { index.Length });
 
 
                 foreach (var p in parameters)
