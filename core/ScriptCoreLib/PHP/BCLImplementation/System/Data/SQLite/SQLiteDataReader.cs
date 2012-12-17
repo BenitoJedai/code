@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.PHP.Runtime;
+﻿using ScriptCoreLib.PHP.Data;
+using ScriptCoreLib.PHP.Runtime;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
@@ -10,74 +11,44 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
     internal class __SQLiteDataReader : __DbDataReader
     {
-        public IArray cursor; // Cursor cursor;
-        public object queryResult;
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
 
-        int __state;
-        int __index = 0;
+        public mysqli_result InternalResultSet;
 
         public override void Close()
         {
-            // ?
+            this.InternalResultSet.close();
         }
+
+        public int __rowid = -1;
+        public object[] __row;
 
         public override bool Read()
         {
-            if (queryResult == null)
+            if (this.InternalResultSet == null)
                 return false;
 
-            var x = MySQL.API.mysql_fetch_array(
-                queryResult,
-                MySQL.API.FetchArrayResult.MYSQL_ASSOC
-            );
+            __rowid++;
 
-            var e = Expando.Of(x);
-
-            //Console.WriteLine(e.TypeString);
-
-            if (e.IsArray)
+            if (__rowid < this.InternalResultSet.num_rows)
             {
-                cursor = x;
-
-                if (cursor != null)
-                    if (cursor.Length > 0)
-                    {
-
-                        return true;
-                    }
+                if (this.InternalResultSet.data_seek(__rowid))
+                {
+                    this.__row = this.InternalResultSet.fetch_row();
+                    return true;
+                }
             }
 
             return false;
-
-            /*
-            if (__state == 0)
-            {
-                __state = 1;
-    
-                //cursor.moveToFirst();
-
-                __index = 0; // move to first                
-            }
-            else
-            {
-                //cursor.moveToNext();
-
-                __index++; // move to next
-            }
-
-            return __index < cursor.Length; //!(cursor.isAfterLast());
-             * */
         }
 
         public override int GetOrdinal(string name)
         {
-            var Keys = cursor.Keys;
-
             var i = -1;
 
-            for (int j = 0; j < Keys.Length; j++)
+            for (int j = 0; j < this.InternalResultSet.field_count; j++)
             {
-                if ((string)Keys[j] == name)
+                if (this.InternalResultSet.fetch_field_direct(j).name == name)
                 {
                     i = j;
                     break;
@@ -91,103 +62,62 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         {
             get
             {
-                // int i = cursor.getColumnIndex(name);
+                var i = GetOrdinal(name);
 
-                // return cursor.getString(i);
-
-                var Keys = cursor.Keys;
-                if (Keys.Contains(name))
+                if (GetFieldType(i) == typeof(int))
                 {
-                    var value = cursor[name];
-                    return value;
+                    return GetInt32(i);
                 }
 
-                return null;
+                return GetString(i);
             }
         }
 
         public override string GetString(int i)
         {
-            // int i = cursor.getColumnIndex(name);
+            return (string)this.__row[i];
 
-            // return cursor.getString(i);
-
-            var keys = (object[])cursor.Keys;
-            var name = keys[i];
-
-            return (string)cursor[name];
         }
 
 
 
         public override string GetName(int ordinal)
         {
-            var keys = (object[])cursor.Keys;
-            var name = keys[ordinal];
-
-            return (string)name;
+            var f = this.InternalResultSet.fetch_field_direct(ordinal);
+            return f.name;
         }
 
         public override int GetInt32(int i)
         {
-            var keys = (object[])cursor.Keys;
-            var name = (string)keys[i];
-            var value = (string)cursor[name];
-            var ivalue = int.Parse(value);
+            return (int)this.__row[i];
 
-            return ivalue;
         }
 
 
-        public override long GetInt64(int ordinal)
+        public override long GetInt64(int i)
         {
-            var keys = (object[])cursor.Keys;
-            var name = (string)keys[ordinal];
-            var value = (string)cursor[name];
+            return (long)this.__row[i];
 
-            // Int64?
-            var ivalue = int.Parse(value);
-
-            return ivalue;
         }
 
         public override Type GetFieldType(int ordinal)
         {
-            // what are the actual types?
-            // http://www.php.net/manual/en/function.mysql-fetch-field.php
-            // http://www.w3schools.com/php/func_mysql_fetch_field.asp
-
-            // http://www.php.net/manual/en/function.mysql-field-type.php
-
-            var f = MySQL.API.mysql_field_type(this.queryResult, ordinal);
-            //"int", "real", "string", "blob", 
+            var t = this.InternalResultSet.fetch_field_direct(ordinal);
 
 
-            if (f == "int")
+            if (t.type == 3)
                 return typeof(int);
 
-            // In MySQL 4.1.x, the four TEXT types (TINYTEXT, TEXT, MEDIUMTEXT, and LONGTEXT) return 'blob" as field types, not "string".
-            // how to fix that?
-            if (f == "string")
-                return typeof(string);
-            if (f == "blob")
-                return typeof(string);
-
-            if (f == "datetime")
-                return typeof(string);
 
 
-            throw new Exception("GetFieldType unknown type: " + f);
-            //return __Type.InternalGetTypeFromClassTokenName(f.type);
+            return typeof(string);
         }
 
         public override int FieldCount
         {
             get
             {
-                var keys = (object[])cursor.Keys;
-
-                return keys.Length;
+                return this.InternalResultSet.field_count;
             }
         }
 
