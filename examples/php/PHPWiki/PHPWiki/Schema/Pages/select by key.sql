@@ -1,0 +1,1 @@
+﻿select Content from Pages where XKey = @XKey /* text */
