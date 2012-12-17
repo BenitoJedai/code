@@ -55,6 +55,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
             if (is_string)
                 return typeof(string);
 
+
+            var is_int = x is int;
+
+            if (is_int)
+                return typeof(int);
+
             // http://php.net/manual/en/function.is-object.php
 
             // <b>Warning</b>:  get_class() expects parameter 1 to be object, string given in
