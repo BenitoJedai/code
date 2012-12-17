@@ -45,6 +45,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
             public override int Compare(T x, T y)
             {
                 // fallback to nongenerics
+
                 return Comparer.Default.Compare(x, y);
             }
         }
