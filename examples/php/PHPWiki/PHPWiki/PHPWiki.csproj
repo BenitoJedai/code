@@ -119,6 +119,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Schema\Pages.cs" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -132,10 +133,16 @@
     </Compile>
     <Content Include="Design\Preview.png" />
     <Content Include="Design\RTA_save.gif" />
-    <Content Include="Queries\QountItems.sql" />
+    <Content Include="Schema\Pages\select by key.sql" />
+    <Content Include="Schema\Pages\select count.sql" />
+    <Content Include="Schema\Pages\create.sql" />
+    <Content Include="Schema\Pages\insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Queries\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
