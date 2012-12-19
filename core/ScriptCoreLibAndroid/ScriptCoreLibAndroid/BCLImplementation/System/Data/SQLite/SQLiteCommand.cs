@@ -82,7 +82,24 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                 if (parameters.Count > 0)
                 {
                     // what about null args?
-                    selectionArgs = index.Select(k => k.p.Value.ToString()).ToArray();
+                    // we had to crash on android to come back and fix null support:P
+
+                    //Caused by: java.lang.IllegalArgumentException: the bind value at index 1 is null
+                    //       at android.database.sqlite.SQLiteProgram.bindString(SQLiteProgram.java:237)
+                    //       at android.database.sqlite.SQLiteQuery.bindString(SQLiteQuery.java:185)
+                    //       at android.database.sqlite.SQLiteDirectCursorDriver.query(SQLiteDirectCursorDriver.java:48)
+                    //       at android.database.sqlite.SQLiteDatabase.rawQueryWithFactory(SQLiteDatabase.java:1356)
+
+                    selectionArgs = index.Select(
+                        k =>
+                        {
+                            // does android even allow null?
+                            if (k.p.Value == null)
+                                return "";
+
+                            return k.p.Value.ToString();
+                        }
+                    ).ToArray();
                 }
 
                 var cursor = db.rawQuery(sql, selectionArgs);

@@ -61,7 +61,6 @@ namespace SQLiteWithDataGridView.Library
                     dataGridView1.Rows.Add(r);
 
                 },
-                TableName: TableName,
                 ParentContentKey: ParentContentKey,
                 AtTransactionKey: value =>
                 {
@@ -105,7 +104,7 @@ namespace SQLiteWithDataGridView.Library
             {
                 InternalCellValueChanged = true;
                 dataGridView1[0, e.RowIndex].Value = "?";
-                dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
+                dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Green;
                 InternalCellValueChanged = false;
 
                 var ContentValue = (string)dataGridView1[1, e.RowIndex].Value;
@@ -123,14 +122,13 @@ namespace SQLiteWithDataGridView.Library
                     LastInsertRowId =>
                     {
                         dataGridView1[0, e.RowIndex].Value = LastInsertRowId;
-                        dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Blue;
+                        dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
 
                         //var i = int.Parse(LocalTransactionKey);
                         //i++;
 
                         //LocalTransactionKey = i.ToString();
-                    },
-                    TableName: TableName
+                    }
                 );
             }
             else
@@ -141,7 +139,7 @@ namespace SQLiteWithDataGridView.Library
                 if (ContentKey.StartsWith("?"))
                     return;
 
-                dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Blue;
+                dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
 
                 var ContentValue = (string)dataGridView1[1, e.RowIndex].Value;
                 if (ContentValue == null)
@@ -152,7 +150,6 @@ namespace SQLiteWithDataGridView.Library
                     ContentComment = "";
 
                 service.GridExample_UpdateItem(
-                    TableName,
                     ContentKey,
                     ContentValue,
                     ContentComment,
@@ -202,7 +199,7 @@ namespace SQLiteWithDataGridView.Library
 
                     if (LocalTransactionKey != ServerTransactionKey)
                     {
-                        label2.ForeColor = Color.Red;
+                        label2.ForeColor = Color.Green;
 
                         #region AtContentKey
                         Action<string, string, string, string> AtContentKey =
@@ -210,7 +207,7 @@ namespace SQLiteWithDataGridView.Library
                             {
                                 DataGridViewRow r = InternalAddOrUpdateToLocalDataGrid(ContentKey, ContentValue, ContentComment, ContentChildren);
 
-                                r.Cells[0].Style.ForeColor = Color.Red;
+                                r.Cells[0].Style.ForeColor = Color.Green;
                             };
                         #endregion
 
@@ -226,7 +223,7 @@ namespace SQLiteWithDataGridView.Library
                         };
 
                         service.GridExample_EnumerateItemsChangedBetweenTransactions(
-                            TableName,
+                            //TableName,
                             ParentContentKey,
                             LocalTransactionKey,
                             ServerTransactionKey,
@@ -244,7 +241,7 @@ namespace SQLiteWithDataGridView.Library
                 };
 
             service.GridExample_GetTransactionKeyFor(
-                TableName: TableName,
+                e: "",
                 y: AtServerTransactionKey
             );
         }

@@ -122,12 +122,7 @@ namespace PHPWiki
             //        Native.Document.body.requestFullscreen();
             //    };
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+         
         }
 
     }

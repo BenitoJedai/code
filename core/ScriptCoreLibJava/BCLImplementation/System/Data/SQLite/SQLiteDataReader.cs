@@ -10,6 +10,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
     internal class __SQLiteDataReader : __DbDataReader
     {
+        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+
         public __SQLiteCommand InternalCommand;
         public java.sql.ResultSet InternalResultSet;
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
@@ -61,7 +63,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
                 var t = this.GetFieldType(i);
 
-                Console.WriteLine("__SQLiteDataReader get_Item " + new { name, i, t.FullName });
+                //Console.WriteLine("__SQLiteDataReader get_Item " + new { name, i, t.FullName });
 
                 if (t == typeof(int))
                     return this.GetInt32(i);
@@ -167,10 +169,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             // http://docs.oracle.com/javase/1.4.2/docs/api/constant-values.html#java.sql
 
             if (ColumnType == 4)
-                return typeof(int);
+            {
+                int int32 = 0;
+                object int32box = int32;
+
+                return int32box.GetType();
+
+                //return typeof(int);
+            }
 
             if (ColumnType == -5)
-                return typeof(long);
+            {
+                long int64 = 0;
+                object int64box = int64;
+
+                return int64box.GetType();
+
+                // jsc is giving us the primitive? 
+                //return typeof(long);
+            }
 
             // In MySQL 4.1.x, the four TEXT types (TINYTEXT, TEXT, MEDIUMTEXT, and LONGTEXT) return 'blob" as field types, not "string".
             // how to fix that?

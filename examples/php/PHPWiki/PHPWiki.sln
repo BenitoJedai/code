@@ -5,12 +5,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHPWiki", "PHPWiki\PHPWiki.
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|x86 = Android|x86
+		AppEngine|x86 = AppEngine|x86
 		Debug|x86 = Debug|x86
+		PHP|x86 = PHP|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Android|x86.ActiveCfg = Android|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Android|x86.Build.0 = Android|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.AppEngine|x86.ActiveCfg = AppEngine|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.AppEngine|x86.Build.0 = AppEngine|x86
 		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Debug|x86.ActiveCfg = Debug|x86
 		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Debug|x86.Build.0 = Debug|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.PHP|x86.ActiveCfg = PHP|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.PHP|x86.Build.0 = PHP|x86
 		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Release|x86.ActiveCfg = Release|x86
 		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

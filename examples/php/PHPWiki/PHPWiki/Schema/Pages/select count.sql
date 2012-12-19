@@ -1,1 +1,1 @@
-﻿select count(*) from Pages
+﻿select count(*) as count from Pages

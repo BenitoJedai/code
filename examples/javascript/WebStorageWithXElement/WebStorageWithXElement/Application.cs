@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -28,7 +29,12 @@ namespace WebStorageWithXElement
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            var foo = Native.Window.localStorage["foo"];
+            //var localStorage = Native.Window.localStorage;
+            //string foo = getfoo();
+            //string foo = localStorage["foo"];
+            dynamic localStorage = new DynamicLocalStorage { };
+            string foo = localStorage.foo;
+
             var xml = new XElement("foo",
                         new XAttribute("title", "What is the title?"),
                         new XElement("content", "What is the content?")
@@ -51,7 +57,11 @@ namespace WebStorageWithXElement
                     );
 
                     page.ViewXMLSource.innerText = n.ToString();
-                    Native.Window.localStorage["foo"] = n.ToString();
+
+                    var xfoo = n.ToString();
+
+                    localStorage.foo = xfoo;
+                    //Native.Window.localStorage["foo"] = xfoo;
                 };
 
             @"Hello world".ToDocumentTitle();
@@ -62,5 +72,26 @@ namespace WebStorageWithXElement
             );
         }
 
+     
+
+    }
+
+
+    class DynamicLocalStorage : DynamicObject
+    {
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            var value = Native.Window.localStorage[binder.Name];
+
+            result = value;
+
+            return true;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            Native.Window.localStorage[binder.Name] = value + "";
+            return true;
+        }
     }
 }

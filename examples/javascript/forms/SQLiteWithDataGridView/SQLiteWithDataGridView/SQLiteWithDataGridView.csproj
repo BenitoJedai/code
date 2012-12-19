@@ -63,6 +63,26 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ASPNET|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\ASPNET\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Android\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonPromotionBrandIntro">
       <HintPath>..\..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\bin\Debug\AvalonPromotionBrandIntro.exe</HintPath>
@@ -74,6 +94,7 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -163,9 +184,9 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="Schema\TheGridTable.cs" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="IApplicationWebService.cs" />
     <Compile Include="Library\GridForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,6 +209,14 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
+    <Content Include="Schema\TheGridTable\select content updates.sql" />
+    <Content Include="Schema\TheGridTable\select content.sql" />
+    <Content Include="Schema\TheGridTable\insert.sql" />
+    <Content Include="Schema\TheGridTable\update.sql" />
+    <Content Include="Schema\TheGridTable\insert log.sql" />
+    <Content Include="Schema\TheGridTable\select transaction.sql" />
+    <Content Include="Schema\TheGridTable\create log.sql" />
+    <Content Include="Schema\TheGridTable\create.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
@@ -205,17 +234,22 @@
     </Compile>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Schema\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Android (
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /DisableWebServiceAndroid:false
+       )
+
+if $(ConfigurationName)==ASPNET (
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /xDisableWebServiceJava:false
+       )
+
+
       if $(ConfigurationName)==GAE (
 start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServicePHP:false /DisableWebServiceJava:false
+       )
 
-    
-    )
       if $(ConfigurationName)==PHP (
       start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
       )
