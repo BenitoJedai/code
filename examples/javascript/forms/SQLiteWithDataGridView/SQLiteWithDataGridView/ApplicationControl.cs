@@ -25,7 +25,6 @@ namespace SQLiteWithDataGridView
 
         private void button3_Click_1(object sender, System.EventArgs e)
         {
-            new GridForm { TableName = Table003.Text, service = this.applicationWebService1 }.Show();
 
         }
 
@@ -36,7 +35,6 @@ namespace SQLiteWithDataGridView
 
         private void Table002_Click(object sender, System.EventArgs e)
         {
-            new GridForm { TableName = Table002.Text, service = this.applicationWebService1 }.Show();
 
         }
 

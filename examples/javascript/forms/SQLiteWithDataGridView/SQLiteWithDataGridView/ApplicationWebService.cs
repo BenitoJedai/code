@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using SQLiteWithDataGridView.Schema;
 using System;
 using System.ComponentModel;
 using System.Data.SQLite;
@@ -13,18 +14,23 @@ namespace SQLiteWithDataGridView
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed partial class ApplicationWebService : Component, IApplicationWebService
+    public sealed partial class ApplicationWebService : Component //, IApplicationWebService
     {
 
+
+        public TheGridTable grid = new TheGridTable();
 
         //const string DataSource = "SQLiteWithDataGridView.4.sqlite";
         const string DataSource = "SQLiteWithDataGridView5";
 
+        const string TableName = "TheGridTable";
 
         static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false);
 
-        public void GridExample_InitializeDatabase(string e, Action<string> y, string TableName)
+        public void GridExample_InitializeDatabase(string e, Action<string> y)
         {
+
+
             //Console.WriteLine("AddItem enter");
 
             var csb = new SQLiteConnectionStringBuilder
@@ -37,77 +43,24 @@ namespace SQLiteWithDataGridView
 
             ApplyRestrictedCredentials(csb, true);
 
-            using (var c = new SQLiteConnection(csb.ConnectionString))
-            {
-                c.Open();
-                // sqlite infers AUTO_INCREMENT while MySQL does not.
-                // SQLite error (1): near "AUTO_INCREMENT": syntax error
-                // http://www.sqlite.org/autoinc.html
-
-                using (var cmd = new SQLiteCommand(
-                    "create table if not exists " + TableName + " ("
-                    + "ContentKey INTEGER PRIMARY KEY AUTOINCREMENT"
-                    + ", ContentValue text not null"
-                    + ", ContentComment text not null"
-                    + ", ParentContentKey INTEGER "
-                    + ", FOREIGN KEY(ParentContentKey) REFERENCES " + TableName + "(ContentKey)"
-                    + ")", c))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-                // http://stackoverflow.com/questions/5289861/sqlite-android-foreign-key-syntax
-                using (var cmd = new SQLiteCommand(
-                    "create table if not exists TransactionLog_" + TableName
-                    + " ("
-                    + " ContentKey INTEGER PRIMARY KEY AUTOINCREMENT"
-                    + ", ContentReferenceKey INTEGER "
-                    + ", ContentComment text not null "
-                    + ", FOREIGN KEY(ContentReferenceKey) REFERENCES " + TableName + "(ContentKey)"
-                    + ")"
-
-                    , c))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-
-                c.Close();
-            }
-
             // Send it back to the caller.
             y(e);
             //Console.WriteLine("AddItem exit");
         }
 
         public void GridExample_GetTransactionKeyFor(
-            string TableName,
+            string e,
 
             Action<string> y)
         {
-            //Console.WriteLine("CountItems enter");
-            using (var c = OpenReadOnlyConnection())
-            {
-                c.Open();
-
-                // http://www.sqlite.org/lang_corefunc.html
-
-                using (var reader = new SQLiteCommand("select coalesce(max(ContentKey), 0) from  TransactionLog_" + TableName, c).ExecuteReader())
+            this.grid.SelectTransactionKey(
+                ContentKey =>
                 {
-
-                    if (reader.Read())
-                    {
-                        var Content = (int)reader.GetInt32(0);
-
-                        y("" + Content);
-
-                    }
+                    y("" + ContentKey);
                 }
+            );
 
-                c.Close();
 
-            }
-            //Console.WriteLine("CountItems exit");
         }
 
         public void GridExample_AddItem(
@@ -115,8 +68,8 @@ namespace SQLiteWithDataGridView
             string ContentComment,
             /* int? */ string ParentContentKey,
 
-            Action<string> AtContentReferenceKey,
-            string TableName)
+            Action<string> AtContentReferenceKey
+            )
         {
             //Console.WriteLine("AddItem enter");
 
@@ -128,55 +81,43 @@ namespace SQLiteWithDataGridView
 
             ApplyRestrictedCredentials(csb);
 
-            using (var c = new SQLiteConnection(csb.ConnectionString))
-            {
-                c.Open();
 
-                var sql = "insert into " + TableName + " (ContentValue, ContentComment, ParentContentKey) "
-                    + "values (";
+            var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
 
-                sql += "'" + ContentValue + "'";
-                sql += ", '" + ContentComment + "'";
+            grid.Insert(
+                new TheGridTableQueries.Insert
+                {
+                    ContentValue = ContentValue,
+                    ContentComment = ContentComment,
+                    ParentContentKey = xParentContentKey
+                },
 
-                if (ParentContentKey == "")
-                    sql += ", null";
-                else
-                    sql += ", " + ParentContentKey;
+                ContentReferenceKeyLong =>
+                {
+                    // jsc does not yet autobox for java 
+                    // int cannot be dereferenced
+                    var ContentReferenceKey = ContentReferenceKeyLong.ToString();
+                    //var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
 
-                sql += ")";
+                    this.grid.InsertLog(
+                         new TheGridTableQueries.InsertLog { ContentKey = (int)ContentReferenceKeyLong, ContentComment = "AddItem" }
+                     );
 
-                var cmd = new SQLiteCommand(sql, c);
-                cmd.ExecuteNonQuery();
+                    if (ParentContentKey != "")
+                    {
+                        this.grid.InsertLog(
+                           new TheGridTableQueries.InsertLog { ContentKey = int.Parse(ParentContentKey), ContentComment = "ChildAdded" }
+                       );
 
-                var ContentReferenceKeyLong = c.LastInsertRowId;
-                // jsc does not yet autobox for java 
-                // int cannot be dereferenced
-                var ContentReferenceKey = ContentReferenceKeyLong.ToString();
-                //var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
+                    }
 
+                    AtContentReferenceKey(ContentReferenceKey);
+                }
+            );
 
-                new SQLiteCommand(
-                    "insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) "
-                    + "values (" + ContentReferenceKey + ", 'AddItem')"
-                    , c).ExecuteNonQuery();
-
-                if (ParentContentKey != "")
-                    new SQLiteCommand(
-                     "insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) "
-                     + "values (" + ParentContentKey + ", 'ChildAdded')"
-                     , c).ExecuteNonQuery();
-
-                AtContentReferenceKey(ContentReferenceKey);
-
-                c.Close();
-            }
-
-            // Send it back to the caller.
-            //Console.WriteLine("AddItem exit");
         }
 
         public void GridExample_UpdateItem(
-                string TableName,
 
                 string ContentKey,
                 string ContentValue,
@@ -199,23 +140,19 @@ namespace SQLiteWithDataGridView
             {
                 c.Open();
 
+                var iContentKey = int.Parse(ContentKey);
 
-                var cmd = new SQLiteCommand(
-                    "update " + TableName + " set "
-                    + " ContentValue = '" + ContentValue + "'"
-                    + ", ContentComment = '" + ContentComment + "'"
-                    + " where ContentKey = " + ContentKey
-                    , c
+                new TheGridTableQueries.Update
+                {
+                    ContentKey = iContentKey,
+                    ContentValue = ContentValue,
+                    ContentComment = ContentComment
+                }.ExecuteNonQuery(c);
+
+                this.grid.InsertLog(
+                    new TheGridTableQueries.InsertLog { ContentKey = iContentKey, ContentComment = "UpdateItem" }
                 );
 
-                cmd.ExecuteNonQuery();
-
-
-                var cmd1 = new SQLiteCommand("insert into TransactionLog_" + TableName + " (ContentReferenceKey, ContentComment) values (" + ContentKey + ", 'AddItem')", c);
-                cmd1.ExecuteNonQuery();
-
-
-                c.Close();
             }
 
 
@@ -226,25 +163,9 @@ namespace SQLiteWithDataGridView
         }
 
 
-        SQLiteConnection OpenReadOnlyConnection()
-        {
-            var csb = new SQLiteConnectionStringBuilder
-           {
-               DataSource = DataSource,
-               Version = 3,
-               ReadOnly = true,
-           };
 
-
-            ApplyRestrictedCredentials(csb);
-
-
-
-            return new SQLiteConnection(csb.ConnectionString);
-        }
 
         public void GridExample_EnumerateItemsChangedBetweenTransactions(
-            string TableName,
             /* int? */ string ParentContentKey,
 
 
@@ -254,60 +175,38 @@ namespace SQLiteWithDataGridView
             Action<string> done
         )
         {
-            GridExample_InitializeDatabase("", delegate { }, TableName: TableName);
+            GridExample_InitializeDatabase("", delegate { });
 
-            using (var c = OpenReadOnlyConnection())
-            {
-                c.Open();
+            var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
 
-                // http://www.shokhirev.com/nikolai/abc/sql/joins.html
-                // near "TransactionLog_SQLiteWithDataGridView_0_Table003": syntax error
-
-
-
-                var sql =
-                    "select "
-                    + "TransactionLog_" + TableName + ".ContentReferenceKey"
-                    + ", " + TableName + ".ContentValue"
-                    + ", " + TableName + ".ContentComment  "
-                    + ", (select count(*) from " + TableName + " t2 where t2.ParentContentKey = " + TableName + ".ContentKey) as ContentChildren "
-
-                    + " from "
-                    + " TransactionLog_" + TableName
-                    + ", " + TableName
-                    + " where "
-                    + " TransactionLog_" + TableName + ".ContentReferenceKey = " + TableName + ".ContentKey"
-                    + " and TransactionLog_" + TableName + ".ContentKey > " + FromTransaction
-                    + " and TransactionLog_" + TableName + ".ContentKey <= " + ToTransaction;
-
-                if (ParentContentKey == "")
-                    sql += " and ParentContentKey is null";
-                else
-                    sql += " and ParentContentKey = " + ParentContentKey;
-
-                using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
+            grid.SelectContentUpdates(
+                new TheGridTableQueries.SelectContentUpdates
                 {
+                    FromTransaction = int.Parse(FromTransaction),
+                    ToTransaction = int.Parse(ToTransaction),
 
-                    while (reader.Read())
-                    {
-                        var ContentValue = (string)reader["ContentValue"];
-                        var ContentComment = (string)reader["ContentComment"];
+                    ParentContentKey1 = xParentContentKey,
 
-                        var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentReferenceKey"));
-                        var ContentKey = ContentKeyInt32.ToString();
-                        //var ContentKey = ((object)ContentKeyInt32).ToString();
+                    // android 2.2 prepared statements disallow null params? send empty string instead?
+                    ParentContentKey3 = xParentContentKey,
 
-                        var ContentChildrenInt32 = reader.GetInt32(reader.GetOrdinal("ContentChildren"));
-                        var ContentChildren = ContentChildrenInt32.ToString();
-                        //var ContentChildren = ((object)ContentChildrenInt32).ToString();
+                    ParentContentKey2 = xParentContentKey
+                },
+                reader =>
+                {
+                    string
+                       ContentValue = reader.ContentValue,
+                       ContentComment = reader.ContentComment;
 
-                        AtContent(ContentKey, ContentValue, ContentComment, ContentChildren);
-                    }
+                    long
+                        ContentKey = reader.ContentReferenceKey,
+                        ContentChildren = reader.ContentChildren;
+
+                    AtContent("" + ContentKey, ContentValue, ContentComment, "" + ContentChildren);
                 }
+            );
 
-                c.Close();
 
-            }
 
             // why does jsc not support parameterless yields?
             done("");
@@ -319,58 +218,39 @@ namespace SQLiteWithDataGridView
         public void GridExample_EnumerateItems(
             string e,
             Action<string, string, string, string> y,
-            string TableName,
             /* int? */ string ParentContentKey,
             Action<string> AtTransactionKey = null
             )
         {
-            GridExample_InitializeDatabase("", delegate { }, TableName: TableName);
+            GridExample_InitializeDatabase("", delegate { });
 
-            //Console.WriteLine("EnumerateItems enter");
-            using (var c = OpenReadOnlyConnection())
-            {
-                c.Open();
+            var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
 
-                var sql =
-                    "select "
-                    + "t1.ContentKey"
-                    + ", t1.ContentValue"
-                    + ", t1.ContentComment"
-                    + ", (select count(*) from " + TableName + " t2 where t2.ParentContentKey = t1.ContentKey) as ContentChildren "
-                    + " from " + TableName + " t1";
-
-
-                if (ParentContentKey == "")
-                    sql += " where t1.ParentContentKey is null";
-                else
-                    sql += " where t1.ParentContentKey = " + ParentContentKey;
-
-
-                using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
+            this.grid.SelectContent(
+                new TheGridTableQueries.SelectContent
                 {
+                    ParentContentKey1 = xParentContentKey,
+                    ParentContentKey2 = xParentContentKey,
 
-                    while (reader.Read())
-                    {
-                        var ContentValue = (string)reader["ContentValue"];
-                        var ContentComment = (string)reader["ContentComment"];
+                    // android 2.2 prepared statements disallow null params? send empty string instead?
+                    ParentContentKey3 = xParentContentKey,
+                },
+                reader =>
+                {
+                    string
+                        ContentValue = reader.ContentValue,
+                        ContentComment = reader.ContentComment;
 
-                        var ContentKeyInt32 = reader.GetInt32(reader.GetOrdinal("ContentKey"));
-                        var ContentKey = ContentKeyInt32.ToString();
-                        //var ContentKey = ((object)ContentKeyInt32).ToString();
+                    long
+                        ContentKey = reader.ContentKey,
+                        ContentChildren = reader.ContentChildren;
 
-                        var ContentChildrenInt32 = reader.GetInt32(reader.GetOrdinal("ContentChildren"));
-                        var ContentChildren = ContentChildrenInt32.ToString();
-                        //var ContentChildren = ((object)ContentChildrenInt32).ToString();
-
-                        y(ContentKey, ContentValue, ContentComment, ContentChildren);
-
-                    }
+                    y("" + ContentKey, ContentValue, ContentComment, "" + ContentChildren);
                 }
+            );
 
-                c.Close();
 
-            }
-            //Console.WriteLine("EnumerateItems exit");
+
 
             if (AtTransactionKey != null)
                 GridExample_GetTransactionKeyFor(TableName, AtTransactionKey);
@@ -382,54 +262,5 @@ namespace SQLiteWithDataGridView
 
     }
 
-    class LINQExample
-    {
-        static void Invoke()
-        {
-            // http://www.dotnetperls.com/join
 
-            {
-                var db = new
-                {
-                    TransactionLog_TableName1 = new[] { new { ContentKey = 0, ContentReferenceKey = 0 } },
-                    TableName1 = new[] { new { ContentKey = 0, ContentValue = "", ContentComment = "" } }
-                };
-
-                var data = from t1 in db.TransactionLog_TableName1
-                           join t2 in db.TableName1 on t1.ContentReferenceKey equals t2.ContentKey
-                           select new { t1.ContentReferenceKey, t2.ContentValue, t2.ContentComment };
-
-                // jsc when can I do this? :)
-                var array = data.ToArray();
-            }
-
-
-        }
-    }
-
-    class DLINQExample
-    {
-        static void Invoke()
-        {
-            // http://www.dotnetperls.com/join
-
-
-
-            {
-                var db = new
-                {
-                    TransactionLog_TableName1 = new[] { new { ContentKey = 0, ContentReferenceKey = 0 } }.AsQueryable(),
-                    TableName1 = new[] { new { ContentKey = 0, ContentValue = "", ContentComment = "" } }.AsQueryable()
-                };
-
-                // how would this look like on the client side?
-                var data = from t1 in db.TransactionLog_TableName1
-                           join t2 in db.TableName1 on t1.ContentReferenceKey equals t2.ContentKey
-                           select new { t1.ContentReferenceKey, t2.ContentValue, t2.ContentComment };
-
-                // jsc when can I do this? :)
-                var array = data.ToArray();
-            }
-        }
-    }
 }

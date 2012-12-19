@@ -1,3 +1,4 @@
+using PHPWiki.Schema;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -16,124 +17,39 @@ namespace PHPWiki
     /// </summary>
     public sealed class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
-
-        const string DataSource = "MY_DATABASE2.sqlite";
 
         public void CountItems(string e, Action<string> y)
         {
-            //Console.WriteLine("CountItems enter");
-            using (var c = OpenReadOnlyConnection())
-            {
-                c.Open();
-
-                using (var reader = new SQLiteCommand("select count(*) from MY_TABLEXX", c).ExecuteReader())
+            pages.Count(
+                count =>
                 {
-
-                    if (reader.Read())
-                    {
-                        var Content = (int)reader.GetInt32(0);
-
-                        y("" + Content);
-
-                    }
+                    y("" + count);
                 }
-
-                c.Close();
-
-            }
-            //Console.WriteLine("CountItems exit");
+            );
         }
 
 
-        SQLiteConnection OpenReadOnlyConnection()
-        {
-            return new SQLiteConnection(
-
-           new SQLiteConnectionStringBuilder
-           {
-               DataSource = DataSource,
-               Version = 3,
-               ReadOnly = true,
-
-           }.ConnectionString
-           );
-        }
+      
 
         public void EnumerateItems(string Key, Action<string> y)
         {
             AddItem("/EnumerateItems", "at " + Key, delegate { });
 
-            // Unable to open the database file
-            //Console.WriteLine("EnumerateItems enter");
-            using (var c = OpenReadOnlyConnection())
-            {
-                c.Open();
-
-                var cmd = new SQLiteCommand("select Content from MY_TABLEXX where XKey ='" + Key.Replace("'", "\\'") + "'", c);
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    // why is reader null for PHP?
-                    while (reader.Read())
-                    {
-                        var Content = (string)reader["Content"];
-
-                        y(Content);
-
-                    }
-                }
-
-                c.Close();
-
-            }
-            //Console.WriteLine("EnumerateItems exit");
+            pages.SelectByKey(Key, y);
         }
+
+
+        Pages pages = new Pages();
 
         public void AddItem(string Key, string e, Action<string> y)
         {
-            //Console.WriteLine("AddItem enter");
-            using (var c = new SQLiteConnection(
-
-             new SQLiteConnectionStringBuilder
-             {
-                 DataSource = DataSource,
-                 Version = 3
-             }.ConnectionString
-
-             ))
-            {
-                c.Open();
-
-                using (var cmd = new SQLiteCommand("create table if not exists MY_TABLEXX (XKey text not null, Content text not null)", c))
+            pages.InsertContent(
+                new PagesQueries.InsertContent
                 {
-                    cmd.ExecuteNonQuery();
+                    Content = e,
+                    XKey = Key
                 }
-
-                //new SQLiteCommand("delete from MY_TABLE", c).ExecuteNonQuery();
-
-                // The database file is locked
-                // http://stackoverflow.com/questions/4348860/the-database-file-is-locked-with-system-data-sqlite
-
-                new SQLiteCommand("insert into MY_TABLEXX (XKey, Content) values ('" + Key.Replace("'", "\\'") + "', '" + e.Replace("'", "\\'") + "')", c).ExecuteNonQuery();
-                //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 2')", c).ExecuteNonQuery();
-                //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 3')", c).ExecuteNonQuery();
-                //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 4')", c).ExecuteNonQuery();
-                //new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 5')", c).ExecuteNonQuery();
-
-
-
-                c.Close();
-            }
+            );
 
             // Send it back to the caller.
             y(e);
@@ -149,6 +65,7 @@ namespace PHPWiki
             Console.WriteLine(c.ToString());
             Console.ForegroundColor = ConsoleColor.Gray;
 #endif
+            path = path.Replace("%20", " ");
 
             AddItem(path,
                 c.ToString(),
