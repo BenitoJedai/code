@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FA825F4A-F9F2-40EB-A63F-C54E9B34FC7D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EvilChopperByPer</RootNamespace>
+    <AssemblyName>EvilChopperByPer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>EvilChopperByPer.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'X|x86'">
+    <OutputPath>bin\x86\X\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="EvilChopperByPer.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\EvilChopperByPer.AssetsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
+    <Content Include="Design\sounds\bombdamageup.wav" />
+    <Content Include="Design\sounds\bombfaster.wav" />
+    <Content Include="Design\sounds\bombnew.wav" />
+    <Content Include="Design\sounds\cannondamageup.wav" />
+    <Content Include="Design\sounds\cannonfaster.wav" />
+    <Content Include="Design\sounds\cannonnew.wav" />
+    <Content Include="Design\sounds\dropbomb.wav" />
+    <Content Include="Design\sounds\explosion.wav" />
+    <Content Include="Design\sounds\extrapoints.wav" />
+    <Content Include="Design\sounds\failure.mp3" />
+    <Content Include="Design\sounds\hitbuilding.wav" />
+    <Content Include="Design\sounds\hitenemy.wav" />
+    <Content Include="Design\sounds\menu.mp3" />
+    <Content Include="Design\sounds\playSong1.mp3" />
+    <Content Include="Design\sounds\shipfaster.wav" />
+    <Content Include="Design\sounds\shiphealth.wav" />
+    <Content Include="Design\sounds\shipmaxhealth.wav" />
+    <Content Include="Design\sounds\shot.wav" />
+    <Content Include="Design\sounds\success.mp3" />
+    <None Include="opensource\github\SoundManager2\SoundManager2_SMSound_AS3.as" />
+    <None Include="opensource\github\SoundManager2\SoundManager2_AS3.as" />
+    <Compile Include="Library\SoundManager2.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Content Include="Design\js\classicalnoise.js" />
+    <Content Include="Design\js\collisiongrid.js" />
+    <Content Include="Design\js\constants.js" />
+    <Content Include="Design\js\detector.js" />
+    <Content Include="Design\js\game.js" />
+    <Content Include="Design\js\gameobject.js" />
+    <Content Include="Design\js\geom.js" />
+    <Content Include="Design\js\input.js" />
+    <Content Include="Design\js\jquery-1.8.2.js" />
+    <Content Include="Design\js\json2.js" />
+    <Content Include="Design\js\level.js" />
+    <Content Include="Design\js\main.js" />
+    <Content Include="Design\js\mersennetwister.js" />
+    <Content Include="Design\js\postprocessing\BloomPass.js" />
+    <Content Include="Design\js\postprocessing\EffectComposer.js" />
+    <Content Include="Design\js\postprocessing\MaskPass.js" />
+    <Content Include="Design\js\postprocessing\RenderPass.js" />
+    <Content Include="Design\js\postprocessing\ShaderPass.js" />
+    <Content Include="Design\js\renderer.js" />
+    <Content Include="Design\js\resource.js" />
+    <Content Include="Design\js\settings.js" />
+    <Content Include="Design\js\shaders\ConvolutionShader.js" />
+    <Content Include="Design\js\shaders\CopyShader.js" />
+    <Content Include="Design\js\shaders\FXAAShader.js" />
+    <Content Include="Design\js\shaders\HorizontalBlurShader.js" />
+    <Content Include="Design\js\shaders\VerticalBlurShader.js" />
+    <Content Include="Design\js\shaders\VignetteShader.js" />
+    <Content Include="Design\js\soundmanager2-nodebug-jsmin.js" />
+    <Content Include="Design\js\stacktrace.js" />
+    <Content Include="Design\js\three.min.js" />
+    <Content Include="Design\js\tween.js" />
+    <Content Include="Design\js\utils.js" />
+    <Content Include="Design\levels\levels.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\levels\level1.js" />
+    <Content Include="Design\levels\level2.js" />
+    <Content Include="Design\levels\level3.js" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName)==Release (
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
+)
+
+
+if $(ConfigurationName)==X (
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:false /DisableWebServicePHP:false /DisableWebServiceAndroid:false
+)</PostBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+            </PreBuildEvent>
+  </PropertyGroup>
+</Project>
