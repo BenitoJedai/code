@@ -204,6 +204,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
 
+ 
+
+
+        public void Beep()
+        {
+            SystemSounds.Beep.Play();
+        }
+
+        #region SetOut
         static global::System.IO.TextWriter InternalOut;
         public static global::System.IO.TextWriter Out
         {
@@ -219,12 +228,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static void SetOut(global::System.IO.TextWriter newOut)
         {
             InternalOut = newOut;
-        }
-
-
-        public void Beep()
-        {
-            SystemSounds.Beep.Play();
         }
 
         [Script]
@@ -245,5 +248,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 get { return Encoding.UTF8; }
             }
         }
+        #endregion
+
     }
 }
