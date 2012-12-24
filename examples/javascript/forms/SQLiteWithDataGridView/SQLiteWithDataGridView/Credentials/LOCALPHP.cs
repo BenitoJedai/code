@@ -10,11 +10,12 @@ namespace SQLiteWithDataGridView
     partial class ApplicationWebService
     {
 
+        //Error	1	A partial method may not have multiple implementing declarations	X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Credentials\LOCALPHP.cs	15	29	SQLiteWithDataGridView
 
-#if AppEngine
+
+#if LOCALPHP
         static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false)
         {
-            // Caused by: java.sql.SQLException: Access denied for user 'user1'@'localhost' to database 'sqlitewithdatagridview6.sqlite'
 
             b.Add("InternalUser", "user1");
             b.Password = "mypass";
