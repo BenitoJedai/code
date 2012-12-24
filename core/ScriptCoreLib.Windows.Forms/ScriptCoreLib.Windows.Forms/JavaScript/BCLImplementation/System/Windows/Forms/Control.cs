@@ -453,7 +453,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.clientWidth = this.HTMLTargetContainerRef.clientWidth;
             this.clientHeight = this.HTMLTargetContainerRef.clientHeight;
 
-            Console.WriteLine("InternalClientSizeChanged " + new { @this = this, clientWidth, clientHeight });
+            //Console.WriteLine("InternalClientSizeChanged " + new { @this = this, clientWidth, clientHeight });
 
 
             this.OnSizeChanged(null);
@@ -509,7 +509,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (c.Dock == DockStyle.Fill)
             {
-                Console.WriteLine("InternalChildrenAnchorUpdate: " + new { c, width, height });
+                //Console.WriteLine("InternalChildrenAnchorUpdate: " + new { c, width, height });
                 c.SetBounds(0, 0, width, height);
                 return;
             }

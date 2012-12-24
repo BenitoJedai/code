@@ -1,97 +1,126 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
 
-	[Script(Implements = typeof(global::System.Console))]
-	internal static class __Console
-	{
-		// Create mm.cfg file in this directory:
-		//Microsoft Windows Vista
-		//C:\Users\user_name\
-		//Microsoft Windows 2000/XP
-		//C:\Documents and Settings\user_name\
+    [Script(Implements = typeof(global::System.Console))]
+    internal static class __Console
+    {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Console.cs
 
-		// C:\Users\arvo\AppData\Roaming\Macromedia\Flash Player\Logs
+
+        // Create mm.cfg file in this directory:
+        //Microsoft Windows Vista
+        //C:\Users\user_name\
+        //Microsoft Windows 2000/XP
+        //C:\Documents and Settings\user_name\
+
+        // C:\Users\arvo\AppData\Roaming\Macromedia\Flash Player\Logs
 
         // C:\Users\username\mm.cfg
         // http://www.adobe.com/devnet/flashplayer/articles/fplayer9_security_05.html
 
-		// http://www.adobe.com/devnet/flex/articles/client_debug_print.html
-		// http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&file=security2_117_44.html
+        // http://www.adobe.com/devnet/flex/articles/client_debug_print.html
+        // http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&file=security2_117_44.html
 
-		// http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&file=security2_117_44.html
-		// http://livedocs.adobe.com/flex/2/langref/package.html#trace()
+        // http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&file=security2_117_44.html
+        // http://livedocs.adobe.com/flex/2/langref/package.html#trace()
 
-		// To enable tracing, you must configure the debugger version of Flash Player 
-		// as described in Configuring the debugger version of Flash Player to record trace() output.
-		// http://www.adobe.com/support/flashplayer/downloads.html
+        // To enable tracing, you must configure the debugger version of Flash Player 
+        // as described in Configuring the debugger version of Flash Player to record trace() output.
+        // http://www.adobe.com/support/flashplayer/downloads.html
 
 
-		[Script(OptimizedCode = "trace(e);")]
-		internal static void trace(string e)
-		{
-		}
-
-		static StringBuilder WriteLinePending = new StringBuilder();
-
-		public static void WriteLine(string e)
-		{
-			var x = WriteLinePending.ToString();
-
-			if (x.Length > 0)
-				WriteLinePending = new StringBuilder();
-
-            var n = x + e;
-
-            InternalWriteLine(n);
-		}
-
-        private static void InternalWriteLine(string n)
+        [Script(OptimizedCode = "trace(e);")]
+        internal static void trace(string e)
         {
-            if (__Console.Out == null)
-            {
-                trace(n);
-                return;
-            }
-
-            __Console.Out.Write(n + Environment.NewLine);
         }
 
-		public static void WriteLine()
-		{
-			WriteLine("");
-		}
 
-		public static void WriteLine(object e)
-		{
-			if (e == null)
-				return;
+        public static void WriteLine(string e)
+        {
+            Out.WriteLine(e);
+        }
 
-			WriteLine(e.ToString());
-		}
 
-		public static void Write(string e)
-		{
-			WriteLinePending.Append(e);
-		}
 
-		public static void Write(object e)
-		{
-			if (e == null)
-				return;
+        public static void WriteLine()
+        {
+            Out.WriteLine("");
+        }
 
-			Write(e.ToString());
-		}
+        public static void WriteLine(object e)
+        {
+            if (e == null)
+                return;
 
-        public static global::System.IO.TextWriter Out { get; set; }
+            Out.WriteLine(e.ToString());
+        }
+
+        public static void Write(string e)
+        {
+            Out.Write(e);
+        }
+
+        public static void Write(object e)
+        {
+            if (e == null)
+                return;
+
+            Out.Write(e.ToString());
+        }
+
+        #region SetOut
+        static global::System.IO.TextWriter InternalOut;
+        public static global::System.IO.TextWriter Out
+        {
+            get
+            {
+                if (InternalOut == null)
+                    InternalOut = new __OutWriter();
+
+                return InternalOut;
+            }
+        }
 
         public static void SetOut(global::System.IO.TextWriter newOut)
         {
-            Out = newOut;
+            InternalOut = newOut;
         }
-	}
+
+        [Script]
+        class __OutWriter : TextWriter
+        {
+            static StringBuilder WriteLinePending = new StringBuilder();
+
+
+            public override void Write(string value)
+            {
+                WriteLinePending.Append(value);
+            }
+
+            public override void WriteLine(string value)
+            {
+                var x = WriteLinePending.ToString();
+
+                if (x.Length > 0)
+                    WriteLinePending = new StringBuilder();
+
+                var n = x + value;
+
+                trace(n);
+            }
+
+            public override Encoding Encoding
+            {
+                get { return Encoding.UTF8; }
+            }
+        }
+        #endregion
+
+    }
 }
