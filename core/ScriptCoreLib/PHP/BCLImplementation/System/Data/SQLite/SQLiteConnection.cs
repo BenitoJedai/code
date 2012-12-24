@@ -31,6 +31,23 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 "CREATE DATABASE IF NOT EXISTS `" + __SQLiteConnectionStringBuilder.InternalConnectionString.DataSource + "`"
             );
 
+            if (this.InternalConnection.errno != 0)
+            {
+                var message = new
+                {
+                    this.InternalConnection.errno,
+
+                    hint = "Check your credentials!",
+
+
+                    this.InternalConnection.error,
+                };
+
+                throw new Exception(
+                    message.ToString()
+                );
+            }
+
             this.InternalConnection.query(
                 "use `" + __SQLiteConnectionStringBuilder.InternalConnectionString.DataSource + "`"
             );
