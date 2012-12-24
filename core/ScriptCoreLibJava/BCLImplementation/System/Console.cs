@@ -6,155 +6,159 @@ using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
-	[Script(Implements = typeof(global::System.Console))]
-	internal class __Console
-	{
-		// http://java.sun.com/javase/6/docs/api/java/text/Normalizer.html
-		// http://stackoverflow.com/questions/1272032/java-utf-8-strange-behaviour
-		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4038677
-		// http://blogs.msdn.com/oldnewthing/archive/2005/08/29/457483.aspx
+    [Script(Implements = typeof(global::System.Console))]
+    internal class __Console
+    {
+        // http://java.sun.com/javase/6/docs/api/java/text/Normalizer.html
+        // http://stackoverflow.com/questions/1272032/java-utf-8-strange-behaviour
+        // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4038677
+        // http://blogs.msdn.com/oldnewthing/archive/2005/08/29/457483.aspx
 
-		[Script]
-		public class __ConsoleOut : TextWriter
-		{
-			public override Encoding Encoding
-			{
-				get { return Encoding.UTF8; }
-			}
+        [Script]
+        public class __ConsoleOut : TextWriter
+        {
+            public override Encoding Encoding
+            {
+                get { return Encoding.UTF8; }
+            }
 
-			public override void WriteLine(string value)
-			{
-				__Console.InternalOut.println(value);
-			}
-		}
+            public override void Write(string value)
+            {
+                __Console.InternalPrintStream.print(value);
+            }
 
-		static TextWriter CachedOut;
-		public static TextWriter Out
-		{
-			get
-			{
-				if (CachedOut == null)
-					CachedOut = new __ConsoleOut();
+            public override void WriteLine(string value)
+            {
+                __Console.InternalPrintStream.println(value);
+            }
+        }
 
-				return CachedOut;
-			}
-		}
+        static TextWriter InternalOut;
+        public static TextWriter Out
+        {
+            get
+            {
+                if (InternalOut == null)
+                    InternalOut = new __ConsoleOut();
 
-		static string InternalGetEnvironmentEncoding()
-		{
-			// http://en.wikipedia.org/wiki/Code_page
+                return InternalOut;
+            }
+        }
 
-			// yay, this was fixed for java6...
-			// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4153167
+        public static void SetOut(global::System.IO.TextWriter newOut)
+        {
+            InternalOut = newOut;
+        }
+
+        static string InternalGetEnvironmentEncoding()
+        {
+            // http://en.wikipedia.org/wiki/Code_page
+
+            // yay, this was fixed for java6...
+            // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4153167
 
 
-			var u = default(string);
+            var u = default(string);
 
-			try
-			{
-				// we cannot do this in applet?
+            try
+            {
+                // we cannot do this in applet?
                 u = global::java.lang.JavaSystem.getProperty("file.encoding");
-			}
-			catch
-			{
+            }
+            catch
+            {
 
-			}
+            }
 
-			// default:
-			if (string.IsNullOrEmpty(u))
-				return "UTF-8";
+            // default:
+            if (string.IsNullOrEmpty(u))
+                return "UTF-8";
 
-			// translate Windows (ANSI) code pagesto IBM PC (OEM) code pages
+            // translate Windows (ANSI) code pagesto IBM PC (OEM) code pages
 
-			// baltic
-			if ("Cp1257" == u) return "Cp775";
+            // baltic
+            if ("Cp1257" == u) return "Cp775";
 
-			// ...
+            // ...
 
-			return u;
-		}
+            return u;
+        }
 
-        static global::java.io.PrintStream InternalOutCache;
-        static global::java.io.PrintStream InternalOut
-		{
-			get
-			{
-				try
-				{
-					if (InternalOutCache == null)
-					{
+        static global::java.io.PrintStream InternalPrintStreamCache;
+        static global::java.io.PrintStream InternalPrintStream
+        {
+            get
+            {
+                try
+                {
+                    if (InternalPrintStreamCache == null)
+                    {
                         var _stream = global::java.lang.JavaSystem.@out;
-						var _encoding = InternalGetEnvironmentEncoding();
+                        var _encoding = InternalGetEnvironmentEncoding();
 
-                        InternalOutCache = new global::java.io.PrintStream(_stream, true, _encoding);
-					}
-				}
-				catch (csharp.ThrowableException ex)
-				{
-					throw new InvalidOperationException(ex.Message);
-				}
-
-
-				return InternalOutCache;
-			}
-		}
-
-		public static void Beep()
-		{
-			global::java.awt.Toolkit.getDefaultToolkit().beep();
-		}
-
-		public static void Write(string p)
-		{
-			InternalOut.print(p);
-		}
-
-		public static void Write(char c)
-		{
-			Write(new string(new char[] { c }));
-		}
+                        InternalPrintStreamCache = new global::java.io.PrintStream(_stream, true, _encoding);
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
 
 
-		public static void WriteLine()
-		{
-			WriteLine("");
-		}
+                return InternalPrintStreamCache;
+            }
+        }
 
-		public static void WriteLine(object e)
-		{
-			WriteLine("" + e);
-		}
+        public static void Beep()
+        {
+            global::java.awt.Toolkit.getDefaultToolkit().beep();
+        }
 
-		public static void WriteLine(string e)
-		{
-			// java applet behaves somewhat different?
+        public static void Write(string p)
+        {
+            Out.Write(p);
+        }
 
-            var InternalOut = default(global::java.io.PrintStream);
-
-			InternalOut = __Console.InternalOut;
-
-			InternalOut.println(e);
-		}
-
-		public static string ReadLine()
-		{
-			string z = null;
-
-			try
-			{
-				var r0 = new global::java.io.InputStreamReader(global::java.lang.JavaSystem.@in);
-				var r1 = new global::java.io.BufferedReader(r0);
+        public static void Write(char c)
+        {
+            Out.Write(new string(new char[] { c }));
+        }
 
 
-				z = r1.readLine();
-			}
-			catch (Exception)
-			{
+        public static void WriteLine()
+        {
+            Out.WriteLine("");
+        }
 
-			}
+        public static void WriteLine(object e)
+        {
+            Out.WriteLine("" + e);
+        }
 
-			return z;
-		}
+        public static void WriteLine(string e)
+        {
+            Out.WriteLine(e);
+        }
 
-	}
+        public static string ReadLine()
+        {
+            string z = null;
+
+            try
+            {
+                var r0 = new global::java.io.InputStreamReader(global::java.lang.JavaSystem.@in);
+                var r1 = new global::java.io.BufferedReader(r0);
+
+
+                z = r1.readLine();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return z;
+        }
+
+    }
 }
