@@ -167,7 +167,7 @@ namespace SQLiteWithDataGridView.Schema
                     {
                         var message = new { ex.Message, ex.StackTrace };
 
-                        Console.WriteLine("AsWithConnection... error: " + message);
+                        //Console.WriteLine("AsWithConnection... error: " + message);
 
                         //java
                         //throw new InvalidOperationException(message.ToString());

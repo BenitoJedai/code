@@ -85,10 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSound.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="JavaScript\WebGL\WebGLUniformLocation.cs" />
     <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />
     <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
@@ -478,7 +480,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\Path.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringWriter.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Net\WebClient.cs" />
@@ -762,7 +763,6 @@
     <Compile Include="Shared\BCLImplementation\System\Comparision.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Environment.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\DownloadStringCompletedEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\DownloadStringCompletedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\WebClient.cs" />
@@ -865,7 +865,7 @@
     <Compile Include="PHP\BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\StreamWriter.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\TextReader.cs" />
-    <Compile Include="PHP\BCLImplementation\System\IO\TextWriter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="PHP\BCLImplementation\System\Net\Sockets\Socket.cs" />
     <Compile Include="PHP\BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
     <Compile Include="PHP\BCLImplementation\System\Net\Sockets\TcpClient.cs" />

@@ -79,6 +79,7 @@ namespace SQLiteWithDataGridView.Library
                     var f = new ErrorNotificationForm();
 
                     f.textBox1.Text = message;
+                    f.Owner = this;
 
                     Console.WriteLine(new { message });
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 {

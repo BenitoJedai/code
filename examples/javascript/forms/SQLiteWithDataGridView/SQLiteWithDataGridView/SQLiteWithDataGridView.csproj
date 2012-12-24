@@ -190,6 +190,12 @@
     <Compile Include="Credentials\LOCALPHP.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Library\ConsoleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\ConsoleForm.Designer.cs">
+      <DependentUpon>ConsoleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Library\ErrorNotificationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +239,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\ConsoleForm.resx">
+      <DependentUpon>ConsoleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Library\ErrorNotificationForm.resx">
       <DependentUpon>ErrorNotificationForm.cs</DependentUpon>
