@@ -47,7 +47,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GAE|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\GAE\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;AppEngine</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -184,6 +184,9 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="Credentials\AppEngine.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Schema\TheGridTable.cs" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
