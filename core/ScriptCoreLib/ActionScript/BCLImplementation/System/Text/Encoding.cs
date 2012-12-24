@@ -26,5 +26,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Text
 				return new ASCIIEncoding();
 			}
 		}
+
+        public static Encoding UTF8
+        {
+            get
+            {
+                // cache?
+                return new UTF8Encoding();
+            }
+        }
 	}
 }

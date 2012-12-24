@@ -64,6 +64,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
 
         static public readonly __Color Empty = ScriptCoreLib.Shared.Drawing.Color.None;
 
+        static public __Color Lime { get { return 0x00ff00; } }
         static public __Color Green { get { return 0x00ff00; } }
         static public __Color Red { get { return 0xff0000; } }
         static public __Color Yellow { get { return 0x00ffff; } }

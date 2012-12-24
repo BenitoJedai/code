@@ -212,9 +212,6 @@
     <Compile Include="BCLImplementation\System\IO\TextReader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\IO\TextWriter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Math.cs">
       <SubType>Code</SubType>
     </Compile>

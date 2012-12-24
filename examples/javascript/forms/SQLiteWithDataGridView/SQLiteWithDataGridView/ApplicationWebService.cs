@@ -263,7 +263,14 @@ namespace SQLiteWithDataGridView
 
         private static void AtErrorOrThrowIt(Action<string> AtError, Exception ex)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/2012/20121224-mysql
+            //var Message = new { ex.Message, ex.StackTrace }.ToString().SkipUntilLastIfAny("Caused by:");
+
+#if AppEngine
             var Message = new { ex.Message, ex.StackTrace }.ToString().SkipUntilLastIfAny("Caused by:");
+#else
+            var Message = "" + ex;
+#endif
 
             //    java.lang.NullPointerException
             //at ScriptCoreLibJava.BCLImplementation.System.__String.Replace(__String.java:109)
@@ -271,7 +278,9 @@ namespace SQLiteWithDataGridView
 
             if (AtError != null)
             {
+#if AppEngine
                 Console.WriteLine(Message);
+#endif
                 AtError(Message);
             }
 

@@ -4,6 +4,7 @@ using System.Text;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using System.Media;
+using System.IO;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -174,53 +175,75 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void WriteLine(object e)
         {
-            WriteLine(e.ToString());
+            Out.WriteLine(e.ToString());
         }
 
         public static void WriteLine(string e)
         {
-            Write(e + Environment.NewLine);
+            Out.Write(e + Environment.NewLine);
         }
 
         public static void WriteLine()
         {
-            WriteLine("");
+            Out.WriteLine("");
         }
 
         public static void WriteLine(string e, object x)
         {
-            WriteLine(string.Format(e, x));
+            Out.WriteLine(string.Format(e, x));
         }
 
         public static void Write(string e)
         {
-            if (Out == null)
-            {
-                __BrowserConsole.Write(e);
-            }
-            else
-            {
-                Out.Write(e);
-            }
+            Out.Write(e);
         }
 
         public static void Write(object e)
         {
-            Write(e.ToString());
+            Out.Write(e.ToString());
         }
 
 
-        public static global::System.IO.TextWriter Out { get; set; }
+        static global::System.IO.TextWriter InternalOut;
+        public static global::System.IO.TextWriter Out
+        {
+            get
+            {
+                if (InternalOut == null)
+                    InternalOut = new __OutWriter();
+
+                return InternalOut;
+            }
+        }
 
         public static void SetOut(global::System.IO.TextWriter newOut)
         {
-            Out = newOut;
+            InternalOut = newOut;
         }
 
 
         public void Beep()
         {
             SystemSounds.Beep.Play();
+        }
+
+        [Script]
+        class __OutWriter : TextWriter
+        {
+            public override void Write(string value)
+            {
+                __BrowserConsole.Write(value);
+            }
+
+            public override void WriteLine(string value)
+            {
+                __BrowserConsole.WriteLine(value);
+            }
+
+            public override Encoding Encoding
+            {
+                get { return Encoding.UTF8; }
+            }
         }
     }
 }
