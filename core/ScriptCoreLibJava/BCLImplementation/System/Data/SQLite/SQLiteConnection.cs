@@ -36,6 +36,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                     this.InternalConnectionString.Password,
                 };
 
+                //                { InternalInstanceName = instance_name, InternalUser = user1, Password =  }
+                //Dec 24, 2012 9:25:59 AM com.google.appengine.api.rdbms.dev.LocalRdbmsServiceLocalDriver openConnection
+                //SEVERE: Could not allocate a connection
+                //java.sql.SQLException: Access denied for user 'user1'@'localhost' (using password: NO)
+                //        at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1074)
+                //        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+
                 Console.WriteLine(x.ToString());
 
                 // Caused by: java.sql.SQLException: No suitable driver found for jdbc:google:rdbms://instance_name

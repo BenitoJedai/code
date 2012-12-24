@@ -23,21 +23,13 @@ namespace SQLiteWithDataGridView
 
         }
 
-        private void button3_Click_1(object sender, System.EventArgs e)
-        {
-
-        }
 
         private void Table001_Click(object sender, System.EventArgs e)
         {
             new GridForm { service = this.applicationWebService1 }.Show();
         }
 
-        private void Table002_Click(object sender, System.EventArgs e)
-        {
-
-        }
-
+  
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
+using System.Media;
 
 namespace SQLiteWithDataGridView.Library
 {
@@ -17,7 +18,6 @@ namespace SQLiteWithDataGridView.Library
 
         }
 
-        public string TableName = "SQLiteWithDataGridView_0_Table001";
         public string ParentContentKey = "";
 
         public ApplicationWebService service;
@@ -28,12 +28,13 @@ namespace SQLiteWithDataGridView.Library
             if (this.Owner != null)
                 this.Text = this.Owner.Text + "/" + ParentContentKey;
             else
-                this.Text = TableName;
+                this.Text = "/";
 
             this.label4.Text = ParentContentKey;
 
             dataGridView1.Enabled = false;
-            service.GridExample_EnumerateItems("",
+
+            service.__grid_SelectContent("",
                 (ContentKey, ContentValue, ContentComment, ContentChildren) =>
                 {
                     var r = new DataGridViewRow();
@@ -72,6 +73,22 @@ namespace SQLiteWithDataGridView.Library
                     if (checkBox1.Checked)
                         timer1.Start();
 
+                },
+                AtError: message =>
+                {
+                    var f = new ErrorNotificationForm();
+
+                    f.textBox1.Text = message;
+
+                    Console.WriteLine(new { message });
+
+                    //                    script: error JSC1000: No implementation found for this native method, please implement [static System.Media.SystemSounds.get_Exclamation()]
+                    //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+                    //script: error JSC1000: error at SQLiteWithDataGridView.Library.GridForm.<Form1_Load>b__6, type: SQLiteWithDataGridView.Library.GridForm offset: 0x0020  method:Void <Form1_Load>b__6(System.String)
+                    //*** Compler cannot continue... press enter to quit.
+
+                    SystemSounds.Beep.Play();
+                    f.Show();
                 }
             );
         }
@@ -176,7 +193,6 @@ namespace SQLiteWithDataGridView.Library
             {
                 Owner = this,
                 service = service,
-                TableName = TableName,
                 ParentContentKey = ContentKey,
                 StartPosition = FormStartPosition.Manual
             };

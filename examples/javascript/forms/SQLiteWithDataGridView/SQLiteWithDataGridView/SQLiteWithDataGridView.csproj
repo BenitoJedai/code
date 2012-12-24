@@ -56,7 +56,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LOCALPHP|x86'">
     <OutputPath>bin\x86\LOCALPHP\</OutputPath>
-    <DefineConstants>TRACE;PHP</DefineConstants>
+    <DefineConstants>TRACE;LOCALPHP</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -187,6 +187,15 @@
     <Compile Include="Credentials\AppEngine.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Credentials\LOCALPHP.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Library\ErrorNotificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\ErrorNotificationForm.Designer.cs">
+      <DependentUpon>ErrorNotificationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Schema\TheGridTable.cs" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
@@ -224,6 +233,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\ErrorNotificationForm.resx">
+      <DependentUpon>ErrorNotificationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Library\GridForm.resx">
       <DependentUpon>GridForm.cs</DependentUpon>

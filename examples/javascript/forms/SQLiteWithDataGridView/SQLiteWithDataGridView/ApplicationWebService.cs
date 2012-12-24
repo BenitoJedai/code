@@ -16,21 +16,28 @@ namespace SQLiteWithDataGridView
     /// </summary>
     public sealed partial class ApplicationWebService : Component
     {
-        public TheGridTable grid = new TheGridTable().With(
-            x =>
+        public TheGridTable grid
+        {
+
+            get
             {
-                x.csb_write.DataSource = "SQLiteWithDataGridView6.sqlite";
-                ApplyRestrictedCredentials(x.csb_write);
+                return new TheGridTable().With(
+                    x =>
+                    {
+                        x.csb_write.DataSource = "SQLiteWithDataGridView6.sqlite";
+                        ApplyRestrictedCredentials(x.csb_write);
 
-                x.csb.DataSource = "SQLiteWithDataGridView6.sqlite";
-                x.csb.ReadOnly = true;
-                ApplyRestrictedCredentials(x.csb_write);
+                        x.csb.DataSource = "SQLiteWithDataGridView6.sqlite";
+                        x.csb.ReadOnly = true;
+                        ApplyRestrictedCredentials(x.csb_write);
 
-                x.csb_admin.DataSource = "SQLiteWithDataGridView6.sqlite";
-                ApplyRestrictedCredentials(x.csb_admin, true);
-                x.Create();
+                        x.csb_admin.DataSource = "SQLiteWithDataGridView6.sqlite";
+                        ApplyRestrictedCredentials(x.csb_admin, true);
+                        x.Create();
+                    }
+                );
             }
-        );
+        }
 
 
 
@@ -197,15 +204,31 @@ namespace SQLiteWithDataGridView
 
 
 
-        public void GridExample_EnumerateItems(
+        public void __grid_SelectContent(
             string e,
             Action<string, string, string, string> y,
             /* int? */ string ParentContentKey,
-            Action<string> AtTransactionKey = null
+            Action<string> AtTransactionKey = null,
+            Action<string> AtError = null
             )
         {
             //GridExample_InitializeDatabase("", delegate { });
 
+            try
+            {
+                InternalSelectContent(y, ParentContentKey, AtTransactionKey);
+
+            }
+            catch (Exception ex)
+            {
+                // script: error JSC1000: Java : Opcode not implemented: brtrue at SQLiteWithDataGridView.ApplicationWebService.__grid_SelectContent
+                AtErrorOrThrowIt(AtError, ex);
+
+            }
+        }
+
+        private void InternalSelectContent(Action<string, string, string, string> y, string ParentContentKey, Action<string> AtTransactionKey)
+        {
             var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
 
             this.grid.SelectContent(
@@ -236,9 +259,33 @@ namespace SQLiteWithDataGridView
 
             if (AtTransactionKey != null)
                 GridExample_GetTransactionKeyFor("", AtTransactionKey);
-
-
         }
+
+        private static void AtErrorOrThrowIt(Action<string> AtError, Exception ex)
+        {
+            var Message = new { ex.Message, ex.StackTrace }.ToString().SkipUntilLastIfAny("Caused by:");
+
+            //    java.lang.NullPointerException
+            //at ScriptCoreLibJava.BCLImplementation.System.__String.Replace(__String.java:109)
+            //at ScriptCoreLib.Extensions.InternalXMLExtensions.ToXMLString(InternalXMLExtensions.java:16)
+
+            if (AtError != null)
+            {
+                Console.WriteLine(Message);
+                AtError(Message);
+            }
+
+            if (AtError == null)
+                throw new Exception(Message);
+        }
+
+
+        //            Implementation not found for type import :
+        //System.Exception :: Void .ctor(System.String, System.Exception)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+        //type: SQLiteWithDataGridView.ApplicationWebService offset: 0x0008  method:Void ThrowIt(System.Exception)
+
 
 
 
