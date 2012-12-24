@@ -9,23 +9,46 @@ namespace SQLiteWithDataGridView.Schema
 {
     public class TheGridTable : TheGridTableQueries
     {
-        public readonly Action<Action<SQLiteConnection>> WithConnection;
-        //public readonly Action<Action<SQLiteConnection>> WithReadOnlyConnection;
-
-        public TheGridTable(string DataSource = "SQLiteWithDataGridView5")
+        public SQLiteConnectionStringBuilder csb = new SQLiteConnectionStringBuilder
         {
-            this.WithConnection = DataSource.AsWithConnection();
-            //this.WithReadOnlyConnection = DataSource.AsWithConnection();
+            Version = 3
+        };
 
-            WithConnection(
-               c =>
-               {
-                   new Create { }.ExecuteNonQuery(c);
-                   new CreateLog { }.ExecuteNonQuery(c);
-               }
+        public SQLiteConnectionStringBuilder csb_admin = new SQLiteConnectionStringBuilder
+        {
+            Version = 3
+        };
+
+        public SQLiteConnectionStringBuilder csb_write = new SQLiteConnectionStringBuilder
+        {
+            Version = 3
+        };
+
+        public readonly Action<Action<SQLiteConnection>> WithConnection;
+        public readonly Action<Action<SQLiteConnection>> WithAdminConnection;
+        public readonly Action<Action<SQLiteConnection>> WithWriteConnection;
+
+        public TheGridTable()
+        {
+            this.WithConnection = csb.AsWithConnection();
+            this.WithAdminConnection = csb_admin.AsWithConnection();
+            this.WithWriteConnection = csb_write.AsWithConnection();
+
+
+        }
+
+        public void Create()
+        {
+            WithAdminConnection(
+                c =>
+                {
+                    new Create { }.ExecuteNonQuery(c);
+                    new CreateLog { }.ExecuteNonQuery(c);
+                }
             );
         }
 
+        #region queries
         public void SelectTransactionKey(Action<long> yield)
         {
             WithConnection(
@@ -45,7 +68,7 @@ namespace SQLiteWithDataGridView.Schema
 
         public void InsertLog(InsertLog value)
         {
-            WithConnection(
+            WithWriteConnection(
                 c =>
                 {
                     value.ExecuteNonQuery(c);
@@ -55,7 +78,7 @@ namespace SQLiteWithDataGridView.Schema
 
         public void Update(Update value)
         {
-            WithConnection(
+            WithWriteConnection(
                 c =>
                 {
                     value.ExecuteNonQuery(c);
@@ -65,7 +88,11 @@ namespace SQLiteWithDataGridView.Schema
 
         public void Insert(Insert value, Action<long> yield)
         {
-            WithConnection(
+            //{ Message = "Attempt to write a read-only database\r\nattempt to write a readonly database", StackTrace = "   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)\r\n   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)\r\n   at System.Data.SQLite.SQLiteDataReader.NextResult()\r\n   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)\r\n   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)\r\n   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()\r\n   at SQLiteWithDataGridView.Schema.TheGridTableExtensions.ExecuteNonQuery(Insert , SQLiteConnection )\r\n   at SQLiteWithDataGridView.Schema.TheGridTable.<>c__DisplayClass13.<Insert>b__12(SQLiteConnection c) in x:\\jsc.svn\\examples\\javascript\\forms\\SQLiteWithDataGridView\\SQLiteWithDataGridView\\Schema\\TheGridTable.cs:line 95\r\n   at SQLiteWithDataGridView.Schema.XX.<>c__DisplayClass1.<AsWithConnection>b__0(Action`1 y) in x:\\jsc.svn\\examples\\javascript\\forms\\SQLiteWithDataGridView\\SQLiteWithDataGridView\\Schema\\TheGridTable.cs:line 161" }
+
+
+            //WithConnection(
+            WithWriteConnection(
                 c =>
                 {
                     value.ExecuteNonQuery(c);
@@ -94,6 +121,10 @@ namespace SQLiteWithDataGridView.Schema
                 }
              );
         }
+        #endregion
+
+
+
     }
 
 
@@ -116,7 +147,7 @@ namespace SQLiteWithDataGridView.Schema
 
 
 
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
+        public static Action<Action<SQLiteConnection>> AsWithConnection(this SQLiteConnectionStringBuilder csb)
         {
             //Console.WriteLine("AsWithConnection...");
 
@@ -124,7 +155,7 @@ namespace SQLiteWithDataGridView.Schema
             {
                 //Console.WriteLine("AsWithConnection... invoke");
 
-                using (var c = DataSource.ToConnection(Version))
+                using (var c = new SQLiteConnection(csb.ConnectionString))
                 {
                     c.Open();
 
@@ -148,18 +179,7 @@ namespace SQLiteWithDataGridView.Schema
             };
         }
 
-        public static SQLiteConnection ToConnection(this string DataSource, int Version = 3)
-        {
-            var csb = new SQLiteConnectionStringBuilder
-            {
-                DataSource = DataSource,
-                Version = Version
-            };
 
-            var c = new SQLiteConnection(csb.ConnectionString);
-
-            return c;
-        }
     }
 
 }

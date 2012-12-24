@@ -11,6 +11,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     internal class __SQLiteDataReader : __DbDataReader
     {
         // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+        // X:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
 
         public __SQLiteCommand InternalCommand;
         public java.sql.ResultSet InternalResultSet;
@@ -196,6 +197,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             if (ColumnType == -1)
                 return typeof(string);
 
+            // CHAR
+            if (ColumnType == 1)
+                return typeof(string);
+
+            
             if (ColumnType == 2004)
                 return typeof(string);
 

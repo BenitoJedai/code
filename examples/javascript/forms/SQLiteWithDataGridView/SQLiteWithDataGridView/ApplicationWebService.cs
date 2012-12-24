@@ -14,39 +14,32 @@ namespace SQLiteWithDataGridView
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed partial class ApplicationWebService : Component //, IApplicationWebService
+    public sealed partial class ApplicationWebService : Component
     {
+        public TheGridTable grid = new TheGridTable().With(
+            x =>
+            {
+                x.csb_write.DataSource = "SQLiteWithDataGridView6.sqlite";
+                ApplyRestrictedCredentials(x.csb_write);
+
+                x.csb.DataSource = "SQLiteWithDataGridView6.sqlite";
+                x.csb.ReadOnly = true;
+                ApplyRestrictedCredentials(x.csb_write);
+
+                x.csb_admin.DataSource = "SQLiteWithDataGridView6.sqlite";
+                ApplyRestrictedCredentials(x.csb_admin, true);
+                x.Create();
+            }
+        );
 
 
-        public TheGridTable grid = new TheGridTable();
 
-        //const string DataSource = "SQLiteWithDataGridView.4.sqlite";
-        const string DataSource = "SQLiteWithDataGridView5";
+        static partial void ApplyAdministratorCredentials(SQLiteConnectionStringBuilder b);
 
-        const string TableName = "TheGridTable";
 
         static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false);
 
-        public void GridExample_InitializeDatabase(string e, Action<string> y)
-        {
 
-
-            //Console.WriteLine("AddItem enter");
-
-            var csb = new SQLiteConnectionStringBuilder
-             {
-                 DataSource = DataSource,
-                 Version = 3
-
-
-             };
-
-            ApplyRestrictedCredentials(csb, true);
-
-            // Send it back to the caller.
-            y(e);
-            //Console.WriteLine("AddItem exit");
-        }
 
         public void GridExample_GetTransactionKeyFor(
             string e,
@@ -71,15 +64,8 @@ namespace SQLiteWithDataGridView
             Action<string> AtContentReferenceKey
             )
         {
-            //Console.WriteLine("AddItem enter");
 
-            var csb = new SQLiteConnectionStringBuilder
-             {
-                 DataSource = DataSource,
-                 Version = 3
-             };
-
-            ApplyRestrictedCredentials(csb);
+            //ApplyRestrictedCredentials(csb);
 
 
             var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
@@ -128,36 +114,32 @@ namespace SQLiteWithDataGridView
         {
             //Console.WriteLine("AddItem enter");
 
-            var csb = new SQLiteConnectionStringBuilder
-            {
-                DataSource = DataSource,
-                Version = 3
-            };
+            //var csb = new SQLiteConnectionStringBuilder
+            //{
+            //    DataSource = DataSource,
+            //    Version = 3
+            //};
 
-            ApplyRestrictedCredentials(csb);
+            //ApplyRestrictedCredentials(csb);
 
-            using (var c = new SQLiteConnection(csb.ConnectionString))
-            {
-                c.Open();
+            var iContentKey = int.Parse(ContentKey);
 
-                var iContentKey = int.Parse(ContentKey);
-
+            grid.Update(
                 new TheGridTableQueries.Update
                 {
                     ContentKey = iContentKey,
                     ContentValue = ContentValue,
                     ContentComment = ContentComment
-                }.ExecuteNonQuery(c);
+                }
+            );
 
-                this.grid.InsertLog(
-                    new TheGridTableQueries.InsertLog { ContentKey = iContentKey, ContentComment = "UpdateItem" }
-                );
 
-            }
-
+            this.grid.InsertLog(
+                new TheGridTableQueries.InsertLog { ContentKey = iContentKey, ContentComment = "UpdateItem" }
+            );
 
             if (AtTransactionKey != null)
-                GridExample_GetTransactionKeyFor(TableName, AtTransactionKey);
+                GridExample_GetTransactionKeyFor("", AtTransactionKey);
             // Send it back to the caller.
             //Console.WriteLine("AddItem exit");
         }
@@ -175,7 +157,7 @@ namespace SQLiteWithDataGridView
             Action<string> done
         )
         {
-            GridExample_InitializeDatabase("", delegate { });
+            //GridExample_InitializeDatabase("", delegate { });
 
             var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
 
@@ -222,7 +204,7 @@ namespace SQLiteWithDataGridView
             Action<string> AtTransactionKey = null
             )
         {
-            GridExample_InitializeDatabase("", delegate { });
+            //GridExample_InitializeDatabase("", delegate { });
 
             var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
 
@@ -253,7 +235,7 @@ namespace SQLiteWithDataGridView
 
 
             if (AtTransactionKey != null)
-                GridExample_GetTransactionKeyFor(TableName, AtTransactionKey);
+                GridExample_GetTransactionKeyFor("", AtTransactionKey);
 
 
         }
