@@ -114,6 +114,20 @@ namespace ConsoleByCookie
         {
             var Accepts = h.Context.Request.Headers["Accept"];
 
+            __ConsoleToDatabaseWriter.InternalWrite(
+                new { h.Context.Request.Path, Accepts } + Environment.NewLine
+            );
+
+
+            //EventSource's response has a MIME type ("text/plain") that is not "text/event-stream". Aborting the connection.
+
+            if (h.Context.Request.Path == "/wait")
+            {
+                Thread.Sleep(5000);
+                h.CompleteRequest();
+                return;
+            }
+
             if (Accepts != null)
                 if (Accepts.Contains("text/event-stream"))
                 {
@@ -124,7 +138,11 @@ namespace ConsoleByCookie
                         // http://www.w3.org/TR/eventsource/
                         // https://developer.mozilla.org/en-US/docs/Server-sent_events/Using_server-sent_events
 
+                        // http://opensource.apple.com/source/WebCore/WebCore-1640.1/page/EventSource.cpp?txt
+                        // http://stackoverflow.com/questions/13166284/eventsources-response-has-a-mime-type-text-html-that-is-not-text-event-str
+
                         h.Context.Response.ContentType = "text/event-stream";
+                        h.Context.Response.Cache.SetCacheability(HttpCacheability.NoCache);
 
                         //EventSource's response has a MIME type ("text/plain") that is not "text/event-stream". Aborting the connection.
 
@@ -143,8 +161,8 @@ namespace ConsoleByCookie
 
                         var session = int.Parse(cookie_session.Value);
 
-                        var c = new __ConsoleToDatabaseWriter(session);
-
+                        //var c = new __ConsoleToDatabaseWriter(session);
+                        var data = new SystemConsoleOut();
 
                         var header_id = h.Context.Request.Headers["Last-Event-ID"];
 
@@ -154,21 +172,25 @@ namespace ConsoleByCookie
 
                         if (header_id != null)
                         {
-                            id = int.Parse(XElement.Parse(header_id).Attribute("id").Value);
+                            __ConsoleToDatabaseWriter.InternalWrite("Continue " + new { session, header_id }.ToString() + Environment.NewLine);
+
+                            //id = int.Parse(XElement.Parse(header_id).Attribute("id").Value);
+                            id = int.Parse(header_id);
                         }
                         else
                         {
-                            c.data.SelectTransactionKey(session,
+                            data.SelectTransactionKey(session,
                                 nextid =>
                                 {
                                     id = (int)nextid;
 
-                                    var xml = new XElement("e",
-                                        new XAttribute("id", id)
-                                    );
+                                    //var xml = new XElement("e",
+                                    //    new XAttribute("id", id)
+                                    //);
+                                    __ConsoleToDatabaseWriter.InternalWrite("Reset To " + new { session, id }.ToString() + Environment.NewLine);
 
-                                    h.Context.Response.Write("id: " + xml.ToString() + "\n\n");
-                                    h.Context.Response.Write("event: SystemConsoleOut\n");
+                                    h.Context.Response.Write("id: " + id + "\n\n");
+                                    //h.Context.Response.Write("event: SystemConsoleOut\n");
                                     h.Context.Response.Write("data: reset to " + new { id } + " \n\n");
                                     h.Context.Response.Flush();
 
@@ -176,21 +198,30 @@ namespace ConsoleByCookie
                             );
                         }
 
+                        int retry = 1000 / 30;
 
                         Action CheckForUpdates = delegate
                         {
-                            c.data.SelectTransactionKey(session,
+                            Action later = delegate { };
+                            data.SelectTransactionKey(session,
                                   nextid =>
                                   {
                                       if (id == (int)nextid)
                                       {
-                                          // no updates yet
-                                          Thread.Sleep(1000);
+                                          later = delegate
+                                          {
+                                              // no updates yet
+                                              // it is imortant to sleep
+                                              // only if we released the database.
+                                              // otherwise other threads will wait for us!
+                                              Thread.Sleep(retry);
+                                          };
+
                                           return;
                                       }
 
 
-                                      c.data.SelectContentUpdates(
+                                      data.SelectContentUpdates(
                                           new SystemConsoleOutQueries.SelectContentUpdates
                                           {
                                               id = id,
@@ -202,33 +233,56 @@ namespace ConsoleByCookie
                                               string value = r.value;
 
                                               h.Context.Response.Write("event: SystemConsoleOut\n");
-                                              h.Context.Response.Write("data: " + value + " \n\n");
+                                              h.Context.Response.Write("data: " +
+                                                  value.Replace("\r", "\\r").Replace("\n", "\\n") + "\n\n");
                                               h.Context.Response.Flush();
                                           }
                                       );
 
 
                                       id = (int)nextid;
-                                      var xml = new XElement("e",
-                                          new XAttribute("id", id)
-                                      );
+                                      //var xml = new XElement("e",
+                                      //    new XAttribute("id", id)
+                                      //);
 
-                                      h.Context.Response.Write("id: " + xml.ToString() + "\n\n");
+                                      //h.Context.Response.Write("id: " + xml.ToString() + "\n\n");
+                                      h.Context.Response.Write("id: " + id + "\n\n");
                                       h.Context.Response.Flush();
 
                                   }
                               );
+
+                            later();
                         };
 
-                        for (int i = 0; i < 4; i++)
+                        // loop forever?
+                        var t = new Stopwatch();
+
+                        t.Start();
+
+                        //for (int i = 0; i < 1024; i++)
+                        while (t.ElapsedMilliseconds < 7000)
                         {
-                            __ConsoleToDatabaseWriter.InternalWrite("CheckForUpdates " + new { session, i, id }.ToString() + Environment.NewLine);
+                            // http://stackoverflow.com/questions/9743253/how-to-detect-a-disconnection-when-using-server-sent-events-on-asp-net
+
+                            //if (!h.Context.Response.IsClientConnected)
+                            //{
+                            //    __ConsoleToDatabaseWriter.InternalWrite("!IsClientConnected");
+                            //    break;
+                            //}
+                            //__ConsoleToDatabaseWriter.InternalWrite("CheckForUpdates " + new { Thread.CurrentThread.ManagedThreadId, session, i, id }.ToString() + Environment.NewLine);
                             CheckForUpdates();
                         }
 
 
 
                         //Thread.Sleep(5000);
+
+                        #region prevent error 2, required if we did not send any other events
+                        h.Context.Response.Write("retry: " + retry + "\n\n");
+                        h.Context.Response.Write("data: retry later\n\n");
+                        h.Context.Response.Flush();
+                        #endregion
 
                         h.CompleteRequest();
                     }
@@ -237,8 +291,13 @@ namespace ConsoleByCookie
                         throw;
                     }
 
-                    return;
+
                 }
+
+            __ConsoleToDatabaseWriter.InternalWrite(
+             new { h.Context.Request.Path, Accepts, h.Context.Response.ContentType } + " done!" + Environment.NewLine
+         );
+
         }
     }
 
@@ -292,6 +351,13 @@ namespace ConsoleByCookie
                     // db!
                 };
 
+        }
+
+
+        [Conditional("DEBUG")]
+        public static void InternalWriteLine(string x)
+        {
+            InternalWrite(x + Environment.NewLine);
         }
 
         [Conditional("DEBUG")]
