@@ -23,6 +23,7 @@ namespace ConsoleByCookie
     public sealed class Application
     {
         // "X:\jsc.svn\examples\javascript\EventSourceForWebServiceYield\EventSourceForWebServiceYield.sln"
+        // "X:\jsc.svn\examples\javascript\ServerSideEventExperiment\ServerSideEventExperiment.sln"
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -39,6 +40,7 @@ namespace ConsoleByCookie
 
 
             var session = new Cookie("session").DefaultToRandomInt32();
+            var random = new Cookie("random").DefaultToRandomInt32();
 
 
             Console.WriteLine("\n Console has been redirected!");
@@ -69,6 +71,7 @@ namespace ConsoleByCookie
                     );
                 };
 
+            #region UseCurrentIdToGetOutput
             page.UseCurrentIdToGetOutput.disabled = true;
 
             // enable while clickonce is active
@@ -107,6 +110,54 @@ namespace ConsoleByCookie
                                 };
                         }
                      );
+
+                };
+            #endregion
+
+
+            page.StopServerSentEvents.disabled = true;
+
+            page.StartServerSentEvents.onclick +=
+                delegate
+                {
+                    page.StartServerSentEvents.disabled = true;
+
+
+
+                    page.StopServerSentEvents.disabled = false;
+
+                    //var n = new XElement("e",
+                    //      new XAttribute("session", "" + session.IntegerValue)
+                    //);
+
+                    //var q = new StringBuilder();
+
+                    //q.Append("/xml");
+                    ////q.Append("?");
+
+                    ////q.Append("e=" + n.ToString());
+
+                    var s = new EventSource("/xml");
+
+                    s["SystemConsoleOut"] =
+                        e =>
+                        {
+                            Console.WriteLine(new { SystemConsoleOut = new { e.lastEventId, e.data } });
+                        };
+
+                    page.StopServerSentEvents.onclick +=
+                        delegate
+                        {
+                            if (s == null)
+                                return;
+
+                            s.close();
+                            s = null;
+
+                            page.StopServerSentEvents.disabled = false;
+                            page.StopServerSentEvents.disabled = true;
+
+                        };
 
                 };
         }
