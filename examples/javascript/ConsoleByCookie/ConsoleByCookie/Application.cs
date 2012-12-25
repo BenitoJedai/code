@@ -38,20 +38,42 @@ namespace ConsoleByCookie
             f.InitializeConsoleFormWriter();
             f.Show();
 
-
+            // shard across browsers in the same session?
             var session = new Cookie("session").DefaultToRandomInt32();
+            //Native.Window.localStorage
+
             var random = new Cookie("random").DefaultToRandomInt32();
 
 
             Console.WriteLine("\n Console has been redirected!");
             Console.WriteLine("\n " + new { session = session.IntegerValue.ToString("x8") });
 
+            page.WaitInHandler.onclick +=
+                delegate
+                {
+                    page.WaitInHandler.disabled = true;
+                    new IXMLHttpRequest(
+                        url: "/wait",
+                        handler: r =>
+                            {
+                                page.WaitInHandler.disabled = false;
 
+                            }
+                    );
+                };
 
             page.CheckServerForSession.onclick +=
                 delegate
                 {
-                    service.CheckServerForSession("" + session.IntegerValue, Console.WriteLine);
+                    page.CheckServerForSession.disabled = true;
+
+                    service.CheckServerForSession("" + session.IntegerValue,
+                        x =>
+                        {
+                            Console.WriteLine(x);
+                            page.CheckServerForSession.disabled = false;
+                        }
+                    );
                 };
 
             page.DoLongOperation.onclick +=
@@ -115,6 +137,7 @@ namespace ConsoleByCookie
             #endregion
 
 
+            #region StartServerSentEvents
             page.StopServerSentEvents.disabled = true;
 
             page.StartServerSentEvents.onclick +=
@@ -137,13 +160,34 @@ namespace ConsoleByCookie
 
                     ////q.Append("e=" + n.ToString());
 
-                    var s = new EventSource("/xml");
+                    var s = new EventSource("/stream");
 
                     s["SystemConsoleOut"] =
                         e =>
                         {
-                            Console.WriteLine(new { SystemConsoleOut = new { e.lastEventId, e.data } });
+                            //Console.WriteLine(new { SystemConsoleOut = new { e.lastEventId, e.data } });
+                            Console.Write(((string)e.data)
+                                .Replace("\\n", "\n")
+                                .Replace("\\r", "\r")
+                                );
                         };
+
+                    s.onerror +=
+                       e =>
+                       {
+
+                           //Console.WriteLine(new { onerror = new { s.readyState } });
+
+                           if (s.readyState == 2)
+                           {
+                               // why are we getting that error??
+
+                               s = null;
+
+                               page.StartServerSentEvents.disabled = false;
+                               page.StopServerSentEvents.disabled = true;
+                           }
+                       };
 
                     page.StopServerSentEvents.onclick +=
                         delegate
@@ -154,12 +198,16 @@ namespace ConsoleByCookie
                             s.close();
                             s = null;
 
-                            page.StopServerSentEvents.disabled = false;
+                            page.StartServerSentEvents.disabled = false;
                             page.StopServerSentEvents.disabled = true;
 
                         };
 
                 };
+            #endregion
+
+
+            page.ChangeSessionTo.innerText = "session " + session.IntegerValue.ToString("x8");
         }
 
     }

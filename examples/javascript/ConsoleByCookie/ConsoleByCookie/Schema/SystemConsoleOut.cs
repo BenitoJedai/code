@@ -10,12 +10,14 @@ namespace ConsoleByCookie.Schema
     class SystemConsoleOut : SystemConsoleOutQueries
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
+        public readonly Action<Action<SQLiteConnection>> WithWriteConnection;
 
         public SystemConsoleOut(string DataSource = "ConsoleByCookie.sqlite")
         {
             this.WithConnection = DataSource.AsWithConnection();
+            this.WithWriteConnection = DataSource.AsWithConnection(ReadOnly: false);
 
-            WithConnection(
+            WithWriteConnection(
                c =>
                {
                    new Create { }.ExecuteNonQuery(c);
@@ -25,12 +27,14 @@ namespace ConsoleByCookie.Schema
 
         public void InsertContent(InsertContent value, Action<long> y)
         {
-            WithConnection(
+            WithWriteConnection(
                 c =>
                 {
+                    //__ConsoleToDatabaseWriter.InternalWriteLine("WithWriteConnection ExecuteNonQuery");
                     value.ExecuteNonQuery(c);
 
                     y(c.LastInsertRowId);
+                    //__ConsoleToDatabaseWriter.InternalWriteLine("WithWriteConnection ExecuteNonQuery done");
                 }
              );
         }
@@ -82,7 +86,7 @@ namespace ConsoleByCookie.Schema
 
 
 
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
+        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3, bool ReadOnly = true)
         {
             //Console.WriteLine("AsWithConnection...");
 
@@ -90,13 +94,16 @@ namespace ConsoleByCookie.Schema
             {
                 //Console.WriteLine("AsWithConnection... invoke");
 
-                using (var c = DataSource.ToConnection(Version))
+                using (var c = DataSource.ToConnection(Version, ReadOnly))
                 {
                     c.Open();
 
                     try
                     {
+                        //__ConsoleToDatabaseWriter.InternalWriteLine("AsWithConnection open");
                         y(c);
+                        //__ConsoleToDatabaseWriter.InternalWriteLine("AsWithConnection close");
+                        c.Close();
                     }
                     catch (Exception ex)
                     {
@@ -114,12 +121,13 @@ namespace ConsoleByCookie.Schema
             };
         }
 
-        public static SQLiteConnection ToConnection(this string DataSource, int Version = 3)
+        public static SQLiteConnection ToConnection(this string DataSource, int Version = 3, bool ReadOnly = true)
         {
             var csb = new SQLiteConnectionStringBuilder
             {
                 DataSource = DataSource,
-                Version = Version
+                Version = Version,
+                ReadOnly = ReadOnly
             };
 
             var c = new SQLiteConnection(csb.ConnectionString);

@@ -22,7 +22,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public virtual int Next()
         {
-            return Native.Math.round(NextDouble() * 0xFFFFFFFF);
+            //  A 32-bit signed integer greater than or equal to zero and less than System.Int32.MaxValue.
+
+            return Native.Math.round(NextDouble() * global::System.Int32.MaxValue);
         }
 
         public virtual int Next(int maxValue)
