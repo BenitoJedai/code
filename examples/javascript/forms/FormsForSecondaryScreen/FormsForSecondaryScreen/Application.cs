@@ -53,7 +53,8 @@ namespace FormsForSecondaryScreen
                 delegate
                 {
                     content.button1.Enabled = false;
-                    content.button1.Text = "loading";
+
+                    int c = -1;
 
                     Native.Window.open("/", "_blank").With(
                         w =>
@@ -61,13 +62,13 @@ namespace FormsForSecondaryScreen
                             w.onload +=
                                 delegate
                                 {
-                                    if (content.button1.Text == "loading")
-                                    {
-                                        content.button1.Text = "we are the primary screen!";
+                                    c++;
 
+                                    if (c == 0)
+                                    {
 
                                     }
-                                    else if (content.button1.Text == "we are the primary screen!")
+                                    else if (c == 1)
                                     {
                                         // we need the secondary load?
                                         w.document.title = "secondary screen";
@@ -90,6 +91,20 @@ namespace FormsForSecondaryScreen
 
                                         fremote.Opacity = 0.5;
 
+                                        var shadow = new IHTMLDiv();
+
+                                        shadow.style.SetLocation(
+                                            32, 32, 200,
+                                            200
+                                        );
+
+                                        shadow.style.backgroundColor = JSColor.Yellow;
+
+                                        shadow.style.Opacity = 0.5;
+
+                                        shadow.AttachToDocument();
+
+                                        #region update
                                         Action update =
                                             delegate
                                             {
@@ -135,6 +150,15 @@ namespace FormsForSecondaryScreen
                                                     flocal.Width,
                                                     flocal.Height
                                                 );
+
+                                                shadow.style.SetLocation(
+                                                   -xwlocal_left - (xwlocal_outerWidth - xwlocal_innerWidth) + xw_left + (xw_outerWidth - xw_innerWidth),
+                                                   -xwlocal_top - (xwlocal_outerHeight - xwlocal_innerHeight) + xw_top + (xw_outerHeight - xw_innerHeight),
+
+                                                   xw_innerWidth,
+                                                   xw_innerHeight
+                                               );
+
                                             };
                                         flocal.LocationChanged +=
                                             delegate
@@ -150,13 +174,17 @@ namespace FormsForSecondaryScreen
 
                                         update();
 
-
-                                        new ScriptCoreLib.JavaScript.Runtime.Timer(
-                                            delegate
+                                        Action loop = null;
+                                        loop = delegate
                                             {
                                                 update();
-                                            }
-                                        ).StartInterval(1000 / 60);
+                                                Native.Window.requestAnimationFrame += loop;
+                                            };
+                                        loop();
+                                        #endregion
+
+                                        content.button1.Enabled = true;
+
                                     }
 
                                 };
