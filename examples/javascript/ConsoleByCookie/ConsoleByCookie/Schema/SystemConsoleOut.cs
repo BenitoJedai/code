@@ -23,12 +23,41 @@ namespace ConsoleByCookie.Schema
             );
         }
 
-        public void InsertContent(InsertContent value)
+        public void InsertContent(InsertContent value, Action<long> y)
         {
             WithConnection(
                 c =>
                 {
                     value.ExecuteNonQuery(c);
+
+                    y(c.LastInsertRowId);
+                }
+             );
+        }
+
+        public void SelectTransactionKey(SelectTransaction e, Action<long> yield)
+        {
+            WithConnection(
+                c =>
+                {
+                    e.ExecuteReader(c).WithEach(
+                        reader =>
+                        {
+                            long id = reader.id;
+
+                            yield(id);
+                        }
+                    );
+                }
+             );
+        }
+
+        public void SelectContentUpdates(SelectContentUpdates value, Action<dynamic> yield)
+        {
+            WithConnection(
+                c =>
+                {
+                    value.ExecuteReader(c).WithEach(yield);
                 }
              );
         }

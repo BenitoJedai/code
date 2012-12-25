@@ -142,6 +142,8 @@
     </Compile>
     <Content Include="Schema\SystemConsoleOut\create.sql" />
     <Content Include="Schema\SystemConsoleOut\insert content.sql" />
+    <Content Include="Schema\SystemConsoleOut\select content updates.sql" />
+    <Content Include="Schema\SystemConsoleOut\select transaction.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

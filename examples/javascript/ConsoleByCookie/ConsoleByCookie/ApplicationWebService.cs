@@ -28,10 +28,10 @@ namespace ConsoleByCookie
 
             var message = new { CheckServerForSession = new { session = int.Parse(session).ToString("x8") } };
 
-            Console.WriteLine(message);
+            Console.WriteLine("for server: " + message);
 
             // Send it back to the caller.
-            y(message.ToString());
+            y("for client: " + message.ToString());
         }
 
         public void DoLongOperation(string session, Action<string> y)
@@ -51,6 +51,54 @@ namespace ConsoleByCookie
             y("done");
         }
 
+        public void SelectTransactionKey(string session, Action<string> y)
+        {
+            var c = new __ConsoleToDatabaseWriter(int.Parse(session));
+
+            c.data.SelectTransactionKey(
+                new SystemConsoleOutQueries.SelectTransaction { session = int.Parse(session) },
+
+                id =>
+                {
+                    y("" + id);
+                }
+            );
+        }
+
+        public void SelectContentUpdates(string session, string id, Action<string> y, Action<string> ynextid)
+        {
+            var c = new __ConsoleToDatabaseWriter(int.Parse(session));
+
+            c.data.SelectTransactionKey(
+                new SystemConsoleOutQueries.SelectTransaction { session = int.Parse(session) },
+                nextid =>
+                {
+                    c.data.SelectContentUpdates(
+                        new SystemConsoleOutQueries.SelectContentUpdates
+                        {
+
+                            session = int.Parse(session),
+                            id = int.Parse(id),
+                            nextid = (int)nextid
+
+                        },
+                        r =>
+                        {
+                            long _id = r.id;
+                            string value = r.value;
+
+                            //y(new { _id, value }.ToString());
+                            y(value);
+                        }
+                    );
+
+
+                    ynextid("" + nextid);
+                }
+            );
+
+
+        }
 
         //public void InternalHandler(WebServiceHandler h)
         //{
@@ -86,30 +134,47 @@ namespace ConsoleByCookie
         {
             var w = this;
 
-            var o = Console.Out;
-
-            Console.SetOut(w);
+            var o = InitializeAndKeepOriginal(w);
 
             w.AtWrite =
                 x =>
                 {
-#if DEBUG
-                    var i = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    o.Write(x);
-                    Console.ForegroundColor = i;
-#endif
                     this.data.InsertContent(
-                        new SystemConsoleOutQueries.InsertContent
-                        {
-                            session = session,
-                            value = x
-                        }
+                           new SystemConsoleOutQueries.InsertContent
+                           {
+                               session = session,
+                               value = x
+                           },
+                           id =>
+                           {
+
+
+#if DEBUG
+                               var i = Console.ForegroundColor;
+                               Console.ForegroundColor = ConsoleColor.Yellow;
+                               //o.Write(new { session, id, x });
+                               o.Write(x);
+                               Console.ForegroundColor = i;
+#endif
+
+                           }
                     );
 
                     // db!
                 };
 
+        }
+
+        static TextWriter o;
+
+        private static TextWriter InitializeAndKeepOriginal(__ConsoleToDatabaseWriter w)
+        {
+            // Console is not really thread safe!
+            if (o == null)
+                o = Console.Out;
+
+            Console.SetOut(w);
+            return o;
         }
     }
 }
