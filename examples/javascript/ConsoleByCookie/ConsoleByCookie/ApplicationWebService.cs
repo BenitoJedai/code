@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace ConsoleByCookie
@@ -31,6 +32,23 @@ namespace ConsoleByCookie
 
             // Send it back to the caller.
             y(message.ToString());
+        }
+
+        public void DoLongOperation(string session, Action<string> y)
+        {
+            new __ConsoleToDatabaseWriter(int.Parse(session));
+
+            for (int i = 0; i < 8; i++)
+            {
+                var message = new { DoLongOperation = new { session = int.Parse(session).ToString("x8"), i } };
+                Console.WriteLine(message);
+                Thread.Sleep(1000);
+            }
+
+
+
+            // Send it back to the caller.
+            y("done");
         }
 
 

@@ -51,6 +51,23 @@ namespace ConsoleByCookie
                 {
                     service.CheckServerForSession("" + session.IntegerValue, Console.WriteLine);
                 };
+
+            page.DoLongOperation.onclick +=
+                delegate
+                {
+                    page.DoLongOperation.disabled = true;
+
+                    // can we send IEvent as argument directly?
+                    // can we set a field on client side and have
+                    // it updated on each call?
+                    service.DoLongOperation("" + session.IntegerValue,
+                        delegate
+                        {
+                            page.DoLongOperation.disabled = false;
+
+                        }
+                    );
+                };
         }
 
     }
