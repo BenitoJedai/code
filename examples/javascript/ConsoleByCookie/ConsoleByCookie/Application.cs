@@ -12,6 +12,8 @@ using System.Text;
 using System.Xml.Linq;
 using ConsoleByCookie.Design;
 using ConsoleByCookie.HTML.Pages;
+using SQLiteWithDataGridView.Library;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ConsoleByCookie
 {
@@ -20,6 +22,8 @@ namespace ConsoleByCookie
     /// </summary>
     public sealed class Application
     {
+        // "X:\jsc.svn\examples\javascript\EventSourceForWebServiceYield\EventSourceForWebServiceYield.sln"
+
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
@@ -28,13 +32,42 @@ namespace ConsoleByCookie
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            var f = new ConsoleForm();
+
+            f.InitializeConsoleFormWriter();
+            f.Show();
+
+
+            var session = new Cookie("session").DefaultToRandomInt32();
+
+
+            Console.WriteLine("\n Console has been redirected!");
+            Console.WriteLine("\n " + new { session = session.IntegerValue.ToString("x8") });
+
+
+
+            page.CheckServerForSession.onclick +=
+                delegate
+                {
+                    service.CheckServerForSession("" + session.IntegerValue, Console.WriteLine);
+                };
         }
 
+    }
+
+    public static class X
+    {
+        public static Cookie DefaultToRandomInt32(this Cookie c)
+        {
+            if (string.IsNullOrEmpty(c.Value))
+            {
+                var r = new Random();
+                var id = r.Next();
+
+                c.IntegerValue = id;
+            }
+
+            return c;
+        }
     }
 }

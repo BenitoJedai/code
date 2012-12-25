@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
 using System.Xml.Linq;
@@ -17,11 +18,18 @@ namespace ConsoleByCookie
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public void CheckServerForSession(string session, Action<string> y)
         {
             // Send it back to the caller.
-            y(e);
+            y(new { CheckServerForSession = new { session = int.Parse(session).ToString("x8") } }.ToString());
         }
 
+
+        //public void InternalHandler(WebServiceHandler h)
+        //{
+        //    var c = h.Context.Request.Cookies["session"];
+
+        //    this.session = c.Value;
+        //}
     }
 }
