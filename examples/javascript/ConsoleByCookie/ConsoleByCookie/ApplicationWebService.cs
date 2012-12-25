@@ -17,6 +17,14 @@ namespace ConsoleByCookie
     /// </summary>
     public sealed class ApplicationWebService
     {
+        // can jsc accept parameters to constructor yet?
+        // or fields?
+
+        //public ApplicationWebService(int session)
+        //{
+
+        //}
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
