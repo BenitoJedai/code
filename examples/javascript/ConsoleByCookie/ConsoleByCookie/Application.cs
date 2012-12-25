@@ -68,6 +68,47 @@ namespace ConsoleByCookie
                         }
                     );
                 };
+
+            page.UseCurrentIdToGetOutput.disabled = true;
+
+            // enable while clickonce is active
+            page.GetCurrentIdToStartListening.onclick +=
+                delegate
+                {
+                    page.GetCurrentIdToStartListening.disabled = true;
+
+                    service.SelectTransactionKey(
+                        "" + session.IntegerValue,
+                        id =>
+                        {
+                            Console.WriteLine(new { id });
+                            page.UseCurrentIdToGetOutput.disabled = false;
+
+                            page.UseCurrentIdToGetOutput.onclick +=
+                                delegate
+                                {
+                                    page.UseCurrentIdToGetOutput.disabled = true;
+
+
+
+                                    service.SelectContentUpdates(
+                                        "" + session.IntegerValue,
+                                        id,
+                                        y: Console.Write,
+                                        ynextid: nextid =>
+                                        {
+                                            id = nextid;
+
+                                            Console.WriteLine(new { id });
+                                            page.UseCurrentIdToGetOutput.disabled = false;
+                                        }
+                                    );
+
+                                };
+                        }
+                     );
+
+                };
         }
 
     }
