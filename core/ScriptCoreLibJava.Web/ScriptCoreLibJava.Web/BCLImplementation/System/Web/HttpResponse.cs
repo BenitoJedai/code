@@ -31,6 +31,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			}
 		}
 
+        #region ContentType
         internal string InternalContentType;
 		public string ContentType
 		{
@@ -45,8 +46,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 				this.InternalContext.setContentType(value);
 			}
 		}
+        #endregion
 
-		public void Write(string s)
+
+        public void Write(string s)
 		{
 			try
 			{
@@ -74,7 +77,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			}
 		}
 
-		public NetworkStream InternalOutputStream;
+        #region OutputStream
+        public NetworkStream InternalOutputStream;
 		public Stream OutputStream
 		{
 			get
@@ -96,8 +100,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 				return InternalOutputStream;
 			}
 		}
+        #endregion
 
-		public void AddHeader(string name, string value)
+
+        public void AddHeader(string name, string value)
 		{
 			this.InternalContext.addHeader(name, value);
 		}

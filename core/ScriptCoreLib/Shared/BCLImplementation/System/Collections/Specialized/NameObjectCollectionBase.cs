@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 {
 	[Script(Implements = typeof(global::System.Collections.Specialized.NameObjectCollectionBase))]
-	internal abstract class __NameObjectCollectionBase : ICollection, IEnumerable, ISerializable, IDeserializationCallback
+	public abstract class __NameObjectCollectionBase : ICollection, IEnumerable, ISerializable, IDeserializationCallback
 	{
 		#region IDeserializationCallback Members
 

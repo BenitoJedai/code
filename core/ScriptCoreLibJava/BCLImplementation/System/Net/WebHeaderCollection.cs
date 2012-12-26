@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Collections.Specialized;
-using ScriptCoreLibJava.BCLImplementation.System.Collections.Specialized;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {

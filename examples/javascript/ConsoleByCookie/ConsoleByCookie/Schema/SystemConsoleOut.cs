@@ -108,11 +108,48 @@ namespace ConsoleByCookie.Schema
                     }
                     catch (Exception ex)
                     {
+                        __ConsoleToDatabaseWriter.InternalWriteLine("AsWithConnection... error: ");
+                        Thread.Sleep(5000);
+
+
                         var message = new { ex.Message, ex.StackTrace };
 
-                        Console.WriteLine("AsWithConnection... error: " + message);
+                        //Console.WriteLine("AsWithConnection... error: " + message);
+                        __ConsoleToDatabaseWriter.InternalWriteLine(" " + message);
 
-                        Thread.Sleep(5000);
+                        //                Caused by: java.lang.StackOverflowError
+                        //at java.io.Win32FileSystem.canonicalize(Unknown Source)
+                        //at java.io.File.getCanonicalPath(Unknown Source)
+                        //at sun.security.provider.PolicyFile.canonPath(Unknown Source)
+                        //at java.io.FilePermission$1.run(Unknown Source)
+                        //at java.io.FilePermission$1.run(Unknown Source)
+                        //at java.security.AccessController.doPrivileged(Native Method)
+                        //at java.io.FilePermission.init(Unknown Source)
+                        //at java.io.FilePermission.<init>(Unknown Source)
+                        //at java.lang.SecurityManager.checkRead(Unknown Source)
+                        //at java.io.File.exists(Unknown Source)
+                        //at java.io.Win32FileSystem.canonicalize(Unknown Source)
+                        //at java.io.File.getCanonicalPath(Unknown Source)
+                        //at sun.security.provider.PolicyFile.canonPath(Unknown Source)
+                        //at java.io.FilePermission$1.run(Unknown Source)
+                        //at java.io.FilePermission$1.run(Unknown Source)
+                        //at java.security.AccessController.doPrivileged(Native Method)
+                        //at java.io.FilePermission.init(Unknown Source)
+                        //at java.io.FilePermission.<init>(Unknown Source)
+                        //at java.lang.SecurityManager.checkRead(Unknown Source)
+                        //at java.io.File.exists(Unknown Source)
+                        //at sun.misc.URLClassPath$FileLoader.getResource(Unknown Source)
+                        //at sun.misc.URLClassPath.getResource(Unknown Source)
+                        //at java.net.URLClassLoader$1.run(Unknown Source)
+                        //at java.security.AccessController.doPrivileged(Native Method)
+                        //at java.net.URLClassLoader.findClass(Unknown Source)
+                        //at java.lang.ClassLoader.loadClass(Unknown Source)
+                        //at com.google.appengine.tools.development.IsolatedAppClassLoader.loadClass(IsolatedAppClassLoader.java:213)
+                        //at java.lang.ClassLoader.loadClass(Unknown Source)
+                        //at ConsoleByCookie.Schema.XX___c__DisplayClass1._AsWithConnection_b__0(XX___c__DisplayClass1.java:43)
+
+
+                        Thread.Sleep(10000);
 
                         //java
                         //throw new InvalidOperationException(message.ToString());

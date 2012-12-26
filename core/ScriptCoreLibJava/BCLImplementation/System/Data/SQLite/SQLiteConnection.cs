@@ -43,7 +43,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 //        at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1074)
                 //        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
 
-                Console.WriteLine(x.ToString());
+                //Console.WriteLine(x.ToString());
 
                 // Caused by: java.sql.SQLException: No suitable driver found for jdbc:google:rdbms://instance_name
                 this.InternalConnection = DriverManager.getConnection(

@@ -27,7 +27,12 @@
     <button>Start ServerSentEvents</button>
     <button>Stop ServerSentEvents</button>
     <hr />
-    <p>Then lets implement session override.</p>
     <button>Change Session To</button>
+    <hr />
+
+    For AppEngine, do we have a flush problem? Server Sent events seem to have a delay until it is closed.
+
+    <h3>EventSource</h3>
+    <p>AppEngine does not support flusing. IE does not support it. Android webview does not support it.</p>
   </body>
 </html>

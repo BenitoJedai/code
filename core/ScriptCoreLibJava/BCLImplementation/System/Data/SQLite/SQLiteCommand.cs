@@ -52,7 +52,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 {
                     var sql = this.sql;
 
-                    Console.WriteLine("we have InternalParameters for " + sql);
+                    //Console.WriteLine("we have InternalParameters for " + sql);
 
                     var parameters = this.InternalParameters.InternalParameters;
 
