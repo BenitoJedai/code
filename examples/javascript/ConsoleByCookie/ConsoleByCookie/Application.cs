@@ -48,6 +48,7 @@ namespace ConsoleByCookie
             Console.WriteLine("\n Console has been redirected!");
             Console.WriteLine("\n " + new { session = session.IntegerValue.ToString("x8") });
 
+            #region WaitInHandler
             page.WaitInHandler.onclick +=
                 delegate
                 {
@@ -61,7 +62,18 @@ namespace ConsoleByCookie
                             }
                     );
                 };
+            #endregion
 
+            page.CheckDatabase.onclick +=
+                delegate
+                {
+                    service.CheckDatabase("",
+                        Console.WriteLine
+                    );
+
+                };
+
+            #region CheckServerForSession
             page.CheckServerForSession.onclick +=
                 delegate
                 {
@@ -75,6 +87,7 @@ namespace ConsoleByCookie
                         }
                     );
                 };
+            #endregion
 
             page.DoLongOperation.onclick +=
                 delegate

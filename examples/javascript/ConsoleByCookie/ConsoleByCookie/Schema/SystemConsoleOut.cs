@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace ConsoleByCookie.Schema
 {
@@ -96,10 +97,10 @@ namespace ConsoleByCookie.Schema
 
                 using (var c = DataSource.ToConnection(Version, ReadOnly))
                 {
-                    c.Open();
-
                     try
                     {
+                        c.Open();
+
                         //__ConsoleToDatabaseWriter.InternalWriteLine("AsWithConnection open");
                         y(c);
                         //__ConsoleToDatabaseWriter.InternalWriteLine("AsWithConnection close");
@@ -109,7 +110,9 @@ namespace ConsoleByCookie.Schema
                     {
                         var message = new { ex.Message, ex.StackTrace };
 
-                        //Console.WriteLine("AsWithConnection... error: " + message);
+                        Console.WriteLine("AsWithConnection... error: " + message);
+
+                        Thread.Sleep(5000);
 
                         //java
                         //throw new InvalidOperationException(message.ToString());
