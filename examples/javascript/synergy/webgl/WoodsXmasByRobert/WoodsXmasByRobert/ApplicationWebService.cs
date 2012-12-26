@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
 using System.Xml.Linq;
@@ -23,5 +24,41 @@ namespace WoodsXmasByRobert
             y(e);
         }
 
+
+
+        public void Handler(WebServiceHandler h)
+        {
+            //Console.WriteLine(
+            //    h.Context.Request.Path
+            //);
+
+            //  The following information can be helpful to determine why the assembly 'ScriptCoreLib.Ultra, Version=4.5.0.0, Culture=neutral, PublicKeyToken=null' could not be loaded.
+            var ref0 = typeof(ScriptCoreLib.Shared.RemotingToken);
+
+
+            if (h.Context.Request.Path.StartsWith("/sound/"))
+            {
+                // jsc is not correctly updating the path of assets?
+                h.Context.Response.WriteFile("/assets/WoodsXmasByRobert/" + h.Context.Request.Path.SkipUntilOrEmpty("/sound/"));
+                h.CompleteRequest();
+                return;
+            }
+
+            if (h.Context.Request.Path.StartsWith("/img/"))
+            {
+                // jsc is not correctly updating the path of assets?
+                h.Context.Response.WriteFile("/assets/WoodsXmasByRobert/" + h.Context.Request.Path.SkipUntilOrEmpty("/img/"));
+                h.CompleteRequest();
+                return;
+            }
+
+            if (h.Context.Request.Path.StartsWith("/models/"))
+            {
+                // jsc is not correctly updating the path of assets?
+                h.Context.Response.WriteFile("/assets/WoodsXmasByRobert/" + h.Context.Request.Path.SkipUntilOrEmpty("/models/"));
+                h.CompleteRequest();
+                return;
+            }
+        }
     }
 }

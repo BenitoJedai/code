@@ -34,9 +34,54 @@ namespace WoodsXmasByRobert
             new IHTMLScript { type = "x-shader/x-fragment", id = "fragmentshader", innerText = new Shaders.particlesFragmentShader().ToString() }.AttachToDocument();
 
 
-            new AppCode().Content.AttachToDocument();
+
+            #region hint such that our assets stay around
+
+            { ITexturesImages ref0; }
+            { Audio ref0; }
 
 
+            { Design.models.eagle ref1; }
+            { Design.models.glowbulb ref1; }
+            { Design.models.horse ref1; }
+            { Design.models.rock ref1; }
+            { Design.models.sleigh ref1; }
+            { Design.models.treeDead ref1; }
+            { Design.models.treeEvergreenHigh ref1; }
+            { Design.models.weeds01 ref1; }
+
+            #endregion
+
+
+            new AppCode().Content.AttachToDocument().onload +=
+                delegate
+                {
+
+
+                    var renderer = (THREE_WebGLRenderer)new IFunction("return this.webglRenderer;").apply(Native.Window);
+                    var camera = (THREE_PerspectiveCamera)new IFunction("return this.camera;").apply(Native.Window);
+
+
+                    Native.Window.onresize +=
+                        delegate
+                        {
+
+                            // notify the renderer of the size change
+                            renderer.setSize(Native.Window.Width, Native.Window.Height);
+
+
+                            // update the camera
+                            camera.aspect = Native.Window.Width / Native.Window.Height;
+                            camera.updateProjectionMatrix();
+                        };
+
+                    Native.Document.body.ondblclick +=
+                        delegate
+                        {
+                            Native.Document.body.requestFullscreen();
+                        };
+
+                };
 
         }
 
