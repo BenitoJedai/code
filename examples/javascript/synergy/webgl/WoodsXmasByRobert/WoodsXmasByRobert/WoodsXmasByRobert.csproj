@@ -128,6 +128,30 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\AppCode.js" />
+    <Content Include="Textures\cloud.png" />
+    <Content Include="Textures\flare.jpg" />
+    <Content Include="Textures\loading.png" />
+    <Content Include="Textures\moon.png" />
+    <Content Include="Textures\pointer.png" />
+    <Content Include="Textures\sky.jpg" />
+    <Content Include="Textures\snowflake.png" />
+    <Content Include="Textures\txt0.png" />
+    <Content Include="Textures\txt1.png" />
+    <Content Include="Textures\txt2.png" />
+    <Content Include="Textures\txt3.png" />
+    <Content Include="Textures\txt4.png" />
+    <Content Include="Textures\txt5.png" />
+    <Content Include="Textures\txt6.png" />
+    <Content Include="Textures\txt7.png" />
+    <Content Include="Textures\xmas.png" />
+    <Content Include="Design\models\eagle.js" />
+    <Content Include="Design\models\glowbulb.js" />
+    <Content Include="Design\models\horse.js" />
+    <Content Include="Design\models\rock.js" />
+    <Content Include="Design\models\sleigh.js" />
+    <Content Include="Design\models\treeDead.js" />
+    <Content Include="Design\models\treeEvergreenHigh.js" />
+    <Content Include="Design\models\weeds01.js" />
     <Content Include="Design\References\!References.htm" />
     <Content Include="Design\js\shaders\CopyShader.js" />
     <Content Include="Design\js\postprocessing\EffectComposer.js" />
@@ -138,6 +162,7 @@
     <Content Include="Design\js\postprocessing\ShaderPass.js" />
     <Content Include="Design\References\Three.idl" />
     <Content Include="Design\References\Three.js" />
+    <Content Include="Audio\unfiltered_mix.mp3" />
     <Content Include="Design\Tween.js" />
     <Content Include="Design\js\shaders\VignetteShader.js" />
     <None Include="Shaders\particles.frag" />
