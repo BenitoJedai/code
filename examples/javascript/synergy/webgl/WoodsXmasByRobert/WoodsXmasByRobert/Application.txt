@@ -1,1 +1,11 @@
-﻿01. Create new project, this file and commit
+﻿Create new project, this file and commit
+
+port of 
+	http://oos.moxiecode.com/js_webgl/woods_xmas/
+based on
+	X:\jsc.svn\examples\javascript\synergy\EvilChopperByPer\EvilChopperByPer\Application.cs
+	X:\jsc.svn\examples\javascript\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine\Application.cs
+
+lets start by lifting the javascript libraries.
+notice Three is at revision 52 now.
+
