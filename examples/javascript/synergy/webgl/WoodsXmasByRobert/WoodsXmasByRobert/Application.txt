@@ -11,3 +11,9 @@ notice Three is at revision 52 now.
 
 Now all static references have been added. Lets run and see errors for dynamic links.
 Watch out for nested quotes like " and '.
+Watch out for references to omitted code.
+
+Prepare textures.
+Prepare audio.
+Prepare models.
+
