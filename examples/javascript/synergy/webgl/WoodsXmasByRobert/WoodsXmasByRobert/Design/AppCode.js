@@ -278,7 +278,8 @@ function init() {
         webglRenderer.autoClear = false;
         container.appendChild(webglRenderer.domElement);
         has_gl = 1;
-        THREEx.WindowResize(webglRenderer, camera);
+
+        // THREEx.WindowResize(webglRenderer, camera);
 
         // postprocessing
         var renderModel = new THREE.RenderPass(scene, camera);
