@@ -127,10 +127,23 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\AppCode.js" />
     <Content Include="Design\References\!References.htm" />
+    <Content Include="Design\js\shaders\CopyShader.js" />
+    <Content Include="Design\js\postprocessing\EffectComposer.js" />
+    <Content Include="Design\js\postprocessing\FilmPass.js" />
+    <Content Include="Design\js\shaders\FilmShader.js" />
+    <Content Include="Design\js\postprocessing\MaskPass.js" />
+    <Content Include="Design\js\postprocessing\RenderPass.js" />
+    <Content Include="Design\js\postprocessing\ShaderPass.js" />
     <Content Include="Design\References\Three.idl" />
     <Content Include="Design\References\Three.js" />
+    <Content Include="Design\Tween.js" />
+    <Content Include="Design\js\shaders\VignetteShader.js" />
+    <None Include="Shaders\particles.frag" />
+    <None Include="Shaders\particles.vert" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
