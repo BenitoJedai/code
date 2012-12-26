@@ -2,16 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Shared.BCLImplementation.System;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
-    using ScriptCoreLib.JavaScript.Runtime;
-    using ScriptCoreLib.Shared.BCLImplementation.System;
-    using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
-    using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
+
 
     [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable
+    internal class __Dictionary<TKey, TValue> :
+        __IDictionary<TKey, TValue>
+    //, IEnumerable
     {
 
         //Expando list = new Expando();
@@ -36,15 +39,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
                 throw new global::System.Exception("Argument_AddingDuplicate");
 
 
-            _keys.Add(key);
-            _values.Add(value);
+            InternalKeys.Add(key);
+            InternalValues.Add(value);
         }
 
 
 
         public bool ContainsKey(TKey key)
         {
-            return _keys.Contains(key);
+            return InternalKeys.Contains(key);
         }
 
         #region Keys
@@ -70,7 +73,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
             public void CopyTo(TKey[] array, int arrayIndex)
             {
-                 InternalItems.CopyTo(array, arrayIndex);
+                InternalItems.CopyTo(array, arrayIndex);
             }
 
             public int Count
@@ -107,17 +110,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             }
         }
 
-        readonly __KeyCollection _keys = new __KeyCollection();
+        readonly __KeyCollection InternalKeys = new __KeyCollection();
 
         public __KeyCollection Keys
         {
             get
             {
-                return _keys;
+                return InternalKeys;
             }
         }
 
-  
+        ICollection<TKey> __IDictionary<TKey, TValue>.Keys
+        {
+            get { return Keys; }
+        }
         #endregion
 
 
@@ -126,10 +132,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             if (!ContainsKey(key))
                 return false;
 
-            var i = _keys.InternalItems.IndexOf(key);
+            var i = InternalKeys.InternalItems.IndexOf(key);
 
-            _keys.InternalItems.RemoveAt(i);
-            _values.InternalItems.RemoveAt(i);
+            InternalKeys.InternalItems.RemoveAt(i);
+            InternalValues.InternalItems.RemoveAt(i);
 
             return true;
         }
@@ -199,18 +205,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
             }
         }
 
-        readonly __ValueCollection _values = new __ValueCollection();
+        readonly __ValueCollection InternalValues = new __ValueCollection();
 
 
         public __ValueCollection Values
         {
             get
             {
-                return this._values;
+                return this.InternalValues;
             }
         }
 
- 
+
         #endregion
 
 
@@ -218,27 +224,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         {
             get
             {
-                var i = _keys.InternalItems.IndexOf(key);
+                var i = InternalKeys.InternalItems.IndexOf(key);
 
                 if (i == -1)
                     throw new Exception("Not found.");
 
-                return _values.InternalItems[i];
+                return InternalValues.InternalItems[i];
 
 
             }
             set
             {
-                var i = _keys.InternalItems.IndexOf(key);
+                var i = InternalKeys.InternalItems.IndexOf(key);
 
                 if (i == -1)
                 {
-                    _keys.Add(key);
-                    _values.Add(value);
+                    InternalKeys.Add(key);
+                    InternalValues.Add(value);
                 }
                 else
                 {
-                    _values.InternalItems[i] = value;
+                    InternalValues.InternalItems[i] = value;
                 }
             }
         }
@@ -254,8 +260,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public void Clear()
         {
-            _keys.Clear();
-            _values.Clear();
+            InternalKeys.Clear();
+            InternalValues.Clear();
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -270,7 +276,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         public int Count
         {
-            get { return _keys.Count; }
+            get { return InternalKeys.Count; }
         }
 
         public bool IsReadOnly
@@ -285,24 +291,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         #endregion
 
-        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
+     
 
-        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        #endregion
-
-        #region IEnumerable Members
-
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        #endregion
+     
 
         public __Dictionary<TKey, TValue>.__Enumerator GetEnumerator()
         {
@@ -363,14 +354,84 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
 
 
-        ICollection<TKey> IDictionary<TKey, TValue>.Keys
+
+
+
+        ICollection<TValue> __IDictionary<TKey, TValue>.Values
         {
             get { throw new NotImplementedException(); }
         }
 
-        ICollection<TValue> IDictionary<TKey, TValue>.Values
+        TValue __IDictionary<TKey, TValue>.this[TKey key]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        void __IDictionary<TKey, TValue>.Add(TKey key, TValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool __IDictionary<TKey, TValue>.ContainsKey(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool __IDictionary<TKey, TValue>.Remove(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        int __ICollection<KeyValuePair<TKey, TValue>>.Count
         {
             get { throw new NotImplementedException(); }
+        }
+
+        bool __ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        void __ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void __ICollection<KeyValuePair<TKey, TValue>>.Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool __ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void __ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool __ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator __IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 

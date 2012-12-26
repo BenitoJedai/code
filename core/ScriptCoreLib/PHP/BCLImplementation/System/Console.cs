@@ -25,6 +25,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
             public static void InternalWrite(string e)
             {
                 Native.echo(e);
+
+                // do we need flush here?
                 Native.API.flush();
             }
 
@@ -35,27 +37,38 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
             }
         }
 
-        static TextWriter InternalOut = new __ConsoleTextWriter();
+        static TextWriter InternalOut;
+
+        public static global::System.IO.TextWriter Out
+        {
+            get
+            {
+                if (InternalOut == null)
+                    InternalOut = new __ConsoleTextWriter();
+
+                return InternalOut;
+            }
+        }
 
         public static void SetOut(TextWriter newOut)
         {
             InternalOut = newOut;
         }
 
-     
+
         public static void WriteLine(object e)
         {
-            InternalOut.WriteLine(e.ToString());
+            Out.WriteLine(e.ToString());
         }
 
         public static void WriteLine(string e)
         {
-            InternalOut.WriteLine(e);
+            Out.WriteLine(e);
         }
 
         public static void WriteLine()
         {
-            InternalOut.WriteLine("");
+            Out.WriteLine("");
         }
 
         //public static void WriteLine(string e, object x)
@@ -65,12 +78,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
         public static void Write(string e)
         {
-            InternalOut.Write(e);
+            Out.Write(e);
         }
 
         public static void Write(object e)
         {
-            InternalOut.Write(e.ToString());
+            Out.Write(e.ToString());
         }
     }
 }

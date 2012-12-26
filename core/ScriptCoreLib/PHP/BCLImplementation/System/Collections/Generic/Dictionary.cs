@@ -9,7 +9,9 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue>, __IEnumerable, __ICollection
+    internal class __Dictionary<TKey, TValue> : 
+        __IDictionary<TKey, TValue>
+        //, __IEnumerable, __ICollection
     {
         public __Dictionary()
             : this(null)
@@ -22,7 +24,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         }
 
-    
+
 
         #region IDictionary<TKey,TValue> Members
 
@@ -33,54 +35,104 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
                 throw new global::System.Exception("Argument_AddingDuplicate");
 
 
-            _keys.Add(key);
-            _values.Add(value);
+            InternalKeys.Add(key);
+            InternalValues.Add(value);
         }
 
 
 
         public bool ContainsKey(TKey key)
         {
-            return _keys.Contains(key);
+            return InternalKeys.Contains(key);
         }
 
         public bool ContainsValue(TValue value)
         {
-            return _values.Contains(value);
+            return InternalValues.Contains(value);
         }
 
+        #region Keys
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection))]
-        public class __KeyCollection : List<TKey>
+        public class __KeyCollection : ICollection<TKey>
         {
+            public List<TKey> InternalItems = new List<TKey>();
+
+            public void Add(TKey item)
+            {
+                InternalItems.Add(item);
+            }
+
+            public void Clear()
+            {
+                InternalItems.Clear();
+            }
+
+            public bool Contains(TKey item)
+            {
+                return InternalItems.Contains(item);
+            }
+
+            public void CopyTo(TKey[] array, int arrayIndex)
+            {
+                InternalItems.CopyTo(array, arrayIndex);
+            }
+
+            public int Count
+            {
+                get
+                {
+                    return InternalItems.Count;
+                }
+            }
+
+            public bool IsReadOnly
+            {
+                get
+                {
+                    return false;
+                }
+            }
+
+            public bool Remove(TKey item)
+            {
+                return InternalItems.Remove(item);
+            }
+
+            public IEnumerator<TKey> GetEnumerator()
+            {
+                return InternalItems.GetEnumerator();
+            }
+
+
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        readonly __KeyCollection _keys = new __KeyCollection();
+        readonly __KeyCollection InternalKeys = new __KeyCollection();
 
         public __KeyCollection Keys
         {
             get
             {
-                return _keys;
+                return InternalKeys;
             }
         }
 
-        ICollection<TKey> __IDictionary<TKey, TValue>.Keys
-        {
-            get
-            {
-                return _keys;
-            }
-        }
+
+        #endregion
 
         public bool Remove(TKey key)
         {
             if (!ContainsKey(key))
                 return false;
 
-            var i = _keys.IndexOf(key);
+            var i = InternalKeys.InternalItems.IndexOf(key);
 
-            _keys.RemoveAt(i);
-            _values.RemoveAt(i);
+            InternalKeys.InternalItems.RemoveAt(i);
+            InternalValues.InternalItems.RemoveAt(i);
 
             return true;
         }
@@ -91,56 +143,110 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
             throw new global::System.Exception("The method or operation is not implemented.");
         }
 
+        #region Values
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.ValueCollection))]
-        public class __ValueCollection : List<TValue>
+        public class __ValueCollection : ICollection<TValue>
         {
+            public List<TValue> InternalItems = new List<TValue>();
 
+            public void Add(TValue item)
+            {
+                InternalItems.Add(item);
+            }
+
+            public void Clear()
+            {
+                InternalItems.Clear();
+            }
+
+            public bool Contains(TValue item)
+            {
+                return InternalItems.Contains(item);
+            }
+
+            public void CopyTo(TValue[] array, int arrayIndex)
+            {
+                InternalItems.CopyTo(array, arrayIndex);
+            }
+
+            public int Count
+            {
+                get
+                {
+                    return InternalItems.Count;
+                }
+            }
+
+            public bool IsReadOnly
+            {
+                get
+                {
+                    return false;
+                }
+            }
+
+            public bool Remove(TValue item)
+            {
+                return InternalItems.Remove(item);
+            }
+
+            public IEnumerator<TValue> GetEnumerator()
+            {
+                return InternalItems.GetEnumerator();
+            }
+
+
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        readonly __ValueCollection _values = new __ValueCollection();
+        readonly __ValueCollection InternalValues = new __ValueCollection();
 
 
         public __ValueCollection Values
         {
             get
             {
-                return _values;
+                return this.InternalValues;
             }
         }
 
-        ICollection<TValue> __IDictionary<TKey, TValue>.Values
-        {
-            get
-            {
-                return _values;
-            }
-        }
+
+        #endregion
+
 
         public TValue this[TKey key]
         {
             get
             {
-                var i = _keys.IndexOf(key);
+                var ValuesCount = InternalValues.Count;
+                var KeysCount = InternalKeys.Count;
+                var i = InternalKeys.InternalItems.IndexOf(key);
 
                 if (i == -1)
-                    throw new Exception("Not found.");
+                {
+                    throw new Exception("Not found: " + new { KeysCount, ValuesCount, key });
+                }
 
-                return _values[i];
+                return InternalValues.InternalItems[i];
 
 
             }
             set
             {
-                var i = _keys.IndexOf(key);
+                var i = InternalKeys.InternalItems.IndexOf(key);
 
                 if (i == -1)
                 {
-                    _keys.Add(key);
-                    _values.Add(value);
+                    InternalKeys.Add(key);
+                    InternalValues.Add(value);
                 }
                 else
                 {
-                    _values[i] = value;
+                    InternalValues.InternalItems[i] = value;
                 }
             }
         }
@@ -156,8 +262,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         public void Clear()
         {
-            _keys.Clear();
-            _values.Clear();
+            InternalKeys.Clear();
+            InternalValues.Clear();
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -172,7 +278,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         public int Count
         {
-            get { return _keys.Count; }
+            get { return InternalKeys.Count; }
         }
 
         public bool IsReadOnly
@@ -285,7 +391,79 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         #endregion
 
-     
+
+
+        ICollection<TKey> __IDictionary<TKey, TValue>.Keys
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        ICollection<TValue> __IDictionary<TKey, TValue>.Values
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        TValue __IDictionary<TKey, TValue>.this[TKey key]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        void __IDictionary<TKey, TValue>.Add(TKey key, TValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool __IDictionary<TKey, TValue>.ContainsKey(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool __IDictionary<TKey, TValue>.Remove(TKey key)
+        {
+            throw new NotImplementedException();
+        }
+
+        int __ICollection<KeyValuePair<TKey, TValue>>.Count
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        bool __ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        void __ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void __ICollection<KeyValuePair<TKey, TValue>>.Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool __ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void __ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool __ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
