@@ -28,11 +28,21 @@ namespace ConsoleByCookie
 
         //}
 
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
+        public void CheckDatabase(string e, Action<string> y)
+        {
+            try
+            {
+                var data = new SystemConsoleOut();
+
+                y("CheckDatabase ok");
+            }
+            catch (Exception ex)
+            {
+                y("CheckDatabase error " + new { ex });
+            }
+
+        }
+
         public void CheckServerForSession(string session, Action<string> y)
         {
             new __ConsoleToDatabaseWriter(int.Parse(session));
