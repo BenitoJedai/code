@@ -32,6 +32,8 @@ namespace ConsoleByCookie
         {
             try
             {
+                __ConsoleToDatabaseWriter.InternalWriteLine("CheckDatabase...");
+
                 var data = new SystemConsoleOut();
 
                 y("CheckDatabase ok");
@@ -74,16 +76,39 @@ namespace ConsoleByCookie
 
         public void SelectTransactionKey(string session, Action<string> y)
         {
-            var c = new __ConsoleToDatabaseWriter(int.Parse(session));
+            try
+            {
+                var data = new SystemConsoleOut();
 
-            c.data.SelectTransactionKey(
-                new SystemConsoleOutQueries.SelectTransaction { session = int.Parse(session) },
+                Action<long> yield =
+                    id =>
+                    {
+                        y("" + id);
+                    };
 
-                id =>
-                {
-                    y("" + id);
-                }
-            );
+                data.SelectTransactionKey(
+                    e: new SystemConsoleOutQueries.SelectTransaction { session = int.Parse(session) },
+                    yield: yield
+                );
+
+                //y("CheckDatabase ok");
+            }
+            catch (Exception ex)
+            {
+                __ConsoleToDatabaseWriter.InternalWriteLine("SelectTransactionKey error " + new { ex });
+                //y("CheckDatabase error " + new { ex });
+            }
+
+            //var c = new __ConsoleToDatabaseWriter(int.Parse(session));
+
+            //c.data.SelectTransactionKey(
+            //    new SystemConsoleOutQueries.SelectTransaction { session = int.Parse(session) },
+
+            //    id =>
+            //    {
+            //        y("" + id);
+            //    }
+            //);
         }
 
         public void SelectContentUpdates(string session, string id, Action<string> y, Action<string> ynextid)
@@ -280,6 +305,15 @@ namespace ConsoleByCookie
                                           h.Context.Response.Write("event: SystemConsoleOut\n");
                                           h.Context.Response.Write("data: " +
                                               value.Replace("\r", "\\r").Replace("\n", "\\n") + "\n\n");
+
+                                          // wont work on appengine?
+                                          // https://groups.google.com/forum/?fromgroups=#!topic/google-appengine-java/LWWRMP5KU1w
+                                          // https://developers.google.com/appengine/docs/java/runtime#Responses
+                                          //  limited to 32MB
+
+                                          // need to use channel API instead?
+                                          // https://developers.google.com/appengine/docs/python/channel/overview
+
                                           h.Context.Response.Flush();
                                       }
                                   );
@@ -375,9 +409,15 @@ namespace ConsoleByCookie
 
             InitializeAndKeepOriginal(w);
 
+            bool reentry = false;
             w.AtWrite =
                 x =>
                 {
+                    if (reentry)
+                        return;
+
+                    reentry = true;
+
                     Action<long> y = id =>
                            {
 
@@ -396,6 +436,7 @@ namespace ConsoleByCookie
                            y: y
                     );
 
+                    reentry = false;
                     // db!
                 };
 

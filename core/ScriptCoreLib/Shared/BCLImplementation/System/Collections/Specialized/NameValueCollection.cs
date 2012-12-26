@@ -8,7 +8,7 @@ using System.Collections.Specialized;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 {
     [Script(Implements = typeof(global::System.Collections.Specialized.NameValueCollection))]
-    internal class __NameValueCollection : __NameObjectCollectionBase
+    public class __NameValueCollection : __NameObjectCollectionBase
     {
         // http://www.jguru.com/faq/view.jsp?EID=430247
         //readonly global::java.util.HashMap InternalCollection = new global::java.util.HashMap();
