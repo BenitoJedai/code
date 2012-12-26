@@ -88,12 +88,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Queue.cs">
       <Link>BCLImplementation\System\Collections\Generic\Queue.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs">
-      <Link>BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
-      <Link>BCLImplementation\System\Collections\Specialized\NameValueCollection.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Configuration\SettingsBase.cs">
       <Link>BCLImplementation\System\Configuration\SettingsBase.cs</Link>
     </Compile>
@@ -728,8 +722,6 @@
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
-    <Compile Include="BCLImplementation\System\Web\HttpCookie.cs" />
-    <Compile Include="BCLImplementation\System\Web\HttpCookieCollection.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpHandler.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpResponse.cs" />
@@ -750,6 +742,7 @@
     </Compile>
   </ItemGroup>-->
   <ItemGroup>
+    <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="Documents\" />

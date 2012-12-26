@@ -102,6 +102,8 @@
     <Compile Include="Shared\BCLImplementation\GLSL\vec3.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec2.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs" />
     <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackTrace.cs" />
@@ -151,6 +153,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\CallSiteBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\IAsyncMethodBuilder.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Web\HttpCookie.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Web\HttpCookieCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Xml\Linq\Extensions.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XAttribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Xml\Linq\XContainer.cs" />

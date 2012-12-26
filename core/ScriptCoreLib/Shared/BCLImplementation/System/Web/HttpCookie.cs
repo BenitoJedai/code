@@ -1,23 +1,22 @@
-﻿using ScriptCoreLibJava.BCLImplementation.System.Collections.Specialized;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace ScriptCoreLib.Android.BCLImplementation.System.Web
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpCookie))]
     internal class __HttpCookie
     {
-        public __HttpCookie()
+        public __HttpCookie() : this(null, null)
         {
 
         }
 
         public __HttpCookie(string name)
+            : this(name, null)
         {
-            this.Name = name;
         }
 
         public __HttpCookie(string name, string value)

@@ -103,12 +103,6 @@
     <Compile Include="BCLImplementation\System\Collections\Hashtable.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Configuration\ApplicationSettingsBase.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -996,6 +990,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BCLImplementation\Abstractatech\" />
+    <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\ComponentModel\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
