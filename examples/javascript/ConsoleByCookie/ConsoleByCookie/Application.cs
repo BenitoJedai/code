@@ -160,6 +160,8 @@ namespace ConsoleByCookie
 
                     ////q.Append("e=" + n.ToString());
 
+
+                    // Web Console(12961): Uncaught ReferenceError: EventSource is not defined at http://192.168.1.100:14690/view-source:46617
                     var s = new EventSource("/stream");
 
                     s["SystemConsoleOut"] =
