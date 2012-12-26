@@ -164,6 +164,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
             //Console.WriteLine();
 
+
+            // why not do it on demand?
             foreach (var item in WebMethods)
             {
                 item.LoadParameters(that.Context);
@@ -171,7 +173,10 @@ namespace ScriptCoreLib.Ultra.WebService
 
             if (Context.Request.HttpMethod == "POST")
             {
-                var WebMethod = InternalWebMethodInfo.First(WebMethods, Context.Request.QueryString[InternalWebMethodInfo.QueryKey]);
+                var WebMethod = InternalWebMethodInfo.First(
+                    WebMethods, 
+                    Context.Request.QueryString[InternalWebMethodInfo.QueryKey]
+                );
                 if (WebMethod == null)
                 {
                     // let user defined handler handle it..

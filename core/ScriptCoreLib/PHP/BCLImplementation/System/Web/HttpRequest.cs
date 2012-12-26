@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
+using System.Web;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
 {
@@ -78,10 +79,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
                     var _get = Native.SuperGlobals.Get;
 
                     foreach (var item in _get.Keys)
-	                {
-                        InternalQueryString[item] = _get[item]; 
-	                }
-                    
+                    {
+                        InternalQueryString[item] = _get[item];
+                    }
+
                 }
 
                 return InternalQueryString;
@@ -89,10 +90,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
         }
         #endregion
 
-        
+
         #region Headers
         NameValueCollection InternalHeaders;
-        public NameValueCollection Headers 
+        public NameValueCollection Headers
         {
             get
             {
@@ -100,7 +101,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
                 {
                     InternalHeaders = new NameValueCollection();
 
-                    var a = Native.API.getallheaders() ;
+                    var a = Native.API.getallheaders();
                     var Values = (string[])Native.API.array_values(a);
                     var Keys = (string[])Native.API.array_keys(a);
 
@@ -108,7 +109,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
                     {
                         InternalHeaders[Keys[i]] = Values[i];
                     }
-                
+
                 }
 
                 return InternalHeaders;
@@ -116,5 +117,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
         }
         #endregion
 
+
+        public HttpCookieCollection Cookies { get; set; }
+
+        public __HttpRequest()
+        {
+            this.Cookies = new HttpCookieCollection();
+        }
     }
 }

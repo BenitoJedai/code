@@ -107,7 +107,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         ICollection<TKey> __IDictionary<TKey, TValue>.Keys
         {
-            get { throw new NotImplementedException(); }
+            get { return Keys; }
         }
 
         #endregion

@@ -10,6 +10,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
     [Script(Implements = typeof(global::System.Collections.Specialized.NameValueCollection))]
     public class __NameValueCollection : __NameObjectCollectionBase
     {
+        // http://stackoverflow.com/questions/3001108/namevaluecollection-vs-dictionarystring-string
+
         // http://www.jguru.com/faq/view.jsp?EID=430247
         //readonly global::java.util.HashMap InternalCollection = new global::java.util.HashMap();
         readonly StringDictionary InternalCollection = new StringDictionary();

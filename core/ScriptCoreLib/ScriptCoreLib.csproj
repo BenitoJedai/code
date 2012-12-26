@@ -331,7 +331,6 @@
     <Compile Include="JavaScript\WebGL\Shader.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\ArrayList.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Dictionary.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbCommand.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbConnection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbConnectionStringBuilder.cs" />
@@ -949,6 +948,7 @@
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
     <Folder Include="Java\BCLImplementation\System\" />
+    <Folder Include="PHP\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />

@@ -8,99 +8,101 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 {
-	[Script(Implements = typeof(global::System.Collections.Generic.List<>))]
-	internal class __List<T> : IList<T>, ICollection<T>, IEnumerable<T>, IList, ICollection, IEnumerable
-	{
-		public object _items = Native.API.array();
+    [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
+    internal class __List<T> : IList<T>, ICollection<T>, IEnumerable<T>, IList, ICollection, IEnumerable
+    {
+        public bool Initialized = true;
 
-		internal static class API
-		{
-			#region bool sort ( array &array [, int sort_flags] )
+        public object InternalArray = Native.API.array();
 
-			/// <summary>
-			/// This function sorts an array. Elements will be arranged from lowest to highest when this function has completed. 
-			/// </summary>
-			/// <param name="_&array">array &amp;array</param>
-			[Script(IsNative = true)]
-			public static bool sort(object _array) { return default(bool); }
+        internal static class API
+        {
+            #region bool sort ( array &array [, int sort_flags] )
 
-			#endregion
+            /// <summary>
+            /// This function sorts an array. Elements will be arranged from lowest to highest when this function has completed. 
+            /// </summary>
+            /// <param name="_&array">array &amp;array</param>
+            [Script(IsNative = true)]
+            public static bool sort(object _array) { return default(bool); }
 
-
-			#region array array_keys ( array input [, mixed search_value [, bool strict]] )
-
-			/// <summary>  
-			/// array_keys() returns the keys, numeric and string, from the input array.   
-			/// </summary>  
-			/// <param name="_input">array input</param>  
-			[Script(IsNative = true)]
-			public static object array_keys(object _input) { return default(object); }
-
-			#endregion
+            #endregion
 
 
-			#region object count
+            #region array array_keys ( array input [, mixed search_value [, bool strict]] )
 
-			/// <summary>
-			/// Returns the number of elements in var, which is typically an array, since anything else will have one element. 
-			/// </summary>
-			/// <param name="_var">mixed var</param>
-			[Script(IsNative = true)]
-			public static int count(object _var) { return default(int); }
+            /// <summary>  
+            /// array_keys() returns the keys, numeric and string, from the input array.   
+            /// </summary>  
+            /// <param name="_input">array input</param>  
+            [Script(IsNative = true)]
+            public static object array_keys(object _input) { return default(object); }
 
-			#endregion
-
-
-
-			#region int array_push
-
-			/// <summary>
-			/// array_push() treats array as a stack, and pushes the passed variables onto the end of array. The length of array increases by the number of variables pushed.
-			/// </summary>
-			/// <param name="_array">array &amp;array</param>
-			/// <param name="_mixed">mixed var </param>
-			[Script(IsNative = true)]
-			public static int array_push([ScriptParameterByRef] object _array, object _mixed) { return default(int); }
-
-			#endregion
+            #endregion
 
 
-			#region object array_pop
+            #region object count
 
-			/// <summary>
-			/// array_pop() pops and returns the last value of the array, shortening the array by one element. If array is empty (or is not an array), NULL will be returned. 
-			/// </summary>
-			/// <param name="_array">array &amp;array </param>
-			[Script(IsNative = true)]
-			public static object array_pop([ScriptParameterByRef] object _array) { return default(object); }
+            /// <summary>
+            /// Returns the number of elements in var, which is typically an array, since anything else will have one element. 
+            /// </summary>
+            /// <param name="_var">mixed var</param>
+            [Script(IsNative = true)]
+            public static int count(object _var) { return default(int); }
 
-			#endregion
+            #endregion
 
-			#region bool is_array
 
-			/// <summary>
-			/// Finds whether the given variable is an array. 
-			/// </summary>
-			/// <param name="_mixed">mixed var </param>
-			[Script(IsNative = true)]
-			public static bool is_array(object _mixed) { return default(bool); }
 
-			#endregion
+            #region int array_push
 
-			[Script(IsNative = true)]
-			public static object array_splice([ScriptParameterByRef] object _input, int _offset, int _length, object _replacement) { return default(object); }
+            /// <summary>
+            /// array_push() treats array as a stack, and pushes the passed variables onto the end of array. The length of array increases by the number of variables pushed.
+            /// </summary>
+            /// <param name="_array">array &amp;array</param>
+            /// <param name="_mixed">mixed var </param>
+            [Script(IsNative = true)]
+            public static int array_push([ScriptParameterByRef] object _array, object _mixed) { return default(int); }
 
-			[Script(IsNative = true)]
-			public static object array_slice([ScriptParameterByRef] object _array, int _offset, int _length) { return default(object); }
+            #endregion
 
-			[Script(IsNative = true)]
-			public static bool in_array(object _needle, [ScriptParameterByRef]  object _haystack, bool _strict)
-			{
-				return default(bool);
-			}
-		}
 
-		public __List()
+            #region object array_pop
+
+            /// <summary>
+            /// array_pop() pops and returns the last value of the array, shortening the array by one element. If array is empty (or is not an array), NULL will be returned. 
+            /// </summary>
+            /// <param name="_array">array &amp;array </param>
+            [Script(IsNative = true)]
+            public static object array_pop([ScriptParameterByRef] object _array) { return default(object); }
+
+            #endregion
+
+            #region bool is_array
+
+            /// <summary>
+            /// Finds whether the given variable is an array. 
+            /// </summary>
+            /// <param name="_mixed">mixed var </param>
+            [Script(IsNative = true)]
+            public static bool is_array(object _mixed) { return default(bool); }
+
+            #endregion
+
+            [Script(IsNative = true)]
+            public static object array_splice([ScriptParameterByRef] object _input, int _offset, int _length, object _replacement) { return default(object); }
+
+            [Script(IsNative = true)]
+            public static object array_slice([ScriptParameterByRef] object _array, int _offset, int _length) { return default(object); }
+
+            [Script(IsNative = true)]
+            public static bool in_array(object _needle, [ScriptParameterByRef]  object _haystack, bool _strict)
+            {
+                return default(bool);
+            }
+        }
+
+        public __List()
             : this(null)
         {
 
@@ -116,346 +118,353 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
                 this.AddRange(collection);
         }
 
-		public void ForEach(Action<T> action)
-		{
-			foreach (var e in this)
-			{
-				action(e);
-			}
-		}
+        public void ForEach(Action<T> action)
+        {
+            foreach (var e in this)
+            {
+                action(e);
+            }
+        }
 
-		public void Add(T item)
-		{
-			API.array_push(_items, item);
-		}
+        public void Add(T item)
+        {
+            API.array_push(InternalArray, item);
+        }
 
-		public void AddRange(IEnumerable<T> collection)
-		{
-			foreach (T v in collection)
-			{
-				this.Add(v);
-			}
-		}
+        public void AddRange(IEnumerable<T> collection)
+        {
+            foreach (T v in collection)
+            {
+                this.Add(v);
+            }
+        }
 
-		public void Clear()
-		{
-			API.array_splice(_items, 0, Count, null);
-		}
+        public void Clear()
+        {
+            API.array_splice(InternalArray, 0, Count, null);
+        }
 
-		public int Count
-		{
-			get { return (int)API.count(_items); }
-		}
-
-
-
-		#region IList<T> Members
-
-		public int IndexOf(T item)
-		{
-			var j = -1;
-
-			for (int i = 0; i < Count; i++)
-			{
-				if (Object.ReferenceEquals(this[i], item))
-				{
-					j = i;
-					break;
-				}
-			}
-
-			return j;
-		}
-
-		public void Insert(int index, T item)
-		{
-			API.array_splice(_items, index, 0, item);
-		}
-
-		public void RemoveAt(int index)
-		{
-			API.array_splice(_items, index, 1, null);
-		}
-
-		public T this[int index]
-		{
-			get
-			{
-				// php limitation...
-				var r = ArrayReference;
-				return r[index];
-			}
-			set
-			{
-				var r = ArrayReference;
-
-				r[index] = value;
-			}
-		}
-
-		#endregion
-
-		#region ICollection<T> Members
+        public int Count
+        {
+            get { return (int)API.count(InternalArray); }
+        }
 
 
-		public bool Contains(T item)
-		{
-			return API.in_array(item, _items, true);
-		}
 
-		public void CopyTo(T[] array, int arrayIndex)
-		{
-			throw new NotImplementedException("");
-		}
+        #region IList<T> Members
 
-		public bool IsReadOnly
-		{
-			get { throw new NotImplementedException(""); }
-		}
+        public int IndexOf(T item)
+        {
+            var j = -1;
 
-		public bool Remove(T item)
-		{
-			var i = IndexOf(item);
+            for (int i = 0; i < Count; i++)
+            {
+                //if (Object.ReferenceEquals(this[i], item))
+                if (Comparer.Default.Compare(this[i], item) == 0)
+                {
+                    j = i;
+                    break;
+                }
+            }
 
-			if (i < 0)
-				return false;
+            return j;
+        }
 
-			RemoveAt(i);
+        public void Insert(int index, T item)
+        {
+            API.array_splice(InternalArray, index, 0, item);
+        }
 
-			return true;
-		}
+        public void RemoveAt(int index)
+        {
+            API.array_splice(InternalArray, index, 1, null);
+        }
 
-		public int RemoveAll(Predicate<T> filter)
-		{
-			var c = 0;
+        public T this[int index]
+        {
+            get
+            {
+                // php limitation...
+                var r = ArrayReference;
+                return r[index];
+            }
+            set
+            {
+                var r = ArrayReference;
 
-			for (int i = Count - 1; i >= 0; i--)
-			{
-				if (filter(this[i]))
-				{
-					API.array_splice(_items, i, 1, null);
-				}
-				else
-					c++;
-			}
+                r[index] = value;
+            }
+        }
+
+        #endregion
+
+        #region ICollection<T> Members
 
 
-			return c;
-		}
+        public bool Contains(T item)
+        {
+            if (!Initialized)
+                throw new Exception("not Initialized");
 
-		#endregion
+            if (InternalArray == null)
+                throw new Exception("where are my items?");
 
-		#region IEnumerable<T> Members
+            return API.in_array(item, InternalArray, true);
+        }
 
-		public __Enumerator GetEnumerator()
-		{
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotImplementedException("");
+        }
+
+        public bool IsReadOnly
+        {
+            get { throw new NotImplementedException(""); }
+        }
+
+        public bool Remove(T item)
+        {
+            var i = IndexOf(item);
+
+            if (i < 0)
+                return false;
+
+            RemoveAt(i);
+
+            return true;
+        }
+
+        public int RemoveAll(Predicate<T> filter)
+        {
+            var c = 0;
+
+            for (int i = Count - 1; i >= 0; i--)
+            {
+                if (filter(this[i]))
+                {
+                    API.array_splice(InternalArray, i, 1, null);
+                }
+                else
+                    c++;
+            }
+
+
+            return c;
+        }
+
+        #endregion
+
+        #region IEnumerable<T> Members
+
+        public __Enumerator GetEnumerator()
+        {
             var a = this.ToArray();
-			var e = (IEnumerator<T>)(object)new __SZArrayEnumerator<T>(a);
-			
-			return new __Enumerator
-			{
-				value = e
-			};
-		}
+            var e = (IEnumerator<T>)(object)new __SZArrayEnumerator<T>(a);
 
-		#endregion
+            return new __Enumerator
+            {
+                value = e
+            };
+        }
 
-		#region IEnumerable Members
+        #endregion
 
-		global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+        #region IEnumerable Members
 
-		#endregion
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
-		private T[] ArrayReference
-		{
-			get
-			{
-				return (T[])(object)this._items;
-			}
-		}
+        #endregion
 
-		private T[] ArrayReferenceCloned
-		{
-			get
-			{
-				return (T[])(object)API.array_slice(_items, 0, Count);
-			}
-		}
+        private T[] ArrayReference
+        {
+            get
+            {
+                return (T[])(object)this.InternalArray;
+            }
+        }
 
-
-		public T[] ToArray()
-		{
-			// testme: should return a new array
-
-			return ArrayReferenceCloned;
-		}
+        private T[] ArrayReferenceCloned
+        {
+            get
+            {
+                return (T[])(object)API.array_slice(InternalArray, 0, Count);
+            }
+        }
 
 
-		[Script(Implements = typeof(global::System.Collections.Generic.List<>.Enumerator))]
-		public class __Enumerator : IEnumerator<T>, IDisposable, IEnumerator
-		{
-			internal IEnumerator<T> value;
+        public T[] ToArray()
+        {
+            // testme: should return a new array
 
-			//internal __Enumerator() : this(null) { }
-			//internal __Enumerator(__List<T> list)
-			//{
-			//    if (list == null)
-			//        return;
-
-			//    //value = InternalSequenceImplementation.AsEnumerable(list.ToArray()).GetEnumerator();
+            return ArrayReferenceCloned;
+        }
 
 
-			//}
+        [Script(Implements = typeof(global::System.Collections.Generic.List<>.Enumerator))]
+        public class __Enumerator : IEnumerator<T>, IDisposable, IEnumerator
+        {
+            internal IEnumerator<T> value;
+
+            //internal __Enumerator() : this(null) { }
+            //internal __Enumerator(__List<T> list)
+            //{
+            //    if (list == null)
+            //        return;
+
+            //    //value = InternalSequenceImplementation.AsEnumerable(list.ToArray()).GetEnumerator();
 
 
-			#region IEnumerator<T> Members
-
-			public T Current
-			{
-				get { return value.Current; }
-			}
-
-			#endregion
-
-			#region IDisposable Members
-
-			public void Dispose()
-			{
-				value.Dispose();
-			}
-
-			#endregion
-
-			#region IEnumerator Members
-
-			object IEnumerator.Current
-			{
-				get { return value.Current; }
-			}
-
-			public bool MoveNext()
-			{
-				return value.MoveNext();
-			}
-
-			public void Reset()
-			{
-				value.Reset();
-			}
-
-			#endregion
-		}
+            //}
 
 
+            #region IEnumerator<T> Members
 
-		#region IEnumerable<T> Members
+            public T Current
+            {
+                get { return value.Current; }
+            }
 
-		IEnumerator<T> IEnumerable<T>.GetEnumerator()
-		{
-			return this.GetEnumerator();
-		}
+            #endregion
 
-		#endregion
+            #region IDisposable Members
 
-		#region IList Members
+            public void Dispose()
+            {
+                value.Dispose();
+            }
 
-		int IList.Add(object value)
-		{
-			throw new NotImplementedException("");
-		}
+            #endregion
 
-		void IList.Clear()
-		{
-			throw new NotImplementedException("");
-		}
+            #region IEnumerator Members
 
-		bool IList.Contains(object value)
-		{
-			throw new NotImplementedException("");
-		}
+            object IEnumerator.Current
+            {
+                get { return value.Current; }
+            }
 
-		int IList.IndexOf(object value)
-		{
-			throw new NotImplementedException("");
-		}
+            public bool MoveNext()
+            {
+                return value.MoveNext();
+            }
 
-		void IList.Insert(int index, object value)
-		{
-			throw new NotImplementedException("");
-		}
+            public void Reset()
+            {
+                value.Reset();
+            }
 
-		bool IList.IsFixedSize
-		{
-			get { throw new NotImplementedException(""); }
-		}
-
-		bool IList.IsReadOnly
-		{
-			get { throw new NotImplementedException(""); }
-		}
-
-		void IList.Remove(object value)
-		{
-			throw new NotImplementedException("");
-		}
-
-		void IList.RemoveAt(int index)
-		{
-			throw new NotImplementedException("");
-		}
-
-		object IList.this[int index]
-		{
-			get
-			{
-				throw new NotImplementedException("");
-			}
-			set
-			{
-				throw new NotImplementedException("");
-			}
-		}
-
-		#endregion
-
-		#region ICollection Members
-
-		void ICollection.CopyTo(global::System.Array array, int index)
-		{
-			throw new NotImplementedException("");
-		}
-
-		int ICollection.Count
-		{
-			get { throw new NotImplementedException(""); }
-		}
-
-		bool ICollection.IsSynchronized
-		{
-			get { throw new NotImplementedException(""); }
-		}
-
-		object ICollection.SyncRoot
-		{
-			get { throw new NotImplementedException(""); }
-		}
-
-		#endregion
+            #endregion
+        }
 
 
-		public void Reverse()
-		{
-			var clone = this.ToArray();
 
-			for (int i = 0; i < clone.Length; i++)
-			{
-				this[clone.Length - 1 - i] = clone[i];
-			}
+        #region IEnumerable<T> Members
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IList Members
+
+        int IList.Add(object value)
+        {
+            throw new NotImplementedException("");
+        }
+
+        void IList.Clear()
+        {
+            throw new NotImplementedException("");
+        }
+
+        bool IList.Contains(object value)
+        {
+            throw new NotImplementedException("");
+        }
+
+        int IList.IndexOf(object value)
+        {
+            throw new NotImplementedException("");
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            throw new NotImplementedException("");
+        }
+
+        bool IList.IsFixedSize
+        {
+            get { throw new NotImplementedException(""); }
+        }
+
+        bool IList.IsReadOnly
+        {
+            get { throw new NotImplementedException(""); }
+        }
+
+        void IList.Remove(object value)
+        {
+            throw new NotImplementedException("");
+        }
+
+        void IList.RemoveAt(int index)
+        {
+            throw new NotImplementedException("");
+        }
+
+        object IList.this[int index]
+        {
+            get
+            {
+                throw new NotImplementedException("");
+            }
+            set
+            {
+                throw new NotImplementedException("");
+            }
+        }
+
+        #endregion
+
+        #region ICollection Members
+
+        void ICollection.CopyTo(global::System.Array array, int index)
+        {
+            throw new NotImplementedException("");
+        }
+
+        int ICollection.Count
+        {
+            get { throw new NotImplementedException(""); }
+        }
+
+        bool ICollection.IsSynchronized
+        {
+            get { throw new NotImplementedException(""); }
+        }
+
+        object ICollection.SyncRoot
+        {
+            get { throw new NotImplementedException(""); }
+        }
+
+        #endregion
 
 
-		}
-	}
+        public void Reverse()
+        {
+            var clone = this.ToArray();
+
+            for (int i = 0; i < clone.Length; i++)
+            {
+                this[clone.Length - 1 - i] = clone[i];
+            }
+
+
+        }
+    }
 }

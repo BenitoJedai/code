@@ -32,7 +32,7 @@ namespace ConsoleByCookie
         {
             try
             {
-                __ConsoleToDatabaseWriter.InternalWriteLine("CheckDatabase...");
+                //__ConsoleToDatabaseWriter.InternalWriteLine("CheckDatabase...");
 
                 var data = new SystemConsoleOut();
 
@@ -95,7 +95,7 @@ namespace ConsoleByCookie
             }
             catch (Exception ex)
             {
-                __ConsoleToDatabaseWriter.InternalWriteLine("SelectTransactionKey error " + new { ex });
+                //__ConsoleToDatabaseWriter.InternalWriteLine("SelectTransactionKey error " + new { ex });
                 //y("CheckDatabase error " + new { ex });
             }
 
@@ -206,7 +206,10 @@ namespace ConsoleByCookie
                     //Please double check the signature!
                     //type: ConsoleByCookie.ApplicationWebService offset: 0x014c  method:Void Handler(ScriptCoreLib.Ultra.WebService.WebServiceHandler)
 
-
+                    //foreach (var item in collection)
+                    //{
+                        
+                    //}
                     var cookie_session = h.Context.Request.Cookies["session"];
 
                     //no session cookie? { header_cookie = session=2006041647; xfoo=foo; random=2376781287 }
@@ -221,7 +224,7 @@ namespace ConsoleByCookie
 
                     if (cookie_session == null)
                     {
-                        __ConsoleToDatabaseWriter.InternalWriteLine("no session cookie? " + new { header_cookie });
+                        //__ConsoleToDatabaseWriter.InternalWriteLine("no session cookie? " + new { header_cookie });
                         h.Context.Response.StatusCode = 500;
                         h.CompleteRequest();
                         return;
@@ -242,7 +245,7 @@ namespace ConsoleByCookie
 
                     if (header_id != null)
                     {
-                        __ConsoleToDatabaseWriter.InternalWrite("Continue " + new { session, header_id }.ToString() + Environment.NewLine);
+                        //__ConsoleToDatabaseWriter.InternalWrite("Continue " + new { session, header_id }.ToString() + Environment.NewLine);
 
                         //id = int.Parse(XElement.Parse(header_id).Attribute("id").Value);
                         id = int.Parse(header_id);
@@ -257,7 +260,7 @@ namespace ConsoleByCookie
                                 //var xml = new XElement("e",
                                 //    new XAttribute("id", id)
                                 //);
-                                __ConsoleToDatabaseWriter.InternalWrite("Reset To " + new { session, id }.ToString() + Environment.NewLine);
+                                //__ConsoleToDatabaseWriter.InternalWrite("Reset To " + new { session, id }.ToString() + Environment.NewLine);
 
                                 h.Context.Response.Write("id: " + id + "\n\n");
                                 //h.Context.Response.Write("event: SystemConsoleOut\n");
@@ -454,7 +457,7 @@ namespace ConsoleByCookie
             var i = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
             //o.Write(new { session, id, x });
-#endif
+//#endif
 
             //Log.i("ConsoleByCookie", x);
 
@@ -462,7 +465,7 @@ namespace ConsoleByCookie
                 Console.Out.Write(x);
             else
                 o.Write(x);
-#if DEBUG
+//#if DEBUG
 
             Console.ForegroundColor = i;
 #endif

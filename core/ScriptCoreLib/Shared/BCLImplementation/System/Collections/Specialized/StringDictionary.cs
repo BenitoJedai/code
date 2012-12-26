@@ -39,7 +39,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
         {
             get
             {
-                return InternalValue[key];
+                if (this.InternalValue.ContainsKey(key))
+                    return InternalValue[key];
+
+                return null;
             }
             set
             {
