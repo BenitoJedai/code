@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Collections.Specialized;
+using System.Web;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
@@ -198,6 +199,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
         }
         #endregion
 
+        public HttpCookieCollection Cookies { get; set; }
 
+        public __HttpRequest()
+        {
+            this.Cookies = new HttpCookieCollection();
+        }
     }
 }

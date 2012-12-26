@@ -6,7 +6,7 @@ using ScriptCoreLib;
 using System.Collections;
 using System.Runtime.Serialization;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Specialized
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 {
 	[Script(Implements = typeof(global::System.Collections.Specialized.NameObjectCollectionBase))]
 	internal abstract class __NameObjectCollectionBase : ICollection, IEnumerable, ISerializable, IDeserializationCallback

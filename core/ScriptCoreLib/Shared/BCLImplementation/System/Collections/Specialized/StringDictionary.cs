@@ -59,6 +59,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
         {
             this.InternalValue.Add(key, value);
         }
+
+        public virtual void Clear()
+        {
+            this.InternalValue.Clear();
+        }
     }
 
 }

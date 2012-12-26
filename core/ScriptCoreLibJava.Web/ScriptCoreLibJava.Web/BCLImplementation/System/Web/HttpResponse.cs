@@ -120,5 +120,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
                 return new __HttpCachePolicy { };
             }
         }
+
+        public void Flush()
+        {
+            try
+            {
+                this.OutputStream.Flush();
+            }
+            catch
+            {
+                //IsClientConnected = false;
+            }
+        }
 	}
 }

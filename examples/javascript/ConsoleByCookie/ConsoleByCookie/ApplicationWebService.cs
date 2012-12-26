@@ -165,6 +165,12 @@ namespace ConsoleByCookie
                     // http://en.wikipedia.org/wiki/List_of_HTTP_header_fields
                     var header_cookie = h.Context.Request.Headers["Cookie"];
 
+                    //Implementation not found for type import :
+                    //System.Web.HttpRequest :: System.Web.HttpCookieCollection get_Cookies()
+                    //Did you forget to add the [Script] attribute?
+                    //Please double check the signature!
+                    //type: ConsoleByCookie.ApplicationWebService offset: 0x014c  method:Void Handler(ScriptCoreLib.Ultra.WebService.WebServiceHandler)
+
 
                     var cookie_session = h.Context.Request.Cookies["session"];
 
@@ -174,7 +180,7 @@ namespace ConsoleByCookie
                     if (cookie_session == null)
                         cookie_session = new HttpCookie(
                             "session",
-                            header_cookie.SkipUntilLastOrEmpty("session=").TakeUntilLastOrEmpty(";")
+                            header_cookie.SkipUntilLastOrEmpty("session=").TakeUntilOrEmpty(";")
                         );
                     #endregion
 
