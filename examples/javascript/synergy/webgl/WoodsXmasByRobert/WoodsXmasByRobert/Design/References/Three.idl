@@ -99,6 +99,7 @@ interface THREE.Object3D
 [Constructor(any geometry, any material)]
 interface THREE.Mesh 
 { 
+	attribute THREE.Vector3  rotation;
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  scale;
 
@@ -115,6 +116,10 @@ interface THREE.Mesh
 interface THREE.MorphAnimMesh 
 {
 	attribute THREE.Vector3  position;
+	attribute THREE.Vector3  rotation;
+	attribute THREE.Vector3  scale;
+	attribute long duration;
+
 	void updateAnimation(double delta);
 
 };
@@ -192,5 +197,27 @@ interface THREE.Sprite
 { 
 	attribute THREE.Vector3  position;
 	attribute double  rotation;
+
+};
+
+[Constructor()]
+interface THREE.JSONLoader 
+{ 
+	void load(any src, any handler);
+
+
+};
+
+[Constructor()]
+interface THREE.MeshFaceMaterial 
+{ 
+
+
+};
+
+[Constructor(any e)]
+interface THREE.MeshBasicMaterial 
+{ 
+
 
 };

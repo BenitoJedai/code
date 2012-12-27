@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WoodsXmasByRobert.Design;
+using WoodsXmasByRobert.Design.References;
 using WoodsXmasByRobert.HTML.Pages;
 
 namespace WoodsXmasByRobert
@@ -119,11 +120,12 @@ namespace WoodsXmasByRobert
                     #endregion
 
 
+                    var scene = (THREE_Scene)(object)window.scene;
                     var composer = (THREE_EffectComposer)(object)window.composer;
 
                     var particles = (THREE_ParticleSystem)(object)window.particles;
 
-          
+
 
                     var bgSprite = (THREE_Sprite)(object)window.bgSprite;
                     var loadingSprite = (THREE_Sprite)(object)window.loadingSprite;
@@ -138,6 +140,79 @@ namespace WoodsXmasByRobert
                     var groundMesh2 = (THREE_Mesh)(object)window.groundMesh2;
 
                     var speedEffector_value = (int)new IFunction("return window.speedEffector.value;").apply(Native.Window);
+
+                    #region sled
+                    new THREE_JSONLoader().load(
+                        new WoodsXmasByRobert.Design.models.sleigh().Content.src,
+                        IFunction.OfDelegate(
+                            new Action<object>(
+                                geometry =>
+                                {
+                                    Console.WriteLine("got sled!");
+
+                                    var sled = new THREE_Mesh(
+                                        geometry,
+                                        new THREE_MeshFaceMaterial()
+                                    );
+
+                                    var scale = 4;
+                                    sled.scale.set(scale, scale, scale);
+
+                                    sled.rotation.y = -Math.PI / 2;
+                                    sled.position.y = -290;
+                                    sled.position.z = -80;
+
+                                    scene.add(sled);
+
+                                    window.sled = sled;
+
+                                    new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                                }
+                            )
+                        )
+                    );
+                    #endregion
+
+                    #region bird
+                    new THREE_JSONLoader().load(
+                        new WoodsXmasByRobert.Design.models.eagle().Content.src,
+                        IFunction.OfDelegate(
+                            new Action<object>(
+                                geometry =>
+                                {
+                                    Console.WriteLine("got bird!");
+
+                                    var bird = new THREE_MorphAnimMesh(
+                                        geometry,
+                                        new THREE_MeshBasicMaterial(
+                                            new THREE_MeshBasicMaterial_args
+                                            {
+                                                color = 0x000000,
+                                                morphTargets = true,
+                                                fog = false
+                                            }
+                                         )
+                                    );
+
+                                    bird.duration = 1000;
+
+                                    bird.scale.set(4, 4, 4);
+                                    bird.rotation.y = Math.PI;
+                                    bird.position.set(0, 3000, -1500);
+
+                                    scene.add(bird);
+
+
+                                    window.bird = bird;
+
+                                    new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                                }
+                            )
+                        )
+                    );
+                    #endregion
+
+
 
                     var random = new Random();
 

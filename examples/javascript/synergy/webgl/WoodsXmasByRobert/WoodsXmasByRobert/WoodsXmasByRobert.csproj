@@ -121,6 +121,7 @@
     <Content Include="Application.txt" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Design\References\Three.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />

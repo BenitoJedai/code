@@ -165,11 +165,7 @@ function init() {
     loader.load("models/weeds01.js", flowerLoaded);
     loader.load("models/glowbulb.js", flower2Loaded);
 
-    // Sleigh
-    loader.load("models/sleigh.js", sledLoaded);
 
-    // Bird
-    loader.load("models/eagle.js", birdLoaded);
 
     // Horse
     loader.load("models/horse.js", horseLoaded);
@@ -621,38 +617,7 @@ function flowerLoaded(geometry, halfScale) {
 
 }
 
-function sledLoaded(geometry) {
 
-    sled = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial());
-    var scale = 4;
-    sled.scale.set(scale, scale, scale);
-
-    sled.rotation.y = -Math.PI / 2;
-    sled.position.y = -290;
-    sled.position.z = -80;
-
-    scene.add(sled);
-
-    checkLoadingDone();
-
-}
-
-
-function birdLoaded(geometry) {
-
-    bird = new THREE.MorphAnimMesh(geometry, new THREE.MeshBasicMaterial({ color: 0x000000, morphTargets: true, fog: false }));
-
-    bird.duration = 1000;
-
-    bird.scale.set(4, 4, 4);
-    bird.rotation.y = Math.PI;
-    bird.position.set(0, 3000, -1500);
-
-    scene.add(bird);
-
-    checkLoadingDone();
-
-}
 
 function horseLoaded(geometry) {
 
