@@ -20,3 +20,6 @@ Prepare models.
 900 lines of AppCode. 
 10:07
 
+got rendering ported
+700 lines to go
+11:29

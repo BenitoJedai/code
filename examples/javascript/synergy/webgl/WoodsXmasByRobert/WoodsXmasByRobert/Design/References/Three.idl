@@ -4,7 +4,7 @@
 interface THREE
 { 
 	static attribute THREE.ColorUtilsType ColorUtils; 
-	
+
 
 };
 
@@ -12,14 +12,19 @@ interface THREE
 interface THREE.ColorUtilsType
 { 
 	void adjustHSV(long color, long x, long y, double z);
-	
+
 };
 
 [Constructor(double x, double ratio, double a, double fov)]
 interface THREE.PerspectiveCamera 
 { 
 	attribute double aspect; 
+
 	void updateProjectionMatrix();
+	void lookAt(THREE.Vector3 target);
+
+	attribute THREE.Vector3  position;
+	attribute THREE.Vector3  up;
 
 };
 
@@ -35,7 +40,13 @@ interface THREE.Scene
 interface THREE.Fog 
 { 
 	attribute long        color;
-	
+
+};
+
+[Constructor(long x, double y, long z)]
+interface THREE.PointLight 
+{ 
+	attribute THREE.Vector3  position;
 };
 
 [Constructor(long x)]
@@ -89,12 +100,22 @@ interface THREE.Object3D
 interface THREE.Mesh 
 { 
 	attribute THREE.Vector3  position;
+	attribute THREE.Vector3  scale;
+
 	attribute any quaternion;
 
 	attribute boolean        castShadow;
 	attribute boolean        receiveShadow;
 	attribute boolean        useQuaternion;
 
+
+};
+
+[Constructor(any geometry, any material)]
+interface THREE.MorphAnimMesh 
+{
+	attribute THREE.Vector3  position;
+	void updateAnimation(double delta);
 
 };
 
@@ -109,6 +130,16 @@ interface THREE.WebGLRenderer
 	void setClearColor(long color, long h);
 	void setSize(long w, long h);
 	void render(any scene, any camera);
+
+	void clear();
+};
+
+[Constructor(THREE.WebGLRenderer r)]
+interface THREE.EffectComposer 
+{ 
+	void addPass(any e);
+	void render(double e);
+
 };
 
 [Constructor(double radius)]
@@ -147,4 +178,19 @@ interface THREE.CubeGeometry
 interface THREE.Ray 
 { 
 	attribute THREE.Vector3  direction;
+};
+
+[Constructor(any geometry, any material)]
+interface THREE.ParticleSystem 
+{ 
+	attribute THREE.Vector3  position;
+
+};
+
+[Constructor(any a)]
+interface THREE.Sprite 
+{ 
+	attribute THREE.Vector3  position;
+	attribute double  rotation;
+
 };
