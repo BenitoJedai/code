@@ -17,3 +17,6 @@ Prepare textures.
 Prepare audio.
 Prepare models.
 
+900 lines of AppCode. 
+10:07
+
