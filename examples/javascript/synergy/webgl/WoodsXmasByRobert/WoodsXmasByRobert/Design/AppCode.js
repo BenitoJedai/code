@@ -48,7 +48,6 @@ var mouseYpercent = 0;
 var speedEffector = { value: 1 };
 
 var pointLight;
-var snd;
 var pauseTime = 39.5;
 var unPauseTime = 57;
 var havePaused = false;
@@ -61,22 +60,7 @@ var subtitleIndex = 0;
 var subtitleVisible = false;
 var starArray = [];
 
-if (Audio != undefined) {
-    var a = new Audio();
-    var ext = "mp3";
-    if (!a.canPlayType("audio/mp3")) ext = "ogg";
 
-    snd = new Audio("sound/unfiltered_mix." + ext);
-    snd.volume = 0.9;
-
-    snd.addEventListener("loadeddata", function () {
-        checkLoadingDone();
-    }, false);
-}
-
-
-
-init();
 
 
 function init() {
@@ -288,6 +272,9 @@ function init() {
     }
 
 }
+
+
+init();
 
 function spawnFlare(id, delay) {
 
