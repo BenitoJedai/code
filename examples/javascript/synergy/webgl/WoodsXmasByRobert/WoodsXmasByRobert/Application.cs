@@ -212,9 +212,100 @@ namespace WoodsXmasByRobert
                     );
                     #endregion
 
-
-
                     var random = new Random();
+
+                    #region rock
+                    new THREE_JSONLoader().load(
+                        new WoodsXmasByRobert.Design.models.rock().Content.src,
+                        IFunction.OfDelegate(
+                            new Action<object>(
+                                geometry =>
+                                {
+                                    Console.WriteLine("got rock!");
+
+                                    var numOfRocks = 25;
+                                    for (var i = 0; i < numOfRocks; ++i)
+                                    {
+
+                                        var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial(new THREE_MeshBasicMaterial_args { color = 0x444444 }));
+
+                                        var scale = 1 + (random.NextDouble() * 0.5);
+
+                                        mesh.scale.set(scale, scale, scale);
+                                        mesh.rotation.set(0, random.NextDouble() * Math.PI, 0);
+                                        mesh.position.set((random.NextDouble() * 4000) - 2000, -400, (random.NextDouble() * 6000) - 6000);
+
+                                        if (mesh.position.x < 45)
+                                            if (mesh.position.x > 0)
+                                            {
+                                                mesh.position.x += 450;
+                                            }
+
+                                        if (mesh.position.x > -450)
+                                            if (mesh.position.x < 0)
+                                            {
+                                                mesh.position.x -= 450;
+                                            }
+
+                                        scene.add(mesh);
+
+                                        rockArray.push(mesh);
+                                    }
+
+
+                                    new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                                }
+                            )
+                        )
+                    );
+                    #endregion
+
+                    #region horse
+                    new THREE_JSONLoader().load(
+                        new WoodsXmasByRobert.Design.models.horse().Content.src,
+                        IFunction.OfDelegate(
+                            new Action<object>(
+                                geometry =>
+                                {
+                                    Console.WriteLine("got horse!");
+
+                                    var numOfRocks = 25;
+                                    for (var i = 0; i < numOfRocks; ++i)
+                                    {
+
+                                        var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial(new THREE_MeshBasicMaterial_args { color = 0x444444 }));
+
+                                        var scale = 1 + (random.NextDouble() * 0.5);
+
+                                        mesh.scale.set(scale, scale, scale);
+                                        mesh.rotation.set(0, random.NextDouble() * Math.PI, 0);
+                                        mesh.position.set((random.NextDouble() * 4000) - 2000, -400, (random.NextDouble() * 6000) - 6000);
+
+                                        if (mesh.position.x < 45)
+                                            if (mesh.position.x > 0)
+                                            {
+                                                mesh.position.x += 450;
+                                            }
+
+                                        if (mesh.position.x > -450)
+                                            if (mesh.position.x < 0)
+                                            {
+                                                mesh.position.x -= 450;
+                                            }
+
+                                        scene.add(mesh);
+
+                                        rockArray.push(mesh);
+                                    }
+
+
+                                    new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                                }
+                            )
+                        )
+                    );
+                    #endregion
+
 
                     #region run
                     Action<double> run =
