@@ -16,7 +16,7 @@ var time;
 var oldTime;
 
 var treeArray = [];
-var numOfRocks = 25;
+
 var rockArray = [];
 var numOfFlowers = 20;
 var flowerArray = [];
@@ -159,7 +159,7 @@ function init() {
     loader.load("models/treeDead.js", treeLoaded);
 
     // Rocks
-    loader.load("models/rock.js", rockLoaded);
+    //loader.load("models/rock.js", rockLoaded);
 
     // Flowers
     loader.load("models/weeds01.js", flowerLoaded);
