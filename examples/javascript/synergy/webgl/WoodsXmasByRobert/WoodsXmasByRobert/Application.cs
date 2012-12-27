@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using WoodsXmasByRobert.Design;
 using WoodsXmasByRobert.Design.References;
+using WoodsXmasByRobert.HTML.Images.FromAssets;
 using WoodsXmasByRobert.HTML.Pages;
 
 namespace WoodsXmasByRobert
@@ -59,6 +60,38 @@ namespace WoodsXmasByRobert
 
             window.snd = snd;
 
+            //var camera = (THREE_PerspectiveCamera)(object)window.camera;
+            var camera = new THREE_PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 1, 100000);
+
+            camera.position.z = 0;
+            camera.position.x = 0;
+            camera.position.y = 0;
+
+            window.camera = camera;
+
+            var cameraTarget = new THREE_Vector3();
+            cameraTarget.z = -400;
+            camera.lookAt(cameraTarget);
+
+            window.cameraTarget = cameraTarget;
+
+            var loadingImage = THREE.ImageUtils.loadTexture(new loading().src);
+            var map = THREE.ImageUtils.loadTexture(new snowflake().src);
+            var starImage = THREE.ImageUtils.loadTexture(new flare().src);
+
+            window.loadingImage = loadingImage;
+            window.map = map;
+            window.starImage = starImage;
+
+            dynamic style = Native.Document.body.style;
+
+            style.cursor = "url(" + new pointer().src + "),pointer";
+
+            //container.style.cursor = 'url(img/pointer.png),pointer';
+
+
+
+
             new AppCode().Content.AttachToDocument().onload +=
                 delegate
                 {
@@ -73,34 +106,90 @@ namespace WoodsXmasByRobert
                         )
                     );
 
-                    var webglRenderer = (THREE_WebGLRenderer)(object)window.webglRenderer;
-
 
                     var scene = (THREE_Scene)(object)window.scene;
-                    var particles = (THREE_ParticleSystem)(object)window.particles;
-                    var bgSprite = (THREE_Sprite)(object)window.bgSprite;
-                    var loadingSprite = (THREE_Sprite)(object)window.loadingSprite;
-                    var pointLight = (THREE_PointLight)(object)window.pointLight;
-                    var cameraTarget = (THREE_Vector3)(object)window.cameraTarget;
-                    var treeArray = (IArray<THREE_Mesh>)(object)window.treeArray;
-                    var rockArray = (IArray<THREE_Mesh>)(object)window.rockArray;
-                    var flowerArray = (IArray<THREE_Mesh>)(object)window.flowerArray;
-                    var groundMesh1 = (THREE_Mesh)(object)window.groundMesh1;
-                    var groundMesh2 = (THREE_Mesh)(object)window.groundMesh2;
 
-                    var camera = (THREE_PerspectiveCamera)(object)window.camera;
-
-                    var renderModel = (object)window.renderModel;
-                    var effectFilm = (object)window.effectFilm;
-                    var effectVignette = (object)window.effectVignette;
-                    var effectCopy = (object)window.effectCopy;
+                    scene.add(camera);
 
 
-                    var composer = new THREE_EffectComposer(webglRenderer);
-                    composer.addPass(renderModel);
-                    composer.addPass(effectFilm);
-                    composer.addPass(effectVignette);
-                    composer.addPass(effectCopy);
+                    #region Cloud
+                    {
+                        object args = new object().With(
+                            (dynamic a) =>
+                            {
+                                a.map = THREE.ImageUtils.loadTexture(new cloud().src);
+                                a.transparent = true;
+                                a.opacity = 0.17;
+                                a.fog = false;
+                            }
+                        );
+
+                        var cloudPlane = new THREE_PlaneGeometry(12500, 1880);
+                        var cloud = new THREE_Mesh(cloudPlane, new THREE_MeshBasicMaterial(args));
+                        cloud.position.set(300, 5350, -4450);
+                        cloud.lookAt(camera.position);
+                        scene.add(cloud);
+                        window.cloud = cloud;
+                    }
+                    #endregion
+
+                    #region Sky
+                    {
+                        object args = new object().With(
+                            (dynamic a) =>
+                            {
+                                a.map = THREE.ImageUtils.loadTexture(new sky().src);
+                                a.opacity = 0.57;
+                                a.fog = false;
+                            }
+                        );
+
+                        var skyPlane = new THREE_PlaneGeometry(9000, 6000);
+                        var sky = new THREE_Mesh(skyPlane, new THREE_MeshBasicMaterial(args));
+
+                        sky.scale.set(4, 2.5, 2.5);
+                        sky.position.set(0, 7500, -6000);
+                        sky.lookAt(camera.position);
+                        scene.add(sky);
+                        window.sky = sky;
+                    }
+                    #endregion
+
+                    #region moon
+                    {
+                        dynamic moon_material_args = new object();
+
+                        moon_material_args.map = THREE.ImageUtils.loadTexture(new moon().src);
+                        moon_material_args.transparent = true;
+                        moon_material_args.opacity = 0.3;
+                        moon_material_args.fog = false;
+                        moon_material_args.blending = THREE.AdditiveBlending;
+
+                        var moonPlane = new THREE_PlaneGeometry(1000, 1000);
+                        var moon = new THREE_Mesh(moonPlane,
+                            new THREE_MeshBasicMaterial(
+                                (object)moon_material_args
+                            )
+                        );
+
+
+
+
+                        moon.position.set(300, 4300, -4600);
+                        moon.lookAt(camera.position);
+                        scene.add(moon);
+                        window.moon = moon;
+                    }
+                    #endregion
+
+                    var webglRenderer = new THREE_WebGLRenderer(
+                        new THREE_WebGLRenderer_args { clearColor = 0x000000, clearAlpha = 1.0 }
+                    );
+
+                    webglRenderer.setSize(Native.Window.Width, Native.Window.Height);
+                    webglRenderer.autoClear = false;
+                    webglRenderer.domElement.AttachToDocument();
+
 
 
                     #region onresize
@@ -117,6 +206,89 @@ namespace WoodsXmasByRobert
                             camera.updateProjectionMatrix();
                         };
                     #endregion
+
+                    #region subtitleArray
+                    var subtitleArray = (IArray<THREE_Mesh>)(object)window.subtitleArray;
+
+                    var textPlane = new THREE_PlaneGeometry(512, 80);
+
+                    new SubtitlesImages().Images.WithEach(
+                        i =>
+                        {
+
+                            object args = new object().With(
+                              (dynamic a) =>
+                              {
+                                  a.map = THREE.ImageUtils.loadTexture(i.src);
+                                  a.transparent = true;
+                                  a.depthTest = false;
+                              }
+                          );
+
+
+                            var sub = new THREE_Mesh(textPlane, new THREE_MeshBasicMaterial(args));
+                            sub.position.z = -800;
+                            sub.position.y = -550;
+                            sub.visible = false;
+                            camera.add(sub);
+                            subtitleArray.push(sub);
+                        }
+                     );
+
+                    {
+                        var endPlane = new THREE_PlaneGeometry(500, 100);
+
+                        object args = new object().With(
+                            (dynamic a) =>
+                            {
+                                a.map = THREE.ImageUtils.loadTexture(new xmas().src);
+                                a.transparent = true;
+                                a.opacity = 1.0;
+                                a.depthTest = false;
+                            }
+                        );
+
+
+                        var end = new THREE_Mesh(endPlane, new THREE_MeshBasicMaterial(args));
+                        end.position.z = -400;
+                        end.position.y = 100;
+                        end.visible = false;
+                        camera.add(end);
+                        subtitleArray.push(end);
+
+                        window.end = end;
+                    }
+
+
+                    new IFunction("window.setupSubtitles();").apply(Native.Window);
+                    #endregion
+
+                    var particles = (THREE_ParticleSystem)(object)window.particles;
+                    var bgSprite = (THREE_Sprite)(object)window.bgSprite;
+                    var loadingSprite = (THREE_Sprite)(object)window.loadingSprite;
+                    var pointLight = (THREE_PointLight)(object)window.pointLight;
+                    var treeArray = (IArray<THREE_Mesh>)(object)window.treeArray;
+                    var rockArray = (IArray<THREE_Mesh>)(object)window.rockArray;
+                    var flowerArray = (IArray<THREE_Mesh>)(object)window.flowerArray;
+
+
+                    var groundMesh1 = (THREE_Mesh)(object)window.groundMesh1;
+                    var groundMesh2 = (THREE_Mesh)(object)window.groundMesh2;
+
+
+                    var renderModel = (object)window.renderModel;
+                    var effectFilm = (object)window.effectFilm;
+                    var effectVignette = (object)window.effectVignette;
+                    var effectCopy = (object)window.effectCopy;
+
+
+                    var composer = new THREE_EffectComposer(webglRenderer);
+                    composer.addPass(renderModel);
+                    composer.addPass(effectFilm);
+                    composer.addPass(effectVignette);
+                    composer.addPass(effectCopy);
+
+
 
 
 
@@ -257,16 +429,17 @@ namespace WoodsXmasByRobert
                         {
                             Console.WriteLine("got bird!");
 
+                            dynamic args = new object();
+
+                            args.color = 0x000000;
+                            args.morphTargets = true;
+                            args.fog = false;
+
                             var bird = new THREE_MorphAnimMesh(
                                 geometry,
                                 new THREE_MeshBasicMaterial(
-                                    new THREE_MeshBasicMaterial_args
-                                    {
-                                        color = 0x000000,
-                                        morphTargets = true,
-                                        fog = false
-                                    }
-                                    )
+                                    (object)args
+                                )
                             );
 
                             bird.duration = 1000;
@@ -296,8 +469,11 @@ namespace WoodsXmasByRobert
                             var numOfRocks = 25;
                             for (var i = 0; i < numOfRocks; ++i)
                             {
+                                dynamic args = new object();
 
-                                var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial(new THREE_MeshBasicMaterial_args { color = 0x444444 }));
+                                args.color = 0x444444;
+
+                                var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial((object)args));
 
                                 var scale = 1 + (random.NextDouble() * 0.5);
 
@@ -335,13 +511,14 @@ namespace WoodsXmasByRobert
                         {
                             Console.WriteLine("got horse!");
 
+                            dynamic horse_material_args = new object();
+
+                            horse_material_args.color = 0x090601;
+                            horse_material_args.morphTargets = true;
+
                             var horse = new THREE_MorphAnimMesh(geometry,
                                 new THREE_MeshLambertMaterial(
-                                    new THREE_MeshBasicMaterial_args
-                                    {
-                                        color = 0x090601,
-                                        morphTargets = true
-                                    }
+                                    (object)horse_material_args
                                 )
                             );
 
@@ -375,8 +552,13 @@ namespace WoodsXmasByRobert
 
                             }
 
+                            dynamic material_args = new object();
+
+                            material_args.color = 0x090601;
+                            material_args.side = THREE.DoubleSide;
+
                             var material = new THREE_MeshBasicMaterial(
-                                new THREE_MeshBasicMaterial_args { color = 0x090601, side = THREE.DoubleSide }
+                                (object)material_args
                             );
 
                             var leftHandle = new THREE_Mesh(plane, material);
@@ -413,11 +595,19 @@ namespace WoodsXmasByRobert
 
                         var half = Math.Floor(numOfFlowers / 2.0);
 
+                        dynamic args = new object();
+
+                        args.color = 0x444444;
+
+
                         for (var i = 0; i < half; ++i)
                         {
+                            var mesh = new THREE_Mesh(geometry,
+                                new THREE_MeshLambertMaterial(
+                                    (object)args
+                                )
+                            );
 
-                            var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial(
-                            new THREE_MeshBasicMaterial_args { color = 0x444444 }));
                             var scale = 1 + (random.NextDouble() * 1);
                             if (halfScale)
                             {
@@ -709,6 +899,13 @@ namespace WoodsXmasByRobert
                 {
                     e.preventDefault();
                 };
+
+            //Native.Document.onmousedown +=
+            //    e =>
+            //    {
+            //        if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+            //            Native.Document.body.requestPointerLock();
+            //    };
         }
 
     }

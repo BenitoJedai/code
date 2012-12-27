@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FA825F4A-F9F2-40EB-A63F-C54E9B34FC7D}</ProjectGuid>
+    <ProjectGuid>{88FE6F22-3D91-4CCC-8BD0-E8C53C31ABEE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WoodsXmasByRobert</RootNamespace>
-    <AssemblyName>WoodsXmasByRobert</AssemblyName>
+    <RootNamespace>PlasmaFractalByJustin</RootNamespace>
+    <AssemblyName>PlasmaFractalByJustin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WoodsXmasByRobert.Program</StartupObject>
+    <StartupObject>PlasmaFractalByJustin.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,63 +113,22 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WoodsXmasByRobert.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WoodsXmasByRobert.AssetsLibrary.dll</HintPath>
+    <Reference Include="PlasmaFractalByJustin.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\PlasmaFractalByJustin.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Application.txt" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Design\References\Three.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationApplet.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\AppCode.js" />
-    <Content Include="Textures\cloud.png" />
-    <Content Include="Textures\flare.jpg" />
-    <Content Include="Textures\loading.png" />
-    <Content Include="Textures\moon.png" />
-    <Content Include="Textures\pointer.png" />
-    <Content Include="Textures\sky.jpg" />
-    <Content Include="Textures\snowflake.png" />
-    <Content Include="Textures\Subtitles\txt0.png" />
-    <Content Include="Textures\Subtitles\txt1.png" />
-    <Content Include="Textures\Subtitles\txt2.png" />
-    <Content Include="Textures\Subtitles\txt3.png" />
-    <Content Include="Textures\Subtitles\txt4.png" />
-    <Content Include="Textures\Subtitles\txt5.png" />
-    <Content Include="Textures\Subtitles\txt6.png" />
-    <Content Include="Textures\Subtitles\txt7.png" />
-    <Content Include="Textures\xmas.png" />
-    <Content Include="Design\models\eagle.js" />
-    <Content Include="Design\models\glowbulb.js" />
-    <Content Include="Design\models\horse.js" />
-    <Content Include="Design\models\rock.js" />
-    <Content Include="Design\models\sleigh.js" />
-    <Content Include="Design\models\treeDead.js" />
-    <Content Include="Design\models\treeEvergreenHigh.js" />
-    <Content Include="Design\models\weeds01.js" />
-    <Content Include="Design\References\!References.htm" />
-    <Content Include="Design\js\shaders\CopyShader.js" />
-    <Content Include="Design\js\postprocessing\EffectComposer.js" />
-    <Content Include="Design\js\postprocessing\FilmPass.js" />
-    <Content Include="Design\js\shaders\FilmShader.js" />
-    <Content Include="Design\js\postprocessing\MaskPass.js" />
-    <Content Include="Design\js\postprocessing\RenderPass.js" />
-    <Content Include="Design\js\postprocessing\ShaderPass.js" />
-    <Content Include="Design\References\Three.idl" />
-    <Content Include="Design\References\Three.js" />
-    <Content Include="Audio\unfiltered_mix.mp3" />
-    <Content Include="Design\Tween.js" />
-    <Content Include="Design\js\shaders\VignetteShader.js" />
-    <None Include="Shaders\particles.frag" />
-    <None Include="Shaders\particles.vert" />
+    <Content Include="opensource\PlasmaFractal.java" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

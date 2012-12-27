@@ -4,9 +4,19 @@
 interface THREE
 { 
 	static attribute THREE.ColorUtilsType ColorUtils; 
+	static attribute THREE.ImageUtilsType ImageUtils; 
+
 	static attribute long DoubleSide; 
+	static attribute long AdditiveBlending; 
 
 
+};
+
+
+// this is an anonymous type actually
+interface THREE.ImageUtilsType
+{ 
+	any loadTexture(any src);
 };
 
 // this is an anonymous type actually
@@ -23,6 +33,7 @@ interface THREE.PerspectiveCamera
 
 	void updateProjectionMatrix();
 	void lookAt(THREE.Vector3 target);
+	void add(any e);
 
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  up;
@@ -71,7 +82,8 @@ interface THREE.SpotLight
 	attribute long        shadowMapHeight;
 };
 
-[Constructor(long x, long y, long z, long q)]
+[Constructor(long x, long y), 
+	Constructor(long x, long y, long z, long q)]
 interface THREE.PlaneGeometry 
 { 
 	attribute sequence<THREE.Vector3>        vertices;
@@ -107,12 +119,13 @@ interface THREE.Mesh
 	attribute THREE.Vector3  scale;
 
 	attribute any quaternion;
+	attribute boolean visible;
 
 	attribute boolean        castShadow;
 	attribute boolean        receiveShadow;
 	attribute boolean        useQuaternion;
 
-
+	void lookAt(THREE.Vector3 target);
 };
 
 [Constructor(any geometry, any material)]
@@ -127,11 +140,12 @@ interface THREE.MorphAnimMesh
 
 };
 
-[Constructor()]
+[Constructor(any args)]
 interface THREE.WebGLRenderer 
 { 
 	attribute boolean        shadowMapEnabled;
 	attribute boolean        shadowMapSoft;
+	attribute boolean        autoClear;
 
 	attribute Element domElement;
 
