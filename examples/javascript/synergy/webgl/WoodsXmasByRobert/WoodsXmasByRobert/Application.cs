@@ -28,7 +28,7 @@ namespace WoodsXmasByRobert
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public Application(IApp page = null)
         {
             //<!-- Snow flakes -->
 
