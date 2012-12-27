@@ -1,8 +1,7 @@
 var container;
 
-var camera;
+//var camera;
 var scene;
-var webglRenderer;
 
 var has_gl = 0;
 
@@ -26,7 +25,7 @@ var tree1Geo;
 var tree2Geo;
 
 var groundMesh1, groundMesh2;
-var cameraTarget;
+//var cameraTarget;
 var particles;
 var uniforms;
 var attributes;
@@ -60,25 +59,11 @@ var subtitleVisible = false;
 var starArray = [];
 
 
-
-
-    container = document.createElement('div');
-    document.body.appendChild(container);
-
     scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x000000, 0.0004);
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100000);
-    camera.position.z = 0;
-    camera.position.x = 0;
-    camera.position.y = 0;
 
-    cameraTarget = new THREE.Vector3();
-    cameraTarget.z = -400;
-    camera.lookAt(cameraTarget);
-    scene.add(camera);
 
-    setupSubtitles();
 
     // Lights
     var ambient = new THREE.AmbientLight(0x000000);
@@ -97,7 +82,7 @@ var starArray = [];
     bgSprite.scale.set(1000, 1000);
     scene.add(bgSprite);
 
-    var loadingImage = THREE.ImageUtils.loadTexture("img/loading.png");
+   
 
     loadingSprite = new THREE.Sprite({ map: loadingImage, useScreenCoordinates: true });
     loadingSprite.position.set(window.innerWidth >> 1, window.innerHeight >> 1, 1);
@@ -135,27 +120,6 @@ var starArray = [];
     scene.add(groundMesh2);
 
 
-    // Moon
-    var moonPlane = new THREE.PlaneGeometry(1000, 1000);
-    moon = new THREE.Mesh(moonPlane, new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("img/moon.png"), transparent: true, opacity: 0.3, fog: false, blending: THREE.AdditiveBlending }));
-    moon.position.set(300, 4300, -4600);
-    moon.lookAt(camera.position);
-    scene.add(moon);
-
-    // Cloud
-    var cloudPlane = new THREE.PlaneGeometry(12500, 1880);
-    cloud = new THREE.Mesh(cloudPlane, new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("img/cloud.png"), transparent: true, opacity: 0.17, fog: false }));
-    cloud.position.set(300, 5350, -4450);
-    cloud.lookAt(camera.position);
-    scene.add(cloud);
-
-    // Sky
-    var skyPlane = new THREE.PlaneGeometry(9000, 6000);
-    sky = new THREE.Mesh(skyPlane, new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("img/sky.jpg"), opacity: 0.57, fog: false }));
-    sky.scale.set(4, 2.5, 2.5);
-    sky.position.set(0, 7500, -6000);
-    sky.lookAt(camera.position);
-    scene.add(sky);
 
     // Flares
     var flarePlane = new THREE.PlaneGeometry(96, 96);
@@ -168,7 +132,7 @@ var starArray = [];
     };
 
     // Snowflakes - Particles
-    var map = THREE.ImageUtils.loadTexture("img/snowflake.png");
+  
 
     attributes = {
 
@@ -232,13 +196,7 @@ var starArray = [];
     scene.add(particles);
 
 
-        webglRenderer = new THREE.WebGLRenderer({ clearColor: 0x000000, clearAlpha: 1.0 });
-        webglRenderer.setSize(window.innerWidth, window.innerHeight);
-        webglRenderer.autoClear = false;
-        container.appendChild(webglRenderer.domElement);
-        has_gl = 1;
-
-        // THREEx.WindowResize(webglRenderer, camera);
+ 
 
         // postprocessing
         var renderModel = new THREE.RenderPass(scene, camera);
@@ -252,7 +210,8 @@ var starArray = [];
         var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
         effectCopy.renderToScreen = true;
 
-   
+        //setupSubtitles();
+
 
 
 function spawnFlare(id, delay) {
@@ -284,27 +243,9 @@ function spawnFlare(id, delay) {
 
 function setupSubtitles() {
 
-    var textPlane = new THREE.PlaneGeometry(512, 80);
-    for (i = 0; i < 8; i++) {
-        var sub = new THREE.Mesh(textPlane, new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("img/txt" + i + ".png"), transparent: true, depthTest: false }));
-        sub.position.z = -800;
-        sub.position.y = -550;
-        sub.visible = false;
-        camera.add(sub);
-        subtitleArray.push(sub);
-    };
-
-    var endPlane = new THREE.PlaneGeometry(500, 100);
-
-    var end = new THREE.Mesh(endPlane, new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("img/xmas.png"), transparent: true, opacity: 1.0, depthTest: false }));
-    end.position.z = -400;
-    end.position.y = 100;
-    end.visible = false;
-    camera.add(end);
-    subtitleArray.push(end);
+   
 
     // stars
-    var starImage = THREE.ImageUtils.loadTexture("img/flare.jpg");
 
     for (i = 0; i < 10; i++) {
 
@@ -451,7 +392,6 @@ function checkLoadingDone() {
         .easing(TWEEN.Easing.Linear.EaseNone)
         .onComplete(function () {
             snd.play();
-            container.style.cursor = 'url(img/pointer.png),pointer';
         }
         );
     tempTween.start();

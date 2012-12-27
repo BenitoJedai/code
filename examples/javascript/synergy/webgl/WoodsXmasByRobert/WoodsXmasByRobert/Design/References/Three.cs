@@ -6,12 +6,12 @@ using System.Text;
 namespace WoodsXmasByRobert.Design.References
 {
     // jsc shall support idl dictionary
-    sealed class THREE_MeshBasicMaterial_args
+
+
+    sealed class THREE_WebGLRenderer_args
     {
-        public int color;
-        public bool morphTargets;
-        public bool fog;
-        public long side;
+        public int clearColor;
+        public double clearAlpha;
 
     }
 }
