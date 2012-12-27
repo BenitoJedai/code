@@ -34,7 +34,9 @@ namespace WoodsXmasByRobert
             new IHTMLScript { type = "x-shader/x-vertex", id = "vertexshader", innerText = new Shaders.particlesVertexShader().ToString() }.AttachToDocument();
             new IHTMLScript { type = "x-shader/x-fragment", id = "fragmentshader", innerText = new Shaders.particlesFragmentShader().ToString() }.AttachToDocument();
 
+            var w = Native.Window;
 
+            dynamic window = w;
 
             #region hint such that our assets stay around
 
@@ -53,13 +55,23 @@ namespace WoodsXmasByRobert
 
             #endregion
 
+            var snd = new HTML.Audio.FromAssets.unfiltered_mix { volume = 0.9 };
+
+            window.snd = snd;
 
             new AppCode().Content.AttachToDocument().onload +=
                 delegate
                 {
-                    var w = Native.Window;
-
-                    dynamic window = w;
+                    // ScriptCoreLib should define this event!
+                    snd.addEventListener(
+                        "loadeddata",
+                        new Action(
+                            delegate
+                            {
+                                new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                            }
+                        )
+                    );
 
                     var webglRenderer = (THREE_WebGLRenderer)(object)window.webglRenderer;
                     var camera = (THREE_PerspectiveCamera)(object)window.camera;
