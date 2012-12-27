@@ -4,6 +4,7 @@
 interface THREE
 { 
 	static attribute THREE.ColorUtilsType ColorUtils; 
+	static attribute long DoubleSide; 
 
 
 };
@@ -73,6 +74,8 @@ interface THREE.SpotLight
 [Constructor(long x, long y, long z, long q)]
 interface THREE.PlaneGeometry 
 { 
+	attribute sequence<THREE.Vector3>        vertices;
+
 	void applyMatrix(any value);
 };
 

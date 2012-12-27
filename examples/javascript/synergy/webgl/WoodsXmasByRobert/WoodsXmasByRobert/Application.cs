@@ -141,168 +141,330 @@ namespace WoodsXmasByRobert
 
                     var speedEffector_value = (int)new IFunction("return window.speedEffector.value;").apply(Native.Window);
 
+                    #region load
+                    Action<string, Action<object>> load =
+                        (src, yield) =>
+                        {
+                            new THREE_JSONLoader().load(
+                               src,
+                               IFunction.OfDelegate(yield)
+                           );
+                        };
+                    #endregion
+
                     #region sled
-                    new THREE_JSONLoader().load(
+                    load(
                         new WoodsXmasByRobert.Design.models.sleigh().Content.src,
-                        IFunction.OfDelegate(
-                            new Action<object>(
-                                geometry =>
-                                {
-                                    Console.WriteLine("got sled!");
+                        geometry =>
+                        {
+                            Console.WriteLine("got sled!");
 
-                                    var sled = new THREE_Mesh(
-                                        geometry,
-                                        new THREE_MeshFaceMaterial()
-                                    );
+                            var sled = new THREE_Mesh(
+                                geometry,
+                                new THREE_MeshFaceMaterial()
+                            );
 
-                                    var scale = 4;
-                                    sled.scale.set(scale, scale, scale);
+                            var scale = 4;
+                            sled.scale.set(scale, scale, scale);
 
-                                    sled.rotation.y = -Math.PI / 2;
-                                    sled.position.y = -290;
-                                    sled.position.z = -80;
+                            sled.rotation.y = -Math.PI / 2;
+                            sled.position.y = -290;
+                            sled.position.z = -80;
 
-                                    scene.add(sled);
+                            scene.add(sled);
 
-                                    window.sled = sled;
+                            window.sled = sled;
 
-                                    new IFunction("window.checkLoadingDone();").apply(Native.Window);
-                                }
-                            )
-                        )
+                            new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                        }
                     );
                     #endregion
 
-                    #region bird
-                    new THREE_JSONLoader().load(
-                        new WoodsXmasByRobert.Design.models.eagle().Content.src,
-                        IFunction.OfDelegate(
-                            new Action<object>(
-                                geometry =>
-                                {
-                                    Console.WriteLine("got bird!");
-
-                                    var bird = new THREE_MorphAnimMesh(
-                                        geometry,
-                                        new THREE_MeshBasicMaterial(
-                                            new THREE_MeshBasicMaterial_args
-                                            {
-                                                color = 0x000000,
-                                                morphTargets = true,
-                                                fog = false
-                                            }
-                                         )
-                                    );
-
-                                    bird.duration = 1000;
-
-                                    bird.scale.set(4, 4, 4);
-                                    bird.rotation.y = Math.PI;
-                                    bird.position.set(0, 3000, -1500);
-
-                                    scene.add(bird);
-
-
-                                    window.bird = bird;
-
-                                    new IFunction("window.checkLoadingDone();").apply(Native.Window);
-                                }
-                            )
-                        )
-                    );
-                    #endregion
 
                     var random = new Random();
 
-                    #region rock
-                    new THREE_JSONLoader().load(
-                        new WoodsXmasByRobert.Design.models.rock().Content.src,
-                        IFunction.OfDelegate(
-                            new Action<object>(
-                                geometry =>
-                                {
-                                    Console.WriteLine("got rock!");
+                    #region treeDead
+                    load(
+                        new WoodsXmasByRobert.Design.models.treeDead().Content.src,
+                        tree1Geo =>
+                        {
+                            Console.WriteLine("got treeDead!");
 
-                                    var numOfRocks = 25;
-                                    for (var i = 0; i < numOfRocks; ++i)
+                            load(
+                                 new WoodsXmasByRobert.Design.models.treeEvergreenHigh().Content.src,
+                                 tree2Geo =>
+                                 {
+                                     Console.WriteLine("got treeEvergreenHigh!");
+
+                                     var gridSize = 500;
+
+                                     for (var x = 0; x < 8; x++)
+                                     {
+                                         for (var z = 0; z < 12; z++)
+                                         {
+                                             var geo = tree2Geo;
+                                             if (random.NextDouble() < 0.25)
+                                                 if (x != 0 && x != 7)
+                                                 {
+                                                     geo = tree1Geo;
+                                                 }
+
+                                             var mesh = new THREE_Mesh(geo, new THREE_MeshFaceMaterial());
+                                             var scale = 1.2 + random.NextDouble();
+                                             mesh.scale.set(scale, scale * 2, scale);
+
+                                             var posx = 0.0;
+
+                                             if (x < 4)
+                                             {
+                                                 posx = (x * gridSize) - (gridSize * 4) - 100 + random.NextDouble() * 100 - 50;
+                                             }
+                                             else
+                                             {
+                                                 posx = (x * gridSize) - 1400 + random.NextDouble() * 100 - 50;
+                                             };
+
+                                             var posz = -(z * gridSize) + random.NextDouble() * 100 - 50;
+
+                                             mesh.position.set(posx, -400 - (random.NextDouble() * 80), posz);
+
+                                             mesh.rotation.set((random.NextDouble() * 0.2) - 0.1, random.NextDouble() * Math.PI, (random.NextDouble() * 0.2) - 0.1);
+
+                                             scene.add(mesh);
+
+                                             treeArray.push(mesh);
+
+                                         }
+                                     }
+
+                                     new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                                 }
+                             );
+                        }
+                    );
+                    #endregion
+
+
+                    #region bird
+                    load(
+                        new WoodsXmasByRobert.Design.models.eagle().Content.src,
+                        geometry =>
+                        {
+                            Console.WriteLine("got bird!");
+
+                            var bird = new THREE_MorphAnimMesh(
+                                geometry,
+                                new THREE_MeshBasicMaterial(
+                                    new THREE_MeshBasicMaterial_args
                                     {
+                                        color = 0x000000,
+                                        morphTargets = true,
+                                        fog = false
+                                    }
+                                    )
+                            );
 
-                                        var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial(new THREE_MeshBasicMaterial_args { color = 0x444444 }));
+                            bird.duration = 1000;
 
-                                        var scale = 1 + (random.NextDouble() * 0.5);
+                            bird.scale.set(4, 4, 4);
+                            bird.rotation.y = Math.PI;
+                            bird.position.set(0, 3000, -1500);
 
-                                        mesh.scale.set(scale, scale, scale);
-                                        mesh.rotation.set(0, random.NextDouble() * Math.PI, 0);
-                                        mesh.position.set((random.NextDouble() * 4000) - 2000, -400, (random.NextDouble() * 6000) - 6000);
+                            scene.add(bird);
 
-                                        if (mesh.position.x < 45)
-                                            if (mesh.position.x > 0)
-                                            {
-                                                mesh.position.x += 450;
-                                            }
 
-                                        if (mesh.position.x > -450)
-                                            if (mesh.position.x < 0)
-                                            {
-                                                mesh.position.x -= 450;
-                                            }
+                            window.bird = bird;
 
-                                        scene.add(mesh);
+                            new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                        }
+                    );
+                    #endregion
 
-                                        rockArray.push(mesh);
+
+                    #region rock
+                    load(
+                        new WoodsXmasByRobert.Design.models.rock().Content.src,
+                        geometry =>
+                        {
+                            Console.WriteLine("got rock!");
+
+                            var numOfRocks = 25;
+                            for (var i = 0; i < numOfRocks; ++i)
+                            {
+
+                                var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial(new THREE_MeshBasicMaterial_args { color = 0x444444 }));
+
+                                var scale = 1 + (random.NextDouble() * 0.5);
+
+                                mesh.scale.set(scale, scale, scale);
+                                mesh.rotation.set(0, random.NextDouble() * Math.PI, 0);
+                                mesh.position.set((random.NextDouble() * 4000) - 2000, -400, (random.NextDouble() * 6000) - 6000);
+
+                                if (mesh.position.x < 45)
+                                    if (mesh.position.x > 0)
+                                    {
+                                        mesh.position.x += 450;
                                     }
 
+                                if (mesh.position.x > -450)
+                                    if (mesh.position.x < 0)
+                                    {
+                                        mesh.position.x -= 450;
+                                    }
 
-                                    new IFunction("window.checkLoadingDone();").apply(Native.Window);
-                                }
-                            )
-                        )
+                                scene.add(mesh);
+
+                                rockArray.push(mesh);
+                            }
+
+
+                            new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                        }
                     );
                     #endregion
 
                     #region horse
-                    new THREE_JSONLoader().load(
+                    load(
                         new WoodsXmasByRobert.Design.models.horse().Content.src,
-                        IFunction.OfDelegate(
-                            new Action<object>(
-                                geometry =>
-                                {
-                                    Console.WriteLine("got horse!");
+                        geometry =>
+                        {
+                            Console.WriteLine("got horse!");
 
-                                    var numOfRocks = 25;
-                                    for (var i = 0; i < numOfRocks; ++i)
+                            var horse = new THREE_MorphAnimMesh(geometry,
+                                new THREE_MeshLambertMaterial(
+                                    new THREE_MeshBasicMaterial_args
                                     {
-
-                                        var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial(new THREE_MeshBasicMaterial_args { color = 0x444444 }));
-
-                                        var scale = 1 + (random.NextDouble() * 0.5);
-
-                                        mesh.scale.set(scale, scale, scale);
-                                        mesh.rotation.set(0, random.NextDouble() * Math.PI, 0);
-                                        mesh.position.set((random.NextDouble() * 4000) - 2000, -400, (random.NextDouble() * 6000) - 6000);
-
-                                        if (mesh.position.x < 45)
-                                            if (mesh.position.x > 0)
-                                            {
-                                                mesh.position.x += 450;
-                                            }
-
-                                        if (mesh.position.x > -450)
-                                            if (mesh.position.x < 0)
-                                            {
-                                                mesh.position.x -= 450;
-                                            }
-
-                                        scene.add(mesh);
-
-                                        rockArray.push(mesh);
+                                        color = 0x090601,
+                                        morphTargets = true
                                     }
+                                )
+                            );
+
+                            horse.duration = 1000;
+
+                            horse.scale.set(2.5, 1.8, 2);
+                            horse.rotation.y = Math.PI;
+                            horse.position.set(0, -350, -700);
+
+                            scene.add(horse);
+                            window.horse = horse;
+
+                            //checkLoadingDone();
+
+                            // Handles
+                            var plane = new THREE_PlaneGeometry(700, 10, 40, 1);
+
+                            var l = Math.Floor(plane.vertices.Length / 2.0);
+
+                            for (var i = 0; i < l; i++)
+                            {
+
+                                var offset = Math.Sin(i / 14) * 100;
+
+                                plane.vertices[i].y -= offset;
+                                plane.vertices[i + 41].y -= offset;
 
 
-                                    new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                                plane.vertices[i].z -= (i / 5) + (offset * -1) / 8;
+                                plane.vertices[i + 41].z += (i / 5) - (offset * -1) / 8;
+
+                            }
+
+                            var material = new THREE_MeshBasicMaterial(
+                                new THREE_MeshBasicMaterial_args { color = 0x090601, side = THREE.DoubleSide }
+                            );
+
+                            var leftHandle = new THREE_Mesh(plane, material);
+                            leftHandle.position.y = -120;
+                            leftHandle.position.z = -350;
+                            leftHandle.position.x = -30;
+                            leftHandle.rotation.y = -(Math.PI / 2) + 0.075;
+                            leftHandle.rotation.x = Math.PI * 2 - 0.075;
+
+                            scene.add(leftHandle);
+                            window.leftHandle = leftHandle;
+
+                            var rightHandle = new THREE_Mesh(plane, material);
+                            rightHandle.position.y = -120;
+                            rightHandle.position.z = -350;
+                            rightHandle.position.x = 30;
+                            rightHandle.rotation.y = -(Math.PI / 2) - 0.075;
+                            rightHandle.scale.z = -1;
+                            rightHandle.rotation.x = Math.PI * 2 - 0.075;
+                            scene.add(rightHandle);
+                            window.rightHandle = rightHandle;
+
+                            new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                        }
+                    );
+                    #endregion
+
+
+                    #region flowerLoaded
+                    Action<object, bool> flowerLoaded = (geometry, halfScale) =>
+                    {
+
+                        var numOfFlowers = 20;
+
+                        var half = Math.Floor(numOfFlowers / 2.0);
+
+                        for (var i = 0; i < half; ++i)
+                        {
+
+                            var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial(
+                            new THREE_MeshBasicMaterial_args { color = 0x444444 }));
+                            var scale = 1 + (random.NextDouble() * 1);
+                            if (halfScale)
+                            {
+                                scale *= 0.6;
+                            }
+                            mesh.scale.set(scale, scale, scale);
+                            mesh.rotation.set((random.NextDouble() * 0.6) - 0.3, random.NextDouble() * Math.PI, (random.NextDouble() * 0.6) - 0.3);
+                            mesh.position.set((random.NextDouble() * 1000) - 500, -310, (random.NextDouble() * 6000) - 6000);
+
+                            if (mesh.position.x < 100)
+                                if (mesh.position.x > 0)
+                                {
+                                    mesh.position.x += 100;
                                 }
-                            )
-                        )
+
+                            if (mesh.position.x > -100)
+                                if (mesh.position.x < 0)
+                                {
+                                    mesh.position.x -= 100;
+                                }
+
+                            scene.add(mesh);
+
+                            flowerArray.push(mesh);
+                        }
+
+                        new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                    };
+                    #endregion
+
+
+                    #region weeds01
+                    load(
+                        new WoodsXmasByRobert.Design.models.weeds01().Content.src,
+                        geometry =>
+                        {
+                            Console.WriteLine("got weeds01!");
+
+                            flowerLoaded(geometry, false);
+                        }
+                    );
+                    #endregion
+
+                    #region glowbulb
+                    load(
+                        new WoodsXmasByRobert.Design.models.glowbulb().Content.src,
+                        geometry =>
+                        {
+                            Console.WriteLine("got glowbulb!");
+
+                            flowerLoaded(geometry, true);
+                        }
                     );
                     #endregion
 

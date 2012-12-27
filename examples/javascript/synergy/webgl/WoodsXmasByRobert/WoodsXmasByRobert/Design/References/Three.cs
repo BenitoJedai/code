@@ -11,6 +11,7 @@ namespace WoodsXmasByRobert.Design.References
         public int color;
         public bool morphTargets;
         public bool fog;
+        public long side;
 
     }
 }
