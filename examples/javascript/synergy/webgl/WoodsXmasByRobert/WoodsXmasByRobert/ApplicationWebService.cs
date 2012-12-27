@@ -52,13 +52,7 @@ namespace WoodsXmasByRobert
                 return;
             }
 
-            if (h.Context.Request.Path.StartsWith("/models/"))
-            {
-                // jsc is not correctly updating the path of assets?
-                h.Context.Response.WriteFile("/assets/WoodsXmasByRobert/" + h.Context.Request.Path.SkipUntilOrEmpty("/models/"));
-                h.CompleteRequest();
-                return;
-            }
+     
         }
     }
 }

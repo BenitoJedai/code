@@ -18,7 +18,6 @@ var oldTime;
 var treeArray = [];
 
 var rockArray = [];
-var numOfFlowers = 20;
 var flowerArray = [];
 var flareArray = [];
 var numOfSnowflakes = 6000;
@@ -156,19 +155,7 @@ function init() {
 
     // Trees
     loader = new THREE.JSONLoader();
-    loader.load("models/treeDead.js", treeLoaded);
-
-    // Rocks
-    //loader.load("models/rock.js", rockLoaded);
-
-    // Flowers
-    loader.load("models/weeds01.js", flowerLoaded);
-    loader.load("models/glowbulb.js", flower2Loaded);
-
-
-
-    // Horse
-    loader.load("models/horse.js", horseLoaded);
+    //loader.load("models/treeDead.js", treeLoaded);
 
     // Moon
     var moonPlane = new THREE.PlaneGeometry(1000, 1000);
@@ -508,166 +495,4 @@ function checkLoadingDone() {
 function removeLoading() {
     scene.remove(bgSprite);
     delete bgSprite;
-}
-
-function treeLoaded(geometry) {
-    tree1Geo = geometry;
-    loader.load("models/treeEvergreenHigh.js", tree2Loaded);
-}
-
-function tree2Loaded(geometry) {
-    tree2Geo = geometry;
-    setupTrees();
-    checkLoadingDone();
-}
-
-function setupTrees() {
-
-    var gridSize = 500;
-
-    for (var x = 0; x < 8; x++) {
-        for (var z = 0; z < 12; z++) {
-            var geo = tree2Geo;
-            if (Math.random() < 0.25 && x != 0 && x != 7) { geo = tree1Geo };
-
-            var mesh = new THREE.Mesh(geo, new THREE.MeshFaceMaterial());
-            var scale = 1.2 + Math.random();
-            mesh.scale.set(scale, scale * 2, scale);
-
-            //
-            if (x < 4) {
-                var posx = (x * gridSize) - (gridSize * 4) - 100 + Math.random() * 100 - 50;
-            } else {
-                var posx = (x * gridSize) - 1400 + Math.random() * 100 - 50;
-            };
-
-            var posz = -(z * gridSize) + Math.random() * 100 - 50;
-
-            mesh.position.set(posx, -400 - (Math.random() * 80), posz);
-
-            mesh.rotation.set((Math.random() * 0.2) - 0.1, Math.random() * Math.PI, (Math.random() * 0.2) - 0.1);
-
-            scene.add(mesh);
-
-            treeArray.push(mesh);
-
-        };
-    };
-
-}
-
-function rockLoaded(geometry) {
-
-    for (i = 0; i < numOfRocks; ++i) {
-
-        var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: 0x444444 }));
-
-        var scale = 1 + (Math.random() * 0.5);
-
-        mesh.scale.set(scale, scale, scale);
-        mesh.rotation.set(0, Math.random() * Math.PI, 0);
-        mesh.position.set((Math.random() * 4000) - 2000, -400, (Math.random() * 6000) - 6000);
-        if (mesh.position.x < 450 && mesh.position.x > 0) {
-            mesh.position.x += 450;
-        }
-        if (mesh.position.x > -450 && mesh.position.x < 0) {
-            mesh.position.x -= 450;
-        }
-
-        scene.add(mesh);
-
-        rockArray.push(mesh);
-    }
-
-    checkLoadingDone();
-
-}
-
-function flower2Loaded(geometry) {
-    flowerLoaded(geometry, true);
-}
-
-function flowerLoaded(geometry, halfScale) {
-    var half = Math.floor(numOfFlowers / 2);
-
-    for (i = 0; i < half; ++i) {
-
-        var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: 0x444444 }));
-        var scale = 1 + (Math.random() * 1);
-        if (halfScale) {
-            scale *= 0.6;
-        }
-        mesh.scale.set(scale, scale, scale);
-        mesh.rotation.set((Math.random() * 0.6) - 0.3, Math.random() * Math.PI, (Math.random() * 0.6) - 0.3);
-        mesh.position.set((Math.random() * 1000) - 500, -310, (Math.random() * 6000) - 6000);
-
-        if (mesh.position.x < 100 && mesh.position.x > 0) {
-            mesh.position.x += 100;
-        }
-        if (mesh.position.x > -100 && mesh.position.x < 0) {
-            mesh.position.x -= 100;
-        }
-
-        scene.add(mesh);
-
-        flowerArray.push(mesh);
-    }
-
-    checkLoadingDone();
-
-}
-
-
-
-function horseLoaded(geometry) {
-
-    horse = new THREE.MorphAnimMesh(geometry, new THREE.MeshLambertMaterial({ color: 0x090601, morphTargets: true }));
-
-    horse.duration = 1000;
-
-    horse.scale.set(2.5, 1.8, 2);
-    horse.rotation.y = Math.PI;
-    horse.position.set(0, -350, -700);
-
-    scene.add(horse);
-
-    checkLoadingDone();
-
-    // Handles
-    var plane = new THREE.PlaneGeometry(700, 10, 40, 1);
-
-    for (i = 0, l = Math.floor(plane.vertices.length / 2) ; i < l; i++) {
-
-        var offset = Math.sin(i / 14) * 100;
-
-        plane.vertices[i].y -= offset;
-        plane.vertices[i + 41].y -= offset;
-
-        var r = Math.random() * 4;
-
-        plane.vertices[i].z -= (i / 5) + (offset * -1) / 8;
-        plane.vertices[i + 41].z += (i / 5) - (offset * -1) / 8;
-
-    }
-
-    var material = new THREE.MeshBasicMaterial({ color: 0x090601, side: THREE.DoubleSide });
-
-    leftHandle = new THREE.Mesh(plane, material);
-    leftHandle.position.y = -120;
-    leftHandle.position.z = -350;
-    leftHandle.position.x = -30;
-    leftHandle.rotation.y = -(Math.PI / 2) + 0.075;
-    leftHandle.rotation.x = Math.PI * 2 - 0.075;
-
-    scene.add(leftHandle);
-
-    rightHandle = new THREE.Mesh(plane, material);
-    rightHandle.position.y = -120;
-    rightHandle.position.z = -350;
-    rightHandle.position.x = 30;
-    rightHandle.rotation.y = -(Math.PI / 2) - 0.075;
-    rightHandle.scale.z = -1;
-    rightHandle.rotation.x = Math.PI * 2 - 0.075;
-    scene.add(rightHandle);
-
 }
