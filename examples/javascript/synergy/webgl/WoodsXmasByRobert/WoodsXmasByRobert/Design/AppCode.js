@@ -75,10 +75,9 @@ if (Audio != undefined) {
     }, false);
 }
 
-document.addEventListener('contextmenu', function (event) { event.preventDefault(); }, false);
-document.addEventListener('mousemove', onDocumentMouseMove, false);
 
-init(), animate();
+
+init();
 
 
 function init() {
@@ -765,23 +764,14 @@ function run(delta) {
 
 }
 
-function onDocumentMouseMove(event) {
 
-    var windowHalfX = window.innerWidth >> 1;
-    var windowHalfY = window.innerHeight >> 1;
-
-    var mouseX = (event.clientX - windowHalfX);
-    var mouseY = (event.clientY - windowHalfY);
-
-    mouseXpercent = mouseX / windowHalfX;
-    mouseYpercent = mouseY / windowHalfY;
-
-}
 
 function animate() {
     requestAnimationFrame(animate);
     loop();
 }
+
+animate();
 
 function loop() {
 

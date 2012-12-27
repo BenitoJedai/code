@@ -56,10 +56,16 @@ namespace WoodsXmasByRobert
             new AppCode().Content.AttachToDocument().onload +=
                 delegate
                 {
+                    var w = Native.Window;
+
+                    dynamic window = w;
+
+                    var renderer = (THREE_WebGLRenderer)(object)window.webglRenderer;
+                    var camera = (THREE_PerspectiveCamera)(object)window.camera;
 
 
-                    var renderer = (THREE_WebGLRenderer)new IFunction("return this.webglRenderer;").apply(Native.Window);
-                    var camera = (THREE_PerspectiveCamera)new IFunction("return this.camera;").apply(Native.Window);
+                    //var renderer = (THREE_WebGLRenderer)new IFunction("return this.webglRenderer;").apply(Native.Window);
+                    //var camera = (THREE_PerspectiveCamera)new IFunction("return this.camera;").apply(Native.Window);
 
 
                     Native.Window.onresize +=
@@ -81,6 +87,26 @@ namespace WoodsXmasByRobert
                             Native.Document.body.requestFullscreen();
                         };
 
+
+               
+                    Native.Document.oncontextmenu +=
+                        e =>
+                        {
+                            e.preventDefault();
+                        };
+
+                    Native.Document.onmousemove +=
+                        e =>
+                        {
+                            var windowHalfX = Native.Window.Width >> 1;
+                            var windowHalfY = Native.Window.Height >> 1;
+
+                            var mouseX = (e.CursorX - windowHalfX);
+                            var mouseY = (e.CursorY - windowHalfY);
+
+                            window.mouseXpercent = mouseX / windowHalfX;
+                            window.mouseYpercent = mouseY / windowHalfY;
+                        };
                 };
 
         }
