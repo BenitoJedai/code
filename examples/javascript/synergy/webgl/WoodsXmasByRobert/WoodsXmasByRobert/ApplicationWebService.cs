@@ -36,14 +36,6 @@ namespace WoodsXmasByRobert
             var ref0 = typeof(ScriptCoreLib.Shared.RemotingToken);
 
 
-            if (h.Context.Request.Path.StartsWith("/sound/"))
-            {
-                // jsc is not correctly updating the path of assets?
-                h.Context.Response.WriteFile("/assets/WoodsXmasByRobert/" + h.Context.Request.Path.SkipUntilOrEmpty("/sound/"));
-                h.CompleteRequest();
-                return;
-            }
-
             if (h.Context.Request.Path.StartsWith("/img/"))
             {
                 // jsc is not correctly updating the path of assets?

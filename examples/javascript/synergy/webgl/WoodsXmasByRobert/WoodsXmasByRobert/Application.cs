@@ -74,11 +74,34 @@ namespace WoodsXmasByRobert
                     );
 
                     var webglRenderer = (THREE_WebGLRenderer)(object)window.webglRenderer;
+
+
+                    var scene = (THREE_Scene)(object)window.scene;
+                    var particles = (THREE_ParticleSystem)(object)window.particles;
+                    var bgSprite = (THREE_Sprite)(object)window.bgSprite;
+                    var loadingSprite = (THREE_Sprite)(object)window.loadingSprite;
+                    var pointLight = (THREE_PointLight)(object)window.pointLight;
+                    var cameraTarget = (THREE_Vector3)(object)window.cameraTarget;
+                    var treeArray = (IArray<THREE_Mesh>)(object)window.treeArray;
+                    var rockArray = (IArray<THREE_Mesh>)(object)window.rockArray;
+                    var flowerArray = (IArray<THREE_Mesh>)(object)window.flowerArray;
+                    var groundMesh1 = (THREE_Mesh)(object)window.groundMesh1;
+                    var groundMesh2 = (THREE_Mesh)(object)window.groundMesh2;
+
                     var camera = (THREE_PerspectiveCamera)(object)window.camera;
 
+                    var renderModel = (object)window.renderModel;
+                    var effectFilm = (object)window.effectFilm;
+                    var effectVignette = (object)window.effectVignette;
+                    var effectCopy = (object)window.effectCopy;
 
-                    //var renderer = (THREE_WebGLRenderer)new IFunction("return this.webglRenderer;").apply(Native.Window);
-                    //var camera = (THREE_PerspectiveCamera)new IFunction("return this.camera;").apply(Native.Window);
+
+                    var composer = new THREE_EffectComposer(webglRenderer);
+                    composer.addPass(renderModel);
+                    composer.addPass(effectFilm);
+                    composer.addPass(effectVignette);
+                    composer.addPass(effectCopy);
+
 
                     #region onresize
                     Native.Window.onresize +=
@@ -96,19 +119,6 @@ namespace WoodsXmasByRobert
                     #endregion
 
 
-                    Native.Document.body.ondblclick +=
-                        delegate
-                        {
-                            Native.Document.body.requestFullscreen();
-                        };
-
-
-
-                    Native.Document.oncontextmenu +=
-                        e =>
-                        {
-                            e.preventDefault();
-                        };
 
                     #region onmousemove
                     var mouseXpercent = 0.5;
@@ -132,24 +142,7 @@ namespace WoodsXmasByRobert
                     #endregion
 
 
-                    var scene = (THREE_Scene)(object)window.scene;
-                    var composer = (THREE_EffectComposer)(object)window.composer;
 
-                    var particles = (THREE_ParticleSystem)(object)window.particles;
-
-
-
-                    var bgSprite = (THREE_Sprite)(object)window.bgSprite;
-                    var loadingSprite = (THREE_Sprite)(object)window.loadingSprite;
-
-                    var pointLight = (THREE_PointLight)(object)window.pointLight;
-
-                    var cameraTarget = (THREE_Vector3)(object)window.cameraTarget;
-                    var treeArray = (IArray<THREE_Mesh>)(object)window.treeArray;
-                    var rockArray = (IArray<THREE_Mesh>)(object)window.rockArray;
-                    var flowerArray = (IArray<THREE_Mesh>)(object)window.flowerArray;
-                    var groundMesh1 = (THREE_Mesh)(object)window.groundMesh1;
-                    var groundMesh2 = (THREE_Mesh)(object)window.groundMesh2;
 
                     var speedEffector_value = (int)new IFunction("return window.speedEffector.value;").apply(Native.Window);
 
@@ -701,6 +694,21 @@ namespace WoodsXmasByRobert
 
                 };
 
+
+
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    Native.Document.body.requestFullscreen();
+                };
+
+
+
+            Native.Document.oncontextmenu +=
+                e =>
+                {
+                    e.preventDefault();
+                };
         }
 
     }
