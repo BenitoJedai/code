@@ -166,15 +166,16 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
             // why not do it on demand?
-            foreach (var item in WebMethods)
-            {
-                item.LoadParameters(that.Context);
-            }
+            //foreach (var item in WebMethods)
+            //{
+            //    item.LoadParameters(that.Context);
+            //}
 
+            #region POST
             if (Context.Request.HttpMethod == "POST")
             {
                 var WebMethod = InternalWebMethodInfo.First(
-                    WebMethods, 
+                    WebMethods,
                     Context.Request.QueryString[InternalWebMethodInfo.QueryKey]
                 );
                 if (WebMethod == null)
@@ -183,6 +184,8 @@ namespace ScriptCoreLib.Ultra.WebService
                 }
                 else
                 {
+                    WebMethod.LoadParameters(that.Context);
+
                     g.Invoke(WebMethod);
 
                     if (that.Context.Request.Path == "/xml")
@@ -199,6 +202,8 @@ namespace ScriptCoreLib.Ultra.WebService
                     return;
                 }
             }
+            #endregion
+
 
             var IsComplete = false;
 
