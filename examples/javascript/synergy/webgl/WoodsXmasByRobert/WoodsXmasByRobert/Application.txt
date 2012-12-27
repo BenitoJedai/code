@@ -26,3 +26,5 @@ got rendering ported
 
 615 lines to go
 12:02
+
+watch out for variables in functions like init. they will be scoped and cannot accessed via window.

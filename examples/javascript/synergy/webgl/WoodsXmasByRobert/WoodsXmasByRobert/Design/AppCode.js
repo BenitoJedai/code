@@ -3,7 +3,6 @@ var container;
 var camera;
 var scene;
 var webglRenderer;
-var composer;
 
 var has_gl = 0;
 
@@ -62,8 +61,6 @@ var starArray = [];
 
 
 
-
-function init() {
 
     container = document.createElement('div');
     document.body.appendChild(container);
@@ -137,9 +134,6 @@ function init() {
     groundMesh2.position.z = -30000;
     scene.add(groundMesh2);
 
-    // Trees
-    loader = new THREE.JSONLoader();
-    //loader.load("models/treeDead.js", treeLoaded);
 
     // Moon
     var moonPlane = new THREE.PlaneGeometry(1000, 1000);
@@ -238,7 +232,6 @@ function init() {
     scene.add(particles);
 
 
-    try {
         webglRenderer = new THREE.WebGLRenderer({ clearColor: 0x000000, clearAlpha: 1.0 });
         webglRenderer.setSize(window.innerWidth, window.innerHeight);
         webglRenderer.autoClear = false;
@@ -259,22 +252,8 @@ function init() {
         var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
         effectCopy.renderToScreen = true;
 
-        composer = new THREE.EffectComposer(webglRenderer);
+   
 
-        composer.addPass(renderModel);
-        composer.addPass(effectFilm);
-        composer.addPass(effectVignette);
-        composer.addPass(effectCopy);
-
-    }
-    catch (e) {
-        debugger;
-    }
-
-}
-
-
-init();
 
 function spawnFlare(id, delay) {
 
