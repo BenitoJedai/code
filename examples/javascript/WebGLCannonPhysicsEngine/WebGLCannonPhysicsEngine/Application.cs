@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using WebGLCannonPhysicsEngine.Design;
 using WebGLCannonPhysicsEngine.HTML.Pages;
 using System.Collections.Generic;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace WebGLCannonPhysicsEngine
 {
@@ -42,6 +43,36 @@ namespace WebGLCannonPhysicsEngine
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
+        {
+
+            #region await Three.js then do InitializeContent
+            new[]
+            {
+                new global::WebGLCannonPhysicsEngine.Design.References.Three().Content,
+                new global::WebGLCannonPhysicsEngine.Design.References.Cannon().Content,
+                new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
+            }.ForEach(
+                (SourceScriptElement, i, MoveNext) =>
+                {
+                    SourceScriptElement.AttachToDocument().onload +=
+                        delegate
+                        {
+                            MoveNext();
+                        };
+                }
+            )(
+                delegate
+                {
+                    InitializeContent();
+                }
+            );
+            #endregion
+
+
+
+        }
+
+        private static void InitializeContent()
         {
             var boxes = new List<CANNON_RigidBody>();
             var boxMeshes = new List<THREE_Mesh>();
@@ -316,9 +347,27 @@ namespace WebGLCannonPhysicsEngine
 
 
 
-            Native.Document.onclick +=
-                delegate
+
+            Native.Document.onmousedown +=
+                e =>
                 {
+                    if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                    {
+                        if (Native.Document.pointerLockElement == Native.Document.body)
+                        {
+                            // cant requestFullscreen while pointerLockElement
+                            Console.WriteLine("exitPointerLock");
+                            Native.Document.exitPointerLock();
+                            Native.Document.exitFullscreen();
+                            return;
+                        }
+
+                        Console.WriteLine("requestFullscreen");
+                        Native.Document.body.requestFullscreen();
+                        Native.Document.body.requestPointerLock();
+                        return;
+                    }
+
                     var ballradius = 0.1 + Math_random() * 0.9;
 
                     var ballShape = new CANNON_Sphere(ballradius);
@@ -364,7 +413,6 @@ namespace WebGLCannonPhysicsEngine
                     ballMesh.position.set(x, y, z);
                     ballMesh.useQuaternion = true;
                 };
-
         }
 
     }
