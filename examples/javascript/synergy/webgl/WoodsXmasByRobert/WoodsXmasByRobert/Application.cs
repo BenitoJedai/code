@@ -1199,6 +1199,24 @@ namespace WoodsXmasByRobert
                 };
 
 
+            Native.Document.body.onmousedown +=
+                 e =>
+                 {
+                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                     {
+                         if (Native.Document.pointerLockElement == Native.Document.body)
+                         {
+                             // cant requestFullscreen while pointerLockElement
+                             Console.WriteLine("exitPointerLock");
+                             Native.Document.exitPointerLock();
+                             Native.Document.exitFullscreen();
+                             return;
+                         }
+
+                         Native.Document.body.requestFullscreen();
+                         Native.Document.body.requestPointerLock();
+                     }
+                 };
 
             Native.Document.oncontextmenu +=
                 e =>

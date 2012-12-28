@@ -275,22 +275,22 @@ namespace WebGLDynamicTerrainTemplate
                     HasFocus = true;
                     soundtrack.volume = 0.9;
                 };
-          //  Native.Document.onmousemove +=
-          //delegate
-          //{
-          //    if (HasFocus)
-          //        return;
-          //    soundtrack.play();
-          //};
+            //  Native.Document.onmousemove +=
+            //delegate
+            //{
+            //    if (HasFocus)
+            //        return;
+            //    soundtrack.play();
+            //};
 
-          //  Native.Document.onmouseout +=
-          //    delegate
-          //    {
-          //        if (HasFocus)
-          //            return;
+            //  Native.Document.onmouseout +=
+            //    delegate
+            //    {
+            //        if (HasFocus)
+            //            return;
 
-          //        soundtrack.pause();
-          //    };
+            //        soundtrack.pause();
+            //    };
             #endregion
 
 
@@ -993,6 +993,16 @@ namespace WebGLDynamicTerrainTemplate
 
             AtResize();
             #endregion
+
+
+            Native.Document.body.onmousedown +=
+                e =>
+                {
+                    if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                    {
+                        Native.Document.body.requestFullscreen();
+                    }
+                };
 
             #region requestFullscreen
             Native.Document.body.ondblclick +=
