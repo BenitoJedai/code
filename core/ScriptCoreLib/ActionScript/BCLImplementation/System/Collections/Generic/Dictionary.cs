@@ -291,11 +291,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         #endregion
 
-        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
-        {
-            // jsc needs to find the original sig!
-            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
-        }
 
         //Error	13	'ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic.__Dictionary<TKey,TValue>' 
         // does not implement interface member 
@@ -305,6 +300,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         // it does not have the matching return type of 'System.Collections.IEnumerator'.	
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs	12	20	ScriptCoreLib
 
+
+
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
+        {
+            // jsc needs to find the original sig!
+            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
+        }
 
         IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {

@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib;
+using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 using System;
 using System.Collections;
@@ -224,11 +225,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
 
         #region GetEnumerator
-        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
-        {
-            // jsc needs to find the original sig!
-            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
-        }
+     
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
         public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
@@ -293,80 +290,40 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             throw new NotImplementedException();
         }
 
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new global::System.Exception("The method or operation is not implemented.");
+        }
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121024-linq
 
 
+        //Error	6	'ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary<TKey,TValue>' 
+        // does not implement interface member 'ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__ICollection<System.Collections.Generic.KeyValuePair<TKey,TValue>>.Remove(System.Collections.Generic.KeyValuePair<TKey,TValue>)'
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Dictionary.cs	13	20	ScriptCoreLibJava
 
-        ICollection<TValue> __IDictionary<TKey, TValue>.Values
-        {
-            get { throw new NotImplementedException(); }
-        }
 
-        TValue __IDictionary<TKey, TValue>.this[TKey key]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
 
-        void __IDictionary<TKey, TValue>.Add(TKey key, TValue value)
-        {
-            throw new NotImplementedException();
-        }
 
-        bool __IDictionary<TKey, TValue>.ContainsKey(TKey key)
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
         {
-            throw new NotImplementedException();
-        }
-
-        bool __IDictionary<TKey, TValue>.Remove(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        int __ICollection<KeyValuePair<TKey, TValue>>.Count
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
+            // jsc needs to find the original sig!
+            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
         }
 
         IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return (IEnumerator<KeyValuePair<TKey, TValue>>)(object)new __Enumerator(this);
         }
+
+
+
+        //IEnumerator __IEnumerable.GetEnumerator()
+        //{
+        //    return (IEnumerator<KeyValuePair<TKey, TValue>>)(object)new __Enumerator(this);
+        //}
+
+     
     }
 }
