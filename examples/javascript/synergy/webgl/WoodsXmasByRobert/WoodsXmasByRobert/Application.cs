@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.WebGL;
 using System;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ using WoodsXmasByRobert.Design;
 using WoodsXmasByRobert.Design.References;
 using WoodsXmasByRobert.HTML.Images.FromAssets;
 using WoodsXmasByRobert.HTML.Pages;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace WoodsXmasByRobert
 {
@@ -30,6 +32,201 @@ namespace WoodsXmasByRobert
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            // ! start big, then resize to small
+
+
+
+
+
+            var ScreenWidth = Native.Screen.width;
+            var ScreenHeight = Native.Screen.height;
+            var location = "" + Native.Document.location;
+
+            Console.WriteLine(
+                new { ScreenWidth, ScreenHeight, Native.Window.Width, Native.Window.Height, location }
+            );
+
+
+            #region workaround for ThreeJS/chrome webgl upscale bug
+            // workaround for not knowing how to tell three js to upscale correctly..
+            // X:\jsc.svn\examples\javascript\Test\TestNestedIFrameForMoreWidth\TestNestedIFrameForMoreWidth\Application.cs
+            // instead of reloading full app
+            // could we run part of it instead?
+            // like let jsc know that this sub application should be reloadable?
+            // this will be like threading
+            // the outer code wil just stop doing anything
+            // and the inner app will take over.
+
+
+            if (Native.Window.Width < Native.Screen.width)
+            {
+                #region make sure the url looks different to make iframe actually load
+                Native.Window.parent.With(
+                    parent =>
+                    {
+                        // http://stackoverflow.com/questions/5934538/is-there-a-limitation-on-an-iframe-containing-another-iframe-with-the-same-url
+
+                        var parentlocation = "" + parent.document.location;
+                        Console.WriteLine(new { parentlocation });
+
+                        if (parentlocation.TakeUntilIfAny("#") == location.TakeUntilIfAny("#"))
+                        {
+                            var withouthash = location.TakeUntilIfAny("#");
+                            var onlyhash = location.SkipUntilOrEmpty("#");
+
+                            withouthash += "?";
+
+                            if (onlyhash != "")
+                            {
+                                withouthash += "#" + onlyhash;
+                            }
+
+                            location = withouthash;
+                        }
+                    }
+                );
+                #endregion
+
+
+
+                // this check only looks for default screen width
+                // what about height and secondary screens?
+                Console.WriteLine("will prepare... " + location);
+
+                var iframe = new IHTMLIFrame
+                {
+                    frameBorder = "0",
+                    allowFullScreen = true
+                };
+
+                iframe.style.minWidth = Native.Screen.width + "px";
+                iframe.style.minHeight = Native.Screen.height + "px";
+
+                iframe.style.position = IStyle.PositionEnum.absolute;
+                iframe.style.left = "0px";
+                iframe.style.top = "0px";
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+
+                Native.Document.body.Clear();
+                Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+                Native.Window.onmessage +=
+                   e =>
+                   {
+                       Console.WriteLine("Native.Window.onmessage " + new { e.data });
+
+                       // pure trickery :P
+                       if ((string)e.data == "WoodsXmasByRobert.loaded")
+                       {
+                           iframe.style.minWidth = "";
+                           iframe.style.minHeight = "";
+                       }
+                   };
+
+                iframe.onload +=
+                    delegate
+                    {
+                        if (iframe.src != location)
+                            return;
+
+                        Native.Window.requestAnimationFrame +=
+                          delegate
+                          {
+                              Console.WriteLine("reload done! " + new { location, iframe.src });
+                              iframe.contentWindow.postMessage("ready yet?");
+                          };
+                    };
+
+                Native.Window.requestAnimationFrame +=
+                    delegate
+                    {
+                        Console.WriteLine("will reload... " + location);
+                        iframe.AttachToDocument();
+                        iframe.src = location;
+                    };
+
+                return;
+            }
+
+
+
+
+            #endregion
+
+
+            new AppReferences().With(
+                References =>
+                {
+
+                    var source = new[]
+                    {
+                        References.Three,
+                        References.Tween,
+                        References.CopyShader,
+                        References.FilmShader,
+                        References.VignetteShader,
+                        References.EffectComposer,
+                        References.MaskPass,
+                        References.RenderPass,
+                        References.ShaderPass,
+                        References.FilmPass,
+                    };
+
+                    var yield = source.ForEach(
+                         (SourceScriptElement, i, MoveNext) =>
+                         {
+                             //Console.WriteLine("will load: " + SourceScriptElement.src);
+                             SourceScriptElement.AttachToDocument().onload +=
+                                 delegate
+                                 {
+                                     //Console.WriteLine("loaded: " + SourceScriptElement.src);
+                                     MoveNext();
+                                 };
+                         }
+                     );
+
+                    yield(
+                         delegate
+                         {
+                             //Console.WriteLine("will load WoodsXmasByRobert");
+
+                             InitializeContent();
+                         }
+                     );
+
+                }
+            );
+
+        }
+
+        private static void InitializeContent()
+        {
+            Action __WoodsXmasByRobert_loaded = null;
+
+            Console.WriteLine(
+                new { Native.Window.opener, Native.Window.parent }
+            );
+
+
+            Native.Window.parent.With(
+                parent =>
+                {
+                    parent.postMessage("WoodsXmasByRobert.preparing");
+                    Console.WriteLine("WoodsXmasByRobert.preparing");
+
+                    __WoodsXmasByRobert_loaded = delegate
+                    {
+                        Console.WriteLine("will post WoodsXmasByRobert.loaded");
+
+                        __WoodsXmasByRobert_loaded = null;
+
+                        parent.postMessage("WoodsXmasByRobert.loaded");
+                    };
+                }
+            );
+
+
             //<!-- Snow flakes -->
 
             new IHTMLScript { type = "x-shader/x-vertex", id = "vertexshader", innerText = new Shaders.particlesVertexShader().ToString() }.AttachToDocument();
@@ -39,28 +236,75 @@ namespace WoodsXmasByRobert
 
             dynamic window = w;
 
-            #region hint such that our assets stay around
-
-            { ITexturesImages ref0; }
-            { Audio ref0; }
 
 
-            { Design.models.eagle ref1; }
-            { Design.models.glowbulb ref1; }
-            { Design.models.horse ref1; }
-            { Design.models.rock ref1; }
-            { Design.models.sleigh ref1; }
-            { Design.models.treeDead ref1; }
-            { Design.models.treeEvergreenHigh ref1; }
-            { Design.models.weeds01 ref1; }
+            // http://stackoverflow.com/questions/4923136/why-doesnt-firefox-support-mp3-file-format-in-audio
+            //            Timestamp: 12/28/2012 1:22:05 PM
+            //Warning: HTTP "Content-Type" of "audio/mpeg3" is not supported. Load of media resource http://192.168.1.100:27248/assets/WoodsXmasByRobert/unfiltered_mix.mp3 failed.
+            //Source File: http://192.168.1.100:27248/
+            //Line: 0
 
-            #endregion
 
+
+
+            #region snd
             var snd = new HTML.Audio.FromAssets.unfiltered_mix { volume = 0.9 };
 
             window.snd = snd;
 
-            //var camera = (THREE_PerspectiveCamera)(object)window.camera;
+
+            Native.Window.onfocus +=
+                delegate
+                {
+                    Console.WriteLine("WoodsXmasByRobert onfocus");
+                    snd.volume = 0.9;
+                };
+
+
+            Native.Window.onblur +=
+                delegate
+                {
+                    Console.WriteLine("WoodsXmasByRobert onblur");
+                    snd.volume = 0.1;
+
+                    // if we are also not visible anymore
+                    // and animations frame stop
+                    // we should stop all sound
+                };
+
+            #endregion
+
+
+
+
+            var canvas = new IHTMLCanvas();
+
+            object webglRenderer_args = new object().With(
+                 (dynamic a) =>
+                 {
+                     a.clearColor = 0x000000;
+                     a.clearAlpha = 1.0;
+                     a.preserveDrawingBuffer = true;
+                     a.canvas = canvas;
+                 }
+             );
+
+            var webglRenderer = new THREE_WebGLRenderer(
+                webglRenderer_args
+            );
+
+
+
+            webglRenderer.autoClear = false;
+
+            //var canvas = (IHTMLCanvas)webglRenderer.domElement;
+
+
+
+            canvas.AttachToDocument();
+
+            webglRenderer.setSize(Native.Window.Width, Native.Window.Height);
+
             var camera = new THREE_PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 1, 100000);
 
             camera.position.z = 0;
@@ -244,30 +488,10 @@ namespace WoodsXmasByRobert
                     }
                     #endregion
 
-                    var webglRenderer = new THREE_WebGLRenderer(
-                        new THREE_WebGLRenderer_args { clearColor = 0x000000, clearAlpha = 1.0 }
-                    );
-
-                    webglRenderer.setSize(Native.Window.Width, Native.Window.Height);
-                    webglRenderer.autoClear = false;
-                    webglRenderer.domElement.AttachToDocument();
 
 
 
-                    #region onresize
-                    Native.Window.onresize +=
-                        delegate
-                        {
 
-                            // notify the renderer of the size change
-                            webglRenderer.setSize(Native.Window.Width, Native.Window.Height);
-
-
-                            // update the camera
-                            camera.aspect = Native.Window.Width / Native.Window.Height;
-                            camera.updateProjectionMatrix();
-                        };
-                    #endregion
 
                     #region subtitleArray
                     var subtitleArray = (IArray<THREE_Mesh>)(object)window.subtitleArray;
@@ -769,6 +993,8 @@ namespace WoodsXmasByRobert
 
                     var r = 0.0;
 
+                    bool disableNextFrame = false;
+
                     #region loop
                     Action loop = delegate
                     {
@@ -837,12 +1063,16 @@ namespace WoodsXmasByRobert
                                 sky.position.z -= speed;
                             }
 
+                            #region sled
                             if (sled != null)
                             {
                                 sled.position.z -= speed;
                                 sled.position.x = camera.position.x;
                             }
+                            #endregion
 
+
+                            #region bird
                             if (bird != null)
                             {
                                 bird.position.x = 200 * Math.Cos(r) + ((bird.position.z - camera.position.z) / 10);
@@ -856,7 +1086,10 @@ namespace WoodsXmasByRobert
 
                                 bird.updateAnimation(delta);
                             }
+                            #endregion
 
+
+                            #region horse
                             if (horse != null)
                             {
                                 horse.position.z -= speed;
@@ -873,6 +1106,7 @@ namespace WoodsXmasByRobert
                                 leftHandle.scale.y = 1 - Math.Abs(Math.Sin(camera.position.z / 150)) / 4;
                                 rightHandle.scale.y = leftHandle.scale.y;
                             }
+                            #endregion
 
                             particles.position.z -= speed;
 
@@ -881,6 +1115,11 @@ namespace WoodsXmasByRobert
 
                             new IFunction("window.runSubtitles();").apply(Native.Window);
 
+
+                            //disableNextFrame = true;
+
+                            if (__WoodsXmasByRobert_loaded != null)
+                                __WoodsXmasByRobert_loaded();
                         }
                         else
                         {
@@ -913,6 +1152,9 @@ namespace WoodsXmasByRobert
 
                     animate = delegate
                     {
+                        if (disableNextFrame)
+                            return;
+
                         Native.Window.requestAnimationFrame += animate;
                         loop();
                     };
@@ -923,8 +1165,27 @@ namespace WoodsXmasByRobert
 
 
 
+                    Action AtResize = delegate
+                    {
+
+                        // notify the renderer of the size change
+                        webglRenderer.setSize(Native.Window.Width, Native.Window.Height);
+
+                        // update the camera
+                        camera.aspect = Native.Window.Width / Native.Window.Height;
+                        camera.updateProjectionMatrix();
+                    };
 
 
+                    #region onresize
+                    Native.Window.onresize +=
+                        delegate
+                        {
+                            AtResize();
+                        };
+                    #endregion
+
+                    AtResize();
 
 
                 };
@@ -947,6 +1208,7 @@ namespace WoodsXmasByRobert
 
 
         }
+
 
     }
 }
