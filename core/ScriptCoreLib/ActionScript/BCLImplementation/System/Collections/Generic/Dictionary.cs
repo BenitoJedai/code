@@ -9,7 +9,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue>, __IEnumerable, __ICollection
+    internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue> //, __IEnumerable, __ICollection
     {
         public __Dictionary()
             : this(null)
@@ -291,12 +291,29 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         #endregion
 
-        public IEnumerator GetEnumerator()
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
         {
-            return (IEnumerator)(object)new __Enumerator(this);
+            // jsc needs to find the original sig!
+            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
         }
 
+        //Error	13	'ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic.__Dictionary<TKey,TValue>' 
+        // does not implement interface member 
+        // 'ScriptCoreLib.Shared.BCLImplementation.System.Collections.__IEnumerable.GetEnumerator()'. '
+        // ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic.__Dictionary<TKey,TValue>.GetEnumerator()' 
+        // cannot implement 'ScriptCoreLib.Shared.BCLImplementation.System.Collections.__IEnumerable.GetEnumerator()' because 
+        // it does not have the matching return type of 'System.Collections.IEnumerator'.	
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs	12	20	ScriptCoreLib
+
+
         IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+        {
+            return (IEnumerator<KeyValuePair<TKey, TValue>>)(object)new __Enumerator(this);
+        }
+
+
+
+        IEnumerator __IEnumerable.GetEnumerator()
         {
             return (IEnumerator<KeyValuePair<TKey, TValue>>)(object)new __Enumerator(this);
         }
