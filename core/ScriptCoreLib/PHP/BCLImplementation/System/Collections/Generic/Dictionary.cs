@@ -9,9 +9,9 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(Dictionary<,>))]
-    internal class __Dictionary<TKey, TValue> : 
+    internal class __Dictionary<TKey, TValue> :
         __IDictionary<TKey, TValue>
-        //, __IEnumerable, __ICollection
+    //, __IEnumerable, __ICollection
     {
         public __Dictionary()
             : this(null)
@@ -312,9 +312,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         #endregion
 
-        public __Dictionary<TKey, TValue>.__Enumerator GetEnumerator()
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
         {
-            return new __Enumerator(this);
+            // jsc needs to find the original sig!
+            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
         }
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
@@ -322,6 +323,17 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
         {
             IEnumerator<KeyValuePair<TKey, TValue>> list;
 
+            //Additional information: internal compiler error at method 
+            // ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__Dictionary`2.GetEnumerator : 
+            // InternalTypeDefault not found for struct init, 
+            //{ r = ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__Dictionary`2+__Enumerator[TKey,TValue] }
+
+
+
+            public __Enumerator()
+                : this(null)
+            {
+            }
 
             public __Enumerator(__Dictionary<TKey, TValue> e)
             {

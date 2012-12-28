@@ -295,9 +295,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
 
         #region GetEnumerator
-        public __Dictionary<TKey, TValue>.__Enumerator GetEnumerator()
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
         {
-            return new __Enumerator(this);
+            // jsc needs to find the original sig!
+            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
         }
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
