@@ -76,6 +76,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
                 throw new NotImplementedException();
             }
 
+
+            #region GetEnumerator
             [Script]
             class __iterator : IEnumerator<TKey>
             {
@@ -126,6 +128,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             {
                 return this.GetEnumerator();
             }
+            #endregion
 
             void ICollection.CopyTo(Array array, int index)
             {
