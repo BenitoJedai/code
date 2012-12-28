@@ -291,10 +291,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         #endregion
 
-     
 
-     
 
+
+        #region GetEnumerator
         public __Dictionary<TKey, TValue>.__Enumerator GetEnumerator()
         {
             return new __Enumerator(this);
@@ -350,6 +350,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
             #endregion
         }
+        #endregion
 
 
 
