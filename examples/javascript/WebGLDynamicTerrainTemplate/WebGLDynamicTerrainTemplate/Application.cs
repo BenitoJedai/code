@@ -42,6 +42,117 @@ namespace WebGLDynamicTerrainTemplate
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page = null)
         {
+            var location = "" + Native.Document.location;
+
+
+            #region workaround for ThreeJS/chrome webgl upscale bug
+            // workaround for not knowing how to tell three js to upscale correctly..
+            // X:\jsc.svn\examples\javascript\Test\TestNestedIFrameForMoreWidth\TestNestedIFrameForMoreWidth\Application.cs
+            // instead of reloading full app
+            // could we run part of it instead?
+            // like let jsc know that this sub application should be reloadable?
+            // this will be like threading
+            // the outer code wil just stop doing anything
+            // and the inner app will take over.
+
+
+            if (Native.Window.Width < Native.Screen.width)
+            {
+                #region make sure the url looks different to make iframe actually load
+                Native.Window.parent.With(
+                    parent =>
+                    {
+                        // http://stackoverflow.com/questions/5934538/is-there-a-limitation-on-an-iframe-containing-another-iframe-with-the-same-url
+
+                        var parentlocation = "" + parent.document.location;
+                        Console.WriteLine(new { parentlocation });
+
+                        if (parentlocation.TakeUntilIfAny("#") == location.TakeUntilIfAny("#"))
+                        {
+                            var withouthash = location.TakeUntilIfAny("#");
+                            var onlyhash = location.SkipUntilOrEmpty("#");
+
+                            withouthash += "?";
+
+                            if (onlyhash != "")
+                            {
+                                withouthash += "#" + onlyhash;
+                            }
+
+                            location = withouthash;
+                        }
+                    }
+                );
+                #endregion
+
+
+
+                // this check only looks for default screen width
+                // what about height and secondary screens?
+                Console.WriteLine("will prepare... " + location);
+
+                var iframe = new IHTMLIFrame
+                {
+                    frameBorder = "0",
+                    allowFullScreen = true
+                };
+
+                iframe.style.minWidth = Native.Screen.width + "px";
+                iframe.style.minHeight = Native.Screen.height + "px";
+
+                iframe.style.position = IStyle.PositionEnum.absolute;
+                iframe.style.left = "0px";
+                iframe.style.top = "0px";
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+
+                Native.Document.body.Clear();
+                Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+                Native.Window.onmessage +=
+                   e =>
+                   {
+                       Console.WriteLine("Native.Window.onmessage " + new { e.data });
+
+                       // pure trickery :P
+                       if ((string)e.data == "WebGLDynamicTerrainTemplate.loaded")
+                       {
+                           iframe.style.minWidth = "";
+                           iframe.style.minHeight = "";
+                       }
+                   };
+
+                iframe.onload +=
+                    delegate
+                    {
+                        if (iframe.src != location)
+                            return;
+
+                        Native.Window.requestAnimationFrame +=
+                          delegate
+                          {
+                              Console.WriteLine("reload done! " + new { location, iframe.src });
+                              iframe.contentWindow.postMessage("ready yet?");
+                          };
+                    };
+
+                Native.Window.requestAnimationFrame +=
+                    delegate
+                    {
+                        Console.WriteLine("will reload... " + location);
+                        iframe.AttachToDocument();
+                        iframe.src = location;
+                    };
+
+                return;
+            }
+
+
+
+
+            #endregion
+
+
             #region await Three.js then do InitializeContent
             new[]
             {
@@ -68,12 +179,7 @@ namespace WebGLDynamicTerrainTemplate
 
 
             style.Content.AttachToHead();
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
         sealed class MyModelGeometryColorMap
@@ -149,7 +255,7 @@ namespace WebGLDynamicTerrainTemplate
 
             var mlib = new Dictionary<string, THREE.ShaderMaterial>();
 
-            var soundtrack = new Five_Armies { loop = true };
+            var soundtrack = new Five_Armies { loop = true, volume = 0.9 };
 
 
             #region HasFocus
@@ -160,31 +266,31 @@ namespace WebGLDynamicTerrainTemplate
                {
                    HasFocus = false;
 
-                   soundtrack.pause();
+                   soundtrack.volume = 0.1;
                };
 
             Native.Window.onfocus +=
                 delegate
                 {
                     HasFocus = true;
-                    soundtrack.play();
+                    soundtrack.volume = 0.9;
                 };
-            Native.Document.onmousemove +=
-          delegate
-          {
-              if (HasFocus)
-                  return;
-              soundtrack.play();
-          };
+          //  Native.Document.onmousemove +=
+          //delegate
+          //{
+          //    if (HasFocus)
+          //        return;
+          //    soundtrack.play();
+          //};
 
-            Native.Document.onmouseout +=
-              delegate
-              {
-                  if (HasFocus)
-                      return;
+          //  Native.Document.onmouseout +=
+          //    delegate
+          //    {
+          //        if (HasFocus)
+          //            return;
 
-                  soundtrack.pause();
-              };
+          //        soundtrack.pause();
+          //    };
             #endregion
 
 
@@ -507,7 +613,7 @@ namespace WebGLDynamicTerrainTemplate
 
 
 
-        
+
 
             #region COMPOSER
 
@@ -697,6 +803,22 @@ namespace WebGLDynamicTerrainTemplate
 
 
 
+            Action __loaded = null;
+
+            #region event Action loaded;
+
+            Native.Window.parent.With(
+                parent =>
+                {
+                    __loaded = delegate
+                    {
+                        __loaded = null;
+                        parent.postMessage("WebGLDynamicTerrainTemplate.loaded");
+                    };
+                }
+            );
+            #endregion
+
 
             #region render
             Action render = () =>
@@ -792,6 +914,9 @@ namespace WebGLDynamicTerrainTemplate
                     //renderer.render( scene, camera );
                     composer.render(0.1);
 
+
+                    if (__loaded != null)
+                        __loaded();
                 }
                 else
                 {
