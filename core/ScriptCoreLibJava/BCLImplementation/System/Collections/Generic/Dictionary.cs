@@ -29,6 +29,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection))]
         public class __KeyCollection : ICollection<TKey>, ICollection
         {
+            public java.util.HashMap InternalDictionary;
 
             public void Add(TKey item)
             {
@@ -65,14 +66,55 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
                 throw new NotImplementedException();
             }
 
+            [Script]
+            class __iterator : IEnumerator<TKey>
+            {
+                public java.util.Iterator InternalIterator;
+
+                public TKey Current
+                {
+                    get;
+                    set;
+                }
+
+                public void Dispose()
+                {
+                    this.InternalIterator = null;
+                }
+
+                object IEnumerator.Current
+                {
+                    get { return this.Current; }
+                }
+
+                public bool MoveNext()
+                {
+                    if (this.InternalIterator.hasNext())
+                    {
+                        this.Current = (TKey)this.InternalIterator.next();
+
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                public void Reset()
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
             public IEnumerator<TKey> GetEnumerator()
             {
-                throw new NotImplementedException();
+                // tested by X:\jsc.svn\examples\java\Test\TestNameValueCollectionEnumerator\TestNameValueCollectionEnumerator\Program.cs
+
+                return new __iterator { InternalIterator = this.InternalDictionary.keySet().iterator() };
             }
 
             global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()
             {
-                throw new NotImplementedException();
+                return this.GetEnumerator();
             }
 
             void ICollection.CopyTo(Array array, int index)
@@ -100,7 +142,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         {
             get
             {
-                return new __KeyCollection { };
+                return new __KeyCollection { InternalDictionary = this.InternalDictionary };
             }
         }
 
@@ -143,7 +185,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public int Count
         {
-            get { throw new NotImplementedException(); }
+            get { return this.InternalDictionary.size(); }
         }
 
         public bool IsReadOnly
