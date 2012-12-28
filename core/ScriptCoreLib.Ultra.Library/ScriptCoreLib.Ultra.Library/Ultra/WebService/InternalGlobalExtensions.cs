@@ -528,7 +528,13 @@ namespace ScriptCoreLib.Ultra.WebService
                     var key = "_" + WebMethod.MetadataToken + "_" + Parameter.Name;
 
                     Write(" = ");
-                    Write("<input type='text'  name='" + key + "' value='" + Parameter.Value.Replace("'", "&apos;") + "' />");
+
+                    var value = "";
+
+                    Parameter.Value.With(x => value = x.Replace("'", "&apos;"));
+
+
+                    Write("<input type='text'  name='" + key + "' value='" + value + "' />");
                 }
             );
             Write("</form>");
