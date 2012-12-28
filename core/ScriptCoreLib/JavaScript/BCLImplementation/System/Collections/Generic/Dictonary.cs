@@ -208,11 +208,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
         readonly __ValueCollection InternalValues = new __ValueCollection();
 
 
-        public __ValueCollection Values
+        public Dictionary<TKey, TValue>.ValueCollection Values
         {
             get
             {
-                return this.InternalValues;
+                return (Dictionary<TKey, TValue>.ValueCollection)(object)this.InternalValues;
             }
         }
 
@@ -295,11 +295,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
 
         #region GetEnumerator
-        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
-        {
-            // jsc needs to find the original sig!
-            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
-        }
+
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
         public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
@@ -356,84 +352,50 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
 
 
+        //Error	22	'ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic.__Dictionary<TKey,TValue>' 
+        //        does not implement interface member 'ScriptCoreLib.Shared.BCLImplementation.System.Collections.__IEnumerable.GetEnumerator()'. 
+        //            'ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic.__Dictionary<TKey,TValue>.GetEnumerator()' 
+        //            cannot implement 'ScriptCoreLib.Shared.BCLImplementation.System.Collections.__IEnumerable.GetEnumerator()' because it does not have the matching return type of 'System.Collections.IEnumerator'.	
+        //            X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs	15	20	ScriptCoreLib
+
+        //Error	23	'ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic.__Dictionary<TKey,TValue>'
+        //            does not implement interface member 'ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IDictionary<TKey,TValue>.Values'. 
+        //                'ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic.__Dictionary<TKey,TValue>.Values' 
+        //                cannot implement 'ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IDictionary<TKey,TValue>.Values' 
+        //                because it does not have the matching return type of 'System.Collections.Generic.ICollection<TValue>'.	
+        //                X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs	15	20	ScriptCoreLib
+
+
+        IEnumerator __IEnumerable.GetEnumerator()
+        {
+            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
+        }
+
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
+        {
+            // jsc needs to find the original sig!
+            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
+        }
+
+        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
+
+        IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+        {
+            return (IEnumerator<KeyValuePair<TKey, TValue>>)(object)new __Enumerator(this);
+        }
+
+        #endregion
+
+
+
+
+
 
 
 
         ICollection<TValue> __IDictionary<TKey, TValue>.Values
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        TValue __IDictionary<TKey, TValue>.this[TKey key]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        void __IDictionary<TKey, TValue>.Add(TKey key, TValue value)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __IDictionary<TKey, TValue>.ContainsKey(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __IDictionary<TKey, TValue>.Remove(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        int __ICollection<KeyValuePair<TKey, TValue>>.Count
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator __IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
+            get { return this.Values; }
         }
     }
 

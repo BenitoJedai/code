@@ -113,11 +113,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         readonly __KeyCollection InternalKeys = new __KeyCollection();
 
-        public __KeyCollection Keys
+        public Dictionary<TKey, TValue>.KeyCollection Keys
         {
             get
             {
-                return InternalKeys;
+                return (Dictionary<TKey, TValue>.KeyCollection)(object)this.InternalKeys;
             }
         }
 
@@ -206,14 +206,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
         readonly __ValueCollection InternalValues = new __ValueCollection();
 
 
-        public __ValueCollection Values
+        public Dictionary<TKey, TValue>.ValueCollection Values
         {
             get
             {
-                return this.InternalValues;
+                return (Dictionary<TKey, TValue>.ValueCollection)(object)this.InternalValues;
             }
         }
-
 
         #endregion
 
@@ -293,14 +292,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         #endregion
 
-        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
 
-        IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        #endregion
 
         #region IEnumerable Members
 
@@ -312,11 +304,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         #endregion
 
-        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
-        {
-            // jsc needs to find the original sig!
-            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
-        }
+
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
         public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
@@ -405,76 +393,35 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
 
 
+
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
+        {
+            // jsc needs to find the original sig!
+            return (Dictionary<TKey, TValue>.Enumerator)(object)new __Enumerator(this);
+        }
+
+        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
+
+        IEnumerator<KeyValuePair<TKey, TValue>> __IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+        {
+            return (IEnumerator<KeyValuePair<TKey, TValue>>)(object)new __Enumerator(this);
+        }
+
+        #endregion
+
+
+
+
+
+
         ICollection<TKey> __IDictionary<TKey, TValue>.Keys
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Keys; }
         }
 
         ICollection<TValue> __IDictionary<TKey, TValue>.Values
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        TValue __IDictionary<TKey, TValue>.this[TKey key]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        void __IDictionary<TKey, TValue>.Add(TKey key, TValue value)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __IDictionary<TKey, TValue>.ContainsKey(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __IDictionary<TKey, TValue>.Remove(TKey key)
-        {
-            throw new NotImplementedException();
-        }
-
-        int __ICollection<KeyValuePair<TKey, TValue>>.Count
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void __ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool __ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
+            get { return this.Values; }
         }
     }
 

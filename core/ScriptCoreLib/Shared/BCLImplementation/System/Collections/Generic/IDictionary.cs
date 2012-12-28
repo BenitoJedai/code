@@ -7,7 +7,10 @@ using System.Collections;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(IDictionary<,>))]
-    public interface __IDictionary<TKey, TValue> : __ICollection<KeyValuePair<TKey, TValue>>, __IEnumerable<KeyValuePair<TKey, TValue>>, __IEnumerable
+    public interface __IDictionary<TKey, TValue> : 
+        __ICollection<KeyValuePair<TKey, TValue>>, 
+        __IEnumerable<KeyValuePair<TKey, TValue>>, 
+        __IEnumerable
     {
         ICollection<TKey> Keys { get; }
 
