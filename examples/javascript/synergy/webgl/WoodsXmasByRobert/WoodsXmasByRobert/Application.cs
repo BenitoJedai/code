@@ -83,13 +83,75 @@ namespace WoodsXmasByRobert
             window.map = map;
             window.starImage = starImage;
 
+            #region cursor
+            var cursor = new pointer();
+
+            cursor.style.zIndex = 0x1000;
+            cursor.Hide();
+            cursor.AttachToDocument();
+
             dynamic style = Native.Document.body.style;
+            //http://stackoverflow.com/questions/7849002/how-can-i-set-the-hotspot-to-the-center-of-a-custom-cursor
+            // http://stackoverflow.com/questions/5649608/custom-css-cursors
+            style.cursor = "url(" + cursor.src + ") 16 16,pointer";
+            #endregion
 
-            style.cursor = "url(" + new pointer().src + "),pointer";
-
-            //container.style.cursor = 'url(img/pointer.png),pointer';
 
 
+
+            var mouseXpercent = 0.5;
+            var mouseYpercent = 0.5;
+
+            #region onmousemove
+
+            var CursorX = 0;
+            var CursorY = 0;
+
+            Native.Document.onmousemove +=
+                e =>
+                {
+                    if (Native.Document.pointerLockElement == Native.Document.body)
+                    {
+                        cursor.Show();
+                        CursorX += e.movementX;
+                        CursorY += e.movementY;
+                    }
+                    else
+                    {
+                        cursor.Hide();
+                        CursorX = e.CursorX;
+                        CursorY = e.CursorY;
+                    }
+
+                    // keep cursor in view
+                    CursorX = CursorX.Max(0).Min(Native.Window.Width);
+                    CursorY = CursorY.Max(0).Min(Native.Window.Height);
+
+                    if (Native.Document.pointerLockElement == Native.Document.body)
+                    {
+                        cursor.style.SetLocation(CursorX - 16, CursorY - 16);
+                    }
+
+                    var windowHalfX = Native.Window.Width >> 1;
+                    var windowHalfY = Native.Window.Height >> 1;
+
+                    var mouseX = (CursorX - windowHalfX);
+                    var mouseY = (CursorY - windowHalfY);
+
+                    mouseXpercent = mouseX / windowHalfX;
+                    mouseYpercent = mouseY / windowHalfY;
+
+                    window.mouseXpercent = mouseXpercent;
+                    window.mouseYpercent = mouseYpercent;
+                };
+            #endregion
+
+            Native.Document.onmousedown +=
+                e =>
+                {
+                    if (e.MouseButton == IEvent.MouseButtonEnum.Right)
+                        Native.Document.body.requestPointerLock();
+                };
 
 
             new AppCode().Content.AttachToDocument().onload +=
@@ -288,30 +350,6 @@ namespace WoodsXmasByRobert
                     composer.addPass(effectVignette);
                     composer.addPass(effectCopy);
 
-
-
-
-
-                    #region onmousemove
-                    var mouseXpercent = 0.5;
-                    var mouseYpercent = 0.5;
-
-                    Native.Document.onmousemove +=
-                        e =>
-                        {
-                            var windowHalfX = Native.Window.Width >> 1;
-                            var windowHalfY = Native.Window.Height >> 1;
-
-                            var mouseX = (e.CursorX - windowHalfX);
-                            var mouseY = (e.CursorY - windowHalfY);
-
-                            mouseXpercent = mouseX / windowHalfX;
-                            mouseYpercent = mouseY / windowHalfY;
-
-                            window.mouseXpercent = mouseXpercent;
-                            window.mouseYpercent = mouseYpercent;
-                        };
-                    #endregion
 
 
 
@@ -882,6 +920,13 @@ namespace WoodsXmasByRobert
                     animate();
                     #endregion
 
+
+
+
+
+
+
+
                 };
 
 
@@ -900,12 +945,7 @@ namespace WoodsXmasByRobert
                     e.preventDefault();
                 };
 
-            //Native.Document.onmousedown +=
-            //    e =>
-            //    {
-            //        if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
-            //            Native.Document.body.requestPointerLock();
-            //    };
+
         }
 
     }

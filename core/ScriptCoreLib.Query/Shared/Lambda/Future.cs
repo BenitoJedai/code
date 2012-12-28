@@ -242,20 +242,27 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			var MoveNext = default(Action<Action>);
 
-			//  
+            //Console.WriteLine("ForEach");
+
 			MoveNext =
 				SignalNext =>
 				{
 					if (e.MoveNext())
 					{
+                        //Console.WriteLine("ForEach handler");
+
 						i++;
 						c.Continue(MoveNext);
 
-						handler(e.Current, i, SignalNext);
+                        //Console.WriteLine("ForEach handler invoke");
+
+                        handler(e.Current, i, SignalNext);
 					}
 					else
 					{
-						e.Dispose();
+                        //Console.WriteLine("ForEach done");
+
+                        e.Dispose();
 						e = null;
 						c = null;
 						MoveNext = null;
@@ -270,6 +277,8 @@ namespace ScriptCoreLib.Shared.Lambda
 			var SignalFirst = c.Continue(
 					SignalNext =>
 					{
+                        //Console.WriteLine("ForEach SignalFirst");
+
 						e = source.AsEnumerable().GetEnumerator();
 
 						MoveNext(SignalNext);
