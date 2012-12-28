@@ -12,6 +12,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
     internal class __Dictionary<TKey, TValue> :
         __IDictionary<TKey, TValue>
     {
+        // Implementation not found for type import :
+        // System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] :: Enumerator GetEnumerator()
+        // Did you forget to add the [Script] attribute?
+        // Please double check the signature!
+        // type: ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__StringDictionary offset: 0x0007  
+        // method:System.Collections.IEnumerator GetEnumerator()
+        //jsc.meta.Loader UnhandledException:
+
+
         public java.util.HashMap InternalDictionary = new java.util.HashMap();
 
         public __Dictionary()
@@ -214,11 +223,63 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         }
 
 
-
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        #region GetEnumerator
+        public __Dictionary<TKey, TValue>.__Enumerator GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new __Enumerator(this);
         }
+
+        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
+        public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
+        {
+            IEnumerator<KeyValuePair<TKey, TValue>> list;
+
+            public __Enumerator() : this(null) { }
+
+            public __Enumerator(__Dictionary<TKey, TValue> e)
+            {
+                if (e == null)
+                    return;
+
+                global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>> a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
+
+                foreach (var v in e.Keys)
+                {
+                    a.Add(new KeyValuePair<TKey, TValue>(v, e[v]));
+                }
+
+                this.list = a.GetEnumerator();
+            }
+
+            public KeyValuePair<TKey, TValue> Current { get { return list.Current; } }
+
+            public void Dispose()
+            {
+                list.Dispose();
+            }
+
+            public bool MoveNext()
+            {
+                return list.MoveNext();
+            }
+
+
+
+            #region IEnumerator Members
+
+            object IEnumerator.Current
+            {
+                get { return this.Current; }
+            }
+
+            public void Reset()
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+
+            #endregion
+        }
+        #endregion
 
         global::System.Collections.IEnumerator ScriptCoreLib.Shared.BCLImplementation.System.Collections.__IEnumerable.GetEnumerator()
         {
