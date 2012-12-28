@@ -31,7 +31,7 @@ namespace TestNameValueCollectionEnumerator
 
             try
             {
-  
+
 
                 var Headers = new NameValueCollection();
 
@@ -44,28 +44,37 @@ namespace TestNameValueCollectionEnumerator
 
                     Console.WriteLine(item + ": " + Headers[item]);
                 }
+
+                var x = new StringDictionary();
+
+                x["x"] = "x";
+
+                foreach (var item in x)
+                {
+                    Console.WriteLine(item);
+                }
             }
             catch (Exception ex)
             {
- //                             error! { Message = , StackTrace = java.lang.RuntimeException
- //       at ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary_2.get_Count(__Dictionary_2.java:60)
- //       at ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__StringDictionary.get_Count(__StringDictionary.java:46)
- //       at ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__NameValueCollection.get_AllKeys(__NameValueCollection.java:31)
- //       at TestNameValueCollectionEnumerator.Program.main(Program.java:36)
- //}
+                //                             error! { Message = , StackTrace = java.lang.RuntimeException
+                //       at ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary_2.get_Count(__Dictionary_2.java:60)
+                //       at ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__StringDictionary.get_Count(__StringDictionary.java:46)
+                //       at ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__NameValueCollection.get_AllKeys(__NameValueCollection.java:31)
+                //       at TestNameValueCollectionEnumerator.Program.main(Program.java:36)
+                //}
 
- //               error! { Message = , StackTrace = java.lang.RuntimeException
- //       at ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary_2___KeyCollection.global__System_Collections_IEnumerable_GetEnumerator(__Dictionary_2___KeyCollection.java:66)
- //       at ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary_2___KeyCollection.System_Collections_IEnumerable_GetEnumerator(__Dictionary_2___KeyCollection.java:132)
- //       at ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__NameValueCollection.get_AllKeys(__NameValueCollection.java:33)
- //       at TestNameValueCollectionEnumerator.Program.main(Program.java:36)
- //}
+                //               error! { Message = , StackTrace = java.lang.RuntimeException
+                //       at ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary_2___KeyCollection.global__System_Collections_IEnumerable_GetEnumerator(__Dictionary_2___KeyCollection.java:66)
+                //       at ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary_2___KeyCollection.System_Collections_IEnumerable_GetEnumerator(__Dictionary_2___KeyCollection.java:132)
+                //       at ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__NameValueCollection.get_AllKeys(__NameValueCollection.java:33)
+                //       at TestNameValueCollectionEnumerator.Program.main(Program.java:36)
+                //}
 
- //               error! { Message = , StackTrace = java.lang.RuntimeException
- //       at ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary_2___KeyCollection___iterator.System_Collections_IEnumerator_get_Current(__Dictionary_2___KeyCollection___iterator.java:40)
- //       at ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__NameValueCollection.get_AllKeys(__NameValueCollection.java:38)
- //       at TestNameValueCollectionEnumerator.Program.main(Program.java:36)
- //}
+                //               error! { Message = , StackTrace = java.lang.RuntimeException
+                //       at ScriptCoreLibJava.BCLImplementation.System.Collections.Generic.__Dictionary_2___KeyCollection___iterator.System_Collections_IEnumerator_get_Current(__Dictionary_2___KeyCollection___iterator.java:40)
+                //       at ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized.__NameValueCollection.get_AllKeys(__NameValueCollection.java:38)
+                //       at TestNameValueCollectionEnumerator.Program.main(Program.java:36)
+                //}
 
 
                 System.Console.WriteLine("error! " + new { ex.Message, ex.StackTrace });
