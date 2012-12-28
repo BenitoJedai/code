@@ -57,6 +57,16 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
         {
             public List<TKey> InternalItems = new List<TKey>();
 
+            public __KeyCollection()
+            {
+                //script: error JSC1000: PHP : internal error while compiling type 
+                // ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__Dictionary`2+__Enumerator; 
+                // internal compiler error at method 
+                // ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__Dictionary`2+__Enumerator..ctor : 
+                // InternalTypeDefault not found for struct init, 
+                // { r = System.Collections.Generic.Dictionary`2+KeyCollection+Enumerator[TKey,TValue] }
+
+            }
             public void Add(TKey item)
             {
                 InternalItems.Add(item);
@@ -98,16 +108,55 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
                 return InternalItems.Remove(item);
             }
 
-            public IEnumerator<TKey> GetEnumerator()
+            #region GetEnumerator
+            [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection.Enumerator))]
+            class __Enumerator : IEnumerator<TKey>
             {
-                return InternalItems.GetEnumerator();
+                public List<TKey>.Enumerator InternalEnumerator;
+
+                public TKey Current
+                {
+                    get { return this.InternalEnumerator.Current; }
+                }
+
+                public void Dispose()
+                {
+                    this.InternalEnumerator.Dispose();
+                }
+
+                object IEnumerator.Current
+                {
+                    get { return this.Current; }
+                }
+
+                public bool MoveNext()
+                {
+                    return this.InternalEnumerator.MoveNext();
+                }
+
+                public void Reset()
+                {
+
+                }
             }
 
-
-
-            IEnumerator IEnumerable.GetEnumerator()
+            public Dictionary<TKey, TValue>.KeyCollection.Enumerator GetEnumerator()
             {
-                throw new NotImplementedException();
+                // tested by X:\jsc.svn\examples\java\Test\TestNameValueCollectionEnumerator\TestNameValueCollectionEnumerator\Program.cs
+
+                return (Dictionary<TKey, TValue>.KeyCollection.Enumerator)(object)new __Enumerator { InternalEnumerator = this.InternalItems.GetEnumerator() };
+            }
+
+            global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+            #endregion
+
+
+            IEnumerator<TKey> IEnumerable<TKey>.GetEnumerator()
+            {
+                return this.GetEnumerator();
             }
         }
 
