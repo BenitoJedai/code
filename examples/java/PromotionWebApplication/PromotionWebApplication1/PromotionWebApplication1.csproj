@@ -188,10 +188,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\javascript\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj">
-      <Project>{2f3573db-52c7-4ace-bedb-27c4aed70f39}</Project>
-      <Name>AvalonPromotionBrandIntro</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PromotionWebApplicationHome\PromotionWebApplicationHome.csproj">
       <Project>{52091756-B888-4CAF-BEA5-F1D539F6FB81}</Project>
       <Name>PromotionWebApplicationHome</Name>

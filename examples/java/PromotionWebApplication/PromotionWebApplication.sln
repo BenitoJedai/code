@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Web Developer Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1", "PromotionWebApplication1\PromotionWebApplication1.csproj", "{00A6CB37-64BC-4C54-849D-70A834E146A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplicationHome", "PromotionWebApplicationHome\PromotionWebApplicationHome.csproj", "{52091756-B888-4CAF-BEA5-F1D539F6FB81}"
@@ -9,6 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonPromotionBrandIntro",
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|Any CPU = Android|Any CPU
+		Android|Mixed Platforms = Android|Mixed Platforms
+		Android|x86 = Android|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
@@ -17,6 +20,11 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Android|Any CPU.Build.0 = Release|Any CPU
+		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Android|x86.ActiveCfg = Release|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -27,6 +35,11 @@ Global
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Android|Any CPU.Build.0 = Release|Any CPU
+		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Android|x86.ActiveCfg = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -37,6 +50,11 @@ Global
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|x86.ActiveCfg = Release|Any CPU
+		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|Any CPU.ActiveCfg = Android|x86
+		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|Mixed Platforms.ActiveCfg = Android|x86
+		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|Mixed Platforms.Build.0 = Android|x86
+		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|x86.ActiveCfg = Android|x86
+		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|x86.Build.0 = Android|x86
 		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Mixed Platforms.Build.0 = Debug|x86
