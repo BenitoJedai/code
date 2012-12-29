@@ -5,18 +5,74 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
 using System.Xml.Linq;
+using System.Web;
+using System.Collections.Specialized;
 
 namespace PromotionWebApplication1
 {
+    static class X
+    {
+        public static string GetHeader(this HttpRequest r, string k)
+        {
+            return r.GetHeader0(k);
+        }
+
+        public static string GetHeader0(this HttpRequest r, string k)
+        {
+            //Caused by: java.lang.NoSuchMethodError: ScriptCoreLibJava.BCLImplementation.System.Web.__HttpRequest.get_Headers()LScriptCoreLib/Shared/BCLImplementation/System/Collections/Specialized/__NameValueCollection;
+            //    at PromotionWebApplication1.X.GetHeader0(X.java:24)
+            Console.WriteLine("before the problem...");
+            Console.WriteLine("r: " + r);
+
+            var t = r.GetType();
+            Console.WriteLine("t: " + t);
+
+            var m = t.GetMethods();
+
+
+            foreach (var item in m)
+            {
+                Console.WriteLine("m: " + item);
+            }
+
+            //before the problem...
+            //r: ScriptCoreLibJava.BCLImplementation.System.Web.__HttpRequest@578dfb
+            //t: ScriptCoreLibJava.BCLImplementation.System.__Type@12d8ecd
+            //m: java.lang.String get_Path()
+            //m: java.lang.String get_HttpMethod()
+            //m: ScriptCoreLibJava.BCLImplementation.System.Collections.Specialized.__NameValueCollection get_Form()
+            //m: void InitializeForm()
+            //m: ScriptCoreLibJava.BCLImplementation.System.Collections.Specialized.__NameValueCollection get_QueryString()
+            //m: ScriptCoreLibJava.BCLImplementation.System.Collections.Specialized.__NameValueCollection get_Headers()
+
+            // what the fck? is there a OS issue? java version issue? long name issue?
+            var h = r.Headers;
+
+            return h.GetHeader1(k);
+        }
+
+        public static string GetHeader1(this NameValueCollection r, string k)
+        {
+            return r[k];
+        }
+    }
+
     //class ApplicationWebServiceHandler
     public sealed partial class ApplicationWebService
     {
+#if DEBUG
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
             //            Content-Length:0
             //Content-Type:text/html
             //Date:Sat, 29 Dec 2012 12:42:05 GMT
             //Server:Google Frontend
+
+            // http://blog.restphone.com/2011/04/app-engine-debug-project-gets.html
+            //Caused by: java.lang.NoSuchMethodError: ScriptCoreLibJava.BCLImplementation.System.Web.__HttpRequest.get_Headers()LScriptCoreLib/Shared/BCLImplementation/System/Collections/Specialized/__NameValueCollection;
+            //    at PromotionWebApplication1.ApplicationWebService___c__DisplayClass3._Handler_b__0(ApplicationWebService___c__DisplayClass3.java:46)
+            //    ... 37 more
+            // }
 
             if (h.Context.Request.Path == "/jsc")
             {
@@ -35,15 +91,14 @@ namespace PromotionWebApplication1
             {
                 Action foo = delegate
                 {
-
-                    var Referer = h.Context.Request.Headers["Referer"];
+                    var Referer = h.Context.Request.GetHeader("Referer");
                     if (Referer == null)
                         Referer = "any";
 
                     var HostUri = new
                     {
-                        Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":"),
-                        Port = h.Context.Request.Headers["Host"].SkipUntilIfAny(":")
+                        Host = h.Context.Request.GetHeader("Host").TakeUntilIfAny(":"),
+                        Port = h.Context.Request.GetHeader("Host").SkipUntilIfAny(":")
                     };
 
                     var app = new { domain = "www.jsc-solutions.net", local = "127.0.0.1", referer = "", client = h.Applications.FirstOrDefault(k => k.TypeName == "Application") };
@@ -85,7 +140,7 @@ namespace PromotionWebApplication1
                     //    }
                     //);
 
-                    #region /view-source
+        #region /view-source
                     var IsViewSource = h.Context.Request.Path == "/view-source";
 
                     var __explicit = "/" + app.domain + "/view-source";
@@ -142,7 +197,7 @@ namespace PromotionWebApplication1
 
                         h.CompleteRequest();
                     }
-                
+
                 };
 
 
@@ -155,5 +210,6 @@ namespace PromotionWebApplication1
                 h.CompleteRequest();
             }
         }
+#endif
     }
 }
