@@ -13,122 +13,147 @@ namespace PromotionWebApplication1
     {
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
+            //            Content-Length:0
+            //Content-Type:text/html
+            //Date:Sat, 29 Dec 2012 12:42:05 GMT
+            //Server:Google Frontend
+
             if (h.Context.Request.Path == "/jsc")
             {
                 h.Diagnostics();
                 return;
             }
 
-            var Referer = h.Context.Request.Headers["Referer"];
-            if (Referer == null)
-                Referer = "any";
-
-            var HostUri = new
+            if (h.Context.Request.Path == "/xxx")
             {
-                Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":"),
-                Port = h.Context.Request.Headers["Host"].SkipUntilIfAny(":")
-            };
-
-
-
-
-            var app = new { domain = "www.jsc-solutions.net", local = "127.0.0.1", referer = "", client = h.Applications.FirstOrDefault(k => k.TypeName == "Application") };
-
-
-            //var app = apps.FirstOrDefault(
-            //    k =>
-            //    {
-            //        //http://idea-remixer.tumblr.com/
-
-            //        if (k.referer == Referer)
-            //            return true;
-
-
-            //        // GAE has a different value for referer and port
-            //        var r = ("http://" + k.referer + "/");
-            //        if (r == Referer)
-            //            return true;
-
-
-            //        if (k.domain == HostUri.Host)
-            //            return true;
-
-            //        if (k.local == HostUri.Host)
-            //            return true;
-
-            //        if (h.Context.Request.Path == "/" + k.domain)
-            //            return true;
-
-            //        if (Referer.EndsWith("/" + k.domain))
-            //            return true;
-
-            //        // default
-            //        if (k.local == "127.0.0.1")
-            //            return true;
-
-            //        return false;
-            //    }
-            //);
-
-            #region /view-source
-            var IsViewSource = h.Context.Request.Path == "/view-source";
-
-            var __explicit = "/" + app.domain + "/view-source";
-
-            if (h.Context.Request.Path == __explicit)
-                IsViewSource = true;
-
-            if (IsViewSource)
-            {
-                h.Context.Response.ContentType = "text/javascript";
-
-
-                // http://www.webscalingblog.com/performance/caching-http-headers-cache-control-max-age.html
-                // this will break if decision was based on referal. should use redirect instead?
-                h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
-
-                h.Context.Response.AddHeader("X-Trace", new { Referer, HostUri, app.domain } + "");
-
-                // Accept-Encoding: gzip,deflate,sdch
-                foreach (var item in app.client.References)
-                {
-                    h.Context.Response.WriteFile("" + item.AssemblyFile + ".js");
-                }
-
+                h.Context.Response.Write("go away!");
                 h.CompleteRequest();
                 return;
             }
-            #endregion
 
-            if (h.IsDefaultPath)
+            try
             {
-                h.Context.Response.ContentType = "text/html";
+                Action foo = delegate
+                {
 
-                var xml = XElement.Parse(app.client.PageSource);
+                    var Referer = h.Context.Request.Headers["Referer"];
+                    if (Referer == null)
+                        Referer = "any";
 
-                var src = __explicit;
+                    var HostUri = new
+                    {
+                        Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":"),
+                        Port = h.Context.Request.Headers["Host"].SkipUntilIfAny(":")
+                    };
 
-                if (HostUri.Host == app.domain)
-                    src = "/view-source";
+                    var app = new { domain = "www.jsc-solutions.net", local = "127.0.0.1", referer = "", client = h.Applications.FirstOrDefault(k => k.TypeName == "Application") };
+
+                    h.Context.Response.AddHeader("X-Trace", new { Referer, HostUri, app.domain } + "");
+
+                    //var app = apps.FirstOrDefault(
+                    //    k =>
+                    //    {
+                    //        //http://idea-remixer.tumblr.com/
+
+                    //        if (k.referer == Referer)
+                    //            return true;
+
+
+                    //        // GAE has a different value for referer and port
+                    //        var r = ("http://" + k.referer + "/");
+                    //        if (r == Referer)
+                    //            return true;
+
+
+                    //        if (k.domain == HostUri.Host)
+                    //            return true;
+
+                    //        if (k.local == HostUri.Host)
+                    //            return true;
+
+                    //        if (h.Context.Request.Path == "/" + k.domain)
+                    //            return true;
+
+                    //        if (Referer.EndsWith("/" + k.domain))
+                    //            return true;
+
+                    //        // default
+                    //        if (k.local == "127.0.0.1")
+                    //            return true;
+
+                    //        return false;
+                    //    }
+                    //);
+
+                    #region /view-source
+                    var IsViewSource = h.Context.Request.Path == "/view-source";
+
+                    var __explicit = "/" + app.domain + "/view-source";
+
+                    if (h.Context.Request.Path == __explicit)
+                        IsViewSource = true;
+
+                    if (IsViewSource)
+                    {
+                        h.Context.Response.ContentType = "text/javascript";
+
+
+                        // http://www.webscalingblog.com/performance/caching-http-headers-cache-control-max-age.html
+                        // this will break if decision was based on referal. should use redirect instead?
+                        h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
+
+
+                        // Accept-Encoding: gzip,deflate,sdch
+                        foreach (var item in app.client.References)
+                        {
+                            h.Context.Response.WriteFile("" + item.AssemblyFile + ".js");
+                        }
+
+                        h.CompleteRequest();
+                        return;
+                    }
+                    #endregion
+
+                    if (h.IsDefaultPath)
+                    {
+                        h.Context.Response.ContentType = "text/html";
+
+                        var xml = XElement.Parse(app.client.PageSource);
+
+                        var src = __explicit;
+
+                        if (HostUri.Host == app.domain)
+                            src = "/view-source";
 
 
 
-                xml.Add(
-                    new XElement("script",
-                        new XAttribute("src", src),
+                        xml.Add(
+                            new XElement("script",
+                                new XAttribute("src", src),
 
-                        // android otherwise closes the tag?
-                        " "
-                    )
-                );
+                                // android otherwise closes the tag?
+                                " "
+                            )
+                        );
 
 
 
-                h.Context.Response.Write(xml.ToString());
+                        h.Context.Response.Write(xml.ToString());
 
+                        h.CompleteRequest();
+                    }
+                
+                };
+
+
+                // woraround return support inside try block
+                foo();
+            }
+            catch (Exception ex)
+            {
+                h.Context.Response.Write("yikes! i did something stupid. " + new { ex.Message, ex.StackTrace });
                 h.CompleteRequest();
             }
-
         }
     }
 }
