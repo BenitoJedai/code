@@ -99,6 +99,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js</PostBuildEvent>
+start /WAIT cmd /C c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js</PostBuildEvent>
   </PropertyGroup>
 </Project>
