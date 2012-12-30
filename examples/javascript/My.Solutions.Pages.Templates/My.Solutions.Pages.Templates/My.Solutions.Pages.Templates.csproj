@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{359BF739-2E7B-453E-A110-748D793F030D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>My.Solutions.Pages.Templates</RootNamespace>
+    <AssemblyName>My.Solutions.Pages.Templates</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>My.Solutions.Pages.Templates.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="My.Solutions.Pages.Templates.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\My.Solutions.Pages.Templates.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLWindWheel.AssetsLibrary">
+      <HintPath>..\..\WebGLWindWheel\WebGLWindWheel\bin\staging.AssetsLibrary\WebGLWindWheel.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLTunnel.AssetsLibrary">
+      <HintPath>..\..\WebGLTunnel\WebGLTunnel\bin\staging.AssetsLibrary\WebGLTunnel.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpiral.AssetsLibrary">
+      <HintPath>..\..\WebGLSpiral\WebGLSpiral\bin\staging.AssetsLibrary\WebGLSpiral.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpiderModel.AssetsLibrary">
+      <HintPath>..\..\ArduinoSpiderControlCenter\SpiderModel\bin\staging.AssetsLibrary\SpiderModel.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpadeWarrior.AssetsLibrary">
+      <HintPath>..\..\WebGLSpadeWarrior\WebGLSpadeWarrior\bin\staging.AssetsLibrary\WebGLSpadeWarrior.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSimpleCubic.AssetsLibrary">
+      <HintPath>..\..\WebGLSimpleCubic\WebGLSimpleCubic\bin\staging.AssetsLibrary\WebGLSimpleCubic.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLPlanetGenerator.AssetsLibrary">
+      <HintPath>..\..\WebGLPlanetGenerator\WebGLPlanetGenerator\bin\staging.AssetsLibrary\WebGLPlanetGenerator.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLNyanCat.AssetsLibrary">
+      <HintPath>..\..\WebGLNyanCat\WebGLNyanCat\bin\staging.AssetsLibrary\WebGLNyanCat.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson16.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson16\WebGLLesson16\bin\staging.AssetsLibrary\WebGLLesson16.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson15.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson15\WebGLLesson15\bin\staging.AssetsLibrary\WebGLLesson15.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson13.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson13\WebGLLesson13\bin\staging.AssetsLibrary\WebGLLesson13.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson14.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson14\WebGLLesson14\bin\staging.AssetsLibrary\WebGLLesson14.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson10.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson10\WebGLLesson10\bin\staging.AssetsLibrary\WebGLLesson10.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson11.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson11\WebGLLesson11\bin\staging.AssetsLibrary\WebGLLesson11.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson12.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson12\WebGLLesson12\bin\staging.AssetsLibrary\WebGLLesson12.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson05.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson05\WebGLLesson05\bin\staging.AssetsLibrary\WebGLLesson05.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson06.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson06\WebGLLesson06\bin\staging.AssetsLibrary\WebGLLesson06.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson07.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson07\WebGLLesson07\bin\staging.AssetsLibrary\WebGLLesson07.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson08.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson08\WebGLLesson08\bin\staging.AssetsLibrary\WebGLLesson08.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson09.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson09\WebGLLesson09\bin\staging.AssetsLibrary\WebGLLesson09.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson01.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson01\WebGLLesson01\bin\staging.AssetsLibrary\WebGLLesson01.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson02.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson02\WebGLLesson02\bin\staging.AssetsLibrary\WebGLLesson02.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson03.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson03\WebGLLesson03\bin\staging.AssetsLibrary\WebGLLesson03.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson04.AssetsLibrary">
+      <HintPath>..\..\WebGLLesson04\WebGLLesson04\bin\staging.AssetsLibrary\WebGLLesson04.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLInvade.AssetsLibrary">
+      <HintPath>..\..\WebGLInvade\WebGLInvade\bin\staging.AssetsLibrary\WebGLInvade.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLHand.AssetsLibrary">
+      <HintPath>..\..\WebGLHand\WebGLHand\bin\staging.AssetsLibrary\WebGLHand.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLEscherDrosteEffect.AssetsLibrary">
+      <HintPath>..\..\WebGLEscherDrosteEffect\WebGLEscherDrosteEffect\bin\staging.AssetsLibrary\WebGLEscherDrosteEffect.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLDynamicTerrainTemplate.AssetsLibrary">
+      <HintPath>..\..\WebGLDynamicTerrainTemplate\WebGLDynamicTerrainTemplate\bin\staging.AssetsLibrary\WebGLDynamicTerrainTemplate.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLShaderDisturb.AssetsLibrary">
+      <HintPath>..\..\WebGLShaderDisturb\WebGLShaderDisturb\bin\staging.AssetsLibrary\WebGLShaderDisturb.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLCone.AssetsLibrary">
+      <HintPath>..\..\WebGLCone\WebGLCone\bin\staging.AssetsLibrary\WebGLCone.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLCelShader.AssetsLibrary">
+      <HintPath>..\..\WebGLCelShader\WebGLCelShader\bin\staging.AssetsLibrary\WebGLCelShader.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLClouds.AssetsLibrary">
+      <HintPath>..\..\WebGLClouds\WebGLClouds\bin\staging.AssetsLibrary\WebGLClouds.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLPuls.AssetsLibrary">
+      <HintPath>..\..\WebGLPuls\WebGLPuls\bin\staging.AssetsLibrary\WebGLPuls.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLChocolux.AssetsLibrary">
+      <HintPath>..\..\WebGLChocolux\WebGLChocolux\bin\staging.AssetsLibrary\WebGLChocolux.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLFireballExplosion.AssetsLibrary">
+      <HintPath>..\..\WebGLFireballExplosion\WebGLFireballExplosion\bin\staging.AssetsLibrary\WebGLFireballExplosion.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSphereRayTrace.AssetsLibrary">
+      <HintPath>..\..\WebGLSphereRayTrace\WebGLSphereRayTrace\bin\staging.AssetsLibrary\WebGLSphereRayTrace.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLYomotsuMD2Model.AssetsLibrary">
+      <HintPath>..\..\WebGLYomotsuMD2Model\WebGLYomotsuMD2Model\bin\staging.AssetsLibrary\WebGLYomotsuMD2Model.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLYomotsuTPS.AssetsLibrary">
+      <HintPath>..\..\WebGLYomotsuTPS\WebGLYomotsuTPS\bin\staging.AssetsLibrary\WebGLYomotsuTPS.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLEthanolMolecule.AssetsLibrary">
+      <HintPath>..\..\WebGLEthanolMolecule\WebGLEthanolMolecule\bin\staging.AssetsLibrary\WebGLEthanolMolecule.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLDopamineMolecule.AssetsLibrary">
+      <HintPath>..\..\WebGLDopamineMolecule\WebGLDopamineMolecule\bin\staging.AssetsLibrary\WebGLDopamineMolecule.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WoodsXmasByRobert.AssetsLibrary">
+      <HintPath>..\..\synergy\webgl\WoodsXmasByRobert\WoodsXmasByRobert\bin\staging.AssetsLibrary\WoodsXmasByRobert.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLCannonPhysicsEngine.AssetsLibrary">
+      <HintPath>..\..\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine\bin\staging.AssetsLibrary\WebGLCannonPhysicsEngine.AssetsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\Default.css" />
+    <Content Include="Design\Default.htm" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Content Include="Design\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ArduinoSpiderControlCenter\SpiderModel\SpiderModel.csproj">
+      <Project>{3de096e7-b756-452a-b853-bf732acabd70}</Project>
+      <Name>SpiderModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\webgl\WoodsXmasByRobert\WoodsXmasByRobert\WoodsXmasByRobert.csproj">
+      <Project>{fa825f4a-f9f2-40eb-a63f-c54e9b34fc7d}</Project>
+      <Name>WoodsXmasByRobert</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine.csproj">
+      <Project>{6afa30d6-e490-4d20-abee-50e900779cf4}</Project>
+      <Name>WebGLCannonPhysicsEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLCelShader\WebGLCelShader\WebGLCelShader.csproj">
+      <Project>{71da37f6-92ee-458b-8205-39e1c47c0458}</Project>
+      <Name>WebGLCelShader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLChocolux\WebGLChocolux\WebGLChocolux.csproj">
+      <Project>{6b00adf9-3dcc-4293-aa23-07236e484c3c}</Project>
+      <Name>WebGLChocolux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLClouds\WebGLClouds\WebGLClouds.csproj">
+      <Project>{0934d9dd-7e92-4841-b8d6-c7cf77ec5318}</Project>
+      <Name>WebGLClouds</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLCone\WebGLCone\WebGLCone.csproj">
+      <Project>{872d4367-34aa-44a2-b7f1-95d272b3ff0f}</Project>
+      <Name>WebGLCone</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLDopamineMolecule\WebGLDopamineMolecule\WebGLDopamineMolecule.csproj">
+      <Project>{8f642fd0-a464-489f-b1c8-4211f97752e3}</Project>
+      <Name>WebGLDopamineMolecule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLDynamicTerrainTemplate\WebGLDynamicTerrainTemplate\WebGLDynamicTerrainTemplate.csproj">
+      <Project>{6611a1d4-5541-402a-a211-405b02712f89}</Project>
+      <Name>WebGLDynamicTerrainTemplate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLEscherDrosteEffect\WebGLEscherDrosteEffect\WebGLEscherDrosteEffect.csproj">
+      <Project>{3c9177cb-186b-409e-ba08-6914203670a8}</Project>
+      <Name>WebGLEscherDrosteEffect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLEthanolMolecule\WebGLEthanolMolecule\WebGLEthanolMolecule.csproj">
+      <Project>{33e5fdf1-fd33-4839-bc39-80715c974a3c}</Project>
+      <Name>WebGLEthanolMolecule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLFireballExplosion\WebGLFireballExplosion\WebGLFireballExplosion.csproj">
+      <Project>{a5a2005d-d90d-4a59-aa2a-c61d2b5f5010}</Project>
+      <Name>WebGLFireballExplosion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLHand\WebGLHand\WebGLHand.csproj">
+      <Project>{fee6ff6c-7ce4-4dd8-9bb8-c522d9fae2d5}</Project>
+      <Name>WebGLHand</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLInvade\WebGLInvade\WebGLInvade.csproj">
+      <Project>{b6498699-e5f8-4ef8-9812-e779f75c4b99}</Project>
+      <Name>WebGLInvade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson01\WebGLLesson01\WebGLLesson01.csproj">
+      <Project>{25011337-6813-4216-95e9-2b9be5eb4611}</Project>
+      <Name>WebGLLesson01</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson02\WebGLLesson02\WebGLLesson02.csproj">
+      <Project>{bf62daeb-044b-427b-a2da-68423bd48005}</Project>
+      <Name>WebGLLesson02</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson03\WebGLLesson03\WebGLLesson03.csproj">
+      <Project>{48fde8b2-52e3-48cf-8f49-eb7ea82152ea}</Project>
+      <Name>WebGLLesson03</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson04\WebGLLesson04\WebGLLesson04.csproj">
+      <Project>{e6fe25e1-547b-47dd-a4d0-f5c6cdb49784}</Project>
+      <Name>WebGLLesson04</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson05\WebGLLesson05\WebGLLesson05.csproj">
+      <Project>{edf1b6a3-a847-42d0-9b4d-b3109881ba5f}</Project>
+      <Name>WebGLLesson05</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson06\WebGLLesson06\WebGLLesson06.csproj">
+      <Project>{73a6d082-4a88-4ef7-8a09-62c2ca3364c1}</Project>
+      <Name>WebGLLesson06</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson07\WebGLLesson07\WebGLLesson07.csproj">
+      <Project>{75d2d800-3fc6-47a5-90bf-305807387002}</Project>
+      <Name>WebGLLesson07</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson08\WebGLLesson08\WebGLLesson08.csproj">
+      <Project>{04a2beb6-2028-40c1-9ae9-bb7d08535f02}</Project>
+      <Name>WebGLLesson08</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson09\WebGLLesson09\WebGLLesson09.csproj">
+      <Project>{8cf5e0cf-9ad8-4c62-84cd-9c1a134d1b5f}</Project>
+      <Name>WebGLLesson09</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson10\WebGLLesson10\WebGLLesson10.csproj">
+      <Project>{61cd247e-df04-4627-b884-a628469ced8a}</Project>
+      <Name>WebGLLesson10</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson11\WebGLLesson11\WebGLLesson11.csproj">
+      <Project>{102a2617-e91a-4b9c-8164-ea1fe0b676aa}</Project>
+      <Name>WebGLLesson11</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson12\WebGLLesson12\WebGLLesson12.csproj">
+      <Project>{c6005e06-bb80-4820-b322-18ae40c52190}</Project>
+      <Name>WebGLLesson12</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson13\WebGLLesson13\WebGLLesson13.csproj">
+      <Project>{12a7d2ac-23c3-4a3e-9af1-dd602209c089}</Project>
+      <Name>WebGLLesson13</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson14\WebGLLesson14\WebGLLesson14.csproj">
+      <Project>{14097869-fd57-434f-b4cf-e3478cc18b62}</Project>
+      <Name>WebGLLesson14</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson15\WebGLLesson15\WebGLLesson15.csproj">
+      <Project>{85f56d10-bafe-4a08-83e4-92c46e0c9d9a}</Project>
+      <Name>WebGLLesson15</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLLesson16\WebGLLesson16\WebGLLesson16.csproj">
+      <Project>{52c1fb4a-882b-4895-8776-9f4d0d7ec3ca}</Project>
+      <Name>WebGLLesson16</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLNyanCat\WebGLNyanCat\WebGLNyanCat.csproj">
+      <Project>{bd79eb41-fc59-40ed-ab2a-85557a4f300f}</Project>
+      <Name>WebGLNyanCat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLPlanetGenerator\WebGLPlanetGenerator\WebGLPlanetGenerator.csproj">
+      <Project>{0c7f1758-1ab8-437b-9e3e-52a9e67a8a75}</Project>
+      <Name>WebGLPlanetGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLPuls\WebGLPuls\WebGLPuls.csproj">
+      <Project>{9123bd19-1fd3-4d88-85c8-b92a1116db40}</Project>
+      <Name>WebGLPuls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLShaderDisturb\WebGLShaderDisturb\WebGLShaderDisturb.csproj">
+      <Project>{9ad900ff-1176-400c-bc72-ff09ec14d7f5}</Project>
+      <Name>WebGLShaderDisturb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLSimpleCubic\WebGLSimpleCubic\WebGLSimpleCubic.csproj">
+      <Project>{11ad23ff-1798-4aec-ae29-b687589a3cfc}</Project>
+      <Name>WebGLSimpleCubic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLSpadeWarrior\WebGLSpadeWarrior\WebGLSpadeWarrior.csproj">
+      <Project>{5a2e0e9d-2173-4a53-b3fb-ea681dcf0f5c}</Project>
+      <Name>WebGLSpadeWarrior</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLSphereRayTrace\WebGLSphereRayTrace\WebGLSphereRayTrace.csproj">
+      <Project>{1852e795-16b1-456f-87d5-30cf82160f47}</Project>
+      <Name>WebGLSphereRayTrace</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLSpiral\WebGLSpiral\WebGLSpiral.csproj">
+      <Project>{6be0fe6f-5ea4-40a5-8938-ff7c3b5d0969}</Project>
+      <Name>WebGLSpiral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLTunnel\WebGLTunnel\WebGLTunnel.csproj">
+      <Project>{14701b5c-74f4-4913-b100-13e2c70eaf97}</Project>
+      <Name>WebGLTunnel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLWindWheel\WebGLWindWheel\WebGLWindWheel.csproj">
+      <Project>{9b68ea42-8c55-4481-9b26-54af1a5292d9}</Project>
+      <Name>WebGLWindWheel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLYomotsuMD2Model\WebGLYomotsuMD2Model\WebGLYomotsuMD2Model.csproj">
+      <Project>{a2dc1f34-0057-4359-ba70-b574e3267762}</Project>
+      <Name>WebGLYomotsuMD2Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLYomotsuTPS\WebGLYomotsuTPS\WebGLYomotsuTPS.csproj">
+      <Project>{4d221d4e-654d-4ae4-89aa-98d35eb70778}</Project>
+      <Name>WebGLYomotsuTPS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName)==Release (
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false /xDisableWebServiceJava:false /xDisableWebServicePHP:false  /FilterTo:$(SolutionDir)
+)</PostBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+            </PreBuildEvent>
+  </PropertyGroup>
+</Project>

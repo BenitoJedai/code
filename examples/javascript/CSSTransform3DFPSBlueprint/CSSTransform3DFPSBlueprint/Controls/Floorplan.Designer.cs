@@ -718,8 +718,8 @@
         private Floor floor22;
         private DeskCube deskCube21;
         private Floor floor23;
-        private DeskCube deskCube22;
         private Floor floor24;
+        public DeskCube deskCube22;
 
     }
 }

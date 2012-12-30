@@ -759,6 +759,15 @@ namespace com.abstractatech.gamification.jwe
     }
 
     [Obsolete("Temporary workaround to enable multiple apps.")]
+    public sealed class __Templates
+    {
+        public __Templates(global::My.Solutions.Pages.Templates.HTML.Pages.IDefaultPage page)
+        {
+            new global::My.Solutions.Pages.Templates.Application(page);
+        }
+    }
+
+    [Obsolete("Temporary workaround to enable multiple apps.")]
     public sealed class __HardwareDetection
     {
         #region Application_HardwareDetection_Sprite
