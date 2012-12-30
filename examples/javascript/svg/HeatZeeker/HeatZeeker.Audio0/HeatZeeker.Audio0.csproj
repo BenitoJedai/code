@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F08ED261-1B44-4EAF-AC73-FC089B672D4C}</ProjectGuid>
+    <ProjectGuid>{638E6892-421E-42E4-B966-FC695545931B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MatrixTransformC1Example</RootNamespace>
-    <AssemblyName>MatrixTransformC1Example</AssemblyName>
+    <RootNamespace>HeatZeeker.Audio0</RootNamespace>
+    <AssemblyName>HeatZeeker.Audio0</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>MatrixTransformC1Example.Program</StartupObject>
+    <StartupObject>HeatZeeker.Audio0.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,20 +35,12 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android|x86'">
-    <OutputPath>bin\x86\Android\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -103,6 +95,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
@@ -116,28 +109,30 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="MatrixTransformC1Example.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\MatrixTransformC1Example.AssetsLibrary.dll</HintPath>
+    <Reference Include="HeatZeeker.Audio0.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\HeatZeeker.Audio0.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Default.css" />
-    <Content Include="Design\Default.htm" />
+    <Content Include="Audio\helicopter1.mp3" />
+    <Content Include="Audio\helicopter1wav.wav" />
+    <Content Include="Audio\helicopter1_speedm10.mp3" />
+    <Content Include="Audio\helicopter1_speedm10m10.mp3" />
+    <Content Include="Audio\Military Helicopter.mp3" />
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\wood_green.png" />
-    <Content Include="Textures\wood_green2.png" />
-    <Content Include="Textures\wood_green3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false  /FilterTo:$(SolutionDir)
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
     <PreBuildEvent>
 
