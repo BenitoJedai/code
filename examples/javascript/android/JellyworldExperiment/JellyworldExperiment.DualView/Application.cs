@@ -76,6 +76,12 @@ namespace JellyworldExperiment.DualView
                 new CSSTransform3DFPSBlueprint.Application().Initialize(a,
                    x =>
                    {
+                       // we know that we are packaging this sub page 
+                       // in our web app
+                       x.floorplan.deskCube22.LeftWallSource = "/__Templates";
+                       x.floorplan.deskCube22.LeftWallSourceAutoLoad = true;
+
+
                        var w = CSSTransform3DFPSBlueprint.Application.window;
 
 

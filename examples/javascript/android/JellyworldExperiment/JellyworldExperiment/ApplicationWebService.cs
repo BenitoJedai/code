@@ -70,8 +70,7 @@ namespace com.abstractatech.gamification.jwe
                 {"HardwareDetection", "__HardwareDetection"},
                 {"DualViewWithCamera", "__WithCamera"},
 
-                
-
+                {"__Templates", "__Templates"}
             };
 
             var appname = apps[""];

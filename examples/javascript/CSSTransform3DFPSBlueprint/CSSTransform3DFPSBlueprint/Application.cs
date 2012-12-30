@@ -92,12 +92,14 @@ namespace CSSTransform3DFPSBlueprint
             }
         }
 
+        public Floorplan floorplan;
+
         private
             // dynamic does not work in static yet?
             //static 
             void InitializeContent()
         {
-            var floorplan = new Floorplan();
+            floorplan = new Floorplan();
 
 
             var c = new Controls.UserControl1();
@@ -192,24 +194,42 @@ namespace CSSTransform3DFPSBlueprint
                                                 {
                                                     LoadContent();
                                                 }
-                                                else new IHTMLButton { innerText = "Click to see " + f.LeftWallSource, className = "nolock" }.AttachTo(westContainer).With(
-                                                    btn =>
-                                                    {
-                                                        btn.style.position = IStyle.PositionEnum.absolute;
-                                                        btn.style.left = "2em";
-                                                        btn.style.top = "2em";
-                                                        btn.style.right = "2em";
-                                                        btn.style.bottom = "2em";
+                                                else
+                                                {
+                                                    new IHTMLButton { innerText = "Click to see " + f.LeftWallSource, className = "nolock" }.AttachTo(westContainer).With(
+                                                       btn =>
+                                                       {
+                                                           btn.style.position = IStyle.PositionEnum.absolute;
+                                                           btn.style.left = "2em";
+                                                           btn.style.top = "2em";
+                                                           btn.style.right = "2em";
+                                                           btn.style.bottom = "2em";
 
-                                                        btn.onclick +=
-                                                            delegate
-                                                            {
-                                                                btn.Orphanize();
+                                                           btn.onclick +=
+                                                               delegate
+                                                               {
+                                                                   btn.Orphanize();
 
-                                                                LoadContent();
-                                                            };
-                                                    }
-                                                );
+                                                                   LoadContent();
+                                                               };
+
+                                                           f.LeftWallSourceAutoLoadChanged +=
+                                                               delegate
+                                                               {
+                                                                   if (btn == null)
+                                                                       return;
+
+                                                                   if (f.LeftWallSourceAutoLoad)
+                                                                   {
+                                                                       btn.Orphanize();
+                                                                       btn = null;
+
+                                                                       LoadContent();
+                                                                   }
+                                                               };
+                                                       }
+                                                        );
+                                                }
                                             }
                                         );
                                 }

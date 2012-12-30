@@ -12,7 +12,7 @@
     <AssemblyName>JellyworldExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>com.abstractatech.gamification.jellyworldexperiment.Program</StartupObject>
+    <StartupObject>com.abstractatech.gamification.jwe.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +29,16 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;Android</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Android|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Android\</OutputPath>
     <DefineConstants>TRACE;Android</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -138,6 +148,135 @@
     <Reference Include="CSSTransform3DFPSBlueprint.AssetsLibrary">
       <HintPath>..\..\..\CSSTransform3DFPSBlueprint\CSSTransform3DFPSBlueprint\bin\staging.AssetsLibrary\CSSTransform3DFPSBlueprint.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="My.Solutions.Pages.Templates.AssetsLibrary">
+      <HintPath>..\..\..\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\bin\staging.AssetsLibrary\My.Solutions.Pages.Templates.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLWindWheel.AssetsLibrary">
+      <HintPath>..\..\..\WebGLWindWheel\WebGLWindWheel\bin\staging.AssetsLibrary\WebGLWindWheel.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLTunnel.AssetsLibrary">
+      <HintPath>..\..\..\WebGLTunnel\WebGLTunnel\bin\staging.AssetsLibrary\WebGLTunnel.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpiral.AssetsLibrary">
+      <HintPath>..\..\..\WebGLSpiral\WebGLSpiral\bin\staging.AssetsLibrary\WebGLSpiral.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpiderModel.AssetsLibrary">
+      <HintPath>..\..\..\ArduinoSpiderControlCenter\SpiderModel\bin\staging.AssetsLibrary\SpiderModel.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpadeWarrior.AssetsLibrary">
+      <HintPath>..\..\..\WebGLSpadeWarrior\WebGLSpadeWarrior\bin\staging.AssetsLibrary\WebGLSpadeWarrior.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSimpleCubic.AssetsLibrary">
+      <HintPath>..\..\..\WebGLSimpleCubic\WebGLSimpleCubic\bin\staging.AssetsLibrary\WebGLSimpleCubic.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLPlanetGenerator.AssetsLibrary">
+      <HintPath>..\..\..\WebGLPlanetGenerator\WebGLPlanetGenerator\bin\staging.AssetsLibrary\WebGLPlanetGenerator.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLNyanCat.AssetsLibrary">
+      <HintPath>..\..\..\WebGLNyanCat\WebGLNyanCat\bin\staging.AssetsLibrary\WebGLNyanCat.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson16.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson16\WebGLLesson16\bin\staging.AssetsLibrary\WebGLLesson16.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson15.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson15\WebGLLesson15\bin\staging.AssetsLibrary\WebGLLesson15.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson13.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson13\WebGLLesson13\bin\staging.AssetsLibrary\WebGLLesson13.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson14.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson14\WebGLLesson14\bin\staging.AssetsLibrary\WebGLLesson14.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson10.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson10\WebGLLesson10\bin\staging.AssetsLibrary\WebGLLesson10.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson11.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson11\WebGLLesson11\bin\staging.AssetsLibrary\WebGLLesson11.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson12.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson12\WebGLLesson12\bin\staging.AssetsLibrary\WebGLLesson12.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson05.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson05\WebGLLesson05\bin\staging.AssetsLibrary\WebGLLesson05.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson06.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson06\WebGLLesson06\bin\staging.AssetsLibrary\WebGLLesson06.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson07.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson07\WebGLLesson07\bin\staging.AssetsLibrary\WebGLLesson07.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson08.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson08\WebGLLesson08\bin\staging.AssetsLibrary\WebGLLesson08.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson09.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson09\WebGLLesson09\bin\staging.AssetsLibrary\WebGLLesson09.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson01.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson01\WebGLLesson01\bin\staging.AssetsLibrary\WebGLLesson01.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson02.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson02\WebGLLesson02\bin\staging.AssetsLibrary\WebGLLesson02.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson03.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson03\WebGLLesson03\bin\staging.AssetsLibrary\WebGLLesson03.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson04.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson04\WebGLLesson04\bin\staging.AssetsLibrary\WebGLLesson04.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLInvade.AssetsLibrary">
+      <HintPath>..\..\..\WebGLInvade\WebGLInvade\bin\staging.AssetsLibrary\WebGLInvade.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLHand.AssetsLibrary">
+      <HintPath>..\..\..\WebGLHand\WebGLHand\bin\staging.AssetsLibrary\WebGLHand.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLEscherDrosteEffect.AssetsLibrary">
+      <HintPath>..\..\..\WebGLEscherDrosteEffect\WebGLEscherDrosteEffect\bin\staging.AssetsLibrary\WebGLEscherDrosteEffect.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLDynamicTerrainTemplate.AssetsLibrary">
+      <HintPath>..\..\..\WebGLDynamicTerrainTemplate\WebGLDynamicTerrainTemplate\bin\staging.AssetsLibrary\WebGLDynamicTerrainTemplate.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLShaderDisturb.AssetsLibrary">
+      <HintPath>..\..\..\WebGLShaderDisturb\WebGLShaderDisturb\bin\staging.AssetsLibrary\WebGLShaderDisturb.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLCone.AssetsLibrary">
+      <HintPath>..\..\..\WebGLCone\WebGLCone\bin\staging.AssetsLibrary\WebGLCone.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLCelShader.AssetsLibrary">
+      <HintPath>..\..\..\WebGLCelShader\WebGLCelShader\bin\staging.AssetsLibrary\WebGLCelShader.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLClouds.AssetsLibrary">
+      <HintPath>..\..\..\WebGLClouds\WebGLClouds\bin\staging.AssetsLibrary\WebGLClouds.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLPuls.AssetsLibrary">
+      <HintPath>..\..\..\WebGLPuls\WebGLPuls\bin\staging.AssetsLibrary\WebGLPuls.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLChocolux.AssetsLibrary">
+      <HintPath>..\..\..\WebGLChocolux\WebGLChocolux\bin\staging.AssetsLibrary\WebGLChocolux.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLFireballExplosion.AssetsLibrary">
+      <HintPath>..\..\..\WebGLFireballExplosion\WebGLFireballExplosion\bin\staging.AssetsLibrary\WebGLFireballExplosion.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSphereRayTrace.AssetsLibrary">
+      <HintPath>..\..\..\WebGLSphereRayTrace\WebGLSphereRayTrace\bin\staging.AssetsLibrary\WebGLSphereRayTrace.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLYomotsuMD2Model.AssetsLibrary">
+      <HintPath>..\..\..\WebGLYomotsuMD2Model\WebGLYomotsuMD2Model\bin\staging.AssetsLibrary\WebGLYomotsuMD2Model.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLYomotsuTPS.AssetsLibrary">
+      <HintPath>..\..\..\WebGLYomotsuTPS\WebGLYomotsuTPS\bin\staging.AssetsLibrary\WebGLYomotsuTPS.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLEthanolMolecule.AssetsLibrary">
+      <HintPath>..\..\..\WebGLEthanolMolecule\WebGLEthanolMolecule\bin\staging.AssetsLibrary\WebGLEthanolMolecule.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLDopamineMolecule.AssetsLibrary">
+      <HintPath>..\..\..\WebGLDopamineMolecule\WebGLDopamineMolecule\bin\staging.AssetsLibrary\WebGLDopamineMolecule.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WoodsXmasByRobert.AssetsLibrary">
+      <HintPath>..\..\..\synergy\webgl\WoodsXmasByRobert\WoodsXmasByRobert\bin\staging.AssetsLibrary\WoodsXmasByRobert.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLCannonPhysicsEngine.AssetsLibrary">
+      <HintPath>..\..\..\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine\bin\staging.AssetsLibrary\WebGLCannonPhysicsEngine.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Schema\SensorySync.cs" />
@@ -158,6 +297,10 @@
     <Content Include="Schema\SensorySync\select sum.sql" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates.csproj">
+      <Project>{359bf739-2e7b-453e-a110-748d793f030d}</Project>
+      <Name>My.Solutions.Pages.Templates</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JellyworldExperiment.DualViewWithCamera\JellyworldExperiment.DualViewWithCamera.csproj">
       <Project>{91d7be5a-6af7-4eba-8f39-9c69af7a85c7}</Project>
       <Name>JellyworldExperiment.DualViewWithCamera</Name>
@@ -178,7 +321,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName)==Release (
+if $(ConfigurationName)==Android (
 start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:6
 )</PostBuildEvent>
     <PreBuildEvent>
