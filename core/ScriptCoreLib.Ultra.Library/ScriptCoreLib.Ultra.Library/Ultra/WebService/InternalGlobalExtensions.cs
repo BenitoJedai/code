@@ -79,12 +79,17 @@ namespace ScriptCoreLib.Ultra.WebService
                 // http://www.webmaster-toolkit.com/mime-types.shtml
                 if (n.EndsWith(".gif")) ContentType = "image/gif";
                 else if (n.EndsWith(".htm")) ContentType = "text/html";
+
                 else if (n.EndsWith(".png")) ContentType = "image/png";
                 else if (n.EndsWith(".jpg")) ContentType = "image/jpg";
+                else if (n.EndsWith(".svg")) ContentType = "image/svg+xml";
+
                 else if (n.EndsWith(".js")) ContentType = "application/x-javascript";
+                
                 else if (n.EndsWith(".mp3")) ContentType = "audio/mpeg3";
                 else if (n.EndsWith(".wav")) ContentType = "audio/wav";
                 else if (n.EndsWith(".mid")) ContentType = "audio/midi";
+                
                 else if (n.EndsWith(".css")) ContentType = "text/css";
 
                 that.Response.ContentType = ContentType;
