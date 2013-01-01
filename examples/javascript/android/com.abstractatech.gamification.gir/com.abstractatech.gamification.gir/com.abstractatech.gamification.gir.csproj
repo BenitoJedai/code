@@ -90,10 +90,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -118,7 +114,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Audio\blend_in.mp3" />
+    <Content Include="Audio\cant_see.mp3" />
+    <Content Include="Audio\data_canister_not_yet_full.mp3" />
+    <Content Include="Audio\did_you_know_that.mp3" />
+    <Content Include="Audio\do_di.mp3" />
+    <Content Include="Audio\excellent.mp3" />
+    <Content Include="Audio\free_will.mp3" />
     <Content Include="Audio\guidancechip.mp3" />
+    <Content Include="Audio\information_center.mp3" />
+    <Content Include="Audio\it_is_broken.mp3" />
+    <Content Include="Audio\knowledge_fills_me.mp3" />
+    <Content Include="Audio\not_acceptable.mp3" />
+    <Content Include="Audio\observing.mp3" />
+    <Content Include="Audio\open_the_door.mp3" />
+    <Content Include="Audio\praise_me.mp3" />
+    <Content Include="Audio\require_access.mp3" />
+    <Content Include="Audio\right_away_sir.mp3" />
+    <Content Include="Audio\stupidity_is_enemey.mp3" />
+    <Content Include="Audio\television_is_stupid.mp3" />
+    <Content Include="Audio\the_master.mp3" />
+    <Content Include="Audio\where_is_my_mouth.mp3" />
+    <Content Include="Audio\who_is_it.mp3" />
+    <Content Include="Audio\yes_i_didnt_like_it.mp3" />
+    <Content Include="Audio\yes_sir.mp3" />
+    <Content Include="Audio\yes_sir2.mp3" />
+    <Content Include="Audio\yes_sir3.mp3" />
+    <Content Include="Audio\you_are_an_intruder.mp3" />
+    <Content Include="Audio\you_must_be_terminated.mp3" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,14 +150,17 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
+    <Content Include="Design\Preview512.png" />
     <Content Include="Design\drawing.svg" />
     <Content Include="Design\drawing_black.svg" />
+    <Content Include="Design\drawing_shadow.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:2
 )</PostBuildEvent>
     <PreBuildEvent>
 
