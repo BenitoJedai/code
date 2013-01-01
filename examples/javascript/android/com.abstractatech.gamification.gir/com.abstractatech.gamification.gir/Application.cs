@@ -191,6 +191,12 @@ namespace com.abstractatech.gamification.gir
                            play();
                        };
 
+
+                    Native.Window.onblur +=
+                       delegate
+                       {
+                           play();
+                       };
                     // does not work correctly on nexus7???
                     //Native.Window.onorientationchange +=
                     //    delegate
