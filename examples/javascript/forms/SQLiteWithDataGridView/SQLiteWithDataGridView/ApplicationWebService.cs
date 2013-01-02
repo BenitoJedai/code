@@ -24,14 +24,16 @@ namespace SQLiteWithDataGridView
                 return new TheGridTable().With(
                     x =>
                     {
-                        x.csb_write.DataSource = "SQLiteWithDataGridView6.sqlite";
+                        var DataSource = "SQLiteWithDataGridView7.sqlite";
+
+                        x.csb_write.DataSource = DataSource;
                         ApplyRestrictedCredentials(x.csb_write);
 
-                        x.csb.DataSource = "SQLiteWithDataGridView6.sqlite";
+                        x.csb.DataSource = DataSource;
                         x.csb.ReadOnly = true;
                         ApplyRestrictedCredentials(x.csb_write);
 
-                        x.csb_admin.DataSource = "SQLiteWithDataGridView6.sqlite";
+                        x.csb_admin.DataSource = DataSource;
                         ApplyRestrictedCredentials(x.csb_admin, true);
                         x.Create();
                     }

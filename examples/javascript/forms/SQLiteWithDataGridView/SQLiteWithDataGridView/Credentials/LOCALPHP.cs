@@ -17,7 +17,7 @@ namespace SQLiteWithDataGridView
         static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false)
         {
 
-            b.Add("InternalUser", "user1");
+            b.Add("InternalUser", "user3");
             b.Password = "mypass";
         }
 #endif
