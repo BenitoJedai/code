@@ -115,7 +115,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             {
                 this.InternalPreparedStatement.execute();
 
-                r = this.InternalPreparedStatement.get_result() as mysqli_result;
+                // do we need this?
+                //r = this.InternalPreparedStatement.get_result() as mysqli_result;
             }
             else
             {
@@ -144,6 +145,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             if (this.InternalPreparedStatement != null)
             {
                 this.InternalPreparedStatement.execute();
+
+                // http://stackoverflow.com/questions/13659856/fatal-error-call-to-undefined-method-mysqli-stmtget-result
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130101
 
                 r = this.InternalPreparedStatement.get_result() as mysqli_result;
             }

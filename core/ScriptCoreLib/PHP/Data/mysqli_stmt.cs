@@ -7,7 +7,7 @@ namespace ScriptCoreLib.PHP.Data
 {
     // http://php.net/manual/en/class.mysqli-stmt.php
     [Script(IsNative = true)]
-    class mysqli_stmt
+    public class mysqli_stmt
     {
         // http://php.net/manual/en/mysqli-stmt.bind-param.php
         public bool bind_param(string types, object var1)
@@ -30,9 +30,22 @@ namespace ScriptCoreLib.PHP.Data
             return default(bool);
         }
 
+        [Obsolete("sourceforge.net does not support this?")]
         public object get_result()
         {
             return default(object);
+        }
+
+
+        // http://php.net/manual/en/mysqli-stmt.store-result.php
+        public bool store_result()
+        {
+            return default(bool);
+        }
+
+        public bool free_result()
+        {
+            return default(bool);
         }
 
         public int field_count;
@@ -45,7 +58,7 @@ namespace ScriptCoreLib.PHP.Data
     }
 
     [Script]
-    static class __mysqli_stmt
+    public static class __mysqli_stmt
     {
         // http://stackoverflow.com/questions/793471/use-one-bind-param-with-variable-number-of-input-vars
 

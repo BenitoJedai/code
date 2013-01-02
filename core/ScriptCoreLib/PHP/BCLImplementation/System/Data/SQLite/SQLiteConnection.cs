@@ -35,10 +35,16 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 {
                     this.InternalConnection.connect_errno,
 
-                    hint = "Check your credentials!",
+                    //hint = "Check your credentials!",
 
 
                     this.InternalConnection.connect_error,
+
+                    ConnectionString = new
+                    {
+                        __SQLiteConnectionStringBuilder.InternalConnectionString.InternalHost,
+                        __SQLiteConnectionStringBuilder.InternalConnectionString.InternalUser
+                    }
                 };
 
                 throw new Exception(

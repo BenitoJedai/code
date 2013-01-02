@@ -34,7 +34,8 @@ namespace SQLiteWithDataGridView
 
                         x.csb.DataSource = DataSource;
                         x.csb.ReadOnly = true;
-                        ApplyRestrictedCredentials(x.csb_write);
+                        // this was expensive to figure out!
+                        ApplyRestrictedCredentials(x.csb);
 
                         x.csb_admin.DataSource = DataSource;
                         ApplyRestrictedCredentials(x.csb_admin, true);
