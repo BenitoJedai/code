@@ -33,7 +33,9 @@ namespace ScriptCoreLib.PHP.Data
 
         public int insert_id;
 
-        public string connect_errno;
+        // http://php.net/manual/en/mysqli.connect-errno.php
+        public int connect_errno;
+        public string connect_error;
 
         // http://php.net/manual/en/mysqli.error.php
         public int errno;

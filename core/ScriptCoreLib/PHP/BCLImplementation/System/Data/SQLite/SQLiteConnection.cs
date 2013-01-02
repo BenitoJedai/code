@@ -27,6 +27,25 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 password: __SQLiteConnectionStringBuilder.InternalConnectionString.Password
             );
 
+            //http://php.net/manual/en/mysqli.errno.php
+
+            if (this.InternalConnection.connect_errno != 0)
+            {
+                var message = new
+                {
+                    this.InternalConnection.connect_errno,
+
+                    hint = "Check your credentials!",
+
+
+                    this.InternalConnection.connect_error,
+                };
+
+                throw new Exception(
+                    message.ToString()
+                );
+            }
+
             this.InternalConnection.query(
                 "CREATE DATABASE IF NOT EXISTS `" + __SQLiteConnectionStringBuilder.InternalConnectionString.DataSource + "`"
             );

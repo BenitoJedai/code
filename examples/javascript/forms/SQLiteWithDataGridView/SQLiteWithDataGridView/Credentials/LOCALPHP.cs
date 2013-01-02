@@ -16,6 +16,7 @@ namespace SQLiteWithDataGridView
 #if LOCALPHP
         static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false)
         {
+            b.Add("InternalHost", "invalidhost");
 
             b.Add("InternalUser", "user3");
             b.Password = "mypass";

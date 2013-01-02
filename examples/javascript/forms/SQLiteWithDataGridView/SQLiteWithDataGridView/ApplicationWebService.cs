@@ -21,6 +21,9 @@ namespace SQLiteWithDataGridView
 
             get
             {
+                // http://stackoverflow.com/questions/1645661/turn-off-warnings-and-errors-on-php-mysql
+                ScriptCoreLib.PHP.Native.API.error_reporting(0);
+
                 return new TheGridTable().With(
                     x =>
                     {
