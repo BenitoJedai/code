@@ -54,7 +54,9 @@ namespace TestNuGetSupport.FeedServer
 
 #if DEBUG
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(h.Context.Request.HttpMethod + " " + h.Context.Request.Path);
+            Console.ForegroundColor = ConsoleColor.Green;
 
             h.Context.Request.Headers.AllKeys.WithEach(
                 k => Console.WriteLine(k + ": " + h.Context.Request.Headers[k])
@@ -274,7 +276,7 @@ Accept-Encoding: gzip, deflate
             }
             #endregion
 
-       
+
 
             #region TestNuGetSupport.Foo.0.0.0.1.nupkg
             var x = "/api/v2/package/testnugetsupport.foo/0.0.0.1";
@@ -305,8 +307,13 @@ Accept-Encoding: gzip, deflate
 
             if (h.IsDefaultPath)
             {
-                h.Context.Response.Redirect("/jsc");
-                h.CompleteRequest();
+                if (h.Context.Request.Headers["User-Agent"].StartsWith("NuGet/"))
+                {
+                    // redirect that guy!
+                    h.Context.Response.Redirect("/nuget");
+                    h.CompleteRequest();
+                }
+
                 return;
             }
 

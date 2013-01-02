@@ -16,7 +16,7 @@ namespace SQLiteWithDataGridView
         {
             // Caused by: java.sql.SQLException: Access denied for user 'user1'@'localhost' to database 'sqlitewithdatagridview6.sqlite'
 
-            b.Add("InternalUser", "user1");
+            b.Add("InternalUser", "user3");
             b.Password = "mypass";
         }
 #endif

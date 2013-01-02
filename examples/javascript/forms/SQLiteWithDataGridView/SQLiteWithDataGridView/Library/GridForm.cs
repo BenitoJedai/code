@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
 using System.Media;
+using System.Diagnostics;
 
 namespace SQLiteWithDataGridView.Library
 {
@@ -34,6 +35,8 @@ namespace SQLiteWithDataGridView.Library
 
             dataGridView1.Enabled = false;
 
+            Console.WriteLine("service.__grid_SelectContent");
+            InternalCellValueChanged = true;
             service.__grid_SelectContent("",
                 (ContentKey, ContentValue, ContentComment, ContentChildren) =>
                 {
@@ -69,6 +72,7 @@ namespace SQLiteWithDataGridView.Library
                     label2.Text = LocalTransactionKey;
                     dataGridView1.Enabled = true;
 
+                    InternalCellValueChanged = false;
 
                     if (checkBox1.Checked)
                         timer1.Start();
@@ -120,9 +124,10 @@ namespace SQLiteWithDataGridView.Library
 
             if (string.IsNullOrEmpty((string)c0.Value))
             {
+                #region GridExample_AddItem
                 InternalCellValueChanged = true;
                 dataGridView1[0, e.RowIndex].Value = "?";
-                dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Green;
+                dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
                 InternalCellValueChanged = false;
 
                 var ContentValue = (string)dataGridView1[1, e.RowIndex].Value;
@@ -133,14 +138,21 @@ namespace SQLiteWithDataGridView.Library
                 if (ContentComment == null)
                     ContentComment = "";
 
+                var st = new Stopwatch();
+                st.Start();
+
                 service.GridExample_AddItem(
                     ContentValue,
                     ContentComment,
                     ParentContentKey,
                     LastInsertRowId =>
                     {
+                        st.Stop();
+                        Console.WriteLine("service.GridExample_AddItem done in " + st);
+
+
                         dataGridView1[0, e.RowIndex].Value = LastInsertRowId;
-                        dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Red;
+                        dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Green;
 
                         //var i = int.Parse(LocalTransactionKey);
                         //i++;
@@ -148,6 +160,8 @@ namespace SQLiteWithDataGridView.Library
                         //LocalTransactionKey = i.ToString();
                     }
                 );
+                Console.WriteLine("service.GridExample_AddItem...");
+                #endregion
             }
             else
             {
@@ -167,12 +181,19 @@ namespace SQLiteWithDataGridView.Library
                 if (ContentComment == null)
                     ContentComment = "";
 
+                var st = new Stopwatch();
+                st.Start();
+
+                Console.WriteLine("service.GridExample_UpdateItem...");
                 service.GridExample_UpdateItem(
                     ContentKey,
                     ContentValue,
                     ContentComment,
                     RemoteTransactionKey =>
                     {
+                        st.Stop();
+                        Console.WriteLine("service.GridExample_UpdateItem done in " + st);
+
                         //var i = int.Parse(LocalTransactionKey);
                         //i++;
 
@@ -209,10 +230,16 @@ namespace SQLiteWithDataGridView.Library
         {
             timer1.Stop();
 
+            var st = new Stopwatch();
+            st.Start();
+
             Action<string> AtServerTransactionKey =
                 ServerTransactionKey =>
                 {
                     label2.Text = ServerTransactionKey;
+
+                    st.Stop();
+                    Console.WriteLine("AtServerTransactionKey done in " + st);
 
                     if (LocalTransactionKey != ServerTransactionKey)
                     {
@@ -256,6 +283,8 @@ namespace SQLiteWithDataGridView.Library
                     if (checkBox1.Checked)
                         timer1.Start();
                 };
+
+            Console.WriteLine("service.GridExample_GetTransactionKeyFor");
 
             service.GridExample_GetTransactionKeyFor(
                 e: "",

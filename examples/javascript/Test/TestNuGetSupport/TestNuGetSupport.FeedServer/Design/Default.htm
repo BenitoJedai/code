@@ -1,14 +1,54 @@
 <html>
 	<head>
+		<link rel='stylesheet' href='Default.css'/>
 		<title>DefaultPage</title>
 	</head>
 	<body>
-		<noscript>Error: This Application requires JavaScript.</noscript>
-		<link rel='stylesheet' href='Default.css'/>
-		<div id='PageContainer'>
-			<h1 id='Header'>JSC - The .NET crosscompiler for web platforms.</h1>
-			<p id='Content' style='padding: 2em;
-				color: blue;'>Hello world</p>
-		</div>
+		<p>
+            Welcome to JSC NuGet</p>
+
+                <p>Future versions of JSC will auto reconfigure:</p>
+
+        <p>
+            For manual setup:</p>
+        <!-- based on http://blog.cincura.net/233131-using-per-solutionproject-nuget-package-sources-in-visual-studio/#comment-15886 -->
+
+        <img src="enable_nuget_package_restore.png" />
+        <p>
+            open and modify your nuget.config</p>
+        <textarea style="height: 383px; width: 636px"><![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+    <packageSources>
+  <add key="FooBar package source" value="http://127.0.0.1:9573/nuget" />
+</packageSources>
+<activePackageSource>
+  <add key="FooBar package source" value="http://127.0.0.1:9573/nuget" />
+</activePackageSource>
+
+  <solution>
+    <add key="disableSourceControlIntegration" value="true" />
+    
+
+
+  </solution>
+</configuration>
+            ]]>
+            
+            &nbsp;</textarea>
+
+        <p>Then close visual studio, and reopen.</p>
+
+        <img src="manage_nuget_packages.png" />
+
+        <pre>
+            User-Agent: NuGet/
+        </pre>
+
+        <p>Then insert your credentials, and install your package.</p>
+        <p>Then use your new component.</p>
+        <p>Then test it at runtime!</p>
+
 	</body>
 </html>
