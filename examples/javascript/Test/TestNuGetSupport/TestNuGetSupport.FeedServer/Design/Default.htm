@@ -11,7 +11,19 @@
 
         <p>
             For manual setup:</p>
-        <!-- based on http://blog.cincura.net/233131-using-per-solutionproject-nuget-package-sources-in-visual-studio/#comment-15886 -->
+        <!-- 
+            
+            based on http://blog.cincura.net/233131-using-per-solutionproject-nuget-package-sources-in-visual-studio/#comment-15886 
+            
+            jsc rewrite will cause:
+            
+            1) Cannot create an instance of type 
+            'NuGet.Commands.HelpCommand' because a constructor could not be selected for construction. Ensure that the type either has a default constructor, or a single constructor marked with the 
+            'System.ComponentModel.Composition.ImportingConstructorAttribute'.
+
+            Whoa. JSC did not rewrite that attribute. why?
+
+            -->
 
         <img src="enable_nuget_package_restore.png" />
         <p>
