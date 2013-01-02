@@ -30,5 +30,13 @@ namespace ScriptCoreLib.JavaScript
                 return default(BookmarkTreeNode[]);
             }
         }
+
+        public partial class debugger
+        {
+            // http://developer.chrome.com/extensions/debugger.html#method-attach
+            public static void attach(object target, string requiredVersion)
+            {
+            }
+        }
     }
 }
