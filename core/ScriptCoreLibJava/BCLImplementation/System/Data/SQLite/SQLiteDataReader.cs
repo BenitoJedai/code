@@ -216,7 +216,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 return typeof(string);
 
             // http://docs.oracle.com/javase/1.4.2/docs/api/constant-values.html#java.sql.Types.INTEGER
-            var message = "GetFieldType fault: " + new { ColumnType, ordinal, InternalCommand.sql };
+            var message = "GetFieldType fault: " + new { ColumnType, ordinal, InternalCommand.CommandText };
 
             throw new InvalidOperationException(message);
         }

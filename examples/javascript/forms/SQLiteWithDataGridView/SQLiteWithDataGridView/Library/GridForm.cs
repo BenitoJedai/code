@@ -94,7 +94,9 @@ namespace SQLiteWithDataGridView.Library
 
                     SystemSounds.Beep.Play();
                     f.Show();
-                }
+                },
+
+                AtConsole: Console.Write
             );
         }
 
@@ -145,10 +147,10 @@ namespace SQLiteWithDataGridView.Library
                     ContentValue,
                     ContentComment,
                     ParentContentKey,
-                    LastInsertRowId =>
+                    AtContentReferenceKey: LastInsertRowId =>
                     {
                         st.Stop();
-                        Console.WriteLine("service.GridExample_AddItem done in " + st);
+                        Console.WriteLine("service.GridExample_AddItem done in " + st.Elapsed);
 
 
                         dataGridView1[0, e.RowIndex].Value = LastInsertRowId;
@@ -158,7 +160,9 @@ namespace SQLiteWithDataGridView.Library
                         //i++;
 
                         //LocalTransactionKey = i.ToString();
-                    }
+                    },
+
+                    AtConsole: Console.Write
                 );
                 Console.WriteLine("service.GridExample_AddItem...");
                 #endregion
@@ -189,16 +193,19 @@ namespace SQLiteWithDataGridView.Library
                     ContentKey,
                     ContentValue,
                     ContentComment,
-                    RemoteTransactionKey =>
+
+                    AtTransactionKey: RemoteTransactionKey =>
                     {
                         st.Stop();
-                        Console.WriteLine("service.GridExample_UpdateItem done in " + st);
+                        Console.WriteLine("service.GridExample_UpdateItem done in " + st.Elapsed);
 
                         //var i = int.Parse(LocalTransactionKey);
                         //i++;
 
                         //LocalTransactionKey = i.ToString();
-                    }
+                    },
+
+                    AtConsole: Console.Write
                 );
 
             }
@@ -226,8 +233,11 @@ namespace SQLiteWithDataGridView.Library
 
         string LocalTransactionKey;
 
+        int TimerCounter = 0;
+
         private void timer1_Tick(object sender, EventArgs e)
         {
+            TimerCounter++;
             timer1.Stop();
 
             var st = new Stopwatch();
@@ -239,7 +249,7 @@ namespace SQLiteWithDataGridView.Library
                     label2.Text = ServerTransactionKey;
 
                     st.Stop();
-                    Console.WriteLine("AtServerTransactionKey done in " + st);
+                    Console.WriteLine("#" + TimerCounter + " AtServerTransactionKey done in " + st.Elapsed);
 
                     if (LocalTransactionKey != ServerTransactionKey)
                     {
@@ -284,7 +294,7 @@ namespace SQLiteWithDataGridView.Library
                         timer1.Start();
                 };
 
-            Console.WriteLine("service.GridExample_GetTransactionKeyFor");
+            //Console.WriteLine("#" + TimerCounter + " service.GridExample_GetTransactionKeyFor");
 
             service.GridExample_GetTransactionKeyFor(
                 e: "",

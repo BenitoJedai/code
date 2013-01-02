@@ -5,7 +5,9 @@ using SQLiteWithDataGridView.Schema;
 using System;
 using System.ComponentModel;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 
 namespace SQLiteWithDataGridView
@@ -22,7 +24,7 @@ namespace SQLiteWithDataGridView
             get
             {
                 // http://stackoverflow.com/questions/1645661/turn-off-warnings-and-errors-on-php-mysql
-                ScriptCoreLib.PHP.Native.API.error_reporting(0);
+                //ScriptCoreLib.PHP.Native.API.error_reporting(0);
 
                 return new TheGridTable().With(
                     x =>
@@ -74,11 +76,15 @@ namespace SQLiteWithDataGridView
             string ContentComment,
             /* int? */ string ParentContentKey,
 
-            Action<string> AtContentReferenceKey
+            Action<string> AtContentReferenceKey,
+
+            Action<string> AtConsole = null
+
             )
         {
+            var x = new __ConsoleToDatabaseWriter(AtConsole);
+            Console.WriteLine("inside GridExample_AddItem");
 
-            //ApplyRestrictedCredentials(csb);
 
 
             var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
@@ -114,6 +120,9 @@ namespace SQLiteWithDataGridView
                 }
             );
 
+
+            x.Dispose();
+
         }
 
         public void GridExample_UpdateItem(
@@ -122,18 +131,13 @@ namespace SQLiteWithDataGridView
                 string ContentValue,
                 string ContentComment,
 
-                 Action<string> AtTransactionKey = null
+                 Action<string> AtTransactionKey = null,
+
+                Action<string> AtConsole = null
             )
         {
-            //Console.WriteLine("AddItem enter");
-
-            //var csb = new SQLiteConnectionStringBuilder
-            //{
-            //    DataSource = DataSource,
-            //    Version = 3
-            //};
-
-            //ApplyRestrictedCredentials(csb);
+            var x = new __ConsoleToDatabaseWriter(AtConsole);
+            Console.WriteLine("inside GridExample_UpdateItem");
 
             var iContentKey = int.Parse(ContentKey);
 
@@ -153,8 +157,9 @@ namespace SQLiteWithDataGridView
 
             if (AtTransactionKey != null)
                 GridExample_GetTransactionKeyFor("", AtTransactionKey);
-            // Send it back to the caller.
-            //Console.WriteLine("AddItem exit");
+
+
+            x.Dispose();
         }
 
 
@@ -215,10 +220,20 @@ namespace SQLiteWithDataGridView
             Action<string, string, string, string> y,
             /* int? */ string ParentContentKey,
             Action<string> AtTransactionKey = null,
-            Action<string> AtError = null
+            Action<string> AtError = null,
+            Action<string> AtConsole = null
             )
         {
+            //ScriptCoreLib.PHP.Native.API.error_reporting(0);
+
             //GridExample_InitializeDatabase("", delegate { });
+
+            // will we run out of memory now?
+            // <b>Fatal error</b>:  Allowed memory size of 8388608 bytes exhausted (tried to allocate 65488 bytes) in <b>B:\inc\SQLiteWithDataGridView.ApplicationWebService.exe\class.SQLiteWithDataGridView.__ConsoleToDatabaseWriter.php</b> on line <b>62</b><br />
+
+            var x = new __ConsoleToDatabaseWriter(AtConsole);
+            Console.WriteLine("inside __grid_SelectContent");
+            //x.Dispose();
 
             try
             {
@@ -231,20 +246,27 @@ namespace SQLiteWithDataGridView
                 AtErrorOrThrowIt(AtError, ex);
 
             }
+
+            x.Dispose();
         }
 
         private void InternalSelectContent(Action<string, string, string, string> y, string ParentContentKey, Action<string> AtTransactionKey)
         {
+            Console.WriteLine("enter InternalSelectContent");
+
             var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
 
-            this.grid.SelectContent(
-                new TheGridTableQueries.SelectContent
-                {
-                    ParentContentKey1 = xParentContentKey,
-                    ParentContentKey2 = xParentContentKey,
 
-                    // android 2.2 prepared statements disallow null params? send empty string instead?
-                    ParentContentKey3 = xParentContentKey,
+            Console.WriteLine(new { xParentContentKey });
+
+            this.grid.SelectContent(
+                new TheGridTableQueries.SelectContentByParent
+                {
+                    ParentContentKey = xParentContentKey,
+                    ////ParentContentKey2 = xParentContentKey,
+
+                    ////// android 2.2 prepared statements disallow null params? send empty string instead?
+                    //ParentContentKey3 = xParentContentKey,
                 },
                 reader =>
                 {
@@ -256,10 +278,16 @@ namespace SQLiteWithDataGridView
                         ContentKey = reader.ContentKey,
                         ContentChildren = reader.ContentChildren;
 
-                    y("" + ContentKey, ContentValue, ContentComment, "" + ContentChildren);
+                    y(
+                        "" + ContentKey,
+                        ContentValue,
+                        ContentComment,
+                        "" + ContentChildren
+                    );
                 }
             );
 
+            Console.WriteLine("exit InternalSelectContent");
 
 
 
@@ -306,5 +334,82 @@ namespace SQLiteWithDataGridView
 
     }
 
+
+    class __ConsoleToDatabaseWriter : TextWriter, IDisposable
+    {
+        protected override void Dispose(bool disposing)
+        {
+            Console.SetOut(o);
+
+            // base calls broken for PHP?
+            //base.Dispose(disposing);
+        }
+
+        public Action<string> AtWrite;
+
+        public override void Write(string value)
+        {
+            Console.SetOut(o);
+            AtWrite(value);
+            Console.SetOut(this);
+        }
+
+        public override void WriteLine(string value)
+        {
+            Console.SetOut(o);
+            AtWrite(value + Environment.NewLine);
+            Console.SetOut(this);
+        }
+
+        public override Encoding Encoding
+        {
+            get { return Encoding.UTF8; }
+        }
+
+        public __ConsoleToDatabaseWriter(Action<string> xAtWrite)
+        {
+            InitializeAndKeepOriginal(this);
+
+            this.AtWrite += xAtWrite;
+        }
+
+
+        public static void InternalWriteLine(string x)
+        {
+            InternalWrite(x + Environment.NewLine);
+        }
+
+        public static void InternalWrite(string x)
+        {
+#if DEBUG
+            var i = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            //o.Write(new { session, id, x });
+            //#endif
+
+            //Log.i("ConsoleByCookie", x);
+
+            if (o == null)
+                Console.Out.Write(x);
+            else
+                o.Write(x);
+            //#if DEBUG
+
+            Console.ForegroundColor = i;
+#endif
+        }
+
+        static TextWriter o;
+
+        private static TextWriter InitializeAndKeepOriginal(__ConsoleToDatabaseWriter w)
+        {
+            // Console is not really thread safe!
+            if (o == null)
+                o = Console.Out;
+
+            Console.SetOut(w);
+            return o;
+        }
+    }
 
 }

@@ -22,5 +22,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             return n;
         }
 
+
+        public override int Count
+        {
+            get { return this.InternalParameters.Count; }
+        }
     }
 }

@@ -227,6 +227,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
+    <Content Include="Schema\TheGridTable\select content by parent.sql" />
     <Content Include="Schema\TheGridTable\select content updates.sql" />
     <Content Include="Schema\TheGridTable\select content.sql" />
     <Content Include="Schema\TheGridTable\insert.sql" />

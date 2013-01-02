@@ -55,6 +55,12 @@ namespace ScriptCoreLib.PHP.Data
 
         public int errno;
         public string error;
+
+        public mysqli_result result_metadata()
+        {
+            return default(mysqli_result);
+        }
+
     }
 
     [Script]
@@ -102,6 +108,34 @@ return call_user_func_array(array(&$stmt, 'bind_param'), $refs);")]
             //Console.WriteLine("will call bind_param " + new { aa.Length });
 
             __bind_param(that, aa);
+        }
+
+
+
+        // http://php.net/manual/en/mysqli-stmt.fetch.php
+        [Script(OptimizedCode = @"
+
+        $data = mysqli_stmt_result_metadata($stmt);
+        $fields = array();
+        $out = array();
+
+        $fields[0] = &$stmt;
+        $count = 1;
+
+        while($field = mysqli_fetch_field($data)) {
+            $fields[$count] = &$out[$field->name];
+            $count++;
+        }
+        
+        call_user_func_array('mysqli_stmt_bind_result', $fields);
+        mysqli_stmt_fetch($stmt);
+        return array_values($out);
+
+")]
+        public static object[] __fetch_array(this mysqli_stmt stmt)
+        {
+
+            return null;
         }
     }
 

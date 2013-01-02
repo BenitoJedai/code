@@ -125,8 +125,9 @@ select id, query from History1 where context = ?
 
                     stmt.store_result();
 
-                    yield("store_result " + new { stmt.num_rows });
+                    yield("store_result " + new { stmt.num_rows, stmt.field_count });
 
+                   
                     for (int i = 0; i < stmt.num_rows; i++)
                     {
                         var a = stmt.__fetch_array();
@@ -176,5 +177,7 @@ select id, query from History1 where context = ?
 
             return null;
         }
+
+
     }
 }

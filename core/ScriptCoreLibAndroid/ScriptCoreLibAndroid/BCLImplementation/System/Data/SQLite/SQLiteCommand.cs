@@ -16,12 +16,14 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         // see also: X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
 
         public __SQLiteConnection c;
-        public string sql;
+        public override string CommandText { get; set; }
+
+        
 
         public __SQLiteCommand(string sql, SQLiteConnection c)
         {
             this.c = (__SQLiteConnection)(object)c;
-            this.sql = sql;
+            this.CommandText = sql;
 
             this.InternalParameters = new __SQLiteParameterCollection { };
             this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
@@ -38,11 +40,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             //Console.WriteLine("InternalCreateStatement...");
 
-            var sql = this.sql;
+            var sql = this.CommandText;
             var parameters = this.InternalParameters.InternalParameters;
             var index =
                 from p in parameters
-                from i in this.sql.GetIndecies(p.ParameterName)
+                from i in this.CommandText.GetIndecies(p.ParameterName)
                 orderby i
                 select new { p, i };
 
