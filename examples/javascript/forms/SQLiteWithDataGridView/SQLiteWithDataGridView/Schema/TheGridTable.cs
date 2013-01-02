@@ -102,14 +102,25 @@ namespace SQLiteWithDataGridView.Schema
              );
         }
 
-        public void SelectContent(SelectContent value, Action<dynamic> yield)
+        public void SelectContent(SelectContentByParent value, Action<dynamic> yield)
         {
+            if (value.ParentContentKey == null)
+            {
+                WithConnection(
+                    c =>
+                    {
+                        
+                        new SelectContent().ExecuteReader(c).WithEach(yield);
+                    }
+                 );
+            }
+
             WithConnection(
                 c =>
                 {
                     value.ExecuteReader(c).WithEach(yield);
                 }
-             );
+                );
         }
 
         public void SelectContentUpdates(SelectContentUpdates value, Action<dynamic> yield)

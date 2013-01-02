@@ -33,8 +33,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 
         public void Dispose()
         {
+            Dispose(true);
         }
 
         #endregion
+
+        protected virtual void Dispose(bool disposing)
+        {
+
+        }
     }
 }

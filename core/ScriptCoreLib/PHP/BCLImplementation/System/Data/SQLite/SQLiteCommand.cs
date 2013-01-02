@@ -16,16 +16,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         __SQLiteConnection c;
 
-        string sql;
 
-
+        public override string CommandText { get; set; }
 
         public __SQLiteCommand(string sql, SQLiteConnection c)
         {
             this.c = (__SQLiteConnection)(object)c;
 
 
-            this.sql = SQLiteToMySQLConversion.Convert(
+            this.CommandText = SQLiteToMySQLConversion.Convert(
                 sql,
                 __SQLiteConnectionStringBuilder.InternalConnectionString.DataSource
             );
@@ -42,18 +41,17 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         {
             if (this.InternalParameters.InternalParameters.Count > 0)
             {
-                var sql = this.sql;
+                var sql = this.CommandText;
 
-                //Console.WriteLine("we have InternalParameters for " + sql);
 
                 var parameters = this.InternalParameters.InternalParameters;
 
                 //Console.WriteLine("we have InternalParameters for " + new { parameters.Count });
 
-             
+
                 var index = Enumerable.ToArray(
                    from p in parameters.AsEnumerable()
-                   from i in this.sql.GetIndecies(p.ParameterName)
+                   from i in this.CommandText.GetIndecies(p.ParameterName)
                    orderby i
                    select new { p, i }
                 );
@@ -99,6 +97,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 }
 
                 var args = values.ToArray();
+
+                Console.WriteLine("we have InternalParameters for " + new { sql, types, args = Native.DumpToString(args) });
+
+
                 this.InternalPreparedStatement.bind_param_array(types, args);
 
                 // add values
@@ -120,7 +122,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             }
             else
             {
-                r = this.c.InternalConnection.query(this.sql) as mysqli_result;
+                r = this.c.InternalConnection.query(this.CommandText) as mysqli_result;
             }
 
             if (this.c.InternalConnection.errno != 0)
@@ -141,6 +143,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             InternalCreateStatement();
 
             var r = default(mysqli_result);
+            var s = default(mysqli_stmt);
 
             if (this.InternalPreparedStatement != null)
             {
@@ -149,11 +152,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 // http://stackoverflow.com/questions/13659856/fatal-error-call-to-undefined-method-mysqli-stmtget-result
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130101
 
-                r = this.InternalPreparedStatement.get_result() as mysqli_result;
+                //r = this.InternalPreparedStatement.get_result() as mysqli_result;
+                s = this.InternalPreparedStatement;
             }
             else
             {
-                r = this.c.InternalConnection.query(this.sql) as mysqli_result;
+                r = this.c.InternalConnection.query(this.CommandText) as mysqli_result;
             }
 
             if (this.c.InternalConnection.errno != 0)
@@ -165,7 +169,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
             return new __SQLiteDataReader
             {
-                InternalResultSet = r
+                InternalResultSet = r,
+                InternalStatement = s
             };
         }
     }

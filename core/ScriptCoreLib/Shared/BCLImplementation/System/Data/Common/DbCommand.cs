@@ -10,6 +10,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
     public abstract class __DbCommand : __Component
     {
         public abstract int ExecuteNonQuery();
+        public abstract string CommandText { get; set; }
 
     }
 }

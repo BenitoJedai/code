@@ -20,7 +20,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         __SQLiteConnection c;
 
-        public string sql;
+        public override string CommandText
+        {
+            get;
+            set;
+        }
+
 
         public java.sql.Statement InternalStatement;
         public java.sql.PreparedStatement InternalPreparedStatement;
@@ -33,7 +38,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             // http://www.sqlite.org/autoinc.html
 
 
-            this.sql = SQLiteToMySQLConversion.Convert(sql, this.c.InternalConnectionString.DataSource);
+            this.CommandText = SQLiteToMySQLConversion.Convert(sql, this.c.InternalConnectionString.DataSource);
 
             this.InternalParameters = new __SQLiteParameterCollection { };
             this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
@@ -50,7 +55,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 // http://www.javaworld.com/javaworld/jw-04-2007/jw-04-jdbc.html
                 if (this.InternalParameters.InternalParameters.Count > 0)
                 {
-                    var sql = this.sql;
+                    var sql = this.CommandText;
 
                     //Console.WriteLine("we have InternalParameters for " + sql);
 
@@ -58,7 +63,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
                     var index =
                        from p in parameters
-                       from i in this.sql.GetIndecies(p.ParameterName)
+                       from i in this.CommandText.GetIndecies(p.ParameterName)
                        orderby i
                        select new { p, i };
 
@@ -91,7 +96,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                         {
                             var message = "InternalCreateStatement, what to do with this? " + new
                             {
-                                this.sql,
+                                this.CommandText,
                                 item,
                                 type = item.GetType()
                             };
@@ -125,7 +130,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 if (this.InternalPreparedStatement != null)
                     value = this.InternalPreparedStatement.executeUpdate();
                 else
-                    value = this.InternalStatement.executeUpdate(this.sql);
+                    value = this.InternalStatement.executeUpdate(this.CommandText);
 
                 this.c.InternalLastInsertRowIdCommand = this;
             }
@@ -153,7 +158,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 if (this.InternalPreparedStatement != null)
                     r = this.InternalPreparedStatement.executeQuery();
                 else
-                    r = this.InternalStatement.executeQuery(this.sql);
+                    r = this.InternalStatement.executeQuery(this.CommandText);
 
                 value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r, InternalCommand = this };
                 this.c.InternalLastInsertRowIdCommand = this;
@@ -189,5 +194,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             return value;
         }
+
+     
     }
 }
