@@ -24,7 +24,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         public __SQLiteConnectionStringBuilder()
         {
             this.InternalUser = "root";
-            this.InternalHost = "localhost";
+
+            // 127.0.0.1
+            //this.InternalHost = "localhost";
+            // http://stackoverflow.com/questions/13439817/why-is-my-mysqli-connection-so-slow
+
+            this.InternalHost = "127.0.0.1";
             this.Password = "";
         }
 
