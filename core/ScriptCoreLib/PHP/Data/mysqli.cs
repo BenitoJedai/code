@@ -7,7 +7,7 @@ namespace ScriptCoreLib.PHP.Data
 {
     // http://php.net/manual/en/class.mysqli-result.php
     [Script(IsNative = true)]
-    class mysqli
+    public class mysqli
     {
         // http://php.net/manual/en/mysqli.quickstart.prepared-statements.php
         // http://php.net/manual/en/mysqlinfo.concepts.buffering.php

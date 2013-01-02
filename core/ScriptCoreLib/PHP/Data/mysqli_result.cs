@@ -7,7 +7,7 @@ namespace ScriptCoreLib.PHP.Data
 {
     // http://php.net/manual/en/class.mysqli-result.php
     [Script(IsNative = true)]
-    class mysqli_result
+    public class mysqli_result
     {
         public int field_count;
         public int num_rows;
@@ -42,7 +42,7 @@ namespace ScriptCoreLib.PHP.Data
     }
 
     [Script(IsNative = true)]
-    abstract class mysqli_result_field
+    public abstract class mysqli_result_field
     {
         public string name;
         public int type;
