@@ -6,6 +6,7 @@ using SQLiteWithDataGridView.Schema;
 using System;
 using System.ComponentModel;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -159,6 +160,7 @@ namespace SQLiteWithDataGridView
                 GridExample_GetTransactionKeyFor("", AtTransactionKey);
 
 
+            Console.WriteLine("exit GridExample_UpdateItem");
             x.Dispose();
         }
 
@@ -372,8 +374,11 @@ namespace SQLiteWithDataGridView
 
         public override void WriteLine(string value)
         {
+
+
+            var x = sw.ElapsedMilliseconds + "ms " + value;
             Console.SetOut(o);
-            AtWrite(value + Environment.NewLine);
+            AtWrite(x + Environment.NewLine);
             Console.SetOut(this);
         }
 
@@ -382,8 +387,13 @@ namespace SQLiteWithDataGridView
             get { return Encoding.UTF8; }
         }
 
+        Stopwatch sw;
+
         public __ConsoleToDatabaseWriter(Action<string> xAtWrite)
         {
+            sw = new Stopwatch();
+            sw.Start();
+
             InitializeAndKeepOriginal(this);
 
             this.AtWrite += xAtWrite;

@@ -198,6 +198,7 @@ namespace SQLiteWithDataGridView.Library
                     {
                         st.Stop();
                         Console.WriteLine("service.GridExample_UpdateItem done in " + st.ElapsedMilliseconds + "ms");
+                        dataGridView1[0, e.RowIndex].Style.ForeColor = Color.Green;
 
                         //var i = int.Parse(LocalTransactionKey);
                         //i++;
