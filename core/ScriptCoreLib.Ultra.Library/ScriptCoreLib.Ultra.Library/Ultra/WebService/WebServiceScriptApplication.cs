@@ -30,6 +30,9 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public Reference[] References;
 
+
+        public string GZipAssemblyFile;
+
         public string PageSource;
 
 
