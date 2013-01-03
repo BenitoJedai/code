@@ -149,23 +149,38 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             {
                 this.InternalPreparedStatement.execute();
 
+
+
                 // http://stackoverflow.com/questions/13659856/fatal-error-call-to-undefined-method-mysqli-stmtget-result
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130101
 
                 //r = this.InternalPreparedStatement.get_result() as mysqli_result;
                 s = this.InternalPreparedStatement;
+
+                if (s.errno != 0)
+                {
+                    var message = new { s.errno, s.error };
+
+                    throw new Exception(message.ToString());
+                }
+
+                s.store_result();
+
+                Console.WriteLine("ExecuteReader: " + new { this.InternalPreparedStatement.num_rows, this.InternalPreparedStatement.field_count });
             }
             else
             {
                 r = this.c.InternalConnection.query(this.CommandText) as mysqli_result;
+
+                if (this.c.InternalConnection.errno != 0)
+                {
+                    var message = new { this.c.InternalConnection.errno, this.c.InternalConnection.error };
+
+                    throw new Exception(message.ToString());
+                }
             }
 
-            if (this.c.InternalConnection.errno != 0)
-            {
-                var message = new { this.c.InternalConnection.errno, this.c.InternalConnection.error };
 
-                throw new Exception(message.ToString());
-            }
 
             return new __SQLiteDataReader
             {
