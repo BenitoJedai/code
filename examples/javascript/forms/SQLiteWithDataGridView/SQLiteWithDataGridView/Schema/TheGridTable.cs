@@ -51,9 +51,11 @@ namespace SQLiteWithDataGridView.Schema
         #region queries
         public void SelectTransactionKey(Action<long> yield)
         {
+            Console.WriteLine("enter SelectTransactionKey");
             WithConnection(
                 c =>
                 {
+                    Console.WriteLine("before SelectTransactionKey ExecuteReader");
                     new SelectTransaction { }.ExecuteReader(c).WithEach(
                         reader =>
                         {
@@ -62,8 +64,10 @@ namespace SQLiteWithDataGridView.Schema
                             yield(ContentKey);
                         }
                     );
+                    Console.WriteLine("after SelectTransactionKey ExecuteReader");
                 }
              );
+            Console.WriteLine("exit SelectTransactionKey");
         }
 
         public void InsertLog(InsertLog value)

@@ -301,7 +301,8 @@ namespace SQLiteWithDataGridView.Library
 
             service.GridExample_GetTransactionKeyFor(
                 e: "",
-                y: AtServerTransactionKey
+                y: AtServerTransactionKey,
+                AtConsole: Console.Write
             );
         }
 
