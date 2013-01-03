@@ -70,7 +70,6 @@ namespace ScriptCoreLib.Ultra.WebService
                 //g.Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
                 //context.Response.AddHeader("pragma", "no-cache");
                 //g.Response.AddHeader("cache-control", "public");
-                g.Response.AddHeader("x-handler", "http://jsc-solutions.net");
                 g.Response.AddHeader("Content-Length", "" + CurrentFile.Length);
 
                 var ContentType = "application/octet-stream";
@@ -271,15 +270,21 @@ namespace ScriptCoreLib.Ultra.WebService
                 if (that.Request.Path == "/view-source")
                 {
                     h.Context.Response.ContentType = "text/javascript";
+                    
+                    g.Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
+                    g.Response.Cache.SetExpires(DateTime.Now.AddMinutes(15));
+
 
                     var app = h.Applications[0];
 
-                    foreach (var app_ref in app.References)
-                    {
-                        // will this work an all platforms?
-                        // need to test!
-                        g.Response.AddHeader("X-Assembly", app_ref.AssemblyFile);
-                    }
+                    app.References.WithEachIndex(
+                        (app_ref, index) =>
+                        {
+                            // will this work an all platforms?
+                            // need to test!
+                            g.Response.AddHeader("X-Assembly-" + index, app_ref.AssemblyFile);
+                        }
+                    );
 
                     #region GZipAssemblyFile
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130103
@@ -291,7 +296,7 @@ namespace ScriptCoreLib.Ultra.WebService
                         {
                             g.Response.AddHeader("Content-Encoding", "gzip");
 
-                      
+
 
                             g.Response.WriteFile("/" + app.GZipAssemblyFile);
                             h.CompleteRequest();
@@ -316,7 +321,7 @@ namespace ScriptCoreLib.Ultra.WebService
                     g.Response.AddHeader("Content-Length", "" + app_size);
                     //g.Response.AddHeader("X-GZipAssemblyFile", "" + app.GZipAssemblyFile);
 
-             
+
                     foreach (var item in app_references)
                     {
                         // asp.net needs absolute paths
