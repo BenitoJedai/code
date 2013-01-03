@@ -85,11 +85,11 @@ namespace ScriptCoreLib.Ultra.WebService
                 else if (n.EndsWith(".svg")) ContentType = "image/svg+xml";
 
                 else if (n.EndsWith(".js")) ContentType = "application/x-javascript";
-                
+
                 else if (n.EndsWith(".mp3")) ContentType = "audio/mpeg3";
                 else if (n.EndsWith(".wav")) ContentType = "audio/wav";
                 else if (n.EndsWith(".mid")) ContentType = "audio/midi";
-                
+
                 else if (n.EndsWith(".css")) ContentType = "text/css";
 
                 that.Response.ContentType = ContentType;
@@ -273,16 +273,56 @@ namespace ScriptCoreLib.Ultra.WebService
                     h.Context.Response.ContentType = "text/javascript";
 
                     var app = h.Applications[0];
-                    foreach (var item in app.References)
+
+                    foreach (var app_ref in app.References)
                     {
-                        h.Context.Response.Write("/* " + new { item.AssemblyFile, bytes = 1 } + " */\r\n");
+                        // will this work an all platforms?
+                        // need to test!
+                        g.Response.AddHeader("X-Assembly", app_ref.AssemblyFile);
                     }
 
-                    foreach (var item in app.References)
+                    #region GZipAssemblyFile
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130103
+
+                    var AcceptEncoding = h.Context.Request.Headers["Accept-Encoding"];
+
+                    if (!string.IsNullOrEmpty(AcceptEncoding))
+                        if (AcceptEncoding.Contains("gzip"))
+                        {
+                            g.Response.AddHeader("Content-Encoding", "gzip");
+
+                      
+
+                            g.Response.WriteFile("/" + app.GZipAssemblyFile);
+                            h.CompleteRequest();
+
+                            return;
+                        }
+                    #endregion
+
+
+                    #region the old way
+                    var ff = g.GetFiles();
+
+                    // jsc packages js files? not for long:P will switch to gzip at some point!
+                    var app_references = app.References.Select(
+                        item => ff.Single(k => k.Name == item.AssemblyFile + ".js")
+                    ).ToArray();
+
+                    var app_size = app_references.Sum(k => k.Length);
+
+                    // Accept-Encoding:gzip,deflate,sdch
+
+                    g.Response.AddHeader("Content-Length", "" + app_size);
+                    //g.Response.AddHeader("X-GZipAssemblyFile", "" + app.GZipAssemblyFile);
+
+             
+                    foreach (var item in app_references)
                     {
                         // asp.net needs absolute paths
-                        h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
+                        h.Context.Response.WriteFile("/" + item.Name);
                     }
+                    #endregion
 
 
                     h.CompleteRequest();
@@ -380,14 +420,16 @@ namespace ScriptCoreLib.Ultra.WebService
 
         private static void WriteDiagnosticsResults(StringAction Write, InternalWebMethodInfo WebMethod)
         {
+            Write("<blockquote>");
             if (WebMethod.Results == null)
             {
 
-                Write("<h2>No Results</h2>");
+                Write("<h2>No results from " + WebMethod.Name + "</h2>");
             }
             else
             {
-                Write("<h2>" + WebMethod.Results.Length + " Results</h2>");
+                Write("<h2>" + WebMethod.Results.Length + " results from " + WebMethod.Name + "</h2>");
+                Write("<blockquote>");
 
                 foreach (var item in WebMethod.Results)
                 {
@@ -401,9 +443,10 @@ namespace ScriptCoreLib.Ultra.WebService
                         }
                     );
                 }
-
+                Write("</blockquote>");
                 Write("<br />");
             }
+            Write("</blockquote>");
         }
 
         private static void WriteDiagnostics(InternalGlobal g, StringAction Write, InternalWebMethodInfo[] WebMethods)
@@ -418,22 +461,26 @@ namespace ScriptCoreLib.Ultra.WebService
             Write("<a href='http://jsc-solutions.net'><img border='0' src='/assets/ScriptCoreLib/jsc.png' /></a>");
 
 
+            Write("<blockquote>");
             Write("<h2>Special pages</h2>");
+            Write("<blockquote>");
 
+            // like CON in filesystem?
             Write("<br /> " + "special page: " + "<a href='/robots.txt'>/robots.txt</a>");
             Write("<br /> " + "special page: " + "<a href='/xml'>/xml</a>");
             Write("<br /> " + "special page: " + "<a href='/crossdomain.xml'>/crossdomain.xml</a>");
             Write("<br /> " + "special page: " + "<a href='/favicon.ico'>/favicon.ico</a>");
             Write("<br /> " + "special page: " + "<a href='/jsc'>/jsc</a>");
+            Write("<br /> " + "special page: " + "<a href='/view-source'>/view-source</a>");
+            Write("</blockquote>");
 
-            Write("<h2>WebMethods</h2>");
-
-
-
+            Write("<h2>Methods</h2>");
+            Write("<blockquote>");
             foreach (var item in WebMethods)
             {
                 WriteWebMethodForm(Write, item);
             }
+            Write("</blockquote>");
 
 
             Write("<br /> Path: '" + Context.Request.Path + "'");
@@ -459,30 +506,75 @@ namespace ScriptCoreLib.Ultra.WebService
                 Write("</code>");
             }
 
-            Write("<h2>Script Applications</h2>");
+            var ff = g.GetFiles();
 
-            foreach (var item in g.GetScriptApplications())
+            // http://msdn.microsoft.com/en-us/library/y47ychfe.aspx
+
+            Write("<h2>Applications</h2>");
+            Write("<blockquote>");
+
+            foreach (var app in g.GetScriptApplications())
             {
-                Write("<br /> " + "script application: " + item.TypeName);
+                Write("<br /> ");
 
-                foreach (var r in item.References)
+                Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' />");
+
+                Write(" <code style='color: darkcyan;'>" + app.TypeName + "</code>");
+
+                var app_references = app.References.Select(
+                   item => ff.Single(k => k.Name == item.AssemblyFile + ".js")
+               ).ToArray();
+
+                var app_size = app_references.Sum(k => k.Length);
+
+                Write(" <span style='color: gray;'>(" + app_size + " bytes)</span>");
+
+                foreach (var r in app.References)
                 {
                     Write("<br /> &nbsp;&nbsp;&nbsp;&nbsp;");
 
-                    Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> reference: ");
-                    Write(r.AssemblyFile);
+                    Write("<img src='http://i.msdn.microsoft.com/dynimg/IC477625.png' />");
+                    Write(" " + r.AssemblyFile);
 
                 }
             }
+            Write("</blockquote>");
 
             Write("<h2>Files</h2>");
+            Write("<blockquote>");
+
+            Action<string> separator = delegate { };
 
             foreach (var item in g.GetFiles())
             {
-                Write("<br /> " + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
+                separator(item.Name);
+
+                Write(
+                    "<br /> "
+                    + " file: <a href='" + item.Name + "'>" + item.Name + "</a>" + " size: " + item.Length
+                );
+
+
+                // do we need this?
+                //var itemref_csharp4 = item;
+
+                separator =
+                    next =>
+                    {
+                        if (next.TakeUntilLastOrEmpty("/") == item.Name.TakeUntilLastOrEmpty("/"))
+                        {
+                            return;
+                        }
+
+                        Write(
+                            "<br /> "
+                        );
+
+                    };
+
             }
-
-
+            Write("</blockquote>");
+            Write("</blockquote>");
 
         }
 
@@ -532,7 +624,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     var key = "_" + WebMethod.MetadataToken + "_" + Parameter.Name;
 
-                    Write(" = ");
+                    // C# named parameters style
+                    Write(": ");
 
                     var value = "";
 
@@ -549,16 +642,19 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public static void WriteWebMethod(StringAction Write, InternalWebMethodInfo item, InternalWebMethodParameterInfoAction more)
         {
+            Write("<br /> ");
+
             if (string.IsNullOrEmpty(item.MetadataToken))
             {
-                Write("<br /> ");
+                // when does this happen?
+
                 Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' />");
-                Write(" method: <code>" + item.Name + "</code>");
+                Write(" <code>" + item.Name + "</code>");
 
             }
             else
             {
-                Write("<br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='" + item.ToQueryString() + "'>" + item.Name + "</a></code>");
+                Write("<img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> <code><a style='text-decoration: none;' href='" + item.ToQueryString() + "'>" + item.Name + "</a></code>");
             }
 
             if (more != null)
@@ -572,14 +668,14 @@ namespace ScriptCoreLib.Ultra.WebService
                     if (p.IsDelegate)
                     {
                         Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' />");
-                        Write(" parameter: <code>" + p.Name + "</code>");
+                        Write(" <code>" + p.Name + "</code>");
 
 
                     }
                     else
                     {
                         Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' />");
-                        Write(" parameter: <code>" + p.Name + "</code>");
+                        Write(" <code>" + p.Name + "</code>");
 
                         if (more != null)
                             more(p);

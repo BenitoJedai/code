@@ -87,7 +87,13 @@ namespace DiagnosticsConsole
 
                     }
 
+                    // US
                     if (KeyCode == 222)
+                    {
+                        Toggle();
+                    }
+                    // EE
+                    if (KeyCode == 192)
                     {
                         Toggle();
                     }
