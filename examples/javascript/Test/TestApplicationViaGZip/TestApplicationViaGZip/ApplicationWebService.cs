@@ -34,23 +34,41 @@ namespace TestApplicationViaGZip
             {
                 var Response = h.Context.Response;
 
+                Console.WriteLine();
+
+                h.Context.Request.Headers.AllKeys.WithEach(
+                    Header =>
+                    {
+                        Console.WriteLine(Header + ": " + h.Context.Request.Headers[Header]);
+
+                    }
+                );
+
+                // http://code.google.com/p/googleappengine/issues/detail?id=1804
+                // http://stackoverflow.com/questions/9772061/app-engine-accept-encoding
+                // https://developers.google.com/appengine/docs/python/runtime#Responses
                 var AcceptEncoding = h.Context.Request.Headers["Accept-Encoding"];
+
+                // http://stackoverflow.com/questions/6891034/sending-a-pre-gzipped-javascript-to-the-web-browser
+                // appengine does not allow this for now.
 
                 //Accept-Encoding:gzip,deflate,sdch
 
-                if (AcceptEncoding.Contains("gzip"))
-                {
-                    // http://www.dotnetperls.com/gzip-aspnet
+                if (!string.IsNullOrEmpty(AcceptEncoding))
+                    if (AcceptEncoding.Contains("gzip"))
+                    {
+                        // http://www.dotnetperls.com/gzip-aspnet
 
-                    Response.ContentType = "text/javascript";
+                        //Response.ContentType = "text/javascript";
+                        Response.ContentType = "application/x-gzip";
+                        
+                        var app = h.Applications[0];
 
-                    var app = h.Applications[0];
-
-                    Response.AddHeader("Content-Encoding", "gzip");
-                    Response.AddHeader("X-GZipAssemblyFile", "" + app.GZipAssemblyFile);
+                        Response.AddHeader("Content-Encoding", "gzip");
+                        Response.AddHeader("X-GZipAssemblyFile", app.GZipAssemblyFile);
 
 #if !flag1
-                    Response.WriteFile("/" + app.GZipAssemblyFile);
+                        Response.WriteFile("/" + app.GZipAssemblyFile);
 #else
 
 
@@ -96,8 +114,8 @@ namespace TestApplicationViaGZip
                     Response.OutputStream.Write(gzbytes, 0, gzbytes.Length);
 #endif
 
-                    h.CompleteRequest();
-                }
+                        h.CompleteRequest();
+                    }
             }
         }
     }

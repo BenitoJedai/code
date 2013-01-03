@@ -527,7 +527,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 Write(" <code style='color: darkcyan;'>" + app.TypeName + "</code>");
 
                 var app_references = app.References.Select(
-                   item => ff.Single(k => k.Name == item.AssemblyFile + ".js")
+                   item => ff.First(k => k.Name == item.AssemblyFile + ".js")
                ).ToArray();
 
                 var app_size = app_references.Sum(k => k.Length);
