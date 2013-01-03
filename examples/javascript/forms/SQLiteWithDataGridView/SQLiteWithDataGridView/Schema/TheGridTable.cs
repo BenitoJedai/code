@@ -68,22 +68,31 @@ namespace SQLiteWithDataGridView.Schema
 
         public void InsertLog(InsertLog value)
         {
+            Console.WriteLine("enter InsertLog");
             WithWriteConnection(
                 c =>
                 {
+                    Console.WriteLine("before InsertLog ExecuteNonQuery ");
                     value.ExecuteNonQuery(c);
+                    Console.WriteLine("after InsertLog ExecuteNonQuery ");
                 }
              );
+            Console.WriteLine("exit InsertLog");
         }
 
         public void Update(Update value)
         {
+            Console.WriteLine("enter Update");
+
             WithWriteConnection(
                 c =>
                 {
+                    Console.WriteLine("before Update ExecuteNonQuery ");
                     value.ExecuteNonQuery(c);
+                    Console.WriteLine("after Update ExecuteNonQuery ");
                 }
              );
+            Console.WriteLine("exit Update");
         }
 
         public void Insert(Insert value, Action<long> yield)

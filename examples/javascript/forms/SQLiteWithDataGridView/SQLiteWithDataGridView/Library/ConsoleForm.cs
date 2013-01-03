@@ -75,9 +75,20 @@ namespace SQLiteWithDataGridView.Library
                 if (this.WindowState == FormWindowState.Minimized)
                     this.WindowState = FormWindowState.Normal;
                 else
+                {
                     this.WindowState = FormWindowState.Minimized;
+
+                    this.textBox1.Clear();
+                    this.textBox1.AppendText("Console cleared..." + Environment.NewLine);
+
+                }
             }
 
+        }
+
+        private void ConsoleForm_Load(object sender, EventArgs e)
+        {
+            this.textBox1.Clear();
         }
     }
 }
