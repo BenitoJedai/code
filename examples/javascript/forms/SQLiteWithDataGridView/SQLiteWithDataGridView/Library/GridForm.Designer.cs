@@ -205,6 +205,7 @@ namespace SQLiteWithDataGridView.Library
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GridForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GridForm_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.LocationChanged += new System.EventHandler(this.GridForm_LocationChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

@@ -149,7 +149,7 @@ select
 
 
 -- best way             
-where t1.ParentContentKey is null
+where (t1.ParentContentKey is null and (? is null or ? = '')) or t1.ParentContentKey = ?
 ";
                 Console.WriteLine("x before select");
 
@@ -165,15 +165,19 @@ where t1.ParentContentKey is null
                 {
                     Console.WriteLine("x in prepare " + new { sql });
 
-                    //var aa = new List<object>();
+                    var aa = new List<object>();
+                    //aa.Add(null);
 
-                    //aa.Add(1);
+                    // what if android cannot handle nulls?
+                    aa.Add("");
+                    aa.Add("");
+                    aa.Add("");
+                    var aaa = aa.ToArray();
 
-                    //var aaa = aa.ToArray();
-
-                    //stmt.bind_param_array("i",
-                    //      aaa
-                    //  );
+                    // will it work?
+                    stmt.bind_param_array("sss",
+                        aaa
+                    );
 
                     stmt.execute();
 
@@ -198,8 +202,24 @@ where t1.ParentContentKey is null
                         Console.WriteLine(message.ToString());
 
                         if (ContentChildren > 0)
-                        { 
-                        
+                        {
+
+
+                            (m.prepare(sql) as mysqli_stmt).With(
+                                cstmt =>
+                                {
+                                    cstmt.bind_param_array("iii",
+                                        ContentKey,
+                                        ContentKey,
+                                        ContentKey
+                                    );
+
+                                    cstmt.execute();
+                                    cstmt.store_result();
+                                    Console.WriteLine("x child store_result " + new { cstmt.num_rows, cstmt.field_count });
+                                    cstmt.free_result();
+                                }
+                            );
                         }
 
                     }

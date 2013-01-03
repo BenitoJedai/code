@@ -7,4 +7,4 @@
 
 
 -- best way             
-where (t1.ParentContentKey is null and (@ParentContentKey1 is null or @ParentContentKey2 = '')) or t1.ParentContentKey = @ParentContentKey3
+where t1.ParentContentKey is null

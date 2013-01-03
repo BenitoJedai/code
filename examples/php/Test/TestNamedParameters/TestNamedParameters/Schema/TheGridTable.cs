@@ -5,22 +5,27 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
-namespace SQLiteWithDataGridView.Schema
+namespace TestNamedParameters.Schema
 {
     public class TheGridTable : TheGridTableQueries
     {
+        // Data Source cannot be empty.  Use :memory: to open an in-memory database
+
         public SQLiteConnectionStringBuilder csb = new SQLiteConnectionStringBuilder
         {
+            DataSource = "TestNamedParameters1",
             Version = 3
         };
 
         public SQLiteConnectionStringBuilder csb_admin = new SQLiteConnectionStringBuilder
         {
+            DataSource = "TestNamedParameters1",
             Version = 3
         };
 
         public SQLiteConnectionStringBuilder csb_write = new SQLiteConnectionStringBuilder
         {
+            DataSource = "TestNamedParameters1",
             Version = 3
         };
 
@@ -39,88 +44,62 @@ namespace SQLiteWithDataGridView.Schema
 
         public void Create()
         {
+            Console.WriteLine("Create enter");
             WithAdminConnection(
                 c =>
                 {
+                    Console.WriteLine("Create before ExecuteNonQuery");
                     new Create { }.ExecuteNonQuery(c);
-                    new CreateLog { }.ExecuteNonQuery(c);
+                    Console.WriteLine("Create after ExecuteNonQuery");
                 }
             );
+            Console.WriteLine("Create exit");
         }
 
         #region queries
-        public void SelectTransactionKey(Action<long> yield)
-        {
-            WithConnection(
-                c =>
-                {
-                    new SelectTransaction { }.ExecuteReader(c).WithEach(
-                        reader =>
-                        {
-                            long ContentKey = reader.ContentKey;
 
-                            yield(ContentKey);
-                        }
-                    );
-                }
-             );
-        }
-
-        public void InsertLog(InsertLog value)
-        {
-            WithWriteConnection(
-                c =>
-                {
-                    value.ExecuteNonQuery(c);
-                }
-             );
-        }
-
-        public void Update(Update value)
-        {
-            WithWriteConnection(
-                c =>
-                {
-                    value.ExecuteNonQuery(c);
-                }
-             );
-        }
 
         public void Insert(Insert value, Action<long> yield)
         {
-            //{ Message = "Attempt to write a read-only database\r\nattempt to write a readonly database", StackTrace = "   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)\r\n   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)\r\n   at System.Data.SQLite.SQLiteDataReader.NextResult()\r\n   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)\r\n   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)\r\n   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()\r\n   at SQLiteWithDataGridView.Schema.TheGridTableExtensions.ExecuteNonQuery(Insert , SQLiteConnection )\r\n   at SQLiteWithDataGridView.Schema.TheGridTable.<>c__DisplayClass13.<Insert>b__12(SQLiteConnection c) in x:\\jsc.svn\\examples\\javascript\\forms\\SQLiteWithDataGridView\\SQLiteWithDataGridView\\Schema\\TheGridTable.cs:line 95\r\n   at SQLiteWithDataGridView.Schema.XX.<>c__DisplayClass1.<AsWithConnection>b__0(Action`1 y) in x:\\jsc.svn\\examples\\javascript\\forms\\SQLiteWithDataGridView\\SQLiteWithDataGridView\\Schema\\TheGridTable.cs:line 161" }
-
-
-            //WithConnection(
+            Console.WriteLine("Insert enter");
             WithWriteConnection(
                 c =>
                 {
+                    Console.WriteLine("Insert before ExecuteNonQuery");
                     value.ExecuteNonQuery(c);
 
                     yield(c.LastInsertRowId);
+                    Console.WriteLine("Insert after ExecuteNonQuery");
                 }
              );
+            Console.WriteLine("Insert exit");
         }
 
-        public void SelectContent(SelectContent value, Action<dynamic> yield)
+        public void SelectContent(SelectContentByParent value, Action<dynamic> yield)
         {
+            Console.WriteLine("SelectContent enter");
+
             WithConnection(
                 c =>
                 {
-                    value.ExecuteReader(c).WithEach(yield);
-                }
-            );
-        }
+                    Console.WriteLine("SelectContent before ExecuteReader");
+                    if (value.ParentContentKey == null)
+                    {
+                        new SelectContent().ExecuteReader(c).WithEach(yield);
 
-        public void SelectContentUpdates(SelectContentUpdates value, Action<dynamic> yield)
-        {
-            WithConnection(
-                c =>
-                {
-                    value.ExecuteReader(c).WithEach(yield);
+                    }
+                    else
+                    {
+                        value.ExecuteReader(c).WithEach(yield);
+                    }
+                    Console.WriteLine("SelectContent after ExecuteReader");
                 }
              );
+
+            Console.WriteLine("SelectContent exit");
         }
+
+
         #endregion
 
 

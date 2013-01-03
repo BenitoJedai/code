@@ -197,7 +197,7 @@ namespace SQLiteWithDataGridView.Library
                     AtTransactionKey: RemoteTransactionKey =>
                     {
                         st.Stop();
-                        Console.WriteLine("service.GridExample_UpdateItem done in " + st.Elapsed);
+                        Console.WriteLine("service.GridExample_UpdateItem done in " + st.ElapsedMilliseconds + "ms");
 
                         //var i = int.Parse(LocalTransactionKey);
                         //i++;
@@ -249,7 +249,7 @@ namespace SQLiteWithDataGridView.Library
                     label2.Text = ServerTransactionKey;
 
                     st.Stop();
-                    Console.WriteLine("#" + TimerCounter + " AtServerTransactionKey done in " + st.Elapsed);
+                    Console.WriteLine("#" + TimerCounter + " AtServerTransactionKey done in " + st.ElapsedMilliseconds + "ms");
 
                     if (LocalTransactionKey != ServerTransactionKey)
                     {
@@ -282,7 +282,9 @@ namespace SQLiteWithDataGridView.Library
                             LocalTransactionKey,
                             ServerTransactionKey,
                             AtContent: AtContentKey,
-                            done: done
+                            done: done,
+
+                            AtConsole: Console.Write
                         );
 
                         // we need updates!
@@ -453,6 +455,11 @@ namespace SQLiteWithDataGridView.Library
             else
                 this.timer1.Interval = 1000;
 
+        }
+
+        private void GridForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.timer1.Stop();
         }
 
 

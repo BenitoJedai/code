@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -28,9 +29,22 @@ namespace TestNamedParameters
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            var sw = new Stopwatch();
+
+            sw.Start();
+
             service.WebMethod2(
-                @"",
-                value => new IHTMLPre { innerText = value }.AttachToDocument()
+                @"A string from JavaScript.",
+                value =>
+                {
+                    var p = new IHTMLPre { };
+
+
+                    new IHTMLSpan { innerText = "[" + sw.ElapsedMilliseconds + "ms] " }.AttachTo(p).style.color = "gray";
+                    new IHTMLSpan { innerText = value }.AttachTo(p);
+
+                    p.AttachToDocument();
+                }
             );
         }
 
