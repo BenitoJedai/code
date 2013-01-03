@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.PHP;
 using SQLiteWithDataGridView.Schema;
 using System;
 using System.ComponentModel;
@@ -24,7 +25,6 @@ namespace SQLiteWithDataGridView
             get
             {
                 // http://stackoverflow.com/questions/1645661/turn-off-warnings-and-errors-on-php-mysql
-                //ScriptCoreLib.PHP.Native.API.error_reporting(0);
 
                 return new TheGridTable().With(
                     x =>
@@ -172,10 +172,14 @@ namespace SQLiteWithDataGridView
             string FromTransaction,
             string ToTransaction,
             Action<string, string, string, string> AtContent,
-            Action<string> done
+            Action<string> done,
+
+                Action<string> AtConsole = null
+
         )
         {
-            //GridExample_InitializeDatabase("", delegate { });
+            var x = new __ConsoleToDatabaseWriter(AtConsole);
+
 
             var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
 
@@ -207,6 +211,8 @@ namespace SQLiteWithDataGridView
             );
 
 
+
+            x.Dispose();
 
             // why does jsc not support parameterless yields?
             done("");
@@ -260,9 +266,11 @@ namespace SQLiteWithDataGridView
             Console.WriteLine(new { xParentContentKey });
 
             this.grid.SelectContent(
-                new TheGridTableQueries.SelectContentByParent
+                new TheGridTableQueries.SelectContent
                 {
-                    ParentContentKey = xParentContentKey,
+                    ParentContentKey1 = xParentContentKey,
+                    ParentContentKey2 = xParentContentKey,
+                    ParentContentKey3 = xParentContentKey,
                     ////ParentContentKey2 = xParentContentKey,
 
                     ////// android 2.2 prepared statements disallow null params? send empty string instead?
@@ -339,6 +347,14 @@ namespace SQLiteWithDataGridView
     {
         protected override void Dispose(bool disposing)
         {
+#if PHP
+            // need to use Script Implements instead!
+            var x = Native.API.ob_get_contents();
+            Native.API.ob_end_clean();
+            if (!string.IsNullOrEmpty(x))
+                Console.WriteLine(x);
+#endif
+
             Console.SetOut(o);
 
             // base calls broken for PHP?
@@ -408,6 +424,13 @@ namespace SQLiteWithDataGridView
                 o = Console.Out;
 
             Console.SetOut(w);
+
+#if PHP
+            // need to use Script Implements instead!
+            ScriptCoreLib.PHP.Native.API.error_reporting(-1);
+            Native.API.ob_start();
+#endif
+
             return o;
         }
     }
