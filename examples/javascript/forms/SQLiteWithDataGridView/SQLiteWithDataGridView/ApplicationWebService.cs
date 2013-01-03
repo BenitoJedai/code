@@ -60,15 +60,17 @@ namespace SQLiteWithDataGridView
         public void GridExample_GetTransactionKeyFor(
             string e,
 
-            Action<string> y)
+            Action<string> y,
+            Action<string> AtConsole = null)
         {
+            var x = new __ConsoleToDatabaseWriter(AtConsole);
             this.grid.SelectTransactionKey(
                 ContentKey =>
                 {
                     y("" + ContentKey);
                 }
             );
-
+            x.Dispose();
 
         }
 
@@ -349,6 +351,9 @@ namespace SQLiteWithDataGridView
     {
         protected override void Dispose(bool disposing)
         {
+            if (o == null)
+                return;
+
 #if PHP
             // need to use Script Implements instead!
             var x = Native.API.ob_get_contents();
@@ -391,6 +396,10 @@ namespace SQLiteWithDataGridView
 
         public __ConsoleToDatabaseWriter(Action<string> xAtWrite)
         {
+            if (xAtWrite == null)
+                return;
+
+
             sw = new Stopwatch();
             sw.Start();
 
