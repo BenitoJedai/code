@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.PHP;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -32,6 +33,7 @@ namespace TestNamedParameters
 
             var x = new __ConsoleToDatabaseWriter(y);
 
+            Native.API.error_reporting(-1);
 
             Console.WriteLine("before data");
 
@@ -44,6 +46,15 @@ namespace TestNamedParameters
                 , id =>
                 {
                     Console.WriteLine("just inserted " + new { id });
+
+                    data.Insert(
+                         new TheGridTableQueries.Insert { ContentValue = "vv", ContentComment = "cc", ParentContentKey = id }
+                         , cid =>
+                         {
+                             Console.WriteLine("just inserted child " + new { cid });
+                         }
+                     );
+
                 }
             );
 
@@ -52,8 +63,26 @@ namespace TestNamedParameters
                 r =>
                 {
                     long ContentKey = r.ContentKey;
+                    int ContentChildren = r.ContentChildren;
 
-                    Console.WriteLine("found " + new { ContentKey });
+                    Console.WriteLine("found " + new { ContentKey, ContentChildren });
+
+                    if (ContentChildren > 0)
+                    {
+                        // show children!
+
+                        data.SelectContent(
+                             new TheGridTableQueries.SelectContentByParent { ParentContentKey = ContentKey },
+                             rr =>
+                             {
+                                 long cContentKey = rr.ContentKey;
+                                 int cContentChildren = rr.ContentChildren;
+
+                                 Console.WriteLine("found child " + new { cContentKey, cContentChildren });
+
+                             }
+                         );
+                    }
                 }
             );
 

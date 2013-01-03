@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using mysqli_stmt_xget_result.Design;
 using mysqli_stmt_xget_result.HTML.Pages;
+using System.Diagnostics;
 
 namespace mysqli_stmt_xget_result
 {
@@ -28,9 +29,22 @@ namespace mysqli_stmt_xget_result
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            var sw = new Stopwatch();
+
+            sw.Start();
+
             service.WebMethod2(
                 @"A string from JavaScript.",
-                value => new IHTMLPre { innerText = value }.AttachToDocument()
+                value =>
+                {
+                    var p = new IHTMLPre { };
+
+
+                    new IHTMLSpan { innerText = "[" + sw.ElapsedMilliseconds + "ms] " }.AttachTo(p).style.color = "gray";
+                    new IHTMLSpan { innerText = value }.AttachTo(p);
+
+                    p.AttachToDocument();
+                }
             );
         }
 
