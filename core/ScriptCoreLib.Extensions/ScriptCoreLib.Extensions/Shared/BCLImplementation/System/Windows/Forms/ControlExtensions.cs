@@ -12,7 +12,8 @@ namespace System.Windows.Forms
             var x = e.Left + dx;
             var y = e.Top + dy;
 
-            return e.MoveTo(dx, dy);
+            // wow, expensive bug :)
+            return e.MoveTo(x, y);
         }
 
         public static T MoveTo<T>(this T e, int x, int y) where T : Control

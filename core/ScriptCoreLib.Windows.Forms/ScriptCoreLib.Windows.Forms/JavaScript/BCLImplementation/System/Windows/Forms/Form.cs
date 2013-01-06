@@ -817,6 +817,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         }
 
+        public override void BringToFront()
+        {
+            this.InternalUpdateZIndex();
+        }
+
+
         private void InternalUpdateZIndex(IHTMLElement e = null)
         {
             if (e == null)

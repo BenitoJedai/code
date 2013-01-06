@@ -131,7 +131,9 @@
     <Content Include="Design\enable_nuget_package_restore.png" />
     <Content Include="Design\manage_nuget_packages.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\TestNuGetSupport.FeedServer\TestNuGetSupport.FooForm.0.0.0.1.nupkg" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\assets\TestNuGetSupport.FeedServer\TestNuGetSupport.Foo.0.0.0.1.nupkg" />
   </ItemGroup>

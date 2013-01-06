@@ -1,10 +1,17 @@
 using java.applet;
+using System.ComponentModel;
 
 //namespace Boing4KTemplate
 //{
 // todo: JSC should demote classes that use java top level classes.. 
 
-internal sealed class ApplicationApplet : a
+[Description("Subclass this class in your own applet.")]
+public abstract class Boing4KApplet : a
+{
+
+}
+
+internal sealed class ApplicationApplet : Boing4KApplet
 {
     //        CreateType:  ApplicationApplet
     //error: System.InvalidOperationException: Unable to change after type has been created.

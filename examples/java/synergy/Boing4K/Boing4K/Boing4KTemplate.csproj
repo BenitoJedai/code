@@ -113,10 +113,31 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <None Include="nugetstaging\nugetoutput\placeholder.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="nugetstaging\nupkg\lib\placeholder.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nugetstaging\nupkg\Boing4KTemplate.nuspec">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
+    <PostBuildEvent>cd
+pushd nugetstaging\nugetoutput
+cd
+copy "$(TargetDir)$(TargetName).*" "../nupkg/lib" /y
+call "$(SolutionDir)/.nuget\NuGet.exe" pack  "../nupkg/$(TargetName).nuspec"
+
+mkdir c:\util\jsc\nuget
+copy "*.nupkg" "c:\util\jsc\nuget" /y
+popd
+
+if $(ConfigurationName)==Debug (
 start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToDev11:true
 )
 
