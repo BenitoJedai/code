@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,10 @@ namespace TestNuGetSupportFromFooFeed
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            new TestNuGetSupport.FormFoo.ApplicationControl().AttachControlTo(
+                Native.Document.body
+            );
+
             Native.Window.alert(
             new TestNuGetSupport.Foo.Class1().FooValue
         );

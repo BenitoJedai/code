@@ -95,7 +95,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         {
             Control = c;
 
-          
+
             // instance of event - important for removal
             #region move
             this.ondocumentmousemove = ev =>
@@ -105,6 +105,8 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             this.ontouchmove = ev =>
             {
+                ev.stopPropagation();
+
                 var ev_CursorPosition = new Point(ev.touches[0].clientX, ev.touches[0].clientY);
                 DragTo(ev_CursorPosition - OffsetPosition);
             };
@@ -139,6 +141,8 @@ namespace ScriptCoreLib.JavaScript.Controls
             #region ontouchend
             this.ontouchend = ev =>
             {
+                ev.stopPropagation();
+
                 IsDrag = false;
 
                 Helper.Invoke(DragStop);
@@ -187,7 +191,8 @@ namespace ScriptCoreLib.JavaScript.Controls
             {
                 //mousehover.Stop();
 
-                ev.PreventDefault();
+                ev.preventDefault();
+                ev.stopPropagation();
                 //ev.StopPropagation();
 
                 var ev_CursorPosition = new Point(ev.touches[0].clientX, ev.touches[0].clientY);

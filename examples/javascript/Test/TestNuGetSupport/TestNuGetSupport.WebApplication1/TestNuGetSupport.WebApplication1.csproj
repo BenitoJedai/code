@@ -117,6 +117,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="Packages\TestNuGetSupport.FooForm.0.0.0.1.nupkg" />
+    <Content Include="Packages\TestNuGetSupport.Foo.0.0.0.1.nupkg" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

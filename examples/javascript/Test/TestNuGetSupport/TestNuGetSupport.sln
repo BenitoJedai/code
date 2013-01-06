@@ -26,6 +26,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNuGetSupport.FeedServer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{240DD282-C0D5-4AA8-BF27-5EDEC0AD35EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNuGetSupport.FormFoo", "TestNuGetSupport.FormFoo\TestNuGetSupport.FormFoo.csproj", "{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Consumer", "Consumer", "{7C173996-EA49-4743-84ED-129D513B0831}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{7C0CFB62-6B66-45AF-8282-C44A78353112}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -129,8 +137,30 @@ Global
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|x86.ActiveCfg = Release|Any CPU
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Assets|Any CPU.ActiveCfg = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Assets|x86.ActiveCfg = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Assets|x86.Build.0 = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Debug|x86.ActiveCfg = Debug|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Debug|x86.Build.0 = Debug|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Release|Any CPU.ActiveCfg = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Release|x86.ActiveCfg = Release|x86
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{29689583-05DD-4D58-9656-D3040080D89D} = {240DD282-C0D5-4AA8-BF27-5EDEC0AD35EF}
+		{DD69AFFF-664C-4DA8-AE4A-B83CB7C5CC5C} = {240DD282-C0D5-4AA8-BF27-5EDEC0AD35EF}
+		{0F8C5353-F3B5-488B-A9BB-C515BB0B6BE4} = {7C173996-EA49-4743-84ED-129D513B0831}
+		{5FE18931-3D17-4E32-B87C-0C8890525E0E} = {7C173996-EA49-4743-84ED-129D513B0831}
+		{132EB43F-19B4-42AC-8025-3249B129867A} = {7C0CFB62-6B66-45AF-8282-C44A78353112}
 	EndGlobalSection
 EndGlobal

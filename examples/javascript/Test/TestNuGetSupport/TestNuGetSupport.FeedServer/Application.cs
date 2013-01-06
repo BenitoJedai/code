@@ -36,7 +36,8 @@ namespace TestNuGetSupport.FeedServer
             );
 
 
-            var f = "assets/TestNuGetSupport.FeedServer/TestNuGetSupport.Foo.0.0.0.1.nupkg";
+            { var f = "assets/TestNuGetSupport.FeedServer/TestNuGetSupport.Foo.0.0.0.1.nupkg"; }
+            { var f = "assets/TestNuGetSupport.FeedServer/TestNuGetSupport.FooForm.0.0.0.1.nupkg"; }
 
         }
 

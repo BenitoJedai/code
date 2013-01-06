@@ -57,11 +57,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         {
             get
             {
-                throw new NotImplementedException();
+                return (T)this.InternalList.get(index);
             }
             set
             {
-                throw new NotImplementedException();
+                this.InternalList.set(index, value);
             }
         }
 
