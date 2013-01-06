@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiMouse", "MultiMouse\MultiMouse.csproj", "{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiMouse.SVGCursor", "MultiMouse.SVGCursor\MultiMouse.SVGCursor.csproj", "{EBBDD7EC-9BF1-4197-844E-E00C47012409}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiMouse.SVGPaint", "MultiMouse.SVGPaint\MultiMouse.SVGPaint.csproj", "{B1337D90-888F-4C00-87C7-00447B28F4F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.multimouse", "com.abstractatech.multimouse\com.abstractatech.multimouse.csproj", "{D4F05C21-DF26-4593-8942-0A5B25DAB0C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|x86 = Android|x86
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Android|x86.ActiveCfg = Android|x86
+		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Android|x86.Build.0 = Android|x86
+		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Debug|x86.ActiveCfg = Debug|x86
+		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Debug|x86.Build.0 = Debug|x86
+		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Release|x86.ActiveCfg = Release|x86
+		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Release|x86.Build.0 = Release|x86
+		{EBBDD7EC-9BF1-4197-844E-E00C47012409}.Android|x86.ActiveCfg = Release|x86
+		{EBBDD7EC-9BF1-4197-844E-E00C47012409}.Debug|x86.ActiveCfg = Debug|x86
+		{EBBDD7EC-9BF1-4197-844E-E00C47012409}.Debug|x86.Build.0 = Debug|x86
+		{EBBDD7EC-9BF1-4197-844E-E00C47012409}.Release|x86.ActiveCfg = Release|x86
+		{EBBDD7EC-9BF1-4197-844E-E00C47012409}.Release|x86.Build.0 = Release|x86
+		{B1337D90-888F-4C00-87C7-00447B28F4F7}.Android|x86.ActiveCfg = Release|x86
+		{B1337D90-888F-4C00-87C7-00447B28F4F7}.Debug|x86.ActiveCfg = Debug|x86
+		{B1337D90-888F-4C00-87C7-00447B28F4F7}.Debug|x86.Build.0 = Debug|x86
+		{B1337D90-888F-4C00-87C7-00447B28F4F7}.Release|x86.ActiveCfg = Release|x86
+		{B1337D90-888F-4C00-87C7-00447B28F4F7}.Release|x86.Build.0 = Release|x86
+		{D4F05C21-DF26-4593-8942-0A5B25DAB0C2}.Android|x86.ActiveCfg = Android|x86
+		{D4F05C21-DF26-4593-8942-0A5B25DAB0C2}.Android|x86.Build.0 = Android|x86
+		{D4F05C21-DF26-4593-8942-0A5B25DAB0C2}.Debug|x86.ActiveCfg = Debug|x86
+		{D4F05C21-DF26-4593-8942-0A5B25DAB0C2}.Debug|x86.Build.0 = Debug|x86
+		{D4F05C21-DF26-4593-8942-0A5B25DAB0C2}.Release|x86.ActiveCfg = Release|x86
+		{D4F05C21-DF26-4593-8942-0A5B25DAB0C2}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C} = {6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}
+		{EBBDD7EC-9BF1-4197-844E-E00C47012409} = {6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}
+		{B1337D90-888F-4C00-87C7-00447B28F4F7} = {6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}
+	EndGlobalSection
+EndGlobal
