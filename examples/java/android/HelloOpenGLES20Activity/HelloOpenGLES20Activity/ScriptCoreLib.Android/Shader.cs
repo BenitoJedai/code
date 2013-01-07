@@ -556,19 +556,7 @@ namespace ScriptCoreLib.Android
               );
         }
 
-        public static Context ShowToast(this Context c, string e)
-        {
-            if (c == null)
-                return c;
 
-            Toast.makeText(
-                  c,
-                  e,
-                  Toast.LENGTH_SHORT
-              ).show();
-
-            return c;
-        }
 
 
         public static Context ShowLongToast(this Context c, string e)
@@ -614,7 +602,7 @@ namespace ScriptCoreLib.Android
 
 
 
-        private const int HIDE_DELAY_MILLIS = 5000;
+        public static int HIDE_DELAY_MILLIS = 5000;
 
         class HideLater : View.OnSystemUiVisibilityChangeListener, Runnable
         {

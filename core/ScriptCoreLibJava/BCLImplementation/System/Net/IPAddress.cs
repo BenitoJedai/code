@@ -28,11 +28,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
 			try
 			{
+
+       //         Caused by: android.os.NetworkOnMainThreadException
+       //at android.os.StrictMode$AndroidBlockGuardPolicy.onNetwork(StrictMode.java:1117)
+       //at java.net.InetAddress.lookupHostByName(InetAddress.java:385)
+       //at java.net.InetAddress.getLocalHost(InetAddress.java:365)
+       //at ScriptCoreLibJava.BCLImplementation.System.Net.__IPAddress.InitializeLoopback(__IPAddress.java:36)
+       //... 18 more
+
                 Loopback = new __IPAddress { InternalAddress = global::java.net.InetAddress.getLocalHost() };
 			}
 			catch
 			{
-				throw new InvalidOperationException();
+				throw;
 			}
 
 			return (IPAddress)(object)Loopback;

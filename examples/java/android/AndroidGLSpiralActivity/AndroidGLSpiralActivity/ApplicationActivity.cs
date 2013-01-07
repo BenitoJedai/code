@@ -9,7 +9,7 @@ using android.os;
 using android.util;
 using android.view;
 using android.widget;
-using AndroidGLSpiralActivity.Shaders;
+//using AndroidGLSpiralActivity.Shaders;
 using java.lang;
 using java.nio;
 using ScriptCoreLib;
@@ -23,6 +23,7 @@ using android.content.pm;
 namespace AndroidGLSpiralActivity.Activities
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using WebGLSpiral.Shaders;
     //using opengl = GLES20;
 
 

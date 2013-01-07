@@ -11,6 +11,8 @@ namespace android.widget
     [Script(IsNative = true)]
     public  class Toast
     {
+        public static readonly int LENGTH_SHORT = 0;
+
         // members and types are to be extended by jsc at release build
 
         public static Toast makeText(Context context, string text, int duration = 0)

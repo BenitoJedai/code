@@ -87,6 +87,8 @@
     <Compile Include="ActionScript\RayCaster\ViewEngineBase.Render.cs" />
     <Compile Include="ActionScript\RayCaster\ViewEngineBase.Textures.cs" />
     <Compile Include="ActionScript\RayCaster\ViewInfo.cs" />
+    <Compile Include="Android\Extensions\ContextExtensions.cs" />
+    <Compile Include="Android\Extensions\ActivityExtensions.cs" />
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\CharExtensions.cs" />
     <Compile Include="Shared\Data\DynamicDataReader.cs" />

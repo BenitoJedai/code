@@ -15,6 +15,11 @@ namespace WebGLSpiral.Shaders
 
     public class SpiralSurface
     {
+        public float ucolor_1;
+        public float ucolor_2;
+
+        public float speed = 100f;
+
         public SpiralSurface(ISurface v)
         {
             v.onsurface +=
@@ -57,7 +62,7 @@ namespace WebGLSpiral.Shaders
 
                    #endregion
 
-                   var parameters_time = 0L;
+                   var parameters_time = 0f;
                    var parameters_screenWidth = 0;
                    var parameters_screenHeight = 0;
                    var parameters_aspectX = 0.0f;
@@ -90,7 +95,7 @@ namespace WebGLSpiral.Shaders
                            //if (framecount == 0)
                            //    Log.wtf("AndroidGLSpiralActivity", "onframe " + ((object)time).ToString());
 
-                           parameters_time += 100;
+                           parameters_time += speed;
 
                            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -107,7 +112,8 @@ namespace WebGLSpiral.Shaders
                            uniforms.resolution = new __vec2(parameters_screenWidth, parameters_screenHeight);
                            uniforms.aspect = new __vec2(parameters_aspectX, parameters_aspectY);
 
-
+                           uniforms.ucolor_1 = this.ucolor_1;
+                           uniforms.ucolor_2 = this.ucolor_2;
                            // Render geometry
 
                            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);

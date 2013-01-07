@@ -185,6 +185,7 @@ namespace WebGLSpiral
                 };
             #endregion
 
+            #region newicon
             Func<string> newicon = delegate
             {
                 var icon = canvas.toDataURL("image/png");
@@ -211,7 +212,28 @@ namespace WebGLSpiral
 
                 return icon;
             };
+            #endregion
 
+
+            Native.Document.onmousemove +=
+                e =>
+                {
+                    s.ucolor_1 = e.CursorX / Native.Window.Width;
+                    s.ucolor_2 = e.CursorY / Native.Window.Height;
+                };
+
+            Action speed_AtResize = delegate
+            {
+                //s.speed = Native.Screen.width - Native.Screen.width;
+            };
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    speed_AtResize();
+                };
+
+            speed_AtResize();
 
             Native.Document.body.onclick +=
                 delegate

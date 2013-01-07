@@ -77,6 +77,14 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebGLSpiral, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGLSpiral.0.0.0.1\lib\WebGLSpiral.exe</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpiral.AssetsLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGLSpiral.0.0.0.1\lib\WebGLSpiral.AssetsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="AndroidGLSpiralActivity.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\AndroidGLSpiralActivity.AssetsLibrary.dll</HintPath>
@@ -92,23 +100,14 @@
       <DependentUpon>ApplicationActivity.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shaders\SpiralFragmentShader.cs">
-      <DependentUpon>Spiral.frag</DependentUpon>
-    </Compile>
-    <Compile Include="Shaders\SpiralSurface.cs" />
-    <Compile Include="Shaders\SpiralVertexShader.cs">
-      <DependentUpon>Spiral.vert</DependentUpon>
-    </Compile>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Spiral.frag" />
-    <None Include="Shaders\Spiral.vert" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

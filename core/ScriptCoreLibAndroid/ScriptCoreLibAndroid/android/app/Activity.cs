@@ -6,6 +6,7 @@ using android.os;
 using android.view;
 using android.widget;
 using ScriptCoreLib;
+using java.lang;
 
 namespace android.app
 {
@@ -17,12 +18,12 @@ namespace android.app
 
         // http://developer.android.com/reference/android/app/Activity.html#setContentView(android.view.View)
         public virtual void setContentView(View savedInstanceState)
-        { 
+        {
         }
 
         protected virtual void onCreate(Bundle savedInstanceState)
-        { 
-        
+        {
+
         }
 
         public virtual bool onPrepareOptionsMenu(Menu value)
@@ -50,6 +51,10 @@ namespace android.app
         public virtual Window getWindow()
         {
             return default(Window);
+        }
+
+        public void runOnUiThread(Runnable r)
+        {
         }
     }
 }

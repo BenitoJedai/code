@@ -5,6 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpAdventures", "ImpAdventu
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|Any CPU = Android|Any CPU
+		Android|Mixed Platforms = Android|Mixed Platforms
+		Android|x86 = Android|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
@@ -13,6 +16,11 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Android|Any CPU.ActiveCfg = Android|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Android|Mixed Platforms.ActiveCfg = Android|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Android|Mixed Platforms.Build.0 = Android|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Android|x86.ActiveCfg = Android|x86
+		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Android|x86.Build.0 = Android|x86
 		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}.Debug|Mixed Platforms.Build.0 = Debug|x86

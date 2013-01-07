@@ -113,18 +113,7 @@ namespace foo
             return null;
         }
 
-        //public class NotifyServiceReceiver : BroadcastReceiver
-        //{
-        //    public NotifyService that;
-
-        //    public override void onReceive(Context c, Intent i)
-        //    {
-        //        int rqs = i.getIntExtra("RQS", 0);
-
-        //        if (rqs == RQS_STOP_SERVICE)
-        //            that.stopSelf();
-        //    }
-        //}
+ 
     }
 
 }

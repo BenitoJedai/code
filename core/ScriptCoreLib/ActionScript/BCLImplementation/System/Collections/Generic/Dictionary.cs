@@ -30,7 +30,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             if (this.ContainsKey(key))
                 throw new global::System.Exception("Argument_AddingDuplicate");
 
-
+            // http://twistedoakstudios.com/blog/Post925_unfathomable-bugs-4-keys-that-arent
             _keys.Add(key);
             _values.Add(value);
         }
