@@ -20,8 +20,8 @@ void main( void ) {
     }
     float amod = mod(angle+30.0*time-120.0*log(radius), 30.0) ;
     if (amod<15.0){
-        gl_FragColor = vec4( ucolor_1, ucolor_2, 0.0, 1.0 );
+        gl_FragColor = vec4( ucolor_1, ucolor_2, 1.0 - ucolor_1, 1.0 );
     } else{
-        gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 );                    
+        gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0 );                    
     }
 }

@@ -15,5 +15,10 @@ namespace TestNuGetService1.Library
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.plasmaControl1.timer1.Start();
+        }
     }
 }
