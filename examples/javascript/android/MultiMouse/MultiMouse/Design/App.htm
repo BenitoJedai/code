@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>App</title>
+</head>
+<body>
+
+    <link rel='stylesheet' href='App.css' />
+
+    <div id="content" style="-webkit-filter: blur(3px); background-color: rgba(0, 148, 155, 0.9); opacity: 0.3; position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px;">
+
+
+        <div style="padding: 2em; margin: 1em; background-color: rgba(255, 255, 255, 0.3);">
+            <h1>MultiMouse</h1>
+            <p>
+                Once this window locks the mouse pointer it will be shared between devices. 
+            </p>
+            <p>Notice the cursor is svg. Drop shadow is actualy glow with offset filter.</p>
+            <p>Ther is a big svg canvas here to act as a virtual screen you can draw upon which can also be synchronized.</p>
+        </div>
+
+
+    </div>
+
+    <div id="info" style="background-color: rgba(0, 148, 155, 0.0); opacity: 1; position: absolute; left: 0px; right: 0px; bottom: 0px;">
+        <div id="infocontent" style="padding: 2em; margin: 1em; background-color: rgba(0, 0, 0, 0.3); color: white;">
+            <h1>Screen Configuration</h1>
+            <p>In this mode you can rearrange the position of your screens. Screen is informative.</p>
+            <p>A child window on the same device can enable multiple screen scenario.</p>
+            <button>Open Child Session</button>
+        </div>
+
+
+    </div>
+</body>
+</html>
