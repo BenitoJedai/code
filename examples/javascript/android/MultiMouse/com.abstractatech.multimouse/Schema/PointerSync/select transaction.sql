@@ -1,0 +1,1 @@
+﻿select coalesce(max(id), 0) as id /* integer */ from  PointerSync
