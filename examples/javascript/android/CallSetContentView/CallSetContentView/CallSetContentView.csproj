@@ -8,13 +8,11 @@
     <ProjectGuid>{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestNuGetService1</RootNamespace>
-    <AssemblyName>TestNuGetService1</AssemblyName>
+    <RootNamespace>CallSetContentView</RootNamespace>
+    <AssemblyName>CallSetContentView</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>TestNuGetService1.Program</StartupObject>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <StartupObject>CallSetContentView.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,12 +43,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="PlasmaFormsControl">
-      <HintPath>..\packages\PlasmaFormsControl.0.0.0.1\lib\PlasmaFormsControl.exe</HintPath>
-    </Reference>
-    <Reference Include="PlasmaFormsControl.AssetsLibrary">
-      <HintPath>..\packages\PlasmaFormsControl.0.0.0.1\lib\PlasmaFormsControl.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -98,9 +90,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -115,34 +106,19 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TestNuGetSupport.Foo">
-      <HintPath>..\packages\TestNuGetSupport.Foo.0.0.0.1\lib\TestNuGetSupport.Foo.dll</HintPath>
-    </Reference>
-    <Reference Include="TestNuGetSupport.FormFoo">
-      <HintPath>..\packages\TestNuGetSupport.FooForm.0.0.0.1\lib\TestNuGetSupport.FormFoo.exe</HintPath>
-    </Reference>
-    <Reference Include="TestNuGetSupport.FormFoo.AssetsLibrary">
-      <HintPath>..\packages\TestNuGetSupport.FooForm.0.0.0.1\lib\TestNuGetSupport.FormFoo.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="TestNuGetService1.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TestNuGetService1.AssetsLibrary.dll</HintPath>
+    <Reference Include="CallSetContentView.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\CallSetContentView.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Library\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Library\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
@@ -150,27 +126,16 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Library\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
-)</PostBuildEvent>
+
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
+</PostBuildEvent>
     <PreBuildEvent>
 
 start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
 
             </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
