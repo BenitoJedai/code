@@ -7,6 +7,21 @@ namespace java.lang
     [Script(IsNative = true)]
     public class Throwable
     {
+        public Throwable()
+        {
+
+        }
+
+        public Throwable(string m)
+        {
+
+        }
+
+        public Throwable(string m, global::java.lang.Exception cause)
+        {
+
+        }
+
         /// <summary>
         /// Returns the detail message string of this throwable.
         /// </summary>

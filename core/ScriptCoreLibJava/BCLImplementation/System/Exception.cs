@@ -14,6 +14,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     {
         public __Exception() { }
         public __Exception(string e) { }
+        public __Exception(string message, Exception innerException) { }
+
+        [Script(DefineAsStatic = true)]
+        new public Type GetType()
+        {
+            return __Type.GetTypeFromValue(this);
+        }
+
 
         public string Message
         {
