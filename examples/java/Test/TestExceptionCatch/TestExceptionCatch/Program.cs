@@ -151,3 +151,59 @@ namespace TestExceptionCatch
     }
 
 }
+
+/*
+ 
+ hi! vm:java.lang.Object
+error info: { Message = , StackTrace = com.paypal.adaptive.exceptions.AuthorizationRequiredException
+        at TestExceptionCatch.Program.foo(Program.java:105)
+        at TestExceptionCatch.Program._Main_b__0(Program.java:71)
+        at TestExceptionCatch.Program._1_Main_public_ldftn_0028(Program.java:112)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+        at java.lang.reflect.Method.invoke(Unknown Source)
+        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:88)
+        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:70)
+        at ScriptCoreLib.Shared.BCLImplementation.System.__Action_1.Invoke(__Action_1.java:27)
+        at TestExceptionCatch.Program.main(Program.java:52)
+, FullName = com.paypal.adaptive.exceptions.AuthorizationRequiredException }
+{ AuthorizationUrl = http://foo }
+error info: { Message = , StackTrace = java.lang.NullPointerException
+        at TestExceptionCatch.Program.foo(Program.java:102)
+        at TestExceptionCatch.Program._Main_b__0(Program.java:71)
+        at TestExceptionCatch.Program._1_Main_public_ldftn_0028(Program.java:112)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+        at java.lang.reflect.Method.invoke(Unknown Source)
+        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:88)
+        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:70)
+        at ScriptCoreLib.Shared.BCLImplementation.System.__Action_1.Invoke(__Action_1.java:27)
+        at TestExceptionCatch.Program.main(Program.java:53)
+, FullName = java.lang.NullPointerException }
+will rethrow now
+error: { Message = , StackTrace = java.lang.RuntimeException
+        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:92)
+        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:70)
+        at ScriptCoreLib.Shared.BCLImplementation.System.__Action_1.Invoke(__Action_1.java:27)
+        at TestExceptionCatch.Program.main(Program.java:53)
+Caused by: java.lang.reflect.InvocationTargetException
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+        at java.lang.reflect.Method.invoke(Unknown Source)
+        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:88)
+        ... 3 more
+Caused by: java.lang.RuntimeException: only AuthorizationRequiredException expected!
+        at TestExceptionCatch.Program._Main_b__0(Program.java:88)
+        at TestExceptionCatch.Program._1_Main_public_ldftn_0028(Program.java:112)
+        ... 8 more
+Caused by: java.lang.NullPointerException
+        at TestExceptionCatch.Program.foo(Program.java:102)
+        at TestExceptionCatch.Program._Main_b__0(Program.java:71)
+        ... 9 more
+ }
+<hello>world</hello>
+
+ */

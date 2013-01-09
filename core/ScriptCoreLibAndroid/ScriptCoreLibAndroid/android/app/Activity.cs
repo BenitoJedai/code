@@ -26,6 +26,11 @@ namespace android.app
 
         }
 
+        public virtual bool onCreateOptionsMenu(Menu value)
+        {
+            return default(bool);
+
+        }
         public virtual bool onPrepareOptionsMenu(Menu value)
         {
             return default(bool);
