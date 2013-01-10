@@ -46,10 +46,12 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="PlasmaFormsControl">
+    <Reference Include="PlasmaFormsControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PlasmaFormsControl.0.0.0.1\lib\PlasmaFormsControl.exe</HintPath>
     </Reference>
-    <Reference Include="PlasmaFormsControl.AssetsLibrary">
+    <Reference Include="PlasmaFormsControl.AssetsLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PlasmaFormsControl.0.0.0.1\lib\PlasmaFormsControl.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
