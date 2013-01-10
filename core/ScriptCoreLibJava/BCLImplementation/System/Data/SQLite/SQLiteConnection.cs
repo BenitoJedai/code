@@ -46,6 +46,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 //Console.WriteLine(x.ToString());
 
                 // Caused by: java.sql.SQLException: No suitable driver found for jdbc:google:rdbms://instance_name
+
+                // https://groups.google.com/forum/?fromgroups=#!topic/google-appengine-java/Vm5PTq4_0lg
+                // Instance == Your Google API Project ID:InstanceName
                 this.InternalConnection = DriverManager.getConnection(
                     "jdbc:google:rdbms://" + x.InternalInstanceName,
                     x.InternalUser,
