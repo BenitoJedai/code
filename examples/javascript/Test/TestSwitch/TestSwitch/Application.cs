@@ -42,6 +42,7 @@ namespace TestSwitch
 
     static class X
     {
+        // this will cause jsc to break!
         public static string GetColor(int u)
         {
             var value = "";
