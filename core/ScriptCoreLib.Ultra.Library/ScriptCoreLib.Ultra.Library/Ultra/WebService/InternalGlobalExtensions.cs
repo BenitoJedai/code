@@ -270,7 +270,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 if (that.Request.Path == "/view-source")
                 {
                     h.Context.Response.ContentType = "text/javascript";
-                    
+
                     g.Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
                     g.Response.Cache.SetExpires(DateTime.Now.AddMinutes(15));
 
@@ -589,6 +589,12 @@ namespace ScriptCoreLib.Ultra.WebService
             var Context = that.Context;
 
             Context.Response.ContentType = "text/xml";
+
+            // https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS?redirectlocale=en-US&redirectslug=HTTP_access_control
+
+            // allow http to https calls
+            Context.Response.AddHeader("Access-Control-Allow-Origin", "*");
+
 
             Write("<document>");
 
