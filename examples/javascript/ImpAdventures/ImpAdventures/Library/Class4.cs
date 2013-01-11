@@ -23,7 +23,7 @@ namespace NatureBoy.js
 
 
 
-    class Class4
+    public class Class4
     {
 
         public Class4()
