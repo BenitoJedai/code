@@ -78,6 +78,9 @@ namespace ScriptCoreLib.Ultra.WebService
             // http://developer.apple.com/library/safari/#documentation/appleapplications/reference/SafariHTMLRef/Articles/MetaTags.html
             // http://www.viaboxxsystems.de/html-fullscreen-apps-for-the-ipad
 
+            //WriteLine(@"<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />");
+
+
             WriteLine(@"<meta name='apple-mobile-web-app-capable' content='yes' />");
 
             //WriteLine(@"<link rel=""shortcut icon"" href=""favicon""  type=""image/x-icon"" />");

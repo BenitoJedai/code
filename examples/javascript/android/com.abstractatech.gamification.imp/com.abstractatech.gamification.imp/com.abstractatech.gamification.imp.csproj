@@ -138,12 +138,16 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\ImpAdventures\ImpAdventures\ImpAdventures.csproj">
       <Project>{9c79ddc9-74db-4f8a-84e8-91744d007ab4}</Project>
       <Name>ImpAdventures</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Screenshots\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
