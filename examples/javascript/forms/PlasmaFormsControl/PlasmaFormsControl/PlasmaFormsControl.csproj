@@ -166,7 +166,8 @@
 pushd nugetstaging\nugetoutput
 cd
 copy "$(TargetDir)$(TargetName).*" "../nupkg/lib" /y
-call "$(SolutionDir)/.nuget\NuGet.exe" pack  "../nupkg/$(TargetName).nuspec"
+
+call "$(SolutionDir).nuget\NuGet.exe" pack  "../nupkg/$(TargetName).nuspec"
 
 mkdir c:\util\jsc\nuget
 copy "*.nupkg" "c:\util\jsc\nuget" /y
