@@ -140,12 +140,6 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="nugetstaging\nugetoutput\placeholder.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="nugetstaging\nupkg\lib\placeholder.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
@@ -155,26 +149,11 @@
       <DependentUpon>PlasmaControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="nugetstaging\nupkg\PlasmaFormsControl.nuspec">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd
-pushd nugetstaging\nugetoutput
-cd
-copy "$(TargetDir)$(TargetName).*" "../nupkg/lib" /y
-
-call "$(SolutionDir).nuget\NuGet.exe" pack  "../nupkg/$(TargetName).nuspec"
-
-mkdir c:\util\jsc\nuget
-copy "*.nupkg" "c:\util\jsc\nuget" /y
-popd
-
-
-
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetDir)$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
+)
 
 if $(ConfigurationName)==Debug (
 start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
