@@ -222,9 +222,9 @@ namespace AvalonPromotionBrandIntro
 
                         Next = delegate
                         {
-                             AnimationStartDelay.AtDelay(
-                                AnimationLoop
-                            );
+                            AnimationStartDelay.AtDelay(
+                               AnimationLoop
+                           );
 
 
                         };
@@ -242,15 +242,26 @@ namespace AvalonPromotionBrandIntro
                     return Trigger;
                 };
 
-            //PrepareAnimation();
-            //Trigger();
+
+            var once = false;
+            this.MouseLeftButtonUp +=
+                 delegate
+                 {
+                     if (once)
+                         return;
+                     once = true;
+                     PrepareAnimation();
+                     Trigger();
+                 };
+
+
 
             AnimationCompleted += () => PrepareAnimation();
         }
         public bool TriggerOnClick = true;
         public Action Trigger = null;
 
-		public int AnimationStartDelay = 3500;
+        public int AnimationStartDelay = 3500;
 
         public readonly Func<Action> PrepareAnimation;
 
