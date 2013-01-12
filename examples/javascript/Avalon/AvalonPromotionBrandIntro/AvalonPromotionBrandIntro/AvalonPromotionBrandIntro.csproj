@@ -143,7 +143,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetDir)$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
+)
+
 if $(ConfigurationName)==Release (
 start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false  /FilterTo:$(SolutionDir)
 )</PostBuildEvent>
