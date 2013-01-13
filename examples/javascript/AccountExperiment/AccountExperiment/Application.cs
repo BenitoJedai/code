@@ -31,6 +31,7 @@ namespace AccountExperiment
 
             public Login(IAppLogin page)
             {
+                page.OK.disabled = false;
                 page.OK.onclick +=
                     delegate
                     {
@@ -57,6 +58,16 @@ namespace AccountExperiment
 
                         Native.Document.location.reload();
                     };
+            }
+        }
+
+        public sealed class Register
+        {
+            public readonly ApplicationWebService service = new ApplicationWebService();
+
+            public Register(IAppRegister page)
+            {
+
             }
         }
     }

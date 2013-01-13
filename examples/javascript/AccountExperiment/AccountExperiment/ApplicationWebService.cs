@@ -31,22 +31,43 @@ namespace AccountExperiment
 
         public void Handler(WebServiceHandler h)
         {
-            #region /login/view-source
-            if (h.Context.Request.Path == "/login/view-source")
+            #region /view-source
+            h.Applications.Where(k => h.Context.Request.Path == "/" + k.TypeName.ToLower() + "/view-source").WithEach(
+                app =>
+                {
+                    h.Context.Response.ContentType = "text/javascript";
+
+                    foreach (var item in app.References)
+                    {
+                        // asp.net needs absolute paths
+                        h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
+                    }
+
+                    h.CompleteRequest();
+                    return;
+                }
+            );
+            #endregion
+
+            #region /register
+            if (h.Context.Request.Path == "/register")
             {
-                h.Applications.Single(k => k.TypeName == "Login").With(
+
+
+                h.Applications.Single(k => k.TypeName == "Register").With(
                     app =>
                     {
-                        h.Context.Response.ContentType = "text/javascript";
+                        var html = XElement.Parse(app.PageSource);
 
-                        foreach (var item in app.References)
-                        {
-                            // asp.net needs absolute paths
-                            h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
-                        }
+                        html.Add(
+                            new XElement("script",
+                                new XAttribute("src", "/register/view-source"),
+                                " "
+                            )
+                        );
 
+                        h.Context.Response.Write(html.ToString());
                         h.CompleteRequest();
-                        return;
                     }
                 );
             }
@@ -93,26 +114,6 @@ namespace AccountExperiment
             #endregion
 
 
-            #region /dashboard/view-source
-            if (h.Context.Request.Path == "/dashboard/view-source")
-            {
-                h.Applications.Single(k => k.TypeName == "Dashboard").With(
-                    app =>
-                    {
-                        h.Context.Response.ContentType = "text/javascript";
-
-                        foreach (var item in app.References)
-                        {
-                            // asp.net needs absolute paths
-                            h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
-                        }
-
-                        h.CompleteRequest();
-                        return;
-                    }
-                );
-            }
-            #endregion
 
             #region /dashboard
             if (h.Context.Request.Cookies["session"] != null)

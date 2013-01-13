@@ -128,6 +128,10 @@
     </Compile>
     <Content Include="Design\App_login.htm" />
     <Content Include="Design\App_dashboard.htm" />
+    <Content Include="Design\App_register.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Schema\MyAccount\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
