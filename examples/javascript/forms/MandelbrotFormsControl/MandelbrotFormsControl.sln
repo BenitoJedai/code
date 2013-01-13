@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandelbrotFormsControl", "MandelbrotFormsControl\MandelbrotFormsControl.csproj", "{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandelbrotFormsControl", "MandelbrotFormsControl\MandelbrotFormsControl.csproj", "{A9164DAC-E538-45BD-A51C-B77C547F276B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Debug|x86.ActiveCfg = Debug|x86
-		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Debug|x86.Build.0 = Debug|x86
-		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|x86.ActiveCfg = Release|x86
-		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|x86.Build.0 = Release|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.Debug|x86.ActiveCfg = Debug|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.Debug|x86.Build.0 = Debug|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.Release|x86.ActiveCfg = Release|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
