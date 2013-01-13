@@ -25,8 +25,29 @@ namespace AccountExperiment
             yield_session("foo");
         }
 
+        // future versions will let client use this directly.
+        public global::GravatarExperiment.ApplicationWebService gravatar = new GravatarExperiment.ApplicationWebService();
 
 
+        public void gravatar_Gravatar(string e, Action<string> avatar, Action<string> profile)
+        {
+            gravatar.Gravatar(e, avatar, profile);
+        }
+
+
+        public void CreateAccount(
+
+            string name,
+            string web,
+            string email,
+            string password,
+            string skype,
+
+            Action<string> yield_session
+            )
+        {
+            yield_session("foo");
+        }
 
 
         public void Handler(WebServiceHandler h)

@@ -67,7 +67,55 @@ namespace AccountExperiment
 
             public Register(IAppRegister page)
             {
+                Action changed =
+                    delegate
+                    {
+                        service.gravatar_Gravatar(
+                            page.email.value,
+                            avatar: value => page.avatar.src = value,
+                            profile: value => page.profile.href = value
+                        );
 
+                    };
+
+                page.email.onchange +=
+                   delegate
+                   {
+
+                       changed();
+
+                   };
+
+                page.email.onkeyup +=
+                    delegate
+                    {
+
+                        changed();
+
+                    };
+
+                changed();
+
+
+                page.CreateMyNewAccount.onclick +=
+                    delegate
+                    {
+                        page.CreateMyNewAccount.disabled = true;
+
+                        service.CreateAccount(
+                            page.name.value,
+                            page.web.value,
+                            page.email.value,
+                            page.password.value,
+                            page.skype.value,
+                            session =>
+                            {
+                                new Cookie("session").Value = session;
+
+                                Native.Document.location.replace("/");
+                            }
+                        );
+                    };
             }
         }
     }
