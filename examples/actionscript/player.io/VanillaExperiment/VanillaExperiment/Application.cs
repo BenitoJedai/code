@@ -12,6 +12,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Abstractatech.ConsoleFormPackage.Library;
 
 namespace VanillaExperiment
 {
@@ -30,8 +31,17 @@ namespace VanillaExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            var con = new ConsoleForm();
+
+            con.InitializeConsoleFormWriter().Show();
+
+            sprite.AtWriteLine += Console.WriteLine;
+
             sprite.AutoSizeSpriteTo(page.ContentSize);
             sprite.AttachSpriteTo(page.Content);
+
+            sprite.WhenReady();
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
