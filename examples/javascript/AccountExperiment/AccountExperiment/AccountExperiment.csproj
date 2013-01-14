@@ -161,6 +161,7 @@
     <Content Include="Schema\MySession\create.sql" />
     <Content Include="Schema\MySession\insert.sql" />
     <Content Include="Schema\MyAccount\select by cookie.sql" />
+    <Content Include="Schema\MySession\select count.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
