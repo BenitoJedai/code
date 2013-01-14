@@ -17,18 +17,18 @@ namespace AccountExperiment.Schema
         };
 
         public MySession()
-	    {
+        {
             this.WithConnection = csb.AsWithConnection();
 
-             WithConnection(
-                c =>
-                {
-                    new Create { }.ExecuteNonQuery(c);
-                }
-            );
-	    }
+            WithConnection(
+               c =>
+               {
+                   new Create { }.ExecuteNonQuery(c);
+               }
+           );
+        }
 
-        
+
         public long Insert(Insert value)
         {
             var id = -1L;
@@ -45,7 +45,27 @@ namespace AccountExperiment.Schema
             return id;
         }
 
-     
+        public long SelectCount()
+        {
+            long value = 0;
+
+            WithConnection(
+                c =>
+                {
+                    new SelectCount { }.ExecuteReader(c).WithEach(
+                        r =>
+                        {
+                            long count = r.count;
+
+                            value = count;
+                        }
+                    );
+
+                }
+            );
+
+            return value;
+        }
     }
 
 }

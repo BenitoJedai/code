@@ -16,8 +16,8 @@ namespace AccountExperiment
     /// </summary>
     public sealed class ApplicationWebService
     {
-        static AccountExperiment.Schema.MyAccountQueries.Insert ref0;
-        static AccountExperiment.Schema.MySessionQueries.Insert ref1;
+        //static AccountExperiment.Schema.MyAccountQueries.Insert ref0;
+        //static AccountExperiment.Schema.MySessionQueries.Insert ref1;
 
         public void Authenticate(
             string user,
@@ -61,6 +61,12 @@ namespace AccountExperiment
             );
         }
 
+        public void SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere(string session, Action<string> yield)
+        {
+            var count = this.session.SelectCount();
+
+            yield(new { count }.ToString());
+        }
 
         string CreateSession(long account, long ticks)
         {

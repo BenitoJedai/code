@@ -102,6 +102,16 @@ namespace AccountExperiment
                         page.email.innerText = email;
                     }
                 );
+
+
+
+                page.SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere.onclick +=
+                    delegate
+                    {
+                        service.SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere(session.Value,
+                            x => Native.Window.alert(x)
+                        );
+                    };
             }
 
 
