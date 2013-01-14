@@ -10,11 +10,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpCookieCollection))]
     internal class __HttpCookieCollection : __NameObjectCollectionBase
     {
+        List<HttpCookie> InternalItems = new List<HttpCookie>();
+
+        public void Add(HttpCookie c)
+        {
+            InternalItems.Add(c);
+        }
+
         public HttpCookie this[string name]
         {
             get
             {
-                return null;
+                var y = InternalItems.FirstOrDefault(x => x.Name == name);
+ 
+                return y;
             }
         }
     }
