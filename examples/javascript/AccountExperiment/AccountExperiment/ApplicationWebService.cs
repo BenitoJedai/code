@@ -1,9 +1,12 @@
+using AccountExperiment.Schema;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace AccountExperiment
@@ -34,6 +37,42 @@ namespace AccountExperiment
             gravatar.Gravatar(e, avatar, profile);
         }
 
+        MyAccount account = new MyAccount();
+        MySession session = new MySession();
+
+
+        public void WhatsMyEmail(string session, Action<string> yield)
+        {
+            account.SelectByCookie(
+                new MyAccountQueries.SelectByCookie { cookie = session },
+                r =>
+                {
+                    long id = r.id;
+                    string email = r.email;
+
+                    yield(email);
+
+                }
+            );
+        }
+
+
+        string CreateSession(long account, long ticks)
+        {
+            // should encrypt this
+            var cookie = Convert.ToBase64String(Encoding.UTF8.GetBytes(new { ticks, account, comment = "we shall SHA1 this!" }.ToString()));
+
+            session.Insert(
+                new MySessionQueries.Insert
+                {
+                    ticks = ticks,
+                    cookie = cookie,
+                    account = account
+                }
+            );
+
+            return cookie;
+        }
 
         public void CreateAccount(
 
@@ -46,35 +85,40 @@ namespace AccountExperiment
             Action<string> yield_session
             )
         {
-            yield_session("foo");
+            var now = DateTime.Now;
+            var ticks = now.Ticks;
+
+            var id = account.Insert(
+                new MyAccountQueries.Insert
+                {
+                    ticks = ticks,
+
+                    name = name,
+                    web = web,
+                    email = email,
+                    password = password,
+                    skype = skype
+                }
+            );
+
+
+            var cookie = CreateSession(id, ticks);
+
+            // yay, we can now log in!
+
+            yield_session(cookie);
         }
 
 
         public void Handler(WebServiceHandler h)
         {
             #region /view-source
-            h.Applications.Where(k => h.Context.Request.Path == "/" + k.TypeName.ToLower() + "/view-source").WithEach(
-                app =>
-                {
-                    h.Context.Response.ContentType = "text/javascript";
-
-                    foreach (var item in app.References)
-                    {
-                        // asp.net needs absolute paths
-                        h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
-                    }
-
-                    h.CompleteRequest();
-                    return;
-                }
-            );
+            h.Applications.Where(k => h.Context.Request.Path == "/" + k.TypeName.ToLower() + "/view-source").WithEach(h.WriteSource);
             #endregion
 
             #region /register
             if (h.Context.Request.Path == "/register")
             {
-
-
                 h.Applications.Single(k => k.TypeName == "Register").With(
                     app =>
                     {
@@ -97,6 +141,7 @@ namespace AccountExperiment
             #region /login
             if (h.Context.Request.Path == "/login")
             {
+                #region POST
                 if (h.Context.Request.HttpMethod == "POST")
                 {
                     // browser sending us the credentials.
@@ -104,16 +149,46 @@ namespace AccountExperiment
                     var email = h.Context.Request.Form["email"];
                     var password = h.Context.Request.Form["password"];
 
+                    Action yield = delegate
+                    {
+                        // slow it down!
+                        Thread.Sleep(1000);
 
-                    Console.WriteLine(new { email, password, h.Context.Request.UrlReferrer });
+                        h.Context.Response.SetCookie(new System.Web.HttpCookie("message", "check credentials!"));
 
-                    h.Context.Response.SetCookie(new System.Web.HttpCookie("session", "foo"));
 
-                    h.Context.Response.Redirect(h.Context.Request.UrlReferrer.ToString().TakeUntilLastOrNull("/login"));
+                        h.Context.Response.Redirect(h.Context.Request.UrlReferrer.ToString());
+                        h.CompleteRequest();
+                    };
 
-                    h.CompleteRequest();
+                    account.SelectByPassword(
+                        new MyAccountQueries.SelectByPassword { email = email, password = password },
+                        r =>
+                        {
+                            long id = r.id;
+
+
+                            yield = delegate
+                            {
+                                var now = DateTime.Now;
+                                var ticks = now.Ticks;
+
+                                var cookie = CreateSession(id, ticks);
+
+                                h.Context.Response.SetCookie(new System.Web.HttpCookie("session", cookie));
+
+                                h.Context.Response.Redirect(h.Context.Request.UrlReferrer.ToString().TakeUntilLastOrNull("/login"));
+                                h.CompleteRequest();
+                            };
+                        }
+                    );
+
+                    yield();
+
+
                     return;
                 }
+                #endregion
 
                 h.Applications.Single(k => k.TypeName == "Login").With(
                     app =>
@@ -137,7 +212,9 @@ namespace AccountExperiment
 
 
             #region /dashboard
-            if (h.Context.Request.Cookies["session"] != null)
+            var session_cookie = h.Context.Request.Cookies["session"];
+            if (session_cookie != null)
+            {
                 if (h.IsDefaultPath)
                 {
                     h.Applications.Single(k => k.TypeName == "Dashboard").With(
@@ -157,7 +234,9 @@ namespace AccountExperiment
                         }
                     );
                 }
+            }
             #endregion
         }
+
     }
 }

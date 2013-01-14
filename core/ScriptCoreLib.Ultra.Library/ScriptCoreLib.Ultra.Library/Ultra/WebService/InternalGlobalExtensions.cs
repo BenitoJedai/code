@@ -211,6 +211,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             var IsComplete = false;
 
+            #region WebServiceHandler
             var h = new WebServiceHandler
             {
                 Context = that.Context,
@@ -254,9 +255,77 @@ namespace ScriptCoreLib.Ultra.WebService
                     that.CompleteRequest();
                 }
             };
+            #endregion
 
+            #region WriteSource
+            h.WriteSource = app =>
+            {
+                h.Context.Response.ContentType = "text/javascript";
+
+                g.Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
+                g.Response.Cache.SetExpires(DateTime.Now.AddMinutes(15));
+
+
+
+                app.References.WithEachIndex(
+                    (app_ref, index) =>
+                    {
+                        // will this work an all platforms?
+                        // need to test!
+                        g.Response.AddHeader("X-Assembly-" + index, app_ref.AssemblyFile);
+                    }
+                );
+
+                #region GZipAssemblyFile
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130103
+
+                var AcceptEncoding = h.Context.Request.Headers["Accept-Encoding"];
+
+                if (!string.IsNullOrEmpty(AcceptEncoding))
+                    if (AcceptEncoding.Contains("gzip"))
+                    {
+                        g.Response.AddHeader("Content-Encoding", "gzip");
+
+
+
+                        g.Response.WriteFile("/" + app.GZipAssemblyFile);
+                        h.CompleteRequest();
+
+                        return;
+                    }
+                #endregion
+
+
+                #region the old way
+                var ff = g.GetFiles();
+
+                // jsc packages js files? not for long:P will switch to gzip at some point!
+                var app_references = app.References.Select(
+                    item => ff.Single(k => k.Name == item.AssemblyFile + ".js")
+                ).ToArray();
+
+                var app_size = app_references.Sum(k => k.Length);
+
+                // Accept-Encoding:gzip,deflate,sdch
+
+                g.Response.AddHeader("Content-Length", "" + app_size);
+                //g.Response.AddHeader("X-GZipAssemblyFile", "" + app.GZipAssemblyFile);
+
+
+                foreach (var item in app_references)
+                {
+                    // asp.net needs absolute paths
+                    h.Context.Response.WriteFile("/" + item.Name);
+                }
+                #endregion
+
+
+                h.CompleteRequest();
+            };
+            #endregion
 
             g.Serve(h);
+
 
             if (!IsComplete)
             {
@@ -269,68 +338,10 @@ namespace ScriptCoreLib.Ultra.WebService
                 #region /view-source
                 if (that.Request.Path == "/view-source")
                 {
-                    h.Context.Response.ContentType = "text/javascript";
-
-                    g.Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
-                    g.Response.Cache.SetExpires(DateTime.Now.AddMinutes(15));
-
-
                     var app = h.Applications[0];
 
-                    app.References.WithEachIndex(
-                        (app_ref, index) =>
-                        {
-                            // will this work an all platforms?
-                            // need to test!
-                            g.Response.AddHeader("X-Assembly-" + index, app_ref.AssemblyFile);
-                        }
-                    );
+                    h.WriteSource(app);
 
-                    #region GZipAssemblyFile
-                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130103
-
-                    var AcceptEncoding = h.Context.Request.Headers["Accept-Encoding"];
-
-                    if (!string.IsNullOrEmpty(AcceptEncoding))
-                        if (AcceptEncoding.Contains("gzip"))
-                        {
-                            g.Response.AddHeader("Content-Encoding", "gzip");
-
-
-
-                            g.Response.WriteFile("/" + app.GZipAssemblyFile);
-                            h.CompleteRequest();
-
-                            return;
-                        }
-                    #endregion
-
-
-                    #region the old way
-                    var ff = g.GetFiles();
-
-                    // jsc packages js files? not for long:P will switch to gzip at some point!
-                    var app_references = app.References.Select(
-                        item => ff.Single(k => k.Name == item.AssemblyFile + ".js")
-                    ).ToArray();
-
-                    var app_size = app_references.Sum(k => k.Length);
-
-                    // Accept-Encoding:gzip,deflate,sdch
-
-                    g.Response.AddHeader("Content-Length", "" + app_size);
-                    //g.Response.AddHeader("X-GZipAssemblyFile", "" + app.GZipAssemblyFile);
-
-
-                    foreach (var item in app_references)
-                    {
-                        // asp.net needs absolute paths
-                        h.Context.Response.WriteFile("/" + item.Name);
-                    }
-                    #endregion
-
-
-                    h.CompleteRequest();
                     return;
                 }
                 #endregion

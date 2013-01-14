@@ -38,6 +38,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ConsoleFormPackage">
+      <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
+    </Reference>
     <Reference Include="GravatarExperiment">
       <HintPath>..\packages\GravatarExperiment.1.0.0.0\lib\GravatarExperiment.dll</HintPath>
     </Reference>
@@ -104,6 +107,13 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.84.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.x86.1.0.84.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\packages\System.Data.SQLite.x86.1.0.84.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
@@ -136,9 +146,12 @@
     <Content Include="Design\App_login.htm" />
     <Content Include="Design\App_dashboard.htm" />
     <Content Include="Design\App_register.htm" />
+    <Content Include="Schema\MyAccount\select by password.sql" />
     <Content Include="Schema\MyAccount\create.sql" />
     <Content Include="Schema\MyAccount\insert.sql" />
     <Content Include="Schema\MySession\create.sql" />
+    <Content Include="Schema\MySession\insert.sql" />
+    <Content Include="Schema\MyAccount\select by cookie.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using AccountExperiment.Design;
 using AccountExperiment.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
+using Abstractatech.ConsoleFormPackage.Library;
 
 namespace AccountExperiment
 {
@@ -36,6 +37,20 @@ namespace AccountExperiment
 
             public Login(IAppLogin page)
             {
+                new Cookie("message").With(
+                      message =>
+                      {
+                          if (string.IsNullOrEmpty(message.Value))
+                              return;
+
+                          Native.Window.alert(message.Value);
+                          message.Delete();
+
+
+                          //Native.Document.location.reload();
+                      }
+                 );
+
                 page.OK.disabled = false;
                 page.OK.onclick +=
                     delegate
@@ -60,15 +75,32 @@ namespace AccountExperiment
         {
             public readonly ApplicationWebService service = new ApplicationWebService();
 
+            public readonly ConsoleForm con = new ConsoleForm().InitializeConsoleFormWriter();
+
+            public readonly Cookie session = new Cookie("session");
+
             public Dashboard(IAppDashboard page)
             {
                 page.LogOut.onclick +=
                     delegate
                     {
-                        new Cookie("session").Delete();
+                        session.Delete();
 
                         Native.Document.location.reload();
                     };
+
+                con.Show();
+
+                Console.WriteLine(session.ValueBase64);
+
+                service.WhatsMyEmail(
+                    // wow. webmethods are too isolated, cant see cookies:)
+                    session.Value,
+                    email =>
+                    {
+                        page.email.innerText = email;
+                    }
+                );
             }
 
 
