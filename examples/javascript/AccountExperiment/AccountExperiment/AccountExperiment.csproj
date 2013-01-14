@@ -123,6 +123,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Schema\MyAccount.cs" />
+    <Compile Include="Schema\MySession.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,6 +137,7 @@
     <Content Include="Design\App_dashboard.htm" />
     <Content Include="Design\App_register.htm" />
     <Content Include="Schema\MyAccount\create.sql" />
+    <Content Include="Schema\MyAccount\insert.sql" />
     <Content Include="Schema\MySession\create.sql" />
   </ItemGroup>
   <ItemGroup>
