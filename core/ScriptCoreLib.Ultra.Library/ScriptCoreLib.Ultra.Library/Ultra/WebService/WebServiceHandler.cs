@@ -46,5 +46,7 @@ namespace ScriptCoreLib.Ultra.WebService
 			return false;
 		}
 
+
+        public Action<WebServiceScriptApplication> WriteSource;
 	}
 }
