@@ -46,12 +46,19 @@ namespace AccountExperiment.Schema
             return id;
         }
 
-        public void SelectByPassword(SelectByPassword value, Action<dynamic> yield)
+        public void SelectByPassword(SelectByPassword value, Action<long> yield)
         {
             WithConnection(
                 c =>
                 {
-                    value.ExecuteReader(c).WithEach(yield);
+                    value.ExecuteReader(c).WithEach(
+                        r =>
+                        {
+                            long id = r.id;
+
+                            yield(id);
+                        }
+                    );
                 }
             );
         }

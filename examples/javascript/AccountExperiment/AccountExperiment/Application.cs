@@ -91,6 +91,7 @@ namespace AccountExperiment
 
                 con.Show();
 
+                Console.WriteLine(session.Value);
                 Console.WriteLine(session.ValueBase64);
 
                 service.WhatsMyEmail(

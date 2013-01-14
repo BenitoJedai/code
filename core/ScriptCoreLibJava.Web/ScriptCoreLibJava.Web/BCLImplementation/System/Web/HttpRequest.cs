@@ -8,49 +8,49 @@ using System.Web;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
-	[Script(Implements = typeof(global::System.Web.HttpRequest))]
-	internal class __HttpRequest
-	{
-		public javax.servlet.http.HttpServletRequest InternalContext;
+    [Script(Implements = typeof(global::System.Web.HttpRequest))]
+    internal class __HttpRequest
+    {
+        public javax.servlet.http.HttpServletRequest InternalContext;
 
-		public string Path
-		{
-			get
-			{
-				return this.InternalContext.getPathInfo();
-			}
-		}
+        public string Path
+        {
+            get
+            {
+                return this.InternalContext.getPathInfo();
+            }
+        }
 
-		public string HttpMethod
-		{
-			get
-			{
-				// or http://msdn.microsoft.com/en-us/library/system.web.httprequest.requesttype(VS.85).aspx?
+        public string HttpMethod
+        {
+            get
+            {
+                // or http://msdn.microsoft.com/en-us/library/system.web.httprequest.requesttype(VS.85).aspx?
 
-				return this.InternalContext.getMethod();
-			}
-		}
+                return this.InternalContext.getMethod();
+            }
+        }
 
         #region Form
         NameValueCollection InternalForm;
 
-		public NameValueCollection Form
-		{
-			get
-			{
-				//Console.WriteLine("get_Form");
+        public NameValueCollection Form
+        {
+            get
+            {
+                //Console.WriteLine("get_Form");
 
-				if (InternalForm == null)
-				{
+                if (InternalForm == null)
+                {
                     InternalForm = new NameValueCollection();
                     InitializeForm();
-				}
+                }
 
-				//Console.WriteLine("return get_Form");
+                //Console.WriteLine("return get_Form");
 
-				return InternalForm;
-			}
-		}
+                return InternalForm;
+            }
+        }
 
         private void InitializeForm()
         {
@@ -91,83 +91,83 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 
         #region QueryString
         [Script]
-		public class InternalQueryStringParser : NameValueCollection
-		{
-			// code duplication :)
-			public readonly string QueryString;
+        public class InternalQueryStringParser : NameValueCollection
+        {
+            // code duplication :)
+            public readonly string QueryString;
 
-			public InternalQueryStringParser(string QueryString)
-			{
-				if (null == QueryString)
-				{
-					this.QueryString = "";
+            public InternalQueryStringParser(string QueryString)
+            {
+                if (null == QueryString)
+                {
+                    this.QueryString = "";
 
-					return;
-				}
+                    return;
+                }
 
-				this.QueryString = QueryString;
+                this.QueryString = QueryString;
 
-				//Console.WriteLine("InternalQueryStringParser: QueryString=" + QueryString);
+                //Console.WriteLine("InternalQueryStringParser: QueryString=" + QueryString);
 
-				foreach (var item in QueryString.Split('&'))
-				{
-					var p = item.Split('=');
+                foreach (var item in QueryString.Split('&'))
+                {
+                    var p = item.Split('=');
 
-					if (p.Length == 2)
-					{
-						var value = p[0];
-						var name = p[1];
+                    if (p.Length == 2)
+                    {
+                        var value = p[0];
+                        var name = p[1];
 
-						this[value] = name;
+                        this[value] = name;
 
-						//Console.WriteLine("InternalQueryStringParser: " + value + " = " + name);
-					}
+                        //Console.WriteLine("InternalQueryStringParser: " + value + " = " + name);
+                    }
 
-				}
-			}
-		}
+                }
+            }
+        }
 
-		NameValueCollection InternalQueryString;
+        NameValueCollection InternalQueryString;
 
-		public NameValueCollection QueryString
-		{
-			get
-			{
-				if (InternalQueryString == null)
-				{
-					InternalQueryString = new NameValueCollection();
+        public NameValueCollection QueryString
+        {
+            get
+            {
+                if (InternalQueryString == null)
+                {
+                    InternalQueryString = new NameValueCollection();
 
-					// For HTTP servlets, parameters are contained in 
-					// the query string or posted form data.
-					var e = this.InternalContext.getParameterNames();
+                    // For HTTP servlets, parameters are contained in 
+                    // the query string or posted form data.
+                    var e = this.InternalContext.getParameterNames();
 
-					// see: http://209.85.229.132/search?q=cache:0aKqPR_HgIUJ:g.oswego.edu/dl/classes/collections/SimpleTest.java+while+hasMoreElements&cd=1&hl=en&ct=clnk
+                    // see: http://209.85.229.132/search?q=cache:0aKqPR_HgIUJ:g.oswego.edu/dl/classes/collections/SimpleTest.java+while+hasMoreElements&cd=1&hl=en&ct=clnk
 
-					var qs = this.InternalContext.getQueryString();
-					var q = new InternalQueryStringParser(qs);
+                    var qs = this.InternalContext.getQueryString();
+                    var q = new InternalQueryStringParser(qs);
 
-					while (e.hasMoreElements())
-					{
-						var name = (string)e.nextElement();
+                    while (e.hasMoreElements())
+                    {
+                        var name = (string)e.nextElement();
 
-						if (q[name] != null)
-						{
-							var value = this.InternalContext.getParameter(name);
+                        if (q[name] != null)
+                        {
+                            var value = this.InternalContext.getParameter(name);
 
-							//Console.WriteLine("QueryString add: " + name + " = " + value);
-							InternalQueryString[name] = value;
-						}
-						else
-						{
-							//Console.WriteLine("QueryString skip: " + name);
+                            //Console.WriteLine("QueryString add: " + name + " = " + value);
+                            InternalQueryString[name] = value;
+                        }
+                        else
+                        {
+                            //Console.WriteLine("QueryString skip: " + name);
 
-						}
-					}
-				}
+                        }
+                    }
+                }
 
 
-				return InternalQueryString;
-			}
+                return InternalQueryString;
+            }
         }
         #endregion
 
@@ -199,11 +199,40 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
         }
         #endregion
 
-        public HttpCookieCollection Cookies { get; set; }
+        public HttpCookieCollection Cookies
+        {
+            get
+            {
+                var Cookies = new HttpCookieCollection();
+
+                if (this.InternalContext != null)
+                {
+                    var i = this.InternalContext.getCookies();
+
+                    if (i != null)
+                        foreach (var item in i)
+                        {
+                            if (item != null)
+                                Cookies.Add(
+                                    new HttpCookie(item.getName(), item.getValue())
+                                );
+                        }
+                }
+
+                return Cookies;
+            }
+        }
 
         public __HttpRequest()
         {
-            this.Cookies = new HttpCookieCollection();
+        }
+
+        public Uri UrlReferrer
+        {
+            get
+            {
+                return new Uri(this.Headers["Referer"]);
+            }
         }
     }
 }

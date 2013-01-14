@@ -11,102 +11,102 @@ using System.Web;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
-	[Script(Implements = typeof(global::System.Web.HttpResponse))]
-	internal class __HttpResponse
-	{
-		public javax.servlet.http.HttpServletResponse InternalContext;
+    [Script(Implements = typeof(global::System.Web.HttpResponse))]
+    internal class __HttpResponse
+    {
+        public javax.servlet.http.HttpServletResponse InternalContext;
 
         internal int InternalStatusCode;
 
-		public int StatusCode
-		{
-			get
-			{
+        public int StatusCode
+        {
+            get
+            {
                 return InternalStatusCode;
-			}
-			set
-			{
+            }
+            set
+            {
                 InternalStatusCode = value;
                 this.InternalContext.setStatus(value);
-			}
-		}
+            }
+        }
 
         #region ContentType
         internal string InternalContentType;
-		public string ContentType
-		{
-			get
-			{
+        public string ContentType
+        {
+            get
+            {
                 return InternalContentType;
-			}
+            }
 
-			set
-			{
+            set
+            {
                 InternalContentType = value;
-				this.InternalContext.setContentType(value);
-			}
-		}
+                this.InternalContext.setContentType(value);
+            }
+        }
         #endregion
 
 
         public void Write(string s)
-		{
-			try
-			{
+        {
+            try
+            {
                 //this.InternalContext.getWriter().print(s);
 
                 var bytes = Encoding.UTF8.GetBytes(s);
 
                 this.OutputStream.Write(bytes, 0, bytes.Length);
-			}
-			catch
-			{
+            }
+            catch
+            {
                 throw;
             }
-		}
+        }
 
-		public void Redirect(string url)
-		{
-			try
-			{
-				this.InternalContext.sendRedirect(url);
-			}
-			catch
-			{
+        public void Redirect(string url)
+        {
+            try
+            {
+                this.InternalContext.sendRedirect(url);
+            }
+            catch
+            {
                 throw;
-			}
-		}
+            }
+        }
 
         #region OutputStream
         public NetworkStream InternalOutputStream;
-		public Stream OutputStream
-		{
-			get
-			{
-				if (this.InternalOutputStream == null)
-					try
-					{
+        public Stream OutputStream
+        {
+            get
+            {
+                if (this.InternalOutputStream == null)
+                    try
+                    {
                         this.InternalOutputStream = (NetworkStream)(object)new __NetworkStream
-						{
-							InternalOutputStream = this.InternalContext.getOutputStream()
-						};
+                        {
+                            InternalOutputStream = this.InternalContext.getOutputStream()
+                        };
 
-					}
-					catch
-					{
+                    }
+                    catch
+                    {
                         throw;
-					}
+                    }
 
-				return InternalOutputStream;
-			}
-		}
+                return InternalOutputStream;
+            }
+        }
         #endregion
 
 
         public void AddHeader(string name, string value)
-		{
-			this.InternalContext.addHeader(name, value);
-		}
+        {
+            this.InternalContext.addHeader(name, value);
+        }
 
         public void WriteFile(string filename)
         {
@@ -138,5 +138,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
                 //IsClientConnected = false;
             }
         }
-	}
+
+        public HttpCookieCollection Cookies { get; set; }
+
+        public __HttpResponse()
+        {
+            Cookies = new HttpCookieCollection();
+        }
+
+        public void SetCookie(HttpCookie e)
+        {
+            // Set-Cookie:session="eyB0aWNrcyA9IDYzNDkzNzg5MDQyMzM5MDAwMCwgYWNjb3VudCA9IDEsIGNvbW1lbnQgPSB3ZSBzaGFsbCBTSEExIHRoaXMhIH0="
+            // Set-Cookie:session=eyB0aWNrcyA9IDYzNDkzNzk2NTU3NzczMjI5MiwgYWNjb3VudCA9IDIsIGNvbW1lbnQgPSB3ZSBzaGFsbCBTSEExIHRoaXMhIH0=; path=/
+
+            this.InternalContext.addHeader("Set-Cookie",
+                e.Name + "=" + e.Value + ";  path=/");
+
+            //this.InternalContext.addCookie(new javax.servlet.http.Cookie(e.Name, e.Value));
+        }
+    }
 }

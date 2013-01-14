@@ -16,6 +16,9 @@ namespace AccountExperiment
     /// </summary>
     public sealed class ApplicationWebService
     {
+        static AccountExperiment.Schema.MyAccountQueries.Insert ref0;
+        static AccountExperiment.Schema.MySessionQueries.Insert ref1;
+
         public void Authenticate(
             string user,
             string password,
@@ -43,6 +46,8 @@ namespace AccountExperiment
 
         public void WhatsMyEmail(string session, Action<string> yield)
         {
+            Console.WriteLine("WhatsMyEmail: " + new { session });
+
             account.SelectByCookie(
                 new MyAccountQueries.SelectByCookie { cookie = session },
                 r =>
@@ -60,7 +65,7 @@ namespace AccountExperiment
         string CreateSession(long account, long ticks)
         {
             // should encrypt this
-            var cookie = Convert.ToBase64String(Encoding.UTF8.GetBytes(new { ticks, account, comment = "we shall SHA1 this!" }.ToString()));
+            var cookie = Convert.ToBase64String(Encoding.UTF8.GetBytes(new { ticks, account, comment = "we shall SHA1 this!" }.ToString())).TakeUntilIfAny("=");
 
             session.Insert(
                 new MySessionQueries.Insert
@@ -70,6 +75,8 @@ namespace AccountExperiment
                     account = account
                 }
             );
+
+            Console.WriteLine("CreateSession: " + new { cookie });
 
             return cookie;
         }
@@ -113,7 +120,9 @@ namespace AccountExperiment
         public void Handler(WebServiceHandler h)
         {
             #region /view-source
-            h.Applications.Where(k => h.Context.Request.Path == "/" + k.TypeName.ToLower() + "/view-source").WithEach(h.WriteSource);
+            h.Applications.Where(k => h.Context.Request.Path == "/" + k.TypeName.ToLower() + "/view-source").WithEach(
+                x => h.WriteSource(x)
+            );
             #endregion
 
             #region /register
@@ -163,10 +172,8 @@ namespace AccountExperiment
 
                     account.SelectByPassword(
                         new MyAccountQueries.SelectByPassword { email = email, password = password },
-                        r =>
+                        id =>
                         {
-                            long id = r.id;
-
 
                             yield = delegate
                             {
@@ -174,6 +181,7 @@ namespace AccountExperiment
                                 var ticks = now.Ticks;
 
                                 var cookie = CreateSession(id, ticks);
+
 
                                 h.Context.Response.SetCookie(new System.Web.HttpCookie("session", cookie));
 
@@ -234,6 +242,10 @@ namespace AccountExperiment
                         }
                     );
                 }
+            }
+            else
+            {
+                Console.WriteLine(new { session_cookie, h.Context.Request.Path });
             }
             #endregion
         }

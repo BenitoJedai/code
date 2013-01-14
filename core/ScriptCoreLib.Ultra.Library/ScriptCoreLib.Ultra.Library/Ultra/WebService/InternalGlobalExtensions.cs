@@ -301,7 +301,9 @@ namespace ScriptCoreLib.Ultra.WebService
 
                 // jsc packages js files? not for long:P will switch to gzip at some point!
                 var app_references = app.References.Select(
-                    item => ff.Single(k => k.Name == item.AssemblyFile + ".js")
+                    // why wont Single work correctly?
+                    // are we embedding one file multiple times?
+                    item => ff.First(k => k.Name == item.AssemblyFile + ".js")
                 ).ToArray();
 
                 var app_size = app_references.Sum(k => k.Length);
