@@ -25,6 +25,11 @@ namespace AccountExperiment
 
         }
 
+        public static string Tracker()
+        {
+            return "xx";
+        }
+
         public sealed class Login
         {
             public readonly ApplicationWebService service = new ApplicationWebService();
@@ -43,6 +48,12 @@ namespace AccountExperiment
                     };
             }
 
+
+            public static string Tracker()
+            {
+                return "xx login";
+            }
+
         }
 
         public sealed class Dashboard
@@ -59,6 +70,13 @@ namespace AccountExperiment
                         Native.Document.location.reload();
                     };
             }
+
+
+            public static string Tracker()
+            {
+                return "xx dashboard";
+            }
+
         }
 
         public sealed class Register
