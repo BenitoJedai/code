@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8C36076C-7270-4841-BB8B-1C28A24ED1CE}</ProjectGuid>
+    <ProjectGuid>{3F3896D2-07AB-4DFB-87E3-6139E5D40028}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MP3LoopExperiment</RootNamespace>
-    <AssemblyName>MP3LoopExperiment</AssemblyName>
+    <RootNamespace>TestMP3LoopFromMarket</RootNamespace>
+    <AssemblyName>TestMP3LoopFromMarket</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>MP3LoopExperiment.Program</StartupObject>
+    <StartupObject>TestMP3LoopFromMarket.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +43,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="MP3LoopExperiment, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MP3LoopExperiment.1.0.0.0\lib\MP3LoopExperiment.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -113,29 +117,34 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="MP3LoopExperiment.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\MP3LoopExperiment.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestMP3LoopFromMarket.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestMP3LoopFromMarket.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationSprite.cs" />
-    <Compile Include="ApplicationWebService.cs" />
-    <Compile Include="Application.cs" />
-    <Compile Include="Program.cs">
-      <DependentUpon>Application.cs</DependentUpon>
+    <Compile Include="ApplicationCanvas.cs" />
+    <Compile Include="ApplicationSprite.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="web\assets\MP3LoopExperiment\helicopter1.mp3" />
-    <EmbeddedResource Include="web\assets\MP3LoopExperiment\loop.mp3" />
+    <Compile Include="ApplicationWebService.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
-)
-
+    <PostBuildEvent>
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
