@@ -1,3 +1,4 @@
+using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.media;
@@ -21,32 +22,57 @@ namespace MP3LoopExperiment
 
         private const int samplesTotal = 124417; // original amount of sample before encoding (change it to your loop)
 
-        private Sound mp3 = new Sound(); // Use for decoding
         private Sound _out = new Sound(); // Use for output stream
 
         private TextField textField = new TextField();
 
         private int samplesPosition = 0;
 
-        private bool enabled = false;
+        public bool enabled = false;
+
+        private Sound mp3; // Use for decoding
+
+        //[Embed("/assets/MP3LoopExperiment/loop.mp3")]
+        //static Class __mp3;
 
         public ApplicationSprite()
         {
-            initUI();
+            //this.InvokeWhenStageIsReady(
+            //   () =>
+            //   {
 
-            loadMp3();
-        }
+            //var ref0 = "assets/MP3LoopExperiment/loop.mp3";
 
-        private void initUI()
-        {
-            stage.align = StageAlign.TOP_LEFT;
-            stage.scaleMode = StageScaleMode.NO_SCALE;
+            //mp3 = __mp3.ToSoundAsset();
+
+            mp3 = KnownEmbeddedResources.Default["assets/MP3LoopExperiment/loop.mp3"].ToSoundAsset();
+
+            //stage.align = StageAlign.TOP_LEFT;
+            //stage.scaleMode = StageScaleMode.NO_SCALE;
 
             textField.autoSize = TextFieldAutoSize.LEFT;
             textField.selectable = false;
             //textField.defaultTextFormat = new TextFormat("Verdana", 10, 0xFFFFFF);
             textField.text = "loading...";
             addChild(textField);
+
+
+            this.click +=
+                delegate
+                {
+                    enabled = !enabled;
+
+                    updateText();
+                };
+
+            updateText();
+
+            startPlayback();
+
+            enabled = true;
+            updateText();
+            //    }
+            //);
         }
 
 
@@ -58,29 +84,9 @@ namespace MP3LoopExperiment
                 textField.text = "click to play...";
         }
 
-        private void loadMp3()
-        {
-            mp3.complete +=
-                delegate
-                {
-                    stage.click +=
-                        delegate
-                        {
-                            enabled = !enabled;
-
-                            updateText();
-                        };
-
-                    updateText();
-
-                    startPlayback();
-                };
-
-            mp3.load(new URLRequest("http://blog.andre-michelle.com/upload/mp3loop/loop.mp3"));
-        }
 
 
-        private void startPlayback()
+        public void startPlayback()
         {
             _out.sampleData +=
                 e =>
