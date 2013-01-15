@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media.Animation;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Media.Animation;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 {

@@ -9,7 +9,10 @@ namespace RotatingImage
     type internal ApplicationSprite() as me = 
         inherit Sprite() 
         let this = me
+
         do ()
+
+
         let content = new ApplicationCanvas()
         do CommonExtensions.InvokeWhenStageIsReady(
             this,

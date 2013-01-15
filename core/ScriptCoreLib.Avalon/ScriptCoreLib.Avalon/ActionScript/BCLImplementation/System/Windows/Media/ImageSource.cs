@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using System.IO;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Media.Animation;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 {

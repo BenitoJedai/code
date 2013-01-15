@@ -13,9 +13,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
         public double CenterX { get; set; }
         public double CenterY { get; set; }
 
-        public __RotateTransform(double Angle)
+        public __RotateTransform(double Angle) : this(Angle, 0, 0)
+        {
+        }
+
+        public __RotateTransform(double Angle, double CenterX, double CenterY)
         {
             this.Angle = Angle;
+            this.CenterX = CenterX;
+            this.CenterY = CenterY;
         }
 	}
 }

@@ -85,15 +85,25 @@ namespace RotatingImage
                         do f a xx yy cc
             ) |> ignore 
 
-        do this.MouseLeftButtonUp.Add(
-            fun e ->
-                let p = e.GetPosition(this)
+//script: warning JSC1002: No implementation for Microsoft.FSharp.Core.CompilerServices.RuntimeHelpers at RotatingImage.ApplicationCanvas
+//script: warning JSC1002: No implementation for Microsoft.FSharp.Control.CommonExtensions at RotatingImage.ApplicationCanvas
+//script: error JSC1000: ActionScript :
+// BCL needs another method, please define it.
+// Cannot call type without script attribute :
+// Microsoft.FSharp.Control.CommonExtensions for Void AddToObservable[MouseButtonEventArgs](System.IObservable`1[System.Windows.Input.MouseButtonEventArgs], Microsoft.FSharp.Core.FSharpFunc`2[System.Windows.Input.MouseButtonEventArgs,Microsoft.FSharp.Core.Unit]) used at
+// RotatingImage.ApplicationCanvas..ctor at offset 00de.
+// If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set. You may have mistyped it.
+//
 
-                let x = p.X- 32.0
-                let y = p.Y - 32.0
-
-                start x y
-        )
+//        do this.MouseLeftButtonUp.Add(
+//            fun e ->
+//                let p = e.GetPosition(this)
+//
+//                let x = p.X- 32.0
+//                let y = p.Y - 32.0
+//
+//                start x y
+//        )
         
  
         
