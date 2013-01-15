@@ -26,15 +26,15 @@ namespace AvalonHeatZeeker
             );
 
 
-            var music = "assets/AvalonHeatZeeker/helicopter1.mp3".ToSound();
+            //var music = "assets/AvalonHeatZeeker/helicopter1.mp3".ToSound();
 
-            music.Start();
+            //music.Start();
 
-            music.PlaybackComplete +=
-                delegate
-                {
-                    music.Start();
-                };
+            //music.PlaybackComplete +=
+            //    delegate
+            //    {
+            //        music.Start();
+            //    };
 
             var sw = new Stopwatch();
 

@@ -73,13 +73,13 @@ namespace AvalonHeatZeeker
                     wings.MoveTo(-200, -200);
                     wings.AttachTo(wings_rot);
 
-                    var unitlabel = new TextBlock { Text = "c = ?", Opacity = 1 }.AttachTo(unit);
+                    //var unitlabel = new TextBlock { Text = "c = ?", Opacity = 1 }.AttachTo(unit);
 
 
                     (1000 / 30).AtIntervalWithCounter(
                         rot =>
                         {
-                            unitlabel.Text = new { rot }.ToString();
+                            //unitlabel.Text = new { rot }.ToString();
 
                             wings_rot.RenderTransform = new RotateTransform(rot * 12.0);
                         }

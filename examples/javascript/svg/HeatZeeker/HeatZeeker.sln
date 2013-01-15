@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatZeeker.Audio0", "HeatZe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatZeeker.Units.Tank", "HeatZeeker.Units.Tank\HeatZeeker.Units.Tank.csproj", "{9E038BD4-A329-44E3-9ADD-86298FB925BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatZeekerEmbedSVG", "HeatZeekerEmbedSVG\HeatZeekerEmbedSVG.csproj", "{8C36076C-7270-4841-BB8B-1C28A24ED1CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|x86 = Android|x86
@@ -32,6 +34,12 @@ Global
 		{9E038BD4-A329-44E3-9ADD-86298FB925BE}.Debug|x86.Build.0 = Debug|x86
 		{9E038BD4-A329-44E3-9ADD-86298FB925BE}.Release|x86.ActiveCfg = Release|x86
 		{9E038BD4-A329-44E3-9ADD-86298FB925BE}.Release|x86.Build.0 = Release|x86
+		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Android|x86.ActiveCfg = Release|x86
+		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Android|x86.Build.0 = Release|x86
+		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Debug|x86.ActiveCfg = Debug|x86
+		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Debug|x86.Build.0 = Debug|x86
+		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|x86.ActiveCfg = Release|x86
+		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
