@@ -14,13 +14,15 @@ namespace MP3LoopExperiment
         // http://www.flickr.com/photos/schill/4499319436/
         // http://blog.andre-michelle.com/upload/mp3loop/MP3Loop.as
         // http://stackoverflow.com/questions/1227442/prefered-method-for-looping-sound-flash-as3
-
+        // http://www.compuphase.com/mp3/mp3loops.htm
+        // http://club.myce.com/f3/encoder-delay-zero-padding-why-225854/
 
         private const double MAGIC_DELAY = 2257.0; // LAME 3.98.2 + flash.media.Sound Delay
 
         private const int bufferSize = 4096; // Stable playback
 
-        private const int samplesTotal = 124417; // original amount of sample before encoding (change it to your loop)
+        //private const int samplesTotal = 124417; // original amount of sample before encoding (change it to your loop)
+        private const int samplesTotal = 293803; // original amount of sample before encoding (change it to your loop)
 
         private Sound _out = new Sound(); // Use for output stream
 
@@ -45,7 +47,7 @@ namespace MP3LoopExperiment
 
             //mp3 = __mp3.ToSoundAsset();
 
-            mp3 = KnownEmbeddedResources.Default["assets/MP3LoopExperiment/loop.mp3"].ToSoundAsset();
+            mp3 = KnownEmbeddedResources.Default["assets/MP3LoopExperiment/helicopter1.mp3"].ToSoundAsset();
 
             //stage.align = StageAlign.TOP_LEFT;
             //stage.scaleMode = StageScaleMode.NO_SCALE;
