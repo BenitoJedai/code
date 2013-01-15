@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashAffineTexturedCube", "FlashAffineTexturedCube\FlashAffineTexturedCube.csproj", "{3F3896D2-07AB-4DFB-87E3-6139E5D40028}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{AAB0A7CF-2693-484B-AC05-29095EBF800E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonAffineTexturedCube", "..\..\..\javascript\Avalon\AvalonAffineTexturedCube\AvalonAffineTexturedCube\AvalonAffineTexturedCube.csproj", "{3BD2BD38-102C-4C19-88E1-60522B55403C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Debug|x86.ActiveCfg = Debug|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Debug|x86.Build.0 = Debug|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Release|x86.ActiveCfg = Release|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Release|x86.Build.0 = Release|x86
+		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|x86.ActiveCfg = Debug|x86
+		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|x86.Build.0 = Debug|x86
+		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|x86.ActiveCfg = Release|x86
+		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3BD2BD38-102C-4C19-88E1-60522B55403C} = {AAB0A7CF-2693-484B-AC05-29095EBF800E}
+	EndGlobalSection
+EndGlobal
