@@ -29,7 +29,7 @@ namespace AvalonHeatZeeker
             this.SizeChanged += (s, e) => r.SizeTo(this.Width - 16.0, this.Height - 16.0);
 
 
-            label = new TextBlock { Text = "fps = ?", Opacity = 0.2 }.AttachTo(this);
+            label = new TextBlock { Text = "fps = ?", Opacity = 0.6 }.AttachTo(this);
             label.MoveTo(8, 8);
 
 
@@ -44,7 +44,7 @@ namespace AvalonHeatZeeker
             label.MouseLeave +=
                 delegate
                 {
-                    label.Opacity = 0.2;
+                    label.Opacity = 0.6;
 
                     //label.Foreground = Brushes.Black;
                 };
