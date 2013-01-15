@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Threading;
+using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Threading;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input
 {

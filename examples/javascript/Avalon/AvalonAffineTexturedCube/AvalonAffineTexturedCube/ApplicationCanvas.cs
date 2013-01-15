@@ -43,8 +43,8 @@ namespace AvalonAffineTexturedCube
 
         public void InitializeContent()
         {
-            var DefaultWidth = Convert.ToInt32( Width);
-            var DefaultHeight = Convert.ToInt32( Height);
+            var DefaultWidth = Convert.ToInt32(Width);
+            var DefaultHeight = Convert.ToInt32(Height);
 
             this.ClipToBounds = true;
 
@@ -62,10 +62,22 @@ namespace AvalonAffineTexturedCube
                     }.MoveTo(0, i * 2).AttachTo(this)
             ).ToArray();
 
-            new Avalon.Images.white_jsc().AttachTo(this).MoveTo(
+            var logo = new Avalon.Images.white_jsc().AttachTo(this);
+
+            logo.MoveTo(
                 DefaultWidth - Avalon.Images.white_jsc.ImageDefaultWidth,
                 DefaultHeight - Avalon.Images.white_jsc.ImageDefaultHeight
             );
+
+            this.SizeChanged +=
+                delegate
+                {
+                    logo.MoveTo(
+                          this.Width - Avalon.Images.white_jsc.ImageDefaultWidth,
+                          this.Height - Avalon.Images.white_jsc.ImageDefaultHeight
+                      );
+
+                };
 
             var t = new TextBox
             {
@@ -133,12 +145,12 @@ namespace AvalonAffineTexturedCube
             Action Update =
                 delegate
                 {
-                       var Rotation = new AffineRotation
-                    {
-                        XY = 0.01 * pp.X * 0.5,
-                        YZ = 0.02 * pp.X * 0.5,
-                        XZ = 0.03 * pp.X * 0.5 + pp_XZ
-                    };
+                    var Rotation = new AffineRotation
+                 {
+                     XY = 0.01 * pp.X * 0.5,
+                     YZ = 0.02 * pp.X * 0.5,
+                     XZ = 0.03 * pp.X * 0.5 + pp_XZ
+                 };
 
                     t.Text = new
                     {
@@ -178,13 +190,13 @@ namespace AvalonAffineTexturedCube
                         //((Action<AffineVertex>)k.Tag)(k);
                     }
                 };
-            
+
             this.MouseMove +=
                 (sender, args) =>
                 {
-                     pp = args.GetPosition(this);
+                    pp = args.GetPosition(this);
 
-                     Update();
+                    Update();
 
                 }
             ;

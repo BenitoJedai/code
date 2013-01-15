@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Threading
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows.Threading
 {
 	[Script(Implements = typeof(global::System.Windows.Threading.Dispatcher))]
 	public class __Dispatcher

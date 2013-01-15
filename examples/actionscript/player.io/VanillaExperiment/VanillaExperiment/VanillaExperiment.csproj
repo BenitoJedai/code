@@ -50,6 +50,12 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Player.IO Development Server">
+      <HintPath>..\..\SDK\Flash\NewGame\Serverside Code\Player.IO Serverside .NET Libraries\Player.IO Development Server.exe</HintPath>
+    </Reference>
+    <Reference Include="Player.IO GameLibrary">
+      <HintPath>..\..\SDK\Flash\NewGame\Serverside Code\Player.IO Serverside .NET Libraries\Player.IO GameLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -143,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VanillaExperiment.GameCodes\VanillaExperiment.GameCodes.csproj">
+      <Project>{90024797-c997-4246-91cc-d53738dbcd02}</Project>
+      <Name>VanillaExperiment.GameCodes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

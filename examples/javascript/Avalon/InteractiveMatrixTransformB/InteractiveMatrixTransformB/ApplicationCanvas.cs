@@ -245,7 +245,7 @@ namespace InteractiveMatrixTransformB
 
                     foreach (var k in v)
                     {
-                        var s = new Vector(k.k.x, k.k.y).Length;
+                        var s = new vec2(k.k.x, k.k.y).Length;
                         var r = new Point { X = k.k.x, Y = k.k.y }.GetRotation();
 
                         k.r.MoveTo(
@@ -267,7 +267,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 return new Point
@@ -294,7 +294,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 return new Point
@@ -321,7 +321,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 return new Point
@@ -348,7 +348,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 return new Point
@@ -376,7 +376,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 return new Point
@@ -404,7 +404,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 var value = new Point
@@ -437,7 +437,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 return new Point
@@ -466,7 +466,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 return new Point
@@ -495,7 +495,7 @@ namespace InteractiveMatrixTransformB
                         var vvx = vv.Select(
                             k =>
                             {
-                                var s = new Vector(k.x, k.y).Length;
+                                var s = new vec2(k.x, k.y).Length;
                                 var r = new Point { X = k.x, Y = k.y }.GetRotation();
 
                                 return new Point
@@ -754,7 +754,7 @@ namespace InteractiveMatrixTransformB
                     Func<double, double, double> GetLength =
                         (x, y) =>
                         {
-                            return new Vector(x, y).Length;
+                            return new vec2(x, y).Length;
                         };
 
                     var a = new
@@ -1006,18 +1006,18 @@ namespace InteractiveMatrixTransformB
 
     }
 
-    public class Vector
+    public class vec2
     {
         public double X;
         public double Y;
 
-        public Vector()
+        public vec2()
             : this(0, 0)
         {
 
         }
 
-        public Vector(double X, double Y)
+        public vec2(double X, double Y)
         {
             this.X = X;
             this.Y = Y;

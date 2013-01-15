@@ -30,6 +30,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 			InternalStop = DateTime.Now;
 		}
 
+        public void Restart()
+        {
+            Stop();
+            Start();
+        }
+
+
 		public TimeSpan Elapsed
 		{
 			get

@@ -492,7 +492,7 @@ namespace InteractiveTransformA
                     Func<double, double, double> GetLength =
                         (x, y) =>
                         {
-                            return new Vector(x, y).Length;
+                            return new vec2(x, y).Length;
                         };
 
                     var a = new
@@ -822,18 +822,19 @@ namespace InteractiveTransformA
 
     }
 
-    public class Vector
+    // cannot use name Vector in flash! should make use GLSL types instead!
+    public class vec2
     {
         public double X;
         public double Y;
 
-        public Vector()
+        public vec2()
             : this(0, 0)
         {
 
         }
 
-        public Vector(double X, double Y)
+        public vec2(double X, double Y)
         {
             this.X = X;
             this.Y = Y;

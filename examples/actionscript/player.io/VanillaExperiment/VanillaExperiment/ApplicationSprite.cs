@@ -7,6 +7,14 @@ using System;
 
 namespace VanillaExperiment
 {
+    static class X
+    {
+        public static void addMessageHandler(this Connection c, string m, Action<Message, uint> y)
+        {
+            c.addMessageHandler(m, y.ToFunction());
+
+        }
+    }
     public sealed class ApplicationSprite : Sprite
     {
         public readonly ApplicationCanvas content = new ApplicationCanvas();
@@ -29,7 +37,7 @@ namespace VanillaExperiment
                     content.AutoSizeTo(this.stage);
 
 
-                    Action<PlayerIOError> handleError = e =>
+                    Action<global::playerio.PlayerIOError> handleError = e =>
                      {
                          // error: { errorID = 10, message = Unknown game id: [Enter your game id here] }
 
@@ -38,7 +46,7 @@ namespace VanillaExperiment
 
                      };
 
-                    Action<Client> handleConnect = client =>
+                    Action<global::playerio.Client> handleConnect = client =>
                     {
                         WriteLine("Sucessfully connected to player.io");
 
@@ -47,24 +55,52 @@ namespace VanillaExperiment
                         //Set developmentsever (Comment out to connect to your server online)
                         multiplayer.developmentServer = "localhost:8184";
 
-                        Action<Connection> handleJoin = c =>
+                        Action<global::playerio.Connection> handleJoin = connection =>
                         {
+                            WriteLine("handleJoin");
 
+                            Action handleDisconnect = delegate
+                            {
+                                WriteLine("Disconnected from server");
+                            };
+
+                            //Add disconnect listener
+                            connection.addDisconnectHandler(handleDisconnect.ToFunction());
+
+
+                            //Add listener for messages of the type "hello"
+                            connection.addMessageHandler("hello",
+                                (m, userid) =>
+                                {
+                                    WriteLine("Recived a message with the type hello from the server");
+                                }
+                            );
+
+                            //Add message listener for users joining the room
+                            connection.addMessageHandler("UserJoined",
+                                (m, userid) =>
+                                {
+                                    WriteLine("Player with the userid " + userid + " just joined the room");
+                                }
+                            );
+
+
+
+                            //Add message listener for users leaving the room
+
+                            connection.addMessageHandler("UserLeft",
+                                (m, userid) =>
+                                {
+                                    WriteLine("Player with the userid " + userid + " just left the room");
+                                }
+                            );
                         };
 
-                        //                        V:\web\VanillaExperiment\ApplicationSprite___c__DisplayClass6.as(26): col: 20 Error: Call to a possibly undefined method get_multiplayer through a reference with static type playerio:Client.
-
-                        //            client.get_multiplayer().set_developmentServer("localhost:8184");
-                        //                   ^
-
-                        //V:\web\VanillaExperiment\ApplicationSprite___c__DisplayClass6.as(34): col: 20 Error: Call to a possibly undefined method get_multiplayer through a reference with static type playerio:Client.
-
-                        //            client.get_multiplayer().createJoinRoom("test", "MyCode", true, {}, {}, CommonExtensions.ToFunction_100665553(action_10), CommonExtensions.ToFunction_100665553(this.handleError));
 
                         //Create pr join the room test
                         multiplayer.createJoinRoom(
                             "test",								//Room id. If set to null a random roomid is used
-                            "MyCode",							//The game type started on the server
+                            "x",							//The game type started on the server
                             true,								//Should the room be visible in the lobby?
                             new object(),									//Room data. This data is returned to lobby list. Variabels can be modifed on the server
                             new object(),									//User join data
@@ -77,7 +113,7 @@ namespace VanillaExperiment
 
                     WriteLine("before connect");
 
-                    PlayerIO.connect(
+                    global::playerio.PlayerIO.connect(
                         stage,								//Referance to stage
                         "test-4jazuo9jw0qx0cye9ihrqg",			//Game id (Get your own at playerio.com)
                         "public",							//Connection id, default is public
