@@ -47,6 +47,8 @@ namespace ScriptCoreLib.ActionScript
                     {".png", "image/png"},
                     {".mp3", "audio/mpeg"},
                     {".swf", "application/x-shockwave-flash"},
+                    {".svg", "image/svg-xml"},
+                    
                 };
 	}
 }
