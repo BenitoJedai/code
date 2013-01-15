@@ -8,11 +8,11 @@
     <ProjectGuid>{3F3896D2-07AB-4DFB-87E3-6139E5D40028}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AvalonHeatZeeker</RootNamespace>
-    <AssemblyName>AvalonHeatZeeker</AssemblyName>
+    <RootNamespace>FlashPromotionBrandIntro</RootNamespace>
+    <AssemblyName>FlashPromotionBrandIntro</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>AvalonHeatZeeker.Program</StartupObject>
+    <StartupObject>FlashPromotionBrandIntro.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -90,6 +90,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -109,14 +113,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="AvalonHeatZeeker.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AvalonHeatZeeker.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashPromotionBrandIntro.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashPromotionBrandIntro.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonPromotionBrandIntro.AssetsLibrary">
+      <HintPath>..\..\..\..\javascript\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\bin\staging.AssetsLibrary\AvalonPromotionBrandIntro.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\AvalonHeatZeeker\helicopter1.mp3" />
-    <EmbeddedResource Include="web\assets\AvalonHeatZeeker\helicopter1_speedm10.mp3" />
-    <EmbeddedResource Include="web\assets\AvalonHeatZeeker\helicopter1_speedm10m10.mp3" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,10 +137,13 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\hind0_nowings.png" />
-    <Content Include="Textures\hind0_wings.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\javascript\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj">
+      <Project>{2f3573db-52c7-4ace-bedb-27c4aed70f39}</Project>
+      <Name>AvalonPromotionBrandIntro</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -2,6 +2,8 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Extensions.Avalon;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 using System;
 using System.Diagnostics;
 using System.Windows.Media;
@@ -24,7 +26,15 @@ namespace AvalonHeatZeeker
             );
 
 
+            var music = "assets/AvalonHeatZeeker/helicopter1.mp3".ToSound();
 
+            music.Start();
+
+            music.PlaybackComplete +=
+                delegate
+                {
+                    music.Start();
+                };
 
             var sw = new Stopwatch();
 
