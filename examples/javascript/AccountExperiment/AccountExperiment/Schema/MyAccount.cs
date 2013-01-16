@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AccountExperiment.Schema
 {
-    class MyAccount : MyAccountQueries
+    public class MyAccount : MyAccountQueries
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 

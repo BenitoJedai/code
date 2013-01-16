@@ -44,11 +44,12 @@ namespace AccountExperiment
             gravatar.Gravatar(e, avatar, profile);
         }
 
-        MyAccount account = new MyAccount();
-        MySession session = new MySession();
+        // java will complain about non public fields. we use lambdas and jsc is not doing the magic yet.
+        public MyAccount account = new MyAccount();
+        public MySession session = new MySession();
 
         #region MyDevices
-        global::AccountExperiment.MyDevicesComponent.ApplicationWebService MyDevices = new MyDevicesComponent.ApplicationWebService();
+        public global::AccountExperiment.MyDevicesComponent.ApplicationWebService MyDevices = new MyDevicesComponent.ApplicationWebService();
 
         public void MyDevices_Insert(string session, string name, string value, Action<string> yield)
         {
@@ -338,6 +339,7 @@ namespace AccountExperiment
                 {
                     // does that cookie even exist?
 
+
                     this.account.SelectByCookie(
                         new MyAccountQueries.SelectByCookie { cookie = session_cookie.Value },
                         r =>
@@ -367,6 +369,7 @@ namespace AccountExperiment
 
                         }
                     );
+
 
 
                 }
