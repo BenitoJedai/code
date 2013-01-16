@@ -261,6 +261,29 @@ namespace AccountExperiment
             }
             #endregion
 
+            #region /register
+            if (h.Context.Request.Path == "/registerr")
+            {
+                h.Applications.Single(k => k.TypeName == "Registerr").With(
+                    app =>
+                    {
+                        var html = XElement.Parse(app.PageSource);
+
+                        html.Add(
+                            new XElement("script",
+                                new XAttribute("src", "/registerr/view-source"),
+                                " "
+                            )
+                        );
+
+                        h.Context.Response.Write(html.ToString());
+                        h.CompleteRequest();
+                    }
+                );
+            }
+            #endregion
+
+
             #region /login
             if (h.Context.Request.Path == "/login")
             {

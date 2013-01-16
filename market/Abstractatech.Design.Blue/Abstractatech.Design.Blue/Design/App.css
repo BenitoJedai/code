@@ -1,0 +1,72 @@
+html {
+}
+
+body {
+    background-image: url('water_body_bg.png');
+    background-repeat: repeat-x;
+    background-color: rgb(0, 56, 95);
+
+    margin: 0px;
+
+    position: absolute;
+    left: 0px; top: 0px;
+    right: 0px; bottom: 0px;
+
+    min-width: 800px;
+}
+
+.ss-form-container {
+
+    background-image: url('water_content_top3.png');
+    background-repeat: no-repeat;
+
+    padding-top: 90px;
+    width: 645px;
+
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-size: .8em;
+    color: white;
+
+    position: absolute;
+    left: 50%;
+
+    margin-left: -320px;
+}
+
+.ss-form-container p {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.ss-form-container div div label {
+    display: block;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.ss-form-container div div input {
+border: 1px solid #041b2b;
+}
+
+.ss-form-container div div textarea {
+border: 1px solid #041b2b;
+font-family: Arial, sans-serif;
+}
+
+
+
+.ss-form-container div div {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.8em;
+    margin-bottom: 1em;
+}
+
+.ss-footer  {
+    margin-bottom: 1em;
+    color: rgb(108, 148, 175);
+}
+
+a {
+ color:   #64bfff;
+}

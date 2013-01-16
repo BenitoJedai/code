@@ -113,6 +113,15 @@ namespace AccountExperiment
 
         }
 
+        public sealed class Registerr
+        {
+            public readonly ApplicationWebService service = new ApplicationWebService();
+
+            public Registerr(global::Abstractatech.Design.Blue.HTML.Pages.IApp page)
+            {
+            
+            }
+        }
 
         public sealed class Register
         {

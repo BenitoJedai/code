@@ -21,6 +21,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         public NameValueCollection Headers { get; internal set; }
 
         public HttpCookieCollection Cookies { get; set; }
+
         public __HttpRequest()
         {
             this.QueryString = new NameValueCollection();
