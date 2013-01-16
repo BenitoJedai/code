@@ -43,6 +43,10 @@ namespace AccountExperiment
         MyAccount account = new MyAccount();
         MySession session = new MySession();
 
+        public void account_SelectCount(Action<string> y)
+        {
+            y("" + account.SelectCount());
+        }
 
         public void WhatsMyEmail(string session, Action<string> yield)
         {

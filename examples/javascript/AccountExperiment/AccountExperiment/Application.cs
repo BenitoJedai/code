@@ -23,7 +23,12 @@ namespace AccountExperiment
 
         public Application(IApp page)
         {
-
+            service.account_SelectCount(
+                count =>
+                {
+                    page.accounts.innerText = count;
+                }
+            );
         }
 
         public static string Tracker()
@@ -37,6 +42,7 @@ namespace AccountExperiment
 
             public Login(IAppLogin page)
             {
+                #region message
                 new Cookie("message").With(
                       message =>
                       {
@@ -50,7 +56,40 @@ namespace AccountExperiment
                           //Native.Document.location.reload();
                       }
                  );
+                #endregion
 
+                #region gravatar_Gravatar
+                Action changed =
+                    delegate
+                    {
+                        service.gravatar_Gravatar(
+                            page.email.value,
+                            avatar: value => page.avatar.src = value,
+                            profile: value => page.profile.href = value
+                        );
+
+                    };
+
+                page.email.onchange +=
+                   delegate
+                   {
+
+                       changed();
+
+                   };
+
+                page.email.onkeyup +=
+                    delegate
+                    {
+
+                        changed();
+
+                    };
+
+                changed();
+                #endregion
+
+                #region OK
                 page.OK.disabled = false;
                 page.OK.onclick +=
                     delegate
@@ -61,6 +100,7 @@ namespace AccountExperiment
                         // oldschool, we want bowser to remember our password!
                         page.form.submit();
                     };
+                #endregion
             }
 
 
@@ -70,6 +110,69 @@ namespace AccountExperiment
             }
 
         }
+
+
+        public sealed class Register
+        {
+            public readonly ApplicationWebService service = new ApplicationWebService();
+
+            public Register(IAppRegister page)
+            {
+                #region gravatar_Gravatar
+                Action changed =
+                    delegate
+                    {
+                        service.gravatar_Gravatar(
+                            page.email.value,
+                            avatar: value => page.avatar.src = value,
+                            profile: value => page.profile.href = value
+                        );
+
+                    };
+
+                page.email.onchange +=
+                   delegate
+                   {
+
+                       changed();
+
+                   };
+
+                page.email.onkeyup +=
+                    delegate
+                    {
+
+                        changed();
+
+                    };
+
+                changed();
+                #endregion
+
+
+
+                page.CreateMyNewAccount.onclick +=
+                    delegate
+                    {
+                        page.CreateMyNewAccount.disabled = true;
+
+                        service.CreateAccount(
+                            page.name.value,
+                            page.web.value,
+                            page.email.value,
+                            page.password.value,
+                            page.skype.value,
+                            session =>
+                            {
+                                new Cookie("session").Value = session;
+
+                                Native.Document.location.replace("/");
+                            }
+                        );
+                    };
+            }
+        }
+
 
         public sealed class Dashboard
         {
@@ -122,62 +225,5 @@ namespace AccountExperiment
 
         }
 
-        public sealed class Register
-        {
-            public readonly ApplicationWebService service = new ApplicationWebService();
-
-            public Register(IAppRegister page)
-            {
-                Action changed =
-                    delegate
-                    {
-                        service.gravatar_Gravatar(
-                            page.email.value,
-                            avatar: value => page.avatar.src = value,
-                            profile: value => page.profile.href = value
-                        );
-
-                    };
-
-                page.email.onchange +=
-                   delegate
-                   {
-
-                       changed();
-
-                   };
-
-                page.email.onkeyup +=
-                    delegate
-                    {
-
-                        changed();
-
-                    };
-
-                changed();
-
-
-                page.CreateMyNewAccount.onclick +=
-                    delegate
-                    {
-                        page.CreateMyNewAccount.disabled = true;
-
-                        service.CreateAccount(
-                            page.name.value,
-                            page.web.value,
-                            page.email.value,
-                            page.password.value,
-                            page.skype.value,
-                            session =>
-                            {
-                                new Cookie("session").Value = session;
-
-                                Native.Document.location.replace("/");
-                            }
-                        );
-                    };
-            }
-        }
     }
 }

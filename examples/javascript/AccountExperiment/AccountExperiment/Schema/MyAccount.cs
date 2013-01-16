@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib.Shared.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -72,56 +73,31 @@ namespace AccountExperiment.Schema
                 }
             );
         }
-    }
 
-
-    public static partial class XX
-    {
-        public static void WithEach(this SQLiteDataReader reader, Action<dynamic> y)
+        public long SelectCount()
         {
-            using (reader)
-            {
-                while (reader.Read())
+            long value = 0;
+
+            // { Message = SQL logic error or missing database
+            //no such table: MyAccount,
+
+            WithConnection(
+                c =>
                 {
-                    y(new DynamicDataReader(reader));
+                    new SelectCount { }.ExecuteReader(c).WithEach(
+                        r =>
+                        {
+                            long count = r.count;
+
+                            value = count;
+                        }
+                    );
+
                 }
-            }
-        }
+            );
 
-
-
-
-
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this SQLiteConnectionStringBuilder csb)
-        {
-            //Console.WriteLine("AsWithConnection...");
-
-            return y =>
-            {
-                //Console.WriteLine("AsWithConnection... invoke");
-
-                using (var c = new SQLiteConnection(csb.ConnectionString))
-                {
-                    c.Open();
-
-                    try
-                    {
-                        y(c);
-                    }
-                    catch (Exception ex)
-                    {
-                        var message = new { ex.Message, ex.StackTrace };
-
-                        //Console.WriteLine("AsWithConnection... error: " + message);
-
-                        //java
-                        //throw new InvalidOperationException(message.ToString());
-
-                        // php
-                        throw new Exception(message.ToString());
-                    }
-                }
-            };
+            return value;
         }
     }
+
 }
