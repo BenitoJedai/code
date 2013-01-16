@@ -616,13 +616,14 @@ namespace ScriptCoreLib.Ultra.WebService
                 {
                     Write("<" + item.Name + ">");
 
-                    foreach (var p in item.Parameters)
-                    {
-                        Write("<" + p.Name + ">");
-                        Write(escapeXML(p.Value));
-                        Write("</" + p.Name + ">");
+                    if (item.Parameters != null)
+                        foreach (var p in item.Parameters)
+                        {
+                            Write("<" + p.Name + ">");
+                            Write(escapeXML(p.Value));
+                            Write("</" + p.Name + ">");
 
-                    }
+                        }
 
                     Write("</" + item.Name + ">");
 

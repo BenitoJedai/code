@@ -92,22 +92,26 @@ namespace com.abstractatech.gamification.jwe
             var IsViewSource = h.Context.Request.Path.EndsWith("/view-source");
             if (IsViewSource)
             {
-                h.Context.Response.ContentType = "text/javascript";
+                h.WriteSource(app);
 
-                // Accept-Encoding: gzip,deflate,sdch
-                foreach (var item in app.References)
-                {
-                    h.Context.Response.Write("/* " + new { item.AssemblyFile, bytes = 1 } + " */\r\n");
-                }
+                //h.Context.Response.ContentType = "text/javascript";
 
-                foreach (var item in app.References)
-                {
-                    // asp.net needs absolute paths
-                    h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
-                }
+                //h.WriteSource(app);
+
+                //// Accept-Encoding: gzip,deflate,sdch
+                //foreach (var item in app.References)
+                //{
+                //    h.Context.Response.Write("/* " + new { item.AssemblyFile, bytes = 1 } + " */\r\n");
+                //}
+
+                //foreach (var item in app.References)
+                //{
+                //    // asp.net needs absolute paths
+                //    h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
+                //}
 
 
-                h.CompleteRequest();
+                //h.CompleteRequest();
                 return;
             }
             #endregion

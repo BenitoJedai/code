@@ -14,6 +14,8 @@ using AccountExperiment.Design;
 using AccountExperiment.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
 using Abstractatech.ConsoleFormPackage.Library;
+using AccountExperiment.MyDevicesComponent.Library;
+using AccountExperiment.MyDevicesComponent;
 
 namespace AccountExperiment
 {
@@ -192,12 +194,23 @@ namespace AccountExperiment
                         Native.Document.location.reload();
                     };
 
+                page.TellServerToDropMySession.onclick +=
+                    delegate
+                    {
+                        service.page_TellServerToDropMySession_onclick(session.Value,
+                            delegate
+                            {
+                                Native.Document.location.reload();
+                            }
+                        );
+                    };
+
                 con.Show();
 
                 Console.WriteLine(session.Value);
                 Console.WriteLine(session.ValueBase64);
 
-                service.WhatsMyEmail(
+                service.account_SelectByCookie(
                     // wow. webmethods are too isolated, cant see cookies:)
                     session.Value,
                     email =>
@@ -215,6 +228,20 @@ namespace AccountExperiment
                             x => Native.Window.alert(x)
                         );
                     };
+
+
+                page.ManageMyDevices.onclick +=
+                    delegate
+                    {
+                        new MyDevicesForm
+                        {
+                            // at this point the client does not actually need to know the account id
+                            // account will be taken from session token
+                            __account = 42,
+
+                            service = service.IMyDevicesComponent_MyDevices()
+                        }.Show();
+                    };
             }
 
 
@@ -225,5 +252,36 @@ namespace AccountExperiment
 
         }
 
+    }
+
+
+    public static class ExtensionsForApplication
+    {
+        class __IMyDevicesComponent_MyDevices : IMyDevicesComponent_MyDevices
+        {
+            public ApplicationWebService service;
+
+            public readonly Cookie session = new Cookie("session");
+
+            public void MyDevices_Insert(string account, string name, string value, Action<string> yield)
+            {
+                service.MyDevices_Insert(session.Value, name, value, yield);
+            }
+
+            public void MyDevices_SelectByAccount(string account, Action<string, string, string> yield, Action done)
+            {
+                service.MyDevices_SelectByAccount(session.Value, yield, done);
+            }
+
+            public void MyDevices_Update(string account, string id, string name, string value, Action done)
+            {
+                service.MyDevices_Update(session.Value, id, name, value, done);
+            }
+        }
+
+        public static IMyDevicesComponent_MyDevices IMyDevicesComponent_MyDevices(this ApplicationWebService service)
+        {
+            return new __IMyDevicesComponent_MyDevices { service = service };
+        }
     }
 }

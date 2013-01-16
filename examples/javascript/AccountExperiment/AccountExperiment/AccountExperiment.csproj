@@ -50,6 +50,10 @@
     <Reference Include="Abstractatech.ConsoleFormPackage">
       <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
     </Reference>
+    <Reference Include="AccountExperiment.MyDevicesComponent, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AccountExperiment.MyDevicesComponent.1.0.0.0\lib\AccountExperiment.MyDevicesComponent.dll</HintPath>
+    </Reference>
     <Reference Include="GravatarExperiment">
       <HintPath>..\packages\GravatarExperiment.1.0.0.0\lib\GravatarExperiment.dll</HintPath>
     </Reference>
@@ -162,6 +166,7 @@
     <Content Include="Schema\MySession\create.sql" />
     <Content Include="Schema\MySession\insert.sql" />
     <Content Include="Schema\MyAccount\select by cookie.sql" />
+    <Content Include="Schema\MySession\delete by cookie.sql" />
     <Content Include="Schema\MySession\select count.sql" />
   </ItemGroup>
   <ItemGroup>

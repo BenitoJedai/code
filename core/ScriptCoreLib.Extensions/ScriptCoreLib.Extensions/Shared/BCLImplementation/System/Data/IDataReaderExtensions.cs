@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.Data;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
@@ -12,5 +14,23 @@ namespace System.Data
         {
             return Enumerable.Range(0, reader.FieldCount).Select(i => reader.GetName(i));
         }
+
+
+     
+            public static void WithEach(this IDataReader reader, Action<dynamic> y)
+            {
+                using (reader)
+                {
+                    while (reader.Read())
+                    {
+                        y(new DynamicDataReader(reader));
+                    }
+                }
+            }
+
+
+
+
+
     }
 }
