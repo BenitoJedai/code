@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -18,14 +19,16 @@ namespace AccountExperiment.Schema
 
         public MySession()
         {
-            this.WithConnection = csb.AsWithConnection();
+            this.WithConnection = csb.AsWithConnection(
+                
+                Initializer:
+                    c =>
+                    {
+                        new Create { }.ExecuteNonQuery(c);
+                    }
+                
+            );
 
-            WithConnection(
-               c =>
-               {
-                   new Create { }.ExecuteNonQuery(c);
-               }
-           );
         }
 
 
