@@ -7,7 +7,7 @@ using System.Text;
 
 namespace AccountExperiment.Schema
 {
-    class MySession : MySessionQueries
+    public class MySession : MySessionQueries
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
