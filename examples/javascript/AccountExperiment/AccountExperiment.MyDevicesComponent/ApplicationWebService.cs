@@ -34,7 +34,7 @@ namespace AccountExperiment.MyDevicesComponent
 
 
 
-        public void MyDevices_SelectByAccount(string account, Action<string, string, string> yield)
+        public void MyDevices_SelectByAccount(string account, Action<string, string, string> yield, Action done)
         {
             devices.SelectByAccount(
                 new MyDevicesQueries.SelectByAccount { account = long.Parse(account) },
@@ -48,6 +48,24 @@ namespace AccountExperiment.MyDevicesComponent
                     yield("" + id, name, value);
                 }
             );
+
+            done();
+        }
+
+
+        public void MyDevices_Update(string account, string id, string name, string value, Action done)
+        {
+            devices.Update(
+                new MyDevicesQueries.Update
+                {
+                    account = long.Parse(account),
+                    id = long.Parse(id),
+                    name = name,
+                    value = value
+                }
+            );
+
+            done();
         }
     }
 
@@ -55,6 +73,7 @@ namespace AccountExperiment.MyDevicesComponent
     {
         // consumers may need to wrap with session id
         void MyDevices_Insert(string account, string name, string value, Action<string> yield);
-        void MyDevices_SelectByAccount(string account, Action<string, string, string> yield);
+        void MyDevices_SelectByAccount(string account, Action<string, string, string> yield, Action done);
+        void MyDevices_Update(string account, string id, string name, string value, Action done);
     }
 }

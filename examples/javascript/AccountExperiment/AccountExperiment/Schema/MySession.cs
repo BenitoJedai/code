@@ -20,13 +20,14 @@ namespace AccountExperiment.Schema
         public MySession()
         {
             this.WithConnection = csb.AsWithConnection(
-                
+
                 Initializer:
                     c =>
                     {
-                        new Create { }.ExecuteNonQuery(c);
+                        new MyAccountQueries.Create { }.ExecuteNonQuery(c);
+                        new MySessionQueries.Create { }.ExecuteNonQuery(c);
                     }
-                
+
             );
 
         }
@@ -46,6 +47,17 @@ namespace AccountExperiment.Schema
             );
 
             return id;
+        }
+
+        public void DeleteByCookie(DeleteByCookie value)
+        {
+            WithConnection(
+                c =>
+                {
+                    value.ExecuteNonQuery(c);
+
+                }
+            );
         }
 
         public long SelectCount()

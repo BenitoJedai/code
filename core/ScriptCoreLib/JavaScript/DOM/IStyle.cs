@@ -65,7 +65,10 @@ namespace ScriptCoreLib.JavaScript.DOM
             @default, auto, crosshair, pointer, move, text, wait, help,
 
             [Script(ExternalTarget = "se-resize")]
-            se_resize
+            se_resize,
+
+
+            progress
 
         }
 

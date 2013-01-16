@@ -25,7 +25,8 @@ namespace AccountExperiment.Schema
             WithConnection(
                c =>
                {
-                   new Create { }.ExecuteNonQuery(c);
+                   new MyAccountQueries.Create { }.ExecuteNonQuery(c);
+                   new MySessionQueries.Create { }.ExecuteNonQuery(c);
                }
            );
         }

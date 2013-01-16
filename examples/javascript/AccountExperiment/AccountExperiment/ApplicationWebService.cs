@@ -1,3 +1,4 @@
+using AccountExperiment.MyDevicesComponent;
 using AccountExperiment.Schema;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
@@ -19,6 +20,8 @@ namespace AccountExperiment
         //static AccountExperiment.Schema.MyAccountQueries.Insert ref0;
         //static AccountExperiment.Schema.MySessionQueries.Insert ref1;
 
+
+        // is it ever used?
         public void Authenticate(
             string user,
             string password,
@@ -32,6 +35,7 @@ namespace AccountExperiment
         }
 
         // future versions will let client use this directly.
+        // this should be a ComponentModel component
         public global::GravatarExperiment.ApplicationWebService gravatar = new GravatarExperiment.ApplicationWebService();
 
 
@@ -43,14 +47,99 @@ namespace AccountExperiment
         MyAccount account = new MyAccount();
         MySession session = new MySession();
 
+        #region MyDevices
+        global::AccountExperiment.MyDevicesComponent.ApplicationWebService MyDevices = new MyDevicesComponent.ApplicationWebService();
+
+        public void MyDevices_Insert(string session, string name, string value, Action<string> yield)
+        {
+            Console.WriteLine("enter MyDevices_Insert");
+            this.account.SelectByCookie(
+                new MyAccountQueries.SelectByCookie { cookie = session },
+                r =>
+                {
+                    long account = r.id;
+
+
+                    this.MyDevices.MyDevices_Insert(
+                        "" + account,
+                        name,
+                        value,
+                        yield
+                    );
+                }
+            );
+            Console.WriteLine("exit MyDevices_Insert");
+        }
+
+        public void MyDevices_SelectByAccount(string session, Action<string, string, string> yield, Action done)
+        {
+            // ex = {"{ Message = database is locked\r\ndatabase is locked, StackTrace =    at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)\r\n   at System.Data.SQLite.SQLiteDataReader.NextResult()\r\n   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, ...
+
+            Console.WriteLine("enter MyDevices_SelectByAccount");
+
+            this.account.SelectByCookie(
+               new MyAccountQueries.SelectByCookie { cookie = session },
+               r =>
+               {
+                   long account = r.id;
+
+                   this.MyDevices.MyDevices_SelectByAccount(
+                       "" + account, yield, done
+                   );
+               }
+           );
+            Console.WriteLine("exit MyDevices_SelectByAccount");
+        }
+
+        public void MyDevices_Update(string session, string id, string name, string value, Action done)
+        {
+            Console.WriteLine("enter MyDevices_Update");
+            this.account.SelectByCookie(
+                 new MyAccountQueries.SelectByCookie { cookie = session },
+                 r =>
+                 {
+                     long account = r.id;
+
+
+                     //Additional information: database is locked
+
+                     //database is locked
+
+
+                     Console.WriteLine("before this.MyDevices.MyDevices_Update");
+                     this.MyDevices.MyDevices_Update(
+                         "" + account,
+                         id,
+                         name,
+                         value,
+                         done
+                     );
+
+                     Console.WriteLine("after this.MyDevices.MyDevices_Update");
+
+                 }
+             );
+            Console.WriteLine("exit MyDevices_Update");
+        }
+        #endregion
+
+        public ApplicationWebService()
+        {
+            // tell our third party component what datasource we are using
+            this.MyDevices.devices.csb.DataSource = this.account.csb.DataSource;
+
+            // how will it know to initialize then?
+            this.MyDevices.devices.WithConnectionOverride = this.account.WithConnection;
+        }
+
         public void account_SelectCount(Action<string> y)
         {
             y("" + account.SelectCount());
         }
 
-        public void WhatsMyEmail(string session, Action<string> yield)
+        public void account_SelectByCookie(string session, Action<string> yield)
         {
-            Console.WriteLine("WhatsMyEmail: " + new { session });
+            Console.WriteLine("enter account_SelectByCookie");
 
             account.SelectByCookie(
                 new MyAccountQueries.SelectByCookie { cookie = session },
@@ -63,6 +152,20 @@ namespace AccountExperiment
 
                 }
             );
+
+            Console.WriteLine("exit account_SelectByCookie");
+        }
+
+        // yes the client can change session at will. essentially spoof.
+        public void page_TellServerToDropMySession_onclick(string session, Action done)
+        {
+            Console.WriteLine("enter page_TellServerToDropMySession_onclick");
+            this.session.DeleteByCookie(
+                new MySessionQueries.DeleteByCookie { cookie = session }
+            );
+            Console.WriteLine("exit page_TellServerToDropMySession_onclick");
+
+            done();
         }
 
         public void SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere(string session, Action<string> yield)
@@ -230,35 +333,51 @@ namespace AccountExperiment
 
 
             #region /dashboard
-            var session_cookie = h.Context.Request.Cookies["session"];
-            if (session_cookie != null)
-            {
-                if (h.IsDefaultPath)
+            h.Context.Request.Cookies["session"].With(
+                session_cookie =>
                 {
-                    h.Applications.Single(k => k.TypeName == "Dashboard").With(
-                        app =>
+                    // does that cookie even exist?
+
+                    this.account.SelectByCookie(
+                        new MyAccountQueries.SelectByCookie { cookie = session_cookie.Value },
+                        r =>
                         {
-                            var html = XElement.Parse(app.PageSource);
+                            long id = r.id;
+                            string email = r.email;
 
-                            html.Add(
-                                new XElement("script",
-                                    new XAttribute("src", "/dashboard/view-source"),
-                                    " "
-                                )
-                            );
+                            if (h.IsDefaultPath)
+                            {
+                                h.Applications.Single(k => k.TypeName == "Dashboard").With(
+                                    app =>
+                                    {
+                                        var html = XElement.Parse(app.PageSource);
 
-                            h.Context.Response.Write(html.ToString());
-                            h.CompleteRequest();
+                                        html.Add(
+                                            new XElement("script",
+                                                new XAttribute("src", "/dashboard/view-source"),
+                                                " "
+                                            )
+                                        );
+
+                                        h.Context.Response.Write(html.ToString());
+                                        h.CompleteRequest();
+                                    }
+                                );
+                            }
+
                         }
                     );
+
+
                 }
-            }
-            else
-            {
-                Console.WriteLine(new { session_cookie, h.Context.Request.Path });
-            }
+            );
+
             #endregion
         }
 
+
+
     }
+
+
 }
