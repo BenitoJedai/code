@@ -1,1 +1,0 @@
-﻿We are using the implict support for embedded script assets.
