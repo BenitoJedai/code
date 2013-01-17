@@ -13,7 +13,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Serialized;
 using ScriptCoreLib.Shared.Drawing;
 
-//[assembly: ScriptResources("assets/ScriptCoreLib.Extensions")]
+//[assembly: ScriptResources("assets/Abstractatech.JavaScript.TextEditor")]
 
 namespace ScriptCoreLib.JavaScript.Controls
 {
@@ -39,7 +39,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         //[Script]
         //internal class fx : WebResource
         //{
-        //    public const string Alias = "assets/ScriptCoreLib.Extensions";
+        //    public const string Alias = "assets/Abstractatech.JavaScript.TextEditor";
 
         //    public static implicit operator fx(string Value)
         //    {
@@ -68,7 +68,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-        IHTMLImage Spinner = "assets/ScriptCoreLib.Extensions/spinner.gif";
+        IHTMLImage Spinner = "assets/Abstractatech.JavaScript.TextEditor/spinner.gif";
 
         public int Width
         {
@@ -336,7 +336,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                 var more = new IHTMLButton();
 
-                IHTMLImage more_img = "assets/ScriptCoreLib.Extensions/menu.more.gif";
+                IHTMLImage more_img = "assets/Abstractatech.JavaScript.TextEditor/menu.more.gif";
 
                 more.style.border = "1px solid gray";
                 more.style.backgroundColor = Color.Transparent;
@@ -521,25 +521,25 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-            var bold = AddButton("assets/ScriptCoreLib.Extensions/bold.gif", "Bold");
-            var underline = AddButton("assets/ScriptCoreLib.Extensions/underline.gif", "Underline");
-            var strike = AddButton("assets/ScriptCoreLib.Extensions/strikethrough.gif", "Strikethrough");
-            var italic = AddButton("assets/ScriptCoreLib.Extensions/italic.gif", "Italic");
-            var justifyleft = AddButton("assets/ScriptCoreLib.Extensions/justifyleft.gif", "JustifyLeft");
-            var justifycenter = AddButton("assets/ScriptCoreLib.Extensions/justifycenter.gif", "Justifycenter");
-            var justifyright = AddButton("assets/ScriptCoreLib.Extensions/justifyright.gif", "Justifyright");
-            var justifyfull = AddButton("assets/ScriptCoreLib.Extensions/justifyfull.gif", "Justifyfull");
-            var indent = AddButton("assets/ScriptCoreLib.Extensions/indent.gif", "Indent");
-            var outdent = AddButton("assets/ScriptCoreLib.Extensions/outdent.gif", "Outdent");
-            var sup = AddButton("assets/ScriptCoreLib.Extensions/superscript.gif", "Superscript");
-            var sub = AddButton("assets/ScriptCoreLib.Extensions/sub.gif", "Subscript");
-            var removeformat = AddButton("assets/ScriptCoreLib.Extensions/removeformat.gif", "Removeformat");
-            var insertorderedlist = AddButton("assets/ScriptCoreLib.Extensions/numberedlist.gif", "InsertOrderedList");
-            var insertunorderedlist = AddButton("assets/ScriptCoreLib.Extensions/bulletedlist.gif", "InsertUnorderedList");
-            var undo = AddButton("assets/ScriptCoreLib.Extensions/undo.gif", "undo");
-            var redo = AddButton("assets/ScriptCoreLib.Extensions/redo.gif", "redo");
+            var bold = AddButton("assets/Abstractatech.JavaScript.TextEditor/bold.gif", "Bold");
+            var underline = AddButton("assets/Abstractatech.JavaScript.TextEditor/underline.gif", "Underline");
+            var strike = AddButton("assets/Abstractatech.JavaScript.TextEditor/strikethrough.gif", "Strikethrough");
+            var italic = AddButton("assets/Abstractatech.JavaScript.TextEditor/italic.gif", "Italic");
+            var justifyleft = AddButton("assets/Abstractatech.JavaScript.TextEditor/justifyleft.gif", "JustifyLeft");
+            var justifycenter = AddButton("assets/Abstractatech.JavaScript.TextEditor/justifycenter.gif", "Justifycenter");
+            var justifyright = AddButton("assets/Abstractatech.JavaScript.TextEditor/justifyright.gif", "Justifyright");
+            var justifyfull = AddButton("assets/Abstractatech.JavaScript.TextEditor/justifyfull.gif", "Justifyfull");
+            var indent = AddButton("assets/Abstractatech.JavaScript.TextEditor/indent.gif", "Indent");
+            var outdent = AddButton("assets/Abstractatech.JavaScript.TextEditor/outdent.gif", "Outdent");
+            var sup = AddButton("assets/Abstractatech.JavaScript.TextEditor/superscript.gif", "Superscript");
+            var sub = AddButton("assets/Abstractatech.JavaScript.TextEditor/sub.gif", "Subscript");
+            var removeformat = AddButton("assets/Abstractatech.JavaScript.TextEditor/removeformat.gif", "Removeformat");
+            var insertorderedlist = AddButton("assets/Abstractatech.JavaScript.TextEditor/numberedlist.gif", "InsertOrderedList");
+            var insertunorderedlist = AddButton("assets/Abstractatech.JavaScript.TextEditor/bulletedlist.gif", "InsertUnorderedList");
+            var undo = AddButton("assets/Abstractatech.JavaScript.TextEditor/undo.gif", "undo");
+            var redo = AddButton("assets/Abstractatech.JavaScript.TextEditor/redo.gif", "redo");
 
-            var fontfamily = CreateButton("assets/ScriptCoreLib.Extensions/icon_font.gif");
+            var fontfamily = CreateButton("assets/Abstractatech.JavaScript.TextEditor/icon_font.gif");
 
             var FontMenu = new PopupMenu(
                 new StringPair("consolas, courier new, courier", "Courier"),
@@ -557,7 +557,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-            var fontsize = CreateButton("assets/ScriptCoreLib.Extensions/icon_size.gif");
+            var fontsize = CreateButton("assets/Abstractatech.JavaScript.TextEditor/icon_size.gif");
 
             var fontsize_popup = new PopupMenu(
                 new StringPair("1", "Smallest"),
@@ -577,7 +577,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-            var forecolor = CreateButton("assets/ScriptCoreLib.Extensions/forecolor.gif");
+            var forecolor = CreateButton("assets/Abstractatech.JavaScript.TextEditor/forecolor.gif");
 
             var forecolor_popup = new ColorPopup();
 
@@ -588,7 +588,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                     DoCommand("ForeColor", c.ToString());
                 };
 
-            var hilitecolor = CreateButton("assets/ScriptCoreLib.Extensions/hilitecolor.gif");
+            var hilitecolor = CreateButton("assets/Abstractatech.JavaScript.TextEditor/hilitecolor.gif");
 
             var hilitecolor_popup = new ColorPopup();
 
@@ -629,7 +629,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                     undo, redo
                 };
 
-            var customize = CreateButton("assets/ScriptCoreLib.Extensions/customize.gif");
+            var customize = CreateButton("assets/Abstractatech.JavaScript.TextEditor/customize.gif");
 
             customize.Control.style.Float = IStyle.FloatEnum.right;
 
@@ -695,14 +695,16 @@ namespace ScriptCoreLib.JavaScript.Controls
                     ToHTML();
                 };
 
-            design = AddButton("assets/ScriptCoreLib.Extensions/mode.design.gif", // "Design",
+            design = AddButton(
+                new Abstractatech.JavaScript.TextEditor.HTML.Images.FromAssets.mode_design().src,
                     delegate
                     {
                         IsDesignMode = true;
                     }
                 );
 
-            html = AddButton("assets/ScriptCoreLib.Extensions/mode.html.gif", // "HTML",
+            html = AddButton(
+                new Abstractatech.JavaScript.TextEditor.HTML.Images.FromAssets.mode_html().src,
                     delegate
                     {
                         IsDesignMode = false;
@@ -828,12 +830,12 @@ namespace ScriptCoreLib.JavaScript.Controls
             }
         }
 
-        IHTMLImage Gradient = "assets/ScriptCoreLib.Extensions/body_back.gif";
-        IHTMLImage Toolbar = "assets/ScriptCoreLib.Extensions/toolbar-bg.gif";
+        IHTMLImage Gradient = "assets/Abstractatech.JavaScript.TextEditor/body_back.gif";
+        IHTMLImage Toolbar = new Abstractatech.JavaScript.TextEditor.HTML.Images.FromAssets.toolbar_bg();
 
-        static IHTMLImage HotButton = "assets/ScriptCoreLib.Extensions/hot-bg.gif";
+        static IHTMLImage HotButton = new Abstractatech.JavaScript.TextEditor.HTML.Images.FromAssets.hot_bg();
 
-        IHTMLImage Separator = "assets/ScriptCoreLib.Extensions/separator.horizontal.gif";
+        IHTMLImage Separator = "assets/Abstractatech.JavaScript.TextEditor/separator.horizontal.gif";
 
 
 
