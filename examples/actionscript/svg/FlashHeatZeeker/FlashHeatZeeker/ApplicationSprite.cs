@@ -1,9 +1,15 @@
+using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace FlashHeatZeeker
 {
+    [SWF(frameRate = 60)]
     public sealed class ApplicationSprite : Sprite
     {
         public ApplicationSprite()
@@ -26,8 +32,9 @@ namespace FlashHeatZeeker
             #endregion
 
             var egocenter = new Sprite();
+            var egorotation = new Sprite().AttachTo(egocenter);
 
-            var map = new Sprite().AttachTo(egocenter);
+            var map = new Sprite().AttachTo(egorotation);
 
             map.graphics.beginFill(0xB27D51);
             map.graphics.drawRect(0, 0, 600, 400);
@@ -52,24 +59,21 @@ namespace FlashHeatZeeker
                 }
             );
 
+            Sprite CurrentUnit = null;
+
             // unit 1
-            KnownEmbeddedResources.Default["assets/FlashHeatZeeker/greentank.svg"].ToSprite().AttachTo(map).MoveTo(100, 0).With(
-             svg =>
-             {
-                 //svg.scaleX = 0.5;
-                 //svg.scaleY = 0.5;
-             }
-         );
+
+            var unit1_loc = new Sprite().AttachTo(map).MoveTo(300, 200);
+            var unit1_rot = new Sprite().AttachTo(unit1_loc);
+
+            KnownEmbeddedResources.Default["assets/FlashHeatZeeker/greentank.svg"].ToSprite().AttachTo(unit1_rot).MoveTo(-200, -200);
+
+
+            CurrentUnit = unit1_rot;
 
             // unit 2
             // left bottom
-            KnownEmbeddedResources.Default["assets/FlashHeatZeeker/greentank.svg"].ToSprite().AttachTo(map).MoveTo(-200, 200).With(
-             svg =>
-             {
-                 //svg.scaleX = 0.5;
-                 //svg.scaleY = 0.5;
-             }
-         );
+            var unit2 = KnownEmbeddedResources.Default["assets/FlashHeatZeeker/greentank.svg"].ToSprite().AttachTo(map).MoveTo(-200, 200);
 
 
             KnownEmbeddedResources.Default["assets/FlashHeatZeeker/hill0.svg"].ToSprite().AttachTo(map).MoveTo(0, 0).With(
@@ -90,6 +94,51 @@ namespace FlashHeatZeeker
 
             // ego is in center
             map.MoveTo(-300, -200);
+
+            this.stage.keyUp +=
+                e =>
+                {
+
+                    Console.WriteLine("keyUp " + new { e.keyCode });
+
+                    if (e.keyCode == (uint)System.Windows.Forms.Keys.D2)
+                    {
+                        map.MoveTo(-300, -200);
+                        egorotation.rotation = -unit1_rot.rotation;
+                    }
+
+                    if (e.keyCode == (uint)System.Windows.Forms.Keys.D1)
+                    {
+                        map.MoveTo(0, -400);
+                        egorotation.rotation = 0;
+                    }
+
+
+                    if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
+                    {
+                        this.stage.SetFullscreen(true);
+                    }
+                };
+
+            this.stage.keyDown +=
+              e =>
+              {
+
+                  Console.WriteLine("keyDown " + new { e.keyCode });
+
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
+                  {
+                      CurrentUnit.rotation -= 5;
+                      egorotation.rotation += 5;
+                  }
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
+                  {
+                      CurrentUnit.rotation += 5;
+                      egorotation.rotation -= 5;
+                  }
+              };
 
             #region egocrosshair
             var egocrosshair = new Sprite().AttachTo(egocenter);
@@ -114,7 +163,127 @@ namespace FlashHeatZeeker
                {
                    egocenter.MoveTo(this.stage.stageWidth / 2, this.stage.stageHeight / 2);
                };
+
+
+            #region AtInitializeConsoleFormWriter
+            this.AtInitializeConsoleFormWriter = (
+                Action<string> Console_Write,
+                Action<string> Console_WriteLine
+            ) =>
+            {
+
+                try
+                {
+                    var w = new __OutWriter();
+
+                    var o = Console.Out;
+
+                    var __reentry = false;
+
+                    w.AtWrite =
+                        x =>
+                        {
+                            o.Write(x);
+
+                            if (!__reentry)
+                            {
+                                __reentry = true;
+                                Console_Write(x);
+                                __reentry = false;
+                            }
+                        };
+
+                    w.AtWriteLine =
+                        x =>
+                        {
+                            o.WriteLine(x);
+
+                            if (!__reentry)
+                            {
+                                __reentry = true;
+                                Console_WriteLine(x);
+                                __reentry = false;
+                            }
+                        };
+
+                    Console.SetOut(w);
+
+                    Console.WriteLine("flash Console.WriteLine should now appear in JavaScript form!");
+                }
+                catch
+                {
+
+                }
+            };
+            #endregion
+
+
+            #region fps
+            var sw = new Stopwatch();
+
+            sw.Start();
+
+            var ii = 0;
+
+            this.enterFrame +=
+                delegate
+                {
+
+
+                    if (sw.ElapsedMilliseconds < 1000)
+                    {
+                        ii++;
+                        return;
+                    }
+
+
+                    if (fps != null)
+                        fps("" + ii);
+
+                    ii = 0;
+
+                    sw.Restart();
+
+                };
+            #endregion
+
         }
 
+        public event Action<string> fps;
+
+
+        Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
+
+
+        #region InitializeConsoleFormWriter
+        class __OutWriter : TextWriter
+        {
+            public Action<string> AtWrite;
+            public Action<string> AtWriteLine;
+
+            public override void Write(string value)
+            {
+                AtWrite(value);
+            }
+
+            public override void WriteLine(string value)
+            {
+                AtWriteLine(value);
+            }
+
+            public override Encoding Encoding
+            {
+                get { return Encoding.UTF8; }
+            }
+        }
+
+        public void InitializeConsoleFormWriter(
+            Action<string> Console_Write,
+            Action<string> Console_WriteLine
+        )
+        {
+            AtInitializeConsoleFormWriter(Console_Write, Console_WriteLine);
+        }
+        #endregion
     }
 }
