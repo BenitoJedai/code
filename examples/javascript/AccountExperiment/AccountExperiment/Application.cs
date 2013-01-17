@@ -119,7 +119,7 @@ namespace AccountExperiment
 
             public Registerr(global::Abstractatech.Design.Blue.HTML.Pages.IApp page)
             {
-            
+
             }
         }
 
@@ -217,7 +217,6 @@ namespace AccountExperiment
                 con.Show();
 
                 Console.WriteLine(session.Value);
-                Console.WriteLine(session.ValueBase64);
 
                 service.account_SelectByCookie(
                     // wow. webmethods are too isolated, cant see cookies:)

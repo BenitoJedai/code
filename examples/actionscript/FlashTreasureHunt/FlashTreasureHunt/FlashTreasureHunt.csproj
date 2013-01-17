@@ -42,6 +42,9 @@
     <StartupObject>FlashTreasureHunt.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ActionScript.RayCaster">
+      <HintPath>..\packages\Abstractatech.ActionScript.RayCaster.1.0.0.0\lib\Abstractatech.ActionScript.RayCaster.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
@@ -156,6 +159,9 @@
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\dude5.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\gold.zip" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\stuff.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
