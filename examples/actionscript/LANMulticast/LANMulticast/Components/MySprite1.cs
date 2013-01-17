@@ -18,6 +18,23 @@ namespace LANMulticast.Components
         public MySprite1()
         {
             var nc = new NetConnection();
+            nc.asyncError +=
+                e =>
+                {
+                    RaiseMessage("nc.asyncError: " + e.errorID);
+                };
+
+            nc.ioError +=
+               e =>
+               {
+                   RaiseMessage("nc.ioError: " + e.errorID);
+               };
+
+            nc.securityError +=
+           e =>
+           {
+               RaiseMessage("nc.securityError: " + e.errorID);
+           };
 
             nc.netStatus +=
                 e =>
@@ -34,13 +51,31 @@ namespace LANMulticast.Components
 
                     if (e.info.code == "NetConnection.Connect.Success")
                     {
+                        // http://forums.adobe.com/message/2774620
+                        // Click on the 'Administration' tab and Enable UPnP if it is disabled.
+
+                        // http://book.zi5.me/books/read/2473/295
+                        // this does not simply work anymore???
+
                         var groupspec = new GroupSpecifier("myGroup/groupOne");
-                        groupspec.postingEnabled = true;
+                        //groupspec.multicastEnabled = true;
+                        groupspec.addIPMulticastAddress("239.254.254.1:30000");
                         groupspec.ipMulticastMemberUpdatesEnabled = true;
-                        groupspec.addIPMulticastAddress("225.225.0.1:30303");
+                        groupspec.postingEnabled = true;
+                        //groupspec.serverChannelEnabled = true;
+
+
+                        //groupspec.addIPMulticastAddress("225.225.0.1:30303");
 
                         var group = new NetGroup(nc, groupspec.groupspecWithAuthorizations());
+                        //var group = new NetGroup(nc, groupspec.groupspecWithoutAuthorizations());
 
+
+                        group.deactivate +=
+                            ee =>
+                            {
+                                RaiseMessage("group.deactivate");
+                            };
 
                         Action<string> PostMessage =
                             message =>
@@ -51,6 +86,8 @@ namespace LANMulticast.Components
                                     RaiseMessage("write: " + message);
 
                                     group.post(message);
+                                    group.sendToAllNeighbors(message);
+
                                 }
                                 else
                                 {
