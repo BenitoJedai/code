@@ -86,6 +86,7 @@
     <Compile Include="Android\Extensions\ContextExtensions.cs" />
     <Compile Include="Android\Extensions\ActivityExtensions.cs" />
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
+    <Compile Include="Android\RenderingContextView.cs" />
     <Compile Include="Extensions\SHA1CryptographyExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\CharExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilderExtensions.cs" />

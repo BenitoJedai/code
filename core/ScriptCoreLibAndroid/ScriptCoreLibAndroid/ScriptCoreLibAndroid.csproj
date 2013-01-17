@@ -538,8 +538,20 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\net\URLConnection.cs">
       <Link>java\net\URLConnection.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\nio\Buffer.cs">
+      <Link>java\nio\Buffer.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\nio\channels\ServerSocketChannel.cs">
       <Link>java\nio\channels\ServerSocketChannel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\nio\FloatBuffer.cs">
+      <Link>java\nio\FloatBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\nio\IntBuffer.cs">
+      <Link>java\nio\IntBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\nio\ShortBuffer.cs">
+      <Link>java\nio\ShortBuffer.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\CodeSource.cs">
       <Link>java\security\CodeSource.cs</Link>
@@ -689,6 +701,7 @@
     <Compile Include="android\database\sqlite\SQLiteDatabase.cs" />
     <Compile Include="android\media\MediaPlayer.cs" />
     <Compile Include="android\net\Uri.cs" />
+    <Compile Include="android\opengl\GLES20.cs" />
     <Compile Include="android\R.cs" />
     <Compile Include="android\util\Log.cs" />
     <Compile Include="android\view\ContextThemeWrapper.cs" />
@@ -738,6 +751,7 @@
     <Compile Include="Manifest\ApplicationAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadLocalContextReference.cs" />
+    <Compile Include="WebGL\WebGLRenderingContext.cs" />
   </ItemGroup>
   <!--<ItemGroup>
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\**\*.*">
@@ -749,6 +763,7 @@
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="Documents\" />
+    <Folder Include="GLSL\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BCLImplementation\comment.txt" />
