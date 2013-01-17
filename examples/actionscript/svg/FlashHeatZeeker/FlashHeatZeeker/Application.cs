@@ -1,3 +1,4 @@
+using Abstractatech.ConsoleFormPackage.Library;
 using FlashHeatZeeker.Design;
 using FlashHeatZeeker.HTML.Pages;
 using ScriptCoreLib;
@@ -45,7 +46,21 @@ namespace FlashHeatZeeker
             );
 
 
+            var con = new ConsoleForm();
 
+            con.InitializeConsoleFormWriter();
+
+            con.Show();
+
+            sprite.fps +=
+                fps =>
+                {
+                    con.Text = new { fps }.ToString();
+                };
+            sprite.InitializeConsoleFormWriter(
+                              Console.Write,
+                              Console.WriteLine
+                          );
         }
 
     }
