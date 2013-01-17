@@ -38,7 +38,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
             base.onCreate(savedInstanceState);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             var v = new RenderingContextView(this);
 
@@ -59,6 +59,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
                     gl.linkProgram(program);
                     gl.useProgram(program);
 
+                    var uniforms = program.Uniforms(gl);
 
 
                     #region loadTexture
@@ -178,13 +179,7 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
 
                             parameters_time += 100;
 
-                            dynamic program_uniforms = new ShaderProgramUniforms
-                            {
-                                gl = gl,
-                                program = program
-                            };
-
-                            program_uniforms.t = t;
+                            uniforms.t = t;
 
                             //gl.uniform1f(gl.getUniformLocation(program, "t"), t);
                             gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
@@ -201,37 +196,11 @@ namespace AndroidGLEscherDrosteEffectActivity.Activities
 
             this.setContentView(v);
 
-            this.TryHideActionbar(v);
+            //this.TryHideActionbar(v);
 
             this.ShowToast("http://my.jsc-solutions.net");
         }
 
     }
 
-    class ShaderProgramUniforms : DynamicObject
-    {
-        public WebGLProgram program;
-        public gl gl;
-
-        public override bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            // cache location
-
-            var isvec2 = value is __vec2;
-            if (isvec2)
-            {
-                var value_vec2 = (__vec2)value;
-
-                gl.uniform2f(
-                    gl.getUniformLocation(program, binder.Name),
-                    value_vec2
-                );
-
-                return true;
-            }
-
-            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
-            return true;
-        }
-    }
 }

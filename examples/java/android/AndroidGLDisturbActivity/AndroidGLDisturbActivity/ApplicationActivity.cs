@@ -38,7 +38,7 @@ namespace AndroidGLDisturbActivity.Activities
             base.onCreate(savedInstanceState);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             var v = new RenderingContextView(this);
 
@@ -78,6 +78,7 @@ namespace AndroidGLDisturbActivity.Activities
 
                     #endregion
 
+                    var uniforms = program.Uniforms(gl);
 
                     #region loadTexture
                     Func<android.graphics.Bitmap, ScriptCoreLib.JavaScript.WebGL.WebGLTexture> loadTexture = (image) =>
@@ -193,16 +194,10 @@ namespace AndroidGLDisturbActivity.Activities
                             // Set values to program variables
 
 
-                            dynamic program_uniforms = new ShaderProgramUniforms
-                            {
-                                gl = gl,
-                                program = program
-                            };
-
                             var resolution = new __vec2 { x = parameters_screenWidth, y = parameters_screenHeight };
 
-                            program_uniforms.time = time;
-                            program_uniforms.resolution = resolution;
+                            uniforms.time = time;
+                            uniforms.resolution = resolution;
 
                             //gl.uniform1f(gl.getUniformLocation(program, "time"), time);
                             //gl.uniform2f(gl.getUniformLocation(program, "resolution"), parameters_screenWidth, parameters_screenHeight);
@@ -233,37 +228,12 @@ namespace AndroidGLDisturbActivity.Activities
 
             this.setContentView(v);
 
-            this.TryHideActionbar(v);
+            //this.TryHideActionbar(v);
 
             this.ShowToast("http://my.jsc-solutions.net");
         }
 
     }
 
-    class ShaderProgramUniforms : DynamicObject
-    {
-        public WebGLProgram program;
-        public gl gl;
 
-        public override bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            // cache location
-
-            var isvec2 = value is __vec2;
-            if (isvec2)
-            {
-                var value_vec2 = (__vec2)value;
-
-                gl.uniform2f(
-                    gl.getUniformLocation(program, binder.Name),
-                    value_vec2
-                );
-
-                return true;
-            }
-
-            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
-            return true;
-        }
-    }
 }

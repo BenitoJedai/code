@@ -20,6 +20,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
         {
             // cache location
 
+            // this class if for floats. ints will need their own class
+
             var isvec2 = value is __vec2;
             if (isvec2)
             {
