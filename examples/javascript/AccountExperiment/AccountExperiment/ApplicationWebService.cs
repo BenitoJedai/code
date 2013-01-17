@@ -6,6 +6,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
@@ -178,8 +179,18 @@ namespace AccountExperiment
 
         string CreateSession(long account, long ticks)
         {
+            // X:\jsc.svn\examples\javascript\appengine\SHA1Experiment\SHA1Experiment\ApplicationWebService.cs
+
             // should encrypt this
-            var cookie = Convert.ToBase64String(Encoding.UTF8.GetBytes(new { ticks, account, comment = "we shall SHA1 this!" }.ToString())).TakeUntilIfAny("=");
+            var cookie =
+                new
+                {
+                    ticks,
+                    account,
+                    comment = "we shall SHA1 this!"
+                }.ToString().ToSHA1().ToHexString();
+            // be aware: http://www.sha1-lookup.com/index.php?q=28da025b51ac352ea11bee23b56bb04c7766d942
+
 
             session.Insert(
                 new MySessionQueries.Insert
