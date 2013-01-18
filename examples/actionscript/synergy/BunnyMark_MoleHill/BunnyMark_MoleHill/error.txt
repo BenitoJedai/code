@@ -1,0 +1,147 @@
+﻿Worker...
+
+Abstractatech OÜ
+c Abstractatech OÜ. All rights reserved.
+
+Calling worker... done
+Worker collected...
+ReferenceAssetsLibrary X:\jsc.svn\examples\actionscript\synergy\BunnyMark_MoleHill\BunnyMark_MoleHill\BunnyMark_MoleHill.csproj
+
+Y:\
+C:\util\flex_sdk_4.6\bin\compc.exe
+  -include-sources "." -output "X:\jsc.svn\examples\actionscript\synergy\BunnyMark_MoleHill\BunnyMark_MoleHill\bin\staging.AssetsLibrary\output.swc\BunnyMark_MoleHill.AssetsLibrary.swc"
+Loading configuration file C:\util\flex_sdk_4.6\frameworks\flex-config.xml
+X:\jsc.svn\examples\actionscript\synergy\BunnyMark_MoleHill\BunnyMark_MoleHill\bin\staging.AssetsLibrary\output.swc\BunnyMark_MoleHill.AssetsLibrary.swc (83932 bytes)
+LeanParser.LeanParser, jsc.meta, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+1/18/2013 12:02:34 PM
+1/18/2013 12:02:34 PM Class: mx.core.IFlexAsset
+1/18/2013 12:02:34 PM Class: mx.core.ILayoutDirectionElement
+1/18/2013 12:02:34 PM Class: mx.core.IFlexDisplayObject
+1/18/2013 12:02:34 PM Class: mx.core.IAssetLayoutFeatures
+1/18/2013 12:02:34 PM Class: mx.core.IRepeaterClient
+1/18/2013 12:02:34 PM Class: PirateLayer
+1/18/2013 12:02:34 PM Class: mx.core.FlexBitmap
+1/18/2013 12:02:34 PM Class: mx.core.BitmapAsset
+1/18/2013 12:02:34 PM Class: PirateLayer_PirateImage
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSprite
+1/18/2013 12:02:34 PM Class: Background_Grass
+1/18/2013 12:02:34 PM Class: BunnyLayer
+1/18/2013 12:02:34 PM Class: _f0229e5804ced3cb759d7bb6bb84786cf3d4c9f3935f2ce538753afc3039f4ab_flash_display_Sprite
+1/18/2013 12:02:34 PM Class: mx.utils.NameUtil
+1/18/2013 12:02:34 PM Class: BunnySprite
+1/18/2013 12:02:34 PM Class: com.adobe.utils.AGALMiniAssembler
+1/18/2013 12:02:34 PM Class: OpCode
+1/18/2013 12:02:34 PM Class: Register
+1/18/2013 12:02:34 PM Class: Sampler
+1/18/2013 12:02:34 PM Class: Background
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteRenderLayer
+1/18/2013 12:02:34 PM Class: BunnyMark_MoleHill
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteRenderStage
+1/18/2013 12:02:34 PM Class: BunnyLayer_BunnyImage
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteSheet
+1/18/2013 12:02:34 PM Class: FPS
+1/18/2013 12:02:34 PM Class: mx.core.IFlexAsset
+1/18/2013 12:02:34 PM 0001 CreateType mx.core.IFlexAsset
+1/18/2013 12:02:34 PM Class: mx.core.ILayoutDirectionElement
+1/18/2013 12:02:34 PM 0002 CreateType mx.core.ILayoutDirectionElement
+1/18/2013 12:02:34 PM Class: mx.core.IFlexDisplayObject
+1/18/2013 12:02:34 PM 0003 CreateType mx.core.IFlexDisplayObject
+1/18/2013 12:02:34 PM Class: mx.core.IAssetLayoutFeatures
+1/18/2013 12:02:34 PM 0004 CreateType mx.core.IAssetLayoutFeatures
+1/18/2013 12:02:34 PM Class: mx.core.IRepeaterClient
+1/18/2013 12:02:34 PM 0005 CreateType mx.core.IRepeaterClient
+1/18/2013 12:02:34 PM Class: mx.core.IFlexAsset
+1/18/2013 12:02:34 PM Class: mx.core.ILayoutDirectionElement
+1/18/2013 12:02:34 PM Class: mx.core.IFlexDisplayObject
+1/18/2013 12:02:34 PM Class: mx.core.IAssetLayoutFeatures
+1/18/2013 12:02:34 PM Class: mx.core.IRepeaterClient
+1/18/2013 12:02:34 PM Class: PirateLayer
+1/18/2013 12:02:34 PM Class: mx.core.FlexBitmap
+1/18/2013 12:02:34 PM Class: mx.core.BitmapAsset
+1/18/2013 12:02:34 PM Class: PirateLayer_PirateImage
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSprite
+1/18/2013 12:02:34 PM Class: Background_Grass
+1/18/2013 12:02:34 PM Class: BunnyLayer
+1/18/2013 12:02:34 PM Class: _f0229e5804ced3cb759d7bb6bb84786cf3d4c9f3935f2ce538753afc3039f4ab_flash_display_Sprite
+1/18/2013 12:02:34 PM Class: mx.utils.NameUtil
+1/18/2013 12:02:34 PM Class: BunnySprite
+1/18/2013 12:02:34 PM Class: com.adobe.utils.AGALMiniAssembler
+1/18/2013 12:02:34 PM Class: OpCode
+1/18/2013 12:02:34 PM Class: Register
+1/18/2013 12:02:34 PM Class: Sampler
+1/18/2013 12:02:34 PM Class: Background
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteRenderLayer
+1/18/2013 12:02:34 PM Class: BunnyMark_MoleHill
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteRenderStage
+1/18/2013 12:02:34 PM Class: BunnyLayer_BunnyImage
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteSheet
+1/18/2013 12:02:34 PM Class: FPS
+1/18/2013 12:02:34 PM Class: PirateLayer
+1/18/2013 12:02:34 PM 0006 CreateType PirateLayer
+1/18/2013 12:02:34 PM Class: mx.core.FlexBitmap
+1/18/2013 12:02:34 PM 0007 CreateType mx.core.FlexBitmap
+1/18/2013 12:02:34 PM Class: mx.core.BitmapAsset
+1/18/2013 12:02:34 PM 0008 CreateType mx.core.BitmapAsset
+1/18/2013 12:02:34 PM Class: PirateLayer_PirateImage
+1/18/2013 12:02:34 PM 0009 CreateType mx.core.BitmapAsset
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSprite
+1/18/2013 12:02:34 PM 000a CreateType com.adobe.example.GPUSprite.GPUSprite
+1/18/2013 12:02:34 PM Class: Background_Grass
+1/18/2013 12:02:34 PM 000b CreateType mx.core.BitmapAsset
+1/18/2013 12:02:34 PM Class: BunnyLayer
+1/18/2013 12:02:34 PM 000c CreateType BunnyLayer
+1/18/2013 12:02:34 PM Class: _f0229e5804ced3cb759d7bb6bb84786cf3d4c9f3935f2ce538753afc3039f4ab_flash_display_Sprite
+1/18/2013 12:02:34 PM Class: mx.utils.NameUtil
+1/18/2013 12:02:34 PM 000d CreateType mx.utils.NameUtil
+1/18/2013 12:02:34 PM Class: BunnySprite
+1/18/2013 12:02:34 PM 000e CreateType BunnySprite
+1/18/2013 12:02:34 PM Class: com.adobe.utils.AGALMiniAssembler
+1/18/2013 12:02:34 PM 000f CreateType com.adobe.utils.AGALMiniAssembler
+1/18/2013 12:02:34 PM Class: OpCode
+1/18/2013 12:02:34 PM Class: Register
+1/18/2013 12:02:34 PM Class: Sampler
+1/18/2013 12:02:34 PM Class: Background
+1/18/2013 12:02:34 PM 0010 CreateType Background
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteRenderLayer
+1/18/2013 12:02:34 PM 0011 CreateType com.adobe.example.GPUSprite.GPUSpriteRenderLayer
+1/18/2013 12:02:34 PM Class: BunnyMark_MoleHill
+1/18/2013 12:02:34 PM 0012 CreateType BunnyMark_MoleHill
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteRenderStage
+1/18/2013 12:02:34 PM 0013 CreateType com.adobe.example.GPUSprite.GPUSpriteRenderStage
+1/18/2013 12:02:34 PM Class: BunnyLayer_BunnyImage
+1/18/2013 12:02:34 PM 0014 CreateType mx.core.BitmapAsset
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteSheet
+1/18/2013 12:02:34 PM 0015 CreateType com.adobe.example.GPUSprite.GPUSpriteSheet
+1/18/2013 12:02:34 PM Class: FPS
+1/18/2013 12:02:34 PM 0016 CreateType FPS
+1/18/2013 12:02:34 PM Class: PirateLayer
+1/18/2013 12:02:34 PM Class: mx.core.FlexBitmap
+1/18/2013 12:02:34 PM Class: mx.core.BitmapAsset
+1/18/2013 12:02:34 PM Class: PirateLayer_PirateImage
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSprite
+1/18/2013 12:02:34 PM Class: Background_Grass
+1/18/2013 12:02:34 PM Class: BunnyLayer
+1/18/2013 12:02:34 PM Class: _f0229e5804ced3cb759d7bb6bb84786cf3d4c9f3935f2ce538753afc3039f4ab_flash_display_Sprite
+1/18/2013 12:02:34 PM Class: mx.utils.NameUtil
+1/18/2013 12:02:34 PM Class: BunnySprite
+1/18/2013 12:02:34 PM Class: com.adobe.utils.AGALMiniAssembler
+1/18/2013 12:02:34 PM Class: OpCode
+1/18/2013 12:02:34 PM Class: Register
+1/18/2013 12:02:34 PM Class: Sampler
+1/18/2013 12:02:34 PM Class: Background
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteRenderLayer
+1/18/2013 12:02:34 PM Class: BunnyMark_MoleHill
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteRenderStage
+1/18/2013 12:02:34 PM Class: BunnyLayer_BunnyImage
+1/18/2013 12:02:34 PM Class: com.adobe.example.GPUSprite.GPUSpriteSheet
+1/18/2013 12:02:34 PM Class: FPS
+1/18/2013 12:02:34 PM Class: mx.core.IFlexAsset
+1/18/2013 12:02:34 PM Class: mx.core.ILayoutDirectionElement
+1/18/2013 12:02:34 PM Class: mx.core.IFlexDisplayObject
+1/18/2013 12:02:34 PM Class: mx.core.IAssetLayoutFeatures
+1/18/2013 12:02:34 PM Class: mx.core.IRepeaterClient
+Write Assembly Failed!. ERROR:Type 'PirateLayer_PirateImage' was not completed.
+
+jsc.meta.Commands.RewriteToActionScriptNatives.RewriteToActionScriptNatives, jsc.meta, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+Void Invoke():0208
+:0
