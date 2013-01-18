@@ -37,13 +37,20 @@ namespace StarlingRotationExperiment
             {
                 // http://forum.starling-framework.org/topic/starling-stage-resizing
 
-                //s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
-                //    0, 0, this.stage.stageWidth, this.stage.stageHeight
-                //);
+                s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
+                    0, 0, this.stage.stageWidth, this.stage.stageHeight
+                );
 
-                //s.stage.stageWidth = this.stage.stageWidth;
-                //s.stage.stageHeight = this.stage.stageHeight;
+                s.stage.stageWidth = this.stage.stageWidth;
+                s.stage.stageHeight = this.stage.stageHeight;
             };
+
+            s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
+                 0, 0, this.stage.stageWidth, this.stage.stageHeight
+             );
+
+            s.stage.stageWidth = this.stage.stageWidth;
+            s.stage.stageHeight = this.stage.stageHeight;
         }
 
         public static ScriptCoreLib.ActionScript.flash.display.Stage __stage;
@@ -118,16 +125,19 @@ namespace StarlingRotationExperiment
 
             var texture0 = Texture.fromBitmap(new ActionScript.Images.jsc());
 
-            for (int iy = -32; iy <= 32; iy++)
-                for (int ix = -32; ix <= 32; ix++)
+            //var cc = 128; // 10 FPS
+            var cc = 64; // 33 FPS
+
+            for (int iy = -cc; iy <= cc; iy++)
+                for (int ix = -cc; ix <= cc; ix++)
                 {
                     var img0 = new Image(texture0);
 
-                    img0.scaleX = 0.25;
-                    img0.scaleY = 0.25;
+                    img0.scaleX = 0.5;
+                    img0.scaleY = 0.5;
 
-                    img0.x = ix * 16;
-                    img0.y = iy * 16;
+                    img0.x = ix * 32;
+                    img0.y = iy * 32;
 
                     content_rot.addChild(img0);
                 }
@@ -145,7 +155,7 @@ namespace StarlingRotationExperiment
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
-                    content_rot.rotation += 0.0005 * xsw.ElapsedMilliseconds;
+                    content_rot.rotation += 0.0001 * xsw.ElapsedMilliseconds;
 
                     xsw.Restart();
                 };
