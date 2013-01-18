@@ -57,6 +57,7 @@ namespace FlashHeatZeeker
                 {
                     con.Text = new { fps }.ToString();
                 };
+
             sprite.InitializeConsoleFormWriter(
                               Console.Write,
                               Console.WriteLine

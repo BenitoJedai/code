@@ -2,6 +2,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -12,6 +13,12 @@ namespace FlashHeatZeeker
     [SWF(frameRate = 60)]
     public sealed class ApplicationSprite : Sprite
     {
+        class GameUnit
+        {
+            public Sprite loc;
+            public Sprite rot;
+        }
+
         public ApplicationSprite()
         {
             stage.align = StageAlign.TOP_LEFT;
@@ -59,21 +66,28 @@ namespace FlashHeatZeeker
                 }
             );
 
-            Sprite CurrentUnit = null;
 
             // unit 1
 
-            var unit1_loc = new Sprite().AttachTo(map).MoveTo(300, 200);
-            var unit1_rot = new Sprite().AttachTo(unit1_loc);
+            Func<GameUnit> greentank = delegate
+            {
+                var unit1_loc = new Sprite().AttachTo(map);
+                var unit1_rot = new Sprite().AttachTo(unit1_loc);
 
-            KnownEmbeddedResources.Default["assets/FlashHeatZeeker/greentank.svg"].ToSprite().AttachTo(unit1_rot).MoveTo(-200, -200);
+                KnownEmbeddedResources.Default["assets/FlashHeatZeeker/greentank.svg"].ToSprite().AttachTo(unit1_rot).MoveTo(-200, -200);
 
+                return new GameUnit { loc = unit1_loc, rot = unit1_rot };
+            };
 
-            CurrentUnit = unit1_rot;
+            var unit1 = greentank();
+            var unit2 = greentank();
+            var unit3 = greentank();
 
-            // unit 2
-            // left bottom
-            var unit2 = KnownEmbeddedResources.Default["assets/FlashHeatZeeker/greentank.svg"].ToSprite().AttachTo(map).MoveTo(-200, 200);
+            unit1.loc.MoveTo(300, 200);
+            unit2.loc.MoveTo(0, 400);
+
+            var CurrentUnit = unit1;
+
 
 
             KnownEmbeddedResources.Default["assets/FlashHeatZeeker/hill0.svg"].ToSprite().AttachTo(map).MoveTo(0, 0).With(
@@ -84,13 +98,22 @@ namespace FlashHeatZeeker
                 }
             );
 
-            KnownEmbeddedResources.Default["assets/FlashHeatZeeker/tree0.svg"].ToSprite().AttachTo(map).MoveTo(400, 0).With(
-                svg =>
-                {
-                    svg.scaleX = 0.2;
-                    svg.scaleY = 0.2;
-                }
-            );
+            for (int iy = 0; iy < 8; iy++)
+            {
+                KnownEmbeddedResources.Default["assets/FlashHeatZeeker/tree0.svg"].ToSprite().AttachTo(map).MoveTo(400, 0).With(
+                    svg =>
+                    {
+                        svg.scaleX = 0.2;
+                        svg.scaleY = 0.2;
+
+                        if (iy % 2 == 0)
+                            svg.x += 100;
+
+                        svg.y += 50 * iy;
+                    }
+                );
+            }
+
 
             // ego is in center
             map.MoveTo(-300, -200);
@@ -99,18 +122,27 @@ namespace FlashHeatZeeker
                 e =>
                 {
 
-                    Console.WriteLine("keyUp " + new { e.keyCode });
+                    //Console.WriteLine("keyUp " + new { e.keyCode });
 
-                    if (e.keyCode == (uint)System.Windows.Forms.Keys.D2)
+                    if (e.keyCode == (uint)System.Windows.Forms.Keys.D3)
                     {
-                        map.MoveTo(-300, -200);
-                        egorotation.rotation = -unit1_rot.rotation;
+                        CurrentUnit = unit3;
+                        egorotation.rotation = -CurrentUnit.rot.rotation;
+                        map.MoveTo(-CurrentUnit.loc.x, -CurrentUnit.loc.y);
                     }
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.D1)
                     {
-                        map.MoveTo(0, -400);
-                        egorotation.rotation = 0;
+                        CurrentUnit = unit1;
+                        egorotation.rotation = -CurrentUnit.rot.rotation;
+                        map.MoveTo(-CurrentUnit.loc.x, -CurrentUnit.loc.y);
+                    }
+
+                    if (e.keyCode == (uint)System.Windows.Forms.Keys.D2)
+                    {
+                        CurrentUnit = unit2;
+                        egorotation.rotation = -CurrentUnit.rot.rotation;
+                        map.MoveTo(-CurrentUnit.loc.x, -CurrentUnit.loc.y);
                     }
 
 
@@ -124,18 +156,29 @@ namespace FlashHeatZeeker
               e =>
               {
 
-                  Console.WriteLine("keyDown " + new { e.keyCode });
+                  //Console.WriteLine("keyDown " + new { e.keyCode });
 
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
+                  {
+                      CurrentUnit.loc.y -= 2;
+                      map.y += 2;
+                  }
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.Down)
+                  {
+                      CurrentUnit.loc.y += 2;
+                      map.y -= 2;
+                  }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
                   {
-                      CurrentUnit.rotation -= 5;
+                      CurrentUnit.rot.rotation -= 5;
                       egorotation.rotation += 5;
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
                   {
-                      CurrentUnit.rotation += 5;
+                      CurrentUnit.rot.rotation += 5;
                       egorotation.rotation -= 5;
                   }
               };
