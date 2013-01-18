@@ -1,7 +1,6 @@
-using BunnyMark_MoleHillExperiment.Design;
-using BunnyMark_MoleHillExperiment.HTML.Pages;
+using StarlingTemplate.Design;
+using StarlingTemplate.HTML.Pages;
 using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -13,8 +12,9 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using ScriptCoreLib.ActionScript.flash.display;
 
-namespace BunnyMark_MoleHillExperiment
+namespace StarlingTemplate
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -49,6 +49,7 @@ namespace BunnyMark_MoleHillExperiment
         }
 
     }
+
 
     public static class XX
     {

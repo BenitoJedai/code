@@ -2,6 +2,7 @@ using Abstractatech.ConsoleFormPackage.Library;
 using FlashHeatZeeker.Design;
 using FlashHeatZeeker.HTML.Pages;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -31,6 +32,7 @@ namespace FlashHeatZeeker
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            sprite.wmode();
             sprite.AttachSpriteToDocument().With(
                 embed =>
                 {
@@ -52,11 +54,24 @@ namespace FlashHeatZeeker
 
             con.Show();
 
-            sprite.fps +=
-                fps =>
-                {
-                    con.Text = new { fps }.ToString();
-                };
+            con.Left = Native.Window.Width - con.Width;
+            con.Top = 0;
+
+            Native.Window.onresize +=
+                  delegate
+                  {
+                      con.Left = Native.Window.Width - con.Width;
+                      con.Top = 0;
+                  };
+
+
+            con.Opacity = 0.9;
+
+            //sprite.fps +=
+            //    fps =>
+            //    {
+            //        con.Text = new { fps }.ToString();
+            //    };
 
             sprite.InitializeConsoleFormWriter(
                               Console.Write,
@@ -64,5 +79,24 @@ namespace FlashHeatZeeker
                           );
         }
 
+    }
+
+    public static class XX
+    {
+        public static void wmode(this Sprite s, string value = "direct")
+        {
+            var x = s.ToHTMLElement();
+
+            var p = x.parentNode;
+            if (p != null)
+            {
+                // if we continue, element will be reloaded!
+                return;
+            }
+
+            x.setAttribute("wmode", value);
+
+
+        }
     }
 }
