@@ -115,7 +115,7 @@ package
 				bg.setPosition(view);
 			}
 			if(tf != null) {
-				tf.x = _width - 100;
+				tf.x = _width - 145;
 			}
 		}
 		private function initSpriteEngine():void {

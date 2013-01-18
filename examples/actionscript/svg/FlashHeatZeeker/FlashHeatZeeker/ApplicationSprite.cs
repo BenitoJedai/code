@@ -1,7 +1,9 @@
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using ScriptCoreLib.Shared.Lambda;
 using System;
 using System.Diagnostics;
@@ -10,6 +12,63 @@ using System.Text;
 
 namespace FlashHeatZeeker
 {
+    static class X
+    {
+        public static double GetLength(this __vec2 p)
+        {
+            return Math.Sqrt(p.x * p.x + p.y * p.y);
+        }
+
+        public static double DegreesToRadians(this double Degrees)
+        {
+            return (Math.PI * 2) * Degrees / 360;
+        }
+
+        public static double DegreesToRadians(this int Degrees)
+        {
+            return (Math.PI * 2) * Degrees / 360;
+        }
+
+        public static int RadiansToDegrees(this double Arc)
+        {
+            return (int)(360 * Arc / (Math.PI * 2));
+        }
+
+        public static double GetRotation(this __vec2 p)
+        {
+            var x = p.x;
+            var y = p.y;
+
+            const double _180 = System.Math.PI;
+            const double _90 = System.Math.PI / 2;
+            const double _270 = System.Math.PI * 3 / 2;
+
+            if (x == 0)
+                if (y < 0)
+                    return _270;
+                else if (y == 0)
+                    return 0;
+                else
+                    return _90;
+
+            if (y == 0)
+                if (x < 0)
+                    return _180;
+                else
+                    return 0;
+
+            var a = System.Math.Atan(y / x);
+
+            if (x < 0)
+                a += _180;
+            else if (y < 0)
+                a += System.Math.PI * 2;
+
+
+            return a;
+        }
+    }
+
     [SWF(frameRate = 60)]
     public sealed class ApplicationSprite : Sprite
     {
@@ -44,7 +103,7 @@ namespace FlashHeatZeeker
             var map = new Sprite().AttachTo(egorotation);
 
             map.graphics.beginFill(0xB27D51);
-            map.graphics.drawRect(0, 0, 600, 400);
+            map.graphics.drawRect(0, 0, 4000, 400);
 
 
             // http://wiki.openoffice.org/wiki/SVG_User_Experiences
@@ -98,21 +157,52 @@ namespace FlashHeatZeeker
                 }
             );
 
-            for (int iy = 0; iy < 8; iy++)
+            for (int iy = 0; iy < 128; iy++)
             {
                 KnownEmbeddedResources.Default["assets/FlashHeatZeeker/tree0.svg"].ToSprite().AttachTo(map).MoveTo(400, 0).With(
                     svg =>
                     {
+                        svg.cacheAsBitmap = true;
+
                         svg.scaleX = 0.2;
                         svg.scaleY = 0.2;
 
-                        if (iy % 2 == 0)
-                            svg.x += 100;
+                        if (iy % 3 == 0)
+                            svg.y += 50;
 
-                        svg.y += 50 * iy;
+                        if (iy % 3 == 1)
+                            svg.y += 100;
+
+
+                        svg.x += 15 * iy;
                     }
                 );
             }
+
+            for (int iy = 0; iy < 128; iy++)
+            {
+                KnownEmbeddedResources.Default["assets/FlashHeatZeeker/tree0.svg"].ToSprite().AttachTo(map).MoveTo(400, 0).With(
+                    svg =>
+                    {
+                        svg.y += 300;
+
+                        svg.cacheAsBitmap = true;
+
+                        svg.scaleX = 0.2;
+                        svg.scaleY = 0.2;
+
+                        if (iy % 3 == 0)
+                            svg.y += 50;
+
+                        if (iy % 3 == 1)
+                            svg.y += 100;
+
+
+                        svg.x += 15 * iy;
+                    }
+                );
+            }
+
 
 
             // ego is in center
@@ -155,32 +245,33 @@ namespace FlashHeatZeeker
             this.stage.keyDown +=
               e =>
               {
-
                   //Console.WriteLine("keyDown " + new { e.keyCode });
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
                   {
-                      CurrentUnit.loc.y -= 2;
-                      map.y += 2;
+                      CurrentUnit.loc.x += 2 * Math.Cos((CurrentUnit.rot.rotation + 270).DegreesToRadians());
+                      CurrentUnit.loc.y += 2 * Math.Sin((CurrentUnit.rot.rotation + 270).DegreesToRadians());
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Down)
                   {
-                      CurrentUnit.loc.y += 2;
-                      map.y -= 2;
+                      CurrentUnit.loc.x += -2 * Math.Cos((CurrentUnit.rot.rotation + 270).DegreesToRadians());
+                      CurrentUnit.loc.y += -2 * Math.Sin((CurrentUnit.rot.rotation + 270).DegreesToRadians());
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
                   {
                       CurrentUnit.rot.rotation -= 5;
-                      egorotation.rotation += 5;
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
                   {
                       CurrentUnit.rot.rotation += 5;
-                      egorotation.rotation -= 5;
                   }
+
+
+                  egorotation.rotation = -CurrentUnit.rot.rotation;
+                  map.MoveTo(-CurrentUnit.loc.x, -CurrentUnit.loc.y);
               };
 
             #region egocrosshair
@@ -260,6 +351,16 @@ namespace FlashHeatZeeker
             };
             #endregion
 
+            var info = new TextField
+            {
+                selectable = false,
+                mouseEnabled = false,
+                autoSize = TextFieldAutoSize.LEFT
+            }.AttachTo(this).MoveTo(8, 8);
+
+
+            var maxframe = new Stopwatch();
+            var maxframe_elapsed = 0.0;
 
             #region fps
             var sw = new Stopwatch();
@@ -268,25 +369,38 @@ namespace FlashHeatZeeker
 
             var ii = 0;
 
+            maxframe.Start();
             this.enterFrame +=
                 delegate
                 {
+                    maxframe.Stop();
 
+                    //                    System.TimeSpan for Boolean op_GreaterThan(System.TimeSpan, System.TimeSpan) used at
+                    //FlashHeatZeeker.ApplicationSprite+<>c__DisplayClass11.<.ctor>b__d at offset 001e.
+
+                    //                TypeError: Error #1009: Cannot access a property or method of a null object reference.
+                    //at FlashHeatZeeker::ApplicationSprite___c__DisplayClass11/__ctor_b__d_100663322()[U:\web\FlashHeatZeeker\ApplicationSprite___c__DisplayClass11.as:141]
+
+                    if (maxframe.Elapsed.TotalMilliseconds > maxframe_elapsed)
+                        maxframe_elapsed = maxframe.Elapsed.TotalMilliseconds;
 
                     if (sw.ElapsedMilliseconds < 1000)
                     {
                         ii++;
+
+                        maxframe.Restart();
+
                         return;
                     }
 
+                    info.text = new { fps = ii, maxframe_elapsed }.ToString();
 
-                    if (fps != null)
-                        fps("" + ii);
+                    //if (fps != null)
+                    //    fps("" + ii);
 
                     ii = 0;
-
+                    maxframe_elapsed = 0;
                     sw.Restart();
-
                 };
             #endregion
 

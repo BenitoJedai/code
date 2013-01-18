@@ -1,10 +1,12 @@
+using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
 
-namespace BunnyMark_MoleHill
+namespace BunnyMark_MoleHillExperiment
 {
-    public sealed class ApplicationSprite : Sprite
+    [SWF(frameRate = 100)]
+    public sealed class ApplicationSprite : BunnyMark_MoleHill
     {
         public ApplicationSprite()
         {

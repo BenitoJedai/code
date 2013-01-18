@@ -1,7 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
 
-namespace BunnyMark_MoleHill
+namespace BunnyMark_MoleHillExperiment
 {
     /// <summary>
     /// You can debug your application by hitting F5.
