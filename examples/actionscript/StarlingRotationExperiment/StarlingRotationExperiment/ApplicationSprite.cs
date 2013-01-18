@@ -5,11 +5,13 @@ using ScriptCoreLib.Extensions;
 using starling.core;
 using starling.display;
 using starling.text;
+using starling.textures;
 using System.Diagnostics;
 
 namespace StarlingRotationExperiment
 {
-    [SWF(frameRate = 120, width = 800, height = 600)]
+    // HD
+    [SWF(frameRate = 120, width = 1280, height = 720)]
     public sealed class ApplicationSprite : ScriptCoreLib.ActionScript.flash.display.Sprite
     {
 
@@ -112,6 +114,25 @@ namespace StarlingRotationExperiment
             var xsw = new Stopwatch();
             xsw.Start();
 
+            var content_rot = new Sprite();
+
+            var texture0 = Texture.fromBitmap(new ActionScript.Images.jsc());
+
+            for (int iy = -32; iy <= 32; iy++)
+                for (int ix = -32; ix <= 32; ix++)
+                {
+                    var img0 = new Image(texture0);
+
+                    img0.scaleX = 0.25;
+                    img0.scaleY = 0.25;
+
+                    img0.x = ix * 16;
+                    img0.y = iy * 16;
+
+                    content_rot.addChild(img0);
+                }
+
+
             //            StarlingRotationExperiment.ApplicationSprite+__in_Delegate__in_Method
             //System.NullReferenceException: Object reference not set to an instance of an object.
             //   at jsc.Languages.ActionScript.ActionScriptCompiler.WriteMethodCallVerified(Prestatement p, ILInstruction i, MethodBase m) in x:\jsc.internal.svn\compiler\jsc\Languages\ActionScript\ActionScriptCompiler.WriteMethodCallVerified.cs:line 99
@@ -124,7 +145,7 @@ namespace StarlingRotationExperiment
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
-                    xinfo.rotation += 0.0005 * xsw.ElapsedMilliseconds;
+                    content_rot.rotation += 0.0005 * xsw.ElapsedMilliseconds;
 
                     xsw.Restart();
                 };
@@ -132,7 +153,8 @@ namespace StarlingRotationExperiment
 
             var loc = new Sprite();
 
-            loc.addChild(xinfo);
+            content_rot.addChild(xinfo);
+            loc.addChild(content_rot);
 
             loc.x = 200;
             loc.y = 200;
