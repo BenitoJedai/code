@@ -59,8 +59,10 @@ namespace StarlingRotationExperiment
     public class Game : Sprite
     {
 
+
         public Game()
         {
+
             // http://forum.starling-framework.org/topic/framerate-drops-a-lot
             // http://forum.starling-framework.org/topic/30-fps-in-chrome-but-60-fps-in-internet-explorer-huh
             // http://forum.starling-framework.org/topic/frame-rate-oddities
