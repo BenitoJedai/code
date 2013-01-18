@@ -127,6 +127,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="error.txt" />
     <Content Include="opensource\bytearray.org\assets\grass.png" />
     <Content Include="opensource\bytearray.org\assets\pirate.png" />
     <Content Include="opensource\bytearray.org\assets\wabbit_alpha.png" />

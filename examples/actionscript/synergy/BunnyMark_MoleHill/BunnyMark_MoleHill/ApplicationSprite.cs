@@ -8,6 +8,9 @@ namespace BunnyMark_MoleHill
     {
         public ApplicationSprite()
         {
+            // http://www.bytearray.org/?p=4074
+            // http://www.roguish.com/blog/?p=495
+
         }
 
     }
