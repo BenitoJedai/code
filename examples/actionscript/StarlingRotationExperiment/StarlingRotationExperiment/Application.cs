@@ -38,16 +38,14 @@ namespace StarlingRotationExperiment
 
             embed.wmode();
 
-            {
-                embed.style.SetLocation(0, 0);
-                embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+            embed.style.SetLocation(0, 0);
+            embed.style.SetSize(Native.Window.Width, Native.Window.Height);
 
-                Native.Window.onresize +=
-                    delegate
-                    {
-                        embed.style.SetSize(Native.Window.Width, Native.Window.Height);
-                    };
-            }
+            Native.Window.onresize +=
+                delegate
+                {
+                    embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                };
 
             sprite.AttachSpriteToDocument();
         }
