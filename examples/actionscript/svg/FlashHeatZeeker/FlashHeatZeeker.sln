@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A761C1
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarlingT28", "FlashHeatZeekerWithStarlingT28\FlashHeatZeekerWithStarlingT28.csproj", "{6A9C63B0-7FBD-4926-8D0C-6AAE1794071A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -26,8 +30,16 @@ Global
 		{F24A122C-5D7A-4E73-837F-7F421FCE7442}.Debug|x86.Build.0 = Debug|x86
 		{F24A122C-5D7A-4E73-837F-7F421FCE7442}.Release|x86.ActiveCfg = Release|x86
 		{F24A122C-5D7A-4E73-837F-7F421FCE7442}.Release|x86.Build.0 = Release|x86
+		{6A9C63B0-7FBD-4926-8D0C-6AAE1794071A}.Debug|x86.ActiveCfg = Debug|x86
+		{6A9C63B0-7FBD-4926-8D0C-6AAE1794071A}.Debug|x86.Build.0 = Debug|x86
+		{6A9C63B0-7FBD-4926-8D0C-6AAE1794071A}.Release|x86.ActiveCfg = Release|x86
+		{6A9C63B0-7FBD-4926-8D0C-6AAE1794071A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C36076C-7270-4841-BB8B-1C28A24ED1CE} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
+		{F24A122C-5D7A-4E73-837F-7F421FCE7442} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
 	EndGlobalSection
 EndGlobal
