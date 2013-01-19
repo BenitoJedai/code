@@ -15,6 +15,7 @@ using System.IO;
 using System.Text;
 using FlashHeatZeekerWithStarlingT28.ActionScript.Images;
 using ScriptCoreLib.ActionScript.flash.geom;
+using starling.filters;
 
 namespace FlashHeatZeekerWithStarlingT28
 {
@@ -303,6 +304,9 @@ namespace FlashHeatZeekerWithStarlingT28
         public Action AddRank;
 
         public Action<double> ScrollTracks;
+
+        public DisplayObject guntower;
+        public bool RemoteControlEnabled;
     }
 
     public class Game : Sprite
@@ -325,10 +329,8 @@ namespace FlashHeatZeekerWithStarlingT28
             viewport_rot.scaleX = 2.0;
             viewport_rot.scaleY = 2.0;
 
-            // our map
+            // our map A
             {
-
-
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
                 var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
@@ -338,38 +340,25 @@ namespace FlashHeatZeekerWithStarlingT28
                 img.AttachTo(viewport_content);
             }
 
+            var mapB_offset_x = -2048 / 2;
+            var mapB_offset_y = -2048;
 
-            var viewport_content_layer0 = new Sprite().AttachTo(viewport_content);
+            // our map B
+            {
+                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
+                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-            KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT28/touchdown.svg"].ToSprite().With(
-                shape =>
-                {
-                    var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(400, 400, true, 0x00000000);
+                var tex = Texture.fromBitmapData(bmd);
+                var img = new Image(tex);
 
-                    bmd.draw(shape);
-                    var tex = Texture.fromBitmapData(bmd);
-                    var img = new Image(tex);
-                    img.x = 0;
-                    img.y = 0;
+                img.AttachTo(viewport_content);
 
-                    img.AttachTo(viewport_content);
-                }
-            );
+                img.MoveTo(mapB_offset_x, mapB_offset_y);
+            }
 
-            KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT28/hill0.svg"].ToSprite().With(
-                shape =>
-                {
-                    var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(400, 400, true, 0x00000000);
 
-                    bmd.draw(shape);
-                    var tex = Texture.fromBitmapData(bmd);
-                    var img = new Image(tex);
-                    img.x = 400;
-                    img.y = 400;
 
-                    img.AttachTo(viewport_content);
-                }
-            );
+
 
             #region new_tex
             Func<string, Texture> new_tex =
@@ -389,7 +378,7 @@ namespace FlashHeatZeekerWithStarlingT28
                    var shape = KnownEmbeddedResources.Default[asset].ToSprite();
 
 
-                   var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(512, 512, false, 0x00000000);
+                   var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(512, 512, true, 0x00000000);
 
                    var m = new Matrix();
                    m.scale(512 / 400.0, 512 / 400.0);
@@ -398,6 +387,142 @@ namespace FlashHeatZeekerWithStarlingT28
                    return Texture.fromBitmapData(bmd);
                };
             #endregion
+
+            var viewport_content_layer_tracks = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer_units = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer_trees = new Sprite().AttachTo(viewport_content);
+
+
+            var textures_road0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/road0.svg");
+            var textures_touchdown = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/touchdown.svg");
+
+            {
+                var img = new Image(textures_touchdown);
+                img.x = 128;
+                img.y = 128;
+
+                img.scaleX = 0.5;
+                img.scaleY = 0.5;
+
+                img.AttachTo(viewport_content_layer_tracks);
+            }
+
+            for (int i = 0; i < 2048; i += 256)
+            {
+
+
+                var img = new Image(textures_road0);
+                img.x = mapB_offset_x + i;
+                img.y = -256;
+
+                img.scaleX = 0.5;
+                img.scaleY = 0.5;
+
+                img.AttachTo(viewport_content_layer_tracks);
+            }
+
+
+            var textures_tree0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/tree0.svg");
+
+
+
+
+            var textures_hill0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/hill0.svg");
+
+            {
+                var img = new Image(textures_hill0);
+                img.x = 400;
+                img.y = 400;
+
+                img.scaleX = 0.4;
+                img.scaleY = 0.4;
+
+                img.AttachTo(viewport_content_layer_tracks);
+            }
+
+            var textures_hill1 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/hill1.svg");
+
+            {
+                var img = new Image(textures_hill1);
+                img.x = 800;
+                img.y = 400;
+
+                img.scaleX = 0.4;
+                img.scaleY = 0.4;
+
+                img.AttachTo(viewport_content_layer_tracks);
+            }
+
+            var textures_watertower0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/watertower0.svg");
+
+
+            #region new_tree
+            Func<Sprite> new_tree =
+                delegate
+                {
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer_trees);
+                    var unit_scale = new Sprite().AttachTo(unit_loc);
+                    var img = new Image(textures_tree0);
+                    img.x = -256;
+                    img.y = -256;
+
+                    unit_scale.scaleX = 0.15;
+                    unit_scale.scaleY = 0.15;
+
+                    img.AttachTo(unit_scale);
+
+                    return unit_loc;
+                };
+            #endregion
+
+
+            #region new_watertower
+            Func<Sprite> new_watertower =
+                delegate
+                {
+                    var unit_loc = new Sprite().AttachTo(viewport_content);
+                    var unit_scale = new Sprite().AttachTo(unit_loc);
+                    var img = new Image(textures_watertower0);
+                    img.x = -256;
+                    img.y = -256;
+
+                    unit_scale.scaleX = 0.3;
+                    unit_scale.scaleY = 0.3;
+
+                    img.AttachTo(unit_scale);
+
+                    return unit_loc;
+                };
+            #endregion
+
+
+            new_watertower().MoveTo(400, 800);
+
+            new_watertower();
+
+            new_tree().MoveTo(128 * 1, 0);
+            //new_tree().MoveTo(128 * 2, 0);
+            //new_tree().MoveTo(128 * 3, 0);
+            new_tree().MoveTo(128 * 4, 0);
+            //new_tree().MoveTo(128 * 5, 0);
+            //new_tree().MoveTo(128 * 6, 0);
+            new_tree().MoveTo(128 * 7, 0);
+
+
+            var r = new Random();
+
+            for (int i = 0; i < 1024; i++)
+            {
+
+
+                new_tree().MoveTo(
+                   mapB_offset_x + (r.NextDouble() * 0.8 + 0.1) * 2048,
+                   mapB_offset_y + (r.NextDouble() * 0.8 + 0.1) * 2048
+                   );
+            }
+
+
+            new_watertower().MoveTo(2048 / 2, 0);
 
             var textures_tanktrackpattern = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/tanktrackpattern.svg");
             textures_tanktrackpattern.repeat = true;
@@ -416,7 +541,7 @@ namespace FlashHeatZeekerWithStarlingT28
             Func<GameUnit> new_gameunit =
                 delegate
                 {
-                    var unit_loc = new Sprite().AttachTo(viewport_content);
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer_units);
 
                     var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(8, 8);
                     var unit_shadow_rot = new Sprite().AttachTo(unit_shadow_loc);
@@ -441,6 +566,7 @@ namespace FlashHeatZeekerWithStarlingT28
                     trackpattern.scaleX = 0.13;
                     trackpattern.scaleY = 0.18;
 
+                    #region setOffset
                     var hRatio = 1.0;
                     var vRatio = 1.0;
 
@@ -454,6 +580,7 @@ namespace FlashHeatZeekerWithStarlingT28
                         image.setTexCoords(3, new Point(xx + hRatio, yy + vRatio));
 
                     };
+                    #endregion
 
                     var shape = new Image(textures_greentank) { x = -200, y = -200 }.AttachTo(unit_rot);
 
@@ -478,6 +605,7 @@ namespace FlashHeatZeekerWithStarlingT28
 
                         },
 
+                        guntower = guntower,
 
                         ScrollTracks = dx =>
                         {
@@ -490,7 +618,7 @@ namespace FlashHeatZeekerWithStarlingT28
             #endregion
 
             var unit1 = new_gameunit();
-            unit1.loc.MoveTo(200, 200);
+            unit1.loc.MoveTo(256, 256);
             unit1.AddRank();
 
             var unit2 = new_gameunit();
@@ -500,63 +628,75 @@ namespace FlashHeatZeekerWithStarlingT28
             var unit3 = new_gameunit();
             unit3.loc.MoveTo(200 + 400 + 200, 200 + 400);
 
+            #region robo1
+            var robo1 = new_gameunit();
+
+            // there is a man in robo1, NPC man
+            // lets remove his weapon
+            robo1.guntower.Orphanize();
+            var filter = new ColorMatrixFilter();
+            filter.adjustHue(0.5);
+            robo1.shape.filter = filter;
+
+            robo1.loc.MoveTo(
+                mapB_offset_x + 2048 - 128,
+                mapB_offset_y + 2048 - 128
+            );
+
+            robo1.rotation = 270.DegreesToRadians();
+
+
+
+            #endregion
+
 
             var controllable = new[] { unit1, unit2, unit3 };
 
             current = unit1;
 
             #region tree0
-            KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT28/tree0.svg"].ToSprite().With(
-                shape =>
+
+            for (int iy = 0; iy < 128; iy++)
+            {
                 {
-                    var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(400, 400, true, 0x00000000);
-                    bmd.draw(shape);
-                    var tex = Texture.fromBitmapData(bmd);
+                    var svg = new Image(textures_tree0);
+                    svg.x = 400;
+                    svg.y = 0;
+                    svg.AttachTo(viewport_content);
 
-                    for (int iy = 0; iy < 128; iy++)
-                    {
-                        {
-                            var svg = new Image(tex);
-                            svg.x = 400;
-                            svg.y = 0;
-                            svg.AttachTo(viewport_content);
+                    svg.scaleX = 0.15;
+                    svg.scaleY = 0.15;
 
-                            svg.scaleX = 0.2;
-                            svg.scaleY = 0.2;
+                    if (iy % 3 == 0)
+                        svg.y += 50;
 
-                            if (iy % 3 == 0)
-                                svg.y += 50;
-
-                            if (iy % 3 == 1)
-                                svg.y += 100;
+                    if (iy % 3 == 1)
+                        svg.y += 100;
 
 
-                            svg.x += 15 * iy;
-                        }
-
-
-                        {
-                            var svg = new Image(tex);
-                            svg.x = 0;
-                            svg.y = 400;
-                            svg.AttachTo(viewport_content);
-
-                            svg.scaleX = 0.2;
-                            svg.scaleY = 0.2;
-
-                            if (iy % 3 == 0)
-                                svg.x += 50;
-
-                            if (iy % 3 == 1)
-                                svg.x += 100;
-
-
-                            svg.y += 15 * iy;
-                        }
-                    }
+                    svg.x += 15 * iy;
                 }
 
-            );
+
+                {
+                    var svg = new Image(textures_tree0);
+                    svg.x = 0;
+                    svg.y = 400;
+                    svg.AttachTo(viewport_content);
+
+                    svg.scaleX = 0.15;
+                    svg.scaleY = 0.15;
+
+                    if (iy % 3 == 0)
+                        svg.x += 50;
+
+                    if (iy % 3 == 1)
+                        svg.x += 100;
+
+
+                    svg.y += 15 * iy;
+                }
+            }
             #endregion
 
             var frameid = 0L;
@@ -586,6 +726,8 @@ namespace FlashHeatZeekerWithStarlingT28
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
+                    rot_sw.Stop();
+
                     // which is it, do we need to zoom out or in?
 
                     #region KineticEnergy
@@ -640,22 +782,26 @@ namespace FlashHeatZeekerWithStarlingT28
                         * (rot_left + rot_right)
                         * (Math.Abs(move_forward + move_backward).Max(0.5) * 0.09).DegreesToRadians();
 
-                    var dx = rot_sw.ElapsedMilliseconds
-                        * (1 + move_zoom)
-                        * (move_forward + move_backward)
-                        * move_speed
-                        * Math.Cos(-viewport_rot.rotation + (270).DegreesToRadians());
 
-                    var dy = rot_sw.ElapsedMilliseconds
-                       * (1 + move_zoom)
-                       * (move_forward + move_backward)
-                       * move_speed
-                       * Math.Sin(-viewport_rot.rotation + (270).DegreesToRadians());
 
-                    current.With(
+                    #region remotecontrol
+                    Action<GameUnit> remotecontrol =
                         c =>
                         {
                             c.rotation += drot;
+
+                            var dx = rot_sw.ElapsedMilliseconds
+                                * (1 + move_zoom)
+                                * (move_forward + move_backward)
+                                * move_speed
+                                * Math.Cos(c.rotation + (270).DegreesToRadians());
+
+                            var dy = rot_sw.ElapsedMilliseconds
+                               * (1 + move_zoom)
+                               * (move_forward + move_backward)
+                               * move_speed
+                               * Math.Sin(c.rotation + (270).DegreesToRadians());
+
 
                             c.ScrollTracks(
                                 rot_sw.ElapsedMilliseconds
@@ -685,7 +831,7 @@ namespace FlashHeatZeekerWithStarlingT28
                                 c.prevframe_loc = prevframe_loc;
                                 c.prevframe_rot = c.rot.rotation;
 
-                                var unit_loc = new Sprite().AttachTo(viewport_content_layer0);
+                                var unit_loc = new Sprite().AttachTo(viewport_content_layer_tracks);
                                 var unit_rot = new Sprite().AttachTo(unit_loc);
 
                                 var img = new Image(textures_tracks0);
@@ -705,13 +851,19 @@ namespace FlashHeatZeekerWithStarlingT28
                                     c.tracks.Dequeue().Orphanize();
 
                             }
-                        }
-                    );
+                        };
+                    #endregion
 
-                    viewport_rot.rotation -= drot;
 
-                    viewport_content.x -= dx;
-                    viewport_content.y -= dy;
+                    remotecontrol(current);
+
+                    if (robo1.RemoteControlEnabled)
+                        remotecontrol(robo1);
+
+                    viewport_rot.rotation = -current.rot.rotation;
+
+                    viewport_content.x = -current.loc.x;
+                    viewport_content.y = -current.loc.y;
 
 
                     rot_sw.Restart();
@@ -767,6 +919,12 @@ namespace FlashHeatZeekerWithStarlingT28
               e =>
               {
                   Console.WriteLine("keyUp " + new { e.keyCode });
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.CapsLock)
+                  {
+                      robo1.RemoteControlEnabled = !robo1.RemoteControlEnabled;
+                  }
+
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
                   {
@@ -852,10 +1010,9 @@ namespace FlashHeatZeekerWithStarlingT28
 
 
             // where is our ego? center of touchdown?
-            viewport_content.x = -200;
-            viewport_content.y = -200;
+            switchto(unit1);
 
-            var info = new TextField(100, 200, "Welcome to Starling!");
+            var info = new TextField(100, 100, "Welcome to Starling!");
             info.width = 400;
 
             addChild(info);
