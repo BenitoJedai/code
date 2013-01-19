@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="greentank.svg"
+   sodipodi:docname="greentank_guntower_rank.svg"
    style="display:inline">
   <defs
      id="defs4" />
@@ -27,10 +27,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.3094686"
-     inkscape:cx="173.32915"
-     inkscape:cy="191.34552"
+     inkscape:cx="176.15832"
+     inkscape:cy="213.25454"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer3"
      showgrid="false"
      inkscape:window-width="1216"
      inkscape:window-height="1002"
@@ -112,7 +112,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="Layer"
-     style="display:inline">
+     style="display:none">
     <path
        style="fill:#4f8402;fill-opacity:1;stroke:none"
        d="m 172.6144,250.52118 55.78792,-0.32816 0.65633,-101.07459 -56.28017,0 z"
@@ -150,12 +150,27 @@
        inkscape:connector-curvature="0" />
     <path
        sodipodi:type="arc"
-       style="fill:#0f6400;fill-opacity:1;stroke:none;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#0f6400;fill-opacity:1;stroke:none"
        id="path3006"
        sodipodi:cx="200.55321"
        sodipodi:cy="200.05269"
        sodipodi:rx="9.6815271"
        sodipodi:ry="9.9006767"
        d="m 210.23473,200.05269 a 9.6815271,9.9006767 0 1 1 -19.36305,0 9.6815271,9.9006767 0 1 1 19.36305,0 z" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer#1">
+    <path
+       style="fill:none;stroke:#ff6600;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 191.20687,206.24061 9.34634,-11.37031 8.28924,11.37031"
+       id="path3009"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#ff6600;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 190.97482,214.59431 9.57839,-10.67417 8.75334,10.90622"
+       id="path3780"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

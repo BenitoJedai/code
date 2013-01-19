@@ -8,11 +8,11 @@
     <ProjectGuid>{8C36076C-7270-4841-BB8B-1C28A24ED1CE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MP3LoopExperiment</RootNamespace>
-    <AssemblyName>MP3LoopExperiment</AssemblyName>
+    <RootNamespace>Abstractatech.ActionScript.Audio</RootNamespace>
+    <AssemblyName>Abstractatech.ActionScript.Audio</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>MP3LoopExperiment.Program</StartupObject>
+    <StartupObject>Abstractatech.ActionScript.Audio.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,8 +113,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="MP3LoopExperiment.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\MP3LoopExperiment.AssetsLibrary.dll</HintPath>
+    <Reference Include="Abstractatech.ActionScript.Audio.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\Abstractatech.ActionScript.Audio.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -127,16 +127,15 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="web\assets\MP3LoopExperiment\dieselloopm5m5.mp3" />
-    <EmbeddedResource Include="web\assets\MP3LoopExperiment\helicopter1.mp3" />
-    <EmbeddedResource Include="web\assets\MP3LoopExperiment\loop.mp3" />
+    <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\diesel3.mp3" />
+    <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\diesel2.mp3" />
+    <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\helicopter1.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetDir)$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
 )
-
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>

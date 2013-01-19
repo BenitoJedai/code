@@ -9,116 +9,114 @@ using ScriptCoreLib.ActionScript.flash.net;
 
 namespace MP3PitchExample.ActionScript
 {
-	[Script]
-	public class MP3Pitch
-	{
-		private const int BLOCK_SIZE = 3072;
-		public double _rate { get; set; }
+    [Script]
+    public class MP3Pitch
+    {
+        private const int BLOCK_SIZE = 4096;
+        public double _rate { get; set; }
 
-		public MP3Pitch(string url)
-		{
-			var _target = new ByteArray();
+        public MP3Pitch(string url)
+        {
+            _rate = 1.0;
 
-			var _mp3 = new Sound();
+            var _mp3 = new Sound();
+            _mp3.load(new URLRequest(url));
+            _mp3.complete +=
+               e =>
+               {
+                   f(_mp3).play();
+               };
+        }
 
-			_mp3.load(new URLRequest(url));
+        private Sound f(Sound _mp3)
+        {
+            var _target = new ByteArray();
 
-			_rate = 0.5;
-			Play(_target, _mp3);
+            var _position = 0.0;
 
-		}
+            var _sound = new Sound();
 
-		private void Play(ByteArray _target, Sound _mp3)
-		{
-			var _position = 0.0;
+            _sound.sampleData +=
+                e =>
+                {
+                    //-- REUSE INSTEAD OF RECREATION
+                    _target.position = 0;
 
-			var _sound = new Sound();
+                    //-- SHORTCUT
+                    var data = e.data;
 
-			_sound.sampleData +=
-				e =>
-				{
-					//-- REUSE INSTEAD OF RECREATION
-					_target.position = 0;
+                    var scaledBlockSize = BLOCK_SIZE * _rate;
+                    var positionInt = Convert.ToInt32(_position);
+                    var alpha = _position - positionInt;
 
-					//-- SHORTCUT
-					var data = e.data;
+                    var positionTargetNum = alpha;
+                    var positionTargetInt = -1;
 
-					var scaledBlockSize = BLOCK_SIZE * _rate;
-					var positionInt = Convert.ToInt32(_position);
-					var alpha = _position - positionInt;
+                    //-- COMPUTE NUMBER OF SAMPLES NEED TO PROCESS BLOCK (+2 FOR INTERPOLATION)
+                    var need = Convert.ToInt32(Math.Ceiling(scaledBlockSize) + 2);
 
-					var positionTargetNum = alpha;
-					var positionTargetInt = -1;
+                    //-- EXTRACT SAMPLES
+                    var read = (int)_mp3.extract(_target, need, positionInt);
 
-					//-- COMPUTE NUMBER OF SAMPLES NEED TO PROCESS BLOCK (+2 FOR INTERPOLATION)
-					var need = Convert.ToInt32(Math.Ceiling(scaledBlockSize) + 2);
+                    var n = BLOCK_SIZE;
+                    if (read != need)
+                        n = Convert.ToInt32(read / _rate);
 
-					//-- EXTRACT SAMPLES
-					var read = (int)_mp3.extract(_target, need, positionInt);
+                    var l0 = .0;
+                    var r0 = .0;
+                    var l1 = .0;
+                    var r1 = .0;
 
-					var n = BLOCK_SIZE;
-					if (read != need)
-						n = Convert.ToInt32(read / _rate);
+                    var i = 0;
+                    for (; i < n; i++)
+                    {
+                        //-- AVOID READING EQUAL SAMPLES, IF RATE < 1.0
+                        if (Convert.ToInt32(positionTargetNum) != positionTargetInt)
+                        {
+                            positionTargetInt = Convert.ToInt32(positionTargetNum);
 
-					var l0 = .0;
-					var r0 = .0;
-					var l1 = .0;
-					var r1 = .0;
+                            //-- SET TARGET READ POSITION
+                            _target.position = (uint)(positionTargetInt << 3);
 
-					var i = 0;
-					for (; i < n; i++)
-					{
-						//-- AVOID READING EQUAL SAMPLES, IF RATE < 1.0
-						if (Convert.ToInt32(positionTargetNum) != positionTargetInt)
-						{
-							positionTargetInt = Convert.ToInt32(positionTargetNum);
+                            //-- READ TWO STEREO SAMPLES FOR LINEAR INTERPOLATION
+                            l0 = _target.readFloat();
+                            r0 = _target.readFloat();
 
-							//-- SET TARGET READ POSITION
-							_target.position = (uint)(positionTargetInt << 3);
+                            l1 = _target.readFloat();
+                            r1 = _target.readFloat();
+                        }
 
-							//-- READ TWO STEREO SAMPLES FOR LINEAR INTERPOLATION
-							l0 = _target.readFloat();
-							r0 = _target.readFloat();
+                        //-- WRITE INTERPOLATED AMPLITUDES INTO STREAM
+                        data.writeFloat(l0 + alpha * (l1 - l0));
+                        data.writeFloat(r0 + alpha * (r1 - r0));
 
-							l1 = _target.readFloat();
-							r1 = _target.readFloat();
-						}
+                        //-- INCREASE TARGET POSITION
+                        positionTargetNum += _rate;
 
-						//-- WRITE INTERPOLATED AMPLITUDES INTO STREAM
-						data.writeFloat(l0 + alpha * (l1 - l0));
-						data.writeFloat(r0 + alpha * (r1 - r0));
+                        //-- INCREASE FRACTION AND CLAMP BETWEEN 0 AND 1
+                        alpha += _rate;
+                        while (alpha >= 1.0) --alpha;
+                    }
 
-						//-- INCREASE TARGET POSITION
-						positionTargetNum += _rate;
+                    //-- FILL REST OF STREAM WITH ZEROs
+                    if (i < BLOCK_SIZE)
+                    {
+                        while (i < BLOCK_SIZE)
+                        {
+                            data.writeFloat(0.0);
+                            data.writeFloat(0.0);
 
-						//-- INCREASE FRACTION AND CLAMP BETWEEN 0 AND 1
-						alpha += _rate;
-						while (alpha >= 1.0) --alpha;
-					}
+                            ++i;
+                        }
+                    }
 
-					//-- FILL REST OF STREAM WITH ZEROs
-					if (i < BLOCK_SIZE)
-					{
-						while (i < BLOCK_SIZE)
-						{
-							data.writeFloat(0.0);
-							data.writeFloat(0.0);
-
-							++i;
-						}
-					}
-
-					//-- INCREASE SOUND POSITION
-					_position += scaledBlockSize;
-				};
+                    //-- INCREASE SOUND POSITION
+                    _position += scaledBlockSize;
+                };
 
 
-			_mp3.complete +=
-				e =>
-				{
-					var c = _sound.play();
+            return _sound;
 
-				};
-		}
-	}
+        }
+    }
 }

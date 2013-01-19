@@ -2,14 +2,18 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using ScriptCoreLib.Shared.Lambda;
 using starling.core;
 using starling.display;
 using starling.text;
 using starling.textures;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using FlashHeatZeekerWithStarling.ActionScript.Images;
 
 namespace FlashHeatZeekerWithStarling
 {
@@ -69,6 +73,7 @@ namespace FlashHeatZeekerWithStarling
             return a;
         }
     }
+
 
 
     // HD
@@ -224,7 +229,19 @@ namespace FlashHeatZeekerWithStarling
 
         public static ApplicationSprite __sprite;
         public static ScriptCoreLib.ActionScript.flash.display.Stage __stage;
+
+
     }
+
+    class KineticEnergy
+    {
+        public DisplayObject Target;
+
+        public __vec2 Energy;
+
+        public int TTL;
+    }
+
 
     static class StarlingExtensions
     {
@@ -234,6 +251,54 @@ namespace FlashHeatZeekerWithStarling
 
             return e;
         }
+
+        public static T Orphanize<T>(this T e) where T : DisplayObject
+        {
+            if (e != null)
+                if (e.parent != null)
+                    e.removeFromParent();
+
+
+            return e;
+        }
+
+        public static T MoveTo<T>(this T e, double x, double y) where T : DisplayObject
+        {
+            e.x = x;
+            e.y = y;
+
+
+            return e;
+        }
+
+
+    }
+
+    class GameUnit
+    {
+        public Sprite loc;
+        public Sprite rot;
+
+        public Image shape;
+
+        public Sprite shadow_rot;
+
+        public __vec2 prevframe_loc = new __vec2();
+        public double prevframe_rot = 0;
+
+        public Queue<Sprite> tracks = new Queue<Sprite>();
+
+        public double rotation
+        {
+            get { return this.rot.rotation; }
+            set
+            {
+                this.rot.rotation = value;
+                this.shadow_rot.rotation = value;
+            }
+        }
+
+        public Action AddRank;
     }
 
     public class Game : Sprite
@@ -270,6 +335,7 @@ namespace FlashHeatZeekerWithStarling
             }
 
 
+            var viewport_content_layer0 = new Sprite().AttachTo(viewport_content);
 
             KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarling/touchdown.svg"].ToSprite().With(
                 shape =>
@@ -301,6 +367,80 @@ namespace FlashHeatZeekerWithStarling
                 }
             );
 
+            #region new_tex
+            Func<string, Texture> new_tex =
+               asset =>
+               {
+                   var shape = KnownEmbeddedResources.Default[asset].ToSprite();
+                   var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(400, 400, true, 0x00000000);
+                   bmd.draw(shape);
+                   return Texture.fromBitmapData(bmd);
+               };
+            #endregion
+
+            var textures_bullet = new_tex("assets/FlashHeatZeekerWithStarling/bullet.svg");
+            var textures_tracks0 = new_tex("assets/FlashHeatZeekerWithStarling/tracks0.svg");
+            var textures_greentank = new_tex("assets/FlashHeatZeekerWithStarling/greentank.svg");
+            var textures_greentank_guntower = new_tex("assets/FlashHeatZeekerWithStarling/greentank_guntower.svg");
+            var textures_greentank_guntower_rank = new_tex("assets/FlashHeatZeekerWithStarling/greentank_guntower_rank.svg");
+            var textures_greentank_shadow = new_tex("assets/FlashHeatZeekerWithStarling/greentank_shadow.svg");
+
+            GameUnit current = null;
+
+
+            #region new_gameunit
+            Func<GameUnit> new_gameunit =
+                delegate
+                {
+                    var unit_loc = new Sprite().AttachTo(viewport_content);
+
+                    var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(8, 8);
+                    var unit_shadow_rot = new Sprite().AttachTo(unit_shadow_loc);
+
+                    var shadow_shape = new Image(textures_greentank_shadow) { x = -200, y = -200 }.AttachTo(unit_shadow_rot);
+                    shadow_shape.alpha = 0.2;
+
+                    var unit_rot = new Sprite().AttachTo(unit_loc);
+
+                    var shape = new Image(textures_greentank) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+
+                    var guntower = new Sprite().AttachTo(unit_rot);
+                    new Image(textures_greentank_guntower) { x = -200, y = -200 }.AttachTo(guntower);
+
+
+                    return new GameUnit
+                    {
+                        loc = unit_loc,
+                        rot = unit_rot,
+                        shape = shape,
+                        shadow_rot = unit_shadow_rot,
+
+                        AddRank = delegate
+                        {
+
+                            new Image(textures_greentank_guntower_rank) { x = -200, y = -200 }.AttachTo(guntower);
+
+                        }
+                    };
+                };
+            #endregion
+
+            var unit1 = new_gameunit();
+            unit1.loc.MoveTo(200, 200);
+            unit1.AddRank();
+
+            var unit2 = new_gameunit();
+            unit2.loc.MoveTo(200 + 400, 200 + 400);
+
+
+            var unit3 = new_gameunit();
+            unit3.loc.MoveTo(200 + 400 + 200, 200 + 400);
+
+
+            var controllable = new[] { unit1, unit2, unit3 };
+
+            current = unit1;
 
             #region tree0
             KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarling/tree0.svg"].ToSprite().With(
@@ -356,7 +496,10 @@ namespace FlashHeatZeekerWithStarling
             );
             #endregion
 
-            var move_speed = 0.5;
+            var frameid = 0L;
+
+
+            var move_speed = 0.09;
 
             var move_forward = 0.0;
             var move_backward = 0.0;
@@ -369,10 +512,44 @@ namespace FlashHeatZeekerWithStarling
 
             var move_zoom = 1.0;
 
+            var diesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarling/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
+
+
+            //diesel2.Sound.vol
+
+
+            var KineticEnergy = new List<KineticEnergy>();
+
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
                     // which is it, do we need to zoom out or in?
+
+                    #region KineticEnergy
+                    foreach (var item in KineticEnergy)
+                    {
+                        item.Target.With(
+                            t =>
+                            {
+                                if (item.TTL == 0)
+                                {
+                                    t.Orphanize();
+
+                                    item.Target = null;
+                                    return;
+                                }
+
+                                t.x += rot_sw.ElapsedMilliseconds * item.Energy.x;
+                                t.y += rot_sw.ElapsedMilliseconds * item.Energy.y;
+
+                                item.TTL--;
+
+
+                            }
+                        );
+                    }
+                    #endregion
+
 
                     var any_movement = Math.Sign(
                         Math.Abs(move_forward)
@@ -387,31 +564,91 @@ namespace FlashHeatZeekerWithStarling
 
                     move_zoom = move_zoom.Max(0.0).Min(1.0);
 
+                    diesel2.LeftVolume = 0.3 + move_zoom * 0.7;
+                    diesel2.Rate = 0.9 + move_zoom;
+
                     // show only % of the zoom/speed boost
                     viewport_rot.scaleX = 1 + (1 - move_zoom) * 0.2;
                     viewport_rot.scaleY = 1 + (1 - move_zoom) * 0.2;
 
-                    viewport_rot.rotation +=
-                        rot_sw.ElapsedMilliseconds
+
+                    var drot = rot_sw.ElapsedMilliseconds
                         * (1 + move_zoom)
                         * (rot_left + rot_right)
-                        * (0.15).DegreesToRadians();
+                        * (Math.Abs(move_forward + move_backward).Max(0.5) * 0.09).DegreesToRadians();
 
-                    viewport_content.x -=
-                        rot_sw.ElapsedMilliseconds
+                    var dx = rot_sw.ElapsedMilliseconds
                         * (1 + move_zoom)
                         * (move_forward + move_backward)
                         * move_speed
                         * Math.Cos(-viewport_rot.rotation + (270).DegreesToRadians());
 
-                    viewport_content.y -=
-                       rot_sw.ElapsedMilliseconds
-                        * (1 + move_zoom)
+                    var dy = rot_sw.ElapsedMilliseconds
+                       * (1 + move_zoom)
                        * (move_forward + move_backward)
                        * move_speed
                        * Math.Sin(-viewport_rot.rotation + (270).DegreesToRadians());
 
+                    current.With(
+                        c =>
+                        {
+                            c.rotation += drot;
+
+                            var prevframe_loc = new __vec2();
+
+                            prevframe_loc.x = (float)c.loc.x;
+                            prevframe_loc.y = (float)c.loc.y;
+
+                            c.loc.x += dx;
+                            c.loc.y += dy;
+
+                            var prevframe_loc_length = new __vec2(
+                                c.prevframe_loc.x - (float)c.loc.x,
+                                c.prevframe_loc.y - (float)c.loc.y
+                            ).GetLength();
+
+                            var changed_prevframe_rot =
+                                Math.Abs(c.rot.rotation - c.prevframe_rot) > 25.DegreesToRadians();
+
+                            if (prevframe_loc_length > 80 || changed_prevframe_rot)
+                            {
+                                // unit draws tracks..
+                                c.prevframe_loc = prevframe_loc;
+                                c.prevframe_rot = c.rot.rotation;
+
+                                var unit_loc = new Sprite().AttachTo(viewport_content_layer0);
+                                var unit_rot = new Sprite().AttachTo(unit_loc);
+
+                                var img = new Image(textures_tracks0);
+                                img.x = -200;
+                                img.y = -200;
+                                img.alpha = 0.2;
+
+                                img.AttachTo(unit_rot);
+
+
+                                unit_rot.rotation = current.rot.rotation;
+                                unit_loc.MoveTo(current.loc.x, current.loc.y);
+
+                                c.tracks.Enqueue(unit_loc);
+
+                                if (c.tracks.Count > 96)
+                                    c.tracks.Dequeue().Orphanize();
+
+                            }
+                        }
+                    );
+
+                    viewport_rot.rotation -= drot;
+
+                    viewport_content.x -= dx;
+                    viewport_content.y -= dy;
+
+
                     rot_sw.Restart();
+
+
+
                 };
 
             // script: error JSC1000: ActionScript : failure at starling.display.Stage.add_keyDown : Object reference not set to an instance of an object.
@@ -434,15 +671,29 @@ namespace FlashHeatZeekerWithStarling
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
                     {
-                        rot_left = 1;
+                        rot_left = -1;
                     }
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
                     {
-                        rot_right = -1;
+                        rot_right = 1;
                     }
                 };
 
+            Action<GameUnit> switchto =
+                nextunit =>
+                {
+                    KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarling/letsgo.mp3"].ToSoundAsset().play();
+
+                    move_zoom = 1;
+
+                    current = nextunit;
+
+                    viewport_rot.rotation = -current.rot.rotation;
+
+                    viewport_content.x = -current.loc.x;
+                    viewport_content.y = -current.loc.y;
+                };
             ApplicationSprite.__stage.keyUp +=
               e =>
               {
@@ -467,6 +718,66 @@ namespace FlashHeatZeekerWithStarling
                   {
                       rot_right = 0;
                   }
+
+
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.D1)
+                  {
+                      switchto(unit1);
+                  }
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.D2)
+                  {
+                      switchto(unit2);
+                  }
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.D3)
+                  {
+                      switchto(unit3);
+                  }
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.Tab)
+                  {
+                      //                      System.Linq.Enumerable for System.Collections.Generic.IEnumerable`1[FlashHeatZeekerWithStarling.GameUnit] Skip[GameUnit](System.Collections.Generic.IEnumerable`1[FlashHeatZeekerWithStarling.GameUnit], Int32) used at
+                      //FlashHeatZeekerWithStarling.Game+<>c__DisplayClass10.<.ctor>b__a at offset 014b.
+                      //If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set. You may have mistyped it.
+
+
+
+                      var nextunit = controllable.AsCyclicEnumerable().SkipWhile(k => k != current).Take(2).Last();
+                      switchto(nextunit);
+                  }
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.ControlKey)
+                  {
+                      Console.WriteLine("fire!");
+                      // http://www.sounddogs.com/results.asp?Type=1&CategoryID=1027&SubcategoryID=11
+                      KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarling/cannon1.mp3"].ToSoundAsset().play();
+
+                      var unit_bullet = new Sprite().AttachTo(viewport_content);
+
+                      var shape = new Image(textures_bullet) { x = -200, y = -200 }.AttachTo(unit_bullet);
+
+                      unit_bullet.MoveTo(
+                          current.loc.x + 100 * Math.Cos(current.rotation + 270.DegreesToRadians()),
+                          current.loc.y + 100 * Math.Sin(current.rotation + 270.DegreesToRadians())
+                      );
+
+                      KineticEnergy.Add(
+                          new FlashHeatZeekerWithStarling.KineticEnergy
+                          {
+                              Target = unit_bullet,
+                              Energy = new __vec2(
+                                  (float)(2 * Math.Cos(current.rotation + 270.DegreesToRadians())),
+                                  (float)(2 * Math.Sin(current.rotation + 270.DegreesToRadians()))
+                              ),
+                              TTL = 100
+                          }
+                        );
+
+                      unit_bullet.scaleX = 0.8;
+                      unit_bullet.scaleY = 0.8;
+                  }
               };
 
 
@@ -475,24 +786,38 @@ namespace FlashHeatZeekerWithStarling
             viewport_content.x = -200;
             viewport_content.y = -200;
 
-            var info = new TextField(100, 100, "Welcome to Starling!");
+            var info = new TextField(100, 200, "Welcome to Starling!");
             info.width = 400;
 
             addChild(info);
 
+            var __bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(96, 96, true, 0x00000000);
+            __bmd.draw(new white_jsc());
+            var __img = Texture.fromBitmapData(__bmd);
+
+            var logo = new Image(__img) { alpha = 0.3 }.AttachTo(this);
+
             #region viewport_loc, resize all you want
-            viewport_loc.x = ApplicationSprite.__stage.stageWidth / 2;
-            viewport_loc.y = ApplicationSprite.__stage.stageHeight / 2;
+            Action centerize = delegate
+            {
+                logo.MoveTo(
+                    ApplicationSprite.__stage.stageWidth - 96,
+                    ApplicationSprite.__stage.stageHeight - 96
+                );
+
+                viewport_loc.x = ApplicationSprite.__stage.stageWidth * 0.5;
+                viewport_loc.y = ApplicationSprite.__stage.stageHeight * 0.7;
+            };
 
             ApplicationSprite.__stage.resize +=
                 delegate
                 {
-                    viewport_loc.x = ApplicationSprite.__stage.stageWidth / 2;
-                    viewport_loc.y = ApplicationSprite.__stage.stageHeight / 2;
+                    centerize();
                 };
+
+            centerize();
             #endregion
 
-            var frameid = 0L;
 
             var maxframe = new Stopwatch();
             var maxframe_elapsed = 0.0;
@@ -525,7 +850,9 @@ namespace FlashHeatZeekerWithStarling
 
                     ii++;
 
-                    info.text = new { fps, frameid, maxframe_elapsed }.ToString();
+                    var now = DateTime.Now;
+
+                    info.text = new { fps, frameid, maxframe_elapsed, now }.ToString();
 
                     if (sw.ElapsedMilliseconds < 1000)
                     {
@@ -543,6 +870,10 @@ namespace FlashHeatZeekerWithStarling
                     sw.Restart();
                 };
             #endregion
+
+
+
+
         }
     }
 }
