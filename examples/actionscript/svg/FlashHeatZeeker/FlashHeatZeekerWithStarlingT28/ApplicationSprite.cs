@@ -296,6 +296,18 @@ namespace FlashHeatZeekerWithStarlingT28
 
     }
 
+    class GameMap
+    {
+        //    BBB GGG
+        //  CCC AAA FFF
+        //    DDD EEE
+
+        public Image ground;
+
+        public List<DisplayObject> doodads = new List<DisplayObject>();
+    }
+
+
     class GameUnit
     {
         public Sprite loc;
@@ -348,6 +360,12 @@ namespace FlashHeatZeekerWithStarlingT28
             var viewport_rot = new Sprite().AttachTo(viewport_loc);
             var viewport_content = new Sprite().AttachTo(viewport_rot);
 
+            var viewport_content_layer0_ground = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer1_tracks = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer2_units = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer3_trees = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer4_clouds = new Sprite().AttachTo(viewport_content);
+
             viewport_rot.scaleX = 2.0;
             viewport_rot.scaleY = 2.0;
 
@@ -359,7 +377,7 @@ namespace FlashHeatZeekerWithStarlingT28
                 var tex = Texture.fromBitmapData(bmd);
                 var img = new Image(tex);
 
-                img.AttachTo(viewport_content);
+                img.AttachTo(viewport_content_layer0_ground);
             }
 
             var mapB_offset_x = -2048 / 2;
@@ -373,12 +391,85 @@ namespace FlashHeatZeekerWithStarlingT28
                 var tex = Texture.fromBitmapData(bmd);
                 var img = new Image(tex);
 
-                img.AttachTo(viewport_content);
+                img.AttachTo(viewport_content_layer0_ground);
 
                 img.MoveTo(mapB_offset_x, mapB_offset_y);
             }
 
+            var mapBvirtualD_offset_x = 0;
+            var mapBvirtualD_offset_y = -2048 * 2;
 
+            var mapBvirtualF_offset_x = -2048;
+            var mapBvirtualF_offset_y = -2048 * 2;
+
+
+
+            var mapC_offset_x = -2048;
+            var mapC_offset_y = 0;
+
+            // our map C
+            {
+                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
+                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+
+                var tex = Texture.fromBitmapData(bmd);
+                var img = new Image(tex);
+
+                img.AttachTo(viewport_content_layer0_ground);
+
+                img.MoveTo(mapC_offset_x, mapC_offset_y);
+            }
+
+
+            var mapD_offset_x = -2048 / 2;
+            var mapD_offset_y = 2048;
+            //var mapD_img = default(Image);
+            var mapD = new GameMap();
+
+            // our map C
+            {
+                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
+                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+
+                var tex = Texture.fromBitmapData(bmd);
+
+                mapD.ground = new Image(tex);
+                mapD.ground.AttachTo(viewport_content_layer0_ground);
+                mapD.ground.MoveTo(mapD_offset_x, mapD_offset_y);
+            }
+
+            var mapE_offset_x = 2048 / 2;
+            var mapE_offset_y = 2048;
+
+            // our map C
+            {
+                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
+                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+
+                var tex = Texture.fromBitmapData(bmd);
+                var img = new Image(tex);
+
+                img.AttachTo(viewport_content_layer0_ground);
+
+                img.MoveTo(mapE_offset_x, mapE_offset_y);
+            }
+
+            var mapF_offset_x = 2048;
+            var mapF_offset_y = 0;
+            //var mapD_img = default(Image);
+            var mapF = new GameMap();
+
+            // our map C
+            {
+                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
+                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+
+                var tex = Texture.fromBitmapData(bmd);
+
+                mapF.ground = new Image(tex);
+                mapF.ground.AttachTo(viewport_content_layer0_ground);
+                mapF.ground.MoveTo(mapF_offset_x, mapF_offset_y);
+            }
 
 
 
@@ -410,9 +501,7 @@ namespace FlashHeatZeekerWithStarlingT28
                };
             #endregion
 
-            var viewport_content_layer_tracks = new Sprite().AttachTo(viewport_content);
-            var viewport_content_layer_units = new Sprite().AttachTo(viewport_content);
-            var viewport_content_layer_trees = new Sprite().AttachTo(viewport_content);
+
 
 
             var textures_road0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/road0.svg");
@@ -426,7 +515,7 @@ namespace FlashHeatZeekerWithStarlingT28
                 img.scaleX = 0.5;
                 img.scaleY = 0.5;
 
-                img.AttachTo(viewport_content_layer_tracks);
+                img.AttachTo(viewport_content_layer1_tracks);
             }
 
 
@@ -447,7 +536,7 @@ namespace FlashHeatZeekerWithStarlingT28
                 img.scaleX = 0.4;
                 img.scaleY = 0.4;
 
-                img.AttachTo(viewport_content_layer_tracks);
+                img.AttachTo(viewport_content_layer1_tracks);
             }
 
             var textures_hill1 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/hill1.svg");
@@ -460,7 +549,7 @@ namespace FlashHeatZeekerWithStarlingT28
                 img.scaleX = 0.4;
                 img.scaleY = 0.4;
 
-                img.AttachTo(viewport_content_layer_tracks);
+                img.AttachTo(viewport_content_layer1_tracks);
             }
 
             var textures_watertower0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/watertower0.svg");
@@ -470,9 +559,28 @@ namespace FlashHeatZeekerWithStarlingT28
             Func<Sprite> new_tree =
                 delegate
                 {
-                    var unit_loc = new Sprite().AttachTo(viewport_content_layer_trees);
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer3_trees);
                     var unit_scale = new Sprite().AttachTo(unit_loc);
                     var img = new Image(textures_tree0);
+                    img.x = -256;
+                    img.y = -256;
+
+                    unit_scale.scaleX = 0.15;
+                    unit_scale.scaleY = 0.15;
+
+                    img.AttachTo(unit_scale);
+
+                    return unit_loc;
+                };
+            #endregion
+
+            #region new_hill1
+            Func<Sprite> new_hill1 =
+                delegate
+                {
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer1_tracks);
+                    var unit_scale = new Sprite().AttachTo(unit_loc);
+                    var img = new Image(textures_hill1);
                     img.x = -256;
                     img.y = -256;
 
@@ -490,7 +598,7 @@ namespace FlashHeatZeekerWithStarlingT28
             Func<Sprite> new_watertower =
                 delegate
                 {
-                    var unit_loc = new Sprite().AttachTo(viewport_content);
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer3_trees);
                     var unit_scale = new Sprite().AttachTo(unit_loc);
                     var img = new Image(textures_watertower0);
                     img.x = -256;
@@ -521,16 +629,6 @@ namespace FlashHeatZeekerWithStarlingT28
 
             var r = new Random();
 
-            // grow trees in the center
-            for (int i = 0; i < 1024; i++)
-            {
-
-
-                new_tree().MoveTo(
-                   mapB_offset_x + (r.NextDouble() * 0.8 + 0.1) * 2048,
-                   mapB_offset_y + (r.NextDouble() * 0.8 + 0.1) * 2048
-                   );
-            }
 
             for (int i = 0; i < 2048; i += 256)
             {
@@ -543,13 +641,13 @@ namespace FlashHeatZeekerWithStarlingT28
                 img.scaleX = 0.5;
                 img.scaleY = 0.5;
 
-                img.AttachTo(viewport_content_layer_tracks);
+                img.AttachTo(viewport_content_layer1_tracks);
             }
 
             #region new_road
             Func<GameUnit> new_road = delegate
             {
-                var _loc = new Sprite().AttachTo(viewport_content_layer_tracks);
+                var _loc = new Sprite().AttachTo(viewport_content_layer1_tracks);
                 var _rot = new Sprite().AttachTo(_loc);
                 var img = new Image(textures_road0);
                 img.x = -256;
@@ -565,7 +663,7 @@ namespace FlashHeatZeekerWithStarlingT28
 
 
 
-            Console.WriteLine("will build vroad");
+            #region  map B vroad
             for (int i = 0; i < 2048; i += 256)
             {
                 var rr = new_road();
@@ -575,14 +673,84 @@ namespace FlashHeatZeekerWithStarlingT28
                 var rrx = mapB_offset_x + 2024 - 128;
                 var rry = mapB_offset_y + 128 + (i);
 
-                Console.WriteLine("vroad " + new { i, rrx, rry });
                 rr.loc.MoveTo(rrx, rry);
             }
-            Console.WriteLine("will build vroad. done.");
+            #endregion
+
+            #region map b grow trees in the center
+            for (int i = 0; i < 1024; i++)
+            {
+
+
+                new_tree().MoveTo(
+                   mapB_offset_x + (r.NextDouble() * 0.8 + 0.1) * 2048,
+                   mapB_offset_y + (r.NextDouble() * 0.8 + 0.1) * 2048
+                   );
+            }
+            #endregion
+
+
+
+            #region map C vroad
+            for (int i = 0; i < 2048; i += 256)
+            {
+                var rr = new_road();
+
+                rr.rotation = 90.DegreesToRadians();
+
+                var rrx = mapC_offset_x + 2024 - 128;
+                var rry = mapC_offset_y + 128 + (i);
+
+                rr.loc.MoveTo(rrx, rry);
+            }
+            #endregion
+
+            Action<double, double, GameMap> fill_empty_map =
+                (mapx, mapy, map) =>
+                {
+
+                    #region map c grow trees in the center
+                    for (int i = 0; i < 128; i++)
+                    {
+
+
+                        var tree = new_tree().MoveTo(
+                           mapx + (r.NextDouble() * 0.8 + 0.1) * 2048,
+                           mapy + (r.NextDouble() * 0.8 + 0.1) * 2048
+                           );
+
+                        if (map != null)
+                            map.doodads.Add(tree);
+
+                    }
+
+                    for (int i = 0; i < 64; i++)
+                    {
+
+
+
+
+                        var hill = new_hill1().MoveTo(
+                         mapx + (r.NextDouble() * 0.8 + 0.1) * 2048,
+                         mapy + (r.NextDouble() * 0.8 + 0.1) * 2048
+                         );
+
+                        if (map != null)
+                            map.doodads.Add(hill);
+                    }
+                    #endregion
+
+                };
+
+            fill_empty_map(mapC_offset_x, mapC_offset_y, null);
+            fill_empty_map(mapD_offset_x, mapD_offset_y, mapD);
+            fill_empty_map(mapE_offset_x, mapE_offset_y, null);
+            fill_empty_map(mapF_offset_x, mapF_offset_y, mapF);
 
             new_watertower().MoveTo(2048 / 2, 0);
             new_watertower().MoveTo(mapB_offset_x, mapB_offset_y);
             new_watertower().MoveTo(mapB_offset_x + 2048, mapB_offset_y);
+            new_watertower().MoveTo(mapB_offset_x, mapB_offset_y + 2048);
 
             var textures_tanktrackpattern = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/tanktrackpattern.svg");
             textures_tanktrackpattern.repeat = true;
@@ -601,7 +769,7 @@ namespace FlashHeatZeekerWithStarlingT28
             Func<GameUnit> new_gameunit =
                 delegate
                 {
-                    var unit_loc = new Sprite().AttachTo(viewport_content_layer_units);
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer2_units);
 
                     var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(8, 8);
                     var unit_shadow_rot = new Sprite().AttachTo(unit_shadow_loc);
@@ -784,6 +952,78 @@ namespace FlashHeatZeekerWithStarlingT28
             Func<double, double> zoomer = zoomer_default;
 
 
+            #region lookat
+            Action<double, double, double> lookat =
+            (rot, x, y) =>
+            {
+                viewport_rot.rotation = -rot;
+
+                viewport_content.x = -x;
+                viewport_content.y = -y;
+
+                #region map_teleport
+                Action<GameMap, double, double> map_teleport =
+                    (map, mapx, mapy) =>
+                    {
+                        var dx = mapx - map.ground.x;
+                        var dy = mapy - map.ground.y;
+
+                        if (dx == 0)
+                            if (dy == 0)
+                                return;
+
+                        map.ground.MoveTo(
+                          map.ground.x + dx,
+                          map.ground.y + dy
+                        );
+
+                        var teleportsw = new Stopwatch();
+
+                        teleportsw.Start();
+
+                        map.doodads.WithEach(
+                            k => k.MoveTo(k.x + dx, k.y + dy)
+                        );
+
+
+                        teleportsw.Stop();
+
+                        Console.WriteLine("map teleport done in " + teleportsw.ElapsedMilliseconds + "ms");
+
+                    };
+                #endregion
+
+
+                if (y < (-2024 / 2))
+                {
+                    map_teleport(mapD,
+                            mapBvirtualD_offset_x,
+                            mapBvirtualD_offset_y
+                    );
+
+                    map_teleport(mapF,
+                        mapBvirtualF_offset_x,
+                        mapBvirtualF_offset_y
+                );
+                }
+                else
+                {
+                    map_teleport(mapD,
+                        mapD_offset_x,
+                        mapD_offset_y
+                    );
+
+                    map_teleport(mapF,
+                     mapF_offset_x,
+                     mapF_offset_y
+                 );
+
+                }
+            };
+            #endregion
+
+
+
             var KineticEnergy = new List<KineticEnergy>();
 
             ApplicationSprite.__stage.enterFrame +=
@@ -894,7 +1134,7 @@ namespace FlashHeatZeekerWithStarlingT28
                                 c.prevframe_loc = prevframe_loc;
                                 c.prevframe_rot = c.rot.rotation;
 
-                                var unit_loc = new Sprite().AttachTo(viewport_content_layer_tracks);
+                                var unit_loc = new Sprite().AttachTo(viewport_content_layer1_tracks);
                                 var unit_rot = new Sprite().AttachTo(unit_loc);
 
                                 var img = new Image(textures_tracks0);
@@ -924,20 +1164,18 @@ namespace FlashHeatZeekerWithStarlingT28
                         remotecontrol(robo1);
 
 
-                        viewport_rot.rotation = -current.rot.rotation;
+                        lookat(
+                            current.rot.rotation,
+                            (current.loc.x + (robo1.loc.x - current.loc.x) / 2),
+                            (current.loc.y + (robo1.loc.y - current.loc.y) / 2)
+                            );
 
-                        viewport_content.x = -(current.loc.x + (robo1.loc.x - current.loc.x) / 2);
-                        viewport_content.y = -(current.loc.y + (robo1.loc.y - current.loc.y) / 2);
                     }
                     else
                     {
                         remotecontrol(current);
 
-
-                        viewport_rot.rotation = -current.rot.rotation;
-
-                        viewport_content.x = -current.loc.x;
-                        viewport_content.y = -current.loc.y;
+                        lookat(current.rot.rotation, current.loc.x, current.loc.y);
                     }
 
                     rot_sw.Restart();
@@ -977,6 +1215,8 @@ namespace FlashHeatZeekerWithStarlingT28
 
                 };
 
+
+
             #region switchto
             Action<GameUnit> switchto =
                 nextunit =>
@@ -986,11 +1226,7 @@ namespace FlashHeatZeekerWithStarlingT28
                     move_zoom = 1;
 
                     current = nextunit;
-
-                    viewport_rot.rotation = -current.rot.rotation;
-
-                    viewport_content.x = -current.loc.x;
-                    viewport_content.y = -current.loc.y;
+                    lookat(current.rotation, current.loc.x, current.loc.y);
                 };
             #endregion
 
@@ -1177,6 +1413,11 @@ namespace FlashHeatZeekerWithStarlingT28
                     var now = DateTime.Now;
 
                     info.text = new { fps, frameid, maxframe_elapsed, now }.ToString();
+
+                    if (fps < 40)
+                        info.color = 0xff0000;
+                    else
+                        info.color = 0x0;
 
                     if (sw.ElapsedMilliseconds < 1000)
                     {

@@ -14,6 +14,7 @@ using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.ActionScript.flash.display;
 using Abstractatech.ConsoleFormPackage.Library;
+using System.Windows.Forms;
 
 namespace FlashHeatZeekerWithStarlingT28
 {
@@ -80,6 +81,30 @@ namespace FlashHeatZeekerWithStarlingT28
                        Console.Write,
                        Console.WriteLine
                    );
+
+            if (Native.Window.opener == null)
+                new Button { Text = "Secondary View" }.With(
+                    connect =>
+                    {
+                        connect.AttachTo(con);
+
+                        connect.Left = 8;
+                        connect.Top = 8;
+
+                        connect.Click +=
+                            delegate
+                            {
+                                var w = Native.Window.open(Native.Document.location.href, "_blank", 400, 600, false);
+
+
+                                w.onload +=
+                                    delegate
+                                    {
+                                        Console.WriteLine("loaded: " + w.document.location.href);
+                                    };
+                            };
+                    }
+                );
         }
 
     }
