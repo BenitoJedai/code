@@ -22,7 +22,14 @@ namespace MP3LoopExperiment
         private const int bufferSize = 4096; // Stable playback
 
         //private const int samplesTotal = 124417; // original amount of sample before encoding (change it to your loop)
-        private const int samplesTotal = 293803; // original amount of sample before encoding (change it to your loop)
+        private int samplesTotal = 293803; // original amount of sample before encoding (change it to your loop)
+        // 6739
+        // 44100
+        // 297189900
+        // 297189
+        // 293803
+        // 294932
+
 
         private Sound _out = new Sound(); // Use for output stream
 
@@ -47,7 +54,8 @@ namespace MP3LoopExperiment
 
             //mp3 = __mp3.ToSoundAsset();
 
-            mp3 = KnownEmbeddedResources.Default["assets/MP3LoopExperiment/helicopter1.mp3"].ToSoundAsset();
+            mp3 = KnownEmbeddedResources.Default["assets/MP3LoopExperiment/dieselloopm5m5.mp3"].ToSoundAsset();
+            samplesTotal = System.Convert.ToInt32((mp3.length * 44100 / 1000) - MAGIC_DELAY - MAGIC_DELAY / 2);
 
             //stage.align = StageAlign.TOP_LEFT;
             //stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -68,7 +76,7 @@ namespace MP3LoopExperiment
                 };
 
             updateText();
-
+            
             startPlayback();
 
             enabled = true;
@@ -81,7 +89,7 @@ namespace MP3LoopExperiment
         private void updateText()
         {
             if (enabled)
-                textField.text = "click to pause...";
+                textField.text = "click to pause... " + this.mp3.length;
             else
                 textField.text = "click to play...";
         }

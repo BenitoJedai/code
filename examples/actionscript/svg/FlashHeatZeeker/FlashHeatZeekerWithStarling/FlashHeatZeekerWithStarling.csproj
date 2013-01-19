@@ -38,6 +38,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ActionScript.Audio">
+      <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
+    </Reference>
     <Reference Include="Abstractatech.ConsoleFormPackage">
       <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
     </Reference>
@@ -135,6 +138,17 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\white-jsc.png" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\greentank_guntower_rank.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\cannon1.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\letsgo.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\bullet.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\greentank_guntower.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\greentank_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\diesel4.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\diesel2.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\helicopter1.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\tracks0.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\tree0.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\touchdown.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarling\hill0.svg" />
