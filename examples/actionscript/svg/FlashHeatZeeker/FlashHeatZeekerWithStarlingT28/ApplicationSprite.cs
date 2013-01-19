@@ -307,6 +307,10 @@ namespace FlashHeatZeekerWithStarlingT28
         public List<DisplayObject> doodads = new List<DisplayObject>();
         public string Name;
 
+
+        public Point Location = new Point();
+        public List<Point> VirtualLocations = new List<Point>();
+
         public bool hitTest(double hx, double hy)
         {
             var cx = ground.x + 2048;
@@ -429,9 +433,17 @@ namespace FlashHeatZeekerWithStarlingT28
                 img.AttachTo(viewport_content_layer0_ground);
             }
 
-            var mapB_offset_x = -2048 / 2;
-            var mapB_offset_y = -2048;
+            //var mapB_offset_x = -2048 / 2;
+            //var mapB_offset_y = -2048;
             var mapB = new GameMap { Name = "mapB" };
+
+            mapB.Location.x = -2048 / 2;
+            mapB.Location.y = -2048;
+
+            mapB.VirtualLocations.Add(new Point(-2048, 2048 * 2));
+            mapB.VirtualLocations.Add(new Point(2048 * 1.5, 2048));
+
+
 
             // our map B
             {
@@ -441,21 +453,24 @@ namespace FlashHeatZeekerWithStarlingT28
                 var tex = Texture.fromBitmapData(bmd);
                 mapB.ground = new Image(tex);
                 mapB.ground.AttachTo(viewport_content_layer0_ground);
-                mapB.ground.MoveTo(mapB_offset_x, mapB_offset_y);
+                mapB.ground.MoveTo(mapB.Location.x, mapB.Location.y);
             }
 
-            var mapBvirtualD_offset_x = 0;
-            var mapBvirtualD_offset_y = -2048 * 2;
-
-            var mapBvirtualF_offset_x = -2048;
-            var mapBvirtualF_offset_y = -2048 * 2;
 
 
 
-            var mapC_offset_x = -2048;
-            var mapC_offset_y = 0;
+
+
+
+
+
             var mapC = new GameMap { Name = "mapC" };
+            mapC.Location = new Point(-2048, 0);
 
+
+
+            mapC.VirtualLocations.Add(new Point(2048, 2048 * 2));
+            mapC.VirtualLocations.Add(new Point(2048 * 1.5, -2048));
             // our map C
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
@@ -464,22 +479,18 @@ namespace FlashHeatZeekerWithStarlingT28
                 var tex = Texture.fromBitmapData(bmd);
                 mapC.ground = new Image(tex);
                 mapC.ground.AttachTo(viewport_content_layer0_ground);
-                mapC.ground.MoveTo(mapC_offset_x, mapC_offset_y);
+                mapC.ground.MoveTo(mapC.Location.x, mapC.Location.y);
             }
 
 
-            var mapD_offset_x = -2048 / 2;
-            var mapD_offset_y = 2048;
             var mapD = new GameMap { Name = "mapD" };
 
-            var mapDvirtualB_offset_x = -2048;
-            var mapDvirtualB_offset_y = 2048 * 2;
+            mapD.Location = new Point(-2048 / 2, 2048);
+            mapD.VirtualLocations.Add(new Point(0, -2048 * 2));
+            mapD.VirtualLocations.Add(new Point(2048 * 2, 0));
 
-            var mapDvirtualG_offset_x = 0;
-            var mapDvirtualG_offset_y = 2048 * 2;
 
-            var mapDvirtualF_offset_x = -2048 * 1.5;
-            var mapDvirtualF_offset_y = 2048;
+
 
             // our map C
             {
@@ -490,18 +501,15 @@ namespace FlashHeatZeekerWithStarlingT28
 
                 mapD.ground = new Image(tex);
                 mapD.ground.AttachTo(viewport_content_layer0_ground);
-                mapD.ground.MoveTo(mapD_offset_x, mapD_offset_y);
+                mapD.ground.MoveTo(mapD.Location.x, mapD.Location.y);
             }
 
-            var mapE_offset_x = 2048 / 2;
-            var mapE_offset_y = 2048;
+
             var mapE = new GameMap { Name = "mapE" };
 
-            var mapEvirtualC_offset_x = 2048;
-            var mapEvirtualC_offset_y = 2048 * 2;
-
-            var mapEvirtualB_offset_x = 2048 * 1.5;
-            var mapEvirtualB_offset_y = 2048;
+            mapE.Location = new Point(2048 / 2, 2048);
+            mapE.VirtualLocations.Add(new Point(2048 * -1.5, -2048));
+            mapE.VirtualLocations.Add(new Point(2048, -2048 * 2));
 
 
             // our map C
@@ -512,12 +520,15 @@ namespace FlashHeatZeekerWithStarlingT28
                 var tex = Texture.fromBitmapData(bmd);
                 mapE.ground = new Image(tex);
                 mapE.ground.AttachTo(viewport_content_layer0_ground);
-                mapE.ground.MoveTo(mapE_offset_x, mapE_offset_y);
+                mapE.ground.MoveTo(mapE.Location.x, mapE.Location.y);
             }
 
-            var mapF_offset_x = 2048;
-            var mapF_offset_y = 0;
             var mapF = new GameMap { Name = "mapF" };
+
+            mapF.Location = new Point(2048, 0);
+            mapF.VirtualLocations.Add(new Point(-2048, -2048 * 2));
+            mapF.VirtualLocations.Add(new Point(-2048 * 1.5, 2048));
+
 
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
@@ -527,18 +538,18 @@ namespace FlashHeatZeekerWithStarlingT28
 
                 mapF.ground = new Image(tex);
                 mapF.ground.AttachTo(viewport_content_layer0_ground);
-                mapF.ground.MoveTo(mapF_offset_x, mapF_offset_y);
+                mapF.ground.MoveTo(mapF.Location.x, mapF.Location.y);
             }
 
-            var mapG_offset_x = 2048 / 2;
-            var mapG_offset_y = -2048;
             var mapG = new GameMap { Name = "mapG" };
 
-            var mapGvirtualE_offset_x = 2048;
-            var mapGvirtualE_offset_y = -2048 * 2;
 
-            var mapGvirtualC_offset_x = 2048 * 1.5;
-            var mapGvirtualC_offset_y = -2048;
+            mapG.Location = new Point(2048 / 2, -2048);
+            mapG.VirtualLocations.Add(new Point(0, 2048 * 2));
+            mapG.VirtualLocations.Add(new Point(2048 * -2, 0));
+
+
+
 
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
@@ -548,7 +559,7 @@ namespace FlashHeatZeekerWithStarlingT28
 
                 mapG.ground = new Image(tex);
                 mapG.ground.AttachTo(viewport_content_layer0_ground);
-                mapG.ground.MoveTo(mapG_offset_x, mapG_offset_y);
+                mapG.ground.MoveTo(mapG.Location.x, mapG.Location.y);
             }
 
 
@@ -830,19 +841,19 @@ namespace FlashHeatZeekerWithStarlingT28
             #endregion
 
 
-            fill_empty_map(mapB_offset_x, mapB_offset_y, mapB);
-            build_vroad(mapB_offset_x, mapB_offset_y, mapB);
-            build_hroad(mapB_offset_x, mapB_offset_y, mapB);
+            fill_empty_map(mapB.Location.x, mapB.Location.y, mapB);
+            build_vroad(mapB.Location.x, mapB.Location.y, mapB);
+            build_hroad(mapB.Location.x, mapB.Location.y, mapB);
 
-            fill_empty_map(mapC_offset_x, mapC_offset_y, mapC);
+            fill_empty_map(mapC.Location.x, mapC.Location.y, mapC);
 
-            fill_empty_map(mapD_offset_x, mapD_offset_y, mapD);
-            build_yroad(mapD_offset_x, mapD_offset_y, mapD);
+            fill_empty_map(mapD.Location.x, mapD.Location.y, mapD);
+            build_yroad(mapD.Location.x, mapD.Location.y, mapD);
 
 
-            fill_empty_map(mapE_offset_x, mapE_offset_y, mapE);
-            fill_empty_map(mapF_offset_x, mapF_offset_y, mapF);
-            fill_empty_map(mapG_offset_x, mapG_offset_y, mapG);
+            fill_empty_map(mapE.Location.x, mapE.Location.y, mapE);
+            fill_empty_map(mapF.Location.x, mapF.Location.y, mapF);
+            fill_empty_map(mapG.Location.x, mapG.Location.y, mapG);
 
 
             #region pin_doodad
@@ -859,9 +870,9 @@ namespace FlashHeatZeekerWithStarlingT28
 
 
             pin_doodad(new_watertower().MoveTo(2048 / 2, 0));
-            pin_doodad(new_watertower().MoveTo(mapB_offset_x, mapB_offset_y));
-            pin_doodad(new_watertower().MoveTo(mapB_offset_x + 2048, mapB_offset_y));
-            pin_doodad(new_watertower().MoveTo(mapB_offset_x, mapB_offset_y + 2048));
+            pin_doodad(new_watertower().MoveTo(mapB.Location.x, mapB.Location.y));
+            pin_doodad(new_watertower().MoveTo(mapB.Location.x + 2048, mapB.Location.y));
+            pin_doodad(new_watertower().MoveTo(mapB.Location.x, mapB.Location.y + 2048));
 
             pin_doodad(new_watertower().MoveTo(400, 800));
             pin_doodad(new_watertower());
@@ -885,12 +896,12 @@ namespace FlashHeatZeekerWithStarlingT28
             #endregion
 
 
-            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterB.svg", mapB_offset_x, mapB_offset_y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterC.svg", mapC_offset_x, mapC_offset_y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterD.svg", mapD_offset_x, mapD_offset_y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterE.svg", mapE_offset_x, mapE_offset_y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterF.svg", mapF_offset_x, mapF_offset_y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterG.svg", mapG_offset_x, mapG_offset_y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterB.svg", mapB.Location.x, mapB.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterC.svg", mapC.Location.x, mapC.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterD.svg", mapD.Location.x, mapD.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterE.svg", mapE.Location.x, mapE.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterF.svg", mapF.Location.x, mapF.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterG.svg", mapG.Location.x, mapG.Location.y);
 
 
 
@@ -1008,8 +1019,8 @@ namespace FlashHeatZeekerWithStarlingT28
             robo1.shape.filter = filter;
 
             robo1.loc.MoveTo(
-                mapB_offset_x + 2048 - 128,
-                mapB_offset_y + 2048 - 128
+                mapB.Location.x + 2048 - 128,
+                mapB.Location.y + 2048 - 128
             );
 
             robo1.rotation = 270.DegreesToRadians();
@@ -1123,7 +1134,7 @@ namespace FlashHeatZeekerWithStarlingT28
 
                             if (map.hitTest(x, y))
                             {
-                                Console.WriteLine("will teleport");
+                                Console.WriteLine("will teleport to " + map.Name);
 
                                 // ourself and everybody around us?
                                 current.loc.x += dx;
@@ -1164,253 +1175,86 @@ namespace FlashHeatZeekerWithStarlingT28
 
                 Action check = delegate
                 {
-                    // each tile can 
-                    // 0 be where it should be
-                    // 1 be where it looks to be
-                    // 2 teleport where it should be
+                    // am I in a virtual position? teleport to original
+                    // am I near a virtual position? show it
+                    // otherwise revert
 
-                    if (y < 2048 * 0.5)
-                    {
-                        #region top right C
-                        if (x > 2048)
+
+                    maps.WithEach(
+                        map =>
                         {
-                            if (y < 0 && x > 2048 * 1.5)
+                            #region in_virtual
+                            var in_virtual = map.VirtualLocations.Where(
+                                v =>
+                                {
+                                    if (x < v.x)
+                                        return false;
+
+                                    if (y < v.y)
+                                        return false;
+
+                                    if (x >= v.x + 2048)
+                                        return false;
+
+                                    if (y >= v.y + 2048)
+                                        return false;
+
+                                    return true;
+                                }
+                            ).FirstOrDefault();
+
+                            if (in_virtual != null)
                             {
-                                map_teleport(mapC,
-                                  mapC_offset_x,
-                                  mapC_offset_y,
-                                  true
-                              );
-                            }
-                            else
-                            {
-                                map_teleport(mapC,
-                                    mapGvirtualC_offset_x,
-                                    mapGvirtualC_offset_y,
-                                    false
+                                map_teleport(map,
+                                   map.Location.x,
+                                   map.Location.y,
+                                   true
                                 );
+                                return;
                             }
-                        }
-                        else
-                        {
-                            // back to the original spot
-                            map_teleport(mapC,
-                                mapC_offset_x,
-                                mapC_offset_y,
-                                false
-                            );
-                        }
-                        #endregion
+                            #endregion
 
+                            #region near_virtual
+                            var near_virtual = map.VirtualLocations.Where(
+                                 v =>
+                                 {
+                                     if (x < v.x - 1024)
+                                         return false;
 
+                                     if (y < v.y - 1024)
+                                         return false;
 
+                                     if (x >= v.x + 2048 + 1024)
+                                         return false;
 
-                        #region top border
-                        if (y < -2048)
-                        {
-                            // time to teleport!
-                            // first lets put back our maps
-                            // also its time to teleport the units
+                                     if (y >= v.y + 2048 + 1024)
+                                         return false;
 
-                            map_teleport(mapD,
-                              mapD_offset_x,
-                              mapD_offset_y,
-                              true
-                            );
+                                     return true;
+                                 }
+                             ).FirstOrDefault();
 
-                            map_teleport(mapF,
-                             mapF_offset_x,
-                             mapF_offset_y,
-                             true
-                            );
-
-
-
-                            map_teleport(mapE,
-                             mapE_offset_x,
-                             mapE_offset_y,
-                             true
-                            );
-                        }
-                        else if (y < (-2048 / 2))
-                        {
-                            map_teleport(mapD,
-                                    mapBvirtualD_offset_x,
-                                    mapBvirtualD_offset_y,
-                                    false
-                            );
-
-                            map_teleport(mapF,
-                                mapBvirtualF_offset_x,
-                                mapBvirtualF_offset_y,
-                                false
-                            );
-
-                            map_teleport(mapE,
-                             mapGvirtualE_offset_x,
-                             mapGvirtualE_offset_y,
-                             false
-                         );
-                        }
-                        else
-                        {
-                            map_teleport(mapD,
-                                mapD_offset_x,
-                                mapD_offset_y,
-                                false
-                            );
-
-                            map_teleport(mapF,
-                             mapF_offset_x,
-                             mapF_offset_y,
-                             false
-                            );
-
-
-
-                            map_teleport(mapE,
-                             mapE_offset_x,
-                             mapE_offset_y,
-                             false
-                            );
-                        }
-                        #endregion
-
-
-                    }
-                    else
-                    {
-                        #region bottom left F
-                        if (x < 0)
-                        {
-                            if (y > 2048 && x < -2048 * 0.5)
+                            if (near_virtual != null)
                             {
-                                map_teleport(mapF,
-                                  mapF_offset_x,
-                                  mapF_offset_y,
-                                  true
-                              );
-                            }
-                            else
-                            {
-                                map_teleport(mapF,
-                                    mapDvirtualF_offset_x,
-                                    mapDvirtualF_offset_y,
-                                    false
+                                map_teleport(map,
+                                   near_virtual.x,
+                                   near_virtual.y,
+                                   false
                                 );
+                                return;
                             }
-                        }
-                        else
-                        {
-                            // back to the original spot
-                            map_teleport(mapF,
-                                mapF_offset_x,
-                                mapF_offset_y,
+                            #endregion
+
+                            map_teleport(map,
+                                map.Location.x,
+                                map.Location.y,
                                 false
                             );
+
                         }
-                        #endregion
-
-                        #region bottom right B
-                        if (x > 2048)
-                        {
-                            if (y > 2048 && x > 2048 * 1.5)
-                            {
-                                map_teleport(mapB,
-                                  mapB_offset_x,
-                                  mapB_offset_y,
-                                  true
-                              );
-                            }
-                            else
-                            {
-                                map_teleport(mapB,
-                                    mapEvirtualB_offset_x,
-                                    mapEvirtualB_offset_y,
-                                    false
-                                );
-                            }
-                        }
-                        else
-                        {
-                            // back to the original spot
-                            map_teleport(mapB,
-                                mapB_offset_x,
-                                mapB_offset_y,
-                                false
-                            );
-                        }
-                        #endregion
+                    );
 
 
-
-
-
-                        #region looking at bottom B G C
-                        if (y > (2048 * 2))
-                        {
-                            map_teleport(mapB,
-                             mapB_offset_x,
-                             mapB_offset_y,
-                             true
-                            );
-
-                            map_teleport(mapG,
-                           mapG_offset_x,
-                           mapG_offset_y,
-                           true
-                          );
-
-                            map_teleport(mapC,
-                                mapC_offset_x,
-                                mapC_offset_y,
-                                true
-                               );
-                        }
-                        else if (y > (2048 * 1.5))
-                        {
-                            map_teleport(mapB,
-                                  mapDvirtualB_offset_x,
-                                  mapDvirtualB_offset_y,
-                                  false
-                              );
-
-                            map_teleport(mapG,
-                                 mapDvirtualG_offset_x,
-                                 mapDvirtualG_offset_y,
-                                 false
-                             );
-
-                            map_teleport(mapC,
-                                mapEvirtualC_offset_x,
-                                mapEvirtualC_offset_y,
-                                false
-                            );
-                        }
-                        else
-                        {
-                            map_teleport(mapB,
-                             mapB_offset_x,
-                             mapB_offset_y,
-                             false
-                            );
-
-                            map_teleport(mapG,
-                             mapG_offset_x,
-                             mapG_offset_y,
-                             false
-                            );
-
-                            map_teleport(mapC,
-                             mapC_offset_x,
-                             mapC_offset_y,
-                             false
-                            );
-                        }
-                        #endregion
-
-
-                    }
 
 
                 };
