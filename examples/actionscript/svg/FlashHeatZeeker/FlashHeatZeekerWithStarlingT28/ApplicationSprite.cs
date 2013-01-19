@@ -89,6 +89,89 @@ namespace FlashHeatZeekerWithStarlingT28
             // there can only be one in this VM. :)
             __sprite = this;
 
+
+
+
+
+            #region AtInitializeConsoleFormWriter
+
+            var w = new __OutWriter();
+            var o = Console.Out;
+            var __reentry = false;
+
+            var __buffer = new StringBuilder();
+
+            w.AtWrite =
+                x =>
+                {
+                    __buffer.Append(x);
+                };
+
+            w.AtWriteLine =
+                x =>
+                {
+                    __buffer.AppendLine(x);
+                };
+
+            Console.SetOut(w);
+
+            this.AtInitializeConsoleFormWriter = (
+                Action<string> Console_Write,
+                Action<string> Console_WriteLine
+            ) =>
+            {
+
+                try
+                {
+
+
+                    w.AtWrite =
+                        x =>
+                        {
+                            o.Write(x);
+
+                            if (!__reentry)
+                            {
+                                __reentry = true;
+                                Console_Write(x);
+                                __reentry = false;
+                            }
+                        };
+
+                    w.AtWriteLine =
+                        x =>
+                        {
+                            o.WriteLine(x);
+
+                            if (!__reentry)
+                            {
+                                __reentry = true;
+                                Console_WriteLine(x);
+                                __reentry = false;
+                            }
+                        };
+
+                    Console.WriteLine("flash Console.WriteLine should now appear in JavaScript form!");
+                    Console.WriteLine(__buffer.ToString());
+                }
+                catch
+                {
+
+                }
+            };
+            #endregion
+
+            this.stage.keyUp +=
+              e =>
+              {
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
+                  {
+                      this.stage.SetFullscreen(true);
+                  }
+              };
+
+
+
             // http://gamua.com/starling/first-steps/
             // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
             Starling.handleLostContext = true;
@@ -122,69 +205,6 @@ namespace FlashHeatZeekerWithStarlingT28
             s.stage.stageWidth = this.stage.stageWidth;
             s.stage.stageHeight = this.stage.stageHeight;
             #endregion
-
-
-
-            #region AtInitializeConsoleFormWriter
-            this.AtInitializeConsoleFormWriter = (
-                Action<string> Console_Write,
-                Action<string> Console_WriteLine
-            ) =>
-            {
-
-                try
-                {
-                    var w = new __OutWriter();
-
-                    var o = Console.Out;
-
-                    var __reentry = false;
-
-                    w.AtWrite =
-                        x =>
-                        {
-                            o.Write(x);
-
-                            if (!__reentry)
-                            {
-                                __reentry = true;
-                                Console_Write(x);
-                                __reentry = false;
-                            }
-                        };
-
-                    w.AtWriteLine =
-                        x =>
-                        {
-                            o.WriteLine(x);
-
-                            if (!__reentry)
-                            {
-                                __reentry = true;
-                                Console_WriteLine(x);
-                                __reentry = false;
-                            }
-                        };
-
-                    Console.SetOut(w);
-
-                    Console.WriteLine("flash Console.WriteLine should now appear in JavaScript form!");
-                }
-                catch
-                {
-
-                }
-            };
-            #endregion
-
-            this.stage.keyUp +=
-              e =>
-              {
-                  if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
-                  {
-                      this.stage.SetFullscreen(true);
-                  }
-              };
         }
 
         public event Action<string> fps;
@@ -296,7 +316,9 @@ namespace FlashHeatZeekerWithStarlingT28
             set
             {
                 this.rot.rotation = value;
-                this.shadow_rot.rotation = value;
+
+                if (this.shadow_rot != null)
+                    this.shadow_rot.rotation = value;
             }
         }
 
@@ -407,19 +429,7 @@ namespace FlashHeatZeekerWithStarlingT28
                 img.AttachTo(viewport_content_layer_tracks);
             }
 
-            for (int i = 0; i < 2048; i += 256)
-            {
 
-
-                var img = new Image(textures_road0);
-                img.x = mapB_offset_x + i;
-                img.y = -256;
-
-                img.scaleX = 0.5;
-                img.scaleY = 0.5;
-
-                img.AttachTo(viewport_content_layer_tracks);
-            }
 
 
             var textures_tree0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/tree0.svg");
@@ -511,6 +521,7 @@ namespace FlashHeatZeekerWithStarlingT28
 
             var r = new Random();
 
+            // grow trees in the center
             for (int i = 0; i < 1024; i++)
             {
 
@@ -521,8 +532,57 @@ namespace FlashHeatZeekerWithStarlingT28
                    );
             }
 
+            for (int i = 0; i < 2048; i += 256)
+            {
+
+
+                var img = new Image(textures_road0);
+                img.x = mapB_offset_x + i;
+                img.y = -256;
+
+                img.scaleX = 0.5;
+                img.scaleY = 0.5;
+
+                img.AttachTo(viewport_content_layer_tracks);
+            }
+
+            #region new_road
+            Func<GameUnit> new_road = delegate
+            {
+                var _loc = new Sprite().AttachTo(viewport_content_layer_tracks);
+                var _rot = new Sprite().AttachTo(_loc);
+                var img = new Image(textures_road0);
+                img.x = -256;
+                img.y = -256;
+                _rot.scaleX = 0.5;
+                _rot.scaleY = 0.5;
+
+                img.AttachTo(_rot);
+
+                return new GameUnit { loc = _loc, rot = _rot };
+            };
+            #endregion
+
+
+
+            Console.WriteLine("will build vroad");
+            for (int i = 0; i < 2048; i += 256)
+            {
+                var rr = new_road();
+
+                rr.rotation = 90.DegreesToRadians();
+
+                var rrx = mapB_offset_x + 2024 - 128;
+                var rry = mapB_offset_y + 128 + (i);
+
+                Console.WriteLine("vroad " + new { i, rrx, rry });
+                rr.loc.MoveTo(rrx, rry);
+            }
+            Console.WriteLine("will build vroad. done.");
 
             new_watertower().MoveTo(2048 / 2, 0);
+            new_watertower().MoveTo(mapB_offset_x, mapB_offset_y);
+            new_watertower().MoveTo(mapB_offset_x + 2048, mapB_offset_y);
 
             var textures_tanktrackpattern = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/tanktrackpattern.svg");
             textures_tanktrackpattern.repeat = true;
@@ -720,6 +780,9 @@ namespace FlashHeatZeekerWithStarlingT28
 
             //diesel2.Sound.vol
 
+            Func<double, double> zoomer_default = y => 1 + (1 - y) * 0.2;
+            Func<double, double> zoomer = zoomer_default;
+
 
             var KineticEnergy = new List<KineticEnergy>();
 
@@ -773,8 +836,8 @@ namespace FlashHeatZeekerWithStarlingT28
                     diesel2.Rate = 0.9 + move_zoom;
 
                     // show only % of the zoom/speed boost
-                    viewport_rot.scaleX = 1 + (1 - move_zoom) * 0.2;
-                    viewport_rot.scaleY = 1 + (1 - move_zoom) * 0.2;
+                    viewport_rot.scaleX = zoomer(move_zoom);
+                    viewport_rot.scaleY = zoomer(move_zoom);
 
 
                     var drot = rot_sw.ElapsedMilliseconds
@@ -842,8 +905,8 @@ namespace FlashHeatZeekerWithStarlingT28
                                 img.AttachTo(unit_rot);
 
 
-                                unit_rot.rotation = current.rot.rotation;
-                                unit_loc.MoveTo(current.loc.x, current.loc.y);
+                                unit_rot.rotation = c.rotation;
+                                unit_loc.MoveTo(c.loc.x, c.loc.y);
 
                                 c.tracks.Enqueue(unit_loc);
 
@@ -855,16 +918,27 @@ namespace FlashHeatZeekerWithStarlingT28
                     #endregion
 
 
-                    remotecontrol(current);
 
                     if (robo1.RemoteControlEnabled)
+                    {
                         remotecontrol(robo1);
 
-                    viewport_rot.rotation = -current.rot.rotation;
 
-                    viewport_content.x = -current.loc.x;
-                    viewport_content.y = -current.loc.y;
+                        viewport_rot.rotation = -current.rot.rotation;
 
+                        viewport_content.x = -(current.loc.x + (robo1.loc.x - current.loc.x) / 2);
+                        viewport_content.y = -(current.loc.y + (robo1.loc.y - current.loc.y) / 2);
+                    }
+                    else
+                    {
+                        remotecontrol(current);
+
+
+                        viewport_rot.rotation = -current.rot.rotation;
+
+                        viewport_content.x = -current.loc.x;
+                        viewport_content.y = -current.loc.y;
+                    }
 
                     rot_sw.Restart();
 
@@ -899,8 +973,11 @@ namespace FlashHeatZeekerWithStarlingT28
                     {
                         rot_right = 1;
                     }
+
+
                 };
 
+            #region switchto
             Action<GameUnit> switchto =
                 nextunit =>
                 {
@@ -915,6 +992,8 @@ namespace FlashHeatZeekerWithStarlingT28
                     viewport_content.x = -current.loc.x;
                     viewport_content.y = -current.loc.y;
                 };
+            #endregion
+
             ApplicationSprite.__stage.keyUp +=
               e =>
               {
@@ -998,12 +1077,31 @@ namespace FlashHeatZeekerWithStarlingT28
                                   (float)(2 * Math.Cos(current.rotation + 270.DegreesToRadians())),
                                   (float)(2 * Math.Sin(current.rotation + 270.DegreesToRadians()))
                               ),
-                              TTL = 100
+                              TTL = 30
                           }
                         );
 
                       unit_bullet.scaleX = 0.8;
                       unit_bullet.scaleY = 0.8;
+                  }
+
+                  if (e.keyCode == 192)
+                  {
+                      //                      cript: error JSC1000: ActionScript :
+                      //BCL needs another method, please define it.
+                      //Cannot call type without script attribute :
+                      //System.Delegate for Boolean op_Equality(System.Delegate, System.Delegate) used at
+                      //FlashHeatZeekerWithStarlingT28.Game+<>c__DisplayClass22.<.ctor>b__19 at offset 035c.
+                      //If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set. You may have mistyped it.
+
+                      if ((object)zoomer == (object)zoomer_default)
+                      {
+                          zoomer = y => 0.10 + (1 - y) * 0.02;
+                      }
+                      else
+                      {
+                          zoomer = zoomer_default;
+                      }
                   }
               };
 
