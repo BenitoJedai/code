@@ -339,13 +339,13 @@ namespace FlashHeatZeekerWithStarlingT28
                 return false;
             }
 
-            if (hx > cx)
+            if (hx >= cx)
             {
                 //Console.WriteLine("hx > cx where " + new { hx, cx });
                 return false;
             }
 
-            if (hy > cy)
+            if (hy >= cy)
             {
                 //Console.WriteLine("hy > cy where " + new { hy, cy });
                 return false;
@@ -500,6 +500,10 @@ namespace FlashHeatZeekerWithStarlingT28
             var mapEvirtualC_offset_x = 2048;
             var mapEvirtualC_offset_y = 2048 * 2;
 
+            var mapEvirtualB_offset_x = 2048 * 1.5;
+            var mapEvirtualB_offset_y = 2048;
+
+
             // our map C
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
@@ -532,6 +536,10 @@ namespace FlashHeatZeekerWithStarlingT28
 
             var mapGvirtualE_offset_x = 2048;
             var mapGvirtualE_offset_y = -2048 * 2;
+
+            var mapGvirtualC_offset_x = 2048 * 1.5;
+            var mapGvirtualC_offset_y = -2048;
+
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
                 var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
@@ -740,6 +748,27 @@ namespace FlashHeatZeekerWithStarlingT28
             };
             #endregion
 
+            #region build_yroad
+            Action<double, double, GameMap> build_yroad = (mapx, mapy, map) =>
+            {
+                for (int i = 0; i < 2048; i += 256)
+                {
+                    var rr = new_road();
+
+                    rr.rotation = 90.DegreesToRadians();
+
+                    var rrx = mapx + 2024 - 128 - i / 2;
+                    var rry = mapy + 128 + (i);
+
+                    rr.loc.MoveTo(rrx, rry);
+
+                    if (map != null)
+                        map.doodads.Add(rr.loc);
+                }
+            };
+            #endregion
+
+
             #region build_hroad
             Action<double, double, GameMap> build_hroad = (mapx, mapy, map) =>
             {
@@ -806,9 +835,11 @@ namespace FlashHeatZeekerWithStarlingT28
             build_hroad(mapB_offset_x, mapB_offset_y, mapB);
 
             fill_empty_map(mapC_offset_x, mapC_offset_y, mapC);
-            build_vroad(mapC_offset_x, mapC_offset_y, mapC);
 
             fill_empty_map(mapD_offset_x, mapD_offset_y, mapD);
+            build_yroad(mapD_offset_x, mapD_offset_y, mapD);
+
+
             fill_empty_map(mapE_offset_x, mapE_offset_y, mapE);
             fill_empty_map(mapF_offset_x, mapF_offset_y, mapF);
             fill_empty_map(mapG_offset_x, mapG_offset_y, mapG);
@@ -836,6 +867,33 @@ namespace FlashHeatZeekerWithStarlingT28
             pin_doodad(new_watertower());
 
             var textures_tanktrackpattern = new_tex_512("assets/FlashHeatZeekerWithStarlingT28/tanktrackpattern.svg");
+
+            #region pin_letter
+            Action<string, double, double> pin_letter =
+                (texasset, texx, texy) =>
+                {
+                    new Image(new_tex_512(texasset)).With(
+                       img =>
+                       {
+                           img.AttachTo(viewport_content_layer1_tracks);
+
+                           img.MoveTo(texx + 512, texy + 512);
+                           pin_doodad(img);
+                       }
+                   );
+                };
+            #endregion
+
+
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterB.svg", mapB_offset_x, mapB_offset_y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterC.svg", mapC_offset_x, mapC_offset_y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterD.svg", mapD_offset_x, mapD_offset_y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterE.svg", mapE_offset_x, mapE_offset_y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterF.svg", mapF_offset_x, mapF_offset_y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT28/letterG.svg", mapG_offset_x, mapG_offset_y);
+
+
+
             textures_tanktrackpattern.repeat = true;
 
             var textures_bullet = new_tex("assets/FlashHeatZeekerWithStarlingT28/bullet.svg");
@@ -1013,7 +1071,8 @@ namespace FlashHeatZeekerWithStarlingT28
             var frameid = 0L;
 
 
-            var move_speed = 0.09;
+            var move_speed_default = 0.09;
+            var move_speed = move_speed_default;
 
             var move_forward = 0.0;
             var move_backward = 0.0;
@@ -1110,142 +1169,248 @@ namespace FlashHeatZeekerWithStarlingT28
                     // 1 be where it looks to be
                     // 2 teleport where it should be
 
-                    #region top border
-                    if (y < -2048)
+                    if (y < 2048 * 0.5)
                     {
-                        // time to teleport!
-                        // first lets put back our maps
-                        // also its time to teleport the units
-
-                        map_teleport(mapD,
-                          mapD_offset_x,
-                          mapD_offset_y,
-                          true
-                        );
-
-                        map_teleport(mapF,
-                         mapF_offset_x,
-                         mapF_offset_y,
-                         true
-                        );
-
-
-
-                        map_teleport(mapE,
-                         mapE_offset_x,
-                         mapE_offset_y,
-                         true
-                        );
-                    }
-                    else if (y < (-2048 / 2))
-                    {
-                        map_teleport(mapD,
-                                mapBvirtualD_offset_x,
-                                mapBvirtualD_offset_y,
+                        #region top right C
+                        if (x > 2048)
+                        {
+                            if (y < 0 && x > 2048 * 1.5)
+                            {
+                                map_teleport(mapC,
+                                  mapC_offset_x,
+                                  mapC_offset_y,
+                                  true
+                              );
+                            }
+                            else
+                            {
+                                map_teleport(mapC,
+                                    mapGvirtualC_offset_x,
+                                    mapGvirtualC_offset_y,
+                                    false
+                                );
+                            }
+                        }
+                        else
+                        {
+                            // back to the original spot
+                            map_teleport(mapC,
+                                mapC_offset_x,
+                                mapC_offset_y,
                                 false
-                        );
-
-                        map_teleport(mapF,
-                            mapBvirtualF_offset_x,
-                            mapBvirtualF_offset_y,
-                            false
-                        );
-
-                        map_teleport(mapE,
-                         mapGvirtualE_offset_x,
-                         mapGvirtualE_offset_y,
-                         false
-                     );
-                    }
-                    else
-                    {
-                        map_teleport(mapD,
-                            mapD_offset_x,
-                            mapD_offset_y,
-                            false
-                        );
-
-                        map_teleport(mapF,
-                         mapF_offset_x,
-                         mapF_offset_y,
-                         false
-                        );
+                            );
+                        }
+                        #endregion
 
 
 
-                        map_teleport(mapE,
-                         mapE_offset_x,
-                         mapE_offset_y,
-                         false
-                        );
-                    }
-                    #endregion
 
-                    #region looking at bottom
-                    if (y > (2048 * 2))
-                    {
-                        map_teleport(mapB,
-                         mapB_offset_x,
-                         mapB_offset_y,
-                         true
-                        );
+                        #region top border
+                        if (y < -2048)
+                        {
+                            // time to teleport!
+                            // first lets put back our maps
+                            // also its time to teleport the units
 
-                        map_teleport(mapG,
-                       mapG_offset_x,
-                       mapG_offset_y,
-                       true
-                      );
+                            map_teleport(mapD,
+                              mapD_offset_x,
+                              mapD_offset_y,
+                              true
+                            );
 
-                        map_teleport(mapC,
-                            mapC_offset_x,
-                            mapC_offset_y,
-                            true
-                           );
-                    }
-                    else if (y > (2048 * 1.5))
-                    {
-                        map_teleport(mapB,
-                              mapDvirtualB_offset_x,
-                              mapDvirtualB_offset_y,
-                              false
-                          );
+                            map_teleport(mapF,
+                             mapF_offset_x,
+                             mapF_offset_y,
+                             true
+                            );
 
-                        map_teleport(mapG,
-                             mapDvirtualG_offset_x,
-                             mapDvirtualG_offset_y,
+
+
+                            map_teleport(mapE,
+                             mapE_offset_x,
+                             mapE_offset_y,
+                             true
+                            );
+                        }
+                        else if (y < (-2048 / 2))
+                        {
+                            map_teleport(mapD,
+                                    mapBvirtualD_offset_x,
+                                    mapBvirtualD_offset_y,
+                                    false
+                            );
+
+                            map_teleport(mapF,
+                                mapBvirtualF_offset_x,
+                                mapBvirtualF_offset_y,
+                                false
+                            );
+
+                            map_teleport(mapE,
+                             mapGvirtualE_offset_x,
+                             mapGvirtualE_offset_y,
                              false
                          );
+                        }
+                        else
+                        {
+                            map_teleport(mapD,
+                                mapD_offset_x,
+                                mapD_offset_y,
+                                false
+                            );
 
-                        map_teleport(mapC,
-                            mapEvirtualC_offset_x,
-                            mapEvirtualC_offset_y,
-                            false
-                        );
+                            map_teleport(mapF,
+                             mapF_offset_x,
+                             mapF_offset_y,
+                             false
+                            );
+
+
+
+                            map_teleport(mapE,
+                             mapE_offset_x,
+                             mapE_offset_y,
+                             false
+                            );
+                        }
+                        #endregion
+
+
                     }
                     else
                     {
-                        map_teleport(mapB,
-                         mapB_offset_x,
-                         mapB_offset_y,
-                         false
-                        );
+                        #region bottom left F
+                        if (x < 0)
+                        {
+                            if (y > 2048 && x < -2048 * 0.5)
+                            {
+                                map_teleport(mapF,
+                                  mapF_offset_x,
+                                  mapF_offset_y,
+                                  true
+                              );
+                            }
+                            else
+                            {
+                                map_teleport(mapF,
+                                    mapDvirtualF_offset_x,
+                                    mapDvirtualF_offset_y,
+                                    false
+                                );
+                            }
+                        }
+                        else
+                        {
+                            // back to the original spot
+                            map_teleport(mapF,
+                                mapF_offset_x,
+                                mapF_offset_y,
+                                false
+                            );
+                        }
+                        #endregion
 
-                        map_teleport(mapG,
-                         mapG_offset_x,
-                         mapG_offset_y,
-                         false
-                        );
+                        #region bottom right B
+                        if (x > 2048)
+                        {
+                            if (y > 2048 && x > 2048 * 1.5)
+                            {
+                                map_teleport(mapB,
+                                  mapB_offset_x,
+                                  mapB_offset_y,
+                                  true
+                              );
+                            }
+                            else
+                            {
+                                map_teleport(mapB,
+                                    mapEvirtualB_offset_x,
+                                    mapEvirtualB_offset_y,
+                                    false
+                                );
+                            }
+                        }
+                        else
+                        {
+                            // back to the original spot
+                            map_teleport(mapB,
+                                mapB_offset_x,
+                                mapB_offset_y,
+                                false
+                            );
+                        }
+                        #endregion
 
-                        map_teleport(mapC,
-                         mapC_offset_x,
-                         mapC_offset_y,
-                         false
-                        );
+
+
+
+
+                        #region looking at bottom B G C
+                        if (y > (2048 * 2))
+                        {
+                            map_teleport(mapB,
+                             mapB_offset_x,
+                             mapB_offset_y,
+                             true
+                            );
+
+                            map_teleport(mapG,
+                           mapG_offset_x,
+                           mapG_offset_y,
+                           true
+                          );
+
+                            map_teleport(mapC,
+                                mapC_offset_x,
+                                mapC_offset_y,
+                                true
+                               );
+                        }
+                        else if (y > (2048 * 1.5))
+                        {
+                            map_teleport(mapB,
+                                  mapDvirtualB_offset_x,
+                                  mapDvirtualB_offset_y,
+                                  false
+                              );
+
+                            map_teleport(mapG,
+                                 mapDvirtualG_offset_x,
+                                 mapDvirtualG_offset_y,
+                                 false
+                             );
+
+                            map_teleport(mapC,
+                                mapEvirtualC_offset_x,
+                                mapEvirtualC_offset_y,
+                                false
+                            );
+                        }
+                        else
+                        {
+                            map_teleport(mapB,
+                             mapB_offset_x,
+                             mapB_offset_y,
+                             false
+                            );
+
+                            map_teleport(mapG,
+                             mapG_offset_x,
+                             mapG_offset_y,
+                             false
+                            );
+
+                            map_teleport(mapC,
+                             mapC_offset_x,
+                             mapC_offset_y,
+                             false
+                            );
+                        }
+                        #endregion
+
+
                     }
-                    #endregion
-
-
-
 
 
                 };
@@ -1387,7 +1552,7 @@ namespace FlashHeatZeekerWithStarlingT28
 
                                 c.tracks.Enqueue(unit_loc);
 
-                                if (c.tracks.Count > 96)
+                                if (c.tracks.Count > 256)
                                     c.tracks.Dequeue().Orphanize();
 
                             }
@@ -1570,10 +1735,12 @@ namespace FlashHeatZeekerWithStarlingT28
                       if ((object)zoomer == (object)zoomer_default)
                       {
                           zoomer = y => 0.10 + (1 - y) * 0.02;
+                          move_speed = move_speed_default * 10;
                       }
                       else
                       {
                           zoomer = zoomer_default;
+                          move_speed = move_speed_default;
                       }
                   }
               };
