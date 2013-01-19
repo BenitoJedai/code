@@ -305,6 +305,54 @@ namespace FlashHeatZeekerWithStarlingT28
         public Image ground;
 
         public List<DisplayObject> doodads = new List<DisplayObject>();
+
+        public bool hitTest(double hx, double hy)
+        {
+            var cx = ground.x + 2048;
+            var cy = ground.y + 2048;
+
+            Console.WriteLine("hitTest " + new { this.ground.x, this.ground.y, cx, cy, hx, hy });
+
+
+            //allow_unit_teleport, hittesting... { x = 880.6350114443436, y = -2026.816097834212 }
+            //hitTest { x = 0, y = -4096, cx = 2048, cy = -2048, hx = 880.6350114443436, hy = -2026.816097834212 }
+            //hy > cy where { hy = -2026.816097834212, cy = -2048 }
+            //will NOT teleport
+            //map teleport done in 1ms
+            //allow_unit_teleport, hittesting... { x = 880.6350114443436, y = -2026.816097834212 }
+            //hitTest { x = -2048, y = -4096, cx = 0, cy = -2048, hx = 880.6350114443436, hy = -2026.816097834212 }
+            //hx > cx where { hx = 880.6350114443436, cx = 0 }
+            //will NOT teleport
+
+
+
+            if (hx < ground.x)
+            {
+                Console.WriteLine("hx < ground.x where " + new { hx, ground.x });
+                return false;
+            }
+
+            if (hy < ground.y)
+            {
+                Console.WriteLine("hy < ground.y where " + new { hy, ground.y });
+                return false;
+            }
+
+            if (hx > cx)
+            {
+                Console.WriteLine("hx > cx where " + new { hx, cx });
+                return false;
+            }
+
+            if (hy > cy)
+            {
+                Console.WriteLine("hy > cy where " + new { hy, cy });
+                return false;
+            }
+
+            return true;
+
+        }
     }
 
 
@@ -962,8 +1010,8 @@ namespace FlashHeatZeekerWithStarlingT28
                 viewport_content.y = -y;
 
                 #region map_teleport
-                Action<GameMap, double, double> map_teleport =
-                    (map, mapx, mapy) =>
+                Action<GameMap, double, double, bool> map_teleport =
+                    (map, mapx, mapy, allow_unit_teleport) =>
                     {
                         var dx = mapx - map.ground.x;
                         var dy = mapy - map.ground.y;
@@ -971,6 +1019,28 @@ namespace FlashHeatZeekerWithStarlingT28
                         if (dx == 0)
                             if (dy == 0)
                                 return;
+
+                        if (allow_unit_teleport)
+                        {
+                            //Console.WriteLine("allow_unit_teleport, hittesting... " + new { locx = current.loc.x, locy = current.loc.y, x, y });
+
+                            if (map.hitTest(x, y))
+                            {
+                                Console.WriteLine("will teleport");
+
+                                // ourself and everybody around us?
+                                current.loc.x += dx;
+                                current.loc.y += dy;
+
+
+                                viewport_content.x = -current.loc.x;
+                                viewport_content.y = -current.loc.y;
+                            }
+                            else
+                            {
+                                //Console.WriteLine("will NOT teleport");
+                            }
+                        }
 
                         map.ground.MoveTo(
                           map.ground.x + dx,
@@ -993,30 +1063,52 @@ namespace FlashHeatZeekerWithStarlingT28
                     };
                 #endregion
 
+                if (y < -2048)
+                {
+                    // time to teleport!
+                    // first lets put back our maps
+                    // also its time to teleport the units
 
-                if (y < (-2024 / 2))
+                    map_teleport(mapD,
+                      mapD_offset_x,
+                      mapD_offset_y,
+                      true
+                    );
+
+                    map_teleport(mapF,
+                     mapF_offset_x,
+                     mapF_offset_y,
+                     true
+                    );
+
+                }
+                else if (y < (-2048 / 2))
                 {
                     map_teleport(mapD,
                             mapBvirtualD_offset_x,
-                            mapBvirtualD_offset_y
+                            mapBvirtualD_offset_y,
+                            false
                     );
 
                     map_teleport(mapF,
                         mapBvirtualF_offset_x,
-                        mapBvirtualF_offset_y
-                );
+                        mapBvirtualF_offset_y,
+                        false
+                    );
                 }
                 else
                 {
                     map_teleport(mapD,
                         mapD_offset_x,
-                        mapD_offset_y
+                        mapD_offset_y,
+                        false
                     );
 
                     map_teleport(mapF,
                      mapF_offset_x,
-                     mapF_offset_y
-                 );
+                     mapF_offset_y,
+                     false
+                    );
 
                 }
             };
