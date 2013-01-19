@@ -67,7 +67,7 @@ namespace FlashHeatZeekerWithStarlingT28
                   };
 
 
-            con.Opacity = 0.9;
+            con.Opacity = 0.6;
 
             sprite.fps +=
                 fps =>
