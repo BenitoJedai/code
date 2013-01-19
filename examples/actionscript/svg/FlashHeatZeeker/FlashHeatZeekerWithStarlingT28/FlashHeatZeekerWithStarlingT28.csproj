@@ -143,6 +143,12 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\white-jsc.png" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\letterG.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\letterF.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\letterE.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\letterD.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\letterC.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\letterB.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\road0.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\watertower0.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\hill1.svg" />
