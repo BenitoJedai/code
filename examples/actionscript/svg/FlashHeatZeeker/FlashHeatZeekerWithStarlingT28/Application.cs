@@ -82,7 +82,22 @@ namespace FlashHeatZeekerWithStarlingT28
                        Console.WriteLine
                    );
 
-            if (Native.Window.opener == null)
+            Native.Window.onmessage +=
+              e =>
+              {
+                  sprite.game_postMessage(XElement.Parse((string)e.data));
+              };
+
+            if (Native.Window.opener != null)
+            {
+                sprite.context_onmessage +=
+                    e =>
+                    {
+                        Native.Window.opener.postMessage(e.ToString());
+                    };
+            }
+            else
+            {
                 new Button { Text = "Secondary View" }.With(
                     connect =>
                     {
@@ -94,17 +109,35 @@ namespace FlashHeatZeekerWithStarlingT28
                         connect.Click +=
                             delegate
                             {
-                                var w = Native.Window.open(Native.Document.location.href, "_blank", 400, 600, false);
+                                var w = Native.Window.open(Native.Document.location.href, "_blank", 600, 600, false);
 
 
                                 w.onload +=
                                     delegate
                                     {
                                         Console.WriteLine("loaded: " + w.document.location.href);
+
+                                        Native.Window.onmessage +=
+                                             e =>
+                                             {
+                                                 if (e.source == w)
+                                                     return;
+
+                                                 // relay, not echo
+                                                 w.postMessage(e.data);
+                                             };
+
+                                        sprite.context_onmessage +=
+                                            e =>
+                                            {
+                                                w.postMessage(e.ToString());
+                                            };
+
                                     };
                             };
                     }
                 );
+            }
         }
 
     }

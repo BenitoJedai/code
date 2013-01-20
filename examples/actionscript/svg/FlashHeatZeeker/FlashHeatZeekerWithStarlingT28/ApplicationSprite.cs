@@ -16,6 +16,7 @@ using System.Text;
 using FlashHeatZeekerWithStarlingT28.ActionScript.Images;
 using ScriptCoreLib.ActionScript.flash.geom;
 using starling.filters;
+using System.Xml.Linq;
 
 namespace FlashHeatZeekerWithStarlingT28
 {
@@ -252,7 +253,20 @@ namespace FlashHeatZeekerWithStarlingT28
         public static ApplicationSprite __sprite;
         public static ScriptCoreLib.ActionScript.flash.display.Stage __stage;
 
+        public event Action<XElement> context_onmessage;
+        public void context_postMessage(XElement e)
+        {
+            if (context_onmessage != null)
+                context_onmessage(e);
+        }
 
+
+        public event Action<XElement> game_onmessage;
+        public void game_postMessage(XElement e)
+        {
+            if (game_onmessage != null)
+                game_onmessage(e);
+        }
     }
 
     class KineticEnergy
@@ -303,6 +317,17 @@ namespace FlashHeatZeekerWithStarlingT28
         //    DDD EEE
 
         public Image ground;
+
+
+        public GameMap()
+        {
+            var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(4, 4, false, 0xB27D51);
+
+            var tex = Texture.fromBitmapData(bmd);
+            this.ground = new Image(tex);
+            this.ground.scaleX = 512;
+            this.ground.scaleY = 512;
+        }
 
         public List<DisplayObject> doodads = new List<DisplayObject>();
         public string Name;
@@ -422,15 +447,17 @@ namespace FlashHeatZeekerWithStarlingT28
             viewport_rot.scaleX = 2.0;
             viewport_rot.scaleY = 2.0;
 
+            var mapA = new GameMap { Name = "mapA" };
+
             // our map A
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-                var tex = Texture.fromBitmapData(bmd);
-                var img = new Image(tex);
+                //var tex = Texture.fromBitmapData(bmd);
+                //var img = new Image(tex);
 
-                img.AttachTo(viewport_content_layer0_ground);
+                mapA.ground.AttachTo(viewport_content_layer0_ground);
             }
 
             //var mapB_offset_x = -2048 / 2;
@@ -448,10 +475,10 @@ namespace FlashHeatZeekerWithStarlingT28
             // our map B
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-                var tex = Texture.fromBitmapData(bmd);
-                mapB.ground = new Image(tex);
+                //var tex = Texture.fromBitmapData(bmd);
+                //mapB.ground = new Image(tex);
                 mapB.ground.AttachTo(viewport_content_layer0_ground);
                 mapB.ground.MoveTo(mapB.Location.x, mapB.Location.y);
             }
@@ -473,11 +500,11 @@ namespace FlashHeatZeekerWithStarlingT28
             mapC.VirtualLocations.Add(new Point(2048 * 1.5, -2048));
             // our map C
             {
-                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+                //// ArgumentError: Error #3683: Texture too big (max is 2048x2048).
+                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-                var tex = Texture.fromBitmapData(bmd);
-                mapC.ground = new Image(tex);
+                //var tex = Texture.fromBitmapData(bmd);
+                //mapC.ground = new Image(tex);
                 mapC.ground.AttachTo(viewport_content_layer0_ground);
                 mapC.ground.MoveTo(mapC.Location.x, mapC.Location.y);
             }
@@ -494,12 +521,12 @@ namespace FlashHeatZeekerWithStarlingT28
 
             // our map C
             {
-                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+                //// ArgumentError: Error #3683: Texture too big (max is 2048x2048).
+                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-                var tex = Texture.fromBitmapData(bmd);
+                //var tex = Texture.fromBitmapData(bmd);
 
-                mapD.ground = new Image(tex);
+                //mapD.ground = new Image(tex);
                 mapD.ground.AttachTo(viewport_content_layer0_ground);
                 mapD.ground.MoveTo(mapD.Location.x, mapD.Location.y);
             }
@@ -515,10 +542,10 @@ namespace FlashHeatZeekerWithStarlingT28
             // our map C
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-                var tex = Texture.fromBitmapData(bmd);
-                mapE.ground = new Image(tex);
+                //var tex = Texture.fromBitmapData(bmd);
+                //mapE.ground = new Image(tex);
                 mapE.ground.AttachTo(viewport_content_layer0_ground);
                 mapE.ground.MoveTo(mapE.Location.x, mapE.Location.y);
             }
@@ -532,11 +559,11 @@ namespace FlashHeatZeekerWithStarlingT28
 
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-                var tex = Texture.fromBitmapData(bmd);
+                //var tex = Texture.fromBitmapData(bmd);
 
-                mapF.ground = new Image(tex);
+                //mapF.ground = new Image(tex);
                 mapF.ground.AttachTo(viewport_content_layer0_ground);
                 mapF.ground.MoveTo(mapF.Location.x, mapF.Location.y);
             }
@@ -553,11 +580,11 @@ namespace FlashHeatZeekerWithStarlingT28
 
             {
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
+                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-                var tex = Texture.fromBitmapData(bmd);
+                //var tex = Texture.fromBitmapData(bmd);
 
-                mapG.ground = new Image(tex);
+                //mapG.ground = new Image(tex);
                 mapG.ground.AttachTo(viewport_content_layer0_ground);
                 mapG.ground.MoveTo(mapG.Location.x, mapG.Location.y);
             }
@@ -1100,6 +1127,7 @@ namespace FlashHeatZeekerWithStarlingT28
 
 
             //diesel2.Sound.vol
+            var profile_map_teleportcheck = 0L;
 
             Func<double, double> zoomer_default = y => 1 + (1 - y) * 0.2;
             Func<double, double> zoomer = zoomer_default;
@@ -1114,6 +1142,9 @@ namespace FlashHeatZeekerWithStarlingT28
 
                 viewport_content.x = -x;
                 viewport_content.y = -y;
+
+                var __profile_map_teleportcheck = new Stopwatch();
+                __profile_map_teleportcheck.Start();
 
                 Action later = delegate { };
 
@@ -1173,95 +1204,91 @@ namespace FlashHeatZeekerWithStarlingT28
                     };
                 #endregion
 
-                Action check = delegate
-                {
-                    // am I in a virtual position? teleport to original
-                    // am I near a virtual position? show it
-                    // otherwise revert
+
+                // am I in a virtual position? teleport to original
+                // am I near a virtual position? show it
+                // otherwise revert
 
 
-                    maps.WithEach(
-                        map =>
+                maps.WithEach(
+                    map =>
+                    {
+                        #region in_virtual
+                        var in_virtual = map.VirtualLocations.Where(
+                            v =>
+                            {
+                                if (x < v.x)
+                                    return false;
+
+                                if (y < v.y)
+                                    return false;
+
+                                if (x >= v.x + 2048)
+                                    return false;
+
+                                if (y >= v.y + 2048)
+                                    return false;
+
+                                return true;
+                            }
+                        ).FirstOrDefault();
+
+                        if (in_virtual != null)
                         {
-                            #region in_virtual
-                            var in_virtual = map.VirtualLocations.Where(
+                            map_teleport(map,
+                                map.Location.x,
+                                map.Location.y,
+                                true
+                            );
+                            return;
+                        }
+                        #endregion
+
+                        #region near_virtual
+                        var near_virtual = map.VirtualLocations.Where(
                                 v =>
                                 {
-                                    if (x < v.x)
+                                    if (x < v.x - 1024)
                                         return false;
 
-                                    if (y < v.y)
+                                    if (y < v.y - 1024)
                                         return false;
 
-                                    if (x >= v.x + 2048)
+                                    if (x >= v.x + 2048 + 1024)
                                         return false;
 
-                                    if (y >= v.y + 2048)
+                                    if (y >= v.y + 2048 + 1024)
                                         return false;
 
                                     return true;
                                 }
                             ).FirstOrDefault();
 
-                            if (in_virtual != null)
-                            {
-                                map_teleport(map,
-                                   map.Location.x,
-                                   map.Location.y,
-                                   true
-                                );
-                                return;
-                            }
-                            #endregion
-
-                            #region near_virtual
-                            var near_virtual = map.VirtualLocations.Where(
-                                 v =>
-                                 {
-                                     if (x < v.x - 1024)
-                                         return false;
-
-                                     if (y < v.y - 1024)
-                                         return false;
-
-                                     if (x >= v.x + 2048 + 1024)
-                                         return false;
-
-                                     if (y >= v.y + 2048 + 1024)
-                                         return false;
-
-                                     return true;
-                                 }
-                             ).FirstOrDefault();
-
-                            if (near_virtual != null)
-                            {
-                                map_teleport(map,
-                                   near_virtual.x,
-                                   near_virtual.y,
-                                   false
-                                );
-                                return;
-                            }
-                            #endregion
-
+                        if (near_virtual != null)
+                        {
                             map_teleport(map,
-                                map.Location.x,
-                                map.Location.y,
+                                near_virtual.x,
+                                near_virtual.y,
                                 false
                             );
-
+                            return;
                         }
-                    );
+                        #endregion
 
+                        map_teleport(map,
+                            map.Location.x,
+                            map.Location.y,
+                            false
+                        );
 
+                    }
+                );
 
-
-                };
-
-                check();
+                __profile_map_teleportcheck.Stop();
+                profile_map_teleportcheck += __profile_map_teleportcheck.ElapsedMilliseconds;
 
                 later();
+
             };
             #endregion
 
@@ -1536,7 +1563,8 @@ namespace FlashHeatZeekerWithStarlingT28
                       switchto(nextunit);
                   }
 
-                  if (e.keyCode == (uint)System.Windows.Forms.Keys.ControlKey)
+                  // flash fullscreen allows space, tab and arrows!
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.Space)
                   {
                       Console.WriteLine("fire!");
                       // http://www.sounddogs.com/results.asp?Type=1&CategoryID=1027&SubcategoryID=11
@@ -1630,6 +1658,9 @@ namespace FlashHeatZeekerWithStarlingT28
             var maxframe = new Stopwatch();
             var maxframe_elapsed = 0.0;
 
+            var networkframe = 0;
+            var networkid = r.Next();
+
             #region fps
             var sw = new Stopwatch();
 
@@ -1660,10 +1691,14 @@ namespace FlashHeatZeekerWithStarlingT28
 
                     var now = DateTime.Now;
 
-                    info.text = new { fps, frameid, maxframe_elapsed, now }.ToString();
+                    info.text = new { networkid, networkframe, fps, frameid, maxframe_elapsed, now, profile_map_teleportcheck = profile_map_teleportcheck }.ToString();
 
-                    if (fps < 40)
+                    if (fps < 25)
                         info.color = 0xff0000;
+                    else if (fps < 30)
+                        info.color = 0xaf0000;
+                    else if (fps < 40)
+                        info.color = 0x7f0000;
                     else
                         info.color = 0x0;
 
@@ -1685,8 +1720,31 @@ namespace FlashHeatZeekerWithStarlingT28
             #endregion
 
 
+            var networktimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 5);
+            networktimer.timer +=
+                delegate
+                {
+                    networkframe++;
+
+                    ApplicationSprite.__sprite.context_postMessage(
+                        new XElement("sync",
+                            new XAttribute("networkid", "" + networkid),
+                            new XAttribute("networkframe", "" + networkframe)
+                        )
+                    );
+
+                };
+            networktimer.start();
 
 
+            ApplicationSprite.__sprite.game_onmessage +=
+                sync =>
+                {
+                    var sync_networkid = sync.Attribute("networkid").Value;
+                    var sync_networkframe = sync.Attribute("networkframe").Value;
+
+                    Console.WriteLine(new { sync_networkid, sync_networkframe });
+                };
         }
     }
 }
