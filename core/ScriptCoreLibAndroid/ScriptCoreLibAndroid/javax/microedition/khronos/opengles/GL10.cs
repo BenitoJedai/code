@@ -6,8 +6,9 @@ using System.Text;
 
 namespace javax.microedition.khronos.opengles
 {
+    // http://developer.android.com/reference/javax/microedition/khronos/opengles/GL10.html
     [Script(IsNative = true)]
-    public class GL10
+    public interface GL10
     {
 
     }
