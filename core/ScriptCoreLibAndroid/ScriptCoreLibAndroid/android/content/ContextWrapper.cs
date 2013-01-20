@@ -10,13 +10,18 @@ using android.content.res;
 namespace android.content
 {
     [Script(IsNative = true)]
-    public class ContextWrapper :Context
+    public class ContextWrapper : Context
     {
         // members and types are to be extended by jsc at release build
 
         public override Resources getResources()
         {
             return default(Resources);
+        }
+
+        public override object getSystemService(string name)
+        {
+            return default(object);
         }
     }
 }

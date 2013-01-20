@@ -31,6 +31,9 @@ namespace ScriptCoreLib.Android
             // Create an OpenGL ES 2.0 context.
             setEGLContextClientVersion(2);
 
+            var DEBUG_CHECK_GL_ERROR = 1;
+            var DEBUG_LOG_GL_CALLS = 2;
+
             setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
 
             // set the mRenderer member
@@ -69,9 +72,10 @@ namespace ScriptCoreLib.Android
             }
             public void onSensorChanged(SensorEvent e)
             {
+                var TYPE_ACCELEROMETER = 1;
 
                 // check sensor type
-                if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+                if (e.sensor.getType() == TYPE_ACCELEROMETER)
                 {
 
                     // assign directions
@@ -95,14 +99,19 @@ namespace ScriptCoreLib.Android
             {
                 SensorManager sensorManager;
 
+                // http://developer.android.com/reference/android/app/Activity.html
 
-                sensorManager = (SensorManager)c.getSystemService(Activity.SENSOR_SERVICE);
+                var SENSOR_SERVICE = "sensor";
+                var SENSOR_DELAY_GAME = 1;
+                var TYPE_ACCELEROMETER = 1;
+
+                sensorManager = (SensorManager)c.getSystemService(SENSOR_SERVICE);
                 // add listener. The listener will be HelloAndroid (this) class
                 sensorManager.registerListener(
                     new MySensorEventListener { onaccelerometer = value }
                     ,
-                        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                        SensorManager.SENSOR_DELAY_GAME);
+                        sensorManager.getDefaultSensor(TYPE_ACCELEROMETER),
+                        SENSOR_DELAY_GAME);
 
                 /*	More sensor speeds (taken from api docs)
                     SENSOR_DELAY_FASTEST get sensor data as fast as possible
@@ -128,7 +137,8 @@ namespace ScriptCoreLib.Android
                 float x = e.getX();
                 float y = e.getY();
 
-                if (e.getAction() == MotionEvent.ACTION_MOVE)
+                var MotionEvent_ACTION_MOVE = 7;
+                if (e.getAction() == MotionEvent_ACTION_MOVE)
                 {
 
                     float deltaX = (x - mPreviousX) / mDensity / 2f;

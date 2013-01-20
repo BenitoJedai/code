@@ -699,9 +699,14 @@
     <Compile Include="android\database\Cursor.cs" />
     <Compile Include="android\database\sqlite\SQLiteOpenHelper.cs" />
     <Compile Include="android\database\sqlite\SQLiteDatabase.cs" />
+    <Compile Include="android\hardware\SensorManager.cs" />
+    <Compile Include="android\hardware\SensorEvent.cs" />
+    <Compile Include="android\hardware\Sensor.cs" />
+    <Compile Include="android\hardware\SensorEventListener.cs" />
     <Compile Include="android\media\MediaPlayer.cs" />
     <Compile Include="android\net\Uri.cs" />
     <Compile Include="android\opengl\GLES20.cs" />
+    <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\R.cs" />
     <Compile Include="android\util\Log.cs" />
     <Compile Include="android\view\ContextThemeWrapper.cs" />
@@ -710,6 +715,7 @@
     <Compile Include="android\content\BroadcastReceiver.cs" />
     <Compile Include="android\content\Context.cs" />
     <Compile Include="android\os\Bundle.cs" />
+    <Compile Include="android\view\MotionEvent.cs" />
     <Compile Include="android\view\Menu.cs" />
     <Compile Include="android\view\MenuItem.cs" />
     <Compile Include="android\view\Window.cs" />
@@ -748,6 +754,8 @@
     <Compile Include="BCLImplementation\System\Web\Profile\DefaultProfile.cs" />
     <Compile Include="BCLImplementation\System\Web\Profile\ProfileBase.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="javax\microedition\khronos\egl\EGLConfig.cs" />
+    <Compile Include="javax\microedition\khronos\opengles\GL10.cs" />
     <Compile Include="Manifest\ApplicationAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadLocalContextReference.cs" />
