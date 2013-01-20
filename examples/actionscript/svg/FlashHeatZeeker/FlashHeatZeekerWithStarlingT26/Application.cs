@@ -103,11 +103,37 @@ namespace FlashHeatZeekerWithStarlingT26
 
                 };
 
-            Native.Window.onmessage +=
-              e =>
-              {
-                  sprite.game_postMessage(XElement.Parse((string)e.data));
-              };
+            {
+                int c = 2000;
+
+                Action<MessageEvent> window_onmessage =
+                     e =>
+                     {
+                         var xml = XElement.Parse((string)e.data);
+
+                         c++;
+                         //Console.WriteLine(c + " window -> sprite " + xml);
+
+                         sprite.game_postMessage(xml);
+                     };
+
+
+                Console.WriteLine("add window_onmessage");
+                Native.Window.onmessage += window_onmessage;
+
+
+            }
+
+            Action<XElement> sprite_context_onmessage = delegate { };
+
+            int ccc = 0;
+            sprite.context_onmessage +=
+                e =>
+                {
+                    ccc++;
+                    //Console.WriteLine(ccc + " sprite ->  " + e);
+                    sprite_context_onmessage(e);
+                };
 
             if (Native.Window.opener != null)
             {
@@ -118,7 +144,7 @@ namespace FlashHeatZeekerWithStarlingT26
                         Native.Window.close();
                     };
 
-                sprite.context_onmessage +=
+                sprite_context_onmessage +=
                     e =>
                     {
                         Native.Window.opener.postMessage(e.ToString());
@@ -145,6 +171,13 @@ namespace FlashHeatZeekerWithStarlingT26
                                     {
                                         Console.WriteLine("loaded: " + w.document.location.href);
 
+                                        if (w.document.location.href == "about:blank")
+                                        {
+                                            // fck you blank:P 4h of debugging for this.
+
+                                            return;
+                                        }
+
                                         //Native.Window.onmessage +=
                                         //     e =>
                                         //     {
@@ -155,11 +188,27 @@ namespace FlashHeatZeekerWithStarlingT26
                                         //         w.postMessage(e.data);
                                         //     };
 
-                                        sprite.context_onmessage +=
-                                            e =>
+                                        var w_closed = false;
+
+                                        w.onbeforeunload +=
+                                            delegate
                                             {
-                                                w.postMessage(e.ToString());
+                                                w_closed = true;
                                             };
+
+                                        var xcc = 0;
+                                        Action<XElement> __sprite_context_onmessage = e =>
+                                        {
+                                            if (w_closed)
+                                                return;
+
+                                            xcc++;
+                                            //Console.WriteLine(xcc + " to child ->  " + e);
+                                            w.postMessage(e.ToString());
+                                        };
+
+                                      
+                                        sprite_context_onmessage += __sprite_context_onmessage;
 
                                     };
                             };
