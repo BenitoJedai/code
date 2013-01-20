@@ -17,6 +17,7 @@ using FlashHeatZeekerWithStarlingT26.ActionScript.Images;
 using ScriptCoreLib.ActionScript.flash.geom;
 using starling.filters;
 using System.Xml.Linq;
+using starling.utils;
 
 namespace FlashHeatZeekerWithStarlingT26
 {
@@ -1327,6 +1328,7 @@ namespace FlashHeatZeekerWithStarlingT26
             };
             #endregion
 
+            bool user_pause = false;
 
 
             var KineticEnergy = new List<KineticEnergy>();
@@ -1334,6 +1336,9 @@ namespace FlashHeatZeekerWithStarlingT26
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
+                    if (user_pause)
+                        return;
+
                     rot_sw.Stop();
 
                     // which is it, do we need to zoom out or in?
@@ -1507,20 +1512,40 @@ namespace FlashHeatZeekerWithStarlingT26
                 };
             #endregion
 
+            var postMessage_tracker = 0;
+            var postMessage_xtracker = 1000;
+
+            var sync_postMessage_for_context = new List<XElement>();
+
             #region postMessage
-            Action<XElement> postMessage =
+            Action<XElement> sync_postMessage =
                 e =>
                 {
+                    postMessage_tracker++;
+                    postMessage_xtracker++;
+
+                    var ee = XElement.Parse(e.ToString());
+                    ee.Add(new XAttribute("t", "" + postMessage_tracker));
+
                     // send it to outside world
-                    ApplicationSprite.__sprite.context_postMessage(e);
+                    //ApplicationSprite.__sprite.context_postMessage(ee);
+                    sync_postMessage_for_context.Add(ee);
+
+                    var eee = XElement.Parse(e.ToString());
+                    eee.Add(new XAttribute("t", "" + postMessage_xtracker));
 
                     // send it to ourselves
-                    ApplicationSprite.__sprite.game_postMessage(e);
+                    ApplicationSprite.__sprite.game_postMessage(eee);
                 };
             #endregion
 
             // script: error JSC1000: ActionScript : failure at starling.display.Stage.add_keyDown : Object reference not set to an instance of an object.
             // there is something fron with flash natives gen. need to fix that.
+
+            var disable_keyDown_Left = false;
+            var disable_keyDown_Right = false;
+
+            #region keyDown
             ApplicationSprite.__stage.keyDown +=
                 e =>
                 {
@@ -1539,37 +1564,45 @@ namespace FlashHeatZeekerWithStarlingT26
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
                     {
+                        if (!disable_keyDown_Left)
+                        {
+                            disable_keyDown_Left = true;
 
-                        rot_left = -1;
+                            rot_left = -1;
 
-                        postMessage(
-                           new XElement("recon_keyDown_Left",
-                               new XAttribute("networkid", "" + networkid),
-                               new XAttribute("networkframe", "" + (networkframe + 2))
-                           )
-                        );
-
-
-                        //    var tasks = networksync_actions[networkframe + 2];
-
-                        //    tasks += delegate
-                        //    {
-                        //};
-
-                        //networksync_actions[networkframe + 2] = tasks;
-
-
+                            sync_postMessage(
+                                  new XElement("rot_left",
+                                      new XAttribute("i", "" + networkid),
+                                      new XAttribute("f", "" + (networkframe + 2))
+                                  )
+                            );
+                        }
                     }
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
                     {
-                        rot_right = 1;
+
+                        if (!disable_keyDown_Right)
+                        {
+                            disable_keyDown_Right = true;
+
+                            rot_right = 1;
+
+                            sync_postMessage(
+                                  new XElement("rot_right",
+                                      new XAttribute("i", "" + networkid),
+                                      new XAttribute("f", "" + (networkframe + 2))
+                                  )
+                            );
+                        }
                     }
 
 
                 };
+            #endregion
 
 
+            #region keyUp
             ApplicationSprite.__stage.keyUp +=
               e =>
               {
@@ -1593,22 +1626,28 @@ namespace FlashHeatZeekerWithStarlingT26
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
                   {
-                      var tasks = networksync_actions[networkframe + 2];
-
-
+                      disable_keyDown_Left = false;
                       rot_left = 0;
 
-                      postMessage(
-                            new XElement("recon_keyUp_Left",
-                                new XAttribute("networkid", "" + networkid),
-                                new XAttribute("networkframe", "" + (networkframe + 2))
+                      sync_postMessage(
+                            new XElement("rot_left",
+                                new XAttribute("i", "" + networkid),
+                                new XAttribute("f", "" + (networkframe + 2))
                             )
-                        );
+                      );
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
                   {
+                      disable_keyDown_Right = false;
                       rot_right = 0;
+
+                      sync_postMessage(
+                           new XElement("rot_right",
+                               new XAttribute("i", "" + networkid),
+                               new XAttribute("f", "" + (networkframe + 2))
+                           )
+                     );
                   }
 
 
@@ -1626,6 +1665,11 @@ namespace FlashHeatZeekerWithStarlingT26
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.D3)
                   {
                       switchto(unit3);
+                  }
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.P)
+                  {
+                      user_pause = !user_pause;
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Tab)
@@ -1693,14 +1737,14 @@ namespace FlashHeatZeekerWithStarlingT26
                       }
                   }
               };
+            #endregion
 
 
 
             // where is our ego? center of touchdown?
             switchto(unit1);
 
-            var info = new TextField(100, 100, "Welcome to Starling!");
-            info.width = 400;
+            var info = new TextField(800, 100, "Welcome to Starling!") { hAlign = HAlign.LEFT };
 
             addChild(info);
 
@@ -1746,6 +1790,10 @@ namespace FlashHeatZeekerWithStarlingT26
             var ii = 0;
 
             maxframe.Start();
+
+
+            var network_rx_last_second = 0;
+
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
@@ -1765,8 +1813,21 @@ namespace FlashHeatZeekerWithStarlingT26
                     ii++;
 
                     var now = DateTime.Now;
+                    var network_rx_per_second = network_rx - network_rx_last_second;
 
-                    info.text = new { networkid, networkframe, fps, frameid, maxframe_elapsed, now, profile_map_teleportcheck = profile_map_teleportcheck }.ToString();
+                    info.text = new
+                    {
+                        networkid,
+                        networkframe,
+                        network_rx,
+                        network_rx_per_second,
+                        fps,
+                        frameid,
+                        maxframe_elapsed,
+                        now
+                        //, 
+                        //profile_map_teleportcheck 
+                    }.ToString();
 
                     if (fps < 25)
                         info.color = 0xff0000;
@@ -1787,6 +1848,7 @@ namespace FlashHeatZeekerWithStarlingT26
 
                     ApplicationSprite.__sprite.raise_fps("" + fps);
 
+                    network_rx_last_second = network_rx;
 
                     ii = 0;
                     maxframe_elapsed = 0;
@@ -1799,6 +1861,9 @@ namespace FlashHeatZeekerWithStarlingT26
             networktimer.timer +=
                 delegate
                 {
+                    if (user_pause)
+                        return;
+
                     networkframe++;
 
 
@@ -1817,30 +1882,69 @@ namespace FlashHeatZeekerWithStarlingT26
                     // garbage collect
                     networksync_actions[networkframe] = null;
 
-                    ApplicationSprite.__sprite.context_postMessage(
-                        new XElement("sync",
-                            new XAttribute("networkid", "" + networkid),
-                            new XAttribute("networkframe", "" + networkframe)
-                        )
-                    );
+                    // how much bandwidth can we use? are we throttled if we exceed a limit per sec?
+
+                    #region context_postMessage
+                    var message = new XElement("s",
+                            new XAttribute("i", "" + networkid),
+                            new XAttribute("f", "" + networkframe)
+                        );
+
+
+                    // if we send it at once is it better?
+                    foreach (var item in sync_postMessage_for_context)
+                    {
+                        message.Add(item);
+                    }
+                    sync_postMessage_for_context.Clear();
+
+                    ApplicationSprite.__sprite.context_postMessage(message);
+                    #endregion
+
 
                     this.remotegames.WithEach(
                         remotegame =>
                         {
-                            var dx = this.networkframe - remotegame.networkframe + remotegame.initial_networkframe_delta;
-                            remotegame.RaiseTitleChange(remotegame.networkid + " " + new { remotegame.networkframe, dx, remotegame.initial_networkframe_delta }.ToString());
+                            if (remotegame.networkid == networkid)
+                                return;
+
+                            // if dx is more than 4 we might need to wait for the other client!
+                            // they mght be on pause!
+
+                            remotegame.RaiseTitleChange(
+                                remotegame.networkid + " " + new
+                                {
+                                    remotegame.networkframe,
+                                    remotegame.networkframe_dx,
+                                    remotegame.rx_messagecount
+                                    //, remotegame.initial_networkframe_delta
+                                }.ToString());
                         }
                     );
                 };
             networktimer.start();
 
+            Action<XElement> __sprite_game_onmessage = null;
 
-            ApplicationSprite.__sprite.game_onmessage +=
+            __sprite_game_onmessage =
                 data =>
                 {
+                    network_rx += data.ToString().Length;
+
+                    var __networkid = data.Attribute("networkid");
+                    if (__networkid == null)
+                        __networkid = data.Attribute("i");
+
+                    var __networkframe = data.Attribute("networkframe");
+                    if (__networkframe == null)
+                        __networkframe = data.Attribute("f");
+
+
+                    var remotegame_networkid = int.Parse(__networkid.Value);
+                    var remotegame_networkframe = int.Parse(__networkframe.Value);
+
                     #region remotegame networkid
-                    var remotegame_networkid = int.Parse(data.Attribute("networkid").Value);
-                    var remotegame_networkframe = int.Parse(data.Attribute("networkframe").Value);
+
 
                     // do we know this remote game already?
 
@@ -1850,6 +1954,8 @@ namespace FlashHeatZeekerWithStarlingT26
                     {
                         remotegame = new RemoteGame
                         {
+                            Context = this,
+
                             networkid = remotegame_networkid,
                             initial_networkframe_delta = remotegame_networkframe - this.networkframe
                         };
@@ -1857,7 +1963,7 @@ namespace FlashHeatZeekerWithStarlingT26
                         remotegames.Add(remotegame);
 
                         // 
-                        var remotegame_info = new TextField(400, 100, "") { }.MoveTo(
+                        var remotegame_info = new TextField(800, 100, "") { hAlign = HAlign.LEFT }.MoveTo(
                             8, remotegames.Count * 32 + 72
                         ).AttachTo(this);
 
@@ -1865,6 +1971,19 @@ namespace FlashHeatZeekerWithStarlingT26
                         remotegame.AtTitleChange +=
                             e =>
                             {
+                                if (remotegame.networkid == networkid)
+                                {
+                                    remotegame_info.color = 0xff;
+                                }
+                                else if (Math.Abs(remotegame.networkframe_dx) > 4)
+                                {
+                                    remotegame_info.color = 0xff0000;
+                                }
+                                else
+                                {
+                                    remotegame_info.color = 0;
+                                }
+
                                 remotegame_info.text = e;
                             };
 
@@ -1876,7 +1995,7 @@ namespace FlashHeatZeekerWithStarlingT26
                     #endregion
 
 
-
+                    remotegame.rx_messagecount++;
 
                     //if (sync_networkid == networkid)
                     //{
@@ -1900,20 +2019,67 @@ namespace FlashHeatZeekerWithStarlingT26
                     //}
 
                     #region sync
-                    if (data.Name.LocalName == "sync")
+                    if (data.Name.LocalName == "s")
                     {
 
                         // this tells us the remote game has completed this frame
                         remotegame.networkframe = remotegame_networkframe;
 
+                        data.Elements().WithEach(
+                            submessage =>
+                            {
+                                __sprite_game_onmessage(submessage);
+                            }
+                        );
+
                         return;
                     }
                     #endregion
 
+
+                    if (data.Name.LocalName == "rot_right")
+                    {
+                        if (remotegame.networkid == networkid)
+                        {
+                            // move ghost instead
+                        }
+                        else
+                        {
+                            if (rot_right == 0)
+                                rot_right = 1;
+                            else
+                                rot_right = 0;
+                        }
+                    }
+
+                    if (data.Name.LocalName == "rot_left")
+                    {
+                        if (remotegame.networkid == networkid)
+                        {
+                            // move ghost instead
+                        }
+                        else
+                        {
+                            if (rot_left == 0)
+                                rot_left = -1;
+                            else
+                                rot_left = 0;
+                        }
+                    }
                     // show an event we did not process and when the remote client scheduled it
-                    remotegame.RaiseWriteLine(new { data.Name.LocalName, sync_networkframe = remotegame_networkframe }.ToString());
+
+                    remotegame.RaiseWriteLine(
+                         data.Name.LocalName + " " + data
+                     );
                 };
+
+
+            // preventing a bug?
+            ApplicationSprite.__sprite.game_onmessage += __sprite_game_onmessage;
+
         }
+
+        public int network_rx = 0;
 
         public int networkframe = 0;
 
@@ -1931,6 +2097,18 @@ namespace FlashHeatZeekerWithStarlingT26
 
     public class RemoteGame : IRemoteGame
     {
+        public Game Context;
+
+        public int networkframe_dx
+        {
+            get
+            {
+                return Context.networkframe - this.networkframe + this.initial_networkframe_delta;
+            }
+        }
+
+        public int rx_messagecount;
+
         public int networkid { get; set; }
         public int networkframe { get; set; }
 
