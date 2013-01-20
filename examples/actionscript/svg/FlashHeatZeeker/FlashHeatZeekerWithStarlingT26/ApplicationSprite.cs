@@ -1542,6 +1542,8 @@ namespace FlashHeatZeekerWithStarlingT26
             // script: error JSC1000: ActionScript : failure at starling.display.Stage.add_keyDown : Object reference not set to an instance of an object.
             // there is something fron with flash natives gen. need to fix that.
 
+            var disable_keyDown_Up = false;
+            var disable_keyDown_Down = false;
             var disable_keyDown_Left = false;
             var disable_keyDown_Right = false;
 
@@ -1553,13 +1555,40 @@ namespace FlashHeatZeekerWithStarlingT26
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
                     {
-                        move_forward = 1;
+
+                        if (!disable_keyDown_Up)
+                        {
+                            disable_keyDown_Up = true;
+
+                            move_forward = 1;
+
+                            sync_postMessage(
+                                  new XElement("move_forward",
+                                      new XAttribute("i", "" + networkid),
+                                      new XAttribute("f", "" + (networkframe + 2))
+                                  )
+                            );
+                        }
                     }
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Down)
                     {
-                        // move slower while backwards?
-                        move_backward = -0.5;
+
+
+                        if (!disable_keyDown_Down)
+                        {
+                            disable_keyDown_Down = true;
+
+                            // move slower while backwards?
+                            move_backward = -0.5;
+
+                            sync_postMessage(
+                                  new XElement("move_backward",
+                                      new XAttribute("i", "" + networkid),
+                                      new XAttribute("f", "" + (networkframe + 2))
+                                  )
+                            );
+                        }
                     }
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
@@ -1617,17 +1646,35 @@ namespace FlashHeatZeekerWithStarlingT26
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
                   {
                       move_forward = 0;
+
+                      disable_keyDown_Up = false;
+
+                      sync_postMessage(
+                           new XElement("move_forward",
+                               new XAttribute("i", "" + networkid),
+                               new XAttribute("f", "" + (networkframe + 2))
+                           )
+                     );
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Down)
                   {
                       move_backward = 0;
+
+                      disable_keyDown_Down = false;
+
+                      sync_postMessage(
+                           new XElement("move_backward",
+                               new XAttribute("i", "" + networkid),
+                               new XAttribute("f", "" + (networkframe + 2))
+                           )
+                     );
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
                   {
-                      disable_keyDown_Left = false;
                       rot_left = 0;
+                      disable_keyDown_Left = false;
 
                       sync_postMessage(
                             new XElement("rot_left",
@@ -1639,8 +1686,8 @@ namespace FlashHeatZeekerWithStarlingT26
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
                   {
-                      disable_keyDown_Right = false;
                       rot_right = 0;
+                      disable_keyDown_Right = false;
 
                       sync_postMessage(
                            new XElement("rot_right",
@@ -1857,7 +1904,7 @@ namespace FlashHeatZeekerWithStarlingT26
             #endregion
 
 
-            var networktimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 2);
+            var networktimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 5);
             networktimer.timer +=
                 delegate
                 {
@@ -2037,7 +2084,7 @@ namespace FlashHeatZeekerWithStarlingT26
                     #endregion
 
 
-                    if (data.Name.LocalName == "rot_right")
+                    if (data.Name.LocalName == "move_forward")
                     {
                         if (remotegame.networkid == networkid)
                         {
@@ -2045,10 +2092,25 @@ namespace FlashHeatZeekerWithStarlingT26
                         }
                         else
                         {
-                            if (rot_right == 0)
-                                rot_right = 1;
+                            if (move_forward == 0)
+                                move_forward = 1;
                             else
-                                rot_right = 0;
+                                move_forward = 0;
+                        }
+                    }
+
+                    if (data.Name.LocalName == "move_backward")
+                    {
+                        if (remotegame.networkid == networkid)
+                        {
+                            // move ghost instead
+                        }
+                        else
+                        {
+                            if (move_backward == 0)
+                                move_backward = -0.5;
+                            else
+                                move_backward = 0;
                         }
                     }
 
@@ -2066,6 +2128,22 @@ namespace FlashHeatZeekerWithStarlingT26
                                 rot_left = 0;
                         }
                     }
+
+                    if (data.Name.LocalName == "rot_right")
+                    {
+                        if (remotegame.networkid == networkid)
+                        {
+                            // move ghost instead
+                        }
+                        else
+                        {
+                            if (rot_right == 0)
+                                rot_right = 1;
+                            else
+                                rot_right = 0;
+                        }
+                    }
+
                     // show an event we did not process and when the remote client scheduled it
 
                     remotegame.RaiseWriteLine(
