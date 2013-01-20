@@ -82,6 +82,27 @@ namespace FlashHeatZeekerWithStarlingT26
                        Console.WriteLine
                    );
 
+
+            sprite.context_new_remotegame +=
+                remotegame =>
+                {
+                    var remotegame_con = new ConsoleForm();
+
+                    remotegame_con.Show();
+
+                    remotegame.AtTitleChange +=
+                        e => remotegame_con.Text = e;
+
+                    remotegame.AtWriteLine +=
+                        e =>
+                        {
+                            remotegame_con.textBox1.AppendText(e + Environment.NewLine);
+                            remotegame_con.textBox1.ScrollToCaret();
+                        };
+
+
+                };
+
             Native.Window.onmessage +=
               e =>
               {
@@ -90,6 +111,13 @@ namespace FlashHeatZeekerWithStarlingT26
 
             if (Native.Window.opener != null)
             {
+                // opener closes, we close. 
+                Native.Window.opener.onbeforeunload +=
+                    delegate
+                    {
+                        Native.Window.close();
+                    };
+
                 sprite.context_onmessage +=
                     e =>
                     {
@@ -117,15 +145,15 @@ namespace FlashHeatZeekerWithStarlingT26
                                     {
                                         Console.WriteLine("loaded: " + w.document.location.href);
 
-                                        Native.Window.onmessage +=
-                                             e =>
-                                             {
-                                                 if (e.source == w)
-                                                     return;
+                                        //Native.Window.onmessage +=
+                                        //     e =>
+                                        //     {
+                                        //         if (e.source == w)
+                                        //             return;
 
-                                                 // relay, not echo
-                                                 w.postMessage(e.data);
-                                             };
+                                        //         // relay, not echo
+                                        //         w.postMessage(e.data);
+                                        //     };
 
                                         sprite.context_onmessage +=
                                             e =>
