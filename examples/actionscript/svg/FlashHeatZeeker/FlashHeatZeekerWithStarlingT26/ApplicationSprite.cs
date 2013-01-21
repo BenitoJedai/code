@@ -78,22 +78,89 @@ namespace FlashHeatZeekerWithStarlingT26
         }
     }
 
+    public class ApplicationSpriteContent : ScriptCoreLib.ActionScript.flash.display.Sprite
+    {
+        public ApplicationSpriteContent()
+        {
+            this.InvokeWhenStageIsReady(
+                delegate
+                {
+                    __stage = this.stage;
 
+                    // there can only be one in this VM. :)
+                    __sprite = this;
+
+
+                    // http://gamua.com/starling/first-steps/
+                    // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
+                    Starling.handleLostContext = true;
+
+                    var s = new Starling(
+                        typeof(Game).ToClassToken(),
+                        this.stage
+                    );
+
+
+                    s.start();
+
+                    #region resize
+                    // http://forum.starling-framework.org/topic/starling-stage-resizing
+                    this.stage.resize += delegate
+                    {
+                        // http://forum.starling-framework.org/topic/starling-stage-resizing
+
+                        s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
+                            0, 0, this.stage.stageWidth, this.stage.stageHeight
+                        );
+
+                        s.stage.stageWidth = this.stage.stageWidth;
+                        s.stage.stageHeight = this.stage.stageHeight;
+                    };
+
+                    s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
+                         0, 0, this.stage.stageWidth, this.stage.stageHeight
+                     );
+
+                    s.stage.stageWidth = this.stage.stageWidth;
+                    s.stage.stageHeight = this.stage.stageHeight;
+                    #endregion
+
+
+                    this.stage.keyUp +=
+                        e =>
+                        {
+                            if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
+                            {
+                                this.stage.SetFullscreen(true);
+                            }
+                        };
+                }
+            );
+
+
+        }
+
+        public Action<string> __raise_fps = delegate { };
+        public Action<IRemoteGame> __raise_context_new_remotegame = delegate { };
+        public Action<XElement> __context_postMessage = delegate { };
+        public Action<XElement> __game_onmessage = delegate { };
+        public Action<XElement> __game_postMessage = delegate { };
+
+        public static ApplicationSpriteContent __sprite;
+        public static ScriptCoreLib.ActionScript.flash.display.Stage __stage;
+    }
 
     // HD
     [SWF(frameRate = 120, width = 1280, height = 720)]
-    public sealed class ApplicationSprite : ScriptCoreLib.ActionScript.flash.display.Sprite
+    public sealed class ApplicationSprite : ApplicationSpriteContent
     {
         public ApplicationSprite()
         {
-            __stage = this.stage;
-
-            // there can only be one in this VM. :)
-            __sprite = this;
-
-
-
-
+            this.__raise_fps = this.raise_fps;
+            this.__raise_context_new_remotegame = this.raise_context_new_remotegame;
+            this.__context_postMessage = this.context_postMessage;
+            this.game_onmessage += e => this.__game_onmessage(e);
+            this.__game_postMessage = this.game_postMessage;
 
             #region AtInitializeConsoleFormWriter
 
@@ -163,50 +230,6 @@ namespace FlashHeatZeekerWithStarlingT26
             };
             #endregion
 
-            this.stage.keyUp +=
-              e =>
-              {
-                  if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
-                  {
-                      this.stage.SetFullscreen(true);
-                  }
-              };
-
-
-
-            // http://gamua.com/starling/first-steps/
-            // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
-            Starling.handleLostContext = true;
-
-            var s = new Starling(
-                typeof(Game).ToClassToken(),
-                this.stage
-            );
-
-
-            s.start();
-
-            #region resize
-            // http://forum.starling-framework.org/topic/starling-stage-resizing
-            this.stage.resize += delegate
-            {
-                // http://forum.starling-framework.org/topic/starling-stage-resizing
-
-                s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
-                    0, 0, this.stage.stageWidth, this.stage.stageHeight
-                );
-
-                s.stage.stageWidth = this.stage.stageWidth;
-                s.stage.stageHeight = this.stage.stageHeight;
-            };
-
-            s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
-                 0, 0, this.stage.stageWidth, this.stage.stageHeight
-             );
-
-            s.stage.stageWidth = this.stage.stageWidth;
-            s.stage.stageHeight = this.stage.stageHeight;
-            #endregion
         }
 
         public event Action<string> fps;
@@ -251,8 +274,7 @@ namespace FlashHeatZeekerWithStarlingT26
         }
         #endregion
 
-        public static ApplicationSprite __sprite;
-        public static ScriptCoreLib.ActionScript.flash.display.Stage __stage;
+
 
         public event Action<XElement> context_onmessage;
         public void context_postMessage(XElement e)
@@ -1148,7 +1170,7 @@ namespace FlashHeatZeekerWithStarlingT26
             var move_speed_default = 0.09;
             var move_speed = move_speed_default;
 
-            var move_forward = 0.0;
+            var move_forward = 0.1;
             var move_backward = 0.0;
 
             var rot_left = 0.0;
@@ -1535,7 +1557,7 @@ namespace FlashHeatZeekerWithStarlingT26
                     eee.Add(new XAttribute("t", "" + postMessage_xtracker));
 
                     // send it to ourselves
-                    ApplicationSprite.__sprite.game_postMessage(eee);
+                    ApplicationSprite.__sprite.__game_postMessage(eee);
                 };
             #endregion
 
@@ -1581,6 +1603,7 @@ namespace FlashHeatZeekerWithStarlingT26
 
                             // move slower while backwards?
                             move_backward = -0.5;
+                            move_forward = 0;
 
                             sync_postMessage(
                                   new XElement("move_backward",
@@ -1645,7 +1668,7 @@ namespace FlashHeatZeekerWithStarlingT26
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
                   {
-                      move_forward = 0;
+                      move_forward = 0.1;
 
                       disable_keyDown_Up = false;
 
@@ -1864,11 +1887,12 @@ namespace FlashHeatZeekerWithStarlingT26
 
                     info.text = new
                     {
+                        fps,
+
                         networkid,
                         networkframe,
                         network_rx,
                         network_rx_per_second,
-                        fps,
                         frameid,
                         maxframe_elapsed,
                         now
@@ -1893,7 +1917,7 @@ namespace FlashHeatZeekerWithStarlingT26
 
                     fps = ii;
 
-                    ApplicationSprite.__sprite.raise_fps("" + fps);
+                    ApplicationSprite.__sprite.__raise_fps("" + fps);
 
                     network_rx_last_second = network_rx;
 
@@ -1945,7 +1969,7 @@ namespace FlashHeatZeekerWithStarlingT26
                     }
                     sync_postMessage_for_context.Clear();
 
-                    ApplicationSprite.__sprite.context_postMessage(message);
+                    ApplicationSprite.__sprite.__context_postMessage(message);
                     #endregion
 
 
@@ -2036,7 +2060,7 @@ namespace FlashHeatZeekerWithStarlingT26
 
 
                         // let context (html app) know about what we know
-                        ApplicationSprite.__sprite.raise_context_new_remotegame(remotegame);
+                        ApplicationSprite.__sprite.__raise_context_new_remotegame(remotegame);
                         remotegame.RaiseTitleChange(new { remotegame.networkid }.ToString());
                     }
                     #endregion
@@ -2153,7 +2177,7 @@ namespace FlashHeatZeekerWithStarlingT26
 
 
             // preventing a bug?
-            ApplicationSprite.__sprite.game_onmessage += __sprite_game_onmessage;
+            ApplicationSprite.__sprite.__game_onmessage += __sprite_game_onmessage;
 
         }
 

@@ -5,14 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1E159C6B-6A83-491D-9B06-00465A5DBB30}</ProjectGuid>
+    <ProjectGuid>{8A11634A-BB26-4F7A-BB7F-0501AEB04522}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AvalonBrowserLogos</RootNamespace>
-    <AssemblyName>AvalonBrowserLogos</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>ButterFlyWithInteractiveInt32Offset</RootNamespace>
+    <AssemblyName>ButterFlyWithInteractiveInt32Offset</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>AvalonBrowserLogos.Program</StartupObject>
+    <StartupObject>ButterFlyWithInteractiveInt32Offset.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -57,20 +60,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Components.Volatile">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.Volatile.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Windows.Forms">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Extensions">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <SpecificVersion>False</SpecificVersion>
@@ -113,38 +112,50 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="AvalonBrowserLogos.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AvalonBrowserLogos.AssetsLibrary.dll</HintPath>
+    <Reference Include="ButterFlyWithInteractiveInt32Offset.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ButterFlyWithInteractiveInt32Offset.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
+    <Compile Include="Library\Butterfly.cs" />
+    <Compile Include="Library\InteractiveInt32Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\InteractiveInt32Form.Designer.cs">
+      <DependentUpon>InteractiveInt32Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationCanvas.cs" />
-    <Compile Include="ApplicationWebService.cs">
-      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Application.cs">
-      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
-      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+      <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Images\buttryfly.gif" />
+    <Content Include="Design\Images\nocursor.cur" />
+    <Content Include="Design\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Library\InteractiveInt32Form.resx">
+      <DependentUpon>InteractiveInt32Form.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
+start /WAIT /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
 )
 
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false  /FilterTo:$(SolutionDir)
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /xAttachDebugger:true
 
-            </PreBuildEvent>
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{48A0B7BA-BD8F-49EC-858B-09774A8413B2}</ProjectGuid>
+    <ProjectGuid>{7C790787-CE0B-4918-95D1-63C5F1A90362}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NatureBoyTestPadExperiment</RootNamespace>
