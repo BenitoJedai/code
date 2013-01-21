@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>App</title>
+</head>
+<body style="margin: 0px;">
+    <noscript>Error: This Application requires JavaScript.</noscript>
+    <link rel='stylesheet' href='App.css' />
+    <style>
+        /* should jsc try to merge inline style to linked css? */
+        a:not([href]) {
+            text-decoration: line-through;
+        }
+    </style>
+
+    <div style="background-color: black; color: white; padding: 0.4em;">
+        <span style="float: right;">
+            <a>login</a> or <a>logout</a>
+        </span>
+        forum.jsc-solutions.net | logged in as <span>foo@example.com</span>
+
+    </div>
+
+    <div style="margin: 4em;">
+
+        <output>
+            <h3>Forum Category 1</h3>
+            <blockquote>
+                <h4>Foo</h4>
+                <blockquote>
+                    <h5>Foo Thread 1</h5>
+                    <blockquote>
+                        <h6>This is my entry</h6>
+                        <h6>This is my entry</h6>
+                        <h6>This is my entry</h6>
+                        <h6>This is my entry</h6>
+                    </blockquote>
+                    <h5>Foo Thread 2</h5>
+                    <h5>Foo Thread 3</h5>
+                </blockquote>
+            </blockquote>
+            <h3>Forum Category 2</h3>
+            <blockquote>
+                <h4>Bar</h4>
+            </blockquote>
+            <h3>Forum Category 3</h3>
+            <blockquote>
+                <h4>Foo</h4>
+                <h4>Bar</h4>
+            </blockquote>
+        </output>
+    </div>
+</body>
+</html>
