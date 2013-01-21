@@ -1,5 +1,7 @@
 ﻿using android.content;
 using android.view;
+using javax.microedition.khronos.egl;
+using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,12 @@ namespace android.opengl
         [Script(IsNative = true)]
         public interface Renderer
         {
+            void onDrawFrame(GL10 gl);
 
+
+            void onSurfaceChanged(GL10 gl, int width, int height);
+
+            void onSurfaceCreated(GL10 gl, EGLConfig config);
         }
 
         public GLSurfaceView(Context context)
