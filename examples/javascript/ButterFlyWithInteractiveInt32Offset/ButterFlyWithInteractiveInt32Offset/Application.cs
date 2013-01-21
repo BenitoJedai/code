@@ -10,9 +10,9 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using ButterFly.HTML.Pages;
+using ButterFlyWithInteractiveInt32Offset.HTML.Pages;
 
-namespace ButterFly
+namespace ButterFlyWithInteractiveInt32Offset
 {
     /// <summary>
     /// This type will run as JavaScript.
@@ -27,7 +27,7 @@ namespace ButterFly
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new ButterFly.Library.Butterfly(page.PageContainer);
+            new ButterFlyWithInteractiveInt32Offset.Library.Butterfly(page.PageContainer);
 
             //Native.Document.body.onclick +=
             //    delegate

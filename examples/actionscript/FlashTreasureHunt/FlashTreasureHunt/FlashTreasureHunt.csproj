@@ -45,6 +45,9 @@
     <Reference Include="Abstractatech.ActionScript.RayCaster">
       <HintPath>..\packages\Abstractatech.ActionScript.RayCaster.1.0.0.0\lib\Abstractatech.ActionScript.RayCaster.dll</HintPath>
     </Reference>
+    <Reference Include="Abstractatech.Maze">
+      <HintPath>..\packages\Abstractatech.Maze.1.0.0.0\lib\Abstractatech.Maze.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>

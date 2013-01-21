@@ -9,7 +9,7 @@ using ScriptCoreLib.Shared.Drawing;
 using System;
 using System.Threading.Tasks;
 
-namespace ButterFly.Library
+namespace ButterFlyWithInteractiveInt32Offset.Library
 {
 
 
@@ -66,15 +66,15 @@ Click to capture pointer lock and see how the butterfly warps from left to right
 
             //await __buttryfly();
 
-            new global::ButterFly.HTML.Images.FromAssets.buttryfly().InvokeOnComplete(
+            new global::ButterFlyWithInteractiveInt32Offset.HTML.Images.FromAssets.buttryfly().InvokeOnComplete(
                 img =>
                 {
                     loading.FadeOut();
 
                     try
                     {
-                        //IStyleSheet.Default.AddRule("*", "cursor: none, url('" + new global::ButterFly.HTML.Images.FromAssets.nocursor().src + "'), auto;", 0);
-                        IStyleSheet.Default.AddRule("*", "cursor: none;", 0);
+                        //IStyleSheet.Default.AddRule("*", "cursor: none, url('" + new global::ButterFlyWithInteractiveInt32Offset.HTML.Images.FromAssets.nocursor().src + "'), auto;", 0);
+                        //IStyleSheet.Default.AddRule("*", "cursor: none;", 0);
                     }
                     catch (Exception exc)
                     {
@@ -93,11 +93,34 @@ Click to capture pointer lock and see how the butterfly warps from left to right
                     var x = 0;
                     var y = 0;
 
+
+                    var overlay = new IHTMLDiv();
+                    overlay.style.border = "1px solid red";
+                    overlay.style.SetSize(64, 64);
+                    overlay.AttachToDocument();
+
                     Action update =
                         delegate
                         {
                             e.style.backgroundPosition = x + "px " + y + "px";
+
+                            overlay.style.SetLocation(
+                                x + default(int).ToInteractiveInt32Form(),
+                                y + default(int).ToInteractiveInt32Form()
+                            );
+
                         };
+
+                    Action loop = null;
+
+                    loop += delegate
+                    {
+                        update();
+
+                        Native.Window.requestAnimationFrame += loop;
+                    };
+
+                    Native.Window.requestAnimationFrame += loop;
 
                     e.onmousemove +=
                         delegate(IEvent i)

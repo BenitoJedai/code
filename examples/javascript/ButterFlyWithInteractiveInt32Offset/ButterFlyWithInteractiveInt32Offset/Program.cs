@@ -2,7 +2,7 @@ using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace ButterFly
+namespace ButterFlyWithInteractiveInt32Offset
 {
     /// <summary>
     /// You can debug your application by hitting F5.
