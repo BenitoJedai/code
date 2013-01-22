@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/3.0">
+  <id>com.abstractatech.gamification.fhzio</id>
+  <versionNumber>1.0.1</versionNumber>
+  <filename>FlashHeatZeekerIO</filename>
+  <name>FlashHeatZeekerIO</name>
+  <description>
+    <text xml:lang="en">This is an example.</text>
+    <text xml:lang="fr">C'est un exemple.</text>
+    <text xml:lang="es">Esto es un ejemplo.</text>
+  </description>
+  <copyright>Copyright (c) 2010 Example Co.</copyright>
+  <initialWindow>
+    <title>foo</title>
+    <content>
+      FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite.swf
+    </content>
+    
+    <autoOrients>false</autoOrients>
+<renderMode>direct</renderMode>
+<fullScreen>false</fullScreen>
+<visible>true</visible>
+<aspectRatio>landscape</aspectRatio>
+    
+  </initialWindow>
+  <icon>
+
+    
+  </icon>
+  
+
+</application>

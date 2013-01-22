@@ -14,7 +14,7 @@ namespace FlashHeatZeeker.PlayerIOServer
         public string Name;
     }
 
-  
+
     [RoomType("x")]
     public class GameCode : Game<Player>
     {
@@ -78,7 +78,13 @@ namespace FlashHeatZeeker.PlayerIOServer
                     player.Name = message.GetString(0);
                     break;
 
+                case "__context_postMessage":
 
+                    Console.WriteLine(new { player.Id, rest = message.GetString(0) });
+
+                    this.Broadcast("__game_postMessage", message.GetString(0));
+
+                    break;
                 case "hello":
                     Console.WriteLine(new { player.Id, rest = message.GetString(0) });
 

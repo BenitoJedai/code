@@ -1,10 +1,12 @@
 using playerio;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.Extensions;
 using System;
 using System.IO;
 using System.Text;
+using System.Xml.Linq;
 
 namespace FlashHeatZeeker.PlayerIOIntegration
 {
@@ -26,6 +28,7 @@ namespace FlashHeatZeeker.PlayerIOIntegration
 
         public ApplicationSprite()
         {
+
             #region AtInitializeConsoleFormWriter
 
             var w = new __OutWriter();
@@ -144,19 +147,19 @@ namespace FlashHeatZeeker.PlayerIOIntegration
 
 
                             //Add listener for messages of the type "hello"
-                            connection.addMessageHandler("hello",
-                                (m, userid) =>
-                                {
-                                    if (m.length > 0)
-                                    {
-                                        WriteLine("hello: " + m.getString(m.length - 1));
-                                    }
-                                    else
-                                    {
-                                        WriteLine("Recived a message with the type hello from the server");
-                                    }
-                                }
-                            );
+                            //connection.addMessageHandler("hello",
+                            //    (m, userid) =>
+                            //    {
+                            //        if (m.length > 0)
+                            //        {
+                            //            WriteLine("hello: " + m.getString(m.length - 1));
+                            //        }
+                            //        else
+                            //        {
+                            //            WriteLine("Recived a message with the type hello from the server");
+                            //        }
+                            //    }
+                            //);
 
                             connection.addMessageHandler("xhello",
                                   (m, userid) =>
@@ -204,6 +207,27 @@ namespace FlashHeatZeeker.PlayerIOIntegration
                             );
 
 
+                            this.__game_postMessage = (XElement e) =>
+                            {
+                                this.__game_onmessage(e);
+                            };
+
+                            connection.addMessageHandler("__game_postMessage",
+                              (m, userid) =>
+                              {
+                                  if (m.length > 0)
+                                  {
+                                      this.__game_postMessage(XElement.Parse(m.getString(m.length - 1)));
+                                  }
+
+                              }
+                          );
+
+                            this.__context_postMessage +=
+                                e =>
+                                {
+                                    connection.send("__context_postMessage", e.ToString());
+                                };
 
                             //Add message listener for users leaving the room
 
