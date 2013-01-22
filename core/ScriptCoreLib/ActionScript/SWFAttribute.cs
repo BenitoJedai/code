@@ -17,7 +17,8 @@ namespace ScriptCoreLib.ActionScript
 
         //public uint backgroundColor = 0xcccccc;
 
-        public int frameRate = 30;
+        public int frameRate = 60;
+
         public int width = ScriptApplicationEntryPointAttribute.DefaultWidth;
         public int height = ScriptApplicationEntryPointAttribute.DefaultHeight;
 
