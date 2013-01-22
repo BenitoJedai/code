@@ -12,25 +12,25 @@ namespace FlashHeatZeeker.PlayerIOIntegration
     {
         public static void Main(string[] args)
         {
-            #region player.io dev server
-            new Thread(
-                delegate()
-                {
-                    PlayerIO.DevelopmentServer.Server.StartWithDebugging();
-                }
-            )
-            {
-                Name = "player.io dev server",
-                ApartmentState = ApartmentState.STA
-            }.With(
-                t =>
-                {
-                    Console.WriteLine("will start threads for jsc server and also " + t.Name + "...");
+            //#region player.io dev server
+            //new Thread(
+            //    delegate()
+            //    {
+            //        PlayerIO.DevelopmentServer.Server.StartWithDebugging();
+            //    }
+            //)
+            //{
+            //    Name = "player.io dev server",
+            //    ApartmentState = ApartmentState.STA
+            //}.With(
+            //    t =>
+            //    {
+            //        Console.WriteLine("will start threads for jsc server and also " + t.Name + "...");
 
-                    t.Start();
-                }
-            );
-            #endregion
+            //        t.Start();
+            //    }
+            //);
+            //#endregion
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
