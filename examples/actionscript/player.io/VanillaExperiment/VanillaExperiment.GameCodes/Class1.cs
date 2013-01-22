@@ -1,8 +1,10 @@
 ﻿
 using PlayerIO.GameLibrary;
 using System;
+using System.IO;
 namespace MyGame
 {
+
     public class Player : BasePlayer
     {
         public string Name;
@@ -16,6 +18,32 @@ namespace MyGame
     //OK   
     //---------------------------
 
+    // error: { errorID = 16, message = Could not find a game class with the correct room type: x. You have to add this attribute: [RoomType("x")] to your main game class. You can read more about this on our blog: http://playerio.com/blog/ }
+
+
+    //Changing dll to user picked dll
+    // - error: Could not find any Player.IO room types [RoomType(...)] in the dll.
+
+    //Changing dll to user picked dll
+    // - error: Reference found to Player.IO Development Server. You can only reference PlayerIO.GameLibrary.dll
+    // - error: MyGame.Program.Main(...) uses the non-allowed method: System.Void PlayerIO.DevelopmentServer.Server::StartWithDebugging()
+
+    //    Trying last loaded dll
+    // - error: MyGame.XConsole.Out is static -- Static fields are disallowed
+
+    //Trying last loaded dll
+    // - error: Could not find any Player.IO room types [RoomType(...)] in the dll.
+
+    //Checking if VanillaExperiment.GameCodes.dll is a game dll (from application directory)
+    // - error: Could not find any Player.IO room types [RoomType(...)] in the dll.
+
+    //Checking if VanillaExperiment.GameCodes.dll is a game dll (from application directory)
+    // - error: MyGame.XConsole.Out is static -- Static fields are disallowed
+
+    //public static class XConsole
+    //{
+    //    public static TextWriter Out;
+    //}
 
     [RoomType("x")]
     public class GameCode : Game<Player>
@@ -25,7 +53,7 @@ namespace MyGame
         {
             // anything you write to the Console will show up in the 
             // output window of the development server
-            Console.WriteLine("Game is started: " + RoomId);
+            Console.WriteLine("xGame is started: " + RoomId);
 
             // This is how you setup a timer
             AddTimer(delegate
@@ -59,7 +87,8 @@ namespace MyGame
             player.Send("hello");
 
             // this is how you broadcast a message to all players connected to the game
-            Broadcast("UserJoined", player.Id);
+            Console.WriteLine("xUserJoined: " + player.Id);
+            Broadcast("UserJoined", player.Id, "fooo");
         }
 
         // This method is called when a player leaves the game
@@ -78,6 +107,15 @@ namespace MyGame
                 case "MyNameIs":
                     player.Name = message.GetString(0);
                     break;
+
+
+                case "hello":
+                    Console.WriteLine(new { player.Id, rest = message.GetString(0) });
+
+
+                    this.Broadcast("hello", "server rebroadcast, " + new { player.Id, rest = message.GetString(0) });
+                    player.Send("xhello", "server rebroadcast, " + new { player.Id, rest = message.GetString(0) });
+                    break;
             }
         }
 
@@ -90,7 +128,7 @@ namespace MyGame
         [DebugAction("Play", DebugAction.Icon.Play)]
         public void PlayNow()
         {
-            Console.WriteLine("The play button was clicked!");
+            Console.WriteLine("The xplay button was clicked!");
         }
 
 

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssemblyVersion", "TestAssemblyVersion\TestAssemblyVersion.csproj", "{D7A9E9CA-C702-409A-A34D-CC50A0ACBEFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7A9E9CA-C702-409A-A34D-CC50A0ACBEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A9E9CA-C702-409A-A34D-CC50A0ACBEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A9E9CA-C702-409A-A34D-CC50A0ACBEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A9E9CA-C702-409A-A34D-CC50A0ACBEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
