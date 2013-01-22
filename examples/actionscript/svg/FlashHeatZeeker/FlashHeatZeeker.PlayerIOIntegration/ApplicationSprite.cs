@@ -8,7 +8,7 @@ using System.Text;
 
 namespace FlashHeatZeeker.PlayerIOIntegration
 {
-   
+
 
     static class X
     {
@@ -110,6 +110,7 @@ namespace FlashHeatZeeker.PlayerIOIntegration
                     content.AttachToContainer(this);
                     content.AutoSizeTo(this.stage);
 
+                    content.Opacity = 0;
 
                     Action<global::playerio.PlayerIOError> handleError = e =>
                     {
