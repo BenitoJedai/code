@@ -135,9 +135,33 @@
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="synergy\playerio\BigDB.as" />
+    <None Include="synergy\playerio\Client.as" />
+    <None Include="synergy\playerio\Connection.as" />
+    <None Include="synergy\playerio\DatabaseObject.as" />
+    <None Include="synergy\playerio\ErrorLog.as" />
+    <None Include="synergy\playerio\GameFS.as" />
+    <None Include="synergy\playerio\Message.as" />
+    <None Include="synergy\playerio\Multiplayer.as" />
+    <None Include="synergy\playerio\PartnerPay.as" />
+    <None Include="synergy\playerio\PayVault.as" />
+    <None Include="synergy\playerio\PayVaultHistoryEntry.as" />
+    <None Include="synergy\playerio\PlayerIO.as" />
+    <None Include="synergy\playerio\PlayerIOError.as" />
+    <None Include="synergy\playerio\PlayerIORegistrationError.as" />
+    <None Include="synergy\playerio\QuickConnect.as" />
+    <None Include="synergy\playerio\RoomInfo.as" />
+    <None Include="synergy\playerio\SimpleGameFS.as" />
+    <None Include="synergy\playerio\VaultItem.as" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /OutputDirectory:C:\util\jsc\nuget /AssemblyMerge:"X:\jsc.svn\examples\actionscript\player.io\SDK\Flash\NewGame\Serverside Code\Player.IO Serverside .NET Libraries\Player.IO GameLibrary.dll" /AssemblyMerge:"X:\jsc.svn\examples\actionscript\player.io\SDK\Flash\NewGame\Serverside Code\Player.IO Serverside .NET Libraries\Player.IO Development Server.exe"  /AssemblyMerge:"$(TargetPath)" /AssemblyMerge:"PlayerIO.GameLibrary.AssetsLibrary.dll" /PackageID:$(ProjectName) /DiscardAttributesForAssembly:"X:\jsc.svn\examples\actionscript\player.io\SDK\Flash\NewGame\Serverside Code\Player.IO Serverside .NET Libraries\Player.IO GameLibrary.dll" /OutputAssemblyVersion:"2.3.6.0"
+)
+
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
