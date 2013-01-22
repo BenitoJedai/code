@@ -121,7 +121,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AIR\staging.apk\foo-app.xml" />
+    <Content Include="AIR\staging.apk\foo-app.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="AIR\staging.apk\foo.swf" />
     <Content Include="AIR\staging.apk\icons\AIRApp_128.png" />
     <Content Include="AIR\staging.apk\icons\AIRApp_16.png" />

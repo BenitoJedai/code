@@ -58,7 +58,6 @@ namespace VanillaExperiment
 
 
                     //  	Player.IO Development Server.exe!PlayerIO.ServerCore.PlayerIOClient.PlayerIOChannel.ProtobufHttp.startDnsQuery.AnonymousMethod__152(System.IAsyncResult result) + 0x6f bytes	
-                    PlayerIO.DevelopmentServer.Server.StartWithDebugging();
                 }
             ).Start();
 
