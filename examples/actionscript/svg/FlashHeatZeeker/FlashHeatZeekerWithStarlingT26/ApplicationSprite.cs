@@ -1668,7 +1668,7 @@ namespace FlashHeatZeekerWithStarlingT26
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
                   {
-                      move_forward = 0.1;
+                      move_forward = 0.0;
 
                       disable_keyDown_Up = false;
 
@@ -1928,7 +1928,7 @@ namespace FlashHeatZeekerWithStarlingT26
             #endregion
 
 
-            var networktimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 5);
+            var networktimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 15);
             networktimer.timer +=
                 delegate
                 {
