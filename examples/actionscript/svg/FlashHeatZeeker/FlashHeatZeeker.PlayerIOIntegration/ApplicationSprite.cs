@@ -21,87 +21,14 @@ namespace FlashHeatZeeker.PlayerIOIntegration
         }
     }
 
-    public sealed class ApplicationSprite : global::FlashHeatZeekerWithStarlingT26.ApplicationSpriteContent
+    public  class ApplicationSpriteContent : global::FlashHeatZeekerWithStarlingT26.ApplicationSpriteContent
     {
         public readonly ApplicationCanvas content = new ApplicationCanvas();
 
-
-        public ApplicationSprite()
+        public ApplicationSpriteContent()
         {
-
-            #region AtInitializeConsoleFormWriter
-
-            var w = new __OutWriter();
-            var o = Console.Out;
-            var __reentry = false;
-
-            var __buffer = new StringBuilder();
-
-            w.AtWrite =
-                x =>
-                {
-                    __buffer.Append(x);
-                };
-
-            w.AtWriteLine =
-                x =>
-                {
-                    __buffer.AppendLine(x);
-                };
-
-            Console.SetOut(w);
-
-            this.AtInitializeConsoleFormWriter = (
-                Action<string> Console_Write,
-                Action<string> Console_WriteLine
-            ) =>
-            {
-
-                try
-                {
-
-
-                    w.AtWrite =
-                        x =>
-                        {
-                            o.Write(x);
-
-                            if (!__reentry)
-                            {
-                                __reentry = true;
-                                Console_Write(x);
-                                __reentry = false;
-                            }
-                        };
-
-                    w.AtWriteLine =
-                        x =>
-                        {
-                            o.WriteLine(x);
-
-                            if (!__reentry)
-                            {
-                                __reentry = true;
-                                Console_WriteLine(x);
-                                __reentry = false;
-                            }
-                        };
-
-                    Console.WriteLine("flash Console.WriteLine should now appear in JavaScript form!");
-                    Console.WriteLine(__buffer.ToString());
-                }
-                catch
-                {
-
-                }
-            };
-            #endregion
-
-
-
             WhenReady();
         }
-
 
         public void WhenReady()
         {
@@ -274,6 +201,89 @@ namespace FlashHeatZeeker.PlayerIOIntegration
         }
 
 
+    }
+
+    public sealed class ApplicationSprite : ApplicationSpriteContent
+    {
+
+
+        public ApplicationSprite()
+        {
+
+            #region AtInitializeConsoleFormWriter
+
+            var w = new __OutWriter();
+            var o = Console.Out;
+            var __reentry = false;
+
+            var __buffer = new StringBuilder();
+
+            w.AtWrite =
+                x =>
+                {
+                    __buffer.Append(x);
+                };
+
+            w.AtWriteLine =
+                x =>
+                {
+                    __buffer.AppendLine(x);
+                };
+
+            Console.SetOut(w);
+
+            this.AtInitializeConsoleFormWriter = (
+                Action<string> Console_Write,
+                Action<string> Console_WriteLine
+            ) =>
+            {
+
+                try
+                {
+
+
+                    w.AtWrite =
+                        x =>
+                        {
+                            o.Write(x);
+
+                            if (!__reentry)
+                            {
+                                __reentry = true;
+                                Console_Write(x);
+                                __reentry = false;
+                            }
+                        };
+
+                    w.AtWriteLine =
+                        x =>
+                        {
+                            o.WriteLine(x);
+
+                            if (!__reentry)
+                            {
+                                __reentry = true;
+                                Console_WriteLine(x);
+                                __reentry = false;
+                            }
+                        };
+
+                    Console.WriteLine("flash Console.WriteLine should now appear in JavaScript form!");
+                    Console.WriteLine(__buffer.ToString());
+                }
+                catch
+                {
+
+                }
+            };
+            #endregion
+
+
+
+        }
+
+
+   
 
         Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
 
