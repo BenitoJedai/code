@@ -5,16 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A7DC38D5-05C5-4449-A92C-BD651D67BDF2}</ProjectGuid>
+    <ProjectGuid>{8C36076C-7270-4841-BB8B-1C28A24ED1CE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyAGALBasicRenderer</RootNamespace>
-    <AssemblyName>EasyAGALBasicRenderer</AssemblyName>
+    <RootNamespace>EasyAGAL</RootNamespace>
+    <AssemblyName>EasyAGAL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>EasyAGALBasicRenderer.Program</StartupObject>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <StartupObject>EasyAGAL.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,9 +36,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EasyAGAL">
-      <HintPath>..\packages\EasyAGAL.1.0.0.0\lib\EasyAGAL.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -118,14 +113,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="EasyAGALBasicRenderer.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\EasyAGALBasicRenderer.AssetsLibrary.dll</HintPath>
+    <Reference Include="EasyAGAL.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\EasyAGAL.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Library\BasicRender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -134,12 +128,18 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="packages.config" />
+    <Content Include="X:\opensource\github\EasyAGAL\src\**\*.*">
+      <Link>opensource\github.com\EasyAGAL\src\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
+)
+
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
@@ -149,5 +149,4 @@ start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFil
 
             </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
