@@ -14,6 +14,8 @@ using WebGLCannonPhysicsEngine.Design;
 using WebGLCannonPhysicsEngine.HTML.Pages;
 using System.Collections.Generic;
 using ScriptCoreLib.Shared.Lambda;
+using CANNON.Design;
+using THREE.Design;
 
 namespace WebGLCannonPhysicsEngine
 {
@@ -44,13 +46,15 @@ namespace WebGLCannonPhysicsEngine
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            //            DEPRECATED: Quaternion's .multiplyVector3() has been removed. Use is now vector.applyQuaternion( quaternion ) instead. Three.js:913
+            //Uncaught TypeError: Object [object Object] has no method 'subSelf' 
 
             #region await Three.js then do InitializeContent
             new[]
             {
-                new global::WebGLCannonPhysicsEngine.Design.References.Three().Content,
+                new CANNON.opensource.github.cannon.js.build.cannon().Content,
+                new THREE.opensource.gihtub.three.js.build.three().Content,
                 new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
-                new global::WebGLCannonPhysicsEngine.Design.References.Cannon().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
                 {
@@ -189,7 +193,7 @@ namespace WebGLCannonPhysicsEngine
             var material = new THREE_MeshLambertMaterial(new MeshLambertMaterialDictionary { color = 0xdddddd });
 
             //Native.Window.
-            THREE.ColorUtils.adjustHSV(material.color, 0, 0, 0.9);
+            THREE.Design.THREE.ColorUtils.adjustHSV(material.color, 0, 0, 0.9);
             //new IFunction("material", "THREE.ColorUtils.adjustHSV( material.color, 0, 0, 0.9 );").apply(null, material);
 
             //    
@@ -381,7 +385,12 @@ namespace WebGLCannonPhysicsEngine
                         var vector = targetVec;
                         targetVec.set(0, 0, 1);
                         projector.unprojectVector(vector, camera);
-                        var ray = new THREE_Ray(controls_sphereBody.position, vector.subSelf(controls_sphereBody.position).normalize());
+                        var ray = new THREE_Ray(controls_sphereBody.position,
+                            vector
+                            //.subSelf(controls_sphereBody.position)
+                            .normalize()
+
+                            );
                         targetVec.x = ray.direction.x;
                         targetVec.y = ray.direction.y;
                         targetVec.z = ray.direction.z;
