@@ -4,4 +4,8 @@ rem http://forum.starling-framework.org/topic/wrong-wmode-with-adobeair-32-deskt
 
 
 
-C:\util\flex_sdk_4.6\bin\adt -package -target apk -storetype pkcs12 -keystore newcert.p12 -keypass password foo.apk foo-app.xml FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite.swf
+rem C:\util\flex_sdk_4.6\bin\adt -package -target apk -storetype pkcs12 -keystore newcert.p12 -keypass password foo.apk foo-app.xml FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite.swf
+
+C:\util\AdobeAIRSDK\bin\adt -package -target apk -storetype pkcs12 -keystore newcert.p12 -keypass password foo.apk foo-app.xml FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite.swf
+
+

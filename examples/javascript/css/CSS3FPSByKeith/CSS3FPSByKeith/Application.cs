@@ -10,10 +10,10 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using WebGLGTAByNiklas.Design;
-using WebGLGTAByNiklas.HTML.Pages;
+using CSS3FPSByKeith.Design;
+using CSS3FPSByKeith.HTML.Pages;
 
-namespace WebGLGTAByNiklas
+namespace CSS3FPSByKeith
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -28,40 +28,15 @@ namespace WebGLGTAByNiklas
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // via http://www.html5gamedevs.com/2013/01/23/a-3d-fps-concept-created-using-css3-transforms/
+            HTML.Pages.TexturesImages tex0;
 
-
-
-            Assets.Data INeedThis;
-
-
-            // rebase
-            new IHTMLBase { href = "assets/WebGLGTAByNiklas/" }.AttachToDocument();
-
-
-            new IFunction(@"
-
-
-            var stats = new Stats();
-
-            // Align top-left
-            stats.domElement.style.position = 'absolute';
-            stats.domElement.style.left = '0px';
-            stats.domElement.style.top = '0px';
-
-            document.body.appendChild(stats.domElement);
-
-            setInterval(function () {
-
-                stats.update();
-
-            }, 1000 / 60);
-
-
-            var game = new GTA.Game();
-
-
-
-            ").apply(null);
+            @"Hello world".ToDocumentTitle();
+            // Send data from JavaScript to the server tier
+            service.WebMethod2(
+                @"A string from JavaScript.",
+                value => value.ToDocumentTitle()
+            );
         }
 
     }
