@@ -124,6 +124,7 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Content Include="Design\js\three.min.js" />
     <Content Include="Design\sounds\bombdamageup.wav" />
     <Content Include="Design\sounds\bombfaster.wav" />
     <Content Include="Design\sounds\bombnew.wav" />
@@ -181,7 +182,6 @@
     <Content Include="Design\js\shaders\VignetteShader.js" />
     <Content Include="Design\js\soundmanager2-nodebug-jsmin.js" />
     <Content Include="Design\js\stacktrace.js" />
-    <Content Include="Design\js\three.min.js" />
     <Content Include="Design\js\tween.js" />
     <Content Include="Design\js\utils.js" />
     <Content Include="Design\levels\levels.htm" />

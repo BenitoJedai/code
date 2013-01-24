@@ -41,6 +41,8 @@ namespace EvilChopperByPer
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //THREE.opensource.gihtub.three.js.build.three ref0;
+
             new IFunction(@"
      loadResources(); // Will start loading when sound manager 2 is ready
         $(document).ready(function() {
