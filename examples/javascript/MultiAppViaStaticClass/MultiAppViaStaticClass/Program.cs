@@ -10,7 +10,7 @@ namespace MultiAppViaStaticClass
     {
         public static void Main(string[] args)
         {
-            RewriteToUltraApplication.AsProgram.Launch(typeof(domains.dev.Application));
+            RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
     }
