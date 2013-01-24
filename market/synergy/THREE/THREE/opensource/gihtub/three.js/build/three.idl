@@ -1,0 +1,242 @@
+﻿// replace any with dynamic?
+// https://github.com/mrdoob/three.js/commit/fc70bb9ba7439148c10c9cb498793988d5cba899
+// https://github.com/mrdoob/three.js/blob/fc70bb9ba7439148c10c9cb498793988d5cba899/build/three.js
+
+
+interface THREE
+{ 
+	static attribute THREE.ColorUtilsType ColorUtils; 
+	static attribute THREE.ImageUtilsType ImageUtils; 
+
+	static attribute long DoubleSide; 
+	static attribute long AdditiveBlending; 
+
+
+};
+
+
+// this is an anonymous type actually
+interface THREE.ImageUtilsType
+{ 
+	any loadTexture(any src);
+};
+
+// this is an anonymous type actually
+interface THREE.ColorUtilsType
+{ 
+	void adjustHSV(long color, long x, long y, double z);
+
+};
+
+[Constructor(double x, double ratio, double a, double fov)]
+interface THREE.PerspectiveCamera 
+{ 
+	attribute double aspect; 
+
+	void updateProjectionMatrix();
+	void lookAt(THREE.Vector3 target);
+	void add(any e);
+
+	attribute THREE.Vector3  position;
+	attribute THREE.Vector3  up;
+
+};
+
+[Constructor()]
+interface THREE.Scene 
+{ 
+	attribute THREE.Fog         fog;
+
+	void add(any value);
+};
+
+[Constructor(long color, long y, long z)]
+interface THREE.Fog 
+{ 
+	attribute long        color;
+
+};
+
+[Constructor(long x, double y, long z)]
+interface THREE.PointLight 
+{ 
+	attribute THREE.Vector3  position;
+};
+
+[Constructor(long x)]
+interface THREE.AmbientLight 
+{ 
+};
+
+[Constructor(long x)]
+interface THREE.SpotLight 
+{ 
+	attribute THREE.Vector3  position;
+	attribute THREE.Object3D target;
+
+	attribute boolean        castShadow;
+	attribute long        shadowCameraNear;
+	attribute long        shadowCameraFar;
+	attribute long        shadowCameraFov;
+	attribute double        shadowMapBias;
+	attribute double        shadowMapDarkness;
+	attribute long        shadowMapWidth;
+	attribute long        shadowMapHeight;
+};
+
+[Constructor(long x, long y), 
+	Constructor(long x, long y, long z, long q)]
+interface THREE.PlaneGeometry 
+{ 
+	attribute sequence<THREE.Vector3>        vertices;
+
+	void applyMatrix(any value);
+};
+
+[Constructor()]
+interface THREE.Matrix4 
+{ 
+	any makeRotationX(double value);
+};
+
+[Constructor(any x)]
+interface THREE.MeshLambertMaterial 
+{ 
+	attribute long        color;
+
+};
+
+[Constructor()]
+interface THREE.Object3D
+{ 
+	attribute THREE.Vector3  position;
+};
+
+
+[Constructor(any geometry, any material)]
+interface THREE.Mesh 
+{ 
+	attribute THREE.Vector3  rotation;
+	attribute THREE.Vector3  position;
+	attribute THREE.Vector3  scale;
+
+	attribute any quaternion;
+	attribute boolean visible;
+
+	attribute boolean        castShadow;
+	attribute boolean        receiveShadow;
+	attribute boolean        useQuaternion;
+
+	void lookAt(THREE.Vector3 target);
+};
+
+[Constructor(any geometry, any material)]
+interface THREE.MorphAnimMesh 
+{
+	attribute THREE.Vector3  position;
+	attribute THREE.Vector3  rotation;
+	attribute THREE.Vector3  scale;
+	attribute long duration;
+
+	void updateAnimation(double delta);
+
+};
+
+[Constructor(any args)]
+interface THREE.WebGLRenderer 
+{ 
+	attribute boolean        shadowMapEnabled;
+	attribute boolean        shadowMapSoft;
+	attribute boolean        autoClear;
+
+	attribute Element domElement;
+
+	void setClearColor(long color, long h);
+	void setSize(long w, long h);
+	void render(any scene, any camera);
+
+	void clear();
+};
+
+[Constructor(THREE.WebGLRenderer r)]
+interface THREE.EffectComposer 
+{ 
+	void addPass(any e);
+	void render(double e);
+
+};
+
+[Constructor(double radius)]
+interface THREE.SphereGeometry 
+{ 
+
+};
+
+[Constructor()]
+interface THREE.Vector3 
+{ 
+	attribute double x; 
+	attribute double y;
+	attribute double z;
+
+	void set(double x, double y, double z);
+
+	THREE.Vector3 subSelf(any xyz);
+	THREE.Vector3 normalize();
+
+};
+
+[Constructor()]
+interface THREE.Projector 
+{ 
+	void unprojectVector(any vector, any camera);
+};
+
+
+[Constructor(double x, double y, double z)]
+interface THREE.CubeGeometry 
+{ 
+};
+
+[Constructor(any position, any n)]
+interface THREE.Ray 
+{ 
+	attribute THREE.Vector3  direction;
+};
+
+[Constructor(any geometry, any material)]
+interface THREE.ParticleSystem 
+{ 
+	attribute THREE.Vector3  position;
+
+};
+
+[Constructor(any a)]
+interface THREE.Sprite 
+{ 
+	attribute THREE.Vector3  position;
+	attribute double  rotation;
+
+};
+
+[Constructor()]
+interface THREE.JSONLoader 
+{ 
+	void load(any src, any handler);
+
+
+};
+
+[Constructor()]
+interface THREE.MeshFaceMaterial 
+{ 
+
+
+};
+
+[Constructor(any e)]
+interface THREE.MeshBasicMaterial 
+{ 
+
+
+};
