@@ -15,3 +15,8 @@ using System.Reflection;
 [assembly: AssemblyVersion(@"1.0.0.0")]
 [assembly: AssemblyFileVersion(@"1.0.0.0")]
 [assembly: Obfuscation(Feature = @"merge")]
+
+//[assembly:
+//    ScriptCoreLib.Shared.ScriptResources("assets/WebGLGTAByNiklas/data"),
+//    ScriptCoreLib.Shared.ScriptResources("assets/WebGLGTAByNiklas/data/AUDIO")
+//]

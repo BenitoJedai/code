@@ -4,4 +4,5 @@ rem http://forum.starling-framework.org/topic/wrong-wmode-with-adobeair-32-deskt
 rem call build.bat
 
 
-C:\util\flex_sdk_4.6\bin\adl  foo-app.xml  -profile mobileDevice
+rem C:\util\flex_sdk_4.6\bin\adl  foo-app.xml  -profile mobileDevice
+C:\util\AdobeAIRSDK\bin\adl  foo-app.xml  -profile mobileDevice
