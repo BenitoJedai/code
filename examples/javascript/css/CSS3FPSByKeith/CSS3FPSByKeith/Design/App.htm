@@ -1,0 +1,238 @@
+<html>
+<body>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background: #111;
+            font: 90%/1.2 Arial;
+        }
+
+        h2 {
+            font-size: 170%;
+            color: #fff;
+            font-weight: normal;
+            margin: 0 0 1em 0;
+        }
+
+        a {
+            color: #fc0;
+        }
+
+        kbd {
+            font: inherit;
+            color: #666;
+            display: inline-block;
+            background: #fff;
+            background: -webkit-linear-gradient(#bbb,#fff 93%,#888);
+            background: linear-gradient(#bbb,#fff 93%,#888);
+            padding: 7% 8% 7.5% 8%;
+            margin: 4px 2px;
+            min-width: 1.25em;
+            text-align: center;
+            box-shadow: 0 1px 4px #000,inset 0 1px 1px rgba(255,255,255,.75),inset 0 -.35em 0 #888;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .camera {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform-style: preserve-3d;
+            -webkit-transform-origin: 50% 50% 50%;
+            -webkit-backface-visibility: hidden;
+            -moz-transform-style: preserve-3d;
+            -moz-transform-origin: 50% 50% 50%;
+            -moz-backface-visibility: hidden;
+            transform-style: preserve-3d;
+            transform-origin: 50% 50% 50%;
+            backface-visibility: hidden;
+        }
+
+        .viewport {
+            position: relative;
+            float: left;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        .plane {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform-origin: 50% 50% 50%;
+            -webkit-backface-visibility: hidden;
+            -moz-transform-origin: 50% 50% 50%;
+            -moz-backface-visibility: hidden;
+            transform-origin: 50% 50% 50%;
+            backface-visibility: hidden;
+            color: #ff0;
+            font-size: 10px;
+        }
+
+        .assembly {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform-style: preserve-3d;
+            -webkit-transform-origin: 50% 50% 50%;
+            -webkit-backface-visibility: hidden;
+            -moz-transform-style: preserve-3d;
+            -moz-transform-origin: 50% 50% 50%;
+            -moz-backface-visibility: hidden;
+            transform-style: preserve-3d;
+            transform-origin: 50% 50% 50%;
+            backface-visibility: hidden;
+        }
+
+        .light {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 32px;
+            height: 32px;
+            margin-left: -16px;
+            margin-top: -16px;
+        }
+
+        .line {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            background: blue;
+            -webkit-transform-origin: 0 0 0;
+        }
+
+        #gun {
+            background: url(assets/CSS3FPSByKeith/gun.png);
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            z-index: 2000;
+            height: 315px;
+            width: 360px;
+            z-index: 1;
+            -webkit-animation: gun 2.5s infinite;
+            -moz-animation: gun 2.5s infinite;
+        }
+
+        #viewport {
+            -moz-transition: .5s;
+            -webkit-transition: .5s;
+            transition: .5s;
+            height: 100%;
+        }
+
+        #credits {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background: rgba(0,0,0,.5);
+            text-align: center;
+            color: #fff;
+            z-index: 3;
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            color: #ccc;
+            font-size: 120%;
+        }
+
+        #instructions {
+            border-spacing: 50px;
+            width: 100%;
+            display: table;
+            position: absolute;
+            text-align: center;
+            top: 20%;
+            height: 50%;
+            z-index: 2;
+            -moz-transition: .5s;
+            -webkit-transition: .5s;
+            transition: .5s;
+        }
+
+        .panel {
+            box-sizing: border-box;
+            display: table-cell;
+            padding: 3%;
+            background: rgba(40,40,40,.85);
+            box-shadow: 0 0 8px rgba(0,0,0,.75);
+            text-align: center;
+            vertical-align: middle;
+            border-radius: 10px;
+        }
+
+        #move kbd:first-of-type {
+            margin-left: 33%;
+            margin-right: 33%;
+        }
+
+        #jump kbd {
+            display: block;
+        }
+
+        .hide {
+            opacity: 0;
+        }
+
+        @-webkit-keyframes gun {
+            50% {
+                -webkit-transform: translateY(7px) scale(0.99);
+            }
+        }
+
+        @-moz-keyframes gun {
+            50% {
+                -moz-transform: translateY(7px);
+            }
+        }
+    </style>
+    <script src="App.js"></script>
+
+
+    <div id="credits">
+        <p>
+            CSS powered 3D engine with lighting, shadows and collisions. Built using HTML5 and CSS3 3D transforms. 
+        </p>
+    </div>
+
+    <div id="loading">Loading...</div>
+
+    <div id="instructions" class="hide">
+        <div class="panel" id="look">
+            <h2>Look with</h2>
+            <img src="Textures/mouse.png" height="75%" alt="mouse" />
+        </div>
+        <div class="panel" id="move">
+            <h2>Move with</h2>
+            <kbd>W</kbd>
+            <kbd>A</kbd>
+            <kbd>S</kbd>
+            <kbd>D</kbd>
+        </div>
+        <div class="panel" id="jump">
+            <h2>Jump with</h2>
+            <kbd>Space</kbd>
+        </div>
+    </div>
+
+    <div id="viewport" class="hide">
+        <div id="gun"></div>
+    </div>
+
+
+</body>
+</html>
