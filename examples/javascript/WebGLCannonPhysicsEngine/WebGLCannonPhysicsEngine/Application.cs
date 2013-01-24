@@ -49,8 +49,8 @@ namespace WebGLCannonPhysicsEngine
             new[]
             {
                 new global::WebGLCannonPhysicsEngine.Design.References.Three().Content,
-                new global::WebGLCannonPhysicsEngine.Design.References.Cannon().Content,
                 new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
+                new global::WebGLCannonPhysicsEngine.Design.References.Cannon().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
                 {
