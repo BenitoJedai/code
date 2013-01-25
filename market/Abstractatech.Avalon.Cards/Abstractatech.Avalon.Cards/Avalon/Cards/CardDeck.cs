@@ -26,7 +26,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 
 		public readonly List<CardInfo> UnusedCards = new List<CardInfo>();
 
-		public string CardCustomBackground;
+		public ImageSource CardCustomBackgroundSource;
 
 		public CardInfo Fetch
 		{

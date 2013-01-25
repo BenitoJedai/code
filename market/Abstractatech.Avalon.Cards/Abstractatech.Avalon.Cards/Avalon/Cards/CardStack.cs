@@ -47,13 +47,13 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
 				Height = CardInfo.Height
 			};
 
-			this.BackgroundImage = new Image
-			{
-				Source = CardInfo.GetImagePath(KnownAssets.Path.DefaultCards, false, 0, "spider.empty", false).ToSource(),
-
-				Width = CardInfo.Width,
-				Height = CardInfo.Height
-			}.AttachTo(this);
+			this.BackgroundImage = new Abstractatech.Avalon.Cards.Avalon.Images.spider_empty()
+            //{
+            //    Source = CardInfo.GetImagePath("", false, 0, "spider.empty", false).ToSource(),
+            //    Width = CardInfo.Width,
+            //    Height = CardInfo.Height
+            //}
+            .AttachTo(this);
 
 			this.Overlay = new Rectangle
 			{

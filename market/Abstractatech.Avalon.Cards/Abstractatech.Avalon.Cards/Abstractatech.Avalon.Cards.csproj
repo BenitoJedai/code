@@ -118,8 +118,93 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Avalon\Cards\Sounds\click.mp3" />
+    <Content Include="Avalon\Cards\Sounds\deal.mp3" />
+    <Content Include="Avalon\Cards\Sounds\drag.mp3" />
+    <Content Include="Avalon\Cards\Sounds\hint.mp3" />
+    <Content Include="Avalon\Cards\Sounds\lose.mp3" />
+    <Content Include="Avalon\Cards\Sounds\win.mp3" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\1.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\10.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\11.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\12.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\13.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\14.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\15.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\16.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\17.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\18.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\19.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\2.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\20.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\21.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\22.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\23.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\24.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\25.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\26.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\27.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\28.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\29.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\3.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\30.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\31.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\32.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\33.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\34.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\35.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\36.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\37.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\38.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\39.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\4.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\40.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\41.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\42.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\43.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\44.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\45.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\46.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\47.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\48.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\49.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\5.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\50.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\51.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\52.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\53.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\54.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\6.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\7.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\8.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\9.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b1fh.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b1fv.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b1pb.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b1pl.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b1pr.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b1pt.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b2fh.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b2fv.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b2pb.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b2pl.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b2pr.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\b2pt.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\felt.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\spider.empty.png" />
+    <Content Include="Avalon\Cards\Textures\DefaultCards\spider.png" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Avalon\Cards\Card.AnimatedOpacity.cs" />
+    <Compile Include="Avalon\Cards\Card.cs" />
+    <Compile Include="Avalon\Cards\CardDeck.cs" />
+    <Compile Include="Avalon\Cards\CardDrag.cs" />
+    <Compile Include="Avalon\Cards\CardInfo.cs" />
+    <Compile Include="Avalon\Cards\CardInfo.Rank.cs" />
+    <Compile Include="Avalon\Cards\CardInfo.Suit.cs" />
+    <Compile Include="Avalon\Cards\CardStack.cs" />
+    <Compile Include="Avalon\Cards\IAssemblyReferenceToken.cs" />
+    <Compile Include="Avalon\Cards\Sounds.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationCanvas.cs" />
     <Compile Include="ApplicationSprite.cs">
@@ -135,9 +220,15 @@
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Avalon\Cards\Extensions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
+)
+
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
