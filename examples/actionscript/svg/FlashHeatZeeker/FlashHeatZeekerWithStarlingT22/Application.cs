@@ -50,7 +50,7 @@ namespace FlashHeatZeekerWithStarlingT22
                );
 
 
-
+            #region con
             var con = new ConsoleForm();
 
             con.InitializeConsoleFormWriter();
@@ -70,17 +70,20 @@ namespace FlashHeatZeekerWithStarlingT22
 
             con.Opacity = 0.6;
 
-            sprite.fps +=
-                fps =>
-                {
-                    con.Text = new { fps }.ToString();
-                };
-
 
             sprite.InitializeConsoleFormWriter(
                        Console.Write,
                        Console.WriteLine
                    );
+            #endregion
+
+
+
+            sprite.fps +=
+                fps =>
+                {
+                    con.Text = new { fps }.ToString();
+                };
 
 
             sprite.context_new_remotegame +=
@@ -89,6 +92,10 @@ namespace FlashHeatZeekerWithStarlingT22
                     var remotegame_con = new ConsoleForm();
 
                     remotegame_con.Show();
+                    remotegame_con.Left = 0;
+                    remotegame_con.Top = Native.Window.Height - remotegame_con.Height;
+
+                    remotegame_con.Opacity = 0.5;
 
                     remotegame.AtTitleChange +=
                         e => remotegame_con.Text = e;
