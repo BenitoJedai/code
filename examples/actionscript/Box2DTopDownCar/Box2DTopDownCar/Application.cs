@@ -1,3 +1,4 @@
+using Abstractatech.ConsoleFormPackage.Library;
 using Box2DTopDownCar.Design;
 using Box2DTopDownCar.HTML.Pages;
 using ScriptCoreLib;
@@ -30,6 +31,34 @@ namespace Box2DTopDownCar
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
+            var con = new ConsoleForm();
+
+            con.InitializeConsoleFormWriter();
+
+            con.Show();
+
+            con.Left = Native.Window.Width - con.Width;
+            con.Top = 0;
+
+            Native.Window.onresize +=
+                  delegate
+                  {
+                      con.Left = Native.Window.Width - con.Width;
+                      con.Top = 0;
+                  };
+
+
+            con.Opacity = 0.6;
+
+     
+
+            sprite.InitializeConsoleFormWriter(
+                       Console.Write,
+                       Console.WriteLine
+                   );
+
+
             // Initialize ApplicationSprite
             sprite.AttachSpriteTo(page.Content);
             @"Hello world".ToDocumentTitle();

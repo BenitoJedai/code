@@ -835,7 +835,8 @@ namespace ScriptCoreLib.Ultra.Components
 			s.Content = new CountDownGadgetConcept(CountDownGadget.Create)
 			{
 				ShowOnlyDays = true,
-				Event = new DateTime(2010, 5, 24),
+                //Event = new DateTime(2010, 5, 24),
+                Event = new DateTime(2013, 2, 18),
 
 			};
 
