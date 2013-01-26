@@ -44,12 +44,16 @@ namespace ScriptCoreLib.Ultra.IDL
             }
             #endregion
 
-            if (Name.Next.Text == ".")
-            {
-                var k = Name.Next.SkipTo();
 
-                Name = new[] { Name, Name.Next, k }.Combine();
+            while (Name.Next.Text == ".")
+            {
+                var NameFragment = Name.Next.SkipTo().AssertName();
+
+                Name = new[] { Name, Name.Next, NameFragment }.Combine();
             }
+
+
+
 
             var r = new IDLTypeReference
             {
@@ -228,18 +232,18 @@ namespace ScriptCoreLib.Ultra.IDL
                 {
                     // what if javascript library wants to use nested types?
                     // tested by: X:\jsc.svn\examples\javascript\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine\Application.cs
-                    if (pp.Text == ".")
+
+
+
+                    while (pp.Text == ".")
                     {
                         var NameFragment = pp.SkipTo().AssertName();
 
-                        i.Name = new[] { 
-                            i.Name,
-                            pp,
-                            NameFragment
-                        }.Combine();
+                        i.Name = new[] { i.Name, pp, NameFragment }.Combine();
 
-                        return NameFragment.SkipTo();
+                        pp = i.Name.SkipTo();
                     }
+
 
                     if (pp.Text == ":")
                     {
@@ -393,7 +397,7 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
                      #endregion
 
-                 
+
 
                      // method!!
                      var Method = ToMemberMethod(
