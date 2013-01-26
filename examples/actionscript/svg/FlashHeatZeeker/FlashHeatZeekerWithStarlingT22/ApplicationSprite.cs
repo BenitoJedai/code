@@ -93,8 +93,8 @@ namespace FlashHeatZeekerWithStarlingT22
                     // there can only be one in this VM. :)
                     __sprite = this;
 
-                    var loc_b2stage = default(ScriptCoreLib.ActionScript.flash.display.Sprite);
-                    var loc_b2stage_child = default(ScriptCoreLib.ActionScript.flash.display.Sprite);
+                    var loc_b2stage = default(__b2debug_viewport);
+
 
                     this.stage.stage3Ds[0].context3DCreate +=
                         delegate
@@ -120,10 +120,11 @@ namespace FlashHeatZeekerWithStarlingT22
                         if (loc_b2stage == null)
                             return;
 
-                        loc_b2stage.x = ApplicationSprite.__stage.stageWidth * 0.5;
-                        loc_b2stage.y = ApplicationSprite.__stage.stageHeight * 0.7;
+                        loc_b2stage.loc.x = ApplicationSprite.__stage.stageWidth * 0.5;
+                        loc_b2stage.loc.y = ApplicationSprite.__stage.stageHeight * 0.7;
                     };
-                    b2stage =
+
+                    get_b2debug_viewport =
                         delegate
                         {
                             Console.WriteLine("b2stage");
@@ -139,22 +140,34 @@ namespace FlashHeatZeekerWithStarlingT22
                                 //  A quick Google search revealed that you had to add the debug mode into a flash sprite so it can be added on top of the starling stage.
 
                                 // our physics overlay
-                                loc_b2stage = new ScriptCoreLib.ActionScript.flash.display.Sprite().AttachTo(s.nativeOverlay);
+
+                                loc_b2stage = new __b2debug_viewport();
+
+                                loc_b2stage.AtDispose +=
+                                    delegate
+                                    {
+                                        ScriptCoreLib.ActionScript.Extensions.CommonExtensions.Orphanize(loc_b2stage.loc);
+
+                                        loc_b2stage = null;
+                                    };
+
+                                loc_b2stage.loc = new ScriptCoreLib.ActionScript.flash.display.Sprite().AttachTo(s.nativeOverlay);
+                                loc_b2stage.rot = new ScriptCoreLib.ActionScript.flash.display.Sprite().AttachTo(loc_b2stage.loc);
 
                                 // can be redrawn or cleared!
-                                loc_b2stage_child = new ScriptCoreLib.ActionScript.flash.display.Sprite().AttachTo(loc_b2stage);
+                                loc_b2stage.content = new ScriptCoreLib.ActionScript.flash.display.Sprite().AttachTo(loc_b2stage.rot);
+                                loc_b2stage.content_layer0 = new ScriptCoreLib.ActionScript.flash.display.Sprite().AttachTo(loc_b2stage.content);
 
-                                loc_b2stage.graphics.beginFill(0xff);
+                                loc_b2stage.content.graphics.beginFill(0xff);
                                 // ae we on top of the starling?
-                                loc_b2stage.graphics.drawRect(0, 0, 100, 100);
-
-                                loc_b2stage.alpha = 0.5;
+                                loc_b2stage.content.graphics.drawRect(0, 0, 100, 100);
+                                loc_b2stage.content.alpha = 0.5;
 
                                 b2stage_centerize();
 
                             }
 
-                            return loc_b2stage_child;
+                            return loc_b2stage;
                         };
                     #endregion
 
@@ -207,12 +220,30 @@ namespace FlashHeatZeekerWithStarlingT22
         public Action<XElement> __game_onmessage = delegate { };
         public Action<XElement> __game_postMessage = delegate { };
 
-        public static Func<ScriptCoreLib.ActionScript.flash.display.Sprite> b2stage;
+        public static Func<__b2debug_viewport> get_b2debug_viewport;
 
 
         public static ApplicationSpriteContent __sprite;
         public static ScriptCoreLib.ActionScript.flash.display.Stage __stage;
+
+
     }
+
+    public class __b2debug_viewport
+    {
+        public ScriptCoreLib.ActionScript.flash.display.Sprite loc;
+        public ScriptCoreLib.ActionScript.flash.display.Sprite rot;
+        public ScriptCoreLib.ActionScript.flash.display.Sprite content;
+        public ScriptCoreLib.ActionScript.flash.display.Sprite content_layer0;
+
+        public event Action AtDispose;
+        public void Dispose()
+        {
+            if (AtDispose != null)
+                AtDispose();
+        }
+    }
+
 
     // HD
     [SWF(frameRate = 120, width = 1280, height = 720)]
@@ -1255,19 +1286,64 @@ namespace FlashHeatZeekerWithStarlingT22
             Func<double, double> zoomer = zoomer_default;
 
 
+
+            var b2world = new b2World(new b2Vec2(0, 0), false);
+
+
+            var b2debug_viewport = default(__b2debug_viewport);
+
+
+            Action get_b2debug_viewport = delegate
+            {
+                b2debug_viewport = ApplicationSpriteContent.get_b2debug_viewport();
+
+                var b2debugDraw = new b2DebugDraw();
+                b2debugDraw.SetSprite(b2debug_viewport.content_layer0);
+                // textures are 512 pixels, while our svgs are 400px
+                // so how big is a meter in our game world? :)
+                b2debugDraw.SetDrawScale(1);
+                b2debugDraw.SetFillAlpha(0.5);
+                b2debugDraw.SetLineThickness(1.0);
+                b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
+
+                b2world.SetDebugDraw(b2debugDraw);
+            };
+
+            get_b2debug_viewport();
+
+            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
+
+            var props = new List<BoxProp>();
+
+            // size behaves like radius!!
+            props.Add(new BoxProp(b2world, size: ff(100, 100), position: ff(0, 0)));
+            props.Add(new BoxProp(b2world, size: ff(100, 100), position: ff(100, 100)));
+
+
+
+
+
             #region lookat
-            bool lookat_disabled = true;
+            // F3 to disable camera follow.
+            bool lookat_disabled = false;
             Action<double, double, double> lookat = null;
 
             lookat = (rot, x, y) =>
             {
-                if (lookat_disabled)
-                    return;
+                if (!lookat_disabled)
+                {
+                    if (b2debug_viewport != null)
+                    {
+                        b2debug_viewport.rot.rotation = -rot.RadiansToDegrees();
+                        b2debug_viewport.content.x = -x;
+                        b2debug_viewport.content.y = -y;
+                    }
 
-                viewport_rot.rotation = -rot;
+                    viewport_rot.rotation = -rot;
 
-                viewport_content.x = -x;
-                viewport_content.y = -y;
+                    viewport_content.x = -x;
+                    viewport_content.y = -y;
+                }
 
                 var __profile_map_teleportcheck = new Stopwatch();
                 __profile_map_teleportcheck.Start();
@@ -1422,29 +1498,6 @@ namespace FlashHeatZeekerWithStarlingT22
 
 
 
-            var b2world = new b2World(new b2Vec2(0, 0), false);
-
-            var b2debugDraw = new b2DebugDraw();
-            b2debugDraw.SetSprite(ApplicationSpriteContent.b2stage());
-            // textures are 512 pixels, while our svgs are 400px
-            // so how big is a meter in our game world? :)
-            b2debugDraw.SetDrawScale(1);
-            b2debugDraw.SetFillAlpha(0.5);
-            b2debugDraw.SetLineThickness(1.0);
-            b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
-
-            b2world.SetDebugDraw(b2debugDraw);
-
-            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
-
-            var props = new List<BoxProp>();
-
-            // size behaves like radius!!
-            props.Add(new BoxProp(b2world, size: ff(100, 100), position: ff(0, 0)));
-            props.Add(new BoxProp(b2world, size: ff(100, 100), position: ff(100, 100)));
-
-
-
 
             var KineticEnergy = new List<KineticEnergy>();
 
@@ -1464,7 +1517,8 @@ namespace FlashHeatZeekerWithStarlingT22
                     //    at Box2D.Dynamics::b2World/DrawDebugData()[Y:\opensource\sourceforge\box2dflash\Box2D\Dynamics\b2World.as:656]
                     //    at FlashHeatZeekerWithStarlingT22::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT22\Game___c__DisplayClass46.as:163]
 
-                    b2world.DrawDebugData();
+                    if (b2debug_viewport != null)
+                        b2world.DrawDebugData();
 
 
                     // which is it, do we need to zoom out or in?
@@ -1512,11 +1566,20 @@ namespace FlashHeatZeekerWithStarlingT22
                     diesel2.Rate = 0.9 + move_zoom;
 
                     // show only % of the zoom/speed boost
+                    //if (lookat_disabled)
+                    //{
+
+                    //}
+                    //else
+                    //{
                     viewport_rot.scaleX = zoomer(move_zoom);
                     viewport_rot.scaleY = zoomer(move_zoom);
 
-                    b2debugDraw.SetDrawScale(zoomer(move_zoom));
-
+                    if (b2debug_viewport != null)
+                    {
+                        b2debug_viewport.rot.scaleX = zoomer(move_zoom);
+                        b2debug_viewport.rot.scaleY = zoomer(move_zoom);
+                    }
 
                     var drot = rot_sw.ElapsedMilliseconds
                         * (1 + move_zoom)
@@ -1906,7 +1969,22 @@ namespace FlashHeatZeekerWithStarlingT22
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F2)
                   {
                       // faster?
-                      b2debugDraw.m_sprite.alpha = 0;
+                      // jsc flash natives gen / fiels public vs protected
+                      //b2debugDraw.m_sprite.alpha = 0;
+
+                      if (b2debug_viewport == null)
+                      {
+                          get_b2debug_viewport();
+                      }
+                      else
+                      {
+                          b2world.SetDebugDraw(null);
+
+                          b2debug_viewport.Dispose();
+
+                          b2debug_viewport = null;
+                          //b2debugDraw = null;
+                      }
                   }
 
                   // orbit mode
