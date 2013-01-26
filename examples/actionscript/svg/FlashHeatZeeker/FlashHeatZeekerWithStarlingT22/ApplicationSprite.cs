@@ -231,6 +231,10 @@ namespace FlashHeatZeekerWithStarlingT22
 
     public class __b2debug_viewport
     {
+        // box2d thinks in metric while we think in pixels
+        // this is a scale magic to keep both sides happy and functional
+        public const int b2scale = 16;
+
         public ScriptCoreLib.ActionScript.flash.display.Sprite loc;
         public ScriptCoreLib.ActionScript.flash.display.Sprite rot;
         public ScriptCoreLib.ActionScript.flash.display.Sprite content;
@@ -395,6 +399,7 @@ namespace FlashHeatZeekerWithStarlingT22
         }
     }
 
+    // for bullets?
     class KineticEnergy
     {
         public DisplayObject Target;
@@ -519,6 +524,10 @@ namespace FlashHeatZeekerWithStarlingT22
 
         public Image shape;
 
+        // hit F2 to see the box2d physics
+        public Car physics;
+
+
         public Sprite shadow_rot;
 
         public __vec2 prevframe_loc = new __vec2();
@@ -541,7 +550,7 @@ namespace FlashHeatZeekerWithStarlingT22
         // make th unit look like team lead
         public Action AddRank;
 
-        public Action<double> ScrollTracks;
+        public Action<double> ScrollTracks = delegate { };
 
         public DisplayObject guntower;
         public bool RemoteControlEnabled;
@@ -1065,6 +1074,10 @@ namespace FlashHeatZeekerWithStarlingT22
 
             var textures_bullet = new_tex("assets/FlashHeatZeekerWithStarlingT22/bullet.svg");
             var textures_tracks0 = new_tex("assets/FlashHeatZeekerWithStarlingT22/tracks0.svg");
+
+            var textures_jeep = new_tex("assets/FlashHeatZeekerWithStarlingT22/jeep.svg");
+            var textures_jeep_shadow = new_tex("assets/FlashHeatZeekerWithStarlingT22/jeep_shadow.svg");
+
             var textures_greentank = new_tex("assets/FlashHeatZeekerWithStarlingT22/greentank.svg");
             var textures_greentank_guntower = new_tex("assets/FlashHeatZeekerWithStarlingT22/greentank_guntower.svg");
             var textures_greentank_guntower_rank = new_tex("assets/FlashHeatZeekerWithStarlingT22/greentank_guntower_rank.svg");
@@ -1073,13 +1086,111 @@ namespace FlashHeatZeekerWithStarlingT22
             GameUnit current = null;
 
 
+
+            var b2world = new b2World(new b2Vec2(0, 0), false);
+
+
+            #region get_b2debug_viewport
+            var b2debug_viewport = default(__b2debug_viewport);
+
+
+            Action get_b2debug_viewport = delegate
+            {
+                b2debug_viewport = ApplicationSpriteContent.get_b2debug_viewport();
+
+                var b2debugDraw = new b2DebugDraw();
+                b2debugDraw.SetSprite(b2debug_viewport.content_layer0);
+                // textures are 512 pixels, while our svgs are 400px
+                // so how big is a meter in our game world? :)
+                b2debugDraw.SetDrawScale(__b2debug_viewport.b2scale);
+                b2debugDraw.SetFillAlpha(0.5);
+                b2debugDraw.SetLineThickness(1.0);
+                b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
+
+                b2world.SetDebugDraw(b2debugDraw);
+            };
+
+            get_b2debug_viewport();
+            #endregion
+
+            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
+
+
+    
+
             #region new_gameunit
-            Func<GameUnit> new_gameunit =
+
+            Func<GameUnit> new_jeep =
+              delegate
+              {
+                  var unit_loc = new Sprite().AttachTo(viewport_content_layer2_units);
+                  var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(8, 8);
+
+                  var unit_rot = new Sprite().AttachTo(unit_loc);
+                  var unit_shadow_rot = new Sprite().AttachTo(unit_shadow_loc);
+
+                  // can we have wheels?
+
+
+
+                  var shadow_shape = new Image(textures_jeep_shadow) { x = -200, y = -200 }.AttachTo(unit_shadow_rot);
+                  shadow_shape.alpha = 0.2;
+
+                  var shape = new Image(textures_jeep) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+
+
+                  var xwheels = new[] { 
+                        //top left
+                        new Wheel(b2world: b2world, x :-1,  y :-1.2,  width :0.4,  length :0.8,  revolving :true,  powered :true),
+
+                        //top right
+                        new Wheel(b2world: b2world, x :1,  y :-1.2,  width :0.4,  length :0.8,  revolving :true,  powered :true),
+
+                        //back left
+                        new Wheel(b2world: b2world, x :-1,  y :1.2,  width :0.4,  length :0.8,  revolving :false,  powered :false),
+
+                        //back right
+                        new Wheel(b2world: b2world, x :1,  y :1.2,  width :0.4,  length :0.8,  revolving :false,  powered :false),
+                    };
+
+
+                  ////initialize car
+                  var unit4_physics = new Car(
+                      b2world: b2world,
+                      width: 2,
+                      length: 4,
+                      position: ff(0, 0),
+                      angle: 180,
+                      power: 60,
+                      max_steer_angle: 20,
+                      max_speed: 60,
+                      wheels: xwheels
+                  );
+
+
+
+                  return new GameUnit
+                  {
+                      loc = unit_loc,
+                      rot = unit_rot,
+
+                      shape = shape,
+
+                      shadow_rot = unit_shadow_rot,
+
+                      physics = unit4_physics
+                  };
+              };
+
+
+            Func<GameUnit> new_greentank =
                 delegate
                 {
                     var unit_loc = new Sprite().AttachTo(viewport_content_layer2_units);
-
                     var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(8, 8);
+
+                    var unit_rot = new Sprite().AttachTo(unit_loc);
                     var unit_shadow_rot = new Sprite().AttachTo(unit_shadow_loc);
 
                     // can we have wheels?
@@ -1089,7 +1200,6 @@ namespace FlashHeatZeekerWithStarlingT22
                     var shadow_shape = new Image(textures_greentank_shadow) { x = -200, y = -200 }.AttachTo(unit_shadow_rot);
                     shadow_shape.alpha = 0.2;
 
-                    var unit_rot = new Sprite().AttachTo(unit_loc);
 
                     var trackpattern = new Sprite().AttachTo(unit_rot);
                     var trackpattern_img = new Image(textures_tanktrackpattern)
@@ -1131,7 +1241,9 @@ namespace FlashHeatZeekerWithStarlingT22
                     {
                         loc = unit_loc,
                         rot = unit_rot,
+
                         shape = shape,
+
                         shadow_rot = unit_shadow_rot,
 
                         AddRank = delegate
@@ -1157,7 +1269,7 @@ namespace FlashHeatZeekerWithStarlingT22
             // this is where unit 1 is based on network intel
 
             // each unit needs a recon shadow
-            var unit1_recon = new_gameunit();
+            var unit1_recon = new_greentank();
 
             // there is a man in robo1, NPC man
             // lets remove his weapon
@@ -1176,19 +1288,48 @@ namespace FlashHeatZeekerWithStarlingT22
             #endregion
 
 
-            var unit1 = new_gameunit();
+            var unit1 = new_greentank();
             unit1.loc.MoveTo(256, 256);
             unit1.AddRank();
 
-            var unit2 = new_gameunit();
+            var unit2 = new_jeep();
             unit2.loc.MoveTo(200 + 400, 200 + 400);
 
 
-            var unit3 = new_gameunit();
+            var unit3 = new_greentank();
             unit3.loc.MoveTo(200 + 400 + 200, 200 + 400);
 
+
+
+
+
+            var props = new List<BoxProp>();
+
+            // size behaves like radius!!
+            props.Add(new BoxProp(b2world, size: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale), position: ff(0, 0)));
+            props.Add(new BoxProp(b2world, size: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale), position: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale)));
+
+
+
+
+
+            //Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
+
+            //var unit4 = new_jeep();
+            //unit4.loc.MoveTo(-200, 0);
+
+
+
+
+
+            var unit4 = new_jeep();
+            unit4.loc.MoveTo(-200, 0);
+
+
+
+
             #region robo1
-            var robo1 = new_gameunit();
+            var robo1 = new_greentank();
 
             // there is a man in robo1, NPC man
             // lets remove his weapon
@@ -1210,7 +1351,7 @@ namespace FlashHeatZeekerWithStarlingT22
             #endregion
 
 
-            var controllable = new[] { unit1, unit2, unit3 };
+            var controllable = new[] { unit1, unit2, unit3, unit4 };
 
             current = unit1;
 
@@ -1265,7 +1406,7 @@ namespace FlashHeatZeekerWithStarlingT22
             var move_speed_default = 0.09;
             var move_speed = move_speed_default;
 
-            var move_forward = 0.1;
+            var move_forward = 0.0;
             var move_backward = 0.0;
 
             var rot_left = 0.0;
@@ -1287,37 +1428,6 @@ namespace FlashHeatZeekerWithStarlingT22
 
 
 
-            var b2world = new b2World(new b2Vec2(0, 0), false);
-
-
-            var b2debug_viewport = default(__b2debug_viewport);
-
-
-            Action get_b2debug_viewport = delegate
-            {
-                b2debug_viewport = ApplicationSpriteContent.get_b2debug_viewport();
-
-                var b2debugDraw = new b2DebugDraw();
-                b2debugDraw.SetSprite(b2debug_viewport.content_layer0);
-                // textures are 512 pixels, while our svgs are 400px
-                // so how big is a meter in our game world? :)
-                b2debugDraw.SetDrawScale(1);
-                b2debugDraw.SetFillAlpha(0.5);
-                b2debugDraw.SetLineThickness(1.0);
-                b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
-
-                b2world.SetDebugDraw(b2debugDraw);
-            };
-
-            get_b2debug_viewport();
-
-            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
-
-            var props = new List<BoxProp>();
-
-            // size behaves like radius!!
-            props.Add(new BoxProp(b2world, size: ff(100, 100), position: ff(0, 0)));
-            props.Add(new BoxProp(b2world, size: ff(100, 100), position: ff(100, 100)));
 
 
 
@@ -1501,11 +1611,21 @@ namespace FlashHeatZeekerWithStarlingT22
 
             var KineticEnergy = new List<KineticEnergy>();
 
+            var physicstime = new Stopwatch();
+
+            physicstime.Start();
+
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
+                    physicstime.Stop();
+
                     if (user_pause)
                         return;
+
+                    var physicstime_elapsed = physicstime.ElapsedMilliseconds;
+
+                    physicstime.Restart();
 
                     rot_sw.Stop();
 
@@ -1517,8 +1637,43 @@ namespace FlashHeatZeekerWithStarlingT22
                     //    at Box2D.Dynamics::b2World/DrawDebugData()[Y:\opensource\sourceforge\box2dflash\Box2D\Dynamics\b2World.as:656]
                     //    at FlashHeatZeekerWithStarlingT22::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT22\Game___c__DisplayClass46.as:163]
 
+
+                    ////update car
+                    unit4.physics.update(physicstime_elapsed);
+                    unit2.physics.update(physicstime_elapsed);
+
+
+
+                    //update physics world
+                    b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
+
+                    //clear applied forces, so they don't stack from each update
+                    b2world.ClearForces();
+
                     if (b2debug_viewport != null)
                         b2world.DrawDebugData();
+
+                    unit4.physics.body.GetPosition().With(
+                        p =>
+                        {
+                            //
+                            unit4.loc.x = p.x * __b2debug_viewport.b2scale;
+                            unit4.loc.y = p.y * __b2debug_viewport.b2scale;
+
+                            unit4.rotation = unit4.physics.body.GetAngle();
+                        }
+                    );
+
+                    unit2.physics.body.GetPosition().With(
+                        p =>
+                        {
+                            //
+                            unit2.loc.x = p.x * __b2debug_viewport.b2scale;
+                            unit2.loc.y = p.y * __b2debug_viewport.b2scale;
+
+                            unit2.rotation = unit2.physics.body.GetAngle();
+                        }
+                    );
 
 
                     // which is it, do we need to zoom out or in?
@@ -1661,25 +1816,35 @@ namespace FlashHeatZeekerWithStarlingT22
                         };
                     #endregion
 
-
-
-                    if (robo1.RemoteControlEnabled)
+                    if (current.physics != null)
                     {
-                        remotecontrol(robo1);
 
 
-                        lookat(
-                            current.rot.rotation,
-                            (current.loc.x + (robo1.loc.x - current.loc.x) / 2),
-                            (current.loc.y + (robo1.loc.y - current.loc.y) / 2)
-                            );
+
+                        lookat(current.rot.rotation, current.loc.x, current.loc.y);
+
 
                     }
                     else
                     {
-                        remotecontrol(current);
+                        if (robo1.RemoteControlEnabled)
+                        {
+                            remotecontrol(robo1);
 
-                        lookat(current.rot.rotation, current.loc.x, current.loc.y);
+
+                            lookat(
+                                current.rot.rotation,
+                                (current.loc.x + (robo1.loc.x - current.loc.x) / 2),
+                                (current.loc.y + (robo1.loc.y - current.loc.y) / 2)
+                                );
+
+                        }
+                        else
+                        {
+                            remotecontrol(current);
+
+                            lookat(current.rot.rotation, current.loc.x, current.loc.y);
+                        }
                     }
 
                     rot_sw.Restart();
@@ -1763,6 +1928,10 @@ namespace FlashHeatZeekerWithStarlingT22
                                       new XAttribute("f", "" + (networkframe + 2))
                                   )
                             );
+
+                            if (current != null)
+                                if (current.physics != null)
+                                    current.physics.accelerate = Car.ACC_ACCELERATE;
                         }
                     }
 
@@ -1784,6 +1953,9 @@ namespace FlashHeatZeekerWithStarlingT22
                                       new XAttribute("f", "" + (networkframe + 2))
                                   )
                             );
+                            if (current != null)
+                                if (current.physics != null)
+                                    current.physics.accelerate = Car.ACC_BRAKE;
                         }
                     }
 
@@ -1801,6 +1973,10 @@ namespace FlashHeatZeekerWithStarlingT22
                                       new XAttribute("f", "" + (networkframe + 2))
                                   )
                             );
+
+                            if (current != null)
+                                if (current.physics != null)
+                                    current.physics.steer_left = Car.STEER_LEFT;
                         }
                     }
 
@@ -1819,6 +1995,10 @@ namespace FlashHeatZeekerWithStarlingT22
                                       new XAttribute("f", "" + (networkframe + 2))
                                   )
                             );
+
+                            if (current != null)
+                                if (current.physics != null)
+                                    current.physics.steer_right = Car.STEER_RIGHT;
                         }
                     }
 
@@ -1851,6 +2031,11 @@ namespace FlashHeatZeekerWithStarlingT22
                                new XAttribute("f", "" + (networkframe + 2))
                            )
                      );
+
+                      if (current != null)
+                          if (current.physics != null)
+                              current.physics.accelerate = Car.ACC_NONE;
+
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Down)
@@ -1865,6 +2050,9 @@ namespace FlashHeatZeekerWithStarlingT22
                                new XAttribute("f", "" + (networkframe + 2))
                            )
                      );
+                      if (current != null)
+                          if (current.physics != null)
+                              current.physics.accelerate = Car.ACC_NONE;
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
@@ -1878,6 +2066,9 @@ namespace FlashHeatZeekerWithStarlingT22
                                 new XAttribute("f", "" + (networkframe + 2))
                             )
                       );
+                      if (current != null)
+                          if (current.physics != null)
+                              current.physics.steer_left = Car.STEER_NONE;
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
@@ -1891,6 +2082,9 @@ namespace FlashHeatZeekerWithStarlingT22
                                new XAttribute("f", "" + (networkframe + 2))
                            )
                      );
+                      if (current != null)
+                          if (current.physics != null)
+                              current.physics.steer_right = Car.STEER_NONE;
                   }
 
 
@@ -2014,7 +2208,8 @@ namespace FlashHeatZeekerWithStarlingT22
 
 
             // where is our ego? center of touchdown?
-            switchto(unit1);
+            //switchto(unit1);
+            switchto(unit4);
 
             var info = new TextField(800, 100, "Welcome to Starling!") { hAlign = HAlign.LEFT };
 
@@ -2088,10 +2283,16 @@ namespace FlashHeatZeekerWithStarlingT22
                     var now = DateTime.Now;
                     var network_rx_per_second = network_rx - network_rx_last_second;
 
+                    var SPEED = "-";
+
+                    if (current != null)
+                        if (current.physics != null)
+                            SPEED = Math.Ceiling(current.physics.getSpeedKMH()) + " km/h";
+
                     info.text = new
                     {
                         fps,
-
+                        SPEED,
                         networkid,
                         networkframe,
                         network_rx,

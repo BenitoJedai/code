@@ -1,0 +1,69 @@
+﻿// we will need TargetConstructor with a dot
+// should enable nesting instead
+// interface CANNON
+// ouch. what about multiple dots??
+
+[Constructor()]
+interface Box2D.Collision.Shapes.b2PolygonShape 
+{ 
+	void SetAsBox(double x, double y);
+};
+
+[Constructor(double r)]
+interface Box2D.Collision.Shapes.b2CircleShape 
+{ 
+};
+
+[Constructor(double x, double y)]
+interface Box2D.Common.Math.b2Vec2
+{ 
+	attribute double        x;
+	attribute double        y;
+};
+
+[Constructor()]
+interface Box2D.Dynamics.b2Body
+{ 
+	void CreateFixture(Box2D.Dynamics.b2FixtureDef f);
+};
+
+[Constructor(any g, boolean f)]
+interface Box2D.Dynamics.b2World
+{ 
+	void SetDebugDraw(any f);
+
+	void DrawDebugData();
+	void ClearForces();
+
+	Box2D.Dynamics.b2Body CreateBody(Box2D.Dynamics.b2BodyDef f);
+
+	void Step(double x, int y, int z);
+};
+
+[Constructor()]
+interface Box2D.Dynamics.b2DebugDraw
+{ 
+	void SetSprite(any f);
+	void SetDrawScale(double f);
+	void SetFillAlpha(double f);
+	void SetLineThickness(double f);
+	void SetFlags(int f);
+};
+
+[Constructor()]
+interface Box2D.Dynamics.b2FixtureDef
+{ 
+	attribute double        density;
+	attribute double        friction;
+	attribute double        restitution;
+
+	attribute any        shape;
+};
+
+
+[Constructor()]
+interface Box2D.Dynamics.b2BodyDef
+{ 
+	attribute int        type;
+	attribute Box2D.Common.Math.b2Vec2        position;
+};
