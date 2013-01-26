@@ -198,22 +198,34 @@ namespace ScriptCoreLib.Shared.Avalon.Cards
                     CanClick = false;
                 };
 
+            Action RaiseClick = delegate
+            {
+                this.CurrentDeck.Sounds.click();
+
+
+                if (!CanClick)
+                    return;
+
+
+                if (Click != null)
+                    Click();
+
+                if (CurrentStack != null)
+                    CurrentStack.RaiseClick(this);
+            };
+
+            //this.Overlay.TouchUp +=
+            //  (sender, e) =>
+            //  {
+            //      e.Handled = true;
+            //      RaiseClick();
+            //  };
             this.Overlay.MouseLeftButtonUp +=
-                delegate
-                {
-                    this.CurrentDeck.Sounds.click();
-
-
-                    if (!CanClick)
-                        return;
-
-
-                    if (Click != null)
-                        Click();
-
-                    if (CurrentStack != null)
-                        CurrentStack.RaiseClick(this);
-                };
+              (sender, e) =>
+              {
+                  //e.Handled = true;
+                  RaiseClick();
+              };
 
 
             this.AnimatedOpacity = 1;
