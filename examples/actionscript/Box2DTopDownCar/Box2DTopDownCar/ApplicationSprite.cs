@@ -10,6 +10,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Box2DTopDownCar
 {
@@ -50,7 +53,17 @@ namespace Box2DTopDownCar
             if (b != 0)
                 return new double[] { a[0] / b, a[1] / b };
 
-            return new double[] { 0, 0 };
+            //doubleArray3 = new Array(2);
+            //return doubleArray3;
+
+            //var zero = new double[] { 0, 0 };
+            var zero = new double[2];
+            // jsc where are my numbers?
+
+            zero[0] = 0;
+            zero[1] = 0;
+
+            return zero;
         }
 
         public static double[] rotate(double[] a, double b)
@@ -276,6 +289,11 @@ namespace Box2DTopDownCar
 
             public b2Body body;
 
+            public int accelerate = ACC_NONE;
+
+            //        //state of car controls
+            public int steer = STEER_NONE;
+
             public Car(
                 b2World b2world,
 
@@ -306,9 +324,7 @@ namespace Box2DTopDownCar
                 //                 powered - is force applied to this wheel when accelerating/braking?
                 //        */
 
-                //        //state of car controls
-                var steer = STEER_NONE;
-                var accelerate = ACC_NONE;
+
 
                 //        this.max_steer_angle=pars.max_steer_angle;
                 //        this.max_speed=pars.max_speed;
@@ -358,13 +374,17 @@ namespace Box2DTopDownCar
                     */
                     var velocity0 = this.body.GetLinearVelocity();
 
+                    //Console.WriteLine("car setSpeed velocity0 " + new { velocity0.x, velocity0.y });
+
                     var velocity2 = vectors.unit(new[] { velocity0.x, velocity0.y });
 
+                    //Console.WriteLine("car setSpeed velocity2 " + new { x = velocity2[0], y = velocity2[1] });
                     var velocity = new b2Vec2(
                         velocity2[0] * ((speed * 1000.0) / 3600.0),
                         velocity2[1] * ((speed * 1000.0) / 3600.0)
                     );
 
+                    //Console.WriteLine("car setSpeed SetLinearVelocity " + new { velocity.x, velocity.y });
                     this.body.SetLinearVelocity(velocity);
 
                 };
@@ -436,7 +456,7 @@ namespace Box2DTopDownCar
 
 
                     #region 3. APPLY FORCE TO WHEELS
-                    var base_vect = new double[] { 0, 0 }; //vector pointing in the direction force will be applied to a wheel ; relative to the wheel.
+                    var base_vect = new double[2]; //vector pointing in the direction force will be applied to a wheel ; relative to the wheel.
 
                     //if accelerator is pressed down and speed limit has not been reached, go forwards
                     var lessthanlimit = (getSpeedKMH() < max_speed);
@@ -458,7 +478,11 @@ namespace Box2DTopDownCar
                             base_vect = new double[] { 0, 0.7 };
                         }
                     }
-                    //else base_vect=[0, 0];
+                    else
+                    {
+                        base_vect[0] = 0;
+                        base_vect[1] = 0;
+                    }
 
                     //multiply by engine power, which gives us a force vector relative to the wheel
                     var fvect = new double[] { 
@@ -469,16 +493,19 @@ namespace Box2DTopDownCar
                     //apply force to each wheel
 
 
-                    // our car dissapears?
-                    return;
 
-                    getPoweredWheels.WithEach(
-                        w =>
+                    getPoweredWheels.WithEachIndex(
+                        (w, i) =>
                         {
                             var wp = w.body.GetWorldCenter();
-                            w.body.ApplyForce(w.body.GetWorldVector(new b2Vec2(fvect[0], fvect[1])), wp);
+                            var wf = w.body.GetWorldVector(new b2Vec2(fvect[0], fvect[1]));
+
+                            //Console.WriteLine("getPoweredWheels ApplyForce #" + i);
+                            w.body.ApplyForce(wf, wp);
                         }
                     );
+
+
 
 
                     //if going very slow, stop - to prevent endless sliding
@@ -486,6 +513,7 @@ namespace Box2DTopDownCar
                     var flag2 = veryslow && (accelerate == ACC_NONE);
                     if (flag2)
                     {
+                        //Console.WriteLine("setSpeed 0");
                         setSpeed(0);
                     }
                     #endregion
@@ -542,9 +570,112 @@ namespace Box2DTopDownCar
             }
         }
 
+        Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
+
+
+        #region InitializeConsoleFormWriter
+        class __OutWriter : TextWriter
+        {
+            public Action<string> AtWrite;
+            public Action<string> AtWriteLine;
+
+            public override void Write(string value)
+            {
+                AtWrite(value);
+            }
+
+            public override void WriteLine(string value)
+            {
+                AtWriteLine(value);
+            }
+
+            public override Encoding Encoding
+            {
+                get { return Encoding.UTF8; }
+            }
+        }
+
+        public void InitializeConsoleFormWriter(
+            Action<string> Console_Write,
+            Action<string> Console_WriteLine
+        )
+        {
+            AtInitializeConsoleFormWriter(Console_Write, Console_WriteLine);
+        }
+        #endregion
+
+
+
         public ApplicationSprite()
         {
 
+            #region AtInitializeConsoleFormWriter
+
+            var w = new __OutWriter();
+            var o = Console.Out;
+            var __reentry = false;
+
+            var __buffer = new StringBuilder();
+
+            w.AtWrite =
+                x =>
+                {
+                    __buffer.Append(x);
+                };
+
+            w.AtWriteLine =
+                x =>
+                {
+                    __buffer.AppendLine(x);
+                };
+
+            Console.SetOut(w);
+
+            this.AtInitializeConsoleFormWriter = (
+                Action<string> Console_Write,
+                Action<string> Console_WriteLine
+            ) =>
+            {
+
+                try
+                {
+
+
+                    w.AtWrite =
+                        x =>
+                        {
+                            o.Write(x);
+
+                            if (!__reentry)
+                            {
+                                __reentry = true;
+                                Console_Write(x);
+                                __reentry = false;
+                            }
+                        };
+
+                    w.AtWriteLine =
+                        x =>
+                        {
+                            o.WriteLine(x);
+
+                            if (!__reentry)
+                            {
+                                __reentry = true;
+                                Console_WriteLine(x);
+                                __reentry = false;
+                            }
+                        };
+
+                    Console.WriteLine("flash Console.WriteLine should now appear in JavaScript form!");
+                    Console.WriteLine(__buffer.ToString());
+                }
+                catch
+                {
+
+                }
+            };
+            #endregion
 
 
 
@@ -552,7 +683,6 @@ namespace Box2DTopDownCar
             var SCALE = 15;      //how many pixels in a meter
             var WIDTH_M = DefaultWidth / SCALE; //world width in meters. for this example, world is as large as the screen
             var HEIGHT_M = DefaultHeight / SCALE; //world height in meters
-            //var KEYS_DOWN={}; //keep track of what keys are held down by the player
 
             //initialize font to draw text with
             //var font=new gamejs.font.Font('16px Sans-serif');
@@ -633,9 +763,41 @@ namespace Box2DTopDownCar
             props.Add(new BoxProp(b2world, size: ff(1, 6), position: ff(center[0] + 3, center[1])));
             props.Add(new BoxProp(b2world, size: ff(5, 1), position: ff(center[0], center[1] + 2.5)));
 
+            var frameid = 0;
+
+            var KEYS_DOWN = new Dictionary<Keys, bool> { 
+            
+                { Keys.Left, false },
+                { Keys.Up, false },
+                { Keys.Right, false },
+                { Keys.Down, false },
+            }; //keep track of what keys are held down by the player
+
+
+            this.stage.keyDown +=
+                e =>
+                {
+                    Console.WriteLine("keyDown " + new { e.keyCode });
+                    KEYS_DOWN[(Keys)e.keyCode] = true;
+                };
+
+            this.stage.keyUp +=
+               e =>
+               {
+                   Console.WriteLine("keyUp " + new { e.keyCode });
+                   KEYS_DOWN[(Keys)e.keyCode] = false;
+               };
+
+
             #region tick
             Action<double> tick = (msDuration) =>
             {
+                frameid++;
+
+                //if (frameid > 1)
+                //    return;
+
+                //Console.WriteLine(new { frameid });
                 //GAME LOOP
 
                 //handle events. Key status (depressed or no) is tracked in via KEYS_DOWN associative array
@@ -647,21 +809,31 @@ namespace Box2DTopDownCar
                 //});
 
                 //set car controls according to player input
-                //if(KEYS_DOWN[BINDINGS.accelerate]){
-                //    car.accelerate=ACC_ACCELERATE;
-                //}else if(KEYS_DOWN[BINDINGS.brake]){
-                //    car.accelerate=ACC_BRAKE;
-                //}else{
-                //    car.accelerate=ACC_NONE;
-                //}
+                if (KEYS_DOWN[Keys.Up])
+                {
+                    car.accelerate = ACC_ACCELERATE;
+                }
+                else if (KEYS_DOWN[Keys.Down])
+                {
+                    car.accelerate = ACC_BRAKE;
+                }
+                else
+                {
+                    car.accelerate = ACC_NONE;
+                }
 
-                //if(KEYS_DOWN[BINDINGS.steer_right]){
-                //    car.steer=STEER_RIGHT;
-                //}else if(KEYS_DOWN[BINDINGS.steer_left]){
-                //    car.steer=STEER_LEFT;
-                //}else{
-                //    car.steer=STEER_NONE;
-                //}
+                if (KEYS_DOWN[Keys.Right])
+                {
+                    car.steer = STEER_RIGHT;
+                }
+                else if (KEYS_DOWN[Keys.Left])
+                {
+                    car.steer = STEER_LEFT;
+                }
+                else
+                {
+                    car.steer = STEER_NONE;
+                }
 
                 ////update car
                 car.update(msDuration);
@@ -681,6 +853,7 @@ namespace Box2DTopDownCar
                 //fps and car speed display
                 //display.blit(font.render('FPS: '+parseInt((1000)/msDuration)), [25, 25]);
                 //display.blit(font.render('SPEED: '+parseInt(Math.ceil(car.getSpeedKMH()))+' km/h'), [25, 55]);
+                //Console.WriteLine(new { frameid } + " done!");
             };
 
             ////gamejs.time.fpsCallback(tick, this, 60);
