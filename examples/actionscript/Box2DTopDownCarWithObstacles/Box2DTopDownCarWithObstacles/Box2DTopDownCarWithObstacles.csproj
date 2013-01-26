@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{47CA6510-0CCE-4410-920B-4E516544A7A6}</ProjectGuid>
+    <ProjectGuid>{A7DC38D5-05C5-4449-A92C-BD651D67BDF2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashHeatZeekerWithStarlingT22</RootNamespace>
-    <AssemblyName>FlashHeatZeekerWithStarlingT22</AssemblyName>
+    <RootNamespace>Box2DTopDownCarWithObstacles</RootNamespace>
+    <AssemblyName>Box2DTopDownCarWithObstacles</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FlashHeatZeekerWithStarlingT22.Program</StartupObject>
+    <StartupObject>Box2DTopDownCarWithObstacles.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -38,9 +38,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abstractatech.ActionScript.Audio">
-      <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
-    </Reference>
     <Reference Include="Abstractatech.ConsoleFormPackage">
       <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
     </Reference>
@@ -105,9 +102,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
-    <Reference Include="starling">
-      <HintPath>..\packages\starling.1.0.0.0\lib\starling.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -127,15 +121,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashHeatZeekerWithStarlingT22.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeekerWithStarlingT22.AssetsLibrary.dll</HintPath>
+    <Reference Include="Box2DTopDownCarWithObstacles.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\Box2DTopDownCarWithObstacles.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Library\AIWaypointDriver.cs" />
-    <Compile Include="Library\BoxProp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -143,31 +135,6 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\white-jsc.png" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\letterG.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\letterF.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\letterE.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\letterD.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\letterC.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\letterB.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\road0.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\watertower0.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\hill1.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\tanktrackpattern.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\greentank_guntower_rank.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\cannon1.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\letsgo.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\bullet.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\greentank_guntower.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\greentank_shadow.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\diesel4.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\diesel2.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\helicopter1.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\tracks0.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\tree0.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\touchdown.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\hill0.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\greentank.svg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -175,9 +142,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
 )
-
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>

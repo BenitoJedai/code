@@ -18,6 +18,9 @@ using ScriptCoreLib.ActionScript.flash.geom;
 using starling.filters;
 using System.Xml.Linq;
 using starling.utils;
+using Box2D.Common.Math;
+using Box2D.Dynamics;
+using FlashHeatZeekerWithStarlingT22.Library;
 
 namespace FlashHeatZeekerWithStarlingT22
 {
@@ -90,6 +93,15 @@ namespace FlashHeatZeekerWithStarlingT22
                     // there can only be one in this VM. :)
                     __sprite = this;
 
+                    var loc_b2stage = default(ScriptCoreLib.ActionScript.flash.display.Sprite);
+                    var loc_b2stage_child = default(ScriptCoreLib.ActionScript.flash.display.Sprite);
+
+                    this.stage.stage3Ds[0].context3DCreate +=
+                        delegate
+                        {
+                            Console.WriteLine("context3DCreate");
+
+                        };
 
                     // http://gamua.com/starling/first-steps/
                     // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
@@ -99,6 +111,52 @@ namespace FlashHeatZeekerWithStarlingT22
                         typeof(Game).ToClassToken(),
                         this.stage
                     );
+
+
+                    #region b2stage
+
+                    Action b2stage_centerize = delegate
+                    {
+                        if (loc_b2stage == null)
+                            return;
+
+                        loc_b2stage.x = ApplicationSprite.__stage.stageWidth * 0.5;
+                        loc_b2stage.y = ApplicationSprite.__stage.stageHeight * 0.7;
+                    };
+                    b2stage =
+                        delegate
+                        {
+                            Console.WriteLine("b2stage");
+
+
+                            if (loc_b2stage == null)
+                            {
+                                // http://doc.starling-framework.org/core/starling/core/Starling.html
+                                // should use Native overlay ?
+
+                                // http://www.ilike2flash.com/2012/04/as3-box2d-debug-mode-in-starling.html
+                                // http://mariamdholkawala.com/mobile/?p=1051
+                                //  A quick Google search revealed that you had to add the debug mode into a flash sprite so it can be added on top of the starling stage.
+
+                                // our physics overlay
+                                loc_b2stage = new ScriptCoreLib.ActionScript.flash.display.Sprite().AttachTo(s.nativeOverlay);
+
+                                // can be redrawn or cleared!
+                                loc_b2stage_child = new ScriptCoreLib.ActionScript.flash.display.Sprite().AttachTo(loc_b2stage);
+
+                                loc_b2stage.graphics.beginFill(0xff);
+                                // ae we on top of the starling?
+                                loc_b2stage.graphics.drawRect(0, 0, 100, 100);
+
+                                loc_b2stage.alpha = 0.5;
+
+                                b2stage_centerize();
+
+                            }
+
+                            return loc_b2stage_child;
+                        };
+                    #endregion
 
 
                     s.start();
@@ -115,6 +173,9 @@ namespace FlashHeatZeekerWithStarlingT22
 
                         s.stage.stageWidth = this.stage.stageWidth;
                         s.stage.stageHeight = this.stage.stageHeight;
+
+
+                        b2stage_centerize();
                     };
 
                     s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
@@ -145,6 +206,9 @@ namespace FlashHeatZeekerWithStarlingT22
         public Action<XElement> __context_postMessage = delegate { };
         public Action<XElement> __game_onmessage = delegate { };
         public Action<XElement> __game_postMessage = delegate { };
+
+        public static Func<ScriptCoreLib.ActionScript.flash.display.Sprite> b2stage;
+
 
         public static ApplicationSpriteContent __sprite;
         public static ScriptCoreLib.ActionScript.flash.display.Stage __stage;
@@ -1192,10 +1256,14 @@ namespace FlashHeatZeekerWithStarlingT22
 
 
             #region lookat
+            bool lookat_disabled = true;
             Action<double, double, double> lookat = null;
 
             lookat = (rot, x, y) =>
             {
+                if (lookat_disabled)
+                    return;
+
                 viewport_rot.rotation = -rot;
 
                 viewport_content.x = -x;
@@ -1353,6 +1421,31 @@ namespace FlashHeatZeekerWithStarlingT22
             bool user_pause = false;
 
 
+
+            var b2world = new b2World(new b2Vec2(0, 0), false);
+
+            var b2debugDraw = new b2DebugDraw();
+            b2debugDraw.SetSprite(ApplicationSpriteContent.b2stage());
+            // textures are 512 pixels, while our svgs are 400px
+            // so how big is a meter in our game world? :)
+            b2debugDraw.SetDrawScale(1);
+            b2debugDraw.SetFillAlpha(0.5);
+            b2debugDraw.SetLineThickness(1.0);
+            b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
+
+            b2world.SetDebugDraw(b2debugDraw);
+
+            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
+
+            var props = new List<BoxProp>();
+
+            // size behaves like radius!!
+            props.Add(new BoxProp(b2world, size: ff(100, 100), position: ff(0, 0)));
+            props.Add(new BoxProp(b2world, size: ff(100, 100), position: ff(100, 100)));
+
+
+
+
             var KineticEnergy = new List<KineticEnergy>();
 
             ApplicationSprite.__stage.enterFrame +=
@@ -1362,6 +1455,17 @@ namespace FlashHeatZeekerWithStarlingT22
                         return;
 
                     rot_sw.Stop();
+
+
+
+                    // first thing do physics?
+
+                    //TypeError: Error #1009: Cannot access a property or method of a null object reference.
+                    //    at Box2D.Dynamics::b2World/DrawDebugData()[Y:\opensource\sourceforge\box2dflash\Box2D\Dynamics\b2World.as:656]
+                    //    at FlashHeatZeekerWithStarlingT22::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT22\Game___c__DisplayClass46.as:163]
+
+                    b2world.DrawDebugData();
+
 
                     // which is it, do we need to zoom out or in?
 
@@ -1410,6 +1514,8 @@ namespace FlashHeatZeekerWithStarlingT22
                     // show only % of the zoom/speed boost
                     viewport_rot.scaleX = zoomer(move_zoom);
                     viewport_rot.scaleY = zoomer(move_zoom);
+
+                    b2debugDraw.SetDrawScale(zoomer(move_zoom));
 
 
                     var drot = rot_sw.ElapsedMilliseconds
@@ -1563,6 +1669,10 @@ namespace FlashHeatZeekerWithStarlingT22
 
             // script: error JSC1000: ActionScript : failure at starling.display.Stage.add_keyDown : Object reference not set to an instance of an object.
             // there is something fron with flash natives gen. need to fix that.
+
+
+
+
 
             var disable_keyDown_Up = false;
             var disable_keyDown_Down = false;
@@ -1786,7 +1896,21 @@ namespace FlashHeatZeekerWithStarlingT22
                       unit_bullet.scaleY = 0.8;
                   }
 
-                  if (e.keyCode == 192)
+                  // disable camera follow
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.F3)
+                  {
+                      lookat_disabled = !lookat_disabled;
+                  }
+
+                  // toggle physics view
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.F2)
+                  {
+                      // faster?
+                      b2debugDraw.m_sprite.alpha = 0;
+                  }
+
+                  // orbit mode
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.F1)
                   {
                       //                      cript: error JSC1000: ActionScript :
                       //BCL needs another method, please define it.
@@ -1863,6 +1987,7 @@ namespace FlashHeatZeekerWithStarlingT22
 
 
             var network_rx_last_second = 0;
+
 
             ApplicationSprite.__stage.enterFrame +=
                 delegate
