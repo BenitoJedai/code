@@ -145,6 +145,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\white-jsc.png" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\jeep_trackpattern.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\jeep_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\jeep.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT22\letterG.svg" />
