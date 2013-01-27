@@ -1116,7 +1116,7 @@ namespace FlashHeatZeekerWithStarlingT22
             Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
 
 
-    
+
 
             #region new_gameunit
 
@@ -1136,23 +1136,55 @@ namespace FlashHeatZeekerWithStarlingT22
                   var shadow_shape = new Image(textures_jeep_shadow) { x = -200, y = -200 }.AttachTo(unit_shadow_rot);
                   shadow_shape.alpha = 0.2;
 
-                  var shape = new Image(textures_jeep) { x = -200, y = -200 }.AttachTo(unit_rot);
+                  Action<Wheel> build_wheel =
+                      w =>
+                      {
+                          var wheel_loc = new Sprite().AttachTo(unit_rot);
+                          var wheel_rot = new Sprite().AttachTo(wheel_loc);
+
+                          var wheel_bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(1, 1, false, 0);
+                          var wheel_tex = Texture.fromBitmapData(wheel_bmd);
+                          var wheel_img = new Image(wheel_tex).AttachTo(wheel_rot);
+
+                          wheel_img.scaleX = w.width * __b2debug_viewport.b2scale;
+                          wheel_img.scaleY = w.length * __b2debug_viewport.b2scale;
+
+                          wheel_img.x = -0.5 * w.width * __b2debug_viewport.b2scale;
+                          wheel_img.y = -0.5 * w.length * __b2debug_viewport.b2scale;
+
+                          wheel_loc.x = w.x * __b2debug_viewport.b2scale;
+                          wheel_loc.y = w.y * __b2debug_viewport.b2scale;
+
+                          w.setAngle += a =>
+                          {
+                              wheel_rot.rotation = a.DegreesToRadians();
+                          };
+                      };
 
 
 
                   var xwheels = new[] { 
                         //top left
-                        new Wheel(b2world: b2world, x :-1,  y :-1.2,  width :0.4,  length :0.8,  revolving :true,  powered :true),
+                        new Wheel { b2world = b2world, x = -1.1, y = -1.2, width = 0.4, length = 0.8, revolving = true, powered = true },
 
                         //top right
-                        new Wheel(b2world: b2world, x :1,  y :-1.2,  width :0.4,  length :0.8,  revolving :true,  powered :true),
+                        new Wheel{b2world= b2world, x =1.1,  y =-1.2,  width =0.4,  length =0.8,  revolving =true,  powered =true},
+
 
                         //back left
-                        new Wheel(b2world: b2world, x :-1,  y :1.2,  width :0.4,  length :0.8,  revolving :false,  powered :false),
+                        new Wheel{b2world= b2world, x =-1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
 
                         //back right
-                        new Wheel(b2world: b2world, x :1,  y :1.2,  width :0.4,  length :0.8,  revolving :false,  powered :false),
+                        new Wheel{b2world= b2world, x =1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
                     };
+
+
+                  xwheels.WithEach(build_wheel);
+
+                  var shape = new Image(textures_jeep) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+
+
 
 
                   ////initialize car
