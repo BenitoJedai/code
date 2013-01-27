@@ -233,7 +233,7 @@ namespace FlashHeatZeekerWithStarlingT22
     {
         // box2d thinks in metric while we think in pixels
         // this is a scale magic to keep both sides happy and functional
-        public const int b2scale = 16;
+        public const double b2scale = 16;
 
         public ScriptCoreLib.ActionScript.flash.display.Sprite loc;
         public ScriptCoreLib.ActionScript.flash.display.Sprite rot;
@@ -554,6 +554,58 @@ namespace FlashHeatZeekerWithStarlingT22
 
         public DisplayObject guntower;
         public bool RemoteControlEnabled;
+
+        public Action RenewTracks = delegate { };
+
+
+
+        public void TeleportBy(double dx, double dy)
+        {
+
+
+            if (this.physics != null)
+            {
+
+                this.physics.body.GetPosition().With(
+                    pp =>
+                    {
+
+                        this.physics.body.SetPosition(
+                            new b2Vec2(
+                                pp.x + dx / __b2debug_viewport.b2scale,
+                               pp.y + dy / __b2debug_viewport.b2scale
+                            )
+                        );
+                    }
+                );
+
+                this.physics.wheels.WithEach(
+                    w =>
+                    {
+                        w.body.GetPosition().With(
+                           pp =>
+                           {
+
+                               w.body.SetPosition(
+                                   new b2Vec2(
+                                       pp.x + dx / __b2debug_viewport.b2scale,
+                                      pp.y + dy / __b2debug_viewport.b2scale
+                                   )
+                               );
+                           }
+                       );
+                    }
+                );
+
+            }
+
+
+            this.loc.x += dx;
+            this.loc.y += dy;
+
+
+
+        }
     }
 
     public class Game : Sprite
@@ -1077,6 +1129,7 @@ namespace FlashHeatZeekerWithStarlingT22
 
             var textures_jeep = new_tex("assets/FlashHeatZeekerWithStarlingT22/jeep.svg");
             var textures_jeep_shadow = new_tex("assets/FlashHeatZeekerWithStarlingT22/jeep_shadow.svg");
+            var textures_jeep_trackpattern = new_tex("assets/FlashHeatZeekerWithStarlingT22/jeep_trackpattern.svg");
 
             var textures_greentank = new_tex("assets/FlashHeatZeekerWithStarlingT22/greentank.svg");
             var textures_greentank_guntower = new_tex("assets/FlashHeatZeekerWithStarlingT22/greentank_guntower.svg");
@@ -1110,7 +1163,7 @@ namespace FlashHeatZeekerWithStarlingT22
                 b2world.SetDebugDraw(b2debugDraw);
             };
 
-            get_b2debug_viewport();
+            //get_b2debug_viewport();
             #endregion
 
             Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
@@ -1195,14 +1248,15 @@ namespace FlashHeatZeekerWithStarlingT22
                       position: ff(0, 0),
                       angle: 180,
                       power: 60,
+
                       max_steer_angle: 20,
+                      //max_steer_angle: 40,
+
                       max_speed: 60,
                       wheels: xwheels
                   );
 
-
-
-                  return new GameUnit
+                  var u = new GameUnit
                   {
                       loc = unit_loc,
                       rot = unit_rot,
@@ -1211,8 +1265,98 @@ namespace FlashHeatZeekerWithStarlingT22
 
                       shadow_rot = unit_shadow_rot,
 
-                      physics = unit4_physics
+                      physics = unit4_physics,
+
+
                   };
+
+                  var RenewTracks_previous_position_empty = true;
+                  var RenewTracks_previous_position_x = 0.0;
+                  var RenewTracks_previous_position_y = 0.0;
+
+                  u.RenewTracks =
+                      delegate
+                      {
+                          if (RenewTracks_previous_position_empty)
+                          {
+                              RenewTracks_previous_position_x = u.loc.x;
+                              RenewTracks_previous_position_y = u.loc.y;
+
+                              RenewTracks_previous_position_empty = false;
+
+                              return;
+                          }
+
+                          var dx = new __vec2(
+                              (float)(u.loc.x - RenewTracks_previous_position_x),
+                              (float)(u.loc.y - RenewTracks_previous_position_y)
+                          );
+
+                          var dxlen = dx.GetLength() / 10.0;
+
+
+                          if (dxlen < 1.0)
+                          {
+                              //Console.WriteLine(new { dxlen, p.x, p.y });
+                              return;
+                          }
+
+                          RenewTracks_previous_position_x = u.loc.x;
+                          RenewTracks_previous_position_y = u.loc.y;
+
+                          //RenewTracks_previous_position = p;
+
+                          #region track_unit_loc
+                          var track_unit_loc = new Sprite().AttachTo(viewport_content_layer1_tracks);
+                          var track_unit_rot = new Sprite().AttachTo(track_unit_loc);
+
+                          xwheels.WithEach(
+                              w =>
+                              {
+                                  var img = new Image(textures_jeep_trackpattern);
+                                  img.x = -200;
+                                  img.y = -200;
+                                  //img.alpha = 0.1;
+
+                                  var track_wheel_loc = new Sprite().AttachTo(track_unit_rot);
+                                  var track_wheel_rot = new Sprite().AttachTo(track_wheel_loc);
+
+                                  img.AttachTo(track_wheel_rot);
+
+                                  track_wheel_loc.x = w.x * __b2debug_viewport.b2scale;
+                                  track_wheel_loc.y = w.y * __b2debug_viewport.b2scale;
+
+                                  track_wheel_rot.rotation = w.rotation;
+                                  //track_wheel_rot.scaleY = dxlen;
+
+                                  //+90.DegreesToRadians();
+
+                                  if (w.powered)
+                                      track_wheel_loc.alpha = 0.15;
+                                  else
+                                      track_wheel_loc.alpha = 0.05;
+
+                              }
+                          );
+
+
+                          track_unit_loc.x = u.loc.x;
+                          track_unit_loc.y = u.loc.y;
+
+                          track_unit_rot.rotation = u.rotation;
+                          #endregion
+
+                          pin_doodad(track_unit_loc);
+
+                          u.tracks.Enqueue(track_unit_loc);
+                          if (u.tracks.Count > 120)
+                              u.tracks.Dequeue().Orphanize();
+
+
+
+                      };
+
+                  return u;
               };
 
 
@@ -1355,8 +1499,10 @@ namespace FlashHeatZeekerWithStarlingT22
 
 
             var unit4 = new_jeep();
-            unit4.loc.MoveTo(-200, 0);
+            unit4.TeleportBy(0, -200);
 
+            var unit5 = new_jeep();
+            unit5.TeleportBy(-200, -200);
 
 
 
@@ -1383,7 +1529,7 @@ namespace FlashHeatZeekerWithStarlingT22
             #endregion
 
 
-            var controllable = new[] { unit1, unit2, unit3, unit4 };
+            var controllable = new[] { unit1, unit2, unit3, unit4, unit5 };
 
             current = unit1;
 
@@ -1509,11 +1655,11 @@ namespace FlashHeatZeekerWithStarlingT22
 
                             if (map.hitTest(x, y))
                             {
-                                Console.WriteLine("will teleport to " + map.Name);
+                                Console.WriteLine("will teleport to " + map.Name + " by " + new { dx, dy });
 
                                 // ourself and everybody around us?
-                                current.loc.x += dx;
-                                current.loc.y += dy;
+
+                                current.TeleportBy(dx, dy);
 
                                 later = delegate
                                 {
@@ -1673,6 +1819,7 @@ namespace FlashHeatZeekerWithStarlingT22
                     ////update car
                     unit4.physics.update(physicstime_elapsed);
                     unit2.physics.update(physicstime_elapsed);
+                    unit5.physics.update(physicstime_elapsed);
 
 
 
@@ -1685,14 +1832,29 @@ namespace FlashHeatZeekerWithStarlingT22
                     if (b2debug_viewport != null)
                         b2world.DrawDebugData();
 
+                    unit5.physics.body.GetPosition().With(
+                          p =>
+                          {
+                              unit5.loc.x = p.x * __b2debug_viewport.b2scale;
+                              unit5.loc.y = p.y * __b2debug_viewport.b2scale;
+
+                              unit5.rotation = unit5.physics.body.GetAngle();
+
+                              unit5.RenewTracks();
+                          }
+                      );
+
                     unit4.physics.body.GetPosition().With(
                         p =>
                         {
-                            //
                             unit4.loc.x = p.x * __b2debug_viewport.b2scale;
                             unit4.loc.y = p.y * __b2debug_viewport.b2scale;
 
+
+
                             unit4.rotation = unit4.physics.body.GetAngle();
+
+                            unit4.RenewTracks();
                         }
                     );
 
@@ -1704,6 +1866,8 @@ namespace FlashHeatZeekerWithStarlingT22
                             unit2.loc.y = p.y * __b2debug_viewport.b2scale;
 
                             unit2.rotation = unit2.physics.body.GetAngle();
+
+                            unit2.RenewTracks();
                         }
                     );
 
@@ -2183,6 +2347,13 @@ namespace FlashHeatZeekerWithStarlingT22
 
                       unit_bullet.scaleX = 0.8;
                       unit_bullet.scaleY = 0.8;
+                  }
+
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.F6)
+                  {
+
+                      current.TeleportBy(200, 200);
+
                   }
 
                   // disable camera follow
