@@ -21,7 +21,7 @@ namespace FlashHeatZeeker.PlayerIOIntegration
         }
     }
 
-    public  class ApplicationSpriteContent : global::FlashHeatZeekerWithStarlingT26.ApplicationSpriteContent
+    public  class ApplicationSpriteContent : global::FlashHeatZeekerWithStarlingT22.ApplicationSpriteContent
     {
         public readonly ApplicationCanvas content = new ApplicationCanvas();
 

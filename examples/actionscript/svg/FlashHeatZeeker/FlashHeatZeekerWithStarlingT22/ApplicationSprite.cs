@@ -1479,10 +1479,10 @@ namespace FlashHeatZeekerWithStarlingT22
 
 
 
-            var props = new List<BoxProp>();
+            var props = new List<object>();
 
             // size behaves like radius!!
-            props.Add(new BoxProp(b2world, size: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale), position: ff(0, 0)));
+            props.Add(new CircleProp(b2world, size: ff(50 / __b2debug_viewport.b2scale, 50 / __b2debug_viewport.b2scale), position: ff(0, 0)));
             props.Add(new BoxProp(b2world, size: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale), position: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale)));
 
 
@@ -1815,12 +1815,15 @@ namespace FlashHeatZeekerWithStarlingT22
                     //    at Box2D.Dynamics::b2World/DrawDebugData()[Y:\opensource\sourceforge\box2dflash\Box2D\Dynamics\b2World.as:656]
                     //    at FlashHeatZeekerWithStarlingT22::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT22\Game___c__DisplayClass46.as:163]
 
+                    // can jsc tell us about timing?
+                    #region 15% per frame, 60ms
 
                     ////update car
                     unit4.physics.update(physicstime_elapsed);
                     unit2.physics.update(physicstime_elapsed);
                     unit5.physics.update(physicstime_elapsed);
 
+                    #endregion
 
 
                     //update physics world
