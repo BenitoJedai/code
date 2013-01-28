@@ -144,7 +144,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 		public static Color Teal { get { return (__Color)0xFF008080; } }
 		public static Color Thistle { get { return (__Color)0xFFD8BFD8; } }
 		public static Color Tomato { get { return (__Color)0xFFFF6347; } }
-		public static Color Transparent { get { return (__Color)0xFFFFFFFFu; } }
+		
+        public static Color Transparent { get { return (__Color)0x00FFFFFFu; } }
+
 		public static Color Turquoise { get { return (__Color)0xFF40E0D0; } }
 		public static Color Violet { get { return (__Color)0xFFEE82EE; } }
 		public static Color Wheat { get { return (__Color)0xFFF5DEB3; } }

@@ -13,11 +13,11 @@ using ScriptCoreLib.ActionScript.flash.display;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
-	[Script(Implements = typeof(global::System.Windows.Controls.TextBox))]
-	internal class __TextBox : __TextBoxBase
-	{
-		public readonly TextField InternalTextField;
-		public readonly Sprite InternalTextFieldContainer;
+    [Script(Implements = typeof(global::System.Windows.Controls.TextBox))]
+    internal class __TextBox : __TextBoxBase
+    {
+        public readonly TextField InternalTextField;
+        public readonly Sprite InternalTextFieldContainer;
 
         public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
         {
@@ -25,71 +25,71 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         }
 
 
-		public __TextBox()
-		{
+        public __TextBox()
+        {
 
-			InternalTextField = new TextField
-			{
-				autoSize = TextFieldAutoSize.LEFT,
-				type = TextFieldType.INPUT,
-				background = true,
-				backgroundColor = 0xffffffff,
-				alwaysShowSelection = true,
-				border = true,
-				borderColor = 0x808080
-				// http://code.hellokeita.in/public/trunk/as3/br/hellokeita/utils/TextFieldColor.as
+            InternalTextField = new TextField
+            {
+                autoSize = TextFieldAutoSize.LEFT,
+                type = TextFieldType.INPUT,
+                background = true,
+                backgroundColor = 0xffffffff,
+                alwaysShowSelection = true,
+                border = true,
+                borderColor = 0x808080
+                // http://code.hellokeita.in/public/trunk/as3/br/hellokeita/utils/TextFieldColor.as
 
-			};
+            };
 
-			InternalTextField.y = InternalOffsetY;
+            InternalTextField.y = InternalOffsetY;
 
-		
 
-			InternalTextFieldContainer = new Sprite();
-			InternalTextFieldContainer.addChild(InternalTextField);
 
-			// http://www.typetester.org/
-			//InternalTextField.defaultTextFormat.font = "Verdana";
-			LocalInternalSetFonFamily(new FontFamily("Verdana"));
-		}
+            InternalTextFieldContainer = new Sprite();
+            InternalTextFieldContainer.addChild(InternalTextField);
 
-		// this is needed for small fonts...
-		//const int InternalOffsetY = -3;
-		const int InternalOffsetY = -1;
+            // http://www.typetester.org/
+            //InternalTextField.defaultTextFormat.font = "Verdana";
+            LocalInternalSetFonFamily(new FontFamily("Verdana"));
+        }
+
+        // this is needed for small fonts...
+        //const int InternalOffsetY = -3;
+        const int InternalOffsetY = -1;
 
         #region width, height
         public override void InternalSetWidth(double value)
-		{
-			this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
-			this.InternalTextField.width = value;
-		}
+        {
+            this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
+            this.InternalTextField.width = value;
+        }
 
-		public override void InternalSetHeight(double value)
-		{
-			this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
-			this.InternalTextField.height = value - InternalOffsetY;
-		}
+        public override void InternalSetHeight(double value)
+        {
+            this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
+            this.InternalTextField.height = value - InternalOffsetY;
+        }
 
-		public override double InternalGetWidth()
-		{
-			return this.InternalTextField.width;
-		}
+        public override double InternalGetWidth()
+        {
+            return this.InternalTextField.width;
+        }
 
-		public override double InternalGetHeight()
-		{
-			return this.InternalTextField.height;
-		}
+        public override double InternalGetHeight()
+        {
+            return this.InternalTextField.height;
+        }
         #endregion
 
         public override void InternalSetAcceptsReturn(bool value)
-		{
-			this.InternalTextField.multiline = value;
-		}
+        {
+            this.InternalTextField.multiline = value;
+        }
 
-		public override void InternalSetFontSize(double value)
-		{
-			InternalChangeTextFormat(new TextFormat { size = Convert.ToInt32(value - 1) });
-		}
+        public override void InternalSetFontSize(double value)
+        {
+            InternalChangeTextFormat(new TextFormat { size = Convert.ToInt32(value - 1) });
+        }
 
 
 
@@ -97,75 +97,75 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         internal __Thickness InternalBorderThickness;
 
         public override void InternalSetBorderThickness(Thickness value)
-		{
+        {
             this.InternalBorderThickness = value;
 
             if (this.InternalBorderThickness.InternalValue == 0)
-			{
-				this.InternalTextField.border = false;
+            {
+                this.InternalTextField.border = false;
 
-				return;
-			}
+                return;
+            }
 
             if (this.InternalBorderThickness.InternalValue == 1)
-			{
-				this.InternalTextField.border = true;
+            {
+                this.InternalTextField.border = true;
 
-				return;
-			}
+                return;
+            }
 
-			throw new NotSupportedException();
-		}
+            throw new NotSupportedException();
+        }
         #endregion
 
 
         #region InternalForeground
         Brush InternalForeground;
 
-		public override Brush InternalGetForeground()
-		{
-			return InternalForeground;
-		}
+        public override Brush InternalGetForeground()
+        {
+            return InternalForeground;
+        }
 
-		public override void InternalSetForeground(Brush value)
-		{
-			InternalForeground = value;
+        public override void InternalSetForeground(Brush value)
+        {
+            InternalForeground = value;
 
-			var AsSolidColorBrush = value as SolidColorBrush;
+            var AsSolidColorBrush = value as SolidColorBrush;
 
-			if (AsSolidColorBrush != null)
-			{
-				var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
-				var _Color = (__Color)_SolidColorBrush.Color;
+            if (AsSolidColorBrush != null)
+            {
+                var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
+                var _Color = (__Color)_SolidColorBrush.Color;
 
-				InternalTextField.textColor = _Color;
-			}
-		}
-		#endregion
+                InternalTextField.textColor = _Color;
+            }
+        }
+        #endregion
 
         #region InternalSetBackground
         public override void InternalSetBackground(Brush value)
-		{
-			var AsSolidColorBrush = value as SolidColorBrush;
+        {
+            var AsSolidColorBrush = value as SolidColorBrush;
 
-			if (AsSolidColorBrush != null)
-			{
-				var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
-				uint _Color = (__Color)_SolidColorBrush.Color;
+            if (AsSolidColorBrush != null)
+            {
+                var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
+                uint _Color = (__Color)_SolidColorBrush.Color;
 
                 var IsTransparent = _SolidColorBrush.Color.A == Colors.Transparent.A;
 
                 if (IsTransparent)
-				{
-					InternalTextField.background = false;
-				}
-				else
-				{
-					InternalTextField.background = true;
-					InternalTextField.backgroundColor = _Color;
-				}
-			}
-		}
+                {
+                    InternalTextField.background = false;
+                }
+                else
+                {
+                    InternalTextField.background = true;
+                    InternalTextField.backgroundColor = _Color;
+                }
+            }
+        }
         #endregion
 
         #region Text
@@ -193,114 +193,119 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         public TextChangedEventHandler InternalTextChanged;
 
         public override event TextChangedEventHandler TextChanged
-		{
-			add
-			{
+        {
+            add
+            {
                 InternalTextChanged += value;
 
-				InternalTextField.change +=
-					(Event e) =>
-					{
-						value(null, null);
-					};
-			}
-			remove
-			{
-				throw new NotImplementedException();
-			}
-		}
+                InternalTextField.change +=
+                    (Event e) =>
+                    {
+                        value(null, null);
+                    };
+            }
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
         #endregion
 
 
-    
-
-		
-
-	
-
-		public override void InternalSetIsReadOnly(bool value)
-		{
-			if (value)
-			{
-				this.InternalTextField.type = TextFieldType.DYNAMIC;
-			}
-			else
-			{
-				this.InternalTextField.type = TextFieldType.INPUT;
-			}
-		}
-
-		public TextWrapping TextWrapping
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				if (value == TextWrapping.NoWrap)
-				{
-					this.InternalTextField.wordWrap = false;
-
-					return;
-				}
-
-				if (value == TextWrapping.Wrap)
-				{
-					this.InternalTextField.wordWrap = true;
-
-					return;
-				}
-
-				throw new NotSupportedException();
-			}
-		}
-
-		public TextAlignment TextAlignment
-		{
-			get
-			{
-				var align = this.InternalTextField.defaultTextFormat.align;
 
 
-				if (align == TextFormatAlign.RIGHT)
-					return TextAlignment.Right;
 
-				if (align == TextFormatAlign.CENTER)
-					return TextAlignment.Center;
 
-				if (align == TextFormatAlign.JUSTIFY)
-					return TextAlignment.Justify;
 
-				return TextAlignment.Left;
-			}
-			set
-			{
-				// http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/text/TextFormatAlign.html
-				var align = TextFormatAlign.LEFT;
 
-				if (value != TextAlignment.Left)
-					if (value == TextAlignment.Right)
-						align = TextFormatAlign.RIGHT;
-					else if (value == TextAlignment.Center)
-						align = TextFormatAlign.CENTER;
-					else if (value == TextAlignment.Justify)
-						align = TextFormatAlign.JUSTIFY;
+        public override void InternalSetIsReadOnly(bool value)
+        {
+            if (value)
+            {
+                this.InternalTextField.type = TextFieldType.DYNAMIC;
+            }
+            else
+            {
+                this.InternalTextField.type = TextFieldType.INPUT;
+            }
+        }
 
-				this.InternalChangeTextFormat(
-					new TextFormat
-					{
-						align = align
-					}
-				);
-			}
-		}
+        public TextWrapping TextWrapping
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                if (value == TextWrapping.NoWrap)
+                {
+                    this.InternalTextField.wordWrap = false;
 
-		public void Clear()
-		{
-			this.Text = "";
-		}
+                    return;
+                }
 
+                if (value == TextWrapping.Wrap)
+                {
+                    this.InternalTextField.wordWrap = true;
+
+                    return;
+                }
+
+                throw new NotSupportedException();
+            }
+        }
+
+        public TextAlignment TextAlignment
+        {
+            get
+            {
+                var align = this.InternalTextField.defaultTextFormat.align;
+
+
+                if (align == TextFormatAlign.RIGHT)
+                    return TextAlignment.Right;
+
+                if (align == TextFormatAlign.CENTER)
+                    return TextAlignment.Center;
+
+                if (align == TextFormatAlign.JUSTIFY)
+                    return TextAlignment.Justify;
+
+                return TextAlignment.Left;
+            }
+            set
+            {
+                // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/text/TextFormatAlign.html
+                var align = TextFormatAlign.LEFT;
+
+                if (value != TextAlignment.Left)
+                    if (value == TextAlignment.Right)
+                        align = TextFormatAlign.RIGHT;
+                    else if (value == TextAlignment.Center)
+                        align = TextFormatAlign.CENTER;
+                    else if (value == TextAlignment.Justify)
+                        align = TextFormatAlign.JUSTIFY;
+
+                this.InternalChangeTextFormat(
+                    new TextFormat
+                    {
+                        align = align
+                    }
+                );
+            }
+        }
+
+        public void Clear()
+        {
+            this.Text = "";
+        }
+
+        public override void InternalSelectAll()
+        {
+            this.InternalTextField.setSelection(0, this.InternalTextField.length);
+
+        }
         public override void InternalAppendText(string textData)
         {
             InternalTextField.appendText(textData.Replace(Environment.NewLine, "\n"));
@@ -316,22 +321,22 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         }
 
         public override void InternalSetFontFamily(FontFamily value_)
-		{
-			// fixme: jsc should fully support base and this calls
-			LocalInternalSetFonFamily(value_);
-		}
+        {
+            // fixme: jsc should fully support base and this calls
+            LocalInternalSetFonFamily(value_);
+        }
 
-		private void LocalInternalSetFonFamily(FontFamily value_)
-		{
-			var value = (__FontFamily)(object)value_;
+        private void LocalInternalSetFonFamily(FontFamily value_)
+        {
+            var value = (__FontFamily)(object)value_;
 
-			this.InternalChangeTextFormat(
-					new TextFormat
-					{
-						font = value.InternalFamilyName
-					}
-			);
-		}
+            this.InternalChangeTextFormat(
+                    new TextFormat
+                    {
+                        font = value.InternalFamilyName
+                    }
+            );
+        }
 
         #endregion
 
@@ -340,5 +345,5 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         {
             return (__TextBox)(object)e;
         }
-	}
+    }
 }

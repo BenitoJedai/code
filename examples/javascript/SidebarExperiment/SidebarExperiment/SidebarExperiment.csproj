@@ -45,6 +45,9 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSSShaderGrayScale">
+      <HintPath>..\packages\CSSShaderGrayScale.1.0.0.0\lib\CSSShaderGrayScale.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -124,9 +127,6 @@
     <Reference Include="SidebarExperiment.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\SidebarExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="CSSShaderGrayScale.AssetsLibrary">
-      <HintPath>..\..\CSSShaderGrayScale\CSSShaderGrayScale\bin\staging.AssetsLibrary\CSSShaderGrayScale.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="PlasmaFormsControl.AssetsLibrary">
       <HintPath>..\..\forms\PlasmaFormsControl\PlasmaFormsControl\bin\staging.AssetsLibrary\PlasmaFormsControl.AssetsLibrary.dll</HintPath>
     </Reference>
@@ -156,14 +156,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CSSShaderGrayScale\CSSShaderGrayScale\CSSShaderGrayScale.csproj">
-      <Project>{beaa5c6f-9803-48e6-b53e-987f5a983560}</Project>
-      <Name>CSSShaderGrayScale</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj">
       <Project>{df8cc6e1-e494-4194-9e22-3feda8748f82}</Project>
       <Name>PlasmaFormsControl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
