@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0248FB6D-3AD2-4CF9-9C1A-EEDC5214D07F}</ProjectGuid>
+    <ProjectGuid>{4FFD0992-0097-4C06-9362-19846B399732}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashHeatZeeker.PlayerIOIntegration</RootNamespace>
-    <AssemblyName>FlashHeatZeeker.PlayerIOIntegration</AssemblyName>
+    <RootNamespace>Box2DExperiment</RootNamespace>
+    <AssemblyName>Box2DExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FlashHeatZeeker.PlayerIOIntegration.Program</StartupObject>
+    <StartupObject>Box2DExperiment.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -38,8 +38,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abstractatech.ConsoleFormPackage">
-      <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
+    <Reference Include="box2dweb">
+      <HintPath>..\packages\box2dweb.1.0.0.0\lib\box2dweb.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
@@ -48,9 +48,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Player.IO GameLibrary">
-      <HintPath>..\packages\PlayerIO.GameLibrary.1.0.0.0\lib\Player.IO GameLibrary.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -121,23 +118,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashHeatZeeker.PlayerIOIntegration.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.PlayerIOIntegration.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeekerWithStarlingT22.AssetsLibrary">
-      <HintPath>..\FlashHeatZeekerWithStarlingT22\bin\staging.AssetsLibrary\FlashHeatZeekerWithStarlingT22.AssetsLibrary.dll</HintPath>
+    <Reference Include="Box2DExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\Box2DExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="staging\FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite\web\foo-app.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="ApplicationCanvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
@@ -145,34 +133,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="staging\FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite\web\createapk.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite\web\createcrt.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite\web\install.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite\web\newcert.p12">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite\web\test.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FlashHeatZeeker.PlayerIOServer\FlashHeatZeeker.PlayerIOServer.csproj">
-      <Project>{baba968b-41d7-4b0e-afb9-dfa37307c833}</Project>
-      <Name>FlashHeatZeeker.PlayerIOServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeekerWithStarlingT22\FlashHeatZeekerWithStarlingT22.csproj">
-      <Project>{47ca6510-0cce-4410-920b-4e516544a7a6}</Project>
-      <Name>FlashHeatZeekerWithStarlingT22</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
