@@ -72,5 +72,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls.P
 			}
 		}
 
+
+        public virtual void InternalSelectAll()
+        { 
+        
+        }
+
+        public void SelectAll()
+        {
+            InternalSelectAll();
+        }
 	}
 }
