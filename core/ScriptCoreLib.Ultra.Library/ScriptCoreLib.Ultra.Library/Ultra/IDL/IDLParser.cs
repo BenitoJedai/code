@@ -493,8 +493,11 @@ namespace ScriptCoreLib.Ultra.IDL
             var Method = new IDLMemberMethod
             {
                 ReturnType = Type,
+                
                 KeywordGetter = KeywordGetter,
                 KeywordSetter = KeywordSetter,
+                KeywordStatic = KeywordStatic,
+
                 Name = Name
             };
 

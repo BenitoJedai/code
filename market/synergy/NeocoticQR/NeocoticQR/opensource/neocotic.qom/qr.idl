@@ -1,0 +1,11 @@
+﻿// we will need TargetConstructor with a dot
+// should enable nesting instead
+// interface CANNON
+
+typedef html::HTMLImageElement HTMLImageElement;
+
+[Constructor()]
+interface qr 
+{ 
+	static HTMLImageElement image(any args);
+};
