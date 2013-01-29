@@ -11,8 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using QRCodeTemplate.HTML.Pages;
-using QRCodeTemplate.Design;
-using QRCodeTemplate.Library;
 
 namespace QRCodeTemplate
 {
@@ -29,7 +27,9 @@ namespace QRCodeTemplate
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new __qr().Content.With(
+            // manually import the file
+            // this should be automatic for jsc market components!
+            new NeocoticQR.opensource.neocotic.qom.qr().Content.With(
                 source =>
                 {
                     source.onload +=
