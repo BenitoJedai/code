@@ -41,5 +41,7 @@ namespace ScriptCoreLib.Ultra.IDL
         }
 
         public string TargetNamespace;
+
+        public string ImplementationFile;
     }
 }

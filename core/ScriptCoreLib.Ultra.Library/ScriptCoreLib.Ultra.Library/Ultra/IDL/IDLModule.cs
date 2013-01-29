@@ -21,6 +21,8 @@ namespace ScriptCoreLib.Ultra.IDL
             return IDLParser.ToModule(source);
         }
 
+
+
         public override string ToString()
         {
             if (Name == null)
