@@ -39,7 +39,6 @@ namespace CSS3DMeetsFormsWithWebGL
         {
             // http://www.addyosmani.com/resources/googlebox/
 
-            global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
             new ApplicationContent().Initialize(page);
 
@@ -171,6 +170,8 @@ namespace CSS3DMeetsFormsWithWebGL
 
         public void Initialize(IDefaultPage page, Action yield = null)
         {
+            global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+
             new trans3d().Content.AttachToDocument().onload +=
                 delegate
                 {
