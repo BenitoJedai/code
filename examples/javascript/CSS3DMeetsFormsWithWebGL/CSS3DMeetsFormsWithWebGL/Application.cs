@@ -39,6 +39,7 @@ namespace CSS3DMeetsFormsWithWebGL
         {
             // http://www.addyosmani.com/resources/googlebox/
 
+            global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
             new ApplicationContent().Initialize(page);
 
@@ -641,6 +642,23 @@ namespace CSS3DMeetsFormsWithWebGL
                     };
 
                 resize_handle.Orphanize().AttachTo(page.front_panel);
+
+
+                var once = false;
+
+                frontcontrol.NewForm +=
+                    f =>
+                    {
+                        if (once)
+                            return;
+
+                        once = true;
+                        //f.DisableFormClosingHandler = true;
+
+                        global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
+                            f
+                        );
+                    };
             }
 
         }
@@ -668,6 +686,7 @@ namespace CSS3DMeetsFormsWithWebGL
     {
         public __ImpAdventures(global::ImpAdventures.HTML.Pages.IDefaultPage page)
         {
+            // did you know we will be binding to keyboard?
             new global::ImpAdventures.Application(page);
         }
     }
@@ -688,21 +707,21 @@ namespace CSS3DMeetsFormsWithWebGL
         }
     }
 
-    sealed class __AvalonUgh
-    {
-        public __AvalonUgh(global::AvalonUgh.LabsActivity.HTML.Pages.IDefaultPage page)
-        {
-            new global::AvalonUgh.LabsActivity.Application(page);
-        }
-    }
+    //sealed class __AvalonUgh
+    //{
+    //    public __AvalonUgh(global::AvalonUgh.LabsActivity.HTML.Pages.IDefaultPage page)
+    //    {
+    //        new global::AvalonUgh.LabsActivity.Application(page);
+    //    }
+    //}
 
-    sealed class __AvalonTycoonMansion
-    {
-        public __AvalonTycoonMansion(global::AvalonTycoonMansion.iPad.HTML.Pages.IDefaultPage page)
-        {
-            new global::AvalonTycoonMansion.iPad.ApplicationContent();
-        }
-    }
+    //sealed class __AvalonTycoonMansion
+    //{
+    //    public __AvalonTycoonMansion(global::AvalonTycoonMansion.iPad.HTML.Pages.IDefaultPage page)
+    //    {
+    //        new global::AvalonTycoonMansion.iPad.ApplicationContent();
+    //    }
+    //}
 
     //sealed class __JavaDosBoxQuakeBeta
     //{

@@ -43,6 +43,12 @@ namespace CSS3DMeetsFormsWithWebGL.Library
             c.Navigate(url);
             //c.Url = new Uri(this.comboBox1.Text);
             f.Show();
+
+
+            if (NewForm != null)
+                NewForm(f);
         }
-    }
+
+        public event Action<Form> NewForm;
+    } 
 }

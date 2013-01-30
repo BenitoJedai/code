@@ -45,6 +45,12 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSSMinimizeFormToSidebar">
+      <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
+    </Reference>
+    <Reference Include="DiagnosticsConsole">
+      <HintPath>..\packages\DiagnosticsConsole.1.0.0.0\lib\DiagnosticsConsole.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -230,10 +236,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\jsc.community\avalonugh\AvalonUgh\AvalonUgh.LabsActivity\AvalonUgh.LabsActivity.csproj">
-      <Project>{112f5a8f-17ed-4f24-903e-8bdba85c512a}</Project>
-      <Name>AvalonUgh.LabsActivity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj">
       <Project>{1e159c6b-6a83-491d-9b06-00465a5dbb30}</Project>
       <Name>AvalonBrowserLogos</Name>
@@ -274,6 +276,9 @@
       <Project>{6be0fe6f-5ea4-40a5-8938-ff7c3b5d0969}</Project>
       <Name>WebGLSpiral</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

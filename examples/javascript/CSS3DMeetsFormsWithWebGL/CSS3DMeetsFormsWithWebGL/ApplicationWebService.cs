@@ -64,7 +64,7 @@ namespace CSS3DMeetsFormsWithWebGL
                 new { path = "/ImpAdventures", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__ImpAdventures") },
                 new { path = "/IsometricTycoonViewWithToolbar", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__IsometricTycoonViewWithToolbar") },
                 new { path = "/McKrackenFirstRoom", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__McKrackenFirstRoom") },
-                new { path = "/AvalonUgh", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__AvalonUgh") },
+                //new { path = "/AvalonUgh", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__AvalonUgh") },
                 //new { path = "/JavaDosBoxQuakeBeta", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__JavaDosBoxQuakeBeta") },
                 //new { path = "/Boing4KTemplate", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__Boing4KTemplate") },
                 //new { path = "/RayCasterApplet", client =  h.Applications.FirstOrDefault(k => k.TypeName == "__RayCasterApplet") },

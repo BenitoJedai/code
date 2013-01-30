@@ -29,6 +29,22 @@ namespace DiagnosticsConsole
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            Action Toggle = ApplicationContent.BindKeyboardToDiagnosticsConsole();
+
+            page.Tilde.onclick +=
+                delegate
+                {
+                    Toggle();
+                };
+        }
+
+    }
+
+    public static class ApplicationContent
+    {
+
+        public static Action BindKeyboardToDiagnosticsConsole()
+        {
             var diagnostics = new IHTMLIFrame { src = "/jsc", frameBorder = "0" };
 
             diagnostics.style.backgroundColor = "rgba(255, 255, 255, 0)";
@@ -37,6 +53,10 @@ namespace DiagnosticsConsole
             diagnostics.style.top = "-100%";
             diagnostics.style.width = "100%";
             diagnostics.style.height = "100%";
+
+            // stay on top!
+            diagnostics.style.zIndex = 10000;
+
             diagnostics.AttachToDocument();
 
             // http://www.w3schools.com/css3/css3_transitions.asp
@@ -117,11 +137,6 @@ namespace DiagnosticsConsole
                         };
                 };
 
-            page.Tilde.onclick +=
-                delegate
-                {
-                    Toggle();
-                };
 
             Native.Document.onkeyup +=
                 e =>
@@ -140,13 +155,7 @@ namespace DiagnosticsConsole
                         Hide();
 
                 };
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            return Toggle;
         }
 
     }
