@@ -18,29 +18,64 @@ using ScriptCoreLib.JavaScript.Windows.Forms;
 
 namespace CSSMinimizeFormToSidebar
 {
-    /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
-    /// </summary>
-    public sealed class Application
+    public static class ApplicationExtension
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
-
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public static void InitializeSidebarBehaviour(Form f)
         {
-            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
 
-            var f = new Form1();
+            // can we do a dynamic upgrade?
+
+            var newlayout = new global::CSSMinimizeFormToSidebar.HTML.Pages.App();
+            var newlayoutnodes = newlayout.Container.childNodes.ToArray();
+
+            //newlayout.Sidebar.name = "Sidebar";
+            // where is this guy??
+            //newlayout.SidebarOverlay.name = "SidebarOverlay";
+
+            var oldcontent = Native.Document.body.childNodes.ToArray();
+
+            Native.Document.body.Clear();
+            Native.Document.body.appendChild(newlayoutnodes);
+
+            Native.Document.body.setAttribute("style",
+                newlayout.Container.getAttribute("style")
+            );
+
+
+            var mycontainer = new IHTMLDiv().AttachTo(newlayout.ScrollContainer.parentNode);
+            newlayout.ScrollContainer.Orphanize();
+
+
+            mycontainer.style.position = IStyle.PositionEnum.absolute;
+            mycontainer.style.left = "10em";
+            mycontainer.style.top = "0px";
+            mycontainer.style.right = "0px";
+            mycontainer.style.bottom = "0px";
+
+            mycontainer.appendChild(oldcontent);
+
+
+            //Native.Document.body.Orphanize();
+            //newlayout.Container.AttachTo(Native.Document.documentElement);
+            //Native.Document.body = (IHTMLBody)(object)newlayout.Container;
+
+
+            // reparent
+            f.GetHTMLTarget().Orphanize().AttachToDocument();
+
+            global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
+                newlayout, f
+            );
+        }
+
+        public static void InitializeSidebarBehaviour(IApp page, Form f)
+        {
             var tt = f.GetHTMLTarget();
 
             page.SidebarInfo.style.With(
                 (dynamic s) => s.webkitTransition = "all 0.3s linear"
             );
 
-            f.Show();
 
             var IsMinimized = false;
 
@@ -178,51 +213,16 @@ namespace CSSMinimizeFormToSidebar
 
 
             f.FormClosing += (s, e) =>
-                {
-                    if (e.CloseReason == System.Windows.Forms.CloseReason.UserClosing)
-                    {
-                        e.Cancel = true;
-
-                        Minimize();
-                    }
-                };
-
-            #region AddMoreText
-            Action AddMoreText = delegate
             {
-                new Lorem().Container.AttachTo(page.Content).With(
-                    (es) =>
-                    {
-                        var s = es.style;
-
-                        s.color = "yellow";
-
-                        dynamic ss = s;
-
-                        ss.webkitTransition = "all 3s linear";
-
-                        Native.Window.requestAnimationFrame +=
-                            delegate
-                            {
-                                s.color = "";
-                            };
-
-                        page.ScrollContainer.ScrollToBottom();
-                    }
-                );
-
-            };
-            #endregion
-
-
-            page.Content.Clear();
-            AddMoreText();
-
-            page.AddMoreText.onclick +=
-                delegate
+                if (e.CloseReason == System.Windows.Forms.CloseReason.UserClosing)
                 {
-                    AddMoreText();
-                };
+                    e.Cancel = true;
+
+                    Minimize();
+                }
+            };
+
+
 
             dynamic xstyle = page.SidebarOverlay.style;
             xstyle.webkitTransition = "all 0.3s linear";
@@ -264,15 +264,74 @@ namespace CSSMinimizeFormToSidebar
                 };
             #endregion
 
+        }
+
+    }
+
+
+    /// <summary>
+    /// Your client side code running inside a web browser as JavaScript.
+    /// </summary>
+    public sealed class Application
+    {
+        public readonly ApplicationWebService service = new ApplicationWebService();
+
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IApp page)
+        {
+            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+
+            var f = new Form1();
+
+            f.Show();
+
             f.webBrowser1.Navigate("http://discover.xavalon.net");
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
+            ApplicationExtension.InitializeSidebarBehaviour(page, f);
+
+
+            #region AddMoreText
+            Action AddMoreText = delegate
+            {
+                new Lorem().Container.AttachTo(page.Content).With(
+                    (es) =>
+                    {
+                        var s = es.style;
+
+                        s.color = "yellow";
+
+                        dynamic ss = s;
+
+                        ss.webkitTransition = "all 3s linear";
+
+                        Native.Window.requestAnimationFrame +=
+                            delegate
+                            {
+                                s.color = "";
+                            };
+
+                        page.ScrollContainer.ScrollToBottom();
+                    }
+                );
+
+            };
+            #endregion
+
+
+            page.Content.Clear();
+            AddMoreText();
+
+            page.AddMoreText.onclick +=
+                delegate
+                {
+                    AddMoreText();
+                };
         }
+
 
     }
 }

@@ -124,6 +124,8 @@ namespace Box2DTopDownCarScaled
 
         class Wheel
         {
+            public int accelerate = ACC_NONE;
+
             public Action killSidewaysVelocity;
             public Action<double> setAngle;
 
@@ -285,15 +287,18 @@ namespace Box2DTopDownCarScaled
 
         class Car
         {
+            public bool disable_accelerate_all;
+
+            public int accelerate_all = ACC_NONE;
 
             public Action<double> update;
 
             public b2Body body;
 
-            public int accelerate = ACC_NONE;
 
             //        //state of car controls
             public int steer = STEER_NONE;
+            public Wheel[] wheels;
 
             public Car(
                 b2World b2world,
@@ -308,6 +313,8 @@ namespace Box2DTopDownCarScaled
                 Wheel[] wheels
                 )
             {
+                this.wheels = wheels;
+
                 //        /*
                 //        pars is an object with possible attributes:
 
@@ -455,71 +462,130 @@ namespace Box2DTopDownCarScaled
 
                     #endregion
 
-
-                    #region 3. APPLY FORCE TO WHEELS
-                    var base_vect = new double[2]; //vector pointing in the direction force will be applied to a wheel ; relative to the wheel.
-
-                    //if accelerator is pressed down and speed limit has not been reached, go forwards
-                    var lessthanlimit = (getSpeedKMH() < max_speed);
-                    var flag1 = (accelerate == ACC_ACCELERATE) && lessthanlimit;
-                    if (flag1)
-                    {
-                        base_vect = new double[] { 0, -1 };
-                    }
-                    else if (accelerate == ACC_BRAKE)
-                    {
-                        //braking, but still moving forwards - increased force
-                        if (getLocalVelocity()[1] < 0)
+                    wheels.WithEach(
+                        w =>
                         {
-                            base_vect = new double[] { 0, 1.3 };
-                        }
-                        //going in reverse - less force
-                        else
-                        {
-                            base_vect = new double[] { 0, 0.7 };
-                        }
-                    }
-                    else
-                    {
-                        base_vect[0] = 0;
-                        base_vect[1] = 0;
-                    }
-
-                    //multiply by engine power, which gives us a force vector relative to the wheel
-                    var fvect = new double[] { 
-                        power * base_vect[0], 
-                        power * base_vect[1] 
-                    };
-
-                    //apply force to each wheel
 
 
+                            var base_vect = new double[2]; //vector pointing in the direction force will be applied to a wheel ; relative to the wheel.
 
-                    getPoweredWheels.WithEachIndex(
-                        (w, i) =>
-                        {
+                            //if accelerator is pressed down and speed limit has not been reached, go forwards
+                            var lessthanlimit = (getSpeedKMH() < max_speed);
+                            var flag1 = (w.accelerate == ACC_ACCELERATE) && lessthanlimit;
+                            if (flag1)
+                            {
+                                base_vect = new double[] { 0, -1 };
+                            }
+                            else if (w.accelerate == ACC_BRAKE)
+                            {
+                                //braking, but still moving forwards - increased force
+                                if (getLocalVelocity()[1] < 0)
+                                {
+                                    base_vect = new double[] { 0, 1.3 };
+                                }
+                                //going in reverse - less force
+                                else
+                                {
+                                    base_vect = new double[] { 0, 0.7 };
+                                }
+                            }
+                            else
+                            {
+                                base_vect[0] = 0;
+                                base_vect[1] = 0;
+                            }
+
+                            //multiply by engine power, which gives us a force vector relative to the wheel
+                            var fvect = new double[] { 
+                                    power * base_vect[0], 
+                                    power * base_vect[1] 
+                                };
+
+                            //apply force to each wheel
+
+
+
                             var wp = w.body.GetWorldCenter();
                             var wf = w.body.GetWorldVector(new b2Vec2(fvect[0], fvect[1]));
 
                             //Console.WriteLine("getPoweredWheels ApplyForce #" + i);
                             w.body.ApplyForce(wf, wp);
+
+
+
+
+
+
                         }
                     );
 
-
-
-
-                    //if going very slow, stop - to prevent endless sliding
-                    var veryslow = (getSpeedKMH() < 4);
-                    var flag2 = veryslow && (accelerate == ACC_NONE);
-                    if (flag2)
+                    if (!disable_accelerate_all)
                     {
-                        //Console.WriteLine("setSpeed 0");
-                        setSpeed(0);
+
+                        #region 3. APPLY FORCE TO WHEELS
+                        var base_vect = new double[2]; //vector pointing in the direction force will be applied to a wheel ; relative to the wheel.
+
+                        //if accelerator is pressed down and speed limit has not been reached, go forwards
+                        var lessthanlimit = (getSpeedKMH() < max_speed);
+                        var flag1 = (accelerate_all == ACC_ACCELERATE) && lessthanlimit;
+                        if (flag1)
+                        {
+                            base_vect = new double[] { 0, -1 };
+                        }
+                        else if (accelerate_all == ACC_BRAKE)
+                        {
+                            //braking, but still moving forwards - increased force
+                            if (getLocalVelocity()[1] < 0)
+                            {
+                                base_vect = new double[] { 0, 1.3 };
+                            }
+                            //going in reverse - less force
+                            else
+                            {
+                                base_vect = new double[] { 0, 0.7 };
+                            }
+                        }
+                        else
+                        {
+                            base_vect[0] = 0;
+                            base_vect[1] = 0;
+                        }
+
+                        //multiply by engine power, which gives us a force vector relative to the wheel
+                        var fvect = new double[] { 
+                        power * base_vect[0], 
+                        power * base_vect[1] 
+                    };
+
+                        //apply force to each wheel
+
+
+
+                        getPoweredWheels.WithEachIndex(
+                            (w, i) =>
+                            {
+                                var wp = w.body.GetWorldCenter();
+                                var wf = w.body.GetWorldVector(new b2Vec2(fvect[0], fvect[1]));
+
+                                //Console.WriteLine("getPoweredWheels ApplyForce #" + i);
+                                w.body.ApplyForce(wf, wp);
+                            }
+                        );
+
+
+
+
+                        //if going very slow, stop - to prevent endless sliding
+                        var veryslow = (getSpeedKMH() < 4);
+                        var flag2 = veryslow && (accelerate_all == ACC_NONE);
+                        if (flag2)
+                        {
+                            //Console.WriteLine("setSpeed 0");
+                            setSpeed(0);
+                        }
+                        #endregion
+
                     }
-                    #endregion
-
-
                 };
                 #endregion
 
@@ -720,7 +786,40 @@ namespace Box2DTopDownCarScaled
 
             var myscale = 2.0;
 
+            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
+
             var wheels = new[] { 
+                //top left
+                new Wheel(b2world: b2world, x :-1.2*myscale,  y :0,  width :1.2*myscale,  length :3.8*myscale,  revolving :true,  powered :true),
+
+                //top right
+                new Wheel(b2world: b2world, x :1.2*myscale,  y :0,  width :1.2*myscale,  length :3.8*myscale,  revolving :true,  powered :true),
+
+                ////back left
+                //new Wheel(b2world: b2world, x :-1*myscale,  y :1.2*myscale,  width :0.4*myscale,  length :0.8*myscale,  revolving :false,  powered :false),
+
+                ////back right
+                //new Wheel(b2world: b2world, x :1*myscale,  y :1.2*myscale,  width :0.4*myscale,  length :0.8*myscale,  revolving :false,  powered :false),
+            };
+
+            ////initialize car
+            var car = new Car(
+                b2world: b2world,
+                width: 2 * myscale,
+                length: 4 * myscale,
+                position: ff(40, 10),
+                angle: 180,
+                power: 600,
+                max_steer_angle: 20,
+                max_speed: 60,
+                wheels: wheels
+            )
+            {
+                disable_accelerate_all = true
+            };
+
+
+            var ywheels = new[] { 
                 //top left
                 new Wheel(b2world: b2world, x :-1*myscale,  y :-1.2*myscale,  width :0.4*myscale,  length :0.8*myscale,  revolving :true,  powered :true),
 
@@ -733,10 +832,9 @@ namespace Box2DTopDownCarScaled
                 //back right
                 new Wheel(b2world: b2world, x :1*myscale,  y :1.2*myscale,  width :0.4*myscale,  length :0.8*myscale,  revolving :false,  powered :false),
             };
-            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
 
             ////initialize car
-            var car = new Car(
+            var ycar = new Car(
                 b2world: b2world,
                 width: 2 * myscale,
                 length: 4 * myscale,
@@ -745,9 +843,10 @@ namespace Box2DTopDownCarScaled
                 power: 60,
                 max_steer_angle: 20,
                 max_speed: 60,
-                wheels: wheels
+                wheels: ywheels
             );
 
+            #region xwheels
             var xwheels = new[] { 
                 //top left
                 new Wheel(b2world: b2world, x :-1,  y :-1.2,  width :0.4,  length :0.8,  revolving :true,  powered :true),
@@ -774,6 +873,7 @@ namespace Box2DTopDownCarScaled
                  max_speed: 60,
                  wheels: xwheels
              );
+            #endregion
 
 
             //initialize some props to bounce against
@@ -840,32 +940,50 @@ namespace Box2DTopDownCarScaled
                 //set car controls according to player input
                 if (KEYS_DOWN[Keys.Up])
                 {
-                    car.accelerate = ACC_ACCELERATE;
+                    ycar.accelerate_all = ACC_ACCELERATE;
+
+                    car.wheels[0].accelerate = ACC_ACCELERATE;
+                    car.wheels[1].accelerate = ACC_ACCELERATE;
                 }
                 else if (KEYS_DOWN[Keys.Down])
                 {
-                    car.accelerate = ACC_BRAKE;
+                    ycar.accelerate_all = ACC_BRAKE;
+
+                    car.wheels[0].accelerate = ACC_BRAKE;
+                    car.wheels[1].accelerate = ACC_BRAKE;
                 }
                 else
                 {
-                    car.accelerate = ACC_NONE;
+                    ycar.accelerate_all = ACC_NONE;
+
+                    car.wheels[0].accelerate = ACC_NONE;
+                    car.wheels[1].accelerate = ACC_NONE;
                 }
 
                 if (KEYS_DOWN[Keys.Right])
                 {
-                    car.steer = STEER_RIGHT;
+
+                    car.wheels[0].accelerate = ACC_ACCELERATE;
+                    car.wheels[1].accelerate = ACC_BRAKE;
+
+                    ycar.steer = STEER_RIGHT;
                 }
                 else if (KEYS_DOWN[Keys.Left])
                 {
-                    car.steer = STEER_LEFT;
+
+                    car.wheels[0].accelerate = ACC_BRAKE;
+                    car.wheels[1].accelerate = ACC_ACCELERATE;
+
+                    ycar.steer = STEER_LEFT;
                 }
                 else
                 {
-                    car.steer = STEER_NONE;
+                    ycar.steer = STEER_NONE;
                 }
 
                 ////update car
                 car.update(msDuration);
+                ycar.update(msDuration);
 
                 //update physics world
                 b2world.Step(msDuration / 1000.0, 10, 8);
