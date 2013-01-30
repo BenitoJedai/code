@@ -20,13 +20,13 @@ namespace SQLiteWithDataGridView
         }
 
 
-  
+        public ConsoleForm con = new ConsoleForm();
+
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
-            var f = new ConsoleForm();
 
-            f.InitializeConsoleFormWriter();
-            f.Show();
+            con.InitializeConsoleFormWriter();
+            con.Show();
 
             Console.WriteLine("Console has been redirected!");
         }
@@ -34,9 +34,17 @@ namespace SQLiteWithDataGridView
 
         private void Table001_Click(object sender, System.EventArgs e)
         {
-            new GridForm { service = this.applicationWebService1 }.Show();
+            var f = new GridForm { service = this.applicationWebService1 };
+
+
+            f.Show();
+
+
+            if (NewForm != null)
+                NewForm(f);
         }
 
+        public event Action<GridForm> NewForm;
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

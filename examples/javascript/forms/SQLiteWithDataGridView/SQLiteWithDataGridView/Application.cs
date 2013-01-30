@@ -40,6 +40,25 @@ namespace SQLiteWithDataGridView
             @"SQLite With DataGridView".ToDocumentTitle();
 
 
+            content.con.Left = 0;
+            content.con.Top = Native.Window.Height - content.con.Height;
+            content.con.Opacity = 0.7;
+
+            var once = false;
+
+            content.NewForm +=
+                f =>
+                {
+                    if (once)
+                        return;
+
+                    once = true;
+                    //f.DisableFormClosingHandler = true;
+
+                    global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
+                        f
+                    );
+                };
 
             var canvas = new AvalonPromotionBrandIntro.ApplicationCanvas();
 

@@ -95,13 +95,23 @@ namespace SQLiteConsoleExperiment
             c.FormClosing +=
                 (s, a) =>
                 {
+                    if (c.DisableFormClosingHandler)
+                        return;
+
                     //if (MessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == DialogResult.No)
                     a.Cancel = true;
 
 
                     c.WindowState = FormWindowState.Minimized;
                 };
+
+            if (NewForm != null)
+                NewForm(c);
         }
+
+
+        public event Action<ConsoleWindow> NewForm;
+
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {

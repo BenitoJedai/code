@@ -153,9 +153,6 @@
     <Reference Include="AvalonUgh.LabsActivity.AssetsLibrary">
       <HintPath>..\..\..\..\..\jsc.community\avalonugh\AvalonUgh\AvalonUgh.LabsActivity\bin\staging.AssetsLibrary\AvalonUgh.LabsActivity.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="AvalonTycoonMansion.iPad.AssetsLibrary">
-      <HintPath>..\..\..\..\..\jsc.community\avalontycoonmansion\AvalonTycoonMansion\AvalonTycoonMansion.iPad\bin\staging.AssetsLibrary\AvalonTycoonMansion.iPad.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="InteractiveTransformA.AssetsLibrary">
       <HintPath>..\..\Avalon\InteractiveTransformA\InteractiveTransformA\bin\staging.AssetsLibrary\InteractiveTransformA.AssetsLibrary.dll</HintPath>
     </Reference>
@@ -233,10 +230,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\jsc.community\avalontycoonmansion\AvalonTycoonMansion\AvalonTycoonMansion.iPad\AvalonTycoonMansion.iPad.csproj">
-      <Project>{a04a13b0-46d4-40f3-b8a1-f85fd47e8783}</Project>
-      <Name>AvalonTycoonMansion.iPad</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\jsc.community\avalonugh\AvalonUgh\AvalonUgh.LabsActivity\AvalonUgh.LabsActivity.csproj">
       <Project>{112f5a8f-17ed-4f24-903e-8bdba85c512a}</Project>
       <Name>AvalonUgh.LabsActivity</Name>

@@ -34,7 +34,22 @@ namespace SQLiteConsoleExperiment
             content.AutoSizeControlTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-       
+
+            var once = false;
+
+            content.NewForm +=
+                f =>
+                {
+                    if (once)
+                        return;
+
+                    once = true;
+                    f.DisableFormClosingHandler = true;
+
+                    global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
+                        f
+                    );
+                };
         }
 
     }
