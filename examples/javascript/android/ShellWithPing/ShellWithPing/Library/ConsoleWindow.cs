@@ -12,6 +12,9 @@ namespace ShellWithPing.Library
 {
     public partial class ConsoleWindow : Form
     {
+        public bool DisableFormClosingHandler;
+
+
         public ConsoleWindow()
         {
             InitializeComponent();

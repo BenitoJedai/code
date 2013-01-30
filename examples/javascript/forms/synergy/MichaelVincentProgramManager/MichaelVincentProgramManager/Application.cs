@@ -33,6 +33,7 @@ namespace MichaelVincentProgramManager
         {
             FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
             FormStyler.AtFormCreated = FormStyler.LikeWindows3;
+            content.label2.Text = "Open this application from " + Native.Document.location.href;
 
 
             content.WhenClickedGoFullscreen +=
@@ -46,6 +47,22 @@ namespace MichaelVincentProgramManager
                           c.requestFullscreen();
                       };
               };
+
+            var once = false;
+
+            content.NewForm +=
+                f =>
+                {
+                    if (once)
+                        return;
+
+                    once = true;
+                    //f.DisableFormClosingHandler = true;
+
+                    global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
+                        f
+                    );
+                };
 
 
             //content.WhenClickedGoFullscreen +=

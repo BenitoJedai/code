@@ -57,7 +57,12 @@ namespace MichaelVincentProgramManager
                 };
 
             f.Show();
+
+
+            if (NewForm != null)
+                NewForm(f);
         }
 
+        public event Action<Form1> NewForm;
     }
 }
