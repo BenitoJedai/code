@@ -17,8 +17,8 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
     using ScriptCoreLib;
     using ScriptCoreLib.JavaScript.Runtime;
     using ScriptCoreLib.JavaScript.DOM;
+    using Abstractatech.JavaScript.NatureBoy.HTML.Images.FromAssets;
 
-    [Script]
     public abstract class DudeBase
     {
         public img Shadow;
@@ -54,13 +54,13 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
 
         public DudeBase()
         {
-            Shadow = new img(Assets.alpha + "/2.png");
+            Shadow = new _2();
             Shadow.style.position = IStyle.PositionEnum.absolute;
 
-            SelectionImage = new img(Assets.alpha + "/green-ring.png");
+            SelectionImage = new green_ring();
             SelectionImage.style.position = IStyle.PositionEnum.absolute;
 
-            HotImage = new img(Assets.alpha + "/yellow-ring-50.png");
+            HotImage = new  yellow_ring_50();
             HotImage.style.position = IStyle.PositionEnum.absolute;
 
 

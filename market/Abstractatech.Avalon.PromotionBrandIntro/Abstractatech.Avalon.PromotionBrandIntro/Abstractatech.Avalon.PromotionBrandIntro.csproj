@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9122FB76-35CE-41C7-8894-4E58D1BA94BD}</ProjectGuid>
+    <ProjectGuid>{88A6D9ED-9611-4563-9239-3A632CEC6BD9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Abstractatech</RootNamespace>
-    <AssemblyName>Abstractatech.JavaScript.NatureBoy</AssemblyName>
+    <RootNamespace>Abstractatech.Avalon.PromotionBrandIntro</RootNamespace>
+    <AssemblyName>Abstractatech.Avalon.PromotionBrandIntro</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>Abstractatech.JavaScript.NatureBoy.Program</StartupObject>
+    <StartupObject>Abstractatech.Avalon.PromotionBrandIntro.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,115 +113,28 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="Abstractatech.JavaScript.NatureBoy.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\Abstractatech.JavaScript.NatureBoy.AssetsLibrary.dll</HintPath>
+    <Reference Include="Abstractatech.Avalon.PromotionBrandIntro.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\Abstractatech.Avalon.PromotionBrandIntro.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="JavaScript\NatureBoy\CoordTranslator.cs" />
-    <Compile Include="JavaScript\NatureBoy\DudeBase.cs" />
-    <Compile Include="JavaScript\NatureBoy\Extensions.cs" />
-    <Compile Include="JavaScript\NatureBoy\Frames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationWebService.cs" />
-    <Compile Include="Application.cs" />
-    <Compile Include="Program.cs">
-      <DependentUpon>Application.cs</DependentUpon>
+    <Compile Include="ApplicationCanvas.cs" />
+    <Compile Include="ApplicationWebService.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\alpha\2.png" />
-    <Content Include="Textures\alpha\green-ring.png" />
-    <Content Include="Textures\alpha\yellow-ring-50.png" />
-    <Content Include="Textures\alpha\yellow-ring.png" />
-    <Content Include="Textures\dude5\114.png" />
-    <Content Include="Textures\dude5\115.png" />
-    <Content Include="Textures\dude5\116.png" />
-    <Content Include="Textures\dude5\117.png" />
-    <Content Include="Textures\dude5\118.png" />
-    <Content Include="Textures\dude5\119.png" />
-    <Content Include="Textures\dude5\120.png" />
-    <Content Include="Textures\dude5\121.png" />
-    <Content Include="Textures\dude5\122.png" />
-    <Content Include="Textures\dude5\123.png" />
-    <Content Include="Textures\dude5\124.png" />
-    <Content Include="Textures\dude5\125.png" />
-    <Content Include="Textures\dude5\126.png" />
-    <Content Include="Textures\dude5\127.png" />
-    <Content Include="Textures\dude5\128.png" />
-    <Content Include="Textures\dude5\129.png" />
-    <Content Include="Textures\dude5\130.png" />
-    <Content Include="Textures\dude5\131.png" />
-    <Content Include="Textures\dude5\132.png" />
-    <Content Include="Textures\dude5\133.png" />
-    <Content Include="Textures\dude5\134.png" />
-    <Content Include="Textures\dude5\135.png" />
-    <Content Include="Textures\dude5\136.png" />
-    <Content Include="Textures\dude5\137.png" />
-    <Content Include="Textures\dude5\138.png" />
-    <Content Include="Textures\dude5\139.png" />
-    <Content Include="Textures\dude5\140.png" />
-    <Content Include="Textures\dude5\141.png" />
-    <Content Include="Textures\dude5\142.png" />
-    <Content Include="Textures\dude5\143.png" />
-    <Content Include="Textures\dude5\144.png" />
-    <Content Include="Textures\dude5\145.png" />
-    <Content Include="Textures\dude5\146.png" />
-    <Content Include="Textures\dude5\147.png" />
-    <Content Include="Textures\dude5\148.png" />
-    <Content Include="Textures\dude5\149.png" />
-    <Content Include="Textures\dude5\150.png" />
-    <Content Include="Textures\dude5\151.png" />
-    <Content Include="Textures\dude5\152.png" />
-    <Content Include="Textures\dude5\153.png" />
-    <Content Include="Textures\dude6\244.png" />
-    <Content Include="Textures\dude6\245.png" />
-    <Content Include="Textures\dude6\246.png" />
-    <Content Include="Textures\dude6\247.png" />
-    <Content Include="Textures\dude6\248.png" />
-    <Content Include="Textures\dude6\249.png" />
-    <Content Include="Textures\dude6\250.png" />
-    <Content Include="Textures\dude6\251.png" />
-    <Content Include="Textures\dude6\252.png" />
-    <Content Include="Textures\dude6\253.png" />
-    <Content Include="Textures\dude6\254.png" />
-    <Content Include="Textures\dude6\255.png" />
-    <Content Include="Textures\dude6\256.png" />
-    <Content Include="Textures\dude6\257.png" />
-    <Content Include="Textures\dude6\258.png" />
-    <Content Include="Textures\dude6\259.png" />
-    <Content Include="Textures\dude6\260.png" />
-    <Content Include="Textures\dude6\261.png" />
-    <Content Include="Textures\dude6\262.png" />
-    <Content Include="Textures\dude6\263.png" />
-    <Content Include="Textures\dude6\264.png" />
-    <Content Include="Textures\dude6\265.png" />
-    <Content Include="Textures\dude6\266.png" />
-    <Content Include="Textures\dude6\267.png" />
-    <Content Include="Textures\dude6\268.png" />
-    <Content Include="Textures\dude6\269.png" />
-    <Content Include="Textures\dude6\270.png" />
-    <Content Include="Textures\dude6\271.png" />
-    <Content Include="Textures\dude6\272.png" />
-    <Content Include="Textures\dude6\273.png" />
-    <Content Include="Textures\dude6\274.png" />
-    <Content Include="Textures\dude6\275.png" />
-    <Content Include="Textures\dude6\276.png" />
-    <Content Include="Textures\dude6\277.png" />
-    <Content Include="Textures\dude6\278.png" />
-    <Content Include="Textures\dude6\279.png" />
-    <Content Include="Textures\dude6\280.png" />
-    <Content Include="Textures\dude6\281.png" />
-    <Content Include="Textures\dude6\282.png" />
-    <Content Include="Textures\dude6\283.png" />
+    <Compile Include="Application.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
-)
-
+    <PostBuildEvent>
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>

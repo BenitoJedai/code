@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using Abstractatech.JavaScript.NatureBoy.HTML.Pages;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
 {
-    [Script]
     public static class Frames
     {
         const double d8 = 1d / 8;
@@ -15,19 +16,22 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         // http://www.wolf3d.co.uk/enemies.html
 
 
+        static IHTMLImage[] __Dude5Images = new Dude5Images().Images;
+        static IHTMLImage[] __Dude6Images = new Dude6Images().Images;
 
-       
         public static FrameInfo[] WolfSoldier
         {
             get
             {
                 return
 
-                       8.Range(i => 114 + (i + 6) % 8)
+                      8.Range(i => 114 + (i + 6) % 8)
                        .Select(i =>
                            new FrameInfo
                            {
-                               Source = Assets.dude5 + "/" + i + ".png",
+                               //Source = Assets.dude5 + "/" + i + ".png",
+                               Source = __Dude5Images.ElementAt(i - 114).src,
+
                                Weight = d8
                            }
                        ).ToArray();
@@ -45,7 +49,8 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
                         .Select(i =>
                             new FrameInfo
                             {
-                                Source = Assets.dude5 + "/" + i + ".png",
+                                //Source = Assets.dude5 + "/" + i + ".png",
+                                Source = __Dude5Images.ElementAt(i - 114).src,
                                 Weight = d8
                             }
                         ).ToArray()
@@ -64,7 +69,8 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
                        .Select(i =>
                            new FrameInfo
                            {
-                               Source = Assets.dude6 + "/" + i + ".png",
+                               //Source = Assets.dude6 + "/" + i + ".png",
+                               Source = __Dude6Images.ElementAt(i - 244).src,
                                Weight = d8
                            }
                        ).ToArray();
@@ -82,7 +88,8 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
                         .Select(i =>
                             new FrameInfo
                             {
-                                Source = Assets.dude6 + "/" + i + ".png",
+                                //Source = Assets.dude6 + "/" + i + ".png",
+                                Source = __Dude6Images.ElementAt(i - 244).src,
                                 Weight = d8
                             }
                         ).ToArray()
