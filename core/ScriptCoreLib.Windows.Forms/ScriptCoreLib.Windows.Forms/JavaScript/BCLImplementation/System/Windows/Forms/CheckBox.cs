@@ -36,8 +36,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             check = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox, "");
             check.style.margin = "0";
+            check.style.verticalAlign = "middle";
 
             label = new IHTMLLabel("", check);
+            label.style.verticalAlign = "middle";
+            label.style.marginLeft = "0.5em";
 
             label.onmousedown +=
                 e =>
