@@ -1,3 +1,4 @@
+using AvalonPromotionBrandIntro;
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using ScriptCoreLib.Desktop.Extensions;
 using System;

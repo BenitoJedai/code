@@ -1,5 +1,6 @@
 using Abstractatech.Avalon.PromotionBrandIntro.Design;
 using Abstractatech.Avalon.PromotionBrandIntro.HTML.Pages;
+using AvalonPromotionBrandIntro;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
