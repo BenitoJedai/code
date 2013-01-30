@@ -84,14 +84,17 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.Avalon.PromotionBrandIntro">
+      <HintPath>..\packages\Abstractatech.Avalon.PromotionBrandIntro.1.0.0.0\lib\Abstractatech.Avalon.PromotionBrandIntro.dll</HintPath>
+    </Reference>
     <Reference Include="Abstractatech.ConsoleFormPackage">
       <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
     </Reference>
-    <Reference Include="AvalonPromotionBrandIntro">
-      <HintPath>..\..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\bin\Debug\AvalonPromotionBrandIntro.exe</HintPath>
-    </Reference>
     <Reference Include="CSSMinimizeFormToSidebar">
       <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
+    </Reference>
+    <Reference Include="DiagnosticsConsole">
+      <HintPath>..\packages\DiagnosticsConsole.1.0.0.0\lib\DiagnosticsConsole.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>

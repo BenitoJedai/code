@@ -57,6 +57,8 @@ namespace DiagnosticsConsole
             // stay on top!
             diagnostics.style.zIndex = 10000;
 
+            Console.WriteLine("You can now press tilde key to see the /jsc page.");
+
             diagnostics.AttachToDocument();
 
             // http://www.w3schools.com/css3/css3_transitions.asp

@@ -13,6 +13,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>CSS3DMeetsFormsWithWebGL.Program</StartupObject>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +47,9 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.Avalon.PromotionBrandIntro">
+      <HintPath>..\packages\Abstractatech.Avalon.PromotionBrandIntro.1.0.0.0\lib\Abstractatech.Avalon.PromotionBrandIntro.dll</HintPath>
+    </Reference>
     <Reference Include="CSSMinimizeFormToSidebar">
       <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
     </Reference>
@@ -128,9 +133,6 @@
     <Reference Include="CSS3DMeetsFormsWithWebGL.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\CSS3DMeetsFormsWithWebGL.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="AvalonPromotionBrandIntro.AssetsLibrary">
-      <HintPath>..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\bin\staging.AssetsLibrary\AvalonPromotionBrandIntro.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsFormsIntegration" />
     <Reference Include="AvalonBrowserLogos.AssetsLibrary">
       <HintPath>..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\bin\staging.AssetsLibrary\AvalonBrowserLogos.AssetsLibrary.dll</HintPath>
@@ -155,9 +157,6 @@
     </Reference>
     <Reference Include="McKrackenFirstRoom.AssetsLibrary">
       <HintPath>..\..\McKrackenFirstRoom\McKrackenFirstRoom\bin\staging.AssetsLibrary\McKrackenFirstRoom.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="AvalonUgh.LabsActivity.AssetsLibrary">
-      <HintPath>..\..\..\..\..\jsc.community\avalonugh\AvalonUgh\AvalonUgh.LabsActivity\bin\staging.AssetsLibrary\AvalonUgh.LabsActivity.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="InteractiveTransformA.AssetsLibrary">
       <HintPath>..\..\Avalon\InteractiveTransformA\InteractiveTransformA\bin\staging.AssetsLibrary\InteractiveTransformA.AssetsLibrary.dll</HintPath>
@@ -244,10 +243,6 @@
       <Project>{3bd2bd38-102c-4c19-88e1-60522b55403c}</Project>
       <Name>InteractiveTransformA</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj">
-      <Project>{2f3573db-52c7-4ace-bedb-27c4aed70f39}</Project>
-      <Name>AvalonPromotionBrandIntro</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Avalon\AvalonWindowDrawer\AvalonWindowDrawer\AvalonWindowDrawer.csproj">
       <Project>{3948d2d2-2538-4b27-9f71-c08e00520514}</Project>
       <Name>AvalonWindowDrawer</Name>
@@ -297,4 +292,5 @@ start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /ass
 
 </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

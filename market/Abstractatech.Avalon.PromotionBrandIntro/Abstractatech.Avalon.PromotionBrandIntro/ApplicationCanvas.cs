@@ -12,6 +12,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using Abstractatech.Avalon.PromotionBrandIntro.Avalon.Images;
 
 namespace AvalonPromotionBrandIntro
 {
@@ -62,12 +63,12 @@ namespace AvalonPromotionBrandIntro
             Func<double, double, Image> f =
                 (o, x) =>
                 {
-                    return new Avalon.Images.white_jsc
+                    return new white_jsc
                     {
                         Opacity = o
                     }.AttachTo(c).MoveTo(
-                        Avalon.Images.white_jsc.ImageDefaultWidth / -2 + x,
-                        Avalon.Images.white_jsc.ImageDefaultHeight / -2
+                        white_jsc.ImageDefaultWidth / -2 + x,
+                        white_jsc.ImageDefaultHeight / -2
                     );
                 };
 
@@ -129,8 +130,8 @@ namespace AvalonPromotionBrandIntro
                                     delegate
                                     {
                                         l.MoveTo(
-                                            Avalon.Images.white_jsc.ImageDefaultWidth / -2 + x,
-                                            Avalon.Images.white_jsc.ImageDefaultHeight / -2 + y
+                                            white_jsc.ImageDefaultWidth / -2 + x,
+                                            white_jsc.ImageDefaultHeight / -2 + y
                                         );
                                     }
                                 );
