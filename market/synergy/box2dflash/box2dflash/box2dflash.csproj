@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8C36076C-7270-4841-BB8B-1C28A24ED1CE}</ProjectGuid>
+    <ProjectGuid>{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>box2dflash</RootNamespace>
