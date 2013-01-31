@@ -414,6 +414,9 @@ namespace FlashHeatZeekerWithStarlingT18
     {
         public static T AttachTo<T>(this T e, DisplayObjectContainer x) where T : DisplayObject
         {
+            if (e == null)
+                return e;
+
             x.addChild(e);
 
             return e;
@@ -431,6 +434,9 @@ namespace FlashHeatZeekerWithStarlingT18
 
         public static T MoveTo<T>(this T e, double x, double y) where T : DisplayObject
         {
+            if (e == null)
+                return e;
+
             e.x = x;
             e.y = y;
 
@@ -441,23 +447,76 @@ namespace FlashHeatZeekerWithStarlingT18
 
     }
 
+
     class GameMap
     {
         //    BBB GGG
         //  CCC AAA FFF
         //    DDD EEE
 
-        public Image ground;
+        public Sprite ground = new Sprite();
+
+        public Image ground_color;
+
+        public RenderTexture rtex;
+        public Image ground_tracks;
 
 
         public GameMap()
         {
+            Console.WriteLine("GameMap ctor");
             var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(4, 4, false, 0xB27D51);
+            //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-            var tex = Texture.fromBitmapData(bmd);
-            this.ground = new Image(tex);
-            this.ground.scaleX = 512;
-            this.ground.scaleY = 512;
+            //var offset = new Matrix();
+
+            //offset.translate(96, 0);
+            //bmd.draw(new white_jsc(), offset);
+
+            // http://doc.starling-framework.org/core/starling/textures/RenderTexture.html
+            // Beware that render textures can't be restored when the Starling's render context is lost.
+            var tex = RenderTexture.fromBitmapData(bmd);
+
+
+            // does not work??
+            //var tex = Texture.fromColor(4, 4, 0xffB27D51u, false, 512);
+            this.ground_color = new Image(tex).AttachTo(ground);
+            this.ground_color.scaleX = 512;
+            this.ground_color.scaleY = 512;
+
+            //        Error: Error #3691: Resource limit for this resource type exceeded.
+            //at flash.display3D::Context3D/createTexture()
+            //at starling.textures::Texture$/empty()[Y:\opensource\github.com\Starling-Framework\src\starling\textures\Texture.as:259]
+            //at starling.textures::RenderTexture()[Y:\opensource\github.com\Starling-Framework\src\starling\textures\RenderTexture.as:91]
+            //at FlashHeatZeekerWithStarlingT18::GameMap()[T:\web\FlashHeatZeekerWithStarlingT18\GameMap.as:33]
+            //at FlashHeatZeekerWithStarlingT18::Game()[T:\web\FlashHeatZeekerWithStarlingT18\Game.as:181]
+            //at starling.core::Starling/initializeRoot()[Y:\opensource\github.com\Starling-Framework\src\starling\core\Starling.as:338]
+            //at starling.core::Starling/initialize()[Y:\opensource\github.com\Starling-Framework\src\starling\core\Starling.as:314]
+            //at starling.core::Starling/onContextCreated()[Y:\opensource\github.com\Starling-Framework\src\starling\core\Starling.as:519]
+
+
+            // http://forum.starling-framework.org/topic/resource-limit-for-this-resource-type-exceeded
+            this.rtex = new RenderTexture(512, 512, true, 1);
+            this.ground_tracks = new Image(rtex).AttachTo(ground);
+
+            this.ground_tracks.scaleX = 4;
+            this.ground_tracks.scaleY = 4;
+            //350 MB is the absolute limit for textures, including the texture memory required for mipmaps. However, many devices do not support this much texture memory. For maximum compatibility, limit texture memory use to 128 MB, or less.
+
+
+            //offset.translate(96, 0);
+
+            var logo = new Image(Game.LogoTexture);
+            logo.scaleX = 0.1;
+            logo.scaleY = 0.1;
+
+            rtex.draw(logo);
+
+            //// http://forum.starling-framework.org/topic/starling-drawing-api-and-animations
+
+            //tex.up
+
+            Console.WriteLine("GameMap ctor done");
         }
 
         public List<DisplayObject> doodads = new List<DisplayObject>();
@@ -610,17 +669,27 @@ namespace FlashHeatZeekerWithStarlingT18
 
     public class Game : Sprite
     {
+        public static Texture LogoTexture;
+
         public Game()
         {
             var r = new Random();
             var networkid = r.Next();
 
+            var __bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(96, 96, true, 0x00000000);
+            __bmd.draw(new white_jsc());
+            LogoTexture = Texture.fromBitmapData(__bmd);
 
             #region screen bg
             {
-                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xA26D41);
+                var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(4, 4, false, 0xA26D41);
                 var tex = Texture.fromBitmapData(bmd);
+
+
                 var img = new Image(tex);
+
+                img.scaleX = 512;
+                img.scaleY = 512;
                 addChild(img);
             }
             #endregion
@@ -668,8 +737,7 @@ namespace FlashHeatZeekerWithStarlingT18
                 // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
                 //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
 
-                //var tex = Texture.fromBitmapData(bmd);
-                //mapB.ground = new Image(tex);
+
                 mapB.ground.AttachTo(viewport_content_layer0_ground);
                 mapB.ground.MoveTo(mapB.Location.x, mapB.Location.y);
             }
@@ -691,11 +759,6 @@ namespace FlashHeatZeekerWithStarlingT18
             mapC.VirtualLocations.Add(new Point(2048 * 1.5, -2048));
             // our map C
             {
-                //// ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
-
-                //var tex = Texture.fromBitmapData(bmd);
-                //mapC.ground = new Image(tex);
                 mapC.ground.AttachTo(viewport_content_layer0_ground);
                 mapC.ground.MoveTo(mapC.Location.x, mapC.Location.y);
             }
@@ -712,12 +775,6 @@ namespace FlashHeatZeekerWithStarlingT18
 
             // our map C
             {
-                //// ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
-
-                //var tex = Texture.fromBitmapData(bmd);
-
-                //mapD.ground = new Image(tex);
                 mapD.ground.AttachTo(viewport_content_layer0_ground);
                 mapD.ground.MoveTo(mapD.Location.x, mapD.Location.y);
             }
@@ -732,11 +789,6 @@ namespace FlashHeatZeekerWithStarlingT18
 
             // our map C
             {
-                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
-
-                //var tex = Texture.fromBitmapData(bmd);
-                //mapE.ground = new Image(tex);
                 mapE.ground.AttachTo(viewport_content_layer0_ground);
                 mapE.ground.MoveTo(mapE.Location.x, mapE.Location.y);
             }
@@ -749,12 +801,6 @@ namespace FlashHeatZeekerWithStarlingT18
 
 
             {
-                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
-
-                //var tex = Texture.fromBitmapData(bmd);
-
-                //mapF.ground = new Image(tex);
                 mapF.ground.AttachTo(viewport_content_layer0_ground);
                 mapF.ground.MoveTo(mapF.Location.x, mapF.Location.y);
             }
@@ -770,22 +816,16 @@ namespace FlashHeatZeekerWithStarlingT18
 
 
             {
-                // ArgumentError: Error #3683: Texture too big (max is 2048x2048).
-                //var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(2048, 2048, false, 0xB27D51);
-
-                //var tex = Texture.fromBitmapData(bmd);
-
-                //mapG.ground = new Image(tex);
                 mapG.ground.AttachTo(viewport_content_layer0_ground);
                 mapG.ground.MoveTo(mapG.Location.x, mapG.Location.y);
             }
 
 
-            var maps = new[] { mapB, mapC, mapD, mapE, mapF, mapG };
+            var maps = new[] { mapA, mapB, mapC, mapD, mapE, mapF, mapG };
 
 
-            #region new_tex
-            Func<string, Texture> new_tex =
+            #region new_tex_400
+            Func<string, Texture> new_tex_400 =
                asset =>
                {
                    var shape = KnownEmbeddedResources.Default[asset].ToSprite();
@@ -1037,22 +1077,35 @@ namespace FlashHeatZeekerWithStarlingT18
                             map.doodads.Add(tree);
 
                     }
-
-                    for (int i = 0; i < 64; i++)
-                    {
-
-
-
-
-                        var hill = new_hill1().MoveTo(
-                         mapx + (r.NextDouble() * 0.8 + 0.1) * 2048,
-                         mapy + (r.NextDouble() * 0.8 + 0.1) * 2048
-                         );
-
-                        if (map != null)
-                            map.doodads.Add(hill);
-                    }
                     #endregion
+
+                    #region paint hills
+                    var img = new Image(textures_hill1);
+
+                    img.scaleX = 0.15 / 4.0;
+                    img.scaleY = 0.15 / 4.0;
+
+                    map.rtex.drawBundled(
+                        new Action(
+                            delegate
+                            {
+                                for (int i = 0; i < 64; i++)
+                                {
+                                    var hill = img.MoveTo(
+                                        //mapx + (r.NextDouble() * 0.8 + 0.1) * 2048,
+                                        //mapy + (r.NextDouble() * 0.8 + 0.1) * 2048
+
+                                        0 + (r.NextDouble() * 0.8 + 0.1) * 512,
+                                        0 + (r.NextDouble() * 0.8 + 0.1) * 512
+                                     );
+
+                                    map.rtex.draw(hill);
+                                }
+                            }
+                        ).ToFunction()
+                    );
+                    #endregion
+
 
                 };
             #endregion
@@ -1072,6 +1125,27 @@ namespace FlashHeatZeekerWithStarlingT18
             fill_empty_map(mapF.Location.x, mapF.Location.y, mapF);
             fill_empty_map(mapG.Location.x, mapG.Location.y, mapG);
 
+            #region pin_draw
+            Action<DisplayObject> pin_draw = e =>
+            {
+                // should draw on neighbours too?
+                maps.Where(k => k.hitTest(e.x, e.y)).WithEach(
+                    k =>
+                    {
+                        // give it a new offset and scale
+
+                        e.x = (e.x - k.ground.x) / 4.0;
+                        e.y = (e.y - k.ground.y) / 4.0;
+
+                        e.scaleX = 1 / 4.0;
+                        e.scaleY = 1 / 4.0;
+
+
+                        k.rtex.draw(e);
+                    }
+                );
+            };
+            #endregion
 
             #region pin_doodad
             Action<DisplayObject> pin_doodad = cloc =>
@@ -1124,17 +1198,17 @@ namespace FlashHeatZeekerWithStarlingT18
 
             textures_tanktrackpattern.repeat = true;
 
-            var textures_bullet = new_tex("assets/FlashHeatZeekerWithStarlingT18/bullet.svg");
-            var textures_tracks0 = new_tex("assets/FlashHeatZeekerWithStarlingT18/tracks0.svg");
+            var textures_bullet = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/bullet.svg");
+            var textures_tracks0 = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/tracks0.svg");
 
-            var textures_jeep = new_tex("assets/FlashHeatZeekerWithStarlingT18/jeep.svg");
-            var textures_jeep_shadow = new_tex("assets/FlashHeatZeekerWithStarlingT18/jeep_shadow.svg");
-            var textures_jeep_trackpattern = new_tex("assets/FlashHeatZeekerWithStarlingT18/jeep_trackpattern.svg");
+            var textures_jeep = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/jeep.svg");
+            var textures_jeep_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/jeep_shadow.svg");
+            var textures_jeep_trackpattern = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/jeep_trackpattern.svg");
 
-            var textures_greentank = new_tex("assets/FlashHeatZeekerWithStarlingT18/greentank.svg");
-            var textures_greentank_guntower = new_tex("assets/FlashHeatZeekerWithStarlingT18/greentank_guntower.svg");
-            var textures_greentank_guntower_rank = new_tex("assets/FlashHeatZeekerWithStarlingT18/greentank_guntower_rank.svg");
-            var textures_greentank_shadow = new_tex("assets/FlashHeatZeekerWithStarlingT18/greentank_shadow.svg");
+            var textures_greentank = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/greentank.svg");
+            var textures_greentank_guntower = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/greentank_guntower.svg");
+            var textures_greentank_guntower_rank = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/greentank_guntower_rank.svg");
+            var textures_greentank_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT18/greentank_shadow.svg");
 
             GameUnit current = null;
 
@@ -1307,7 +1381,7 @@ namespace FlashHeatZeekerWithStarlingT18
                           //RenewTracks_previous_position = p;
 
                           #region track_unit_loc
-                          var track_unit_loc = new Sprite().AttachTo(viewport_content_layer1_tracks);
+                          var track_unit_loc = new Sprite();
                           var track_unit_rot = new Sprite().AttachTo(track_unit_loc);
 
                           xwheels.WithEach(
@@ -1331,11 +1405,15 @@ namespace FlashHeatZeekerWithStarlingT18
 
                                   //+90.DegreesToRadians();
 
-                                  if (w.powered)
-                                      track_wheel_loc.alpha = 0.15;
+                                  if (u.physics.steer_left == Car.STEER_NONE
+                                      && u.physics.steer_right == Car.STEER_NONE)
+                                  {
+                                      track_wheel_loc.alpha = 0.1;
+                                  }
                                   else
-                                      track_wheel_loc.alpha = 0.05;
-
+                                  {
+                                      track_wheel_loc.alpha = 0.2;
+                                  }
                               }
                           );
 
@@ -1344,15 +1422,9 @@ namespace FlashHeatZeekerWithStarlingT18
                           track_unit_loc.y = u.loc.y;
 
                           track_unit_rot.rotation = u.rotation;
+
+                          pin_draw(track_unit_loc);
                           #endregion
-
-                          pin_doodad(track_unit_loc);
-
-                          u.tracks.Enqueue(track_unit_loc);
-                          if (u.tracks.Count > 120)
-                              u.tracks.Dequeue().Orphanize();
-
-
 
                       };
 
@@ -1468,10 +1540,6 @@ namespace FlashHeatZeekerWithStarlingT18
             unit1.loc.MoveTo(256, 256);
             unit1.AddRank();
 
-            var unit2 = new_jeep();
-            unit2.loc.MoveTo(200 + 400, 200 + 400);
-
-
             var unit3 = new_greentank();
             unit3.loc.MoveTo(200 + 400 + 200, 200 + 400);
 
@@ -1494,15 +1562,21 @@ namespace FlashHeatZeekerWithStarlingT18
             //var unit4 = new_jeep();
             //unit4.loc.MoveTo(-200, 0);
 
+            var units = new List<GameUnit>();
+
+
+            var unit2 = new_jeep();
+            unit2.TeleportBy(100, -200);
+            units.Add(unit2);
 
 
 
-
-            var unit4 = new_jeep();
-            unit4.TeleportBy(0, -200);
-
-            var unit5 = new_jeep();
-            unit5.TeleportBy(-200, -200);
+            for (int i = 0; i < 10; i++)
+            {
+                var unit5 = new_jeep();
+                unit5.TeleportBy(-100 * i, -200);
+                units.Add(unit5);
+            }
 
 
 
@@ -1529,7 +1603,7 @@ namespace FlashHeatZeekerWithStarlingT18
             #endregion
 
 
-            var controllable = new[] { unit1, unit2, unit3, unit4, unit5 };
+            var controllable = new[] { unit1, unit3 }.Concat(units);
 
             current = unit1;
 
@@ -1816,14 +1890,12 @@ namespace FlashHeatZeekerWithStarlingT18
                     //    at FlashHeatZeekerWithStarlingT18::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT18\Game___c__DisplayClass46.as:163]
 
                     // can jsc tell us about timing?
-                    #region 15% per frame, 60ms
 
-                    ////update car
-                    unit4.physics.update(physicstime_elapsed);
-                    unit2.physics.update(physicstime_elapsed);
-                    unit5.physics.update(physicstime_elapsed);
+                    foreach (var item in units)
+                    {
+                        item.physics.update(physicstime_elapsed);
+                    }
 
-                    #endregion
 
 
                     //update physics world
@@ -1835,44 +1907,23 @@ namespace FlashHeatZeekerWithStarlingT18
                     if (b2debug_viewport != null)
                         b2world.DrawDebugData();
 
-                    unit5.physics.body.GetPosition().With(
-                          p =>
-                          {
-                              unit5.loc.x = p.x * __b2debug_viewport.b2scale;
-                              unit5.loc.y = p.y * __b2debug_viewport.b2scale;
 
-                              unit5.rotation = unit5.physics.body.GetAngle();
+                    foreach (var item in units)
+                    {
+                        item.physics.body.GetPosition().With(
+                             p =>
+                             {
+                                 item.loc.x = p.x * __b2debug_viewport.b2scale;
+                                 item.loc.y = p.y * __b2debug_viewport.b2scale;
 
-                              unit5.RenewTracks();
-                          }
-                      );
+                                 item.rotation = item.physics.body.GetAngle();
 
-                    unit4.physics.body.GetPosition().With(
-                        p =>
-                        {
-                            unit4.loc.x = p.x * __b2debug_viewport.b2scale;
-                            unit4.loc.y = p.y * __b2debug_viewport.b2scale;
+                                 item.RenewTracks();
+                             }
+                         );
+                    }
 
 
-
-                            unit4.rotation = unit4.physics.body.GetAngle();
-
-                            unit4.RenewTracks();
-                        }
-                    );
-
-                    unit2.physics.body.GetPosition().With(
-                        p =>
-                        {
-                            //
-                            unit2.loc.x = p.x * __b2debug_viewport.b2scale;
-                            unit2.loc.y = p.y * __b2debug_viewport.b2scale;
-
-                            unit2.rotation = unit2.physics.body.GetAngle();
-
-                            unit2.RenewTracks();
-                        }
-                    );
 
 
                     // which is it, do we need to zoom out or in?
@@ -1989,7 +2040,7 @@ namespace FlashHeatZeekerWithStarlingT18
                                 c.prevframe_loc = prevframe_loc;
                                 c.prevframe_rot = c.rot.rotation;
 
-                                var unit_loc = new Sprite().AttachTo(viewport_content_layer1_tracks);
+                                var unit_loc = new Sprite();
                                 var unit_rot = new Sprite().AttachTo(unit_loc);
 
                                 var img = new Image(textures_tracks0);
@@ -2004,12 +2055,14 @@ namespace FlashHeatZeekerWithStarlingT18
                                 unit_loc.MoveTo(c.loc.x, c.loc.y);
                                 // lets add our new tracks to the map, to teleport them later
 
-                                pin_doodad(unit_loc);
+                                //pin_doodad(unit_loc);
 
-                                c.tracks.Enqueue(unit_loc);
+                                //c.tracks.Enqueue(unit_loc);
 
-                                if (c.tracks.Count > 256)
-                                    c.tracks.Dequeue().Orphanize();
+                                //if (c.tracks.Count > 256)
+                                //    c.tracks.Dequeue().Orphanize();
+
+                                pin_draw(unit_loc);
 
                             }
                         };
@@ -2359,6 +2412,11 @@ namespace FlashHeatZeekerWithStarlingT18
 
                   }
 
+                  if (e.keyCode == (uint)System.Windows.Forms.Keys.F4)
+                  {
+               
+                  }
+
                   // disable camera follow
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F3)
                   {
@@ -2415,7 +2473,7 @@ namespace FlashHeatZeekerWithStarlingT18
 
             // where is our ego? center of touchdown?
             //switchto(unit1);
-            switchto(unit4);
+            switchto(unit2);
 
             var info = new TextField(
                 800,
@@ -2425,11 +2483,8 @@ namespace FlashHeatZeekerWithStarlingT18
 
             info.AttachTo(this).MoveTo(8, 8);
 
-            var __bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(96, 96, true, 0x00000000);
-            __bmd.draw(new white_jsc());
-            var __img = Texture.fromBitmapData(__bmd);
 
-            var logo = new Image(__img) { alpha = 0.3 }.AttachTo(this);
+            var logo = new Image(LogoTexture) { alpha = 0.3 }.AttachTo(this);
 
             #region viewport_loc, resize all you want
             Action centerize = delegate
@@ -2499,7 +2554,8 @@ namespace FlashHeatZeekerWithStarlingT18
                         if (current.physics != null)
                             SPEED = Math.Ceiling(current.physics.getSpeedKMH()) + " km/h";
 
-                    info.text = new
+                    // memory 538 - 187
+                    info.text = "F1 overview F2 physics F3 camera F4 clear\n" + new
                     {
                         fps,
                         SPEED,
