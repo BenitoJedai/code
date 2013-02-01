@@ -35,6 +35,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -184,9 +186,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\javascript\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj">
-      <Project>{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}</Project>
-      <Name>AvalonPromotionBrandIntro</Name>
+    <ProjectReference Include="..\..\..\..\market\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro.csproj">
+      <Project>{88a6d9ed-9611-4563-9239-3a632cec6bd9}</Project>
+      <Name>Abstractatech.Avalon.PromotionBrandIntro</Name>
     </ProjectReference>
     <ProjectReference Include="..\PromotionWebApplicationHome\PromotionWebApplicationHome.csproj">
       <Project>{52091756-B888-4CAF-BEA5-F1D539F6FB81}</Project>
@@ -211,4 +213,5 @@ start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /ass
 
 </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
