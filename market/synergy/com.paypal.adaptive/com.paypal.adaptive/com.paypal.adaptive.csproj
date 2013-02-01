@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4FFD0992-0097-4C06-9362-19846B399732}</ProjectGuid>
+    <ProjectGuid>{1CFC4815-0421-4250-B637-344DD40A6E48}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>com.paypal.adaptive</RootNamespace>
