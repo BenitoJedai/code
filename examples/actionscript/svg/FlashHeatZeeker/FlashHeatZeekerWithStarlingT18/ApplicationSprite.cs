@@ -571,6 +571,7 @@ namespace FlashHeatZeekerWithStarlingT18
         }
 
         public List<DisplayObject> doodads = new List<DisplayObject>();
+        public List<GameUnit> static_units = new List<GameUnit>();
         public string Name;
 
 
@@ -629,6 +630,8 @@ namespace FlashHeatZeekerWithStarlingT18
 
     class GameUnit
     {
+        public bool isjeepengine;
+
         public Func<double, double> zoomer_default = y => 1 + (1 - y) * 0.2;
 
 
@@ -649,7 +652,8 @@ namespace FlashHeatZeekerWithStarlingT18
 
         public b2Body physics_body;
 
-
+        // special shadow if any
+        public DisplayObject shadow_loc;
         public Sprite shadow_rot;
 
         public __vec2 prevframe_loc = new __vec2();
@@ -693,20 +697,43 @@ namespace FlashHeatZeekerWithStarlingT18
             public GameUnit driver;
         }
 
-        public void TeleportTo(GameUnit r, double dx, double dy)
+        public GameUnit TeleportTo(GameUnit r, double dx, double dy)
+        {
+            TeleportTo(
+                r.loc.x - dx,
+                r.loc.y - dy
+            );
+
+
+
+
+            return this;
+        }
+
+        public GameUnit TeleportTo(double dx, double dy)
         {
             if (this.physics_body != null)
             {
                 this.physics_body.SetPosition(
                     new b2Vec2(
-                        (r.loc.x - dx) / __b2debug_viewport.b2scale,
-                        (r.loc.y - dy) / __b2debug_viewport.b2scale
+                        (dx) / __b2debug_viewport.b2scale,
+                        (dy) / __b2debug_viewport.b2scale
                     )
                 );
 
-                this.loc.x = (r.loc.x - dx);
-                this.loc.y = (r.loc.y - dy);
+
             }
+
+            this.loc.x = (dx);
+            this.loc.y = (dy);
+
+            if (shadow_loc != null)
+            {
+                shadow_loc.x = this.loc.x;
+                shadow_loc.y = this.loc.y;
+            }
+
+            return this;
         }
 
         public void TeleportBy(double dx, double dy)
@@ -807,7 +834,10 @@ namespace FlashHeatZeekerWithStarlingT18
             var viewport_content_layer0_ground = new Sprite().AttachTo(viewport_content);
             var viewport_content_layer1_tracks = new Sprite().AttachTo(viewport_content);
             var viewport_content_layer2_units = new Sprite().AttachTo(viewport_content);
+
+            var viewport_content_layer3_trees_shadow = new Sprite().AttachTo(viewport_content);
             var viewport_content_layer3_trees = new Sprite().AttachTo(viewport_content);
+
             var viewport_content_layer4_clouds = new Sprite().AttachTo(viewport_content);
 
             viewport_rot.scaleX = 2.0;
@@ -978,7 +1008,6 @@ namespace FlashHeatZeekerWithStarlingT18
 
 
 
-            var textures_tree0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT18/tree0.svg");
 
 
 
@@ -1011,23 +1040,51 @@ namespace FlashHeatZeekerWithStarlingT18
 
             var textures_watertower0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT18/watertower0.svg");
 
+            var textures_tree0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT18/tree0.svg");
+            var textures_tree0_shadow = new_tex_512("assets/FlashHeatZeekerWithStarlingT18/tree0_shadow.svg");
+
 
             #region new_tree
-            Func<Sprite> new_tree =
+            Func<GameUnit> new_tree =
                 delegate
                 {
+                    var scale = 0.12 + 0.2 * (1 - r.NextDouble() * r.NextDouble());
+
+
                     var unit_loc = new Sprite().AttachTo(viewport_content_layer3_trees);
-                    var unit_scale = new Sprite().AttachTo(unit_loc);
-                    var img = new Image(textures_tree0);
-                    img.x = -256;
-                    img.y = -256;
+                    {
+                        var unit_scale = new Sprite().AttachTo(unit_loc);
+                        var img = new Image(textures_tree0);
+                        img.x = -256;
+                        img.y = -256;
 
-                    unit_scale.scaleX = 0.15;
-                    unit_scale.scaleY = 0.15;
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
 
-                    img.AttachTo(unit_scale);
+                        img.AttachTo(unit_scale);
+                    }
 
-                    return unit_loc;
+                    var shadow_loc = new Sprite().AttachTo(viewport_content_layer3_trees_shadow);
+                    {
+                        var unit_scale = new Sprite().AttachTo(shadow_loc);
+                        var img = new Image(textures_tree0_shadow);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                        img.alpha = 0.7;
+                    }
+
+                    return new GameUnit
+                    {
+
+                        loc = unit_loc,
+                        shadow_loc = shadow_loc
+
+                    };
                 };
             #endregion
 
@@ -1072,13 +1129,13 @@ namespace FlashHeatZeekerWithStarlingT18
 
 
 
-            new_tree().MoveTo(128 * 1, 0);
+            new_tree().TeleportTo(128 * 1, 0);
             //new_tree().MoveTo(128 * 2, 0);
             //new_tree().MoveTo(128 * 3, 0);
-            new_tree().MoveTo(128 * 4, 0);
+            new_tree().TeleportTo(128 * 4, 0);
             //new_tree().MoveTo(128 * 5, 0);
             //new_tree().MoveTo(128 * 6, 0);
-            new_tree().MoveTo(128 * 7, 0);
+            new_tree().TeleportTo(128 * 7, 0);
 
 
 
@@ -1170,26 +1227,25 @@ namespace FlashHeatZeekerWithStarlingT18
                 {
 
                     #region map c grow trees in the center
-                    for (int i = 0; i < 128; i++)
+                    for (int i = 0; i < 256; i++)
                     {
 
 
-                        var tree = new_tree().MoveTo(
-                           mapx + (r.NextDouble() * 0.8 + 0.1) * 2048,
-                           mapy + (r.NextDouble() * 0.8 + 0.1) * 2048
+                        var tree = new_tree().TeleportTo(
+                           mapx + r.NextDouble() * (2048 - 512) + 128,
+                           mapy + r.NextDouble() * (2048 - 512) + 128
                            );
 
                         if (map != null)
-                            map.doodads.Add(tree);
+                        {
+                            map.static_units.Add(tree);
+                        }
 
                     }
                     #endregion
 
                     #region paint hills
-                    var img = new Image(textures_hill1);
 
-                    img.scaleX = 0.15 / 4.0;
-                    img.scaleY = 0.15 / 4.0;
 
                     map.rtex.drawBundled(
                         new Action(
@@ -1197,6 +1253,11 @@ namespace FlashHeatZeekerWithStarlingT18
                             {
                                 for (int i = 0; i < 64; i++)
                                 {
+                                    var img = new Image(textures_hill1);
+
+                                    img.scaleX = 0.15 / 4.0;
+                                    img.scaleY = 0.15 / 4.0;
+
                                     var hill = img.MoveTo(
                                         //mapx + (r.NextDouble() * 0.8 + 0.1) * 2048,
                                         //mapy + (r.NextDouble() * 0.8 + 0.1) * 2048
@@ -1413,7 +1474,7 @@ namespace FlashHeatZeekerWithStarlingT18
 
                         isdriver = true,
 
-                        zoomer_default = y => 1.5 + (1 - y) * 0.1
+                        zoomer_default = y => 1.7 + (1 - y) * 0.1
 
                     };
 
@@ -1677,6 +1738,8 @@ namespace FlashHeatZeekerWithStarlingT18
 
                   var u = new GameUnit
                   {
+                      isjeepengine = true,
+
                       loc = unit_loc,
                       rot = unit_rot,
 
@@ -1887,13 +1950,16 @@ namespace FlashHeatZeekerWithStarlingT18
 
             #endregion
 
+            var units = new List<GameUnit>();
 
             var unit1 = new_greentank();
             unit1.loc.MoveTo(256, 256);
             unit1.AddRank();
+            units.Add(unit1);
 
             var unit3 = new_greentank();
             unit3.loc.MoveTo(200 + 400 + 200, 200 + 400);
+            units.Add(unit3);
 
 
 
@@ -1914,7 +1980,6 @@ namespace FlashHeatZeekerWithStarlingT18
             //var unit4 = new_jeep();
             //unit4.loc.MoveTo(-200, 0);
 
-            var units = new List<GameUnit>();
 
 
             var unit2_jeep = new_jeep();
@@ -2041,6 +2106,8 @@ namespace FlashHeatZeekerWithStarlingT18
             var move_zoom = 1.0;
 
             var diesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT18/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
+            var sand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT18/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
+            var jeepengine = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT18/jeepengine.mp3"].ToSoundAsset().ToMP3PitchLoop();
 
 
             //diesel2.Sound.vol
@@ -2131,6 +2198,9 @@ namespace FlashHeatZeekerWithStarlingT18
                             k => k.MoveTo(k.x + dx, k.y + dy)
                         );
 
+                        map.static_units.WithEach(
+                            k => k.TeleportBy(dx, dy)
+                        );
 
                         teleportsw.Stop();
 
@@ -2380,9 +2450,44 @@ namespace FlashHeatZeekerWithStarlingT18
 
                     move_zoom = move_zoom.Max(0.0).Min(1.0);
 
-                    diesel2.LeftVolume = 0.3 + move_zoom * 0.7;
-                    diesel2.Rate = 0.9 + move_zoom;
+                    if (current.isdriver)
+                    {
+                        diesel2.LeftVolume = 0;
+                        diesel2.RightVolume = 0;
 
+                        jeepengine.LeftVolume = 0;
+                        jeepengine.RightVolume = 0;
+
+                        sand_run.LeftVolume = 0.0 + move_zoom * 0.9;
+                        sand_run.RightVolume = 0.0 + move_zoom * 0.9;
+                        sand_run.Rate = 0.9 + move_zoom * 0.1;
+                    }
+                    else if (current.isjeepengine)
+                    {
+                        diesel2.LeftVolume = 0;
+                        diesel2.RightVolume = 0;
+
+
+                        sand_run.LeftVolume = 0;
+                        sand_run.RightVolume = 0;
+
+                        jeepengine.LeftVolume = 0.4 + move_zoom * 0.7;
+                        jeepengine.RightVolume = 1;
+                        jeepengine.Rate = 1;
+                        //jeepengine.Rate = 0.9 + move_zoom * 0.1;
+                    }
+                    else
+                    {
+                        jeepengine.LeftVolume = 0;
+                        jeepengine.RightVolume = 0;
+
+                        sand_run.LeftVolume = 0;
+                        sand_run.RightVolume = 0;
+
+                        diesel2.LeftVolume = 0.3 + move_zoom * 0.7;
+                        diesel2.RightVolume = 1;
+                        diesel2.Rate = 0.9 + move_zoom;
+                    }
                     // show only % of the zoom/speed boost
                     //if (lookat_disabled)
                     //{

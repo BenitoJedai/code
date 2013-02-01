@@ -145,6 +145,9 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\white-jsc.png" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT18\jeepengine.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT18\sand_run.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT18\tree0_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT18\ped_stand.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT18\jeep_trackpattern.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT18\jeep_shadow.svg" />
