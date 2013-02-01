@@ -1,11 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Web Developer Express 2010
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1", "PromotionWebApplication1\PromotionWebApplication1.csproj", "{00A6CB37-64BC-4C54-849D-70A834E146A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplicationHome", "PromotionWebApplicationHome\PromotionWebApplicationHome.csproj", "{52091756-B888-4CAF-BEA5-F1D539F6FB81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonPromotionBrandIntro", "..\..\javascript\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj", "{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Market", "Market", "{2851E5F2-1D09-4796-9988-6E3E7F767BFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Avalon.PromotionBrandIntro", "..\..\..\market\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro.csproj", "{88A6D9ED-9611-4563-9239-3A632CEC6BD9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4929B6E4-18BE-4FCD-B87F-1355B39FBEE6}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,23 +59,26 @@ Global
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|x86.ActiveCfg = Release|Any CPU
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|Any CPU.ActiveCfg = Android|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|Mixed Platforms.ActiveCfg = Android|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|Mixed Platforms.Build.0 = Android|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|x86.ActiveCfg = Android|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|x86.Build.0 = Android|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|x86.ActiveCfg = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|x86.Build.0 = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|Any CPU.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|Mixed Platforms.Build.0 = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|x86.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|x86.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|Any CPU.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|Mixed Platforms.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|x86.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|x86.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|x86.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|x86.Build.0 = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Any CPU.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|x86.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9} = {2851E5F2-1D09-4796-9988-6E3E7F767BFB}
 	EndGlobalSection
 EndGlobal
