@@ -132,6 +132,9 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashTowerDefense.Assets\FlashTowerDefense.Assets.csproj">
@@ -142,6 +145,17 @@
       <Project>{B939002B-9922-4999-B943-6C0DF657D25B}</Project>
       <Name>FlashTowerDefense</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-build.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
