@@ -137,6 +137,9 @@
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Content Include="docs\help.txt" />
+    <Content Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Promotional\x100.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\FUNKYOU.mp3" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Sounds\revealed.mp3" />
@@ -165,6 +168,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth-build.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth-install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
