@@ -225,14 +225,14 @@ namespace My.Solutions.Pages.Templates
                                     {
                                         preview.FadeOut();
 
-                                          new Timer(
-                                            delegate
-                                            {
+                                        new Timer(
+                                          delegate
+                                          {
 
-                                                content = a;
-                                                content_SetExtraSize();
-                                            }
-                                        ).StartTimeout(300);
+                                              content = a;
+                                              content_SetExtraSize();
+                                          }
+                                      ).StartTimeout(300);
                                     }
                                 ).StartTimeout(1000);
 
@@ -361,6 +361,23 @@ namespace My.Solutions.Pages.Templates
                 {
                     iframe(iwidth, iheight, maxextra, new HTML.Images.FromAssets.Preview(), "");
                     //iframe(iwidth, iheight, maxextra, new HTML.Images.FromAssets.Preview(), "");
+
+                    new IHTMLButton { innerText = "Fullscreen" }.With(
+                        btn =>
+                        {
+                            btn.style.position = IStyle.PositionEnum.absolute;
+                            btn.style.left = "1em";
+                            btn.style.bottom = "1em";
+
+                            btn.onclick +=
+                                  delegate
+                                  {
+                                      Native.Document.body.requestFullscreen();
+                                  };
+
+
+                        }
+                    ).AttachToDocument();
 
                     new IHTMLButton { innerText = "Load Em All" }.With(
                         btn =>
