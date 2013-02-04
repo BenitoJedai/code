@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutWithGrass", "LayoutWithGrass\LayoutWithGrass.csproj", "{56235C7F-AFAD-4A7B-90B4-576BF473F17E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56235C7F-AFAD-4A7B-90B4-576BF473F17E}.Debug|x86.ActiveCfg = Debug|x86
+		{56235C7F-AFAD-4A7B-90B4-576BF473F17E}.Debug|x86.Build.0 = Debug|x86
+		{56235C7F-AFAD-4A7B-90B4-576BF473F17E}.Release|x86.ActiveCfg = Release|x86
+		{56235C7F-AFAD-4A7B-90B4-576BF473F17E}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
