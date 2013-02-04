@@ -71,6 +71,9 @@
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Bitmap.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Color.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Drawing\Brushes.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Drawing\Brush.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Drawing\RectangleF.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Graphics.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Image.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Imaging\BitmapData.cs" />

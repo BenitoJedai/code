@@ -129,6 +129,11 @@ namespace FakeWindowsLoginExperiment
             shadowOverlay1.Hide();
         }
 
+        private void taskManagerForm1_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 
 }

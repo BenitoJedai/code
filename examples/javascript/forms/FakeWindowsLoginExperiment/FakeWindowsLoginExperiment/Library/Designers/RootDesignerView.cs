@@ -29,7 +29,8 @@ namespace FakeWindowsLoginExperiment.Library.Designers
         {
             m_designer = designer;
             BackColor = Color.Blue;
-            Font = new Font(Font.FontFamily.Name, 24.0f);
+            //Font = new Font(Font.FontFamily.Name, 24.0f);
+            Font = new Font(Font.Name, 24.0f);
         }
 
         protected override void OnPaint(PaintEventArgs pe)

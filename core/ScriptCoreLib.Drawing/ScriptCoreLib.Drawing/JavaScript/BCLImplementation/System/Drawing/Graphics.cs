@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib.Shared.BCLImplementation.System;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -10,6 +11,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
     internal class __Graphics : __MarshalByRefObject
     {
         public Action<__Bitmap, __Rectangle> AfterDrawImage;
+
+        public void DrawString(string s, Font font, Brush brush, RectangleF layoutRectangle)
+        {
+            // ?
+
+        }
 
         public void DrawImage(__Image image, __Rectangle rect)
         {
