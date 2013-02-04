@@ -80,6 +80,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ScriptCoreLib.Redux\packages\System.Data.SQLite.x86.1.0.84.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
@@ -109,8 +110,14 @@
     <Compile Include="Shared\BCLImplementation\GLSL\vec3.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec2.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\CollectionBase.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Design\ComponentDesigner.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Design\DesignerVerb.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Design\DesignerVerbCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Design\IDesigner.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\Design\IRootDesigner.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs" />
     <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackTrace.cs" />

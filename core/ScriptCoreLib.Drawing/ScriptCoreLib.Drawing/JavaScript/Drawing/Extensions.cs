@@ -47,10 +47,10 @@ namespace ScriptCoreLib.JavaScript.Drawing
                     w += " normal";
 
                 // font-size/line-height
-                w += " " + f._emSize + f._unit.ToCssString();
+                w += " " + f.Size + f._unit.ToCssString();
 
                 // font-family
-                w += " " + f._familyName;
+                w += " " + f.Name;
 
             }
 

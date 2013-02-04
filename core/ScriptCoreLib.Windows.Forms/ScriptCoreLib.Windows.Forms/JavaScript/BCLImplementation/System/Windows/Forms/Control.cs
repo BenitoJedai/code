@@ -1425,6 +1425,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        public Rectangle ClientRectangle
+        {
+            get
+            {
+                var r = new Rectangle();
+
+                r.Width = this.clientWidth;
+                r.Height = this.clientHeight;
+
+                return r;
+            }
+        }
+
         #region ClientSize
         public Size ClientSize
         {
@@ -1565,6 +1578,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public virtual void BringToFront()
         {
+        }
+
+        protected virtual void OnPaint(PaintEventArgs e)
+        {
+
         }
     }
 }

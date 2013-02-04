@@ -63,9 +63,12 @@ namespace FakeWindowsLoginExperiment
             // 
             // f
             // 
+            this.f.ClientSize = new System.Drawing.Size(410, 422);
             this.f.Foo = null;
-            this.f.Name = "Form1";
+            this.f.Location = new System.Drawing.Point(175, 175);
+            this.f.Name = "f";
             this.f.Text = "Form1";
+            this.f.Visible = false;
             this.f.FormButtonClick += new System.Action(this.form11_FormButtonClick);
             this.f.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.f_FormClosed);
             // 
@@ -80,8 +83,12 @@ namespace FakeWindowsLoginExperiment
             // 
             // taskManagerForm1
             // 
-            this.taskManagerForm1.Name = "TaskManagerForm";
+            this.taskManagerForm1.ClientSize = new System.Drawing.Size(528, 529);
+            this.taskManagerForm1.Location = new System.Drawing.Point(200, 200);
+            this.taskManagerForm1.Name = "taskManagerForm1";
             this.taskManagerForm1.Text = "Windows Task Manager";
+            this.taskManagerForm1.Visible = false;
+            this.taskManagerForm1.Load += new System.EventHandler(this.taskManagerForm1_Load);
 
         }
 
