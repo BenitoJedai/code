@@ -253,6 +253,11 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
+    <Content Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\index.htm" />
+    <Content Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\Preview128.png" />
+    <Content Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\Preview16.png" />
+    <Content Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\Preview512.png" />
+    <Content Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\Screenshot640x400.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ArduinoSpiderControlCenter\SpiderModel\SpiderModel.csproj">
@@ -423,6 +428,9 @@
       <Project>{4d221d4e-654d-4ae4-89aa-98d35eb70778}</Project>
       <Name>WebGLYomotsuTPS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\manifest.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
