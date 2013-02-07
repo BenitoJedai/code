@@ -38,6 +38,7 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,7 +56,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(12, 36);
+            this.checkBox2.Location = new System.Drawing.Point(22, 59);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(72, 17);
             this.checkBox2.TabIndex = 1;
@@ -65,7 +66,7 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(13, 59);
+            this.checkBox3.Location = new System.Drawing.Point(23, 82);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(107, 17);
             this.checkBox3.TabIndex = 2;
@@ -76,7 +77,7 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(12, 82);
+            this.checkBox4.Location = new System.Drawing.Point(22, 105);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(85, 17);
             this.checkBox4.TabIndex = 3;
@@ -85,7 +86,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 106);
+            this.button1.Location = new System.Drawing.Point(19, 141);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
@@ -118,7 +119,7 @@
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(9, 175);
+            this.checkBox5.Location = new System.Drawing.Point(16, 210);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(109, 17);
             this.checkBox5.TabIndex = 6;
@@ -127,7 +128,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 135);
+            this.button2.Location = new System.Drawing.Point(19, 170);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 7;
@@ -135,12 +136,24 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(12, 36);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(76, 17);
+            this.checkBox6.TabIndex = 8;
+            this.checkBox6.Text = "hide layers";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
+            // 
             // FrameDiagnostics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(697, 346);
+            this.Controls.Add(this.checkBox6);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.checkBox5);
             this.Controls.Add(this.dataGridView1);
@@ -170,5 +183,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBox6;
     }
 }

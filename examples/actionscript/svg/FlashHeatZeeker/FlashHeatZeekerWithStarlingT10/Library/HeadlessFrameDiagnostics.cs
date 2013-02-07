@@ -10,12 +10,17 @@ namespace FlashHeatZeekerWithStarlingT10.Library
     // jsc could try to do this on its own in the future
     public interface IFrameDiagnostics
     {
-        IFrameDiagnosticsFlag traceperformance { get; set; }
+        Action<Action<string, string>> traceperformance { get; set; }
+         IFrameDiagnosticsFlag traceperformance_enabled { get; set; }
+        
 
         Action F1 { get; set; }
         Action F2 { get; set; }
 
         IFrameDiagnosticsFlag user_pause { get; set; }
+
+        IFrameDiagnosticsFlag hidelayers { get; set; }
+        
         IFrameDiagnosticsFlag hidetrees { get; set; }
         IFrameDiagnosticsFlag hidegroundunits { get; set; }
         IFrameDiagnosticsFlag hideairunits { get; set; }
@@ -28,13 +33,17 @@ namespace FlashHeatZeekerWithStarlingT10.Library
     {
         // jsc could turn this into implicit interface for tier split/context switch
 
-        public IFrameDiagnosticsFlag traceperformance { get; set; }
+        public Action<Action<string, string>> traceperformance { get; set; }
+        public IFrameDiagnosticsFlag traceperformance_enabled { get; set; }
 
         public Action F1 { get; set; }
         public Action F2 { get; set; }
 
 
         public IFrameDiagnosticsFlag user_pause { get; set; }
+
+        public IFrameDiagnosticsFlag hidelayers { get; set; }
+
         public IFrameDiagnosticsFlag hidetrees { get; set; }
         public IFrameDiagnosticsFlag hidegroundunits { get; set; }
         public IFrameDiagnosticsFlag hideairunits { get; set; }
