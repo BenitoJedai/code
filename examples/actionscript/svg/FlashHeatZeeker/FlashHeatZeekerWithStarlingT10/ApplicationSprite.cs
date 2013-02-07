@@ -2804,374 +2804,6 @@ namespace FlashHeatZeekerWithStarlingT10
             // use box2d instead!
             var KineticEnergy = new List<KineticEnergy>();
 
-            #region physicstime
-            var physicstime = new Stopwatch();
-
-            physicstime.Start();
-
-            Action __do_physics =
-                delegate
-                {
-                    physicstime.Stop();
-
-                    if (flags_user_pause)
-                        return;
-
-                    var physicstime_elapsed = physicstime.ElapsedMilliseconds;
-
-                    physicstime.Restart();
-
-                    rot_sw.Stop();
-
-
-
-                    // first thing do physics?
-
-                    //TypeError: Error #1009: Cannot access a property or method of a null object reference.
-                    //    at Box2D.Dynamics::b2World/DrawDebugData()[Y:\opensource\sourceforge\box2dflash\Box2D\Dynamics\b2World.as:656]
-                    //    at FlashHeatZeekerWithStarlingT10::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT10\Game___c__DisplayClass46.as:163]
-
-                    // can jsc tell us about timing?
-
-
-
-                    foreach (var item in units)
-                    {
-
-                        item.physics_body.With(
-                            body =>
-                            {
-
-                                var a = item.physics_body.GetAngle();
-
-                                var ped_drot = rot_sw.ElapsedMilliseconds
-                                     * (0.005)
-                                     * ((item.rot_left + item.rot_right));
-
-                                a += ped_drot;
-
-                                item.physics_body.SetAngle(a);
-
-                                item.physics_body.SetLinearVelocity(
-                                    new b2Vec2(
-                                       6 * Math.Cos(a + 270.DegreesToRadians()) * (item.move_forward + item.move_backward),
-                                       6 * Math.Sin(a + 270.DegreesToRadians()) * (item.move_forward + item.move_backward)
-                                    )
-                                );
-
-                            }
-                        );
-
-
-                        if (item.wings_rot != null)
-                            item.wings_rot.rotation -= rot_sw.ElapsedMilliseconds
-                             * (0.005)
-                             * ((-1));
-
-                        if (item.physics != null)
-                            item.physics.update(physicstime_elapsed);
-                    }
-
-
-
-                    //update physics world
-                    b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
-
-                    //clear applied forces, so they don't stack from each update
-                    b2world.ClearForces();
-
-                    if (b2debug_viewport != null)
-                        b2world.DrawDebugData();
-
-
-                    foreach (var item in units)
-                    {
-                        if (item.physics_body != null)
-                            item.physics_body.GetPosition().With(
-                                 p =>
-                                 {
-                                     item.loc.x = p.x * __b2debug_viewport.b2scale;
-                                     item.loc.y = p.y * __b2debug_viewport.b2scale;
-
-                                     item.rotation = item.physics_body.GetAngle();
-
-                                     item.RenewTracks();
-                                 }
-                             );
-
-                        if (item.physics != null)
-                            item.physics.body.GetPosition().With(
-                                 p =>
-                                 {
-                                     item.loc.x = p.x * __b2debug_viewport.b2scale;
-                                     item.loc.y = p.y * __b2debug_viewport.b2scale;
-
-                                     item.rotation = item.physics.body.GetAngle();
-
-                                     item.RenewTracks();
-                                 }
-                             );
-                    }
-
-
-
-
-                    // which is it, do we need to zoom out or in?
-
-                    #region KineticEnergy
-                    foreach (var item in KineticEnergy)
-                    {
-                        item.Target.With(
-                            t =>
-                            {
-                                if (item.TTL == 0)
-                                {
-                                    t.Orphanize();
-
-                                    item.Target = null;
-                                    return;
-                                }
-
-                                t.x += rot_sw.ElapsedMilliseconds * item.Energy.x;
-                                t.y += rot_sw.ElapsedMilliseconds * item.Energy.y;
-
-                                item.TTL--;
-
-
-                            }
-                        );
-                    }
-                    #endregion
-
-
-                    var any_movement = Math.Sign(
-                        Math.Abs(current.move_forward)
-                        + Math.Abs(current.move_backward)
-                        + Math.Abs(current.rot_left)
-                        + Math.Abs(current.rot_right)
-                    ) - 0.5;
-
-                    move_zoom +=
-                        any_movement *
-                          rot_sw.ElapsedMilliseconds * 0.004;
-
-                    move_zoom = move_zoom.Max(0.0).Min(1.0);
-
-#if SOUND
-
-                    if (current.isdriver)
-                    {
-                        diesel2.LeftVolume = 0;
-                        diesel2.RightVolume = 0;
-
-                        jeepengine.LeftVolume = 0;
-                        jeepengine.RightVolume = 0;
-
-                        helicopter1.LeftVolume = 0;
-                        helicopter1.RightVolume = 0;
-
-
-                        sand_run.LeftVolume = 0.0 + move_zoom * 0.9;
-                        sand_run.RightVolume = 0.0 + move_zoom * 0.9;
-                        sand_run.Rate = 0.9 + move_zoom * 0.1;
-                    }
-                    else if (current.isjeepengine)
-                    {
-                        diesel2.LeftVolume = 0;
-                        diesel2.RightVolume = 0;
-
-
-                        helicopter1.LeftVolume = 0;
-                        helicopter1.RightVolume = 0;
-
-                        sand_run.LeftVolume = 0;
-                        sand_run.RightVolume = 0;
-
-                        jeepengine.LeftVolume = 0.4 + move_zoom * 0.7;
-                        jeepengine.RightVolume = 1;
-                        jeepengine.Rate = 0.9 + move_zoom;
-                        //jeepengine.Rate = 0.9 + move_zoom * 0.1;
-                    }
-                    else if (current.ishelicopterengine)
-                    {
-                        diesel2.LeftVolume = 0;
-                        diesel2.RightVolume = 0;
-
-
-                        sand_run.LeftVolume = 0;
-                        sand_run.RightVolume = 0;
-
-                        jeepengine.LeftVolume = 0;
-                        jeepengine.RightVolume = 0;
-
-
-                        helicopter1.LeftVolume = 0.4 + move_zoom * 0.7;
-                        helicopter1.RightVolume = 1;
-                        //helicopter1.Rate = 1;
-                        helicopter1.Rate = 0.7 + move_zoom * 0.3;
-                        //jeepengine.Rate = 0.9 + move_zoom * 0.1;
-                    }
-                    else
-                    {
-                        jeepengine.LeftVolume = 0;
-                        jeepengine.RightVolume = 0;
-
-                        helicopter1.LeftVolume = 0;
-                        helicopter1.RightVolume = 0;
-
-                        sand_run.LeftVolume = 0;
-                        sand_run.RightVolume = 0;
-
-                        diesel2.LeftVolume = 0.3 + move_zoom * 0.7;
-                        diesel2.RightVolume = 1;
-                        diesel2.Rate = 0.9 + move_zoom;
-                    }
-#endif
-
-                    // show only % of the zoom/speed boost
-                    //if (lookat_disabled)
-                    //{
-
-                    //}
-                    //else
-                    //{
-                    viewport_rot.scaleX = current_zoomer(move_zoom) / current.scale;
-                    viewport_rot.scaleY = current_zoomer(move_zoom) / current.scale;
-
-                    if (b2debug_viewport != null)
-                    {
-                        b2debug_viewport.rot.scaleX = current_zoomer(move_zoom) / current.scale;
-                        b2debug_viewport.rot.scaleY = current_zoomer(move_zoom) / current.scale;
-                    }
-
-                    var drot = rot_sw.ElapsedMilliseconds
-                        * (1 + move_zoom)
-                        * (current.rot_left + current.rot_right)
-                        * (Math.Abs(current.move_forward + current.move_backward).Max(0.5) * 0.09).DegreesToRadians();
-
-
-
-                    #region remotecontrol
-                    Action<GameUnit> remotecontrol =
-                        c =>
-                        {
-                            c.rotation += drot;
-
-                            var dx = rot_sw.ElapsedMilliseconds
-                                * (1 + move_zoom)
-                                * (current.move_forward + current.move_backward)
-                                * move_speed
-                                * Math.Cos(c.rotation + (270).DegreesToRadians());
-
-                            var dy = rot_sw.ElapsedMilliseconds
-                               * (1 + move_zoom)
-                               * (current.move_forward + current.move_backward)
-                               * move_speed
-                               * Math.Sin(c.rotation + (270).DegreesToRadians());
-
-
-                            c.ScrollTracks(
-                                rot_sw.ElapsedMilliseconds
-                                * (1 + move_zoom)
-                               * (current.move_forward + current.move_backward)
-                               * move_speed
-                            );
-                            var prevframe_loc = new __vec2();
-
-                            prevframe_loc.x = (float)c.loc.x;
-                            prevframe_loc.y = (float)c.loc.y;
-
-                            c.loc.x += dx;
-                            c.loc.y += dy;
-
-                            var prevframe_loc_length = new __vec2(
-                                c.prevframe_loc.x - (float)c.loc.x,
-                                c.prevframe_loc.y - (float)c.loc.y
-                            ).GetLength();
-
-                            var changed_prevframe_rot =
-                                Math.Abs(c.rot.rotation - c.prevframe_rot) > 25.DegreesToRadians();
-
-                            if (prevframe_loc_length > 80 || changed_prevframe_rot)
-                            {
-                                // unit draws tracks..
-                                c.prevframe_loc = prevframe_loc;
-                                c.prevframe_rot = c.rot.rotation;
-
-                                var unit_loc = new Sprite();
-                                var unit_rot = new Sprite().AttachTo(unit_loc);
-
-                                var img = new Image(textures_tracks0);
-                                img.x = -200;
-                                img.y = -200;
-                                img.alpha = 0.2;
-
-                                img.AttachTo(unit_rot);
-
-
-                                unit_rot.rotation = c.rotation;
-                                unit_loc.MoveTo(c.loc.x, c.loc.y);
-                                // lets add our new tracks to the map, to teleport them later
-
-                                //pin_doodad(unit_loc);
-
-                                //c.tracks.Enqueue(unit_loc);
-
-                                //if (c.tracks.Count > 256)
-                                //    c.tracks.Dequeue().Orphanize();
-
-                                pin_draw(unit_loc);
-
-                            }
-                        };
-                    #endregion
-
-                    if (current.physics_body != null)
-                    {
-
-
-                        lookat(current.rot.rotation, current.loc.x, current.loc.y);
-
-
-                    }
-                    else if (current.physics != null)
-                    {
-
-
-
-                        lookat(current.rot.rotation, current.loc.x, current.loc.y);
-
-
-                    }
-                    else
-                    {
-                        if (robo1.RemoteControlEnabled)
-                        {
-                            remotecontrol(robo1);
-
-
-                            lookat(
-                                current.rot.rotation,
-                                (current.loc.x + (robo1.loc.x - current.loc.x) / 2),
-                                (current.loc.y + (robo1.loc.y - current.loc.y) / 2)
-                                );
-
-                        }
-                        else
-                        {
-                            remotecontrol(current);
-
-                            lookat(current.rot.rotation, current.loc.x, current.loc.y);
-                        }
-                    }
-
-                    rot_sw.Restart();
-
-
-
-                };
-
-            #endregion
 
 
             #region switchto
@@ -3675,10 +3307,27 @@ namespace FlashHeatZeekerWithStarlingT10
 
             var network_rx_last_second = 0;
 
+            var trace_thisframe_other = new Stopwatch();
+
+            #region physicstime
+            var physicstime = new Stopwatch();
+
+            physicstime.Start();
+
+            Action __do_physics =
+                delegate
+                {
+
+
+                };
+
+            #endregion
 
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
+                    trace_thisframe_other.Stop();
+
                     var trace_thisframe = new Stopwatch();
                     trace_thisframe.Start();
 
@@ -3691,7 +3340,366 @@ namespace FlashHeatZeekerWithStarlingT10
                     frameid++;
                     maxframe.Stop();
 
-                    __do_physics();
+                    #region physics
+                    {
+                        physicstime.Stop();
+
+                        if (flags_user_pause)
+                            return;
+
+                        var physicstime_elapsed = physicstime.ElapsedMilliseconds;
+
+                        physicstime.Restart();
+
+                        rot_sw.Stop();
+
+
+
+                        // first thing do physics?
+
+                        //TypeError: Error #1009: Cannot access a property or method of a null object reference.
+                        //    at Box2D.Dynamics::b2World/DrawDebugData()[Y:\opensource\sourceforge\box2dflash\Box2D\Dynamics\b2World.as:656]
+                        //    at FlashHeatZeekerWithStarlingT10::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT10\Game___c__DisplayClass46.as:163]
+
+                        // can jsc tell us about timing?
+
+
+
+                        foreach (var item in units)
+                        {
+
+                            item.physics_body.With(
+                                body =>
+                                {
+
+                                    var a = item.physics_body.GetAngle();
+
+                                    var ped_drot = rot_sw.ElapsedMilliseconds
+                                         * (0.005)
+                                         * ((item.rot_left + item.rot_right));
+
+                                    a += ped_drot;
+
+                                    item.physics_body.SetAngle(a);
+
+                                    item.physics_body.SetLinearVelocity(
+                                        new b2Vec2(
+                                           6 * Math.Cos(a + 270.DegreesToRadians()) * (item.move_forward + item.move_backward),
+                                           6 * Math.Sin(a + 270.DegreesToRadians()) * (item.move_forward + item.move_backward)
+                                        )
+                                    );
+
+                                }
+                            );
+
+
+                            if (item.wings_rot != null)
+                                item.wings_rot.rotation -= rot_sw.ElapsedMilliseconds
+                                 * (0.005)
+                                 * ((-1));
+
+                            if (item.physics != null)
+                                item.physics.update(physicstime_elapsed);
+                        }
+
+
+
+                        //update physics world
+                        b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
+
+                        //clear applied forces, so they don't stack from each update
+                        b2world.ClearForces();
+
+                        if (b2debug_viewport != null)
+                            b2world.DrawDebugData();
+
+
+                        foreach (var item in units)
+                        {
+                            if (item.physics_body != null)
+                                item.physics_body.GetPosition().With(
+                                     p =>
+                                     {
+                                         item.loc.x = p.x * __b2debug_viewport.b2scale;
+                                         item.loc.y = p.y * __b2debug_viewport.b2scale;
+
+                                         item.rotation = item.physics_body.GetAngle();
+
+                                         item.RenewTracks();
+                                     }
+                                 );
+
+                            if (item.physics != null)
+                                item.physics.body.GetPosition().With(
+                                     p =>
+                                     {
+                                         item.loc.x = p.x * __b2debug_viewport.b2scale;
+                                         item.loc.y = p.y * __b2debug_viewport.b2scale;
+
+                                         item.rotation = item.physics.body.GetAngle();
+
+                                         item.RenewTracks();
+                                     }
+                                 );
+                        }
+
+
+
+
+                        // which is it, do we need to zoom out or in?
+
+                        #region KineticEnergy
+                        foreach (var item in KineticEnergy)
+                        {
+                            item.Target.With(
+                                t =>
+                                {
+                                    if (item.TTL == 0)
+                                    {
+                                        t.Orphanize();
+
+                                        item.Target = null;
+                                        return;
+                                    }
+
+                                    t.x += rot_sw.ElapsedMilliseconds * item.Energy.x;
+                                    t.y += rot_sw.ElapsedMilliseconds * item.Energy.y;
+
+                                    item.TTL--;
+
+
+                                }
+                            );
+                        }
+                        #endregion
+
+
+                        var any_movement = Math.Sign(
+                            Math.Abs(current.move_forward)
+                            + Math.Abs(current.move_backward)
+                            + Math.Abs(current.rot_left)
+                            + Math.Abs(current.rot_right)
+                        ) - 0.5;
+
+                        move_zoom +=
+                            any_movement *
+                              rot_sw.ElapsedMilliseconds * 0.004;
+
+                        move_zoom = move_zoom.Max(0.0).Min(1.0);
+
+#if SOUND
+
+                        if (current.isdriver)
+                        {
+                            diesel2.LeftVolume = 0;
+                            diesel2.RightVolume = 0;
+
+                            jeepengine.LeftVolume = 0;
+                            jeepengine.RightVolume = 0;
+
+                            helicopter1.LeftVolume = 0;
+                            helicopter1.RightVolume = 0;
+
+
+                            sand_run.LeftVolume = 0.0 + move_zoom * 0.9;
+                            sand_run.RightVolume = 0.0 + move_zoom * 0.9;
+                            sand_run.Rate = 0.9 + move_zoom * 0.1;
+                        }
+                        else if (current.isjeepengine)
+                        {
+                            diesel2.LeftVolume = 0;
+                            diesel2.RightVolume = 0;
+
+
+                            helicopter1.LeftVolume = 0;
+                            helicopter1.RightVolume = 0;
+
+                            sand_run.LeftVolume = 0;
+                            sand_run.RightVolume = 0;
+
+                            jeepengine.LeftVolume = 0.4 + move_zoom * 0.7;
+                            jeepengine.RightVolume = 1;
+                            jeepengine.Rate = 0.9 + move_zoom;
+                            //jeepengine.Rate = 0.9 + move_zoom * 0.1;
+                        }
+                        else if (current.ishelicopterengine)
+                        {
+                            diesel2.LeftVolume = 0;
+                            diesel2.RightVolume = 0;
+
+
+                            sand_run.LeftVolume = 0;
+                            sand_run.RightVolume = 0;
+
+                            jeepengine.LeftVolume = 0;
+                            jeepengine.RightVolume = 0;
+
+
+                            helicopter1.LeftVolume = 0.4 + move_zoom * 0.7;
+                            helicopter1.RightVolume = 1;
+                            //helicopter1.Rate = 1;
+                            helicopter1.Rate = 0.7 + move_zoom * 0.3;
+                            //jeepengine.Rate = 0.9 + move_zoom * 0.1;
+                        }
+                        else
+                        {
+                            jeepengine.LeftVolume = 0;
+                            jeepengine.RightVolume = 0;
+
+                            helicopter1.LeftVolume = 0;
+                            helicopter1.RightVolume = 0;
+
+                            sand_run.LeftVolume = 0;
+                            sand_run.RightVolume = 0;
+
+                            diesel2.LeftVolume = 0.3 + move_zoom * 0.7;
+                            diesel2.RightVolume = 1;
+                            diesel2.Rate = 0.9 + move_zoom;
+                        }
+#endif
+
+                        // show only % of the zoom/speed boost
+                        //if (lookat_disabled)
+                        //{
+
+                        //}
+                        //else
+                        //{
+                        viewport_rot.scaleX = current_zoomer(move_zoom) / current.scale;
+                        viewport_rot.scaleY = current_zoomer(move_zoom) / current.scale;
+
+                        if (b2debug_viewport != null)
+                        {
+                            b2debug_viewport.rot.scaleX = current_zoomer(move_zoom) / current.scale;
+                            b2debug_viewport.rot.scaleY = current_zoomer(move_zoom) / current.scale;
+                        }
+
+                        var drot = rot_sw.ElapsedMilliseconds
+                            * (1 + move_zoom)
+                            * (current.rot_left + current.rot_right)
+                            * (Math.Abs(current.move_forward + current.move_backward).Max(0.5) * 0.09).DegreesToRadians();
+
+
+
+                        #region remotecontrol
+                        Action<GameUnit> remotecontrol =
+                            c =>
+                            {
+                                c.rotation += drot;
+
+                                var dx = rot_sw.ElapsedMilliseconds
+                                    * (1 + move_zoom)
+                                    * (current.move_forward + current.move_backward)
+                                    * move_speed
+                                    * Math.Cos(c.rotation + (270).DegreesToRadians());
+
+                                var dy = rot_sw.ElapsedMilliseconds
+                                   * (1 + move_zoom)
+                                   * (current.move_forward + current.move_backward)
+                                   * move_speed
+                                   * Math.Sin(c.rotation + (270).DegreesToRadians());
+
+
+                                c.ScrollTracks(
+                                    rot_sw.ElapsedMilliseconds
+                                    * (1 + move_zoom)
+                                   * (current.move_forward + current.move_backward)
+                                   * move_speed
+                                );
+                                var prevframe_loc = new __vec2();
+
+                                prevframe_loc.x = (float)c.loc.x;
+                                prevframe_loc.y = (float)c.loc.y;
+
+                                c.loc.x += dx;
+                                c.loc.y += dy;
+
+                                var prevframe_loc_length = new __vec2(
+                                    c.prevframe_loc.x - (float)c.loc.x,
+                                    c.prevframe_loc.y - (float)c.loc.y
+                                ).GetLength();
+
+                                var changed_prevframe_rot =
+                                    Math.Abs(c.rot.rotation - c.prevframe_rot) > 25.DegreesToRadians();
+
+                                if (prevframe_loc_length > 80 || changed_prevframe_rot)
+                                {
+                                    // unit draws tracks..
+                                    c.prevframe_loc = prevframe_loc;
+                                    c.prevframe_rot = c.rot.rotation;
+
+                                    var unit_loc = new Sprite();
+                                    var unit_rot = new Sprite().AttachTo(unit_loc);
+
+                                    var img = new Image(textures_tracks0);
+                                    img.x = -200;
+                                    img.y = -200;
+                                    img.alpha = 0.2;
+
+                                    img.AttachTo(unit_rot);
+
+
+                                    unit_rot.rotation = c.rotation;
+                                    unit_loc.MoveTo(c.loc.x, c.loc.y);
+                                    // lets add our new tracks to the map, to teleport them later
+
+                                    //pin_doodad(unit_loc);
+
+                                    //c.tracks.Enqueue(unit_loc);
+
+                                    //if (c.tracks.Count > 256)
+                                    //    c.tracks.Dequeue().Orphanize();
+
+                                    pin_draw(unit_loc);
+
+                                }
+                            };
+                        #endregion
+
+                        if (current.physics_body != null)
+                        {
+
+
+                            lookat(current.rot.rotation, current.loc.x, current.loc.y);
+
+
+                        }
+                        else if (current.physics != null)
+                        {
+
+
+
+                            lookat(current.rot.rotation, current.loc.x, current.loc.y);
+
+
+                        }
+                        else
+                        {
+                            if (robo1.RemoteControlEnabled)
+                            {
+                                remotecontrol(robo1);
+
+
+                                lookat(
+                                    current.rot.rotation,
+                                    (current.loc.x + (robo1.loc.x - current.loc.x) / 2),
+                                    (current.loc.y + (robo1.loc.y - current.loc.y) / 2)
+                                    );
+
+                            }
+                            else
+                            {
+                                remotecontrol(current);
+
+                                lookat(current.rot.rotation, current.loc.x, current.loc.y);
+                            }
+                        }
+
+                        rot_sw.Restart();
+
+
+                    }
+                    #endregion
                     trace_thisframe_physics.Stop();
 
 
@@ -3761,10 +3769,17 @@ namespace FlashHeatZeekerWithStarlingT10
                         if (traceperformance_enabled)
                             if (traceperformance != null)
                             {
-                                traceperformance("frame", trace_thisframe.ElapsedTicks + "ticks");
-                                traceperformance("physics", trace_thisframe_physics.ElapsedTicks + "ticks");
+                                //                                Implementation not found for type import :
+                                //type: System.Diagnostics.Stopwatch
+                                //method: Int64 get_ElapsedTicks()
+
+                                traceperformance("other", trace_thisframe_other.ElapsedMilliseconds + "ms");
+                                traceperformance("frame", trace_thisframe.ElapsedMilliseconds + "ms");
+                                traceperformance("+ physics", trace_thisframe_physics.ElapsedMilliseconds + "ms");
                             }
                     }
+
+                    trace_thisframe_other.Start();
                 };
             #endregion
 
