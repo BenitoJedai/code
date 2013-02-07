@@ -76,6 +76,9 @@ namespace FlashHeatZeekerWithStarlingT10
                        Console.Write,
                        Console.WriteLine
                    );
+
+            // !! not compatible yet
+            //con.PopupInsteadOfClosing();
             #endregion
 
 
@@ -136,6 +139,9 @@ namespace FlashHeatZeekerWithStarlingT10
 
 
                     x.Initialize(__FrameDiagnostics);
+
+                    x.PopupInsteadOfClosing();
+
                 }
             );
             #endregion
