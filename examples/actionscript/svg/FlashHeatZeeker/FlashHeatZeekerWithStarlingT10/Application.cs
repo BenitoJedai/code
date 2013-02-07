@@ -79,7 +79,9 @@ namespace FlashHeatZeekerWithStarlingT10
                    );
 
             // !! not compatible yet
-            //con.PopupInsteadOfClosing();
+
+            con.HandleFormClosing = false;
+            con.PopupInsteadOfClosing();
             #endregion
 
 
@@ -114,6 +116,8 @@ namespace FlashHeatZeekerWithStarlingT10
                         };
 
 
+                    remotegame_con.HandleFormClosing = false;
+                    remotegame_con.PopupInsteadOfClosing();
                 };
             #endregion
 

@@ -1329,7 +1329,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         return;
                     }
 
-                    Console.WriteLine("InternalRaiseCellValueChanged " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
+                    //Console.WriteLine("InternalRaiseCellValueChanged " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
 
 
                     if (PendingNewRow == SourceRow)

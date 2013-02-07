@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker", "FlashHeatZeeker\FlashHeatZeeker.csproj", "{8C36076C-7270-4841-BB8B-1C28A24ED1CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarling", "FlashHeatZeekerWithStarling\FlashHeatZeekerWithStarling.csproj", "{F24A122C-5D7A-4E73-837F-7F421FCE7442}"
@@ -37,6 +37,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarlingT14", "FlashHeatZeekerWithStarlingT14\FlashHeatZeekerWithStarlingT14.csproj", "{D325E78B-C4B7-4092-B01D-27E2487D5A0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarlingT10", "FlashHeatZeekerWithStarlingT10\FlashHeatZeekerWithStarlingT10.csproj", "{2D66E306-E425-4A89-9C57-6EA18C7C4E1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,6 +170,16 @@ Global
 		{2D66E306-E425-4A89-9C57-6EA18C7C4E1D}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2D66E306-E425-4A89-9C57-6EA18C7C4E1D}.Release|x86.ActiveCfg = Release|x86
 		{2D66E306-E425-4A89-9C57-6EA18C7C4E1D}.Release|x86.Build.0 = Release|x86
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -181,6 +193,7 @@ Global
 		{47CA6510-0CCE-4410-920B-4E516544A7A6} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
 		{87C30E09-F1EF-4C14-9936-F4C601F5CF79} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
 		{D325E78B-C4B7-4092-B01D-27E2487D5A0C} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
 		{0248FB6D-3AD2-4CF9-9C1A-EEDC5214D07F} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
 		{BABA968B-41D7-4B0E-AFB9-DFA37307C833} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
 		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {599F2D93-A905-438E-8896-965B4EC9015D}

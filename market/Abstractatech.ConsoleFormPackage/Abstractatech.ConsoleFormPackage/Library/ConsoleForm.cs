@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Abstractatech.ConsoleFormPackage.Library
 {
+    [Description("Console")]
     public partial class ConsoleForm : Form
     {
         public ConsoleForm()
@@ -68,23 +69,26 @@ namespace Abstractatech.ConsoleFormPackage.Library
             return this;
         }
 
+        public bool HandleFormClosing = true;
+
         private void ConsoleForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                e.Cancel = true;
-
-                if (this.WindowState == FormWindowState.Minimized)
-                    this.WindowState = FormWindowState.Normal;
-                else
+            if (HandleFormClosing)
+                if (e.CloseReason == CloseReason.UserClosing)
                 {
-                    this.WindowState = FormWindowState.Minimized;
+                    e.Cancel = true;
 
-                    this.textBox1.Clear();
-                    this.textBox1.AppendText("Console cleared..." + Environment.NewLine);
+                    if (this.WindowState == FormWindowState.Minimized)
+                        this.WindowState = FormWindowState.Normal;
+                    else
+                    {
+                        this.WindowState = FormWindowState.Minimized;
 
+                        this.textBox1.Clear();
+                        this.textBox1.AppendText("Console cleared..." + Environment.NewLine);
+
+                    }
                 }
-            }
 
         }
 
