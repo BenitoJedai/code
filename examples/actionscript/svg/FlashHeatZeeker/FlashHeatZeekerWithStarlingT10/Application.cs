@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
@@ -141,7 +142,7 @@ namespace FlashHeatZeekerWithStarlingT10
                     x.Initialize(__FrameDiagnostics);
 
                     x.PopupInsteadOfClosing();
-
+                    x.Opacity = 0.7;
                 }
             );
             #endregion
