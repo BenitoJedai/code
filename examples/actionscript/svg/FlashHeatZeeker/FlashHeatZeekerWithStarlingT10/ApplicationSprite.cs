@@ -1,5 +1,6 @@
 #define SOUND
 #define moredetails
+#define moredetail
 
 
 using ScriptCoreLib.ActionScript;
@@ -897,6 +898,8 @@ namespace FlashHeatZeekerWithStarlingT10
             var viewport_content_layers = new Sprite().AttachTo(viewport_rot);
 
             var viewport_content_layer0_ground = new Sprite().AttachTo(viewport_content_layers);
+
+            // buildings?
             var viewport_content_layer1_tracks = new Sprite().AttachTo(viewport_content_layers);
 
             var viewport_content_layer2_units = new Sprite().AttachTo(viewport_content_layers);
@@ -2652,6 +2655,9 @@ namespace FlashHeatZeekerWithStarlingT10
                         viewport_content_layer3_trees.visible =
                             !viewport_content_layer3_trees.visible;
 
+                        viewport_content_layer3_trees_shadow.visible =
+                      !viewport_content_layer3_trees_shadow.visible;
+
                         Console.WriteLine(
 
                             new { viewport_content_layer3_trees = new { viewport_content_layer3_trees.visible } }
@@ -2855,6 +2861,7 @@ namespace FlashHeatZeekerWithStarlingT10
 
 
 
+            var __keyDown = new bool[0xffff];
 
 
             var disable_keyDown_Up = false;
@@ -2866,6 +2873,11 @@ namespace FlashHeatZeekerWithStarlingT10
             ApplicationSprite.__stage.keyDown +=
                 e =>
                 {
+                    if (__keyDown[e.keyCode])
+                        return;
+
+                    __keyDown[e.keyCode] = true;
+
                     Console.WriteLine("keyDown " + new { e.keyCode });
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
@@ -2969,6 +2981,8 @@ namespace FlashHeatZeekerWithStarlingT10
             ApplicationSprite.__stage.keyUp +=
               e =>
               {
+                  __keyDown[e.keyCode] = false;
+
                   Console.WriteLine("keyUp " + new { e.keyCode });
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.CapsLock)
@@ -3364,7 +3378,7 @@ namespace FlashHeatZeekerWithStarlingT10
                         // can jsc tell us about timing?
 
 
-
+                        #region update physicstime_elapsed
                         foreach (var item in units)
                         {
 
@@ -3401,6 +3415,7 @@ namespace FlashHeatZeekerWithStarlingT10
                             if (item.physics != null)
                                 item.physics.update(physicstime_elapsed);
                         }
+                        #endregion
 
 
 
@@ -3413,7 +3428,7 @@ namespace FlashHeatZeekerWithStarlingT10
                         if (b2debug_viewport != null)
                             b2world.DrawDebugData();
 
-
+                        #region RenewTracks
                         foreach (var item in units)
                         {
                             if (item.physics_body != null)
@@ -3442,6 +3457,8 @@ namespace FlashHeatZeekerWithStarlingT10
                                      }
                                  );
                         }
+                        #endregion
+
 
 
 
@@ -3487,6 +3504,7 @@ namespace FlashHeatZeekerWithStarlingT10
 
                         move_zoom = move_zoom.Max(0.0).Min(1.0);
 
+                        #region SOUND
 #if SOUND
 
                         if (current.isdriver)
@@ -3557,6 +3575,8 @@ namespace FlashHeatZeekerWithStarlingT10
                             diesel2.Rate = 0.9 + move_zoom;
                         }
 #endif
+                        #endregion
+
 
                         // show only % of the zoom/speed boost
                         //if (lookat_disabled)
