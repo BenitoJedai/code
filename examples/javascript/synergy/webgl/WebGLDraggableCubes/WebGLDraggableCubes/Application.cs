@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using WebGLDraggableCubes.Design;
 using WebGLDraggableCubes.HTML.Pages;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace WebGLDraggableCubes
 {
@@ -28,14 +29,35 @@ namespace WebGLDraggableCubes
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // http://mrdoob.github.com/three.js/examples/webgl_interactive_draggablecubes.html
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+            // http://mrdoob.github.com/three.js/examples/webgl_interactive_draggablecubes.html
+            #region await Three.js then do InitializeContent
+            new[]
+            {
+                new THREE.opensource.gihtub.three.js.build.three().Content,
+                new TrackballControls().Content,
+                new stats().Content,
+                new AppCode().Content,
+            }.ForEach(
+                (SourceScriptElement, i, MoveNext) =>
+                {
+                    SourceScriptElement.AttachToDocument().onload +=
+                        delegate
+                        {
+                            MoveNext();
+                        };
+                }
+            )(
+                delegate
+                {
+                    InitializeContent();
+                }
             );
+            #endregion
+        }
+
+        private void InitializeContent()
+        {
         }
 
     }
