@@ -86,7 +86,7 @@ namespace FlashHeatZeekerWithStarlingT10
             sprite.fps +=
                 fps =>
                 {
-                    con.Text = new { fps }.ToString();
+                    new { fps }.ToString().ToDocumentTitle();
                 };
 
 
