@@ -20,7 +20,10 @@ namespace FlashHeatZeekerWithStarlingT10.Library
         IFrameDiagnosticsFlag user_pause { get; set; }
 
         IFrameDiagnosticsFlag hidelayers { get; set; }
-        
+
+        IFrameDiagnosticsFlag hideground { get; set; }
+        IFrameDiagnosticsFlag hidetracks { get; set; }
+
         IFrameDiagnosticsFlag hidetrees { get; set; }
         IFrameDiagnosticsFlag hidegroundunits { get; set; }
         IFrameDiagnosticsFlag hideairunits { get; set; }
@@ -43,6 +46,9 @@ namespace FlashHeatZeekerWithStarlingT10.Library
         public IFrameDiagnosticsFlag user_pause { get; set; }
 
         public IFrameDiagnosticsFlag hidelayers { get; set; }
+
+        public IFrameDiagnosticsFlag hideground { get; set; }
+        public IFrameDiagnosticsFlag hidetracks { get; set; }
 
         public IFrameDiagnosticsFlag hidetrees { get; set; }
         public IFrameDiagnosticsFlag hidegroundunits { get; set; }

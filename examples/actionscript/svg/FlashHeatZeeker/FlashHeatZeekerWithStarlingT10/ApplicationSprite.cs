@@ -1,3 +1,7 @@
+#define SOUND
+#define moredetails
+
+
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.Extensions;
@@ -889,10 +893,12 @@ namespace FlashHeatZeekerWithStarlingT10
             var viewport_loc = new Sprite().AttachTo(this);
             var viewport_rot = new Sprite().AttachTo(viewport_loc);
 
+            // 53 if removed 30 if shown
             var viewport_content_layers = new Sprite().AttachTo(viewport_rot);
 
             var viewport_content_layer0_ground = new Sprite().AttachTo(viewport_content_layers);
             var viewport_content_layer1_tracks = new Sprite().AttachTo(viewport_content_layers);
+
             var viewport_content_layer2_units = new Sprite().AttachTo(viewport_content_layers);
 
             var viewport_content_layer3_trees_shadow = new Sprite().AttachTo(viewport_content_layers);
@@ -901,7 +907,8 @@ namespace FlashHeatZeekerWithStarlingT10
             var viewport_content_layer4_airunits = new Sprite().AttachTo(viewport_content_layers);
 
 
-            var viewport_content_layer4_clouds = new Sprite().AttachTo(viewport_content_layers);
+            // not used yet
+            //var viewport_content_layer4_clouds = new Sprite().AttachTo(viewport_content_layers);
 
             viewport_rot.scaleX = 2.0;
             viewport_rot.scaleY = 2.0;
@@ -1167,7 +1174,7 @@ namespace FlashHeatZeekerWithStarlingT10
 
 #if moredetails
 
-                    var scale = 0.12 + 0.2 * (1 - r.NextDouble() * r.NextDouble());
+                    //var scale = 0.12 + 0.2 * (1 - r.NextDouble() * r.NextDouble());
 #endif
 
                     var unit_loc = new Sprite().AttachTo(viewport_content_layer3_trees);
@@ -2593,6 +2600,46 @@ namespace FlashHeatZeekerWithStarlingT10
             #endregion
 
 
+            #region hideground
+            __FrameDiagnostics.hideground = new HeadlessFrameDiagnosticsFlag
+            {
+                // not used?
+                GetValue = () => Convert.ToString(false),
+                SetValue =
+                    value =>
+                    {
+
+                        viewport_content_layer0_ground.visible =
+                            !viewport_content_layer0_ground.visible;
+
+                        Console.WriteLine(
+
+                            new { viewport_content_layer0_ground = new { viewport_content_layer0_ground.visible } }
+                        );
+                    }
+            };
+            #endregion
+
+            #region hidetracks
+            __FrameDiagnostics.hidetracks = new HeadlessFrameDiagnosticsFlag
+            {
+                // not used?
+                GetValue = () => Convert.ToString(false),
+                SetValue =
+                    value =>
+                    {
+
+                        viewport_content_layer1_tracks.visible =
+                            !viewport_content_layer1_tracks.visible;
+
+                        Console.WriteLine(
+
+                            new { viewport_content_layer1_tracks = new { viewport_content_layer1_tracks.visible } }
+                        );
+                    }
+            };
+            #endregion
+
             #region hidetrees
             __FrameDiagnostics.hidetrees = new HeadlessFrameDiagnosticsFlag
             {
@@ -2754,7 +2801,7 @@ namespace FlashHeatZeekerWithStarlingT10
 
             Console.WriteLine("__raise_context_FrameDiagnostics done");
 
-
+            // use box2d instead!
             var KineticEnergy = new List<KineticEnergy>();
 
             #region physicstime
@@ -3635,11 +3682,17 @@ namespace FlashHeatZeekerWithStarlingT10
                     var trace_thisframe = new Stopwatch();
                     trace_thisframe.Start();
 
-                    frameid++;
+                    var trace_thisframe_physics = new Stopwatch();
+                    trace_thisframe_physics.Start();
 
+
+
+
+                    frameid++;
                     maxframe.Stop();
 
                     __do_physics();
+                    trace_thisframe_physics.Stop();
 
 
                     //                    System.TimeSpan for Boolean op_GreaterThan(System.TimeSpan, System.TimeSpan) used at
@@ -3663,7 +3716,7 @@ namespace FlashHeatZeekerWithStarlingT10
                             SPEED = Math.Ceiling(current.physics.getSpeedKMH()) + " km/h";
 
                     // memory 538 - 187
-                    info.text = "F1 overview F2 physics F3 camera F4 clear\n" + new
+                    info.text = "F1 overview F2 physics F3 camera\n" + new
                     {
                         fps,
                         SPEED,
@@ -3707,7 +3760,10 @@ namespace FlashHeatZeekerWithStarlingT10
                         trace_thisframe.Stop();
                         if (traceperformance_enabled)
                             if (traceperformance != null)
-                                traceperformance("frame", trace_thisframe.ElapsedMilliseconds + "ms");
+                            {
+                                traceperformance("frame", trace_thisframe.ElapsedTicks + "ticks");
+                                traceperformance("physics", trace_thisframe_physics.ElapsedTicks + "ticks");
+                            }
                     }
                 };
             #endregion

@@ -98,6 +98,19 @@ namespace FlashHeatZeekerWithStarlingT10.Library
                    e.hidelayers.value = Convert.ToString(this.checkBox6.Checked);
                };
 
+
+            this.checkBox7.CheckedChanged +=
+              delegate
+              {
+                  e.hideground.value = Convert.ToString(this.checkBox7.Checked);
+              };
+
+            this.checkBox8.CheckedChanged +=
+              delegate
+              {
+                  e.hidetracks.value = Convert.ToString(this.checkBox8.Checked);
+              };
+
             this.button1.Click +=
                delegate
                {
