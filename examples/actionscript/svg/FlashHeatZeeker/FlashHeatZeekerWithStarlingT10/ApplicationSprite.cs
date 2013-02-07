@@ -888,19 +888,20 @@ namespace FlashHeatZeekerWithStarlingT10
 
             var viewport_loc = new Sprite().AttachTo(this);
             var viewport_rot = new Sprite().AttachTo(viewport_loc);
-            var viewport_content = new Sprite().AttachTo(viewport_rot);
 
-            var viewport_content_layer0_ground = new Sprite().AttachTo(viewport_content);
-            var viewport_content_layer1_tracks = new Sprite().AttachTo(viewport_content);
-            var viewport_content_layer2_units = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layers = new Sprite().AttachTo(viewport_rot);
 
-            var viewport_content_layer3_trees_shadow = new Sprite().AttachTo(viewport_content);
-            var viewport_content_layer3_trees = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer0_ground = new Sprite().AttachTo(viewport_content_layers);
+            var viewport_content_layer1_tracks = new Sprite().AttachTo(viewport_content_layers);
+            var viewport_content_layer2_units = new Sprite().AttachTo(viewport_content_layers);
 
-            var viewport_content_layer4_airunits = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer3_trees_shadow = new Sprite().AttachTo(viewport_content_layers);
+            var viewport_content_layer3_trees = new Sprite().AttachTo(viewport_content_layers);
+
+            var viewport_content_layer4_airunits = new Sprite().AttachTo(viewport_content_layers);
 
 
-            var viewport_content_layer4_clouds = new Sprite().AttachTo(viewport_content);
+            var viewport_content_layer4_clouds = new Sprite().AttachTo(viewport_content_layers);
 
             viewport_rot.scaleX = 2.0;
             viewport_rot.scaleY = 2.0;
@@ -2356,11 +2357,12 @@ namespace FlashHeatZeekerWithStarlingT10
 
             var move_zoom = 1.0;
 
+#if SOUND
             var helicopter1 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT10/helicopter1.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var diesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT10/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var sand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT10/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var jeepengine = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT10/jeepengine.mp3"].ToSoundAsset().ToMP3PitchLoop();
-
+#endif
 
             //diesel2.Sound.vol
             var profile_map_teleportcheck = 0L;
@@ -2393,8 +2395,8 @@ namespace FlashHeatZeekerWithStarlingT10
 
                     viewport_rot.rotation = -rot;
 
-                    viewport_content.x = -x;
-                    viewport_content.y = -y;
+                    viewport_content_layers.x = -x;
+                    viewport_content_layers.y = -y;
                 }
 
                 var __profile_map_teleportcheck = new Stopwatch();
@@ -2550,7 +2552,8 @@ namespace FlashHeatZeekerWithStarlingT10
             #endregion
 
             bool flags_user_pause = false;
-            bool trace_performance = false;
+            Action<string, string> traceperformance = null;
+            bool traceperformance_enabled = false;
 
             Console.WriteLine("new XFrameDiagnostics");
 
@@ -2570,6 +2573,25 @@ namespace FlashHeatZeekerWithStarlingT10
                     }
             };
             #endregion
+
+            #region hidelayers
+            __FrameDiagnostics.hidelayers = new HeadlessFrameDiagnosticsFlag
+            {
+                // not used?
+                GetValue = () => Convert.ToString(false),
+                SetValue =
+                    value =>
+                    {
+
+                        if (Convert.ToBoolean(value))
+                            viewport_content_layers.Orphanize();
+                        else
+                            viewport_content_layers.AttachTo(viewport_rot);
+
+                    }
+            };
+            #endregion
+
 
             #region hidetrees
             __FrameDiagnostics.hidetrees = new HeadlessFrameDiagnosticsFlag
@@ -2683,24 +2705,33 @@ namespace FlashHeatZeekerWithStarlingT10
             #endregion
 
             #region trace_performance
-            __FrameDiagnostics.traceperformance = new HeadlessFrameDiagnosticsFlag
+            __FrameDiagnostics.traceperformance = value =>
+            {
+                traceperformance = value;
+                Console.WriteLine("traceperformance set");
+            };
+            #endregion
+
+
+            #region traceperformance_enabled
+            __FrameDiagnostics.traceperformance_enabled = new HeadlessFrameDiagnosticsFlag
             {
                 // not used?
                 GetValue = () => Convert.ToString(false),
                 SetValue =
                     value =>
                     {
+                        traceperformance_enabled = Convert.ToBoolean(value);
 
-                        trace_performance =
-                            !trace_performance;
 
                         Console.WriteLine(
 
-                            new { trace_performance }
+                            new { traceperformance_enabled }
                         );
                     }
             };
             #endregion
+
 
 
 
@@ -2879,6 +2910,8 @@ namespace FlashHeatZeekerWithStarlingT10
 
                     move_zoom = move_zoom.Max(0.0).Min(1.0);
 
+#if SOUND
+
                     if (current.isdriver)
                     {
                         diesel2.LeftVolume = 0;
@@ -2946,6 +2979,8 @@ namespace FlashHeatZeekerWithStarlingT10
                         diesel2.RightVolume = 1;
                         diesel2.Rate = 0.9 + move_zoom;
                     }
+#endif
+
                     // show only % of the zoom/speed boost
                     //if (lookat_disabled)
                     //{
@@ -3456,7 +3491,7 @@ namespace FlashHeatZeekerWithStarlingT10
                       // http://www.sounddogs.com/results.asp?Type=1&CategoryID=1027&SubcategoryID=11
                       KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT10/cannon1.mp3"].ToSoundAsset().play();
 
-                      var unit_bullet = new Sprite().AttachTo(viewport_content);
+                      var unit_bullet = new Sprite().AttachTo(viewport_content_layers);
 
                       var shape = new Image(textures_bullet) { x = -200, y = -200 }.AttachTo(unit_bullet);
 
@@ -3597,6 +3632,9 @@ namespace FlashHeatZeekerWithStarlingT10
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
+                    var trace_thisframe = new Stopwatch();
+                    trace_thisframe.Start();
+
                     frameid++;
 
                     maxframe.Stop();
@@ -3652,18 +3690,25 @@ namespace FlashHeatZeekerWithStarlingT10
                     if (sw.ElapsedMilliseconds < 1000)
                     {
                         maxframe.Restart();
-                        return;
                     }
+                    else
+                    {
+                        fps = ii;
 
-                    fps = ii;
+                        ApplicationSprite.__sprite.__raise_fps("" + fps);
 
-                    ApplicationSprite.__sprite.__raise_fps("" + fps);
+                        network_rx_last_second = network_rx;
 
-                    network_rx_last_second = network_rx;
+                        ii = 0;
+                        maxframe_elapsed = 0;
+                        sw.Restart();
 
-                    ii = 0;
-                    maxframe_elapsed = 0;
-                    sw.Restart();
+
+                        trace_thisframe.Stop();
+                        if (traceperformance_enabled)
+                            if (traceperformance != null)
+                                traceperformance("frame", trace_thisframe.ElapsedMilliseconds + "ms");
+                    }
                 };
             #endregion
 
