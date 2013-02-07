@@ -58,6 +58,12 @@ namespace FlashHeatZeekerWithStarlingT10.Library
                {
                    e.F1();
                };
+
+            this.button2.Click +=
+             delegate
+             {
+                 e.F2();
+             };
         }
 
         private void FrameDiagnostics_Load(object sender, EventArgs e)
@@ -66,6 +72,11 @@ namespace FlashHeatZeekerWithStarlingT10.Library
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
         {
 
         }

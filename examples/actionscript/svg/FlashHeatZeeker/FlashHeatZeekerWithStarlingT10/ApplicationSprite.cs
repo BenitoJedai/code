@@ -2550,6 +2550,7 @@ namespace FlashHeatZeekerWithStarlingT10
             #endregion
 
             bool flags_user_pause = false;
+            bool trace_performance = false;
 
             Console.WriteLine("new XFrameDiagnostics");
 
@@ -2652,10 +2653,55 @@ namespace FlashHeatZeekerWithStarlingT10
                     move_speed = move_speed_default;
                 }
             };
-            #endregion
 
 
             __FrameDiagnostics.F1 = F1;
+            #endregion
+
+            #region F2
+            Action F2 = delegate
+            {
+                // faster?
+                // jsc flash natives gen / fiels public vs protected
+                //b2debugDraw.m_sprite.alpha = 0;
+
+                if (b2debug_viewport == null)
+                {
+                    get_b2debug_viewport();
+                }
+                else
+                {
+                    b2world.SetDebugDraw(null);
+
+                    b2debug_viewport.Dispose();
+
+                    b2debug_viewport = null;
+                    //b2debugDraw = null;
+                }
+            };
+            __FrameDiagnostics.F2 = F2;
+            #endregion
+
+            #region trace_performance
+            __FrameDiagnostics.traceperformance = new HeadlessFrameDiagnosticsFlag
+            {
+                // not used?
+                GetValue = () => Convert.ToString(false),
+                SetValue =
+                    value =>
+                    {
+
+                        trace_performance =
+                            !trace_performance;
+
+                        Console.WriteLine(
+
+                            new { trace_performance }
+                        );
+                    }
+            };
+            #endregion
+
 
 
             #region __game_InitializeFrameDiagnostics
@@ -2685,7 +2731,7 @@ namespace FlashHeatZeekerWithStarlingT10
 
             physicstime.Start();
 
-            ApplicationSprite.__stage.enterFrame +=
+            Action __do_physics =
                 delegate
                 {
                     physicstime.Stop();
@@ -3479,23 +3525,7 @@ namespace FlashHeatZeekerWithStarlingT10
                   // toggle physics view
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F2)
                   {
-                      // faster?
-                      // jsc flash natives gen / fiels public vs protected
-                      //b2debugDraw.m_sprite.alpha = 0;
-
-                      if (b2debug_viewport == null)
-                      {
-                          get_b2debug_viewport();
-                      }
-                      else
-                      {
-                          b2world.SetDebugDraw(null);
-
-                          b2debug_viewport.Dispose();
-
-                          b2debug_viewport = null;
-                          //b2debugDraw = null;
-                      }
+                      F2();
                   }
 
                   // orbit mode
@@ -3571,6 +3601,9 @@ namespace FlashHeatZeekerWithStarlingT10
 
                     maxframe.Stop();
 
+                    __do_physics();
+
+
                     //                    System.TimeSpan for Boolean op_GreaterThan(System.TimeSpan, System.TimeSpan) used at
                     //FlashHeatZeeker.ApplicationSprite+<>c__DisplayClass11.<.ctor>b__d at offset 001e.
 
@@ -3633,6 +3666,7 @@ namespace FlashHeatZeekerWithStarlingT10
                     sw.Restart();
                 };
             #endregion
+
 
             #region networktimer
             var networktimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 15);
@@ -3703,6 +3737,7 @@ namespace FlashHeatZeekerWithStarlingT10
             //networktimer.start();
             #endregion
 
+            #region __sprite_game_onmessage
             Action<XElement> __sprite_game_onmessage = null;
 
             __sprite_game_onmessage =
@@ -3886,6 +3921,8 @@ namespace FlashHeatZeekerWithStarlingT10
 
             // preventing a bug?
             ApplicationSprite.__sprite.__game_onmessage += __sprite_game_onmessage;
+            #endregion
+
 
         }
 

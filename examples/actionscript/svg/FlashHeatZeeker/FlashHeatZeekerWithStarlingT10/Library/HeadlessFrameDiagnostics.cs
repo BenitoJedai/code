@@ -10,7 +10,10 @@ namespace FlashHeatZeekerWithStarlingT10.Library
     // jsc could try to do this on its own in the future
     public interface IFrameDiagnostics
     {
+        IFrameDiagnosticsFlag traceperformance { get; set; }
+
         Action F1 { get; set; }
+        Action F2 { get; set; }
 
         IFrameDiagnosticsFlag user_pause { get; set; }
         IFrameDiagnosticsFlag hidetrees { get; set; }
@@ -23,12 +26,12 @@ namespace FlashHeatZeekerWithStarlingT10.Library
     // to be used in flash
     public class HeadlessFrameDiagnostics : IFrameDiagnostics
     {
+        // jsc could turn this into implicit interface for tier split/context switch
 
-        public HeadlessFrameDiagnostics()
-        {
-        }
+        public IFrameDiagnosticsFlag traceperformance { get; set; }
 
         public Action F1 { get; set; }
+        public Action F2 { get; set; }
 
 
         public IFrameDiagnosticsFlag user_pause { get; set; }
@@ -37,7 +40,7 @@ namespace FlashHeatZeekerWithStarlingT10.Library
         public IFrameDiagnosticsFlag hideairunits { get; set; }
 
 
-     
+
     }
 
 
