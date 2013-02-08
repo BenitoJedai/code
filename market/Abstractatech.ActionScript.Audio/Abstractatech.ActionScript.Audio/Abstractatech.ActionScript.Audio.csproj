@@ -127,7 +127,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\diesel3.mp3" />
+    <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\tone_sin_100hz.mp3" />
+    <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\jeepengine.mp3" />
     <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\diesel2.mp3" />
     <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\helicopter1.mp3" />
   </ItemGroup>

@@ -24,6 +24,18 @@ namespace Abstractatech.ActionScript.Audio
 {
     public sealed class ApplicationSprite : Sprite
     {
+        public Action PlayDiesel { get; set; }
+        public Action Playhelicopter1 { get; set; }
+
+
+        public Action PlayJeep { get; set; }
+        public Action<Action<string>> BytesForJeep { get; set; }
+
+
+        public Action PlayTone { get; set; }
+        public Action<Action<string>> BytesForTone { get; set; }
+
+
         public ApplicationSprite()
         {
             var Rate = new TextField
@@ -32,22 +44,47 @@ namespace Abstractatech.ActionScript.Audio
                 width = 400
             }.AttachTo(this);
 
-            var p = new MP3PitchLoop(
+            var loopdiesel2 = new MP3PitchLoop(
 
-                KnownEmbeddedResources.Default["assets/Abstractatech.ActionScript.Audio/diesel3.mp3"].ToSoundAsset()
+                KnownEmbeddedResources.Default[
+                //"assets/Abstractatech.ActionScript.Audio/jeepengine.mp3"
+                "assets/Abstractatech.ActionScript.Audio/diesel2.mp3"
+                ].ToSoundAsset()
 
                 );
+
+            var loophelicopter1 = new MP3PitchLoop(
+
+              KnownEmbeddedResources.Default[
+                //"assets/Abstractatech.ActionScript.Audio/jeepengine.mp3"
+                    "assets/Abstractatech.ActionScript.Audio/helicopter1.mp3"
+              ].ToSoundAsset()
+
+          );
+
+
+            var loopjeep = new MP3PitchLoop(
+
+              KnownEmbeddedResources.Default[
+                    "assets/Abstractatech.ActionScript.Audio/jeepengine.mp3"
+              ].ToSoundAsset()
+
+          );
+
+
+            var looptone = new MP3PitchLoop(
+
+              KnownEmbeddedResources.Default[
+                    "assets/Abstractatech.ActionScript.Audio/tone_sin_100hz.mp3"
+              ].ToSoundAsset()
+
+          );
 
             var o = new Sprite
             {
 
             }.AttachTo(this);
 
-            o.click +=
-                delegate
-                {
-                    p.Sound.close();
-                };
 
             o.graphics.beginFill(0x0, 0.5);
             o.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
@@ -55,25 +92,80 @@ namespace Abstractatech.ActionScript.Audio
             o.mouseMove +=
                 e =>
                 {
-                    p.RightVolume = e.stageX / (this.stage.stageWidth / 2);
-                    p.LeftVolume = (this.stage.stageWidth - e.stageX) / (this.stage.stageWidth / 2);
+                    loopdiesel2.RightVolume = e.stageX / (this.stage.stageWidth / 2);
+                    loopdiesel2.LeftVolume = (this.stage.stageWidth - e.stageX) / (this.stage.stageWidth / 2);
 
                     var rate = (e.stageY / this.stage.stageHeight) * 2;
-                    p.Rate = rate;
 
-                    Rate.text = new { rate, p.LeftVolume, p.RightVolume }.ToString();
+                    loopdiesel2.Rate = rate;
+                    loopjeep.Rate = rate;
+                    loophelicopter1.Rate = rate;
+
+                    Rate.text = new { loopdiesel2.MAGIC_DELAY, rate, loopdiesel2.LeftVolume, loopdiesel2.RightVolume }.ToString();
                 };
 
+            PlayDiesel = delegate
+            {
+                loopdiesel2.Sound.play();
+
+
+            };
+
+            Playhelicopter1 = delegate
+            {
+                loophelicopter1.Sound.play();
+            };
+
+            PlayJeep = delegate
+            {
+                loopjeep.Sound.play();
+            };
+
+            BytesForJeep =
+                yield =>
+                {
+                    var m = new ByteArray();
+                    loopjeep.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE, 0);
+
+                    var bytes = m.ToMemoryStream().ToArray();
+                    var base64 = Convert.ToBase64String(bytes);
+
+
+                    yield(base64);
+                };
+
+
+
+
+            PlayTone = delegate
+            {
+                looptone.Sound.play();
+            };
+
+            BytesForTone =
+                yield =>
+                {
+                    var m = new ByteArray();
+                    looptone.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE, 0);
+
+                    var bytes = m.ToMemoryStream().ToArray();
+                    var base64 = Convert.ToBase64String(bytes);
+
+
+                    yield(base64);
+                };
         }
 
     }
 
     public class MP3PitchLoop
     {
-        private const double MAGIC_DELAY = 2257.0; // LAME 3.98.2 + flash.media.Sound Delay
+        public double MAGIC_DELAY = 2257.0; // LAME 3.98.2 + flash.media.Sound Delay
+        //public double MAGIC_DELAY = 0; // LAME 3.98.2 + flash.media.Sound Delay
 
 
-        private const int BLOCK_SIZE = 4096 / 2;
+        //private const int BLOCK_SIZE = 4096 / 2;
+        public const int BLOCK_SIZE = 4096 * 2;
 
         public double Rate { get; set; }
 
@@ -83,13 +175,18 @@ namespace Abstractatech.ActionScript.Audio
         public double LeftVolume = 1.0;
         public double RightVolume = 1.0;
 
-        public MP3PitchLoop(Sound _mp3)
+
+        public Sound SourceAudio;
+
+        public MP3PitchLoop(Sound SourceAudio, bool autoplay = false)
         {
+            this.SourceAudio = SourceAudio;
+
             Rate = 1.0;
 
 
 
-            var _target = new ByteArray();
+            var LoopAudioStream = new ByteArray();
 
             var _position = MAGIC_DELAY;
 
@@ -98,10 +195,10 @@ namespace Abstractatech.ActionScript.Audio
                 e =>
                 {
                     //-- REUSE INSTEAD OF RECREATION
-                    _target.position = 0;
+                    LoopAudioStream.position = 0;
 
                     //-- SHORTCUT
-                    var data = e.data;
+                    var TargetAudioStream = e.data;
 
                     var scaledBlockSize = BLOCK_SIZE * Rate;
                     var positionInt = Convert.ToInt32(_position);
@@ -118,7 +215,7 @@ namespace Abstractatech.ActionScript.Audio
                     //-- EXTRACT SAMPLES
 
                     //var need1 = Math.Min(positionInt + need, _mp3.bytesTotal - 0) - positionInt;
-                    var read = (int)_mp3.extract(_target, need, positionInt);
+                    var read = (int)SourceAudio.extract(LoopAudioStream, need, positionInt);
 
 
                     var n = BLOCK_SIZE;
@@ -127,9 +224,9 @@ namespace Abstractatech.ActionScript.Audio
                     {
                         var need2 = n - read;
 
-                        nextposition = MAGIC_DELAY ;
+                        nextposition = MAGIC_DELAY;
 
-                        var read2 = (int)_mp3.extract(_target, need2, nextposition);
+                        var read2 = (int)SourceAudio.extract(LoopAudioStream, need2, nextposition);
 
                         read += read2;
                     }
@@ -153,19 +250,19 @@ namespace Abstractatech.ActionScript.Audio
                             positionTargetInt = Convert.ToInt32(positionTargetNum);
 
                             //-- SET TARGET READ POSITION
-                            _target.position = (uint)(positionTargetInt << 3);
+                            LoopAudioStream.position = (uint)(positionTargetInt << 3);
 
                             //-- READ TWO STEREO SAMPLES FOR LINEAR INTERPOLATION
-                            l0 = _target.readFloat() * LeftVolume;
-                            r0 = _target.readFloat() * RightVolume;
+                            l0 = LoopAudioStream.readFloat() * LeftVolume;
+                            r0 = LoopAudioStream.readFloat() * RightVolume;
 
-                            l1 = _target.readFloat() * LeftVolume;
-                            r1 = _target.readFloat() * RightVolume;
+                            l1 = LoopAudioStream.readFloat() * LeftVolume;
+                            r1 = LoopAudioStream.readFloat() * RightVolume;
                         }
 
                         //-- WRITE INTERPOLATED AMPLITUDES INTO STREAM
-                        data.writeFloat(l0 + alpha * (l1 - l0));
-                        data.writeFloat(r0 + alpha * (r1 - r0));
+                        TargetAudioStream.writeFloat(l0 + alpha * (l1 - l0));
+                        TargetAudioStream.writeFloat(r0 + alpha * (r1 - r0));
 
                         //-- INCREASE TARGET POSITION
                         positionTargetNum += Rate;
@@ -175,24 +272,27 @@ namespace Abstractatech.ActionScript.Audio
                         while (alpha >= 1.0) --alpha;
                     }
 
-                    //-- FILL REST OF STREAM WITH ZEROs
+                    #region -- FILL REST OF STREAM WITH ZEROs
                     if (i < BLOCK_SIZE)
                     {
                         while (i < BLOCK_SIZE)
                         {
-                            data.writeFloat(0.0);
-                            data.writeFloat(0.0);
+                            TargetAudioStream.writeFloat(0.0);
+                            TargetAudioStream.writeFloat(0.0);
 
                             ++i;
                         }
                     }
+                    #endregion
+
 
                     //-- INCREASE SOUND POSITION
                     _position = nextposition;
                 };
 
 
-            Sound.play();
+            if (autoplay)
+                Sound.play();
 
         }
     }
