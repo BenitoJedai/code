@@ -38,10 +38,10 @@ namespace Abstractatech.ActionScript.Audio
 
 
             #region visualize
-            Action<byte[], Action<double, double, Action<double>, IWindow>> visualize_and_getpadding = null;
+            Action<bool, byte[], Action<double, double, Action<double>, IWindow>> visualize_and_getpadding = null;
 
             visualize_and_getpadding =
-                (bytes, set_padding) =>
+                (allowpadding, bytes, set_padding) =>
                 {
                     var r = new BinaryReader(new MemoryStream(bytes));
 
@@ -84,10 +84,10 @@ namespace Abstractatech.ActionScript.Audio
                                 var xw = new StringBuilder().Append("M0,400 ");
 
 
-                                var paddingmode_yellow = true;
+                                var paddingmode_yellow = allowpadding;
                                 var paddingsamples_yellow = 0;
 
-                                var paddingmode_red = true;
+                                var paddingmode_red = allowpadding;
                                 var paddingsamples_red = 0;
 
 
@@ -329,7 +329,8 @@ namespace Abstractatech.ActionScript.Audio
                                      position =>
                                      {
                                          var x = (2 * position * scalex);
-                                         path_current.d = "M" + x + ",50 L" + x + ",750";
+                                         path_current.d = "M" + x + ",50 L" + x + ",750 L" + (x + MP3PitchLoop.BLOCK_SIZE * 2 * scalex) + ",750 L" + (x + MP3PitchLoop.BLOCK_SIZE * 2 * scalex) + ",50 L" + x + ",50";
+
                                      };
 
 
@@ -370,6 +371,7 @@ namespace Abstractatech.ActionScript.Audio
                          var bytes = Convert.FromBase64String(base64);
 
                          visualize_and_getpadding(
+                             true,
                              bytes,
                              (paddingleft, paddingright, set_position, w) =>
                              {
@@ -409,7 +411,9 @@ namespace Abstractatech.ActionScript.Audio
 
                                                       var diagnostics_bytes = Convert.FromBase64String(diagnostics);
 
-                                                      visualize_and_getpadding(diagnostics_bytes,
+                                                      visualize_and_getpadding(
+                                                          false,
+                                                          diagnostics_bytes,
                                                           delegate
                                                           { }
                                                       );

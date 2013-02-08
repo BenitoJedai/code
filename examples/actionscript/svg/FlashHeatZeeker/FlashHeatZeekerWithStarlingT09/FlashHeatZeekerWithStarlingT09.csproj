@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2979B3A7-A52D-4077-A0D8-9B18D73F2D0E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlashHeatZeekerWithStarlingT09</RootNamespace>
+    <AssemblyName>FlashHeatZeekerWithStarlingT09</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>FlashHeatZeekerWithStarlingT09.Program</StartupObject>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Abstractatech.ActionScript.Audio">
+      <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="Abstractatech.ConsoleFormPackage">
+      <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
+    </Reference>
+    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
+      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
+    </Reference>
+    <Reference Include="box2dflash">
+      <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
+    </Reference>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="starling">
+      <HintPath>..\packages\starling.1.0.0.0\lib\starling.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="FlashHeatZeekerWithStarlingT09.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeekerWithStarlingT09.AssetsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
+    <Compile Include="Library\AIWaypointDriver.cs" />
+    <Compile Include="Library\BoxProp.cs" />
+    <Compile Include="Library\Car.cs" />
+    <Compile Include="Library\FrameDiagnostics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\FrameDiagnostics.Designer.cs">
+      <DependentUpon>FrameDiagnostics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Library\HeadlessFrameDiagnostics.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationSprite.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Content Include="Textures\white-jsc.png" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\snd_jeepengine_start.mp3" />
+    <EmbeddedResource Include="Library\FrameDiagnostics.resx">
+      <DependentUpon>FrameDiagnostics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\snd_touchdown.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\hind0_nowings.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\hind0_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\hind0_wing1.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\jeepengine.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\sand_run.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\tree0_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\ped_stand.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\jeep_trackpattern.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\jeep_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\jeep.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\letterG.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\letterF.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\letterE.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\letterD.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\letterC.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\letterB.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\road0.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\watertower0.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\hill1.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\tanktrackpattern.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\greentank_guntower_rank.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\cannon1.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\letsgo.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\bullet.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\greentank_guntower.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\greentank_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\diesel4.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\diesel2.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\helicopter1.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\tracks0.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\tree0.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\touchdown.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\hill0.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\greentank.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
+)
+
+if $(ConfigurationName)==Release (
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
+)</PostBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+            </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>
