@@ -56,32 +56,35 @@ namespace Abstractatech.ActionScript.Audio
                     w.onload +=
                         delegate
                         {
-                            //BitConverter.ToSingle(
-                            w.document.body.style.margin = "0px";
-
-                            // verbose huh. svg::svg?
-                            var svg = new ISVGSVGElement().AttachTo(w.document.body);
-
-                            var path = new ISVGPathElement().AttachTo(svg);
-
-                            path.setAttribute("style", "stroke: black; fill: none;");
-
-                            var xw = new StringBuilder().Append("M10,200 ");
-
-                            //Console.WriteLine(base64);
-
-                            //var m = new MemoryStream(bytes);
-
-                            Console.WriteLine("we have bytes" + new { bytes.Length });
-
-                            // http://stackoverflow.com/questions/4414077/read-write-bytes-of-float-in-js
-                            //var _buffer = new ArrayBuffer(bytes.Length);
-                            var _bytes = new Uint8Array(bytes);
-
-                            Console.WriteLine("we have Uint8Array" + new { _bytes.length });
+                            Console.WriteLine("onload");
 
                             try
                             {
+
+                                //BitConverter.ToSingle(
+                                w.document.body.style.margin = "0px";
+
+                                // verbose huh. svg::svg?
+                                var svg = new ISVGSVGElement().AttachTo(w.document.body);
+
+                                var path = new ISVGPathElement().AttachTo(svg);
+
+                                path.setAttribute("style", "stroke: black; fill: none;");
+
+                                var xw = new StringBuilder().Append("M10,200 ");
+
+
+                                //var m = new MemoryStream(bytes);
+
+                                Console.WriteLine("we have bytes" + new { bytes.Length });
+
+                                // http://stackoverflow.com/questions/4414077/read-write-bytes-of-float-in-js
+                                //var _buffer = new ArrayBuffer(bytes.Length);
+                                var _bytes = new Uint8Array(bytes);
+
+                                Console.WriteLine("we have Uint8Array" + new { _bytes.length });
+
+
                                 var _floats = new Float32Array(_bytes.buffer, 0, (uint)(_bytes.length / 4));
 
                                 Console.WriteLine("we have Float32Array " + new { _floats.length });
@@ -108,7 +111,10 @@ namespace Abstractatech.ActionScript.Audio
                                 // done { min = 7.847271400218976e-44, max = 2.320612754833406e-38, paddingsamples = 1337 }
 
                                 w.document.body.style.minHeight = 400 + "px";
-                                w.document.body.style.minWidth = _floats.length * 4.0 + "px";
+
+                                var scalex = 1.0 / 4.0;
+
+                                w.document.body.style.minWidth = _floats.length * scalex + "px";
                                 w.document.body.style.overflow = IStyle.OverflowEnum.auto;
 
                                 // we should have 4096 stereo samples
@@ -167,14 +173,15 @@ namespace Abstractatech.ActionScript.Audio
                                         // 3.40282e+038f
 
                                         // http://audio.tutsplus.com/articles/general/all-youll-ever-need-to-know-about-samples-and-bits/
+                                        // http://www.lomont.org/Software/Misc/FFT/SimpleFFT.pdf
 
-                                        var l0reverse = l0 * float.MaxValue;
+                                        //var l0reverse = l0 * float.MaxValue;
 
                                         //iy = (200.0 - l0 * 1E37 * 200);
-                                        iy = (200.0 - l0reverse * 10.0);
+                                        iy = (200.0 - l0 * 200.0);
                                     }
 
-                                    xw.Append(" L" + (ix * 4.0) + "," + iy);
+                                    xw.Append(" L" + (ix * scalex) + "," + iy);
 
 
                                     //Console.WriteLine("" + ReadFloat32(i));
@@ -187,17 +194,20 @@ namespace Abstractatech.ActionScript.Audio
                                 w.document.title = new { samplesperchannel, duration_seconds }.ToString();
 
                                 Console.WriteLine("done " + new { min, max, paddingsamples });
+
+
+
+                                //xw.Append(" L30,210");
+
+                                path.d = xw.ToString();
+
                             }
                             catch (Exception error)
                             {
                                 Console.WriteLine("error " + new { error.Message, error });
                             }
 
-
-
-                            //xw.Append(" L30,210");
-
-                            path.d = xw.ToString();
+                            Console.WriteLine("done");
 
                         };
 
@@ -211,20 +221,14 @@ namespace Abstractatech.ActionScript.Audio
 
             page.VisualizeJeep.onclick += delegate
             {
-                var w = new IWindow();
-
-                w.onload +=
-                    delegate
+                sprite.BytesForJeep(
+                    base64 =>
                     {
-                        sprite.BytesForJeep(
-                            base64 =>
-                            {
-                                var bytes = Convert.FromBase64String(base64);
+                        var bytes = Convert.FromBase64String(base64);
 
-                                visualize(bytes);
-                            }
-                        );
-                    };
+                        visualize(bytes);
+                    }
+                );
             };
 
 

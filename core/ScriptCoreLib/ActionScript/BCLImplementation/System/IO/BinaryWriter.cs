@@ -70,6 +70,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			this.OutStream.Write(value, 0, value.Length);
 		}
 
+        public virtual void Write(float value)
+        {
+            OutStream.ToByteArray().writeFloat(value);
+        }
+
 		public virtual void Write(double value)
 		{
 			OutStream.ToByteArray().writeDouble(value);

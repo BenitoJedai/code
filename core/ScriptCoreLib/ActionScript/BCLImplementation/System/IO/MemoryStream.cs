@@ -11,7 +11,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.MemoryStream))]
 	internal class __MemoryStream : __Stream
 	{
-		internal ByteArray Buffer = new ByteArray();
+        // this cost use 1 man day to figure out!
+        // http://forums.adobe.com/thread/659903
+        // X:\jsc.svn\examples\actionscript\ReadFloat32\ReadFloat32\ApplicationSprite.cs
+        internal ByteArray Buffer = new ByteArray { endian = Endian.LITTLE_ENDIAN };
 
 		public __MemoryStream() : this(null)
 		{
@@ -31,7 +34,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 		public override int Read(byte[] buffer, int offset, int count)
 		{
 			// http://livedocs.adobe.com/flex/2/langref/flash/utils/ByteArray.html#readBytes()
-			var o = new ByteArray();
+            var o = new ByteArray { endian = Endian.LITTLE_ENDIAN };
 
 			
 			Buffer.readBytes(o, (uint)offset, (uint)count);
@@ -49,7 +52,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 		public override void Write(byte[] buffer, int offset, int count)
 		{
 			// http://livedocs.adobe.com/flex/2/langref/flash/utils/ByteArray.html#writeBytes()
-			var o = new ByteArray();
+            var o = new ByteArray { endian = Endian.LITTLE_ENDIAN };
 
 			for (int i = 0; i < count; i++)
 			{

@@ -9,9 +9,22 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
 
 
-    [Script(HasNoPrototype = true)]
+    [Script(InternalConstructor = true)]
     public class IWindow : ISink
     {
+        #region InternalConstructor
+        public IWindow()
+		{
+		}
+
+        private static IWindow InternalConstructor()
+		{
+            IWindow a = Native.Window.open("about:blank", "_blank", 400, 400, false);
+
+			return a;
+		}
+        #endregion
+
         public IFunction Array;
 
  
@@ -93,7 +106,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IWindow open(string URL, string target,
             int width,
             int height,
-            bool scrollbars)
+            bool scrollbars = false)
         {
             IArray<string> f = new IArray<string>();
 
