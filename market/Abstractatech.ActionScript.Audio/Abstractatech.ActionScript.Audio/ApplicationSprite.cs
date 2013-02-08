@@ -26,7 +26,10 @@ namespace Abstractatech.ActionScript.Audio
     public sealed class ApplicationSprite : Sprite
     {
         public Action PlayDiesel { get; set; }
+        public Action<Action<string>> BytesForDiesel { get; set; }
+
         public Action Playhelicopter1 { get; set; }
+        public Action<Action<string>> BytesForHelicopter { get; set; }
 
 
         public Action PlayJeep { get; set; }
@@ -126,7 +129,7 @@ namespace Abstractatech.ActionScript.Audio
                 yield =>
                 {
                     var m = new ByteArray { endian = Endian.LITTLE_ENDIAN };
-                    loopjeep.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE * 10, 0);
+                    loopjeep.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE * 40, 0);
 
                     var bytes = m.ToMemoryStream().ToArray();
                     var base64 = Convert.ToBase64String(bytes);
@@ -149,7 +152,7 @@ namespace Abstractatech.ActionScript.Audio
                     var m = new ByteArray { endian = Endian.LITTLE_ENDIAN };
 
                     // can we have it all?
-                    loopjeep.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE * 10, 0);
+                    looptone.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE * 40, 0);
 
                     var bytes = m.ToMemoryStream().ToArray();
                     var base64 = Convert.ToBase64String(bytes);
