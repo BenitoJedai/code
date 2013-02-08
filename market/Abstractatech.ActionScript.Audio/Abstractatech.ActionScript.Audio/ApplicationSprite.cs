@@ -115,6 +115,10 @@ namespace Abstractatech.ActionScript.Audio
                     loopdiesel2.RightVolume = e.stageX / (this.stage.stageWidth / 2);
                     loopdiesel2.LeftVolume = (this.stage.stageWidth - e.stageX) / (this.stage.stageWidth / 2);
 
+                    loopjeep.RightVolume = e.stageX / (this.stage.stageWidth / 2);
+                    loopjeep.LeftVolume = (this.stage.stageWidth - e.stageX) / (this.stage.stageWidth / 2);
+
+
                     var rate = (e.stageY / this.stage.stageHeight) * 1.5 + 0.5;
 
                     loopdiesel2.Rate = rate;
@@ -336,15 +340,23 @@ namespace Abstractatech.ActionScript.Audio
                 {
                     var TargetAudioStream = e.data;
 
+                    if (glitchmode)
+                    {
+                        glitchmode = false;
+                        glitch.Clear();
+
+                        //foreach (var item in glitch)
+                        //{
+                        //    TargetAudioStream.writeFloat(item);
+                        //}
+
+                        //return;
+                    }
+
                     try
                     {
 
-                        if (glitchmode)
-                        {
-                            glitchmode = false;
-                            glitch.Clear();
 
-                        }
 
                         //-- REUSE INSTEAD OF RECREATION
                         LoopAudioStream.position = 0;
@@ -379,8 +391,8 @@ namespace Abstractatech.ActionScript.Audio
                             samplesperchannel - this.SourceAudioPaddingRight) - positionInt;
 
 
-                        if (AtDiagnostics != null)
-                            AtDiagnostics(new { positionInt, samplesperchannel, SourceAudioBytes.length, need1, need }.ToString());
+                        //if (AtDiagnostics != null)
+                        //    AtDiagnostics(new { positionInt, samplesperchannel, SourceAudioBytes.length, need1, need }.ToString());
 
 
                         var read = (int)SourceAudio.extract(LoopAudioStream, need1, positionInt);
@@ -399,6 +411,7 @@ namespace Abstractatech.ActionScript.Audio
 
                             var read2 = (int)SourceAudio.extract(LoopAudioStream, need2, nextposition);
 
+
                             // we need to ease the edges now to make the click effect to o away.
 
 
@@ -413,23 +426,77 @@ namespace Abstractatech.ActionScript.Audio
 
                             var p1 = LoopAudioStream.position;
 
+                            read += read2;
+                            nextposition += read2;
+
                             //for (int fixup_i = 0; fixup_i < (read + read2); fixup_i++)
-                            {
-                                LoopAudioStream.position = p0;
 
-                                var fixup_l0 = LoopAudioStream.readFloat();
-                                var fixup_r0 = LoopAudioStream.readFloat();
+                            #region ReadFloat32At
+                            Action<int, Action<double, double>> ReadFloat32At =
+                                (p, y) =>
+                                {
+                                    // wrap by 8 bytes!
+                                    LoopAudioStream.position = (uint)(((p + 0) + (read * 8)) % (read * 8));
+                                    var fixup_l0 = LoopAudioStream.readFloat();
+
+                                    LoopAudioStream.position = (uint)(((p + 4) + (read * 8)) % (read * 8));
+                                    var fixup_r0 = LoopAudioStream.readFloat();
+
+                                    y(fixup_l0, fixup_r0);
+                                };
+                            #endregion
+
+                            #region WriteFloat32At
+                            Action<int, double, double> WriteFloat32At =
+                                (p, fixup_l0, fixup_r0) =>
+                                {
+                                    // wrap by 8 bytes!
+                                    LoopAudioStream.position = (uint)(((p + 0) + (read * 8)) % (read * 8));
+                                    LoopAudioStream.writeFloat(fixup_l0);
+
+                                    LoopAudioStream.position = (uint)(((p + 4) + (read * 8)) % (read * 8));
+                                    LoopAudioStream.writeFloat(fixup_r0);
+                                };
+                            #endregion
 
 
-                                // mark it, can we see it?
-                                fixup_l0 = 1.0;
-                                fixup_l0 = 1.0;
 
-                                LoopAudioStream.position = p0;
+                            Action<int, int> DoSmoothingAt =
+                                (pp, radius) =>
+                                {
+                                    ReadFloat32At((int)pp - 8 * radius,
+                                        (fixup_l0, fixup_r0) =>
+                                        {
 
-                                LoopAudioStream.writeFloat(fixup_l0);
-                                LoopAudioStream.writeFloat(fixup_r0);
-                            }
+                                            ReadFloat32At((int)pp + 8 * radius,
+                                                (fixup_l1, fixup_r1) =>
+                                                {
+                                                    // mark it, can we see it?
+                                                    var dl = fixup_l1 - fixup_l0;
+                                                    var dr = fixup_r1 - fixup_r0;
+
+                                                    for (var fixupi = 0; fixupi < radius * 2; fixupi++)
+                                                    {
+                                                        var p = (double)fixupi / (double)(radius * 2);
+
+                                                        WriteFloat32At(
+                                                            (int)pp + 8 * (fixupi - radius),
+                                                            fixup_l0 + dl * p,
+                                                            fixup_r0 + dr * p
+                                                        );
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    );
+
+                                };
+
+                            // does it actually help us??
+                            DoSmoothingAt((int)p0, 40);
+                            //DoSmoothingAt(0, 40);
+
+
 
                             LoopAudioStream.position = p1;
 
@@ -439,7 +506,7 @@ namespace Abstractatech.ActionScript.Audio
                             //LoopAudioStream = fixup_LoopAudioStream;
 
 
-                            read += read2;
+
 
                             glitchmode = true;
                         }
