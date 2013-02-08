@@ -8,6 +8,7 @@ using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.text;
 using System;
 using Abstractatech.ActionScript.Audio;
+using System.Text;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
@@ -124,8 +125,8 @@ namespace Abstractatech.ActionScript.Audio
             BytesForJeep =
                 yield =>
                 {
-                    var m = new ByteArray();
-                    loopjeep.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE, 0);
+                    var m = new ByteArray { endian = Endian.LITTLE_ENDIAN };
+                    loopjeep.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE * 10, 0);
 
                     var bytes = m.ToMemoryStream().ToArray();
                     var base64 = Convert.ToBase64String(bytes);
@@ -145,14 +146,18 @@ namespace Abstractatech.ActionScript.Audio
             BytesForTone =
                 yield =>
                 {
-                    var m = new ByteArray();
-                    looptone.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE, 0);
+                    var m = new ByteArray { endian = Endian.LITTLE_ENDIAN };
+
+                    // can we have it all?
+                    loopjeep.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE * 10, 0);
 
                     var bytes = m.ToMemoryStream().ToArray();
                     var base64 = Convert.ToBase64String(bytes);
 
 
                     yield(base64);
+
+
                 };
         }
 
@@ -164,8 +169,7 @@ namespace Abstractatech.ActionScript.Audio
         //public double MAGIC_DELAY = 0; // LAME 3.98.2 + flash.media.Sound Delay
 
 
-        //private const int BLOCK_SIZE = 4096 / 2;
-        public const int BLOCK_SIZE = 4096 * 2;
+        public const int BLOCK_SIZE = 4096 / 2;
 
         public double Rate { get; set; }
 

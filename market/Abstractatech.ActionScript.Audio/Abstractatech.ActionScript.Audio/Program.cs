@@ -1,5 +1,9 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Xml.Linq;
 
 namespace Abstractatech.ActionScript.Audio
 {
@@ -10,6 +14,7 @@ namespace Abstractatech.ActionScript.Audio
     {
         public static void Main(string[] args)
         {
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
