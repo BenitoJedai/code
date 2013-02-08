@@ -36,7 +36,7 @@ namespace Abstractatech.ActionScript.Audio
             // Initialize ApplicationSprite
             sprite.AttachSpriteTo(page.Content);
 
-            page.Play.onclick += delegate
+            page.PlayDiesel.onclick += delegate
             {
                 sprite.PlayDiesel();
             };
@@ -51,6 +51,30 @@ namespace Abstractatech.ActionScript.Audio
             Action<byte[]> visualize =
                 bytes =>
                 {
+                    var r = new BinaryReader(new MemoryStream(bytes));
+
+                    var floats = new double[bytes.Length / 4];
+
+                    Console.WriteLine("floats " + new { floats.Length });
+
+
+                    for (int i = 0; i < floats.Length; i++)
+                    {
+                        floats[i] = r.ReadSingle();
+                    }
+
+                    //try
+                    //{
+                    //    Console.WriteLine("XLomontFFT");
+
+                    //    new Lomont.XLomontFFT().FFT(floats);
+                    //}
+                    //catch (Exception error)
+                    //{
+                    //    Console.WriteLine("error " + new { error.Message, error });
+                    //}
+
+
                     var w = new IWindow();
 
                     w.onload +=
@@ -71,65 +95,41 @@ namespace Abstractatech.ActionScript.Audio
 
                                 path.setAttribute("style", "stroke: black; fill: none;");
 
-                                var xw = new StringBuilder().Append("M10,200 ");
+                                var xw = new StringBuilder().Append("M0,400 ");
 
 
-                                //var m = new MemoryStream(bytes);
-
-                                Console.WriteLine("we have bytes" + new { bytes.Length });
-
-                                // http://stackoverflow.com/questions/4414077/read-write-bytes-of-float-in-js
-                                //var _buffer = new ArrayBuffer(bytes.Length);
-                                var _bytes = new Uint8Array(bytes);
-
-                                Console.WriteLine("we have Uint8Array" + new { _bytes.length });
-
-
-                                var _floats = new Float32Array(_bytes.buffer, 0, (uint)(_bytes.length / 4));
-
-                                Console.WriteLine("we have Float32Array " + new { _floats.length });
-
-
-                                Func<int, float> ReadFloat32 = i =>
-                                {
-                                    // why isnt this an indexer?
-                                    // Object #<Float32Array> has no method 'get_Item',
-
-                                    var _floats_workaround = (float[])(object)_floats;
-                                    return _floats_workaround[i];
-                                };
 
                                 var paddingmode = true;
                                 var paddingsamples = 0;
 
-                                var min = 0f;
+                                var min = 0.0;
                                 var minset = false;
 
-                                var max = 0f;
+                                var max = 0.0;
                                 var maxset = false;
 
                                 // done { min = 7.847271400218976e-44, max = 2.320612754833406e-38, paddingsamples = 1337 }
 
-                                w.document.body.style.minHeight = 400 + "px";
+                                w.document.body.style.minHeight = 800 + "px";
 
-                                var scalex = 1.0 / 4.0;
+                                var scalex = 4.0 / 44.1;
 
-                                w.document.body.style.minWidth = _floats.length * scalex + "px";
+                                w.document.body.style.minWidth = floats.Length * scalex + "px";
                                 w.document.body.style.overflow = IStyle.OverflowEnum.auto;
 
                                 // we should have 4096 stereo samples
-                                var samples = _floats.length;
+                                var samples = floats.Length;
                                 var samplesperchannel = samples / 2;
 
-                                for (int ix = 0; ix < _floats.length; ix += 2)
+                                for (int ix = 0; ix < floats.Length; ix += 2)
                                 {
                                     //                                    arg[0] is typeof System.Single
                                     //script: error JSC1000: No implementation found for this native method, please implement [static System.Console.WriteLine(System.Single)]
 
-                                    var l0 = ReadFloat32(ix);
-                                    var r0 = ReadFloat32(ix + 1);
+                                    var l0 = floats[ix];
+                                    var r0 = floats[ix + 1];
 
-                                    var iy = 200.0;
+                                    var iy = 400.0;
 
                                     if (l0 != 0)
                                     {
@@ -166,19 +166,12 @@ namespace Abstractatech.ActionScript.Audio
                                             maxset = true;
                                         }
 
-                                        //Console.WriteLine("" + l0);
-
-                                        /** inverse max short value as float **/
-                                        //var MAX_VALUE = 1.0f / float.MaxValue;
-                                        // 3.40282e+038f
 
                                         // http://audio.tutsplus.com/articles/general/all-youll-ever-need-to-know-about-samples-and-bits/
-                                        // http://www.lomont.org/Software/Misc/FFT/SimpleFFT.pdf
 
-                                        //var l0reverse = l0 * float.MaxValue;
 
                                         //iy = (200.0 - l0 * 1E37 * 200);
-                                        iy = (200.0 - l0 * 200.0);
+                                        iy = (400.0 - l0 * 400.0);
                                     }
 
                                     xw.Append(" L" + (ix * scalex) + "," + iy);
@@ -191,7 +184,7 @@ namespace Abstractatech.ActionScript.Audio
 
                                 var duration_seconds = samplesperchannel / 44100;
 
-                                w.document.title = new { samplesperchannel, duration_seconds }.ToString();
+                                w.document.title = new { samplesperchannel, paddingsamples, duration_seconds }.ToString();
 
                                 Console.WriteLine("done " + new { min, max, paddingsamples });
 
