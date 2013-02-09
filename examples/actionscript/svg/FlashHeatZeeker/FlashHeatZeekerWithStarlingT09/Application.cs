@@ -147,6 +147,8 @@ namespace FlashHeatZeekerWithStarlingT09
 
                     x.PopupInsteadOfClosing();
                     x.Opacity = 0.7;
+
+                    // can we pop it up?
                 }
             );
             #endregion

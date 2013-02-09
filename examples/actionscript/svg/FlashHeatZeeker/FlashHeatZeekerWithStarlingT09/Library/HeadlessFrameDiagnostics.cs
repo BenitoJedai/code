@@ -25,6 +25,8 @@ namespace FlashHeatZeekerWithStarlingT09.Library
         IFrameDiagnosticsFlag hidetracks { get; set; }
 
         IFrameDiagnosticsFlag hidetrees { get; set; }
+
+        IFrameDiagnosticsFlag hidepedshadow { get; set; }
         IFrameDiagnosticsFlag hidegroundunits { get; set; }
         IFrameDiagnosticsFlag hideairunits { get; set; }
     }
@@ -47,6 +49,7 @@ namespace FlashHeatZeekerWithStarlingT09.Library
 
         public IFrameDiagnosticsFlag hidelayers { get; set; }
 
+        public IFrameDiagnosticsFlag hidepedshadow { get; set; }
         public IFrameDiagnosticsFlag hideground { get; set; }
         public IFrameDiagnosticsFlag hidetracks { get; set; }
 

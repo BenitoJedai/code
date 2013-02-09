@@ -99,6 +99,13 @@ namespace FlashHeatZeekerWithStarlingT09.Library
                };
 
 
+            this.checkBox9.CheckedChanged +=
+             delegate
+             {
+                 e.hidepedshadow.value = Convert.ToString(this.checkBox9.Checked);
+             };
+
+
             this.checkBox7.CheckedChanged +=
               delegate
               {

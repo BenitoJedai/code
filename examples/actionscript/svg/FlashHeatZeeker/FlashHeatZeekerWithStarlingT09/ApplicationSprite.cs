@@ -3,35 +3,41 @@
 #define moredetail
 
 
+using Abstractatech.ActionScript.Audio;
+using Box2D.Common.Math;
+using Box2D.Dynamics;
+using FlashHeatZeekerWithStarlingT09.ActionScript.Images;
+using FlashHeatZeekerWithStarlingT09.Library;
+using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using ScriptCoreLib.Shared.Lambda;
 using starling.core;
 using starling.display;
+using starling.filters;
 using starling.text;
 using starling.textures;
+using starling.utils;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
-using FlashHeatZeekerWithStarlingT09.ActionScript.Images;
-using ScriptCoreLib.ActionScript.flash.geom;
-using starling.filters;
 using System.Xml.Linq;
-using starling.utils;
-using Box2D.Common.Math;
-using Box2D.Dynamics;
-using FlashHeatZeekerWithStarlingT09.Library;
-using Abstractatech.ActionScript.Audio;
 
 namespace FlashHeatZeekerWithStarlingT09
 {
     static class X
     {
+        [Script(OptimizedCode = "s.flatten();")]
+        public static void __flatten(this Sprite s)
+        {
+        }
+
         public static double GetLength(this __vec2 p)
         {
             return Math.Sqrt(p.x * p.x + p.y * p.y);
@@ -117,6 +123,10 @@ namespace FlashHeatZeekerWithStarlingT09
                         typeof(Game).ToClassToken(),
                         this.stage
                     );
+
+                    //Starling.current.showStats
+
+                    s.showStats = true;
 
 
                     #region b2stage
@@ -793,13 +803,20 @@ namespace FlashHeatZeekerWithStarlingT09
 
             }
 
+            TeleporVisiblePartTo(dx, dy);
+
+            return this;
+        }
+
+        public GameUnit TeleporVisiblePartTo(double dx, double dy)
+        {
             this.loc.x = (dx);
             this.loc.y = (dy);
 
-            if (shadow_loc != null)
+            if (this.shadow_loc != null)
             {
-                shadow_loc.x = this.loc.x;
-                shadow_loc.y = this.loc.y;
+                this.shadow_loc.x = this.loc.x;
+                this.shadow_loc.y = this.loc.y;
             }
 
             return this;
@@ -906,6 +923,10 @@ namespace FlashHeatZeekerWithStarlingT09
 
             // buildings?
             var viewport_content_layer1_tracks = new Sprite().AttachTo(viewport_content_layers);
+
+            var viewport_content_layer2_pedshadow = new Sprite().AttachTo(viewport_content_layers);
+
+            viewport_content_layer2_pedshadow.alpha = 0.5;
 
             var viewport_content_layer2_units = new Sprite().AttachTo(viewport_content_layers);
 
@@ -1037,6 +1058,23 @@ namespace FlashHeatZeekerWithStarlingT09
 
             var maps = new[] { mapA, mapB, mapC, mapD, mapE, mapF, mapG };
 
+
+            #region new_tex_64
+            Func<string, Texture> new_tex_64 =
+               asset =>
+               {
+                   var shape = KnownEmbeddedResources.Default[asset].ToSprite();
+
+
+                   var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(64, 64, true, 0x00000000);
+
+                   var m = new Matrix();
+                   m.scale(64 / 400.0, 64 / 400.0);
+
+                   bmd.draw(shape, m);
+                   return Texture.fromBitmapData(bmd);
+               };
+            #endregion
 
             #region new_tex_400
             Func<string, Texture> new_tex_400 =
@@ -1474,7 +1512,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
             var textures_ped_footprints = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_footprints.svg");
             var textures_ped_stand = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_stand.svg");
-            var textures_ped_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_shadow.svg");
+            var textures_ped_shadow = new_tex_64("assets/FlashHeatZeekerWithStarlingT09/ped_shadow.svg");
 
             var textures_greentank = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank.svg");
             var textures_greentank_guntower = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank_guntower.svg");
@@ -1530,20 +1568,24 @@ namespace FlashHeatZeekerWithStarlingT09
                 delegate
                 {
                     var unit_loc = new Sprite().AttachTo(viewport_content_layer2_units);
-                    var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(0, 0);
-
                     var unit_rot = new Sprite().AttachTo(unit_loc);
-                    var unit_shadow_rot = new Sprite().AttachTo(unit_shadow_loc);
+
+                    var unit_shadow_loc = new Sprite().AttachTo(viewport_content_layer2_pedshadow).MoveTo(0, 0);
+                    var unit_shadow_rot = new Sprite();
+
+                    // how much does the shadow cost us?
+                    unit_shadow_rot.AttachTo(unit_shadow_loc);
 
                     // can we have wheels?
 
 
 
-                    var shadow_shape = new Image(textures_ped_shadow) { x = -200, y = -200 }.AttachTo(unit_shadow_rot);
-                    shadow_shape.alpha = 0.1;
+                    var shadow_shape = new Image(textures_ped_shadow) { x = -32, y = -32 }.AttachTo(unit_shadow_rot);
+                    //shadow_shape.alpha = 0.1;
 
-                    //unit_shadow_rot.scaleY = 0.7;
-                    //unit_shadow_rot.scaleX = 0.7;
+                    // 400 vs 64?
+                    unit_shadow_rot.scaleY = 400.0 / 64.0;
+                    unit_shadow_rot.scaleX = 400.0 / 64.0;
 
                     var shape = new Image(textures_ped_stand) { x = -200, y = -200 }.AttachTo(unit_rot);
 
@@ -1579,8 +1621,10 @@ namespace FlashHeatZeekerWithStarlingT09
 
                         shape = shape,
 
-                        shadow_rot = unit_shadow_rot,
-                        shadow_rot_disable_rotation = true,
+                        // how much does the shadow cost us?
+                        shadow_loc = unit_shadow_loc,
+
+                        //shadow_rot_disable_rotation = true,
 
                         //physics = unit4_physics,
                         physics_body = body,
@@ -1651,6 +1695,9 @@ namespace FlashHeatZeekerWithStarlingT09
 
                         };
 
+
+                    // flash natives defines events with the same name as methods?
+                    //unit_loc.__flatten();
                     return u;
                 };
             #endregion
@@ -2376,8 +2423,8 @@ namespace FlashHeatZeekerWithStarlingT09
 
                 }
 
-            for (int iy = 0; iy < 8; iy++)
-                for (int ix = 0; ix < 8; ix++)
+            for (int iy = 0; iy < 1; iy++)
+                for (int ix = 0; ix < 3; ix++)
                 {
 
 
@@ -2439,10 +2486,15 @@ namespace FlashHeatZeekerWithStarlingT09
             Action<MP3PitchLoop> silentplay =
                 m =>
                 {
+                    // how loud should the engines be?
+                    m.MasterVolume = 0.3;
+
                     m.LeftVolume = 0;
                     m.RightVolume = 0;
                     m.Sound.play();
                 };
+
+            // 16FPS
 
             silentplay(loophelicopter1);
             silentplay(loopdiesel2);
@@ -2678,6 +2730,26 @@ namespace FlashHeatZeekerWithStarlingT09
             };
             #endregion
 
+            #region viewport_content_layer2_pedshadow
+            __FrameDiagnostics.hidepedshadow = new HeadlessFrameDiagnosticsFlag
+            {
+                // not used?
+                GetValue = () => Convert.ToString(false),
+                SetValue =
+                    value =>
+                    {
+
+                        viewport_content_layer2_pedshadow.visible =
+                            !viewport_content_layer2_pedshadow.visible;
+
+                        Console.WriteLine(
+
+                            new { viewport_content_layer2_pedshadow = new { viewport_content_layer2_pedshadow.visible } }
+                        );
+                    }
+            };
+            #endregion
+
 
             #region hideground
             __FrameDiagnostics.hideground = new HeadlessFrameDiagnosticsFlag
@@ -2864,19 +2936,28 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
 
-            #region __game_InitializeFrameDiagnostics
+            #region F4
+            Action __yield_FrameDiagnostics = delegate { };
+
             // let our context know
             // that we now want to talk about diagnostics
             ApplicationSpriteContent.__sprite.__game_InitializeFrameDiagnostics =
-                yield =>
+                yield_FrameDiagnostics =>
                 {
 
                     // context is telling us they are ready.
                     // how convinient.
                     // we have been expecting this call for ever!
 
+                    __yield_FrameDiagnostics = delegate
+                    {
+                        yield_FrameDiagnostics(__FrameDiagnostics);
 
-                    yield(__FrameDiagnostics);
+                        __yield_FrameDiagnostics = delegate
+                        {
+
+                        };
+                    };
                 };
             #endregion
 
@@ -3326,7 +3407,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F4)
                   {
-
+                      __yield_FrameDiagnostics();
                   }
 
                   // disable camera follow
@@ -3361,7 +3442,7 @@ namespace FlashHeatZeekerWithStarlingT09
                 "Welcome to Starling!"
             ) { hAlign = HAlign.LEFT, vAlign = VAlign.TOP };
 
-            info.AttachTo(this).MoveTo(8, 8);
+            info.AttachTo(this).MoveTo(72, 8);
 
 
             var logo = new Image(LogoTexture) { alpha = 0.3 }.AttachTo(this);
@@ -3399,6 +3480,9 @@ namespace FlashHeatZeekerWithStarlingT09
 
             var fps = 1;
 
+            var avgfps_data = new Queue<int>();
+            var avgfps = 1;
+
             var ii = 0;
 
             maxframe.Start();
@@ -3408,19 +3492,10 @@ namespace FlashHeatZeekerWithStarlingT09
 
             var trace_thisframe_other = new Stopwatch();
 
-            #region physicstime
             var physicstime = new Stopwatch();
 
             physicstime.Start();
 
-            Action __do_physics =
-                delegate
-                {
-
-
-                };
-
-            #endregion
 
             ApplicationSprite.__stage.enterFrame +=
                 delegate
@@ -3440,11 +3515,17 @@ namespace FlashHeatZeekerWithStarlingT09
                     maxframe.Stop();
 
                     #region physics
-                    {
-                        physicstime.Stop();
+                    physicstime.Stop();
 
-                        if (flags_user_pause)
-                            return;
+                    if (flags_user_pause)
+                    {
+                        // nop
+                    }
+                    else
+                    {
+
+
+
 
                         var physicstime_elapsed = physicstime.ElapsedMilliseconds;
 
@@ -3520,8 +3601,11 @@ namespace FlashHeatZeekerWithStarlingT09
                                 item.physics_body.GetPosition().With(
                                      p =>
                                      {
-                                         item.loc.x = p.x * __b2debug_viewport.b2scale;
-                                         item.loc.y = p.y * __b2debug_viewport.b2scale;
+                                         item.TeleporVisiblePartTo(
+
+                                           p.x * __b2debug_viewport.b2scale,
+                                          p.y * __b2debug_viewport.b2scale
+                                        );
 
                                          item.rotation = item.physics_body.GetAngle();
 
@@ -3533,8 +3617,12 @@ namespace FlashHeatZeekerWithStarlingT09
                                 item.physics.body.GetPosition().With(
                                      p =>
                                      {
-                                         item.loc.x = p.x * __b2debug_viewport.b2scale;
-                                         item.loc.y = p.y * __b2debug_viewport.b2scale;
+                                         item.TeleporVisiblePartTo(
+
+                                          p.x * __b2debug_viewport.b2scale,
+                                         p.y * __b2debug_viewport.b2scale
+                                       );
+
 
                                          item.rotation = item.physics.body.GetAngle();
 
@@ -3829,8 +3917,9 @@ namespace FlashHeatZeekerWithStarlingT09
                             SPEED = Math.Ceiling(current.physics.getSpeedKMH()) + " km/h";
 
                     // memory 538 - 187
-                    info.text = "F1 overview F2 physics F3 camera\n" + new
+                    info.text = "F1 overview F2 physics F4 diagnostics\n" + new
                     {
+                        avgfps,
                         fps,
                         SPEED,
                         networkid,
@@ -3860,6 +3949,14 @@ namespace FlashHeatZeekerWithStarlingT09
                     else
                     {
                         fps = ii;
+
+                        avgfps_data.Enqueue(fps);
+
+                        if (avgfps_data.Count > 4)
+                            avgfps_data.Dequeue();
+
+
+                        avgfps = (int)avgfps_data.Average();
 
                         ApplicationSprite.__sprite.__raise_fps("" + fps);
 
