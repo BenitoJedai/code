@@ -38,7 +38,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abstractatech.ActionScript.Audio">
+    <Reference Include="Abstractatech.ActionScript.Audio, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
     </Reference>
     <Reference Include="Abstractatech.ConsoleFormPackage">
@@ -155,6 +156,8 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\white-jsc.png" />
+    <Content Include="web\assets\FlashHeatZeekerWithStarlingT09\ped_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\ped_footprints.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\snd_jeepengine_start.mp3" />
     <EmbeddedResource Include="Library\FrameDiagnostics.resx">
       <DependentUpon>FrameDiagnostics.cs</DependentUpon>

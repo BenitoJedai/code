@@ -57,162 +57,156 @@ namespace Abstractatech.ActionScript.Audio
                 width = 400
             }.AttachTo(this);
 
-            var loopdiesel2 = new MP3PitchLoop(
-
-                KnownEmbeddedResources.Default[
-                "assets/Abstractatech.ActionScript.Audio/diesel4.mp3"
-                ].ToSoundAsset()
-
-                );
-
-            var loophelicopter1 = new MP3PitchLoop(
-
-              KnownEmbeddedResources.Default[
-                    "assets/Abstractatech.ActionScript.Audio/helicopter1.mp3"
-              ].ToSoundAsset()
-
-          );
-
-
-            var loopjeep = new MP3PitchLoop(
-
-              KnownEmbeddedResources.Default[
-                    "assets/Abstractatech.ActionScript.Audio/jeepengine.mp3"
-              ].ToSoundAsset()
-
-          );
-
-
-            var looptone = new MP3PitchLoop(
-
-              KnownEmbeddedResources.Default[
-                    "assets/Abstractatech.ActionScript.Audio/tone_sin_100hz.mp3"
-              ].ToSoundAsset()
-
-          );
-
-
-            var loopsand_run = new MP3PitchLoop(
-
-        KnownEmbeddedResources.Default[
-              "assets/Abstractatech.ActionScript.Audio/sand_run.mp3"
-        ].ToSoundAsset()
-
-    );
-
-            var o = new Sprite
+            try
             {
+                var loopdiesel2 = new MP3PitchLoop(
 
-            }.AttachTo(this);
+                    KnownEmbeddedResources.Default[
+                    "assets/Abstractatech.ActionScript.Audio/diesel4.mp3"
+                    ].ToSoundAsset()
+
+                    );
+
+                var loophelicopter1 = new MP3PitchLoop(
+
+                  KnownEmbeddedResources.Default[
+                        "assets/Abstractatech.ActionScript.Audio/helicopter1.mp3"
+                  ].ToSoundAsset()
+
+              );
 
 
-            o.graphics.beginFill(0x0, 0.5);
-            o.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+                var loopjeep = new MP3PitchLoop(
 
-            o.mouseMove +=
-                e =>
+                  KnownEmbeddedResources.Default[
+                        "assets/Abstractatech.ActionScript.Audio/jeepengine.mp3"
+                  ].ToSoundAsset()
+
+              );
+
+
+                var looptone = new MP3PitchLoop(
+
+                  KnownEmbeddedResources.Default[
+                        "assets/Abstractatech.ActionScript.Audio/tone_sin_100hz.mp3"
+                  ].ToSoundAsset()
+
+              );
+
+
+                var loopsand_run = new MP3PitchLoop(
+
+            KnownEmbeddedResources.Default[
+                  "assets/Abstractatech.ActionScript.Audio/sand_run.mp3"
+            ].ToSoundAsset()
+
+        );
+
+                var o = new Sprite
                 {
-                    loopdiesel2.RightVolume = e.stageX / (this.stage.stageWidth / 2);
-                    loopdiesel2.LeftVolume = (this.stage.stageWidth - e.stageX) / (this.stage.stageWidth / 2);
 
-                    loopjeep.RightVolume = e.stageX / (this.stage.stageWidth / 2);
-                    loopjeep.LeftVolume = (this.stage.stageWidth - e.stageX) / (this.stage.stageWidth / 2);
+                }.AttachTo(this);
 
 
-                    var rate = (e.stageY / this.stage.stageHeight) * 1.5 + 0.5;
+                o.graphics.beginFill(0x0, 0.5);
+                o.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 
-                    loopdiesel2.Rate = rate;
-                    loopjeep.Rate = rate;
-                    loophelicopter1.Rate = rate;
-                    looptone.Rate = rate;
-                    loopsand_run.Rate = rate;
-
-                    Rate.text = new { rate, loopdiesel2.LeftVolume, loopdiesel2.RightVolume }.ToString();
-
-
-                };
-
-            looptone.AtDiagnostics +=
-                text =>
-                {
-                    Rate.text = text;
-
-                };
-
-
-            loopjeep.AtDiagnostics +=
-              text =>
-              {
-                  Rate.text = text;
-
-              };
-
-            loophelicopter1.AtDiagnostics +=
-                text =>
-                {
-                    Rate.text = text;
-
-                };
-
-
-            PlayDiesel = delegate
-            {
-                loopdiesel2.Sound.play();
-
-
-            };
-
-
-            Func<MP3PitchLoop, AnalyzeThenPlay> f =
-                x =>
-                    yield =>
+                o.mouseMove +=
+                    e =>
                     {
-                        var m = new ByteArray { endian = Endian.LITTLE_ENDIAN };
-                        x.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE * 160, 0);
+                        loopdiesel2.RightVolume = e.stageX / (this.stage.stageWidth / 2);
+                        loopdiesel2.LeftVolume = (this.stage.stageWidth - e.stageX) / (this.stage.stageWidth / 2);
 
-                        var bytes = m.ToMemoryStream().ToArray();
-                        var base64 = Convert.ToBase64String(bytes);
+                        loopjeep.RightVolume = e.stageX / (this.stage.stageWidth / 2);
+                        loopjeep.LeftVolume = (this.stage.stageWidth - e.stageX) / (this.stage.stageWidth / 2);
 
 
-                        yield(base64,
-                            (paddingleft,
-                                paddingright, stop, yield_position) =>
-                            {
-                                x.SourceAudioInitialPosition = Convert.ToDouble(paddingleft);
-                                x.SourceAudioPosition = Convert.ToDouble(paddingleft);
+                        var rate = (e.stageY / this.stage.stageHeight) * 1.5 + 0.5;
 
-                                x.SourceAudioPaddingRight = Convert.ToDouble(paddingright);
+                        loopdiesel2.Rate = rate;
+                        loopjeep.Rate = rate;
+                        loophelicopter1.Rate = rate;
+                        looptone.Rate = rate;
+                        loopsand_run.Rate = rate;
 
-                                var s = x.Sound.play();
+                        Rate.text = new { rate, loopdiesel2.LeftVolume, loopdiesel2.RightVolume }.ToString();
 
-                                var once = false;
 
-                                x.SourceAudioPositionChanged +=
-                                    delegate
-                                    {
-                                        if (s == null)
-                                            return;
+                    };
 
-                                        if (x.glitchmode)
+                looptone.AtDiagnostics +=
+                    text =>
+                    {
+                        Rate.text = text;
+
+                    };
+
+
+                loopjeep.AtDiagnostics +=
+                  text =>
+                  {
+                      Rate.text = text;
+
+                  };
+
+                loophelicopter1.AtDiagnostics +=
+                    text =>
+                    {
+                        Rate.text = text;
+
+                    };
+
+
+                PlayDiesel = delegate
+                {
+                    loopdiesel2.Sound.play();
+
+
+                };
+
+
+                Func<MP3PitchLoop, AnalyzeThenPlay> f =
+                    x =>
+                        yield =>
+                        {
+                            var m = new ByteArray { endian = Endian.LITTLE_ENDIAN };
+                            x.SourceAudio.extract(m, MP3PitchLoop.BLOCK_SIZE * 160, 0);
+
+                            var bytes = m.ToMemoryStream().ToArray();
+                            var base64 = Convert.ToBase64String(bytes);
+
+
+                            yield(base64,
+                                (paddingleft,
+                                    paddingright, stop, yield_position) =>
+                                {
+                                    x.SourceAudioInitialPosition = Convert.ToDouble(paddingleft);
+                                    x.SourceAudioPosition = Convert.ToDouble(paddingleft);
+
+                                    x.SourceAudioPaddingRight = Convert.ToDouble(paddingright);
+
+                                    var s = x.Sound.play();
+
+                                    var diagnostics = new MemoryStream();
+                                    var w = new BinaryWriter(diagnostics);
+
+                                    var once = 0;
+
+                                    x.SourceAudioPositionChanged +=
+                                        delegate
                                         {
-                                            if (once)
-                                            {
-                                            }
-                                            else
-                                            {
-                                                once = true;
+                                            if (s == null)
+                                                return;
 
-                                                //s.stop();
-                                                //s = null;
-
-                                                var diagnostics = new MemoryStream();
-                                                var w = new BinaryWriter(diagnostics);
+                                            if (once == 1)
+                                            {
+                                                once++;
 
                                                 foreach (var item in x.glitch)
                                                 {
                                                     w.Write((float)item);
                                                 }
-                                                diagnostics.Position = 0;
+                                                //diagnostics.Position = 0;
 
                                                 var diagnostics_base64 = Convert.ToBase64String(diagnostics.ToArray());
 
@@ -220,66 +214,84 @@ namespace Abstractatech.ActionScript.Audio
 
                                             }
 
-                                            return;
+                                            if (x.glitchmode)
+                                            {
+                                                if (once == 0)
+                                                {
+                                                    once++;
+
+                                                    foreach (var item in x.glitch)
+                                                    {
+                                                        w.Write((float)item);
+                                                    }
+
+                                                }
+                                            }
+
+                                            yield_position("" + x.SourceAudioPosition, "");
+                                        };
+
+                                    stop(
+                                        delegate
+                                        {
+                                            s.stop();
+                                            s = null;
                                         }
-
-                                        yield_position("" + x.SourceAudioPosition, "");
-                                    };
-
-                                stop(
-                                    delegate
-                                    {
-                                        s.stop();
-                                        s = null;
-                                    }
-                                );
+                                    );
 
 
 
-                            }
-                        );
-                    };
+                                }
+                            );
+                        };
 
-            BytesForDiesel = f(loopdiesel2);
+                BytesForDiesel = f(loopdiesel2);
 
 
 
 
-            Playhelicopter1 = delegate
+                Playhelicopter1 = delegate
+                {
+                    loophelicopter1.Sound.play();
+                };
+
+                BytesForHelicopter = f(loophelicopter1);
+
+
+
+                PlayJeep = delegate
+                {
+                    loopjeep.Sound.play();
+                };
+
+                BytesForJeep = f(loopjeep);
+
+
+
+
+
+                PlayTone = delegate
+                {
+                    looptone.Sound.play();
+                };
+
+                BytesForTone = f(looptone);
+
+
+                PlaySandrun = delegate
+                {
+                    loopsand_run.Sound.play();
+                };
+
+                BytesForSandrun = f(loopsand_run);
+
+            }
+            catch (Exception ex)
             {
-                loophelicopter1.Sound.play();
-            };
+                var StackTrace = ((ScriptCoreLib.ActionScript.Error)(object)ex).getStackTrace();
 
-            BytesForHelicopter = f(loophelicopter1);
-
-
-
-            PlayJeep = delegate
-            {
-                loopjeep.Sound.play();
-            };
-
-            BytesForJeep = f(loopjeep);
-
-
-
-
-
-            PlayTone = delegate
-            {
-                looptone.Sound.play();
-            };
-
-            BytesForTone = f(looptone);
-
-
-            PlaySandrun = delegate
-            {
-                loopsand_run.Sound.play();
-            };
-
-            BytesForSandrun = f(loopsand_run);
-
+                Rate.text = ("error: " + new { ex.Message, StackTrace });
+            }
 
         }
 
@@ -287,7 +299,7 @@ namespace Abstractatech.ActionScript.Audio
 
     public class MP3PitchLoop
     {
-        public const double MAGIC_DELAY = 2257.0; // LAME 3.98.2 + flash.media.Sound Delay
+        //public const double MAGIC_DELAY = 2257.0; // LAME 3.98.2 + flash.media.Sound Delay
         //public double MAGIC_DELAY = 0; // LAME 3.98.2 + flash.media.Sound Delay
 
 
@@ -304,8 +316,8 @@ namespace Abstractatech.ActionScript.Audio
 
         public Sound SourceAudio;
 
-        public double SourceAudioInitialPosition = MAGIC_DELAY;
-        public double SourceAudioPosition = MAGIC_DELAY;
+        public double SourceAudioInitialPosition = 0;
+        public double SourceAudioPosition = 0;
 
         public event Action SourceAudioPositionChanged;
 
@@ -326,11 +338,183 @@ namespace Abstractatech.ActionScript.Audio
             this.Rate = 1.0;
 
 
-            var SourceAudioBytes = new ByteArray();
+            var SourceAudioBytes = new ByteArray { endian = Endian.LITTLE_ENDIAN };
+
 
             var samplesperchannel = (int)SourceAudio.extract(SourceAudioBytes, 0x100000, 0);
 
+            #region Autoconfigure
+            {
+                var bytes = SourceAudioBytes.ToMemoryStream();
+                bytes.Position = 0;
 
+                var r = new BinaryReader(bytes);
+
+                var floats = new double[bytes.Length / 4];
+
+                //Console.WriteLine("floats " + new { floats.Length });
+
+
+                for (int i = 0; i < floats.Length; i++)
+                {
+                    floats[i] = r.ReadSingle();
+                }
+
+                var paddingmode_yellow = true;
+                var paddingsamples_yellow = 0;
+                var paddingmode_yellow_agg = 0.0;
+                var paddingmode_yellow_grace = 411;
+
+                var paddingmode_red = true;
+                var paddingsamples_red = 0;
+                var paddingmode_red_agg = 0.0;
+                var paddingmode_red_grace = 411;
+
+
+                #region max
+                var min = 0.0;
+                var minset = false;
+
+                var max = 0.0;
+                var maxset = false;
+
+
+                for (int ix = 0; ix < floats.Length; ix += 2)
+                {
+                    //                                    arg[0] is typeof System.Single
+                    //script: error JSC1000: No implementation found for this native method, please implement [static System.Console.WriteLine(System.Single)]
+
+                    var l0 = floats[ix];
+                    var r0 = floats[ix + 1];
+
+                    if (l0 != 0)
+                        if (minset)
+                        {
+                            min = Math.Min(min, l0);
+                        }
+                        else
+                        {
+                            min = l0;
+                            minset = true;
+                        }
+
+                    if (maxset)
+                    {
+                        max = Math.Max(max, l0);
+                    }
+                    else
+                    {
+                        max = l0;
+                        maxset = true;
+                    }
+                }
+
+                var absmax = max.Max(Math.Abs(min));
+
+                #endregion
+
+
+                #region paddingmode_yellow
+                for (int ix = 0; ix < floats.Length; ix += 2)
+                {
+                    //                                    arg[0] is typeof System.Single
+                    //script: error JSC1000: No implementation found for this native method, please implement [static System.Console.WriteLine(System.Single)]
+
+                    var l0 = floats[ix];
+                    var r0 = floats[ix + 1];
+
+
+
+
+                    if (paddingmode_yellow)
+                    {
+                        // discard noise
+                        if (Math.Abs(l0) > 0.08 * absmax)
+                            paddingmode_yellow_agg += Math.Abs(l0);
+                    }
+
+                    if (paddingmode_yellow_agg > absmax * 2.1)
+                    {
+                        if (Math.Abs(l0) < 0.02 * absmax)
+                        {
+                            paddingmode_yellow = false;
+                        }
+                    }
+
+                    if (paddingmode_yellow)
+                    {
+                        paddingsamples_yellow++;
+
+                        if (paddingmode_yellow_agg > absmax * 3.2)
+                        {
+                            if (paddingmode_yellow_grace > 0)
+                            {
+                                paddingmode_yellow_grace--;
+                            }
+                            else
+                            {
+                                // rollback
+                                paddingsamples_yellow -= 411;
+                                paddingmode_yellow = false;
+                            }
+                        }
+                    }
+
+                }
+                #endregion
+
+                // count down while near zero, then wait for zero
+
+                #region paddingmode_red
+                for (int ix = floats.Length - 1; ix >= 0; ix -= 2)
+                {
+                    var l0 = floats[ix];
+                    var r0 = floats[ix + 1];
+
+
+                    if (paddingmode_red)
+                    {
+                        // discard noise
+                        if (Math.Abs(l0) > 0.08 * absmax)
+                            paddingmode_red_agg += Math.Abs(l0);
+                    }
+
+                    if (paddingmode_red_agg > absmax * 2.1)
+                    {
+                        if (Math.Abs(l0) < 0.02 * absmax)
+                        {
+                            paddingmode_red = false;
+                        }
+                    }
+
+                    if (paddingmode_red)
+                    {
+                        paddingsamples_red++;
+
+                        if (paddingmode_red_agg > absmax * 3.2)
+                        {
+                            if (paddingmode_red_grace > 0)
+                            {
+                                paddingmode_red_grace--;
+                            }
+                            else
+                            {
+                                // rollback
+                                paddingsamples_red -= 411;
+                                paddingmode_red = false;
+                            }
+                        }
+                    }
+
+                }
+                #endregion
+
+                this.SourceAudioInitialPosition = Convert.ToDouble(paddingsamples_yellow);
+                this.SourceAudioPosition = Convert.ToDouble(paddingsamples_yellow);
+
+                this.SourceAudioPaddingRight = Convert.ToDouble(paddingsamples_red);
+            }
+            #endregion
 
 
 
@@ -342,7 +526,7 @@ namespace Abstractatech.ActionScript.Audio
 
                     if (glitchmode)
                     {
-                        glitchmode = false;
+                        //glitchmode = false;
                         glitch.Clear();
 
                         //foreach (var item in glitch)

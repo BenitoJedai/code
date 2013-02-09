@@ -26,6 +26,7 @@ using starling.utils;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
 using FlashHeatZeekerWithStarlingT09.Library;
+using Abstractatech.ActionScript.Audio;
 
 namespace FlashHeatZeekerWithStarlingT09
 {
@@ -1467,7 +1468,9 @@ namespace FlashHeatZeekerWithStarlingT09
             var textures_jeep_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/jeep_shadow.svg");
             var textures_jeep_trackpattern = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/jeep_trackpattern.svg");
 
+            var textures_ped_footprints = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_footprints.svg");
             var textures_ped_stand = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_stand.svg");
+            var textures_ped_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_shadow.svg");
 
             var textures_greentank = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank.svg");
             var textures_greentank_guntower = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank_guntower.svg");
@@ -1532,10 +1535,11 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
 
-                    //var shadow_shape = new Image(textures_greentank_shadow) { x = -200, y = -200 }.AttachTo(unit_shadow_rot);
-                    //shadow_shape.alpha = 0.2;
+                    var shadow_shape = new Image(textures_ped_shadow) { x = -200, y = -200 }.AttachTo(unit_shadow_rot);
+                    shadow_shape.alpha = 0.2;
 
-
+                    unit_shadow_rot.scaleY = 0.7;
+                    unit_shadow_rot.scaleX = 0.7;
 
                     var shape = new Image(textures_ped_stand) { x = -200, y = -200 }.AttachTo(unit_rot);
 
@@ -1582,9 +1586,63 @@ namespace FlashHeatZeekerWithStarlingT09
 
                     };
 
+
+                    var RenewTracks_previous_position_empty = true;
+                    var RenewTracks_previous_position_x = 0.0;
+                    var RenewTracks_previous_position_y = 0.0;
+
                     u.RenewTracks =
                         delegate
                         {
+                            if (RenewTracks_previous_position_empty)
+                            {
+                                RenewTracks_previous_position_x = u.loc.x;
+                                RenewTracks_previous_position_y = u.loc.y;
+
+                                RenewTracks_previous_position_empty = false;
+
+                                return;
+                            }
+
+                            var dx = new __vec2(
+                                (float)(u.loc.x - RenewTracks_previous_position_x),
+                                (float)(u.loc.y - RenewTracks_previous_position_y)
+                            );
+
+                            var dxlen = dx.GetLength() / 14.0;
+
+
+                            if (dxlen < 1.0)
+                            {
+                                //Console.WriteLine(new { dxlen, p.x, p.y });
+                                return;
+                            }
+
+                            RenewTracks_previous_position_x = u.loc.x;
+                            RenewTracks_previous_position_y = u.loc.y;
+
+                            //RenewTracks_previous_position = p;
+
+                            #region track_unit_loc
+                            var track_unit_loc = new Sprite();
+                            var track_unit_rot = new Sprite().AttachTo(track_unit_loc);
+
+
+                            new Image(textures_ped_footprints) { x = -200, y = -200 }.AttachTo(track_unit_rot);
+
+                            track_unit_loc.alpha = 0.2;
+
+                            ////// art is too big!
+                            ////track_unit_rot.scaleY = 0.7;
+                            ////track_unit_rot.scaleX = 0.7;
+
+                            track_unit_loc.x = u.loc.x;
+                            track_unit_loc.y = u.loc.y;
+
+                            track_unit_rot.rotation = u.rotation;
+
+                            pin_draw(track_unit_loc);
+                            #endregion
 
                         };
 
@@ -2372,6 +2430,19 @@ namespace FlashHeatZeekerWithStarlingT09
             var loopdiesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var sand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var loopjeepengine = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/jeepengine.mp3"].ToSoundAsset().ToMP3PitchLoop();
+
+            Action<MP3PitchLoop> silentplay =
+                m =>
+                {
+                    m.LeftVolume = 0;
+                    m.RightVolume = 0;
+                    m.Sound.play();
+                };
+
+            silentplay(loophelicopter1);
+            silentplay(loopdiesel2);
+            silentplay(sand_run);
+            silentplay(loopjeepengine);
 #endif
 
             //diesel2.Sound.vol
@@ -2870,7 +2941,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
 
-            var __keyDown = new bool[0xffff];
+            var __keyDown = new object[0xffff];
 
 
             var disable_keyDown_Up = false;
@@ -2882,10 +2953,10 @@ namespace FlashHeatZeekerWithStarlingT09
             ApplicationSprite.__stage.keyDown +=
                 e =>
                 {
-                    if (__keyDown[e.keyCode])
+                    if (__keyDown[e.keyCode] != null)
                         return;
 
-                    __keyDown[e.keyCode] = true;
+                    __keyDown[e.keyCode] = new object();
 
                     Console.WriteLine("keyDown " + new { e.keyCode });
 
@@ -2990,7 +3061,7 @@ namespace FlashHeatZeekerWithStarlingT09
             ApplicationSprite.__stage.keyUp +=
               e =>
               {
-                  __keyDown[e.keyCode] = false;
+                  __keyDown[e.keyCode] = null;
 
                   Console.WriteLine("keyUp " + new { e.keyCode });
 
