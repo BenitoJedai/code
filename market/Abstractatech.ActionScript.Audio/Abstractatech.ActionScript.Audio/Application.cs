@@ -47,7 +47,7 @@ namespace Abstractatech.ActionScript.Audio
 
                     var floats = new double[bytes.Length / 4];
 
-                    Console.WriteLine("floats " + new { floats.Length });
+                    //Console.WriteLine("floats " + new { floats.Length });
 
 
                     for (int i = 0; i < floats.Length; i++)
@@ -55,7 +55,156 @@ namespace Abstractatech.ActionScript.Audio
                         floats[i] = r.ReadSingle();
                     }
 
+                    var paddingmode_yellow = allowpadding;
+                    var paddingsamples_yellow = 0;
+                    var paddingmode_yellow_agg = 0.0;
+                    var paddingmode_yellow_grace = 411;
 
+                    var paddingmode_red = allowpadding;
+                    var paddingsamples_red = 0;
+                    var paddingmode_red_agg = 0.0;
+                    var paddingmode_red_grace = 411;
+
+
+                    #region max
+                    var min = 0.0;
+                    var minset = false;
+
+                    var max = 0.0;
+                    var maxset = false;
+
+
+                    for (int ix = 0; ix < floats.Length; ix += 2)
+                    {
+                        //                                    arg[0] is typeof System.Single
+                        //script: error JSC1000: No implementation found for this native method, please implement [static System.Console.WriteLine(System.Single)]
+
+                        var l0 = floats[ix];
+                        var r0 = floats[ix + 1];
+
+                        if (l0 != 0)
+                            if (minset)
+                            {
+                                min = Math.Min(min, l0);
+                            }
+                            else
+                            {
+                                min = l0;
+                                minset = true;
+                            }
+
+                        if (maxset)
+                        {
+                            max = Math.Max(max, l0);
+                        }
+                        else
+                        {
+                            max = l0;
+                            maxset = true;
+                        }
+                    }
+
+                    var absmax = max.Max(Math.Abs(min));
+
+                    #endregion
+
+
+                    #region paddingmode_yellow
+                    for (int ix = 0; ix < floats.Length; ix += 2)
+                    {
+                        //                                    arg[0] is typeof System.Single
+                        //script: error JSC1000: No implementation found for this native method, please implement [static System.Console.WriteLine(System.Single)]
+
+                        var l0 = floats[ix];
+                        var r0 = floats[ix + 1];
+
+
+
+
+                        if (paddingmode_yellow)
+                        {
+                            // discard noise
+                            if (Math.Abs(l0) > 0.08 * absmax)
+                                paddingmode_yellow_agg += Math.Abs(l0);
+                        }
+
+                        if (paddingmode_yellow_agg > absmax * 2.1)
+                        {
+                            if (Math.Abs(l0) < 0.02 * absmax)
+                            {
+                                paddingmode_yellow = false;
+                            }
+                        }
+
+                        if (paddingmode_yellow)
+                        {
+                            paddingsamples_yellow++;
+
+                            if (paddingmode_yellow_agg > absmax * 3.2)
+                            {
+                                if (paddingmode_yellow_grace > 0)
+                                {
+                                    paddingmode_yellow_grace--;
+                                }
+                                else
+                                {
+                                    // rollback
+                                    paddingsamples_yellow -= 411;
+                                    paddingmode_yellow = false;
+                                }
+                            }
+                        }
+
+                    }
+                    #endregion
+
+                    // count down while near zero, then wait for zero
+
+                    #region paddingmode_red
+                    for (int ix = floats.Length - 1; ix >= 0; ix -= 2)
+                    {
+                        var l0 = floats[ix];
+                        var r0 = floats[ix + 1];
+
+
+                        if (paddingmode_red)
+                        {
+                            // discard noise
+                            if (Math.Abs(l0) > 0.08 * absmax)
+                                paddingmode_red_agg += Math.Abs(l0);
+                        }
+
+                        if (paddingmode_red_agg > absmax * 2.1)
+                        {
+                            if (Math.Abs(l0) < 0.02 * absmax)
+                            {
+                                paddingmode_red = false;
+                            }
+                        }
+
+                        if (paddingmode_red)
+                        {
+                            paddingsamples_red++;
+
+                            if (paddingmode_red_agg > absmax * 3.2)
+                            {
+                                if (paddingmode_red_grace > 0)
+                                {
+                                    paddingmode_red_grace--;
+                                }
+                                else
+                                {
+                                    // rollback
+                                    paddingsamples_red -= 411;
+                                    paddingmode_red = false;
+                                }
+                            }
+                        }
+
+                    }
+                    #endregion
+
+                 
 
 
                     var w = new IWindow();
@@ -74,6 +223,11 @@ namespace Abstractatech.ActionScript.Audio
                                 // verbose huh. svg::svg?
                                 var svg = new ISVGSVGElement().AttachTo(w.document.body);
 
+
+                                var path_current = new ISVGPathElement().AttachTo(svg);
+                                path_current.setAttribute("style", "stroke-width: 5; stroke: blue; fill: none;");
+
+
                                 var path = new ISVGPathElement().AttachTo(svg);
                                 path.setAttribute("style", "stroke: black; fill: none;");
 
@@ -84,54 +238,8 @@ namespace Abstractatech.ActionScript.Audio
                                 var xw = new StringBuilder().Append("M0,400 ");
 
 
-                                var paddingmode_yellow = allowpadding;
-                                var paddingsamples_yellow = 0;
+               
 
-                                var paddingmode_red = allowpadding;
-                                var paddingsamples_red = 0;
-
-
-                                #region max
-                                var min = 0.0;
-                                var minset = false;
-
-                                var max = 0.0;
-                                var maxset = false;
-
-
-                                for (int ix = 0; ix < floats.Length; ix += 2)
-                                {
-                                    //                                    arg[0] is typeof System.Single
-                                    //script: error JSC1000: No implementation found for this native method, please implement [static System.Console.WriteLine(System.Single)]
-
-                                    var l0 = floats[ix];
-                                    var r0 = floats[ix + 1];
-
-                                    if (l0 != 0)
-                                        if (minset)
-                                        {
-                                            min = Math.Min(min, l0);
-                                        }
-                                        else
-                                        {
-                                            min = l0;
-                                            minset = true;
-                                        }
-
-                                    if (maxset)
-                                    {
-                                        max = Math.Max(max, l0);
-                                    }
-                                    else
-                                    {
-                                        max = l0;
-                                        maxset = true;
-                                    }
-                                }
-
-                                var absmax = max.Max(Math.Abs(min));
-
-                                #endregion
 
 
                                 // done { min = 7.847271400218976e-44, max = 2.320612754833406e-38, paddingsamples = 1337 }
@@ -148,14 +256,11 @@ namespace Abstractatech.ActionScript.Audio
                                 var samplesperchannel = samples / 2;
 
 
-                                var paddingmode_yellow_agg = 0.0;
-                                var paddingmode_yellow_grace = 411;
+                     
 
+                  
 
-                                var paddingmode_red_agg = 0.0;
-                                var paddingmode_red_grace = 411;
-
-                                #region paddingmode_yellow
+                                #region xw
                                 for (int ix = 0; ix < floats.Length; ix += 2)
                                 {
                                     //                                    arg[0] is typeof System.Single
@@ -167,39 +272,7 @@ namespace Abstractatech.ActionScript.Audio
 
 
 
-                                    if (paddingmode_yellow)
-                                    {
-                                        // discard noise
-                                        if (Math.Abs(l0) > 0.08 * absmax)
-                                            paddingmode_yellow_agg += Math.Abs(l0);
-                                    }
-
-                                    if (paddingmode_yellow_agg > absmax * 2.1)
-                                    {
-                                        if (Math.Abs(l0) < 0.02 * absmax)
-                                        {
-                                            paddingmode_yellow = false;
-                                        }
-                                    }
-
-                                    if (paddingmode_yellow)
-                                    {
-                                        paddingsamples_yellow++;
-
-                                        if (paddingmode_yellow_agg > absmax * 3.2)
-                                        {
-                                            if (paddingmode_yellow_grace > 0)
-                                            {
-                                                paddingmode_yellow_grace--;
-                                            }
-                                            else
-                                            {
-                                                // rollback
-                                                paddingsamples_yellow -= 411;
-                                                paddingmode_yellow = false;
-                                            }
-                                        }
-                                    }
+                                   
 
 
 
@@ -221,53 +294,7 @@ namespace Abstractatech.ActionScript.Audio
                                 }
                                 #endregion
 
-                                // count down while near zero, then wait for zero
-
-                                #region paddingmode_red
-                                for (int ix = floats.Length - 1; ix >= 0; ix -= 2)
-                                {
-                                    var l0 = floats[ix];
-                                    var r0 = floats[ix + 1];
-
-
-                                    if (paddingmode_red)
-                                    {
-                                        // discard noise
-                                        if (Math.Abs(l0) > 0.08 * absmax)
-                                            paddingmode_red_agg += Math.Abs(l0);
-                                    }
-
-                                    if (paddingmode_red_agg > absmax * 2.1)
-                                    {
-                                        if (Math.Abs(l0) < 0.02 * absmax)
-                                        {
-                                            paddingmode_red = false;
-                                        }
-                                    }
-
-                                    if (paddingmode_red)
-                                    {
-                                        paddingsamples_red++;
-
-                                        if (paddingmode_red_agg > absmax * 3.2)
-                                        {
-                                            if (paddingmode_red_grace > 0)
-                                            {
-                                                paddingmode_red_grace--;
-                                            }
-                                            else
-                                            {
-                                                // rollback
-                                                paddingsamples_red -= 411;
-                                                paddingmode_red = false;
-                                            }
-                                        }
-                                    }
-
-                                }
-                                #endregion
-
-
+                                #region xw_loop2
                                 var xw_loop2 = new StringBuilder();
 
                                 for (int ix = paddingsamples_yellow * 2; ix < floats.Length - paddingsamples_red * 2; ix += 2)
@@ -286,6 +313,8 @@ namespace Abstractatech.ActionScript.Audio
                                         xw_loop2.Append(" L" + ((2 * (samplesperchannel - paddingsamples_red - paddingsamples_yellow) * scalex) + ((ix + 1) * scalex)) + "," + iy);
 
                                 }
+                                #endregion
+
 
                                 // A frame rate of 44,100 is 44,100 samples per SECOND, or 44.1 kHz.
 
@@ -321,9 +350,6 @@ namespace Abstractatech.ActionScript.Audio
                                 path_leftpadding_red.setAttribute("style", "stroke-width: 3; stroke: red; fill: none;");
                                 path_leftpadding_red.d = "M" + (2 * (samplesperchannel - paddingsamples_red) * scalex) + ",400 L" + (2 * (samplesperchannel - 0) * scalex) + ",400";
 
-
-                                var path_current = new ISVGPathElement().AttachTo(svg);
-                                path_current.setAttribute("style", "stroke-width: 5; stroke: blue; fill: none;");
 
                                 Action<double> set_position =
                                      position =>
