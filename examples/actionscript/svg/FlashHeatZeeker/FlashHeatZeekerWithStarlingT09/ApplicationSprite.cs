@@ -681,6 +681,7 @@ namespace FlashHeatZeekerWithStarlingT09
         // special shadow if any
         public DisplayObject shadow_loc;
         public Sprite shadow_rot;
+        public bool shadow_rot_disable_rotation;
 
         public DisplayObject wings_rot;
 
@@ -699,8 +700,11 @@ namespace FlashHeatZeekerWithStarlingT09
                 if (this.physics_body != null)
                     this.physics_body.SetAngle(value);
 
-                if (this.shadow_rot != null)
-                    this.shadow_rot.rotation = value;
+                if (!this.shadow_rot_disable_rotation)
+                {
+                    if (this.shadow_rot != null)
+                        this.shadow_rot.rotation = value;
+                }
             }
         }
 
@@ -1526,7 +1530,7 @@ namespace FlashHeatZeekerWithStarlingT09
                 delegate
                 {
                     var unit_loc = new Sprite().AttachTo(viewport_content_layer2_units);
-                    var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(8, 8);
+                    var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(0, 0);
 
                     var unit_rot = new Sprite().AttachTo(unit_loc);
                     var unit_shadow_rot = new Sprite().AttachTo(unit_shadow_loc);
@@ -1536,10 +1540,10 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
                     var shadow_shape = new Image(textures_ped_shadow) { x = -200, y = -200 }.AttachTo(unit_shadow_rot);
-                    shadow_shape.alpha = 0.2;
+                    shadow_shape.alpha = 0.1;
 
-                    unit_shadow_rot.scaleY = 0.7;
-                    unit_shadow_rot.scaleX = 0.7;
+                    //unit_shadow_rot.scaleY = 0.7;
+                    //unit_shadow_rot.scaleX = 0.7;
 
                     var shape = new Image(textures_ped_stand) { x = -200, y = -200 }.AttachTo(unit_rot);
 
@@ -1576,6 +1580,7 @@ namespace FlashHeatZeekerWithStarlingT09
                         shape = shape,
 
                         shadow_rot = unit_shadow_rot,
+                        shadow_rot_disable_rotation = true,
 
                         //physics = unit4_physics,
                         physics_body = body,
@@ -1630,7 +1635,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
                             new Image(textures_ped_footprints) { x = -200, y = -200 }.AttachTo(track_unit_rot);
 
-                            track_unit_loc.alpha = 0.2;
+                            track_unit_loc.alpha = 0.1;
 
                             ////// art is too big!
                             ////track_unit_rot.scaleY = 0.7;
