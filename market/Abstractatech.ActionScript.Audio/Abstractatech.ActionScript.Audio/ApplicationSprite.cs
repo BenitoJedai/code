@@ -313,6 +313,8 @@ namespace Abstractatech.ActionScript.Audio
         public double LeftVolume = 1.0;
         public double RightVolume = 1.0;
 
+        public double MasterVolume = 1.0;
+
 
         public Sound SourceAudio;
 
@@ -717,11 +719,11 @@ namespace Abstractatech.ActionScript.Audio
                                 LoopAudioStream.position = (uint)(positionTargetInt << 3);
 
                                 //-- READ TWO STEREO SAMPLES FOR LINEAR INTERPOLATION
-                                l0 = LoopAudioStream.readFloat() * LeftVolume;
-                                r0 = LoopAudioStream.readFloat() * RightVolume;
+                                l0 = LoopAudioStream.readFloat() * LeftVolume * MasterVolume;
+                                r0 = LoopAudioStream.readFloat() * RightVolume * MasterVolume;
 
-                                l1 = LoopAudioStream.readFloat() * LeftVolume;
-                                r1 = LoopAudioStream.readFloat() * RightVolume;
+                                l1 = LoopAudioStream.readFloat() * LeftVolume * MasterVolume;
+                                r1 = LoopAudioStream.readFloat() * RightVolume * MasterVolume;
                             }
 
                             //-- WRITE INTERPOLATED AMPLITUDES INTO STREAM
