@@ -12,6 +12,8 @@ using System.Text;
 using System.Xml.Linq;
 using AndroidListApplications.Design;
 using AndroidListApplications.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
+using System.Collections.Generic;
 
 namespace AndroidListApplications
 {
@@ -28,6 +30,13 @@ namespace AndroidListApplications
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            page.clear.WhenClicked(
+                delegate
+                {
+                    //page.search.Clear();
+                    page.search.value = "";
+                }
+            );
 
             new IHTMLButton { innerText = "Install" }.AttachToDocument().With(
                    btn =>
@@ -42,45 +51,129 @@ namespace AndroidListApplications
                    }
                );
 
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                (packageName, name) =>
+            var items = new
+            {
+                div = default(IHTMLDiv),
+                packageName = "",
+                name = "",
+                Remove = default(IHTMLButton),
+                Launch = default(IHTMLButton)
+            }.ToEmptyList();
+
+            Action queryIntentActivities =
+                delegate
                 {
-                    new IHTMLButton { innerText = "Remove" }.AttachToDocument().With(
-                        btn =>
+                    var a = new List<string>();
+
+                    // Send data from JavaScript to the server tier
+                    service.queryIntentActivities(
+                        yield_done:
+                            delegate
+                            {
+                                items.WithEach(
+                                    item =>
+                                    {
+                                        if (a.Contains(item.packageName))
+                                            return;
+
+                                        item.div.style.color = "red";
+
+                                        item.Launch.disabled = true;
+                                        item.Remove.disabled = true;
+                                    }
+                                );
+
+                                // remove others!
+                            },
+                        yield: (packageName, name) =>
                         {
-                            // http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-5d0f4f25128cc9cd0cb-7ffd.html
+                            a.Add(packageName);
 
-                            btn.onclick +=
-                                delegate
-                                {
-                                    if (!Native.Window.confirm("Remove " + name + "?"))
-                                        return;
+                            // already have it
+                            if (items.Any(k => k.packageName == packageName))
+                                return;
 
-                                    service.Remove(packageName, name);
-                                };
+                            var div = new IHTMLDiv();
+                            div.style.margin = "1em";
+
+                            if (Native.Document.body.firstChild == null)
+                                div.AttachToDocument();
+                            else
+                                Native.Document.body.insertBefore(div, Native.Document.body.firstChild);
+
+                            var Remove = new IHTMLButton { innerText = "Remove" }.AttachTo(div).WhenClicked(
+                                    btn =>
+                                    {
+                                        // http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-5d0f4f25128cc9cd0cb-7ffd.html
+
+
+                                        if (!Native.Window.confirm("Remove " + name + "?"))
+                                            return;
+
+                                        service.Remove(packageName, name);
+                                    }
+                               );
+
+                            var Launch = new IHTMLButton { innerText = "Launch" }.AttachTo(div).WhenClicked(
+                                    btn =>
+                                    {
+                                        // http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-5d0f4f25128cc9cd0cb-7ffd.html
+
+                                        service.Launch(packageName, name);
+                                    }
+                                );
+
+                            var item = new
+                            {
+                                div,
+                                packageName,
+                                name,
+                                Remove,
+                                Launch
+                            };
+
+
+                            items.Add(item);
+
+                            //https://play.google.com/store/apps/details?id=com.abstractatech.battery
+
+                            new IHTMLAnchor { href = "https://play.google.com/store/apps/details?id=" + packageName, innerText = name }.AttachTo(div);
                         }
                     );
-                    new IHTMLButton { innerText = "Launch" }.AttachToDocument().With(
-                        btn =>
-                        {
-                            // http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-5d0f4f25128cc9cd0cb-7ffd.html
+                };
 
-                            btn.onclick +=
-                                delegate
+            queryIntentActivities();
+
+            new Timer(
+                delegate
+                {
+                    items.WithEach(
+                        item =>
+                        {
+                            if (string.IsNullOrEmpty(page.search.value))
+                            {
+                                item.div.Show();
+                            }
+                            else
+                            {
+                                if (item.packageName.Contains(page.search.value))
                                 {
-                                    service.Launch(packageName, name);
-                                };
+                                    item.div.Show();
+                                }
+                                else
+                                {
+                                    item.div.Hide();
+                                }
+                            }
+
                         }
                     );
 
-                    new IHTMLSpan { innerText = name }.AttachToDocument();
-
-                    new IHTMLBreak().AttachToDocument();
-
+                    queryIntentActivities();
                 }
-            );
+            ).StartInterval(2000);
+
+
         }
 
     }

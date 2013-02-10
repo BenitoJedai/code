@@ -8,12 +8,23 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     public static class IHTMLButtonExtensions
     {
-        public static IHTMLButton WhenClicked(this IHTMLButton e, Action h)
+        //public static IHTMLButton WhenClicked(this IHTMLButton e, Action h)
+        //{
+        //    e.onclick +=
+        //        delegate
+        //        {
+        //            h();
+        //        };
+
+        //    return e;
+        //}
+
+        public static IHTMLButton WhenClicked(this IHTMLButton e, Action<IHTMLButton> h)
         {
             e.onclick +=
                 delegate
                 {
-                    h();
+                    h(e);
                 };
 
             return e;
