@@ -34,7 +34,7 @@ namespace com.abstractatech.gamification.gir
             Console.WriteLine("loading GIR");
 
             page.talk.style.With(
-               (dynamic s) => s.webkitTransition = "all 0.1s linear"
+               (dynamic s) => s.webkitTransition = "opacity 0.1s linear"
            );
 
 
@@ -213,7 +213,7 @@ namespace com.abstractatech.gamification.gir
 
 
                     Console.WriteLine("GIR operational!");
-                    @"GIR".ToDocumentTitle();
+                    @"evil GIR".ToDocumentTitle();
 
                     //// Send data from JavaScript to the server tier
                     //service.WebMethod2(

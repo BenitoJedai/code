@@ -69,9 +69,6 @@
     <Reference Include="ScriptCoreLibAndroid.Windows.Forms">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibAndroid.XLinq">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.XLinq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
@@ -99,25 +96,28 @@
     <Content Include="Design\jsc.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="staging\apk\res\values\strings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="wei\mark\example\R.java" />
     <Content Include="wei\mark\standout\R.java" />
-    <Content Include="Y:\opensource\github\StandOut\example\src\**\*.*">
+    <Content Include="x:\opensource\github\StandOut\example\src\**\*.*">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\github\StandOut\library\src\**\*.*">
+    <Content Include="x:\opensource\github\StandOut\library\src\**\*.*">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\github\StandOut\example\res\**\*.*">
+    <Content Include="x:\opensource\github\StandOut\example\res\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\github\StandOut\library\res\**\*.*">
+    <Content Include="x:\opensource\github\StandOut\library\res\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
@@ -133,9 +133,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-            start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true
+            start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true  /DisableVirtualFiles:true
 
-        </PreBuildEvent>
+</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
