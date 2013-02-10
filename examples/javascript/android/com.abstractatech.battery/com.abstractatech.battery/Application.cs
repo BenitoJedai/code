@@ -80,6 +80,8 @@ namespace com.abstractatech.battery
 
             batteryStatus();
 #endif
+
+            "Battery".ToDocumentTitle();
         }
 
     }

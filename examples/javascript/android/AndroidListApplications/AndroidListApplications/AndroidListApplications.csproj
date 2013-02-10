@@ -139,6 +139,6 @@ start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument
 
 start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
 
-            </PreBuildEvent>
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
