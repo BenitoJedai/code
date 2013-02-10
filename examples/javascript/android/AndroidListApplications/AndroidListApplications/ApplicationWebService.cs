@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -24,7 +25,7 @@ namespace AndroidListApplications
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="yield">A callback to javascript.</param>
-        public void WebMethod2(string e, yield_ACTION_MAIN yield)
+        public void queryIntentActivities(yield_ACTION_MAIN yield, Action yield_done)
         {
             // http://stackoverflow.com/questions/2695746/how-to-get-a-list-of-installed-android-applications-and-pick-one-to-run
             // https://play.google.com/store/apps/details?id=com.flopcode.android.inspector
@@ -48,7 +49,7 @@ namespace AndroidListApplications
                 }
             );
 
-            // Send it back to the caller.
+            yield_done();
         }
 
 
@@ -77,7 +78,7 @@ namespace AndroidListApplications
             // http://stackoverflow.com/questions/8228365/how-do-i-remove-any-app-from-a-device-using-my-app-in-android
             // http://stackoverflow.com/questions/6049622/action-delete-android
             Intent intent = new Intent(Intent.ACTION_DELETE);
-            intent.setData(Uri.parse("package:" + packageName));
+            intent.setData(android.net.Uri.parse("package:" + packageName));
             context.startActivity(intent);
         }
 
@@ -112,17 +113,17 @@ namespace AndroidListApplications
                 System.Console.WriteLine(new { apk });
 
 
-       //         Caused by: java.io.FileNotFoundException: /cache/AndroidListApplicationsUpdate.apk: open failed: EACCES (Permission denied)
-       //at libcore.io.IoBridge.open(IoBridge.java:416)
-       //at java.io.RandomAccessFile.<init>(RandomAccessFile.java:118)
-       //at java.io.RandomAccessFile.<init>(RandomAccessFile.java:150)
-       //at ScriptCoreLibJava.BCLImplementation.System.IO.__File.WriteAllBytes(__File.java:103)
-       //... 18 more
+                //         Caused by: java.io.FileNotFoundException: /cache/AndroidListApplicationsUpdate.apk: open failed: EACCES (Permission denied)
+                //at libcore.io.IoBridge.open(IoBridge.java:416)
+                //at java.io.RandomAccessFile.<init>(RandomAccessFile.java:118)
+                //at java.io.RandomAccessFile.<init>(RandomAccessFile.java:150)
+                //at ScriptCoreLibJava.BCLImplementation.System.IO.__File.WriteAllBytes(__File.java:103)
+                //... 18 more
 
                 System.IO.File.WriteAllBytes(apk, (byte[])(object)bytes);
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(new File(apk)), "application/vnd.android.package-archive");
+                intent.setDataAndType(android.net.Uri.fromFile(new File(apk)), "application/vnd.android.package-archive");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
 
                 context.startActivity(intent);
