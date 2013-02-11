@@ -93,6 +93,7 @@ namespace FlashHeatZeekerWithStarlingT09.Library
         public bool powered;
 
         public b2Body body;
+        public b2Fixture fix;
 
         public b2World b2world;
 
@@ -144,7 +145,7 @@ namespace FlashHeatZeekerWithStarlingT09.Library
 
                 fixdef.shape = fixdef_shape;
                 fixdef_shape.SetAsBox(width / 2, length / 2);
-                body.CreateFixture(fixdef);
+                this.fix = body.CreateFixture(fixdef);
 
                 var jointdef = new b2RevoluteJointDef();
 
@@ -258,6 +259,7 @@ namespace FlashHeatZeekerWithStarlingT09.Library
         public Action<double> update;
 
         public b2Body body;
+        public b2Fixture fix;
 
         public int accelerate = ACC_NONE;
 
@@ -331,7 +333,7 @@ namespace FlashHeatZeekerWithStarlingT09.Library
 
             fixdef.shape = fixdef_shape;
             fixdef_shape.SetAsBox(width / 2, length / 2);
-            body.CreateFixture(fixdef);
+            this.fix = body.CreateFixture(fixdef);
 
             //initialize wheels
             foreach (var item in wheels)

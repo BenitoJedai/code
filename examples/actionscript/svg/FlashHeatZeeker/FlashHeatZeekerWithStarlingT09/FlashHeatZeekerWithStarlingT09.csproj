@@ -155,7 +155,11 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\white-jsc.png" />
-    <Content Include="web\assets\FlashHeatZeekerWithStarlingT09\ped_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\snd_metalsmash.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\snd_peddown.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\ped_hit.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\ped_down.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\ped_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\ped_footprints.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT09\snd_jeepengine_start.mp3" />
     <EmbeddedResource Include="Library\FrameDiagnostics.resx">
