@@ -33,6 +33,8 @@ namespace SQLiteWithDataGridView
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            content.label1.Text = Native.Document.location.href;
+
             global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
             //FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;

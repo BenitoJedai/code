@@ -31,7 +31,7 @@ namespace ImpAdventures
         {
 
             // Error	3	The type or namespace name 'DiagnosticsConsole' could not be found in the global namespace (are you missing an assembly reference?)	X:\jsc.svn\examples\javascript\ImpAdventures\ImpAdventures\Application.cs	32	21	ImpAdventures
-            global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            //global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
             new Class4();
 

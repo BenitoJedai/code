@@ -248,6 +248,8 @@ namespace com.abstractatech.multimouse
                 talkhandker();
 
             new IHTMLAnchor { innerText = "Next Tab", href = "/" }.AttachTo(layout.infocontent);
+
+            Native.Document.location.href.ToDocumentTitle();
         }
 
     }

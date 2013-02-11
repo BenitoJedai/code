@@ -78,7 +78,7 @@ namespace SQLiteWithDataGridView
         private ApplicationWebService applicationWebService1;
         private Panel panel1;
         private Button Table001;
-        private Label label1;
+        public Label label1;
 
     }
 }
