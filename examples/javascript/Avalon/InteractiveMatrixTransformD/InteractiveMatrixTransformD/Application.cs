@@ -30,14 +30,18 @@ namespace InteractiveMatrixTransformD
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            content.AttachToContainer(page.Content);
-            content.AutoSizeTo(page.ContentSize);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            content.AttachToContainer(Native.Document.body);
+
+
+            content.Width = Native.Window.Width;
+            content.Height = Native.Window.Height;
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    content.Width = Native.Window.Width;
+                    content.Height = Native.Window.Height;
+                };
         }
 
     }
