@@ -56,9 +56,16 @@ namespace MultitouchFingerTools.JavaScript
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            var c = new ApplicationCanvas();
-            
-            c.AttachToContainer(page.PageContainer).AutoSizeTo(page.SizeShadow);
+            var content = new ApplicationCanvas();
+
+            content.AttachToContainer(Native.Document.body);
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    content.Width = Native.Window.Width;
+                    content.Height = Native.Window.Height;
+                };
         }
     }
 
