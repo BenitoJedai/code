@@ -4,14 +4,18 @@
 
 
 using Abstractatech.ActionScript.Audio;
+using Box2D.Collision;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
+using Box2D.Dynamics.Contacts;
 using FlashHeatZeekerWithStarlingT09.ActionScript.Images;
 using FlashHeatZeekerWithStarlingT09.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using ScriptCoreLib.Shared.Lambda;
@@ -33,6 +37,11 @@ namespace FlashHeatZeekerWithStarlingT09
 {
     static class X
     {
+        public static IEnumerable<T> AsEnumerable<T>(this Vector<T> e)
+        {
+            return Enumerable.Range(0, (int)e.length).Select(i => e[i]);
+        }
+
         [Script(OptimizedCode = "s.flatten();")]
         public static void __flatten(this Sprite s)
         {
@@ -97,6 +106,13 @@ namespace FlashHeatZeekerWithStarlingT09
     {
         public ApplicationSpriteContent()
         {
+            this.loaderInfo.uncaughtErrorEvents.uncaughtError +=
+                e =>
+                {
+                    Console.WriteLine("error: " + new { e.errorID, e.error, e } + "\n run in flash debugger for more details!");
+
+                };
+
             this.InvokeWhenStageIsReady(
                 delegate
                 {
@@ -548,6 +564,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
             var skipone = 0;
 
+            #region redraw
             ApplicationSprite.__stage.stage3Ds[0].context3DCreate +=
                 delegate
                 {
@@ -580,6 +597,8 @@ namespace FlashHeatZeekerWithStarlingT09
                     Console.WriteLine("will redraw " + new { rtex_draw_commands.Count } + " done in " + sw.ElapsedMilliseconds + "ms");
 
                 };
+            #endregion
+
 
             var logo = new Image(Game.LogoTexture);
             logo.scaleX = 0.1;
@@ -886,6 +905,98 @@ namespace FlashHeatZeekerWithStarlingT09
         }
     }
 
+
+    public class XContactListener : IContactListener
+    {
+        // http://www.box2dflash.org/docs/2.1a/reference/Box2D/Dynamics/b2ContactListener.html
+        public void BeginContact(b2Contact contact)
+        {
+        }
+        public void EndContact(b2Contact contact) { }
+
+        public void PostSolve(b2Contact contact, b2ContactImpulse impulse)
+        {
+            // http://stackoverflow.com/questions/11149091/box2d-damage-physics
+
+            //M:\web\FlashHeatZeekerWithStarlingT09\XContactListener.as(34): col: 83 Error: Implicit coercion of a value of type __AS3__.vec:Vector.<Number> to an unrelated type __AS3__.vec:Vector.<*>.
+
+            //double0 = __Enumerable.Sum_100669321(X.AsEnumerable_100664676(impulse.normalImpulses));
+
+            // http://blog.allanbishop.com/box-2d-2-1a-tutorial-part-6-collision-strength/
+            var forceA = impulse.normalImpulses[0];
+            // { impulse = { length = 2, forceA = 2.9642496469208197, forceB = 0 } }
+
+            var forceB = impulse.normalImpulses[1];
+
+            if (forceA < 0.5)
+                if (forceB < 0.5)
+                {
+                    // do we care about friction?
+                    return;
+                }
+
+            //var min = impulse.normalImpulses.AsEnumerable().Min();
+            //var max = impulse.normalImpulses.AsEnumerable().Max();
+
+            //            System.Linq.Enumerable for Double Min(System.Collections.Generic.IEnumerable`1[System.Double]) used at
+            //FlashHeatZeekerWithStarlingT09.XContactListener.PostSolve at offset 001d.
+
+            var fixA = contact.GetFixtureA();
+            if (fixA != null)
+            {
+                var hitA = fixA.GetUserData() as Action<double>;
+                if (hitA != null)
+                {
+                    Console.WriteLine(new
+                    {
+                        hitA = new
+                        {
+                            forceA,
+                        }
+                    });
+
+                    hitA(forceA);
+                    return;
+                }
+            }
+
+            var fixB = contact.GetFixtureB();
+            if (fixB != null)
+            {
+                var hitB = fixB.GetUserData() as Action<double>;
+                if (hitB != null)
+                {
+                    Console.WriteLine(new
+                    {
+                        hitB = new
+                        {
+                            forceA,
+                        }
+                    });
+
+                    hitB(forceA);
+                    return;
+                }
+            }
+
+
+            Console.WriteLine(new
+            {
+                impulse = new
+                {
+                    impulse.normalImpulses.length,
+                    forceA,
+                    fixA,
+                    forceB,
+                    fixB
+                    //, min, max 
+                }
+            });
+        }
+
+        public void PreSolve(b2Contact contact, b2Manifold oldManifold) { }
+    }
+
     public class Game : Sprite
     {
         public static Texture LogoTexture;
@@ -1063,10 +1174,14 @@ namespace FlashHeatZeekerWithStarlingT09
             Func<string, Texture> new_tex_64 =
                asset =>
                {
+                   Console.WriteLine(new { new_tex_64 = new { asset } });
+
                    var shape = KnownEmbeddedResources.Default[asset].ToSprite();
 
+                   Console.WriteLine(new { new_tex_64 = new { asset, shape } });
 
-                   var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(64, 64, true, 0x00000000);
+                   var bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(
+                       64, 64, true, 0x00000000);
 
                    var m = new Matrix();
                    m.scale(64 / 400.0, 64 / 400.0);
@@ -1512,6 +1627,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
             var textures_ped_footprints = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_footprints.svg");
             var textures_ped_stand = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_stand.svg");
+            var textures_ped_down = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_down.svg");
             var textures_ped_shadow = new_tex_64("assets/FlashHeatZeekerWithStarlingT09/ped_shadow.svg");
 
             var textures_greentank = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank.svg");
@@ -1533,6 +1649,9 @@ namespace FlashHeatZeekerWithStarlingT09
 
             var b2world = new b2World(new b2Vec2(0, 0), false);
 
+            b2world.SetContactListener(
+                new XContactListener()
+            );
 
             #region get_b2debug_viewport
             var b2debug_viewport = default(__b2debug_viewport);
@@ -1587,7 +1706,10 @@ namespace FlashHeatZeekerWithStarlingT09
                     unit_shadow_rot.scaleY = 400.0 / 64.0;
                     unit_shadow_rot.scaleX = 400.0 / 64.0;
 
-                    var shape = new Image(textures_ped_stand) { x = -200, y = -200 }.AttachTo(unit_rot);
+                    var shape_stand = new Image(textures_ped_stand) { x = -200, y = -200 }.AttachTo(unit_rot);
+                    var shape_down = new Image(textures_ped_down) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+                    shape_down.visible = false;
 
                     // art is too big!
                     unit_rot.scaleY = 0.7;
@@ -1612,14 +1734,50 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
                     fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.7);
-                    body.CreateFixture(fixDef);
+
+                    var snd_peddown = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/snd_peddown.mp3"].ToSoundAsset();
+                    var ped_hit = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/ped_hit.mp3"].ToSoundAsset();
+                    var ped_hit_c = default(SoundChannel);
+
+                    var fix = body.CreateFixture(fixDef);
+                    var fix_data = new Action<double>(
+                        forceA =>
+                        {
+                            if (forceA > 2.0)
+                            {
+                                // knock over
+
+                                shadow_shape.visible = false;
+                                shape_stand.visible = false;
+                                shape_down.visible = true;
+
+                                body.SetActive(false);
+
+                                if (ped_hit_c != null)
+                                    ped_hit_c = snd_peddown.play();
+                            }
+
+                            if (ped_hit_c != null)
+                                return;
+
+                            ped_hit_c = ped_hit.play();
+                            ped_hit_c.soundComplete +=
+                                delegate
+                                {
+                                    ped_hit_c = null;
+                                };
+
+                        }
+                    );
+
+                    fix.SetUserData(fix_data);
 
                     var u = new GameUnit
                     {
                         loc = unit_loc,
                         rot = unit_rot,
 
-                        shape = shape,
+                        shape = shape_stand,
 
                         // how much does the shadow cost us?
                         shadow_loc = unit_shadow_loc,
@@ -1635,7 +1793,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
                     };
 
-
+                    #region RenewTracks
                     var RenewTracks_previous_position_empty = true;
                     var RenewTracks_previous_position_x = 0.0;
                     var RenewTracks_previous_position_y = 0.0;
@@ -1694,6 +1852,7 @@ namespace FlashHeatZeekerWithStarlingT09
                             #endregion
 
                         };
+                    #endregion
 
 
                     // flash natives defines events with the same name as methods?
@@ -2139,6 +2298,26 @@ namespace FlashHeatZeekerWithStarlingT09
                       wheels: xwheels
                   );
 
+                  var snd_metalsmash = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/snd_metalsmash.mp3"].ToSoundAsset();
+                  var ped_hit_c = default(SoundChannel);
+
+                  var fix = unit4_physics.fix;
+                  var fix_data = new Action<double>(
+                      forceA =>
+                      {
+                          if (ped_hit_c != null)
+                              return;
+
+                          ped_hit_c = snd_metalsmash.play();
+                          ped_hit_c.soundComplete +=
+                              delegate
+                              {
+                                  ped_hit_c = null;
+                              };
+
+                      }
+                  );
+
                   var u = new GameUnit
                   {
                       isjeepengine = true,
@@ -2480,7 +2659,7 @@ namespace FlashHeatZeekerWithStarlingT09
 #if SOUND
             var loophelicopter1 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/helicopter1.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var loopdiesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
-            var sand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
+            var loopsand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var loopjeepengine = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/jeepengine.mp3"].ToSoundAsset().ToMP3PitchLoop();
 
             Action<MP3PitchLoop> silentplay =
@@ -2498,7 +2677,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
             silentplay(loophelicopter1);
             silentplay(loopdiesel2);
-            silentplay(sand_run);
+            silentplay(loopsand_run);
             silentplay(loopjeepengine);
 #endif
 
@@ -3692,9 +3871,9 @@ namespace FlashHeatZeekerWithStarlingT09
                             loophelicopter1.RightVolume = 0;
 
 
-                            sand_run.LeftVolume = 0.0 + move_zoom * 0.9;
-                            sand_run.RightVolume = 0.0 + move_zoom * 0.9;
-                            sand_run.Rate = 0.9 + move_zoom * 0.1;
+                            loopsand_run.LeftVolume = 0.0 + move_zoom * 0.9;
+                            loopsand_run.RightVolume = 0.0 + move_zoom * 0.9;
+                            loopsand_run.Rate = 0.9 + move_zoom * 0.1;
                         }
                         else if (current.isjeepengine)
                         {
@@ -3705,8 +3884,8 @@ namespace FlashHeatZeekerWithStarlingT09
                             loophelicopter1.LeftVolume = 0;
                             loophelicopter1.RightVolume = 0;
 
-                            sand_run.LeftVolume = 0;
-                            sand_run.RightVolume = 0;
+                            loopsand_run.LeftVolume = 0;
+                            loopsand_run.RightVolume = 0;
 
                             loopjeepengine.LeftVolume = 0.4 + move_zoom * 0.7;
                             loopjeepengine.RightVolume = 1;
@@ -3719,8 +3898,8 @@ namespace FlashHeatZeekerWithStarlingT09
                             loopdiesel2.RightVolume = 0;
 
 
-                            sand_run.LeftVolume = 0;
-                            sand_run.RightVolume = 0;
+                            loopsand_run.LeftVolume = 0;
+                            loopsand_run.RightVolume = 0;
 
                             loopjeepengine.LeftVolume = 0;
                             loopjeepengine.RightVolume = 0;
@@ -3740,8 +3919,8 @@ namespace FlashHeatZeekerWithStarlingT09
                             loophelicopter1.LeftVolume = 0;
                             loophelicopter1.RightVolume = 0;
 
-                            sand_run.LeftVolume = 0;
-                            sand_run.RightVolume = 0;
+                            loopsand_run.LeftVolume = 0;
+                            loopsand_run.RightVolume = 0;
 
                             loopdiesel2.LeftVolume = 0.3 + move_zoom * 0.7;
                             loopdiesel2.RightVolume = 1;
