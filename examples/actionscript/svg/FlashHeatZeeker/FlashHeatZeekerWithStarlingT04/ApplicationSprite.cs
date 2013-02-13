@@ -8,8 +8,8 @@ using Box2D.Collision;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
 using Box2D.Dynamics.Contacts;
-using FlashHeatZeekerWithStarlingT09.ActionScript.Images;
-using FlashHeatZeekerWithStarlingT09.Library;
+using FlashHeatZeekerWithStarlingT04.ActionScript.Images;
+using FlashHeatZeekerWithStarlingT04.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
@@ -33,7 +33,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace FlashHeatZeekerWithStarlingT09
+namespace FlashHeatZeekerWithStarlingT04
 {
     static class X
     {
@@ -540,8 +540,8 @@ namespace FlashHeatZeekerWithStarlingT09
             //at flash.display3D::Context3D/createTexture()
             //at starling.textures::Texture$/empty()[Y:\opensource\github.com\Starling-Framework\src\starling\textures\Texture.as:259]
             //at starling.textures::RenderTexture()[Y:\opensource\github.com\Starling-Framework\src\starling\textures\RenderTexture.as:91]
-            //at FlashHeatZeekerWithStarlingT09::GameMap()[T:\web\FlashHeatZeekerWithStarlingT09\GameMap.as:33]
-            //at FlashHeatZeekerWithStarlingT09::Game()[T:\web\FlashHeatZeekerWithStarlingT09\Game.as:181]
+            //at FlashHeatZeekerWithStarlingT04::GameMap()[T:\web\FlashHeatZeekerWithStarlingT04\GameMap.as:33]
+            //at FlashHeatZeekerWithStarlingT04::Game()[T:\web\FlashHeatZeekerWithStarlingT04\Game.as:181]
             //at starling.core::Starling/initializeRoot()[Y:\opensource\github.com\Starling-Framework\src\starling\core\Starling.as:338]
             //at starling.core::Starling/initialize()[Y:\opensource\github.com\Starling-Framework\src\starling\core\Starling.as:314]
             //at starling.core::Starling/onContextCreated()[Y:\opensource\github.com\Starling-Framework\src\starling\core\Starling.as:519]
@@ -682,228 +682,6 @@ namespace FlashHeatZeekerWithStarlingT09
     }
 
 
-    class GameUnit
-    {
-        public bool isjeepengine;
-        public bool ishelicopterengine;
-
-        public Func<double, double> zoomer_default = y => 1 + (1 - y) * 0.2;
-
-
-        public double move_forward = 0.0;
-        public double move_backward = 0.0;
-
-        public double rot_left = 0.0;
-        public double rot_right = 0.0;
-
-
-        public Sprite loc;
-        public Sprite rot;
-
-        public Image shape;
-
-        // hit F2 to see the box2d physics
-        public Car physics;
-
-        public b2Body physics_body;
-
-        // special shadow if any
-        public DisplayObject shadow_loc;
-        public Sprite shadow_rot;
-        public bool shadow_rot_disable_rotation;
-
-        public DisplayObject wings_rot;
-
-        public __vec2 prevframe_loc = new __vec2();
-        public double prevframe_rot = 0;
-
-        public Queue<Sprite> tracks = new Queue<Sprite>();
-
-        public double rotation
-        {
-            get { return this.rot.rotation; }
-            set
-            {
-                this.rot.rotation = value;
-
-                if (this.physics_body != null)
-                    this.physics_body.SetAngle(value);
-
-                if (!this.shadow_rot_disable_rotation)
-                {
-                    if (this.shadow_rot != null)
-                        this.shadow_rot.rotation = value;
-                }
-            }
-        }
-
-        public double scale
-        {
-            get
-            {
-                return rot.scaleX;
-            }
-            set
-            {
-                // art too big
-                shadow_rot.scaleX = value;
-                shadow_rot.scaleY = value;
-
-                rot.scaleX = value;
-                rot.scaleY = value;
-            }
-        }
-
-        // make th unit look like team lead
-        public Action AddRank;
-
-        public Action<double> ScrollTracks = delegate { };
-
-        public DisplayObject guntower;
-        public bool RemoteControlEnabled;
-
-        public Action RenewTracks = delegate { };
-
-        // not all units can be manned.
-        public DriverSeat driverseat;
-
-        // pedesterians can man the driverseat
-        public bool isdriver;
-
-        public class DriverSeat
-        {
-            public GameUnit driver;
-        }
-
-        public GameUnit TeleportTo(GameUnit r, double dx, double dy)
-        {
-            TeleportTo(
-                r.loc.x - dx,
-                r.loc.y - dy
-            );
-
-
-
-
-            return this;
-        }
-
-        public GameUnit TeleportTo(double dx, double dy)
-        {
-            if (this.physics_body != null)
-            {
-                this.physics_body.SetPosition(
-                    new b2Vec2(
-                        (dx) / __b2debug_viewport.b2scale,
-                        (dy) / __b2debug_viewport.b2scale
-                    )
-                );
-
-
-            }
-
-            if (this.physics != null)
-            {
-
-                this.physics.body.GetPosition().With(
-                    pp =>
-                    {
-
-                        this.physics.body.SetPosition(
-                            new b2Vec2(
-                                dx / __b2debug_viewport.b2scale,
-                               dy / __b2debug_viewport.b2scale
-                            )
-                        );
-                    }
-                );
-
-
-
-            }
-
-            TeleporVisiblePartTo(dx, dy);
-
-            return this;
-        }
-
-        public GameUnit TeleporVisiblePartTo(double dx, double dy)
-        {
-            this.loc.x = (dx);
-            this.loc.y = (dy);
-
-            if (this.shadow_loc != null)
-            {
-                this.shadow_loc.x = this.loc.x;
-                this.shadow_loc.y = this.loc.y;
-            }
-
-            return this;
-        }
-
-        public void TeleportBy(double dx, double dy)
-        {
-            if (this.physics_body != null)
-            {
-
-                this.physics_body.GetPosition().With(
-                    pp =>
-                    {
-
-                        this.physics_body.SetPosition(
-                            new b2Vec2(
-                                pp.x + dx / __b2debug_viewport.b2scale,
-                               pp.y + dy / __b2debug_viewport.b2scale
-                            )
-                        );
-                    }
-                );
-            }
-
-            if (this.physics != null)
-            {
-
-                this.physics.body.GetPosition().With(
-                    pp =>
-                    {
-
-                        this.physics.body.SetPosition(
-                            new b2Vec2(
-                                pp.x + dx / __b2debug_viewport.b2scale,
-                               pp.y + dy / __b2debug_viewport.b2scale
-                            )
-                        );
-                    }
-                );
-
-                this.physics.wheels.WithEach(
-                    w =>
-                    {
-                        w.body.GetPosition().With(
-                           pp =>
-                           {
-
-                               w.body.SetPosition(
-                                   new b2Vec2(
-                                       pp.x + dx / __b2debug_viewport.b2scale,
-                                      pp.y + dy / __b2debug_viewport.b2scale
-                                   )
-                               );
-                           }
-                       );
-                    }
-                );
-
-            }
-
-
-            this.loc.x += dx;
-            this.loc.y += dy;
-
-
-
-        }
-    }
 
 
     public class XContactListener : IContactListener
@@ -918,7 +696,7 @@ namespace FlashHeatZeekerWithStarlingT09
         {
             // http://stackoverflow.com/questions/11149091/box2d-damage-physics
 
-            //M:\web\FlashHeatZeekerWithStarlingT09\XContactListener.as(34): col: 83 Error: Implicit coercion of a value of type __AS3__.vec:Vector.<Number> to an unrelated type __AS3__.vec:Vector.<*>.
+            //M:\web\FlashHeatZeekerWithStarlingT04\XContactListener.as(34): col: 83 Error: Implicit coercion of a value of type __AS3__.vec:Vector.<Number> to an unrelated type __AS3__.vec:Vector.<*>.
 
             //double0 = __Enumerable.Sum_100669321(X.AsEnumerable_100664676(impulse.normalImpulses));
 
@@ -939,7 +717,7 @@ namespace FlashHeatZeekerWithStarlingT09
             //var max = impulse.normalImpulses.AsEnumerable().Max();
 
             //            System.Linq.Enumerable for Double Min(System.Collections.Generic.IEnumerable`1[System.Double]) used at
-            //FlashHeatZeekerWithStarlingT09.XContactListener.PostSolve at offset 001d.
+            //FlashHeatZeekerWithStarlingT04.XContactListener.PostSolve at offset 001d.
 
             var done = false;
 
@@ -1262,8 +1040,8 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
 
-            var textures_road0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT09/road0.svg");
-            var textures_touchdown = new_tex_512("assets/FlashHeatZeekerWithStarlingT09/touchdown.svg");
+            var textures_road0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/road0.svg");
+            var textures_touchdown = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/touchdown.svg");
 
 
             {
@@ -1302,7 +1080,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
 
-            var textures_hill0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT09/hill0.svg");
+            var textures_hill0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/hill0.svg");
 
             {
                 var img = new Image(textures_hill0);
@@ -1315,7 +1093,7 @@ namespace FlashHeatZeekerWithStarlingT09
                 img.AttachTo(viewport_content_layer1_tracks);
             }
 
-            var textures_hill1 = new_tex_512("assets/FlashHeatZeekerWithStarlingT09/hill1.svg");
+            var textures_hill1 = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/hill1.svg");
 
             {
                 var img = new Image(textures_hill1);
@@ -1328,10 +1106,9 @@ namespace FlashHeatZeekerWithStarlingT09
                 img.AttachTo(viewport_content_layer1_tracks);
             }
 
-            var textures_watertower0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT09/watertower0.svg");
 
-            var textures_tree0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT09/tree0.svg");
-            var textures_tree0_shadow = new_tex_512("assets/FlashHeatZeekerWithStarlingT09/tree0_shadow.svg");
+            var textures_tree0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/tree0.svg");
+            var textures_tree0_shadow = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/tree0_shadow.svg");
 
 
             #region new_tree
@@ -1402,6 +1179,8 @@ namespace FlashHeatZeekerWithStarlingT09
             #endregion
 
 
+            var textures_watertower0 = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/watertower0.svg");
+
             #region new_watertower
             Func<Sprite> new_watertower =
                 delegate
@@ -1420,6 +1199,9 @@ namespace FlashHeatZeekerWithStarlingT09
                     return unit_loc;
                 };
             #endregion
+
+
+
 
 
 
@@ -1594,9 +1376,8 @@ namespace FlashHeatZeekerWithStarlingT09
             pin_doodad(new_watertower().MoveTo(mapB.Location.x, mapB.Location.y + 2048));
 
             pin_doodad(new_watertower().MoveTo(400, 800));
-            pin_doodad(new_watertower());
 
-            var textures_tanktrackpattern = new_tex_512("assets/FlashHeatZeekerWithStarlingT09/tanktrackpattern.svg");
+            var textures_tanktrackpattern = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/tanktrackpattern.svg");
 
             #region pin_letter
             Action<string, double, double> pin_letter =
@@ -1614,41 +1395,41 @@ namespace FlashHeatZeekerWithStarlingT09
             #endregion
 
 
-            pin_letter("assets/FlashHeatZeekerWithStarlingT09/letterB.svg", mapB.Location.x, mapB.Location.y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT09/letterC.svg", mapC.Location.x, mapC.Location.y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT09/letterD.svg", mapD.Location.x, mapD.Location.y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT09/letterE.svg", mapE.Location.x, mapE.Location.y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT09/letterF.svg", mapF.Location.x, mapF.Location.y);
-            pin_letter("assets/FlashHeatZeekerWithStarlingT09/letterG.svg", mapG.Location.x, mapG.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT04/letterB.svg", mapB.Location.x, mapB.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT04/letterC.svg", mapC.Location.x, mapC.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT04/letterD.svg", mapD.Location.x, mapD.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT04/letterE.svg", mapE.Location.x, mapE.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT04/letterF.svg", mapF.Location.x, mapF.Location.y);
+            pin_letter("assets/FlashHeatZeekerWithStarlingT04/letterG.svg", mapG.Location.x, mapG.Location.y);
 
 
 
             textures_tanktrackpattern.repeat = true;
 
-            var textures_bullet = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/bullet.svg");
-            var textures_tracks0 = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/tracks0.svg");
+            var textures_bullet = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/bullet.svg");
+            var textures_tracks0 = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/tracks0.svg");
 
-            var textures_jeep = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/jeep.svg");
-            var textures_jeep_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/jeep_shadow.svg");
-            var textures_jeep_trackpattern = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/jeep_trackpattern.svg");
+            var textures_jeep = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/jeep.svg");
+            var textures_jeep_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/jeep_shadow.svg");
+            var textures_jeep_trackpattern = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/jeep_trackpattern.svg");
 
-            var textures_ped_footprints = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_footprints.svg");
-            var textures_ped_stand = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_stand.svg");
-            var textures_ped_down = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/ped_down.svg");
-            var textures_ped_shadow = new_tex_64("assets/FlashHeatZeekerWithStarlingT09/ped_shadow.svg");
+            var textures_ped_footprints = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_footprints.svg");
+            var textures_ped_stand = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_stand.svg");
+            var textures_ped_down = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_down.svg");
+            var textures_ped_shadow = new_tex_64("assets/FlashHeatZeekerWithStarlingT04/ped_shadow.svg");
 
-            var textures_greentank = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank.svg");
-            var textures_greentank_guntower = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank_guntower.svg");
-            var textures_greentank_guntower_rank = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank_guntower_rank.svg");
-            var textures_greentank_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/greentank_shadow.svg");
+            var textures_greentank = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/greentank.svg");
+            var textures_greentank_guntower = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/greentank_guntower.svg");
+            var textures_greentank_guntower_rank = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/greentank_guntower_rank.svg");
+            var textures_greentank_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/greentank_shadow.svg");
 
-            //R:\web\FlashHeatZeekerWithStarlingT09\ApplicationSprite.as(796): col: 9: Error: exception during transcoding: null
+            //R:\web\FlashHeatZeekerWithStarlingT04\ApplicationSprite.as(796): col: 9: Error: exception during transcoding: null
             //Enclosed Exception:
             //Invalid byte 1 of 1-byte UTF-8 sequence.
 
-            var textures_hind0_wing1 = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/hind0_wing1.svg");
-            var textures_hind0_nowings = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/hind0_nowings.svg");
-            var textures_hind0_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT09/hind0_shadow.svg");
+            var textures_hind0_wing1 = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/hind0_wing1.svg");
+            var textures_hind0_nowings = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/hind0_nowings.svg");
+            var textures_hind0_shadow = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/hind0_shadow.svg");
 
             GameUnit current = null;
 
@@ -1742,8 +1523,8 @@ namespace FlashHeatZeekerWithStarlingT09
 
                     fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.7);
 
-                    var snd_peddown = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/snd_peddown.mp3"].ToSoundAsset();
-                    var ped_hit = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/ped_hit.mp3"].ToSoundAsset();
+                    var snd_peddown = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/snd_peddown.mp3"].ToSoundAsset();
+                    var ped_hit = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/ped_hit.mp3"].ToSoundAsset();
                     var ped_hit_c = default(SoundChannel);
 
                     var fix = body.CreateFixture(fixDef);
@@ -1765,14 +1546,22 @@ namespace FlashHeatZeekerWithStarlingT09
 
                                 body.SetActive(false);
 
-                                if (ped_hit_c != null)
-                                    ped_hit_c = snd_peddown.play();
+                                ped_hit_c = snd_peddown.play();
+                                return;
                             }
 
                             if (ped_hit_c != null)
                                 return;
 
-                            ped_hit_c = ped_hit.play();
+                            ped_hit_c = ped_hit.play(
+
+                                 sndTransform: new SoundTransform(
+                                  Math.Min(1.0, ped_forceA / 4.0)
+                              )
+
+                            );
+
+
                             ped_hit_c.soundComplete +=
                                 delegate
                                 {
@@ -2310,7 +2099,7 @@ namespace FlashHeatZeekerWithStarlingT09
                       wheels: xwheels
                   );
 
-                  var snd_metalsmash = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/snd_metalsmash.mp3"].ToSoundAsset();
+                  var snd_metalsmash = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/snd_metalsmash.mp3"].ToSoundAsset();
                   var ped_hit_c = default(SoundChannel);
 
                   var fix = unit4_physics.fix;
@@ -2359,6 +2148,7 @@ namespace FlashHeatZeekerWithStarlingT09
                       driverseat = new GameUnit.DriverSeat()
                   };
 
+                  #region RenewTracks
                   var RenewTracks_previous_position_empty = true;
                   var RenewTracks_previous_position_x = 0.0;
                   var RenewTracks_previous_position_y = 0.0;
@@ -2442,6 +2232,7 @@ namespace FlashHeatZeekerWithStarlingT09
                           #endregion
 
                       };
+                  #endregion
 
                   return u;
               };
@@ -2585,10 +2376,186 @@ namespace FlashHeatZeekerWithStarlingT09
             var props = new List<object>();
 
             // size behaves like radius!!
+
+            // can we destroy it?
+            pin_doodad(new_watertower());
             props.Add(new CircleProp(b2world, size: ff(50 / __b2debug_viewport.b2scale, 50 / __b2debug_viewport.b2scale), position: ff(0, 0)));
-            props.Add(new BoxProp(b2world, size: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale), position: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale)));
 
 
+            // tracergun_guntower_shadow
+
+            var textures_tracergun_mount = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/tracergun_mount.svg");
+            var textures_tracergun_guntower = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/tracergun_guntower.svg");
+            var textures_tracergun_guntower_shadow = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/tracergun_guntower_shadow.svg");
+
+            #region new_tracergun
+            Func<GameUnit> new_tracergun =
+                delegate
+                {
+                    var scale = 0.5;
+
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer3_trees);
+                    {
+                        var unit_scale = new Sprite().AttachTo(unit_loc);
+                        var img = new Image(textures_tracergun_mount);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                    }
+
+                    #region shadow_rot textures_tracergun_guntower_shadow
+                    var shadow_loc = new Sprite().AttachTo(unit_loc);
+                    var shadow_rot = new Sprite().AttachTo(shadow_loc);
+
+                    {
+                        var unit_scale = new Sprite().AttachTo(shadow_rot);
+
+                        var img = new Image(textures_tracergun_guntower_shadow);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                        img.alpha = 0.2;
+
+                        unit_scale.rotation = 270.DegreesToRadians();
+
+                        // what do I have to do to move the shadow?
+                        shadow_rot.MoveTo(6, 6);
+                    }
+                    #endregion
+
+                    #region unit_rot textures_tracergun_guntower
+                    var unit_rot = new Sprite().AttachTo(unit_loc);
+
+                    {
+                        var unit_scale = new Sprite().AttachTo(unit_rot);
+                        var img = new Image(textures_tracergun_guntower);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        unit_scale.rotation = 270.DegreesToRadians();
+
+                        img.AttachTo(unit_scale);
+                    }
+                    #endregion
+
+
+
+                    var bunker0_physics = new BoxProp(b2world,
+                        size: ff(50 / __b2debug_viewport.b2scale, 50 / __b2debug_viewport.b2scale),
+                        position: ff(0 / __b2debug_viewport.b2scale, 0 / __b2debug_viewport.b2scale));
+
+
+
+                    var u = new GameUnit
+                    {
+                        physics_body = bunker0_physics.body,
+
+                        loc = unit_loc,
+                        rot = unit_rot,
+
+                        //shadow_loc = shadow_loc,
+                        shadow_rot = shadow_rot,
+
+                        // allow to enter?
+                        driverseat = new GameUnit.DriverSeat()
+                    };
+
+                    units.Add(u);
+
+                    return u;
+                };
+            #endregion
+
+
+
+
+            new_tracergun().TeleportTo(100, 100);
+            new_tracergun().TeleportTo(-100, 100);
+            new_tracergun().TeleportTo(-200, 100);
+            new_tracergun().TeleportTo(-300, 100);
+
+            var textures_bunker = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/bunker.svg");
+            var textures_bunker_shadow = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/bunker_shadow.svg");
+
+
+            #region new_bunker
+            Func<GameUnit> new_bunker =
+                delegate
+                {
+                    var scale = 0.5;
+
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer3_trees);
+                    {
+                        var unit_scale = new Sprite().AttachTo(unit_loc);
+                        var img = new Image(textures_bunker);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                    }
+
+                    var shadow_loc = new Sprite().AttachTo(viewport_content_layer3_trees_shadow);
+                    {
+                        var unit_scale = new Sprite().AttachTo(shadow_loc);
+                        var img = new Image(textures_bunker_shadow);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                        img.alpha = 0.4;
+                    }
+
+                    var bunker0_physics = new BoxProp(b2world,
+                        size: ff(100 / __b2debug_viewport.b2scale, 110 / __b2debug_viewport.b2scale),
+                        position: ff(-200 / __b2debug_viewport.b2scale, 200 / __b2debug_viewport.b2scale));
+
+
+
+                    var u = new GameUnit
+                    {
+                        physics_body = bunker0_physics.body,
+
+                        loc = unit_loc,
+                        shadow_loc = shadow_loc,
+
+                        // allow to enter?
+                        driverseat = new GameUnit.DriverSeat()
+                    };
+
+                    units.Add(u);
+
+                    return u;
+                };
+            #endregion
+
+
+
+
+            new_bunker().TeleportTo(-200, 200);
+            new_bunker().TeleportTo(-200, 400);
+            new_bunker().TeleportTo(-200, 600);
+            new_bunker().TeleportTo(-200, 800);
+
+            //props.Add(bunker0_physics);
+
+            // new turrent
 
 
 
@@ -2696,10 +2663,10 @@ namespace FlashHeatZeekerWithStarlingT09
             var move_zoom = 1.0;
 
 #if SOUND
-            var loophelicopter1 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/helicopter1.mp3"].ToSoundAsset().ToMP3PitchLoop();
-            var loopdiesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
-            var loopsand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
-            var loopjeepengine = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/jeepengine.mp3"].ToSoundAsset().ToMP3PitchLoop();
+            var loophelicopter1 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/helicopter1.mp3"].ToSoundAsset().ToMP3PitchLoop();
+            var loopdiesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
+            var loopsand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
+            var loopjeepengine = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/jeepengine.mp3"].ToSoundAsset().ToMP3PitchLoop();
 
             Action<MP3PitchLoop> silentplay =
                 m =>
@@ -3080,7 +3047,7 @@ namespace FlashHeatZeekerWithStarlingT09
                 //BCL needs another method, please define it.
                 //Cannot call type without script attribute :
                 //System.Delegate for Boolean op_Equality(System.Delegate, System.Delegate) used at
-                //FlashHeatZeekerWithStarlingT09.Game+<>c__DisplayClass22.<.ctor>b__19 at offset 035c.
+                //FlashHeatZeekerWithStarlingT04.Game+<>c__DisplayClass22.<.ctor>b__19 at offset 035c.
                 //If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set. You may have mistyped it.
 
                 if ((object)current_zoomer == (object)zoomer_default)
@@ -3200,11 +3167,11 @@ namespace FlashHeatZeekerWithStarlingT09
 
                     if (current.isjeepengine)
                     {
-                        KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/snd_jeepengine_start.mp3"].ToSoundAsset().play();
+                        KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/snd_jeepengine_start.mp3"].ToSoundAsset().play();
                     }
                     else
                     {
-                        KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/letsgo.mp3"].ToSoundAsset().play();
+                        KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/letsgo.mp3"].ToSoundAsset().play();
                     }
 
                     lookat(current.rotation, current.loc.x, current.loc.y);
@@ -3470,8 +3437,8 @@ namespace FlashHeatZeekerWithStarlingT09
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Tab)
                   {
-                      //                      System.Linq.Enumerable for System.Collections.Generic.IEnumerable`1[FlashHeatZeekerWithStarlingT09.GameUnit] Skip[GameUnit](System.Collections.Generic.IEnumerable`1[FlashHeatZeekerWithStarlingT09.GameUnit], Int32) used at
-                      //FlashHeatZeekerWithStarlingT09.Game+<>c__DisplayClass10.<.ctor>b__a at offset 014b.
+                      //                      System.Linq.Enumerable for System.Collections.Generic.IEnumerable`1[FlashHeatZeekerWithStarlingT04.GameUnit] Skip[GameUnit](System.Collections.Generic.IEnumerable`1[FlashHeatZeekerWithStarlingT04.GameUnit], Int32) used at
+                      //FlashHeatZeekerWithStarlingT04.Game+<>c__DisplayClass10.<.ctor>b__a at offset 014b.
                       //If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set. You may have mistyped it.
 
 
@@ -3503,7 +3470,7 @@ namespace FlashHeatZeekerWithStarlingT09
                                   (float)(current.loc.y - x.loc.y)
                               ).GetLength()
 
-                              where distance < 60
+                              where distance < 90
 
                               orderby distance descending
                               select new { x, distance };
@@ -3566,7 +3533,7 @@ namespace FlashHeatZeekerWithStarlingT09
                   {
                       Console.WriteLine("fire!");
                       // http://www.sounddogs.com/results.asp?Type=1&CategoryID=1027&SubcategoryID=11
-                      KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/cannon1.mp3"].ToSoundAsset().play();
+                      KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/cannon1.mp3"].ToSoundAsset().play();
 
                       var unit_bullet = new Sprite().AttachTo(viewport_content_layers);
 
@@ -3578,7 +3545,7 @@ namespace FlashHeatZeekerWithStarlingT09
                       );
 
                       KineticEnergy.Add(
-                          new FlashHeatZeekerWithStarlingT09.KineticEnergy
+                          new FlashHeatZeekerWithStarlingT04.KineticEnergy
                           {
                               Target = unit_bullet,
                               Energy = new __vec2(
@@ -3600,7 +3567,7 @@ namespace FlashHeatZeekerWithStarlingT09
                       if (current.scale == 1.1)
                       {
                           // touchdown!
-                          KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT09/snd_touchdown.mp3"].ToSoundAsset().play();
+                          KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/snd_touchdown.mp3"].ToSoundAsset().play();
 
                           if (current.shadow_loc != null)
                               current.shadow_loc.MoveTo(8, 8);
@@ -3757,7 +3724,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
                         //TypeError: Error #1009: Cannot access a property or method of a null object reference.
                         //    at Box2D.Dynamics::b2World/DrawDebugData()[Y:\opensource\sourceforge\box2dflash\Box2D\Dynamics\b2World.as:656]
-                        //    at FlashHeatZeekerWithStarlingT09::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT09\Game___c__DisplayClass46.as:163]
+                        //    at FlashHeatZeekerWithStarlingT04::Game___c__DisplayClass46/__ctor_b__3b_100663971()[V:\web\FlashHeatZeekerWithStarlingT04\Game___c__DisplayClass46.as:163]
 
                         // can jsc tell us about timing?
 
@@ -3950,7 +3917,7 @@ namespace FlashHeatZeekerWithStarlingT09
                             loophelicopter1.Rate = 0.7 + move_zoom * 0.3;
                             //jeepengine.Rate = 0.9 + move_zoom * 0.1;
                         }
-                        else
+                        else if (current.isdieselengine)
                         {
                             loopjeepengine.LeftVolume = 0;
                             loopjeepengine.RightVolume = 0;
@@ -3965,6 +3932,20 @@ namespace FlashHeatZeekerWithStarlingT09
                             loopdiesel2.RightVolume = 1;
                             loopdiesel2.Rate = 0.9 + move_zoom;
                         }
+                        else
+                        {
+                            loopjeepengine.LeftVolume = 0;
+                            loopjeepengine.RightVolume = 0;
+
+                            loophelicopter1.LeftVolume = 0;
+                            loophelicopter1.RightVolume = 0;
+
+                            loopsand_run.LeftVolume = 0;
+                            loopsand_run.RightVolume = 0;
+
+                            loopdiesel2.LeftVolume = 0;
+                            loopdiesel2.RightVolume = 0;
+                        }
 #endif
                         #endregion
 
@@ -3976,13 +3957,20 @@ namespace FlashHeatZeekerWithStarlingT09
                         //}
                         //else
                         //{
-                        viewport_rot.scaleX = current_zoomer(move_zoom) / current.scale;
-                        viewport_rot.scaleY = current_zoomer(move_zoom) / current.scale;
+
+                        var viewport_scale = current_zoomer(move_zoom) / current.scale;
+
+                        // smaller window needs to zoom out more.
+                        viewport_scale *= ApplicationSpriteContent.__stage.stageHeight / 1000.0;
+
+
+                        viewport_rot.scaleX = viewport_scale;
+                        viewport_rot.scaleY = viewport_scale;
 
                         if (b2debug_viewport != null)
                         {
-                            b2debug_viewport.rot.scaleX = current_zoomer(move_zoom) / current.scale;
-                            b2debug_viewport.rot.scaleY = current_zoomer(move_zoom) / current.scale;
+                            b2debug_viewport.rot.scaleX = viewport_scale;
+                            b2debug_viewport.rot.scaleY = viewport_scale;
                         }
 
                         var drot = rot_sw.ElapsedMilliseconds
@@ -4071,7 +4059,7 @@ namespace FlashHeatZeekerWithStarlingT09
                         {
 
 
-                            lookat(current.rot.rotation, current.loc.x, current.loc.y);
+                            lookat(current.rotation, current.loc.x, current.loc.y);
 
 
                         }
@@ -4080,7 +4068,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
 
-                            lookat(current.rot.rotation, current.loc.x, current.loc.y);
+                            lookat(current.rotation, current.loc.x, current.loc.y);
 
 
                         }
@@ -4092,7 +4080,7 @@ namespace FlashHeatZeekerWithStarlingT09
 
 
                                 lookat(
-                                    current.rot.rotation,
+                                    current.rotation,
                                     (current.loc.x + (robo1.loc.x - current.loc.x) / 2),
                                     (current.loc.y + (robo1.loc.y - current.loc.y) / 2)
                                     );
@@ -4102,7 +4090,7 @@ namespace FlashHeatZeekerWithStarlingT09
                             {
                                 remotecontrol(current);
 
-                                lookat(current.rot.rotation, current.loc.x, current.loc.y);
+                                lookat(current.rotation, current.loc.x, current.loc.y);
                             }
                         }
 
