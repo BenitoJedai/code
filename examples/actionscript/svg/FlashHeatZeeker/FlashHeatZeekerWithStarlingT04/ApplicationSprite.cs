@@ -1468,6 +1468,93 @@ namespace FlashHeatZeekerWithStarlingT04
 
 
 
+            var units = new List<GameUnit>();
+
+            #region new_bullet
+            Func<GameUnit> new_bullet =
+                delegate
+                {
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer2_units);
+                    var unit_rot = new Sprite().AttachTo(unit_loc);
+
+                    var shape_stand = new Image(textures_bullet) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+                    // http://www.sounddogs.com/results.asp?Type=1&CategoryID=1027&SubcategoryID=11
+                    KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/cannon1.mp3"].ToSoundAsset().play();
+
+
+                    // art is too big!
+                    unit_rot.scaleY = 0.4;
+                    unit_rot.scaleX = 0.4;
+
+                    var bodyDef = new b2BodyDef();
+
+                    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+                    bodyDef.linearDamping = 0.1;
+                    bodyDef.angularDamping = 0.1;
+                    //bodyDef.angle = 1.57079633;
+                    bodyDef.fixedRotation = true;
+
+                    var body = b2world.CreateBody(bodyDef);
+
+
+
+                    var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                    fixDef.density = 20.0;
+                    fixDef.friction = 0.0;
+                    fixDef.restitution = 0;
+
+
+                    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.5);
+
+                    var snd_peddown = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/snd_peddown.mp3"].ToSoundAsset();
+                    var ped_hit = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/ped_hit.mp3"].ToSoundAsset();
+                    var ped_hit_c = default(SoundChannel);
+
+                    var fix = body.CreateFixture(fixDef);
+                    var fix_data = new Action<double>(
+                        bullet_forceA =>
+                        {
+                            Console.WriteLine(new { frameid, bullet_forceA });
+
+
+                            body.SetActive(false);
+                        }
+                    );
+
+                    fix.SetUserData(fix_data);
+
+
+
+                    var u = new GameUnit
+                    {
+                        loc = unit_loc,
+                        rot = unit_rot,
+
+                        shape = shape_stand,
+
+                        // how much does the shadow cost us?
+                        //shadow_loc = unit_shadow_loc,
+
+                        //shadow_rot_disable_rotation = true,
+
+                        //physics = unit4_physics,
+                        physics_body = body,
+
+                        //isdriver = true,
+
+                        //zoomer_default = y => 1.7 + (1 - y) * 0.1
+
+                    };
+
+
+                    //units.Add(u);
+
+                    // flash natives defines events with the same name as methods?
+                    //unit_loc.__flatten();
+                    return u;
+                };
+            #endregion
 
 
             #region new_ped
@@ -2346,7 +2433,6 @@ namespace FlashHeatZeekerWithStarlingT04
 
             #endregion
 
-            var units = new List<GameUnit>();
 
             var unit1 = new_greentank();
             unit1.loc.MoveTo(256, 256);
@@ -3531,33 +3617,37 @@ namespace FlashHeatZeekerWithStarlingT04
                   #region ControlKey
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.ControlKey)
                   {
-                      Console.WriteLine("fire!");
-                      // http://www.sounddogs.com/results.asp?Type=1&CategoryID=1027&SubcategoryID=11
-                      KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/cannon1.mp3"].ToSoundAsset().play();
+                      Console.WriteLine(new { frameid } + " fire!");
 
-                      var unit_bullet = new Sprite().AttachTo(viewport_content_layers);
 
-                      var shape = new Image(textures_bullet) { x = -200, y = -200 }.AttachTo(unit_bullet);
 
-                      unit_bullet.MoveTo(
-                          current.loc.x + 100 * Math.Cos(current.rotation + 270.DegreesToRadians()),
-                          current.loc.y + 100 * Math.Sin(current.rotation + 270.DegreesToRadians())
+                      var xx = new_bullet();
+                      xx.TeleportTo(
+                            current.loc.x + 50 * Math.Cos(current.rotation + 270.DegreesToRadians()),
+                            current.loc.y + 50 * Math.Sin(current.rotation + 270.DegreesToRadians())
                       );
 
-                      KineticEnergy.Add(
-                          new FlashHeatZeekerWithStarlingT04.KineticEnergy
-                          {
-                              Target = unit_bullet,
-                              Energy = new __vec2(
-                                  (float)(2 * Math.Cos(current.rotation + 270.DegreesToRadians())),
-                                  (float)(2 * Math.Sin(current.rotation + 270.DegreesToRadians()))
-                              ),
-                              TTL = 30
-                          }
+                      xx.physics_body.ApplyLinearImpulse(
+                            new b2Vec2(
+                          // how fast can we make it go?
+                                     300 * Math.Cos(current.rotation + 270.DegreesToRadians()),
+                                     300 * Math.Sin(current.rotation + 270.DegreesToRadians())
+
+                                ),
+                            new b2Vec2()
                         );
 
-                      unit_bullet.scaleX = 0.8;
-                      unit_bullet.scaleY = 0.8;
+                      //xx.rotation = current.rotation;
+
+
+                      // what will this do? animated gif documentation please1
+                      //physics.body.ApplyLinearImpulse(
+                      //    new b2Vec2(
+                      //    )
+                      //   , new b2Vec2(0, 0)
+                      // );
+
+                      // 
                   }
                   #endregion
 

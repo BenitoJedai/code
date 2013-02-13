@@ -16,11 +16,17 @@ namespace ScriptCoreLib.Avalon
 				this.AddImages =
 					Add =>
 					{
-						Add(new Apple_Safari());
+                        // http://robert.ocallahan.org/2013/02/and-then-there-were-three.html
+
+                        // iOS
+                        //Add(new Apple_Safari());
+
+                        // Chrome OS, Android
 						Add(new Google_Chrome());
 						Add(new Internet_Explorer_7_Logo());
-						Add(new Firefox_3_5_logo());
-						Add(new Opera());
+
+                        Add(new Firefox_3_5_logo());
+                        //Add(new Opera());
 					};
 
 				this.ImageDefaultWidth = JSCSolutionsNETWhiteImage.ImageDefaultWidth;
