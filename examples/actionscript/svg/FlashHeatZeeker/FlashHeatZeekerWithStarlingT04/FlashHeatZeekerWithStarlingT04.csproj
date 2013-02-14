@@ -159,6 +159,10 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\white-jsc.png" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\silo1_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\silo1.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\bunker2_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\bunker2.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\tracergun_guntower_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\tracergun_guntower.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\tracergun_mount.svg" />

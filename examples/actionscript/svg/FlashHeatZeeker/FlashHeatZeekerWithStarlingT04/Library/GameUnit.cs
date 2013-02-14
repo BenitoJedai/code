@@ -139,6 +139,8 @@ namespace FlashHeatZeekerWithStarlingT04.Library
         // pedesterians can man the driverseat
         public bool isdriver;
 
+        public bool input_enabled = true;
+
         public class DriverSeat
         {
             public GameUnit driver;

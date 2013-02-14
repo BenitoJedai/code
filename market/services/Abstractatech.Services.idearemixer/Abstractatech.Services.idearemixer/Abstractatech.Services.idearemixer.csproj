@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4FFD0992-0097-4C06-9362-19846B399732}</ProjectGuid>
+    <ProjectGuid>{6ED5504B-0C3E-4222-A06A-2005C2CCD279}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech.Services.idearemixer</RootNamespace>

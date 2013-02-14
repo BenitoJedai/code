@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{370E6F
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Services.idearemixer", "..\..\..\..\market\services\Abstractatech.Services.idearemixer\Abstractatech.Services.idearemixer\Abstractatech.Services.idearemixer.csproj", "{6ED5504B-0C3E-4222-A06A-2005C2CCD279}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -20,6 +22,10 @@ Global
 		{4FFD0992-0097-4C06-9362-19846B399732}.Debug|x86.Build.0 = Debug|x86
 		{4FFD0992-0097-4C06-9362-19846B399732}.Release|x86.ActiveCfg = Release|x86
 		{4FFD0992-0097-4C06-9362-19846B399732}.Release|x86.Build.0 = Release|x86
+		{6ED5504B-0C3E-4222-A06A-2005C2CCD279}.Debug|x86.ActiveCfg = Debug|x86
+		{6ED5504B-0C3E-4222-A06A-2005C2CCD279}.Debug|x86.Build.0 = Debug|x86
+		{6ED5504B-0C3E-4222-A06A-2005C2CCD279}.Release|x86.ActiveCfg = Release|x86
+		{6ED5504B-0C3E-4222-A06A-2005C2CCD279}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
