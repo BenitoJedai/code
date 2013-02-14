@@ -1490,8 +1490,8 @@ namespace FlashHeatZeekerWithStarlingT04
                     var bodyDef = new b2BodyDef();
 
                     bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-                    bodyDef.linearDamping = 0.1;
-                    bodyDef.angularDamping = 0.1;
+                    bodyDef.linearDamping = 0;
+                    bodyDef.angularDamping = 0;
                     //bodyDef.angle = 1.57079633;
                     bodyDef.fixedRotation = true;
 
@@ -1500,6 +1500,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
 
                     var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                    // what does this number mean??
                     fixDef.density = 20.0;
                     fixDef.friction = 0.0;
                     fixDef.restitution = 0;
@@ -1519,6 +1520,8 @@ namespace FlashHeatZeekerWithStarlingT04
 
 
                             body.SetActive(false);
+
+                            unit_loc.Orphanize();
                         }
                     );
 
@@ -1545,10 +1548,12 @@ namespace FlashHeatZeekerWithStarlingT04
 
                         //zoomer_default = y => 1.7 + (1 - y) * 0.1
 
+                        // you cannot control this one!
+                        input_enabled = false
                     };
 
 
-                    //units.Add(u);
+                    units.Add(u);
 
                     // flash natives defines events with the same name as methods?
                     //unit_loc.__flatten();
@@ -1677,6 +1682,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
                         isdriver = true,
 
+                        // ped does not need to see much
                         zoomer_default = y => 1.7 + (1 - y) * 0.1
 
                     };
@@ -1754,15 +1760,16 @@ namespace FlashHeatZeekerWithStarlingT04
            delegate
            {
                var unit_loc = new Sprite().AttachTo(viewport_content_layer4_airunits);
-               var unit_shadow_loc = new Sprite().AttachTo(unit_loc).MoveTo(
-                   8, 8
-               );
+
+               var unit_shadow_loc = new Sprite().AttachTo(viewport_content_layer3_trees_shadow);
 
                var unit_rot = new Sprite().AttachTo(unit_loc);
 
 
                var unit_shadow_rot = new Sprite().AttachTo(unit_shadow_loc);
-
+               //.MoveTo(
+               //    8, 8
+               //);
                // can we have wheels?
 
 
@@ -1822,7 +1829,7 @@ namespace FlashHeatZeekerWithStarlingT04
                    max_steer_angle: 90,
                    //max_steer_angle: 40,
 
-                   max_speed: 30,
+                   max_speed: 200,
                    wheels: xwheels
                );
 
@@ -1844,93 +1851,16 @@ namespace FlashHeatZeekerWithStarlingT04
 
                    driverseat = new GameUnit.DriverSeat(),
 
+                   // we are flying. show us more map!
+                   // but not too much. our map is small!
+                   zoomer_default = y => 0.5 + (1 - y) * 0.03,
 
-                   scale = 0.8
+                   scale = 0.5
                };
 
-               var RenewTracks_previous_position_empty = true;
-               var RenewTracks_previous_position_x = 0.0;
-               var RenewTracks_previous_position_y = 0.0;
 
-               u.RenewTracks =
-                   delegate
-                   {
-                       if (RenewTracks_previous_position_empty)
-                       {
-                           RenewTracks_previous_position_x = u.loc.x;
-                           RenewTracks_previous_position_y = u.loc.y;
+               // you should only fly with this thing! no tracks!
 
-                           RenewTracks_previous_position_empty = false;
-
-                           return;
-                       }
-
-                       var dx = new __vec2(
-                           (float)(u.loc.x - RenewTracks_previous_position_x),
-                           (float)(u.loc.y - RenewTracks_previous_position_y)
-                       );
-
-                       var dxlen = dx.GetLength() / 10.0;
-
-
-                       if (dxlen < 1.0)
-                       {
-                           //Console.WriteLine(new { dxlen, p.x, p.y });
-                           return;
-                       }
-
-                       RenewTracks_previous_position_x = u.loc.x;
-                       RenewTracks_previous_position_y = u.loc.y;
-
-                       //RenewTracks_previous_position = p;
-
-                       #region track_unit_loc
-                       var track_unit_loc = new Sprite();
-                       var track_unit_rot = new Sprite().AttachTo(track_unit_loc);
-
-                       xwheels.WithEach(
-                           w =>
-                           {
-                               var img = new Image(textures_jeep_trackpattern);
-                               img.x = -200;
-                               img.y = -200;
-                               //img.alpha = 0.1;
-
-                               var track_wheel_loc = new Sprite().AttachTo(track_unit_rot);
-                               var track_wheel_rot = new Sprite().AttachTo(track_wheel_loc);
-
-                               img.AttachTo(track_wheel_rot);
-
-                               track_wheel_loc.x = w.x * __b2debug_viewport.b2scale;
-                               track_wheel_loc.y = w.y * __b2debug_viewport.b2scale;
-
-                               track_wheel_rot.rotation = w.rotation;
-                               //track_wheel_rot.scaleY = dxlen;
-
-                               //+90.DegreesToRadians();
-
-                               if (u.physics.steer_left == Car.STEER_NONE
-                                   && u.physics.steer_right == Car.STEER_NONE)
-                               {
-                                   track_wheel_loc.alpha = 0.1;
-                               }
-                               else
-                               {
-                                   track_wheel_loc.alpha = 0.2;
-                               }
-                           }
-                       );
-
-
-                       track_unit_loc.x = u.loc.x;
-                       track_unit_loc.y = u.loc.y;
-
-                       track_unit_rot.rotation = u.rotation;
-
-                       pin_draw(track_unit_loc);
-                       #endregion
-
-                   };
 
                return u;
            };
@@ -2571,9 +2501,15 @@ namespace FlashHeatZeekerWithStarlingT04
             new_tracergun().TeleportTo(-200, 100);
             new_tracergun().TeleportTo(-300, 100);
 
+            var textures_silo1 = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/silo1.svg");
+            var textures_silo1_shadow = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/silo1_shadow.svg");
+
+
+            var textures_bunker2 = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/bunker2.svg");
+            var textures_bunker2_shadow = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/bunker2_shadow.svg");
+
             var textures_bunker = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/bunker.svg");
             var textures_bunker_shadow = new_tex_512("assets/FlashHeatZeekerWithStarlingT04/bunker_shadow.svg");
-
 
             #region new_bunker
             Func<GameUnit> new_bunker =
@@ -2631,13 +2567,130 @@ namespace FlashHeatZeekerWithStarlingT04
                 };
             #endregion
 
+            #region new_bunker2
+            Func<GameUnit> new_bunker2 =
+                delegate
+                {
+                    var scale = 0.5;
+
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer3_trees);
+                    {
+                        var unit_scale = new Sprite().AttachTo(unit_loc);
+                        var img = new Image(textures_bunker2);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                    }
+
+                    var shadow_loc = new Sprite().AttachTo(viewport_content_layer3_trees_shadow);
+                    {
+                        var unit_scale = new Sprite().AttachTo(shadow_loc);
+                        var img = new Image(textures_bunker2_shadow);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                        img.alpha = 0.4;
+                    }
+
+                    var bunker0_physics = new BoxProp(b2world,
+                        size: ff(100 / __b2debug_viewport.b2scale, 100 / __b2debug_viewport.b2scale),
+                        position: ff(0 / __b2debug_viewport.b2scale, 0 / __b2debug_viewport.b2scale));
 
 
 
-            new_bunker().TeleportTo(-200, 200);
+                    var u = new GameUnit
+                    {
+                        physics_body = bunker0_physics.body,
+
+                        loc = unit_loc,
+                        shadow_loc = shadow_loc,
+
+                        // allow to enter?
+                        driverseat = new GameUnit.DriverSeat()
+                    };
+
+                    units.Add(u);
+
+                    return u;
+                };
+            #endregion
+
+            #region new_silo1
+            Func<GameUnit> new_silo1 =
+                delegate
+                {
+                    var scale = 0.4;
+
+                    var unit_loc = new Sprite().AttachTo(viewport_content_layer3_trees);
+                    {
+                        var unit_scale = new Sprite().AttachTo(unit_loc);
+                        var img = new Image(textures_silo1);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                    }
+
+                    var shadow_loc = new Sprite().AttachTo(viewport_content_layer3_trees_shadow);
+                    {
+                        var unit_scale = new Sprite().AttachTo(shadow_loc);
+                        var img = new Image(textures_silo1_shadow);
+                        img.x = -256;
+                        img.y = -256;
+
+                        unit_scale.scaleX = scale;
+                        unit_scale.scaleY = scale;
+
+                        img.AttachTo(unit_scale);
+                        img.alpha = 0.4;
+                    }
+
+                    var bunker0_physics = new BoxProp(b2world,
+                        size: ff(90 / __b2debug_viewport.b2scale, 90 / __b2debug_viewport.b2scale),
+                        position: ff(0 / __b2debug_viewport.b2scale, 0 / __b2debug_viewport.b2scale));
+
+
+
+                    var u = new GameUnit
+                    {
+                        physics_body = bunker0_physics.body,
+
+                        loc = unit_loc,
+                        shadow_loc = shadow_loc,
+
+                        // allow to enter?
+                        //driverseat = new GameUnit.DriverSeat()
+                    };
+                    //u.scale = 0.4;
+
+                    units.Add(u);
+
+                    return u;
+                };
+            #endregion
+
+
+
+            new_bunker2().TeleportTo(-200, 200);
             new_bunker().TeleportTo(-200, 400);
             new_bunker().TeleportTo(-200, 600);
-            new_bunker().TeleportTo(-200, 800);
+            new_bunker2().TeleportTo(-200, 800);
+
+            new_silo1().TeleportTo(100, 300);
+            new_silo1().TeleportTo(100, 400);
+            new_silo1().TeleportTo(200, 400);
+            new_silo1().TeleportTo(200, 300);
 
             //props.Add(bunker0_physics);
 
@@ -2707,27 +2760,27 @@ namespace FlashHeatZeekerWithStarlingT04
 #endif
 
 
-            #region robo1
-            var robo1 = new_greentank();
+            //#region robo1
+            //var robo1 = new_greentank();
 
-            // there is a man in robo1, NPC man
-            // lets remove his weapon
-            robo1.guntower.Orphanize();
-            {
-                var filter = new ColorMatrixFilter();
-                filter.adjustHue(0.5);
-                robo1.shape.filter = filter;
-            }
-            robo1.loc.MoveTo(
-                mapB.Location.x + 2048 - 128,
-                mapB.Location.y + 2048 - 128
-            );
+            //// there is a man in robo1, NPC man
+            //// lets remove his weapon
+            //robo1.guntower.Orphanize();
+            //{
+            //    var filter = new ColorMatrixFilter();
+            //    filter.adjustHue(0.5);
+            //    robo1.shape.filter = filter;
+            //}
+            //robo1.loc.MoveTo(
+            //    mapB.Location.x + 2048 - 128,
+            //    mapB.Location.y + 2048 - 128
+            //);
 
-            robo1.rotation = 270.DegreesToRadians();
+            //robo1.rotation = 270.DegreesToRadians();
 
 
 
-            #endregion
+            //#endregion
 
 
             var controllable = new[] { unit1, unit3 }.Concat(units);
@@ -3244,6 +3297,7 @@ namespace FlashHeatZeekerWithStarlingT04
             Action<GameUnit> switchto =
                 nextunit =>
                 {
+                    Console.WriteLine(new { frameid, f = "switchto" });
 
                     move_zoom = 1;
                     current_zoomer = nextunit.zoomer_default;
@@ -3424,7 +3478,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.CapsLock)
                   {
-                      robo1.RemoteControlEnabled = !robo1.RemoteControlEnabled;
+                      //robo1.RemoteControlEnabled = !robo1.RemoteControlEnabled;
                   }
 
 
@@ -3620,7 +3674,7 @@ namespace FlashHeatZeekerWithStarlingT04
                       Console.WriteLine(new { frameid } + " fire!");
 
 
-
+                      // what type of weapons do we have?
                       var xx = new_bullet();
                       xx.TeleportTo(
                             current.loc.x + 50 * Math.Cos(current.rotation + 270.DegreesToRadians()),
@@ -3630,31 +3684,21 @@ namespace FlashHeatZeekerWithStarlingT04
                       xx.physics_body.ApplyLinearImpulse(
                             new b2Vec2(
                           // how fast can we make it go?
-                                     300 * Math.Cos(current.rotation + 270.DegreesToRadians()),
-                                     300 * Math.Sin(current.rotation + 270.DegreesToRadians())
+                                     600 * Math.Cos(current.rotation + 270.DegreesToRadians()),
+                                     600 * Math.Sin(current.rotation + 270.DegreesToRadians())
 
                                 ),
                             new b2Vec2()
                         );
 
-                      //xx.rotation = current.rotation;
 
-
-                      // what will this do? animated gif documentation please1
-                      //physics.body.ApplyLinearImpulse(
-                      //    new b2Vec2(
-                      //    )
-                      //   , new b2Vec2(0, 0)
-                      // );
-
-                      // 
                   }
                   #endregion
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Space)
                   {
 
-                      if (current.scale == 1.1)
+                      if (current.scale == 0.7)
                       {
                           // touchdown!
                           KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/snd_touchdown.mp3"].ToSoundAsset().play();
@@ -3662,14 +3706,14 @@ namespace FlashHeatZeekerWithStarlingT04
                           if (current.shadow_loc != null)
                               current.shadow_loc.MoveTo(8, 8);
 
-                          current.scale = 0.9;
+                          current.scale = 0.5;
                       }
                       else
                       {
                           if (current.shadow_loc != null)
                               current.shadow_loc.MoveTo(32, 32);
 
-                          current.scale = 1.1;
+                          current.scale = 0.7;
                       }
                   }
 
@@ -3822,39 +3866,41 @@ namespace FlashHeatZeekerWithStarlingT04
                         #region update physicstime_elapsed
                         foreach (var item in units)
                         {
+                            if (item.input_enabled)
+                            {
+                                item.physics_body.With(
+                                    body =>
+                                    {
 
-                            item.physics_body.With(
-                                body =>
-                                {
+                                        var a = item.physics_body.GetAngle();
 
-                                    var a = item.physics_body.GetAngle();
+                                        var ped_drot = rot_sw.ElapsedMilliseconds
+                                             * (0.005)
+                                             * ((item.rot_left + item.rot_right));
 
-                                    var ped_drot = rot_sw.ElapsedMilliseconds
-                                         * (0.005)
-                                         * ((item.rot_left + item.rot_right));
+                                        a += ped_drot;
 
-                                    a += ped_drot;
+                                        item.physics_body.SetAngle(a);
 
-                                    item.physics_body.SetAngle(a);
+                                        item.physics_body.SetLinearVelocity(
+                                            new b2Vec2(
+                                               6 * Math.Cos(a + 270.DegreesToRadians()) * (item.move_forward + item.move_backward),
+                                               6 * Math.Sin(a + 270.DegreesToRadians()) * (item.move_forward + item.move_backward)
+                                            )
+                                        );
 
-                                    item.physics_body.SetLinearVelocity(
-                                        new b2Vec2(
-                                           6 * Math.Cos(a + 270.DegreesToRadians()) * (item.move_forward + item.move_backward),
-                                           6 * Math.Sin(a + 270.DegreesToRadians()) * (item.move_forward + item.move_backward)
-                                        )
-                                    );
-
-                                }
-                            );
+                                    }
+                                );
 
 
-                            if (item.wings_rot != null)
-                                item.wings_rot.rotation -= rot_sw.ElapsedMilliseconds
-                                 * (0.005)
-                                 * ((-1));
+                                if (item.wings_rot != null)
+                                    item.wings_rot.rotation -= rot_sw.ElapsedMilliseconds
+                                     * (0.009)
+                                     * ((1));
 
-                            if (item.physics != null)
-                                item.physics.update(physicstime_elapsed);
+                                if (item.physics != null)
+                                    item.physics.update(physicstime_elapsed);
+                            }
                         }
                         #endregion
 
@@ -4164,24 +4210,24 @@ namespace FlashHeatZeekerWithStarlingT04
                         }
                         else
                         {
-                            if (robo1.RemoteControlEnabled)
-                            {
-                                remotecontrol(robo1);
+                            //if (robo1.RemoteControlEnabled)
+                            //{
+                            //    remotecontrol(robo1);
 
 
-                                lookat(
-                                    current.rotation,
-                                    (current.loc.x + (robo1.loc.x - current.loc.x) / 2),
-                                    (current.loc.y + (robo1.loc.y - current.loc.y) / 2)
-                                    );
+                            //    lookat(
+                            //        current.rotation,
+                            //        (current.loc.x + (robo1.loc.x - current.loc.x) / 2),
+                            //        (current.loc.y + (robo1.loc.y - current.loc.y) / 2)
+                            //        );
 
-                            }
-                            else
-                            {
-                                remotecontrol(current);
+                            //}
+                            //else
+                            //{
+                            remotecontrol(current);
 
-                                lookat(current.rotation, current.loc.x, current.loc.y);
-                            }
+                            lookat(current.rotation, current.loc.x, current.loc.y);
+                            //}
                         }
 
                         rot_sw.Restart();
