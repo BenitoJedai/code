@@ -157,6 +157,7 @@
       <DependentUpon>GameUnitDiagnostics.cs</DependentUpon>
     </Compile>
     <Compile Include="Library\HeadlessFrameDiagnostics.cs" />
+    <Compile Include="Library\RemoteGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
