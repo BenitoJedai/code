@@ -127,6 +127,9 @@
     <Reference Include="FlashHeatZeekerWithStarlingT04.AssetsLibrary">
       <HintPath>..\FlashHeatZeekerWithStarlingT04\bin\staging.AssetsLibrary\FlashHeatZeekerWithStarlingT04.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FormsHueControl.AssetsLibrary">
+      <HintPath>..\..\..\..\javascript\forms\FormsHueControl\FormsHueControl\bin\staging.AssetsLibrary\FormsHueControl.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="staging\FlashHeatZeeker.PlayerIOIntegration.ApplicationSprite\web\foo-app.xml">

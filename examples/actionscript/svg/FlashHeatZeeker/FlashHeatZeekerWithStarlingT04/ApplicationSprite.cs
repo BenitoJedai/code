@@ -247,7 +247,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
         }
 
-        public Action<string> __raise_fps = delegate { };
+        public FramesPerSecondAction __raise_fps = delegate { };
 
         // these cannot be called from outside current flash context directly
         public Action<IRemoteGame> __raise_context_new_remotegame = delegate { };
@@ -286,6 +286,7 @@ namespace FlashHeatZeekerWithStarlingT04
         }
     }
 
+    public delegate void FramesPerSecondAction(string fps, string networkid);
 
     // HD
     [SWF(frameRate = 120, width = 1280, height = 720)]
@@ -371,12 +372,12 @@ namespace FlashHeatZeekerWithStarlingT04
 
         }
 
-        public event Action<string> fps;
+        public event FramesPerSecondAction fps;
 
-        public void raise_fps(string e)
+        public void raise_fps(string e, string gameid)
         {
             if (fps != null)
-                fps(e);
+                fps(e, gameid);
         }
 
         Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
@@ -4357,7 +4358,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
                         avgfps = (int)avgfps_data.Average();
 
-                        ApplicationSprite.__sprite.__raise_fps("" + fps);
+                        ApplicationSprite.__sprite.__raise_fps("" + fps, "" + networkid);
 
                         network_rx_last_second = network_rx;
 
