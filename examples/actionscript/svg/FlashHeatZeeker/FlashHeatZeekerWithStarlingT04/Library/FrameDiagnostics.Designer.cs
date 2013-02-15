@@ -45,6 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.gameUnitDiagnostics1 = new FlashHeatZeekerWithStarlingT04.Library.GameUnitDiagnostics();
+            this.JoinMultiplayer = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -213,12 +214,22 @@
             this.gameUnitDiagnostics1.Size = new System.Drawing.Size(438, 212);
             this.gameUnitDiagnostics1.TabIndex = 13;
             // 
+            // JoinMultiplayer
+            // 
+            this.JoinMultiplayer.Location = new System.Drawing.Point(12, 365);
+            this.JoinMultiplayer.Name = "JoinMultiplayer";
+            this.JoinMultiplayer.Size = new System.Drawing.Size(128, 23);
+            this.JoinMultiplayer.TabIndex = 14;
+            this.JoinMultiplayer.Text = "join multiplayer ";
+            this.JoinMultiplayer.UseVisualStyleBackColor = true;
+            // 
             // FrameDiagnostics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(697, 400);
+            this.Controls.Add(this.JoinMultiplayer);
             this.Controls.Add(this.gameUnitDiagnostics1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -262,5 +273,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBox9;
         private GameUnitDiagnostics gameUnitDiagnostics1;
+        public System.Windows.Forms.Button JoinMultiplayer;
     }
 }

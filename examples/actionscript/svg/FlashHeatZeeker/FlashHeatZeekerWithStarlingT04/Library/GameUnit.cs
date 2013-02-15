@@ -65,16 +65,22 @@ namespace FlashHeatZeekerWithStarlingT04.Library
 
         public Image shape;
 
+
+
+        ColorMatrixFilter shape_filter;
+
         public void AdjustHue(string sdelta)
         {
             var delta = int.Parse(sdelta) / 240.0;
 
+            Console.WriteLine(new { sdelta, delta });
 
-            Console.WriteLine(new { delta });
             {
-                var filter = new ColorMatrixFilter();
-                filter.adjustHue(delta);
-                this.shape.filter = filter;
+                if (shape_filter == null)
+                    shape_filter = new ColorMatrixFilter();
+
+                shape_filter.adjustHue(delta);
+                this.shape.filter = shape_filter;
             }
         }
 
