@@ -20,12 +20,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
     #region Handler
     [Script]
-    class Handler<A, B>
+    public class InternalHandler<A, B>
     {
         public A Event;
         public B EventInternal;
 
-        public static implicit operator bool(Handler<A, B> e)
+        public static implicit operator bool(InternalHandler<A, B> e)
         {
             if (e.Event == null)
                 return false;
@@ -42,7 +42,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
-    internal class __Control : __Component
+    public class __Control : __Component
     {
         public bool Capture { get; set; }
 
@@ -833,13 +833,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         #region Click
-        protected Handler<EventHandler, DOMHandler> _Click = new Handler<EventHandler, DOMHandler>();
+
+        //Error	1	Inconsistent accessibility: field type 'ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.Handler<System.EventHandler,System.Action<ScriptCoreLib.JavaScript.DOM.IEvent>>' is less accessible than field 'ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control._Click'	X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Control.cs	
+        // 836	50	ScriptCoreLib.Windows.Forms
+
+
+        public InternalHandler<EventHandler, DOMHandler> InternalClick = new InternalHandler<EventHandler, DOMHandler>();
 
         public event EventHandler Click
         {
             add
             {
-                var h = _Click;
+                var h = InternalClick;
                 h.Event += value;
                 if (!h) return;
                 h.EventInternal = i => { i.StopPropagation(); i.PreventDefault(); h.Event(this, null); };
@@ -848,7 +853,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             remove
             {
-                var h = _Click;
+                var h = InternalClick;
                 h.Event -= value;
                 if (h) return;
                 this.HTMLTargetRef.onclick -= h.EventInternal;
@@ -858,7 +863,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
         #region Enter
-        Handler<EventHandler, DOMHandler> _Enter = new Handler<EventHandler, DOMHandler>();
+        InternalHandler<EventHandler, DOMHandler> _Enter = new InternalHandler<EventHandler, DOMHandler>();
 
         public event EventHandler Enter
         {
@@ -882,7 +887,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
         #region Leave
-        Handler<EventHandler, DOMHandler> _Leave = new Handler<EventHandler, DOMHandler>();
+        InternalHandler<EventHandler, DOMHandler> _Leave = new InternalHandler<EventHandler, DOMHandler>();
 
         public event EventHandler Leave
         {
@@ -906,11 +911,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         #endregion
 
-        Handler<MouseEventHandler, DOMHandler> _MouseDown = new Handler<MouseEventHandler, DOMHandler>();
-        Handler<MouseEventHandler, DOMHandler> _MouseUp = new Handler<MouseEventHandler, DOMHandler>();
+        InternalHandler<MouseEventHandler, DOMHandler> _MouseDown = new InternalHandler<MouseEventHandler, DOMHandler>();
+        InternalHandler<MouseEventHandler, DOMHandler> _MouseUp = new InternalHandler<MouseEventHandler, DOMHandler>();
 
         #region MouseMove
-        Handler<MouseEventHandler, DOMHandler> _MouseMove = new Handler<MouseEventHandler, DOMHandler>();
+        InternalHandler<MouseEventHandler, DOMHandler> _MouseMove = new InternalHandler<MouseEventHandler, DOMHandler>();
         public event MouseEventHandler MouseMove
         {
             add

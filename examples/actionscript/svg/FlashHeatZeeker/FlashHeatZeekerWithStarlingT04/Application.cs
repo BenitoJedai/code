@@ -1,6 +1,10 @@
+using Abstractatech.ConsoleFormPackage.Library;
+using Abstractatech.JavaScript.FormAsPopup;
 using FlashHeatZeekerWithStarlingT04.Design;
 using FlashHeatZeekerWithStarlingT04.HTML.Pages;
+using FlashHeatZeekerWithStarlingT04.Library;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -9,14 +13,13 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Windows.Forms;
+using ScriptCoreLib.Shared.Lambda;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
-using ScriptCoreLib.ActionScript.flash.display;
-using Abstractatech.ConsoleFormPackage.Library;
 using System.Windows.Forms;
-using FlashHeatZeekerWithStarlingT04.Library;
+using System.Xml.Linq;
 
 namespace FlashHeatZeekerWithStarlingT04
 {
@@ -122,16 +125,37 @@ namespace FlashHeatZeekerWithStarlingT04
                 };
             #endregion
 
-            Action<XElement> sprite_context_onmessage = delegate { };
 
-            int ccc = 0;
-            sprite.context_onmessage +=
-                e =>
+            var sprites_events = new BindingListWithEvents<ApplicationSprite>();
+            var sprites = sprites_events.Source;
+
+            sprites_events.Added +=
+                (fsprite, i) =>
                 {
-                    ccc++;
-                    //Console.WriteLine(ccc + " sprite ->  " + e);
-                    sprite_context_onmessage(e);
+                    // lets do two way binding here.
+
+
+
+                    // fsprite -> sprite
+                    fsprite.context_onmessage += xml =>
+                    {
+                        // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Except(System.Collections.Generic.IEnumerable`1[[FlashHeatZeekerWithStarlingT04.ApplicationSprite, FlashHeatZeekerWithStarlingT04.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Collections.Generic.IEnumerable`1[[FlashHeatZeekerWithStarlingT04.ApplicationSprite, FlashHeatZeekerWithStarlingT04.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]])]
+
+                        sprites.WithEach(
+                            x =>
+                            {
+                                // prevent echo
+                                if (x == fsprite)
+                                    return;
+
+                                x.game_postMessage(xml);
+                            }
+                        );
+                    };
                 };
+
+
+            sprites.Add(sprite);
 
             #region game_InitializeFrameDiagnostics
             sprite.game_InitializeFrameDiagnostics(
@@ -156,6 +180,8 @@ namespace FlashHeatZeekerWithStarlingT04
 
                     x.Initialize(__FrameDiagnostics);
 
+                    // Error	8	'Abstractatech.ConsoleFormPackage.Library.ConsoleForm' does not contain a definition for 'PopupInsteadOfClosing' and no extension method 'PopupInsteadOfClosing' accepting a first argument of type 'Abstractatech.ConsoleFormPackage.Library.ConsoleForm' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeekerWithStarlingT04\Application.cs	85	17	FlashHeatZeekerWithStarlingT04
+                    // wtf?
                     x.PopupInsteadOfClosing();
                     x.Opacity = 0.7;
 
@@ -201,20 +227,9 @@ namespace FlashHeatZeekerWithStarlingT04
                                 };
 
 
-                            // lets do two way binding here.
 
-                            // sprite -> fsprite
-                            sprite_context_onmessage += xml =>
-                            {
-                                fsprite.game_postMessage(xml);
-                            };
 
-                            // fsprite -> sprite
-                            fsprite.context_onmessage += xml =>
-                            {
-                                sprite.game_postMessage(xml);
-                            };
-
+                            sprites.Add(fsprite);
                             // what if we have more of these?
                         };
                 }
@@ -223,109 +238,11 @@ namespace FlashHeatZeekerWithStarlingT04
 
 
 
-            {
-                int c = 2000;
-
-                Action<MessageEvent> window_onmessage =
-                     e =>
-                     {
-                         var xml = XElement.Parse((string)e.data);
-
-                         c++;
-                         //Console.WriteLine(c + " window -> sprite " + xml);
-
-                         sprite.game_postMessage(xml);
-                     };
-
-
-                Console.WriteLine("add window_onmessage");
-                Native.Window.onmessage += window_onmessage;
-
-
-            }
 
 
 
-            if (Native.Window.opener != null)
-            {
-                // opener closes, we close. 
-                Native.Window.opener.onbeforeunload +=
-                    delegate
-                    {
-                        Native.Window.close();
-                    };
-
-                sprite_context_onmessage +=
-                    e =>
-                    {
-                        Native.Window.opener.postMessage(e.ToString());
-                    };
-            }
-            else
-            {
-                new Button { Text = "Secondary View" }.With(
-                    connect =>
-                    {
-                        connect.AttachTo(con);
-
-                        connect.Left = 8;
-                        connect.Top = 8;
-
-                        connect.Click +=
-                            delegate
-                            {
-                                var w = Native.Window.open(Native.Document.location.href, "_blank", 600, 600, false);
 
 
-                                w.onload +=
-                                    delegate
-                                    {
-                                        Console.WriteLine("loaded: " + w.document.location.href);
-
-                                        if (w.document.location.href == "about:blank")
-                                        {
-                                            // fck you blank:P 4h of debugging for this.
-
-                                            return;
-                                        }
-
-                                        //Native.Window.onmessage +=
-                                        //     e =>
-                                        //     {
-                                        //         if (e.source == w)
-                                        //             return;
-
-                                        //         // relay, not echo
-                                        //         w.postMessage(e.data);
-                                        //     };
-
-                                        var w_closed = false;
-
-                                        w.onbeforeunload +=
-                                            delegate
-                                            {
-                                                w_closed = true;
-                                            };
-
-                                        var xcc = 0;
-                                        Action<XElement> __sprite_context_onmessage = e =>
-                                        {
-                                            if (w_closed)
-                                                return;
-
-                                            xcc++;
-                                            //Console.WriteLine(xcc + " to child ->  " + e);
-                                            w.postMessage(e.ToString());
-                                        };
-
-
-                                        sprite_context_onmessage += __sprite_context_onmessage;
-
-                                    };
-                            };
-                    }
-                );
-            }
         }
 
     }

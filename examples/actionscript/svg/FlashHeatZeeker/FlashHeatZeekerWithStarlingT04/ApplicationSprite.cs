@@ -1950,6 +1950,8 @@ namespace FlashHeatZeekerWithStarlingT04
 
                var u = new GameUnit
                {
+                   isdieselengine = true,
+
                    loc = unit_loc,
                    rot = unit_rot,
 
@@ -2333,6 +2335,8 @@ namespace FlashHeatZeekerWithStarlingT04
 
                     var u = new GameUnit
                     {
+                        isdieselengine = true,
+
                         loc = unit_loc,
                         rot = unit_rot,
 
@@ -2742,7 +2746,7 @@ namespace FlashHeatZeekerWithStarlingT04
             var unit8_ped = new_ped();
             unit8_ped.TeleportBy(200, 0);
 
-     
+
 
 
             //units.Add(unit8_ped);
@@ -3386,7 +3390,13 @@ namespace FlashHeatZeekerWithStarlingT04
             // script: error JSC1000: ActionScript : failure at starling.display.Stage.add_keyDown : Object reference not set to an instance of an object.
             // there is something fron with flash natives gen. need to fix that.
 
+            var info = new TextField(
+            800,
+            400,
+            "Welcome to Starling!"
+        ) { hAlign = HAlign.LEFT, vAlign = VAlign.TOP };
 
+            info.AttachTo(this).MoveTo(72, 8);
 
             var __keyDown = new object[0xffff];
 
@@ -3611,6 +3621,7 @@ namespace FlashHeatZeekerWithStarlingT04
                       flags_user_pause = !flags_user_pause;
                   }
 
+                  #region Tab
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Tab)
                   {
                       //                      System.Linq.Enumerable for System.Collections.Generic.IEnumerable`1[FlashHeatZeekerWithStarlingT04.GameUnit] Skip[GameUnit](System.Collections.Generic.IEnumerable`1[FlashHeatZeekerWithStarlingT04.GameUnit], Int32) used at
@@ -3622,6 +3633,8 @@ namespace FlashHeatZeekerWithStarlingT04
                       var nextunit = controllable.AsCyclicEnumerable().SkipWhile(k => k != current).Take(2).Last();
                       switchto(nextunit);
                   }
+                  #endregion
+
 
                   #region Enter
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Enter)
@@ -3731,6 +3744,7 @@ namespace FlashHeatZeekerWithStarlingT04
                   }
                   #endregion
 
+                  #region Space
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Space)
                   {
 
@@ -3752,6 +3766,8 @@ namespace FlashHeatZeekerWithStarlingT04
                           current.scale = 0.7;
                       }
                   }
+                  #endregion
+
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F6)
                   {
@@ -3782,6 +3798,17 @@ namespace FlashHeatZeekerWithStarlingT04
                   {
                       F1();
                   }
+
+
+                  if (e.keyCode == 192)
+                  {
+                      info.visible = !info.visible;
+                  }
+
+                  if (e.keyCode == 222)
+                  {
+                      info.visible = !info.visible;
+                  }
               };
             #endregion
 
@@ -3791,13 +3818,7 @@ namespace FlashHeatZeekerWithStarlingT04
             //switchto(unit1);
             switchto(unit8_ped);
 
-            var info = new TextField(
-                800,
-                400,
-                "Welcome to Starling!"
-            ) { hAlign = HAlign.LEFT, vAlign = VAlign.TOP };
 
-            info.AttachTo(this).MoveTo(72, 8);
 
 
             var logo = new Image(LogoTexture) { alpha = 0.3 }.AttachTo(this);
