@@ -149,6 +149,36 @@ namespace FlashHeatZeekerWithStarlingT04
                     x.Opacity = 0.7;
 
                     // can we pop it up?
+
+
+                    x.JoinMultiplayer.Click +=
+                        delegate
+                        {
+                            var f = new Form();
+                            // make it small
+                            f.Height = 200;
+
+                            var fsprite = new ApplicationSprite();
+                            fsprite.wmode();
+
+
+                            var fspriteelement = fsprite.AttachSpriteTo(
+                                f.GetHTMLTargetContainer()
+                            );
+
+                            f.ClientSizeChanged +=
+                                delegate
+                                {
+                                    var cs = f.ClientSize;
+
+                                    fspriteelement.style.SetSize(cs.Width,
+                                        cs.Height
+                                    );
+                                };
+
+                            f.Show();
+                            f.PopupInsteadOfClosing();
+                        };
                 }
             );
             #endregion
