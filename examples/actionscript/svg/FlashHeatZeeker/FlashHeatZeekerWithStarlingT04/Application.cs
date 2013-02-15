@@ -77,10 +77,7 @@ namespace FlashHeatZeekerWithStarlingT04
             con.Opacity = 0.6;
 
 
-            sprite.InitializeConsoleFormWriter(
-                       Console.Write,
-                       Console.WriteLine
-                   );
+
 
             // !! not compatible yet
 
@@ -132,6 +129,21 @@ namespace FlashHeatZeekerWithStarlingT04
             sprites_events.Added +=
                 (fsprite, i) =>
                 {
+                    Console.WriteLine(i + "# Console ready!");
+
+                    fsprite.InitializeConsoleFormWriter(
+                        Console_Write: x => Console.Write(x),
+                        Console_WriteLine: x =>
+                            {
+                                var lines = x.Split(Environment.NewLine);
+
+                                foreach (var item in lines)
+                                {
+                                    Console.WriteLine(i + "# " + item);
+                                }
+                            }
+                    );
+
                     #region lets do two way binding here.
 
 

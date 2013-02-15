@@ -75,13 +75,16 @@ namespace FlashHeatZeekerWithStarlingT04.Library
 
             Console.WriteLine(new { sdelta, delta });
 
-            {
-                if (shape_filter == null)
-                    shape_filter = new ColorMatrixFilter();
+            InternalAdjustHue(delta);
+        }
 
-                shape_filter.adjustHue(delta);
-                this.shape.filter = shape_filter;
-            }
+        public void InternalAdjustHue(double delta)
+        {
+            if (shape_filter == null)
+                shape_filter = new ColorMatrixFilter();
+
+            shape_filter.adjustHue(delta);
+            this.shape.filter = shape_filter;
         }
 
 
