@@ -22,6 +22,7 @@ using starling.textures;
 using starling.utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -30,8 +31,21 @@ using System.Xml.Linq;
 
 namespace FlashHeatZeekerWithStarlingT04.Library
 {
-    class GameUnit
+    [Description("Flash has the object, JavaScript can ask for details.")]
+    public interface IGameUnit
     {
+        // jsc supports trings only for now?
+        string identity { get; set; }
+
+        void AdjustHue(string delta);
+        // what else does the GameUnitDiagnostics need to know about gameunit?
+    }
+
+    class GameUnit : IGameUnit
+    {
+        // in a network game, this defines our unit!
+        public string identity { get; set; }
+
         public bool isdieselengine;
         public bool isjeepengine;
         public bool ishelicopterengine;
@@ -50,6 +64,21 @@ namespace FlashHeatZeekerWithStarlingT04.Library
         public Sprite rot;
 
         public Image shape;
+
+        public void AdjustHue(string sdelta)
+        {
+            var delta = int.Parse(sdelta) / 240.0;
+
+
+            Console.WriteLine(new { delta });
+            {
+                var filter = new ColorMatrixFilter();
+                filter.adjustHue(delta);
+                this.shape.filter = filter;
+            }
+        }
+
+
 
         // hit F2 to see the box2d physics
         public Car physics;

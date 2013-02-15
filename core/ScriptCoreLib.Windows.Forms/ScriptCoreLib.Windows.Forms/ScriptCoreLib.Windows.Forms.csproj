@@ -72,7 +72,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ScrollProperties.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\FlatButtonAppearance.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\HScrollProperties.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MenuStrip.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripItemCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripDropDownItem.cs" />
@@ -85,6 +87,8 @@
     <Compile Include="JavaScript\Extensions\FormStyler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ScrollEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ScrollEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\KeyEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewButtonCell.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewButtonColumn.cs" />

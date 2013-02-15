@@ -44,6 +44,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.gameUnitDiagnostics1 = new FlashHeatZeekerWithStarlingT04.Library.GameUnitDiagnostics();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,7 +109,7 @@
             this.Column2});
             this.dataGridView1.Location = new System.Drawing.Point(234, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(438, 322);
+            this.dataGridView1.Size = new System.Drawing.Size(438, 158);
             this.dataGridView1.TabIndex = 5;
             // 
             // Column1
@@ -204,12 +205,21 @@
             this.checkBox9.UseVisualStyleBackColor = true;
             this.checkBox9.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
+            // gameUnitDiagnostics1
+            // 
+            this.gameUnitDiagnostics1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.gameUnitDiagnostics1.Location = new System.Drawing.Point(234, 176);
+            this.gameUnitDiagnostics1.Name = "gameUnitDiagnostics1";
+            this.gameUnitDiagnostics1.Size = new System.Drawing.Size(438, 212);
+            this.gameUnitDiagnostics1.TabIndex = 13;
+            // 
             // FrameDiagnostics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(697, 400);
+            this.Controls.Add(this.gameUnitDiagnostics1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBox8);
@@ -251,5 +261,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBox9;
+        private GameUnitDiagnostics gameUnitDiagnostics1;
     }
 }

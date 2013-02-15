@@ -130,11 +130,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashHeatZeekerWithStarlingT09.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeekerWithStarlingT09.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="FlashHeatZeekerWithStarlingT04.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\FlashHeatZeekerWithStarlingT04.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FormsHueControl.AssetsLibrary">
+      <HintPath>..\..\..\..\javascript\forms\FormsHueControl\FormsHueControl\bin\staging.AssetsLibrary\FormsHueControl.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +150,12 @@
       <DependentUpon>FrameDiagnostics.cs</DependentUpon>
     </Compile>
     <Compile Include="Library\GameUnit.cs" />
+    <Compile Include="Library\GameUnitDiagnostics.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Library\GameUnitDiagnostics.Designer.cs">
+      <DependentUpon>GameUnitDiagnostics.cs</DependentUpon>
+    </Compile>
     <Compile Include="Library\HeadlessFrameDiagnostics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
@@ -159,6 +165,9 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\white-jsc.png" />
+    <EmbeddedResource Include="Library\GameUnitDiagnostics.resx">
+      <DependentUpon>GameUnitDiagnostics.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\silo1_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\silo1.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\bunker2_shadow.svg" />
@@ -216,6 +225,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\javascript\forms\FormsHueControl\FormsHueControl\FormsHueControl.csproj">
+      <Project>{f32d7675-1193-4da7-98c8-c8b010c608d9}</Project>
+      <Name>FormsHueControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

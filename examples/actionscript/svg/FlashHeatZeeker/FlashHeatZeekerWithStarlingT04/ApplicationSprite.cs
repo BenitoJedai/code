@@ -1468,7 +1468,22 @@ namespace FlashHeatZeekerWithStarlingT04
 
 
 
-            var units = new List<GameUnit>();
+            var units_events = new BindingListWithEvents<GameUnit>();
+
+            units_events.Added +=
+             (u, i) =>
+             {
+                 // does it already have identity?
+
+                 if (u.identity == null)
+                     u.identity = "" + i;
+
+                 Console.WriteLine("Added " + new { u.identity });
+             };
+
+            var units = units_events.Source;
+
+
 
             #region new_bullet
             Func<GameUnit> new_bullet =
@@ -1751,6 +1766,9 @@ namespace FlashHeatZeekerWithStarlingT04
 
                     // flash natives defines events with the same name as methods?
                     //unit_loc.__flatten();
+
+                    units.Add(u);
+
                     return u;
                 };
             #endregion
@@ -1861,6 +1879,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
                // you should only fly with this thing! no tracks!
 
+               units.Add(u);
 
                return u;
            };
@@ -2026,6 +2045,7 @@ namespace FlashHeatZeekerWithStarlingT04
                        #endregion
 
                    };
+               units.Add(u);
 
                return u;
            };
@@ -2250,6 +2270,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
                       };
                   #endregion
+                  units.Add(u);
 
                   return u;
               };
@@ -2310,7 +2331,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     new Image(textures_greentank_guntower) { x = -200, y = -200 }.AttachTo(guntower);
 
 
-                    return new GameUnit
+                    var u = new GameUnit
                     {
                         loc = unit_loc,
                         rot = unit_rot,
@@ -2337,53 +2358,58 @@ namespace FlashHeatZeekerWithStarlingT04
 
                         driverseat = new GameUnit.DriverSeat()
                     };
+
+                    units.Add(u);
+
+
+                    return u;
                 };
             #endregion
 
 
-            #region robo1
-            // this is where unit 1 is based on network intel
+            //#region robo1
+            //// this is where unit 1 is based on network intel
 
-            // each unit needs a recon shadow
-            var unit1_recon = new_greentank();
+            //// each unit needs a recon shadow
+            //var unit1_recon = new_greentank();
 
-            // there is a man in robo1, NPC man
-            // lets remove his weapon
-            unit1_recon.guntower.Orphanize();
-            {
-                var filter = new ColorMatrixFilter();
-                filter.adjustSaturation(-1);
-                unit1_recon.shape.filter = filter;
-            }
+            //// there is a man in robo1, NPC man
+            //// lets remove his weapon
+            //unit1_recon.guntower.Orphanize();
+            //{
+            //    var filter = new ColorMatrixFilter();
+            //    filter.adjustSaturation(-1);
+            //    unit1_recon.shape.filter = filter;
+            //}
 
 
-            unit1_recon.loc.MoveTo(
-                256, 256
-            );
+            //unit1_recon.loc.MoveTo(
+            //    256, 256
+            //);
 
-            #endregion
+            //#endregion
 
 
             var unit1 = new_greentank();
             unit1.loc.MoveTo(256, 256);
             unit1.AddRank();
-            units.Add(unit1);
+            //units.Add(unit1);
 
             {
                 var unit11 = new_hind();
                 unit11.TeleportBy(512, 256);
-                units.Add(unit11);
+                //units.Add(unit11);
             }
 
             {
                 var unit11 = new_hind();
                 unit11.TeleportBy(512 + 256, 256);
-                units.Add(unit11);
+                //units.Add(unit11);
             }
 
             var unit3 = new_greentank();
             unit3.loc.MoveTo(200 + 400 + 200, 200 + 400);
-            units.Add(unit3);
+            //units.Add(unit3);
 
 
 
@@ -2707,15 +2733,19 @@ namespace FlashHeatZeekerWithStarlingT04
 
             var unit2_jeep = new_jeep();
             unit2_jeep.TeleportBy(100, -200);
-            units.Add(unit2_jeep);
+            //units.Add(unit2_jeep);
 
             var unit9_tank = new_tank();
             unit9_tank.TeleportBy(200, -200);
-            units.Add(unit9_tank);
+            //units.Add(unit9_tank);
 
             var unit8_ped = new_ped();
             unit8_ped.TeleportBy(200, 0);
-            units.Add(unit8_ped);
+
+     
+
+
+            //units.Add(unit8_ped);
 
             // 2 jeeps : 40fps
             // 10 jeeps : 32fps
@@ -2727,7 +2757,7 @@ namespace FlashHeatZeekerWithStarlingT04
                 {
                     var unit5 = new_jeep();
                     unit5.TeleportBy(-50 * ix, -200 - iy * 50);
-                    units.Add(unit5);
+                    //units.Add(unit5);
 
 
                 }
@@ -3315,6 +3345,12 @@ namespace FlashHeatZeekerWithStarlingT04
                     }
 
                     lookat(current.rotation, current.loc.x, current.loc.y);
+
+                    // lets also tell our context / interactive debugger
+
+                    // first few calls can go missing due to late init
+                    if (__FrameDiagnostics.switchto != null)
+                        __FrameDiagnostics.switchto(current);
                 };
             #endregion
 
@@ -4394,8 +4430,9 @@ namespace FlashHeatZeekerWithStarlingT04
                         }
                     );
                 };
-            //networktimer.start();
             #endregion
+
+            networktimer.start();
 
             #region __sprite_game_onmessage
             Action<XElement> __sprite_game_onmessage = null;
