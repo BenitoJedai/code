@@ -194,13 +194,13 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
-        public static JSColor Yellow = JSColor.FromRGB(0xff, 0xff, 0); 
+        public static JSColor Yellow = JSColor.FromRGB(0xff, 0xff, 0);
         public static JSColor Gray = JSColor.FromGray(0x80);
 
         public static JSColor Blue { get { return JSColor.FromRGB(0, 0, 0xff); } }
         public static JSColor Cyan { get { return JSColor.FromRGB(0, 0xff, 0xff); } }
-        public static JSColor Black = JSColor.FromGray(0); 
-        public static JSColor Transparent = JSColor.FromValue("transparent"); 
+        public static JSColor Black = JSColor.FromGray(0);
+        public static JSColor Transparent = JSColor.FromValue("transparent");
         public static JSColor None = JSColor.FromValue("");
 
         private static JSColor FromValue(string p)
@@ -212,9 +212,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return c;
         }
 
-        public static JSColor White= JSColor.FromGray(0xff);
-            
-        
+        public static JSColor White = JSColor.FromGray(0xff);
+
+
 
         #endregion
 
@@ -244,7 +244,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             JSColor c = new JSColor();
 
             if (this.S == 0)
-            {   
+            {
                 /* achromatic case */
                 // compiler bug: multiple assignments not supported
                 var v = (byte)((this.L * RGBMAX) / HLSMAX);
@@ -272,9 +272,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 Magic1 = 2 * this.L - Magic2;
 
                 /* get RGB, change units from HLSMAX to RGBMAX */
-                c.R = Convert.ToByte((HueToRGB(Magic1, Magic2, this.H  + (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
-                c.G = Convert.ToByte((HueToRGB(Magic1, Magic2, this.H) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
-                c.B = Convert.ToByte((HueToRGB(Magic1, Magic2, this.H - (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
+                c.R = global::System.Convert.ToByte((HueToRGB(Magic1, Magic2, this.H + (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
+                c.G = global::System.Convert.ToByte((HueToRGB(Magic1, Magic2, this.H) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
+                c.B = global::System.Convert.ToByte((HueToRGB(Magic1, Magic2, this.H - (HLSMAX / 3)) * RGBMAX + (HLSMAX / 2)) / HLSMAX);
             }
 
 
@@ -288,7 +288,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         public JSColor ToHLS()
         {
             JSColor c = new JSColor();
-            
+
             c.isHLS = true;
 
             int cMax = Native.Math.max(Native.Math.max(R, G), B);
@@ -373,9 +373,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return FromRGB(g, g, g);
         }
 
-      
 
-        public static implicit operator string (JSColor e)
+
+        public static implicit operator string(JSColor e)
         {
             return e.ToString();
         }

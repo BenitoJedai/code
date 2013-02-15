@@ -10,6 +10,9 @@ namespace FlashHeatZeekerWithStarlingT04.Library
     // jsc could try to do this on its own in the future
     public interface IFrameDiagnostics
     {
+        // in the game the current unit was changed
+        Action<IGameUnit> switchto { get; set; }
+
         Action<Action<string, string>> traceperformance { get; set; }
         IFrameDiagnosticsFlag traceperformance_enabled { get; set; }
 
@@ -37,6 +40,9 @@ namespace FlashHeatZeekerWithStarlingT04.Library
     public class HeadlessFrameDiagnostics : IFrameDiagnostics
     {
         // jsc could turn this into implicit interface for tier split/context switch
+
+        public Action<IGameUnit> switchto { get; set; }
+
 
         public Action<Action<string, string>> traceperformance { get; set; }
         public IFrameDiagnosticsFlag traceperformance_enabled { get; set; }

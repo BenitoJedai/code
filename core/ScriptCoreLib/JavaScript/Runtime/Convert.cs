@@ -7,12 +7,13 @@ using ScriptCoreLib.Shared;
 namespace ScriptCoreLib.JavaScript.Runtime
 {
     using ScriptCoreLib.JavaScript.BCLImplementation.System;
+    using System;
 
     // http://www.devguru.com/Technologies/ecmascript/quickref/js_property.html
 
     [Script]
-	[System.Obsolete("To be moved out of CoreLib or removed")]
-    public static class Convert 
+    [System.Obsolete("To be moved out of CoreLib or removed")]
+    public static class Convert
     {
         public static string DateFromMysqlDateFormatString(string e)
         {
@@ -47,7 +48,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return default(string);
         }
 
-        
+
 
         public static string ToCurrency(double e)
         {
@@ -78,7 +79,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             {
                 i++;
                 t = n;
-                r = c[(int)t % radix] + r;  
+                r = c[(int)t % radix] + r;
                 n = Native.Math.floor(t / radix);
             }
 
@@ -111,7 +112,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
         internal readonly static string Base64Key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-        
+
         public static string ToBase64String(string input)
         {
             string output = "";
@@ -146,7 +147,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 output += Base64Key[enc3];
                 output += Base64Key[enc4];
 
-                
+
 
                 b = i < input.Length;
             }
@@ -163,7 +164,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
             bool b = true;
 
-            while(b)
+            while (b)
             {
                 enc1 = Base64Key.IndexOf(input[i++]);
                 enc2 = Base64Key.IndexOf(input[i++]);
@@ -191,6 +192,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return output;
         }
 
+        [Obsolete]
         public static byte ToByte(double value)
         {
             return (byte)(Native.Math.floor(value) % 0x100);
@@ -230,7 +232,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return Expando.Of(p).ToJSON();
         }
 
-       // #if BLOAT
+        // #if BLOAT
         public static TRet To<TArg, TRet>(TArg e, TRet def, System.Action<ConvertTo<TArg, TRet>> h)
         {
             var p = new ConvertTo<TArg, TRet>();
@@ -243,6 +245,6 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
             return p.TargetOut;
         }
-//#endif
+        //#endif
     }
 }

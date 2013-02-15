@@ -30,6 +30,9 @@ namespace FlashHeatZeekerWithStarlingT04.Library
         public void Initialize(IFrameDiagnostics e)
         {
             Console.WriteLine("FrameDiagnostics.Initialize");
+
+            e.switchto = x => this.gameUnitDiagnostics1.switchto(x);
+
             this.checkBox1.CheckedChanged +=
                 delegate
                 {
