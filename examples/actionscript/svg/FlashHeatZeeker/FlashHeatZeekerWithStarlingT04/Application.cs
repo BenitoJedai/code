@@ -91,9 +91,9 @@ namespace FlashHeatZeekerWithStarlingT04
 
 
             sprite.fps +=
-                fps =>
+                (fps, nid) =>
                 {
-                    new { fps }.ToString().ToDocumentTitle();
+                    new { fps, nid }.ToString().ToDocumentTitle();
                 };
 
 
@@ -132,7 +132,7 @@ namespace FlashHeatZeekerWithStarlingT04
             sprites_events.Added +=
                 (fsprite, i) =>
                 {
-                    // lets do two way binding here.
+                    #region lets do two way binding here.
 
 
 
@@ -152,6 +152,8 @@ namespace FlashHeatZeekerWithStarlingT04
                             }
                         );
                     };
+
+                    #endregion
                 };
 
 
@@ -221,10 +223,10 @@ namespace FlashHeatZeekerWithStarlingT04
 
                             // do events break if popup mode is changed?
                             fsprite.fps +=
-                                fps =>
-                                {
-                                    new { fps }.ToString().ToTitle(f);
-                                };
+                                  (fps, nid) =>
+                                  {
+                                      new { fps, nid }.ToString().ToTitle(f);
+                                  };
 
 
 
