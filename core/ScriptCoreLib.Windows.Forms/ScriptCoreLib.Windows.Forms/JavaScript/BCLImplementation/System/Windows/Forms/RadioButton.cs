@@ -171,7 +171,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
         #region CheckedChanged
-        Handler<EventHandler, DOMHandler> _CheckedChanged = new Handler<EventHandler, DOMHandler>();
+        InternalHandler<EventHandler, DOMHandler> _CheckedChanged = new InternalHandler<EventHandler, DOMHandler>();
 
 
         public event global::System.EventHandler CheckedChanged

@@ -15,13 +15,16 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
-namespace System.Windows.Forms
+namespace Abstractatech.JavaScript.FormAsPopup
 {
     public static class FormAsPopupExtensions
     {
         public static void PopupInsteadOfClosing(this Form f)
         {
+            __Control __f = f;
+
             var content = new { f };
 
             Action AtClose = delegate
@@ -58,6 +61,22 @@ namespace System.Windows.Forms
                         content.f.GetHTMLTarget().Orphanize();
 
                         w.document.title = content.f.Text;
+
+
+                        w.onresize +=
+                            delegate
+                            {
+                                var cs = content.f.ClientSize;
+
+                                cs.Width = w.Width;
+                                cs.Height = w.Height;
+
+                                content.f.ClientSize = cs;
+
+                                //__f.InternalRaiseClientSizeChanged(
+                                //    new EventArgs()
+                                //);
+                            };
 
                         w.onbeforeunload +=
                             delegate
