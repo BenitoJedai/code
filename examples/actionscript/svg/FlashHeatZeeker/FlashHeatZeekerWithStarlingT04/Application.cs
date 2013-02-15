@@ -59,6 +59,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
             con.Show();
 
+            con.Height = 150;
             con.Left = Native.Window.Width - con.Width;
             con.Top = 0;
 
@@ -121,6 +122,16 @@ namespace FlashHeatZeekerWithStarlingT04
                 };
             #endregion
 
+            Action<XElement> sprite_context_onmessage = delegate { };
+
+            int ccc = 0;
+            sprite.context_onmessage +=
+                e =>
+                {
+                    ccc++;
+                    //Console.WriteLine(ccc + " sprite ->  " + e);
+                    sprite_context_onmessage(e);
+                };
 
             #region game_InitializeFrameDiagnostics
             sprite.game_InitializeFrameDiagnostics(
@@ -159,6 +170,7 @@ namespace FlashHeatZeekerWithStarlingT04
                             f.Height = 200;
 
                             var fsprite = new ApplicationSprite();
+                            fsprite.src_fixup();
                             fsprite.wmode();
 
 
@@ -166,6 +178,7 @@ namespace FlashHeatZeekerWithStarlingT04
                                 f.GetHTMLTargetContainer()
                             );
 
+                            #region ClientSizeChanged / PopupInsteadOfClosing has a bug
                             f.ClientSizeChanged +=
                                 delegate
                                 {
@@ -175,9 +188,34 @@ namespace FlashHeatZeekerWithStarlingT04
                                         cs.Height
                                     );
                                 };
+                            #endregion
 
                             f.Show();
                             f.PopupInsteadOfClosing();
+
+                            // do events break if popup mode is changed?
+                            fsprite.fps +=
+                                fps =>
+                                {
+                                    new { fps }.ToString().ToTitle(f);
+                                };
+
+
+                            // lets do two way binding here.
+
+                            // sprite -> fsprite
+                            sprite_context_onmessage += xml =>
+                            {
+                                fsprite.game_postMessage(xml);
+                            };
+
+                            // fsprite -> sprite
+                            fsprite.context_onmessage += xml =>
+                            {
+                                sprite.game_postMessage(xml);
+                            };
+
+                            // what if we have more of these?
                         };
                 }
             );
@@ -206,16 +244,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
             }
 
-            Action<XElement> sprite_context_onmessage = delegate { };
 
-            int ccc = 0;
-            sprite.context_onmessage +=
-                e =>
-                {
-                    ccc++;
-                    //Console.WriteLine(ccc + " sprite ->  " + e);
-                    sprite_context_onmessage(e);
-                };
 
             if (Native.Window.opener != null)
             {
@@ -304,6 +333,26 @@ namespace FlashHeatZeekerWithStarlingT04
 
     public static class XX
     {
+        //<embed type="application/x-shockwave-flash" id="__embed_960211569" name="__embed_960211569" allowfullscreeninteractive="true" allowfullscreen="true" allownetworking="all" allowscriptaccess="always" width="500" height="380" src="assets/FlashHeatZeekerWithStarlingT04.Application/FlashHeatZeekerWithStarlingT04.ApplicationSprite.swf" wmode="direct" style="width: 392px; height: 165px;">
+
+        public static void ToTitle(this string e, Form f)
+        {
+            f.Text = e;
+        }
+
+        [Obsolete("JSC should put extra effort to do this automatically on new Sprite!")]
+        public static void src_fixup(this Sprite ee)
+        {
+            var e = (IHTMLEmbed)ee.ToHTMLElement();
+            var src = e.src;
+            // we will need absolute href!
+            Console.WriteLine(
+                new { src, Native.Document.location.href }
+            );
+
+            e.src = src;
+        }
+
         public static void wmode(this Sprite s, string value = "direct")
         {
             var x = s.ToHTMLElement();
