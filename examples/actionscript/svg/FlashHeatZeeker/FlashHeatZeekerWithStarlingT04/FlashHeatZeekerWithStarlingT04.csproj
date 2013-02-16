@@ -165,7 +165,11 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\fullheader1-530x165.jpg" />
     <Content Include="Textures\white-jsc.png" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\ped_stand_walk3.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\ped_stand_walk2.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\ped_stand_walk1.svg" />
     <EmbeddedResource Include="Library\GameUnitDiagnostics.resx">
       <DependentUpon>GameUnitDiagnostics.cs</DependentUpon>
     </EmbeddedResource>
