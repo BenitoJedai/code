@@ -9,7 +9,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ScrollableControl))]
-    internal class __ScrollableControl : __Control
+    public class __ScrollableControl : __Control
     {
         public HScrollProperties HorizontalScroll { get; set; }
 

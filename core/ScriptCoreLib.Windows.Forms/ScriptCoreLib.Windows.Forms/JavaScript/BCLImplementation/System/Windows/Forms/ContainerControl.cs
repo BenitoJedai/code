@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ContainerControl))]
-    internal class __ContainerControl : __ScrollableControl
+    public class __ContainerControl : __ScrollableControl
     {
         public Form ParentForm { get; set; }
 

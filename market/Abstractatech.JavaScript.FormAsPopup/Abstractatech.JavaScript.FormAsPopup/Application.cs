@@ -23,20 +23,26 @@ namespace Abstractatech.JavaScript.FormAsPopup
     {
         public static void PopupInsteadOfClosing(this Form f)
         {
-            __Control __f = f;
+            __Form __f = f;
 
             var content = new { f };
 
+            #region AtClose
             Action AtClose = delegate
             {
+                Console.WriteLine("AtClose!");
+
+
                 // cant be minimized
                 content.f.WindowState = FormWindowState.Normal;
 
-                var w = Native.Window.open("about:blank", "_blank",
-                          content.f.Width,
-                          content.f.Height,
-                          false
-                      );
+                //var w = Native.Window.open("about:blank", "_blank",
+                //          content.f.Width,
+                //          content.f.Height,
+                //          false
+                //      );
+
+                var w = new IWindow();
 
                 var HTMLTargetContainer_parent = content.f.GetHTMLTargetContainer().parentNode;
                 var HTMLTarget_parent = content.f.GetHTMLTarget().parentNode;
@@ -95,11 +101,52 @@ namespace Abstractatech.JavaScript.FormAsPopup
                             };
                     };
             };
+            #endregion
 
+
+            var undo_x = 0;
+            var undo_y = 0;
+
+            __f.InternalCaptionDrag.DragStart +=
+                delegate
+                {
+
+                    undo_x = __f.Left;
+                };
+
+            __f.InternalCaptionDrag.DragStart +=
+                 delegate
+                 {
+
+                     undo_y = __f.Top;
+                 };
+
+            __f.InternalCaptionDrag.DragStop +=
+                delegate
+                {
+                    var z = new { f.Right, f.Left };
+
+                    if (z.Right > 0)
+                        if (z.Left < Native.Window.Width)
+                        {
+                            Console.WriteLine("still in window: " + z);
+                            // still in the window!
+                            // what about popups?
+                            return;
+                        }
+
+
+                    Console.WriteLine("close to popup");
+                    f.Left = undo_x;
+                    f.Top = undo_y;
+                    f.Close();
+                };
 
             content.f.FormClosing +=
                 (sender, e) =>
                 {
+                    Console.WriteLine("FormClosing!");
+
                     e.Cancel = true;
 
                     AtClose();

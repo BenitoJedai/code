@@ -21,7 +21,7 @@ namespace FlashHeatZeeker.PlayerIOIntegration
         }
     }
 
-    public  class ApplicationSpriteContent : global::FlashHeatZeekerWithStarlingT04.ApplicationSpriteContent
+    public class ApplicationSpriteContent : global::FlashHeatZeekerWithStarlingT04.ApplicationSpriteContent
     {
         public readonly ApplicationCanvas content = new ApplicationCanvas();
 
@@ -58,7 +58,14 @@ namespace FlashHeatZeeker.PlayerIOIntegration
                         var multiplayer = client.multiplayer;
 
                         //Set developmentsever (Comment out to connect to your server online)
-                        multiplayer.developmentServer = "localhost:8184";
+
+#if DEBUG
+                        multiplayer.developmentServer =
+                            // http://192.168.1.103
+                            "192.168.1.103:8184";
+#endif
+
+                        //"localhost:8184";
 
                         Action<global::playerio.Connection> handleJoin = connection =>
                         {
@@ -283,7 +290,7 @@ namespace FlashHeatZeeker.PlayerIOIntegration
         }
 
 
-   
+
 
         Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
 
