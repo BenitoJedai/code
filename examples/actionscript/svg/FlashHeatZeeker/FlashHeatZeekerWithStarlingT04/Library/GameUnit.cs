@@ -84,7 +84,7 @@ namespace FlashHeatZeekerWithStarlingT04.Library
                 shape_filter = new ColorMatrixFilter();
 
             shape_filter.adjustHue(delta);
-            this.shape.filter = shape_filter;
+            this.loc.filter = shape_filter;
         }
 
 

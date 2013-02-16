@@ -464,6 +464,15 @@ namespace FlashHeatZeekerWithStarlingT04
 
     static class StarlingExtensions
     {
+        public static IEnumerable<T> Hide<T>(this IEnumerable<T> e) where T : DisplayObject
+        {
+            e.WithEach(
+                x => x.visible = false
+            );
+
+            return e;
+        }
+
         public static T AttachTo<T>(this T e, DisplayObjectContainer x) where T : DisplayObject
         {
             if (e == null)
@@ -786,6 +795,9 @@ namespace FlashHeatZeekerWithStarlingT04
 
         public Game()
         {
+            var gametime = new Stopwatch();
+            gametime.Start();
+
             var frameid = 0L;
 
 
@@ -1416,6 +1428,10 @@ namespace FlashHeatZeekerWithStarlingT04
 
             var textures_ped_footprints = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_footprints.svg");
             var textures_ped_stand = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_stand.svg");
+            var textures_ped_stand_walk1 = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_stand_walk1.svg");
+            var textures_ped_stand_walk2 = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_stand_walk2.svg");
+            var textures_ped_stand_walk3 = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_stand_walk3.svg");
+
             var textures_ped_down = new_tex_400("assets/FlashHeatZeekerWithStarlingT04/ped_down.svg");
             var textures_ped_shadow = new_tex_64("assets/FlashHeatZeekerWithStarlingT04/ped_shadow.svg");
 
@@ -1522,7 +1538,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     fixDef.restitution = 0;
 
 
-                    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.5);
+                    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.8);
 
                     var snd_peddown = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/snd_peddown.mp3"].ToSoundAsset();
                     var ped_hit = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingT04/ped_hit.mp3"].ToSoundAsset();
@@ -1602,8 +1618,82 @@ namespace FlashHeatZeekerWithStarlingT04
                     unit_shadow_rot.scaleY = 400.0 / 64.0;
                     unit_shadow_rot.scaleX = 400.0 / 64.0;
 
-                    var shape_stand = new Image(textures_ped_stand) { x = -200, y = -200 }.AttachTo(unit_rot);
+                    var shape_stand = new Image(
+                        textures_ped_stand
+                        //textures_ped_stand_walk1
+                        ) { x = -200, y = -200 }.AttachTo(unit_rot);
                     var shape_down = new Image(textures_ped_down) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+                    // left far
+                    var shape_stand_walk1_leftfar = new Image(
+                                textures_ped_stand_walk1
+                    ) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+                    // left mid
+                    var shape_stand_walk2_leftmid = new Image(
+                           textures_ped_stand_walk2
+                   ) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+                    // left close
+                    var shape_stand_walk3_leftclose = new Image(
+                            textures_ped_stand_walk3
+                ) { x = -200, y = -200 }.AttachTo(unit_rot);
+
+                    // https://www.google.ee/search?q=starling+flip+vertical&aq=f&oq=starling+flip+vertical&aqs=chrome.0.57j60l3j65l2.4973j0&sourceid=chrome&ie=UTF-8
+
+                    // right close
+                    var shape_stand_walk3x_rightclose = new Sprite(
+                    ) { scaleX = -1 }.AttachTo(unit_rot);
+
+                    new Image(
+                          textures_ped_stand_walk3
+                    ) { x = -200, y = -200 }.AttachTo(shape_stand_walk3x_rightclose);
+
+                    // right far
+                    var shape_stand_walk1x_rightfar = new Sprite(
+                        ) { scaleX = -1 }.AttachTo(unit_rot);
+
+                    new Image(
+                          textures_ped_stand_walk1
+                    ) { x = -200, y = -200 }.AttachTo(shape_stand_walk1x_rightfar);
+
+
+                    // right mid
+                    var shape_stand_walk2x_rightmid = new Sprite(
+                        ) { scaleX = -1 }.AttachTo(unit_rot);
+
+                    new Image(
+                          textures_ped_stand_walk2
+                    ) { x = -200, y = -200 }.AttachTo(shape_stand_walk2x_rightmid);
+
+
+                    // left close
+                    // right close
+                    // right far
+                    // right mid
+                    // right close
+                    // left close
+                    // left far
+                    // left mid
+
+                    var walk_ani = new DisplayObject[] {
+                        shape_stand_walk3_leftclose, 
+                        shape_stand_walk3x_rightclose,
+                        shape_stand_walk1x_rightfar,
+                        shape_stand_walk2x_rightmid,
+                        shape_stand_walk3x_rightclose,
+                        shape_stand_walk3_leftclose, 
+                        shape_stand_walk1_leftfar, 
+                        shape_stand_walk2_leftmid, 
+
+                    };
+
+                    walk_ani.Hide();
+                    //shape_stand_walk1_leftfar.visible = false;
+                    //shape_stand_walk2_leftmid.visible = false;
+                    //shape_stand_walk3_leftclose.visible = false;
+                    //shape_stand_walk3x_rightclose.visible = false;
+
 
                     shape_down.visible = false;
 
@@ -1636,6 +1726,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     var ped_hit_c = default(SoundChannel);
 
                     var fix = body.CreateFixture(fixDef);
+                    #region ped_forceA
                     var fix_data = new Action<double>(
                         ped_forceA =>
                         {
@@ -1680,6 +1771,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     );
 
                     fix.SetUserData(fix_data);
+                    #endregion
 
                     var u = new GameUnit
                     {
@@ -1708,9 +1800,43 @@ namespace FlashHeatZeekerWithStarlingT04
                     var RenewTracks_previous_position_x = 0.0;
                     var RenewTracks_previous_position_y = 0.0;
 
+
                     u.RenewTracks =
                         delegate
                         {
+                            if (shape_down.visible)
+                            {
+                                // nop
+                            }
+                            else
+                            {
+                                walk_ani.Hide();
+
+                                // we need to animate running
+                                // at the same rate we make footprints
+                                var index = Convert.ToInt32(gametime.ElapsedMilliseconds * 0.02) % walk_ani.Length;
+
+
+                                if (u.move_forward != 0)
+                                {
+                                    shape_stand.visible = false;
+                                    walk_ani[index].visible = true;
+
+
+                                }
+                                else if (u.move_backward != 0)
+                                {
+                                    shape_stand.visible = false;
+                                    walk_ani[walk_ani.Length - 1 - index].visible = true;
+
+
+                                }
+                                else
+                                {
+                                    shape_stand.visible = true;
+                                }
+                            }
+
                             if (RenewTracks_previous_position_empty)
                             {
                                 RenewTracks_previous_position_x = u.loc.x;
@@ -2718,10 +2844,10 @@ namespace FlashHeatZeekerWithStarlingT04
             new_bunker().TeleportTo(-200, 600);
             new_bunker2().TeleportTo(-200, 800);
 
-            new_silo1().TeleportTo(100, 300);
-            new_silo1().TeleportTo(100, 400);
-            new_silo1().TeleportTo(200, 400);
-            new_silo1().TeleportTo(200, 300);
+            new_silo1().TeleportTo(100, 500);
+            new_silo1().TeleportTo(100, 600);
+            new_silo1().TeleportTo(200, 600);
+            new_silo1().TeleportTo(200, 500);
 
             //props.Add(bunker0_physics);
 
@@ -3324,7 +3450,7 @@ namespace FlashHeatZeekerWithStarlingT04
             Console.WriteLine("__raise_context_FrameDiagnostics done");
 
             // use box2d instead!
-            var KineticEnergy = new List<KineticEnergy>();
+            //var KineticEnergy = new List<KineticEnergy>();
 
 
 
@@ -3851,8 +3977,19 @@ namespace FlashHeatZeekerWithStarlingT04
 
             switchto(ego_unit8_ped);
 
+            // Operation: Heat Zeeker
+            // ... deathmatch!
+            // ... buy new life
+            // ... buy new weapons...
+            // ... buy the making of
 
+            // Insert Coint - costs money to play!
+            // http://playerio.com/competitions/ega2012/
+            var epic_bitmap = new ScriptCoreLib.ActionScript.flash.display.BitmapData(530, 165, true, 0x00000000);
+            epic_bitmap.draw(new fullheader1_530x165());
+            var epic_tex = Texture.fromBitmapData(epic_bitmap);
 
+            var epic = new Image(epic_tex) { alpha = 0.3 }.AttachTo(this);
 
             var logo = new Image(LogoTexture) { alpha = 0.3 }.AttachTo(this);
 
@@ -3862,6 +3999,11 @@ namespace FlashHeatZeekerWithStarlingT04
                 logo.MoveTo(
                     ApplicationSprite.__stage.stageWidth - 96,
                     ApplicationSprite.__stage.stageHeight - 96
+                );
+
+                epic.MoveTo(
+                 ApplicationSprite.__stage.stageWidth - 530,
+                  0
                 );
 
                 viewport_loc.x = ApplicationSprite.__stage.stageWidth * 0.5;
@@ -4012,14 +4154,17 @@ namespace FlashHeatZeekerWithStarlingT04
 
                                     if (item.rot_left < 0)
                                     {
-                                        item.physics.steer_right = Car.STEER_LEFT;
+                                        item.physics.steer_left = Car.STEER_LEFT;
+                                        item.physics.steer_right = Car.STEER_NONE;
                                     }
                                     else if (item.rot_right > 0)
                                     {
+                                        item.physics.steer_left = Car.STEER_NONE;
                                         item.physics.steer_right = Car.STEER_RIGHT;
                                     }
                                     else
                                     {
+                                        item.physics.steer_left = Car.STEER_NONE;
                                         item.physics.steer_right = Car.STEER_NONE;
                                     }
 
@@ -4084,30 +4229,30 @@ namespace FlashHeatZeekerWithStarlingT04
 
                         // which is it, do we need to zoom out or in?
 
-                        #region KineticEnergy
-                        foreach (var item in KineticEnergy)
-                        {
-                            item.Target.With(
-                                t =>
-                                {
-                                    if (item.TTL == 0)
-                                    {
-                                        t.Orphanize();
+                        ////#region KineticEnergy
+                        ////foreach (var item in KineticEnergy)
+                        ////{
+                        ////    item.Target.With(
+                        ////        t =>
+                        ////        {
+                        ////            if (item.TTL == 0)
+                        ////            {
+                        ////                t.Orphanize();
 
-                                        item.Target = null;
-                                        return;
-                                    }
+                        ////                item.Target = null;
+                        ////                return;
+                        ////            }
 
-                                    t.x += rot_sw.ElapsedMilliseconds * item.Energy.x;
-                                    t.y += rot_sw.ElapsedMilliseconds * item.Energy.y;
+                        ////            t.x += rot_sw.ElapsedMilliseconds * item.Energy.x;
+                        ////            t.y += rot_sw.ElapsedMilliseconds * item.Energy.y;
 
-                                    item.TTL--;
+                        ////            item.TTL--;
 
 
-                                }
-                            );
-                        }
-                        #endregion
+                        ////        }
+                        ////    );
+                        ////}
+                        ////#endregion
 
 
                         var any_movement = Math.Sign(
