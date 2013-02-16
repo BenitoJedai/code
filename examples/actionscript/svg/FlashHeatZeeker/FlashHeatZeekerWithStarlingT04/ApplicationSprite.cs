@@ -3431,13 +3431,12 @@ namespace FlashHeatZeekerWithStarlingT04
                                   new XElement("move_forward",
                                       new XAttribute("i", "" + networkid),
                                       new XAttribute("f", "" + (networkframe + 2)),
+                                new XAttribute("v", "" + 1.0),
                                       new XAttribute("_identity", current.identity)
                                   )
                             );
 
-                            if (current != null)
-                                if (current.physics != null)
-                                    current.physics.accelerate = Car.ACC_ACCELERATE;
+
                         }
                     }
 
@@ -3457,12 +3456,13 @@ namespace FlashHeatZeekerWithStarlingT04
                                   new XElement("move_backward",
                                       new XAttribute("i", "" + networkid),
                                       new XAttribute("f", "" + (networkframe + 2)),
+                                new XAttribute("v", "" + -0.5),
                                       new XAttribute("_identity", current.identity)
                                   )
                             );
-                            if (current != null)
-                                if (current.physics != null)
-                                    current.physics.accelerate = Car.ACC_BRAKE;
+                            //if (current != null)
+                            //    if (current.physics != null)
+                            //        current.physics.accelerate = Car.ACC_BRAKE;
                         }
                     }
 
@@ -3478,13 +3478,15 @@ namespace FlashHeatZeekerWithStarlingT04
                                   new XElement("rot_left",
                                       new XAttribute("i", "" + networkid),
                                       new XAttribute("f", "" + (networkframe + 2)),
+                                new XAttribute("v", "" + -1.0),
+
                                       new XAttribute("_identity", current.identity)
                                   )
                             );
 
-                            if (current != null)
-                                if (current.physics != null)
-                                    current.physics.steer_left = Car.STEER_LEFT;
+                            //if (current != null)
+                            //    if (current.physics != null)
+                            //        current.physics.steer_left = Car.STEER_LEFT;
                         }
                     }
 
@@ -3500,6 +3502,7 @@ namespace FlashHeatZeekerWithStarlingT04
                                   new XElement("rot_right",
                                       new XAttribute("i", "" + networkid),
                                       new XAttribute("f", "" + (networkframe + 2)),
+                                new XAttribute("v", "" + 1.0),
                                       new XAttribute("_identity", current.identity)
                                   )
                             );
@@ -3508,8 +3511,8 @@ namespace FlashHeatZeekerWithStarlingT04
                             {
                                 current.rot_right = 1;
 
-                                if (current.physics != null)
-                                    current.physics.steer_right = Car.STEER_RIGHT;
+                                //if (current.physics != null)
+                                //    current.physics.steer_right = Car.STEER_RIGHT;
                             }
                         }
                     }
@@ -3543,13 +3546,14 @@ namespace FlashHeatZeekerWithStarlingT04
                            new XElement("move_forward",
                                new XAttribute("i", "" + networkid),
                                new XAttribute("f", "" + (networkframe + 2)),
+                               new XAttribute("v", "" + 0.0),
                                       new XAttribute("_identity", current.identity)
                            )
                      );
 
-                      if (current != null)
-                          if (current.physics != null)
-                              current.physics.accelerate = Car.ACC_NONE;
+                      //if (current != null)
+                      //    if (current.physics != null)
+                      //        current.physics.accelerate = Car.ACC_NONE;
 
                   }
 
@@ -3563,12 +3567,13 @@ namespace FlashHeatZeekerWithStarlingT04
                            new XElement("move_backward",
                                new XAttribute("i", "" + networkid),
                                new XAttribute("f", "" + (networkframe + 2)),
+                                new XAttribute("v", "" + 0.0),
                                       new XAttribute("_identity", current.identity)
                            )
                      );
-                      if (current != null)
-                          if (current.physics != null)
-                              current.physics.accelerate = Car.ACC_NONE;
+                      //if (current != null)
+                      //    if (current.physics != null)
+                      //        current.physics.accelerate = Car.ACC_NONE;
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
@@ -3580,12 +3585,13 @@ namespace FlashHeatZeekerWithStarlingT04
                             new XElement("rot_left",
                                 new XAttribute("i", "" + networkid),
                                 new XAttribute("f", "" + (networkframe + 2)),
+                                new XAttribute("v", "" + 0.0),
                                       new XAttribute("_identity", current.identity)
                             )
                       );
-                      if (current != null)
-                          if (current.physics != null)
-                              current.physics.steer_left = Car.STEER_NONE;
+                      //if (current != null)
+                      //    if (current.physics != null)
+                      //        current.physics.steer_left = Car.STEER_NONE;
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
@@ -3596,6 +3602,7 @@ namespace FlashHeatZeekerWithStarlingT04
                            new XElement("rot_right",
                                new XAttribute("i", "" + networkid),
                                new XAttribute("f", "" + (networkframe + 2)),
+                                new XAttribute("v", "" + 0.0),
                                       new XAttribute("_identity", current.identity)
                            )
                      );
@@ -3603,8 +3610,8 @@ namespace FlashHeatZeekerWithStarlingT04
                       {
                           current.rot_right = 0;
 
-                          if (current.physics != null)
-                              current.physics.steer_right = Car.STEER_NONE;
+                          //if (current.physics != null)
+                          //    current.physics.steer_right = Car.STEER_NONE;
                       }
                   }
 
@@ -3946,6 +3953,11 @@ namespace FlashHeatZeekerWithStarlingT04
                         // can jsc tell us about timing?
 
 
+
+
+                        //if (current != null)
+                        //    if (current.physics != null)
+
                         #region update physicstime_elapsed
                         foreach (var item in units)
                         {
@@ -3982,7 +3994,37 @@ namespace FlashHeatZeekerWithStarlingT04
                                      * ((1));
 
                                 if (item.physics != null)
+                                {
+
+                                    if (item.move_forward > 0)
+                                    {
+                                        item.physics.accelerate = Car.ACC_ACCELERATE;
+                                    }
+                                    else if (item.move_backward < 0)
+                                    {
+                                        item.physics.accelerate = Car.ACC_BRAKE;
+                                    }
+                                    else
+                                    {
+                                        item.physics.accelerate = Car.ACC_NONE;
+                                    }
+
+
+                                    if (item.rot_left < 0)
+                                    {
+                                        item.physics.steer_right = Car.STEER_LEFT;
+                                    }
+                                    else if (item.rot_right > 0)
+                                    {
+                                        item.physics.steer_right = Car.STEER_RIGHT;
+                                    }
+                                    else
+                                    {
+                                        item.physics.steer_right = Car.STEER_NONE;
+                                    }
+
                                     item.physics.update(physicstime_elapsed);
+                                }
                             }
                         }
                         #endregion
@@ -4672,6 +4714,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     if (data.Name.LocalName == "move_forward")
                     {
                         var _identity = data.Attribute("_identity").Value;
+                        var v = double.Parse(data.Attribute("v").Value);
 
                         if (remotegame.networkid == networkid)
                         {
@@ -4683,10 +4726,7 @@ namespace FlashHeatZeekerWithStarlingT04
                                 u =>
                                 {
                                     // move that unit by proxy
-                                    if (u.move_forward == 0)
-                                        u.move_forward = 1;
-                                    else
-                                        u.move_forward = 0;
+                                    u.move_forward = v;
                                 }
                             );
 
@@ -4698,6 +4738,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     if (data.Name.LocalName == "move_backward")
                     {
                         var _identity = data.Attribute("_identity").Value;
+                        var v = double.Parse(data.Attribute("v").Value);
 
                         if (remotegame.networkid == networkid)
                         {
@@ -4709,10 +4750,7 @@ namespace FlashHeatZeekerWithStarlingT04
                               u =>
                               {
                                   // move that unit by proxy
-                                  if (u.move_backward == 0)
-                                      u.move_backward = -0.5;
-                                  else
-                                      u.move_backward = 0;
+                                  u.move_backward = v;
                               }
                           );
 
@@ -4725,6 +4763,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     if (data.Name.LocalName == "rot_left")
                     {
                         var _identity = data.Attribute("_identity").Value;
+                        var v = double.Parse(data.Attribute("v").Value);
 
 
                         if (remotegame.networkid == networkid)
@@ -4738,10 +4777,8 @@ namespace FlashHeatZeekerWithStarlingT04
                                 u =>
                                 {
                                     // move that unit by proxy
-                                    if (u.rot_left == 0)
-                                        u.rot_left = -1;
-                                    else
-                                        u.rot_left = 0;
+
+                                    u.rot_left = v;
                                 }
                             );
 
@@ -4755,6 +4792,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     if (data.Name.LocalName == "rot_right")
                     {
                         var _identity = data.Attribute("_identity").Value;
+                        var v = double.Parse(data.Attribute("v").Value);
 
 
                         if (remotegame.networkid == networkid)
@@ -4767,10 +4805,8 @@ namespace FlashHeatZeekerWithStarlingT04
                              u =>
                              {
                                  // move that unit by proxy
-                                 if (u.rot_right == 0)
-                                     u.rot_right = 1;
-                                 else
-                                     u.rot_right = 0;
+
+                                 u.rot_right = v;
                              }
                            );
 

@@ -15,7 +15,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.Form))]
-    internal class __Form : __ContainerControl
+    public class __Form : __ContainerControl
     {
         // alternative service providers:
         // see: http://dhtmlx.com/docs/products/dhtmlxWindows/index.shtml
@@ -60,7 +60,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
-        ScriptCoreLib.JavaScript.Controls.DragHelper drag;
+        public ScriptCoreLib.JavaScript.Controls.DragHelper InternalCaptionDrag;
         IHTMLDiv CloseButton;
 
 
@@ -405,13 +405,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButton.onclick +=
                 delegate
                 {
-                    var a = new FormClosingEventArgs(CloseReason.UserClosing, false);
-
-                    if (FormClosing != null)
-                        FormClosing(this, a);
-
-                    if (a.Cancel)
-                        return;
+              
 
                     Close();
                 };
@@ -427,20 +421,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             #region drag
-            drag = new ScriptCoreLib.JavaScript.Controls.DragHelper(CaptionForeground);
+            InternalCaptionDrag = new ScriptCoreLib.JavaScript.Controls.DragHelper(CaptionForeground);
 
             // http://forum.mootools.net/topic.php?id=534
             // disable text selection
             // look at http://forkjavascript.com/
 
-            drag.Enabled = true;
+            InternalCaptionDrag.Enabled = true;
 
             var BeforePosition = new Shared.Drawing.Point(0, 0);
 
             var FirstMove = false;
 
 
-            drag.DragStart +=
+            InternalCaptionDrag.DragStart +=
                 delegate
                 {
                     TargetNoBorder.style.cursor = IStyle.CursorEnum.move;
@@ -449,7 +443,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-                    BeforePosition = drag.Position;
+                    BeforePosition = InternalCaptionDrag.Position;
 
                     FirstMove = true;
 
@@ -478,7 +472,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
             #region DragMove
-            drag.DragMove +=
+            InternalCaptionDrag.DragMove +=
                 delegate
                 {
                     if (FirstMove)
@@ -497,10 +491,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var MinimizeY = Native.Window.Height - 26;
 
-                    var y = Math.Min(MinimizeY, Math.Max(-4, drag.Position.Y));
+                    var y = Math.Min(MinimizeY, Math.Max(-4, InternalCaptionDrag.Position.Y));
 
                     //if (Native.Document.fullscreenElement == TargetNoBorder)
-                    this.Location = new Point(drag.Position.X, y);
+                    this.Location = new Point(InternalCaptionDrag.Position.X, y);
 
 
 
@@ -520,7 +514,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
             #region DragStop
-            drag.DragStop +=
+            InternalCaptionDrag.DragStop +=
                 delegate
                 {
                     Capture = false;
@@ -536,11 +530,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
 
                     var MinimizeY = Native.Window.Height - 26;
-                    var y = drag.Position.Y;
+                    var y = InternalCaptionDrag.Position.Y;
 
                     if (y < 0)
                     {
-                        drag.Position = BeforePosition;
+                        InternalCaptionDrag.Position = BeforePosition;
                         this.Location = new Point(BeforePosition.X, BeforePosition.Y);
 
                         InternalEnterFullscreen();
@@ -583,7 +577,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
 
-            drag.MiddleClick +=
+            InternalCaptionDrag.MiddleClick +=
                 delegate
                 {
                     if (this.WindowState == FormWindowState.Minimized)
@@ -646,6 +640,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #region Close
         public void Close()
         {
+            var a = new FormClosingEventArgs(CloseReason.UserClosing, false);
+
+            if (FormClosing != null)
+                FormClosing(this, a);
+
+            if (a.Cancel)
+                return;
+
             foreach (var item in this.OwnedForms)
             {
                 item.Close();
@@ -771,7 +773,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var Location = this.Location;
 
-            drag.Position = new Shared.Drawing.Point(Location.X, Location.Y);
+            InternalCaptionDrag.Position = new Shared.Drawing.Point(Location.X, Location.Y);
 
             base.RaiseMove(e);
         }
@@ -935,8 +937,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         }
 
 
-                        drag.OffsetPosition.Y = 12;
-                        drag.OffsetPosition.X = this.Width / 2;
+                        InternalCaptionDrag.OffsetPosition.Y = 12;
+                        InternalCaptionDrag.OffsetPosition.X = this.Width / 2;
 
                         if (InternalMaximizedForms.Count == 0)
                         {
