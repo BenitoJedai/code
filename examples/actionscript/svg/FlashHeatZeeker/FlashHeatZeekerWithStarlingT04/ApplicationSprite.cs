@@ -3819,23 +3819,17 @@ namespace FlashHeatZeekerWithStarlingT04
                   {
                       Console.WriteLine(new { frameid } + " fire!");
 
-
-                      // what type of weapons do we have?
-                      var xx = new_bullet();
-                      xx.TeleportTo(
-                            current.loc.x + 50 * Math.Cos(current.rotation + 270.DegreesToRadians()),
-                            current.loc.y + 50 * Math.Sin(current.rotation + 270.DegreesToRadians())
+                      sync_postMessage(
+                            new XElement("fire",
+                                new XAttribute("i", "" + ego_remotegame_networkid),
+                                new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
+                                 new XAttribute("v", "" + 0.0),
+                                       new XAttribute("_identity", current.identity)
+                            )
                       );
 
-                      xx.physics_body.ApplyLinearImpulse(
-                            new b2Vec2(
-                          // how fast can we make it go?
-                                     600 * Math.Cos(current.rotation + 270.DegreesToRadians()),
-                                     600 * Math.Sin(current.rotation + 270.DegreesToRadians())
 
-                                ),
-                            new b2Vec2()
-                        );
+
 
 
                   }
@@ -4879,6 +4873,43 @@ namespace FlashHeatZeekerWithStarlingT04
                                     // move that unit by proxy
 
                                     u.rot_right = v;
+                                }
+                              );
+
+                           }
+                       );
+                    }
+                    #endregion
+
+                    #region fire
+                    if (data.Name.LocalName == "fire")
+                    {
+                        var _identity = data.Attribute("_identity").Value;
+                        var v = double.Parse(data.Attribute("v").Value);
+
+
+                        at_remotegame_networkframe(
+                           delegate
+                           {
+                               units.Where(k => k.identity == _identity).WithEach(
+                                u =>
+                                {
+                                    // what type of weapons do we have?
+                                    var xx = new_bullet();
+                                    xx.TeleportTo(
+                                          u.loc.x + 50 * Math.Cos(u.rotation + 270.DegreesToRadians()),
+                                          u.loc.y + 50 * Math.Sin(u.rotation + 270.DegreesToRadians())
+                                    );
+
+                                    xx.physics_body.ApplyLinearImpulse(
+                                          new b2Vec2(
+                                        // how fast can we make it go?
+                                                   600 * Math.Cos(u.rotation + 270.DegreesToRadians()),
+                                                   600 * Math.Sin(u.rotation + 270.DegreesToRadians())
+
+                                              ),
+                                          new b2Vec2()
+                                      );
                                 }
                               );
 
