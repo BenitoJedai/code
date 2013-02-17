@@ -33,24 +33,7 @@ namespace FlashHeatZeeker.PlayerIOIntegration
         public Application(IApp page)
         {
 
-            var con = new ConsoleForm();
 
-            con.InitializeConsoleFormWriter();
-
-            con.Show();
-
-            con.Left = Native.Window.Width - con.Width;
-            con.Top = 0;
-
-            Native.Window.onresize +=
-                  delegate
-                  {
-                      con.Left = Native.Window.Width - con.Width;
-                      con.Top = 0;
-                  };
-
-
-            con.Opacity = 0.6;
 
 
 
@@ -71,11 +54,34 @@ namespace FlashHeatZeeker.PlayerIOIntegration
                    }
                );
 
+#if DEBUG
+            var con = new ConsoleForm();
 
+            con.InitializeConsoleFormWriter();
+
+            con.Show();
+
+            con.Left = Native.Window.Width - con.Width;
+            con.Top = 0;
+
+            Native.Window.onresize +=
+                  delegate
+                  {
+                      con.Left = Native.Window.Width - con.Width;
+                      con.Top = 0;
+                  };
+
+
+            con.Opacity = 0.6;
+
+            
             sprite.InitializeConsoleFormWriter(
-               Console.Write,
-               Console.WriteLine
-           );
+                       Console.Write,
+                       Console.WriteLine
+            );
+#endif
+            "Operation «Heat Zeeker»".ToDocumentTitle();
+
 
         }
 

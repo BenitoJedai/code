@@ -3935,10 +3935,15 @@ namespace FlashHeatZeekerWithStarlingT04
             // Insert Coint - costs money to play!
             // http://playerio.com/competitions/ega2012/
             var epic_bitmap = new ScriptCoreLib.ActionScript.flash.display.BitmapData(530, 165, true, 0x00000000);
-            epic_bitmap.draw(new fullheader1_530x165());
+            //epic_bitmap.draw(new fullheader1_530x165());
+            epic_bitmap.draw(new BetaBanner());
             var epic_tex = Texture.fromBitmapData(epic_bitmap);
 
-            var epic = new Image(epic_tex) { alpha = 0.3 }.AttachTo(this);
+            var epic = new Image(epic_tex)
+            {
+                //alpha = 0.3 
+            }.AttachTo(this);
+
 
             var logo = new Image(LogoTexture) { alpha = 0.3 }.AttachTo(this);
 
@@ -4291,6 +4296,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
                         // smaller window needs to zoom out more.
                         viewport_scale *= ApplicationSpriteContent.__stage.stageHeight / 1000.0;
+                        viewport_scale *= ApplicationSpriteContent.__stage.stageWidth / 1600.0;
 
 
                         viewport_rot.scaleX = viewport_scale;
