@@ -50,7 +50,7 @@ namespace FlashHeatZeekerWithStarlingT04
         {
             get
             {
-                return Context.networkframe - this.networkframe + this.initial_networkframe_delta;
+                return Context.ego_remotegame_networkframe - this.networkframe + this.initial_networkframe_delta;
             }
         }
 

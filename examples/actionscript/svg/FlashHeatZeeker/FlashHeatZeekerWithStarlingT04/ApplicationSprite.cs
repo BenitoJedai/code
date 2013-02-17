@@ -802,7 +802,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
 
             var r = new Random();
-            var networkid = r.Next();
+            var ego_remotegame_networkid = r.Next();
 
             var __bmd = new ScriptCoreLib.ActionScript.flash.display.BitmapData(96, 96, true, 0x00000000);
             __bmd.draw(new white_jsc());
@@ -3546,18 +3546,16 @@ namespace FlashHeatZeekerWithStarlingT04
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
                     {
-
                         if (!disable_keyDown_Up)
                         {
                             disable_keyDown_Up = true;
 
-                            current.move_forward = 1;
-
+                            // current[in 2 frames].mvoeforward = 1.0;
                             sync_postMessage(
                                   new XElement("move_forward",
-                                      new XAttribute("i", "" + networkid),
-                                      new XAttribute("f", "" + (networkframe + 2)),
-                                new XAttribute("v", "" + 1.0),
+                                      new XAttribute("i", "" + ego_remotegame_networkid),
+                                      new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
+                                      new XAttribute("v", "" + 1.0),
                                       new XAttribute("_identity", current.identity)
                                   )
                             );
@@ -3568,27 +3566,20 @@ namespace FlashHeatZeekerWithStarlingT04
 
                     if (e.keyCode == (uint)System.Windows.Forms.Keys.Down)
                     {
-
-
                         if (!disable_keyDown_Down)
                         {
                             disable_keyDown_Down = true;
 
-                            // move slower while backwards?
-                            current.move_backward = -0.5;
-                            current.move_forward = 0;
 
                             sync_postMessage(
                                   new XElement("move_backward",
-                                      new XAttribute("i", "" + networkid),
-                                      new XAttribute("f", "" + (networkframe + 2)),
+                                      new XAttribute("i", "" + ego_remotegame_networkid),
+                                      new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
                                 new XAttribute("v", "" + -0.5),
                                       new XAttribute("_identity", current.identity)
                                   )
                             );
-                            //if (current != null)
-                            //    if (current.physics != null)
-                            //        current.physics.accelerate = Car.ACC_BRAKE;
+
                         }
                     }
 
@@ -3598,21 +3589,16 @@ namespace FlashHeatZeekerWithStarlingT04
                         {
                             disable_keyDown_Left = true;
 
-                            current.rot_left = -1;
-
                             sync_postMessage(
                                   new XElement("rot_left",
-                                      new XAttribute("i", "" + networkid),
-                                      new XAttribute("f", "" + (networkframe + 2)),
+                                      new XAttribute("i", "" + ego_remotegame_networkid),
+                                      new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
                                 new XAttribute("v", "" + -1.0),
 
                                       new XAttribute("_identity", current.identity)
                                   )
                             );
 
-                            //if (current != null)
-                            //    if (current.physics != null)
-                            //        current.physics.steer_left = Car.STEER_LEFT;
                         }
                     }
 
@@ -3623,23 +3609,14 @@ namespace FlashHeatZeekerWithStarlingT04
                         {
                             disable_keyDown_Right = true;
 
-
                             sync_postMessage(
                                   new XElement("rot_right",
-                                      new XAttribute("i", "" + networkid),
-                                      new XAttribute("f", "" + (networkframe + 2)),
-                                new XAttribute("v", "" + 1.0),
+                                      new XAttribute("i", "" + ego_remotegame_networkid),
+                                      new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
+                                      new XAttribute("v", "" + 1.0),
                                       new XAttribute("_identity", current.identity)
                                   )
                             );
-
-                            if (current != null)
-                            {
-                                current.rot_right = 1;
-
-                                //if (current.physics != null)
-                                //    current.physics.steer_right = Car.STEER_RIGHT;
-                            }
                         }
                     }
 
@@ -3656,68 +3633,52 @@ namespace FlashHeatZeekerWithStarlingT04
 
                   Console.WriteLine("keyUp " + new { e.keyCode });
 
-                  if (e.keyCode == (uint)System.Windows.Forms.Keys.CapsLock)
-                  {
-                      //robo1.RemoteControlEnabled = !robo1.RemoteControlEnabled;
-                  }
 
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Up)
                   {
-                      current.move_forward = 0.0;
-
                       disable_keyDown_Up = false;
 
                       sync_postMessage(
                            new XElement("move_forward",
-                               new XAttribute("i", "" + networkid),
-                               new XAttribute("f", "" + (networkframe + 2)),
+                               new XAttribute("i", "" + ego_remotegame_networkid),
+                               new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
                                new XAttribute("v", "" + 0.0),
                                       new XAttribute("_identity", current.identity)
                            )
                      );
 
-                      //if (current != null)
-                      //    if (current.physics != null)
-                      //        current.physics.accelerate = Car.ACC_NONE;
 
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Down)
                   {
-                      current.move_backward = 0;
-
                       disable_keyDown_Down = false;
 
                       sync_postMessage(
                            new XElement("move_backward",
-                               new XAttribute("i", "" + networkid),
-                               new XAttribute("f", "" + (networkframe + 2)),
+                               new XAttribute("i", "" + ego_remotegame_networkid),
+                               new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
                                 new XAttribute("v", "" + 0.0),
                                       new XAttribute("_identity", current.identity)
                            )
                      );
-                      //if (current != null)
-                      //    if (current.physics != null)
-                      //        current.physics.accelerate = Car.ACC_NONE;
+
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Left)
                   {
-                      current.rot_left = 0;
                       disable_keyDown_Left = false;
 
                       sync_postMessage(
                             new XElement("rot_left",
-                                new XAttribute("i", "" + networkid),
-                                new XAttribute("f", "" + (networkframe + 2)),
+                                new XAttribute("i", "" + ego_remotegame_networkid),
+                                new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
                                 new XAttribute("v", "" + 0.0),
                                       new XAttribute("_identity", current.identity)
                             )
                       );
-                      //if (current != null)
-                      //    if (current.physics != null)
-                      //        current.physics.steer_left = Car.STEER_NONE;
+
                   }
 
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.Right)
@@ -3726,19 +3687,13 @@ namespace FlashHeatZeekerWithStarlingT04
 
                       sync_postMessage(
                            new XElement("rot_right",
-                               new XAttribute("i", "" + networkid),
-                               new XAttribute("f", "" + (networkframe + 2)),
+                               new XAttribute("i", "" + ego_remotegame_networkid),
+                               new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
                                 new XAttribute("v", "" + 0.0),
                                       new XAttribute("_identity", current.identity)
                            )
                      );
-                      if (current != null)
-                      {
-                          current.rot_right = 0;
 
-                          //if (current.physics != null)
-                          //    current.physics.steer_right = Car.STEER_NONE;
-                      }
                   }
 
 
@@ -3963,7 +3918,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
             // actually this will be our network ego! nEgo!
             // networkid is like a namespace.
-            ego_unit8_ped.identity = networkid + ":ego";
+            ego_unit8_ped.identity = ego_remotegame_networkid + ":ego";
             // lets recolor ourselves
 
             ego_unit8_ped.InternalAdjustHue(r.NextDouble());
@@ -4228,32 +4183,6 @@ namespace FlashHeatZeekerWithStarlingT04
 
 
                         // which is it, do we need to zoom out or in?
-
-                        ////#region KineticEnergy
-                        ////foreach (var item in KineticEnergy)
-                        ////{
-                        ////    item.Target.With(
-                        ////        t =>
-                        ////        {
-                        ////            if (item.TTL == 0)
-                        ////            {
-                        ////                t.Orphanize();
-
-                        ////                item.Target = null;
-                        ////                return;
-                        ////            }
-
-                        ////            t.x += rot_sw.ElapsedMilliseconds * item.Energy.x;
-                        ////            t.y += rot_sw.ElapsedMilliseconds * item.Energy.y;
-
-                        ////            item.TTL--;
-
-
-                        ////        }
-                        ////    );
-                        ////}
-                        ////#endregion
-
 
                         var any_movement = Math.Sign(
                             Math.Abs(current.move_forward)
@@ -4534,8 +4463,8 @@ namespace FlashHeatZeekerWithStarlingT04
                         avgfps,
                         fps,
                         SPEED,
-                        networkid,
-                        networkframe,
+                        networkid = ego_remotegame_networkid,
+                        networkframe = ego_remotegame_networkframe,
                         network_rx,
                         network_rx_per_second,
                         frameid,
@@ -4570,7 +4499,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
                         avgfps = (int)avgfps_data.Average();
 
-                        ApplicationSprite.__sprite.__raise_fps("" + fps, "" + networkid);
+                        ApplicationSprite.__sprite.__raise_fps("" + fps, "" + ego_remotegame_networkid);
 
                         network_rx_last_second = network_rx;
 
@@ -4598,6 +4527,108 @@ namespace FlashHeatZeekerWithStarlingT04
             #endregion
 
 
+            #region remotegame_added
+            Action<RemoteGame> remotegame_added =
+                rg =>
+                {
+                    // just got the word. there is another game out there
+                    // do they know where we are?
+
+
+
+                    // lets make sure that other game knows about our unit!
+
+                    // 1# remotegame_added { nid = 877943306, rid = 2117098211 }
+                    // 0# remotegame_added { nid = 2117098211, rid = 877943306 }
+                    Console.WriteLine("a new game session! lets recreate our selves over there");
+
+                    //                    FlashHeatZeekerWithStarlingT04.Game
+                    //script: error JSC1000: ActionScript : unable to emit newobj at 'FlashHeatZeekerWithStarlingT04.Game+<>c__DisplayClassc2.<.ctor>b__ad'#008e: multiple stack entries instead of one
+                    sync_postMessage(
+                         new XElement("spawn_ped",
+                        // thats us
+                             new XAttribute("i", "" + ego_remotegame_networkid),
+                        // thats when
+                             new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
+
+                             // where
+                             new XAttribute("_identity",
+                        // this will cause a bg in jsc
+                        // "" +
+                                 ego_unit8_ped.identity),
+                             new XAttribute("_x",
+                                 "" + ego_unit8_ped.loc.x),
+                             new XAttribute("_y",
+                                 "" + ego_unit8_ped.loc.y),
+                             new XAttribute("_rotation",
+                                 "" + ego_unit8_ped.loc.rotation)
+                         )
+                    );
+                };
+            #endregion
+
+
+            #region remotegame_lookup
+            Func<int, int, RemoteGame> remotegame_lookup =
+                (remotegame_networkframe, remotegame_networkid) =>
+                {
+                    var remotegame = remotegames.FirstOrDefault(k => k.networkid == remotegame_networkid);
+
+                    if (remotegame == null)
+                    {
+                        remotegame = new RemoteGame
+                        {
+                            Context = this,
+
+                            networkid = remotegame_networkid,
+                            initial_networkframe_delta = remotegame_networkframe - this.ego_remotegame_networkframe
+                        };
+
+                        remotegames.Add(remotegame);
+
+                        #region AtTitleChange
+                        var remotegame_info = new TextField(800, 100, "") { hAlign = HAlign.LEFT }.MoveTo(
+                            8, remotegames.Count * 32 + 96
+                        ).AttachTo(this);
+
+
+                        remotegame.AtTitleChange +=
+                            e =>
+                            {
+                                if (remotegame.networkid == ego_remotegame_networkid)
+                                {
+                                    remotegame_info.color = 0xff;
+                                }
+                                else if (Math.Abs(remotegame.networkframe_dx) > 4)
+                                {
+                                    remotegame_info.color = 0xff0000;
+                                }
+                                else
+                                {
+                                    remotegame_info.color = 0;
+                                }
+
+                                remotegame_info.text = e;
+                            };
+                        #endregion
+
+
+
+                        // let context (html app) know about what we know
+                        ApplicationSprite.__sprite.__raise_context_new_remotegame(remotegame);
+                        remotegame.RaiseTitleChange(new { remotegame.networkid }.ToString());
+
+                        remotegame_added(remotegame);
+                    }
+
+                    return remotegame;
+                };
+            #endregion
+
+
+            var ego_remotegame = remotegame_lookup(ego_remotegame_networkframe, ego_remotegame_networkid);
+
+
             #region networktimer
             var networktimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 15);
             networktimer.timer +=
@@ -4606,15 +4637,16 @@ namespace FlashHeatZeekerWithStarlingT04
                     if (flags_user_pause)
                         return;
 
-                    networkframe++;
 
+                    ego_remotegame_networkframe++;
+                    ego_remotegame.networkframe = ego_remotegame_networkframe;
 
 
 
                     //what did we plan to do today, at this frame?
                     // lets look our calendar
 
-                    networksync_actions[networkframe].With(
+                    networksync_actions[ego_remotegame_networkframe].With(
                         tasks =>
                         {
                             tasks();
@@ -4622,14 +4654,14 @@ namespace FlashHeatZeekerWithStarlingT04
                     );
 
                     // garbage collect
-                    networksync_actions[networkframe] = null;
+                    networksync_actions[ego_remotegame_networkframe] = null;
 
                     // how much bandwidth can we use? are we throttled if we exceed a limit per sec?
 
                     #region context_postMessage
                     var message = new XElement("s",
-                            new XAttribute("i", "" + networkid),
-                            new XAttribute("f", "" + networkframe)
+                            new XAttribute("i", "" + ego_remotegame_networkid),
+                            new XAttribute("f", "" + ego_remotegame_networkframe)
                         );
 
 
@@ -4647,7 +4679,7 @@ namespace FlashHeatZeekerWithStarlingT04
                     this.remotegames.WithEach(
                         remotegame =>
                         {
-                            if (remotegame.networkid == networkid)
+                            if (remotegame.networkid == ego_remotegame_networkid)
                                 return;
 
                             // if dx is more than 4 we might need to wait for the other client!
@@ -4689,51 +4721,10 @@ namespace FlashHeatZeekerWithStarlingT04
                     }
 
                     // 1# __spawn_ped { networkid = 877943306, _identity = 2117098211:ego, _x = 233, _y = 79, _rotation = 0 }
-                    Console.WriteLine("__spawn_ped " + new { frameid, networkid, _identity, _x, _y, _rotation }.ToString());
+                    Console.WriteLine("__spawn_ped " + new { frameid, networkid = ego_remotegame_networkid, _identity, _x, _y, _rotation }.ToString());
 
                     u.TeleportTo(_x, _y);
                     u.rotation = _rotation;
-                };
-            #endregion
-
-            #region remotegame_added
-            Action<RemoteGame> remotegame_added =
-                rg =>
-                {
-                    // just got the word. there is another game out there
-                    // do they know where we are?
-
-
-
-                    // lets make sure that other game knows about our unit!
-
-                    // 1# remotegame_added { nid = 877943306, rid = 2117098211 }
-                    // 0# remotegame_added { nid = 2117098211, rid = 877943306 }
-                    Console.WriteLine("remotegame_added " + new { frameid, nid = networkid, rid = rg.networkid });
-
-
-                    //                    FlashHeatZeekerWithStarlingT04.Game
-                    //script: error JSC1000: ActionScript : unable to emit newobj at 'FlashHeatZeekerWithStarlingT04.Game+<>c__DisplayClassc2.<.ctor>b__ad'#008e: multiple stack entries instead of one
-                    sync_postMessage_for_context.Add(
-                         new XElement("spawn_ped",
-                        // thats us
-                             new XAttribute("i", "" + networkid),
-                        // thats when
-                             new XAttribute("f", "" + (networkframe + 2)),
-
-                             // where
-                             new XAttribute("_identity",
-                        // this will cause a bg in jsc
-                        // "" +
-                                 ego_unit8_ped.identity),
-                             new XAttribute("_x",
-                                 "" + ego_unit8_ped.loc.x),
-                             new XAttribute("_y",
-                                 "" + ego_unit8_ped.loc.y),
-                             new XAttribute("_rotation",
-                                 "" + ego_unit8_ped.loc.rotation)
-                         )
-                    );
                 };
             #endregion
 
@@ -4757,84 +4748,12 @@ namespace FlashHeatZeekerWithStarlingT04
                     var remotegame_networkid = int.Parse(__networkid.Value);
                     var remotegame_networkframe = int.Parse(__networkframe.Value);
 
-                    #region remotegame networkid (new?)
-
-
                     // do we know this remote game already?
-
-                    var remotegame = remotegames.FirstOrDefault(k => k.networkid == remotegame_networkid);
-
-                    if (remotegame == null)
-                    {
-                        remotegame = new RemoteGame
-                        {
-                            Context = this,
-
-                            networkid = remotegame_networkid,
-                            initial_networkframe_delta = remotegame_networkframe - this.networkframe
-                        };
-
-                        remotegames.Add(remotegame);
-
-                        #region AtTitleChange
-                        var remotegame_info = new TextField(800, 100, "") { hAlign = HAlign.LEFT }.MoveTo(
-                            8, remotegames.Count * 32 + 96
-                        ).AttachTo(this);
-
-
-                        remotegame.AtTitleChange +=
-                            e =>
-                            {
-                                if (remotegame.networkid == networkid)
-                                {
-                                    remotegame_info.color = 0xff;
-                                }
-                                else if (Math.Abs(remotegame.networkframe_dx) > 4)
-                                {
-                                    remotegame_info.color = 0xff0000;
-                                }
-                                else
-                                {
-                                    remotegame_info.color = 0;
-                                }
-
-                                remotegame_info.text = e;
-                            };
-                        #endregion
-
-
-
-                        // let context (html app) know about what we know
-                        ApplicationSprite.__sprite.__raise_context_new_remotegame(remotegame);
-                        remotegame.RaiseTitleChange(new { remotegame.networkid }.ToString());
-
-                        remotegame_added(remotegame);
-                    }
-                    #endregion
-
+                    var remotegame = remotegame_lookup(remotegame_networkframe, remotegame_networkid);
 
                     remotegame.rx_messagecount++;
 
-                    //if (sync_networkid == networkid)
-                    //{
-                    // we are looking at a message from ourself!
 
-                    //if (sync.Name.LocalName == "recon_keyCode_Left")
-                    //{
-
-                    //    var tasks = networksync_actions[sync_networkframe];
-
-                    //    tasks += delegate
-                    //    {
-                    //        unit1_recon.rotation -= 5.DegreesToRadians();
-                    //    };
-
-                    //    networksync_actions[sync_networkframe] = tasks;
-
-                    //    if (sync_networkid == networkid)
-                    //        return;
-                    //}
-                    //}
 
                     #region sync + submessage
                     if (data.Name.LocalName == "s")
@@ -4854,6 +4773,20 @@ namespace FlashHeatZeekerWithStarlingT04
                     }
                     #endregion
 
+                    #region at_remotegame_networkframe
+                    Action<Action> at_remotegame_networkframe =
+                        yield =>
+                        {
+                            var xframe = remotegame_networkframe - remotegame.networkframe + ego_remotegame.networkframe;
+
+                            var tasks = networksync_actions[xframe];
+
+                            tasks += yield;
+
+                            networksync_actions[xframe] = tasks;
+                        };
+                    #endregion
+
 
                     #region move_forward
                     if (data.Name.LocalName == "move_forward")
@@ -4861,21 +4794,26 @@ namespace FlashHeatZeekerWithStarlingT04
                         var _identity = data.Attribute("_identity").Value;
                         var v = double.Parse(data.Attribute("v").Value);
 
-                        if (remotegame.networkid == networkid)
-                        {
-                            // move ghost instead
-                        }
-                        else
-                        {
-                            units.Where(k => k.identity == _identity).WithEach(
-                                u =>
-                                {
-                                    // move that unit by proxy
-                                    u.move_forward = v;
-                                }
-                            );
+                        // what if we are looking at an event set in the past?
+                        // that will desync the game!
 
-                        }
+                        // 0# we got event move_forward at { remotegame_networkframe = 463, networkframe = 462 } yet our { networkframe = 1201 }
+
+                        // frameid is relative to its origin
+
+                        at_remotegame_networkframe(
+                            delegate
+                            {
+                                units.Where(k => k.identity == _identity).WithEach(
+                                   u =>
+                                   {
+                                       // move that unit by proxy
+                                       u.move_forward = v;
+                                   }
+                                );
+                            }
+                        );
+
                     }
                     #endregion
 
@@ -4885,22 +4823,18 @@ namespace FlashHeatZeekerWithStarlingT04
                         var _identity = data.Attribute("_identity").Value;
                         var v = double.Parse(data.Attribute("v").Value);
 
-                        if (remotegame.networkid == networkid)
-                        {
-                            // move ghost instead
-                        }
-                        else
-                        {
-                            units.Where(k => k.identity == _identity).WithEach(
-                              u =>
-                              {
-                                  // move that unit by proxy
-                                  u.move_backward = v;
-                              }
-                          );
-
-
-                        }
+                        at_remotegame_networkframe(
+                            delegate
+                            {
+                                units.Where(k => k.identity == _identity).WithEach(
+                                  u =>
+                                  {
+                                      // move that unit by proxy
+                                      u.move_backward = v;
+                                  }
+                              );
+                            }
+                        );
                     }
                     #endregion
 
@@ -4911,24 +4845,20 @@ namespace FlashHeatZeekerWithStarlingT04
                         var v = double.Parse(data.Attribute("v").Value);
 
 
-                        if (remotegame.networkid == networkid)
-                        {
-                            // move ghost instead
-                        }
-                        else
-                        {
+                        at_remotegame_networkframe(
+                         delegate
+                         {
+                             units.Where(k => k.identity == _identity).WithEach(
+                                 u =>
+                                 {
+                                     // move that unit by proxy
 
-                            units.Where(k => k.identity == _identity).WithEach(
-                                u =>
-                                {
-                                    // move that unit by proxy
+                                     u.rot_left = v;
+                                 }
+                             );
 
-                                    u.rot_left = v;
-                                }
-                            );
-
-
-                        }
+                         }
+                     );
                     }
                     #endregion
 
@@ -4940,22 +4870,20 @@ namespace FlashHeatZeekerWithStarlingT04
                         var v = double.Parse(data.Attribute("v").Value);
 
 
-                        if (remotegame.networkid == networkid)
-                        {
-                            // move ghost instead
-                        }
-                        else
-                        {
-                            units.Where(k => k.identity == _identity).WithEach(
-                             u =>
-                             {
-                                 // move that unit by proxy
+                        at_remotegame_networkframe(
+                           delegate
+                           {
+                               units.Where(k => k.identity == _identity).WithEach(
+                                u =>
+                                {
+                                    // move that unit by proxy
 
-                                 u.rot_right = v;
-                             }
-                           );
+                                    u.rot_right = v;
+                                }
+                              );
 
-                        }
+                           }
+                       );
                     }
                     #endregion
 
@@ -4985,7 +4913,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
         public int network_rx = 0;
 
-        public int networkframe = 0;
+        public int ego_remotegame_networkframe = 0;
 
         // world stops at frame 0xffff! should wrap actually!
         public Action[] networksync_actions = new Action[0xffff];
