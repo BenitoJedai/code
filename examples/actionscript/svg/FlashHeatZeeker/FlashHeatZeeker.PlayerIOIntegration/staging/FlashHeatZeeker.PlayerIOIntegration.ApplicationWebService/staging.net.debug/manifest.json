@@ -1,0 +1,30 @@
+﻿{
+"manifest_version": 2,
+  "name": "Operation Heat Zeeker",
+  "description": "Operation Heat Zeeker",
+  "version": "1",
+  "app": {
+
+
+    "launch": {
+      "local_path": "index.htm",
+      "container": "panel"
+    }
+  },
+  "icons": {
+    "16": "Preview16.png",
+    "128": "Preview128.png"
+  },
+  
+  
+  "content_security_policy": "script-src 'unsafe-eval' 'self' ; object-src 'self'  'unsafe-eval'" ,
+  
+  
+  "permissions": [
+    "unlimitedStorage",
+    "notifications",
+    "background"
+  ]
+  
+
+}

@@ -165,6 +165,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\BetaBanner.png" />
     <Content Include="Textures\fullheader1-530x165.jpg" />
     <Content Include="Textures\white-jsc.png" />
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT04\ped_stand_walk3.svg" />
