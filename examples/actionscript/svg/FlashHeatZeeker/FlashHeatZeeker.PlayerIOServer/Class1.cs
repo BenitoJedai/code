@@ -80,7 +80,7 @@ namespace FlashHeatZeeker.PlayerIOServer
 
                 case "__context_postMessage":
 
-                    Console.WriteLine(new { player.Id, rest = message.GetString(0) });
+                    ////Console.WriteLine(new { player.Id, rest = message.GetString(0) });
 
                     this.Broadcast("__game_postMessage", message.GetString(0));
 
