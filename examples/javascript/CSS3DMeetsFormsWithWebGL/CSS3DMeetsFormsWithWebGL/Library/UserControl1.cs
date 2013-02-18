@@ -34,13 +34,13 @@ namespace CSS3DMeetsFormsWithWebGL.Library
 
         private void button4_Click(object sender, EventArgs e)
         {
-            var f = new Form();
-            var c = new FormsAvalonAnimation.AvalonWindowDrawerHost();
-            c.Dock = DockStyle.Fill;
-            c.Size = new System.Drawing.Size(284, 262);
-            f.Controls.Add(c);
-            f.ClientSize = new System.Drawing.Size(284, 262);
-            f.Show();
+            //var f = new Form();
+            //var c = new FormsAvalonAnimation.AvalonWindowDrawerHost();
+            //c.Dock = DockStyle.Fill;
+            //c.Size = new System.Drawing.Size(284, 262);
+            //f.Controls.Add(c);
+            //f.ClientSize = new System.Drawing.Size(284, 262);
+            //f.Show();
         }
 
         private void button5_Click(object sender, EventArgs e)

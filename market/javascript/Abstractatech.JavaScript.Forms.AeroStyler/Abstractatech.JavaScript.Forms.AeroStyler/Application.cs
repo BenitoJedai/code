@@ -47,16 +47,19 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 
             s.TargetOuterBorder.parentNode.insertBefore(TargetBackground, s.TargetOuterBorder.parentNode.firstChild);
 
+
             TargetOuterBorder_style.borderRadius = "8px";
             TargetInnerBorder_style.borderRadius = "8px";
             TargetBackground_style.borderRadius = "8px";
 
             s.TargetOuterBorder.style.boxShadow = "rgba(0, 0, 0, 0.8) 0px 0px 12px 0px";
             s.TargetOuterBorder.style.borderColor = "black";
+            s.TargetOuterBorder.style.borderWidth = "1px";
 
 
             s.CaptionContent.style.textShadow = "0px 0px 16px white";
 
+            s.TargetInnerBorder.style.borderWidth = "1px";
             s.TargetInnerBorder.style.borderBottomColor = "cyan";
             s.TargetInnerBorder.style.borderRightColor = "cyan";
 

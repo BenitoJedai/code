@@ -50,6 +50,9 @@
     <Reference Include="Abstractatech.Avalon.PromotionBrandIntro">
       <HintPath>..\packages\Abstractatech.Avalon.PromotionBrandIntro.1.0.0.0\lib\Abstractatech.Avalon.PromotionBrandIntro.dll</HintPath>
     </Reference>
+    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
+      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
+    </Reference>
     <Reference Include="CSSMinimizeFormToSidebar">
       <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
     </Reference>
@@ -137,9 +140,6 @@
     <Reference Include="AvalonBrowserLogos.AssetsLibrary">
       <HintPath>..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\bin\staging.AssetsLibrary\AvalonBrowserLogos.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="AvalonWindowDrawer.AssetsLibrary">
-      <HintPath>..\..\Avalon\AvalonWindowDrawer\AvalonWindowDrawer\bin\staging.AssetsLibrary\AvalonWindowDrawer.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="PlasmaFormsControl.AssetsLibrary">
       <HintPath>..\..\forms\PlasmaFormsControl\PlasmaFormsControl\bin\staging.AssetsLibrary\PlasmaFormsControl.AssetsLibrary.dll</HintPath>
     </Reference>
@@ -174,9 +174,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Library\AvalonPromotionBrandIntroHost.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Library\AvalonWindowDrawerHost.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Library\Form1.cs">
@@ -218,9 +215,6 @@
     <EmbeddedResource Include="Library\AvalonPromotionBrandIntroHost.resx">
       <DependentUpon>AvalonPromotionBrandIntroHost.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Library\AvalonWindowDrawerHost.resx">
-      <DependentUpon>AvalonWindowDrawerHost.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Library\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -242,10 +236,6 @@
     <ProjectReference Include="..\..\Avalon\InteractiveTransformA\InteractiveTransformA\InteractiveTransformA.csproj">
       <Project>{3bd2bd38-102c-4c19-88e1-60522b55403c}</Project>
       <Name>InteractiveTransformA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Avalon\AvalonWindowDrawer\AvalonWindowDrawer\AvalonWindowDrawer.csproj">
-      <Project>{3948d2d2-2538-4b27-9f71-c08e00520514}</Project>
-      <Name>AvalonWindowDrawer</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj">
       <Project>{df8cc6e1-e494-4194-9e22-3feda8748f82}</Project>
