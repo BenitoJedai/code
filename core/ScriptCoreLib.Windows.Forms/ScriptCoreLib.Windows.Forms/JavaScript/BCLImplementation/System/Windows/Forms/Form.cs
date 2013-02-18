@@ -61,8 +61,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         public ScriptCoreLib.JavaScript.Controls.DragHelper InternalCaptionDrag;
-        IHTMLDiv CloseButton;
 
+        public IHTMLDiv CloseButton;
+        public IHTMLDiv CloseButtonContent;
 
         const int innerborder = 1;
 
@@ -339,7 +340,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButton.style.fontWeight = "bold";
             CloseButton.style.cursor = IStyle.CursorEnum.@default;
 
-            var CloseButtonContent = new IHTMLDiv { }.AttachTo(CloseButton);
+            CloseButtonContent = new IHTMLDiv { }.AttachTo(CloseButton);
 
             CloseButtonContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             CloseButtonContent.style.left = "0px";

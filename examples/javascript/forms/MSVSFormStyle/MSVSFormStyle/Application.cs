@@ -38,21 +38,21 @@ namespace MSVSFormStyle
                 delegate
                 {
                     FormStyler.AtFormCreated = FormStyler.LikeWindowsClassic;
-                    new Form1().Show();
+                    new Form1().PopupInsteadOfClosing().Show();
                 };
 
             content.button2.Click +=
                delegate
                {
                    FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
-                   new Form1().Show();
+                   new Form1().PopupInsteadOfClosing().Show();
                };
 
             content.button3.Click +=
                  delegate
                  {
                      FormStyler.AtFormCreated = FormStyler.LikeWindows3;
-                     new Form1().Show();
+                     new Form1().PopupInsteadOfClosing().Show();
                  };
 
 
@@ -81,7 +81,7 @@ namespace MSVSFormStyle
                             s.Caption.style.backgroundColor = JSColor.FromRGB(255, 122, 204);
                         };
 
-                     new Form1().Show();
+                     new Form1().PopupInsteadOfClosing().Show();
                  };
 
             content.button6.Click +=
@@ -100,8 +100,17 @@ namespace MSVSFormStyle
                        s.Caption.style.background = "-webkit-linear-gradient(left, rgb(0, 0, 127), rgb(16, 132, 208))";
                    };
 
-                   new Form1().Show();
+                   new Form1().PopupInsteadOfClosing().Show();
                };
+
+
+            content.button7.Click +=
+             delegate
+             {
+                 FormStyler.AtFormCreated = FormStylerLikeAero.LikeAero;
+
+                 new Form1().PopupInsteadOfClosing().Show();
+             };
 
 
             content.AttachControlTo(Native.Document.body);

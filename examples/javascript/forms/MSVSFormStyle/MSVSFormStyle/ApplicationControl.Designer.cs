@@ -23,6 +23,7 @@ namespace MSVSFormStyle
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -83,9 +84,20 @@ namespace MSVSFormStyle
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(45, 284);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(211, 27);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "new aero Form()";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // ApplicationControl
             // 
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -93,7 +105,7 @@ namespace MSVSFormStyle
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(400, 300);
+            this.Size = new System.Drawing.Size(400, 391);
             this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
 
@@ -114,6 +126,7 @@ namespace MSVSFormStyle
         public Button button4;
         public Button button5;
         public Button button6;
+        public Button button7;
 
     }
 }

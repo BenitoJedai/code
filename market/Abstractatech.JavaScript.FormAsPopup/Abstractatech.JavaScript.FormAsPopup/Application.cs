@@ -17,6 +17,18 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
+namespace ScriptCoreLib.JavaScript.Windows.Forms
+{
+    public static class FormAsPopupExtensions
+    {
+        public static T PopupInsteadOfClosing<T>(this T f) where T : Form
+        {
+            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(f);
+            return f;
+
+        }
+    }
+}
 namespace Abstractatech.JavaScript.FormAsPopup
 {
     public static class FormAsPopupExtensions
@@ -24,6 +36,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
         public static void PopupInsteadOfClosing(this Form f)
         {
             __Form __f = f;
+
+            __f.CloseButtonContent.title = "Popup";
 
             var content = new { f };
 
