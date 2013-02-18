@@ -191,6 +191,16 @@ namespace CSS3DMeetsFormsWithWebGL
 
             this.frontcontrol = new FrontPanel();
 
+            this.frontcontrol.RelativeToAbsolute =
+                href =>
+                {
+                    if (href.StartsWith("/"))
+                        return Native.Document.location.href.TakeUntilLastIfAny("/") + href;
+
+                    return Native.Document.location.href + href;
+                };
+
+
             Native.Document.body.ondragover +=
                 evt =>
                 {
@@ -651,7 +661,11 @@ namespace CSS3DMeetsFormsWithWebGL
                     f =>
                     {
                         if (once)
+                        {
+                            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(f);
+
                             return;
+                        }
 
                         once = true;
                         //f.DisableFormClosingHandler = true;

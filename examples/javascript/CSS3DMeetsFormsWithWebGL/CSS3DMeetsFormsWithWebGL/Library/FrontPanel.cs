@@ -28,6 +28,8 @@ namespace CSS3DMeetsFormsWithWebGL.Library
             CreateWindowAndNavigate(url);
         }
 
+        public Func<string, string> RelativeToAbsolute = e => e;
+
         public void CreateWindowAndNavigate(string url)
         {
             var f = new Form
@@ -40,7 +42,9 @@ namespace CSS3DMeetsFormsWithWebGL.Library
             //c.Size = new System.Drawing.Size(400, 300);
             f.Controls.Add(c);
             f.ClientSize = new System.Drawing.Size(400, 300);
-            c.Navigate(url);
+            c.Navigate(
+                RelativeToAbsolute(url)
+                );
             //c.Url = new Uri(this.comboBox1.Text);
             f.Show();
 
@@ -50,5 +54,5 @@ namespace CSS3DMeetsFormsWithWebGL.Library
         }
 
         public event Action<Form> NewForm;
-    } 
+    }
 }

@@ -2,8 +2,22 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SidebarExperiment", "SidebarExperiment\SidebarExperiment.csproj", "{A9A1B53D-3BC6-41DD-8E86-F87F1A773BD8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560} = {BEAA5C6F-9803-48E6-B53E-987F5A983560}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlasmaFormsControl", "..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj", "{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{780363F0-5664-4BD0-BEEA-C126F045F72D}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{A2D14446-DF5F-4F75-B0D9-ED5504B65842}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSShaderGrayScale", "..\css\CSSShaderGrayScale\CSSShaderGrayScale\CSSShaderGrayScale.csproj", "{BEAA5C6F-9803-48E6-B53E-987F5A983560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,8 +49,22 @@ Global
 		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|Mixed Platforms.Build.0 = Release|x86
 		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|x86.ActiveCfg = Release|x86
 		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|x86.Build.0 = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Debug|x86.ActiveCfg = Debug|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Debug|x86.Build.0 = Debug|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Release|Any CPU.ActiveCfg = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Release|x86.ActiveCfg = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560} = {A2D14446-DF5F-4F75-B0D9-ED5504B65842}
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82} = {A2D14446-DF5F-4F75-B0D9-ED5504B65842}
 	EndGlobalSection
 EndGlobal
