@@ -123,6 +123,27 @@ namespace AndroidListApplications
                                     }
                                 );
 
+
+                            var LaunchFloat = new IHTMLButton { innerText = "Launch Float" }.AttachTo(div).WhenClicked(
+                                 btn =>
+                                 {
+
+                                     service.Launch(packageName, name,
+                                         ExtraKey: "Float",
+                                         ExtraValue: "Float"
+                                     );
+                                 }
+                             );
+
+                            // var LaunchWebService = new IHTMLButton { innerText = "Launch WebService" }.AttachTo(div).WhenClicked(
+                            //    btn =>
+                            //    {
+
+                            //        //service.Launch(packageName, name);
+                            //    }
+                            //);
+
+
                             var item = new
                             {
                                 div,

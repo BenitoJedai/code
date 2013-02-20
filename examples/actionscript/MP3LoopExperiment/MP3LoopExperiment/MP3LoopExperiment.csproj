@@ -127,8 +127,6 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="web\assets\MP3LoopExperiment\dieselloopm5m5.mp3" />
-    <EmbeddedResource Include="web\assets\MP3LoopExperiment\helicopter1.mp3" />
     <EmbeddedResource Include="web\assets\MP3LoopExperiment\loop.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -15,1220 +15,1286 @@ using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Controls
 {
-	[Description("ScriptCoreLib.Documentation. Write javascript, flash and java applets within a C# project.")]
-	public partial class DocumentationCompilationViewer
-	{
+    [Description("ScriptCoreLib.Documentation. Write javascript, flash and java applets within a C# project.")]
+    public partial class DocumentationCompilationViewer
+    {
 
-		public DocumentationCompilationViewer()
-		{
-			var Split = new HorizontalSplit();
+        public DocumentationCompilationViewer()
+        {
 
-		
 
-			Split.Container.AttachToDocument();
+            var Split = new HorizontalSplit();
 
-		
+            Split.Container.style.With(
+                style =>
+                {
+                    style.position = IStyle.PositionEnum.absolute;
 
+                    style.left = "0px";
+                    style.top = "0px";
 
+                    style.right = "0px";
+                    style.bottom = "0px";
 
 
-			//var infocontent = new Lorem();
-			//infocontent.Container.AttachTo(hs.RightContainer);
+                    style.width = "";
+                    style.height = "";
+                }
+            );
 
-			//{
-			var Section1 = new Section
-			{
+            Split.Container.AttachToDocument();
 
-			}.ToSectionConcept("Summary");
 
-			Section1.Target.Container.AttachTo(Split.RightContainer);
-			//}
 
-			//{
-			//    var Section1 = new Section
-			//    {
 
-			//    }.ToSectionConcept("Syntax");
 
-			//    Section1.Target.Container.AttachTo(infocontent.Sections);
-			//}
 
-			//{
-			//    var Section1 = new Section
-			//    {
+            //var infocontent = new Lorem();
+            //infocontent.Container.AttachTo(hs.RightContainer);
 
-			//    }.ToSectionConcept("Remarks");
+            //{
+            var Section1 = new Section
+            {
 
-			//    Section1.Target.Container.AttachTo(infocontent.Sections);
-			//}
+            }.ToSectionConcept("Summary");
 
+            Section1.Target.Container.AttachTo(Split.RightContainer);
+            //}
 
-			//AttachLogoAnimation(infocontent);
+            //{
+            //    var Section1 = new Section
+            //    {
 
+            //    }.ToSectionConcept("Syntax");
 
+            //    Section1.Target.Container.AttachTo(infocontent.Sections);
+            //}
 
+            //{
+            //    var Section1 = new Section
+            //    {
 
-			var c = new Compilation();
+            //    }.ToSectionConcept("Remarks");
 
-			RenderArchives(c, Split.LeftContainer,
+            //    Section1.Target.Container.AttachTo(infocontent.Sections);
+            //}
 
-				n => Section1.Content.innerText = n
 
-			);
+            //AttachLogoAnimation(infocontent);
 
 
 
 
-		}
+            var c = new Compilation();
 
+            RenderArchives(c, Split.LeftContainer,
 
-		private void RenderArchives(Compilation c, IHTMLElement parent, Action<string> UpdateLocation)
-		{
-			var AllTypes = default(IHTMLDiv);
+                n => Section1.Content.innerText = n
 
-			var AllTypesNamespaceLookup = new Dictionary<string, IHTMLDiv>();
+            );
 
-			var GetAllTypesNamespaceContainer = default(Func<string, IHTMLDiv>);
 
-			GetAllTypesNamespaceContainer =
-				(Namespace) =>
-				{
-					var ParentNamespace = Namespace.TakeUntilLastIfAny(".");
 
-					var ParentContainer = AllTypes;
 
-					if (ParentNamespace != Namespace)
-					{
-						ParentContainer = GetAllTypesNamespaceContainer(ParentNamespace);
-					}
+        }
 
-					if (!AllTypesNamespaceLookup.ContainsKey(Namespace))
-					{
-						AllTypesNamespaceLookup[Namespace] = AddNamespace(ParentContainer, null, Namespace.SkipUntilLastIfAny("."), UpdateLocation);
-					}
 
-					return AllTypesNamespaceLookup[Namespace];
-				};
+        private void RenderArchives(Compilation c, IHTMLElement parent, Action<string> UpdateLocation)
+        {
+            var AllTypes = default(IHTMLDiv);
 
-			{
-				var tr = new TreeNode(() => new VistaTreeNodePage());
+            var AllTypesNamespaceLookup = new Dictionary<string, IHTMLDiv>();
 
-				tr.Text = "Class Viewer";
-				tr.Element.ClosedImage = new ClassViewer();
-				tr.Container.AttachTo(parent);
+            var GetAllTypesNamespaceContainer = default(Func<string, IHTMLDiv>);
 
-				var div = new IHTMLDiv().AttachTo(parent);
+            GetAllTypesNamespaceContainer =
+                (Namespace) =>
+                {
+                    var ParentNamespace = Namespace.TakeUntilLastIfAny(".");
 
-				div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+                    var ParentContainer = AllTypes;
 
+                    if (ParentNamespace != Namespace)
+                    {
+                        ParentContainer = GetAllTypesNamespaceContainer(ParentNamespace);
+                    }
 
-				var i = new References().AttachTo(div);
+                    if (!AllTypesNamespaceLookup.ContainsKey(Namespace))
+                    {
+                        AllTypesNamespaceLookup[Namespace] = AddNamespace(ParentContainer, null, Namespace.SkipUntilLastIfAny("."), UpdateLocation);
+                    }
 
-				i.style.verticalAlign = "middle";
-				i.style.marginRight = "0.5em";
+                    return AllTypesNamespaceLookup[Namespace];
+                };
 
-				new IHTMLSpan { innerText = "All Types" }.AttachTo(div);
+            {
+                var tr = new TreeNode(() => new VistaTreeNodePage());
 
-				var children = new IHTMLDiv().AttachTo(parent);
+                tr.Text = "Class Viewer";
+                tr.Element.ClosedImage = new ClassViewer();
+                tr.Container.AttachTo(parent);
 
-				children.style.paddingLeft = "1em";
+                var div = new IHTMLDiv().AttachTo(parent);
 
-				AllTypes = children;
-			}
+                div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
 
-			var LoadActionList = new List<Action<Action>>();
 
-			foreach (var item in c.GetArchives().ToArray())
-			{
-				var div = new IHTMLDiv().AttachTo(parent);
+                var i = new References().AttachTo(div);
 
-				div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+                i.style.verticalAlign = "middle";
+                i.style.marginRight = "0.5em";
 
+                new IHTMLSpan { innerText = "All Types" }.AttachTo(div);
 
-				var i = new References().AttachTo(div);
+                var children = new IHTMLDiv().AttachTo(parent);
 
-				i.style.verticalAlign = "middle";
-				i.style.marginRight = "0.5em";
+                children.style.paddingLeft = "1em";
 
-				new IHTMLSpan { innerText = item.Name }.AttachTo(div);
+                AllTypes = children;
+            }
 
-				var children = new IHTMLDiv().AttachTo(parent);
+            var LoadActionList = new List<Action<Action>>();
 
-				children.style.paddingLeft = "1em";
+            var Archives = c.GetArchives();
 
+            foreach (var Archive in Archives)
+            {
+                Console.WriteLine(new { Archive.Name });
 
-				RenderAssemblies(item, children, GetAllTypesNamespaceContainer, UpdateLocation, LoadActionList.Add);
-			}
+            }
 
+            // lets not freeze our browser:P
+            foreach (var item in Archives.ToArray())
+            {
+                var div = new IHTMLDiv().AttachTo(parent);
 
-			LoadActionList.ForEach(
-				(Current, Next) =>
-				{
-					Current(Next);
-				}
-			);
-		}
+                div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
 
-		private void RenderAssemblies(
-			CompilationArchiveBase archive,
-			IHTMLElement parent,
-			Func<string, IHTMLDiv> AllTypes,
-			Action<string> UpdateLocation,
-			Action<Action<Action>> YieldLoadAction)
-		{
-			foreach (var item2 in
-				from a in archive.GetAssemblies()
-				where a.Name.StartsWith("ScriptCoreLib")
-				orderby a.Name
-				select a)
-			{
-				var item = item2;
 
-				var div = new IHTMLDiv().AttachTo(parent);
+                var i = new References().AttachTo(div);
 
-				div.style.marginTop = "0.1em";
-				div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
-				div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+                i.style.verticalAlign = "middle";
+                i.style.marginRight = "0.5em";
 
+                new IHTMLSpan { innerText = item.Name }.AttachTo(div);
 
-				var i = new Assembly().AttachTo(div);
+                var children = new IHTMLDiv().AttachTo(parent);
 
-				i.style.verticalAlign = "middle";
-				i.style.marginRight = "0.5em";
+                children.style.paddingLeft = "1em";
 
-				var s = new IHTMLAnchor { innerText = item2.Name }.AttachTo(div);
+                Console.WriteLine("before RenderAssemblies");
+                RenderAssemblies(item, children, GetAllTypesNamespaceContainer, UpdateLocation, LoadActionList.Add);
+                Console.WriteLine("after RenderAssemblies");
+            }
 
-				//s.style.color = JSColor.Gray;
 
-				s.href = "#";
-				s.style.textDecoration = "none";
-				s.style.color = JSColor.System.GrayText;
+            Console.WriteLine("before LoadActionList");
+            LoadActionList.ForEach(
+                (Current, Next) =>
+                {
+                    Console.WriteLine("before LoadActionList Next");
+                    Current(Next);
+                    Console.WriteLine("after LoadActionList Next");
+                }
+            );
+        }
 
-				Action onclick = delegate
-				{
+        private void RenderAssemblies(
+            CompilationArchiveBase archive,
+            IHTMLElement parent,
+            Func<string, IHTMLDiv> AllTypes,
+            Action<string> UpdateLocation,
+            Action<Action<Action>> YieldLoadAction)
+        {
+            var Assemblies = archive.GetAssemblies();
 
-				};
+            foreach (var Assembly in Assemblies)
+            {
+                Console.WriteLine(new { Assembly.Name });
 
-				s.onclick +=
-					e =>
-					{
-						e.PreventDefault();
+            }
 
-						s.focus();
+            var q = from a in Assemblies
+                    where a.Name.StartsWith("ScriptCoreLib")
+                    orderby a.Name
+                    select a;
 
-						UpdateLocation(item.Name);
+            // limit to only first one for speedup
 
-						onclick();
-					};
+            foreach (var item2 in q.Take(1))
+            {
+                var item = item2;
 
-				s.onfocus +=
-					delegate
-					{
+                var div = new IHTMLDiv().AttachTo(parent);
 
-						s.style.backgroundColor = JSColor.System.Highlight;
-						s.style.color = JSColor.System.HighlightText;
-					};
+                div.style.marginTop = "0.1em";
+                div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+                div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-				s.onblur +=
-					delegate
-					{
 
-						s.style.backgroundColor = JSColor.None;
-						s.style.color = JSColor.System.WindowText;
-					};
+                var i = new Assembly().AttachTo(div);
 
-				var NamespaceLookup = new Dictionary<string, IHTMLDiv>();
+                i.style.verticalAlign = "middle";
+                i.style.marginRight = "0.5em";
 
-				Func<IHTMLDiv, CompilationType, IHTMLDiv> GetNamespaceContainer =
-					(Container, SourceType) =>
-					{
-						if (!NamespaceLookup.ContainsKey(SourceType.Namespace))
-						{
-							NamespaceLookup[SourceType.Namespace] = null;
+                var s = new IHTMLAnchor { innerText = item2.Name }.AttachTo(div);
 
-							var NextNamespaceOrDefault = default(IHTMLDiv);
+                //s.style.color = JSColor.Gray;
 
-							//var NextNamespaceOrDefault = NamespaceLookup.Keys.OrderBy(k => k).SkipWhile(k => k == SourceType.Namespace).Select(k => NamespaceLookup[k]).FirstOrDefault();
+                s.href = "#";
+                s.style.textDecoration = "none";
+                s.style.color = JSColor.System.GrayText;
 
-							NamespaceLookup[SourceType.Namespace] = AddNamespace(Container, NextNamespaceOrDefault, SourceType.Namespace, UpdateLocation);
-						}
+                Action onclick = delegate
+                {
 
-						return NamespaceLookup[SourceType.Namespace];
-					};
+                };
 
+                s.onclick +=
+                    e =>
+                    {
+                        e.PreventDefault();
 
-				var children = new IHTMLDiv().AttachTo(div);
+                        s.focus();
 
-				children.style.paddingLeft = "1em";
-				Action<Action> LoadAction =
-					done =>
-					{
-						s.style.color = JSColor.System.Highlight;
+                        UpdateLocation(item.Name);
 
-						Action done_ = delegate
-						{
-							done();
-						};
+                        onclick();
+                    };
 
+                s.onfocus +=
+                    delegate
+                    {
 
+                        s.style.backgroundColor = JSColor.System.Highlight;
+                        s.style.color = JSColor.System.HighlightText;
+                    };
 
-						item.WhenReady(
-							a =>
-							{
-								s.style.color = JSColor.System.WindowText;
+                s.onblur +=
+                    delegate
+                    {
 
+                        s.style.backgroundColor = JSColor.None;
+                        s.style.color = JSColor.System.WindowText;
+                    };
 
-								a.GetTypes().OrderBy(k => k.Name).ForEach(
-									(Current, Index, Next) =>
-									{
-										if (!Current.IsNested)
-										{
-											AddType(
-												GetNamespaceContainer(children, Current),
-												Current,
-												UpdateLocation
-											);
+                var NamespaceLookup = new Dictionary<string, IHTMLDiv>();
 
-											AddType(
-												AllTypes(Current.Namespace),
-												Current,
-												UpdateLocation
-											);
-										}
+                Func<IHTMLDiv, CompilationType, IHTMLDiv> GetNamespaceContainer =
+                    (Container, SourceType) =>
+                    {
+                        if (!NamespaceLookup.ContainsKey(SourceType.Namespace))
+                        {
+                            NamespaceLookup[SourceType.Namespace] = null;
 
+                            var NextNamespaceOrDefault = default(IHTMLDiv);
 
-										if (Index % 8 == 0)
-										{
-											ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-												7,
-												Next
-											);
-										}
-										else
-										{
-											Next();
-										}
-									}
-								)(done_);
-							}
-						);
-					};
+                            //var NextNamespaceOrDefault = NamespaceLookup.Keys.OrderBy(k => k).SkipWhile(k => k == SourceType.Namespace).Select(k => NamespaceLookup[k]).FirstOrDefault();
 
-				YieldLoadAction(LoadAction);
+                            NamespaceLookup[SourceType.Namespace] = AddNamespace(Container, NextNamespaceOrDefault, SourceType.Namespace, UpdateLocation);
+                        }
 
+                        return NamespaceLookup[SourceType.Namespace];
+                    };
 
-				var NextClickHide = default(Action);
-				var NextClickShow = default(Action);
 
-				NextClickHide =
-					delegate
-					{
-						children.Hide();
+                var children = new IHTMLDiv().AttachTo(div);
 
-						onclick = NextClickShow;
-					};
+                children.style.paddingLeft = "1em";
+                Action<Action> LoadAction =
+                    done =>
+                    {
+                        Console.WriteLine("enter LoadAction");
 
-				NextClickShow =
-					delegate
-					{
-						children.Show();
+                        s.style.color = JSColor.System.Highlight;
 
-						onclick = NextClickHide;
-					};
+                        Action done_ = delegate
+                        {
+                            done();
+                        };
 
 
-				NextClickHide();
-			}
-		}
 
-		private static IHTMLDiv AddNamespace(IHTMLDiv parent, IHTMLDiv NextNamespaceOrDefault, string Namespace, Action<string> UpdateLocation)
-		{
-			var div = new IHTMLDiv();
+                        item.WhenReady(
+                            a =>
+                            {
+                                Console.WriteLine("enter WhenReady");
 
-			if (NextNamespaceOrDefault == null)
-				div.AttachTo(parent);
-			else
-				NextNamespaceOrDefault.insertPreviousSibling(div);
+                                s.style.color = JSColor.System.WindowText;
 
-			div.style.marginTop = "0.1em";
-			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
-			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+                                Console.WriteLine("before GetTypes ToArray");
+                                var TypesArray = a.GetTypes().ToArray();
 
 
-			var i = new Namespace().AttachTo(div);
+                                //Console.WriteLine("before TypesByName");
 
-			i.style.verticalAlign = "middle";
-			i.style.marginRight = "0.5em";
+                                //var TypesByName = TypesArray.OrderBy(k => k.Name);
 
-			if (Namespace == "")
-				Namespace = "<Module>";
+                                //Console.WriteLine("before TypesByName ToArray");
+                                //// chokes on android?
+                                //var TypesByNameArray = TypesByName.ToArray();
 
-			var s = new IHTMLAnchor { innerText = Namespace }.AttachTo(div);
+                                //Console.WriteLine("before ForEach");
 
+                                TypesArray.ForEach(
+                                    (Current, Index, Next) =>
+                                    {
+                                        Console.WriteLine("AddType");
 
-			s.href = "#";
-			s.style.textDecoration = "none";
-			s.style.color = JSColor.System.WindowText;
+                                        if (!Current.IsNested)
+                                        {
+                                            AddType(
+                                                GetNamespaceContainer(children, Current),
+                                                Current,
+                                                UpdateLocation
+                                            );
 
-			Action onclick = delegate
-			{
+                                            AddType(
+                                                AllTypes(Current.Namespace),
+                                                Current,
+                                                UpdateLocation
+                                            );
+                                        }
 
-			};
 
-			s.onclick +=
-				e =>
-				{
-					e.PreventDefault();
+                                        if (Index % 8 == 0)
+                                        {
+                                            ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                                                7,
+                                                Next
+                                            );
+                                        }
+                                        else
+                                        {
+                                            Next();
+                                        }
+                                    }
+                                )(done_);
 
-					s.focus();
+                                Console.WriteLine("exit WhenReady");
 
-					UpdateLocation(Namespace);
+                            }
+                        );
+                    };
 
-					onclick();
-				};
+                Console.WriteLine("before YieldLoadAction");
+                YieldLoadAction(LoadAction);
+                Console.WriteLine("after YieldLoadAction");
 
-			s.onfocus +=
-				delegate
-				{
 
-					s.style.backgroundColor = JSColor.System.Highlight;
-					s.style.color = JSColor.System.HighlightText;
-				};
+                var NextClickHide = default(Action);
+                var NextClickShow = default(Action);
 
-			s.onblur +=
-				delegate
-				{
+                NextClickHide =
+                    delegate
+                    {
+                        children.Hide();
 
-					s.style.backgroundColor = JSColor.None;
-					s.style.color = JSColor.System.WindowText;
-				};
+                        onclick = NextClickShow;
+                    };
 
-			var children = new IHTMLDiv().AttachTo(div);
+                NextClickShow =
+                    delegate
+                    {
+                        children.Show();
 
-			children.style.paddingLeft = "1em";
-			children.Hide();
+                        onclick = NextClickHide;
+                    };
 
 
-			var NextClickHide = default(Action);
-			var NextClickShow = default(Action);
+                NextClickHide();
+            }
+        }
 
-			NextClickHide =
-				delegate
-				{
-					children.Hide();
+        private static IHTMLDiv AddNamespace(IHTMLDiv parent, IHTMLDiv NextNamespaceOrDefault, string Namespace, Action<string> UpdateLocation)
+        {
+            var div = new IHTMLDiv();
 
-					onclick = NextClickShow;
-				};
+            if (NextNamespaceOrDefault == null)
+                div.AttachTo(parent);
+            else
+                NextNamespaceOrDefault.insertPreviousSibling(div);
 
-			NextClickShow =
-				delegate
-				{
-					children.Show();
+            div.style.marginTop = "0.1em";
+            div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+            div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-					onclick = NextClickHide;
-				};
 
+            var i = new Namespace().AttachTo(div);
 
-			onclick = NextClickShow;
+            i.style.verticalAlign = "middle";
+            i.style.marginRight = "0.5em";
 
-			return children;
-		}
+            if (Namespace == "")
+                Namespace = "<Module>";
 
-		public event Action<CompilationType> TouchTypeSelected;
+            var s = new IHTMLAnchor { innerText = Namespace }.AttachTo(div);
 
-		private void AddType(IHTMLDiv parent, CompilationType type, Action<string> UpdateLocation)
-		{
-			var div = new IHTMLDiv().AttachTo(parent);
 
-			div.style.marginTop = "0.1em";
-			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
-			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+            s.href = "#";
+            s.style.textDecoration = "none";
+            s.style.color = JSColor.System.WindowText;
 
+            Action onclick = delegate
+            {
 
-			var i = default(IHTMLImage);
+            };
 
-			if (type.IsInterface)
-			{
-				i = new PublicInterface();
-			}
-			else
-			{
-				i = new PublicClass();
-			}
+            s.onclick +=
+                e =>
+                {
+                    e.PreventDefault();
 
-			i.AttachTo(div);
+                    s.focus();
 
-			i.style.verticalAlign = "middle";
-			i.style.marginRight = "0.5em";
+                    UpdateLocation(Namespace);
 
-			var s = new IHTMLAnchor { innerText = type.Name, title = "" + type.MetadataToken }.AttachTo(div);
+                    onclick();
+                };
 
-			if (!string.IsNullOrEmpty(type.HTMLElement))
-			{
-				var c = new IHTMLCode();
+            s.onfocus +=
+                delegate
+                {
 
-				Action<string, JSColor> Write =
-					(Text, Color) =>
-					{
-						var cs = new IHTMLSpan { innerText = Text };
+                    s.style.backgroundColor = JSColor.System.Highlight;
+                    s.style.color = JSColor.System.HighlightText;
+                };
 
-						cs.style.color = Color;
+            s.onblur +=
+                delegate
+                {
 
-						cs.AttachTo(c);
-					};
+                    s.style.backgroundColor = JSColor.None;
+                    s.style.color = JSColor.System.WindowText;
+                };
 
-				Write("<", JSColor.Blue);
-				Write(type.HTMLElement, JSColor.FromRGB(0xa0, 0, 0));
-				Write("/>", JSColor.Blue);
+            var children = new IHTMLDiv().AttachTo(div);
 
-				//c.style.marginLeft = "1em";
-				c.style.Float = ScriptCoreLib.JavaScript.DOM.IStyle.FloatEnum.right;
+            children.style.paddingLeft = "1em";
+            children.Hide();
 
-				c.AttachTo(s);
-			}
 
-			s.href = "#";
-			s.style.textDecoration = "none";
-			s.style.color = JSColor.System.WindowText;
+            var NextClickHide = default(Action);
+            var NextClickShow = default(Action);
 
-			Action onclick = delegate
-			{
+            NextClickHide =
+                delegate
+                {
+                    children.Hide();
 
-			};
+                    onclick = NextClickShow;
+                };
 
-			s.onclick +=
-				e =>
-				{
-					e.PreventDefault();
+            NextClickShow =
+                delegate
+                {
+                    children.Show();
 
-					s.focus();
+                    onclick = NextClickHide;
+                };
 
-					if (TouchTypeSelected != null)
-						TouchTypeSelected(type);
 
-					UpdateLocation(type.FullName + " - " + type.Summary + " - HTML:" + type.HTMLElement);
+            onclick = NextClickShow;
 
-					onclick();
-				};
+            return children;
+        }
 
-			s.onfocus +=
-				delegate
-				{
+        public event Action<CompilationType> TouchTypeSelected;
 
-					s.style.backgroundColor = JSColor.System.Highlight;
-					s.style.color = JSColor.System.HighlightText;
-				};
+        private void AddType(IHTMLDiv parent, CompilationType type, Action<string> UpdateLocation)
+        {
+            var div = new IHTMLDiv().AttachTo(parent);
 
-			s.onblur +=
-				delegate
-				{
+            div.style.marginTop = "0.1em";
+            div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+            div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-					s.style.backgroundColor = JSColor.None;
-					s.style.color = JSColor.System.WindowText;
-				};
 
+            var i = default(IHTMLImage);
 
+            if (type.IsInterface)
+            {
+                i = new PublicInterface();
+            }
+            else
+            {
+                i = new PublicClass();
+            }
 
-			onclick =
-				delegate
-				{
+            i.AttachTo(div);
 
-					var children = new IHTMLDiv().AttachTo(div);
+            i.style.verticalAlign = "middle";
+            i.style.marginRight = "0.5em";
 
-					children.style.paddingLeft = "1em";
+            var s = new IHTMLAnchor { innerText = type.Name, title = "" + type.MetadataToken }.AttachTo(div);
 
-					Func<IHTMLDiv> Group = () => new IHTMLDiv().AttachTo(children);
+            if (!string.IsNullOrEmpty(type.HTMLElement))
+            {
+                var c = new IHTMLCode();
 
-					var Groups = new
-					{
-						Nested = Group(),
-						Constructors = Group(),
-						Methods = Group(),
-						Events = Group(),
-						Fields = Group(),
-						Properties = Group(),
-					};
+                Action<string, JSColor> Write =
+                    (Text, Color) =>
+                    {
+                        var cs = new IHTMLSpan { innerText = Text };
 
+                        cs.style.color = Color;
 
-					type.GetNestedTypes().ForEach(
-						(Current, Next) =>
-						{
-							AddType(Groups.Nested, Current, UpdateLocation);
+                        cs.AttachTo(c);
+                    };
 
-							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-								50,
-								Next
-							);
-						}
-					);
+                Write("<", JSColor.Blue);
+                Write(type.HTMLElement, JSColor.FromRGB(0xa0, 0, 0));
+                Write("/>", JSColor.Blue);
 
-					type.GetConstructors().ForEach(
-						(Current, Next) =>
-						{
-							AddTypeConstructor(Groups.Constructors, Current, UpdateLocation);
+                //c.style.marginLeft = "1em";
+                c.style.Float = ScriptCoreLib.JavaScript.DOM.IStyle.FloatEnum.right;
 
-							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-								50,
-								Next
-							);
-						}
-					);
+                c.AttachTo(s);
+            }
 
-					var HiddenMethods = new List<int>();
+            s.href = "#";
+            s.style.textDecoration = "none";
+            s.style.color = JSColor.System.WindowText;
 
-					Action<CompilationMethod> AddIfAny =
-						SourceMethod =>
-						{
-							if (SourceMethod == null)
-								return;
+            Action onclick = delegate
+            {
 
-							HiddenMethods.Add(SourceMethod.MetadataToken);
-						};
+            };
 
-					Action AfterEvents = delegate
-					{
+            s.onclick +=
+                e =>
+                {
+                    e.PreventDefault();
 
-						type.GetMethods().ForEach(
-							(Current, Next) =>
-							{
-								if (!HiddenMethods.Contains(Current.MetadataToken))
-								{
-									AddTypeMethod(Groups.Methods, Current, UpdateLocation);
-								}
+                    s.focus();
 
-								ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-									50,
-									Next
-								);
-							}
-						);
+                    if (TouchTypeSelected != null)
+                        TouchTypeSelected(type);
 
-					};
+                    UpdateLocation(type.FullName + " - " + type.Summary + " - HTML:" + type.HTMLElement);
 
-					Action AfterProperties = delegate
-					{
-						type.GetEvents().ForEach(
-							(Current, Next) =>
-							{
-								AddIfAny(Current.GetAddMethod());
-								AddIfAny(Current.GetRemoveMethod());
+                    onclick();
+                };
 
-								AddTypeEvent(Groups.Events, Current, UpdateLocation);
+            s.onfocus +=
+                delegate
+                {
 
-								ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-									50,
-									Next
-								);
-							}
-						)(AfterEvents);
-					};
+                    s.style.backgroundColor = JSColor.System.Highlight;
+                    s.style.color = JSColor.System.HighlightText;
+                };
 
-					type.GetProperties().ForEach(
-						(Current, Next) =>
-						{
-							AddIfAny(Current.GetSetMethod());
-							AddIfAny(Current.GetGetMethod());
+            s.onblur +=
+                delegate
+                {
 
-							AddTypeProperty(Groups.Properties, Current, UpdateLocation);
+                    s.style.backgroundColor = JSColor.None;
+                    s.style.color = JSColor.System.WindowText;
+                };
 
-							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-								50,
-								Next
-							);
-						}
-					)(AfterProperties);
 
 
+            onclick =
+                delegate
+                {
 
+                    var children = new IHTMLDiv().AttachTo(div);
 
+                    children.style.paddingLeft = "1em";
 
+                    Func<IHTMLDiv> Group = () => new IHTMLDiv().AttachTo(children);
 
-					type.GetFields().ForEach(
-						(Current, Next) =>
-						{
-							AddTypeField(Groups.Fields, Current, UpdateLocation);
+                    var Groups = new
+                    {
+                        Nested = Group(),
+                        Constructors = Group(),
+                        Methods = Group(),
+                        Events = Group(),
+                        Fields = Group(),
+                        Properties = Group(),
+                    };
 
-							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-								50,
-								Next
-							);
-						}
-					);
 
+                    type.GetNestedTypes().ForEach(
+                        (Current, Next) =>
+                        {
+                            AddType(Groups.Nested, Current, UpdateLocation);
 
+                            ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                                50,
+                                Next
+                            );
+                        }
+                    );
 
+                    type.GetConstructors().ForEach(
+                        (Current, Next) =>
+                        {
+                            AddTypeConstructor(Groups.Constructors, Current, UpdateLocation);
 
-					var NextClickHide = default(Action);
-					var NextClickShow = default(Action);
+                            ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                                50,
+                                Next
+                            );
+                        }
+                    );
 
-					NextClickHide =
-						delegate
-						{
-							children.Hide();
+                    var HiddenMethods = new List<int>();
 
-							onclick = NextClickShow;
-						};
+                    Action<CompilationMethod> AddIfAny =
+                        SourceMethod =>
+                        {
+                            if (SourceMethod == null)
+                                return;
 
-					NextClickShow =
-						delegate
-						{
-							children.Show();
+                            HiddenMethods.Add(SourceMethod.MetadataToken);
+                        };
 
-							onclick = NextClickHide;
-						};
+                    Action AfterEvents = delegate
+                    {
 
+                        type.GetMethods().ForEach(
+                            (Current, Next) =>
+                            {
+                                if (!HiddenMethods.Contains(Current.MetadataToken))
+                                {
+                                    AddTypeMethod(Groups.Methods, Current, UpdateLocation);
+                                }
 
-					onclick = NextClickHide;
-				};
-		}
+                                ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                                    50,
+                                    Next
+                                );
+                            }
+                        );
 
-		private static void AddTypeField(
-			IHTMLDiv parent,
-			CompilationField type,
-			Action<string> UpdateLocation
-			)
-		{
-			var div = new IHTMLDiv().AttachTo(parent);
+                    };
 
-			div.style.marginTop = "0.1em";
-			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
-			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+                    Action AfterProperties = delegate
+                    {
+                        type.GetEvents().ForEach(
+                            (Current, Next) =>
+                            {
+                                AddIfAny(Current.GetAddMethod());
+                                AddIfAny(Current.GetRemoveMethod());
 
+                                AddTypeEvent(Groups.Events, Current, UpdateLocation);
 
-			var i = new PublicField().AttachTo(div);
+                                ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                                    50,
+                                    Next
+                                );
+                            }
+                        )(AfterEvents);
+                    };
 
-			i.style.verticalAlign = "middle";
-			i.style.marginRight = "0.5em";
+                    type.GetProperties().ForEach(
+                        (Current, Next) =>
+                        {
+                            AddIfAny(Current.GetSetMethod());
+                            AddIfAny(Current.GetGetMethod());
 
-			var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
+                            AddTypeProperty(Groups.Properties, Current, UpdateLocation);
 
+                            ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                                50,
+                                Next
+                            );
+                        }
+                    )(AfterProperties);
 
-			s.href = "#";
-			s.style.textDecoration = "none";
-			s.style.color = JSColor.System.WindowText;
 
-			Action onclick = delegate
-			{
 
-			};
 
-			s.onclick +=
-				e =>
-				{
-					e.PreventDefault();
 
-					s.focus();
 
-					UpdateLocation(type.Name);
+                    type.GetFields().ForEach(
+                        (Current, Next) =>
+                        {
+                            AddTypeField(Groups.Fields, Current, UpdateLocation);
 
-					onclick();
-				};
+                            ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                                50,
+                                Next
+                            );
+                        }
+                    );
 
-			s.onfocus +=
-				delegate
-				{
 
-					s.style.backgroundColor = JSColor.System.Highlight;
-					s.style.color = JSColor.System.HighlightText;
-				};
 
-			s.onblur +=
-				delegate
-				{
 
-					s.style.backgroundColor = JSColor.None;
-					s.style.color = JSColor.System.WindowText;
-				};
+                    var NextClickHide = default(Action);
+                    var NextClickShow = default(Action);
 
+                    NextClickHide =
+                        delegate
+                        {
+                            children.Hide();
 
-			onclick =
-				delegate
-				{
-					//var children = new IHTMLDiv().AttachTo(div);
+                            onclick = NextClickShow;
+                        };
 
-					//children.style.paddingLeft = "2em";
+                    NextClickShow =
+                        delegate
+                        {
+                            children.Show();
 
-					//a.GetTypes().ForEach(
-					//    (Current, Next) =>
-					//    {
-					//        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+                            onclick = NextClickHide;
+                        };
 
-					//        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-					//            50,
-					//            Next
-					//        );
-					//    }
-					//);
 
+                    onclick = NextClickHide;
+                };
+        }
 
-					var NextClickHide = default(Action);
-					var NextClickShow = default(Action);
+        private static void AddTypeField(
+            IHTMLDiv parent,
+            CompilationField type,
+            Action<string> UpdateLocation
+            )
+        {
+            var div = new IHTMLDiv().AttachTo(parent);
 
-					NextClickHide =
-						delegate
-						{
-							//children.Hide();
+            div.style.marginTop = "0.1em";
+            div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+            div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-							onclick = NextClickShow;
-						};
 
-					NextClickShow =
-						delegate
-						{
-							//children.Show();
+            var i = new PublicField().AttachTo(div);
 
-							onclick = NextClickHide;
-						};
+            i.style.verticalAlign = "middle";
+            i.style.marginRight = "0.5em";
 
+            var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
 
-					onclick = NextClickHide;
-				};
-		}
 
-		private static void AddTypeEvent(
-		IHTMLDiv parent,
-		CompilationEvent type,
-		Action<string> UpdateLocation
-		)
-		{
-			var div = new IHTMLDiv().AttachTo(parent);
+            s.href = "#";
+            s.style.textDecoration = "none";
+            s.style.color = JSColor.System.WindowText;
 
-			div.style.marginTop = "0.1em";
-			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
-			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+            Action onclick = delegate
+            {
 
+            };
 
-			var i = new PublicEvent().AttachTo(div);
+            s.onclick +=
+                e =>
+                {
+                    e.PreventDefault();
 
-			i.style.verticalAlign = "middle";
-			i.style.marginRight = "0.5em";
+                    s.focus();
 
-			var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
+                    UpdateLocation(type.Name);
 
+                    onclick();
+                };
 
-			s.href = "#";
-			s.style.textDecoration = "none";
-			s.style.color = JSColor.System.WindowText;
+            s.onfocus +=
+                delegate
+                {
 
-			Action onclick = delegate
-			{
+                    s.style.backgroundColor = JSColor.System.Highlight;
+                    s.style.color = JSColor.System.HighlightText;
+                };
 
-			};
+            s.onblur +=
+                delegate
+                {
 
-			s.onclick +=
-				e =>
-				{
-					e.PreventDefault();
+                    s.style.backgroundColor = JSColor.None;
+                    s.style.color = JSColor.System.WindowText;
+                };
 
-					s.focus();
 
-					UpdateLocation(type.Name);
+            onclick =
+                delegate
+                {
+                    //var children = new IHTMLDiv().AttachTo(div);
 
-					onclick();
-				};
+                    //children.style.paddingLeft = "2em";
 
-			s.onfocus +=
-				delegate
-				{
+                    //a.GetTypes().ForEach(
+                    //    (Current, Next) =>
+                    //    {
+                    //        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
 
-					s.style.backgroundColor = JSColor.System.Highlight;
-					s.style.color = JSColor.System.HighlightText;
-				};
+                    //        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                    //            50,
+                    //            Next
+                    //        );
+                    //    }
+                    //);
 
-			s.onblur +=
-				delegate
-				{
 
-					s.style.backgroundColor = JSColor.None;
-					s.style.color = JSColor.System.WindowText;
-				};
+                    var NextClickHide = default(Action);
+                    var NextClickShow = default(Action);
 
+                    NextClickHide =
+                        delegate
+                        {
+                            //children.Hide();
 
-			onclick =
-				delegate
-				{
-					var children = new IHTMLDiv().AttachTo(div);
+                            onclick = NextClickShow;
+                        };
 
-					children.style.paddingLeft = "2em";
+                    NextClickShow =
+                        delegate
+                        {
+                            //children.Show();
 
-					AddTypeMethod(children, type.GetAddMethod(), UpdateLocation);
-					AddTypeMethod(children, type.GetRemoveMethod(), UpdateLocation);
+                            onclick = NextClickHide;
+                        };
 
 
+                    onclick = NextClickHide;
+                };
+        }
 
-					var NextClickHide = default(Action);
-					var NextClickShow = default(Action);
+        private static void AddTypeEvent(
+        IHTMLDiv parent,
+        CompilationEvent type,
+        Action<string> UpdateLocation
+        )
+        {
+            var div = new IHTMLDiv().AttachTo(parent);
 
-					NextClickHide =
-						delegate
-						{
-							children.Hide();
+            div.style.marginTop = "0.1em";
+            div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+            div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-							onclick = NextClickShow;
-						};
 
-					NextClickShow =
-						delegate
-						{
-							children.Show();
+            var i = new PublicEvent().AttachTo(div);
 
-							onclick = NextClickHide;
-						};
+            i.style.verticalAlign = "middle";
+            i.style.marginRight = "0.5em";
 
+            var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
 
-					onclick = NextClickHide;
-				};
-		}
 
+            s.href = "#";
+            s.style.textDecoration = "none";
+            s.style.color = JSColor.System.WindowText;
 
-		private static void AddTypeProperty(
-	IHTMLDiv parent,
-	CompilationProperty type,
-	Action<string> UpdateLocation
-	)
-		{
-			var div = new IHTMLDiv().AttachTo(parent);
+            Action onclick = delegate
+            {
 
-			div.style.marginTop = "0.1em";
-			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
-			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+            };
 
+            s.onclick +=
+                e =>
+                {
+                    e.PreventDefault();
 
-			var i = new PublicProperty().AttachTo(div);
+                    s.focus();
 
-			i.style.verticalAlign = "middle";
-			i.style.marginRight = "0.5em";
+                    UpdateLocation(type.Name);
 
-			var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
+                    onclick();
+                };
 
+            s.onfocus +=
+                delegate
+                {
 
-			s.href = "#";
-			s.style.textDecoration = "none";
-			s.style.color = JSColor.System.WindowText;
+                    s.style.backgroundColor = JSColor.System.Highlight;
+                    s.style.color = JSColor.System.HighlightText;
+                };
 
-			Action onclick = delegate
-			{
+            s.onblur +=
+                delegate
+                {
 
-			};
+                    s.style.backgroundColor = JSColor.None;
+                    s.style.color = JSColor.System.WindowText;
+                };
 
-			s.onclick +=
-				e =>
-				{
-					e.PreventDefault();
 
-					s.focus();
+            onclick =
+                delegate
+                {
+                    var children = new IHTMLDiv().AttachTo(div);
 
-					UpdateLocation(type.Name);
+                    children.style.paddingLeft = "2em";
 
-					onclick();
-				};
+                    AddTypeMethod(children, type.GetAddMethod(), UpdateLocation);
+                    AddTypeMethod(children, type.GetRemoveMethod(), UpdateLocation);
 
-			s.onfocus +=
-				delegate
-				{
 
-					s.style.backgroundColor = JSColor.System.Highlight;
-					s.style.color = JSColor.System.HighlightText;
-				};
 
-			s.onblur +=
-				delegate
-				{
+                    var NextClickHide = default(Action);
+                    var NextClickShow = default(Action);
 
-					s.style.backgroundColor = JSColor.None;
-					s.style.color = JSColor.System.WindowText;
-				};
+                    NextClickHide =
+                        delegate
+                        {
+                            children.Hide();
 
+                            onclick = NextClickShow;
+                        };
 
-			onclick =
-				delegate
-				{
-					var children = new IHTMLDiv().AttachTo(div);
+                    NextClickShow =
+                        delegate
+                        {
+                            children.Show();
 
-					children.style.paddingLeft = "2em";
+                            onclick = NextClickHide;
+                        };
 
-					AddTypeMethod(children, type.GetGetMethod(), UpdateLocation);
-					AddTypeMethod(children, type.GetSetMethod(), UpdateLocation);
 
+                    onclick = NextClickHide;
+                };
+        }
 
-					//a.GetTypes().ForEach(
-					//    (Current, Next) =>
-					//    {
-					//        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
 
-					//        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-					//            50,
-					//            Next
-					//        );
-					//    }
-					//);
+        private static void AddTypeProperty(
+    IHTMLDiv parent,
+    CompilationProperty type,
+    Action<string> UpdateLocation
+    )
+        {
+            var div = new IHTMLDiv().AttachTo(parent);
 
+            div.style.marginTop = "0.1em";
+            div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+            div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-					var NextClickHide = default(Action);
-					var NextClickShow = default(Action);
 
-					NextClickHide =
-						delegate
-						{
-							children.Hide();
+            var i = new PublicProperty().AttachTo(div);
 
-							onclick = NextClickShow;
-						};
+            i.style.verticalAlign = "middle";
+            i.style.marginRight = "0.5em";
 
-					NextClickShow =
-						delegate
-						{
-							children.Show();
+            var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
 
-							onclick = NextClickHide;
-						};
 
+            s.href = "#";
+            s.style.textDecoration = "none";
+            s.style.color = JSColor.System.WindowText;
 
-					onclick = NextClickHide;
-				};
-		}
-		private static void AddTypeConstructor(IHTMLDiv parent, CompilationConstructor type, Action<string> UpdateLocation)
-		{
-			var div = new IHTMLDiv().AttachTo(parent);
+            Action onclick = delegate
+            {
 
-			div.style.marginTop = "0.1em";
-			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
-			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+            };
 
+            s.onclick +=
+                e =>
+                {
+                    e.PreventDefault();
 
-			var i = new PublicConstructor().AttachTo(div);
+                    s.focus();
 
-			i.style.verticalAlign = "middle";
-			i.style.marginRight = "0.5em";
+                    UpdateLocation(type.Name);
 
-			var w = new StringBuilder();
+                    onclick();
+                };
 
-			w.Append(type.DeclaringType.Name);
+            s.onfocus +=
+                delegate
+                {
 
-			w.Append("(");
+                    s.style.backgroundColor = JSColor.System.Highlight;
+                    s.style.color = JSColor.System.HighlightText;
+                };
 
-			type.GetParameters().ForEach(
-				(p, pi) =>
-				{
-					if (pi > 0)
-						w.Append(", ");
+            s.onblur +=
+                delegate
+                {
 
-					w.Append(p.Name);
-				}
-			);
+                    s.style.backgroundColor = JSColor.None;
+                    s.style.color = JSColor.System.WindowText;
+                };
 
-			w.Append(")");
 
+            onclick =
+                delegate
+                {
+                    var children = new IHTMLDiv().AttachTo(div);
 
-			var s = new IHTMLAnchor { innerText = w.ToString() }.AttachTo(div);
+                    children.style.paddingLeft = "2em";
 
+                    AddTypeMethod(children, type.GetGetMethod(), UpdateLocation);
+                    AddTypeMethod(children, type.GetSetMethod(), UpdateLocation);
 
-			s.href = "#";
-			s.style.textDecoration = "none";
-			s.style.color = JSColor.System.WindowText;
 
-			Action onclick = delegate
-			{
+                    //a.GetTypes().ForEach(
+                    //    (Current, Next) =>
+                    //    {
+                    //        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
 
-			};
+                    //        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                    //            50,
+                    //            Next
+                    //        );
+                    //    }
+                    //);
 
-			s.onclick +=
-				e =>
-				{
-					e.PreventDefault();
 
-					s.focus();
+                    var NextClickHide = default(Action);
+                    var NextClickShow = default(Action);
 
-					UpdateLocation(type.DeclaringType.Name + ".ctor");
+                    NextClickHide =
+                        delegate
+                        {
+                            children.Hide();
 
-					onclick();
-				};
+                            onclick = NextClickShow;
+                        };
 
-			s.onfocus +=
-				delegate
-				{
+                    NextClickShow =
+                        delegate
+                        {
+                            children.Show();
 
-					s.style.backgroundColor = JSColor.System.Highlight;
-					s.style.color = JSColor.System.HighlightText;
-				};
+                            onclick = NextClickHide;
+                        };
 
-			s.onblur +=
-				delegate
-				{
 
-					s.style.backgroundColor = JSColor.None;
-					s.style.color = JSColor.System.WindowText;
-				};
+                    onclick = NextClickHide;
+                };
+        }
+        private static void AddTypeConstructor(IHTMLDiv parent, CompilationConstructor type, Action<string> UpdateLocation)
+        {
+            var div = new IHTMLDiv().AttachTo(parent);
 
+            div.style.marginTop = "0.1em";
+            div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+            div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-			onclick =
-				delegate
-				{
-					//var children = new IHTMLDiv().AttachTo(div);
 
-					//children.style.paddingLeft = "2em";
+            var i = new PublicConstructor().AttachTo(div);
 
-					//a.GetTypes().ForEach(
-					//    (Current, Next) =>
-					//    {
-					//        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+            i.style.verticalAlign = "middle";
+            i.style.marginRight = "0.5em";
 
-					//        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-					//            50,
-					//            Next
-					//        );
-					//    }
-					//);
+            var w = new StringBuilder();
 
+            w.Append(type.DeclaringType.Name);
 
-					var NextClickHide = default(Action);
-					var NextClickShow = default(Action);
+            w.Append("(");
 
-					NextClickHide =
-						delegate
-						{
-							//children.Hide();
+            type.GetParameters().ForEach(
+                (p, pi) =>
+                {
+                    if (pi > 0)
+                        w.Append(", ");
 
-							onclick = NextClickShow;
-						};
+                    w.Append(p.Name);
+                }
+            );
 
-					NextClickShow =
-						delegate
-						{
-							//children.Show();
+            w.Append(")");
 
-							onclick = NextClickHide;
-						};
 
+            var s = new IHTMLAnchor { innerText = w.ToString() }.AttachTo(div);
 
-					onclick = NextClickHide;
-				};
-		}
 
-		private static void AddTypeMethod(IHTMLDiv parent, CompilationMethod type, Action<string> UpdateLocation)
-		{
-			if (type == null)
-				return;
+            s.href = "#";
+            s.style.textDecoration = "none";
+            s.style.color = JSColor.System.WindowText;
 
-			var div = new IHTMLDiv().AttachTo(parent);
+            Action onclick = delegate
+            {
 
-			div.style.marginTop = "0.1em";
-			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
-			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+            };
 
+            s.onclick +=
+                e =>
+                {
+                    e.PreventDefault();
 
-			var i = new PublicMethod().AttachTo(div);
+                    s.focus();
 
-			i.style.verticalAlign = "middle";
-			i.style.marginRight = "0.5em";
+                    UpdateLocation(type.DeclaringType.Name + ".ctor");
 
-			var w = new StringBuilder();
+                    onclick();
+                };
 
-			w.Append(type.Name);
+            s.onfocus +=
+                delegate
+                {
 
-			w.Append("(");
+                    s.style.backgroundColor = JSColor.System.Highlight;
+                    s.style.color = JSColor.System.HighlightText;
+                };
 
-			type.GetParameters().ForEach(
-				(p, pi) =>
-				{
-					if (pi > 0)
-						w.Append(", ");
+            s.onblur +=
+                delegate
+                {
 
-					w.Append(p.Name);
-				}
-			);
+                    s.style.backgroundColor = JSColor.None;
+                    s.style.color = JSColor.System.WindowText;
+                };
 
-			w.Append(")");
 
+            onclick =
+                delegate
+                {
+                    //var children = new IHTMLDiv().AttachTo(div);
 
-			var s = new IHTMLAnchor { innerText = w.ToString() }.AttachTo(div);
+                    //children.style.paddingLeft = "2em";
 
+                    //a.GetTypes().ForEach(
+                    //    (Current, Next) =>
+                    //    {
+                    //        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
 
-			s.href = "#";
-			s.style.textDecoration = "none";
-			s.style.color = JSColor.System.WindowText;
+                    //        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                    //            50,
+                    //            Next
+                    //        );
+                    //    }
+                    //);
 
-			Action onclick = delegate
-			{
 
-			};
+                    var NextClickHide = default(Action);
+                    var NextClickShow = default(Action);
 
-			s.onclick +=
-				e =>
-				{
-					e.PreventDefault();
+                    NextClickHide =
+                        delegate
+                        {
+                            //children.Hide();
 
-					s.focus();
+                            onclick = NextClickShow;
+                        };
 
-					UpdateLocation(type.Name);
+                    NextClickShow =
+                        delegate
+                        {
+                            //children.Show();
 
-					onclick();
-				};
+                            onclick = NextClickHide;
+                        };
 
-			s.onfocus +=
-				delegate
-				{
 
-					s.style.backgroundColor = JSColor.System.Highlight;
-					s.style.color = JSColor.System.HighlightText;
-				};
+                    onclick = NextClickHide;
+                };
+        }
 
-			s.onblur +=
-				delegate
-				{
+        private static void AddTypeMethod(IHTMLDiv parent, CompilationMethod type, Action<string> UpdateLocation)
+        {
+            if (type == null)
+                return;
 
-					s.style.backgroundColor = JSColor.None;
-					s.style.color = JSColor.System.WindowText;
-				};
+            var div = new IHTMLDiv().AttachTo(parent);
 
+            div.style.marginTop = "0.1em";
+            div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+            div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-			onclick =
-				delegate
-				{
-					//var children = new IHTMLDiv().AttachTo(div);
 
-					//children.style.paddingLeft = "2em";
+            var i = new PublicMethod().AttachTo(div);
 
-					//a.GetTypes().ForEach(
-					//    (Current, Next) =>
-					//    {
-					//        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+            i.style.verticalAlign = "middle";
+            i.style.marginRight = "0.5em";
 
-					//        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-					//            50,
-					//            Next
-					//        );
-					//    }
-					//);
+            var w = new StringBuilder();
 
+            w.Append(type.Name);
 
-					var NextClickHide = default(Action);
-					var NextClickShow = default(Action);
+            w.Append("(");
 
-					NextClickHide =
-						delegate
-						{
-							//children.Hide();
+            type.GetParameters().ForEach(
+                (p, pi) =>
+                {
+                    if (pi > 0)
+                        w.Append(", ");
 
-							onclick = NextClickShow;
-						};
+                    w.Append(p.Name);
+                }
+            );
 
-					NextClickShow =
-						delegate
-						{
-							//children.Show();
+            w.Append(")");
 
-							onclick = NextClickHide;
-						};
 
+            var s = new IHTMLAnchor { innerText = w.ToString() }.AttachTo(div);
 
-					onclick = NextClickHide;
-				};
-		}
-	}
+
+            s.href = "#";
+            s.style.textDecoration = "none";
+            s.style.color = JSColor.System.WindowText;
+
+            Action onclick = delegate
+            {
+
+            };
+
+            s.onclick +=
+                e =>
+                {
+                    e.PreventDefault();
+
+                    s.focus();
+
+                    UpdateLocation(type.Name);
+
+                    onclick();
+                };
+
+            s.onfocus +=
+                delegate
+                {
+
+                    s.style.backgroundColor = JSColor.System.Highlight;
+                    s.style.color = JSColor.System.HighlightText;
+                };
+
+            s.onblur +=
+                delegate
+                {
+
+                    s.style.backgroundColor = JSColor.None;
+                    s.style.color = JSColor.System.WindowText;
+                };
+
+
+            onclick =
+                delegate
+                {
+                    //var children = new IHTMLDiv().AttachTo(div);
+
+                    //children.style.paddingLeft = "2em";
+
+                    //a.GetTypes().ForEach(
+                    //    (Current, Next) =>
+                    //    {
+                    //        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+
+                    //        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+                    //            50,
+                    //            Next
+                    //        );
+                    //    }
+                    //);
+
+
+                    var NextClickHide = default(Action);
+                    var NextClickShow = default(Action);
+
+                    NextClickHide =
+                        delegate
+                        {
+                            //children.Hide();
+
+                            onclick = NextClickShow;
+                        };
+
+                    NextClickShow =
+                        delegate
+                        {
+                            //children.Show();
+
+                            onclick = NextClickHide;
+                        };
+
+
+                    onclick = NextClickHide;
+                };
+        }
+    }
 
 
 }
