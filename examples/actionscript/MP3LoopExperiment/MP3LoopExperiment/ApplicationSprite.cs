@@ -54,7 +54,7 @@ namespace MP3LoopExperiment
 
             //mp3 = __mp3.ToSoundAsset();
 
-            mp3 = KnownEmbeddedResources.Default["assets/MP3LoopExperiment/dieselloopm5m5.mp3"].ToSoundAsset();
+            mp3 = KnownEmbeddedResources.Default["assets/MP3LoopExperiment/loop.mp3"].ToSoundAsset();
             samplesTotal = System.Convert.ToInt32((mp3.length * 44100 / 1000) - MAGIC_DELAY - MAGIC_DELAY / 2);
 
             //stage.align = StageAlign.TOP_LEFT;

@@ -53,7 +53,13 @@ namespace AndroidListApplications
         }
 
 
-        public void Launch(string packageName, string name)
+        public void Launch(
+            string packageName,
+            string name,
+
+            string ExtraKey = "ExtraKey",
+            string ExtraValue = "ExtraValue"
+            )
         {
             // http://stackoverflow.com/questions/12504954/how-to-start-an-intent-from-a-resolveinfo
             var c = new ComponentName(packageName, name);
@@ -64,6 +70,9 @@ namespace AndroidListApplications
                         Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             i.setComponent(c);
 
+            // http://stackoverflow.com/questions/11860074/start-activity-for-result
+            // http://stackoverflow.com/questions/2844440/passing-arguments-from-loading-activity-to-main-activity
+            i.putExtra(ExtraKey, ExtraValue);
 
 
             var context = ThreadLocalContextReference.CurrentContext;
