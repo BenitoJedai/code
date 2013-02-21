@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker", "FlashHeatZeeker\FlashHeatZeeker.csproj", "{8C36076C-7270-4841-BB8B-1C28A24ED1CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarling", "FlashHeatZeekerWithStarling\FlashHeatZeekerWithStarling.csproj", "{F24A122C-5D7A-4E73-837F-7F421FCE7442}"
@@ -49,6 +49,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarlingB2", "FlashHeatZeekerWithStarlingB2\FlashHeatZeekerWithStarlingB2.csproj", "{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.Core", "FlashHeatZeeker.Core\FlashHeatZeeker.Core.csproj", "{0AB27151-12CD-4377-AE76-16E6F0F72580}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.CoreAudio", "FlashHeatZeeker.CoreAudio\FlashHeatZeeker.CoreAudio.csproj", "{C8F78217-D723-4E69-BE48-D40814DCDB76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -240,6 +244,26 @@ Global
 		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Release|Mixed Platforms.Build.0 = Release|x86
 		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Release|x86.ActiveCfg = Release|x86
 		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Release|x86.Build.0 = Release|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Debug|x86.ActiveCfg = Debug|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Debug|x86.Build.0 = Debug|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Release|Any CPU.ActiveCfg = Release|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Release|x86.ActiveCfg = Release|x86
+		{0AB27151-12CD-4377-AE76-16E6F0F72580}.Release|x86.Build.0 = Release|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Debug|x86.ActiveCfg = Debug|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Debug|x86.Build.0 = Debug|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Release|Any CPU.ActiveCfg = Release|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Release|x86.ActiveCfg = Release|x86
+		{C8F78217-D723-4E69-BE48-D40814DCDB76}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

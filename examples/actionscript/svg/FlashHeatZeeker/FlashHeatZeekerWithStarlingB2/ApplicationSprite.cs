@@ -8,6 +8,7 @@ using Box2D.Collision;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
 using Box2D.Dynamics.Contacts;
+using FlashHeatZeeker.CoreAudio.Library;
 using FlashHeatZeekerWithStarlingB2.ActionScript.Images;
 using FlashHeatZeekerWithStarlingB2.Library;
 using ScriptCoreLib;
@@ -1791,7 +1792,8 @@ namespace FlashHeatZeekerWithStarlingB2
                         isdriver = true,
 
                         // ped does not need to see much
-                        zoomer_default = y => 1.7 + (1 - y) * 0.1
+                        //zoomer_default = y => 1.7 + (1 - y) * 0.1
+                        zoomer_default = y => 1.5 + (1 - y) * 0.1
 
                     };
 
@@ -1980,6 +1982,8 @@ namespace FlashHeatZeekerWithStarlingB2
 
                var u = new GameUnit
                {
+                   ismachiegun = true,
+
                    wings_rot = unit_winggrouprot,
 
                    ishelicopterengine = true,
@@ -2299,6 +2303,8 @@ namespace FlashHeatZeekerWithStarlingB2
 
                   var u = new GameUnit
                   {
+                      ismachiegun = true,
+
                       isjeepengine = true,
 
                       loc = unit_loc,
@@ -3055,12 +3061,16 @@ namespace FlashHeatZeekerWithStarlingB2
             var move_zoom = 1.0;
 
 #if SOUND
-            var loopmachinegun = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/FNCL.mp3"].ToSoundAsset().ToMP3PitchLoop();
 
-            var loophelicopter1 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/helicopter1.mp3"].ToSoundAsset().ToMP3PitchLoop();
-            var loopdiesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
-            var loopsand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
-            var loopjeepengine = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/jeepengine.mp3"].ToSoundAsset().ToMP3PitchLoop();
+            Soundboard sb = new Soundboard();
+
+
+            var loopmachinegun = sb.loopmachinegun;
+
+            var loophelicopter1 = sb.loophelicopter1;
+            var loopdiesel2 = sb.loopdiesel2;
+            var loopsand_run = sb.loopsand_run;
+            var loopjeepengine = sb.loopjeepengine;
 
             Action<MP3PitchLoop> silentplay =
                 m =>
@@ -3921,24 +3931,27 @@ namespace FlashHeatZeekerWithStarlingB2
                   #region ControlKey
                   if (e.keyCode == (uint)System.Windows.Forms.Keys.ControlKey)
                   {
-                      Console.WriteLine(new { frameid } + " fire!");
-
-                      sync_postMessage(
-                            new XElement("fire",
-                                new XAttribute("i", "" + ego_remotegame_networkid),
-                                new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
-                                 new XAttribute("v", "" + 0.0),
-                                       new XAttribute("_identity", current.identity)
-                            )
-                      );
-
-
-
-
                       if (current.ismachiegun)
                       {
                           Console.WriteLine("stop machiegun");
                           loopmachinegun.LeftVolume = 0;
+                      }
+                      else
+                      {
+                          Console.WriteLine(new { frameid } + " fire!");
+
+                          sync_postMessage(
+                                new XElement("fire",
+                                    new XAttribute("i", "" + ego_remotegame_networkid),
+                                    new XAttribute("f", "" + (ego_remotegame_networkframe + 2)),
+                                     new XAttribute("v", "" + 0.0),
+                                           new XAttribute("_identity", current.identity)
+                                )
+                          );
+
+
+
+
                       }
 
                   }
