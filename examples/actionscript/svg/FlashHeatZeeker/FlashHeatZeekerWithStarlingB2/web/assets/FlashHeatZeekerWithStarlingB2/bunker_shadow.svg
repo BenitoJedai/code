@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400"
+   height="400"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="bunker_shadow.svg"
+   style="display:inline"
+   enable-background="new">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 200 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="400 : 200 : 1"
+       inkscape:persp3d-origin="200 : 133.33333 : 1"
+       id="perspective5475" />
+    <filter
+       inkscape:collect="always"
+       id="filter4297">
+      <feBlend
+         inkscape:collect="always"
+         mode="multiply"
+         in2="BackgroundImage"
+         id="feBlend4299" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.6504348"
+     inkscape:cx="125.17157"
+     inkscape:cy="230.80306"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     inkscape:window-width="1218"
+     inkscape:window-height="1002"
+     inkscape:window-x="1592"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       position="0,0"
+       orientation="0,575"
+       id="guide3710" />
+    <sodipodi:guide
+       position="200,200"
+       orientation="1,0"
+       id="guide3712" />
+    <sodipodi:guide
+       position="427.76607,199.94731"
+       orientation="0,-575"
+       id="guide3714" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="trace"
+     style="display:none">
+    <image
+       y="95.172356"
+       x="110.75005"
+       id="image3009"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFYAAABmCAIAAADeTvENAAAAA3NCSVQICAjb4U/gAAAEpElEQVR4 nO1cv2vbQBRWSgYPCriggAoWeHAghgRqqKGBZvDQoUOHDC3kn+jef6FD/4guGQrN0KFDBw8JZPCQ QgIOxNCADRVUgyEaPGTooLtnc+90Ov1wnNDvW3I+nU7Kx/d079570tq3jwfO/40nq76B1WO92Gnx bKr0uLV66ZupErUN9V+b3d5pR0IFoEBrCG8/yAekd6gei45E4+JadNxcJo3zcY6rdoIcgwl0iUn0 N3NwfCNMdXu3bR4JFYACrSFE349l85gfTTAaniWNcSges6HjJ43t1lbSuBpdK2f5Tpg0Pp2m3lBX TOP0evtJ46ivzuNEI3H1O1dc/Y+6QhHculiqvPqmdgBUAAq0huA1d9JGzyKh5FZ7L2m47jBpxFGq a9RrkU/iyUaUNrjdEmP4EkOSduovkr/BVOg/WI/TJoynqo0oFgEVgILCewTCIPKyBxWasGExMS0x ocXMZBEwBBWgoKgh2OwI/Lk8szVNnpVrcfV2TbpGFoMzARWAgryGMAhnmWNoI9wfpY4h/4ee/zb6 73rCoYpT/aAigApAgdYQfl0KBT/faSk9BsMhlTqOfk+aF2RQ01GOlaUAoAJQ4DhrPJu012lknjaZ CNk33Ow1goM8q2Jx1HAsd+ixuhEezoTx8j0yodncWvwJFYAC7RP+/GKSedpGLMKn/VDNUlHYs98/ yZzH4D4Z5gkj4RvpwqdqPKrb2TbfA1QACrSGsPm0pvSQj0Th0zhWw6cG0I6gJGiewBe37UszHDjF 89pQASjQGkJDBi69g8/KoZrMLNcuWJKLgR7pJUHzzENVcmsd10WKuc3swOAaKYAKQIHZNepM36ed xjPLhHlG+OuPtNN9T40SkbdDOHz3RsxTLrMM1ygboEBnCK/3i2SWDei9bCo9FDWlWBN3n6rKLGcC KgAF5TPLNjBknw2HDJnlhYQaVToVB1QACpZrCF5rSRNTjNR1rsrPBhWAgmUYQq567JKgwozxXeqa kJmpgApAwTKK7myK5R4UoAJQsNSiO46FMoxs+IEo1aASi7YnswaVlrxCBaDAXGvEcZvHcMahEHBX 7mWHMsZJMaLhKDVqZADfLDssakSR1UxABaDAnFAzwNtpJo2fJ5fKISofevYqdR4/oNcnh6xHBU/M Ua1R4Mvwqa9m1PzQNqAEFYCCwrVGV6N+0vC50AKh2y+nqY5Q1xflQ4NQ7SEUrTVi1+r4aYcSQAWg IG/1qbffFS328j4HPbc56PlPYwwrgmFmXn1K4C9TE1B9qgIU6AyhxlYJXixtU2JhU31qQHUrglpi AUNQAQqM1adUdEooVmJxD9Wn4brosd8jE6ACUKA1BK7/lYAitOTbLHwoQ1hE7IiFgCfU7KuPoAJQ cD+1RrmQ6ysWHAWq76ACUPBwDKFYjmwes0L1aRmAglUbQi79L3zFQnpEVdwDVAAK9IawK4Mq7Nun Vb2hRv6/jf9z2NtSemwSamMk1OwBCqr79qkNeEjfAHJ7+Av+SKhVDFCgM4Sz36IRTcUbwbr3f5de Y2qyGnlxym8Efg4TUwAVgALzHoF/Ptr+jfhHBKgAFFhulski0r6s/qjxD3Yons/5iD/UAAAAAElF TkSuQmCC "
+       height="217.72708"
+       width="183.57382" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Warstwa"
+     style="display:inline"
+     transform="translate(0,-65)">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="m 125.11854,296.99684 20.29768,19.08588 144.81033,0.30295 2.1237,-186.6178 -23.33023,-22.11507 -143.90148,0 z"
+       id="path3012"
+       inkscape:connector-curvature="0"
+       transform="translate(0,65)"
+       sodipodi:nodetypes="ccccccc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="tex"
+     style="display:inline" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer8"
+     inkscape:label="mask"
+     style="display:inline;filter:url(#filter4297)" />
+</svg>

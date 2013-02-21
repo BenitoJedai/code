@@ -2724,6 +2724,8 @@ namespace FlashHeatZeekerWithStarlingB2
 
                     var u = new GameUnit
                     {
+                        ismachiegun = true,
+
                         physics_body = bunker0_physics.body,
 
                         loc = unit_loc,
@@ -3053,6 +3055,8 @@ namespace FlashHeatZeekerWithStarlingB2
             var move_zoom = 1.0;
 
 #if SOUND
+            var loopmachinegun = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/FNCL.mp3"].ToSoundAsset().ToMP3PitchLoop();
+
             var loophelicopter1 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/helicopter1.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var loopdiesel2 = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/diesel4.mp3"].ToSoundAsset().ToMP3PitchLoop();
             var loopsand_run = KnownEmbeddedResources.Default["assets/FlashHeatZeekerWithStarlingB2/sand_run.mp3"].ToSoundAsset().ToMP3PitchLoop();
@@ -3071,6 +3075,7 @@ namespace FlashHeatZeekerWithStarlingB2
 
             // 16FPS
 
+            silentplay(loopmachinegun);
             silentplay(loophelicopter1);
             silentplay(loopdiesel2);
             silentplay(loopsand_run);
@@ -3710,7 +3715,16 @@ namespace FlashHeatZeekerWithStarlingB2
                         }
                     }
 
+                    if (e.keyCode == (uint)System.Windows.Forms.Keys.ControlKey)
+                    {
+                        if (current.ismachiegun)
+                        {
+                            loopmachinegun.LeftVolume = 0.9;
+                            Console.WriteLine("start machiegun");
+                        }
 
+
+                    }
                 };
             #endregion
 
@@ -3921,6 +3935,11 @@ namespace FlashHeatZeekerWithStarlingB2
 
 
 
+                      if (current.ismachiegun)
+                      {
+                          Console.WriteLine("stop machiegun");
+                          loopmachinegun.LeftVolume = 0;
+                      }
 
                   }
                   #endregion
@@ -4385,8 +4404,9 @@ namespace FlashHeatZeekerWithStarlingB2
                         var viewport_scale = current_zoomer(move_zoom) / current.scale;
 
                         // smaller window needs to zoom out more.
-                        viewport_scale *= ApplicationSpriteContent.__stage.stageHeight / 1000.0;
-                        viewport_scale *= ApplicationSpriteContent.__stage.stageWidth / 1600.0;
+                        viewport_scale *=
+                            (ApplicationSpriteContent.__stage.stageHeight
+                            + ApplicationSpriteContent.__stage.stageWidth) / 1600.0;
 
 
                         viewport_rot.scaleX = viewport_scale;
