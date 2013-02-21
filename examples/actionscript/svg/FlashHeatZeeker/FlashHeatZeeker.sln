@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker", "FlashHeatZeeker\FlashHeatZeeker.csproj", "{8C36076C-7270-4841-BB8B-1C28A24ED1CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarling", "FlashHeatZeekerWithStarling\FlashHeatZeekerWithStarling.csproj", "{F24A122C-5D7A-4E73-837F-7F421FCE7442}"
@@ -47,6 +47,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsHueControl", "..\..\..\javascript\forms\FormsHueControl\FormsHueControl\FormsHueControl.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarlingB2", "FlashHeatZeekerWithStarlingB2\FlashHeatZeekerWithStarlingB2.csproj", "{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -228,6 +230,16 @@ Global
 		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.Build.0 = Release|x86
 		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
 		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Debug|x86.ActiveCfg = Debug|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Debug|x86.Build.0 = Debug|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Release|Any CPU.ActiveCfg = Release|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Release|x86.ActiveCfg = Release|x86
+		{CDB5BA8F-B78C-44B3-AA1A-77735FF4CE10}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -244,6 +256,7 @@ Global
 		{2D66E306-E425-4A89-9C57-6EA18C7C4E1D} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
 		{2979B3A7-A52D-4077-A0D8-9B18D73F2D0E} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
+		{E26EB1DE-096D-4C20-8135-201CE48A9D0B} = {9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}
 		{0248FB6D-3AD2-4CF9-9C1A-EEDC5214D07F} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
 		{BABA968B-41D7-4B0E-AFB9-DFA37307C833} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
 		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {599F2D93-A905-438E-8896-965B4EC9015D}
