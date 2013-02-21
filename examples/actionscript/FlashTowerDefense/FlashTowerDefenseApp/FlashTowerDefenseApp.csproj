@@ -134,6 +134,7 @@
     </Compile>
     <Content Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
