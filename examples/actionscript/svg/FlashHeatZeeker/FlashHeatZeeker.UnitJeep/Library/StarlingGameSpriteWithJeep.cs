@@ -1,6 +1,7 @@
 ﻿using FlashHeatZeeker.StarlingSetup.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using starling.display;
+using starling.textures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,31 @@ using System.Text;
 
 namespace FlashHeatZeeker.UnitJeep.Library
 {
-    class StarlingGameSpriteWithJeep : StarlingGameSprite
+    public class StarlingGameSpriteWithJeepTextures : StarlingGameSprite
     {
-        public StarlingGameSpriteWithJeep()
+        public Func<Texture>
+          textures_black4,
+          textures_jeep,
+          textures_jeep_shadow;
+
+        public StarlingGameSpriteWithJeepTextures()
         {
             // http://forum.starling-framework.org/topic/confirmation-on-optimum-quadbatch-use
             // hack, Quad should do the work, yet it drags performance!
-            var textures_black4 = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", innersize: 4);
+            textures_black4 = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", innersize: 4);
 
 
-            var textures_jeep = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep.svg");
-            var textures_jeep_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", alpha: 0.3);
+            textures_jeep = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep.svg");
+            textures_jeep_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", alpha: 0.3);
 
+
+        }
+    }
+
+    public class StarlingGameSpriteWithJeep : StarlingGameSpriteWithJeepTextures
+    {
+        public StarlingGameSpriteWithJeep()
+        {
 
             this.onbeforefirstframe += delegate
             {
