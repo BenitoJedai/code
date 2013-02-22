@@ -2,7 +2,9 @@
 "manifest_version": 2,
   "name": "jsc-webgl-examples",
   "description": "jsc-webgl-examples",
-  "version": "1",
+  "version": "2",
+    "minimum_chrome_version": "23.0.1261",
+  "offline_enabled": true,
   "app": {
 
 
@@ -12,7 +14,7 @@
     }
   },
   "icons": {
-    "16": "Preview16.png"
+    "16": "Preview16.png",
     "128": "Preview128.png"
   },
   
