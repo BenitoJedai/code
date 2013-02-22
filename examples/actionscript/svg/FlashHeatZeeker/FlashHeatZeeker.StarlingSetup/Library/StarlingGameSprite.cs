@@ -12,6 +12,8 @@ using starling.utils;
 using System.Diagnostics;
 using starling.text;
 using FlashHeatZeeker.StarlingSetup.ActionScript.Images;
+using System.ComponentModel;
+using starling.core;
 
 namespace FlashHeatZeeker.StarlingSetup.Library
 {
@@ -45,14 +47,16 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
     public delegate Func<Texture> Texture64Constructor(string asset, double alpha = 1.0, bool flipx = false, int innersize = 64);
 
-    public class StarlingGameSprite : Sprite
+    public delegate void FrameHandler(ScriptCoreLib.ActionScript.flash.display.Stage stage, Starling starling);
+
+    public class StarlingGameSpriteBase : Sprite
     {
         public int frameid = 0;
 
 
-        public Action onbeforefirstframe = delegate { };
+        public FrameHandler onbeforefirstframe = delegate { };
 
-        public static Action onframe = delegate { };
+        public static FrameHandler onframe = delegate { };
         public static Action<Action<int, int>> onresize;
 
         public Sprite Content;
@@ -61,8 +65,9 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
 
         public Texture64Constructor new_tex_crop;
+        public double stagescale;
 
-        public StarlingGameSprite()
+        public StarlingGameSpriteBase()
         {
             var gametime = new Stopwatch();
             gametime.Start();
@@ -84,7 +89,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             var stagex = 200.0;
             var stagey = 200.0;
             var internalscale = 0.3;
-            var stagescale = internalscale;
+            this.stagescale = internalscale;
 
             onresize(
                 (w, h) =>
@@ -92,18 +97,14 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                     stagex = w * 0.5;
                     stagey = h * 0.8;
                     stagescale = internalscale * (w) / (800.0);
+
+
                 }
             );
 
-            {
-                var cm = new Matrix();
-                cm.scale(stagescale, stagescale);
-                cm.translate(stagex, stagey);
-                Content.transformationMatrix = cm;
-            }
 
 
-
+            #region Source0
             var SourceBitmapData0 = new ScriptCoreLib.ActionScript.flash.display.BitmapData(
                 // 28MB
                 //64 * 2,
@@ -130,6 +131,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                      return Source;
                  }
               );
+            #endregion
 
 
 
@@ -295,27 +297,48 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
 
             onframe +=
-                delegate
+                (stage, starling) =>
                 {
                     if (frameid == 0)
                     {
                         if (onbeforefirstframe != null)
-                            onbeforefirstframe();
+                            onbeforefirstframe(stage, starling);
                     }
 
                     frameid++;
 
 
+                    if (!DisableDefaultContentDransformation)
                     {
                         var cm = new Matrix();
                         cm.scale(stagescale, stagescale);
-                        cm.rotate(0.01 * frameid);
+
+                        if (autorotate)
+                            cm.rotate(0.01 * frameid);
+
                         cm.translate(stagex, stagey);
                         Content.transformationMatrix = cm;
                     }
 
-                    info.text = new { frameid, gametime.ElapsedMilliseconds }.ToString();
+
+                    var texmem = (Source0TextureMaxBottom * 100 / 2048) + "%";
+
+                    info.text = new { frameid, texmem, gametime.ElapsedMilliseconds }.ToString();
                 };
+        }
+
+        public bool autorotate = false;
+        public bool DisableDefaultContentDransformation = false;
+    }
+
+    [Description("demo")]
+    public class StarlingGameSprite : StarlingGameSpriteBase
+    {
+
+
+        public StarlingGameSprite()
+        {
+            this.autorotate = true;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace FlashHeatZeeker.StarlingSetup
                     #endregion
 
 
-                    StarlingGameSprite.onresize =
+                    StarlingGameSpriteBase.onresize =
                         yield =>
                         {
                             this.stage.resize += delegate
@@ -67,7 +67,7 @@ namespace FlashHeatZeeker.StarlingSetup
                     this.stage.enterFrame +=
                         delegate
                         {
-                            StarlingGameSprite.onframe();
+                            StarlingGameSpriteBase.onframe(this.stage, s);
                         };
 
                     s.start();
