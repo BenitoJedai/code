@@ -207,6 +207,8 @@ namespace FlashHeatZeekerWithStarlingB2
 
                     s.start();
 
+
+
                     #region resize
                     // http://forum.starling-framework.org/topic/starling-stage-resizing
                     this.stage.resize += delegate
@@ -452,15 +454,6 @@ namespace FlashHeatZeekerWithStarlingB2
         }
     }
 
-    // for bullets?
-    class KineticEnergy
-    {
-        public DisplayObject Target;
-
-        public __vec2 Energy;
-
-        public int TTL;
-    }
 
 
     static class StarlingExtensions
