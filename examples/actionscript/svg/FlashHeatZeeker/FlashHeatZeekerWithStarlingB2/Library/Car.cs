@@ -102,6 +102,7 @@ namespace FlashHeatZeekerWithStarlingB2.Library
         public double width;
         public double length;
 
+        public b2Joint joint;
 
         public Wheel()
         {
@@ -166,7 +167,7 @@ namespace FlashHeatZeekerWithStarlingB2.Library
                     //jointdef.lowerTranslation = 0;
                     //jointdef.upperTranslation = 0;
                 }
-                b2world.CreateJoint(jointdef);
+                joint = b2world.CreateJoint(jointdef);
 
                 #region setAngle
                 this.setAngle +=

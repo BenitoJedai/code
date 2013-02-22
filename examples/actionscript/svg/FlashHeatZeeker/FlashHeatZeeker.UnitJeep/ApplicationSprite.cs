@@ -65,7 +65,7 @@ namespace FlashHeatZeeker.UnitJeep
                     this.stage.enterFrame +=
                         delegate
                         {
-                            StarlingGameSprite.onframe();
+                            StarlingGameSprite.onframe(this.stage, s);
                         };
 
                     s.start();
