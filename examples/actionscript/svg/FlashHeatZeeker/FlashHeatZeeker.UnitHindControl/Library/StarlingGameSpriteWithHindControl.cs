@@ -104,15 +104,20 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 var air_dd = new ScriptCoreLib.ActionScript.flash.display.Sprite();
 
+                // make it red!
+                air_dd.transform.colorTransform = new ColorTransform(1.0, 0, 0);
+                // make it slave
+                air_dd.alpha = 0.3;
+
                 s.nativeOverlay.addChild(air_dd);
 
-           
+
 
 
                 air_b2debugDraw.SetSprite(air_dd);
                 // textures are 512 pixels, while our svgs are 400px
                 // so how big is a meter in our game world? :)
-                air_b2debugDraw.SetDrawScale(16);
+                air_b2debugDraw.SetDrawScale(16 * 2.0);
                 air_b2debugDraw.SetFillAlpha(0.1);
                 air_b2debugDraw.SetLineThickness(1.0);
                 air_b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
@@ -333,7 +338,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                             }
 
                             {
-                                var v = rot * 20;
+                                var v = rot * 10;
                                 if (v != 0)
                                     ground_current.SetAngularVelocity(v);
                             }
@@ -355,6 +360,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                             #endregion
 
+                            #region animate
                             {
                                 var cm = new Matrix();
 
@@ -364,19 +370,24 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                                 wings.transformationMatrix = cm;
 
                             }
+                            #endregion
 
 
-                            #region Step
                             var physicstime_elapsed = physicstime.ElapsedMilliseconds;
                             physicstime.Restart();
+
+                            #region Step
+
                             //update physics world
                             ground_b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
                             ground_b2world.DrawDebugData();
-
-                            //
-
                             //clear applied forces, so they don't stack from each update
                             ground_b2world.ClearForces();
+
+                            air_b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
+                            air_b2world.DrawDebugData();
+                            //clear applied forces, so they don't stack from each update
+                            air_b2world.ClearForces();
                             #endregion
 
                             #region transformationMatrix, phisics updated, now update visual
@@ -451,6 +462,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
                                 Content.transformationMatrix = cm;
+
+                                air_dd.transform.matrix = cm;
                                 ground_dd.transform.matrix = cm;
                             }
                             #endregion
