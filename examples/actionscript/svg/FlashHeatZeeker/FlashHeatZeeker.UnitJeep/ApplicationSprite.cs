@@ -15,63 +15,81 @@ namespace FlashHeatZeeker.UnitJeep
         public ApplicationSprite()
         {
             this.InvokeWhenStageIsReady(
-                delegate
-                {
-                    // http://gamua.com/starling/first-steps/
-                    // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
-                    Starling.handleLostContext = true;
+              delegate
+              {
+                  // http://gamua.com/starling/first-steps/
+                  // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
+                  Starling.handleLostContext = true;
 
-                    var s = new Starling(
-                        typeof(StarlingGameSpriteWithJeep).ToClassToken(),
-                        this.stage
-                    );
+                  var s = new Starling(
+                      typeof(StarlingGameSpriteWithJeep).ToClassToken(),
+                      this.stage
+                      //,
+                      //  Use this parameter to force "software" rendering.
+                      // The Context3DProfile that should be requested.
+                      // http://forum.starling-framework.org/topic/air-34
 
-
-                    //Starling.current.showStats
-
-                    s.showStats = true;
-
-                    #region atresize
-                    Action atresize = delegate
-                    {
-                        // http://forum.starling-framework.org/topic/starling-stage-resizing
-
-                        s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
-                            0, 0, this.stage.stageWidth, this.stage.stageHeight
-                        );
-
-                        s.stage.stageWidth = this.stage.stageWidth;
-                        s.stage.stageHeight = this.stage.stageHeight;
+                      // Chrome OpenGL 60 FPS
+                      // Nexus 7 Tab OpenGL 27 FPS
+                      // Galaxy S OpenGL 16 FPS
+                      //profile: "baseline"
+                      // constrained mode gives same perfrmance!
+                  );
 
 
-                        //b2stage_centerize();
-                    };
+                  //Starling.current.showStats
 
-                    atresize();
-                    #endregion
+                  s.showStats = true;
 
-                    StarlingGameSpriteDemo.onresize =
-                        yield =>
-                        {
-                            this.stage.resize += delegate
-                            {
-                                atresize();
+                  #region atresize
+                  Action atresize = delegate
+                  {
+                      // http://forum.starling-framework.org/topic/starling-stage-resizing
 
-                                yield(this.stage.stageWidth, this.stage.stageHeight);
-                            };
-                        };
+                      s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
+                          0, 0, this.stage.stageWidth, this.stage.stageHeight
+                      );
+
+                      s.stage.stageWidth = this.stage.stageWidth;
+                      s.stage.stageHeight = this.stage.stageHeight;
 
 
-                    this.stage.enterFrame +=
-                        delegate
-                        {
-                            StarlingGameSpriteDemo.onframe(this.stage, s);
-                        };
+                      //b2stage_centerize();
+                  };
 
-                    s.start();
+                  atresize();
+                  #endregion
 
-                }
-            );
+                  StarlingGameSpriteBase.onresize =
+                      yield =>
+                      {
+                          this.stage.resize += delegate
+                          {
+                              atresize();
+
+                              yield(this.stage.stageWidth, this.stage.stageHeight);
+                          };
+
+                          yield(this.stage.stageWidth, this.stage.stageHeight);
+                      };
+
+
+
+
+                  this.stage.enterFrame +=
+                      delegate
+                      {
+
+
+
+
+                          StarlingGameSpriteBase.onframe(this.stage, s);
+                      };
+
+                  s.start();
+
+              }
+          );
         }
 
     }

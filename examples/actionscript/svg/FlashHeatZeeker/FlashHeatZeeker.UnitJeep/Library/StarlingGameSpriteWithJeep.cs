@@ -43,8 +43,11 @@ namespace FlashHeatZeeker.UnitJeep.Library
 
                 //peds.Add(imgstand);
 
-                for (int i = 0; i < 12; i++)
-                    for (int yi = 0; yi < 12; yi++)
+                //var count = 12;
+                var count = 2;
+
+                for (int i = 0; i < count; i++)
+                    for (int yi = 0; yi < count; yi++)
                     {
                         var shadow = new Image(
                              textures_jeep_shadow()
