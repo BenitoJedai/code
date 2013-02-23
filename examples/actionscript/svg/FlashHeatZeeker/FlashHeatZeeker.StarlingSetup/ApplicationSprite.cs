@@ -23,7 +23,7 @@ namespace FlashHeatZeeker.StarlingSetup
                     Starling.handleLostContext = true;
 
                     var s = new Starling(
-                        typeof(StarlingGameSprite).ToClassToken(),
+                        typeof(StarlingGameSpriteDemo).ToClassToken(),
                         this.stage
                     );
 

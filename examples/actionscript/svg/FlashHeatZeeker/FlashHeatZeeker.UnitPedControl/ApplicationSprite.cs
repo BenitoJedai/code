@@ -1,17 +1,29 @@
+using Box2D.Common.Math;
+using Box2D.Dynamics;
 using FlashHeatZeeker.StarlingSetup.Library;
-using FlashHeatZeeker.UnitJeep.Library;
+using FlashHeatZeeker.UnitPed.Library;
+using FlashHeatZeeker.UnitPedControl.Library;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Extensions;
 using starling.core;
+using starling.text;
+using starling.utils;
 using System;
+using System.Diagnostics;
+using System.Windows.Forms;
 
-namespace FlashHeatZeeker.UnitJeep
+namespace FlashHeatZeeker.UnitPedControl
 {
     [SWF(backgroundColor = 0xA26D41)]
     public sealed class ApplicationSprite : Sprite
     {
+
+
+
+
         public ApplicationSprite()
         {
             this.InvokeWhenStageIsReady(
@@ -22,7 +34,7 @@ namespace FlashHeatZeeker.UnitJeep
                     Starling.handleLostContext = true;
 
                     var s = new Starling(
-                        typeof(StarlingGameSpriteWithJeep).ToClassToken(),
+                        typeof(StarlingGameSpriteWithPedControl).ToClassToken(),
                         this.stage
                     );
 
@@ -50,7 +62,7 @@ namespace FlashHeatZeeker.UnitJeep
                     atresize();
                     #endregion
 
-                    StarlingGameSpriteDemo.onresize =
+                    StarlingGameSpriteBase.onresize =
                         yield =>
                         {
                             this.stage.resize += delegate
@@ -59,13 +71,21 @@ namespace FlashHeatZeeker.UnitJeep
 
                                 yield(this.stage.stageWidth, this.stage.stageHeight);
                             };
+
+                            yield(this.stage.stageWidth, this.stage.stageHeight);
                         };
 
+
+              
 
                     this.stage.enterFrame +=
                         delegate
                         {
-                            StarlingGameSpriteDemo.onframe(this.stage, s);
+                          
+
+                          
+
+                            StarlingGameSpriteBase.onframe(this.stage, s);
                         };
 
                     s.start();
@@ -73,6 +93,5 @@ namespace FlashHeatZeeker.UnitJeep
                 }
             );
         }
-
     }
 }
