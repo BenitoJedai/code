@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/3.0">
+  <id>com.abstractatech.gamification.fhzuj</id>
+  <versionNumber>1.0.1</versionNumber>
+  <filename>FlashHeatZeeker.UnitJeep</filename>
+  <name>FlashHeatZeeker.UnitJeep</name>
+  <description>
+    <text xml:lang="en">FlashHeatZeeker.UnitJeep</text>
+  </description>
+  <copyright>abstractatech.com</copyright>
+  <initialWindow>
+    <title>FlashHeatZeeker.UnitJeep</title>
+    <content>
+      FlashHeatZeeker.UnitJeep.ApplicationSprite.swf
+    </content>
+
+    <autoOrients>false</autoOrients>
+    <renderMode>direct</renderMode>
+    <fullScreen>false</fullScreen>
+    <visible>true</visible>
+    <aspectRatio>landscape</aspectRatio>
+
+  </initialWindow>
+
+
+
+
+  <!-- 
+  
+  http://help.adobe.com/en_US/air/build/WSfffb011ac560372f2fea1812938a6e463-8000.html#WSfffb011ac560372f2fea1812938a6e463-7ff6
+  
+  Note: The icons specified are not automatically added to the AIR package. The icon files must be included in their correct relative locations when the application is packaged.
+  
+  -->
+  <icon>
+
+
+
+  </icon>
+  
+
+
+</application>

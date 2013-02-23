@@ -282,8 +282,11 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
             onbeforefirstframe += delegate
             {
-                for (int i = 0; i < 64; i++)
-                    for (int yi = 0; yi < 64; yi++)
+                //var count = 64;
+                var count = 2;
+
+                for (int i = 0; i < count; i++)
+                    for (int yi = 0; yi < count; yi++)
                     {
                         var logo = new Image(LogoTexture()) { }.AttachTo(Content);
 
@@ -317,7 +320,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                         cm.scale(stagescale, stagescale);
 
                         if (autorotate)
-                            cm.rotate(0.01 * frameid);
+                            cm.rotate(gametime.ElapsedMilliseconds * 0.001);
 
                         cm.translate(stagex, stagey);
                         Content.transformationMatrix = cm;
@@ -326,7 +329,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
                     var texmem = (Source0TextureMaxBottom * 100 / 2048) + "%";
 
-                    info.text = new { frameid, texmem, gametime.ElapsedMilliseconds }.ToString();
+                    info.text = new { frameid, texmem, gametime.ElapsedMilliseconds, Starling.current.context.driverInfo }.ToString();
                 };
         }
 

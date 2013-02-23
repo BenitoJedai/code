@@ -15,6 +15,9 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 {
     public class StarlingGameSpriteWithJeepControl : StarlingGameSpriteWithJeepTextures
     {
+        // hacky way, yet user probably ahs only one keyboard / set of hands anyhow
+        public static object[] __keyDown = new object[0xffffff];
+
         public StarlingGameSpriteWithJeepControl()
         {
             this.autorotate = false;
@@ -30,7 +33,6 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
 
                 #region __keyDown
-                var __keyDown = new object[0xffffff];
 
                 stage.keyDown +=
                    e =>
