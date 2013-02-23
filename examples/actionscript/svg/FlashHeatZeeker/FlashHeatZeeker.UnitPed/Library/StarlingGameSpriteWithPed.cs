@@ -14,43 +14,42 @@ namespace FlashHeatZeeker.UnitPed.Library
 {
 
 
-    public class StarlingGameSpriteWithPedTextures : StarlingGameSpriteBase
+    public class StarlingGameSpriteWithPedTextures
     {
         public Func<Texture>
-            textures_ped_shadow,
-            textures_ped_stand,
-            textures_ped_walk1_leftfar,
-            textures_ped_walk2_leftmid,
-            textures_ped_walk3_leftclose,
+            ped_shadow,
+            ped_stand,
+            ped_walk1_leftfar,
+            ped_walk2_leftmid,
+            ped_walk3_leftclose,
 
-            textures_ped_walk1x_rightfar,
-            textures_ped_walk2x_rightmid,
-            textures_ped_walk3x_rightclose;
+            ped_walk1x_rightfar,
+            ped_walk2x_rightmid,
+            ped_walk3x_rightclose;
 
-        public StarlingGameSpriteWithPedTextures()
+        public StarlingGameSpriteWithPedTextures(Texture64Constructor new_tex_crop)
         {
             //DRW 3
 
-            textures_ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", 0.3);
+            ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", 0.3);
 
             // do we need to flip?
-            textures_ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg");
+            ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg");
 
             // left foot
-            textures_ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg");
-            textures_ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg");
-            textures_ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg");
+            ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg");
+            ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg");
+            ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg");
 
-            textures_ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", flipx: true);
-            textures_ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", flipx: true);
-            textures_ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", flipx: true);
+            ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", flipx: true);
+            ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", flipx: true);
+            ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", flipx: true);
 
         }
 
     }
 
-    [Description("demo")]
-    public class StarlingGameSpriteWithPed : StarlingGameSpriteWithPedTextures
+    public class StarlingGameSpriteWithPed : StarlingGameSpriteBase
     {
 
         public StarlingGameSpriteWithPed()
@@ -59,7 +58,7 @@ namespace FlashHeatZeeker.UnitPed.Library
             this.autorotate = true;
 
 
-
+            var textures = new StarlingGameSpriteWithPedTextures(new_tex_crop);
 
 
 
@@ -67,20 +66,20 @@ namespace FlashHeatZeeker.UnitPed.Library
             {
 
                 var walk_ani = new[] {
-                    textures_ped_walk3_leftclose(), 
-                    textures_ped_walk3x_rightclose(),
-                    textures_ped_walk1x_rightfar(),
-                    textures_ped_walk2x_rightmid(),
-                    textures_ped_walk3x_rightclose(),
-                    textures_ped_walk3_leftclose(), 
-                    textures_ped_walk1_leftfar(), 
-                    textures_ped_walk2_leftmid(), 
+                    textures.ped_walk3_leftclose(), 
+                    textures.ped_walk3x_rightclose(),
+                    textures.ped_walk1x_rightfar(),
+                    textures.ped_walk2x_rightmid(),
+                    textures.ped_walk3x_rightclose(),
+                    textures.ped_walk3_leftclose(), 
+                    textures.ped_walk1_leftfar(), 
+                    textures.ped_walk2_leftmid(), 
 
                 };
 
                 var texframes = new[] {
 
-                    textures_ped_stand(),
+                    textures.ped_stand(),
                 };
 
                 // 781
@@ -99,7 +98,7 @@ namespace FlashHeatZeeker.UnitPed.Library
                         // Error: Error #3691: Resource limit for this resource type exceeded.
                         {
                             var imgstand = new Image(
-                                textures_ped_shadow()
+                                textures.ped_shadow()
                                 )
                                 {
                                     // fkn expensive!!
