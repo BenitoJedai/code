@@ -124,6 +124,9 @@
     <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.StarlingSetup\bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -143,6 +146,10 @@
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_shadow.svg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
+      <Project>{e90af106-0535-4f20-9390-2536a8e4deb7}</Project>
+      <Name>FlashHeatZeeker.CorePhysics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
       <Name>FlashHeatZeeker.StarlingSetup</Name>
