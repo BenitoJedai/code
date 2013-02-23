@@ -1,6 +1,7 @@
 ﻿using FlashHeatZeeker.StarlingSetup.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using starling.display;
+using starling.textures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,28 @@ using System.Text;
 
 namespace FlashHeatZeeker.UnitTank.Library
 {
-    public sealed class StarlingGameSpriteWithTank : StarlingGameSpriteBase
+    public class StarlingGameSpriteWithTankTextures : StarlingGameSpriteBase
+    {
+        public Func<Texture>
+             textures_tanktrackpattern,
+             textures_greentank_guntower,
+             textures_greentank_shadow,
+             textures_greentank;
+
+        public StarlingGameSpriteWithTankTextures()
+        {
+            textures_tanktrackpattern = new_tex_crop("assets/FlashHeatZeeker.UnitTank/tanktrackpattern.svg", innersize: 128);
+            textures_greentank_guntower = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_guntower.svg", innersize: 128);
+            textures_greentank_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_shadow.svg", innersize: 128, alpha: 0.3);
+            textures_greentank = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank.svg", innersize: 128);
+
+        }
+    }
+
+    public sealed class StarlingGameSpriteWithTank : StarlingGameSpriteWithTankTextures
     {
         public StarlingGameSpriteWithTank()
         {
-            var textures_tanktrackpattern = new_tex_crop("assets/FlashHeatZeeker.UnitTank/tanktrackpattern.svg", innersize: 128);
-            var textures_greentank_guntower = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_guntower.svg", innersize: 128);
-            var textures_greentank_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_shadow.svg", innersize: 128, alpha: 0.3);
-            var textures_greentank = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank.svg", innersize: 128);
 
 
             this.autorotate = true;
