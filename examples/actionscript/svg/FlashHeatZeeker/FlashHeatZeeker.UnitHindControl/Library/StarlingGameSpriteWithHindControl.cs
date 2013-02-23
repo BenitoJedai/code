@@ -16,8 +16,13 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 {
     public class StarlingGameSpriteWithHindControl : StarlingGameSpriteWithHindTextures
     {
+        public static object[] __keyDown = new object[0xffffff];
+
+
         public StarlingGameSpriteWithHindControl()
         {
+            // how much bigger are units in flight altidude?
+            var airzoom = 1.5;
 
             this.onbeforefirstframe += (stage, s) =>
             {
@@ -35,6 +40,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 var ground_b2debugDraw = new b2DebugDraw();
 
                 var ground_dd = new ScriptCoreLib.ActionScript.flash.display.Sprite();
+                ground_dd.transform.colorTransform = new ColorTransform(0.0, 0, 1.0);
 
                 s.nativeOverlay.addChild(ground_dd);
 
@@ -49,13 +55,11 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 // textures are 512 pixels, while our svgs are 400px
                 // so how big is a meter in our game world? :)
                 ground_b2debugDraw.SetDrawScale(16);
-                ground_b2debugDraw.SetFillAlpha(0.1);
+                //ground_b2debugDraw.SetFillAlpha(0.1);
                 ground_b2debugDraw.SetLineThickness(1.0);
                 ground_b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
 
                 ground_b2world.SetDebugDraw(ground_b2debugDraw);
-
-
 
 
 
@@ -92,6 +96,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 }
 
 
+
                 #endregion
 
 
@@ -117,8 +122,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 air_b2debugDraw.SetSprite(air_dd);
                 // textures are 512 pixels, while our svgs are 400px
                 // so how big is a meter in our game world? :)
-                air_b2debugDraw.SetDrawScale(16 * 2.0);
-                air_b2debugDraw.SetFillAlpha(0.1);
+                air_b2debugDraw.SetDrawScale(16);
+                //air_b2debugDraw.SetFillAlpha(0.1);
                 air_b2debugDraw.SetLineThickness(1.0);
                 air_b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
 
@@ -162,6 +167,73 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
                 #endregion
+
+                #region obstacles
+                {
+                    var bodyDef = new b2BodyDef();
+
+                    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                    // stop moving if legs stop walking!
+                    bodyDef.linearDamping = 10.0;
+                    bodyDef.angularDamping = 0.3;
+                    //bodyDef.angle = 1.57079633;
+                    bodyDef.fixedRotation = true;
+
+                    var body = air_b2world.CreateBody(bodyDef);
+                    body.SetPosition(new b2Vec2(10, 10));
+
+                    var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                    fixDef.density = 0.1;
+                    fixDef.friction = 0.01;
+                    fixDef.restitution = 0;
+
+
+                    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(10.0);
+
+
+                    var fix = body.CreateFixture(fixDef);
+
+                    body.SetPosition(
+                        new b2Vec2(-8, 0)
+                    );
+                }
+
+                {
+                    var bodyDef = new b2BodyDef();
+
+                    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                    // stop moving if legs stop walking!
+                    bodyDef.linearDamping = 10.0;
+                    bodyDef.angularDamping = 0.3;
+                    //bodyDef.angle = 1.57079633;
+                    bodyDef.fixedRotation = true;
+
+                    var body = ground_b2world.CreateBody(bodyDef);
+                    body.SetPosition(new b2Vec2(10, 10));
+
+                    var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                    fixDef.density = 0.1;
+                    fixDef.friction = 0.01;
+                    fixDef.restitution = 0;
+
+
+                    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(10.0);
+
+
+                    var fix = body.CreateFixture(fixDef);
+
+
+                    body.SetPosition(
+                        new b2Vec2(8, 0)
+                    );
+                }
+                #endregion
+
+
+
+
 
 
 
@@ -242,9 +314,10 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                         currentvisual.transformationMatrix = cm;
                     }
 
+                    bool flightmode_changepending = false;
+                    bool flightmode = false;
 
                     #region __keyDown
-                    var __keyDown = new object[0xffffff];
 
                     stage.keyDown +=
                        e =>
@@ -279,6 +352,22 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                     onframe +=
                         delegate
                         {
+                            #region flightmode
+                            if (__keyDown[(int)Keys.Space] == null)
+                            {
+                                // space is not down.
+                                flightmode_changepending = true;
+                            }
+                            else
+                            {
+                                if (flightmode_changepending)
+                                {
+                                    flightmode = !flightmode;
+                                    flightmode_changepending = false;
+                                }
+                            }
+                            #endregion
+
                             #region SetLinearVelocity
 
                             var rot = 0;
@@ -337,25 +426,55 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                                 }
                             }
 
+                            var current = ground_current;
+                            var current_slave1 = air_current;
+
+                            if (flightmode)
+                            {
+                                current = air_current;
+                                current_slave1 = ground_current;
+
+
+                                air_dd.alpha = 0.6;
+                                ground_dd.alpha = 0.1;
+                            }
+                            else
+                            {
+                                air_dd.alpha = 0.1;
+                                ground_dd.alpha = 0.6;
+                            }
+
+
+                            current.SetActive(true);
+                            current_slave1.SetActive(false);
+
+
                             {
                                 var v = rot * 10;
                                 if (v != 0)
-                                    ground_current.SetAngularVelocity(v);
+                                    current.SetAngularVelocity(v);
                             }
 
                             {
-                                var vx = Math.Cos(ground_current.GetAngle()) * dy * current_speed
-                                        + Math.Cos(ground_current.GetAngle() + Math.PI / 2) * dx * current_speed;
-                                var vy = Math.Sin(ground_current.GetAngle()) * dy * current_speed
-                                        + Math.Sin(ground_current.GetAngle() + Math.PI / 2) * dx * current_speed;
+                                var vx = Math.Cos(current.GetAngle()) * dy * current_speed
+                                        + Math.Cos(current.GetAngle() + Math.PI / 2) * dx * current_speed;
+                                var vy = Math.Sin(current.GetAngle()) * dy * current_speed
+                                        + Math.Sin(current.GetAngle() + Math.PI / 2) * dx * current_speed;
 
-                                ground_current.SetLinearVelocity(
-                                    new b2Vec2(
-                                     vx, vy
+                                if (vx == 0 && vy == 0)
+                                {
+
+                                }
+                                else
+                                {
+                                    current.SetLinearVelocity(
+                                        new b2Vec2(
+                                         vx, vy
 
 
-                                    )
-                                );
+                                        )
+                                    );
+                                }
                             }
 
                             #endregion
@@ -364,7 +483,10 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                             {
                                 var cm = new Matrix();
 
-                                cm.rotate(this.gametime.ElapsedMilliseconds * 0.001);
+                                if (flightmode)
+                                    cm.rotate(this.gametime.ElapsedMilliseconds * 0.001 * 5);
+                                else
+                                    cm.rotate(this.gametime.ElapsedMilliseconds * 0.001);
 
 
                                 wings.transformationMatrix = cm;
@@ -392,6 +514,12 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                             #region transformationMatrix, phisics updated, now update visual
 
+                            // sync up
+                            current_slave1.SetPositionAndAngle(
+                                current.GetPosition(),
+                                current.GetAngle()
+                            );
+
 
                             {
                                 var cm = new Matrix();
@@ -407,14 +535,17 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
 
-                                cm.rotate(ground_current.GetAngle() + Math.PI / 2);
+                                cm.rotate(current.GetAngle() + Math.PI / 2);
                                 cm.translate(
-                                    ground_current.GetPosition().x * 16,
-                                    ground_current.GetPosition().y * 16
+                                    current.GetPosition().x * 16,
+                                    current.GetPosition().y * 16
                                 );
 
 
                                 cm.translate(8, 8);
+
+                                if (flightmode)
+                                    cm.translate(96 * airzoom, 96 * airzoom);
 
                                 currentshadow.transformationMatrix = cm;
                             }
@@ -422,10 +553,14 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                             {
                                 var cm = new Matrix();
 
-                                cm.rotate(ground_current.GetAngle() + Math.PI / 2);
+                                cm.rotate(current.GetAngle() + Math.PI / 2);
+
+                                if (flightmode)
+                                    cm.scale(airzoom, airzoom);
+
                                 cm.translate(
-                                    ground_current.GetPosition().x * 16,
-                                    ground_current.GetPosition().y * 16
+                                    current.GetPosition().x * 16,
+                                    current.GetPosition().y * 16
                                 );
 
                                 currentvisual.transformationMatrix = cm;
@@ -440,11 +575,11 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
                                 cm.translate(
-                                    -(ground_current.GetPosition().x * 16),
-                                    -(ground_current.GetPosition().y * 16)
+                                    -(current.GetPosition().x * 16),
+                                    -(current.GetPosition().y * 16)
                                 );
 
-                                cm.rotate(-ground_current.GetAngle() - Math.PI / 2);
+                                cm.rotate(-current.GetAngle() - Math.PI / 2);
                                 //cm.rotate(-current.GetAngle());
 
 
@@ -455,6 +590,15 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                                 cm.scale(stagescale, stagescale);
 
+                                var cm_air = cm.clone();
+
+                                cm_air.scale(airzoom, airzoom);
+
+                                cm_air.translate(
+                                    (stage.stageWidth * 0.5),
+                                    (stage.stageHeight * 0.8)
+                                );
+
                                 cm.translate(
                                     (stage.stageWidth * 0.5),
                                     (stage.stageHeight * 0.8)
@@ -463,8 +607,9 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                                 Content.transformationMatrix = cm;
 
-                                air_dd.transform.matrix = cm;
                                 ground_dd.transform.matrix = cm;
+
+                                air_dd.transform.matrix = cm_air;
                             }
                             #endregion
                         };
