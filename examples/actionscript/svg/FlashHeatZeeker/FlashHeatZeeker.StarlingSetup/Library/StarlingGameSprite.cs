@@ -68,9 +68,10 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         public Texture64Constructor new_tex_crop;
         public double stagescale;
 
+        public Stopwatch gametime = new Stopwatch();
+
         public StarlingGameSpriteBase()
         {
-            var gametime = new Stopwatch();
             gametime.Start();
 
             this.Content = new Sprite().AttachTo(this);
@@ -213,17 +214,19 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             Func<ScriptCoreLib.ActionScript.flash.display.IBitmapDrawable, Func<Texture>> new_tex96 =
                (shape) =>
                {
+                   var innersize = 96;
+
                    // outer 400, inner 64
 
                    // do we need to wrap?
-                   if ((Source0TextureLeft + 96) >= 2048)
+                   if ((Source0TextureLeft + innersize) >= 2048)
                    {
                        // if so, goto next line
                        Source0TextureTop = Source0TextureMaxBottom;
                        Source0TextureLeft = 0;
                    }
 
-                   var rect = new Rectangle(Source0TextureLeft, Source0TextureTop, 96, 96);
+                   var rect = new Rectangle(Source0TextureLeft, Source0TextureTop, innersize, innersize);
 
                    {
 
@@ -233,8 +236,8 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
 
                        // next image will appear right to us
-                       Source0TextureLeft += 96;
-                       Source0TextureMaxBottom = Source0TextureMaxBottom.Max(Source0TextureTop + 96);
+                       Source0TextureLeft += innersize + 1;
+                       Source0TextureMaxBottom = Source0TextureMaxBottom.Max(Source0TextureTop + innersize);
 
                        var m = new Matrix();
                        m.translate(
