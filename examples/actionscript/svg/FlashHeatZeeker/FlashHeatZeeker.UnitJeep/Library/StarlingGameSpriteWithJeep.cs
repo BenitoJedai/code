@@ -9,7 +9,7 @@ using System.Text;
 
 namespace FlashHeatZeeker.UnitJeep.Library
 {
-    public class StarlingGameSpriteWithJeepTextures : StarlingGameSprite
+    public class StarlingGameSpriteWithJeepTextures : StarlingGameSpriteBase
     {
         public Func<Texture>
           textures_black4,
@@ -30,10 +30,12 @@ namespace FlashHeatZeeker.UnitJeep.Library
         }
     }
 
-    public class StarlingGameSpriteWithJeep : StarlingGameSpriteWithJeepTextures
+    public sealed class StarlingGameSpriteWithJeep : StarlingGameSpriteWithJeepTextures
     {
         public StarlingGameSpriteWithJeep()
         {
+            this.autorotate = true;
+
 
             this.onbeforefirstframe += delegate
             {

@@ -63,6 +63,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         public Random random = new Random();
 
 
+        public double internalscale = 0.3;
 
         public Texture64Constructor new_tex_crop;
         public double stagescale;
@@ -88,7 +89,6 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
             var stagex = 200.0;
             var stagey = 200.0;
-            var internalscale = 0.3;
             this.stagescale = internalscale;
 
             onresize(
@@ -332,11 +332,11 @@ namespace FlashHeatZeeker.StarlingSetup.Library
     }
 
     [Description("demo")]
-    public class StarlingGameSprite : StarlingGameSpriteBase
+    public sealed class StarlingGameSpriteDemo : StarlingGameSpriteBase
     {
 
 
-        public StarlingGameSprite()
+        public StarlingGameSpriteDemo()
         {
             this.autorotate = true;
         }
