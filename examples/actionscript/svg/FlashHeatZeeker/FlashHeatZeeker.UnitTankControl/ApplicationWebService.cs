@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace FlashHeatZeeker.Core.ServiceFoo
+namespace FlashHeatZeeker.UnitTankControl
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
