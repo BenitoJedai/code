@@ -10,28 +10,31 @@ using System.Text;
 
 namespace FlashHeatZeeker.UnitHind.Library
 {
-    public class StarlingGameSpriteWithHindTextures : StarlingGameSpriteBase
+    public class StarlingGameSpriteWithHindTextures 
     {
         public Func<Texture>
-          textures_hind0_nowings,
-          textures_hind0_shadow,
-          textures_hind0_wing1;
+          hind0_nowings,
+          hind0_shadow,
+          hind0_wing1;
 
-        public StarlingGameSpriteWithHindTextures()
+        public StarlingGameSpriteWithHindTextures(Texture64Constructor new_tex_crop)
         {
 
-             textures_hind0_nowings = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_nowings.svg", innersize: 320);
-             textures_hind0_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_shadow.svg", innersize: 320, alpha: 0.3);
-             textures_hind0_wing1 = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_wing1.svg", innersize: 320);
+             hind0_nowings = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_nowings.svg", innersize: 320);
+             hind0_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_shadow.svg", innersize: 320, alpha: 0.3);
+             hind0_wing1 = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_wing1.svg", innersize: 320);
 
         }
     }
 
-    public class StarlingGameSpriteWithHind : StarlingGameSpriteWithHindTextures
+    public class StarlingGameSpriteWithHind : StarlingGameSpriteBase
     {
+
         public StarlingGameSpriteWithHind()
         {
             this.autorotate = true;
+
+            var textures = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
 
 
             this.onbeforefirstframe += delegate
@@ -44,7 +47,7 @@ namespace FlashHeatZeeker.UnitHind.Library
 
 
                           var shadow = new Image(
-                            textures_hind0_shadow()
+                            textures.hind0_shadow()
                             )
                               {
                               }.AttachTo(
@@ -54,7 +57,7 @@ namespace FlashHeatZeeker.UnitHind.Library
                           var visual = new Sprite().AttachTo(Content);
 
                           var nowings = new Image(
-                            textures_hind0_nowings()
+                            textures.hind0_nowings()
                             )
                               {
                               }.AttachTo(visual);
@@ -63,7 +66,7 @@ namespace FlashHeatZeeker.UnitHind.Library
 
                           Enumerable.Range(0, 5).Select(
                               wingindex =>
-                                  new Image(textures_hind0_wing1()).AttachTo(wings).With(
+                                  new Image(textures.hind0_wing1()).AttachTo(wings).With(
                                     img =>
                                     {
                                         var cm = new Matrix();
