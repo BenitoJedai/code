@@ -69,7 +69,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                     ground_bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
 
                     // stop moving if legs stop walking!
-                    ground_bodyDef.linearDamping = 0.0;
+                    ground_bodyDef.linearDamping = 10.0;
                     ground_bodyDef.angularDamping = 20.0;
                     //bodyDef.angle = 1.57079633;
                     ground_bodyDef.fixedRotation = true;
@@ -139,7 +139,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                     air_bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
 
                     // stop moving if legs stop walking!
-                    air_bodyDef.linearDamping = 0.0;
+                    air_bodyDef.linearDamping = 10.0;
                     air_bodyDef.angularDamping = 20.0;
                     //bodyDef.angle = 1.57079633;
                     air_bodyDef.fixedRotation = true;

@@ -76,6 +76,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitJeepTou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon", "..\..\..\..\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj", "{0910EC49-6697-4664-8A71-F09CAEC02E88}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitHindTouch", "FlashHeatZeeker.UnitHindTouch\FlashHeatZeeker.UnitHindTouch.csproj", "{3FF7DA03-078A-4E0A-958E-52EB92614C76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -396,6 +398,16 @@ Global
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|x86.ActiveCfg = Release|Any CPU
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Debug|x86.ActiveCfg = Debug|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Debug|x86.Build.0 = Debug|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Release|Any CPU.ActiveCfg = Release|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Release|x86.ActiveCfg = Release|x86
+		{3FF7DA03-078A-4E0A-958E-52EB92614C76}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

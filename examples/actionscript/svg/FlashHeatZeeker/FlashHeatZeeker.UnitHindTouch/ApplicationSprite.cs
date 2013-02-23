@@ -1,4 +1,4 @@
-using FlashHeatZeeker.UnitJeepControl.Library;
+using FlashHeatZeeker.UnitHindControl.Library;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -7,7 +7,7 @@ using System;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace FlashHeatZeeker.UnitJeepTouch
+namespace FlashHeatZeeker.UnitHindTouch
 {
     [SWF(backgroundColor = 0xA26D41)]
     public sealed class ApplicationSprite : Sprite
@@ -16,7 +16,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
 
         public ApplicationSprite()
         {
-            var content0 = new FlashHeatZeeker.UnitJeepControl.ApplicationSprite();
+            var content0 = new FlashHeatZeeker.UnitHindControl.ApplicationSprite();
 
             content0.AttachTo(this);
 
@@ -36,7 +36,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
                         {
                             ui.Opacity = 1;
                             e.Handled = true;
-                            StarlingGameSpriteWithJeepControl.__keyDown[(int)key] = new object();
+                            StarlingGameSpriteWithHindControl.__keyDown[(int)key] = new object();
                         };
 
                     //ui.MouseUp +=
@@ -45,7 +45,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
                        {
                            ui.Opacity = 0.5;
                            e.Handled = true;
-                           StarlingGameSpriteWithJeepControl.__keyDown[(int)key] = null;
+                           StarlingGameSpriteWithHindControl.__keyDown[(int)key] = null;
                        };
 
                     ui.TouchDown +=
@@ -53,7 +53,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
                       {
                           ui.Opacity = 1;
                           e.Handled = true;
-                          StarlingGameSpriteWithJeepControl.__keyDown[(int)key] = new object();
+                          StarlingGameSpriteWithHindControl.__keyDown[(int)key] = new object();
                       };
 
                     ui.TouchUp +=
@@ -61,7 +61,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
                        {
                            ui.Opacity = 0.5;
                            e.Handled = true;
-                           StarlingGameSpriteWithJeepControl.__keyDown[(int)key] = null;
+                           StarlingGameSpriteWithHindControl.__keyDown[(int)key] = null;
                        };
                 };
             #endregion
@@ -70,6 +70,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
             bind(content1.down, Keys.Down);
             bind(content1.left, Keys.Left);
             bind(content1.right, Keys.Right);
+            bind(content1.space, Keys.Space);
 
 
             this.InvokeWhenStageIsReady(
