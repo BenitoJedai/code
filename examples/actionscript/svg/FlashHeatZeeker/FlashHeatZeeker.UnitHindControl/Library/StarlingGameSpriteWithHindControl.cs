@@ -1,6 +1,7 @@
 ﻿using Box2D.Collision.Shapes;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
+using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.UnitHind.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Extensions;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitHindControl.Library
 {
-    public class StarlingGameSpriteWithHindControl : StarlingGameSpriteWithHindTextures
+    public class StarlingGameSpriteWithHindControl : StarlingGameSpriteBase
     {
         public static object[] __keyDown = new object[0xffffff];
 
@@ -24,12 +25,17 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             // how much bigger are units in flight altidude?
             var airzoom = 1.5;
 
+            var textures = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
+
+
             this.onbeforefirstframe += (stage, s) =>
             {
+                // refactor physics, visual
+
                 b2Body ground_current = null;
                 b2Body air_current = null;
 
-
+                
 
 
                 #region ground_b2world
@@ -238,11 +244,10 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
                 {
-                    var current_rot = random.NextDouble() * Math.PI;
 
-
+                    #region currentvisual
                     var currentshadow = new Image(
-                      textures_hind0_shadow()
+                      textures.hind0_shadow()
                       )
                     {
                     }.AttachTo(
@@ -252,7 +257,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                     var currentvisual = new Sprite().AttachTo(Content);
 
                     var nowings = new Image(
-                      textures_hind0_nowings()
+                      textures.hind0_nowings()
                       )
                     {
                     }.AttachTo(currentvisual);
@@ -261,7 +266,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                     Enumerable.Range(0, 5).Select(
                         wingindex =>
-                            new Image(textures_hind0_wing1()).AttachTo(wings).With(
+                            new Image(textures.hind0_wing1()).AttachTo(wings).With(
                               img =>
                               {
                                   var cm = new Matrix();
@@ -288,31 +293,11 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                         nowings.transformationMatrix = cm;
                     }
+                    #endregion
 
 
-                    {
-                        var cm = new Matrix();
 
-                        cm.translate(-160, -160);
-
-                        // shadow with tracks!
-                        cm.rotate(current_rot);
-
-                        cm.translate(8, 8);
-
-                        currentshadow.transformationMatrix = cm;
-                    }
-
-                    {
-                        var cm = new Matrix();
-
-
-                        // shadow with tracks!
-                        cm.rotate(current_rot);
-
-
-                        currentvisual.transformationMatrix = cm;
-                    }
+            
 
                     bool flightmode_changepending = false;
                     bool flightmode = false;
