@@ -3,6 +3,8 @@ using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
+using FlashHeatZeeker.UnitCannon.Library;
+using FlashHeatZeeker.UnitCannonControl.Library;
 using FlashHeatZeeker.UnitHind.Library;
 using FlashHeatZeeker.UnitHindControl.Library;
 using FlashHeatZeeker.UnitJeep.Library;
@@ -30,6 +32,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
             var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
+            var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
 
             this.onbeforefirstframe += (stage, s) =>
             {
@@ -54,6 +57,13 @@ namespace FlashHeatZeeker.TestDrivers.Library
                 // 12 = 34FPS
                 for (int i = 0; i < 4; i++)
                 {
+                    var cannon2 = new PhysicalCannon(textures_cannon, this);
+
+                    cannon2.body.SetPositionAndAngle(
+                        new b2Vec2(i * 16, -16), random.NextDouble()
+                    );
+
+
                     var hind2 = new PhysicalHind(textures_hind, this);
 
                     hind2.current.SetPositionAndAngle(

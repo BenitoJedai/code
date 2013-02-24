@@ -119,7 +119,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             );
             var Source0TextureCount = 0;
             // where to start?
-            var Source0TextureTop = 1024;
+            var Source0TextureTop = 0;
             var Source0TextureLeft = 0;
             var Source0TextureMaxBottom = 0;
 
