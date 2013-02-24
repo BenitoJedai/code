@@ -1,6 +1,7 @@
 ﻿using Box2D.Collision.Shapes;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
+using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using System;
@@ -30,6 +31,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
         public Stopwatch physicstime = new Stopwatch();
         public double airzoom = 0.35;
 
+        public List<IPhysicalUnit> units = new List<IPhysicalUnit>();
 
         public StarlingGameSpriteWithPhysics()
         {
@@ -195,7 +197,12 @@ namespace FlashHeatZeeker.CorePhysics.Library
                         //clear applied forces, so they don't stack from each update
                         ground_b2world.ClearForces();
 
-                        air_b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
+                        air_b2world.Step(
+                            physicstime_elapsed / 1000.0,
+                            10,
+                            8
+                        );
+
                         air_b2world.DrawDebugData();
                         //clear applied forces, so they don't stack from each update
                         air_b2world.ClearForces();
@@ -235,7 +242,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
                             cm.scale(stagescale, stagescale);
 
-                    
+
                             cm.translate(
                                 (stage.stageWidth * 0.5),
                                 (stage.stageHeight * 0.8)
@@ -249,6 +256,12 @@ namespace FlashHeatZeeker.CorePhysics.Library
                             air_dd.transform.matrix = cm;
                         }
                         #endregion
+
+                        foreach (var item in units)
+                        {
+                            item.ShowPositionAndAngle();
+                            item.ApplyVelocity();
+                        }
                     };
             };
 

@@ -127,6 +127,9 @@
     <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />

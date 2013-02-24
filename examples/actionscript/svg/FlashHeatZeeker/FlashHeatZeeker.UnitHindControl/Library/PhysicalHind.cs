@@ -1,6 +1,7 @@
 ﻿using Box2D.Collision.Shapes;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
+using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.UnitHind.Library;
@@ -17,7 +18,7 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitHindControl.Library
 {
-    public class PhysicalHind
+    public class PhysicalHind : IPhysicalUnit
     {
         public double speed = 40;
 
@@ -55,13 +56,144 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             }
         }
 
+        public bool DisableGroundMovement;
 
-        public Action<object[]> SetVelocityFromInput;
-        public Action ApplyVelocity;
-        public Action ShowPositionAndAngle;
+        public void SetVelocityFromInput(object[] __keyDown)
+        {
+            this.AngularVelocity = 0;
+            this.LinearVelocityX = 0;
+            this.LinearVelocityY = 0;
+
+            if (this.visual.Altitude == 0)
+                if (DisableGroundMovement)
+                    return;
+
+            if (__keyDown[(int)Keys.Up] != null)
+            {
+                // we have reasone to keep walking
+
+                this.LinearVelocityY = 1;
+            }
+
+            if (__keyDown[(int)Keys.Down] != null)
+            {
+                // we have reasone to keep walking
+                // go slow backwards
+                this.LinearVelocityY = -0.5;
+
+            }
+
+            if (__keyDown[(int)Keys.Alt] == null)
+            {
+                if (__keyDown[(int)Keys.Left] != null)
+                {
+                    // we have reasone to keep walking
+
+                    this.AngularVelocity = -1;
+
+                }
+
+                if (__keyDown[(int)Keys.Right] != null)
+                {
+                    // we have reasone to keep walking
+
+                    this.AngularVelocity = 1;
+
+                }
+            }
+            else
+            {
+                if (__keyDown[(int)Keys.Left] != null)
+                {
+                    // we have reasone to keep walking
+
+                    this.LinearVelocityX = -1;
+
+                }
+
+                if (__keyDown[(int)Keys.Right] != null)
+                {
+                    // we have reasone to keep walking
+
+                    this.LinearVelocityX = 1;
+
+                }
+            }
+        }
+
+
+        long ApplyVelocityElapsed;
+        public void ApplyVelocity()
+        {
+            var dx = Context.gametime.ElapsedMilliseconds - ApplyVelocityElapsed;
+            ApplyVelocityElapsed = Context.gametime.ElapsedMilliseconds;
+
+            var current = this.current;
+
+            {
+                var v = this.AngularVelocity * 10;
+                current.SetAngularVelocity(v);
+            }
+
+            {
+                var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
+                        + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
+                var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
+                        + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
+
+                if (vx == 0 && vy == 0)
+                {
+
+                }
+                else
+                {
+                    this.current.SetLinearVelocity(
+                        new b2Vec2(
+                         vx, vy
+
+
+                        )
+                    );
+                }
+            }
+
+
+            this.visual.Altitude =
+                (this.visual.Altitude + 0.005 * dx * this.VerticalVelocity).Max(0).Min(1);
+        }
+
+        public void ShowPositionAndAngle()
+        {
+            if (current != null)
+                current.SetActive(true);
+
+            if (current_slave1 != null)
+            {
+                current_slave1.SetActive(false);
+
+                // sync up
+                if (current != null)
+                    current_slave1.SetPositionAndAngle(
+                        current.GetPosition(),
+                        current.GetAngle()
+                    );
+            }
+
+            this.visual.Animate(Context.gametime);
+            // where are we now
+            this.visual.SetPositionAndAngle(
+                this.current.GetPosition().x * 16,
+                this.current.GetPosition().y * 16,
+                this.current.GetAngle()
+            );
+        }
+
+        StarlingGameSpriteWithPhysics Context;
 
         public PhysicalHind(StarlingGameSpriteWithHindTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.Context = Context;
+
             visual = new VisualHind(textures, Context.Content, Context.airzoom);
 
 
@@ -79,7 +211,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 // stop moving if legs stop walking!
                 ground_bodyDef.linearDamping = 10.0;
-                ground_bodyDef.angularDamping = 20.0;
+                ground_bodyDef.angularDamping = 0;
                 //bodyDef.angle = 1.57079633;
                 ground_bodyDef.fixedRotation = true;
 
@@ -121,7 +253,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 // stop moving if legs stop walking!
                 air_bodyDef.linearDamping = 10.0;
-                air_bodyDef.angularDamping = 20.0;
+                air_bodyDef.angularDamping = 0;
                 //bodyDef.angle = 1.57079633;
                 air_bodyDef.fixedRotation = true;
                 air_bodyDef.active = false;
@@ -151,138 +283,10 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             #endregion
 
 
-            #region SetVelocityFromInput
-            this.SetVelocityFromInput =
-                __keyDown =>
-                {
-                    this.AngularVelocity = 0;
-                    this.LinearVelocityX = 0;
-                    this.LinearVelocityY = 0;
 
-                    if (__keyDown[(int)Keys.Up] != null)
-                    {
-                        // we have reasone to keep walking
-
-                        this.LinearVelocityY = 1;
-                    }
-
-                    if (__keyDown[(int)Keys.Down] != null)
-                    {
-                        // we have reasone to keep walking
-                        // go slow backwards
-                        this.LinearVelocityY = -0.5;
-
-                    }
-
-                    if (__keyDown[(int)Keys.Alt] == null)
-                    {
-                        if (__keyDown[(int)Keys.Left] != null)
-                        {
-                            // we have reasone to keep walking
-
-                            this.AngularVelocity = -1;
-
-                        }
-
-                        if (__keyDown[(int)Keys.Right] != null)
-                        {
-                            // we have reasone to keep walking
-
-                            this.AngularVelocity = 1;
-
-                        }
-                    }
-                    else
-                    {
-                        if (__keyDown[(int)Keys.Left] != null)
-                        {
-                            // we have reasone to keep walking
-
-                            this.LinearVelocityX = -1;
-
-                        }
-
-                        if (__keyDown[(int)Keys.Right] != null)
-                        {
-                            // we have reasone to keep walking
-
-                            this.LinearVelocityX = 1;
-
-                        }
-                    }
-                };
-            #endregion
-
-            var ApplyVelocityElapsed = Context.gametime.ElapsedMilliseconds;
-            #region ApplyVelocity
-            this.ApplyVelocity = delegate
-            {
-                var dx = Context.gametime.ElapsedMilliseconds - ApplyVelocityElapsed;
-                ApplyVelocityElapsed = Context.gametime.ElapsedMilliseconds;
-
-                var current = this.current;
-
-                {
-                    var v = this.AngularVelocity * 10;
-                    if (v != 0)
-                        current.SetAngularVelocity(v);
-                }
-
-                {
-                    var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
-                            + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
-                    var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
-                            + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
-
-                    if (vx == 0 && vy == 0)
-                    {
-
-                    }
-                    else
-                    {
-                        this.current.SetLinearVelocity(
-                            new b2Vec2(
-                             vx, vy
+            ApplyVelocityElapsed = Context.gametime.ElapsedMilliseconds;
 
 
-                            )
-                        );
-                    }
-                }
-
-
-                this.visual.Altitude =
-                    (this.visual.Altitude + 0.005 * dx * this.VerticalVelocity).Max(0).Min(1);
-            };
-            #endregion
-
-            #region ShowPositionAndAngle
-            this.ShowPositionAndAngle = delegate
-            {
-                if (current != null)
-                    current.SetActive(true);
-
-                if (current_slave1 != null)
-                {
-                    current_slave1.SetActive(false);
-
-                    // sync up
-                    if (current != null)
-                        current_slave1.SetPositionAndAngle(
-                            current.GetPosition(),
-                            current.GetAngle()
-                        );
-                }
-
-                this.visual.Animate(Context.gametime);
-                // where are we now
-                this.visual.SetPositionAndAngle(
-                    this.current.GetPosition().x * 16,
-                    this.current.GetPosition().y * 16,
-                    this.current.GetAngle()
-                );
-            };
-            #endregion
 
         }
     }

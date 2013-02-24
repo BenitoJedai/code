@@ -65,91 +65,25 @@ namespace FlashHeatZeeker.UnitPed.Library
             this.onbeforefirstframe += delegate
             {
 
-                var walk_ani = new[] {
-                    textures.ped_walk3_leftclose(), 
-                    textures.ped_walk3x_rightclose(),
-                    textures.ped_walk1x_rightfar(),
-                    textures.ped_walk2x_rightmid(),
-                    textures.ped_walk3x_rightclose(),
-                    textures.ped_walk3_leftclose(), 
-                    textures.ped_walk1_leftfar(), 
-                    textures.ped_walk2_leftmid(), 
 
-                };
-
-                var texframes = new[] {
-
-                    textures.ped_stand(),
-                };
 
                 // 781
                 // 15 FPS
                 // 60 FPS
                 // 31  FPS
-                var peds = new List<Image>();
+                var peds = new List<VisualPed>();
                 for (int i = 0; i < 32; i++)
                     for (int yi = 0; yi < 32; yi++)
                     {
                         var rr = random.Next() % 1024;
 
-                        // 41
-                        //var q = new Sprite().AttachTo(Content);
+                        var visual0 = new VisualPed(textures, this);
+                        visual0.SetPositionAndAngle(
+                            i * 128, yi * 128, random.NextDouble() * Math.PI
+                            );
+                        peds.Add(visual0);
 
-                        // Error: Error #3691: Resource limit for this resource type exceeded.
-                        {
-                            var imgstand = new Image(
-                                textures.ped_shadow()
-                                )
-                                {
-                                    // fkn expensive!!
-                                    //alpha = 0.5
-                                }.AttachTo(
-                                    Content
-                                //q
-                                    );
-
-                            //peds.Add(imgstand);
-
-                            {
-                                var cm = new Matrix();
-
-                                cm.translate(-32, -32);
-                                // how big shall the shadow be?
-                                cm.scale(4.0, 4.0);
-
-                                //cm.rotate(random.NextDouble() * Math.PI);
-                                cm.translate(i * 128, yi * 128);
-                                imgstand.transformationMatrix = cm;
-                            }
-                        }
-                        {
-                            var imgstand = new Image(
-                                texframes[
-                                //0
-                                random.Next() % texframes.Length
-                                    ]) { }.AttachTo(
-                                    Content
-                                //q
-                                    );
-
-                            peds.Add(imgstand);
-
-                            {
-                                var cm = new Matrix();
-
-                                cm.translate(-32, -32);
-                                cm.scale(2.0, 2.0);
-
-                                cm.rotate(random.NextDouble() * Math.PI);
-                                cm.translate(i * 128, yi * 128);
-                                imgstand.transformationMatrix = cm;
-                            }
-                        }
-
-
-
-                        // 54FPS without
-                        // 43FPS
+                    
 
                     }
 
@@ -158,13 +92,13 @@ namespace FlashHeatZeeker.UnitPed.Library
 
                     // animate
 
-                    var ii = ((frameid + 0) / (8)) % walk_ani.Length;
-
-                    foreach (var imgstand in peds)
+                    foreach (var visual0 in peds)
                     {
-                        // 40fps
-                        imgstand.texture = walk_ani[ii];
+                        visual0.Animate(true);
                     }
+
+
+
                 };
 
                 //#region sortChildren
