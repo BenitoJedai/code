@@ -71,6 +71,7 @@ namespace FlashHeatZeeker.UnitHindTouch
             bind(content1.left, Keys.Left);
             bind(content1.right, Keys.Right);
             bind(content1.space, Keys.Space);
+            bind(content1.control, Keys.ControlKey);
 
 
             this.InvokeWhenStageIsReady(

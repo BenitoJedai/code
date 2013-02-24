@@ -16,7 +16,14 @@ namespace FlashHeatZeeker.UnitHindTouch
     {
         public readonly Rectangle r = new Rectangle();
 
-        public Rectangle up, down, left, right, space;
+        public Rectangle 
+            
+                    up, 
+            space,
+                    down, 
+            
+            control,
+            left, right;
 
         public ApplicationCanvas()
         {
@@ -52,6 +59,16 @@ namespace FlashHeatZeeker.UnitHindTouch
             down.SizeTo(64, 64);
             this.SizeChanged += (s, e) => down.MoveTo(this.Width - 64 - 4, this.Height - 64 - 4);
 
+
+
+
+            control = new Rectangle
+            {
+                Fill = Brushes.White,
+                Opacity = 0.5
+            }.AttachTo(this);
+            control.SizeTo(64 + 4 + 64, 64);
+            this.SizeChanged += (s, e) => control.MoveTo(4, this.Height - 64 - 4 - 64 - 4);
 
             left = new Rectangle
             {
