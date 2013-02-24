@@ -82,6 +82,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.TestDrivers
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.CorePhysics", "FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj", "{E90AF106-0535-4F20-9390-2536A8E4DEB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.TestDriversTouch", "FlashHeatZeeker.TestDriversTouch\FlashHeatZeeker.TestDriversTouch.csproj", "{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -432,6 +434,16 @@ Global
 		{E90AF106-0535-4F20-9390-2536A8E4DEB7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{E90AF106-0535-4F20-9390-2536A8E4DEB7}.Release|x86.ActiveCfg = Release|x86
 		{E90AF106-0535-4F20-9390-2536A8E4DEB7}.Release|x86.Build.0 = Release|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Debug|x86.ActiveCfg = Debug|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Debug|x86.Build.0 = Debug|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Release|Any CPU.ActiveCfg = Release|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Release|Mixed Platforms.Build.0 = Release|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Release|x86.ActiveCfg = Release|x86
+		{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
