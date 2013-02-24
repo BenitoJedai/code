@@ -446,31 +446,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 };
 
-                //#region sortChildren
-                //// http://forum.starling-framework.org/topic/sortchildren-function-causes-flickering
-                //Func<DisplayObject, DisplayObject, int> sorter =
-                //    (x, y) =>
-                //    {
-                //        var ix = x as Image;
-                //        var iy = y as Image;
-
-                //        if (ix != null)
-                //            if (iy != null)
-                //            {
-                //                if (ix.texture == textures_ped_stand)
-                //                    if (iy.texture != textures_ped_stand)
-                //                        return -1;
-
-                //                if (ix.texture != textures_ped_stand)
-                //                    if (iy.texture == textures_ped_stand)
-                //                        return 1;
-                //            }
-
-                //        return 0;
-                //    };
-
-                //Content.sortChildren(sorter.ToFunction());
-                //#endregion
+         
             };
 
 

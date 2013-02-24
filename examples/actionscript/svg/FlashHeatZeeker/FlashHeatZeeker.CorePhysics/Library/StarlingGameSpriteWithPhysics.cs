@@ -18,8 +18,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
             air_b2world;
 
         public b2Body
-            current,
-            current_slave1;
+            current;
 
         public double
             current_rotation_extra = Math.PI / 2;
@@ -29,11 +28,11 @@ namespace FlashHeatZeeker.CorePhysics.Library
             air_dd;
 
         public Stopwatch physicstime = new Stopwatch();
+        public double airzoom = 0.35;
 
 
         public StarlingGameSpriteWithPhysics()
         {
-            var airzoom = 1.5;
 
 
             //b2Body ground_current = null;
@@ -202,22 +201,17 @@ namespace FlashHeatZeeker.CorePhysics.Library
                         air_b2world.ClearForces();
                         #endregion
 
-
-
                         if (current != null)
-                            current.SetActive(true);
-
-                        if (current_slave1 != null)
-                        {
-                            current_slave1.SetActive(false);
-
-                            // sync up
-                            if (current != null)
-                                current_slave1.SetPositionAndAngle(
-                                    current.GetPosition(),
-                                    current.GetAngle()
-                                );
-                        }
+                            if (current.GetWorld() == air_b2world)
+                            {
+                                air_dd.alpha = 0.6;
+                                ground_dd.alpha = 0.1;
+                            }
+                            else
+                            {
+                                air_dd.alpha = 0.1;
+                                ground_dd.alpha = 0.6;
+                            }
 
                         #region DisableDefaultContentDransformation
                         DisableDefaultContentDransformation = true;
@@ -241,15 +235,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
                             cm.scale(stagescale, stagescale);
 
-                            var cm_air = cm.clone();
-
-                            cm_air.scale(airzoom, airzoom);
-
-                            cm_air.translate(
-                                (stage.stageWidth * 0.5),
-                                (stage.stageHeight * 0.8)
-                            );
-
+                    
                             cm.translate(
                                 (stage.stageWidth * 0.5),
                                 (stage.stageHeight * 0.8)
@@ -260,7 +246,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
                             ground_dd.transform.matrix = cm;
 
-                            air_dd.transform.matrix = cm_air;
+                            air_dd.transform.matrix = cm;
                         }
                         #endregion
                     };
