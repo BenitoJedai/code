@@ -21,9 +21,15 @@ namespace FlashHeatZeeker.CorePhysics.Library
             current,
             current_slave1;
 
+        public double
+            current_rotation_extra = Math.PI / 2;
+
         public ScriptCoreLib.ActionScript.flash.display.Sprite
             ground_dd,
             air_dd;
+
+        public Stopwatch physicstime = new Stopwatch();
+
 
         public StarlingGameSpriteWithPhysics()
         {
@@ -169,7 +175,6 @@ namespace FlashHeatZeeker.CorePhysics.Library
             #endregion
 
 
-            var physicstime = new Stopwatch();
             physicstime.Start();
 
             this.onbeforefirstframe += (stage, s) =>
@@ -226,7 +231,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                                     -(current.GetPosition().y * 16)
                                 );
 
-                                cm.rotate(-current.GetAngle() - Math.PI / 2);
+                                cm.rotate(-current.GetAngle() - current_rotation_extra);
                             }
                             //cm.rotate(-current.GetAngle());
 

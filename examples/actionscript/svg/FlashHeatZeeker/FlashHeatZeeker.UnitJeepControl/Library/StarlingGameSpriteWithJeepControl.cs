@@ -1,5 +1,6 @@
 ﻿using Box2D.Common.Math;
 using Box2D.Dynamics;
+using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.UnitJeep.Library;
 using FlashHeatZeekerWithStarlingB2.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
@@ -13,7 +14,7 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitJeepControl.Library
 {
-    public class StarlingGameSpriteWithJeepControl : StarlingGameSpriteWithJeepTextures
+    public class StarlingGameSpriteWithJeepControl : StarlingGameSpriteWithPhysics
     {
         // hacky way, yet user probably ahs only one keyboard / set of hands anyhow
         public static object[] __keyDown = new object[0xffffff];
@@ -22,15 +23,13 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
         {
             this.autorotate = false;
 
+            current_rotation_extra = 0;
+
+
+            var textures = new StarlingGameSpriteWithJeepTextures(new_tex_crop);
+
             this.onbeforefirstframe += (stage, s) =>
             {
-                var b2world = default(b2World);
-
-
-                var physicstime = new Stopwatch();
-
-                physicstime.Start();
-
 
                 #region __keyDown
 
@@ -59,38 +58,10 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                 #endregion
 
 
-                b2Body current = null;
 
 
 
                 #region b2world
-                // first frame  ... set up our physccs
-                // zombies!!
-                b2world = new b2World(new b2Vec2(0, 0), false);
-
-                var b2debugDraw = new b2DebugDraw();
-
-                var dd = new ScriptCoreLib.ActionScript.flash.display.Sprite();
-
-                s.nativeOverlay.addChild(dd);
-
-                var stagex = 200.0;
-                var stagey = 200.0;
-                var internalscale = 0.3;
-                var stagescale = internalscale;
-
-
-
-                b2debugDraw.SetSprite(dd);
-                // textures are 512 pixels, while our svgs are 400px
-                // so how big is a meter in our game world? :)
-                b2debugDraw.SetDrawScale(16);
-                b2debugDraw.SetFillAlpha(0.1);
-                b2debugDraw.SetLineThickness(1.0);
-                b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
-
-                b2world.SetDebugDraw(b2debugDraw);
-
 
                 // add ghost obstacles for diagnostics
 
@@ -105,7 +76,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                     //bodyDef.angle = 1.57079633;
                     bodyDef.fixedRotation = true;
 
-                    var body = b2world.CreateBody(bodyDef);
+                    var body = ground_b2world.CreateBody(bodyDef);
                     body.SetPosition(new b2Vec2(10, 10));
 
                     var fixDef = new Box2D.Dynamics.b2FixtureDef();
@@ -132,7 +103,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
 
                 var shadow = new Image(
-                            textures_jeep_shadow()
+                            textures.jeep_shadow()
                             )
                 {
                 }.AttachTo(
@@ -149,7 +120,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
 
                 var tire0 = new Image(
-                  textures_black4()
+                  textures.black4()
                   )
                 {
                 }.AttachTo(
@@ -157,12 +128,12 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                     currentvisual
                 );
 
-                var tire1 = new Image(textures_black4()).AttachTo(currentvisual);
-                var tire2 = new Image(textures_black4()).AttachTo(currentvisual);
-                var tire3 = new Image(textures_black4()).AttachTo(currentvisual);
+                var tire1 = new Image(textures.black4()).AttachTo(currentvisual);
+                var tire2 = new Image(textures.black4()).AttachTo(currentvisual);
+                var tire3 = new Image(textures.black4()).AttachTo(currentvisual);
 
                 var imgstand = new Image(
-                  textures_jeep()
+                  textures.jeep()
                   )
                 {
                 }.AttachTo(
@@ -255,17 +226,17 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                 var xwheels = new[] { 
                         //top left
-                        new Wheel { b2world = b2world, x = -1.1, y = -1.2, width = 0.4, length = 0.8, revolving = true, powered = true },
+                        new Wheel { b2world = ground_b2world, x = -1.1, y = -1.2, width = 0.4, length = 0.8, revolving = true, powered = true },
 
                         //top right
-                        new Wheel{b2world= b2world, x =1.1,  y =-1.2,  width =0.4,  length =0.8,  revolving =true,  powered =true},
+                        new Wheel{b2world= ground_b2world, x =1.1,  y =-1.2,  width =0.4,  length =0.8,  revolving =true,  powered =true},
 
 
                         //back left
-                        new Wheel{b2world= b2world, x =-1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
+                        new Wheel{b2world= ground_b2world, x =-1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
 
                         //back right
-                        new Wheel{b2world= b2world, x =1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
+                        new Wheel{b2world= ground_b2world, x =1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
                     };
 
                 xwheels[0].setAngle += a =>
@@ -295,7 +266,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                 Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
 
                 var unit4_physics = new Car(
-                 b2world: b2world,
+                 b2world: ground_b2world,
                  width: 2,
                  length: 4,
                  position: ff(0, 0),
@@ -312,6 +283,8 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                 current = unit4_physics.body;
 
                 var current_speed = 40.0;
+
+                var xgt = gametime.ElapsedMilliseconds;
 
                 onframe += delegate
                 {
@@ -363,11 +336,10 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                     //current.SetAngularVelocity(rot * 10);
 
-                    var physicstime_elapsed = physicstime.ElapsedMilliseconds;
 
-                    unit4_physics.update(physicstime_elapsed);
+                    unit4_physics.update(gametime.ElapsedMilliseconds - xgt);
 
-
+                    xgt = gametime.ElapsedMilliseconds;
                     ////current.SetLinearVelocity(
                     ////    new b2Vec2(
                     ////        Math.Cos(current.GetAngle()) * dy * current_speed
@@ -381,17 +353,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                     #endregion
 
-                    #region Step
-                    physicstime.Restart();
-                    //update physics world
-                    b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
-                    b2world.DrawDebugData();
 
-                    //
-
-                    //clear applied forces, so they don't stack from each update
-                    b2world.ClearForces();
-                    #endregion
 
                     #region transformationMatrix, phisics updated, now update visual
 
@@ -434,38 +396,38 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                     #endregion
 
 
-                    #region DisableDefaultContentDransformation
-                    DisableDefaultContentDransformation = true;
-                    {
-                        var cm = new Matrix();
+                    //#region DisableDefaultContentDransformation
+                    //DisableDefaultContentDransformation = true;
+                    //{
+                    //    var cm = new Matrix();
 
 
-                        cm.translate(
-                            -(current.GetPosition().x * 16),
-                            -(current.GetPosition().y * 16)
-                        );
+                    //    cm.translate(
+                    //        -(current.GetPosition().x * 16),
+                    //        -(current.GetPosition().y * 16)
+                    //    );
 
-                        //cm.rotate(-current.GetAngle() - Math.PI / 2);
-                        cm.rotate(-current.GetAngle());
-
-
-                        stagex = stage.stageWidth * 0.5;
-                        stagey = stage.stageHeight * 0.8;
-                        stagescale = internalscale * 3.0 * (stage.stageWidth) / (800.0);
+                    //    //cm.rotate(-current.GetAngle() - Math.PI / 2);
+                    //    cm.rotate(-current.GetAngle());
 
 
-                        cm.scale(stagescale, stagescale);
-
-                        cm.translate(
-                            (stage.stageWidth * 0.5),
-                            (stage.stageHeight * 0.8)
-                        );
+                    //    stagex = stage.stageWidth * 0.5;
+                    //    stagey = stage.stageHeight * 0.8;
+                    //    stagescale = internalscale * 3.0 * (stage.stageWidth) / (800.0);
 
 
-                        Content.transformationMatrix = cm;
-                        dd.transform.matrix = cm;
-                    }
-                    #endregion
+                    //    cm.scale(stagescale, stagescale);
+
+                    //    cm.translate(
+                    //        (stage.stageWidth * 0.5),
+                    //        (stage.stageHeight * 0.8)
+                    //    );
+
+
+                    //    Content.transformationMatrix = cm;
+                    //    dd.transform.matrix = cm;
+                    //}
+                    //#endregion
                 };
             };
         }

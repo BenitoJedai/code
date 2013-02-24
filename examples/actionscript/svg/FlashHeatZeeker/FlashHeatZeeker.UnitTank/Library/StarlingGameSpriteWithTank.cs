@@ -1,4 +1,5 @@
-﻿using FlashHeatZeeker.StarlingSetup.Library;
+﻿using FlashHeatZeeker.CorePhysics.Library;
+using FlashHeatZeeker.StarlingSetup.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using starling.display;
 using starling.textures;
@@ -9,32 +10,32 @@ using System.Text;
 
 namespace FlashHeatZeeker.UnitTank.Library
 {
-    public class StarlingGameSpriteWithTankTextures : StarlingGameSpriteBase
+    public class StarlingGameSpriteWithTankTextures
     {
         public Func<Texture>
-             textures_tanktrackpattern,
-             textures_greentank_guntower,
-             textures_greentank_shadow,
-             textures_greentank;
+             tanktrackpattern,
+             greentank_guntower,
+             greentank_shadow,
+             greentank;
 
-        public StarlingGameSpriteWithTankTextures()
+        public StarlingGameSpriteWithTankTextures(Texture64Constructor new_tex_crop)
         {
-            textures_tanktrackpattern = new_tex_crop("assets/FlashHeatZeeker.UnitTank/tanktrackpattern.svg", innersize: 128);
-            textures_greentank_guntower = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_guntower.svg", innersize: 128);
-            textures_greentank_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_shadow.svg", innersize: 128, alpha: 0.3);
-            textures_greentank = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank.svg", innersize: 128);
+            tanktrackpattern = new_tex_crop("assets/FlashHeatZeeker.UnitTank/tanktrackpattern.svg", innersize: 128);
+            greentank_guntower = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_guntower.svg", innersize: 128);
+            greentank_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_shadow.svg", innersize: 128, alpha: 0.3);
+            greentank = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank.svg", innersize: 128);
 
         }
     }
 
-    public sealed class StarlingGameSpriteWithTank : StarlingGameSpriteWithTankTextures
+    public sealed class StarlingGameSpriteWithTank : StarlingGameSpriteBase
     {
         public StarlingGameSpriteWithTank()
         {
-
+            var textures = new StarlingGameSpriteWithTankTextures(new_tex_crop);
 
             this.autorotate = true;
-            this.internalscale = 2.0;
+            //this.internalscale = 2.0;
 
             this.onbeforefirstframe += delegate
              {
@@ -45,7 +46,7 @@ namespace FlashHeatZeeker.UnitTank.Library
                          var rot = random.NextDouble() * Math.PI;
 
                          var shadow = new Image(
-                            textures_greentank_shadow()
+                            textures.greentank_shadow()
                             )
                              {
                              }.AttachTo(
@@ -57,7 +58,7 @@ namespace FlashHeatZeeker.UnitTank.Library
 
 
                          var tanktrackpattern1 = new Image(
-                              textures_tanktrackpattern()
+                              textures.tanktrackpattern()
                               )
                                  {
                                  }.AttachTo(
@@ -66,7 +67,7 @@ namespace FlashHeatZeeker.UnitTank.Library
 
 
                          var tanktrackpattern0 = new Image(
-                              textures_tanktrackpattern()
+                              textures.tanktrackpattern()
                               )
                          {
                          }.AttachTo(
@@ -75,7 +76,7 @@ namespace FlashHeatZeeker.UnitTank.Library
 
 
                          var imgstand = new Image(
-                            textures_greentank()
+                            textures.greentank()
                             )
                          {
                          }.AttachTo(
@@ -83,7 +84,7 @@ namespace FlashHeatZeeker.UnitTank.Library
                          );
 
                          var guntower = new Image(
-                             textures_greentank_guntower()
+                             textures.greentank_guntower()
                              )
                              {
                              }.AttachTo(

@@ -9,33 +9,34 @@ using System.Text;
 
 namespace FlashHeatZeeker.UnitJeep.Library
 {
-    public class StarlingGameSpriteWithJeepTextures : StarlingGameSpriteBase
+    public class StarlingGameSpriteWithJeepTextures 
     {
         public Func<Texture>
-          textures_black4,
-          textures_jeep,
-          textures_jeep_shadow;
+          black4,
+          jeep,
+          jeep_shadow;
 
-        public StarlingGameSpriteWithJeepTextures()
+        public StarlingGameSpriteWithJeepTextures(Texture64Constructor new_tex_crop)
         {
             // http://forum.starling-framework.org/topic/confirmation-on-optimum-quadbatch-use
             // hack, Quad should do the work, yet it drags performance!
-            textures_black4 = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", innersize: 4);
+            black4 = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", innersize: 4);
 
 
-            textures_jeep = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep.svg");
-            textures_jeep_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", alpha: 0.3);
+            jeep = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep.svg");
+            jeep_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", alpha: 0.3);
 
 
         }
     }
 
-    public sealed class StarlingGameSpriteWithJeep : StarlingGameSpriteWithJeepTextures
+    public sealed class StarlingGameSpriteWithJeep : StarlingGameSpriteBase
     {
         public StarlingGameSpriteWithJeep()
         {
             this.autorotate = true;
 
+            var textures = new StarlingGameSpriteWithJeepTextures(new_tex_crop);
 
             this.onbeforefirstframe += delegate
             {
@@ -50,7 +51,7 @@ namespace FlashHeatZeeker.UnitJeep.Library
                     for (int yi = 0; yi < count; yi++)
                     {
                         var shadow = new Image(
-                             textures_jeep_shadow()
+                             textures.jeep_shadow()
                              )
                                 {
                                 }.AttachTo(
@@ -67,7 +68,7 @@ namespace FlashHeatZeeker.UnitJeep.Library
 
 
                         var tire0 = new Image(
-                          textures_black4()
+                          textures.black4()
                           )
                         {
                         }.AttachTo(
@@ -75,12 +76,12 @@ namespace FlashHeatZeeker.UnitJeep.Library
                             q
                         );
 
-                        var tire1 = new Image(textures_black4()).AttachTo(q);
-                        var tire2 = new Image(textures_black4()).AttachTo(q);
-                        var tire3 = new Image(textures_black4()).AttachTo(q);
+                        var tire1 = new Image(textures.black4()).AttachTo(q);
+                        var tire2 = new Image(textures.black4()).AttachTo(q);
+                        var tire3 = new Image(textures.black4()).AttachTo(q);
 
                         var imgstand = new Image(
-                          textures_jeep()
+                          textures.jeep()
                           )
                         {
                         }.AttachTo(

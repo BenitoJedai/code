@@ -56,6 +56,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
         public FrameHandler onbeforefirstframe = delegate { };
 
+
         public static FrameHandler onframe = delegate { };
         public static Action<Action<int, int>> onresize;
 
@@ -330,6 +331,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                     var texmem = (Source0TextureMaxBottom * 100 / 2048) + "%";
 
                     info.text = new { frameid, texmem, gametime.ElapsedMilliseconds, Starling.current.context.driverInfo }.ToString();
+
                 };
         }
 
