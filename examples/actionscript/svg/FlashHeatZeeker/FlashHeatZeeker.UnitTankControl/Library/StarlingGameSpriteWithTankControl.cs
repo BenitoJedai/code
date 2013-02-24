@@ -1,6 +1,7 @@
 ﻿using Box2D.Collision.Shapes;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
+using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.UnitTank.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using starling.display;
@@ -13,47 +14,20 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitTankControl.Library
 {
-    public class StarlingGameSpriteWithTankControl : StarlingGameSpriteWithTankTextures
+    public class StarlingGameSpriteWithTankControl : StarlingGameSpriteWithPhysics
     {
         public StarlingGameSpriteWithTankControl()
         {
+            var textures = new StarlingGameSpriteWithTankTextures(new_tex_crop);
+
+
             this.onbeforefirstframe += (stage, s) =>
             {
-                var b2world = default(b2World);
-                b2Body current = null;
 
 
 
 
                 #region b2world
-                // first frame  ... set up our physccs
-                // zombies!!
-                b2world = new b2World(new b2Vec2(0, 0), false);
-
-                var b2debugDraw = new b2DebugDraw();
-
-                var dd = new ScriptCoreLib.ActionScript.flash.display.Sprite();
-
-                s.nativeOverlay.addChild(dd);
-
-                var stagex = 200.0;
-                var stagey = 200.0;
-                var internalscale = 0.3;
-                var stagescale = internalscale;
-
-
-
-                b2debugDraw.SetSprite(dd);
-                // textures are 512 pixels, while our svgs are 400px
-                // so how big is a meter in our game world? :)
-                b2debugDraw.SetDrawScale(16);
-                b2debugDraw.SetFillAlpha(0.1);
-                b2debugDraw.SetLineThickness(1.0);
-                b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
-
-                b2world.SetDebugDraw(b2debugDraw);
-
-
 
 
 
@@ -68,7 +42,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                     //bodyDef.angle = 1.57079633;
                     bodyDef.fixedRotation = true;
 
-                    var body = b2world.CreateBody(bodyDef);
+                    var body = ground_b2world.CreateBody(bodyDef);
                     current = body;
 
 
@@ -95,12 +69,12 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
 
 
-       
+
 
 
                 #region visual
                 var currentshadow = new Image(
-                        textures_greentank_shadow()
+                        textures.greentank_shadow()
                         )
                 {
                 }.AttachTo(
@@ -112,7 +86,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
 
                 var tanktrackpattern1 = new Image(
-                     textures_tanktrackpattern()
+                     textures.tanktrackpattern()
                      )
                 {
                 }.AttachTo(
@@ -121,7 +95,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
 
                 var tanktrackpattern0 = new Image(
-                     textures_tanktrackpattern()
+                     textures.tanktrackpattern()
                      )
                 {
                 }.AttachTo(
@@ -130,7 +104,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
 
                 var imgstand = new Image(
-                   textures_greentank()
+                   textures.greentank()
                    )
                 {
                 }.AttachTo(
@@ -138,7 +112,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                 );
 
                 var guntower = new Image(
-                    textures_greentank_guntower()
+                    textures.greentank_guntower()
                     )
                 {
                 }.AttachTo(
@@ -252,9 +226,6 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                 var current_speed = 40.0;
 
-                var physicstime = new Stopwatch();
-                physicstime.Start();
-
 
 
                 onframe += delegate
@@ -315,7 +286,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                     #endregion
 
-                    #region animate
+                    #region animate offsetTexCoords
                     if (rot == 0 && dy == 0)
                     {
                     }
@@ -338,18 +309,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                     #endregion
 
 
-                    #region Step
-                    var physicstime_elapsed = physicstime.ElapsedMilliseconds;
-                    physicstime.Restart();
-                    //update physics world
-                    b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
-                    b2world.DrawDebugData();
 
-                    //
-
-                    //clear applied forces, so they don't stack from each update
-                    b2world.ClearForces();
-                    #endregion
 
                     #region transformationMatrix, phisics updated, now update visual
 
@@ -393,38 +353,38 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                     #endregion
 
 
-                    #region DisableDefaultContentDransformation
-                    DisableDefaultContentDransformation = true;
-                    {
-                        var cm = new Matrix();
+                    //#region DisableDefaultContentDransformation
+                    //DisableDefaultContentDransformation = true;
+                    //{
+                    //    var cm = new Matrix();
 
 
-                        cm.translate(
-                            -(current.GetPosition().x * 16),
-                            -(current.GetPosition().y * 16)
-                        );
+                    //    cm.translate(
+                    //        -(current.GetPosition().x * 16),
+                    //        -(current.GetPosition().y * 16)
+                    //    );
 
-                        cm.rotate(-current.GetAngle() - Math.PI / 2);
-                        //cm.rotate(-current.GetAngle());
-
-
-                        stagex = stage.stageWidth * 0.5;
-                        stagey = stage.stageHeight * 0.8;
-                        stagescale = internalscale * (stage.stageWidth) / (800.0);
+                    //    cm.rotate(-current.GetAngle() - Math.PI / 2);
+                    //    //cm.rotate(-current.GetAngle());
 
 
-                        cm.scale(stagescale, stagescale);
-
-                        cm.translate(
-                            (stage.stageWidth * 0.5),
-                            (stage.stageHeight * 0.8)
-                        );
+                    //    stagex = stage.stageWidth * 0.5;
+                    //    stagey = stage.stageHeight * 0.8;
+                    //    stagescale = internalscale * (stage.stageWidth) / (800.0);
 
 
-                        Content.transformationMatrix = cm;
-                        dd.transform.matrix = cm;
-                    }
-                    #endregion
+                    //    cm.scale(stagescale, stagescale);
+
+                    //    cm.translate(
+                    //        (stage.stageWidth * 0.5),
+                    //        (stage.stageHeight * 0.8)
+                    //    );
+
+
+                    //    Content.transformationMatrix = cm;
+                    //    dd.transform.matrix = cm;
+                    //}
+                    //#endregion
                 };
             };
         }
