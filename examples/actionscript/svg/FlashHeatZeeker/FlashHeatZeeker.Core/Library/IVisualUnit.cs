@@ -7,5 +7,6 @@ namespace FlashHeatZeeker.Core.Library
 {
     public interface IVisualUnit
     {
+        void SetPositionAndAngle(double x, double y, double angle);
     }
 }
