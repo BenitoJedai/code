@@ -122,8 +122,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         public void ShowPositionAndAngle()
         {
-            if (body != null)
-                body.SetActive(true);
+            //if (body != null)
+            //    body.SetActive(true);
 
 
             var iswalking = this.LinearVelocityX != 0 || this.LinearVelocityY != 0;
