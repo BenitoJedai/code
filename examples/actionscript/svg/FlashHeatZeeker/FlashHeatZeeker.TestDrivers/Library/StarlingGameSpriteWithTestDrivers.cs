@@ -184,18 +184,14 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                             {
                                                 currentunit.driverseat.driver = null;
 
-                                                driver.body.SetPositionAndAngle(
-
-                                                    new b2Vec2(
-
-                                                        currentunit.body.GetPosition().x + Math.Cos(currentunit.body.GetAngle()) * 2,
-                                                        currentunit.body.GetPosition().y + Math.Sin(currentunit.body.GetAngle()) * 2
-                                                    ),
-                                                    currentunit.body.GetAngle()
+                                                // crashland?
+                                                (currentunit as PhysicalHind).With(
+                                                    hind => hind.VerticalVelocity = -1
                                                 );
 
-                                                driver.body.SetActive(true);
+
                                                 currentunit = driver;
+                                                currentunit.body.SetActive(true);
                                             }
                                         );
                                 }

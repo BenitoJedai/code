@@ -264,6 +264,26 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
                         foreach (var item in units)
                         {
+                            #region driverseat
+                            if (item.driverseat != null)
+                                if (item.driverseat.driver != null)
+                                {
+                                    var driver = item.driverseat.driver;
+
+                                    driver.body.SetPositionAndAngle(
+
+                                        new b2Vec2(
+
+                                            item.body.GetPosition().x + Math.Cos(item.body.GetAngle() - Math.PI * 0.5) * 0.2,
+                                            item.body.GetPosition().y + Math.Sin(item.body.GetAngle() - Math.PI * 0.5) * 0.2
+                                        ),
+                                        item.body.GetAngle()
+                                    );
+
+                                    driver.ShowPositionAndAngle();
+                                }
+                            #endregion
+
                             item.ShowPositionAndAngle();
                             item.ApplyVelocity();
                         }

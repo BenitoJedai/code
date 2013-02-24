@@ -21,7 +21,7 @@ namespace FlashHeatZeeker.UnitHind.Library
         {
 
             hind0_nowings = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_nowings.svg", innersize: 320);
-            hind0_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_shadow.svg", innersize: 320, alpha: 0.3);
+            hind0_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_shadow.svg", innersize: 320, alpha: 0.15);
             hind0_wing1 = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_wing1.svg", innersize: 320);
 
         }
