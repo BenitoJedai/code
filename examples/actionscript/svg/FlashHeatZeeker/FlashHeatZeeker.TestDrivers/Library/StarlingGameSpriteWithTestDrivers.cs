@@ -5,8 +5,12 @@ using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.UnitHind.Library;
 using FlashHeatZeeker.UnitHindControl.Library;
+using FlashHeatZeeker.UnitJeep.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using FlashHeatZeeker.UnitPed.Library;
 using FlashHeatZeeker.UnitPedControl.Library;
+using FlashHeatZeeker.UnitTank.Library;
+using FlashHeatZeeker.UnitTankControl.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,28 +28,60 @@ namespace FlashHeatZeeker.TestDrivers.Library
         {
             var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
+            var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
+            var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
 
             this.onbeforefirstframe += (stage, s) =>
             {
 
                 // can I have 
                 // new ped, hind, jeep, tank
-                var ped = new PhyscalPed(textures_ped, this);
-                units.Add(ped);
-                var hind1 = new PhysicalHind(textures_hind, this) { 
-                DisableGroundMovement = true
-                };
-                units.Add(hind1);
+                var ped = new PhysicalPed(textures_ped, this);
 
-                for (int i = 0; i < 12; i++)
+                var hind1 = new PhysicalHind(textures_hind, this)
+                {
+                    AutomaticTakeoff = true
+                };
+
+                var jeep1 = new PhysicalJeep(textures_jeep, this)
+                {
+                };
+
+                var tank1 = new PhysicalTank(textures_tank, this)
+                {
+                };
+
+                // 12 = 34FPS
+                for (int i = 0; i < 4; i++)
                 {
                     var hind2 = new PhysicalHind(textures_hind, this);
 
-                    hind2.current.SetPosition(
-                        new b2Vec2(i * 32, 8)
+                    hind2.current.SetPositionAndAngle(
+                        new b2Vec2(i * 16, 8), random.NextDouble()
                     );
 
-                    units.Add(hind2);
+
+                    var jeep2 = new PhysicalJeep(textures_jeep, this);
+
+                    jeep2.unit4_physics.body.SetPositionAndAngle(
+                        new b2Vec2(i * 16, 16), random.NextDouble()
+                    );
+
+
+
+                    var tank2 = new PhysicalTank(textures_tank, this);
+
+                    tank2.body.SetPositionAndAngle(
+                        new b2Vec2(i * 16, 24), random.NextDouble()
+                    );
+
+
+                    var ped2 = new PhysicalPed(textures_ped, this);
+
+                    ped2.body.SetPositionAndAngle(
+                        new b2Vec2(i * 16, 32), random.NextDouble()
+                    );
+
 
                 }
 
@@ -85,7 +121,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                 onframe +=
                     delegate
                     {
-                   
+
 
                         #region entermode_changepending
                         if (__keyDown[(int)Keys.Enter] == null)
@@ -105,24 +141,38 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                 {
                                     currentunit = hind1;
                                 }
+                                else if (currentunit == hind1)
+                                {
+                                    currentunit = jeep1;
+                                }
+                                else if (currentunit == jeep1)
+                                {
+                                    currentunit = tank1;
+                                }
                                 else
                                 {
                                     currentunit = ped;
                                 }
-
                             }
                         }
                         #endregion
 
                         if (currentunit == ped)
                         {
-                            current = ped.current;
+                            current = ped.body;
+                        }
+                        else if (currentunit == jeep1)
+                        {
+                            current = jeep1.unit4_physics.body;
+                        }
+                        else if (currentunit == tank1)
+                        {
+                            current = tank1.body;
                         }
                         else
                         {
                             current = hind1.current;
                         }
-
                         #region flightmode
                         if (__keyDown[(int)Keys.Space] == null)
                         {
@@ -149,7 +199,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
                         currentunit.SetVelocityFromInput(__keyDown);
 
-             
+
 
 
                         #region simulate a weapone!

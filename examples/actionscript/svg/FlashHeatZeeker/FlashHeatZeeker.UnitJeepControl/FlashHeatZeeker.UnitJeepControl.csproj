@@ -142,6 +142,7 @@
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Library\Car.cs" />
+    <Compile Include="Library\PhysicalJeep.cs" />
     <Compile Include="Library\StarlingGameSpriteWithJeepControl.cs" />
     <Compile Include="Library\X.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

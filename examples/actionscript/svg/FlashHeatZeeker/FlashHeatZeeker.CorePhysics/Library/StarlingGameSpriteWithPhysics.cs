@@ -31,7 +31,12 @@ namespace FlashHeatZeeker.CorePhysics.Library
         public Stopwatch physicstime = new Stopwatch();
         public double airzoom = 0.35;
 
-        public List<IPhysicalUnit> units = new List<IPhysicalUnit>();
+        public List<IPhysicalUnit> internalunits = new List<IPhysicalUnit>();
+
+        public IEnumerable<IPhysicalUnit> units
+        {
+            get { return internalunits; }
+        }
 
         public StarlingGameSpriteWithPhysics()
         {

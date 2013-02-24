@@ -18,16 +18,79 @@ namespace FlashHeatZeeker.UnitHind.Library
         public Sprite visualwings;
 
 
-        public Action<double, double, double> SetPositionAndAngle { get; set; }
-        public Action<Stopwatch> Animate;
+        public void SetPositionAndAngle(double x, double y, double angle)
+        {
+            #region transformationMatrix, phisics updated, now update visual
+
+
+
+
+            {
+                var cm = new Matrix();
+
+
+                cm.translate(-160, -160);
+
+
+                // shadow with tracks!
+                cm.scale(0.5, 0.5);
+                cm.scale(1.2, 1.0);
+                //cm.rotate(rot);
+                //cm.translate(i * 128, yi * 128);
+
+
+
+                cm.rotate(angle + Math.PI / 2);
+                cm.translate(
+                    x,
+                    y
+                );
+
+
+                cm.translate(8, 8);
+
+                cm.translate(96 * airzoom * Altitude, 96 * airzoom * Altitude);
+
+                visualshadow.transformationMatrix = cm;
+            }
+
+            {
+                var cm = new Matrix();
+
+                cm.scale(0.5, 0.5);
+                cm.rotate(angle + Math.PI / 2);
+
+                cm.scale(1 + airzoom * Altitude, 1 + airzoom * Altitude);
+
+                cm.translate(
+                    x,
+                    y
+                );
+
+                visualbody.transformationMatrix = cm;
+            }
+            #endregion
+        }
+
+        Matrix AnimateMatrix = new Matrix();
+        Stopwatch AnimateElapsed = new Stopwatch();
+        public void Animate(Stopwatch gametime)
+        {
+            AnimateMatrix.rotate(AnimateElapsed.ElapsedMilliseconds * 0.001 * (1 + 4 * Math.Sign(Altitude)));
+            visualwings.transformationMatrix = AnimateMatrix;
+            AnimateElapsed.Restart();
+        }
 
         public double Altitude;
+        public double airzoom;
 
         public VisualHind(
             StarlingGameSpriteWithHindTextures textures,
             DisplayObjectContainer Content,
             double airzoom)
         {
+            this.airzoom = airzoom;
+
             #region currentvisual
             visualshadow = new Image(textures.hind0_shadow()).AttachTo(Content);
             visualbody = new Sprite().AttachTo(Content);
@@ -64,72 +127,9 @@ namespace FlashHeatZeeker.UnitHind.Library
             #endregion
 
 
-            #region SetPositionAndAngle
-            SetPositionAndAngle =
-                (x, y, angle) =>
-                {
-                    #region transformationMatrix, phisics updated, now update visual
 
 
 
-
-                    {
-                        var cm = new Matrix();
-
-
-                        cm.translate(-160, -160);
-
-
-                        // shadow with tracks!
-                        cm.scale(1.2, 1.0);
-                        //cm.rotate(rot);
-                        //cm.translate(i * 128, yi * 128);
-
-
-
-                        cm.rotate(angle + Math.PI / 2);
-                        cm.translate(
-                            x,
-                            y
-                        );
-
-
-                        cm.translate(8, 8);
-
-                        cm.translate(96 * airzoom * Altitude, 96 * airzoom * Altitude);
-
-                        visualshadow.transformationMatrix = cm;
-                    }
-
-                    {
-                        var cm = new Matrix();
-
-                        cm.rotate(angle + Math.PI / 2);
-
-                        cm.scale(1 + airzoom * Altitude, 1 + airzoom * Altitude);
-
-                        cm.translate(
-                            x,
-                            y
-                        );
-
-                        visualbody.transformationMatrix = cm;
-                    }
-                    #endregion
-                };
-            #endregion
-
-            #region Animate
-            var AnimateElapsed = new Stopwatch();
-            var AnimateMatrix = new Matrix();
-            Animate =
-                (gametime) =>
-                {
-                    AnimateMatrix.rotate(AnimateElapsed.ElapsedMilliseconds * 0.001 * (1 + 4 * Math.Sign(Altitude)));
-                    visualwings.transformationMatrix = AnimateMatrix;
-                    AnimateElapsed.Restart();
-                };
-            #endregion
 
         }
     }

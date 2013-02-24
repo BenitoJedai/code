@@ -15,9 +15,9 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitPedControl.Library
 {
-    public class PhyscalPed : IPhysicalUnit
+    public class PhysicalPed : IPhysicalUnit
     {
-        public b2Body current;
+        public b2Body body;
 
         public double speed = 40;
 
@@ -25,8 +25,6 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         public double LinearVelocityX;
         public double LinearVelocityY;
 
-        // slower than actual methods?
-        //public Action<object[]> SetVelocityFromInput
         public void SetVelocityFromInput(object[] __keyDown)
         {
             this.AngularVelocity = 0;
@@ -86,10 +84,9 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             }
         }
 
-        //public Action ApplyVelocity;
         public void ApplyVelocity()
         {
-            var current = this.current;
+            var current = this.body;
 
             {
                 var v = this.AngularVelocity * 10;
@@ -110,7 +107,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 }
                 else
                 {
-                    this.current.SetLinearVelocity(
+                    this.body.SetLinearVelocity(
                         new b2Vec2(
                          vx, vy
 
@@ -121,26 +118,25 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             }
         }
 
-        //public Action ShowPositionAndAngle;
         public void ShowPositionAndAngle()
         {
-            if (current != null)
-                current.SetActive(true);
+            if (body != null)
+                body.SetActive(true);
 
 
             var iswalking = this.LinearVelocityX != 0 || this.LinearVelocityY != 0;
-            this.visual.Animate(iswalking);
+            this.visual.Animate(this.LinearVelocityX, this.LinearVelocityY);
             // where are we now
             this.visual.SetPositionAndAngle(
-                this.current.GetPosition().x * 16,
-                this.current.GetPosition().y * 16,
-                this.current.GetAngle()
+                this.body.GetPosition().x * 16,
+                this.body.GetPosition().y * 16,
+                this.body.GetAngle()
             );
         }
 
         public VisualPed visual;
 
-        public PhyscalPed(StarlingGameSpriteWithPedTextures textures, StarlingGameSpriteWithPhysics Context)
+        public PhysicalPed(StarlingGameSpriteWithPedTextures textures, StarlingGameSpriteWithPhysics Context)
         {
             visual = new VisualPed(textures, Context);
 
@@ -161,8 +157,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 //bodyDef.angle = 1.57079633;
                 bodyDef.fixedRotation = true;
 
-                var body = Context.ground_b2world.CreateBody(bodyDef);
-                current = body;
+                body = Context.ground_b2world.CreateBody(bodyDef);
 
 
                 var fixDef = new Box2D.Dynamics.b2FixtureDef();
@@ -171,7 +166,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 fixDef.restitution = 0;
 
 
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(2.0);
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(1.0);
 
 
                 var fix = body.CreateFixture(fixDef);
@@ -181,6 +176,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             #endregion
 
 
+            Context.internalunits.Add(this);
 
         }
     }
