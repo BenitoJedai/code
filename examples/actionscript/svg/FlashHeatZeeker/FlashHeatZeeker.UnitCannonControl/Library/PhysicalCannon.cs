@@ -15,15 +15,18 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 {
     public class PhysicalCannon : IPhysicalUnit
     {
+        public DriverSeat driverseat { get; set; }
+
         public double AngularVelocity;
 
-        public b2Body body;
+        public b2Body body { get; set; }
         public VisualCannon visual;
 
         public StarlingGameSpriteWithPhysics Context;
 
         public PhysicalCannon(StarlingGameSpriteWithCannonTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.driverseat = new DriverSeat();
             this.Context = Context;
 
             visual = new VisualCannon(textures, Context);

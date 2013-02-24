@@ -14,19 +14,21 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 {
     public class PhysicalTank : IPhysicalUnit
     {
-        public double speed = 40;
+        public DriverSeat driverseat { get; set; }
+
+        public double speed = 30;
 
         public double AngularVelocity;
         public double LinearVelocityX;
         public double LinearVelocityY;
 
-        public b2Body body;
+        public b2Body body { set; get; }
         public VisualTank visual;
 
         public PhysicalTank(StarlingGameSpriteWithTankTextures textures, StarlingGameSpriteWithPhysics Context)
         {
-
-            visual = new VisualTank(textures, Context);
+            this.driverseat = new DriverSeat();
+            this.visual = new VisualTank(textures, Context);
 
 
             #region b2world

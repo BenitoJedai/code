@@ -120,8 +120,8 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Library\IPhysicalUnit.cs" />
     <Compile Include="Library\IVisualUnit.cs" />
+    <Compile Include="Library\X.cs" />
     <Compile Include="Library\XBarComponent.cs">
       <SubType>Component</SubType>
     </Compile>

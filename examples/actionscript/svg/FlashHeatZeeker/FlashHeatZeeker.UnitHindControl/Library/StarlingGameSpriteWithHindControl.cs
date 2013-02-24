@@ -44,15 +44,15 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                     var physical2 = new PhysicalHind(textures, this);
                     var physical3 = new PhysicalHind(textures, this);
 
-                    physical1.current.SetPosition(new b2Vec2(10 + 20 * ix, 20));
+                    physical1.body.SetPosition(new b2Vec2(10 + 20 * ix, 20));
                     units.Add(physical1);
 
                     physical2.visual.Altitude = 1.0;
-                    physical2.current.SetPosition(new b2Vec2(20 + 20 * ix, 40));
+                    physical2.body.SetPosition(new b2Vec2(20 + 20 * ix, 40));
                     units.Add(physical2);
 
                     physical3.visual.Altitude = 0.5;
-                    physical3.current.SetPosition(new b2Vec2(30 + 20 * ix, 60));
+                    physical3.body.SetPosition(new b2Vec2(30 + 20 * ix, 60));
                     units.Add(physical3);
                 }
 
@@ -128,7 +128,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                         #endregion
 
                         // for camera
-                        this.current = physical0.current;
+                        this.current = physical0.body;
 
                         physical0.SetVelocityFromInput(__keyDown);
 
@@ -149,7 +149,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                                 //bodyDef.angle = 1.57079633;
                                 bodyDef.fixedRotation = true;
 
-                                var body = physical0.current.GetWorld().CreateBody(bodyDef);
+                                var body = physical0.body.GetWorld().CreateBody(bodyDef);
                                 body.SetPosition(
                                     new b2Vec2(
                                         current.GetPosition().x + 2,

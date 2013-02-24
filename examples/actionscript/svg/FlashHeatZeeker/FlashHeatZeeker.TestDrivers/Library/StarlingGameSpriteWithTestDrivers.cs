@@ -18,6 +18,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 
 namespace FlashHeatZeeker.TestDrivers.Library
 {
@@ -41,21 +44,9 @@ namespace FlashHeatZeeker.TestDrivers.Library
                 // new ped, hind, jeep, tank
                 var ped = new PhysicalPed(textures_ped, this);
 
-                var hind1 = new PhysicalHind(textures_hind, this)
-                {
-                    AutomaticTakeoff = true
-                };
-
-                var jeep1 = new PhysicalJeep(textures_jeep, this)
-                {
-                };
-
-                var tank1 = new PhysicalTank(textures_tank, this)
-                {
-                };
 
                 // 12 = 34FPS
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     var cannon2 = new PhysicalCannon(textures_cannon, this);
 
@@ -64,9 +55,12 @@ namespace FlashHeatZeeker.TestDrivers.Library
                     );
 
 
-                    var hind2 = new PhysicalHind(textures_hind, this);
+                    var hind2 = new PhysicalHind(textures_hind, this)
+                    {
+                        AutomaticTakeoff = true
+                    };
 
-                    hind2.current.SetPositionAndAngle(
+                    hind2.body.SetPositionAndAngle(
                         new b2Vec2(i * 16, 8), random.NextDouble()
                     );
 
@@ -147,42 +141,72 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
                                 // enter another vehicle?
 
-                                if (currentunit == ped)
+                                if (currentunit is PhysicalPed)
                                 {
-                                    currentunit = hind1;
-                                }
-                                else if (currentunit == hind1)
-                                {
-                                    currentunit = jeep1;
-                                }
-                                else if (currentunit == jeep1)
-                                {
-                                    currentunit = tank1;
+                                    var target =
+                                         from x in units
+                                         where x.driverseat != null
+
+                                         // can enter if the seat is full.
+                                         // unless we kick them out before ofcourse
+                                         where x.driverseat.driver == null
+
+                                         let distance = new __vec2(
+                                             (float)(currentunit.body.GetPosition().x - x.body.GetPosition().x),
+                                             (float)(currentunit.body.GetPosition().y - x.body.GetPosition().y)
+                                         ).GetLength()
+
+                                         where distance < 4
+
+                                         orderby distance ascending
+                                         select new { x, distance };
+
+                                    target.FirstOrDefault().With(
+                                        x =>
+                                        {
+                                            Console.WriteLine(new { x.distance });
+
+                                            //current.loc.visible = false;
+                                            currentunit.body.SetActive(false);
+
+                                            x.x.driverseat.driver = currentunit;
+
+                                            currentunit = x.x;
+                                            //switchto(x.x);
+                                        }
+                                    );
                                 }
                                 else
                                 {
-                                    currentunit = ped;
+                                    if (currentunit.driverseat != null)
+                                        currentunit.driverseat.driver.With(
+                                            driver =>
+                                            {
+                                                currentunit.driverseat.driver = null;
+
+                                                driver.body.SetPositionAndAngle(
+
+                                                    new b2Vec2(
+
+                                                        currentunit.body.GetPosition().x + Math.Cos(currentunit.body.GetAngle()) * 2,
+                                                        currentunit.body.GetPosition().y + Math.Sin(currentunit.body.GetAngle()) * 2
+                                                    ),
+                                                    currentunit.body.GetAngle()
+                                                );
+
+                                                driver.body.SetActive(true);
+                                                currentunit = driver;
+                                            }
+                                        );
                                 }
+
                             }
                         }
                         #endregion
 
-                        if (currentunit == ped)
-                        {
-                            current = ped.body;
-                        }
-                        else if (currentunit == jeep1)
-                        {
-                            current = jeep1.unit4_physics.body;
-                        }
-                        else if (currentunit == tank1)
-                        {
-                            current = tank1.body;
-                        }
-                        else
-                        {
-                            current = hind1.current;
-                        }
+
+                        current = currentunit.body;
+
                         #region flightmode
                         if (__keyDown[(int)Keys.Space] == null)
                         {
@@ -193,10 +217,16 @@ namespace FlashHeatZeeker.TestDrivers.Library
                         {
                             if (flightmode_changepending)
                             {
-                                if (hind1.visual.Altitude == 0)
-                                    hind1.VerticalVelocity = 1.0;
-                                else
-                                    hind1.VerticalVelocity = -0.4;
+                                (currentunit as PhysicalHind).With(
+                                    hind1 =>
+                                    {
+                                        if (hind1.visual.Altitude == 0)
+                                            hind1.VerticalVelocity = 1.0;
+                                        else
+                                            hind1.VerticalVelocity = -0.4;
+
+                                    }
+                                );
 
                                 flightmode_changepending = false;
 

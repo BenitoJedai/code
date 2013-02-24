@@ -17,9 +17,11 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 {
     public class PhysicalPed : IPhysicalUnit
     {
-        public b2Body body;
+        public DriverSeat driverseat { get; set; }
 
-        public double speed = 40;
+        public b2Body body { get; set; }
+
+        public double speed = 20;
 
         public double AngularVelocity;
         public double LinearVelocityX;

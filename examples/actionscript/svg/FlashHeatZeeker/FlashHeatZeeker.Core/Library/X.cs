@@ -1,7 +1,6 @@
 ﻿using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
-using starling.display;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +15,10 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             return Enumerable.Range(0, (int)e.length).Select(i => e[i]);
         }
 
-        [Script(OptimizedCode = "s.flatten();")]
-        public static void __flatten(this Sprite s)
-        {
-        }
+        //[Script(OptimizedCode = "s.flatten();")]
+        //public static void __flatten(this Sprite s)
+        //{
+        //}
 
         public static double GetLength(this __vec2 p)
         {

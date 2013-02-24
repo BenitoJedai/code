@@ -20,6 +20,9 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 {
     public class PhysicalHind : IPhysicalUnit
     {
+        public DriverSeat driverseat { get; set; }
+
+
         public double speed = 40;
 
         public double VerticalVelocity;
@@ -34,7 +37,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
         public b2Body air_current = null;
 
 
-        public b2Body current
+        public b2Body body
         {
             get
             {
@@ -128,6 +131,12 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 if (AutomaticTakeoff)
                 {
                     this.VerticalVelocity = 1.0;
+
+                    // reset
+
+                    this.AngularVelocity = 0;
+                    this.LinearVelocityX = 0;
+                    this.LinearVelocityY = 0;
                 }
         }
 
@@ -138,7 +147,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             var dx = Context.gametime.ElapsedMilliseconds - ApplyVelocityElapsed;
             ApplyVelocityElapsed = Context.gametime.ElapsedMilliseconds;
 
-            var current = this.current;
+            var current = this.body;
 
             {
                 var v = this.AngularVelocity * 10;
@@ -157,7 +166,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 }
                 else
                 {
-                    this.current.SetLinearVelocity(
+                    this.body.SetLinearVelocity(
                         new b2Vec2(
                          vx, vy
 
@@ -174,27 +183,27 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         public void ShowPositionAndAngle()
         {
-            if (current != null)
-                current.SetActive(true);
+            if (body != null)
+                body.SetActive(true);
 
             if (current_slave1 != null)
             {
                 current_slave1.SetActive(false);
 
                 // sync up
-                if (current != null)
+                if (body != null)
                     current_slave1.SetPositionAndAngle(
-                        current.GetPosition(),
-                        current.GetAngle()
+                        body.GetPosition(),
+                        body.GetAngle()
                     );
             }
 
             this.visual.Animate(Context.gametime);
             // where are we now
             this.visual.SetPositionAndAngle(
-                this.current.GetPosition().x * 16,
-                this.current.GetPosition().y * 16,
-                this.current.GetAngle()
+                this.body.GetPosition().x * 16,
+                this.body.GetPosition().y * 16,
+                this.body.GetAngle()
             );
         }
 
@@ -202,6 +211,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         public PhysicalHind(StarlingGameSpriteWithHindTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.driverseat = new DriverSeat();
+
             this.Context = Context;
 
             visual = new VisualHind(textures, Context.Content, Context.airzoom);

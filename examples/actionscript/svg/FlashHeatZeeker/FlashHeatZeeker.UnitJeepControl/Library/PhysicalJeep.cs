@@ -15,14 +15,18 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 {
     public class PhysicalJeep : IPhysicalUnit
     {
+        public DriverSeat driverseat { get; set; }
+
+
         StarlingGameSpriteWithPhysics Context;
         VisualJeep visual0;
 
         public PhysicalJeep(StarlingGameSpriteWithJeepTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.driverseat = new DriverSeat();
             this.Context = Context;
 
-             visual0 = new VisualJeep(textures, Context);
+            visual0 = new VisualJeep(textures, Context);
 
 
             #region b2world
@@ -112,24 +116,29 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             };
             Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
 
-             unit4_physics = new Car(
-                 b2world: Context.ground_b2world,
-                 width: 2,
-                 length: 4,
-                 position: ff(0, 0),
-                 angle: 180,
-                 power: 60,
+            unit4_physics = new Car(
+                b2world: Context.ground_b2world,
+                width: 2,
+                length: 4,
+                position: ff(0, 0),
+                angle: 180,
+                power: 60,
 
-                 max_steer_angle: 20,
-                    //max_steer_angle: 40,
+                max_steer_angle: 20,
+                //max_steer_angle: 40,
 
-                 max_speed: 60,
-                 wheels: xwheels
-         );
+                max_speed: 60,
+                wheels: xwheels
+        );
 
 
-             Context.internalunits.Add(this);
+            Context.internalunits.Add(this);
 
+        }
+
+        public b2Body body
+        {
+            get { return unit4_physics.body; }
         }
 
         public Car unit4_physics;

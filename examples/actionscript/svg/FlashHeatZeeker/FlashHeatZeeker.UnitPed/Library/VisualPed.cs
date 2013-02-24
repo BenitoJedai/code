@@ -77,7 +77,7 @@ namespace FlashHeatZeeker.UnitPed.Library
             }
 
 
-            var ii = ((AnimateSeed + Context.gametime.ElapsedMilliseconds) / 150) % walk_ani.Length;
+            var ii = ((AnimateSeed + Context.gametime.ElapsedMilliseconds) / 120) % walk_ani.Length;
 
             if (dy < 0)
                 ii = walk_ani.Length - 1 - ii;
