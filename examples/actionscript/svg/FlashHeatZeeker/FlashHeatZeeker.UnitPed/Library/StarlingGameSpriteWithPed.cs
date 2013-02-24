@@ -83,7 +83,7 @@ namespace FlashHeatZeeker.UnitPed.Library
                             );
                         peds.Add(visual0);
 
-                    
+
 
                     }
 
@@ -94,7 +94,7 @@ namespace FlashHeatZeeker.UnitPed.Library
 
                     foreach (var visual0 in peds)
                     {
-                        visual0.Animate(true);
+                        visual0.Animate(1, 1);
                     }
 
 

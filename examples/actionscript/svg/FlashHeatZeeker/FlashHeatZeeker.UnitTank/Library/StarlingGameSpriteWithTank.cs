@@ -35,7 +35,6 @@ namespace FlashHeatZeeker.UnitTank.Library
             var textures = new StarlingGameSpriteWithTankTextures(new_tex_crop);
 
             this.autorotate = true;
-            //this.internalscale = 2.0;
 
             this.onbeforefirstframe += delegate
              {
@@ -45,127 +44,13 @@ namespace FlashHeatZeeker.UnitTank.Library
                      {
                          var rot = random.NextDouble() * Math.PI;
 
-                         var shadow = new Image(
-                            textures.greentank_shadow()
-                            )
-                             {
-                             }.AttachTo(
-                             Content
-                         );
+                         var tank1 = new VisualTank(textures, this);
 
-                         var q = new Sprite().AttachTo(Content);
-
-
-
-                         var tanktrackpattern1 = new Image(
-                              textures.tanktrackpattern()
-                              )
-                                 {
-                                 }.AttachTo(
-                               q
-                           );
-
-
-                         var tanktrackpattern0 = new Image(
-                              textures.tanktrackpattern()
-                              )
-                         {
-                         }.AttachTo(
-                               q
-                           );
-
-
-                         var imgstand = new Image(
-                            textures.greentank()
-                            )
-                         {
-                         }.AttachTo(
-                             q
-                         );
-
-                         var guntower = new Image(
-                             textures.greentank_guntower()
-                             )
-                             {
-                             }.AttachTo(
-                              q
-                          );
-
-
-
-                         {
-                             var cm = new Matrix();
-
-                             cm.translate(-64, -64);
-                             cm.scale(0.55, 0.75);
-
-                             tanktrackpattern0.transformationMatrix = cm;
-                             tanktrackpattern1.transformationMatrix = cm;
-                         }
-
-                         // rpeate not suppported!
-                         // http://forum.starling-framework.org/topic/problem-with-repeat-and-textureatlas
-
-
-                         Action<Image, double> offsetTexCoords =
-                             (img, offset) =>
-                             {
-                                 img.setTexCoords(0, new Point(0, offset));
-                                 img.setTexCoords(1, new Point(1, offset));
-                                 img.setTexCoords(2, new Point(0, offset + 1));
-                                 img.setTexCoords(3, new Point(1, offset + 1));
-                             };
-
-
-
-                         {
-                             var cm = new Matrix();
-
-                             cm.translate(-64, -64);
-
-                             imgstand.transformationMatrix = cm;
-                         }
-
-                         {
-                             var cm = new Matrix();
-
-                             cm.translate(-64, -64);
-
-                             guntower.transformationMatrix = cm;
-                         }
-
-                         {
-                             var cm = new Matrix();
-
-                             cm.translate(-64, -64);
-
-                             // shadow with tracks!
-                             cm.scale(1.2, 1.0);
-                             cm.rotate(rot);
-                             cm.translate(i * 128, yi * 128);
-
-                             cm.translate(8, 8);
-
-                             shadow.transformationMatrix = cm;
-                         }
-
-                         {
-                             var cm = new Matrix();
-
-                             cm.rotate(rot);
-                             cm.translate(i * 128, yi * 128);
-
-
-                             q.transformationMatrix = cm;
-                         }
-
-
+                         tank1.SetPositionAndAngle(i * 128, yi * 128, rot);
 
                          onframe += delegate
                          {
-                             var offset = 1.0 - (gametime.ElapsedMilliseconds % 2000) / 2000.0;
-                             offsetTexCoords(tanktrackpattern0, offset);
-                             offsetTexCoords(tanktrackpattern1, offset - 1);
+                             tank1.Animate(1);
                          };
                      }
 

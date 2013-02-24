@@ -16,7 +16,6 @@ namespace FlashHeatZeeker.UnitPed.Library
         public Image currentvisual;
 
 
-        //public Action<double, double, double> SetPositionAndAngle { get; set; }
         public void SetPositionAndAngle(double x, double y, double angle)
         {
             #region transformationMatrix, phisics updated, now update visual
@@ -27,7 +26,7 @@ namespace FlashHeatZeeker.UnitPed.Library
 
                 cm.translate(-32, -32);
                 // how big shall the shadow be?
-                cm.scale(4.0, 4.0);
+                cm.scale(2.0, 2.0);
 
                 // shadow does NOT move!
                 //cm.rotate(current.GetAngle());
@@ -44,7 +43,7 @@ namespace FlashHeatZeeker.UnitPed.Library
                 var cm = new Matrix();
 
                 cm.translate(-32, -32);
-                cm.scale(2.0, 2.0);
+                //cm.scale(2.0, 2.0);
 
                 // physics 0 looks right
                 cm.rotate(angle + Math.PI / 2);
@@ -68,17 +67,24 @@ namespace FlashHeatZeeker.UnitPed.Library
         // public Action<bool> Animate;
         // jsc could do some magic with single use delegates to make the faster for flash
         // 60 FPS
-        public void Animate(bool iswalking)
+        public void Animate(double dx, double dy)
         {
-            if (iswalking)
+            if (dy == 0 && dx == 0)
             {
-                var ii = ((AnimateSeed + Context.gametime.ElapsedMilliseconds) / 150) % walk_ani.Length;
-                currentvisual.texture = walk_ani[ii];
+                currentvisual.texture = texframes[0];
 
                 return;
             }
 
-            currentvisual.texture = texframes[0];
+
+            var ii = ((AnimateSeed + Context.gametime.ElapsedMilliseconds) / 150) % walk_ani.Length;
+
+            if (dy < 0)
+                ii = walk_ani.Length - 1 - ii;
+
+            currentvisual.texture = walk_ani[ii];
+
+
         }
 
         public VisualPed(StarlingGameSpriteWithPedTextures textures, StarlingGameSpriteBase Context)

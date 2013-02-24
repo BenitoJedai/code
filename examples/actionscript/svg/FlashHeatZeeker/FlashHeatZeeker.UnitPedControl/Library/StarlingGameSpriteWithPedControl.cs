@@ -26,10 +26,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
             this.onbeforefirstframe += (stage, s) =>
             {
-                var units = new List<PhyscalPed>();
 
-                var physical0 = new PhyscalPed(textures, this);
-                units.Add(physical0);
+                var physical0 = new PhysicalPed(textures, this);
 
                 // 32x32 = 15FPS?
                 // 24x24 35?
@@ -37,13 +35,12 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 for (int ix = 0; ix < 4; ix++)
                     for (int iy = 0; iy < 4; iy++)
                     {
-                        var p = new PhyscalPed(textures, this);
+                        var p = new PhysicalPed(textures, this);
 
-                        p.current.SetPosition(
+                        p.body.SetPosition(
                             new b2Vec2(8 * ix, 8 * iy)
                         );
 
-                        units.Add(p);
 
                     }
 
@@ -75,20 +72,12 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 #endregion
 
 
-                var unitsa = units.ToArray();
 
                 onframe += delegate
                 {
-                    // 15 FPS
-                    // 20 FPS
-                    foreach (var item in unitsa)
-                    {
-                        item.ShowPositionAndAngle();
-                        item.ApplyVelocity();
-                    }
+             
 
-
-                    current = physical0.current;
+                    current = physical0.body;
                     physical0.SetVelocityFromInput(__keyDown);
 
                     #region simulate a weapone!

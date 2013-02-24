@@ -56,7 +56,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             }
         }
 
-        public bool DisableGroundMovement;
+        public bool AutomaticTakeoff;
 
         public void SetVelocityFromInput(object[] __keyDown)
         {
@@ -64,9 +64,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             this.LinearVelocityX = 0;
             this.LinearVelocityY = 0;
 
-            if (this.visual.Altitude == 0)
-                if (DisableGroundMovement)
-                    return;
+
 
             if (__keyDown[(int)Keys.Up] != null)
             {
@@ -119,6 +117,18 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 }
             }
+
+            if (this.LinearVelocityX == 0)
+                if (this.LinearVelocityY == 0)
+                    if (this.AngularVelocity == 0)
+                        return;
+
+
+            if (this.visual.Altitude == 0)
+                if (AutomaticTakeoff)
+                {
+                    this.VerticalVelocity = 1.0;
+                }
         }
 
 
@@ -229,7 +239,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 ground_fixDef.shape = ground_fixdef_shape;
 
                 // physics unit is looking to right
-                ground_fixdef_shape.SetAsBox(4, 1);
+                ground_fixdef_shape.SetAsBox(2, 0.5);
 
 
 
@@ -272,7 +282,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 air_fixDef.shape = air_fixdef_shape;
 
                 // physics unit is looking to right
-                air_fixdef_shape.SetAsBox(4, 1);
+                air_fixdef_shape.SetAsBox(2, 0.5);
 
 
 
@@ -287,7 +297,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             ApplyVelocityElapsed = Context.gametime.ElapsedMilliseconds;
 
 
-
+            Context.internalunits.Add(this);
         }
     }
 

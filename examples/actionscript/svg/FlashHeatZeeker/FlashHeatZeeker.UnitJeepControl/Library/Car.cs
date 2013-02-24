@@ -80,7 +80,7 @@ namespace FlashHeatZeekerWithStarlingB2.Library
     }
 
 
-    class Wheel
+    public class Wheel
     {
         public Action killSidewaysVelocity;
 
@@ -245,7 +245,7 @@ namespace FlashHeatZeekerWithStarlingB2.Library
 
     }
 
-    class Car
+    public class Car
     {
         public const int STEER_NONE = 0;
         public const int STEER_RIGHT = 1;
