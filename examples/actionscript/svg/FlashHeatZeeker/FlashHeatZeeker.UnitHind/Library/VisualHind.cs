@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.ActionScript.flash.geom;
+﻿using FlashHeatZeeker.Core.Library;
+using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Extensions;
 using starling.display;
 using System;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace FlashHeatZeeker.UnitHind.Library
 {
-    public class VisualHind
+    public class VisualHind : IVisualUnit
     {
         public Image visualshadow;
         public Sprite visualbody;
@@ -17,7 +18,7 @@ namespace FlashHeatZeeker.UnitHind.Library
         public Sprite visualwings;
 
 
-        public Action<double, double, double> SetPositionAndAngle;
+        public Action<double, double, double> SetPositionAndAngle { get; set; }
         public Action<Stopwatch> Animate;
 
         public double Altitude;

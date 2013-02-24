@@ -127,6 +127,9 @@
     <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.StarlingSetup\bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -148,6 +151,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlashHeatZeeker.Core\FlashHeatZeeker.Core.csproj">
+      <Project>{0ab27151-12cd-4377-ae76-16e6f0f72580}</Project>
+      <Name>FlashHeatZeeker.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
       <Name>FlashHeatZeeker.StarlingSetup</Name>
