@@ -144,7 +144,6 @@
     <Compile Include="Library\Car.cs" />
     <Compile Include="Library\PhysicalJeep.cs" />
     <Compile Include="Library\StarlingGameSpriteWithJeepControl.cs" />
-    <Compile Include="Library\X.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
