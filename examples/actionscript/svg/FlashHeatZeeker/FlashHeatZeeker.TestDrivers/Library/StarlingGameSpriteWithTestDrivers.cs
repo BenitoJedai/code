@@ -46,7 +46,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                 // 12 = 34FPS
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     var cannon2 = new PhysicalCannon(textures_cannon, this);
 
@@ -119,7 +119,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                 #endregion
 
                 bool entermode_changepending = false;
-                bool flightmode_changepending = false;
+                bool mode_changepending = false;
 
 
                 onframe +=
@@ -141,7 +141,8 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
                                 // enter another vehicle?
 
-                                if (currentunit is PhysicalPed)
+                                var xdriver = currentunit as PhysicalPed;
+                                if (xdriver != null)
                                 {
                                     var target =
                                          from x in units
@@ -169,6 +170,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                             //current.loc.visible = false;
                                             currentunit.body.SetActive(false);
 
+                                            
                                             x.x.driverseat.driver = currentunit;
 
                                             currentunit = x.x;
@@ -203,15 +205,15 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
                         current = currentunit.body;
 
-                        #region flightmode
+                        #region mode
                         if (__keyDown[(int)Keys.Space] == null)
                         {
                             // space is not down.
-                            flightmode_changepending = true;
+                            mode_changepending = true;
                         }
                         else
                         {
-                            if (flightmode_changepending)
+                            if (mode_changepending)
                             {
                                 (currentunit as PhysicalHind).With(
                                     hind1 =>
@@ -224,7 +226,21 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                     }
                                 );
 
-                                flightmode_changepending = false;
+                                (currentunit as PhysicalPed).With(
+                                 physical0 =>
+                                 {
+                                     if (physical0.visual.LayOnTheGround)
+                                         physical0.visual.LayOnTheGround = false;
+                                     else
+                                         physical0.visual.LayOnTheGround = true;
+
+                                 }
+                             );
+
+
+
+
+                                mode_changepending = false;
 
 
 

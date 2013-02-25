@@ -18,6 +18,10 @@ namespace FlashHeatZeeker.UnitPed.Library
     {
         public Func<Texture>
             ped_shadow,
+
+            ped_footprints,
+            ped_down,
+
             ped_stand,
             ped_walk1_leftfar,
             ped_walk2_leftmid,
@@ -31,19 +35,20 @@ namespace FlashHeatZeeker.UnitPed.Library
         {
             //DRW 3
 
-            ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", 0.3);
+            ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", 0.3, innersize: 96);
 
-            // do we need to flip?
-            ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg");
+            ped_footprints = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_footprints.svg", 0.15);
+            ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96);
+            ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg", innersize: 96);
 
             // left foot
-            ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg");
-            ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg");
-            ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg");
+            ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", innersize: 96);
+            ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", innersize: 96);
+            ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", innersize: 96);
 
-            ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", flipx: true);
-            ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", flipx: true);
-            ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", flipx: true);
+            ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", flipx: true, innersize: 96);
+            ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", flipx: true, innersize: 96);
+            ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", flipx: true, innersize: 96);
 
         }
 

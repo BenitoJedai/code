@@ -3,8 +3,10 @@ using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using FlashHeatZeeker.UnitPed.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using starling.display;
 using System;
 using System.Collections.Generic;
@@ -84,6 +86,15 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 }
             }
+
+            if (this.LinearVelocityX == 0)
+                if (this.LinearVelocityY == 0)
+                    if (this.AngularVelocity == 0)
+                        return;
+
+
+            // we are moving. stop laying on the ground mode
+            this.visual.LayOnTheGround = false;
         }
 
         public void ApplyVelocity()
@@ -120,6 +131,11 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             }
         }
 
+        bool prev = false;
+        double prevx = 0.0;
+        double prevy = 0.0;
+
+
         public void ShowPositionAndAngle()
         {
             //if (body != null)
@@ -134,12 +150,60 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 this.body.GetPosition().y * 16,
                 this.body.GetAngle()
             );
+
+
+            #region Content_layer0_tracks
+            if (!prev)
+            {
+                prev = true;
+                prevx = this.body.GetPosition().x;
+                prevy = this.body.GetPosition().y;
+            }
+            else
+            {
+                var p = this.body.GetPosition();
+
+
+                var distance = X.GetLength(
+                    new __vec2(
+                    (float)(p.x - prevx),
+                    (float)(p.y - prevy)
+                    )
+                );
+
+                if (distance > 1)
+                {
+                    var tracks0 = new Image(textures.ped_footprints()).AttachTo(Context.Content_layer0_tracks);
+
+                    var cm = new Matrix();
+
+                    cm.translate(-32, -32);
+                    cm.rotate(this.body.GetAngle() - Math.PI / 2);
+                    cm.translate(
+                        p.x * 16.0,
+                        p.y * 16.0
+                    );
+
+                    tracks0.transformationMatrix = cm;
+
+                    prevx = p.x;
+                    prevy = p.y;
+                }
+            }
+            #endregion
         }
 
         public VisualPed visual;
 
+        StarlingGameSpriteWithPedTextures textures;
+        StarlingGameSpriteWithPhysics Context;
+
         public PhysicalPed(StarlingGameSpriteWithPedTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.textures = textures;
+            this.Context = Context;
+
+
             visual = new VisualPed(textures, Context);
 
 

@@ -143,6 +143,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_down.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_footprints.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_stand_walk3.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_stand_walk2.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_stand_walk1.svg" />

@@ -160,6 +160,12 @@
     <Reference Include="FlashHeatZeeker.UnitTank.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.UnitTank\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTank.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.UnitCannonControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitCannonControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitCannonControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitCannon.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitCannon\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitCannon.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />

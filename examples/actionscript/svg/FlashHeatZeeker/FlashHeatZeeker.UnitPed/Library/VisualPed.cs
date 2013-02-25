@@ -10,8 +10,15 @@ using System.Text;
 
 namespace FlashHeatZeeker.UnitPed.Library
 {
+    public class DriversSeatUser
+    {
+        public IPhysicalUnit vehicle;
+    }
+
     public class VisualPed
     {
+        public DriversSeatUser driverseatuser = new DriversSeatUser();
+
         public Image shadow;
         public Image currentvisual;
 
@@ -24,7 +31,7 @@ namespace FlashHeatZeeker.UnitPed.Library
             {
                 var cm = new Matrix();
 
-                cm.translate(-32, -32);
+                cm.translate(-48, -48);
                 // how big shall the shadow be?
                 cm.scale(2.0, 2.0);
 
@@ -42,7 +49,7 @@ namespace FlashHeatZeeker.UnitPed.Library
             {
                 var cm = new Matrix();
 
-                cm.translate(-32, -32);
+                cm.translate(-48, -48);
                 //cm.scale(2.0, 2.0);
 
                 // physics 0 looks right
@@ -63,15 +70,28 @@ namespace FlashHeatZeeker.UnitPed.Library
         Texture[] walk_ani;
         Texture[] texframes;
 
+        public bool LayOnTheGround;
+
         // 50 FPS
         // public Action<bool> Animate;
         // jsc could do some magic with single use delegates to make the faster for flash
         // 60 FPS
         public void Animate(double dx, double dy)
         {
+            // are we in a vehicle?
+            this.shadow.visible = true;
+
             if (dy == 0 && dx == 0)
             {
-                currentvisual.texture = texframes[0];
+                if (LayOnTheGround)
+                {
+                    this.shadow.visible = false;
+                    currentvisual.texture = texframes[1];
+                }
+                else
+                {
+                    currentvisual.texture = texframes[0];
+                }
 
                 return;
             }
@@ -104,9 +124,9 @@ namespace FlashHeatZeeker.UnitPed.Library
                 };
 
             texframes = new[] {
-
-                    textures.ped_stand(),
-                };
+                textures.ped_stand(),
+                textures.ped_down(),
+            };
 
             // 781
             // 15 FPS
@@ -125,7 +145,6 @@ namespace FlashHeatZeeker.UnitPed.Library
                 //alpha = 0.5
             }.AttachTo(Context.Content);
 
-            //peds.Add(imgstand);
 
 
             currentvisual = new Image(
@@ -137,21 +156,6 @@ namespace FlashHeatZeeker.UnitPed.Library
 
             AnimateSeed = Context.random.Next() % 3000;
 
-
-            #region Animate
-
-            // FPS 50
-
-            #endregion
-
-
-            //#region SetPositionAndAngle
-            //SetPositionAndAngle =
-            //    (x, y, angle) =>
-            //    {
-
-            //    };
-            //#endregion
 
 
         }
