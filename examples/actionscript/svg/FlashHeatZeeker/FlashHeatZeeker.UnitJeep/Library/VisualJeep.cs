@@ -14,7 +14,9 @@ namespace FlashHeatZeeker.UnitJeep.Library
         public Image
             shadow,
             tire0,
-            tire1;
+            tire1,
+            tire2,
+            tire3;
 
         public Sprite
             currentvisual;
@@ -88,8 +90,8 @@ namespace FlashHeatZeeker.UnitJeep.Library
            );
 
             tire1 = new Image(textures.black4()).AttachTo(currentvisual);
-            var tire2 = new Image(textures.black4()).AttachTo(currentvisual);
-            var tire3 = new Image(textures.black4()).AttachTo(currentvisual);
+             tire2 = new Image(textures.black4()).AttachTo(currentvisual);
+             tire3 = new Image(textures.black4()).AttachTo(currentvisual);
 
             var imgstand = new Image(
               textures.jeep()
