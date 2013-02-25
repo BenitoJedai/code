@@ -14,7 +14,10 @@ namespace FlashHeatZeeker.UnitJeep.Library
         public Func<Texture>
           black4,
           jeep,
-          jeep_shadow;
+          jeep_shadow,
+          jeep_trackpattern,
+          jeep_trackpattern_semi
+          ;
 
         public StarlingGameSpriteWithJeepTextures(Texture64Constructor new_tex_crop)
         {
@@ -25,6 +28,8 @@ namespace FlashHeatZeeker.UnitJeep.Library
 
             jeep = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep.svg");
             jeep_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", alpha: 0.3);
+            jeep_trackpattern = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_trackpattern.svg", alpha: 0.1);
+            jeep_trackpattern_semi = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_trackpattern.svg", alpha: 0.02);
 
 
         }

@@ -5,6 +5,8 @@ using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.UnitJeep.Library;
 using FlashHeatZeekerWithStarlingB2.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using starling.display;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +19,15 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
     {
         public DriverSeat driverseat { get; set; }
 
-
+        StarlingGameSpriteWithJeepTextures textures;
         StarlingGameSpriteWithPhysics Context;
         VisualJeep visual0;
 
+        Wheel[] xwheels;
+
         public PhysicalJeep(StarlingGameSpriteWithJeepTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.textures = textures;
             this.driverseat = new DriverSeat();
             this.Context = Context;
 
@@ -35,7 +40,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
 
 
-            var xwheels = new[] { 
+            xwheels = new[] { 
                         //top left
                         new Wheel { b2world = Context.ground_b2world, x = -1.1, y = -1.2, width = 0.4, length = 0.8, revolving = true, powered = true },
 
@@ -103,6 +108,12 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
         public Car unit4_physics;
 
+
+        bool prev = false;
+        double prevx = 0.0;
+        double prevy = 0.0;
+
+
         public void ShowPositionAndAngle()
         {
             this.visual0.SetPositionAndAngle(
@@ -110,6 +121,66 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
               this.unit4_physics.body.GetPosition().y * 16,
               this.unit4_physics.body.GetAngle()
           );
+
+            #region Content_layer0_tracks
+            if (!prev)
+            {
+                prev = true;
+                prevx = this.body.GetPosition().x;
+                prevy = this.body.GetPosition().y;
+            }
+            else
+            {
+                var p = this.body.GetPosition();
+
+
+                var distance = X.GetLength(
+                    new __vec2(
+                    (float)(p.x - prevx),
+                    (float)(p.y - prevy)
+                    )
+                );
+
+                if (distance > 0.5)
+                {
+                    var tex = textures.jeep_trackpattern();
+
+                    foreach (var item in xwheels)
+                    {
+                        if (!item.powered)
+                        {
+                            tex = textures.jeep_trackpattern_semi();
+                        }
+
+                        var tracks0 = new Image(tex).AttachTo(Context.Content_layer0_tracks);
+
+                        var cm = new Matrix();
+
+                        cm.translate(-32, -32);
+                        cm.rotate(item.body.GetAngle() - this.body.GetAngle());
+
+                        cm.translate(
+                            item.x * 16,
+                            item.y * 16
+                         );
+
+                        cm.rotate(this.body.GetAngle());
+                        cm.translate(
+                            p.x * 16.0,
+                            p.y * 16.0
+                        );
+
+
+
+                        tracks0.transformationMatrix = cm;
+
+                        prevx = p.x;
+                        prevy = p.y;
+                    }
+
+                }
+            }
+            #endregion
         }
 
         long xgt;
