@@ -1,28 +1,19 @@
-﻿using Box2D.Collision.Shapes;
-using Box2D.Common.Math;
-using Box2D.Dynamics;
-using FlashHeatZeeker.CorePhysics.Library;
-using FlashHeatZeeker.UnitJeepControl.Library;
+﻿using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.UnitTank.Library;
-using ScriptCoreLib.ActionScript.flash.geom;
-using ScriptCoreLib.Shared.BCLImplementation.GLSL;
-using starling.display;
+using FlashHeatZeeker.UnitTankControl.Library;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-
-namespace FlashHeatZeeker.UnitTankControl.Library
+namespace FlashHeatZeeker.CoreMap.Library
 {
-    public class StarlingGameSpriteWithTankControl : StarlingGameSpriteWithPhysics
+    class StarlingGameSpriteWithMap : StarlingGameSpriteWithPhysics
     {
-        public StarlingGameSpriteWithTankControl()
+        public StarlingGameSpriteWithMap()
         {
             var textures = new StarlingGameSpriteWithTankTextures(new_tex_crop);
-
 
             this.onbeforefirstframe += (stage, s) =>
             {
@@ -55,20 +46,18 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                 #endregion
 
 
+
+
                 var tank1 = new PhysicalTank(textures, this);
-
                 current = tank1.body;
-
-                var tank2 = new PhysicalTank(textures, this);
-
-      
 
                 onframe += delegate
                 {
 
                     tank1.SetVelocityFromInput(__keyDown);
 
-                 
+
+
 
                 };
             };

@@ -71,11 +71,12 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 #endregion
 
+                bool mode_changepending = false;
 
 
                 onframe += delegate
                 {
-             
+
 
                     current = physical0.body;
                     physical0.SetVelocityFromInput(__keyDown);
@@ -126,6 +127,29 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                         }
                     #endregion
 
+
+                    #region mode
+                    if (__keyDown[(int)Keys.Space] == null)
+                    {
+                        // space is not down.
+                        mode_changepending = true;
+                    }
+                    else
+                    {
+                        if (mode_changepending)
+                        {
+                            if (physical0.visual.LayOnTheGround)
+                                physical0.visual.LayOnTheGround = false;
+                            else
+                                physical0.visual.LayOnTheGround = true;
+
+                            mode_changepending = false;
+
+
+
+                        }
+                    }
+                    #endregion
 
 
 

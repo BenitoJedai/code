@@ -29,46 +29,6 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             visual0 = new VisualJeep(textures, Context);
 
 
-            #region b2world
-
-            // add ghost obstacles for diagnostics
-
-            {
-                var bodyDef = new b2BodyDef();
-
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-
-                // stop moving if legs stop walking!
-                bodyDef.linearDamping = 10.0;
-                bodyDef.angularDamping = 0.3;
-                //bodyDef.angle = 1.57079633;
-                bodyDef.fixedRotation = true;
-
-                var body = Context.ground_b2world.CreateBody(bodyDef);
-                body.SetPosition(new b2Vec2(10, 10));
-
-                var fixDef = new Box2D.Dynamics.b2FixtureDef();
-                fixDef.density = 0.1;
-                fixDef.friction = 0.01;
-                fixDef.restitution = 0;
-
-
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(1.0);
-
-
-                var fix = body.CreateFixture(fixDef);
-
-                //body.SetPosition(
-                //    new b2Vec2(0, -100 * 16)
-                //);
-            }
-
-
-
-
-
-            #endregion
-
 
 
 

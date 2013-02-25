@@ -143,6 +143,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\tracks0.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\greentank_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\tanktrackpattern.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\greentank_guntower_rank.svg" />

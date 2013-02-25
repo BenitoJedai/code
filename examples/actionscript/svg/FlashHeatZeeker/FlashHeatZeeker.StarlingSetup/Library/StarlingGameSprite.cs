@@ -61,6 +61,8 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         public static Action<Action<int, int>> onresize;
 
         public Sprite Content;
+        public Sprite Content_layer0_tracks;
+
         public Random random = new Random();
 
 
@@ -76,7 +78,8 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             gametime.Start();
 
             this.Content = new Sprite().AttachTo(this);
-
+            this.Content_layer0_tracks = new Sprite().AttachTo(this.Content);
+           
             var info = new TextField(
                 800,
                 400,
@@ -122,6 +125,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             var Source0TextureTop = 0;
             var Source0TextureLeft = 0;
             var Source0TextureMaxBottom = 0;
+            var Source0Padding = 1;
 
             var Source0 = new Lazy<TextureAtlas>(
                  delegate
@@ -163,8 +167,8 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
 
                        // next image will appear right to us + padding to prevent bleed
-                       Source0TextureLeft += innersize + 1;
-                       Source0TextureMaxBottom = Source0TextureMaxBottom.Max(Source0TextureTop + innersize);
+                       Source0TextureLeft += innersize + Source0Padding;
+                       Source0TextureMaxBottom = Source0TextureMaxBottom.Max(Source0TextureTop + innersize + Source0Padding);
 
                        var m = new Matrix();
 
@@ -237,8 +241,8 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
 
                        // next image will appear right to us
-                       Source0TextureLeft += innersize + 1;
-                       Source0TextureMaxBottom = Source0TextureMaxBottom.Max(Source0TextureTop + innersize);
+                       Source0TextureLeft += innersize + Source0Padding;
+                       Source0TextureMaxBottom = Source0TextureMaxBottom.Max(Source0TextureTop + innersize + Source0Padding);
 
                        var m = new Matrix();
                        m.translate(
@@ -330,7 +334,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
                     var texmem = (Source0TextureMaxBottom * 100 / 2048) + "%";
 
-                    info.text = new { frameid, texmem, gametime.ElapsedMilliseconds, Starling.current.context.driverInfo }.ToString();
+                    info.text = new { frameid, texmem, gametime.ElapsedMilliseconds, Starling.current.context.driverInfo, Content.numChildren }.ToString();
 
                 };
         }
