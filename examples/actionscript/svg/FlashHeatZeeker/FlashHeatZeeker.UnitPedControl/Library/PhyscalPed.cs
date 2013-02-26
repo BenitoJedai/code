@@ -34,22 +34,27 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         double LinearVelocityX;
         double LinearVelocityY;
 
+        public void TeleportTo(double x, double y)
+        {
+            this.body.SetPosition(
+                new b2Vec2(x, y)
+            );
+
+            this.karmabody.SetPosition(
+              new b2Vec2(x, y)
+            );
+  
+        }
+
+        // nop
+        KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)
         {
-            if (this.KarmaInput0.Count > 0)
-            {
-                this.KarmaInput0.Enqueue(new KeySample
-                {
-                    value = __keyDown.value,
-
-                    fixup = true,
-                    x = this.body.GetPosition().x,
-                    y = this.body.GetPosition().y,
-                });
-                this.KarmaInput0.Dequeue();
-            }
-
             CurrentInput = __keyDown;
+
+
+
+
 
             var velocity = new Velocity();
 
@@ -67,9 +72,27 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
             // we are moving. stop laying on the ground mode
             this.visual.LayOnTheGround = false;
+
+
         }
 
-        KeySample CurrentInput;
+        public void FeedKarma()
+        {
+            if (this.KarmaInput0.Count > 0)
+            {
+                this.KarmaInput0.Enqueue(new KeySample
+                {
+                    value = CurrentInput.value,
+
+                    fixup = true,
+                    x = this.body.GetPosition().x,
+                    y = this.body.GetPosition().y,
+                });
+                this.KarmaInput0.Dequeue();
+            }
+        }
+
+
 
         // script: error JSC1000: ActionScript : Opcode not implemented: stind.r8 at FlashHeatZeeker.UnitPedControl.Library.PhysicalPed.ExtractVelocityFromInput
 

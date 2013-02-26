@@ -1,6 +1,7 @@
 ﻿using Box2D.Collision.Shapes;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
+using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.UnitJeepControl.Library;
 using FlashHeatZeeker.UnitTank.Library;
@@ -13,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.Extensions;
 
 
 namespace FlashHeatZeeker.UnitTankControl.Library
@@ -28,28 +30,25 @@ namespace FlashHeatZeeker.UnitTankControl.Library
             {
 
                 #region __keyDown
-                var __keyDown = new object[0xffffff];
+                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>
                    {
-                       if (__keyDown[e.keyCode] != null)
-                           return;
-
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
-                           __keyDown[(int)Keys.Alt] = new object();
+                           __keyDown[Keys.Alt] = true;
 
-                       __keyDown[e.keyCode] = new object();
+                       __keyDown[(Keys)e.keyCode] = true;
                    };
 
                 stage.keyUp +=
                  e =>
                  {
                      if (!e.altKey)
-                         __keyDown[(int)Keys.Alt] = null;
+                         __keyDown[Keys.Alt] = false;
 
-                     __keyDown[e.keyCode] = null;
+                     __keyDown[(Keys)e.keyCode] = false;
                  };
 
                 #endregion
@@ -63,13 +62,17 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
 
 
-                onframe += delegate
+                onsyncframe += delegate
                 {
 
                     tank1.SetVelocityFromInput(__keyDown);
 
 
+                    foreach (var item in units)
+                    {
+                        (item as PhysicalTank).With(ped => ped.FeedKarma());
 
+                    }
                 };
             };
         }

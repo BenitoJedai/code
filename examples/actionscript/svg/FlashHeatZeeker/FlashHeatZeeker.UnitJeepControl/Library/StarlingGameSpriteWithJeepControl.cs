@@ -11,13 +11,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.Extensions;
+using FlashHeatZeeker.Core.Library;
 
 namespace FlashHeatZeeker.UnitJeepControl.Library
 {
     public class StarlingGameSpriteWithJeepControl : StarlingGameSpriteWithPhysics
     {
         // hacky way, yet user probably ahs only one keyboard / set of hands anyhow
-        public static object[] __keyDown = new object[0xffffff];
+        public static KeySample __keyDown = new KeySample();
 
         public StarlingGameSpriteWithJeepControl()
         {
@@ -29,32 +31,29 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
             this.onbeforefirstframe += (stage, s) =>
             {
-
                 #region __keyDown
 
                 stage.keyDown +=
                    e =>
                    {
-                       if (__keyDown[e.keyCode] != null)
-                           return;
-
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
-                           __keyDown[(int)Keys.Alt] = new object();
+                           __keyDown[Keys.Alt] = true;
 
-                       __keyDown[e.keyCode] = new object();
+                       __keyDown[(Keys)e.keyCode] = true;
                    };
 
                 stage.keyUp +=
                  e =>
                  {
                      if (!e.altKey)
-                         __keyDown[(int)Keys.Alt] = null;
+                         __keyDown[Keys.Alt] = false;
 
-                     __keyDown[e.keyCode] = null;
+                     __keyDown[(Keys)e.keyCode] = false;
                  };
 
                 #endregion
+
 
 
                 var jeep = new PhysicalJeep(textures, this);
@@ -62,13 +61,20 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                 current = jeep;
 
+                new PhysicalJeep(textures, this);
+                new PhysicalJeep(textures, this);
 
 
-                onframe += delegate
+                onsyncframe += delegate
                 {
 
                     jeep.SetVelocityFromInput(__keyDown);
 
+                    foreach (var item in units)
+                    {
+                        (item as PhysicalJeep).With(ped => ped.FeedKarma());
+
+                    }
                 };
             };
         }

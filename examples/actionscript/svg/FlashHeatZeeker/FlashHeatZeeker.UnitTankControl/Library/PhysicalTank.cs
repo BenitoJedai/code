@@ -29,10 +29,24 @@ namespace FlashHeatZeeker.UnitTankControl.Library
         public double LinearVelocityY;
 
         public b2Body body { set; get; }
+        public b2Body karmabody { get; set; }
+
         public VisualTank visual;
 
         public StarlingGameSpriteWithTankTextures textures;
         public StarlingGameSpriteWithPhysics Context;
+
+        public void TeleportTo(double x, double y)
+        {
+            this.body.SetPosition(
+                new b2Vec2(x, y)
+            );
+
+            this.karmabody.SetPosition(
+              new b2Vec2(x, y)
+            );
+
+        }
 
         public PhysicalTank(StarlingGameSpriteWithTankTextures textures, StarlingGameSpriteWithPhysics Context)
         {
@@ -40,6 +54,13 @@ namespace FlashHeatZeeker.UnitTankControl.Library
             this.Context = Context;
             this.driverseat = new DriverSeat();
             this.visual = new VisualTank(textures, Context);
+
+            for (int i = 0; i < 7; i++)
+            {
+                this.KarmaInput0.Enqueue(
+                    new KeySample()
+                );
+            }
 
 
             #region b2world
@@ -76,6 +97,39 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
 
                 var fix = body.CreateFixture(fixDef);
+            }
+
+
+            {
+                var bodyDef = new b2BodyDef();
+
+                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                // stop moving if legs stop walking!
+                bodyDef.linearDamping = 1.0;
+                bodyDef.angularDamping = 0;
+                //bodyDef.angle = 1.57079633;
+                bodyDef.fixedRotation = true;
+
+                karmabody = Context.groundkarma_b2world.CreateBody(bodyDef);
+                //current = body;
+
+
+                var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                fixDef.density = 0.1;
+                fixDef.friction = 0.01;
+                fixDef.restitution = 0;
+
+                var fixdef_shape = new b2PolygonShape();
+
+                fixDef.shape = fixdef_shape;
+
+                // physics unit is looking to right
+                fixdef_shape.SetAsBox(3, 2);
+
+
+
+                var fix = karmabody.CreateFixture(fixDef);
             }
 
 
@@ -159,27 +213,18 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
         public void ApplyVelocity()
         {
-            var current = this.body;
 
             {
+                var current = this.body;
                 var v = this.AngularVelocity * 10;
-                //angular damping does not work under low fps
-                //if (v != 0)
                 current.SetAngularVelocity(v);
-            }
 
-            {
                 var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
                         + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
                 var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
                         + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
 
-                //if (vx == 0 && vy == 0)
-                //{
 
-                //}
-                //else
-                //{
 
                 current.SetLinearVelocity(
                     new b2Vec2(
@@ -188,10 +233,143 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                     )
                 );
-                //}
+            }
+
+
+            // what about our karma body?
+            if (this.KarmaInput0.Count > 0)
+            {
+                var _karma__keyDown = this.KarmaInput0.Peek();
+
+                var _karma_velocity = new Velocity();
+
+
+                ExtractVelocityFromInput(_karma__keyDown, _karma_velocity);
+
+                var current = this.karmabody;
+                var v = _karma_velocity.AngularVelocity * 10;
+                current.SetAngularVelocity(v);
+
+                var vx = Math.Cos(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
+                                   + Math.Cos(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
+                var vy = Math.Sin(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
+                        + Math.Sin(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
+
+                current.SetLinearVelocity(
+                    new b2Vec2(
+                     vx, vy
+                    )
+                );
+
+                if (vx == 0)
+                    if (vx == 0)
+                        if (_karma__keyDown.fixup)
+                        {
+                            // like a magnet
+                            current.SetPosition(
+                                new b2Vec2(
+                                    _karma__keyDown.x + (current.GetPosition().x - _karma__keyDown.x) * 0.9,
+                                    _karma__keyDown.y + (current.GetPosition().y - _karma__keyDown.y) * 0.9
+                                )
+                            );
+                        }
             }
         }
 
+
+        public class Velocity
+        {
+            public double AngularVelocity;
+            public double LinearVelocityX;
+            public double LinearVelocityY;
+        }
+
+        KeySample CurrentInput = new KeySample();
+        public void SetVelocityFromInput(KeySample __keyDown)
+        {
+            CurrentInput = __keyDown;
+
+            var velocity = new Velocity();
+
+            ExtractVelocityFromInput(__keyDown, velocity);
+
+            this.AngularVelocity = velocity.AngularVelocity;
+            this.LinearVelocityX = velocity.LinearVelocityX;
+            this.LinearVelocityY = velocity.LinearVelocityY;
+        }
+
+
+        public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
+
+        public void FeedKarma()
+        {
+            if (this.KarmaInput0.Count > 0)
+            {
+                this.KarmaInput0.Enqueue(new KeySample
+                {
+                    value = CurrentInput.value,
+
+                    fixup = true,
+                    x = this.body.GetPosition().x,
+                    y = this.body.GetPosition().y,
+                });
+                this.KarmaInput0.Dequeue();
+            }
+        }
+
+        public void ExtractVelocityFromInput(KeySample __keyDown, Velocity value)
+        {
+
+
+            value.AngularVelocity = 0;
+            value.LinearVelocityX = 0;
+            value.LinearVelocityY = 0;
+
+
+
+            if (__keyDown != null)
+            {
+
+                if (__keyDown[Keys.Up])
+                {
+                    // we have reasone to keep walking
+
+                    value.LinearVelocityY = 1;
+                }
+
+                if (__keyDown[Keys.Down])
+                {
+                    // we have reasone to keep walking
+                    // go slow backwards
+                    value.LinearVelocityY = -0.5;
+
+                }
+
+
+                if (__keyDown[Keys.Left])
+                {
+                    // we have reasone to keep walking
+
+                    value.AngularVelocity = -1;
+
+                }
+
+                if (__keyDown[Keys.Right])
+                {
+                    // we have reasone to keep walking
+
+                    value.AngularVelocity = 1;
+
+                }
+
+            }
+
+
+        }
+
+
+
+        [Obsolete]
         public void SetVelocityFromInput(object[] __keyDown)
         {
             this.AngularVelocity = 0;

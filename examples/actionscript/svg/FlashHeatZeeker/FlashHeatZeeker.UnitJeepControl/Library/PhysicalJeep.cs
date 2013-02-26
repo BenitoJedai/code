@@ -27,6 +27,11 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
         Wheel[] xwheels;
 
+        public Car unit4_physics;
+        public Car karmaunit4_physics;
+
+        public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
+
         public PhysicalJeep(StarlingGameSpriteWithJeepTextures textures, StarlingGameSpriteWithPhysics Context)
         {
             this.CameraRotation = Math.PI / 2;
@@ -37,14 +42,57 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
             visual0 = new VisualJeep(textures, Context);
 
+            for (int i = 0; i < 7; i++)
+            {
+                this.KarmaInput0.Enqueue(
+                    new KeySample()
+                );
+            }
+
+            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
+
+
+            {
+                xwheels = new[] { 
+                        //top left
+                        new Wheel { b2world = Context.groundkarma_b2world, x = -1.1, y = -1.2, width = 0.4, length = 0.8, revolving = true, powered = true },
+
+                        //top right
+                        new Wheel{b2world= Context.groundkarma_b2world, x =1.1,  y =-1.2,  width =0.4,  length =0.8,  revolving =true,  powered =true},
+
+
+                        //back left
+                        new Wheel{b2world= Context.groundkarma_b2world, x =-1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
+
+                        //back right
+                        new Wheel{b2world= Context.groundkarma_b2world, x =1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
+                    };
 
 
 
+                karmaunit4_physics = new Car(
+                   b2world: Context.groundkarma_b2world,
+                   width: 2,
+                   length: 4,
+                   position: ff(0, 0),
+                   angle: 180,
+
+                   // how fast can the jeep go?
+                   power: 120,
+                   max_speed: 120,
+
+                   max_steer_angle: 33,
+                    //max_steer_angle: 40,
+
+                   wheels: xwheels
+               );
+
+            }
+
+            {
 
 
-
-
-            xwheels = new[] { 
+                xwheels = new[] { 
                         //top left
                         new Wheel { b2world = Context.ground_b2world, x = -1.1, y = -1.2, width = 0.4, length = 0.8, revolving = true, powered = true },
 
@@ -59,50 +107,51 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                         new Wheel{b2world= Context.ground_b2world, x =1.1,  y =1.2,  width =0.4,  length =0.8,  revolving =false,  powered =false},
                     };
 
-            xwheels[0].setAngle += a =>
-            {
-                var cm = new Matrix();
-                cm.translate(-2, -2);
-                cm.scale(2, 4);
-                cm.rotate(a.DegreesToRadians());
-
-                cm.translate(-18, -20);
-
-                visual0.tire0.transformationMatrix = cm;
-            };
-
-            xwheels[1].setAngle += a =>
-            {
-
-                var cm = new Matrix();
-                cm.translate(-2, -2);
-                cm.scale(2, 4);
-                cm.rotate(a.DegreesToRadians());
-
-                cm.translate(18, -20);
-
-                visual0.tire1.transformationMatrix = cm;
-            };
-            Func<double, double, double[]> ff = (a, b) => { return new double[] { a, b }; };
-
-            unit4_physics = new Car(
-                b2world: Context.ground_b2world,
-                width: 2,
-                length: 4,
-                position: ff(0, 0),
-                angle: 180,
-
-                // how fast can the jeep go?
-                power: 120,
-                max_speed: 120,
-
-                max_steer_angle: 33,
-                //max_steer_angle: 40,
-
-                wheels: xwheels
-        );
 
 
+                unit4_physics = new Car(
+                    b2world: Context.ground_b2world,
+                    width: 2,
+                    length: 4,
+                    position: ff(0, 0),
+                    angle: 180,
+
+                    // how fast can the jeep go?
+                    power: 120,
+                    max_speed: 120,
+
+                    max_steer_angle: 33,
+                    //max_steer_angle: 40,
+
+                    wheels: xwheels
+                );
+
+
+                xwheels[0].setAngle += a =>
+                {
+                    var cm = new Matrix();
+                    cm.translate(-2, -2);
+                    cm.scale(2, 4);
+                    cm.rotate(a.DegreesToRadians());
+
+                    cm.translate(-18, -20);
+
+                    visual0.tire0.transformationMatrix = cm;
+                };
+
+                xwheels[1].setAngle += a =>
+                {
+
+                    var cm = new Matrix();
+                    cm.translate(-2, -2);
+                    cm.scale(2, 4);
+                    cm.rotate(a.DegreesToRadians());
+
+                    cm.translate(18, -20);
+
+                    visual0.tire1.transformationMatrix = cm;
+                };
+            }
             Context.internalunits.Add(this);
 
         }
@@ -112,7 +161,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             get { return unit4_physics.body; }
         }
 
-        public Car unit4_physics;
+
 
 
         bool prev = false;
@@ -198,13 +247,122 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             #endregion
         }
 
+
+        public void FeedKarma()
+        {
+            if (this.KarmaInput0.Count > 0)
+            {
+                this.KarmaInput0.Enqueue(new KeySample
+                {
+                    value = CurrentInput.value,
+
+                    fixup = true,
+                    angle = this.body.GetAngle(),
+                    x = this.body.GetPosition().x,
+                    y = this.body.GetPosition().y,
+                });
+                this.KarmaInput0.Dequeue();
+            }
+        }
+
+
         long xgt;
         public void ApplyVelocity()
         {
             unit4_physics.update(Context.gametime.ElapsedMilliseconds - xgt);
+
+
+            // what about our karma body?
+            if (this.KarmaInput0.Count > 0)
+            {
+                var _karma__keyDown = this.KarmaInput0.Peek();
+                ExtractVelocityFromInput(_karma__keyDown, karmaunit4_physics);
+
+
+                karmaunit4_physics.update(Context.gametime.ElapsedMilliseconds - xgt);
+
+
+
+                if (_karma__keyDown.fixup)
+                {
+                    var fixupmultiplier = 0.95;
+
+                    // like a magnet
+                    karmaunit4_physics.body.SetPositionAndAngle(
+                        new b2Vec2(
+                            _karma__keyDown.x + (karmaunit4_physics.body.GetPosition().x - _karma__keyDown.x) * fixupmultiplier,
+                            _karma__keyDown.y + (karmaunit4_physics.body.GetPosition().y - _karma__keyDown.y) * fixupmultiplier
+                        ),
+                        // meab me in scotty,
+                            _karma__keyDown.angle + (karmaunit4_physics.body.GetAngle() - _karma__keyDown.angle) * fixupmultiplier
+
+                    );
+                }
+
+
+            }
+
             xgt = Context.gametime.ElapsedMilliseconds;
         }
 
+
+        public void ExtractVelocityFromInput(KeySample __keyDown, Car unit4_physics)
+        {
+            //var rot = 0;
+            //var dx = 0.0;
+            //var dy = 0.0;
+
+            unit4_physics.accelerate = Car.ACC_NONE;
+            unit4_physics.steer_left = Car.STEER_NONE;
+            unit4_physics.steer_right = Car.STEER_NONE;
+
+            if (__keyDown == null)
+                return;
+
+            if (__keyDown[Keys.Up])
+            {
+                // we have reasone to keep walking
+
+                unit4_physics.accelerate = Car.ACC_ACCELERATE;
+                //dy = 1;
+            }
+
+            if (__keyDown[Keys.Down])
+            {
+                // we have reasone to keep walking
+                // go slow backwards
+                //dy = -0.5;
+                unit4_physics.accelerate = Car.ACC_BRAKE;
+
+            }
+
+
+            if (__keyDown[Keys.Left])
+            {
+                // we have reasone to keep walking
+
+                unit4_physics.steer_left = Car.STEER_LEFT;
+
+            }
+
+            if (__keyDown[Keys.Right])
+            {
+                // we have reasone to keep walking
+
+                unit4_physics.steer_right = Car.STEER_RIGHT;
+
+            }
+        }
+
+        // nop
+        KeySample CurrentInput = new KeySample();
+        public void SetVelocityFromInput(KeySample __keyDown)
+        {
+            CurrentInput = __keyDown;
+            ExtractVelocityFromInput(__keyDown, unit4_physics);
+        }
+
+        [Obsolete]
         public void SetVelocityFromInput(object[] __keyDown)
         {
             //var rot = 0;

@@ -36,7 +36,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
                         {
                             ui.Opacity = 1;
                             e.Handled = true;
-                            StarlingGameSpriteWithJeepControl.__keyDown[(int)key] = new object();
+                            StarlingGameSpriteWithJeepControl.__keyDown[key] = true;
                         };
 
                     //ui.MouseUp +=
@@ -45,7 +45,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
                        {
                            ui.Opacity = 0.5;
                            e.Handled = true;
-                           StarlingGameSpriteWithJeepControl.__keyDown[(int)key] = null;
+                           StarlingGameSpriteWithJeepControl.__keyDown[key] = false;
                        };
 
                     ui.TouchDown +=
@@ -53,7 +53,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
                       {
                           ui.Opacity = 1;
                           e.Handled = true;
-                          StarlingGameSpriteWithJeepControl.__keyDown[(int)key] = new object();
+                          StarlingGameSpriteWithJeepControl.__keyDown[key] = true;
                       };
 
                     ui.TouchUp +=
@@ -61,7 +61,7 @@ namespace FlashHeatZeeker.UnitJeepTouch
                        {
                            ui.Opacity = 0.5;
                            e.Handled = true;
-                           StarlingGameSpriteWithJeepControl.__keyDown[(int)key] = null;
+                           StarlingGameSpriteWithJeepControl.__keyDown[key] = false;
                        };
                 };
             #endregion

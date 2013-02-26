@@ -63,6 +63,124 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         public bool AutomaticTakeoff;
 
+        KeySample CurrentInput = new KeySample();
+        public void SetVelocityFromInput(KeySample __keyDown)
+        {
+            CurrentInput = __keyDown;
+
+            var velocity = new Velocity();
+
+            ExtractVelocityFromInput(__keyDown, velocity);
+
+            this.AngularVelocity = velocity.AngularVelocity;
+            this.LinearVelocityX = velocity.LinearVelocityX;
+            this.LinearVelocityY = velocity.LinearVelocityY;
+
+    
+
+            if (this.LinearVelocityX == 0)
+                if (this.LinearVelocityY == 0)
+                    if (this.AngularVelocity == 0)
+                        return;
+
+
+            if (this.visual.Altitude == 0)
+                if (AutomaticTakeoff)
+                {
+                    this.VerticalVelocity = 1.0;
+
+                    // reset
+
+                    this.AngularVelocity = 0;
+                    this.LinearVelocityX = 0;
+                    this.LinearVelocityY = 0;
+                }
+        }
+
+        public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
+
+        public void FeedKarma()
+        {
+
+        }
+
+        public class Velocity
+        {
+            public double AngularVelocity;
+            public double LinearVelocityX;
+            public double LinearVelocityY;
+        }
+
+        public void ExtractVelocityFromInput(KeySample __keyDown, Velocity value)
+        {
+
+
+            value.AngularVelocity = 0;
+            value.LinearVelocityX = 0;
+            value.LinearVelocityY = 0;
+
+
+
+            if (__keyDown != null)
+            {
+
+                if (__keyDown[Keys.Up])
+                {
+                    // we have reasone to keep walking
+
+                    value.LinearVelocityY = 1;
+                }
+
+                if (__keyDown[Keys.Down])
+                {
+                    // we have reasone to keep walking
+                    // go slow backwards
+                    value.LinearVelocityY = -0.5;
+
+                }
+
+                if (!__keyDown[Keys.Alt])
+                {
+                    if (__keyDown[Keys.Left])
+                    {
+                        // we have reasone to keep walking
+
+                        value.AngularVelocity = -1;
+
+                    }
+
+                    if (__keyDown[Keys.Right])
+                    {
+                        // we have reasone to keep walking
+
+                        value.AngularVelocity = 1;
+
+                    }
+                }
+                else
+                {
+                    if (__keyDown[Keys.Left])
+                    {
+                        // we have reasone to keep walking
+
+                        value.LinearVelocityX = -1;
+
+                    }
+
+                    if (__keyDown[Keys.Right])
+                    {
+                        // we have reasone to keep walking
+
+                        value.LinearVelocityX = 1;
+
+                    }
+                }
+            }
+
+
+        }
+
+        [Obsolete]
         public void SetVelocityFromInput(object[] __keyDown)
         {
             this.AngularVelocity = 0;
