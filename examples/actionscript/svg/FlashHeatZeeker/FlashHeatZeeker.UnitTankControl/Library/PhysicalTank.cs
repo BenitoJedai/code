@@ -18,6 +18,8 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 {
     public class PhysicalTank : IPhysicalUnit
     {
+        public double CameraRotation { get; set; }
+
         public DriverSeat driverseat { get; set; }
 
         public double speed = 30;
@@ -195,6 +197,8 @@ namespace FlashHeatZeeker.UnitTankControl.Library
             this.AngularVelocity = 0;
             this.LinearVelocityX = 0;
             this.LinearVelocityY = 0;
+            if (__keyDown == null)
+                return;
 
             if (__keyDown[(int)Keys.Up] != null)
             {

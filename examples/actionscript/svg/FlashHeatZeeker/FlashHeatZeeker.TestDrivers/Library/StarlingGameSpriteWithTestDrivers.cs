@@ -89,7 +89,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
                 }
 
-                IPhysicalUnit currentunit = ped;
+                current = ped;
 
 
                 #region __keyDown
@@ -141,26 +141,26 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
                                 // enter another vehicle?
 
-                                var xdriver = currentunit as PhysicalPed;
-                                if (xdriver != null)
+                                var candidatedriver = current as PhysicalPed;
+                                if (candidatedriver != null)
                                 {
                                     var target =
-                                         from x in units
-                                         where x.driverseat != null
+                                         from candidatevehicle in units
+                                         where candidatevehicle.driverseat != null
 
                                          // can enter if the seat is full.
                                          // unless we kick them out before ofcourse
-                                         where x.driverseat.driver == null
+                                         where candidatevehicle.driverseat.driver == null
 
                                          let distance = new __vec2(
-                                             (float)(currentunit.body.GetPosition().x - x.body.GetPosition().x),
-                                             (float)(currentunit.body.GetPosition().y - x.body.GetPosition().y)
+                                             (float)(candidatedriver.body.GetPosition().x - candidatevehicle.body.GetPosition().x),
+                                             (float)(candidatedriver.body.GetPosition().y - candidatevehicle.body.GetPosition().y)
                                          ).GetLength()
 
                                          where distance < 4
 
                                          orderby distance ascending
-                                         select new { x, distance };
+                                         select new { candidatevehicle, distance };
 
                                     target.FirstOrDefault().With(
                                         x =>
@@ -168,34 +168,37 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                             Console.WriteLine(new { x.distance });
 
                                             //current.loc.visible = false;
-                                            currentunit.body.SetActive(false);
+                                            current.body.SetActive(false);
 
-                                            
-                                            x.x.driverseat.driver = currentunit;
 
-                                            currentunit = x.x;
+                                            x.candidatevehicle.driverseat.driver = candidatedriver;
+                                            candidatedriver.seatedvehicle = x.candidatevehicle;
+
+                                            current = x.candidatevehicle;
                                             //switchto(x.x);
                                         }
                                     );
                                 }
                                 else
                                 {
-                                    if (currentunit.driverseat != null)
-                                        currentunit.driverseat.driver.With(
-                                            driver =>
-                                            {
-                                                currentunit.driverseat.driver = null;
+                                    (current.driverseat.driver as PhysicalPed).With(
+                                        driver =>
+                                        {
+                                            current.driverseat.driver = null;
+                                            driver.seatedvehicle = null;
+                                            current.SetVelocityFromInput();
 
-                                                // crashland?
-                                                (currentunit as PhysicalHind).With(
-                                                    hind => hind.VerticalVelocity = -1
-                                                );
+                                            // crashland?
+                                            (current as PhysicalHind).With(
+                                                hind => hind.VerticalVelocity = -1
+                                            );
 
 
-                                                currentunit = driver;
-                                                currentunit.body.SetActive(true);
-                                            }
-                                        );
+
+                                            current = driver;
+                                            current.body.SetActive(true);
+                                        }
+                                    );
                                 }
 
                             }
@@ -203,7 +206,6 @@ namespace FlashHeatZeeker.TestDrivers.Library
                         #endregion
 
 
-                        current = currentunit.body;
 
                         #region mode
                         if (__keyDown[(int)Keys.Space] == null)
@@ -215,7 +217,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                         {
                             if (mode_changepending)
                             {
-                                (currentunit as PhysicalHind).With(
+                                (current as PhysicalHind).With(
                                     hind1 =>
                                     {
                                         if (hind1.visual.Altitude == 0)
@@ -226,7 +228,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                     }
                                 );
 
-                                (currentunit as PhysicalPed).With(
+                                (current as PhysicalPed).With(
                                  physical0 =>
                                  {
                                      if (physical0.visual.LayOnTheGround)
@@ -249,7 +251,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                         #endregion
 
 
-                        currentunit.SetVelocityFromInput(__keyDown);
+                        current.SetVelocityFromInput(__keyDown);
 
 
 
@@ -268,11 +270,11 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                 //bodyDef.angle = 1.57079633;
                                 bodyDef.fixedRotation = true;
 
-                                var body = current.GetWorld().CreateBody(bodyDef);
+                                var body = current.body.GetWorld().CreateBody(bodyDef);
                                 body.SetPosition(
                                     new b2Vec2(
-                                        current.GetPosition().x + 2,
-                                        current.GetPosition().y + 2
+                                        current.body.GetPosition().x + 2,
+                                        current.body.GetPosition().y + 2
                                     )
                                 );
 

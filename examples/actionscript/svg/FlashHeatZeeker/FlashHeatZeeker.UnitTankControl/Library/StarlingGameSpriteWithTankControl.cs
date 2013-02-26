@@ -57,18 +57,18 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                 var tank1 = new PhysicalTank(textures, this);
 
-                current = tank1.body;
+                current = tank1;
 
                 var tank2 = new PhysicalTank(textures, this);
 
-      
+
 
                 onframe += delegate
                 {
 
                     tank1.SetVelocityFromInput(__keyDown);
 
-                 
+
 
                 };
             };

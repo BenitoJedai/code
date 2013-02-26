@@ -28,8 +28,8 @@ namespace FlashHeatZeeker.UnitJeep.Library
 
             jeep = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep.svg");
             jeep_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_shadow.svg", alpha: 0.3);
-            jeep_trackpattern = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_trackpattern.svg", alpha: 0.1);
-            jeep_trackpattern_semi = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_trackpattern.svg", alpha: 0.02);
+            jeep_trackpattern = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_trackpattern.svg", alpha: 0.2);
+            jeep_trackpattern_semi = new_tex_crop("assets/FlashHeatZeeker.UnitJeep/jeep_trackpattern.svg", alpha: 0.04);
 
 
         }

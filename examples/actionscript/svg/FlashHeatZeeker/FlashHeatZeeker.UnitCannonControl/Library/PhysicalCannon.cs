@@ -15,6 +15,8 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 {
     public class PhysicalCannon : IPhysicalUnit
     {
+        public double CameraRotation { get; set; }
+
         public DriverSeat driverseat { get; set; }
 
         public double AngularVelocity;
@@ -87,6 +89,8 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 
             this.AngularVelocity = 0;
 
+            if (__keyDown == null)
+                return;
 
 
             if (__keyDown[(int)Keys.Left] != null)

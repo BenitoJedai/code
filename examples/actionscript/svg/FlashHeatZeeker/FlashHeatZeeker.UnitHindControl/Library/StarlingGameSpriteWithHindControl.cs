@@ -89,6 +89,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 #endregion
 
+                this.current = physical0;
 
                 onframe +=
                     delegate
@@ -128,7 +129,6 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                         #endregion
 
                         // for camera
-                        this.current = physical0.body;
 
                         physical0.SetVelocityFromInput(__keyDown);
 
@@ -152,8 +152,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                                 var body = physical0.body.GetWorld().CreateBody(bodyDef);
                                 body.SetPosition(
                                     new b2Vec2(
-                                        current.GetPosition().x + 2,
-                                        current.GetPosition().y + 2
+                                        current.body.GetPosition().x + 2,
+                                        current.body.GetPosition().y + 2
                                     )
                                 );
 

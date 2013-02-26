@@ -17,6 +17,8 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 {
     public class PhysicalJeep : IPhysicalUnit
     {
+        public double CameraRotation { get; set; }
+
         public DriverSeat driverseat { get; set; }
 
         StarlingGameSpriteWithJeepTextures textures;
@@ -27,6 +29,8 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
         public PhysicalJeep(StarlingGameSpriteWithJeepTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.CameraRotation = Math.PI / 2;
+
             this.textures = textures;
             this.driverseat = new DriverSeat();
             this.Context = Context;
@@ -87,12 +91,14 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                 length: 4,
                 position: ff(0, 0),
                 angle: 180,
-                power: 60,
 
-                max_steer_angle: 20,
+                // how fast can the jeep go?
+                power: 120,
+                max_speed: 120,
+
+                max_steer_angle: 33,
                 //max_steer_angle: 40,
 
-                max_speed: 60,
                 wheels: xwheels
         );
 
@@ -143,21 +149,25 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                 if (distance > 0.5)
                 {
-                    var tex = textures.jeep_trackpattern();
 
                     foreach (var item in xwheels)
                     {
-                        if (!item.powered)
-                        {
-                            tex = textures.jeep_trackpattern_semi();
-                        }
+                        var tex = textures.jeep_trackpattern_semi();
+
+                        var a = item.body.GetAngle() - this.body.GetAngle();
+
+                        if (item.powered)
+                            if (Math.Abs(a) > 2.DegreesToRadians())
+                            {
+                                tex = textures.jeep_trackpattern();
+                            }
 
                         var tracks0 = new Image(tex).AttachTo(Context.Content_layer0_tracks);
 
                         var cm = new Matrix();
 
                         cm.translate(-32, -32);
-                        cm.rotate(item.body.GetAngle() - this.body.GetAngle());
+                        cm.rotate(a);
 
                         cm.translate(
                             item.x * 16,
@@ -174,11 +184,16 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                         tracks0.transformationMatrix = cm;
 
-                        prevx = p.x;
-                        prevy = p.y;
+
+
+
                     }
 
+                    prevx = p.x;
+                    prevy = p.y;
                 }
+
+
             }
             #endregion
         }
@@ -199,6 +214,9 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             unit4_physics.accelerate = Car.ACC_NONE;
             unit4_physics.steer_left = Car.STEER_NONE;
             unit4_physics.steer_right = Car.STEER_NONE;
+
+            if (__keyDown == null)
+                return;
 
             if (__keyDown[(int)Keys.Up] != null)
             {

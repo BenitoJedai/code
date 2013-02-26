@@ -23,7 +23,6 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
         {
             this.autorotate = false;
 
-            current_rotation_extra = 0;
 
 
             var textures = new StarlingGameSpriteWithJeepTextures(new_tex_crop);
@@ -61,7 +60,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                 var jeep = new PhysicalJeep(textures, this);
 
 
-                current = jeep.unit4_physics.body;
+                current = jeep;
 
 
 

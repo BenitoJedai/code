@@ -16,16 +16,16 @@ namespace FlashHeatZeeker.CorePhysics.Library
     {
         public b2World
             ground_b2world,
+            groundkarma_b2world,
             air_b2world;
 
-        public b2Body
+        public IPhysicalUnit
             current;
 
-        public double
-            current_rotation_extra = Math.PI / 2;
 
         public ScriptCoreLib.ActionScript.flash.display.Sprite
             ground_dd,
+            groundkarma_dd,
             air_dd;
 
         public Stopwatch physicstime = new Stopwatch();
@@ -78,6 +78,36 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
             #endregion
 
+
+            #region ground_b2world
+            // first frame  ... set up our physccs
+            // zombies!!
+            groundkarma_b2world = new b2World(new b2Vec2(0, 0), false);
+
+            var groundkarma_b2debugDraw = new b2DebugDraw();
+
+            groundkarma_dd = new ScriptCoreLib.ActionScript.flash.display.Sprite();
+            groundkarma_dd.transform.colorTransform = new ColorTransform(0.0, 1.0, 0.0);
+
+
+
+
+
+            groundkarma_b2debugDraw.SetSprite(groundkarma_dd);
+            // textures are 512 pixels, while our svgs are 400px
+            // so how big is a meter in our game world? :)
+            groundkarma_b2debugDraw.SetDrawScale(16);
+            groundkarma_b2debugDraw.SetFillAlpha(0.1);
+            groundkarma_b2debugDraw.SetLineThickness(1.0);
+            groundkarma_b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
+
+            groundkarma_b2world.SetDebugDraw(groundkarma_b2debugDraw);
+
+
+
+
+
+            #endregion
 
             #region air_b2world
             // first frame  ... set up our physccs
@@ -138,7 +168,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                 fixDef.restitution = 0;
 
 
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(10.0);
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
 
 
                 var fix = body.CreateFixture(fixDef);
@@ -168,14 +198,45 @@ namespace FlashHeatZeeker.CorePhysics.Library
                 fixDef.restitution = 0;
 
 
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(10.0);
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
 
 
                 var fix = body.CreateFixture(fixDef);
 
 
                 body.SetPosition(
-                    new b2Vec2(8, 0)
+                    new b2Vec2(8, -8)
+                );
+            }
+
+            {
+                var bodyDef = new b2BodyDef();
+
+                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                // stop moving if legs stop walking!
+                bodyDef.linearDamping = 10.0;
+                bodyDef.angularDamping = 0.3;
+                //bodyDef.angle = 1.57079633;
+                bodyDef.fixedRotation = true;
+
+                var body = groundkarma_b2world.CreateBody(bodyDef);
+                body.SetPosition(new b2Vec2(10, 10));
+
+                var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                fixDef.density = 0.1;
+                fixDef.friction = 0.01;
+                fixDef.restitution = 0;
+
+
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
+
+
+                var fix = body.CreateFixture(fixDef);
+
+
+                body.SetPosition(
+                    new b2Vec2(8, 8)
                 );
             }
             #endregion
@@ -186,35 +247,87 @@ namespace FlashHeatZeeker.CorePhysics.Library
             this.onbeforefirstframe += (stage, s) =>
             {
                 s.nativeOverlay.addChild(ground_dd);
+                s.nativeOverlay.addChild(groundkarma_dd);
                 s.nativeOverlay.addChild(air_dd);
+
+                // 1000 / 15
+                var syncframeinterval = 1000 / 15;
+                var syncframesince = 0L;
+                var syncframeextra = 0L;
 
                 onframe +=
                     delegate
                     {
-                        var physicstime_elapsed = physicstime.ElapsedMilliseconds;
+                        // drop frames
+                        //if (frameid % 2 == 0)
+                        //    return;
+
+                        var physicstime_elapsed = physicstime.ElapsedMilliseconds + syncframeextra;
+                        syncframeextra = 0;
+
+                        // physicstime_elapsed needs to be split!
+
+                        var physicstime_elapsed_PRE = physicstime_elapsed;
+
+
+
+
                         physicstime.Restart();
 
-                        #region Step
+                        // add up the time we are spending
+                        syncframesince += physicstime_elapsed;
 
-                        //update physics world
-                        ground_b2world.Step(physicstime_elapsed / 1000.0, 10, 8);
-                        ground_b2world.DrawDebugData();
-                        //clear applied forces, so they don't stack from each update
-                        ground_b2world.ClearForces();
+                        #region raise_onsyncframe
+                        var raise_onsyncframe = false;
+                        // time for sync frame yet?
+                        if (syncframesince >= syncframeinterval)
+                        {
+                            // time for syncframe!
+                            raise_onsyncframe = true;
 
-                        air_b2world.Step(
-                            physicstime_elapsed / 1000.0,
-                            10,
-                            8
-                        );
+                            // does it actually help us? disabled for now
+                            var dx = syncframesince - syncframeinterval;
+                            syncframesince = 0;
 
-                        air_b2world.DrawDebugData();
-                        //clear applied forces, so they don't stack from each update
-                        air_b2world.ClearForces();
+                            // Error: raise_onsyncframe: { physicstime_elapsed_PRE = 275, dx = 75, physicstime_elapsed_POST = 0 }
+
+                            physicstime_elapsed_PRE -= dx;
+                            syncframeextra += dx;
+                        }
                         #endregion
 
+
+                        var iterations = 10;
+
+                        syncframetime += physicstime_elapsed_PRE;
+
+                        #region PRE Step
+
+                        //update physics world
+                        ground_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
+                        groundkarma_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
+                        air_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
+                        #endregion
+
+                        ground_b2world.ClearForces();
+                        groundkarma_b2world.ClearForces();
+                        air_b2world.ClearForces();
+
+
+                        #region DrawDebugData ClearForces
+                        ground_b2world.DrawDebugData();
+                        groundkarma_b2world.DrawDebugData();
+                        air_b2world.DrawDebugData();
+                        #endregion
+
+                        // syncframe
+                        if (raise_onsyncframe)
+                            this.onsyncframe(stage, s);
+
+
+                        #region air_dd vs ground_dd
                         if (current != null)
-                            if (current.GetWorld() == air_b2world)
+                            if (current.body.GetWorld() == air_b2world)
                             {
                                 air_dd.alpha = 0.6;
                                 ground_dd.alpha = 0.1;
@@ -224,6 +337,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                                 air_dd.alpha = 0.1;
                                 ground_dd.alpha = 0.6;
                             }
+                        #endregion
 
                         #region DisableDefaultContentDransformation
                         DisableDefaultContentDransformation = true;
@@ -233,11 +347,13 @@ namespace FlashHeatZeeker.CorePhysics.Library
                             if (current != null)
                             {
                                 cm.translate(
-                                    -(current.GetPosition().x * 16),
-                                    -(current.GetPosition().y * 16)
+                                    -(current.body.GetPosition().x * 16),
+                                    -(current.body.GetPosition().y * 16)
                                 );
 
-                                cm.rotate(-current.GetAngle() - current_rotation_extra);
+
+
+                                cm.rotate(-current.body.GetAngle() - Math.PI / 2 + current.CameraRotation);
                             }
                             //cm.rotate(-current.GetAngle());
 
@@ -257,13 +373,17 @@ namespace FlashHeatZeeker.CorePhysics.Library
                             Content.transformationMatrix = cm;
 
                             ground_dd.transform.matrix = cm;
-
+                            groundkarma_dd.transform.matrix = cm;
                             air_dd.transform.matrix = cm;
                         }
                         #endregion
 
+
+
                         foreach (var item in units)
                         {
+                            item.ShowPositionAndAngle();
+
                             #region driverseat
                             if (item.driverseat != null)
                                 if (item.driverseat.driver != null)
@@ -274,23 +394,29 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
                                         new b2Vec2(
 
-                                            item.body.GetPosition().x + Math.Cos(item.body.GetAngle() - Math.PI * 0.5) * 0.2,
-                                            item.body.GetPosition().y + Math.Sin(item.body.GetAngle() - Math.PI * 0.5) * 0.2
+                                            item.body.GetPosition().x + Math.Cos(item.body.GetAngle() - Math.PI * 0.5 - item.CameraRotation) * 0.2,
+                                            item.body.GetPosition().y + Math.Sin(item.body.GetAngle() - Math.PI * 0.5 - item.CameraRotation) * 0.2
                                         ),
-                                        item.body.GetAngle()
+                                        item.body.GetAngle() - item.CameraRotation
                                     );
 
                                     driver.ShowPositionAndAngle();
                                 }
                             #endregion
 
-                            item.ShowPositionAndAngle();
                             item.ApplyVelocity();
                         }
+
+
+
+
+
                     };
             };
 
 
         }
+
+        public long syncframetime;
     }
 }

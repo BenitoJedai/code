@@ -19,6 +19,7 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
                 var cannon1 = new PhysicalCannon(textures, this);
 
 
+                current = cannon1;
 
                 #region __keyDown
                 var __keyDown = new object[0xffffff];
@@ -52,7 +53,6 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
                   {
 
 
-                      current = cannon1.body;
                       cannon1.SetVelocityFromInput(__keyDown);
                   };
 

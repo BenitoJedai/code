@@ -20,6 +20,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 {
     public class PhysicalHind : IPhysicalUnit
     {
+        public double CameraRotation { get; set; }
+
         public DriverSeat driverseat { get; set; }
 
 
@@ -67,6 +69,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             this.LinearVelocityX = 0;
             this.LinearVelocityY = 0;
 
+            if (__keyDown == null)
+                return;
 
 
             if (__keyDown[(int)Keys.Up] != null)
