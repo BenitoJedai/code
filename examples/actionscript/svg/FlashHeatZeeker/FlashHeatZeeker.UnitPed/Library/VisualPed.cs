@@ -65,10 +65,17 @@ namespace FlashHeatZeeker.UnitPed.Library
 
         public StarlingGameSpriteBase Context;
 
-        int AnimateSeed;
+        public void Orphanize()
+        {
+            this.currentvisual.Orphanize();
+            this.shadow.Orphanize();
+        }
 
         Texture[] walk_ani;
         Texture[] texframes;
+
+
+
 
         public bool LayOnTheGround;
 
@@ -80,6 +87,7 @@ namespace FlashHeatZeeker.UnitPed.Library
         {
             // are we in a vehicle?
             this.shadow.visible = true;
+            this.currentvisual.visible = true;
 
             if (dy == 0 && dx == 0)
             {
@@ -107,8 +115,14 @@ namespace FlashHeatZeeker.UnitPed.Library
 
         }
 
-        public VisualPed(StarlingGameSpriteWithPedTextures textures, StarlingGameSpriteBase Context)
+        /// <summary>
+        /// If everybody walks the same time, look different
+        /// 
+        /// </summary>
+        public int AnimateSeed;
+        public VisualPed(StarlingGameSpriteWithPedTextures textures, StarlingGameSpriteBase Context, int AnimateSeed = 0)
         {
+            this.AnimateSeed = AnimateSeed;
             this.Context = Context;
 
             walk_ani = new[] {
@@ -154,7 +168,6 @@ namespace FlashHeatZeeker.UnitPed.Library
 
 
 
-            AnimateSeed = Context.random.Next() % 3000;
 
 
 

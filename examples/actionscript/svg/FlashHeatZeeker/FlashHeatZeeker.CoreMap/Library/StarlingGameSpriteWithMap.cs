@@ -49,7 +49,7 @@ namespace FlashHeatZeeker.CoreMap.Library
 
 
                 var tank1 = new PhysicalTank(textures, this);
-                current = tank1.body;
+                current = tank1;
 
                 onframe += delegate
                 {

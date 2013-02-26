@@ -54,6 +54,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         public int frameid = 0;
 
 
+        public FrameHandler onsyncframe = delegate { };
         public FrameHandler onbeforefirstframe = delegate { };
 
 
@@ -79,7 +80,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
             this.Content = new Sprite().AttachTo(this);
             this.Content_layer0_tracks = new Sprite().AttachTo(this.Content);
-           
+
             var info = new TextField(
                 800,
                 400,
@@ -125,7 +126,9 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             var Source0TextureTop = 0;
             var Source0TextureLeft = 0;
             var Source0TextureMaxBottom = 0;
-            var Source0Padding = 1;
+
+            // fighting mipmapping
+            var Source0Padding = 4;
 
             var Source0 = new Lazy<TextureAtlas>(
                  delegate
@@ -306,6 +309,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             };
 
 
+            Text = Starling.current.context.driverInfo;
 
             onframe +=
                 (stage, starling) =>
@@ -334,10 +338,12 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
                     var texmem = (Source0TextureMaxBottom * 100 / 2048) + "%";
 
-                    info.text = new { frameid, texmem, gametime.ElapsedMilliseconds, Starling.current.context.driverInfo, Content.numChildren }.ToString();
+                    info.text = new { frameid, texmem, Text }.ToString();
 
                 };
         }
+
+        public string Text;
 
         public bool autorotate = false;
         public bool DisableDefaultContentDransformation = false;

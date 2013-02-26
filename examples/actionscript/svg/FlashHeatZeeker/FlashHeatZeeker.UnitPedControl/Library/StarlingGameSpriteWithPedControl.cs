@@ -28,6 +28,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             {
 
                 var physical0 = new PhysicalPed(textures, this);
+                current = physical0;
 
                 // 32x32 = 15FPS?
                 // 24x24 35?
@@ -78,7 +79,6 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 {
 
 
-                    current = physical0.body;
                     physical0.SetVelocityFromInput(__keyDown);
 
                     #region simulate a weapone!
@@ -98,8 +98,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                             var body = ground_b2world.CreateBody(bodyDef);
                             body.SetPosition(
                                 new b2Vec2(
-                                    current.GetPosition().x + 2,
-                                    current.GetPosition().y + 2
+                                    current.body.GetPosition().x + 2,
+                                    current.body.GetPosition().y + 2
                                 )
                             );
 
