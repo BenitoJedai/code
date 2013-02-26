@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CB6B445D-2A35-49D2-AA0D-89D2C9A0DF44}</ProjectGuid>
+    <ProjectGuid>{94698134-B8B9-4181-A09C-A3CAB3BC32B6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashHeatZeeker.UnitJeepTouch</RootNamespace>
-    <AssemblyName>FlashHeatZeeker.UnitJeepTouch</AssemblyName>
+    <RootNamespace>FlashHeatZeeker.UnitPedControlTimetravel</RootNamespace>
+    <AssemblyName>FlashHeatZeeker.UnitPedControlTimetravel</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FlashHeatZeeker.UnitJeepTouch.Program</StartupObject>
+    <StartupObject>FlashHeatZeeker.UnitPedControlTimetravel.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -38,6 +38,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="box2dflash">
+      <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -96,8 +99,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
-    <Reference Include="starling, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="starling">
       <HintPath>..\packages\starling.1.0.0.0\lib\starling.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -119,45 +121,36 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashHeatZeeker.UnitJeepTouch.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.UnitJeepTouch.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashHeatZeeker.UnitPedControlTimetravel.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPedControlTimetravel.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitJeepControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitJeepControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitJeepControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.StarlingSetup\bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitJeep.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitJeep\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitJeep.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashHeatZeeker.UnitPedControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitPedControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPedControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPed.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitPed\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPed.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Library\StarlingGameSpriteWithPedControlTimetravel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationCanvas.cs" />
-    <Compile Include="ApplicationSprite.cs">
-      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ApplicationWebService.cs">
-      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Application.cs">
-      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ApplicationSprite.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
-      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+      <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuj.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
@@ -172,26 +165,17 @@
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
       <Name>FlashHeatZeeker.StarlingSetup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitJeepControl\FlashHeatZeeker.UnitJeepControl.csproj">
-      <Project>{4e32c317-9f51-4d36-81ea-9ffd2db5a28e}</Project>
-      <Name>FlashHeatZeeker.UnitJeepControl</Name>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitPedControl\FlashHeatZeeker.UnitPedControl.csproj">
+      <Project>{4d349e4b-ebf4-4121-9022-f2d4f85ec280}</Project>
+      <Name>FlashHeatZeeker.UnitPedControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitJeep\FlashHeatZeeker.UnitJeep.csproj">
-      <Project>{44e16d3a-a6af-4156-b663-aeddf9cbc766}</Project>
-      <Name>FlashHeatZeeker.UnitJeep</Name>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitPed\FlashHeatZeeker.UnitPed.csproj">
+      <Project>{28b82c3c-e90a-42a9-80c2-71bc99e91592}</Project>
+      <Name>FlashHeatZeeker.UnitPed</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuj-build.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuj-install.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuj-test.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

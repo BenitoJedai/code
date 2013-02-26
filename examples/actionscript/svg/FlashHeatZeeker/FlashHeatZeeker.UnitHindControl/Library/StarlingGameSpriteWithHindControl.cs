@@ -1,6 +1,7 @@
 ﻿using Box2D.Collision.Shapes;
 using Box2D.Common.Math;
 using Box2D.Dynamics;
+using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.UnitHind.Library;
@@ -64,49 +65,47 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 //bool visual0_flightmode = false;
 
                 #region __keyDown
+                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>
                    {
-                       if (__keyDown[e.keyCode] != null)
-                           return;
-
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
-                           __keyDown[(int)Keys.Alt] = new object();
+                           __keyDown[Keys.Alt] = true;
 
-                       __keyDown[e.keyCode] = new object();
+                       __keyDown[(Keys)e.keyCode] = true;
                    };
 
                 stage.keyUp +=
                  e =>
                  {
                      if (!e.altKey)
-                         __keyDown[(int)Keys.Alt] = null;
+                         __keyDown[Keys.Alt] = false;
 
-                     __keyDown[e.keyCode] = null;
+                     __keyDown[(Keys)e.keyCode] = false;
                  };
 
                 #endregion
 
                 this.current = physical0;
 
-                onframe +=
+                onsyncframe +=
                     delegate
                     {
-                        units.WithEach(
-                            unit =>
-                            {
-                                unit.ShowPositionAndAngle();
-                                unit.ApplyVelocity();
-                            }
-                        );
+                        //units.WithEach(
+                        //    unit =>
+                        //    {
+                        //        unit.ShowPositionAndAngle();
+                        //        unit.ApplyVelocity();
+                        //    }
+                        //);
 
 
 
 
                         #region flightmode
-                        if (__keyDown[(int)Keys.Space] == null)
+                        if (!__keyDown[Keys.Space])
                         {
                             // space is not down.
                             flightmode_changepending = true;
@@ -136,7 +135,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
                         #region simulate a weapone!
-                        if (__keyDown[(int)Keys.ControlKey] != null)
+                        if (__keyDown[Keys.ControlKey])
                             if (frameid % 20 == 0)
                             {
                                 var bodyDef = new b2BodyDef();

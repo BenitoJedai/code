@@ -11,7 +11,7 @@ namespace FlashHeatZeeker.Core.Library
         // 32 bits!
         public int value;
 
-        public int angle;
+        public double angle;
 
         // drag to position if stopped moving!
         public bool fixup;
