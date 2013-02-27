@@ -151,6 +151,7 @@
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\sand_run.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\jeepengine.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\diesel4.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\crickets.mp3" />
     <Content Include="web\assets\FlashHeatZeeker.CoreAudio\FNCL.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\helicopter1.mp3" />
   </ItemGroup>

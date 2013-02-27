@@ -18,7 +18,11 @@ namespace FlashHeatZeeker.CoreMap.Library
         public Func<Texture>
             tree0,
             tree0_shadow,
+
             hill1,
+            hole1,
+            grass1,
+
             road0,
             touchdown;
 
@@ -26,7 +30,11 @@ namespace FlashHeatZeeker.CoreMap.Library
         {
             tree0 = new_tex_crop("assets/FlashHeatZeeker.CoreMap/tree0.svg", innersize: 256);
             tree0_shadow = new_tex_crop("assets/FlashHeatZeeker.CoreMap/tree0_shadow.svg", innersize: 256, alpha: 0.3);
+
             hill1 = new_tex_crop("assets/FlashHeatZeeker.CoreMap/hill1.svg", innersize: 256);
+            hole1 = new_tex_crop("assets/FlashHeatZeeker.CoreMap/hole1.svg", innersize: 256);
+            grass1 = new_tex_crop("assets/FlashHeatZeeker.CoreMap/grass1.svg", innersize: 256);
+
             road0 = new_tex_crop("assets/FlashHeatZeeker.CoreMap/road0.svg", innersize: 256);
             touchdown = new_tex_crop("assets/FlashHeatZeeker.CoreMap/touchdown.svg", innersize: 256);
 
@@ -43,6 +51,8 @@ namespace FlashHeatZeeker.CoreMap.Library
             this.onbeforefirstframe += (stage, s) =>
             {
                 new Image(textures_map.hill1()).AttachTo(Content).y = -256;
+                new Image(textures_map.hole1()).AttachTo(Content).y = -512;
+                new Image(textures_map.grass1()).AttachTo(Content).y = -512 - 256;
 
                 new Image(textures_map.road0()).AttachTo(Content).x = -256;
                 new Image(textures_map.road0()).AttachTo(Content).x = 0;

@@ -27,6 +27,7 @@ namespace FlashHeatZeeker.CoreAudio
                 this.sb.loopdiesel2,
                 this.sb.loopsand_run,
                 this.sb.loopjeepengine,
+                this.sb.loopcrickets,
             }.WithEachIndex(
                 (s, index) =>
                 {

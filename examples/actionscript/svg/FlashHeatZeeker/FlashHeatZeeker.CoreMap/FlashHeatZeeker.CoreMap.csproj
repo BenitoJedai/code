@@ -151,6 +151,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="web\assets\FlashHeatZeeker.CoreMap\grass1.svg" />
+    <Content Include="web\assets\FlashHeatZeeker.CoreMap\hole1.svg" />
     <Content Include="web\assets\FlashHeatZeeker.CoreMap\hill1.svg" />
     <Content Include="web\assets\FlashHeatZeeker.CoreMap\letterB.svg" />
     <Content Include="web\assets\FlashHeatZeeker.CoreMap\letterC.svg" />
