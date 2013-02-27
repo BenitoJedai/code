@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7F31C1D3-4952-4C9A-92E0-DAAF8717075A}</ProjectGuid>
+    <ProjectGuid>{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashHeatZeeker.CoreMap</RootNamespace>
-    <AssemblyName>FlashHeatZeeker.CoreMap</AssemblyName>
+    <RootNamespace>FlashHeatZeeker.UnitBunkerControl</RootNamespace>
+    <AssemblyName>FlashHeatZeeker.UnitBunkerControl</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FlashHeatZeeker.CoreMap.Program</StartupObject>
+    <StartupObject>FlashHeatZeeker.UnitBunkerControl.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -38,7 +38,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="box2dflash">
+    <Reference Include="box2dflash, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
@@ -121,8 +122,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashHeatZeeker.CoreMap.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.CoreMap.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashHeatZeeker.UnitBunkerControl.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.UnitBunkerControl.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
@@ -133,17 +134,12 @@
     <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitTankControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitTankControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTankControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitTank.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitTank\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTank.AssetsLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Library\StarlingGameSpriteWithMap.cs" />
+    <Compile Include="Library\PhysicalBunker.cs" />
+    <Compile Include="Library\StarlingGameSpriteWithBunkerControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -151,17 +147,11 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="web\assets\FlashHeatZeeker.CoreMap\hill1.svg" />
-    <Content Include="web\assets\FlashHeatZeeker.CoreMap\letterB.svg" />
-    <Content Include="web\assets\FlashHeatZeeker.CoreMap\letterC.svg" />
-    <Content Include="web\assets\FlashHeatZeeker.CoreMap\letterD.svg" />
-    <Content Include="web\assets\FlashHeatZeeker.CoreMap\letterE.svg" />
-    <Content Include="web\assets\FlashHeatZeeker.CoreMap\letterF.svg" />
-    <Content Include="web\assets\FlashHeatZeeker.CoreMap\letterG.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreMap\tree0.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreMap\tree0_shadow.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreMap\touchdown.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreMap\road0.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\bunker2_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\bunker2.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
@@ -176,17 +166,6 @@
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
       <Name>FlashHeatZeeker.StarlingSetup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitTankControl\FlashHeatZeeker.UnitTankControl.csproj">
-      <Project>{19499013-cba3-4261-a2a5-c5c157dcc477}</Project>
-      <Name>FlashHeatZeeker.UnitTankControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitTank\FlashHeatZeeker.UnitTank.csproj">
-      <Project>{2769ba3b-1ce3-44b5-91b2-f6a8e2d35d4b}</Project>
-      <Name>FlashHeatZeeker.UnitTank</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

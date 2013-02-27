@@ -24,9 +24,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
         public double speed = 30;
 
-        public double AngularVelocity;
-        public double LinearVelocityX;
-        public double LinearVelocityY;
+
 
         public b2Body body { set; get; }
         public b2Body karmabody { get; set; }
@@ -285,6 +283,10 @@ namespace FlashHeatZeeker.UnitTankControl.Library
             public double LinearVelocityX;
             public double LinearVelocityY;
         }
+
+        public double AngularVelocity;
+        public double LinearVelocityX;
+        public double LinearVelocityY;
 
         KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)

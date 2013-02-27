@@ -22,6 +22,8 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using FlashHeatZeeker.UnitBunkerControl.Library;
+using FlashHeatZeeker.CoreMap.Library;
+using starling.display;
 
 namespace FlashHeatZeeker.TestDrivers.Library
 {
@@ -38,11 +40,29 @@ namespace FlashHeatZeeker.TestDrivers.Library
             var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
+            var textures_map = new StarlingGameSpriteWithMapTextures(new_tex_crop);
 
             this.disablephysicsdiagnostics = true;
 
             this.onbeforefirstframe += (stage, s) =>
             {
+                for (int i = 0; i < 64; i++)
+                    new Image(textures_map.hill1()).AttachTo(Content).With(
+                        hill =>
+                        {
+                            hill.x = 2048.Random();
+                            hill.y = 2048.Random();
+                        }
+                    );
+
+                for (int i = -8; i < 8; i++)
+                {
+                    new Image(textures_map.road0()).AttachTo(Content).x = 256 * i;
+                }
+
+                new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
+                new Image(textures_map.tree0_shadow()).AttachTo(Content).y = 128 + 16;
+                new Image(textures_map.tree0()).AttachTo(Content).y = 128;
 
                 // can I have 
                 // new ped, hind, jeep, tank
@@ -50,7 +70,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                 // 12 = 34FPS
-                for (int i = 0; i < 8; i++)
+                for (int i = 3; i < 9; i++)
                 {
                     var cannon2 = new PhysicalCannon(textures_cannon, this);
 
