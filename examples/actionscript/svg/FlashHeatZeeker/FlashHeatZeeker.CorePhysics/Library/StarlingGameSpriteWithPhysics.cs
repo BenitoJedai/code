@@ -371,7 +371,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                         {
                             var cm = new Matrix();
 
-                            var any_movement = -0.5;
+                            var any_movement = 0.0;
 
                             if (current != null)
                             {
@@ -386,16 +386,8 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
 
 
-                                var v = current.body.GetLinearVelocity().Length();
+                                any_movement = current.body.GetLinearVelocity().Length() / 20.0;
 
-                                // slowing down!
-                                if (v > 1)
-                                    if (v >= prevvelocity * 0.8)
-                                    {
-                                        any_movement = 0.5;
-                                    }
-
-                                prevvelocity = v;
                             }
 
                             //Text = new { any_movement }.ToString();
@@ -410,7 +402,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
 
                             move_zoom +=
-                               any_movement *
+                               (any_movement - 0.5) *
                                  physicstime_elapsed * 0.004;
                             move_zoom = move_zoom.Max(0.0).Min(1.0);
 
