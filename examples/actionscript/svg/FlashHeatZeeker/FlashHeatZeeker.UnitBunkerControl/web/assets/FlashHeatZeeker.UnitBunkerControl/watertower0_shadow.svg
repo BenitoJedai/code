@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400"
+   height="400"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="watertower0_shadow.svg"
+   style="display:inline">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.5236273"
+     inkscape:cx="94.557661"
+     inkscape:cy="227.49598"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer5"
+     showgrid="false"
+     inkscape:window-width="1218"
+     inkscape:window-height="1002"
+     inkscape:window-x="1592"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       position="0,0"
+       orientation="0,575"
+       id="guide3710" />
+    <sodipodi:guide
+       position="328,442.74598"
+       orientation="1,0"
+       id="guide3712" />
+    <sodipodi:guide
+       position="427.76607,199.94731"
+       orientation="0,-575"
+       id="guide3714" />
+    <sodipodi:guide
+       position="200,401.10642"
+       orientation="1,0"
+       id="guide3716" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="shadow#1"
+     style="opacity:1">
+    <g
+       id="g2990"
+       transform="matrix(0.38055347,0,0,0.38055347,125.28695,125.41599)">
+      <rect
+         transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)"
+         y="411.54108"
+         x="-43.046299"
+         height="66.829582"
+         width="83.53698"
+         id="rect3775"
+         style="fill:#8f5f31;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3777"
+         d="m 259.89282,321.10397 -7.42551,-121.05128 20.42015,0 43.62487,39.37067 1.85637,23.20472 -117.81549,-12.06645 0,34.34298 33.35033,38.05573 z"
+         style="fill:none;stroke:#8f5f31;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Warstwa"
+     style="display:inline"
+     transform="translate(0,-65)" />
+</svg>

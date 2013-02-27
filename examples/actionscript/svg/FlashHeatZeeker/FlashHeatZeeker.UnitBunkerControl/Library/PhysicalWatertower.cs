@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitBunkerControl.Library
 {
-    public class PhysicalBunker : IPhysicalUnit
+    public class PhysicalWatertower : IPhysicalUnit
     {
 
         public double CameraRotation { get; set; }
@@ -46,7 +46,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             visual
             ;
 
-        public PhysicalBunker(StarlingGameSpriteWithBunkerTextures textures, StarlingGameSpriteWithPhysics Context)
+        public PhysicalWatertower(StarlingGameSpriteWithBunkerTextures textures, StarlingGameSpriteWithPhysics Context)
         {
             this.driverseat = new DriverSeat();
 
@@ -62,12 +62,12 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             }
 
             visualshadow = new Image(
-               textures.bunker2_shadow()
+               textures.watertower0_shadow()
            ).AttachTo(Context.Content);
 
 
             visual = new Image(
-               textures.bunker2()
+               textures.watertower0()
            ).AttachTo(Context.Content);
 
 
@@ -81,10 +81,9 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                 //initialize shape
                 var fixdef = new b2FixtureDef();
 
-                var shape = new b2PolygonShape();
+                var shape = new b2CircleShape(1);
                 fixdef.shape = shape;
 
-                shape.SetAsBox(4.5, 4.5);
 
                 fixdef.restitution = 0.4; //positively bouncy!
 
@@ -103,11 +102,10 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                 //initialize shape
                 var fixdef = new b2FixtureDef();
 
-                var shape = new b2PolygonShape();
+                var shape = new b2CircleShape(1);
                 fixdef.shape = shape;
 
 
-                shape.SetAsBox(4.5, 4.5);
                 fixdef.restitution = 0.4; //positively bouncy!
 
 
