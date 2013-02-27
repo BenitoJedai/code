@@ -39,7 +39,18 @@ namespace FlashHeatZeeker.Core.Library
 
         void ShowPositionAndAngle();
         void ApplyVelocity();
-        void SetVelocityFromInput(object[] __keyDown = null);
+
+        //[Obsolete]
+        //void SetVelocityFromInput(object[] __keyDown = null);
+
+        void SetVelocityFromInput(KeySample __keyDown);
+
+
+        void FeedKarma();
+
+
+        void SetPositionAndAngle(double x, double y, double a);
 
     }
+
 }

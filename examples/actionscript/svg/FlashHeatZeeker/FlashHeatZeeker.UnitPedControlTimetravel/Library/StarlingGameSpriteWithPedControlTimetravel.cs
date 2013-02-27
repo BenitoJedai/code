@@ -183,11 +183,7 @@ namespace FlashHeatZeeker.UnitPedControlTimetravel.Library
                     #endregion
 
 
-                    foreach (var item in units)
-                    {
-                        (item as PhysicalPed).With(ped => ped.FeedKarma());
-
-                    }
+                 
                 };
 
                 onframe += delegate

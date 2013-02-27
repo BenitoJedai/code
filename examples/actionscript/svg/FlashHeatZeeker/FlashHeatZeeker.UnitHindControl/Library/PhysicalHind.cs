@@ -35,8 +35,9 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         public VisualHind visual;
 
-        public b2Body ground_current = null;
-        public b2Body air_current = null;
+        public b2Body ground_body = null;
+        public b2Body groundkarma_body = null;
+        public b2Body air_body = null;
 
 
         public b2Body body
@@ -44,9 +45,9 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             get
             {
                 if (visual.Altitude > 0)
-                    return air_current;
+                    return air_body;
 
-                return ground_current;
+                return ground_body;
             }
         }
 
@@ -55,10 +56,24 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             get
             {
                 if (visual.Altitude > 0)
-                    return ground_current;
+                    return ground_body;
 
-                return air_current;
+                return air_body;
             }
+        }
+
+        public void SetPositionAndAngle(double x, double y, double a)
+        {
+            this.ground_body.SetPositionAndAngle(
+                new b2Vec2(x, y), a
+            );
+
+            this.groundkarma_body.SetPositionAndAngle(
+              new b2Vec2(x, y), a
+            );
+            this.air_body.SetPositionAndAngle(
+             new b2Vec2(x, y), a
+           );
         }
 
         public bool AutomaticTakeoff;
@@ -76,7 +91,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             this.LinearVelocityX = velocity.LinearVelocityX;
             this.LinearVelocityY = velocity.LinearVelocityY;
 
-    
+
 
             if (this.LinearVelocityX == 0)
                 if (this.LinearVelocityY == 0)
@@ -101,7 +116,24 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         public void FeedKarma()
         {
+            if (this.KarmaInput0.Count > 0)
+            {
+                this.KarmaInput0.Enqueue(new KeySample
+                {
+                    value = CurrentInput.value,
 
+                    angle = this.body.GetAngle(),
+
+                    BodyIsActive = this.ground_body.IsActive(),
+
+
+                    fixup = true,
+
+                    x = this.body.GetPosition().x,
+                    y = this.body.GetPosition().y,
+                });
+                this.KarmaInput0.Dequeue();
+            }
         }
 
         public class Velocity
@@ -180,87 +212,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         }
 
-        [Obsolete]
-        public void SetVelocityFromInput(object[] __keyDown)
-        {
-            this.AngularVelocity = 0;
-            this.LinearVelocityX = 0;
-            this.LinearVelocityY = 0;
-
-            if (__keyDown == null)
-                return;
-
-
-            if (__keyDown[(int)Keys.Up] != null)
-            {
-                // we have reasone to keep walking
-
-                this.LinearVelocityY = 1;
-            }
-
-            if (__keyDown[(int)Keys.Down] != null)
-            {
-                // we have reasone to keep walking
-                // go slow backwards
-                this.LinearVelocityY = -0.5;
-
-            }
-
-            if (__keyDown[(int)Keys.Alt] == null)
-            {
-                if (__keyDown[(int)Keys.Left] != null)
-                {
-                    // we have reasone to keep walking
-
-                    this.AngularVelocity = -1;
-
-                }
-
-                if (__keyDown[(int)Keys.Right] != null)
-                {
-                    // we have reasone to keep walking
-
-                    this.AngularVelocity = 1;
-
-                }
-            }
-            else
-            {
-                if (__keyDown[(int)Keys.Left] != null)
-                {
-                    // we have reasone to keep walking
-
-                    this.LinearVelocityX = -1;
-
-                }
-
-                if (__keyDown[(int)Keys.Right] != null)
-                {
-                    // we have reasone to keep walking
-
-                    this.LinearVelocityX = 1;
-
-                }
-            }
-
-            if (this.LinearVelocityX == 0)
-                if (this.LinearVelocityY == 0)
-                    if (this.AngularVelocity == 0)
-                        return;
-
-
-            if (this.visual.Altitude == 0)
-                if (AutomaticTakeoff)
-                {
-                    this.VerticalVelocity = 1.0;
-
-                    // reset
-
-                    this.AngularVelocity = 0;
-                    this.LinearVelocityX = 0;
-                    this.LinearVelocityY = 0;
-                }
-        }
+   
 
 
         long ApplyVelocityElapsed;
@@ -269,38 +221,77 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             var dx = Context.gametime.ElapsedMilliseconds - ApplyVelocityElapsed;
             ApplyVelocityElapsed = Context.gametime.ElapsedMilliseconds;
 
-            var current = this.body;
 
             {
+                var current = this.body;
                 var v = this.AngularVelocity * 10;
                 current.SetAngularVelocity(v);
-            }
 
-            {
                 var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
                         + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
                 var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
                         + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
 
-                if (vx == 0 && vy == 0)
-                {
 
-                }
-                else
-                {
-                    this.body.SetLinearVelocity(
-                        new b2Vec2(
-                         vx, vy
+                this.body.SetLinearVelocity(
+                    new b2Vec2(
+                     vx, vy
 
 
-                        )
-                    );
-                }
+                    )
+                );
             }
 
 
             this.visual.Altitude =
                 (this.visual.Altitude + 0.005 * dx * this.VerticalVelocity).Max(0).Min(1);
+
+
+            // what about our karma body?
+            if (this.KarmaInput0.Count > 0)
+            {
+                var _karma__keyDown = this.KarmaInput0.Peek();
+
+                var _karma_velocity = new Velocity();
+
+
+                ExtractVelocityFromInput(_karma__keyDown, _karma_velocity);
+
+                var current = this.groundkarma_body;
+                var v = _karma_velocity.AngularVelocity * 10;
+                current.SetAngularVelocity(v);
+
+                var vx = Math.Cos(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
+                                   + Math.Cos(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
+                var vy = Math.Sin(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
+                        + Math.Sin(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
+
+                current.SetActive(
+                    _karma__keyDown.BodyIsActive
+                );
+
+                current.SetLinearVelocity(
+                    new b2Vec2(
+                     vx, vy
+                    )
+                );
+
+                if (_karma__keyDown.fixup)
+                {
+                    var fixupmultiplier = 0.95;
+
+                    // like a magnet
+                    current.SetPositionAndAngle(
+                        new b2Vec2(
+                            _karma__keyDown.x + (current.GetPosition().x - _karma__keyDown.x) * fixupmultiplier,
+                            _karma__keyDown.y + (current.GetPosition().y - _karma__keyDown.y) * fixupmultiplier
+                        ),
+                        // meab me in scotty
+                            _karma__keyDown.angle + (current.GetAngle() - _karma__keyDown.angle) * fixupmultiplier
+
+                    );
+                }
+            }
         }
 
         public void ShowPositionAndAngle()
@@ -339,7 +330,12 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
             visual = new VisualHind(textures, Context.Content, Context.airzoom);
 
-
+            for (int i = 0; i < 7; i++)
+            {
+                this.KarmaInput0.Enqueue(
+                    new KeySample()
+                );
+            }
 
 
 
@@ -358,8 +354,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 //bodyDef.angle = 1.57079633;
                 ground_bodyDef.fixedRotation = true;
 
-                var ground_body = Context.ground_b2world.CreateBody(ground_bodyDef);
-                ground_current = ground_body;
+                ground_body = Context.ground_b2world.CreateBody(ground_bodyDef);
 
 
                 var ground_fixDef = new Box2D.Dynamics.b2FixtureDef();
@@ -384,6 +379,45 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             #endregion
 
 
+            #region groundkarma_body
+
+
+            {
+                var ground_bodyDef = new b2BodyDef();
+
+                ground_bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                // stop moving if legs stop walking!
+                ground_bodyDef.linearDamping = 10.0;
+                ground_bodyDef.angularDamping = 0;
+                //bodyDef.angle = 1.57079633;
+                ground_bodyDef.fixedRotation = true;
+
+                groundkarma_body = Context.groundkarma_b2world.CreateBody(ground_bodyDef);
+
+
+                var ground_fixDef = new Box2D.Dynamics.b2FixtureDef();
+                ground_fixDef.density = 0.1;
+                ground_fixDef.friction = 0.01;
+                ground_fixDef.restitution = 0;
+
+                var ground_fixdef_shape = new b2PolygonShape();
+
+                ground_fixDef.shape = ground_fixdef_shape;
+
+                // physics unit is looking to right
+                ground_fixdef_shape.SetAsBox(2, 0.5);
+
+
+
+                var ground_fix = groundkarma_body.CreateFixture(ground_fixDef);
+            }
+
+
+
+            #endregion
+
+
             #region air_b2world air_current
 
 
@@ -401,8 +435,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 air_bodyDef.fixedRotation = true;
                 air_bodyDef.active = false;
 
-                var air_body = Context.air_b2world.CreateBody(air_bodyDef);
-                air_current = air_body;
+                air_body = Context.air_b2world.CreateBody(air_bodyDef);
 
 
                 var air_fixDef = new Box2D.Dynamics.b2FixtureDef();

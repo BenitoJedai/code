@@ -30,6 +30,18 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
         public Car unit4_physics;
         public Car karmaunit4_physics;
 
+        public void SetPositionAndAngle(double x, double y, double a)
+        {
+            this.unit4_physics.body.SetPositionAndAngle(
+                new b2Vec2(x, y), a
+            );
+
+            this.karmaunit4_physics.body.SetPositionAndAngle(
+              new b2Vec2(x, y), a
+            );
+
+        }
+
         public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
 
         public PhysicalJeep(StarlingGameSpriteWithJeepTextures textures, StarlingGameSpriteWithPhysics Context)
@@ -362,53 +374,5 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             ExtractVelocityFromInput(__keyDown, unit4_physics);
         }
 
-        [Obsolete]
-        public void SetVelocityFromInput(object[] __keyDown)
-        {
-            //var rot = 0;
-            //var dx = 0.0;
-            //var dy = 0.0;
-
-            unit4_physics.accelerate = Car.ACC_NONE;
-            unit4_physics.steer_left = Car.STEER_NONE;
-            unit4_physics.steer_right = Car.STEER_NONE;
-
-            if (__keyDown == null)
-                return;
-
-            if (__keyDown[(int)Keys.Up] != null)
-            {
-                // we have reasone to keep walking
-
-                unit4_physics.accelerate = Car.ACC_ACCELERATE;
-                //dy = 1;
-            }
-
-            if (__keyDown[(int)Keys.Down] != null)
-            {
-                // we have reasone to keep walking
-                // go slow backwards
-                //dy = -0.5;
-                unit4_physics.accelerate = Car.ACC_BRAKE;
-
-            }
-
-
-            if (__keyDown[(int)Keys.Left] != null)
-            {
-                // we have reasone to keep walking
-
-                unit4_physics.steer_left = Car.STEER_LEFT;
-
-            }
-
-            if (__keyDown[(int)Keys.Right] != null)
-            {
-                // we have reasone to keep walking
-
-                unit4_physics.steer_right = Car.STEER_RIGHT;
-
-            }
-        }
-    }
+     }
 }

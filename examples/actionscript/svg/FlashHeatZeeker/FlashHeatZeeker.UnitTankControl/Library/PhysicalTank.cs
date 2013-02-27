@@ -36,14 +36,14 @@ namespace FlashHeatZeeker.UnitTankControl.Library
         public StarlingGameSpriteWithTankTextures textures;
         public StarlingGameSpriteWithPhysics Context;
 
-        public void TeleportTo(double x, double y)
+        public void SetPositionAndAngle(double x, double y, double a)
         {
-            this.body.SetPosition(
-                new b2Vec2(x, y)
+            this.body.SetPositionAndAngle(
+                new b2Vec2(x, y), a
             );
 
-            this.karmabody.SetPosition(
-              new b2Vec2(x, y)
+            this.karmabody.SetPositionAndAngle(
+              new b2Vec2(x, y), a
             );
 
         }
@@ -261,18 +261,20 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                     )
                 );
 
-                if (vx == 0)
-                    if (vx == 0)
-                        if (_karma__keyDown.fixup)
-                        {
-                            // like a magnet
-                            current.SetPosition(
-                                new b2Vec2(
-                                    _karma__keyDown.x + (current.GetPosition().x - _karma__keyDown.x) * 0.9,
-                                    _karma__keyDown.y + (current.GetPosition().y - _karma__keyDown.y) * 0.9
-                                )
-                            );
-                        }
+                if (_karma__keyDown.fixup)
+                {
+                    var fixupmultiplier = 0.95;
+                    // like a magnet
+                    current.SetPositionAndAngle(
+                        new b2Vec2(
+                            _karma__keyDown.x + (current.GetPosition().x - _karma__keyDown.x) * fixupmultiplier,
+                            _karma__keyDown.y + (current.GetPosition().y - _karma__keyDown.y) * fixupmultiplier
+                        ),
+                        // meab me in scotty
+                            _karma__keyDown.angle + (current.GetAngle() - _karma__keyDown.angle) * fixupmultiplier
+
+                    );
+                }
             }
         }
 
@@ -308,6 +310,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                 this.KarmaInput0.Enqueue(new KeySample
                 {
                     value = CurrentInput.value,
+                    angle = this.body.GetAngle(),
 
                     fixup = true,
                     x = this.body.GetPosition().x,
@@ -368,48 +371,5 @@ namespace FlashHeatZeeker.UnitTankControl.Library
         }
 
 
-
-        [Obsolete]
-        public void SetVelocityFromInput(object[] __keyDown)
-        {
-            this.AngularVelocity = 0;
-            this.LinearVelocityX = 0;
-            this.LinearVelocityY = 0;
-            if (__keyDown == null)
-                return;
-
-            if (__keyDown[(int)Keys.Up] != null)
-            {
-                // we have reasone to keep walking
-
-                this.LinearVelocityY = 1;
-            }
-
-            if (__keyDown[(int)Keys.Down] != null)
-            {
-                // we have reasone to keep walking
-                // go slow backwards
-                this.LinearVelocityY = -0.5;
-
-            }
-
-
-            if (__keyDown[(int)Keys.Left] != null)
-            {
-                // we have reasone to keep walking
-
-                this.AngularVelocity = -1;
-
-            }
-
-            if (__keyDown[(int)Keys.Right] != null)
-            {
-                // we have reasone to keep walking
-
-                this.AngularVelocity = 1;
-
-            }
-
-        }
-    }
+   }
 }
