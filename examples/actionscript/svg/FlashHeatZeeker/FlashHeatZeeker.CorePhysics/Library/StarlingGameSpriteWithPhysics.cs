@@ -259,6 +259,11 @@ namespace FlashHeatZeeker.CorePhysics.Library
                 var syncframesince = 0L;
                 var syncframeextra = 0L;
 
+
+                // NaN ?
+                syncframeid = 0;
+                syncframetime = 0;
+
                 onframe +=
                     delegate
                     {
@@ -331,7 +336,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                         // syncframe
                         if (raise_onsyncframe)
                         {
-
+                            syncframeid++;
                             this.onsyncframe(stage, s);
 
                             foreach (var item in units)
@@ -432,6 +437,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
         }
 
+        public long syncframeid;
         public long syncframetime;
     }
 }

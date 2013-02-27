@@ -10,7 +10,7 @@ using System;
 
 namespace FlashHeatZeeker.UnitTankControl
 {
-    [SWF(backgroundColor = 0xA26D41)]
+    [SWF(backgroundColor = 0xB27D51)]
     public sealed class ApplicationSprite : Sprite
     {
 

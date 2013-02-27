@@ -168,6 +168,9 @@
     <Reference Include="FlashHeatZeeker.UnitBunkerControl.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.UnitBunkerControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitBunkerControl.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.CoreMap.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CoreMap\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreMap.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -182,6 +185,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlashHeatZeeker.CoreMap\FlashHeatZeeker.CoreMap.csproj">
+      <Project>{7f31c1d3-4952-4c9a-92e0-daaf8717075a}</Project>
+      <Name>FlashHeatZeeker.CoreMap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
       <Project>{e90af106-0535-4f20-9390-2536a8e4deb7}</Project>
       <Name>FlashHeatZeeker.CorePhysics</Name>
