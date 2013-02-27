@@ -5,6 +5,7 @@ using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.UnitHind.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Extensions;
 using starling.display;
@@ -25,7 +26,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
         public DriverSeat driverseat { get; set; }
 
 
-        public double speed = 40;
+        public double speed = 50;
 
         public double VerticalVelocity;
 
@@ -62,7 +63,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             }
         }
 
-        public void SetPositionAndAngle(double x, double y, double a)
+        public void SetPositionAndAngle(double x, double y, double a = 0)
         {
             this.ground_body.SetPositionAndAngle(
                 new b2Vec2(x, y), a
@@ -212,10 +213,12 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         }
 
-   
+
 
 
         long ApplyVelocityElapsed;
+        double AngularVelocitySign;
+
         public void ApplyVelocity()
         {
             var dx = Context.gametime.ElapsedMilliseconds - ApplyVelocityElapsed;
@@ -240,6 +243,34 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                     )
                 );
+
+                // attempt to course correct if near 90 degree angles!
+
+                //if (this.AngularVelocity == 0)
+                //{
+                //    var fixupmultiplier = 0.90;
+
+                //    var fixai = (current.GetAngle().RadiansToDegrees() / 4.0);
+
+                //    if (AngularVelocitySign > 0)
+                //        fixai = Math.Ceiling(fixai);
+                //    else
+                //        fixai = Math.Floor(fixai);
+
+                //    var fixaf = (fixai * 16).DegreesToRadians();
+
+
+                //    // like a magnet
+                //    current.SetAngle(
+                //        // meab me in scotty
+                //            fixaf + (current.GetAngle() - fixaf) * fixupmultiplier
+
+                //    );
+                //}
+                //else
+                //{
+                //    AngularVelocitySign = Math.Sign(this.AngularVelocity);
+                //}
             }
 
 

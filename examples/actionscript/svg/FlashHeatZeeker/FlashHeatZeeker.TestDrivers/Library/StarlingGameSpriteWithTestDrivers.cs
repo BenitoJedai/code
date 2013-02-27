@@ -61,6 +61,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                 }
 
                 new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
+
                 new Image(textures_map.tree0_shadow()).AttachTo(Content).y = 128 + 16;
                 new Image(textures_map.tree0()).AttachTo(Content).y = 128;
 
@@ -79,12 +80,25 @@ namespace FlashHeatZeeker.TestDrivers.Library
                     );
 
 
-                    var bunker1 = new PhysicalBunker(textures_bunker, this);
 
-                    bunker1.SetPositionAndAngle(
-                        i * 16, -16, random.NextDouble()
-                    );
-
+                    if (i % 3 == 0)
+                    {
+                        new PhysicalBunker(textures_bunker, this).SetPositionAndAngle(
+                            i * 16, -16, random.NextDouble()
+                        );
+                    }
+                    else if (i % 3 == 1)
+                    {
+                        new PhysicalWatertower(textures_bunker, this).SetPositionAndAngle(
+                            i * 16, -16, random.NextDouble()
+                        );
+                    }
+                    else
+                    {
+                        new PhysicalSilo(textures_bunker, this).SetPositionAndAngle(
+                            i * 16, -16, random.NextDouble()
+                        );
+                    }
 
                     var hind2 = new PhysicalHind(textures_hind, this)
                     {

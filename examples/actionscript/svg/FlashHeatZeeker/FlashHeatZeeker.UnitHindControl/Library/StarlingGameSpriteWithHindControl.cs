@@ -33,10 +33,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             this.onbeforefirstframe += (stage, s) =>
             {
 
-                var units = new List<PhysicalHind>();
 
                 var physical0 = new PhysicalHind(textures, this);
-                units.Add(physical0);
 
 
                 for (int ix = 0; ix < 32; ix++)
@@ -45,16 +43,15 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                     var physical2 = new PhysicalHind(textures, this);
                     var physical3 = new PhysicalHind(textures, this);
 
-                    physical1.body.SetPosition(new b2Vec2(10 + 20 * ix, 20));
-                    units.Add(physical1);
+                    physical1.SetPositionAndAngle(10 + 20 * ix, 20);
 
                     physical2.visual.Altitude = 1.0;
-                    physical2.body.SetPosition(new b2Vec2(20 + 20 * ix, 40));
-                    units.Add(physical2);
+
+                    physical2.SetPositionAndAngle(20 + 20 * ix, 40);
 
                     physical3.visual.Altitude = 0.5;
-                    physical3.body.SetPosition(new b2Vec2(30 + 20 * ix, 60));
-                    units.Add(physical3);
+
+                    physical3.SetPositionAndAngle(30 + 20 * ix, 60);
                 }
 
 
@@ -93,17 +90,6 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 onsyncframe +=
                     delegate
                     {
-                        //units.WithEach(
-                        //    unit =>
-                        //    {
-                        //        unit.ShowPositionAndAngle();
-                        //        unit.ApplyVelocity();
-                        //    }
-                        //);
-
-
-
-
                         #region flightmode
                         if (!__keyDown[Keys.Space])
                         {
