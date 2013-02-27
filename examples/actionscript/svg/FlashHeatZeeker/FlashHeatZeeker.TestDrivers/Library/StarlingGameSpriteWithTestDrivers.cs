@@ -24,6 +24,7 @@ using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using FlashHeatZeeker.UnitBunkerControl.Library;
 using FlashHeatZeeker.CoreMap.Library;
 using starling.display;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashHeatZeeker.TestDrivers.Library
 {
@@ -46,6 +47,9 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
             this.onbeforefirstframe += (stage, s) =>
             {
+                var hud = new Image(textures_ped.hud_look()).AttachTo(this);
+
+
                 for (int i = 0; i < 64; i++)
                     new Image(textures_map.hill1()).AttachTo(Content).With(
                         hill =>
@@ -164,6 +168,18 @@ namespace FlashHeatZeeker.TestDrivers.Library
                 bool entermode_changepending = false;
                 bool mode_changepending = false;
 
+                onframe +=
+                    delegate
+                    {
+                        {
+                            var cm = new Matrix();
+
+                            cm.scale(0.5, 0.5);
+                            cm.translate(16, stage.stageHeight - 64 - 24);
+
+                            hud.transformationMatrix = cm;
+                        }
+                    };
 
                 onsyncframe +=
                     delegate
@@ -218,6 +234,16 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                             candidatedriver.seatedvehicle = x.candidatevehicle;
 
                                             current = x.candidatevehicle;
+
+                                            if (current.body.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody)
+                                            {
+                                                hud.texture = textures_ped.hud_look_goggles();
+                                            }
+                                            else
+                                            {
+                                                hud.texture = textures_ped.hud_look_building();
+                                            }
+
                                             //switchto(x.x);
                                         }
                                     );
@@ -237,9 +263,9 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                             );
 
 
-
                                             current = driver;
                                             current.body.SetActive(true);
+                                            hud.texture = textures_ped.hud_look();
                                         }
                                     );
                                 }
