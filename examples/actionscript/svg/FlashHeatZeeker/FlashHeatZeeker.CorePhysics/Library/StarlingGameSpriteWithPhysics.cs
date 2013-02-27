@@ -40,6 +40,10 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
         public bool disablephysicsdiagnostics;
 
+
+        public double move_zoom = 1.0;
+
+
         public StarlingGameSpriteWithPhysics()
         {
 
@@ -264,6 +268,8 @@ namespace FlashHeatZeeker.CorePhysics.Library
                 syncframeid = 0;
                 syncframetime = 0;
 
+
+                var prevvelocity = 0.0;
                 onframe +=
                     delegate
                     {
@@ -365,6 +371,8 @@ namespace FlashHeatZeeker.CorePhysics.Library
                         {
                             var cm = new Matrix();
 
+                            var any_movement = -0.5;
+
                             if (current != null)
                             {
                                 cm.translate(
@@ -375,11 +383,40 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
 
                                 cm.rotate(-current.body.GetAngle() - Math.PI / 2 + current.CameraRotation);
+
+
+
+                                var v = current.body.GetLinearVelocity().Length();
+
+                                // slowing down!
+                                if (v > 1)
+                                    if (v >= prevvelocity * 0.8)
+                                    {
+                                        any_movement = 0.5;
+                                    }
+
+                                prevvelocity = v;
                             }
+
+                            //Text = new { any_movement }.ToString();
+
                             //cm.rotate(-current.GetAngle());
 
 
-                            stagescale = internalscale * (stage.stageWidth) / (800.0);
+
+
+
+
+
+
+                            move_zoom +=
+                               any_movement *
+                                 physicstime_elapsed * 0.004;
+                            move_zoom = move_zoom.Max(0.0).Min(1.0);
+
+                            var xinternalscale = internalscale + ((1.0 - move_zoom) * 0.10);
+
+                            stagescale = xinternalscale * (stage.stageWidth) / (800.0);
 
 
                             cm.scale(stagescale, stagescale);

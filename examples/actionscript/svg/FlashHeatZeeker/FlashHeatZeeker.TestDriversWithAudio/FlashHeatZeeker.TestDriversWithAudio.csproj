@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{012AA7F8-61B3-4E05-8554-F4AC86F55B25}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlashHeatZeeker.TestDriversWithAudio</RootNamespace>
+    <AssemblyName>FlashHeatZeeker.TestDriversWithAudio</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>FlashHeatZeeker.TestDriversWithAudio.Program</StartupObject>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Abstractatech.ActionScript.Audio, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="box2dflash, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
+    </Reference>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="starling, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\starling.1.0.0.0\lib\starling.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="FlashHeatZeeker.TestDriversWithAudio.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.TestDriversWithAudio.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CoreAudio.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CoreAudio\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreAudio.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CoreMap.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CoreMap\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreMap.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.StarlingSetup\bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitTankControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitTankControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTankControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitTank.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitTank\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTank.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitBunkerControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitBunkerControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitBunkerControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitCannonControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitCannonControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitCannonControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitCannon.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitCannon\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitCannon.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitHindControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitHindControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitHindControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitHind.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitHind\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitHind.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitJeepControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitJeepControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitJeepControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitJeep.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitJeep\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitJeep.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPedControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitPedControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPedControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPed.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitPed\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPed.AssetsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
+    <Compile Include="Library\StarlingGameSpriteWithTestDriversWithAudio.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationSprite.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlashHeatZeeker.CoreAudio\FlashHeatZeeker.CoreAudio.csproj">
+      <Project>{c8f78217-d723-4e69-be48-d40814dcdb76}</Project>
+      <Name>FlashHeatZeeker.CoreAudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.CoreMap\FlashHeatZeeker.CoreMap.csproj">
+      <Project>{7f31c1d3-4952-4c9a-92e0-daaf8717075a}</Project>
+      <Name>FlashHeatZeeker.CoreMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
+      <Project>{e90af106-0535-4f20-9390-2536a8e4deb7}</Project>
+      <Name>FlashHeatZeeker.CorePhysics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.Core\FlashHeatZeeker.Core.csproj">
+      <Project>{0ab27151-12cd-4377-ae76-16e6f0f72580}</Project>
+      <Name>FlashHeatZeeker.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
+      <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
+      <Name>FlashHeatZeeker.StarlingSetup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitBunkerControl\FlashHeatZeeker.UnitBunkerControl.csproj">
+      <Project>{2ee6e167-fea3-47b4-bbf4-b48f5c8666bf}</Project>
+      <Name>FlashHeatZeeker.UnitBunkerControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitCannonControl\FlashHeatZeeker.UnitCannonControl.csproj">
+      <Project>{e2edb8b9-d7f1-4860-8f2a-f6c02f2ad68c}</Project>
+      <Name>FlashHeatZeeker.UnitCannonControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitCannon\FlashHeatZeeker.UnitCannon.csproj">
+      <Project>{3b0ed8e6-eb4d-4c99-ad1a-cfbbfbc36d73}</Project>
+      <Name>FlashHeatZeeker.UnitCannon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitHindControl\FlashHeatZeeker.UnitHindControl.csproj">
+      <Project>{0c611dd3-d71b-4802-9e87-781f6c73daa9}</Project>
+      <Name>FlashHeatZeeker.UnitHindControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitHind\FlashHeatZeeker.UnitHind.csproj">
+      <Project>{93432db4-6a44-4fc8-a037-faec549dabb3}</Project>
+      <Name>FlashHeatZeeker.UnitHind</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitJeepControl\FlashHeatZeeker.UnitJeepControl.csproj">
+      <Project>{4e32c317-9f51-4d36-81ea-9ffd2db5a28e}</Project>
+      <Name>FlashHeatZeeker.UnitJeepControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitJeep\FlashHeatZeeker.UnitJeep.csproj">
+      <Project>{44e16d3a-a6af-4156-b663-aeddf9cbc766}</Project>
+      <Name>FlashHeatZeeker.UnitJeep</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitPedControl\FlashHeatZeeker.UnitPedControl.csproj">
+      <Project>{4d349e4b-ebf4-4121-9022-f2d4f85ec280}</Project>
+      <Name>FlashHeatZeeker.UnitPedControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitPed\FlashHeatZeeker.UnitPed.csproj">
+      <Project>{28b82c3c-e90a-42a9-80c2-71bc99e91592}</Project>
+      <Name>FlashHeatZeeker.UnitPed</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitTankControl\FlashHeatZeeker.UnitTankControl.csproj">
+      <Project>{19499013-cba3-4261-a2a5-c5c157dcc477}</Project>
+      <Name>FlashHeatZeeker.UnitTankControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitTank\FlashHeatZeeker.UnitTank.csproj">
+      <Project>{2769ba3b-1ce3-44b5-91b2-f6a8e2d35d4b}</Project>
+      <Name>FlashHeatZeeker.UnitTank</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName)==Release (
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
+)</PostBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+            </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

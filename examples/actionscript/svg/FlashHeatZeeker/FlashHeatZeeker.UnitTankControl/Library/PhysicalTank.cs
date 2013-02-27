@@ -22,7 +22,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
         public DriverSeat driverseat { get; set; }
 
-        public double speed = 30;
+        public double speed = 20;
 
 
 
