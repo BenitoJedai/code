@@ -17,6 +17,10 @@ namespace FlashHeatZeeker.UnitPed.Library
     public class StarlingGameSpriteWithPedTextures
     {
         public Func<Texture>
+            hud_look,
+            hud_look_building,
+            hud_look_goggles,
+
             ped_shadow,
 
             ped_footprints,
@@ -34,6 +38,10 @@ namespace FlashHeatZeeker.UnitPed.Library
         public StarlingGameSpriteWithPedTextures(Texture64Constructor new_tex_crop)
         {
             //DRW 3
+
+            hud_look = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look.svg", innersize: 128);
+            hud_look_building = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look_building.svg", innersize: 128);
+            hud_look_goggles = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look_goggles.svg", innersize: 128);
 
             ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", 0.3, innersize: 96);
 
@@ -69,7 +77,7 @@ namespace FlashHeatZeeker.UnitPed.Library
 
             this.onbeforefirstframe += delegate
             {
-
+                var hud = new Image(textures.hud_look_goggles()).AttachTo(this);
 
 
                 // 781
@@ -92,6 +100,13 @@ namespace FlashHeatZeeker.UnitPed.Library
 
                     }
 
+                onresize(
+                    (w, h) =>
+                    {
+
+                    }
+                );
+
                 onframe += delegate
                 {
 
@@ -103,7 +118,14 @@ namespace FlashHeatZeeker.UnitPed.Library
                     }
 
 
+                    {
+                        var cm = new Matrix();
 
+                        cm.scale(0.5, 0.5);
+                        cm.translate(16, stage.stageHeight - 64 - 24);
+
+                        hud.transformationMatrix = cm;
+                    }
                 };
 
                 //#region sortChildren

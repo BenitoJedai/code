@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitPedControl
 {
-    [SWF(backgroundColor = 0xA26D41)]
+    [SWF(backgroundColor = 0x006D00)]
     public sealed class ApplicationSprite : Sprite
     {
 

@@ -60,7 +60,7 @@ namespace FlashHeatZeeker.UnitPedControlTimetravel.Library
                 #region man_with_karma
                 var man_with_karma = new PhysicalPed(textures, this);
 
-                man_with_karma.TeleportTo(-8, -8);
+                man_with_karma.SetPositionAndAngle(-8, -8);
 
 
 
@@ -80,7 +80,7 @@ namespace FlashHeatZeeker.UnitPedControlTimetravel.Library
                     {
                         var p = new PhysicalPed(textures, this);
 
-                        p.TeleportTo(
+                        p.SetPositionAndAngle(
                            8 * ix, 8 * iy
                         );
                     }
@@ -183,7 +183,7 @@ namespace FlashHeatZeeker.UnitPedControlTimetravel.Library
                     #endregion
 
 
-                 
+
                 };
 
                 onframe += delegate

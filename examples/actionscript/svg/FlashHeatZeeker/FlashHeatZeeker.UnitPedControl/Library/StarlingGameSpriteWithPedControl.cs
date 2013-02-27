@@ -38,8 +38,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                     {
                         var p = new PhysicalPed(textures, this);
 
-                        p.body.SetPosition(
-                            new b2Vec2(8 * ix, 8 * iy)
+                        p.SetPositionAndAngle(
+                            8 * ix, 8 * iy
                         );
 
 
