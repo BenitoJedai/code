@@ -68,7 +68,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                 onsyncframe += delegate
                 {
 
-                    jeep.SetVelocityFromInput(__keyDown);
+                    current.SetVelocityFromInput(__keyDown);
 
                    
                 };

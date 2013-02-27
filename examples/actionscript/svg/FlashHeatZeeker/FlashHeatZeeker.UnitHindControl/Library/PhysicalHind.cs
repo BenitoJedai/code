@@ -342,7 +342,11 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                     );
             }
 
-            this.visual.Animate(Context.gametime);
+            if (this.driverseat.driver == null)
+                this.visual.Animate(Context.gametime);
+            else
+                this.visual.Animate(Context.gametime, 4, 3);
+
             // where are we now
             this.visual.SetPositionAndAngle(
                 this.body.GetPosition().x * 16,

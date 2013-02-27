@@ -33,6 +33,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 // 32x32 = 15FPS?
                 // 24x24 35?
 
+                #region others
                 for (int ix = 0; ix < 4; ix++)
                     for (int iy = 0; iy < 4; iy++)
                     {
@@ -44,6 +45,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
                     }
+                #endregion
 
 
                 #region __keyDown
@@ -72,15 +74,18 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 bool mode_changepending = false;
 
-
+             
                 onframe += delegate
                 {
+            
 
+
+       
 
                     physical0.SetVelocityFromInput(__keyDown);
 
                     #region simulate a weapone!
-                    if (__keyDown[Keys.ControlKey] )
+                    if (__keyDown[Keys.ControlKey])
                         if (frameid % 20 == 0)
                         {
                             var bodyDef = new b2BodyDef();

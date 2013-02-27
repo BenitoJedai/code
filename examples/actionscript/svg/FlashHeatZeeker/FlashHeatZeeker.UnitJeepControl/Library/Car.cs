@@ -397,7 +397,15 @@ namespace FlashHeatZeekerWithStarlingB2.Library
             #region update
             this.update = (msDuration) =>
             {
-
+                //if going very slow, stop - to prevent endless sliding
+                if (accelerate == ACC_NONE)
+                {
+                    this.body.SetLinearDamping(2);
+                }
+                else
+                {
+                    this.body.SetLinearDamping(0.55);
+                }
 
                 #region 1. KILL SIDEWAYS VELOCITY
 
@@ -489,14 +497,7 @@ namespace FlashHeatZeekerWithStarlingB2.Library
 
 
 
-                //if going very slow, stop - to prevent endless sliding
-                var veryslow = (getSpeedKMH() < 4);
-                var flag2 = veryslow && (accelerate == ACC_NONE);
-                if (flag2)
-                {
-                    //Console.WriteLine("setSpeed 0");
-                    setSpeed(0);
-                }
+
                 #endregion
 
 

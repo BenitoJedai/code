@@ -74,9 +74,9 @@ namespace FlashHeatZeeker.UnitHind.Library
 
         Matrix AnimateMatrix = new Matrix();
         Stopwatch AnimateElapsed = new Stopwatch();
-        public void Animate(Stopwatch gametime)
+        public void Animate(Stopwatch gametime, double BaseSpeed = 1.0, double SpeedWhenInAir = 4.0)
         {
-            AnimateMatrix.rotate(AnimateElapsed.ElapsedMilliseconds * 0.001 * (1 + 4 * Math.Sign(Altitude)));
+            AnimateMatrix.rotate(AnimateElapsed.ElapsedMilliseconds * 0.001 * (BaseSpeed + SpeedWhenInAir * Math.Sign(Altitude)));
             visualwings.transformationMatrix = AnimateMatrix;
             AnimateElapsed.Restart();
         }
