@@ -13,6 +13,8 @@ namespace FlashHeatZeeker.Core.Library
 
         public double angle;
 
+        public bool BodyIsActive = true;
+
         // drag to position if stopped moving!
         public bool fixup;
         public double x;

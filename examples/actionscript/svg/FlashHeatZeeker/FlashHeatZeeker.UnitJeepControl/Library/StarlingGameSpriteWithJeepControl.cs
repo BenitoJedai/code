@@ -70,11 +70,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                     jeep.SetVelocityFromInput(__keyDown);
 
-                    foreach (var item in units)
-                    {
-                        (item as PhysicalJeep).With(ped => ped.FeedKarma());
-
-                    }
+                   
                 };
             };
         }

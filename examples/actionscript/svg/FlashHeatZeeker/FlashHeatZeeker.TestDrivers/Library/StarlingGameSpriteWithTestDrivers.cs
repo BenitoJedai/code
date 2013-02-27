@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using FlashHeatZeeker.UnitBunkerControl.Library;
 
 namespace FlashHeatZeeker.TestDrivers.Library
 {
@@ -36,6 +37,9 @@ namespace FlashHeatZeeker.TestDrivers.Library
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
             var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
+            var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
+
+            this.disablephysicsdiagnostics = true;
 
             this.onbeforefirstframe += (stage, s) =>
             {
@@ -46,12 +50,19 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                 // 12 = 34FPS
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     var cannon2 = new PhysicalCannon(textures_cannon, this);
 
-                    cannon2.body.SetPositionAndAngle(
-                        new b2Vec2(i * 16, -16), random.NextDouble()
+                    cannon2.SetPositionAndAngle(
+                        i * 16, -32, random.NextDouble()
+                    );
+
+
+                    var bunker1 = new PhysicalBunker(textures_bunker, this);
+
+                    bunker1.SetPositionAndAngle(
+                        i * 16, -16, random.NextDouble()
                     );
 
 
@@ -60,30 +71,31 @@ namespace FlashHeatZeeker.TestDrivers.Library
                         AutomaticTakeoff = true
                     };
 
-                    hind2.body.SetPositionAndAngle(
-                        new b2Vec2(i * 16, 8), random.NextDouble()
+                    hind2.SetPositionAndAngle(
+                        i * 16, 8, random.NextDouble()
                     );
 
 
                     var jeep2 = new PhysicalJeep(textures_jeep, this);
 
-                    jeep2.unit4_physics.body.SetPositionAndAngle(
-                        new b2Vec2(i * 16, 16), random.NextDouble()
+
+                    jeep2.SetPositionAndAngle(
+                        i * 16, 16, random.NextDouble()
                     );
 
 
 
                     var tank2 = new PhysicalTank(textures_tank, this);
 
-                    tank2.body.SetPositionAndAngle(
-                        new b2Vec2(i * 16, 24), random.NextDouble()
+                    tank2.SetPositionAndAngle(
+                        i * 16, 24, random.NextDouble()
                     );
 
 
                     var ped2 = new PhysicalPed(textures_ped, this);
 
-                    ped2.body.SetPositionAndAngle(
-                        new b2Vec2(i * 16, 32), random.NextDouble()
+                    ped2.SetPositionAndAngle(
+                        i * 16, 32, random.NextDouble()
                     );
 
 
@@ -93,42 +105,39 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                 #region __keyDown
+                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>
                    {
-                       if (__keyDown[e.keyCode] != null)
-                           return;
-
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
-                           __keyDown[(int)Keys.Alt] = new object();
+                           __keyDown[Keys.Alt] = true;
 
-                       __keyDown[e.keyCode] = new object();
+                       __keyDown[(Keys)e.keyCode] = true;
                    };
 
                 stage.keyUp +=
                  e =>
                  {
                      if (!e.altKey)
-                         __keyDown[(int)Keys.Alt] = null;
+                         __keyDown[Keys.Alt] = false;
 
-                     __keyDown[e.keyCode] = null;
+                     __keyDown[(Keys)e.keyCode] = false;
                  };
 
                 #endregion
-
                 bool entermode_changepending = false;
                 bool mode_changepending = false;
 
 
-                onframe +=
+                onsyncframe +=
                     delegate
                     {
 
 
                         #region entermode_changepending
-                        if (__keyDown[(int)Keys.Enter] == null)
+                        if (!__keyDown[Keys.Enter])
                         {
                             // space is not down.
                             entermode_changepending = true;
@@ -157,7 +166,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                              (float)(candidatedriver.body.GetPosition().y - candidatevehicle.body.GetPosition().y)
                                          ).GetLength()
 
-                                         where distance < 4
+                                         where distance < 6
 
                                          orderby distance ascending
                                          select new { candidatevehicle, distance };
@@ -186,7 +195,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
                                         {
                                             current.driverseat.driver = null;
                                             driver.seatedvehicle = null;
-                                            current.SetVelocityFromInput();
+                                            current.SetVelocityFromInput(new KeySample());
 
                                             // crashland?
                                             (current as PhysicalHind).With(
@@ -208,7 +217,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                         #region mode
-                        if (__keyDown[(int)Keys.Space] == null)
+                        if (!__keyDown[Keys.Space])
                         {
                             // space is not down.
                             mode_changepending = true;
@@ -257,7 +266,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                         #region simulate a weapone!
-                        if (__keyDown[(int)Keys.ControlKey] != null)
+                        if (__keyDown[Keys.ControlKey])
                             if (frameid % 20 == 0)
                             {
                                 var bodyDef = new b2BodyDef();

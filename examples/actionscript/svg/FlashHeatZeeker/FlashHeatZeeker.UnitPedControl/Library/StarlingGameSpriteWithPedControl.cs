@@ -45,29 +45,27 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                     }
 
+
                 #region __keyDown
-                var __keyDown = new object[0xffffff];
+                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>
                    {
-                       if (__keyDown[e.keyCode] != null)
-                           return;
-
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
-                           __keyDown[(int)Keys.Alt] = new object();
+                           __keyDown[Keys.Alt] = true;
 
-                       __keyDown[e.keyCode] = new object();
+                       __keyDown[(Keys)e.keyCode] = true;
                    };
 
                 stage.keyUp +=
                  e =>
                  {
                      if (!e.altKey)
-                         __keyDown[(int)Keys.Alt] = null;
+                         __keyDown[Keys.Alt] = false;
 
-                     __keyDown[e.keyCode] = null;
+                     __keyDown[(Keys)e.keyCode] = false;
                  };
 
                 #endregion
@@ -82,7 +80,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                     physical0.SetVelocityFromInput(__keyDown);
 
                     #region simulate a weapone!
-                    if (__keyDown[(int)Keys.ControlKey] != null)
+                    if (__keyDown[Keys.ControlKey] )
                         if (frameid % 20 == 0)
                         {
                             var bodyDef = new b2BodyDef();
@@ -129,7 +127,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
                     #region mode
-                    if (__keyDown[(int)Keys.Space] == null)
+                    if (!__keyDown[Keys.Space])
                     {
                         // space is not down.
                         mode_changepending = true;

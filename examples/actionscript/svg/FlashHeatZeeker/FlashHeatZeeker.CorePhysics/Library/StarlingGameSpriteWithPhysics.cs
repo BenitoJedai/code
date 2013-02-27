@@ -38,6 +38,8 @@ namespace FlashHeatZeeker.CorePhysics.Library
             get { return internalunits; }
         }
 
+        public bool disablephysicsdiagnostics;
+
         public StarlingGameSpriteWithPhysics()
         {
 
@@ -246,10 +248,12 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
             this.onbeforefirstframe += (stage, s) =>
             {
-                s.nativeOverlay.addChild(ground_dd);
-                s.nativeOverlay.addChild(groundkarma_dd);
-                s.nativeOverlay.addChild(air_dd);
-
+                if (!disablephysicsdiagnostics)
+                {
+                    s.nativeOverlay.addChild(ground_dd);
+                    s.nativeOverlay.addChild(groundkarma_dd);
+                    s.nativeOverlay.addChild(air_dd);
+                }
                 // 1000 / 15
                 var syncframeinterval = 1000 / 15;
                 var syncframesince = 0L;
@@ -315,14 +319,26 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
 
                         #region DrawDebugData ClearForces
-                        ground_b2world.DrawDebugData();
-                        groundkarma_b2world.DrawDebugData();
-                        air_b2world.DrawDebugData();
+                        if (!disablephysicsdiagnostics)
+                        {
+
+                            ground_b2world.DrawDebugData();
+                            groundkarma_b2world.DrawDebugData();
+                            air_b2world.DrawDebugData();
+                        }
                         #endregion
 
                         // syncframe
                         if (raise_onsyncframe)
+                        {
+
                             this.onsyncframe(stage, s);
+
+                            foreach (var item in units)
+                            {
+                                item.FeedKarma();
+                            }
+                        }
 
 
                         #region air_dd vs ground_dd
@@ -390,13 +406,12 @@ namespace FlashHeatZeeker.CorePhysics.Library
                                 {
                                     var driver = item.driverseat.driver;
 
-                                    driver.body.SetPositionAndAngle(
+                                    driver.SetPositionAndAngle(
 
-                                        new b2Vec2(
 
-                                            item.body.GetPosition().x + Math.Cos(item.body.GetAngle() - Math.PI * 0.5 - item.CameraRotation) * 0.2,
-                                            item.body.GetPosition().y + Math.Sin(item.body.GetAngle() - Math.PI * 0.5 - item.CameraRotation) * 0.2
-                                        ),
+                                            item.body.GetPosition().x + Math.Cos(item.body.GetAngle() - Math.PI * 0.5 - item.CameraRotation) * 2.2,
+                                            item.body.GetPosition().y + Math.Sin(item.body.GetAngle() - Math.PI * 0.5 - item.CameraRotation) * 2.2
+                                        ,
                                         item.body.GetAngle() - item.CameraRotation
                                     );
 

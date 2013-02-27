@@ -94,6 +94,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitPedCont
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib", "..\..\..\..\core\ScriptCoreLib\ScriptCoreLib.csproj", "{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitBunkerControl", "FlashHeatZeeker.UnitBunkerControl\FlashHeatZeeker.UnitBunkerControl.csproj", "{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -504,6 +506,16 @@ Global
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|x86.ActiveCfg = Release|Any CPU
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Debug|x86.ActiveCfg = Debug|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Debug|x86.Build.0 = Debug|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Release|Any CPU.ActiveCfg = Release|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Release|x86.ActiveCfg = Release|x86
+		{2EE6E167-FEA3-47B4-BBF4-B48F5C8666BF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

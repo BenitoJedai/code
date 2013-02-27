@@ -66,13 +66,6 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                 {
 
                     tank1.SetVelocityFromInput(__keyDown);
-
-
-                    foreach (var item in units)
-                    {
-                        (item as PhysicalTank).With(ped => ped.FeedKarma());
-
-                    }
                 };
             };
         }

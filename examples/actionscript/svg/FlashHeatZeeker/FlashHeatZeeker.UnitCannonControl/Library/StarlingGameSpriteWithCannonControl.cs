@@ -1,4 +1,5 @@
-﻿using FlashHeatZeeker.CorePhysics.Library;
+﻿using FlashHeatZeeker.Core.Library;
+using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.UnitCannon.Library;
 using System;
 using System.Collections.Generic;
@@ -19,37 +20,34 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
                 var cannon1 = new PhysicalCannon(textures, this);
 
 
-                current = cannon1;
+
 
                 #region __keyDown
-                var __keyDown = new object[0xffffff];
+                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>
                    {
-                       if (__keyDown[e.keyCode] != null)
-                           return;
-
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
-                           __keyDown[(int)Keys.Alt] = new object();
+                           __keyDown[Keys.Alt] = true;
 
-                       __keyDown[e.keyCode] = new object();
+                       __keyDown[(Keys)e.keyCode] = true;
                    };
 
                 stage.keyUp +=
                  e =>
                  {
                      if (!e.altKey)
-                         __keyDown[(int)Keys.Alt] = null;
+                         __keyDown[Keys.Alt] = false;
 
-                     __keyDown[e.keyCode] = null;
+                     __keyDown[(Keys)e.keyCode] = false;
                  };
 
                 #endregion
 
-
-                onframe += delegate
+                current = cannon1;
+                onsyncframe += delegate
                   {
 
 

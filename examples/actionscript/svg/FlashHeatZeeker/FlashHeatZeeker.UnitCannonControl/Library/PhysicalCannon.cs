@@ -19,9 +19,22 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 
         public DriverSeat driverseat { get; set; }
 
-        public double AngularVelocity;
 
         public b2Body body { get; set; }
+        public b2Body karmabody { get; set; }
+
+        public void SetPositionAndAngle(double x, double y, double a)
+        {
+            this.body.SetPositionAndAngle(
+                new b2Vec2(x, y), a
+            );
+
+            this.karmabody.SetPositionAndAngle(
+              new b2Vec2(x, y), a
+            );
+
+        }
+
         public VisualCannon visual;
 
         public StarlingGameSpriteWithPhysics Context;
@@ -33,25 +46,57 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 
             visual = new VisualCannon(textures, Context);
 
-            //initialize body
-            var bdef = new b2BodyDef();
-            bdef.angle = 0;
-            bdef.fixedRotation = true;
-            this.body = Context.ground_b2world.CreateBody(bdef);
+            for (int i = 0; i < 7; i++)
+            {
+                this.KarmaInput0.Enqueue(
+                    new KeySample()
+                );
+            }
 
-            //initialize shape
-            var fixdef = new b2FixtureDef();
+            {
+                //initialize body
+                var bdef = new b2BodyDef();
+                bdef.angle = 0;
+                bdef.fixedRotation = true;
+                this.body = Context.ground_b2world.CreateBody(bdef);
 
-            var shape = new b2PolygonShape();
-            fixdef.shape = shape;
+                //initialize shape
+                var fixdef = new b2FixtureDef();
 
-            shape.SetAsBox(2, 2);
+                var shape = new b2PolygonShape();
+                fixdef.shape = shape;
 
-            fixdef.restitution = 0.4; //positively bouncy!
+                shape.SetAsBox(2, 2);
+
+                fixdef.restitution = 0.4; //positively bouncy!
 
 
 
-            this.body.CreateFixture(fixdef);
+                this.body.CreateFixture(fixdef);
+            }
+
+            {
+                //initialize body
+                var bdef = new b2BodyDef();
+                bdef.angle = 0;
+                bdef.fixedRotation = true;
+                this.karmabody = Context.groundkarma_b2world.CreateBody(bdef);
+
+                //initialize shape
+                var fixdef = new b2FixtureDef();
+
+                var shape = new b2PolygonShape();
+                fixdef.shape = shape;
+
+                shape.SetAsBox(2, 2);
+
+                fixdef.restitution = 0.4; //positively bouncy!
+
+
+
+                this.karmabody.CreateFixture(fixdef);
+            }
+
             Context.internalunits.Add(this);
         }
 
@@ -64,50 +109,104 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
           );
         }
 
+        public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
+
+        public void FeedKarma()
+        {
+            if (this.KarmaInput0.Count > 0)
+            {
+                this.KarmaInput0.Enqueue(new KeySample
+                {
+                    value = CurrentInput.value,
+
+                    fixup = true,
+                    angle = this.body.GetAngle(),
+
+                });
+                this.KarmaInput0.Dequeue();
+            }
+        }
+
         Stopwatch ApplyVelocityElapsed = new Stopwatch();
 
         public void ApplyVelocity()
         {
-            var current = this.body;
 
             {
+                var current = this.body;
                 var a = current.GetAngle();
 
                 //angular damping does not work under low fps
                 //if (v != 0)
 
-                a += this.AngularVelocity * (ApplyVelocityElapsed.ElapsedMilliseconds) * 0.01;
+                a += this.velocity.AngularVelocity * (ApplyVelocityElapsed.ElapsedMilliseconds) * 0.01;
 
                 current.SetAngle(a);
             }
 
+            if (this.KarmaInput0.Count > 0)
+            {
+                var _karma__keyDown = this.KarmaInput0.Peek();
+
+                var _karma_velocity = new Velocity();
+
+
+                ExtractVelocityFromInput(_karma__keyDown, _karma_velocity);
+
+
+                //var a = karmabody.GetAngle();
+                //a += _karma_velocity.AngularVelocity * (ApplyVelocityElapsed.ElapsedMilliseconds) * 0.01;
+                karmabody.SetAngle(
+
+                    // meab me in scotty,
+                     _karma__keyDown.angle
+                 );
+            }
             ApplyVelocityElapsed.Restart();
         }
 
-        public void SetVelocityFromInput(object[] __keyDown)
+        public class Velocity
         {
+            public double AngularVelocity;
+            public double LinearVelocityX;
+            public double LinearVelocityY;
+        }
 
-            this.AngularVelocity = 0;
+        public void ExtractVelocityFromInput(KeySample __keyDown, Velocity value)
+        {
+            value.AngularVelocity = 0;
 
-            if (__keyDown == null)
-                return;
-
-
-            if (__keyDown[(int)Keys.Left] != null)
+            if (__keyDown != null)
             {
-                // we have reasone to keep walking
+                if (__keyDown[Keys.Left])
+                {
+                    // we have reasone to keep walking
 
-                this.AngularVelocity = -1;
+                    value.AngularVelocity = -1;
 
-            }
+                }
 
-            if (__keyDown[(int)Keys.Right] != null)
-            {
-                // we have reasone to keep walking
+                if (__keyDown[Keys.Right])
+                {
+                    // we have reasone to keep walking
 
-                this.AngularVelocity = 1;
+                    value.AngularVelocity = 1;
 
+                }
             }
         }
+
+
+        Velocity velocity = new Velocity();
+
+        KeySample CurrentInput = new KeySample();
+        public void SetVelocityFromInput(KeySample __keyDown)
+        {
+            this.CurrentInput = __keyDown;
+
+            ExtractVelocityFromInput(__keyDown, velocity);
+        }
+
+
     }
 }
