@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
@@ -50,7 +49,8 @@ namespace FlashHeatZeeker.TestDrivers.Library
                 var hud = new Image(textures_ped.hud_look()).AttachTo(this);
 
 
-                for (int i = 0; i < 64; i++)
+                for (int i = 0; i < 32; i++)
+                {
                     new Image(textures_map.hill1()).AttachTo(Content).With(
                         hill =>
                         {
@@ -59,22 +59,56 @@ namespace FlashHeatZeeker.TestDrivers.Library
                         }
                     );
 
-                for (int i = -8; i < 8; i++)
+                    new Image(textures_map.hole1()).AttachTo(Content).With(
+                        hill =>
+                        {
+                            hill.x = 2048.Random();
+                            hill.y = 2048.Random();
+                        }
+                    );
+
+                    new Image(textures_map.grass1()).AttachTo(Content).With(
+                        hill =>
+                        {
+                            hill.x = 2048.Random();
+
+                            var y = -2048.Random() - 512 - 256;
+                            hill.y = y;
+                        }
+                    );
+                }
+
+                for (int i = 0; i < 128; i++)
+                {
+
+
+                    var x = 2048.Random();
+                    var y = -2048.Random() - 512 - 256;
+
+                    new Image(textures_map.tree0_shadow()).AttachTo(Content).MoveTo(x + 16, y + 16);
+                    new Image(textures_map.tree0()).AttachTo(Content).MoveTo(x, y);
+                }
+                for (int i = -12; i < 12; i++)
                 {
                     new Image(textures_map.road0()).AttachTo(Content).x = 256 * i;
                 }
 
+                new Image(textures_map.touchdown()).AttachTo(Content).MoveTo(256, -256);
                 new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
+
+                new PhysicalHind(textures_hind, this) { AutomaticTakeoff = true }.SetPositionAndAngle((128 + 256) / 16, -128 * 1.5 / 16);
+                new PhysicalTank(textures_tank, this).SetPositionAndAngle(128 / 16, 128 * 3 / 16);
 
                 new Image(textures_map.tree0_shadow()).AttachTo(Content).y = 128 + 16;
                 new Image(textures_map.tree0()).AttachTo(Content).y = 128;
 
                 // can I have 
                 // new ped, hind, jeep, tank
-                var ped = new PhysicalPed(textures_ped, this);
+                current = new PhysicalPed(textures_ped, this);
 
 
                 // 12 = 34FPS
+                #region other units
                 for (int i = 3; i < 9; i++)
                 {
                     var cannon2 = new PhysicalCannon(textures_cannon, this);
@@ -138,8 +172,9 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                 }
+                #endregion
 
-                current = ped;
+
 
 
                 #region __keyDown
@@ -150,27 +185,29 @@ namespace FlashHeatZeeker.TestDrivers.Library
                    {
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
-                           __keyDown[Keys.Alt] = true;
+                           __keyDown[System.Windows.Forms.Keys.Alt] = true;
 
-                       __keyDown[(Keys)e.keyCode] = true;
+                       __keyDown[(System.Windows.Forms.Keys)e.keyCode] = true;
                    };
 
                 stage.keyUp +=
                  e =>
                  {
                      if (!e.altKey)
-                         __keyDown[Keys.Alt] = false;
+                         __keyDown[System.Windows.Forms.Keys.Alt] = false;
 
-                     __keyDown[(Keys)e.keyCode] = false;
+                     __keyDown[(System.Windows.Forms.Keys)e.keyCode] = false;
                  };
 
                 #endregion
+
                 bool entermode_changepending = false;
                 bool mode_changepending = false;
 
                 onframe +=
                     delegate
                     {
+                        #region hud
                         {
                             var cm = new Matrix();
 
@@ -179,6 +216,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
                             hud.transformationMatrix = cm;
                         }
+                        #endregion
                     };
 
                 onsyncframe +=
@@ -187,7 +225,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                         #region entermode_changepending
-                        if (!__keyDown[Keys.Enter])
+                        if (!__keyDown[System.Windows.Forms.Keys.Enter])
                         {
                             // space is not down.
                             entermode_changepending = true;
@@ -277,7 +315,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                         #region mode
-                        if (!__keyDown[Keys.Space])
+                        if (!__keyDown[System.Windows.Forms.Keys.Space])
                         {
                             // space is not down.
                             mode_changepending = true;
@@ -326,7 +364,7 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                         #region simulate a weapone!
-                        if (__keyDown[Keys.ControlKey])
+                        if (__keyDown[System.Windows.Forms.Keys.ControlKey])
                             if (frameid % 20 == 0)
                             {
                                 var bodyDef = new b2BodyDef();
