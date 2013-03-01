@@ -28,8 +28,12 @@ using FlashHeatZeeker.CoreAudio.Library;
 
 namespace FlashHeatZeeker.TestDriversWithAudio.Library
 {
-    class StarlingGameSpriteWithTestDriversWithAudio : StarlingGameSpriteWithPhysics
+    public class StarlingGameSpriteWithTestDriversWithAudio : StarlingGameSpriteWithPhysics
     {
+        public static KeySample __keyDown = new KeySample();
+
+        public static int HudPadding = 0;
+
         public StarlingGameSpriteWithTestDriversWithAudio()
         {
             var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
@@ -94,7 +98,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 new Image(textures_map.touchdown()).AttachTo(Content).MoveTo(256, -256);
                 new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
 
-                new PhysicalHind(textures_hind, this) { AutomaticTakeoff = true }.SetPositionAndAngle((128 + 256) / 16, -128 * 1.5 / 16);
+                new PhysicalHind(textures_hind, this) { AutomaticTakeoff = true }.SetPositionAndAngle((128 + 256) / 16, -128 / 16);
                 new PhysicalTank(textures_tank, this).SetPositionAndAngle(128 / 16, 128 * 3 / 16);
 
                 new Image(textures_map.tree0_shadow()).AttachTo(Content).y = 128 + 16;
@@ -103,6 +107,12 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 // can I have 
                 // new ped, hind, jeep, tank
                 current = new PhysicalPed(textures_ped, this);
+                current.SetPositionAndAngle(
+                    16.Random(),
+                    16.Random(),
+
+                    360.Random().DegreesToRadians()
+                );
 
 
                 // 12 = 34FPS
@@ -176,7 +186,6 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
 
                 #region __keyDown
-                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>
@@ -214,7 +223,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                             var cm = new Matrix();
 
                             cm.scale(0.5, 0.5);
-                            cm.translate(16, stage.stageHeight - 64 - 24);
+                            cm.translate(
+                                16 + HudPadding,
+                                stage.stageHeight - 64 - 24);
 
                             hud.transformationMatrix = cm;
                         }
@@ -261,9 +272,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         {
                             sb.loopcrickets.MasterVolume = 0;
 
-                            sb.loophelicopter1.MasterVolume = 0.25 + (current as PhysicalHind).visual.Altitude * 0.35;
-                            sb.loophelicopter1.LeftVolume = 0.4 + move_zoom * 0.7;
-                            sb.loophelicopter1.RightVolume = 1;
+                            sb.loophelicopter1.MasterVolume = 0.3 + (current as PhysicalHind).visual.Altitude * 0.2;
+                            sb.loophelicopter1.LeftVolume = 0.4 + move_zoom * 0.4;
+                            sb.loophelicopter1.RightVolume = 0.8;
                             sb.loophelicopter1.Rate = 0.7 + (current as PhysicalHind).visual.Altitude * 0.2 + move_zoom * 0.1;
                         }
                         else if (current is PhysicalJeep)
@@ -354,6 +365,11 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                                             //switchto(x.x);
                                             move_zoom = 1;
+
+                                            // fast start
+                                            (current as PhysicalHind).With(
+                                                hind => hind.VerticalVelocity = 1
+                                            );
                                         }
                                     );
                                 }
@@ -362,6 +378,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                     (current.driverseat.driver as PhysicalPed).With(
                                         driver =>
                                         {
+                                            // get out of the lift..
+
                                             current.driverseat.driver = null;
                                             driver.seatedvehicle = null;
                                             current.SetVelocityFromInput(new KeySample());

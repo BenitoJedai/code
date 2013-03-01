@@ -29,7 +29,8 @@ namespace FlashHeatZeeker.TestDrivers.Library
 {
     public class StarlingGameSpriteWithTestDrivers : StarlingGameSpriteWithPhysics
     {
-        public static object[] __keyDown = new object[0xffffff];
+        public static KeySample __keyDown = new KeySample();
+
 
 
         public StarlingGameSpriteWithTestDrivers()
@@ -178,7 +179,6 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
 
                 #region __keyDown
-                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>

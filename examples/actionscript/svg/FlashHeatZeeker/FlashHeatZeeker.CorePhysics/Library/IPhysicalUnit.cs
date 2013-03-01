@@ -49,7 +49,7 @@ namespace FlashHeatZeeker.Core.Library
         void FeedKarma();
 
 
-        void SetPositionAndAngle(double x, double y, double a);
+        void SetPositionAndAngle(double x, double y, double a = 0);
 
     }
 
