@@ -19,6 +19,10 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 {
     public class PhysicalPed : IPhysicalUnit
     {
+        public string Identity { get; set; }
+
+
+
         public double CameraRotation { get; set; }
 
 
@@ -30,9 +34,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         public double speed = 20;
 
-        double AngularVelocity;
-        double LinearVelocityX;
-        double LinearVelocityY;
+
 
         public void SetPositionAndAngle(double x, double y, double a = 0)
         {
@@ -46,8 +48,12 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         }
 
+
+
+        Velocity velocity = new Velocity();
+
         // nop
-        KeySample CurrentInput = new KeySample();
+        public KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)
         {
             CurrentInput = __keyDown;
@@ -56,17 +62,14 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
 
-            var velocity = new Velocity();
 
             ExtractVelocityFromInput(__keyDown, velocity);
 
-            this.AngularVelocity = velocity.AngularVelocity;
-            this.LinearVelocityX = velocity.LinearVelocityX;
-            this.LinearVelocityY = velocity.LinearVelocityY;
 
-            if (this.LinearVelocityX == 0)
-                if (this.LinearVelocityY == 0)
-                    if (this.AngularVelocity == 0)
+
+            if (velocity.LinearVelocityX == 0)
+                if (velocity.LinearVelocityY == 0)
+                    if (velocity.AngularVelocity == 0)
                         return;
 
 
@@ -175,6 +178,10 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         }
 
+        public bool __network_fixup = false;
+        public double __network_fixup_x;
+        public double __network_fixup_y;
+        public double __network_fixup_angle;
 
         public void ApplyVelocity()
         {
@@ -182,13 +189,13 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
             {
                 var current = this.body;
-                var v = this.AngularVelocity * 10;
+                var v = velocity.AngularVelocity * 10;
                 current.SetAngularVelocity(v);
 
-                var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
-                        + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
-                var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
-                        + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
+                var vx = Math.Cos(current.GetAngle()) * velocity.LinearVelocityY * this.speed
+                        + Math.Cos(current.GetAngle() + Math.PI / 2) * velocity.LinearVelocityX * this.speed;
+                var vy = Math.Sin(current.GetAngle()) * velocity.LinearVelocityY * this.speed
+                        + Math.Sin(current.GetAngle() + Math.PI / 2) * velocity.LinearVelocityX * this.speed;
 
                 current.SetLinearVelocity(
                     new b2Vec2(
@@ -196,7 +203,22 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                     )
                 );
 
+                if (__network_fixup)
+                {
+                    var fixupmultiplier = 0.95;
 
+
+                    // like a magnet
+                    current.SetPositionAndAngle(
+                        new b2Vec2(
+                            __network_fixup_x + (current.GetPosition().x - __network_fixup_x) * fixupmultiplier,
+                            __network_fixup_y + (current.GetPosition().y - __network_fixup_y) * fixupmultiplier
+                        ),
+                        // meab me in scotty,
+                            __network_fixup_angle + (current.GetAngle() - __network_fixup_angle) * fixupmultiplier
+
+                    );
+                }
             }
 
             // what about our karma body?
@@ -220,8 +242,9 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
                 current.SetActive(
-                 _karma__keyDown.BodyIsActive
-             );
+                     _karma__keyDown.BodyIsActive
+                 );
+
                 current.SetLinearVelocity(
                     new b2Vec2(
                      vx, vy
@@ -271,8 +294,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 return;
             }
 
-            var iswalking = this.LinearVelocityX != 0 || this.LinearVelocityY != 0;
-            this.visual.Animate(this.LinearVelocityX, this.LinearVelocityY);
+            var iswalking = velocity.LinearVelocityX != 0 || velocity.LinearVelocityY != 0;
+            this.visual.Animate(velocity.LinearVelocityX, velocity.LinearVelocityY);
 
 
 

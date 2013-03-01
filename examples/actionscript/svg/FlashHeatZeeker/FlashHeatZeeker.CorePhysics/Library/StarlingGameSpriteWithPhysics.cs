@@ -386,7 +386,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
 
 
-                                any_movement = current.body.GetLinearVelocity().Length() / 20.0;
+                                any_movement = current.body.GetLinearVelocity().Length() / 15.0;
 
                             }
 

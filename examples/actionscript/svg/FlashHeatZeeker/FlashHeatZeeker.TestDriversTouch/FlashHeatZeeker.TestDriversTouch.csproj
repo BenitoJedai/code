@@ -166,6 +166,18 @@
     <Reference Include="FlashHeatZeeker.UnitCannon.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.UnitCannon\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitCannon.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.TestDriversWithAudio.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.TestDriversWithAudio\bin\staging.AssetsLibrary\FlashHeatZeeker.TestDriversWithAudio.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CoreAudio.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CoreAudio\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreAudio.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CoreMap.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CoreMap\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreMap.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitBunkerControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitBunkerControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitBunkerControl.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -200,6 +212,10 @@
     <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
       <Name>FlashHeatZeeker.StarlingSetup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.TestDriversWithAudio\FlashHeatZeeker.TestDriversWithAudio.csproj">
+      <Project>{012aa7f8-61b3-4e05-8554-f4ac86f55b25}</Project>
+      <Name>FlashHeatZeeker.TestDriversWithAudio</Name>
     </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.TestDrivers\FlashHeatZeeker.TestDrivers.csproj">
       <Project>{25e47b7d-5f39-4a35-a5d0-49952123a81a}</Project>

@@ -1,4 +1,5 @@
 using FlashHeatZeeker.TestDrivers.Library;
+using FlashHeatZeeker.TestDriversWithAudio.Library;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -9,18 +10,26 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.TestDriversTouch
 {
-    [SWF(backgroundColor = 0xA26D41)]
+    //[SWF(backgroundColor = 0xA26D41)]
+    [SWF(backgroundColor = 0xB27D51)]
     public sealed class ApplicationSprite : Sprite
     {
         public readonly ApplicationCanvas content1 = new ApplicationCanvas();
 
         public ApplicationSprite()
         {
-            var content0 = new FlashHeatZeeker.TestDrivers.ApplicationSprite();
+            FlashHeatZeeker.TestDriversWithAudio.Library.StarlingGameSpriteWithTestDriversWithAudio.HudPadding =
+                4 + 64 + 4 + 64 + 4;
+
+            var content0 = new FlashHeatZeeker.TestDriversWithAudio.ApplicationSprite();
+
 
             content0.AttachTo(this);
 
             content1.r.Opacity = 0;
+
+            var InactiveOpaciy = 0.07;
+
 
             #region bind
             Action<UIElement, Keys> bind =
@@ -31,21 +40,23 @@ namespace FlashHeatZeeker.TestDriversTouch
                     //method: Void add_MouseDown(System.Windows.Input.MouseButtonEventHandler)
 
                     //ui.MouseDown +=
+                    ui.Opacity = InactiveOpaciy;
+
                     ui.MouseLeftButtonDown +=
                         (sender, e) =>
                         {
                             ui.Opacity = 1;
                             e.Handled = true;
-                            StarlingGameSpriteWithTestDrivers.__keyDown[(int)key] = new object();
+                            StarlingGameSpriteWithTestDriversWithAudio.__keyDown[key] = true;
                         };
 
                     //ui.MouseUp +=
                     ui.MouseLeftButtonUp +=
                        (sender, e) =>
                        {
-                           ui.Opacity = 0.5;
+                           ui.Opacity = InactiveOpaciy;
                            e.Handled = true;
-                           StarlingGameSpriteWithTestDrivers.__keyDown[(int)key] = null;
+                           StarlingGameSpriteWithTestDriversWithAudio.__keyDown[key] = false;
                        };
 
                     ui.TouchDown +=
@@ -53,19 +64,18 @@ namespace FlashHeatZeeker.TestDriversTouch
                       {
                           ui.Opacity = 1;
                           e.Handled = true;
-                          StarlingGameSpriteWithTestDrivers.__keyDown[(int)key] = new object();
+                          StarlingGameSpriteWithTestDriversWithAudio.__keyDown[key] = true;
                       };
 
                     ui.TouchUp +=
                        (sender, e) =>
                        {
-                           ui.Opacity = 0.5;
+                           ui.Opacity = InactiveOpaciy;
                            e.Handled = true;
-                           StarlingGameSpriteWithTestDrivers.__keyDown[(int)key] = null;
+                           StarlingGameSpriteWithTestDriversWithAudio.__keyDown[key] = false;
                        };
                 };
             #endregion
-
             bind(content1.up, Keys.Up);
             bind(content1.down, Keys.Down);
             bind(content1.left, Keys.Left);
