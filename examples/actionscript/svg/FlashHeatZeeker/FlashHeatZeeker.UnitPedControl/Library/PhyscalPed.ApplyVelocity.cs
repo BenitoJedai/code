@@ -20,13 +20,25 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 {
     public partial class PhysicalPed : IPhysicalUnit
     {
+        Stopwatch ApplyVelocityElapse = new Stopwatch();
         public void ApplyVelocity()
         {
             // this is now
 
             {
                 var current = this.body;
-                var v = velocity.AngularVelocity * 10;
+                //var v = velocity.AngularVelocity * 10;         current.SetAngularVelocity(v);
+
+
+                current.ApplyAngularImpulse(
+                    velocity.AngularVelocity
+                    * ApplyVelocityElapse.ElapsedMilliseconds
+                    * 0.01
+                    * (1 - (this.body.GetLinearVelocity().Length() / this.speed).Min(0.9) * 0.5)
+                );
+
+
+
                 var vx = Math.Cos(current.GetAngle()) * velocity.LinearVelocityY * this.speed
                     + Math.Cos(current.GetAngle() + Math.PI / 2) * velocity.LinearVelocityX * this.speed;
                 var vy = Math.Sin(current.GetAngle()) * velocity.LinearVelocityY * this.speed
@@ -39,7 +51,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 if (RemoteGameReference != null)
                     if (vx == 0)
                         if (vy == 0)
-                            if (v == 0)
+                            //if (v == 0)
                             {
                                 // not moving anymore in network mode
                                 // far enough to be out of sync?
@@ -89,7 +101,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                             }
                 #endregion
 
-                current.SetAngularVelocity(v);
+       
                 current.SetLinearVelocity(
                     new b2Vec2(
                      vx, vy
@@ -109,8 +121,16 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 ExtractVelocityFromInput(_karma__keyDown, _karma_velocity);
 
                 var current = this.karmabody;
-                var v = _karma_velocity.AngularVelocity * 10;
-                current.SetAngularVelocity(v);
+                //var v = _karma_velocity.AngularVelocity * 10;
+                //current.SetAngularVelocity(v);
+
+                current.ApplyAngularImpulse(
+                    _karma_velocity.AngularVelocity
+                    * ApplyVelocityElapse.ElapsedMilliseconds
+                   * 0.01
+                    * (1 - (current.GetLinearVelocity().Length() / this.speed).Min(0.9) * 0.5)
+                );
+
 
                 var vx = Math.Cos(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
                                    + Math.Cos(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
@@ -156,6 +176,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                     }
                 }
             }
+            ApplyVelocityElapse.Restart();
         }
 
     }

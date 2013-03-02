@@ -321,9 +321,9 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 0;
-                bodyDef.angularDamping = 0;
+                bodyDef.angularDamping = 4;
                 //bodyDef.angle = 1.57079633;
-                bodyDef.fixedRotation = true;
+                //bodyDef.fixedRotation = true;
 
                 body = Context.ground_b2world.CreateBody(bodyDef);
 
@@ -351,9 +351,9 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 0;
-                bodyDef.angularDamping = 0;
+                bodyDef.angularDamping = 4;
                 //bodyDef.angle = 1.57079633;
-                bodyDef.fixedRotation = true;
+                //bodyDef.fixedRotation = true;
 
                 karmabody = Context.groundkarma_b2world.CreateBody(bodyDef);
 
