@@ -18,6 +18,8 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 {
     public class PhysicalTank : IPhysicalUnit
     {
+        public RemoteGame RemoteGameReference { get; set; }
+
         public string Identity { get; set; }
 
         public double CameraRotation { get; set; }
@@ -48,8 +50,12 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
         }
 
+        public KeySample CurrentInput { get; set; }
+
         public PhysicalTank(StarlingGameSpriteWithTankTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.CurrentInput = new KeySample();
+
             this.textures = textures;
             this.Context = Context;
             this.driverseat = new DriverSeat();
@@ -290,7 +296,6 @@ namespace FlashHeatZeeker.UnitTankControl.Library
         public double LinearVelocityX;
         public double LinearVelocityY;
 
-        KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)
         {
             CurrentInput = __keyDown;

@@ -39,39 +39,39 @@ namespace FlashHeatZeeker.TestDriversSync
             InitializeSprites();
 
 
-            //InitializeTransport();
+            InitializeTransport();
 
 
         }
 
-        //private void InitializeTransport()
-        //{
-        //    // Console.WriteLine("leftsprite.__transport_out");
-        //    leftsprite.__transport_out +=
-        //        xml =>
-        //        {
-        //            uppersprite.__transport_in(xml);
-        //            lowersprite.__transport_in_fakelag(xml);
-        //        };
+        private void InitializeTransport()
+        {
+            // Console.WriteLine("leftsprite.__transport_out");
+            leftsprite.__transport_out +=
+                xml =>
+                {
+                    uppersprite.__transport_in(xml);
+                    lowersprite.__transport_in_fakelag(xml);
+                };
 
-        //    uppersprite.__transport_out +=
-        //        xml =>
-        //        {
-        //            leftsprite.__transport_in(xml);
-        //            lowersprite.__transport_in_fakelag(xml);
+            uppersprite.__transport_out +=
+                xml =>
+                {
+                    leftsprite.__transport_in(xml);
+                    lowersprite.__transport_in_fakelag(xml);
 
-        //        };
+                };
 
-        //    lowersprite.__transport_out +=
-        //   xml =>
-        //   {
-        //       leftsprite.__transport_in_fakelag(xml);
-        //       uppersprite.__transport_in_fakelag(xml);
+            lowersprite.__transport_out +=
+           xml =>
+           {
+               leftsprite.__transport_in_fakelag(xml);
+               uppersprite.__transport_in_fakelag(xml);
 
-        //   };
+           };
 
 
-        //}
+        }
 
         private void InitializeSprites()
         {

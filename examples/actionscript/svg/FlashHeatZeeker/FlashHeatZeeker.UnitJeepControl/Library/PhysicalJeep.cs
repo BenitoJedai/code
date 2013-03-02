@@ -17,7 +17,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 {
     public class PhysicalJeep : IPhysicalUnit
     {
-        public RemoteGame RemoteGameReference;
+        public RemoteGame RemoteGameReference { get; set; }
 
         public string Identity { get; set; }
 
@@ -48,8 +48,18 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
         public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
 
+
+        // nop
+        public KeySample CurrentInput { get; set; }
+        public void SetVelocityFromInput(KeySample __keyDown)
+        {
+            CurrentInput = __keyDown;
+            ExtractVelocityFromInput(__keyDown, unit4_physics);
+        }
+
         public PhysicalJeep(StarlingGameSpriteWithJeepTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.CurrentInput = new KeySample();
             this.CameraRotation = Math.PI / 2;
 
             this.textures = textures;
@@ -296,11 +306,12 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
         {
             unit4_physics.update(Context.gametime.ElapsedMilliseconds - xgt);
 
-            //this.visual0.currentvisual.alpha = 1.0;
 
             #region RemoteGameReference
             if (RemoteGameReference != null)
             {
+                this.visual0.currentvisual.alpha = 0.5;
+
                 // not moving anymore in network mode
                 // far enough to be out of sync?
 
@@ -321,7 +332,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                         {
 
                             // too much out of sync!
-                            var TooMuchOutOfSyncOrOutOfView = gap.GetLength() > 8;
+                            var TooMuchOutOfSyncOrOutOfView = gap.GetLength() > 10;
                             if (TooMuchOutOfSyncOrOutOfView)
                             {
                                 this.body.SetPositionAndAngle(
@@ -436,13 +447,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             }
         }
 
-        // nop
-        public KeySample CurrentInput = new KeySample();
-        public void SetVelocityFromInput(KeySample __keyDown)
-        {
-            CurrentInput = __keyDown;
-            ExtractVelocityFromInput(__keyDown, unit4_physics);
-        }
+
 
     }
 }

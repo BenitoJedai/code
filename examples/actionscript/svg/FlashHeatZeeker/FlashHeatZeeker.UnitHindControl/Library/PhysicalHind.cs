@@ -21,6 +21,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 {
     public class PhysicalHind : IPhysicalUnit
     {
+        public RemoteGame RemoteGameReference { get; set; }
         public string Identity { get; set; }
 
         public double CameraRotation { get; set; }
@@ -81,7 +82,6 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         public bool AutomaticTakeoff;
 
-        KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)
         {
             CurrentInput = __keyDown;
@@ -366,8 +366,10 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
         StarlingGameSpriteWithPhysics Context;
 
+        public KeySample CurrentInput { get; set; }
         public PhysicalHind(StarlingGameSpriteWithHindTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.CurrentInput = new KeySample();
             this.driverseat = new DriverSeat();
 
             this.Context = Context;
