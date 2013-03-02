@@ -16,6 +16,8 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 {
     public class PhysicalBunker : IPhysicalUnit
     {
+        public RemoteGame RemoteGameReference { get; set; }
+
         public string Identity { get; set; }
 
         public double CameraRotation { get; set; }
@@ -47,8 +49,12 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             visual
             ;
 
+        public KeySample CurrentInput { get; set; }
+
         public PhysicalBunker(StarlingGameSpriteWithBunkerTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.CurrentInput = new KeySample();
+
             this.driverseat = new DriverSeat();
 
             this.textures = textures;
@@ -166,7 +172,6 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
         }
 
         Velocity velocity = new Velocity();
-        KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)
         {
             this.CurrentInput = __keyDown;

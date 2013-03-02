@@ -43,11 +43,11 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
         public double move_zoom = 1.0;
 
-        public int egoid;
+        public int sessionid;
 
         public StarlingGameSpriteWithPhysics()
         {
-            egoid = random.Next();
+            sessionid = random.Next();
 
 
             //b2Body ground_current = null;

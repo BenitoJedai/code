@@ -23,7 +23,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
     {
         public StarlingGameSpriteWithTankControl()
         {
-            var textures = new StarlingGameSpriteWithTankTextures(new_tex_crop);
+            var textures_tank = new StarlingGameSpriteWithTankTextures(new_tex_crop);
 
 
             this.onbeforefirstframe += (stage, s) =>
@@ -54,11 +54,11 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                 #endregion
 
 
-                var tank1 = new PhysicalTank(textures, this);
+                var tank1 = new PhysicalTank(textures_tank, this);
 
                 current = tank1;
 
-                var tank2 = new PhysicalTank(textures, this);
+                var tank2 = new PhysicalTank(textures_tank, this);
 
 
 

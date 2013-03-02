@@ -15,6 +15,9 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 {
     public class PhysicalCannon : IPhysicalUnit
     {
+        public RemoteGame RemoteGameReference { get; set; }
+
+
         public string Identity { get; set; }
 
         public double CameraRotation { get; set; }
@@ -41,8 +44,11 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 
         public StarlingGameSpriteWithPhysics Context;
 
+        public KeySample CurrentInput { get; set; }
+
         public PhysicalCannon(StarlingGameSpriteWithCannonTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.CurrentInput = new KeySample();
             this.driverseat = new DriverSeat();
             this.Context = Context;
 
@@ -201,7 +207,6 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 
         Velocity velocity = new Velocity();
 
-        KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)
         {
             this.CurrentInput = __keyDown;

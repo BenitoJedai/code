@@ -17,6 +17,7 @@ namespace FlashHeatZeeker.UnitJeepSync.Library
 
 
 
+
         public static Action<string> __raise_sync = delegate { };
         public static Action<string> __at_sync = delegate { };
 
@@ -67,7 +68,7 @@ namespace FlashHeatZeeker.UnitJeepSync.Library
 
                 var ego = new PhysicalJeep(textures_jeep, this)
                 {
-                    Identity = egoid + ":ego"
+                    Identity = sessionid + ":ego"
                 };
 
                 ego.SetPositionAndAngle(
@@ -183,7 +184,7 @@ namespace FlashHeatZeeker.UnitJeepSync.Library
                     current.SetVelocityFromInput(__keyDown);
 
                     __raise_SetVelocityFromInput(
-                         "" + egoid,
+                         "" + sessionid,
                          ego.Identity,
                          "" + ego.CurrentInput.value,
                          "" + ego.body.GetPosition().x,
@@ -194,7 +195,7 @@ namespace FlashHeatZeeker.UnitJeepSync.Library
 
 
                     // tell others this sync frame ended for us
-                    __raise_sync("" + egoid);
+                    __raise_sync("" + sessionid);
                 };
             };
         }

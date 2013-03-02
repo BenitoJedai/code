@@ -43,7 +43,7 @@ namespace FlashHeatZeeker.UnitPedSync.Library
                 #region :ego
                 var ego = new PhysicalPed(textures_ped, this)
                 {
-                    Identity = egoid + ":ego"
+                    Identity = sessionid + ":ego"
                 };
 
                 ego.SetPositionAndAngle(
@@ -273,7 +273,7 @@ namespace FlashHeatZeeker.UnitPedSync.Library
                     ego.SetVelocityFromInput(__keyDown);
 
                     __raise_SetVelocityFromInput(
-                        "" + egoid,
+                        "" + sessionid,
                         ego.Identity,
                         "" + ego.CurrentInput.value,
                         "" + ego.body.GetPosition().x,
@@ -284,7 +284,7 @@ namespace FlashHeatZeeker.UnitPedSync.Library
 
 
                     // tell others this sync frame ended for us
-                    __raise_sync("" + egoid);
+                    __raise_sync("" + sessionid);
 
                 };
 

@@ -20,6 +20,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 {
     public class PhysicalPed : IPhysicalUnit
     {
+        public RemoteGame RemoteGameReference { get; set; }
+
         public string Identity { get; set; }
 
 
@@ -54,7 +56,6 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         Velocity velocity = new Velocity();
 
         // nop
-        public KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)
         {
             CurrentInput = __keyDown;
@@ -104,7 +105,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                     k.angle = CurrentInput.angle;
                 }
 
-          
+
 
                 this.KarmaInput0.Enqueue(k);
                 this.KarmaInput0.Dequeue();
@@ -195,7 +196,6 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         //[Description("Owned by a remote game!")]
         //public bool __network_fixup = false;
 
-        public RemoteGame RemoteGameReference;
 
         //public double __network_fixup_x;
         //public double __network_fixup_y;
@@ -424,8 +424,11 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         StarlingGameSpriteWithPedTextures textures;
         StarlingGameSpriteWithPhysics Context;
 
+        public KeySample CurrentInput { get; set; }
+
         public PhysicalPed(StarlingGameSpriteWithPedTextures textures, StarlingGameSpriteWithPhysics Context)
         {
+            this.CurrentInput = new KeySample();
             this.textures = textures;
             this.Context = Context;
 

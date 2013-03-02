@@ -1,4 +1,5 @@
 ﻿using Box2D.Dynamics;
+using FlashHeatZeeker.CorePhysics.Library;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,12 @@ namespace FlashHeatZeeker.Core.Library
 
     public interface IPhysicalUnit
     {
+        [Description("When set, controlled by a remote player.")]
+        RemoteGame RemoteGameReference { get; set; }
+
+        KeySample CurrentInput { get; set; }
+
+        // Identity like DOM... Name like a Component
         string Identity { get; set; }
 
 
