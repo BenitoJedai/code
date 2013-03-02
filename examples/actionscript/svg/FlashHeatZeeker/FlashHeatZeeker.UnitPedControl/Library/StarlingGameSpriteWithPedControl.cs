@@ -21,13 +21,13 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         public StarlingGameSpriteWithPedControl()
         {
-            var textures = new StarlingGameSpriteWithPedTextures(new_tex_crop);
+            var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop);
 
 
             this.onbeforefirstframe += (stage, s) =>
             {
 
-                var physical0 = new PhysicalPed(textures, this);
+                var physical0 = new PhysicalPed(textures_ped, this);
                 current = physical0;
 
                 // 32x32 = 15FPS?
@@ -37,7 +37,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 for (int ix = 0; ix < 4; ix++)
                     for (int iy = 0; iy < 4; iy++)
                     {
-                        var p = new PhysicalPed(textures, this);
+                        var p = new PhysicalPed(textures_ped, this);
 
                         p.SetPositionAndAngle(
                             8 * ix, 8 * iy
@@ -82,7 +82,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
        
 
-                    physical0.SetVelocityFromInput(__keyDown);
+                    current.SetVelocityFromInput(__keyDown);
 
                     #region simulate a weapone!
                     if (__keyDown[Keys.ControlKey])
