@@ -217,7 +217,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
         }
 
-  
+
 
         public class Velocity
         {
@@ -250,7 +250,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
         {
             if (this.KarmaInput0.Count > 0)
             {
-                this.KarmaInput0.Enqueue(new KeySample
+                var k = new KeySample
                 {
                     value = CurrentInput.value,
                     angle = this.body.GetAngle(),
@@ -258,7 +258,18 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                     fixup = true,
                     x = this.body.GetPosition().x,
                     y = this.body.GetPosition().y,
-                });
+                };
+
+
+
+                if (CurrentInput.fixup)
+                {
+                    k.x = CurrentInput.x;
+                    k.y = CurrentInput.y;
+                    k.angle = CurrentInput.angle;
+                }
+
+                this.KarmaInput0.Enqueue(k);
                 this.KarmaInput0.Dequeue();
             }
         }
