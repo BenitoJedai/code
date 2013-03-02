@@ -35,13 +35,13 @@ namespace FlashHeatZeeker.UnitPedSync.Library
 
         public StarlingGameSpriteWithPedSync()
         {
-            var textures = new StarlingGameSpriteWithPedTextures(new_tex_crop);
+            var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop);
 
 
             this.onbeforefirstframe += (stage, s) =>
             {
                 #region :ego
-                var ego = new PhysicalPed(textures, this)
+                var ego = new PhysicalPed(textures_ped, this)
                 {
                     Identity = egoid + ":ego"
                 };
@@ -62,7 +62,7 @@ namespace FlashHeatZeeker.UnitPedSync.Library
                 for (int ix = 2; ix < 4; ix++)
                     for (int iy = 2; iy < 4; iy++)
                     {
-                        var p = new PhysicalPed(textures, this);
+                        var p = new PhysicalPed(textures_ped, this);
 
                         p.SetPositionAndAngle(
                             8 * ix, 8 * iy
@@ -73,7 +73,7 @@ namespace FlashHeatZeeker.UnitPedSync.Library
                 #endregion
 
 
-                #region __keyDown
+                #region KeySample
                 var __keyDown = new KeySample();
 
                 stage.keyDown +=
@@ -154,7 +154,7 @@ namespace FlashHeatZeeker.UnitPedSync.Library
 
                         if (o.ego == null)
                         {
-                            o.ego = new PhysicalPed(textures, this)
+                            o.ego = new PhysicalPed(textures_ped, this)
                             {
                                 Identity = __identity,
                                 RemoteGameReference = o

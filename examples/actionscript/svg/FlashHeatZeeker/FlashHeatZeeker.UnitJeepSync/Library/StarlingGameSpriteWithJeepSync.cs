@@ -36,7 +36,7 @@ namespace FlashHeatZeeker.UnitJeepSync.Library
 
 
 
-            var textures = new StarlingGameSpriteWithJeepTextures(new_tex_crop);
+            var textures_jeep = new StarlingGameSpriteWithJeepTextures(new_tex_crop);
 
             this.onbeforefirstframe += (stage, s) =>
             {
@@ -65,7 +65,7 @@ namespace FlashHeatZeeker.UnitJeepSync.Library
 
 
 
-                var ego = new PhysicalJeep(textures, this)
+                var ego = new PhysicalJeep(textures_jeep, this)
                 {
                     Identity = egoid + ":ego"
                 };
@@ -79,8 +79,8 @@ namespace FlashHeatZeeker.UnitJeepSync.Library
 
                 current = ego;
 
-                new PhysicalJeep(textures, this);
-                new PhysicalJeep(textures, this);
+                new PhysicalJeep(textures_jeep, this);
+                new PhysicalJeep(textures_jeep, this);
 
 
 
@@ -142,7 +142,7 @@ namespace FlashHeatZeeker.UnitJeepSync.Library
 
                         if (o.ego == null)
                         {
-                            o.ego = new PhysicalJeep(textures, this)
+                            o.ego = new PhysicalJeep(textures_jeep, this)
                             {
                                 Identity = __identity,
                                 RemoteGameReference = o
