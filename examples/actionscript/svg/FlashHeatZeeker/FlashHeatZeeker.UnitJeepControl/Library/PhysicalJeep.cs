@@ -34,7 +34,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
         public Car unit4_physics;
         public Car karmaunit4_physics;
 
-        public void SetPositionAndAngle(double x, double y, double a)
+        public void SetPositionAndAngle(double x, double y, double a = 0)
         {
             this.unit4_physics.body.SetPositionAndAngle(
                 new b2Vec2(x, y), a

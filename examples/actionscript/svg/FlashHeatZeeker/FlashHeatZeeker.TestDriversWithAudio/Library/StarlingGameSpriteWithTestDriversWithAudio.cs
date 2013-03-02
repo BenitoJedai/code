@@ -39,8 +39,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
             // http://www.mochigames.com/game/gunship_v838523/
 
             var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
-            var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
+            
+            var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
@@ -52,7 +53,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
             {
                 var hud = new Image(textures_ped.hud_look()).AttachTo(this);
 
-
+                #region hill1
                 for (int i = 0; i < 32; i++)
                 {
                     new Image(textures_map.hill1()).AttachTo(Content).With(
@@ -81,7 +82,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         }
                     );
                 }
+                #endregion
 
+                #region tree0
                 for (int i = 0; i < 128; i++)
                 {
 
@@ -92,6 +95,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                     new Image(textures_map.tree0_shadow()).AttachTo(Content).MoveTo(x + 16, y + 16);
                     new Image(textures_map.tree0()).AttachTo(Content).MoveTo(x, y);
                 }
+                #endregion
+
                 for (int i = -12; i < 12; i++)
                 {
                     new Image(textures_map.road0()).AttachTo(Content).x = 256 * i;
@@ -235,6 +240,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                     };
 
                 // ego + local environment
+                #region Soundboard
                 Soundboard sb = new Soundboard();
 
                 sb.loopsand_run.MasterVolume = 0;
@@ -251,10 +257,12 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 sb.loopcrickets.MasterVolume = 0;
                 sb.loopcrickets.Sound.play();
-
+                #endregion
+                
                 onsyncframe +=
                     delegate
                     {
+                        #region Soundboard
                         sb.loopcrickets.MasterVolume = (1 - move_zoom) * 0.08;
 
                         sb.loophelicopter1.MasterVolume = 0.0;
@@ -305,6 +313,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         // stereoeffect // siren
                         sb.loopcrickets.LeftVolume = (1 + Math.Sin(this.gametime.ElapsedMilliseconds * 0.0001)) / 2.0;
                         sb.loopcrickets.RightVolume = (3 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.001)) / 4.0;
+                        #endregion
 
 
                         #region entermode_changepending
