@@ -16,6 +16,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 {
     public class PhysicalBunker : IPhysicalUnit
     {
+        public string Identity { get; set; }
 
         public double CameraRotation { get; set; }
 

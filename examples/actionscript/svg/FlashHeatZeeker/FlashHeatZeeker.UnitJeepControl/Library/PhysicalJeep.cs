@@ -17,6 +17,8 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 {
     public class PhysicalJeep : IPhysicalUnit
     {
+        public RemoteGame RemoteGameReference;
+
         public string Identity { get; set; }
 
         public double CameraRotation { get; set; }
@@ -266,7 +268,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
         {
             if (this.KarmaInput0.Count > 0)
             {
-                this.KarmaInput0.Enqueue(new KeySample
+                var k = new KeySample
                 {
                     value = CurrentInput.value,
 
@@ -274,7 +276,16 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                     angle = this.body.GetAngle(),
                     x = this.body.GetPosition().x,
                     y = this.body.GetPosition().y,
-                });
+                };
+
+                if (CurrentInput.fixup)
+                {
+                    k.x = CurrentInput.x;
+                    k.y = CurrentInput.y;
+                    k.angle = CurrentInput.angle;
+                }
+
+                this.KarmaInput0.Enqueue(k);
                 this.KarmaInput0.Dequeue();
             }
         }
@@ -284,6 +295,63 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
         public void ApplyVelocity()
         {
             unit4_physics.update(Context.gametime.ElapsedMilliseconds - xgt);
+
+            //this.visual0.currentvisual.alpha = 1.0;
+
+            #region RemoteGameReference
+            if (RemoteGameReference != null)
+            {
+                // not moving anymore in network mode
+                // far enough to be out of sync?
+
+                if (karmaunit4_physics.body.GetLinearVelocity().Length() < 0.5)
+                    if (this.KarmaInput0.All(k => k.value == 0))
+                    {
+                        var gap = new __vec2(
+                            (float)this.karmaunit4_physics.body.GetPosition().x - (float)this.body.GetPosition().x,
+                            (float)this.karmaunit4_physics.body.GetPosition().y - (float)this.body.GetPosition().y
+                        );
+
+                        this.body.SetAngle(
+                               this.body.GetAngle() + (this.karmaunit4_physics.body.GetAngle() - this.body.GetAngle()) * 0.2
+                        );
+
+                        // tolerate lesser distance?
+                        //if (gap.GetLength() > 3)
+                        {
+
+                            // too much out of sync!
+                            var TooMuchOutOfSyncOrOutOfView = gap.GetLength() > 8;
+                            if (TooMuchOutOfSyncOrOutOfView)
+                            {
+                                this.body.SetPositionAndAngle(
+                                    new b2Vec2(
+                                        this.karmaunit4_physics.body.GetPosition().x,
+                                        this.karmaunit4_physics.body.GetPosition().y
+                                    ),
+                                    this.karmaunit4_physics.body.GetAngle()
+                                );
+                            }
+                            else
+                            {
+                                this.body.SetPosition(
+                                    new b2Vec2(
+                                        this.body.GetPosition().x + gap.x * 0.2,
+                                        this.body.GetPosition().y + gap.y * 0.2
+                                    )
+                                );
+                            }
+
+
+                            // look at where we should be instead
+
+
+                        }
+                    }
+
+            }
+            #endregion
+
 
 
             // what about our karma body?
@@ -369,12 +437,12 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
         }
 
         // nop
-        KeySample CurrentInput = new KeySample();
+        public KeySample CurrentInput = new KeySample();
         public void SetVelocityFromInput(KeySample __keyDown)
         {
             CurrentInput = __keyDown;
             ExtractVelocityFromInput(__keyDown, unit4_physics);
         }
 
-     }
+    }
 }

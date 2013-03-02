@@ -21,6 +21,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 {
     public class PhysicalHind : IPhysicalUnit
     {
+        public string Identity { get; set; }
+
         public double CameraRotation { get; set; }
 
         public DriverSeat driverseat { get; set; }

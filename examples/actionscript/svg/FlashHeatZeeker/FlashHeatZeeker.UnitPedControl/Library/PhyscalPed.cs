@@ -104,12 +104,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                     k.angle = CurrentInput.angle;
                 }
 
-                //if (__network_fixup)
-                //{
-                //    k.x = __network_fixup_x;
-                //    k.y = __network_fixup_y;
-                //    k.angle = __network_fixup_angle;
-                //}
+          
 
                 this.KarmaInput0.Enqueue(k);
                 this.KarmaInput0.Dequeue();

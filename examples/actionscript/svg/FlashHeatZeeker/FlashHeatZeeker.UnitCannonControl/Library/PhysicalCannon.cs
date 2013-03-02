@@ -15,6 +15,8 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 {
     public class PhysicalCannon : IPhysicalUnit
     {
+        public string Identity { get; set; }
+
         public double CameraRotation { get; set; }
 
         public DriverSeat driverseat { get; set; }

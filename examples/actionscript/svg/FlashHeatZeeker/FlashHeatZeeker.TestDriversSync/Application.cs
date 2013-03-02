@@ -1,5 +1,5 @@
-using FlashHeatZeeker.UnitJeepSync.Design;
-using FlashHeatZeeker.UnitJeepSync.HTML.Pages;
+using FlashHeatZeeker.TestDriversSync.Design;
+using FlashHeatZeeker.TestDriversSync.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace FlashHeatZeeker.UnitJeepSync
+namespace FlashHeatZeeker.TestDriversSync
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -22,6 +22,7 @@ namespace FlashHeatZeeker.UnitJeepSync
     public sealed class Application
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
+
 
         ApplicationSprite leftsprite = new ApplicationSprite();
         ApplicationSprite uppersprite = new ApplicationSprite();
@@ -38,39 +39,39 @@ namespace FlashHeatZeeker.UnitJeepSync
             InitializeSprites();
 
 
-            InitializeTransport();
+            //InitializeTransport();
 
 
         }
 
-        private void InitializeTransport()
-        {
-            // Console.WriteLine("leftsprite.__transport_out");
-            leftsprite.__transport_out +=
-                xml =>
-                {
-                    uppersprite.__transport_in(xml);
-                    lowersprite.__transport_in_fakelag(xml);
-                };
+        //private void InitializeTransport()
+        //{
+        //    // Console.WriteLine("leftsprite.__transport_out");
+        //    leftsprite.__transport_out +=
+        //        xml =>
+        //        {
+        //            uppersprite.__transport_in(xml);
+        //            lowersprite.__transport_in_fakelag(xml);
+        //        };
 
-            uppersprite.__transport_out +=
-                xml =>
-                {
-                    leftsprite.__transport_in(xml);
-                    lowersprite.__transport_in_fakelag(xml);
+        //    uppersprite.__transport_out +=
+        //        xml =>
+        //        {
+        //            leftsprite.__transport_in(xml);
+        //            lowersprite.__transport_in_fakelag(xml);
 
-                };
+        //        };
 
-            lowersprite.__transport_out +=
-           xml =>
-           {
-               leftsprite.__transport_in_fakelag(xml);
-               uppersprite.__transport_in_fakelag(xml);
+        //    lowersprite.__transport_out +=
+        //   xml =>
+        //   {
+        //       leftsprite.__transport_in_fakelag(xml);
+        //       uppersprite.__transport_in_fakelag(xml);
 
-           };
+        //   };
 
 
-        }
+        //}
 
         private void InitializeSprites()
         {

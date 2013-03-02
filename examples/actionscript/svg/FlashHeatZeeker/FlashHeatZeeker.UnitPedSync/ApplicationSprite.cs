@@ -23,8 +23,46 @@ namespace FlashHeatZeeker.UnitPedSync
     [SWF(backgroundColor = 0x006D00)]
     public sealed class ApplicationSprite : Sprite
     {
+       
 
-        // jsc does not support fields!
+
+        Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
+
+
+        #region InitializeConsoleFormWriter
+        class __OutWriter : TextWriter
+        {
+            public Action<string> AtWrite;
+            public Action<string> AtWriteLine;
+
+            public override void Write(string value)
+            {
+                AtWrite(value);
+            }
+
+            public override void WriteLine(string value)
+            {
+                AtWriteLine(value);
+            }
+
+            public override Encoding Encoding
+            {
+                get { return Encoding.UTF8; }
+            }
+        }
+
+        public void InitializeConsoleFormWriter(
+            Action<string> Console_Write,
+            Action<string> Console_WriteLine
+        )
+        {
+            AtInitializeConsoleFormWriter(Console_Write, Console_WriteLine);
+        }
+        #endregion
+
+
+
+        #region __transport_in_fakelag
         public event Action<string> __transport_out;
 
         public void __transport_in_fakelag(string xmlstring)
@@ -62,50 +100,9 @@ namespace FlashHeatZeeker.UnitPedSync
                 __transport_out(xml);
         }
 
-        public void WhenReady(Action y)
-        {
-
-
-            y();
-        }
-
-        Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
-
-
-        #region InitializeConsoleFormWriter
-        class __OutWriter : TextWriter
-        {
-            public Action<string> AtWrite;
-            public Action<string> AtWriteLine;
-
-            public override void Write(string value)
-            {
-                AtWrite(value);
-            }
-
-            public override void WriteLine(string value)
-            {
-                AtWriteLine(value);
-            }
-
-            public override Encoding Encoding
-            {
-                get { return Encoding.UTF8; }
-            }
-        }
-
-        public void InitializeConsoleFormWriter(
-            Action<string> Console_Write,
-            Action<string> Console_WriteLine
-        )
-        {
-            AtInitializeConsoleFormWriter(Console_Write, Console_WriteLine);
-        }
-        #endregion
-
-
         Queue<List<string>> lag = new Queue<List<string>>();
         List<string> PendingInput = new List<string>();
+        #endregion
 
         public ApplicationSprite()
         {
@@ -136,6 +133,7 @@ namespace FlashHeatZeeker.UnitPedSync
             #endregion
 
 
+            #region __raise_sync
             StarlingGameSpriteWithPedSync.__raise_sync +=
                egoid =>
                {
@@ -174,6 +172,7 @@ namespace FlashHeatZeeker.UnitPedSync
                     if (__transport_out != null)
                         __transport_out(xml.ToString());
                 };
+            #endregion
 
             #region AtInitializeConsoleFormWriter
 
