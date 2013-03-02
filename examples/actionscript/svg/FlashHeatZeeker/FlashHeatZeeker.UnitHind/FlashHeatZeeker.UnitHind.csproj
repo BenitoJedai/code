@@ -143,6 +143,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitHind\hind0_wing1shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitHind\hind0_wing1.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitHind\hind0_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitHind\hind0_nowings.svg" />

@@ -13,10 +13,10 @@ using starling.core;
 using starling.text;
 using starling.utils;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml.Linq;
 namespace FlashHeatZeeker.UnitPedSync
 {
@@ -26,6 +26,11 @@ namespace FlashHeatZeeker.UnitPedSync
 
         // jsc does not support fields!
         public event Action<string> __transport_out;
+
+        public void __transport_in_fakelag(string xmlstring)
+        {
+            PendingInput.Add(xmlstring);
+        }
 
         public void __transport_in(string xmlstring)
         {
@@ -59,44 +64,7 @@ namespace FlashHeatZeeker.UnitPedSync
 
         public void WhenReady(Action y)
         {
-            StarlingGameSpriteWithPedSync.__raise_sync +=
-                egoid =>
-                {
-                    // Error	8	Argument 1: cannot convert from 'System.Xml.Linq.XAttribute' to 'System.Xml.Linq.XStreamingElement'	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitPedSync\ApplicationSprite.cs	40	33	FlashHeatZeeker.UnitPedSync
 
-                    var xml = new XElement("sync", new XAttribute("egoid", egoid));
-
-                    if (__transport_out != null)
-                        __transport_out(xml.ToString());
-                };
-
-            StarlingGameSpriteWithPedSync.__raise_SetVelocityFromInput +=
-                (
-                    string __egoid,
-                    string __identity,
-                    string __KeySample,
-                    string __fixup_x,
-                    string __fixup_y,
-                    string __fixup_angle
-
-                    ) =>
-                {
-                    var xml = new XElement("SetVelocityFromInput",
-
-                        new XAttribute("egoid", __egoid),
-
-
-                        new XAttribute("i", __identity),
-                        new XAttribute("k", __KeySample),
-                        new XAttribute("x", __fixup_x),
-                        new XAttribute("y", __fixup_y),
-                        new XAttribute("angle", __fixup_angle)
-
-                    );
-
-                    if (__transport_out != null)
-                        __transport_out(xml.ToString());
-                };
 
             y();
         }
@@ -136,9 +104,76 @@ namespace FlashHeatZeeker.UnitPedSync
         #endregion
 
 
+        Queue<List<string>> lag = new Queue<List<string>>();
+        List<string> PendingInput = new List<string>();
+
         public ApplicationSprite()
         {
+            #region __transport_in_fakelag
+            for (int i = 0; i < 7; i++)
+            {
+                lag.Enqueue(new List<string>());
+            }
 
+            var lagtimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 15);
+
+            lagtimer.timer +=
+                delegate
+                {
+                    lag.Enqueue(PendingInput);
+
+                    PendingInput = lag.Dequeue();
+
+                    foreach (var xml in PendingInput)
+                    {
+                        this.__transport_in(xml);
+                    }
+
+                    PendingInput.Clear();
+                };
+
+            lagtimer.start();
+            #endregion
+
+
+            StarlingGameSpriteWithPedSync.__raise_sync +=
+               egoid =>
+               {
+                   // Error	8	Argument 1: cannot convert from 'System.Xml.Linq.XAttribute' to 'System.Xml.Linq.XStreamingElement'	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitPedSync\ApplicationSprite.cs	40	33	FlashHeatZeeker.UnitPedSync
+
+                   var xml = new XElement("sync", new XAttribute("egoid", egoid));
+
+                   if (__transport_out != null)
+                       __transport_out(xml.ToString());
+               };
+
+            StarlingGameSpriteWithPedSync.__raise_SetVelocityFromInput +=
+                (
+                    string __egoid,
+                    string __identity,
+                    string __KeySample,
+                    string __fixup_x,
+                    string __fixup_y,
+                    string __fixup_angle
+
+                    ) =>
+                {
+                    var xml = new XElement("SetVelocityFromInput",
+
+                        new XAttribute("egoid", __egoid),
+
+
+                        new XAttribute("i", __identity),
+                        new XAttribute("k", __KeySample),
+                        new XAttribute("x", __fixup_x),
+                        new XAttribute("y", __fixup_y),
+                        new XAttribute("angle", __fixup_angle)
+
+                    );
+
+                    if (__transport_out != null)
+                        __transport_out(xml.ToString());
+                };
 
             #region AtInitializeConsoleFormWriter
 

@@ -15,15 +15,22 @@ namespace FlashHeatZeeker.UnitHind.Library
         public Func<Texture>
           hind0_nowings,
           hind0_shadow,
-          hind0_wing1;
+          hind0_wing1shadow,
+          hind0_wing1,
+          hind0_wing2,
+          hind0_wing3;
 
         public StarlingGameSpriteWithHindTextures(Texture64Constructor new_tex_crop)
         {
 
             hind0_nowings = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_nowings.svg", innersize: 320);
             hind0_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_shadow.svg", innersize: 320, alpha: 0.15);
-            hind0_wing1 = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_wing1.svg", innersize: 320);
 
+            hind0_wing1shadow = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_wing1shadow.svg", innersize: 320, alpha: 0.07);
+
+            hind0_wing1 = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_wing1.svg", innersize: 320);
+            hind0_wing2 = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_wing1.svg", innersize: 320, alpha: 0.4);
+            hind0_wing3 = new_tex_crop("assets/FlashHeatZeeker.UnitHind/hind0_wing1.svg", innersize: 320, alpha: 0.2);
         }
     }
 

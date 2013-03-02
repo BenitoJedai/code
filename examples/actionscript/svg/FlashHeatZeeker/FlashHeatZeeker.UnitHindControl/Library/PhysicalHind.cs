@@ -227,8 +227,15 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
             {
                 var current = this.body;
-                var v = this.AngularVelocity * 10;
-                current.SetAngularVelocity(v);
+                //var v = this.AngularVelocity * 10;
+                //current.SetAngularVelocity(v);
+
+
+
+                current.ApplyAngularImpulse(
+                    this.AngularVelocity * 0.6 * (1 - (this.body.GetLinearVelocity().Length() / this.speed).Min(0.9) * 0.5)
+                );
+
 
                 var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
                         + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
@@ -385,9 +392,9 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 // stop moving if legs stop walking!
                 ground_bodyDef.linearDamping = 10.0;
-                ground_bodyDef.angularDamping = 0;
+                ground_bodyDef.angularDamping = 4;
                 //bodyDef.angle = 1.57079633;
-                ground_bodyDef.fixedRotation = true;
+                //ground_bodyDef.fixedRotation = true;
 
                 ground_body = Context.ground_b2world.CreateBody(ground_bodyDef);
 
@@ -424,9 +431,9 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 // stop moving if legs stop walking!
                 ground_bodyDef.linearDamping = 10.0;
-                ground_bodyDef.angularDamping = 0;
+                ground_bodyDef.angularDamping = 4;
                 //bodyDef.angle = 1.57079633;
-                ground_bodyDef.fixedRotation = true;
+                //ground_bodyDef.fixedRotation = true;
 
                 groundkarma_body = Context.groundkarma_b2world.CreateBody(ground_bodyDef);
 
@@ -465,9 +472,9 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 // stop moving if legs stop walking!
                 air_bodyDef.linearDamping = 10.0;
-                air_bodyDef.angularDamping = 0;
+                air_bodyDef.angularDamping = 4;
                 //bodyDef.angle = 1.57079633;
-                air_bodyDef.fixedRotation = true;
+                //air_bodyDef.fixedRotation = true;
                 air_bodyDef.active = false;
 
                 air_body = Context.air_b2world.CreateBody(air_bodyDef);
