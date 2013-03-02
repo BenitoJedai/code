@@ -15,6 +15,8 @@ using FlashHeatZeeker.CoreMap.Library;
 using FlashHeatZeeker.UnitBunkerControl.Library;
 using FlashHeatZeeker.UnitTank.Library;
 using FlashHeatZeeker.UnitTankControl.Library;
+using FlashHeatZeeker.UnitHindControl.Library;
+using FlashHeatZeeker.UnitHind.Library;
 
 namespace FlashHeatZeeker.TestDriversSync.Library
 {
@@ -34,6 +36,9 @@ namespace FlashHeatZeeker.TestDriversSync.Library
         public static SetVelocityFromInputAction __raise_SetVelocityFromInput = delegate { };
         public static SetVelocityFromInputAction __at_SetVelocityFromInput = delegate { };
 
+        public static SetVerticalVelocityAction __raise_SetVerticalVelocity = delegate { };
+        public static SetVerticalVelocityAction __at_SetVerticalVelocity = delegate { };
+
 
 
         public List<RemoteGame> others = new List<RemoteGame>();
@@ -46,6 +51,7 @@ namespace FlashHeatZeeker.TestDriversSync.Library
             var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
             var textures_tank = new StarlingGameSpriteWithTankTextures(new_tex_crop);
+            var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
 
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
 
@@ -93,12 +99,19 @@ namespace FlashHeatZeeker.TestDriversSync.Library
 
                 new PhysicalBunker(textures_bunker, this) { Identity = "bunker:0" }.SetPositionAndAngle(0, -24);
 
-                new PhysicalJeep(textures_jeep, this) { Identity = ":1" }.SetPositionAndAngle(-8, -12);
+                new PhysicalHind(textures_hind, this)
+                {
+                    Identity = ":1",
+
+                    AutomaticTakeoff = true,
+                    AutomaticTouchdown = true
+
+                }.SetPositionAndAngle(-12, -12);
 
                 new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
 
                 new PhysicalJeep(textures_jeep, this) { Identity = ":2" }.SetPositionAndAngle(0, -12);
-                new PhysicalTank(textures_tank, this) { Identity = ":3" }.SetPositionAndAngle(8, -12);
+                new PhysicalTank(textures_tank, this) { Identity = ":3" }.SetPositionAndAngle(12, -12);
 
 
 
@@ -140,6 +153,39 @@ namespace FlashHeatZeeker.TestDriversSync.Library
                     o.__syncframeid++;
                     // move on!
                 };
+                #endregion
+
+                #region __at_SetVerticalVelocity
+                __at_SetVerticalVelocity +=
+                    (string __sessionid, string identity, string value) =>
+                    {
+                        var o = other(__sessionid);
+
+                        var u = this.units.FirstOrDefault(k => k.Identity == identity);
+
+                        (u as PhysicalHind).With(hind1 => hind1.VerticalVelocity = double.Parse(value));
+
+                        (u as PhysicalPed).With(
+                              physical0 =>
+                              {
+                                  //                                  BCL needs another method, please define it.
+                                  //Cannot call type without script attribute :
+                                  //System.Convert for Boolean ToBoolean(Double) used at
+
+                                  var LayOnTheGround = double.Parse(value);
+
+                                  if (LayOnTheGround == 1)
+                                      physical0.visual.LayOnTheGround = true;
+                                  else
+                                      physical0.visual.LayOnTheGround = false;
+
+
+
+
+                              }
+                          );
+
+                    };
                 #endregion
 
                 #region __at_SetVelocityFromInput
@@ -255,9 +301,75 @@ namespace FlashHeatZeeker.TestDriversSync.Library
 
 
                 bool entermode_changepending = false;
+                bool mode_changepending = false;
 
                 onsyncframe += delegate
                 {
+                    #region mode
+                    if (!__keyDown[System.Windows.Forms.Keys.Space])
+                    {
+                        // space is not down.
+                        mode_changepending = true;
+                    }
+                    else
+                    {
+                        if (mode_changepending)
+                        {
+                            (current as PhysicalHind).With(
+                                hind1 =>
+                                {
+                                    if (hind1.visual.Altitude == 0)
+                                        hind1.VerticalVelocity = 1.0;
+                                    else
+                                        hind1.VerticalVelocity = -0.4;
+
+                                    __raise_SetVerticalVelocity(
+                                        "" + this.sessionid,
+                                        hind1.Identity,
+                                        "" + hind1.VerticalVelocity
+                                    );
+                                }
+                            );
+
+                            (current as PhysicalPed).With(
+                                 physical0 =>
+                                 {
+                                     if (physical0.visual.LayOnTheGround)
+                                         physical0.visual.LayOnTheGround = false;
+                                     else
+                                         physical0.visual.LayOnTheGround = true;
+
+
+                                     //                                     BCL needs another method, please define it.
+                                     //Cannot call type without script attribute :
+                                     //System.Convert for Double ToDouble(Boolean) used at
+
+                                     var value = 0;
+                                     if (physical0.visual.LayOnTheGround)
+                                         value = 1;
+
+                                     __raise_SetVerticalVelocity(
+                                         "" + this.sessionid,
+                                         physical0.Identity,
+                                         "" + value
+                                     );
+
+                                 }
+                             );
+
+
+
+
+                            mode_changepending = false;
+
+
+
+                        }
+                    }
+                    #endregion
+
+
+
                     #region entermode_changepending
                     if (!__keyDown[System.Windows.Forms.Keys.Enter])
                     {

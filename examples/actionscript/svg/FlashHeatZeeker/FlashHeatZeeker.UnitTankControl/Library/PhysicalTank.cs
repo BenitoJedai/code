@@ -244,35 +244,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
         }
 
 
-        public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
 
-        public void FeedKarma()
-        {
-            if (this.KarmaInput0.Count > 0)
-            {
-                var k = new KeySample
-                {
-                    value = CurrentInput.value,
-                    angle = this.body.GetAngle(),
-
-                    fixup = true,
-                    x = this.body.GetPosition().x,
-                    y = this.body.GetPosition().y,
-                };
-
-
-
-                if (CurrentInput.fixup)
-                {
-                    k.x = CurrentInput.x;
-                    k.y = CurrentInput.y;
-                    k.angle = CurrentInput.angle;
-                }
-
-                this.KarmaInput0.Enqueue(k);
-                this.KarmaInput0.Dequeue();
-            }
-        }
 
 
     }

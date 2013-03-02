@@ -1,5 +1,6 @@
 using FlashHeatZeeker.StarlingSetup.Library;
-using FlashHeatZeeker.TestDriversSync.Library;
+using FlashHeatZeeker.UnitHindSync.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -9,9 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace FlashHeatZeeker.TestDriversSync
+
+namespace FlashHeatZeeker.UnitHindSync
 {
-    [SWF(backgroundColor = 0xB27D51)]
+    [SWF(backgroundColor = 0xA26D41)]
     public sealed class ApplicationSprite : Sprite
     {
         #region __transport_in_fakelag
@@ -26,35 +28,25 @@ namespace FlashHeatZeeker.TestDriversSync
         {
             var xml = XElement.Parse(xmlstring);
 
-            if (xml.Name.LocalName == "enterorexit")
-            {
-                StarlingGameSpriteWithTestDriversSync.__at_enterorexit(
-                    egoid: xml.Attribute("egoid").Value,
-                    to: xml.Attribute("to").Value,
-                    from: xml.Attribute("from").Value
-                );
-            }
-
-            if (xml.Name.LocalName == "sync")
-            {
-                StarlingGameSpriteWithTestDriversSync.__at_sync(
-                    xml.Attribute("egoid").Value
-                );
-            }
-
-
             if (xml.Name.LocalName == "SetVerticalVelocity")
             {
-                StarlingGameSpriteWithTestDriversSync.__at_SetVerticalVelocity(
+                StarlingGameSpriteWithHindSync.__at_SetVerticalVelocity(
                     sessionid: xml.Attribute("__sessionid").Value,
                     identity: xml.Attribute("identity").Value,
                     value: xml.Attribute("value").Value
                 );
             }
 
+            if (xml.Name.LocalName == "sync")
+            {
+                StarlingGameSpriteWithHindSync.__at_sync(
+                    xml.Attribute("egoid").Value
+                );
+            }
+
             if (xml.Name.LocalName == "SetVelocityFromInput")
             {
-                StarlingGameSpriteWithTestDriversSync.__at_SetVelocityFromInput(
+                StarlingGameSpriteWithHindSync.__at_SetVelocityFromInput(
                     __egoid: xml.Attribute("egoid").Value,
                     __identity: xml.Attribute("i").Value,
                     __KeySample: xml.Attribute("k").Value,
@@ -102,35 +94,7 @@ namespace FlashHeatZeeker.TestDriversSync
 
             lagtimer.start();
 
-            StarlingGameSpriteWithTestDriversSync.__raise_enterorexit +=
-                (string egoid, string from, string to) =>
-                {
-                    var xml = new XElement("enterorexit",
-
-                        new XAttribute("egoid", egoid),
-
-
-                        new XAttribute("from", from),
-                        new XAttribute("to", to)
-
-                    );
-
-                    if (__transport_out != null)
-                        __transport_out(xml.ToString());
-                };
-
-            StarlingGameSpriteWithTestDriversSync.__raise_sync +=
-               egoid =>
-               {
-                   // Error	8	Argument 1: cannot convert from 'System.Xml.Linq.XAttribute' to 'System.Xml.Linq.XStreamingElement'	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitPedSync\ApplicationSprite.cs	40	33	FlashHeatZeeker.UnitPedSync
-
-                   var xml = new XElement("sync", new XAttribute("egoid", egoid));
-
-                   if (__transport_out != null)
-                       __transport_out(xml.ToString());
-               };
-
-            StarlingGameSpriteWithTestDriversSync.__raise_SetVerticalVelocity +=
+            StarlingGameSpriteWithHindSync.__raise_SetVerticalVelocity +=
                 (string __sessionid, string identity, string value) =>
                 {
                     var xml = new XElement("SetVerticalVelocity",
@@ -147,7 +111,18 @@ namespace FlashHeatZeeker.TestDriversSync
                         __transport_out(xml.ToString());
                 };
 
-            StarlingGameSpriteWithTestDriversSync.__raise_SetVelocityFromInput +=
+            StarlingGameSpriteWithHindSync.__raise_sync +=
+               egoid =>
+               {
+                   // Error	8	Argument 1: cannot convert from 'System.Xml.Linq.XAttribute' to 'System.Xml.Linq.XStreamingElement'	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitPedSync\ApplicationSprite.cs	40	33	FlashHeatZeeker.UnitPedSync
+
+                   var xml = new XElement("sync", new XAttribute("egoid", egoid));
+
+                   if (__transport_out != null)
+                       __transport_out(xml.ToString());
+               };
+
+            StarlingGameSpriteWithHindSync.__raise_SetVelocityFromInput +=
                 (
                     string __egoid,
                     string __identity,
@@ -176,7 +151,6 @@ namespace FlashHeatZeeker.TestDriversSync
                 };
             #endregion
 
-
             this.InvokeWhenStageIsReady(
               delegate
               {
@@ -185,7 +159,7 @@ namespace FlashHeatZeeker.TestDriversSync
                   Starling.handleLostContext = true;
 
                   var s = new Starling(
-                      typeof(StarlingGameSpriteWithTestDriversSync).ToClassToken(),
+                      typeof(StarlingGameSpriteWithHindSync).ToClassToken(),
                       this.stage
                   );
 
@@ -246,5 +220,4 @@ namespace FlashHeatZeeker.TestDriversSync
         }
 
     }
-
 }

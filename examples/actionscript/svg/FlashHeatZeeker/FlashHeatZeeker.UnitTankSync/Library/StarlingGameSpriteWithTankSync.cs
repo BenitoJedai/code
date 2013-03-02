@@ -57,7 +57,7 @@ namespace FlashHeatZeeker.UnitTankSync.Library
 
                 #endregion
 
-
+                #region ego
                 var ego = new PhysicalTank(textures_tank, this)
                 {
                     Identity = sessionid + ":ego"
@@ -70,6 +70,8 @@ namespace FlashHeatZeeker.UnitTankSync.Library
                );
 
                 current = ego;
+                #endregion
+
 
 
 
@@ -178,11 +180,11 @@ namespace FlashHeatZeeker.UnitTankSync.Library
 
                     __raise_SetVelocityFromInput(
                          "" + sessionid,
-                         ego.Identity,
-                         "" + ego.CurrentInput.value,
-                         "" + ego.body.GetPosition().x,
-                         "" + ego.body.GetPosition().y,
-                         "" + ego.body.GetAngle()
+                         current.Identity,
+                         "" + current.CurrentInput.value,
+                         "" + current.body.GetPosition().x,
+                         "" + current.body.GetPosition().y,
+                         "" + current.body.GetAngle()
 
                      );
 

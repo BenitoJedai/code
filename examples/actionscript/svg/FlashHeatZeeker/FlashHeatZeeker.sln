@@ -106,6 +106,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.TestDrivers
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitTankSync", "FlashHeatZeeker.UnitTankSync\FlashHeatZeeker.UnitTankSync.csproj", "{4D734FA4-7E9C-457A-BBC3-AF6FB6A7CC35}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitHindSync", "FlashHeatZeeker.UnitHindSync\FlashHeatZeeker.UnitHindSync.csproj", "{6196D85F-2130-4F18-B855-A7ED7CD52956}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -576,6 +578,16 @@ Global
 		{4D734FA4-7E9C-457A-BBC3-AF6FB6A7CC35}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4D734FA4-7E9C-457A-BBC3-AF6FB6A7CC35}.Release|x86.ActiveCfg = Release|x86
 		{4D734FA4-7E9C-457A-BBC3-AF6FB6A7CC35}.Release|x86.Build.0 = Release|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Debug|x86.ActiveCfg = Debug|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Debug|x86.Build.0 = Debug|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Release|Any CPU.ActiveCfg = Release|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Release|Mixed Platforms.Build.0 = Release|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Release|x86.ActiveCfg = Release|x86
+		{6196D85F-2130-4F18-B855-A7ED7CD52956}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

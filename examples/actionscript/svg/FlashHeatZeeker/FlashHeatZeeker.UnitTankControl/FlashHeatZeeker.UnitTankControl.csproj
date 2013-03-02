@@ -140,6 +140,7 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Library\PhysicalTank.FeedKarma.cs" />
     <Compile Include="Library\PhysicalTank.ApplyVelocity.cs" />
     <Compile Include="Library\PhysicalTank.ExtractVelocityFromInput.cs" />
     <Compile Include="Library\PhysicalTank.cs" />

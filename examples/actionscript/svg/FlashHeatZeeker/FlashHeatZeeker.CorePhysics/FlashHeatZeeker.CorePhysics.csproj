@@ -138,6 +138,7 @@
     <Compile Include="Library\IPhysicalUnit.cs" />
     <Compile Include="Library\RemoteGame.cs" />
     <Compile Include="Library\SetVelocityFromInputAction.cs" />
+    <Compile Include="Library\SetVerticalVelocityAction.cs" />
     <Compile Include="Library\StarlingGameSpriteWithPhysics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
