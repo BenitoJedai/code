@@ -284,10 +284,7 @@ namespace FlashHeatZeeker.UnitPedSync.Library
 
 
                     // tell others this sync frame ended for us
-
-                    //Console.WriteLine("before __raise_sync");
                     __raise_sync("" + egoid);
-                    //Console.WriteLine("after __raise_sync");
 
                 };
 

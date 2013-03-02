@@ -102,6 +102,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitPedSync
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitJeepSync", "FlashHeatZeeker.UnitJeepSync\FlashHeatZeeker.UnitJeepSync.csproj", "{A35F890C-080D-4235-8519-4139D2FCC980}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.TestDriversSync", "FlashHeatZeeker.TestDriversSync\FlashHeatZeeker.TestDriversSync.csproj", "{5B25AB19-AB19-47AF-B220-00B2B6E15018}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -552,6 +554,16 @@ Global
 		{A35F890C-080D-4235-8519-4139D2FCC980}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A35F890C-080D-4235-8519-4139D2FCC980}.Release|x86.ActiveCfg = Release|x86
 		{A35F890C-080D-4235-8519-4139D2FCC980}.Release|x86.Build.0 = Release|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Debug|x86.ActiveCfg = Debug|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Debug|x86.Build.0 = Debug|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Release|Any CPU.ActiveCfg = Release|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Release|x86.ActiveCfg = Release|x86
+		{5B25AB19-AB19-47AF-B220-00B2B6E15018}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
