@@ -21,6 +21,8 @@ namespace FlashHeatZeeker.UnitTankControl.Library
     {
         Stopwatch ApplyVelocityElapse = new Stopwatch();
 
+
+        bool ApplyVelocityMoveToLocation;
         public void ApplyVelocity()
         {
 
@@ -42,6 +44,107 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                 var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
                         + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
 
+
+
+
+
+                this.visual.currentvisual.alpha = 1.0;
+
+                #region RemoteGameReference
+                if (RemoteGameReference != null)
+                    if (vx == 0)
+                        if (vy == 0)
+                        //if (v == 0)
+                        {
+                            // not moving anymore in network mode
+                            // far enough to be out of sync?
+
+                            //if (karmabody.GetAngularVelocity() == 0)
+                                if (karmabody.GetLinearVelocity().Length() == 0)
+                                    if (this.KarmaInput0.All(k => k.value == 0))
+                                    {
+
+
+
+
+                                        var gap = new __vec2(
+                                            (float)this.karmabody.GetPosition().x - (float)this.body.GetPosition().x,
+                                            (float)this.karmabody.GetPosition().y - (float)this.body.GetPosition().y
+                                        );
+
+                                        // tolerate lesser distance?
+
+                                        var CloseEnough = gap.GetLength() < 1.2;
+                                        var TooFar = gap.GetLength() > 5;
+
+                                        if (CloseEnough)
+                                        {
+                                            ApplyVelocityMoveToLocation = false;
+                                        }
+
+                                        if (TooFar || ApplyVelocityMoveToLocation)
+                                        {
+                                            //this.body.SetPositionAndAngle(
+                                            //    new b2Vec2(
+                                            //        this.karmabody.GetPosition().x,
+                                            //        this.karmabody.GetPosition().y
+                                            //    ),
+                                            //    this.karmabody.GetAngle()
+                                            //);
+
+                                            // show we are in the wrong place!
+                                            this.visual.currentvisual.alpha = 0.3;
+
+
+                                            // look at where we should be instead
+                                            this.body.SetAngle(
+                                                gap.GetRotation()
+                                            );
+
+                                            // and walk there!
+                                            vx = Math.Cos(current.GetAngle()) * 0.5 * this.speed
+                                               + Math.Cos(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
+                                            vy = Math.Sin(current.GetAngle()) * 0.5 * this.speed
+                                                   + Math.Sin(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
+
+                                            ApplyVelocityMoveToLocation = true;
+                                        }
+                                        else
+                                        {
+                                            var da0 = this.karmabody.GetAngle() - this.body.GetAngle();
+                                            var da360 = (this.karmabody.GetAngle() + 360.DegreesToRadians()) - this.body.GetAngle();
+
+                                            if (da0 < da360)
+                                            {
+                                                this.body.SetAngle(
+                                                       this.body.GetAngle() + da0 * 0.2
+                                                );
+                                            }
+                                            else
+                                            {
+                                                this.body.SetAngle(
+                                                       this.body.GetAngle() + da360 * 0.2
+                                                );
+                                            }
+
+                                            if (CloseEnough)
+                                            { 
+                                            
+                                            }
+                                            else
+                                            {
+                                                this.body.SetPosition(
+                                                    new b2Vec2(
+                                                        this.body.GetPosition().x + gap.x * 0.3,
+                                                        this.body.GetPosition().y + gap.y * 0.3
+                                                    )
+                                                );
+                                            }
+                                        }
+                                    }
+
+                        }
+                #endregion
 
 
                 current.SetLinearVelocity(
@@ -89,7 +192,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                 if (_karma__keyDown.fixup)
                 {
-                    var fixupmultiplier = 0.95;
+                    var fixupmultiplier = 0.90;
                     // like a magnet
                     current.SetPositionAndAngle(
                         new b2Vec2(

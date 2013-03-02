@@ -13,6 +13,8 @@ using ScriptCoreLib.Extensions;
 using starling.display;
 using FlashHeatZeeker.CoreMap.Library;
 using FlashHeatZeeker.UnitBunkerControl.Library;
+using FlashHeatZeeker.UnitTank.Library;
+using FlashHeatZeeker.UnitTankControl.Library;
 
 namespace FlashHeatZeeker.TestDriversSync.Library
 {
@@ -43,6 +45,7 @@ namespace FlashHeatZeeker.TestDriversSync.Library
 
             var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
+            var textures_tank = new StarlingGameSpriteWithTankTextures(new_tex_crop);
 
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
 
@@ -95,7 +98,7 @@ namespace FlashHeatZeeker.TestDriversSync.Library
                 new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
 
                 new PhysicalJeep(textures_jeep, this) { Identity = ":2" }.SetPositionAndAngle(0, -12);
-                new PhysicalJeep(textures_jeep, this) { Identity = ":3" }.SetPositionAndAngle(8, -12);
+                new PhysicalTank(textures_tank, this) { Identity = ":3" }.SetPositionAndAngle(8, -12);
 
 
 

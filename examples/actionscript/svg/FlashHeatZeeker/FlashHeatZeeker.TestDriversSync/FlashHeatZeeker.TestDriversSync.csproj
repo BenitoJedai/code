@@ -217,6 +217,14 @@
       <Project>{28b82c3c-e90a-42a9-80c2-71bc99e91592}</Project>
       <Name>FlashHeatZeeker.UnitPed</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitTankControl\FlashHeatZeeker.UnitTankControl.csproj">
+      <Project>{19499013-cba3-4261-a2a5-c5c157dcc477}</Project>
+      <Name>FlashHeatZeeker.UnitTankControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitTank\FlashHeatZeeker.UnitTank.csproj">
+      <Project>{2769ba3b-1ce3-44b5-91b2-f6a8e2d35d4b}</Project>
+      <Name>FlashHeatZeeker.UnitTank</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

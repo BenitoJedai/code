@@ -81,7 +81,8 @@ namespace FlashHeatZeeker.UnitTank.Library
 
         Image currentshadow,
             tanktrackpattern1, tanktrackpattern0;
-        Sprite currentvisual;
+
+        public  Sprite currentvisual;
 
         StarlingGameSpriteBase Context;
 
