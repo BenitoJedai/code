@@ -10,6 +10,7 @@ using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using starling.display;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -91,18 +92,24 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                     fixup = true,
 
-
                     angle = this.body.GetAngle(),
                     x = this.body.GetPosition().x,
                     y = this.body.GetPosition().y,
                 };
 
-                if (__network_fixup)
+                if (CurrentInput.fixup)
                 {
-                    k.x = __network_fixup_x;
-                    k.y = __network_fixup_y;
-                    k.angle = __network_fixup_angle;
+                    k.x = CurrentInput.x;
+                    k.y = CurrentInput.y;
+                    k.angle = CurrentInput.angle;
                 }
+
+                //if (__network_fixup)
+                //{
+                //    k.x = __network_fixup_x;
+                //    k.y = __network_fixup_y;
+                //    k.angle = __network_fixup_angle;
+                //}
 
                 this.KarmaInput0.Enqueue(k);
                 this.KarmaInput0.Dequeue();
@@ -189,11 +196,15 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         }
 
-        public bool __network_fixup = false;
 
-        public double __network_fixup_x;
-        public double __network_fixup_y;
-        public double __network_fixup_angle;
+        //[Description("Owned by a remote game!")]
+        //public bool __network_fixup = false;
+
+        public RemoteGame RemoteGameReference;
+
+        //public double __network_fixup_x;
+        //public double __network_fixup_y;
+        //public double __network_fixup_angle;
 
         public bool ShouldDoKarmaFixup()
         {
@@ -216,7 +227,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 this.visual.currentvisual.alpha = 1.0;
 
-                if (__network_fixup)
+                #region RemoteGameReference
+                if (RemoteGameReference != null)
                     if (vx == 0)
                         if (vy == 0)
                             if (v == 0)
@@ -254,19 +266,20 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
                                             // look at where we should be instead
-                                            // and walk there!
                                             this.body.SetAngle(
                                                 gap.GetRotation()
                                             );
 
-                                            vx = Math.Cos(current.GetAngle()) * 1 * this.speed
+                                            // and walk there!
+                                            vx = Math.Cos(current.GetAngle()) * 0.5 * this.speed
                                                + Math.Cos(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
-                                            vy = Math.Sin(current.GetAngle()) * 1 * this.speed
+                                            vy = Math.Sin(current.GetAngle()) * 0.5 * this.speed
                                                    + Math.Sin(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
                                         }
                                     }
 
                             }
+                #endregion
 
                 current.SetAngularVelocity(v);
                 current.SetLinearVelocity(

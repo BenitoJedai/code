@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E90AF106-0535-4F20-9390-2536A8E4DEB7}</ProjectGuid>
+    <ProjectGuid>{563967F7-4C6E-423A-AC84-F476578C569A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashHeatZeeker.CorePhysics</RootNamespace>
-    <AssemblyName>FlashHeatZeeker.CorePhysics</AssemblyName>
+    <RootNamespace>FlashHeatZeeker.UnitPedSync</RootNamespace>
+    <AssemblyName>FlashHeatZeeker.UnitPedSync</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FlashHeatZeeker.CorePhysics.Program</StartupObject>
+    <StartupObject>FlashHeatZeeker.UnitPedSync.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -38,6 +38,12 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ConsoleFormPackage">
+      <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
+    </Reference>
+    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
+      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
+    </Reference>
     <Reference Include="box2dflash">
       <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
     </Reference>
@@ -95,12 +101,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
+    <Reference Include="ScriptCoreLibJava, Version=4.1.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
-    <Reference Include="starling, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="starling">
       <HintPath>..\packages\starling.1.0.0.0\lib\starling.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -122,8 +127,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="FlashHeatZeeker.UnitPedSync.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPedSync.AssetsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
+      <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.StarlingSetup\bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
@@ -131,14 +139,19 @@
     <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPedControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitPedControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPedControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPed.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitPed\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPed.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
-    <Content Include="Design\App.htm" />
-    <Compile Include="Library\IPhysicalUnit.cs" />
-    <Compile Include="Library\RemoteGame.cs" />
-    <Compile Include="Library\SetVelocityFromInputAction.cs" />
-    <Compile Include="Library\StarlingGameSpriteWithPhysics.cs" />
+    <Content Include="Design\App.htm">
+      <SubType>Designer</SubType>
+    </Content>
+    <Compile Include="Library\StarlingGameSpriteWithPedSync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -148,9 +161,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
+      <Project>{e90af106-0535-4f20-9390-2536a8e4deb7}</Project>
+      <Name>FlashHeatZeeker.CorePhysics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.Core\FlashHeatZeeker.Core.csproj">
       <Project>{0ab27151-12cd-4377-ae76-16e6f0f72580}</Project>
       <Name>FlashHeatZeeker.Core</Name>
@@ -159,6 +173,17 @@
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
       <Name>FlashHeatZeeker.StarlingSetup</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitPedControl\FlashHeatZeeker.UnitPedControl.csproj">
+      <Project>{4d349e4b-ebf4-4121-9022-f2d4f85ec280}</Project>
+      <Name>FlashHeatZeeker.UnitPedControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitPed\FlashHeatZeeker.UnitPed.csproj">
+      <Project>{28b82c3c-e90a-42a9-80c2-71bc99e91592}</Project>
+      <Name>FlashHeatZeeker.UnitPed</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

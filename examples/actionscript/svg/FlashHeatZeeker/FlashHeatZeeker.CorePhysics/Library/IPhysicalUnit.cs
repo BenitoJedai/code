@@ -14,6 +14,9 @@ namespace FlashHeatZeeker.Core.Library
 
     public interface IPhysicalUnit
     {
+        string Identity { get; set; }
+
+
         // jsc could convert XML comments to attributes!
         [Description("A driver can sit in the vehicle to drive it.")]
         DriverSeat driverseat { get; set; }
