@@ -140,6 +140,8 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Library\PhysicalHind.FeedKarma.cs" />
+    <Compile Include="Library\PhysicalHind.ApplyVelocity.cs" />
     <Compile Include="Library\PhysicalHind.cs" />
     <Compile Include="Library\StarlingGameSpriteWithHindControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

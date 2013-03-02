@@ -160,6 +160,12 @@
     <Reference Include="FlashHeatZeeker.UnitBunkerControl.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.UnitBunkerControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitBunkerControl.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.UnitHindControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitHindControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitHindControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitHind.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitHind\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitHind.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -200,6 +206,14 @@
     <ProjectReference Include="..\FlashHeatZeeker.UnitBunkerControl\FlashHeatZeeker.UnitBunkerControl.csproj">
       <Project>{2ee6e167-fea3-47b4-bbf4-b48f5c8666bf}</Project>
       <Name>FlashHeatZeeker.UnitBunkerControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitHindControl\FlashHeatZeeker.UnitHindControl.csproj">
+      <Project>{0c611dd3-d71b-4802-9e87-781f6c73daa9}</Project>
+      <Name>FlashHeatZeeker.UnitHindControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitHind\FlashHeatZeeker.UnitHind.csproj">
+      <Project>{93432db4-6a44-4fc8-a037-faec549dabb3}</Project>
+      <Name>FlashHeatZeeker.UnitHind</Name>
     </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.UnitJeepControl\FlashHeatZeeker.UnitJeepControl.csproj">
       <Project>{4e32c317-9f51-4d36-81ea-9ffd2db5a28e}</Project>

@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitHindControl.Library
 {
@@ -27,21 +26,21 @@ namespace FlashHeatZeeker.UnitHindControl.Library
         {
             // how much bigger are units in flight altidude?
 
-            var textures = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
+            var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
 
 
             this.onbeforefirstframe += (stage, s) =>
             {
 
 
-                var physical0 = new PhysicalHind(textures, this);
+                var physical0 = new PhysicalHind(textures_hind, this);
 
 
                 for (int ix = 0; ix < 32; ix++)
                 {
-                    var physical1 = new PhysicalHind(textures, this);
-                    var physical2 = new PhysicalHind(textures, this);
-                    var physical3 = new PhysicalHind(textures, this);
+                    var physical1 = new PhysicalHind(textures_hind, this);
+                    var physical2 = new PhysicalHind(textures_hind, this);
+                    var physical3 = new PhysicalHind(textures_hind, this);
 
                     physical1.SetPositionAndAngle(10 + 20 * ix, 20);
 
@@ -58,8 +57,9 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
 
-                bool flightmode_changepending = false;
+                bool mode_changepending = false;
                 //bool visual0_flightmode = false;
+
 
                 #region __keyDown
                 var __keyDown = new KeySample();
@@ -69,18 +69,18 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                    {
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
-                           __keyDown[Keys.Alt] = true;
+                           __keyDown[System.Windows.Forms.Keys.Alt] = true;
 
-                       __keyDown[(Keys)e.keyCode] = true;
+                       __keyDown[(System.Windows.Forms.Keys)e.keyCode] = true;
                    };
 
                 stage.keyUp +=
                  e =>
                  {
                      if (!e.altKey)
-                         __keyDown[Keys.Alt] = false;
+                         __keyDown[System.Windows.Forms.Keys.Alt] = false;
 
-                     __keyDown[(Keys)e.keyCode] = false;
+                     __keyDown[(System.Windows.Forms.Keys)e.keyCode] = false;
                  };
 
                 #endregion
@@ -90,22 +90,33 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 onsyncframe +=
                     delegate
                     {
-                        #region flightmode
-                        if (!__keyDown[Keys.Space])
+                        #region mode
+                        if (!__keyDown[System.Windows.Forms.Keys.Space])
                         {
                             // space is not down.
-                            flightmode_changepending = true;
+                            mode_changepending = true;
                         }
                         else
                         {
-                            if (flightmode_changepending)
+                            if (mode_changepending)
                             {
-                                if (physical0.visual.Altitude == 0)
-                                    physical0.VerticalVelocity = 1.0;
-                                else
-                                    physical0.VerticalVelocity = -0.4;
+                                (current as PhysicalHind).With(
+                                    hind1 =>
+                                    {
+                                        if (hind1.visual.Altitude == 0)
+                                            hind1.VerticalVelocity = 1.0;
+                                        else
+                                            hind1.VerticalVelocity = -0.4;
 
-                                flightmode_changepending = false;
+                                    }
+                                );
+
+                       
+
+
+
+
+                                mode_changepending = false;
 
 
 
@@ -113,15 +124,16 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                         }
                         #endregion
 
+
                         // for camera
 
-                        physical0.SetVelocityFromInput(__keyDown);
+                        current.SetVelocityFromInput(__keyDown);
 
 
 
 
                         #region simulate a weapone!
-                        if (__keyDown[Keys.ControlKey])
+                        if (__keyDown[System.Windows.Forms.Keys.ControlKey])
                             if (frameid % 20 == 0)
                             {
                                 var bodyDef = new b2BodyDef();

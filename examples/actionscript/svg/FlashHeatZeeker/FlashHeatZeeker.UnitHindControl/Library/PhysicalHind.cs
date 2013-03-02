@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitHindControl.Library
 {
-    public class PhysicalHind : IPhysicalUnit
+    public partial class PhysicalHind : IPhysicalUnit
     {
         public RemoteGame RemoteGameReference { get; set; }
         public string Identity { get; set; }
@@ -81,6 +81,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
         }
 
         public bool AutomaticTakeoff;
+        public bool AutomaticTouchdown;
 
         public void SetVelocityFromInput(KeySample __keyDown)
         {
@@ -93,6 +94,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             this.AngularVelocity = velocity.AngularVelocity;
             this.LinearVelocityX = velocity.LinearVelocityX;
             this.LinearVelocityY = velocity.LinearVelocityY;
+
 
 
 
@@ -115,29 +117,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 }
         }
 
-        public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
 
-        public void FeedKarma()
-        {
-            if (this.KarmaInput0.Count > 0)
-            {
-                this.KarmaInput0.Enqueue(new KeySample
-                {
-                    value = CurrentInput.value,
-
-                    angle = this.body.GetAngle(),
-
-                    BodyIsActive = this.ground_body.IsActive(),
-
-
-                    fixup = true,
-
-                    x = this.body.GetPosition().x,
-                    y = this.body.GetPosition().y,
-                });
-                this.KarmaInput0.Dequeue();
-            }
-        }
 
         public class Velocity
         {
@@ -218,121 +198,6 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
 
-        long ApplyVelocityElapsed;
-        double AngularVelocitySign;
-
-        public void ApplyVelocity()
-        {
-            var dx = Context.gametime.ElapsedMilliseconds - ApplyVelocityElapsed;
-            ApplyVelocityElapsed = Context.gametime.ElapsedMilliseconds;
-
-
-            {
-                var current = this.body;
-                //var v = this.AngularVelocity * 10;
-                //current.SetAngularVelocity(v);
-
-
-
-                current.ApplyAngularImpulse(
-                    this.AngularVelocity * 0.6 * (1 - (this.body.GetLinearVelocity().Length() / this.speed).Min(0.9) * 0.5)
-                );
-
-
-                var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
-                        + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
-                var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
-                        + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
-
-
-                this.body.SetLinearVelocity(
-                    new b2Vec2(
-                     vx, vy
-
-
-                    )
-                );
-
-                // attempt to course correct if near 90 degree angles!
-
-                //if (this.AngularVelocity == 0)
-                //{
-                //    var fixupmultiplier = 0.90;
-
-                //    var fixai = (current.GetAngle().RadiansToDegrees() / 4.0);
-
-                //    if (AngularVelocitySign > 0)
-                //        fixai = Math.Ceiling(fixai);
-                //    else
-                //        fixai = Math.Floor(fixai);
-
-                //    var fixaf = (fixai * 16).DegreesToRadians();
-
-
-                //    // like a magnet
-                //    current.SetAngle(
-                //        // meab me in scotty
-                //            fixaf + (current.GetAngle() - fixaf) * fixupmultiplier
-
-                //    );
-                //}
-                //else
-                //{
-                //    AngularVelocitySign = Math.Sign(this.AngularVelocity);
-                //}
-            }
-
-
-            this.visual.Altitude =
-                (this.visual.Altitude + 0.005 * dx * this.VerticalVelocity).Max(0).Min(1);
-
-
-            // what about our karma body?
-            if (this.KarmaInput0.Count > 0)
-            {
-                var _karma__keyDown = this.KarmaInput0.Peek();
-
-                var _karma_velocity = new Velocity();
-
-
-                ExtractVelocityFromInput(_karma__keyDown, _karma_velocity);
-
-                var current = this.groundkarma_body;
-                var v = _karma_velocity.AngularVelocity * 10;
-                current.SetAngularVelocity(v);
-
-                var vx = Math.Cos(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
-                                   + Math.Cos(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
-                var vy = Math.Sin(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
-                        + Math.Sin(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
-
-                current.SetActive(
-                    _karma__keyDown.BodyIsActive
-                );
-
-                current.SetLinearVelocity(
-                    new b2Vec2(
-                     vx, vy
-                    )
-                );
-
-                if (_karma__keyDown.fixup)
-                {
-                    var fixupmultiplier = 0.95;
-
-                    // like a magnet
-                    current.SetPositionAndAngle(
-                        new b2Vec2(
-                            _karma__keyDown.x + (current.GetPosition().x - _karma__keyDown.x) * fixupmultiplier,
-                            _karma__keyDown.y + (current.GetPosition().y - _karma__keyDown.y) * fixupmultiplier
-                        ),
-                        // meab me in scotty
-                            _karma__keyDown.angle + (current.GetAngle() - _karma__keyDown.angle) * fixupmultiplier
-
-                    );
-                }
-            }
-        }
 
         public void ShowPositionAndAngle()
         {
