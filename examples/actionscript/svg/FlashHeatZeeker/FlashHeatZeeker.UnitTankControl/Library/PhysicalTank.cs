@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitTankControl.Library
 {
-    public class PhysicalTank : IPhysicalUnit
+    public partial class PhysicalTank : IPhysicalUnit
     {
         public RemoteGame RemoteGameReference { get; set; }
 
@@ -80,9 +80,9 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 1.0;
-                bodyDef.angularDamping = 0;
+                bodyDef.angularDamping = 7;
                 //bodyDef.angle = 1.57079633;
-                bodyDef.fixedRotation = true;
+                //bodyDef.fixedRotation = true;
 
                 body = Context.ground_b2world.CreateBody(bodyDef);
                 //current = body;
@@ -113,9 +113,9 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 1.0;
-                bodyDef.angularDamping = 0;
+                bodyDef.angularDamping = 7;
                 //bodyDef.angle = 1.57079633;
-                bodyDef.fixedRotation = true;
+                //bodyDef.fixedRotation = true;
 
                 karmabody = Context.groundkarma_b2world.CreateBody(bodyDef);
                 //current = body;
@@ -217,73 +217,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
         }
 
-        public void ApplyVelocity()
-        {
-
-            {
-                var current = this.body;
-                var v = this.AngularVelocity * 10;
-                current.SetAngularVelocity(v);
-
-                var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
-                        + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
-                var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
-                        + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
-
-
-
-                current.SetLinearVelocity(
-                    new b2Vec2(
-                     vx, vy
-
-
-                    )
-                );
-            }
-
-
-            // what about our karma body?
-            if (this.KarmaInput0.Count > 0)
-            {
-                var _karma__keyDown = this.KarmaInput0.Peek();
-
-                var _karma_velocity = new Velocity();
-
-
-                ExtractVelocityFromInput(_karma__keyDown, _karma_velocity);
-
-                var current = this.karmabody;
-                var v = _karma_velocity.AngularVelocity * 10;
-                current.SetAngularVelocity(v);
-
-                var vx = Math.Cos(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
-                                   + Math.Cos(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
-                var vy = Math.Sin(current.GetAngle()) * _karma_velocity.LinearVelocityY * this.speed
-                        + Math.Sin(current.GetAngle() + Math.PI / 2) * _karma_velocity.LinearVelocityX * this.speed;
-
-                current.SetLinearVelocity(
-                    new b2Vec2(
-                     vx, vy
-                    )
-                );
-
-                if (_karma__keyDown.fixup)
-                {
-                    var fixupmultiplier = 0.95;
-                    // like a magnet
-                    current.SetPositionAndAngle(
-                        new b2Vec2(
-                            _karma__keyDown.x + (current.GetPosition().x - _karma__keyDown.x) * fixupmultiplier,
-                            _karma__keyDown.y + (current.GetPosition().y - _karma__keyDown.y) * fixupmultiplier
-                        ),
-                        // meab me in scotty
-                            _karma__keyDown.angle + (current.GetAngle() - _karma__keyDown.angle) * fixupmultiplier
-
-                    );
-                }
-            }
-        }
-
+  
 
         public class Velocity
         {
@@ -327,56 +261,6 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                 });
                 this.KarmaInput0.Dequeue();
             }
-        }
-
-        public void ExtractVelocityFromInput(KeySample __keyDown, Velocity value)
-        {
-
-
-            value.AngularVelocity = 0;
-            value.LinearVelocityX = 0;
-            value.LinearVelocityY = 0;
-
-
-
-            if (__keyDown != null)
-            {
-
-                if (__keyDown[Keys.Up])
-                {
-                    // we have reasone to keep walking
-
-                    value.LinearVelocityY = 1;
-                }
-
-                if (__keyDown[Keys.Down])
-                {
-                    // we have reasone to keep walking
-                    // go slow backwards
-                    value.LinearVelocityY = -0.5;
-
-                }
-
-
-                if (__keyDown[Keys.Left])
-                {
-                    // we have reasone to keep walking
-
-                    value.AngularVelocity = -1;
-
-                }
-
-                if (__keyDown[Keys.Right])
-                {
-                    // we have reasone to keep walking
-
-                    value.AngularVelocity = 1;
-
-                }
-
-            }
-
-
         }
 
 
