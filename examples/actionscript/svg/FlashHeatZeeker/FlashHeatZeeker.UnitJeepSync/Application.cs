@@ -1,6 +1,5 @@
-using Abstractatech.ConsoleFormPackage.Library;
-using FlashHeatZeeker.UnitPedSync.Design;
-using FlashHeatZeeker.UnitPedSync.HTML.Pages;
+using FlashHeatZeeker.UnitJeepSync.Design;
+using FlashHeatZeeker.UnitJeepSync.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
@@ -14,11 +13,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Abstractatech.JavaScript.FormAsPopup;
-using System.Collections.Generic;
-using ScriptCoreLib.JavaScript.Runtime;
 
-namespace FlashHeatZeeker.UnitPedSync
+namespace FlashHeatZeeker.UnitJeepSync
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -41,7 +37,6 @@ namespace FlashHeatZeeker.UnitPedSync
 
             InitializeSprites();
 
-            InitializeConsole();
 
             InitializeTransport();
 
@@ -50,96 +45,31 @@ namespace FlashHeatZeeker.UnitPedSync
 
         private void InitializeTransport()
         {
-            Console.WriteLine("leftsprite.__transport_out");
-            leftsprite.__transport_out +=
-                xml =>
-                {
-                    uppersprite.__transport_in(xml);
-                    lowersprite.__transport_in_fakelag(xml);
-                };
+            // Console.WriteLine("leftsprite.__transport_out");
+            // leftsprite.__transport_out +=
+            //     xml =>
+            //     {
+            //         uppersprite.__transport_in(xml);
+            //         lowersprite.__transport_in_fakelag(xml);
+            //     };
 
-            uppersprite.__transport_out +=
-                xml =>
-                {
-                    leftsprite.__transport_in(xml);
-                    lowersprite.__transport_in_fakelag(xml);
+            // uppersprite.__transport_out +=
+            //     xml =>
+            //     {
+            //         leftsprite.__transport_in(xml);
+            //         lowersprite.__transport_in_fakelag(xml);
 
-                };
+            //     };
 
-            lowersprite.__transport_out +=
-           xml =>
-           {
-               leftsprite.__transport_in_fakelag(xml);
-               uppersprite.__transport_in_fakelag(xml);
+            // lowersprite.__transport_out +=
+            //xml =>
+            //{
+            //    leftsprite.__transport_in_fakelag(xml);
+            //    uppersprite.__transport_in_fakelag(xml);
 
-           };
-
-
-            //Console.WriteLine("before WhenReady");
-            //leftsprite.WhenReady(
-            //    delegate
-            //    {
+            //};
 
 
-            //        var __xml = new XElement("check", new XAttribute("bugfix", "bugfix"));
-            //        var __xmlstring = __xml.ToString();
-
-            //        Console.WriteLine(new { __xmlstring });
-
-            //        leftsprite.__raise_transport_out(__xmlstring);
-            //        Console.WriteLine("after __raise_transport_out");
-            //    }
-            //);
-        }
-
-        private void InitializeConsole()
-        {
-            #region con
-            var con = new ConsoleForm();
-
-            con.InitializeConsoleFormWriter();
-
-            con.Show();
-
-            con.Height = 150;
-            con.Left = Native.Window.Width - con.Width;
-            con.Top = 0;
-
-            Native.Window.onresize +=
-                  delegate
-                  {
-                      con.Left = Native.Window.Width - con.Width;
-                      con.Top = 0;
-                  };
-
-
-            con.Opacity = 0.6;
-
-
-
-
-            // !! not compatible yet
-            //FormAsPopupExtensions
-            con.HandleFormClosing = false;
-            con.PopupInsteadOfClosing();
-            #endregion
-
-            Action<string> Console_Write =
-               x =>
-               {
-                   Console.Write(x);
-               };
-
-
-            Action<string> Console_WriteLine =
-               x =>
-               {
-                   Console.WriteLine(x);
-               };
-
-            leftsprite.InitializeConsoleFormWriter(
-              Console_Write, Console_WriteLine
-           );
         }
 
         private void InitializeSprites()

@@ -83,17 +83,28 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         {
             if (this.KarmaInput0.Count > 0)
             {
-                this.KarmaInput0.Enqueue(new KeySample
+                var k = new KeySample
                 {
                     value = CurrentInput.value,
 
-                    angle = this.body.GetAngle(),
                     BodyIsActive = this.body.IsActive(),
 
                     fixup = true,
+
+
+                    angle = this.body.GetAngle(),
                     x = this.body.GetPosition().x,
                     y = this.body.GetPosition().y,
-                });
+                };
+
+                if (__network_fixup)
+                {
+                    k.x = __network_fixup_x;
+                    k.y = __network_fixup_y;
+                    k.angle = __network_fixup_angle;
+                }
+
+                this.KarmaInput0.Enqueue(k);
                 this.KarmaInput0.Dequeue();
             }
         }
@@ -179,9 +190,16 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         }
 
         public bool __network_fixup = false;
+
         public double __network_fixup_x;
         public double __network_fixup_y;
         public double __network_fixup_angle;
+
+        public bool ShouldDoKarmaFixup()
+        {
+
+            return false;
+        }
 
         public void ApplyVelocity()
         {
@@ -190,35 +208,73 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             {
                 var current = this.body;
                 var v = velocity.AngularVelocity * 10;
-                current.SetAngularVelocity(v);
-
                 var vx = Math.Cos(current.GetAngle()) * velocity.LinearVelocityY * this.speed
-                        + Math.Cos(current.GetAngle() + Math.PI / 2) * velocity.LinearVelocityX * this.speed;
+                    + Math.Cos(current.GetAngle() + Math.PI / 2) * velocity.LinearVelocityX * this.speed;
                 var vy = Math.Sin(current.GetAngle()) * velocity.LinearVelocityY * this.speed
                         + Math.Sin(current.GetAngle() + Math.PI / 2) * velocity.LinearVelocityX * this.speed;
 
+
+                this.visual.currentvisual.alpha = 1.0;
+
+                if (__network_fixup)
+                    if (vx == 0)
+                        if (vy == 0)
+                            if (v == 0)
+                            {
+                                // not moving anymore in network mode
+                                // far enough to be out of sync?
+
+                                if (karmabody.GetLinearVelocity().Length() == 0)
+                                    if (this.KarmaInput0.All(k => k.value == 0))
+                                    {
+
+                                        this.body.SetAngle(
+                                             karmabody.GetAngle()
+                                         );
+
+
+                                        var gap = new __vec2(
+                                            (float)this.karmabody.GetPosition().x - (float)this.body.GetPosition().x,
+                                            (float)this.karmabody.GetPosition().y - (float)this.body.GetPosition().y
+                                        );
+
+                                        // tolerate lesser distance?
+                                        if (gap.GetLength() > 0.5)
+                                        {
+                                            //this.body.SetPositionAndAngle(
+                                            //    new b2Vec2(
+                                            //        this.karmabody.GetPosition().x,
+                                            //        this.karmabody.GetPosition().y
+                                            //    ),
+                                            //    this.karmabody.GetAngle()
+                                            //);
+
+                                            // show we are in the wrong place!
+                                            this.visual.currentvisual.alpha = 0.3;
+
+
+                                            // look at where we should be instead
+                                            // and walk there!
+                                            this.body.SetAngle(
+                                                gap.GetRotation()
+                                            );
+
+                                            vx = Math.Cos(current.GetAngle()) * 1 * this.speed
+                                               + Math.Cos(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
+                                            vy = Math.Sin(current.GetAngle()) * 1 * this.speed
+                                                   + Math.Sin(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
+                                        }
+                                    }
+
+                            }
+
+                current.SetAngularVelocity(v);
                 current.SetLinearVelocity(
                     new b2Vec2(
                      vx, vy
                     )
                 );
 
-                if (__network_fixup)
-                {
-                    var fixupmultiplier = 0.95;
-
-
-                    // like a magnet
-                    current.SetPositionAndAngle(
-                        new b2Vec2(
-                            __network_fixup_x + (current.GetPosition().x - __network_fixup_x) * fixupmultiplier,
-                            __network_fixup_y + (current.GetPosition().y - __network_fixup_y) * fixupmultiplier
-                        ),
-                        // meab me in scotty,
-                            __network_fixup_angle + (current.GetAngle() - __network_fixup_angle) * fixupmultiplier
-
-                    );
-                }
             }
 
             // what about our karma body?
@@ -253,19 +309,30 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 if (_karma__keyDown.fixup)
                 {
-                    var fixupmultiplier = 0.95;
+                    var fixupmultiplier = 0.90;
 
-
-                    // like a magnet
-                    current.SetPositionAndAngle(
-                        new b2Vec2(
-                            _karma__keyDown.x + (current.GetPosition().x - _karma__keyDown.x) * fixupmultiplier,
-                            _karma__keyDown.y + (current.GetPosition().y - _karma__keyDown.y) * fixupmultiplier
-                        ),
+                    current.SetAngle(
                         // meab me in scotty,
-                            _karma__keyDown.angle + (current.GetAngle() - _karma__keyDown.angle) * fixupmultiplier
+                         _karma__keyDown.angle + (current.GetAngle() - _karma__keyDown.angle) * fixupmultiplier
 
                     );
+
+
+
+                    var gap = new __vec2(
+                        (float)this.karmabody.GetPosition().x - (float)_karma__keyDown.x,
+                        (float)this.karmabody.GetPosition().y - (float)_karma__keyDown.y
+                    );
+
+                    if (gap.GetLength() > 0.1)
+                    {
+                        current.SetLinearVelocity(
+                             new b2Vec2(
+                              vx - gap.x * 2.0,
+                              vy - gap.y * 2.0
+                             )
+                         );
+                    }
                 }
             }
         }
@@ -294,7 +361,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 return;
             }
 
-            var iswalking = velocity.LinearVelocityX != 0 || velocity.LinearVelocityY != 0;
+            //var iswalking = velocity.LinearVelocityX != 0 || velocity.LinearVelocityY != 0;
+            var iswalking = this.body.GetLinearVelocity().Length() > 0;
             this.visual.Animate(velocity.LinearVelocityX, velocity.LinearVelocityY);
 
 

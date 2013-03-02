@@ -1,4 +1,5 @@
 ﻿using FlashHeatZeeker.Core.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Extensions;
 using starling.display;
@@ -12,10 +13,18 @@ namespace FlashHeatZeeker.UnitHind.Library
 {
     public class VisualHind : IVisualUnit
     {
-        public Image visualshadow;
+        public Sprite visualbody_shadow;
+        public Image visualnowings_shadow;
+
+        public Sprite visualwings_shadow;
+
         public Sprite visualbody;
         public Image visualnowings;
+
+
         public Sprite visualwings;
+        public Sprite visualwings2;
+        public Sprite visualwings3;
 
 
         public void SetPositionAndAngle(double x, double y, double angle)
@@ -29,12 +38,14 @@ namespace FlashHeatZeeker.UnitHind.Library
                 var cm = new Matrix();
 
 
-                cm.translate(-160, -160);
+                //cm.translate(-160, -160);
 
 
                 // shadow with tracks!
                 cm.scale(0.5, 0.5);
-                cm.scale(1.2, 1.0);
+
+                // shadow should be smaller!
+                cm.scale(1.2 - 0.3 * this.Altitude, 1.2 - 0.3 * this.Altitude);
                 //cm.rotate(rot);
                 //cm.translate(i * 128, yi * 128);
 
@@ -51,7 +62,7 @@ namespace FlashHeatZeeker.UnitHind.Library
 
                 cm.translate(96 * airzoom * Altitude, 96 * airzoom * Altitude);
 
-                visualshadow.transformationMatrix = cm;
+                visualbody_shadow.transformationMatrix = cm;
             }
 
             {
@@ -76,8 +87,19 @@ namespace FlashHeatZeeker.UnitHind.Library
         Stopwatch AnimateElapsed = new Stopwatch();
         public void Animate(Stopwatch gametime, double BaseSpeed = 1.0, double SpeedWhenInAir = 4.0)
         {
-            AnimateMatrix.rotate(AnimateElapsed.ElapsedMilliseconds * 0.001 * (BaseSpeed + SpeedWhenInAir * Math.Sign(Altitude)));
+            var speedup = (BaseSpeed + SpeedWhenInAir * Math.Sign(Altitude));
+
+            AnimateMatrix.rotate(AnimateElapsed.ElapsedMilliseconds * 0.001 * speedup);
             visualwings.transformationMatrix = AnimateMatrix;
+            visualwings_shadow.transformationMatrix = AnimateMatrix;
+
+            var g = AnimateMatrix.clone();
+            g.rotate(-1.DegreesToRadians() * speedup);
+            visualwings2.transformationMatrix = g;
+
+            g.rotate(-1.DegreesToRadians() * speedup);
+            visualwings3.transformationMatrix = g;
+
             AnimateElapsed.Restart();
         }
 
@@ -90,14 +112,32 @@ namespace FlashHeatZeeker.UnitHind.Library
             double airzoom)
         {
             this.airzoom = airzoom;
+            visualbody_shadow = new Sprite().AttachTo(Content);
+            visualnowings_shadow = new Image(textures.hind0_shadow()).AttachTo(visualbody_shadow);
 
-            #region currentvisual
-            visualshadow = new Image(textures.hind0_shadow()).AttachTo(Content);
             visualbody = new Sprite().AttachTo(Content);
-
             visualnowings = new Image(textures.hind0_nowings()).AttachTo(visualbody);
-            visualwings = new Sprite().AttachTo(visualbody);
 
+
+            visualwings_shadow = new Sprite().AttachTo(visualbody_shadow);
+            Enumerable.Range(0, 5).Select(
+                wingindex =>
+                    new Image(textures.hind0_wing1shadow()).AttachTo(visualwings_shadow).With(
+                      img =>
+                      {
+                          var cm = new Matrix();
+
+                          cm.translate(-160, -160);
+                          cm.rotate(Math.PI * 2 * wingindex / 5);
+
+
+                          img.transformationMatrix = cm;
+
+                      }
+                    )
+            ).ToArray();
+
+            visualwings = new Sprite().AttachTo(visualbody);
             Enumerable.Range(0, 5).Select(
                 wingindex =>
                     new Image(textures.hind0_wing1()).AttachTo(visualwings).With(
@@ -115,18 +155,54 @@ namespace FlashHeatZeeker.UnitHind.Library
                     )
             ).ToArray();
 
+            visualwings2 = new Sprite().AttachTo(visualbody);
+            Enumerable.Range(0, 5).Select(
+                wingindex =>
+                    new Image(textures.hind0_wing2()).AttachTo(visualwings2).With(
+                      img =>
+                      {
+                          var cm = new Matrix();
+
+                          cm.translate(-160, -160);
+                          cm.rotate(Math.PI * 2 * wingindex / 5);
+
+
+                          img.transformationMatrix = cm;
+
+                      }
+                    )
+            ).ToArray();
+
+            visualwings3 = new Sprite().AttachTo(visualbody);
+            Enumerable.Range(0, 5).Select(
+                wingindex =>
+                    new Image(textures.hind0_wing3()).AttachTo(visualwings3).With(
+                      img =>
+                      {
+                          var cm = new Matrix();
+
+                          cm.translate(-160, -160);
+                          cm.rotate(Math.PI * 2 * wingindex / 5);
+
+
+                          img.transformationMatrix = cm;
+
+                      }
+                    )
+            ).ToArray();
 
             {
                 var cm = new Matrix();
-
                 cm.translate(-160, -160);
-
-
                 visualnowings.transformationMatrix = cm;
             }
-            #endregion
 
 
+            {
+                var cm = new Matrix();
+                cm.translate(-160, -160);
+                visualnowings_shadow.transformationMatrix = cm;
+            }
 
 
 
