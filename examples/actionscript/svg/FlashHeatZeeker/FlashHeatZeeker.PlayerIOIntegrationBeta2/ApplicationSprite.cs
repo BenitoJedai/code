@@ -8,6 +8,8 @@ using System.Text;
 
 namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 {
+
+    [SWF(backgroundColor = 0xB27D51, width = 800, height = 600, frameRate = 60)]
     public sealed class ApplicationSprite : ApplicationSpriteWithConnection
     {
         public ApplicationSprite()
