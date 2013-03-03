@@ -305,6 +305,7 @@ namespace FlashHeatZeeker.TestDriversSync.Library
 
                 onsyncframe += delegate
                 {
+
                     #region mode
                     if (!__keyDown[System.Windows.Forms.Keys.Space])
                     {
@@ -485,8 +486,8 @@ namespace FlashHeatZeeker.TestDriversSync.Library
                     #endregion
 
 
-                    current.SetVelocityFromInput(__keyDown);
 
+                    current.SetVelocityFromInput(__keyDown);
 
 
 
