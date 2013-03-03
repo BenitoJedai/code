@@ -121,6 +121,9 @@
     <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -141,6 +144,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="web\assets\FlashHeatZeeker.StarlingSetup\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlashHeatZeeker.Core\FlashHeatZeeker.Core.csproj">
+      <Project>{0ab27151-12cd-4377-ae76-16e6f0f72580}</Project>
+      <Name>FlashHeatZeeker.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

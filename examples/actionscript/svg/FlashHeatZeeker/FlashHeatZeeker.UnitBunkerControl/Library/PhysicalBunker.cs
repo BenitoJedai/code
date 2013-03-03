@@ -45,7 +45,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
         StarlingGameSpriteWithBunkerTextures textures;
         StarlingGameSpriteWithPhysics Context;
 
-        Image
+        public Image
             visualshadow,
             visual
             ;

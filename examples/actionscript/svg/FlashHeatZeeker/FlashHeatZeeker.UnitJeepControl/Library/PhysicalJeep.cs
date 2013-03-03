@@ -28,7 +28,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
         StarlingGameSpriteWithJeepTextures textures;
         StarlingGameSpriteWithPhysics Context;
-        VisualJeep visual0;
+        public VisualJeep visual0;
 
         Wheel[] xwheels;
 
@@ -163,23 +163,8 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                         if (jeep_forceA < 1)
                             return;
 
-                        //Console.WriteLine(new { frameid, jeep_forceA });
-
-
                         if (oncollision != null)
                             oncollision(this, jeep_forceA);
-
-                        //if (ped_hit_c != null)
-                        //    return;
-
-                  
-
-                        //ped_hit_c.soundComplete +=
-                        //    delegate
-                        //    {
-                        //        ped_hit_c = null;
-                        //    };
-
                     }
                 );
                 fix.SetUserData(fix_data);

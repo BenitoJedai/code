@@ -33,22 +33,23 @@ namespace FlashHeatZeeker.TestDriversTouch
             r.MoveTo(0, 0);
             this.SizeChanged += (s, e) => r.SizeTo(this.Width, this.Height);
 
+            var fingersize = 96;
 
             enter = new Rectangle
             {
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            enter.SizeTo(64 + 4 + 64, 64);
-            this.SizeChanged += (s, e) => enter.MoveTo(this.Width - 64 - 4 - 64 - 4, this.Height - 64 - 4 - 64 - 4 - 64 - 4);
+            enter.SizeTo(fingersize + 4 + fingersize, fingersize);
+            this.SizeChanged += (s, e) => enter.MoveTo(this.Width - fingersize - 4 - fingersize - 4, this.Height - fingersize - 4 - fingersize - 4 - fingersize - 4);
 
             space = new Rectangle
             {
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            space.SizeTo(64, 64 + 4 + 64);
-            this.SizeChanged += (s, e) => space.MoveTo(this.Width - 64 - 4 - 64 - 4, this.Height - 64 - 4 - 64 - 4);
+            space.SizeTo(fingersize, fingersize + 4 + fingersize);
+            this.SizeChanged += (s, e) => space.MoveTo(this.Width - fingersize - 4 - fingersize - 4, this.Height - fingersize - 4 - fingersize - 4);
 
 
             up = new Rectangle
@@ -56,16 +57,16 @@ namespace FlashHeatZeeker.TestDriversTouch
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            up.SizeTo(64, 64);
-            this.SizeChanged += (s, e) => up.MoveTo(this.Width - 64 - 4, this.Height - 64 - 4 - 64 - 4);
+            up.SizeTo(fingersize, fingersize);
+            this.SizeChanged += (s, e) => up.MoveTo(this.Width - fingersize - 4, this.Height - fingersize - 4 - fingersize - 4);
 
             down = new Rectangle
             {
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            down.SizeTo(64, 64);
-            this.SizeChanged += (s, e) => down.MoveTo(this.Width - 64 - 4, this.Height - 64 - 4);
+            down.SizeTo(fingersize, fingersize);
+            this.SizeChanged += (s, e) => down.MoveTo(this.Width - fingersize - 4, this.Height - fingersize - 4);
 
 
 
@@ -75,24 +76,24 @@ namespace FlashHeatZeeker.TestDriversTouch
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            control.SizeTo(64 + 4 + 64, 64);
-            this.SizeChanged += (s, e) => control.MoveTo(4, this.Height - 64 - 4 - 64 - 4);
+            control.SizeTo(fingersize + 4 + fingersize, fingersize);
+            this.SizeChanged += (s, e) => control.MoveTo(4, this.Height - fingersize - 4 - fingersize - 4);
 
             left = new Rectangle
             {
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            left.SizeTo(64, 64);
-            this.SizeChanged += (s, e) => left.MoveTo(4, this.Height - 64 - 4);
+            left.SizeTo(fingersize, fingersize);
+            this.SizeChanged += (s, e) => left.MoveTo(4, this.Height - fingersize - 4);
 
             right = new Rectangle
             {
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            right.SizeTo(64, 64);
-            this.SizeChanged += (s, e) => right.MoveTo(4 + 64 + 4, this.Height - 64 - 4);
+            right.SizeTo(fingersize, fingersize);
+            this.SizeChanged += (s, e) => right.MoveTo(4 + fingersize + 4, this.Height - fingersize - 4);
 
         }
 

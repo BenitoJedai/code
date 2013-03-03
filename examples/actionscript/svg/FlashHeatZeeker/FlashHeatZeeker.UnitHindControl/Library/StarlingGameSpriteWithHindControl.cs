@@ -8,6 +8,7 @@ using FlashHeatZeeker.UnitHind.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Extensions;
 using starling.display;
+using starling.filters;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -87,6 +88,16 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
                 this.current = physical0;
 
+                // http://doc.starling-framework.org/core/starling/filters/ColorMatrixFilter.html
+                // create an inverted filter with 50% saturation and 180° hue rotation
+                var filter = new ColorMatrixFilter();
+                filter.adjustSaturation(-1.0);
+                filter.invert();
+                filter.adjustContrast(0.5);
+
+                this.filter = filter;
+                this.stage.color = 0x808080;
+
                 onsyncframe +=
                     delegate
                     {
@@ -111,7 +122,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                                     }
                                 );
 
-                       
+
 
 
 

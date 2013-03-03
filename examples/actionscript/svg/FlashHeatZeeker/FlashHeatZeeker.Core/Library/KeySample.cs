@@ -77,6 +77,8 @@ namespace FlashHeatZeeker.Core.Library
                 return 9;
             if (k == Keys.Down)
                 return 8;
+            if (k == Keys.N)
+                return 7;
 
             return 0;
         }

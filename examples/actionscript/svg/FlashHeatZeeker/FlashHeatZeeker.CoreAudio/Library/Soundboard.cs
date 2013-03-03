@@ -30,5 +30,12 @@ namespace FlashHeatZeeker.CoreAudio.Library
         public Sound snd_needweapon = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_needweapon.mp3"].ToSoundAsset();
         public Sound snd_didyouhearthat = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_didyouhearthat.mp3"].ToSoundAsset();
         public Sound snd_touchdown = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_touchdown.mp3"].ToSoundAsset();
+        public Sound snd_ped_hit = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_ped_hit.mp3"].ToSoundAsset();
+        public Sound snd_letsgo = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_letsgo.mp3"].ToSoundAsset();
+        public Sound snd_SelectWeapon = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_SelectWeapon.mp3"].ToSoundAsset();
+        public Sound snd_dooropen = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_dooropen.mp3"].ToSoundAsset();
+
+        //  Error: unsupported sampling rate (24000Hz)
+        public Sound snd_nightvision = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_nightvision.mp3"].ToSoundAsset();
     }
 }

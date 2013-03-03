@@ -17,7 +17,7 @@ namespace FlashHeatZeeker.UnitCannon.Library
         public StarlingGameSpriteWithCannonTextures(Texture64Constructor new_tex_crop)
         {
             tracergun_guntower = new_tex_crop("assets/FlashHeatZeeker.UnitCannon/tracergun_guntower.svg", innersize: 128);
-            tracergun_guntower_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitCannon/tracergun_guntower_shadow.svg", innersize: 128, alpha: 0.3);
+            tracergun_guntower_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitCannon/tracergun_guntower_shadow.svg", innersize: 128, alpha: 0.15);
             tracergun_mount = new_tex_crop("assets/FlashHeatZeeker.UnitCannon/tracergun_mount.svg", innersize: 128);
 
         }

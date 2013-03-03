@@ -392,8 +392,20 @@ namespace FlashHeatZeeker.CorePhysics.Library
                                 cm.rotate(-current.body.GetAngle() - Math.PI / 2 + current.CameraRotation);
 
 
+                                if (current.body.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody)
+                                {
+                                    any_movement = (
+                                        current.body.GetLinearVelocity().Length() +
+                                        Math.Abs(current.body.GetAngularVelocity())
+                                        )
 
-                                any_movement = current.body.GetLinearVelocity().Length() / 15.0;
+                                    / 15.0;
+                                }
+                                else
+                                {
+                                    // force movement mode in a building
+                                    any_movement = 1.0;
+                                }
 
                             }
 
@@ -413,8 +425,8 @@ namespace FlashHeatZeeker.CorePhysics.Library
                                  physicstime_elapsed * 0.004;
                             move_zoom = move_zoom.Max(0.0).Min(1.0);
 
-                            var xinternalscale = internalscale 
-                                + 0.20 * (1.0 - current.Altitude) 
+                            var xinternalscale = internalscale
+                                + 0.20 * (1.0 - current.Altitude)
                                 + ((1.0 - move_zoom) * 0.04);
 
                             var diagonal = new __vec2

@@ -1,8 +1,11 @@
 ﻿using Box2D.Common.Math;
 using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
+using FlashHeatZeeker.CoreAudio.Library;
+using FlashHeatZeeker.CoreMap.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
+using FlashHeatZeeker.UnitBunkerControl.Library;
 using FlashHeatZeeker.UnitCannon.Library;
 using FlashHeatZeeker.UnitCannonControl.Library;
 using FlashHeatZeeker.UnitHind.Library;
@@ -13,19 +16,18 @@ using FlashHeatZeeker.UnitPed.Library;
 using FlashHeatZeeker.UnitPedControl.Library;
 using FlashHeatZeeker.UnitTank.Library;
 using FlashHeatZeeker.UnitTankControl.Library;
+using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using ScriptCoreLib.Shared.Lambda;
+using starling.display;
+using starling.filters;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.Extensions;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Shared.BCLImplementation.GLSL;
-using FlashHeatZeeker.UnitBunkerControl.Library;
-using FlashHeatZeeker.CoreMap.Library;
-using starling.display;
-using ScriptCoreLib.ActionScript.flash.geom;
-using FlashHeatZeeker.CoreAudio.Library;
-using ScriptCoreLib.ActionScript.flash.media;
 
 
 namespace FlashHeatZeeker.TestDriversWithAudio.Library
@@ -59,7 +61,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 #region hill1
                 for (int i = 0; i < 32; i++)
                 {
-                    new Image(textures_map.hill1()).AttachTo(Content).With(
+                    new Image(textures_map.hill1()).AttachTo(Content_layer0_tracks).With(
                         hill =>
                         {
                             hill.x = 2048.Random();
@@ -67,7 +69,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         }
                     );
 
-                    new Image(textures_map.hole1()).AttachTo(Content).With(
+                    new Image(textures_map.hole1()).AttachTo(Content_layer0_tracks).With(
                         hill =>
                         {
                             hill.x = 2048.Random();
@@ -75,7 +77,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         }
                     );
 
-                    new Image(textures_map.grass1()).AttachTo(Content).With(
+                    new Image(textures_map.grass1()).AttachTo(Content_layer0_tracks).With(
                         hill =>
                         {
                             hill.x = 2048.Random();
@@ -86,6 +88,11 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                     );
                 }
                 #endregion
+
+                for (int i = -12; i < 12; i++)
+                {
+                    new Image(textures_map.road0()).AttachTo(Content_layer0_tracks).x = 256 * i;
+                }
 
                 #region other units
                 for (int i = 3; i < 7; i++)
@@ -110,6 +117,17 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         new PhysicalBunker(textures_bunker, this).SetPositionAndAngle(
                             i * 16, 24, random.NextDouble()
                         );
+
+
+                        var ibunker = new PhysicalBunker(textures_bunker, this);
+
+                        ibunker.SetPositionAndAngle(
+                            i * 16, 64, random.NextDouble()
+                        );
+
+                        ibunker.visualshadow.Orphanize(); //.AttachTo(this.Content_layer10_hiddenforgoggles);
+                        ibunker.visual.Orphanize().AttachTo(this.Content_layer10_hiddenforgoggles);
+
                     }
                     else if (i % 3 == 1)
                     {
@@ -137,10 +155,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
 
 
-                for (int i = -12; i < 12; i++)
-                {
-                    new Image(textures_map.road0()).AttachTo(Content).x = 256 * i;
-                }
+
 
                 new Image(textures_map.touchdown()).AttachTo(Content).MoveTo(256, -256);
                 new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
@@ -162,10 +177,20 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 var jeep2 = new PhysicalJeep(textures_jeep, this);
 
-
                 jeep2.SetPositionAndAngle(
                     16, 16, random.NextDouble()
                 );
+
+                var jeep3 = new PhysicalJeep(textures_jeep, this);
+
+
+                jeep3.visual0.shadow.Orphanize(); //.AttachTo(this.Content_layer10_hiddenforgoggles);
+                jeep3.visual0.currentvisual.Orphanize().AttachTo(this.Content_layer10_hiddenforgoggles);
+
+                jeep3.SetPositionAndAngle(
+                    -16, 16, random.NextDouble()
+                );
+
 
 
                 #region tree0
@@ -212,6 +237,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 #endregion
 
+                bool nightvision_changepending = false;
                 bool entermode_changepending = false;
                 bool mode_changepending = false;
 
@@ -259,20 +285,208 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 sb.loopstrange1.MasterVolume = 0;
                 sb.loopstrange1.Sound.play();
 
+
+                var jeep_forceA = 0.0;
+                var ped_forceA = 0.0;
+
                 PhysicalJeep.oncollision +=
-                    (u, jeep_forceA) =>
+                    (u, value) =>
                     {
-                        sb.snd_metalsmash.play(
-                           sndTransform: new SoundTransform(
-                               Math.Min(1.0, jeep_forceA / 30.0) * 0.4
-                           )
-                       );
+                        jeep_forceA = jeep_forceA.Max(value);
+
+                    };
+
+                PhysicalPed.oncollision +=
+                     (u, value) =>
+                     {
+                         ped_forceA = ped_forceA.Max(value);
+                     };
+                #endregion
+
+                var nightvision_filter = new ColorMatrixFilter();
+                var nightvision_filter_age = new Stopwatch();
+                nightvision_filter_age.Start();
+                Action nighvision_handler = null;
+
+                bool nightvision_mode = false;
+
+                #region hud_update
+                Action hud_update = delegate
+                {
+                    if (nightvision_mode)
+                    {
+
+                        hud.texture = textures_ped.hud_look_goggles();
+                        return;
+                    }
+
+                    if (current is PhysicalPed)
+                    {
+                        hud.texture = textures_ped.hud_look();
+                    }
+                    else if (current == jeep3)
+                    {
+                        hud.texture = textures_ped.hud_look_onlygoggles();
+                    }
+                    else
+                    {
+                        if (current.body.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody)
+                        {
+                            hud.texture = textures_ped.hud_look_goggles();
+                        }
+                        else
+                        {
+                            hud.texture = textures_ped.hud_look_building();
+                        }
+                    }
+                };
+                #endregion
+
+
+
+                #region nightvision_mode
+                #region nightvision_on
+                Action nightvision_on = delegate
+                {
+                    if (nightvision_mode)
+                        return;
+
+                    nightvision_mode = true;
+                    hud_update();
+                    nightvision_filter_age.Restart();
+                    this.Content_layer10_hiddenforgoggles.visible = true;
+
+                    sb.snd_nightvision.play(
+                       sndTransform: new SoundTransform(
+                          0.5
+                       )
+                    );
+
+
+                    nighvision_handler = delegate
+                    {
+                        // http://doc.starling-framework.org/core/starling/filters/ColorMatrixFilter.html
+                        // create an inverted filter with 50% saturation and 180° hue rotation
+                        nightvision_filter = new ColorMatrixFilter();
+                        nightvision_filter.adjustSaturation(-1.0);
+                        nightvision_filter.invert();
+                        //nightvision_filter.adjustContrast(1.0);
+
+                        var a = (nightvision_filter_age.ElapsedMilliseconds / 1100.0).Min(1);
+
+                        nightvision_filter.adjustContrast(
+
+                            16 - 14 * a
+                        );
+
+
+                        nightvision_filter.concat(
+                            new double[] {
+                                                    
+                          0, 0,  0,  0, 0,
+                          0, 1,  0,  0, 0,
+                          0, 0, 0,  0, 0,
+                          0,  0,  0,  1,   0
+
+                                                    }
+                        );
+                        this.filter = nightvision_filter;
+                        this.stage.color = 0x006E00;
+
+                        if (a == 1)
+                            nighvision_handler = null;
+                    };
+
+
+                };
+                #endregion
+
+                #region nightvision_off
+                Action nightvision_off = delegate
+                {
+                    if (!nightvision_mode)
+                        return;
+
+                    nightvision_mode = false;
+                    hud_update();
+
+                    this.Content_layer10_hiddenforgoggles.visible = false;
+
+                    sb.snd_SelectWeapon.play(
+                       sndTransform: new SoundTransform(
+                          0.3
+                       )
+                    );
+
+                    nightvision_filter_age.Restart();
+
+                    nighvision_handler = delegate
+                    {
+                        nightvision_filter = new ColorMatrixFilter();
+
+
+
+                        // nightvision_filter.adjustBrightness(
+
+                        //    1 - (nightvision_filter_age.ElapsedMilliseconds / 200.0).Min(1)
+                        //);
+
+                        var a = (nightvision_filter_age.ElapsedMilliseconds / 500.0).Min(1);
+
+                        nightvision_filter.adjustBrightness(
+
+                             0.5 - 0.5 * a
+                         );
+
+
+                        this.filter = nightvision_filter;
+                        this.stage.color = 0xB27D51;
+
+                        if (a == 1)
+                            nighvision_handler = null;
+                    };
+
+                };
+                #endregion
+
+
+                onframe +=
+                    delegate
+                    {
+                        if (nighvision_handler != null)
+                            nighvision_handler();
+
+
+
                     };
                 #endregion
+
 
                 onsyncframe +=
                     delegate
                     {
+                        if (jeep_forceA > 0)
+                        {
+                            sb.snd_metalsmash.play(
+                               sndTransform: new SoundTransform(
+                                   Math.Min(1.0, jeep_forceA / 30.0) * (0.2 + 0.2 * random.NextDouble())
+                               )
+                           );
+
+                            jeep_forceA = 0;
+                        }
+
+                        if (ped_forceA > 0)
+                        {
+                            sb.snd_ped_hit.play(
+                               sndTransform: new SoundTransform(
+                                   Math.Min(1.0, ped_forceA / 30.0) * (0.15 + 0.15 * random.NextDouble())
+                               )
+                           );
+
+                            ped_forceA = 0;
+                        }
+
                         #region Soundboard
                         if (this.syncframeid == 200)
                             sb.snd_whatsthatsound.play();
@@ -405,15 +619,22 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                             {
                                                 sb.snd_jeepengine_start.play();
                                             }
-
-                                            if (current.body.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody)
-                                            {
-                                                hud.texture = textures_ped.hud_look_goggles();
-                                            }
                                             else
                                             {
-                                                hud.texture = textures_ped.hud_look_building();
+                                                sb.snd_dooropen.play(
+                                                  sndTransform: new SoundTransform(
+                                                     0.3
+                                                  )
+                                               );
                                             }
+
+                                            //if (current is PhysicalHind)
+                                            //{
+                                            //    nightvision_on();
+                                            //}
+
+                                            hud_update();
+
 
                                             //switchto(x.x);
                                             move_zoom = 1;
@@ -432,6 +653,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                         {
                                             // get out of the lift..
 
+                                            //nightvision_off();
+
                                             current.driverseat.driver = null;
                                             driver.seatedvehicle = null;
                                             current.SetVelocityFromInput(new KeySample());
@@ -449,10 +672,21 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                                             );
 
+                                            sb.snd_dooropen.play(
+                                              sndTransform: new SoundTransform(
+                                                 0.3
+                                              )
+                                           );
+                                            //if (current.body.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody)
+                                            //{
+                                            //    sb.snd_letsgo.play();
+                                            //}
 
                                             current = driver;
-                                            current.body.SetActive(true);
-                                            hud.texture = textures_ped.hud_look();
+                                            driver.body.SetActive(true);
+                                            driver.body.SetAngularVelocity(-11);
+
+                                            hud_update();
                                             move_zoom = 1;
                                         }
                                     );
@@ -478,9 +712,14 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                     hind1 =>
                                     {
                                         if (hind1.visual.Altitude == 0)
+                                        {
+                                            nightvision_on();
                                             hind1.VerticalVelocity = 1.0;
+                                        }
                                         else
                                         {
+                                            nightvision_off();
+
                                             hind1.VerticalVelocity = -0.4;
 
                                             sb.snd_touchdown.play();
@@ -493,9 +732,25 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                  physical0 =>
                                  {
                                      if (physical0.visual.LayOnTheGround)
+                                     {
                                          physical0.visual.LayOnTheGround = false;
+
+                                         sb.snd_letsgo.play(
+                                             sndTransform: new SoundTransform(
+                                                 0.3 * (0.15 + 0.15 * random.NextDouble())
+                                             )
+                                         );
+                                     }
                                      else
+                                     {
                                          physical0.visual.LayOnTheGround = true;
+
+                                         sb.snd_ped_hit.play(
+                                              sndTransform: new SoundTransform(
+                                                  0.3 * (0.15 + 0.15 * random.NextDouble())
+                                              )
+                                          );
+                                     }
 
                                  }
                              );
@@ -510,6 +765,34 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                             }
                         }
                         #endregion
+
+
+                        #region mode
+                        if (!__keyDown[System.Windows.Forms.Keys.N])
+                        {
+                            // space is not down.
+                            nightvision_changepending = true;
+                        }
+                        else
+                        {
+                            if (nightvision_changepending)
+                            {
+                                if (nightvision_mode)
+                                    nightvision_off();
+                                else
+                                    nightvision_on();
+
+
+
+
+                                nightvision_changepending = false;
+
+
+
+                            }
+                        }
+                        #endregion
+
 
 
                         current.SetVelocityFromInput(__keyDown);
