@@ -138,6 +138,7 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Library\PhysicalBarrel.cs" />
     <Compile Include="Library\PhysicalWatertower.cs" />
     <Compile Include="Library\PhysicalSilo.cs" />
     <Compile Include="Library\PhysicalBunker.cs" />
@@ -149,6 +150,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\barrel1_shadow.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\barrel1.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\watertower0_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\watertower0.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\silo1_shadow.svg" />

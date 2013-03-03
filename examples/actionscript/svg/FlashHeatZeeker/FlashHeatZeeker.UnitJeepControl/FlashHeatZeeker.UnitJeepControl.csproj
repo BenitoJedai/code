@@ -137,6 +137,9 @@
     <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.UnitBunkerControl.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitBunkerControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitBunkerControl.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -165,6 +168,10 @@
     <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
       <Name>FlashHeatZeeker.StarlingSetup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.UnitBunkerControl\FlashHeatZeeker.UnitBunkerControl.csproj">
+      <Project>{2ee6e167-fea3-47b4-bbf4-b48f5c8666bf}</Project>
+      <Name>FlashHeatZeeker.UnitBunkerControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.UnitJeep\FlashHeatZeeker.UnitJeep.csproj">
       <Project>{44e16d3a-a6af-4156-b663-aeddf9cbc766}</Project>

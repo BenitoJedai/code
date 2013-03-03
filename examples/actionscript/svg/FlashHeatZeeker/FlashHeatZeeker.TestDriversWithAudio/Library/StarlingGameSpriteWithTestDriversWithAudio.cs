@@ -155,6 +155,10 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
 
 
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, 0);
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, -4);
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, -8);
+
 
 
                 new Image(textures_map.touchdown()).AttachTo(Content).MoveTo(256, -256);

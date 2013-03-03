@@ -23,7 +23,11 @@ namespace FlashHeatZeeker.UnitJeepControl
 
                   var s = new Starling(
                       typeof(StarlingGameSpriteWithJeepControl).ToClassToken(),
-                      this.stage
+                      this.stage,
+
+                      // http://forum.starling-framework.org/topic/air-34
+                      profile: "baseline"
+
                   );
 
 

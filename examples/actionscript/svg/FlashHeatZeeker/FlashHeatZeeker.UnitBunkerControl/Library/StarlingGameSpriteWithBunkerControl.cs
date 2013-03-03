@@ -17,6 +17,9 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             bunker2,
             bunker2_shadow,
 
+            barrel1,
+            barrel1_shadow,
+
             silo1,
             silo1_shadow,
 
@@ -27,6 +30,10 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
         {
             bunker2 = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2.svg", innersize: 192);
             bunker2_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2_shadow.svg", innersize: 192, alpha: 0.3);
+
+            barrel1 = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/barrel1.svg", innersize: 192);
+            barrel1_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/barrel1_shadow.svg", innersize: 192, alpha: 0.3);
+
 
             silo1 = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/silo1.svg", innersize: 192);
             silo1_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/silo1_shadow.svg", innersize: 192, alpha: 0.2);
@@ -43,7 +50,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
         {
 
 
-            var textures = new StarlingGameSpriteWithBunkerTextures(new_tex_crop);
+            var textures_bunker = new StarlingGameSpriteWithBunkerTextures(new_tex_crop);
 
             onbeforefirstframe += (stage, s) =>
             {
@@ -71,13 +78,17 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
                 #endregion
 
-                var silo0 = new PhysicalSilo(textures, this);
+                var silo0 = new PhysicalSilo(textures_bunker, this);
                 silo0.SetPositionAndAngle(-8, -8);
 
-                new PhysicalWatertower(textures, this).SetPositionAndAngle(8, 0);
+                new PhysicalWatertower(textures_bunker, this).SetPositionAndAngle(8, 0);
+
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, 0);
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, -4);
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, -8);
 
 
-                var bunker0 = new PhysicalBunker(textures, this);
+                var bunker0 = new PhysicalBunker(textures_bunker, this);
                 bunker0.SetPositionAndAngle(0, 8);
 
                 current = silo0;
@@ -85,7 +96,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                 {
 
 
-                    bunker0.SetVelocityFromInput(__keyDown);
+                    current.SetVelocityFromInput(__keyDown);
                 };
             };
 

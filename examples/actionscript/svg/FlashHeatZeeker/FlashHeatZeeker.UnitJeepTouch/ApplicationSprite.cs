@@ -16,6 +16,8 @@ namespace FlashHeatZeeker.UnitJeepTouch
 
         public ApplicationSprite()
         {
+
+
             var content0 = new FlashHeatZeeker.UnitJeepControl.ApplicationSprite();
 
             content0.AttachTo(this);

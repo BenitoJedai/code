@@ -19,7 +19,7 @@ namespace FlashHeatZeeker.TestDriversTouch
         public ApplicationSprite()
         {
             FlashHeatZeeker.TestDriversWithAudio.Library.StarlingGameSpriteWithTestDriversWithAudio.HudPadding =
-                4 + 64 + 4 + 64 + 4;
+                4 + content1.fingersize + 4 + content1.fingersize + 4;
 
             var content0 = new FlashHeatZeeker.TestDriversWithAudio.ApplicationSprite();
 
