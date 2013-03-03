@@ -52,6 +52,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
         public KeySample CurrentInput { get; set; }
 
+        public static Action<PhysicalBarrel, double> oncollision;
         public PhysicalBarrel(StarlingGameSpriteWithBunkerTextures textures, StarlingGameSpriteWithPhysics Context)
         {
             this.CurrentInput = new KeySample();
@@ -94,7 +95,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                 var fixdef = new b2FixtureDef();
                 fixdef.density = 1;
                 fixdef.friction = 0.01;
-                fixdef.restitution = 0.4; //positively bouncy!
+                //fixdef.restitution = 0.4; //positively bouncy!
 
                 var shape = new b2PolygonShape();
                 fixdef.shape = shape;
@@ -104,7 +105,20 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
 
 
-                this.body.CreateFixture(fixdef);
+                var fix = this.body.CreateFixture(fixdef);
+
+
+                var fix_data = new Action<double>(
+                    jeep_forceA =>
+                    {
+                        if (jeep_forceA < 1)
+                            return;
+
+                        if (oncollision != null)
+                            oncollision(this, jeep_forceA);
+                    }
+                );
+                fix.SetUserData(fix_data);
             }
 
             {
@@ -121,7 +135,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                 var fixdef = new b2FixtureDef();
                 fixdef.density = 1;
                 fixdef.friction = 0.01;
-                fixdef.restitution = 0.4; //positively bouncy!
+                //fixdef.restitution = 0.4; //positively bouncy!
 
                 var shape = new b2PolygonShape();
                 fixdef.shape = shape;

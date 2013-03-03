@@ -81,7 +81,19 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 
 
 
-                this.body.CreateFixture(fixdef);
+                var fix = this.body.CreateFixture(fixdef);
+
+
+                var fix_data = new Action<double>(
+                    jeep_forceA =>
+                    {
+                        if (jeep_forceA < 1)
+                            return;
+
+                        Context.oncollision(this, jeep_forceA);
+                    }
+                );
+                fix.SetUserData(fix_data);
             }
 
             {

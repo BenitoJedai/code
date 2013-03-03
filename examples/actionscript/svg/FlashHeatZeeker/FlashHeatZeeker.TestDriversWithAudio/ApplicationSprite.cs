@@ -81,6 +81,22 @@ namespace FlashHeatZeeker.TestDriversWithAudio
 
                   s.start();
 
+                  #region FULL_SCREEN_INTERACTIVE
+                  this.stage.keyUp +=
+                       e =>
+                       {
+                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
+                           {
+                               this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
+                           }
+
+                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F)
+                           {
+                               this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
+                           }
+                       };
+                  #endregion
+
               }
           );
         }

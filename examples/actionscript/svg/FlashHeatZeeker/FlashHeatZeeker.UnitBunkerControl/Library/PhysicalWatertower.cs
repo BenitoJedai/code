@@ -88,7 +88,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                 //initialize shape
                 var fixdef = new b2FixtureDef();
 
-                var shape = new b2CircleShape(1);
+                var shape = new b2CircleShape(1.2);
                 fixdef.shape = shape;
 
 
@@ -96,7 +96,19 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
 
 
-                this.body.CreateFixture(fixdef);
+                var fix = this.body.CreateFixture(fixdef);
+
+                var fix_data = new Action<double>(
+                   force =>
+                   {
+                       if (force < 1)
+                           return;
+
+                       Context.oncollision(this, force);
+                   }
+              );
+
+                fix.SetUserData(fix_data);
             }
 
             {
@@ -109,7 +121,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                 //initialize shape
                 var fixdef = new b2FixtureDef();
 
-                var shape = new b2CircleShape(1);
+                var shape = new b2CircleShape(1.2);
                 fixdef.shape = shape;
 
 

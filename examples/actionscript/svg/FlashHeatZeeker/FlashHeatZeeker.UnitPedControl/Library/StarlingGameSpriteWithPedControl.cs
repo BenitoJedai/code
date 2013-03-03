@@ -3,6 +3,7 @@ using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using FlashHeatZeeker.UnitPed.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using starling.display;
@@ -26,6 +27,11 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
             this.onbeforefirstframe += (stage, s) =>
             {
+                var patrol1 = new PhysicalPed(textures_ped, this)
+                {
+
+                    speed = 10
+                };
 
                 var physical0 = new PhysicalPed(textures_ped, this);
                 current = physical0;
@@ -74,13 +80,54 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 bool mode_changepending = false;
 
-             
-                onframe += delegate
+
+                onsyncframe += delegate
                 {
-            
+
+                    if (syncframeid % 300 == 100)
+                    {
+                        patrol1.body.SetAngle(
+                            45.DegreesToRadians()
+                        );
+
+                        var partol_commands = new KeySample();
+
+                        partol_commands[Keys.Up] = true;
+
+                        patrol1.SetVelocityFromInput(partol_commands);
+                    }
+
+                    if (syncframeid % 300 == 150)
+                    {
+                        var partol_commands = new KeySample();
+
+                        //partol_commands[Keys.Left] = true;
+
+                        patrol1.SetVelocityFromInput(partol_commands);
+                    }
+
+                    if (syncframeid % 300 == 200)
+                    {
+                        patrol1.body.SetAngle(
+                            (180 + 45).DegreesToRadians()
+                        );
+
+                        var partol_commands = new KeySample();
+
+                        partol_commands[Keys.Up] = true;
+
+                        patrol1.SetVelocityFromInput(partol_commands);
+                    }
 
 
-       
+                    if (syncframeid % 300 == 250)
+                    {
+                        var partol_commands = new KeySample();
+
+                        //partol_commands[Keys.Left] = true;
+
+                        patrol1.SetVelocityFromInput(partol_commands);
+                    }
 
                     current.SetVelocityFromInput(__keyDown);
 

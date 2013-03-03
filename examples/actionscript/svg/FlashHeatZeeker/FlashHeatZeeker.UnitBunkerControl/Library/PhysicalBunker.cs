@@ -98,7 +98,19 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
 
 
-                this.body.CreateFixture(fixdef);
+                var fix = this.body.CreateFixture(fixdef);
+
+                var fix_data = new Action<double>(
+                     force =>
+                     {
+                         if (force < 1)
+                             return;
+
+                         Context.oncollision(this, force);
+                     }
+                );
+
+                fix.SetUserData(fix_data);
             }
 
             {
