@@ -67,7 +67,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         public Random random = new Random();
 
 
-        public double internalscale = 0.6;
+        public double internalscale = 0.3;
 
         public Texture64Constructor new_tex_crop;
         public double stagescale;

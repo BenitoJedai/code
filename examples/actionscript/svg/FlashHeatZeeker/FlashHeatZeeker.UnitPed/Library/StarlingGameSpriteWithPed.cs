@@ -45,7 +45,8 @@ namespace FlashHeatZeeker.UnitPed.Library
 
             ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", 0.3, innersize: 96);
 
-            ped_footprints = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_footprints.svg", 0.15);
+            ped_footprints = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_footprints.svg", 0.07);
+
             ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96);
             ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg", innersize: 96);
 

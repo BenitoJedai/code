@@ -83,6 +83,18 @@ namespace FlashHeatZeeker.UnitHindControl.Library
         public bool AutomaticTakeoff;
         public bool AutomaticTouchdown;
 
+        public double Altitude
+        {
+            get
+            {
+                return this.visual.Altitude;
+            }
+            set
+            {
+                 this.visual.Altitude = value;
+            }
+        }
+
         public void SetVelocityFromInput(KeySample __keyDown)
         {
             CurrentInput = __keyDown;
@@ -107,7 +119,8 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             if (this.visual.Altitude == 0)
                 if (AutomaticTakeoff)
                 {
-                    this.VerticalVelocity = 1.0;
+                    // slow takeoff?
+                    this.VerticalVelocity = 0.4;
 
                     // reset
 

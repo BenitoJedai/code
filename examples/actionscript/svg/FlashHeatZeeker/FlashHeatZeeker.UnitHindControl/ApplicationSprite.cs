@@ -9,7 +9,7 @@ using System;
 
 namespace FlashHeatZeeker.UnitHindControl
 {
-    [SWF(backgroundColor = 0xA26D41)]
+    [SWF(backgroundColor = 0x007F7F)]
     public sealed class ApplicationSprite : Sprite
     {
         public ApplicationSprite()

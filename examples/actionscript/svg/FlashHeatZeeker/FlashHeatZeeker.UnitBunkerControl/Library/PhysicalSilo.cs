@@ -16,6 +16,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 {
     public class PhysicalSilo : IPhysicalUnit
     {
+        public double Altitude { get; set; }
         public RemoteGame RemoteGameReference { get; set; }
 
         public string Identity { get; set; }

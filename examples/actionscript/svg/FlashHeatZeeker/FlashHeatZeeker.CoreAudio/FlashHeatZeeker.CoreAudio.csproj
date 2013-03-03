@@ -148,10 +148,17 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_touchdown.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_didyouhearthat.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_needweapon.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_whatsthatsound.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\loopstrange1.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\sand_run.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\jeepengine.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\diesel4.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\crickets.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_jeepengine_start.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_metalsmash.mp3" />
     <Content Include="web\assets\FlashHeatZeeker.CoreAudio\FNCL.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\helicopter1.mp3" />
   </ItemGroup>

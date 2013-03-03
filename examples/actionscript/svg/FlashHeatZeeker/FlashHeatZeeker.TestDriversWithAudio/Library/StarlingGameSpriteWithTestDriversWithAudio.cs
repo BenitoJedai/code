@@ -25,6 +25,7 @@ using FlashHeatZeeker.CoreMap.Library;
 using starling.display;
 using ScriptCoreLib.ActionScript.flash.geom;
 using FlashHeatZeeker.CoreAudio.Library;
+using ScriptCoreLib.ActionScript.flash.media;
 
 namespace FlashHeatZeeker.TestDriversWithAudio.Library
 {
@@ -42,7 +43,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
             var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
-            
+
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
@@ -61,7 +62,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         hill =>
                         {
                             hill.x = 2048.Random();
-                            hill.y = 2048.Random();
+                            hill.y = 2048.Random() - 1024;
                         }
                     );
 
@@ -69,7 +70,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         hill =>
                         {
                             hill.x = 2048.Random();
-                            hill.y = 2048.Random();
+                            hill.y = 2048.Random() - 1024;
                         }
                     );
 
@@ -85,18 +86,62 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 }
                 #endregion
 
-                #region tree0
-                for (int i = 0; i < 128; i++)
+                #region other units
+                for (int i = 3; i < 7; i++)
                 {
+                    {
+                        new PhysicalCannon(textures_cannon, this).SetPositionAndAngle(
+                            i * 16, -20, -random.NextDouble()
+                        );
+
+                        new PhysicalCannon(textures_cannon, this).SetPositionAndAngle(
+                            i * 16, 42, random.NextDouble()
+                        );
+                    }
 
 
-                    var x = 2048.Random();
-                    var y = -2048.Random() - 512 - 256;
+                    if (i % 3 == 0)
+                    {
+                        new PhysicalBunker(textures_bunker, this).SetPositionAndAngle(
+                            i * 16, -8, random.NextDouble()
+                        );
 
-                    new Image(textures_map.tree0_shadow()).AttachTo(Content).MoveTo(x + 16, y + 16);
-                    new Image(textures_map.tree0()).AttachTo(Content).MoveTo(x, y);
+                        new PhysicalBunker(textures_bunker, this).SetPositionAndAngle(
+                            i * 16, 24, random.NextDouble()
+                        );
+                    }
+                    else if (i % 3 == 1)
+                    {
+                        new PhysicalWatertower(textures_bunker, this).SetPositionAndAngle(
+                            i * 16, 16, random.NextDouble()
+                        );
+
+                        new PhysicalWatertower(textures_bunker, this).SetPositionAndAngle(
+                            i * 16 - 4, 16 + 4, random.NextDouble()
+                        );
+
+                        new PhysicalWatertower(textures_bunker, this).SetPositionAndAngle(
+                            i * 16 + 4, 16 + 4, random.NextDouble()
+                        );
+                    }
+                    else
+                    {
+                        new PhysicalSilo(textures_bunker, this).SetPositionAndAngle(
+                            i * 16, -4, random.NextDouble()
+                        );
+                    }
+
+
+
+
+
+
+
+
                 }
                 #endregion
+
+
 
                 for (int i = -12; i < 12; i++)
                 {
@@ -106,7 +151,6 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 new Image(textures_map.touchdown()).AttachTo(Content).MoveTo(256, -256);
                 new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
 
-                new PhysicalHind(textures_hind, this) { AutomaticTakeoff = true }.SetPositionAndAngle((128 + 256) / 16, -128 / 16);
                 new PhysicalTank(textures_tank, this).SetPositionAndAngle(128 / 16, 128 * 3 / 16);
 
                 new Image(textures_map.tree0_shadow()).AttachTo(Content).y = 128 + 16;
@@ -122,75 +166,32 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                     360.Random().DegreesToRadians()
                 );
 
+                var jeep2 = new PhysicalJeep(textures_jeep, this);
 
-                // 12 = 34FPS
-                #region other units
-                for (int i = 3; i < 9; i++)
+
+                jeep2.SetPositionAndAngle(
+                    16, 16, random.NextDouble()
+                );
+
+
+                #region tree0
+                for (int i = 0; i < 128; i++)
                 {
-                    var cannon2 = new PhysicalCannon(textures_cannon, this);
-
-                    cannon2.SetPositionAndAngle(
-                        i * 16, -32, random.NextDouble()
-                    );
 
 
+                    var x = 2048.Random();
+                    var y = -2048.Random() - 512 - 256;
 
-                    if (i % 3 == 0)
-                    {
-                        new PhysicalBunker(textures_bunker, this).SetPositionAndAngle(
-                            i * 16, -16, random.NextDouble()
-                        );
-                    }
-                    else if (i % 3 == 1)
-                    {
-                        new PhysicalWatertower(textures_bunker, this).SetPositionAndAngle(
-                            i * 16, -16, random.NextDouble()
-                        );
-                    }
-                    else
-                    {
-                        new PhysicalSilo(textures_bunker, this).SetPositionAndAngle(
-                            i * 16, -16, random.NextDouble()
-                        );
-                    }
-
-                    var hind2 = new PhysicalHind(textures_hind, this)
-                    {
-                        AutomaticTakeoff = true
-                    };
-
-                    hind2.SetPositionAndAngle(
-                        i * 16, 8, random.NextDouble()
-                    );
-
-
-                    var jeep2 = new PhysicalJeep(textures_jeep, this);
-
-
-                    jeep2.SetPositionAndAngle(
-                        i * 16, 16, random.NextDouble()
-                    );
-
-
-
-                    var tank2 = new PhysicalTank(textures_tank, this);
-
-                    tank2.SetPositionAndAngle(
-                        i * 16, 24, random.NextDouble()
-                    );
-
-
-                    var ped2 = new PhysicalPed(textures_ped, this);
-
-                    ped2.SetPositionAndAngle(
-                        i * 16, 32, random.NextDouble()
-                    );
-
-
+                    new Image(textures_map.tree0_shadow()).AttachTo(Content).MoveTo(x + 16, y + 16);
+                    new Image(textures_map.tree0()).AttachTo(Content).MoveTo(x, y);
                 }
                 #endregion
 
+                // 12 = 34FPS
 
+                new PhysicalHind(textures_hind, this) { 
+                    AutomaticTakeoff = true 
+                }.SetPositionAndAngle((128 + 256) / 16, -128 / 16);
 
 
                 #region __keyDown
@@ -242,6 +243,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 // ego + local environment
                 #region Soundboard
+                // http://www.nasa.gov/vision/universe/features/halloween_sounds.html
                 Soundboard sb = new Soundboard();
 
                 sb.loopsand_run.MasterVolume = 0;
@@ -258,13 +260,41 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 sb.loopcrickets.MasterVolume = 0;
                 sb.loopcrickets.Sound.play();
+
+                sb.loopstrange1.MasterVolume = 0;
+                sb.loopstrange1.Sound.play();
                 #endregion
-                
+
+                PhysicalJeep.oncollision +=
+                    (u, jeep_forceA) =>
+                    {
+                        sb.snd_metalsmash.play(
+                           sndTransform: new SoundTransform(
+                               Math.Min(1.0, jeep_forceA / 30.0) * 0.4
+                           )
+                       );
+                    };
+
                 onsyncframe +=
                     delegate
                     {
+                        if (this.syncframeid == 200)
+                            sb.snd_whatsthatsound.play();
+
+                        if (this.syncframeid == 400)
+                            sb.snd_needweapon.play();
+
+                        if (this.syncframeid == 800)
+                            sb.snd_didyouhearthat.play();
+
+
+                        if (this.syncframeid == 1200)
+                            sb.snd_whatsthatsound.play();
+
                         #region Soundboard
                         sb.loopcrickets.MasterVolume = (1 - move_zoom) * 0.08;
+
+                        sb.loopstrange1.MasterVolume = (1 - move_zoom) * 0.04;
 
                         sb.loophelicopter1.MasterVolume = 0.0;
                         sb.loopjeepengine.MasterVolume = 0.0;
@@ -284,9 +314,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                             sb.loopcrickets.MasterVolume = 0;
 
                             sb.loophelicopter1.MasterVolume = 0.3 + (current as PhysicalHind).visual.Altitude * 0.2;
-                            sb.loophelicopter1.LeftVolume = 0.4 + move_zoom * 0.4;
+                            sb.loophelicopter1.LeftVolume = 0.7 + move_zoom * 0.1;
                             sb.loophelicopter1.RightVolume = 0.8;
-                            sb.loophelicopter1.Rate = 0.7 + (current as PhysicalHind).visual.Altitude * 0.2 + move_zoom * 0.1;
+                            sb.loophelicopter1.Rate = 0.7 + (current as PhysicalHind).visual.Altitude * 0.25 + move_zoom * 0.05;
                         }
                         else if (current is PhysicalJeep)
                         {
@@ -312,8 +342,18 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         }
 
                         // stereoeffect // siren
-                        sb.loopcrickets.LeftVolume = (1 + Math.Sin(this.gametime.ElapsedMilliseconds * 0.0001)) / 2.0;
-                        sb.loopcrickets.RightVolume = (3 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.001)) / 4.0;
+                        sb.loopstrange1.LeftVolume = 0.1 * (1 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.00001)) / 2.0;
+                        sb.loopstrange1.RightVolume = 0.2 * (1 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.00001)) / 2.0;
+
+                        sb.loopcrickets.LeftVolume = (1 + Math.Sin(
+                            this.gametime.ElapsedMilliseconds * 0.0001
+                            + this.current.CameraRotation
+                            + this.current.body.GetAngle()
+                            )) / 2.0;
+                        sb.loopcrickets.RightVolume = (3 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.001
+                            + this.current.CameraRotation
+                            + this.current.body.GetAngle()
+                            )) / 4.0;
                         #endregion
 
 
@@ -366,6 +406,11 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                                             current = x.candidatevehicle;
 
+                                            if (current is PhysicalJeep)
+                                            {
+                                                sb.snd_jeepengine_start.play();
+                                            }
+
                                             if (current.body.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody)
                                             {
                                                 hud.texture = textures_ped.hud_look_goggles();
@@ -379,9 +424,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                             move_zoom = 1;
 
                                             // fast start
-                                            (current as PhysicalHind).With(
-                                                hind => hind.VerticalVelocity = 1
-                                            );
+                                            //(current as PhysicalHind).With(
+                                            //    hind => hind.VerticalVelocity = 1
+                                            //);
                                         }
                                     );
                                 }
@@ -398,7 +443,15 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                                             // crashland?
                                             (current as PhysicalHind).With(
-                                                hind => hind.VerticalVelocity = -1
+                                                hind =>
+                                                {
+                                                    if (hind.visual.Altitude > 0)
+                                                    {
+                                                        hind.VerticalVelocity = -1;
+                                                        sb.snd_touchdown.play();
+                                                    }
+                                                }
+
                                             );
 
 
@@ -432,7 +485,11 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                         if (hind1.visual.Altitude == 0)
                                             hind1.VerticalVelocity = 1.0;
                                         else
+                                        {
                                             hind1.VerticalVelocity = -0.4;
+
+                                            sb.snd_touchdown.play();
+                                        }
 
                                     }
                                 );

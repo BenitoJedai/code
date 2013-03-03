@@ -61,6 +61,9 @@ namespace FlashHeatZeeker.Core.Library
 
         void SetPositionAndAngle(double x, double y, double a = 0);
 
+
+        [Description("Helicopters might see more..")]
+        double Altitude { get; set; }
     }
 
 }

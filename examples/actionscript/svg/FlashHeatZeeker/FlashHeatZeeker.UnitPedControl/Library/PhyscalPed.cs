@@ -20,6 +20,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 {
     public partial class PhysicalPed : IPhysicalUnit
     {
+        public double Altitude { get; set; }
         public RemoteGame RemoteGameReference { get; set; }
 
         public string Identity { get; set; }
