@@ -140,6 +140,7 @@
     <Compile Include="Library\SetVelocityFromInputAction.cs" />
     <Compile Include="Library\SetVerticalVelocityAction.cs" />
     <Compile Include="Library\StarlingGameSpriteWithPhysics.cs" />
+    <Compile Include="Library\XContactListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />

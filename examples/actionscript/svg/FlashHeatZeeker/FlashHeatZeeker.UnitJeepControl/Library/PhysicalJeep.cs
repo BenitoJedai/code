@@ -17,6 +17,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 {
     public partial class PhysicalJeep : IPhysicalUnit
     {
+        public double Altitude { get; set; }
         public RemoteGame RemoteGameReference { get; set; }
 
         public string Identity { get; set; }
@@ -56,6 +57,9 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             CurrentInput = __keyDown;
             ExtractVelocityFromInput(__keyDown, unit4_physics);
         }
+
+
+        public static Action<PhysicalJeep, double> oncollision;
 
         public PhysicalJeep(StarlingGameSpriteWithJeepTextures textures, StarlingGameSpriteWithPhysics Context)
         {
@@ -151,6 +155,34 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                     wheels: xwheels
                 );
+
+                var fix = unit4_physics.fix;
+                var fix_data = new Action<double>(
+                    jeep_forceA =>
+                    {
+                        if (jeep_forceA < 1)
+                            return;
+
+                        //Console.WriteLine(new { frameid, jeep_forceA });
+
+
+                        if (oncollision != null)
+                            oncollision(this, jeep_forceA);
+
+                        //if (ped_hit_c != null)
+                        //    return;
+
+                  
+
+                        //ped_hit_c.soundComplete +=
+                        //    delegate
+                        //    {
+                        //        ped_hit_c = null;
+                        //    };
+
+                    }
+                );
+                fix.SetUserData(fix_data);
 
 
                 xwheels[0].setAngle += a =>

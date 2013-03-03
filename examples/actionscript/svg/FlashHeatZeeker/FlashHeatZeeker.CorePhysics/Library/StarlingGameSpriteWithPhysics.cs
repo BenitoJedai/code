@@ -3,7 +3,9 @@ using Box2D.Common.Math;
 using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -60,6 +62,9 @@ namespace FlashHeatZeeker.CorePhysics.Library
             // first frame  ... set up our physccs
             // zombies!!
             ground_b2world = new b2World(new b2Vec2(0, 0), false);
+            ground_b2world.SetContactListener(
+               new XContactListener()
+            );
 
             var ground_b2debugDraw = new b2DebugDraw();
 
@@ -408,9 +413,18 @@ namespace FlashHeatZeeker.CorePhysics.Library
                                  physicstime_elapsed * 0.004;
                             move_zoom = move_zoom.Max(0.0).Min(1.0);
 
-                            var xinternalscale = internalscale + ((1.0 - move_zoom) * 0.10);
+                            var xinternalscale = internalscale 
+                                + 0.20 * (1.0 - current.Altitude) 
+                                + ((1.0 - move_zoom) * 0.04);
 
-                            stagescale = xinternalscale * (stage.stageWidth) / (800.0);
+                            var diagonal = new __vec2
+                            {
+                                x = stage.stageWidth,
+                                y = stage.stageHeight
+                            };
+
+                            //stagescale = xinternalscale * (stage.stageWidth) / (800.0);
+                            stagescale = xinternalscale * (diagonal.GetLength()) / (1000.0);
 
 
                             cm.scale(stagescale, stagescale);

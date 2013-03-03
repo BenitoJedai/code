@@ -15,6 +15,7 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
 {
     public class PhysicalCannon : IPhysicalUnit
     {
+        public double Altitude { get; set; }
         public RemoteGame RemoteGameReference { get; set; }
 
 
