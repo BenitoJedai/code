@@ -27,6 +27,7 @@ using ScriptCoreLib.ActionScript.flash.geom;
 using FlashHeatZeeker.CoreAudio.Library;
 using ScriptCoreLib.ActionScript.flash.media;
 
+
 namespace FlashHeatZeeker.TestDriversWithAudio.Library
 {
     public class StarlingGameSpriteWithTestDriversWithAudio : StarlingGameSpriteWithPhysics
@@ -131,13 +132,6 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         );
                     }
 
-
-
-
-
-
-
-
                 }
                 #endregion
 
@@ -189,8 +183,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 // 12 = 34FPS
 
-                new PhysicalHind(textures_hind, this) { 
-                    AutomaticTakeoff = true 
+                new PhysicalHind(textures_hind, this)
+                {
+                    AutomaticTakeoff = true
                 }.SetPositionAndAngle((128 + 256) / 16, -128 / 16);
 
 
@@ -263,7 +258,6 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 sb.loopstrange1.MasterVolume = 0;
                 sb.loopstrange1.Sound.play();
-                #endregion
 
                 PhysicalJeep.oncollision +=
                     (u, jeep_forceA) =>
@@ -274,10 +268,12 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                            )
                        );
                     };
+                #endregion
 
                 onsyncframe +=
                     delegate
                     {
+                        #region Soundboard
                         if (this.syncframeid == 200)
                             sb.snd_whatsthatsound.play();
 
@@ -291,7 +287,6 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         if (this.syncframeid == 1200)
                             sb.snd_whatsthatsound.play();
 
-                        #region Soundboard
                         sb.loopcrickets.MasterVolume = (1 - move_zoom) * 0.08;
 
                         sb.loopstrange1.MasterVolume = (1 - move_zoom) * 0.04;

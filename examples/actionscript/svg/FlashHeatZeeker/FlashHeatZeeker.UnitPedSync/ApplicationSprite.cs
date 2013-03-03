@@ -106,7 +106,7 @@ namespace FlashHeatZeeker.UnitPedSync
 
         public ApplicationSprite()
         {
-            #region __transport_in_fakelag
+            #region __transport
             for (int i = 0; i < 7; i++)
             {
                 lag.Enqueue(new List<string>());
@@ -130,10 +130,8 @@ namespace FlashHeatZeeker.UnitPedSync
                 };
 
             lagtimer.start();
-            #endregion
 
 
-            #region __raise_sync
             StarlingGameSpriteWithPedSync.__raise_sync +=
                egoid =>
                {

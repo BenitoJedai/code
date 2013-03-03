@@ -135,6 +135,7 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Library\EnterOrExitAction.cs" />
     <Compile Include="Library\IPhysicalUnit.cs" />
     <Compile Include="Library\RemoteGame.cs" />
     <Compile Include="Library\SetVelocityFromInputAction.cs" />

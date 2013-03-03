@@ -70,6 +70,9 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         public double internalscale = 0.3;
 
         public Texture64Constructor new_tex_crop;
+        public Func<ScriptCoreLib.ActionScript.flash.display.IBitmapDrawable, Func<Texture>> new_tex96;
+
+
         public double stagescale;
 
         public Stopwatch gametime = new Stopwatch();
@@ -219,7 +222,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
 
             #region new_tex96
-            Func<ScriptCoreLib.ActionScript.flash.display.IBitmapDrawable, Func<Texture>> new_tex96 =
+            this.new_tex96 =
                (shape) =>
                {
                    var innersize = 96;
