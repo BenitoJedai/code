@@ -37,7 +37,9 @@
 
 
   </icon>
-  
 
+  <android>
+    <colorDepth>16bit</colorDepth>
+  </android>
 
 </application>

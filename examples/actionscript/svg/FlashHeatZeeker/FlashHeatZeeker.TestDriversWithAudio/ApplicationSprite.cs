@@ -23,7 +23,10 @@ namespace FlashHeatZeeker.TestDriversWithAudio
 
                   var s = new Starling(
                       typeof(StarlingGameSpriteWithTestDriversWithAudio).ToClassToken(),
-                      this.stage
+                      this.stage,
+
+                      // http://forum.starling-framework.org/topic/air-34
+                      profile: "baseline"
                   );
 
 

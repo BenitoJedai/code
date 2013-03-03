@@ -13,6 +13,7 @@ using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
 using FlashHeatZeeker.Core.Library;
+using FlashHeatZeeker.UnitBunkerControl.Library;
 
 namespace FlashHeatZeeker.UnitJeepControl.Library
 {
@@ -27,7 +28,8 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
 
 
-            var textures = new StarlingGameSpriteWithJeepTextures(new_tex_crop);
+            var textures_bunker = new StarlingGameSpriteWithBunkerTextures(new_tex_crop);
+            var textures_jeep = new StarlingGameSpriteWithJeepTextures(new_tex_crop);
 
             this.onbeforefirstframe += (stage, s) =>
             {
@@ -56,13 +58,18 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
 
 
-                var jeep = new PhysicalJeep(textures, this);
+                var jeep = new PhysicalJeep(textures_jeep, this);
 
 
                 current = jeep;
 
-                new PhysicalJeep(textures, this);
-                new PhysicalJeep(textures, this);
+                new PhysicalJeep(textures_jeep, this);
+                new PhysicalJeep(textures_jeep, this);
+
+
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, 0);
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, -4);
+                new PhysicalBarrel(textures_bunker, this).SetPositionAndAngle(12, -8);
 
 
                 onsyncframe += delegate
@@ -70,7 +77,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
                     current.SetVelocityFromInput(__keyDown);
 
-                   
+
                 };
             };
         }

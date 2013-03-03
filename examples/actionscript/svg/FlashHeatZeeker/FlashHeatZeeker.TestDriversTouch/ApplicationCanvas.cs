@@ -26,6 +26,7 @@ namespace FlashHeatZeeker.TestDriversTouch
             control,
             left, right;
 
+        public int fingersize = 96;
         public ApplicationCanvas()
         {
             r.Fill = Brushes.Red;
@@ -33,7 +34,6 @@ namespace FlashHeatZeeker.TestDriversTouch
             r.MoveTo(0, 0);
             this.SizeChanged += (s, e) => r.SizeTo(this.Width, this.Height);
 
-            var fingersize = 96;
 
             enter = new Rectangle
             {
