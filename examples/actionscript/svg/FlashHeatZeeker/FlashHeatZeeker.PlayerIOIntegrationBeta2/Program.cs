@@ -13,6 +13,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         public static void Main(string[] args)
         {
             #region player.io dev server
+#if DEBUG
             new Thread(
                 delegate()
                 {
@@ -32,6 +33,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                     t.Start();
                 }
             );
+#endif
+
             #endregion
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));

@@ -201,6 +201,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                         this.stage
                     );
 
+                    //[SWF(backgroundColor = 0xB27D51)]
+                    s.stage.color = 0xB27D51;
 
                     //Starling.current.showStats
 

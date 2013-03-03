@@ -8,7 +8,6 @@ using System.Text;
 
 namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 {
-    [SWF(backgroundColor = 0xB27D51)]
     public sealed class ApplicationSprite : ApplicationSpriteWithConnection
     {
         public ApplicationSprite()
@@ -81,7 +80,15 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
             };
             #endregion
 
-
+            this.stage.keyUp +=
+               e =>
+               {
+                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
+                   {
+                       this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
+                       //this.stage.SetFullscreen(true);
+                   }
+               };
         }
 
 

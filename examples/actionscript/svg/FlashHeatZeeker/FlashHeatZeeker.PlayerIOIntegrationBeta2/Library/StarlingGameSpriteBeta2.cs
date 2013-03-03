@@ -746,6 +746,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
 
                                          driver.seatedvehicle = null;
                                          driver.body.SetActive(true);
+                                         hud.texture = textures_ped.hud_look();
 
 
                                          // crashland?
