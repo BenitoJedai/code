@@ -14,36 +14,11 @@ using starling.text;
 using FlashHeatZeeker.StarlingSetup.ActionScript.Images;
 using System.ComponentModel;
 using starling.core;
+using FlashHeatZeeker.Core.Library;
 
 namespace FlashHeatZeeker.StarlingSetup.Library
 {
 
-    class Lazy<T>
-    {
-        public Func<T> InternalGetContent;
-        public T InternalContent;
-
-        public T Content
-        {
-            get
-            {
-                if (this.InternalGetContent != null)
-                {
-                    this.InternalContent = this.InternalGetContent();
-                    this.InternalGetContent = null;
-
-                }
-
-
-                return this.InternalContent;
-            }
-        }
-
-        public Lazy(Func<T> y)
-        {
-            InternalGetContent = y;
-        }
-    }
 
     public delegate Func<Texture> Texture64Constructor(string asset, double alpha = 1.0, bool flipx = false, int innersize = 64);
 
@@ -63,6 +38,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
         public Sprite Content;
         public Sprite Content_layer0_tracks;
+        public Sprite Content_layer10_hiddenforgoggles;
 
         public Random random = new Random();
 
@@ -83,6 +59,8 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
             this.Content = new Sprite().AttachTo(this);
             this.Content_layer0_tracks = new Sprite().AttachTo(this.Content);
+            this.Content_layer10_hiddenforgoggles = new Sprite().AttachTo(this.Content);
+            this.Content_layer10_hiddenforgoggles.visible = false;
 
             var info = new TextField(
                 800,
@@ -133,7 +111,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             // fighting mipmapping
             var Source0Padding = 4;
 
-            var Source0 = new Lazy<TextureAtlas>(
+            var Source0 = new XLazy<TextureAtlas>(
                  delegate
                  {
                      var SourceTexture = Texture.fromBitmapData(SourceBitmapData0);
@@ -207,7 +185,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                    Source0TextureCount++;
 
                    // Error	5	Cannot convert anonymous method to type 'FlashHeatZeeker.UnitPed.Library.Lazy<starling.textures.TextureAtlas>' because it is not a delegate type	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitPed\Library\StarlingGameSpriteWithPed.cs	178	43	FlashHeatZeeker.UnitPed
-                   var y = new Lazy<TextureAtlas>(
+                   var y = new XLazy<TextureAtlas>(
                        delegate
                        {
                            Source0.Content.addRegion(TextureIndex.ToString(), rect);
@@ -273,7 +251,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                    Source0TextureCount++;
 
                    // Error	5	Cannot convert anonymous method to type 'FlashHeatZeeker.UnitPed.Library.Lazy<starling.textures.TextureAtlas>' because it is not a delegate type	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitPed\Library\StarlingGameSpriteWithPed.cs	178	43	FlashHeatZeeker.UnitPed
-                   var y = new Lazy<TextureAtlas>(
+                   var y = new XLazy<TextureAtlas>(
                        delegate
                        {
                            Source0.Content.addRegion(TextureIndex.ToString(), rect);

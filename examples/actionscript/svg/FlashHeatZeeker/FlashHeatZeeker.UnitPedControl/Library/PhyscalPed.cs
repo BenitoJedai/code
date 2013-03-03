@@ -290,6 +290,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         public KeySample CurrentInput { get; set; }
 
+        public static Action<PhysicalPed, double> oncollision;
         public PhysicalPed(StarlingGameSpriteWithPedTextures textures, StarlingGameSpriteWithPhysics Context)
         {
             this.CurrentInput = new KeySample();
@@ -322,7 +323,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 0;
-                bodyDef.angularDamping = 4;
+                bodyDef.angularDamping =6;
                 //bodyDef.angle = 1.57079633;
                 //bodyDef.fixedRotation = true;
 
@@ -339,6 +340,18 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
                 var fix = body.CreateFixture(fixDef);
+
+                var fix_data = new Action<double>(
+                    jeep_forceA =>
+                    {
+                        if (jeep_forceA < 1)
+                            return;
+
+                        if (oncollision != null)
+                            oncollision(this, jeep_forceA);
+                    }
+                );
+                fix.SetUserData(fix_data);
             }
 
 
@@ -352,7 +365,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 0;
-                bodyDef.angularDamping = 4;
+                bodyDef.angularDamping = 6;
                 //bodyDef.angle = 1.57079633;
                 //bodyDef.fixedRotation = true;
 

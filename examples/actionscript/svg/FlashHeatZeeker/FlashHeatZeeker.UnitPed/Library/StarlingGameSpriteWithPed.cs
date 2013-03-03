@@ -20,6 +20,7 @@ namespace FlashHeatZeeker.UnitPed.Library
             hud_look,
             hud_look_building,
             hud_look_goggles,
+            hud_look_onlygoggles,
 
             ped_shadow,
 
@@ -42,8 +43,9 @@ namespace FlashHeatZeeker.UnitPed.Library
             hud_look = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look.svg", innersize: 128);
             hud_look_building = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look_building.svg", innersize: 128);
             hud_look_goggles = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look_goggles.svg", innersize: 128);
+            hud_look_onlygoggles = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look_onlygoggles.svg", innersize: 128);
 
-            ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", 0.3, innersize: 96);
+            ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", alpha: 0.3, innersize: 96);
 
             ped_footprints = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_footprints.svg", 0.07);
 

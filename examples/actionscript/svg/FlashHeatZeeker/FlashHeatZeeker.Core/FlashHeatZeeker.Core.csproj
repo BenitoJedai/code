@@ -122,6 +122,7 @@
     <Content Include="Design\App.htm" />
     <Compile Include="Library\IVisualUnit.cs" />
     <Compile Include="Library\KeySample.cs" />
+    <Compile Include="Library\Lazy.cs" />
     <Compile Include="Library\X.cs" />
     <Compile Include="Library\XBarComponent.cs">
       <SubType>Component</SubType>

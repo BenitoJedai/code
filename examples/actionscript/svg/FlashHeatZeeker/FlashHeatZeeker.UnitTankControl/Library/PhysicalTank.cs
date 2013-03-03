@@ -82,7 +82,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 1.0;
-                bodyDef.angularDamping = 7;
+                bodyDef.angularDamping = 8;
                 //bodyDef.angle = 1.57079633;
                 //bodyDef.fixedRotation = true;
 
@@ -115,7 +115,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 1.0;
-                bodyDef.angularDamping = 7;
+                bodyDef.angularDamping = 8;
                 //bodyDef.angle = 1.57079633;
                 //bodyDef.fixedRotation = true;
 
