@@ -47,6 +47,10 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
         public int sessionid;
 
+
+
+        public Action<IPhysicalUnit, double> oncollision = delegate { };
+
         public StarlingGameSpriteWithPhysics()
         {
             sessionid = random.Next();
@@ -409,7 +413,6 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
                             }
 
-                            //Text = new { any_movement }.ToString();
 
                             //cm.rotate(-current.GetAngle());
 

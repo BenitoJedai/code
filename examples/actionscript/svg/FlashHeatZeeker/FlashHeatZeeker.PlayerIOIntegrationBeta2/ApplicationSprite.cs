@@ -86,7 +86,11 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                    if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
                    {
                        this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
-                       //this.stage.SetFullscreen(true);
+                   }
+
+                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F)
+                   {
+                       this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
                    }
                };
         }

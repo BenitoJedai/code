@@ -26,7 +26,11 @@ namespace FlashHeatZeeker.CoreAudio.Library
 
         public Sound snd_whatsthatsound = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_whatsthatsound.mp3"].ToSoundAsset();
         public Sound snd_jeepengine_start = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_jeepengine_start.mp3"].ToSoundAsset();
+
+        public Sound snd_hardmetalsmash = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_hardmetalsmash.mp3"].ToSoundAsset();
         public Sound snd_metalsmash = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_metalsmash.mp3"].ToSoundAsset();
+        public Sound snd_woodsmash = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_woodsmash.mp3"].ToSoundAsset();
+
         public Sound snd_needweapon = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_needweapon.mp3"].ToSoundAsset();
         public Sound snd_didyouhearthat = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_didyouhearthat.mp3"].ToSoundAsset();
         public Sound snd_touchdown = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_touchdown.mp3"].ToSoundAsset();
