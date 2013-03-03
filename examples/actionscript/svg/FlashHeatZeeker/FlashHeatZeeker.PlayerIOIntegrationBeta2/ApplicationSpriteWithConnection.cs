@@ -6,6 +6,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
 using starling.core;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
@@ -24,14 +25,170 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
     public class ApplicationSpriteWithConnection : Sprite
     {
-        public Action<System.Xml.Linq.XElement> __context_postMessage;
 
-        public Action<System.Xml.Linq.XElement> __game_onmessage;
-        public Action<System.Xml.Linq.XElement> __game_postMessage;
 
+        #region __transport_in_fakelag
+        public event Action<string> __transport_out;
+
+        public void __transport_in_fakelag(string xmlstring)
+        {
+            PendingInput.Add(xmlstring);
+        }
+
+        public void __transport_in(string xmlstring)
+        {
+            var xml = XElement.Parse(xmlstring);
+
+            if (xml.Name.LocalName == "enterorexit")
+            {
+                StarlingGameSpriteBeta2.__at_enterorexit(
+                    egoid: xml.Attribute("egoid").Value,
+                    to: xml.Attribute("to").Value,
+                    from: xml.Attribute("from").Value
+                );
+            }
+
+            if (xml.Name.LocalName == "sync")
+            {
+                StarlingGameSpriteBeta2.__at_sync(
+                    xml.Attribute("egoid").Value
+                );
+            }
+
+
+            if (xml.Name.LocalName == "SetVerticalVelocity")
+            {
+                StarlingGameSpriteBeta2.__at_SetVerticalVelocity(
+                    sessionid: xml.Attribute("__sessionid").Value,
+                    identity: xml.Attribute("identity").Value,
+                    value: xml.Attribute("value").Value
+                );
+            }
+
+            if (xml.Name.LocalName == "SetVelocityFromInput")
+            {
+                StarlingGameSpriteBeta2.__at_SetVelocityFromInput(
+                    __egoid: xml.Attribute("egoid").Value,
+                    __identity: xml.Attribute("i").Value,
+                    __KeySample: xml.Attribute("k").Value,
+                    __fixup_x: xml.Attribute("x").Value,
+                    __fixup_y: xml.Attribute("y").Value,
+                    __fixup_angle: xml.Attribute("angle").Value
+                );
+            }
+        }
+
+        public void __raise_transport_out(string xml)
+        {
+            if (__transport_out != null)
+                __transport_out(xml);
+        }
+
+        Queue<List<string>> lag = new Queue<List<string>>();
+        List<string> PendingInput = new List<string>();
+        #endregion
 
         public ApplicationSpriteWithConnection()
         {
+            #region __transport
+            for (int i = 0; i < 7; i++)
+            {
+                lag.Enqueue(new List<string>());
+            }
+
+            var lagtimer = new ScriptCoreLib.ActionScript.flash.utils.Timer(1000 / 15);
+
+            lagtimer.timer +=
+                delegate
+                {
+                    lag.Enqueue(PendingInput);
+
+                    PendingInput = lag.Dequeue();
+
+                    foreach (var xml in PendingInput)
+                    {
+                        this.__transport_in(xml);
+                    }
+
+                    PendingInput.Clear();
+                };
+
+            lagtimer.start();
+
+            StarlingGameSpriteBeta2.__raise_enterorexit +=
+                (string egoid, string from, string to) =>
+                {
+                    var xml = new XElement("enterorexit",
+
+                        new XAttribute("egoid", egoid),
+
+
+                        new XAttribute("from", from),
+                        new XAttribute("to", to)
+
+                    );
+
+                    if (__transport_out != null)
+                        __transport_out(xml.ToString());
+                };
+
+            StarlingGameSpriteBeta2.__raise_sync +=
+               egoid =>
+               {
+                   // Error	8	Argument 1: cannot convert from 'System.Xml.Linq.XAttribute' to 'System.Xml.Linq.XStreamingElement'	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitPedSync\ApplicationSprite.cs	40	33	FlashHeatZeeker.UnitPedSync
+
+                   var xml = new XElement("sync", new XAttribute("egoid", egoid));
+
+                   if (__transport_out != null)
+                       __transport_out(xml.ToString());
+               };
+
+            StarlingGameSpriteBeta2.__raise_SetVerticalVelocity +=
+                (string __sessionid, string identity, string value) =>
+                {
+                    var xml = new XElement("SetVerticalVelocity",
+
+                        new XAttribute("__sessionid", __sessionid),
+
+
+                        new XAttribute("identity", identity),
+                        new XAttribute("value", value)
+
+                    );
+
+                    if (__transport_out != null)
+                        __transport_out(xml.ToString());
+                };
+
+            StarlingGameSpriteBeta2.__raise_SetVelocityFromInput +=
+                (
+                    string __egoid,
+                    string __identity,
+                    string __KeySample,
+                    string __fixup_x,
+                    string __fixup_y,
+                    string __fixup_angle
+
+                    ) =>
+                {
+                    var xml = new XElement("SetVelocityFromInput",
+
+                        new XAttribute("egoid", __egoid),
+
+
+                        new XAttribute("i", __identity),
+                        new XAttribute("k", __KeySample),
+                        new XAttribute("x", __fixup_x),
+                        new XAttribute("y", __fixup_y),
+                        new XAttribute("angle", __fixup_angle)
+
+                    );
+
+                    if (__transport_out != null)
+                        __transport_out(xml.ToString());
+                };
+            #endregion
+
             this.InvokeWhenStageIsReady(
                 delegate
                 {
@@ -215,23 +372,23 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                             );
 
 
-                            this.__game_postMessage = (XElement e) =>
-                            {
-                                this.__game_onmessage(e);
-                            };
+                            //this.__game_postMessage = (XElement e) =>
+                            //{
+                            //    this.__game_onmessage(e);
+                            //};
 
                             connection.addMessageHandler("__game_postMessage",
                               (m, userid) =>
                               {
                                   if (m.length > 0)
                                   {
-                                      this.__game_postMessage(XElement.Parse(m.getString(m.length - 1)));
+                                      this.__transport_in(m.getString(m.length - 1));
                                   }
 
                               }
                           );
 
-                            this.__context_postMessage +=
+                            this.__transport_out +=
                                 e =>
                                 {
                                     connection.send("__context_postMessage", e.ToString());

@@ -26,7 +26,7 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
             #region RemoteGameReference
             if (RemoteGameReference != null)
             {
-                this.visual0.currentvisual.alpha = 0.5;
+                //this.visual0.currentvisual.alpha = 0.5;
 
                 // not moving anymore in network mode
                 // far enough to be out of sync?
