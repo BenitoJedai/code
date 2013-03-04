@@ -71,12 +71,12 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
             visualshadow = new Image(
                textures.bunker2_shadow()
-           ).AttachTo(Context.Content);
+           ).AttachTo(Context.Content_layer2_shadows);
 
 
             visual = new Image(
                textures.bunker2()
-           ).AttachTo(Context.Content);
+           ).AttachTo(Context.Content_layer3_buildings);
 
 
             {

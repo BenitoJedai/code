@@ -69,6 +69,38 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
             this.onbeforefirstframe += (stage, s) =>
             {
+                s.stage.color = 0xB27D51;
+
+                // error JSC1000: ActionScript : failure at starling.display.Stage.add_keyUp : Object reference not set to an instance of an object.
+
+                #region FULL_SCREEN_INTERACTIVE
+                stage.keyUp +=
+                     e =>
+                     {
+                         if (e.keyCode == (uint)System.Windows.Forms.Keys.F2)
+                         {
+                             this.Content_layer2_shadows.visible =
+                                !this.Content_layer2_shadows.visible;
+                         }
+
+                     };
+                #endregion
+
+                #region FULL_SCREEN_INTERACTIVE
+                stage.keyUp +=
+                     e =>
+                     {
+                         if (e.keyCode == (uint)System.Windows.Forms.Keys.F1)
+                         {
+                             if (this.internalscale == 0.3)
+                                 this.internalscale = 0.05;
+                             else
+                                 this.internalscale = 0.3;
+                         }
+
+                     };
+                #endregion
+
                 var hud = new Image(textures_ped.hud_look()).AttachTo(this);
 
                 #region hill1
@@ -228,7 +260,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         var x = 2048.Random();
                         var y = -2048.Random() - 512 - 256;
 
-                        new Image(textures_map.tree0_shadow()).AttachTo(Content).MoveTo(x + 16, y + 16);
+                        new Image(textures_map.tree0_shadow()).AttachTo(Content_layer2_shadows).MoveTo(x + 16, y + 16);
                         new Image(textures_map.tree0()).AttachTo(Content).MoveTo(x, y);
                     }
 
@@ -236,7 +268,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         var x = 2048.Random();
                         var y = 2048.Random() + 512 + 128;
 
-                        new Image(textures_map.tree0_shadow()).AttachTo(Content).MoveTo(x + 16, y + 16);
+                        new Image(textures_map.tree0_shadow()).AttachTo(Content_layer2_shadows).MoveTo(x + 16, y + 16);
                         new Image(textures_map.tree0()).AttachTo(Content).MoveTo(x, y);
                     }
                 }

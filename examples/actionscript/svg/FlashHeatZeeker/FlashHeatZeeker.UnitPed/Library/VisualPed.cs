@@ -157,7 +157,7 @@ namespace FlashHeatZeeker.UnitPed.Library
             {
                 // fkn expensive!!
                 //alpha = 0.5
-            }.AttachTo(Context.Content);
+            }.AttachTo(Context.Content_layer2_shadows);
 
 
 
