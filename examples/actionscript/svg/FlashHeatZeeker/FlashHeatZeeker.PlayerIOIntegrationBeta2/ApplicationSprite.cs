@@ -1,17 +1,30 @@
+using FlashHeatZeeker.PromotionPreloader;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared;
 using System;
 using System.IO;
 using System.Text;
 
 namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 {
-
-    [SWF(backgroundColor = 0xB27D51, width = 800, height = 600, frameRate = 60)]
-    public sealed class ApplicationSprite : ApplicationSpriteWithConnection
+    public class XApplicationSpritePreloader : ApplicationSpritePreloader
     {
+        [TypeOfByNameOverride]
+        public override Type GetTargetType()
+        {
+            return typeof(ApplicationSprite);
+        }
+    }
+
+    [Frame(typeof(XApplicationSpritePreloader))]
+    [SWF(backgroundColor = 0, width = 800, height = 600, frameRate = 60)]
+    public sealed class ApplicationSprite : ApplicationSpriteWithConnection, IAlternator
+    {
+        public string Alternate { get; set; }
+
         public ApplicationSprite()
         {
             #region AtInitializeConsoleFormWriter
@@ -82,19 +95,27 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
             };
             #endregion
 
-            this.stage.keyUp +=
-               e =>
-               {
-                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
-                   {
-                       this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
-                   }
+            this.InvokeWhenStageIsReady(
+                delegate
+                {
+                    this.stage.keyUp +=
+                       e =>
+                       {
+                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
+                           {
+                               this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
+                           }
 
-                   if (e.keyCode == (uint)System.Windows.Forms.Keys.F)
-                   {
-                       this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
-                   }
-               };
+                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F)
+                           {
+                               this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
+                           }
+                       };
+                }
+            );
+
+
+            this.InvokeWhenPromotionIsReady(this.Initialize);
         }
 
 

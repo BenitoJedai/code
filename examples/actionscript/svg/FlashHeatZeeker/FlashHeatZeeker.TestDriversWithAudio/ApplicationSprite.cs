@@ -1,20 +1,34 @@
+using FlashHeatZeeker.PromotionPreloader;
 using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.TestDriversWithAudio.Library;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared;
 using starling.core;
 using System;
 
 namespace FlashHeatZeeker.TestDriversWithAudio
 {
-    [SWF(backgroundColor = 0xB27D51)]
-    public sealed class ApplicationSprite : Sprite
+    public class ApplicationSpritePreloader : FlashHeatZeeker.PromotionPreloader.ApplicationSpritePreloader
     {
+        [TypeOfByNameOverride]
+        public override Type GetTargetType()
+        {
+            return typeof(ApplicationSprite);
+        }
+    }
+
+    [Frame(typeof(ApplicationSpritePreloader))]
+    [SWF(backgroundColor = 0xB27D51)]
+    public sealed class ApplicationSprite : Sprite, IAlternator
+    {
+        public string Alternate { get; set; }
+
         public ApplicationSprite()
         {
-            this.InvokeWhenStageIsReady(
+            this.InvokeWhenPromotionIsReady(
               delegate
               {
                   // http://gamua.com/starling/first-steps/

@@ -22,7 +22,7 @@ namespace FlashHeatZeeker.UnitCannon.Library
                 )
                 {
                 }.AttachTo(
-                Context.Content
+                Context.Content_layer0_tracks
             );
 
             shadow = new Image(
@@ -30,7 +30,7 @@ namespace FlashHeatZeeker.UnitCannon.Library
                  )
                     {
                     }.AttachTo(
-                 Context.Content
+                 Context.Content_layer2_shadows
              );
 
             guntower = new Image(
@@ -38,7 +38,7 @@ namespace FlashHeatZeeker.UnitCannon.Library
                 )
                     {
                     }.AttachTo(
-                Context.Content
+                Context.Content_layer3_buildings
             );
         }
 

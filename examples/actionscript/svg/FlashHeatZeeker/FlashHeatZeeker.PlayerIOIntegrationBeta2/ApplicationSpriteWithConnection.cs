@@ -88,7 +88,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         List<string> PendingInput = new List<string>();
         #endregion
 
-        public ApplicationSpriteWithConnection()
+        public void Initialize()
         {
             #region __transport
             for (int i = 0; i < 7; i++)
@@ -202,7 +202,6 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                     );
 
                     //[SWF(backgroundColor = 0xB27D51)]
-                    s.stage.color = 0xB27D51;
 
                     //Starling.current.showStats
 

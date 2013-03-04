@@ -36,9 +36,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         public static FrameHandler onframe = delegate { };
         public static Action<Action<int, int>> onresize;
 
-        public Sprite Content;
-        public Sprite Content_layer0_tracks;
-        public Sprite Content_layer10_hiddenforgoggles;
+
 
         public Random random = new Random();
 
@@ -53,12 +51,25 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
         public Stopwatch gametime = new Stopwatch();
 
+
+
+        public Sprite
+            Content,
+            Content_layer0_tracks,
+            Content_layer2_shadows,
+            Content_layer3_buildings,
+            Content_layer10_hiddenforgoggles;
+
         public StarlingGameSpriteBase()
         {
             gametime.Start();
 
             this.Content = new Sprite().AttachTo(this);
+
             this.Content_layer0_tracks = new Sprite().AttachTo(this.Content);
+            this.Content_layer2_shadows = new Sprite().AttachTo(this.Content);
+            this.Content_layer3_buildings = new Sprite().AttachTo(this.Content);
+
             this.Content_layer10_hiddenforgoggles = new Sprite().AttachTo(this.Content);
             this.Content_layer10_hiddenforgoggles.visible = false;
 

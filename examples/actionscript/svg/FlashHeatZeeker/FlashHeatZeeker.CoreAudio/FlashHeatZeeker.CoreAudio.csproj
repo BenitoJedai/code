@@ -148,6 +148,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\heartbeat3.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_hardmetalsmash.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_woodsmash.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_dooropen.mp3" />
