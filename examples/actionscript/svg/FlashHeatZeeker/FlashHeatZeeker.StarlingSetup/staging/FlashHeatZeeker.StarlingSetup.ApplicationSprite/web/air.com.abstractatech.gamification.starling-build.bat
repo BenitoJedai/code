@@ -5,8 +5,8 @@ rem call createapk.bat
 
 
 set e=%cd%
-set swf=FlashHeatZeeker.UnitJeepTouch.ApplicationSprite.swf
-set apk=air.com.abstractatech.gamification.fhzuj.apk
-set xml=air.com.abstractatech.gamification.fhzuj.xml
+set swf=FlashHeatZeeker.StarlingSetup.ApplicationSprite.swf
+set apk=air.com.abstractatech.gamification.starling.apk
+set xml=air.com.abstractatech.gamification.starling.xml
 
 "X:\jsc.internal.svn\keystore\asus\air.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%

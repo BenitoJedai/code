@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/3.0">
-  <id>com.abstractatech.gamification.fhzuj</id>
+<application xmlns="http://ns.adobe.com/air/application/3.6">
+  <id>com.abstractatech.gamification.starling</id>
   <versionNumber>1.0.1</versionNumber>
-  <filename>FlashHeatZeeker.UnitJeep</filename>
-  <name>FlashHeatZeeker.UnitJeep</name>
+  <filename>FlashHeatZeeker.starling</filename>
+  <name>FlashHeatZeeker.starling</name>
   <description>
-    <text xml:lang="en">FlashHeatZeeker.UnitJeep</text>
+    <text xml:lang="en">FlashHeatZeeker.starling</text>
   </description>
   <copyright>abstractatech.com</copyright>
   <initialWindow>
-    <title>FlashHeatZeeker.UnitJeep</title>
+    <title>FlashHeatZeeker.starling</title>
     <content>
-      FlashHeatZeeker.UnitJeepTouch.ApplicationSprite.swf
+      FlashHeatZeeker.StarlingSetup.ApplicationSprite.swf
     </content>
 
     <autoOrients>false</autoOrients>
