@@ -29,13 +29,21 @@ namespace FlashHeatZeeker.UnitPedControl
             this.InvokeWhenStageIsReady(
                 delegate
                 {
+
+                    this.stage.color = 0x006D00;
+                    this.stage.frameRate = 30;
+                    this.stage.frameRate = 60;
+
                     // http://gamua.com/starling/first-steps/
                     // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
                     Starling.handleLostContext = true;
 
                     var s = new Starling(
                         typeof(StarlingGameSpriteWithPedControl).ToClassToken(),
-                        this.stage
+                        this.stage,
+
+                      // http://forum.starling-framework.org/topic/air-34
+                      profile: "baseline"
                     );
 
 

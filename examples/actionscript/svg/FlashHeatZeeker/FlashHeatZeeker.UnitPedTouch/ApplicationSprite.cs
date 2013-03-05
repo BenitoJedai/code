@@ -1,5 +1,4 @@
-using FlashHeatZeeker.UnitHindControl.Library;
-using ScriptCoreLib.ActionScript;
+using FlashHeatZeeker.UnitPedControl.Library;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
@@ -7,16 +6,15 @@ using System;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace FlashHeatZeeker.UnitHindTouch
+namespace FlashHeatZeeker.UnitPedTouch
 {
-    [SWF(backgroundColor = 0xA26D41)]
     public sealed class ApplicationSprite : Sprite
     {
         public readonly ApplicationCanvas content1 = new ApplicationCanvas();
 
         public ApplicationSprite()
         {
-            var content0 = new FlashHeatZeeker.UnitHindControl.ApplicationSprite();
+            var content0 = new FlashHeatZeeker.UnitPedControl.ApplicationSprite();
 
             content0.AttachTo(this);
 
@@ -41,7 +39,7 @@ namespace FlashHeatZeeker.UnitHindTouch
                         {
                             ui.Opacity = 1;
                             e.Handled = true;
-                            StarlingGameSpriteWithHindControl.__keyDown[key] = true;
+                            StarlingGameSpriteWithPedControl.__keyDown[key] = true;
                         };
 
                     //ui.MouseUp +=
@@ -50,7 +48,7 @@ namespace FlashHeatZeeker.UnitHindTouch
                        {
                            ui.Opacity = InactiveOpaciy;
                            e.Handled = true;
-                           StarlingGameSpriteWithHindControl.__keyDown[key] = false;
+                           StarlingGameSpriteWithPedControl.__keyDown[key] = false;
                        };
 
                     ui.TouchDown +=
@@ -58,7 +56,7 @@ namespace FlashHeatZeeker.UnitHindTouch
                       {
                           ui.Opacity = 1;
                           e.Handled = true;
-                          StarlingGameSpriteWithHindControl.__keyDown[key] = true;
+                          StarlingGameSpriteWithPedControl.__keyDown[key] = true;
                       };
 
                     ui.TouchUp +=
@@ -66,7 +64,7 @@ namespace FlashHeatZeeker.UnitHindTouch
                        {
                            ui.Opacity = InactiveOpaciy;
                            e.Handled = true;
-                           StarlingGameSpriteWithHindControl.__keyDown[key] = false;
+                           StarlingGameSpriteWithPedControl.__keyDown[key] = false;
                        };
                 };
             #endregion

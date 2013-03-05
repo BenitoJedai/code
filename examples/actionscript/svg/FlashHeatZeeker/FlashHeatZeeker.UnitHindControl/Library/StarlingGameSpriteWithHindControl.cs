@@ -20,7 +20,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
     public class StarlingGameSpriteWithHindControl : StarlingGameSpriteWithPhysics
     {
-        public static object[] __keyDown = new object[0xffffff];
+        public static KeySample __keyDown = new KeySample();
 
 
         public StarlingGameSpriteWithHindControl()
@@ -63,7 +63,6 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
                 #region __keyDown
-                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>

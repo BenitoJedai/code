@@ -17,8 +17,9 @@ using System.Windows.Forms;
 namespace FlashHeatZeeker.UnitPedControl.Library
 {
 
-    class StarlingGameSpriteWithPedControl : StarlingGameSpriteWithPhysics
+    public class StarlingGameSpriteWithPedControl : StarlingGameSpriteWithPhysics
     {
+        public static KeySample __keyDown = new KeySample();
 
         public StarlingGameSpriteWithPedControl()
         {
@@ -55,7 +56,6 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
                 #region __keyDown
-                var __keyDown = new KeySample();
 
                 stage.keyDown +=
                    e =>
