@@ -1,3 +1,4 @@
+using FlashHeatZeeker.PromotionPreloader;
 using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.TestGamePad.Library;
 using ScriptCoreLib.ActionScript;
@@ -6,6 +7,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.sensors;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared;
 using starling.core;
 using System;
 using System.Windows;
@@ -13,14 +15,27 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.TestGamePad
 {
-    [SWF(width = 800, height = 600)]
-    public sealed class ApplicationSprite : Sprite
+    public class XApplicationSpritePreloader : ApplicationSpritePreloader
     {
+        [TypeOfByNameOverride]
+        public override Type GetTargetType()
+        {
+            return typeof(ApplicationSprite);
+        }
+    }
+
+    [Frame(typeof(XApplicationSpritePreloader))]
+
+    [SWF(width = 800, height = 600)]
+    public sealed class ApplicationSprite : Sprite, IAlternator
+    {
+        public string Alternate { get; set; }
+
         public readonly ApplicationCanvas content = new ApplicationCanvas();
 
         public ApplicationSprite()
         {
-            this.InvokeWhenStageIsReady(
+            this.InvokeWhenPromotionIsReady(
                 () =>
                 {
                     this.stage.color = 0;

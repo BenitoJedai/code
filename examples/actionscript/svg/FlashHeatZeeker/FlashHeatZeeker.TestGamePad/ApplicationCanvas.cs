@@ -79,7 +79,7 @@ namespace FlashHeatZeeker.TestGamePad
 
             enter = new Rectangle
             {
-                Fill = Brushes.White,
+                Fill = Brushes.Green,
                 Opacity = 0.5
             }.AttachTo(this);
             enter.SizeTo(fingersize + 4 + fingersize, fingersize + 4 + fingersize);
@@ -115,7 +115,7 @@ namespace FlashHeatZeeker.TestGamePad
 
             control = new Rectangle
             {
-                Fill = Brushes.White,
+                Fill = Brushes.Red,
                 Opacity = 0.5
             }.AttachTo(this);
             control.SizeTo(fingersize + 4 + fingersize, fingersize + 4 + fingersize);
