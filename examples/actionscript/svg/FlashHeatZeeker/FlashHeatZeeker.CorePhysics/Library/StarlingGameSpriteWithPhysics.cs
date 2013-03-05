@@ -428,9 +428,18 @@ namespace FlashHeatZeeker.CorePhysics.Library
                                  physicstime_elapsed * 0.004;
                             move_zoom = move_zoom.Max(0.0).Min(1.0);
 
-                            var xinternalscale = internalscale
-                                + 0.20 * (1.0 - current.Altitude)
-                                + ((1.0 - move_zoom) * 0.04);
+                            var xinternalscale = internalscale;
+
+                            if (disable_movezoom_and_altitude_for_scale)
+                            {
+                                // nop
+                            }
+                            else
+                            {
+                                xinternalscale +=
+                                    +0.20 * (1.0 - current.Altitude)
+                                    + ((1.0 - move_zoom) * 0.04);
+                            }
 
                             var diagonal = new __vec2
                             {
@@ -447,7 +456,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
                             cm.translate(
                                 (stage.stageWidth * 0.5),
-                                (stage.stageHeight * 0.8)
+                                (stage.stageHeight * internal_center_y)
                             );
 
 
@@ -496,6 +505,10 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
 
         }
+
+        public double internal_center_y = 0.8;
+
+        public bool disable_movezoom_and_altitude_for_scale;
 
         public long syncframeid;
         public long syncframetime;

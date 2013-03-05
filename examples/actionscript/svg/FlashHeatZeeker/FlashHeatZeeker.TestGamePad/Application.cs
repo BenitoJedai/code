@@ -1,6 +1,7 @@
 using FlashHeatZeeker.TestGamePad.Design;
 using FlashHeatZeeker.TestGamePad.HTML.Pages;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -30,15 +31,44 @@ namespace FlashHeatZeeker.TestGamePad
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            sprite.AutoSizeSpriteTo(page.ContentSize);
-            sprite.AttachSpriteTo(page.Content);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            sprite.wmode();
+
+            sprite.AttachSpriteToDocument().With(
+                   embed =>
+                   {
+                       embed.style.SetLocation(0, 0);
+                       embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+
+                       Native.Window.onresize +=
+                           delegate
+                           {
+                               embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                           };
+                   }
+               );
         }
 
+    }
+
+
+    public static class XX
+    {
+
+
+        public static void wmode(this Sprite s, string value = "direct")
+        {
+            var x = s.ToHTMLElement();
+
+            var p = x.parentNode;
+            if (p != null)
+            {
+                // if we continue, element will be reloaded!
+                return;
+            }
+
+            x.setAttribute("wmode", value);
+
+
+        }
     }
 }

@@ -191,9 +191,21 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="staging\FlashHeatZeeker.TestGamePad.ApplicationSprite\web\air.com.abstractatech.gamification.fhzpad.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="staging\FlashHeatZeeker.TestGamePad.ApplicationSprite\web\air.com.abstractatech.gamification.fhzpad-build.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="staging\FlashHeatZeeker.TestGamePad.ApplicationSprite\web\air.com.abstractatech.gamification.fhzpad-install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="staging\FlashHeatZeeker.TestGamePad.ApplicationSprite\web\air.com.abstractatech.gamification.fhzpad-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
