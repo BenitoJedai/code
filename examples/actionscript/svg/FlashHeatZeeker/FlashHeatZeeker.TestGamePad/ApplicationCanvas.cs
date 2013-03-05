@@ -23,24 +23,66 @@ namespace FlashHeatZeeker.TestGamePad
             space,
                     down,
 
+                    alt,
             control,
             left, right;
 
         public int fingersize = 96;
+
+
+
+
+        public double tiltx = 0.5;
+        public double tilty = 0.5;
+
+        public Action tilt_update;
+        public Rectangle rtiltx, rtilty;
+
         public ApplicationCanvas()
         {
-            r.Fill = Brushes.Red;
+            r.Fill = Brushes.Black;
             r.AttachTo(this);
             r.MoveTo(0, 0);
             this.SizeChanged += (s, e) => r.SizeTo(this.Width, this.Height);
 
+
+             rtiltx = new Rectangle
+            {
+                Fill = Brushes.Red,
+                Opacity = 0.5
+            }.AttachTo(this);
+
+             rtilty = new Rectangle
+            {
+                Fill = Brushes.Blue,
+                Opacity = 0.5
+            }.AttachTo(this);
+
+            tilt_update = delegate
+            {
+                rtiltx.SizeTo(8, this.Height);
+                rtiltx.MoveTo((this.Width - 8) * tiltx, 0);
+
+                rtilty.SizeTo(this.Width, 8);
+                rtilty.MoveTo(0, (this.Height - 8) * tilty);
+
+                rtiltx.Opacity = tiltx;
+                rtilty.Opacity = tilty;
+
+            };
+            this.SizeChanged +=
+                (s, e) =>
+                {
+                    tilt_update();
+
+                };
 
             enter = new Rectangle
             {
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            enter.SizeTo(fingersize + 4 + fingersize, fingersize);
+            enter.SizeTo(fingersize + 4 + fingersize, fingersize + 4 + fingersize);
             this.SizeChanged += (s, e) => enter.MoveTo(this.Width - fingersize - 4 - fingersize - 4, this.Height - fingersize - 4 - fingersize - 4 - fingersize - 4);
 
             space = new Rectangle
@@ -48,8 +90,8 @@ namespace FlashHeatZeeker.TestGamePad
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            space.SizeTo(fingersize + 4 + fingersize, fingersize + 4 + fingersize);
-            this.SizeChanged += (s, e) => space.MoveTo(this.Width - fingersize - 4 - fingersize - 4, this.Height - fingersize - 4 - fingersize - 4);
+            space.SizeTo(fingersize + 4 + fingersize, fingersize);
+            this.SizeChanged += (s, e) => space.MoveTo(this.Width - fingersize - 4 - fingersize - 4, this.Height - fingersize - 4);
 
 
             //up = new Rectangle
@@ -78,6 +120,15 @@ namespace FlashHeatZeeker.TestGamePad
             }.AttachTo(this);
             control.SizeTo(fingersize + 4 + fingersize, fingersize + 4 + fingersize);
             this.SizeChanged += (s, e) => control.MoveTo(4, this.Height - fingersize - 4 - fingersize - 4);
+
+            alt = new Rectangle
+            {
+                Fill = Brushes.White,
+                Opacity = 0.5
+            }.AttachTo(this);
+            alt.SizeTo(fingersize + 4 + fingersize, fingersize);
+            this.SizeChanged += (s, e) => alt.MoveTo(4, this.Height - fingersize - 4 - fingersize - 4 - fingersize - 4);
+
 
             //left = new Rectangle
             //{

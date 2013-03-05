@@ -114,6 +114,7 @@ namespace FlashHeatZeeker.TestGamePad
 
 
                     var InactiveOpaciy = 0.07;
+                    var ActiveOpaciy = 0.5;
 
 
                     #region bind
@@ -130,7 +131,7 @@ namespace FlashHeatZeeker.TestGamePad
                             ui.MouseLeftButtonDown +=
                                 (sender, e) =>
                                 {
-                                    ui.Opacity = 1;
+                                    ui.Opacity = ActiveOpaciy;
                                     e.Handled = true;
                                     StarlingGameSpriteWithTestGamePad.__keyDown[key] = true;
                                 };
@@ -147,7 +148,7 @@ namespace FlashHeatZeeker.TestGamePad
                             ui.TouchDown +=
                               (sender, e) =>
                               {
-                                  ui.Opacity = 1;
+                                  ui.Opacity = ActiveOpaciy;
                                   e.Handled = true;
                                   StarlingGameSpriteWithTestGamePad.__keyDown[key] = true;
                               };
@@ -168,15 +169,35 @@ namespace FlashHeatZeeker.TestGamePad
                     bind(content.enter, Keys.Enter);
                     bind(content.space, Keys.Space);
                     bind(content.control, Keys.ControlKey);
+                    bind(content.alt, Keys.Alt);
 
 
                     var text = new TextField().AttachTo(this);
                     text.width = 800;
                     text.y = 72;
                     text.textColor = 0xffffff;
+                    text.multiline = true;
 
                     if (Accelerometer.isSupported)
                     {
+                        StarlingGameSpriteWithTestGamePad.__keyDown.InitializeConnection(
+                            text: text,
+
+
+                            yield_Notify:
+                                xml =>
+                                {
+
+                                    if (xml.Name.LocalName == "switchto")
+                                    {
+                                        var type = xml.Attribute("type").Value;
+
+                                        StarlingGameSpriteWithTestGamePad.__switchto(type);
+                                    }
+
+
+                                }
+                        );
 
                         //var a = new Accelerometer();
                         a = new Accelerometer();
@@ -185,22 +206,32 @@ namespace FlashHeatZeeker.TestGamePad
                           e =>
                           {
 
-                              text.text = new
-                              {
-                                  x = e.accelerationX,
-                                  y = e.accelerationY,
-                                  z = e.accelerationZ
-                              }.ToString();
+                              //text.text = new
+                              //{
+                              //    x = e.accelerationX,
+                              //    y = e.accelerationY,
+                              //    z = e.accelerationZ
+                              //}.ToString();
+
+                              content.tiltx = 1 - (e.accelerationX + 0.5);
+                              content.tilty = e.accelerationY;
+                              content.tilt_update();
+
+                              StarlingGameSpriteWithTestGamePad.__keyDown.forcex = ((Math.Abs(content.tiltx - 0.5) / 0.5) - 0.05) * 0.3;
+                              StarlingGameSpriteWithTestGamePad.__keyDown.forcey = Math.Abs(content.tilty - 0.5) / 0.5;
+
+                              content.rtiltx.Opacity = StarlingGameSpriteWithTestGamePad.__keyDown.forcex;
+                              content.rtilty.Opacity = StarlingGameSpriteWithTestGamePad.__keyDown.forcey;
 
                               // we did do this for TestDrive example!
                               #region StarlingGameSpriteWithTestGamePad
-                              if (e.accelerationX > 0.2)
+                              if (e.accelerationX > 0.05)
                               {
                                   StarlingGameSpriteWithTestGamePad.__keyDown[Keys.Left] = true;
                                   StarlingGameSpriteWithTestGamePad.__keyDown[Keys.Right] = false;
 
                               }
-                              else if (e.accelerationX < -0.2)
+                              else if (e.accelerationX < -0.05)
                               {
                                   StarlingGameSpriteWithTestGamePad.__keyDown[Keys.Left] = false;
                                   StarlingGameSpriteWithTestGamePad.__keyDown[Keys.Right] = true;
@@ -242,11 +273,14 @@ namespace FlashHeatZeeker.TestGamePad
 
                           };
 
-                        a.setRequestedUpdateInterval(1000 / 30);
+                        a.setRequestedUpdateInterval(1000 / 60);
                     }
                     else
                     {
-                        text.text = "no Accelerometer";
+
+                        StarlingGameSpriteWithTestGamePad.__keyDown.InitializeConnection(WriteMode: false, ReadMode: true, text: text);
+
+                        //text.text = "no Accelerometer";
                     }
                 }
             );

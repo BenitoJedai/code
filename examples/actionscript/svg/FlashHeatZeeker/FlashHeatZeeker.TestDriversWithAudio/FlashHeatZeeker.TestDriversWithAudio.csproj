@@ -181,6 +181,9 @@
     <Reference Include="FlashHeatZeeker.PromotionPreloader.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.PromotionPreloader\bin\staging.AssetsLibrary\FlashHeatZeeker.PromotionPreloader.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.TestGamePad.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.TestGamePad\bin\staging.AssetsLibrary\FlashHeatZeeker.TestGamePad.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -218,6 +221,10 @@
     <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
       <Name>FlashHeatZeeker.StarlingSetup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.TestGamePad\FlashHeatZeeker.TestGamePad.csproj">
+      <Project>{b010c308-c341-4fcd-8ab0-c6f8e9882c42}</Project>
+      <Name>FlashHeatZeeker.TestGamePad</Name>
     </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.UnitBunkerControl\FlashHeatZeeker.UnitBunkerControl.csproj">
       <Project>{2ee6e167-fea3-47b4-bbf4-b48f5c8666bf}</Project>

@@ -34,15 +34,16 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
                 current.ApplyAngularImpulse(
                    this.AngularVelocity * AngularVelocityMultiplier
+                   * this.CurrentInput.forcex
                    * ApplyVelocityElapse.ElapsedMilliseconds
                    * 1.0
                    * (1 - (this.body.GetLinearVelocity().Length() / this.speed).Min(0.9) * 0.5)
                );
 
 
-                var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed
+                var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed * this.CurrentInput.forcey
                         + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
-                var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed
+                var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed * this.CurrentInput.forcey
                         + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
 
 
@@ -61,88 +62,88 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                             // far enough to be out of sync?
 
                             //if (karmabody.GetAngularVelocity() == 0)
-                                if (karmabody.GetLinearVelocity().Length() == 0)
-                                    if (this.KarmaInput0.All(k => k.value == 0))
+                            if (karmabody.GetLinearVelocity().Length() == 0)
+                                if (this.KarmaInput0.All(k => k.value == 0))
+                                {
+
+
+
+
+                                    var gap = new __vec2(
+                                        (float)this.karmabody.GetPosition().x - (float)this.body.GetPosition().x,
+                                        (float)this.karmabody.GetPosition().y - (float)this.body.GetPosition().y
+                                    );
+
+                                    // tolerate lesser distance?
+
+                                    var CloseEnough = gap.GetLength() < 1.2;
+                                    var TooFar = gap.GetLength() > 5;
+
+                                    if (CloseEnough)
                                     {
+                                        ApplyVelocityMoveToLocation = false;
+                                    }
+
+                                    if (TooFar || ApplyVelocityMoveToLocation)
+                                    {
+                                        //this.body.SetPositionAndAngle(
+                                        //    new b2Vec2(
+                                        //        this.karmabody.GetPosition().x,
+                                        //        this.karmabody.GetPosition().y
+                                        //    ),
+                                        //    this.karmabody.GetAngle()
+                                        //);
+
+                                        // show we are in the wrong place!
+                                        this.visual.currentvisual.alpha = 0.3;
 
 
-
-
-                                        var gap = new __vec2(
-                                            (float)this.karmabody.GetPosition().x - (float)this.body.GetPosition().x,
-                                            (float)this.karmabody.GetPosition().y - (float)this.body.GetPosition().y
+                                        // look at where we should be instead
+                                        this.body.SetAngle(
+                                            gap.GetRotation()
                                         );
 
-                                        // tolerate lesser distance?
+                                        // and walk there!
+                                        vx = Math.Cos(current.GetAngle()) * 0.5 * this.speed
+                                           + Math.Cos(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
+                                        vy = Math.Sin(current.GetAngle()) * 0.5 * this.speed
+                                               + Math.Sin(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
 
-                                        var CloseEnough = gap.GetLength() < 1.2;
-                                        var TooFar = gap.GetLength() > 5;
+                                        ApplyVelocityMoveToLocation = true;
+                                    }
+                                    else
+                                    {
+                                        var da0 = this.karmabody.GetAngle() - this.body.GetAngle();
+                                        var da360 = (this.karmabody.GetAngle() + 360.DegreesToRadians()) - this.body.GetAngle();
 
-                                        if (CloseEnough)
+                                        if (da0 < da360)
                                         {
-                                            ApplyVelocityMoveToLocation = false;
-                                        }
-
-                                        if (TooFar || ApplyVelocityMoveToLocation)
-                                        {
-                                            //this.body.SetPositionAndAngle(
-                                            //    new b2Vec2(
-                                            //        this.karmabody.GetPosition().x,
-                                            //        this.karmabody.GetPosition().y
-                                            //    ),
-                                            //    this.karmabody.GetAngle()
-                                            //);
-
-                                            // show we are in the wrong place!
-                                            this.visual.currentvisual.alpha = 0.3;
-
-
-                                            // look at where we should be instead
                                             this.body.SetAngle(
-                                                gap.GetRotation()
+                                                   this.body.GetAngle() + da0 * 0.2
                                             );
-
-                                            // and walk there!
-                                            vx = Math.Cos(current.GetAngle()) * 0.5 * this.speed
-                                               + Math.Cos(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
-                                            vy = Math.Sin(current.GetAngle()) * 0.5 * this.speed
-                                                   + Math.Sin(current.GetAngle() + Math.PI / 2) * 0 * this.speed;
-
-                                            ApplyVelocityMoveToLocation = true;
                                         }
                                         else
                                         {
-                                            var da0 = this.karmabody.GetAngle() - this.body.GetAngle();
-                                            var da360 = (this.karmabody.GetAngle() + 360.DegreesToRadians()) - this.body.GetAngle();
+                                            this.body.SetAngle(
+                                                   this.body.GetAngle() + da360 * 0.2
+                                            );
+                                        }
 
-                                            if (da0 < da360)
-                                            {
-                                                this.body.SetAngle(
-                                                       this.body.GetAngle() + da0 * 0.2
-                                                );
-                                            }
-                                            else
-                                            {
-                                                this.body.SetAngle(
-                                                       this.body.GetAngle() + da360 * 0.2
-                                                );
-                                            }
+                                        if (CloseEnough)
+                                        {
 
-                                            if (CloseEnough)
-                                            { 
-                                            
-                                            }
-                                            else
-                                            {
-                                                this.body.SetPosition(
-                                                    new b2Vec2(
-                                                        this.body.GetPosition().x + gap.x * 0.3,
-                                                        this.body.GetPosition().y + gap.y * 0.3
-                                                    )
-                                                );
-                                            }
+                                        }
+                                        else
+                                        {
+                                            this.body.SetPosition(
+                                                new b2Vec2(
+                                                    this.body.GetPosition().x + gap.x * 0.3,
+                                                    this.body.GetPosition().y + gap.y * 0.3
+                                                )
+                                            );
                                         }
                                     }
+                                }
 
                         }
                 #endregion

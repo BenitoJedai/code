@@ -1,6 +1,12 @@
 using FlashHeatZeeker.PromotionPreloader;
 using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.TestDriversWithAudio.Library;
+using FlashHeatZeeker.UnitBunkerControl.Library;
+using FlashHeatZeeker.UnitCannonControl.Library;
+using FlashHeatZeeker.UnitHindControl.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
+using FlashHeatZeeker.UnitPedControl.Library;
+using FlashHeatZeeker.UnitTankControl.Library;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -8,6 +14,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared;
 using starling.core;
 using System;
+using System.Xml.Linq;
 
 namespace FlashHeatZeeker.TestDriversWithAudio
 {
@@ -126,6 +133,72 @@ namespace FlashHeatZeeker.TestDriversWithAudio
                            }
                        };
                   #endregion
+
+
+                  var CanConnectAndroid = true;
+                  this.stage.keyUp +=
+                       e =>
+                       {
+                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F8)
+                           {
+                               if (!CanConnectAndroid)
+                                   return;
+
+                               CanConnectAndroid = false;
+
+
+                               var text = new ScriptCoreLib.ActionScript.flash.text.TextField().AttachTo(this);
+                               text.width = 800;
+                               text.y = 72;
+                               text.textColor = 0xffffff;
+                               text.multiline = true;
+
+                               FlashHeatZeeker.TestGamePad.Library.MulticastService.InitializeConnection(
+                                    StarlingGameSpriteWithTestDriversWithAudio.__keyDown,
+                                    WriteMode: false,
+                                    ReadMode: true,
+                                    text: text,
+
+                                    yield_PostMessage:
+                                        PostMessage =>
+                                        {
+                                            StarlingGameSpriteWithTestDriversWithAudio.current_changed +=
+                                                g =>
+                                                {
+                                                    Action<string> __switchto =
+                                                        type =>
+                                                        {
+                                                            PostMessage(
+                                                                new XElement(
+                                                                    "switchto",
+                                                                    new XAttribute("type", "ped"),
+                                                                    new XAttribute("syncframeid", "" + g.syncframeid)
+
+                                                                    ).ToString());
+                                                        };
+                                                    if (g.current is PhysicalPed)
+                                                        __switchto("ped");
+                                                    if (g.current is PhysicalTank)
+                                                        __switchto("tank");
+                                                    if (g.current is PhysicalJeep)
+                                                        __switchto("jeep");
+                                                    if (g.current is PhysicalHind)
+                                                        __switchto("hind");
+                                                    if (g.current is PhysicalBunker)
+                                                        __switchto("bunker");
+                                                    if (g.current is PhysicalCannon)
+                                                        __switchto("cannon");
+                                                    if (g.current is PhysicalSilo)
+                                                        __switchto("silo");
+                                                    if (g.current is PhysicalWatertower)
+                                                        __switchto("watertower");
+                                                };
+                                        }
+                               );
+
+
+                           }
+                       };
 
               }
           );

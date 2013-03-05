@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -82,5 +83,9 @@ namespace FlashHeatZeeker.Core.Library
 
             return 0;
         }
+
+        [Description("Press your keyboard more lightly to have a lesser effect. Or tilt your android less.")]
+        public double forcex = 1.0;
+        public double forcey = 1.0;
     }
 }
