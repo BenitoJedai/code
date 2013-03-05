@@ -21,6 +21,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
     {
         Stopwatch ApplyVelocityElapse = new Stopwatch();
 
+        public double AngularVelocityMultiplier = 1;
 
         bool ApplyVelocityMoveToLocation;
         public void ApplyVelocity()
@@ -32,7 +33,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
                 //current.SetAngularVelocity(v);
 
                 current.ApplyAngularImpulse(
-                   this.AngularVelocity
+                   this.AngularVelocity * AngularVelocityMultiplier
                    * ApplyVelocityElapse.ElapsedMilliseconds
                    * 1.0
                    * (1 - (this.body.GetLinearVelocity().Length() / this.speed).Min(0.9) * 0.5)

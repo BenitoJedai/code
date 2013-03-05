@@ -48,25 +48,25 @@ namespace FlashHeatZeeker.TestGamePad
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            space.SizeTo(fingersize, fingersize + 4 + fingersize);
+            space.SizeTo(fingersize + 4 + fingersize, fingersize + 4 + fingersize);
             this.SizeChanged += (s, e) => space.MoveTo(this.Width - fingersize - 4 - fingersize - 4, this.Height - fingersize - 4 - fingersize - 4);
 
 
-            up = new Rectangle
-            {
-                Fill = Brushes.White,
-                Opacity = 0.5
-            }.AttachTo(this);
-            up.SizeTo(fingersize, fingersize);
-            this.SizeChanged += (s, e) => up.MoveTo(this.Width - fingersize - 4, this.Height - fingersize - 4 - fingersize - 4);
+            //up = new Rectangle
+            //{
+            //    Fill = Brushes.White,
+            //    Opacity = 0.5
+            //}.AttachTo(this);
+            //up.SizeTo(fingersize, fingersize);
+            //this.SizeChanged += (s, e) => up.MoveTo(this.Width - fingersize - 4, this.Height - fingersize - 4 - fingersize - 4);
 
-            down = new Rectangle
-            {
-                Fill = Brushes.White,
-                Opacity = 0.5
-            }.AttachTo(this);
-            down.SizeTo(fingersize, fingersize);
-            this.SizeChanged += (s, e) => down.MoveTo(this.Width - fingersize - 4, this.Height - fingersize - 4);
+            //down = new Rectangle
+            //{
+            //    Fill = Brushes.White,
+            //    Opacity = 0.5
+            //}.AttachTo(this);
+            //down.SizeTo(fingersize, fingersize);
+            //this.SizeChanged += (s, e) => down.MoveTo(this.Width - fingersize - 4, this.Height - fingersize - 4);
 
 
 
@@ -76,24 +76,24 @@ namespace FlashHeatZeeker.TestGamePad
                 Fill = Brushes.White,
                 Opacity = 0.5
             }.AttachTo(this);
-            control.SizeTo(fingersize + 4 + fingersize, fingersize);
+            control.SizeTo(fingersize + 4 + fingersize, fingersize + 4 + fingersize);
             this.SizeChanged += (s, e) => control.MoveTo(4, this.Height - fingersize - 4 - fingersize - 4);
 
-            left = new Rectangle
-            {
-                Fill = Brushes.White,
-                Opacity = 0.5
-            }.AttachTo(this);
-            left.SizeTo(fingersize, fingersize);
-            this.SizeChanged += (s, e) => left.MoveTo(4, this.Height - fingersize - 4);
+            //left = new Rectangle
+            //{
+            //    Fill = Brushes.White,
+            //    Opacity = 0.5
+            //}.AttachTo(this);
+            //left.SizeTo(fingersize, fingersize);
+            //this.SizeChanged += (s, e) => left.MoveTo(4, this.Height - fingersize - 4);
 
-            right = new Rectangle
-            {
-                Fill = Brushes.White,
-                Opacity = 0.5
-            }.AttachTo(this);
-            right.SizeTo(fingersize, fingersize);
-            this.SizeChanged += (s, e) => right.MoveTo(4 + fingersize + 4, this.Height - fingersize - 4);
+            //right = new Rectangle
+            //{
+            //    Fill = Brushes.White,
+            //    Opacity = 0.5
+            //}.AttachTo(this);
+            //right.SizeTo(fingersize, fingersize);
+            //this.SizeChanged += (s, e) => right.MoveTo(4 + fingersize + 4, this.Height - fingersize - 4);
 
         }
 
