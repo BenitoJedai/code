@@ -31,6 +31,22 @@ namespace FlashHeatZeeker.TestDriversWithAudio
             this.InvokeWhenPromotionIsReady(
               delegate
               {
+                  new ApplicationSpriteContent().AttachTo(this);
+              }
+            );
+        }
+    }
+
+    public sealed class ApplicationSpriteContent : Sprite
+    {
+        public ApplicationSpriteContent()
+        {
+            this.InvokeWhenStageIsReady(
+              delegate
+              {
+                  this.stage.frameRate = 30;
+                  this.stage.frameRate = 60;
+
                   // http://gamua.com/starling/first-steps/
                   // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
                   Starling.handleLostContext = true;

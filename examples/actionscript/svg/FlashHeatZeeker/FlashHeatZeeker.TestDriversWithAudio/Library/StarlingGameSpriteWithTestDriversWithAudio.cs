@@ -919,8 +919,10 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                         #region simulate a weapone!
                         if (__keyDown[System.Windows.Forms.Keys.ControlKey])
-                            if (frameid % 20 == 0)
+                            if (syncframeid % 4 == 0)
                             {
+                                sb.snd_missleLaunch.play();
+
                                 var bodyDef = new b2BodyDef();
 
                                 bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
