@@ -171,7 +171,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio
                                                             PostMessage(
                                                                 new XElement(
                                                                     "switchto",
-                                                                    new XAttribute("type", "ped"),
+                                                                    new XAttribute("type", type),
                                                                     new XAttribute("syncframeid", "" + g.syncframeid)
 
                                                                     ).ToString());

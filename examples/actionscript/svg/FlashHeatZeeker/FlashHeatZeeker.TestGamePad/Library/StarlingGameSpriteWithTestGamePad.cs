@@ -99,6 +99,8 @@ namespace FlashHeatZeeker.TestGamePad.Library
                 var bunker0 = new PhysicalBunker(textures_bunker, this);
                 bunker0.SetPositionAndAngle(random.NextDouble() * 4000, 100);
 
+                var silo0 = new PhysicalSilo(textures_bunker, this);
+
                 __switchto +=
                     type =>
                     {
@@ -119,6 +121,9 @@ namespace FlashHeatZeeker.TestGamePad.Library
 
                         if (type == "bunker")
                             current = bunker0;
+
+                        if (type == "silo")
+                            current = silo0;
                     };
 
                 onsyncframe += delegate
