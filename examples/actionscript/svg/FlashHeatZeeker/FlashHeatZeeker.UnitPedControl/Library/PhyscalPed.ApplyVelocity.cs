@@ -32,6 +32,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 current.ApplyAngularImpulse(
                     velocity.AngularVelocity
+                      * this.CurrentInput.forcex
                     * ApplyVelocityElapse.ElapsedMilliseconds
                     * 0.01
                     * (1 - (this.body.GetLinearVelocity().Length() / this.speed).Min(0.9) * 0.5)
@@ -39,9 +40,9 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
 
-                var vx = Math.Cos(current.GetAngle()) * velocity.LinearVelocityY * this.speed
+                var vx = Math.Cos(current.GetAngle()) * velocity.LinearVelocityY * this.speed * this.CurrentInput.forcey
                     + Math.Cos(current.GetAngle() + Math.PI / 2) * velocity.LinearVelocityX * this.speed;
-                var vy = Math.Sin(current.GetAngle()) * velocity.LinearVelocityY * this.speed
+                var vy = Math.Sin(current.GetAngle()) * velocity.LinearVelocityY * this.speed * this.CurrentInput.forcey
                         + Math.Sin(current.GetAngle() + Math.PI / 2) * velocity.LinearVelocityX * this.speed;
 
 

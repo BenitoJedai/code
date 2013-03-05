@@ -13,11 +13,11 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
     {
         public StarlingGameSpriteWithCannonControl()
         {
-            var textures = new StarlingGameSpriteWithCannonTextures(new_tex_crop);
+            var textures_cannon = new StarlingGameSpriteWithCannonTextures(new_tex_crop);
 
             onbeforefirstframe += (stage, s) =>
             {
-                var cannon1 = new PhysicalCannon(textures, this);
+                var cannon1 = new PhysicalCannon(textures_cannon, this);
 
 
 

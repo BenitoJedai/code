@@ -287,6 +287,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 stage.keyDown +=
                    e =>
                    {
+                       __keyDown.forcex = 1.0;
+                       __keyDown.forcey = 1.0;
+
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
                            __keyDown[System.Windows.Forms.Keys.Alt] = true;

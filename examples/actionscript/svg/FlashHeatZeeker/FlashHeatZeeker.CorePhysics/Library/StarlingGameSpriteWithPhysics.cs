@@ -21,8 +21,24 @@ namespace FlashHeatZeeker.CorePhysics.Library
             groundkarma_b2world,
             air_b2world;
 
-        public IPhysicalUnit
-            current;
+
+        IPhysicalUnit
+            __current;
+
+        public static event Action<StarlingGameSpriteWithPhysics> current_changed;
+
+
+        public IPhysicalUnit current
+        {
+            get { return __current; }
+            set
+            {
+                __current = value;
+
+                if (current_changed != null)
+                    current_changed(this);
+            }
+        }
 
 
         public ScriptCoreLib.ActionScript.flash.display.Sprite

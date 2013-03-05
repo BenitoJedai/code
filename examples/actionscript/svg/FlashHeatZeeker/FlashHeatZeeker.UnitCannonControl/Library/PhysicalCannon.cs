@@ -29,7 +29,7 @@ namespace FlashHeatZeeker.UnitCannonControl.Library
         public b2Body body { get; set; }
         public b2Body karmabody { get; set; }
 
-        public void SetPositionAndAngle(double x, double y, double a)
+        public void SetPositionAndAngle(double x, double y, double a = 0)
         {
             this.body.SetPositionAndAngle(
                 new b2Vec2(x, y), a
