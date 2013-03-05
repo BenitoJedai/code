@@ -69,6 +69,7 @@ namespace MultitouchFingerTools
 - multitouch seems to work in firefox/ flash (11.0)
 - multitouch seems to work in ie/flash (10.0)
 - p2p LAN no longer works?
+- Works on AIR for Android! :) 2013-03-05
 "
 
 

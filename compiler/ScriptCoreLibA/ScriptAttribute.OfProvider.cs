@@ -90,7 +90,17 @@ namespace ScriptCoreLib
                         return null;
                 }
 
-                ScriptAttribute[] s = m.GetCustomAttributes(typeof(ScriptAttribute), false) as ScriptAttribute[];
+                var s = new ScriptAttribute[0];
+
+                try
+                {
+                    s = m.GetCustomAttributes(typeof(ScriptAttribute), false) as ScriptAttribute[];
+                }
+                catch
+                {
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130304-net-4-0
+                    // most likely type cannot be loaded!
+                }
 
                 var x = s.Length == 0 ? null : s[0];
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/3.0">
+  <id>com.abstractatech.gamification.mft</id>
+  <versionNumber>1.0.1</versionNumber>
+  <filename>MultitouchFingerTools.FlashLAN</filename>
+  <name>MultitouchFingerTools.FlashLAN</name>
+  <description>
+    <text xml:lang="en">MultitouchFingerTools.FlashLAN</text>
+  </description>
+  <copyright>abstractatech.com</copyright>
+  <initialWindow>
+    <title>MultitouchFingerTools.FlashLAN</title>
+    <content>
+      MultitouchFingerTools.FlashLAN.ApplicationSprite.swf
+    </content>
+
+    <autoOrients>false</autoOrients>
+    <renderMode>direct</renderMode>
+    <fullScreen>false</fullScreen>
+    <visible>true</visible>
+    <aspectRatio>landscape</aspectRatio>
+
+  </initialWindow>
+
+
+
+
+  <!-- 
+  
+  http://help.adobe.com/en_US/air/build/WSfffb011ac560372f2fea1812938a6e463-8000.html#WSfffb011ac560372f2fea1812938a6e463-7ff6
+  
+  Note: The icons specified are not automatically added to the AIR package. The icon files must be included in their correct relative locations when the application is packaged.
+  
+  -->
+  <icon>
+
+
+
+  </icon>
+
+  <android>
+    <colorDepth>16bit</colorDepth>
+  </android>
+
+</application>
