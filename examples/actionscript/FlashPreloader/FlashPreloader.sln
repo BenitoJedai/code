@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPreloader", "FlashPreloader\FlashPreloader.csproj", "{D4451B0E-B334-4CCF-966B-170BE26ED098}"
 EndProject
 Global

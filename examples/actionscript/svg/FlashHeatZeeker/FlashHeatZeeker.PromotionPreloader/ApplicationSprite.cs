@@ -154,6 +154,7 @@ namespace FlashHeatZeeker.PromotionPreloader
     }
 
     // X:\jsc.svn\core\ScriptCoreLib.Mochi\ScriptCoreLib.Mochi\ActionScript\MochiLibrary\MochiAdPreloader.cs
+    // X:\jsc.svn\examples\actionscript\FlashPreloader\FlashPreloader\ActionScript\FlashPreloader.cs
     public class ApplicationSpritePreloader : PreloaderSprite, IAlternator
     {
         public string Alternate { get; set; }
