@@ -32,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -116,6 +117,9 @@
     <Reference Include="MultitouchFingerTools.FlashLAN.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\MultitouchFingerTools.FlashLAN.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="MultitouchFingerTools.AssetsLibrary">
+      <HintPath>..\MultitouchFingerTools\bin\staging.AssetsLibrary\MultitouchFingerTools.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Assets.htm" />
@@ -128,6 +132,9 @@
     </Compile>
     <Content Include="Design\Preview.png" />
     <Content Include="Design\white-jsc.png" />
+    <Content Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MultitouchFingerTools\MultitouchFingerTools.csproj">
@@ -137,6 +144,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft-build.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft-install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
