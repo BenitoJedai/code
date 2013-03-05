@@ -112,6 +112,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.PlayerIOInt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.PromotionPreloader", "FlashHeatZeeker.PromotionPreloader\FlashHeatZeeker.PromotionPreloader.csproj", "{835AAE48-31FC-40A4-B9FD-3664DB5E26CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitPedTouch", "FlashHeatZeeker.UnitPedTouch\FlashHeatZeeker.UnitPedTouch.csproj", "{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -612,6 +614,16 @@ Global
 		{835AAE48-31FC-40A4-B9FD-3664DB5E26CC}.Release|Mixed Platforms.Build.0 = Release|x86
 		{835AAE48-31FC-40A4-B9FD-3664DB5E26CC}.Release|x86.ActiveCfg = Release|x86
 		{835AAE48-31FC-40A4-B9FD-3664DB5E26CC}.Release|x86.Build.0 = Release|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Debug|x86.ActiveCfg = Debug|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Debug|x86.Build.0 = Debug|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Release|Any CPU.ActiveCfg = Release|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Release|x86.ActiveCfg = Release|x86
+		{BBE5A11D-E11C-416E-BD6D-F2E98940A8C0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <application xmlns="http://ns.adobe.com/air/application/3.6">
-  <id>com.abstractatech.gamification.fhzuh</id>
+  <id>com.abstractatech.gamification.fhzup</id>
   <versionNumber>1.0.1</versionNumber>
-  <filename>FlashHeatZeeker.UnitHindTouch</filename>
-  <name>FlashHeatZeeker.UnitHindTouch</name>
+  <filename>FlashHeatZeeker.UnitPedTouch</filename>
+  <name>FlashHeatZeeker.UnitPedTouch</name>
   <description>
-    <text xml:lang="en">FlashHeatZeeker.UnitHindTouch</text>
+    <text xml:lang="en">FlashHeatZeeker.UnitPedTouch</text>
   </description>
   <copyright>abstractatech.com</copyright>
   <initialWindow>
-    <title>FlashHeatZeeker.UnitHindTouch</title>
+    <title>FlashHeatZeeker.UnitPedTouch</title>
     <content>
-      FlashHeatZeeker.UnitHindTouch.ApplicationSprite.swf
+      FlashHeatZeeker.UnitPedTouch.ApplicationSprite.swf
     </content>
 
     <autoOrients>false</autoOrients>

@@ -17,6 +17,10 @@ namespace FlashHeatZeeker.UnitJeepControl
             this.InvokeWhenStageIsReady(
               delegate
               {
+                  this.stage.color = 0xA26D41;
+                  this.stage.frameRate = 30;
+                  this.stage.frameRate = 60;
+
                   // http://gamua.com/starling/first-steps/
                   // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
                   Starling.handleLostContext = true;
