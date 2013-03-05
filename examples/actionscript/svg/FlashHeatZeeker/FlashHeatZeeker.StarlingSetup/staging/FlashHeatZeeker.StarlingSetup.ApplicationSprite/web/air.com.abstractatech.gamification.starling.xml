@@ -19,7 +19,9 @@
     <fullScreen>false</fullScreen>
     <visible>true</visible>
     <aspectRatio>landscape</aspectRatio>
-
+    
+    <!-- http://helpx.adobe.com/en/flash-player/release-note/fp_116_air_36_release_notes.html -->
+    <requestedDisplayResolution>high</requestedDisplayResolution>
   </initialWindow>
 
 
