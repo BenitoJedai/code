@@ -57,6 +57,7 @@ namespace FlashHeatZeeker.Lobby
                         yNext();
                     };
 
+                    // fails on android?
                     ytp = new YouTubePlayer(
                         DefaultVideo: "f9xV-LJCmV4",
                         //DefaultVideo: "qZni5895I-M",
