@@ -43,6 +43,9 @@ namespace FlashHeatZeeker.Lobby
 
                         this.stage.resize += delegate
                         {
+                            if (this.stage == null)
+                                return;
+
                             ytp.Loader.content.x = (this.stage.stageWidth - 1280) / 2;
                             ytp.Loader.content.y = (this.stage.stageHeight - 720) / 2;
 
