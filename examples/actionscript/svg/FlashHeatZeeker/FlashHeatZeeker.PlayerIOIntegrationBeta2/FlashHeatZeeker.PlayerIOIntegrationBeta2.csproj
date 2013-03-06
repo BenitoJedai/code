@@ -191,6 +191,12 @@
     <Reference Include="FlashHeatZeeker.PromotionPreloader.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.PromotionPreloader\bin\staging.AssetsLibrary\FlashHeatZeeker.PromotionPreloader.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.Lobby.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.Lobby\bin\staging.AssetsLibrary\FlashHeatZeeker.Lobby.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.TestGamePad.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.TestGamePad\bin\staging.AssetsLibrary\FlashHeatZeeker.TestGamePad.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -245,6 +251,10 @@
       <Project>{0ab27151-12cd-4377-ae76-16e6f0f72580}</Project>
       <Name>FlashHeatZeeker.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.Lobby\FlashHeatZeeker.Lobby.csproj">
+      <Project>{06ca7fc9-acae-4df3-b482-9ecf62829986}</Project>
+      <Name>FlashHeatZeeker.Lobby</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.PlayerIOServer\FlashHeatZeeker.PlayerIOServer.csproj">
       <Project>{baba968b-41d7-4b0e-afb9-dfa37307c833}</Project>
       <Name>FlashHeatZeeker.PlayerIOServer</Name>
@@ -260,6 +270,10 @@
     <ProjectReference Include="..\FlashHeatZeeker.TestDriversWithAudio\FlashHeatZeeker.TestDriversWithAudio.csproj">
       <Project>{012aa7f8-61b3-4e05-8554-f4ac86f55b25}</Project>
       <Name>FlashHeatZeeker.TestDriversWithAudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.TestGamePad\FlashHeatZeeker.TestGamePad.csproj">
+      <Project>{b010c308-c341-4fcd-8ab0-c6f8e9882c42}</Project>
+      <Name>FlashHeatZeeker.TestGamePad</Name>
     </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.UnitBunkerControl\FlashHeatZeeker.UnitBunkerControl.csproj">
       <Project>{2ee6e167-fea3-47b4-bbf4-b48f5c8666bf}</Project>

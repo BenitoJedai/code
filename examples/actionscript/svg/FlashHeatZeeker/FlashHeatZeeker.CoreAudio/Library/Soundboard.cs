@@ -40,6 +40,8 @@ namespace FlashHeatZeeker.CoreAudio.Library
         public Sound snd_SelectWeapon = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_SelectWeapon.mp3"].ToSoundAsset();
         public Sound snd_dooropen = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_dooropen.mp3"].ToSoundAsset();
 
+        public Sound snd_lookingforlongrangecomms = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_lookingforlongrangecomms.mp3"].ToSoundAsset();
+
         public Sound snd_missleLaunch = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_missleLaunch.mp3"].ToSoundAsset();
 
         //  Error: unsupported sampling rate (24000Hz)

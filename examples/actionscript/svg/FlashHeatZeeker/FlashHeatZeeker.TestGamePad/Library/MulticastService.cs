@@ -103,12 +103,15 @@ namespace FlashHeatZeeker.TestGamePad.Library
                     if (e.info.code == "NetGroup.Connect.Success")
                     {
                         connected = true;
-                        RaiseMessage("connected, looking for long range coms... (7sec delay) might need to reset android wifi!");
+                        RaiseMessage("connected, looking for long range coms... (7 to 30sec delay) might need to reset android wifi, pc wifi or wifi router itself!");
                         return;
                     }
 
                     if (e.info.code == "NetConnection.Connect.Success")
                     {
+                        RaiseMessage("looking for long range coms... looking for permission...");
+
+
                         var groupspec = new GroupSpecifier("myGroup/groupOne");
                         groupspec.postingEnabled = true;
                         groupspec.ipMulticastMemberUpdatesEnabled = true;
