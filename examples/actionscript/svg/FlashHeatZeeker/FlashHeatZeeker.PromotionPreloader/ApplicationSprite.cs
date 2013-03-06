@@ -2,6 +2,7 @@ using FlashHeatZeeker.CoreAudio.Library;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared;
 using System;
@@ -175,6 +176,20 @@ namespace FlashHeatZeeker.PromotionPreloader
             return false;
         }
 
+        // http://www.onflex.org/flexapps/components/CustomPreloader/srcview/index.html
+        // http://www.onflex.org/ted/2006/07/flex-2-custom-preloaders.php
+        // http://www.onflex.org/flexapps/components/CustomPreloader/PNG/srcview/
+        // http://www.flexer.info/2008/02/07/very-first-flex-preloader-customization/
+        // http://www.nulldesign.de/2007/11/30/as3-preloading-continued/
+        // http://adventuresinactionscript.com/blog/03-04-2008/as3-preloader-with-mochiad-mochibot-simple-domain-locking-and-glossy-vista-style-pro
+        // http://blog.jerrydon.com/index.php/2008/07/fullscreen-flex-preloader/
+        // http://www.docsultant.com/site2/articles/flex_cmd.html
+        // http://jerrydon.com/flex/fullscreenpreloader/srcview/index.html
+        // http://www.ghost23.de/blogarchive/2008/04/as3-application-1.html
+        // http://livedocs.adobe.com/flex/3/langref/mx/preloaders/DownloadProgressBar.html
+        // http://livedocs.adobe.com/flex/3/html/help.html?content=app_container_4.html
+        // http://www.bit-101.com/blog/?p=946
+
 
         public ApplicationSpritePreloader()
         {
@@ -218,9 +233,22 @@ namespace FlashHeatZeeker.PromotionPreloader
                 i.y = (i.stage.stageHeight - 720) / 2;
             };
 
+            var te = new TextField { textColor = 0xffffff }.AttachTo(this).MoveTo(8, 8);
+
+            this.LoadingInProgress += delegate
+            {
+                var per = (int)Math.Floor(100.0 * root.loaderInfo.bytesLoaded / root.loaderInfo.bytesTotal);
+
+                //te.text = new { root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal /*, framesLoaded, totalFrames */}.ToString();
+                te.text = per + "%";
+            };
+
             this.LoadingComplete +=
                 delegate
                 {
+                    te.Orphanize();
+
+
                     var x = CreateInstance();
                     var a = x as IAlternator;
 

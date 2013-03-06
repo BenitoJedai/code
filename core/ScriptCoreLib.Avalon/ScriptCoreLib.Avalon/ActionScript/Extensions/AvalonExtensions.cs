@@ -11,36 +11,39 @@ using System.Windows.Controls;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
-	[Script]
-	public static class AvalonExtensions
-	{
-		public static Sprite ToSprite(this Panel e)
-		{
-			__Panel c = e;
+    [Script]
+    public static class AvalonExtensions
+    {
+        public static Sprite ToSprite(this Panel e)
+        {
+            __Panel c = e;
 
-			return c.InternalSprite;
-		}
+            return c.InternalSprite;
+        }
 
-		public static void InvokeWhenStageIsReady(this UIElement e, Action<Stage> h)
-		{
-			__UIElement x = e;
+        public static void InvokeWhenStageIsReady(this UIElement e, Action<Stage> h)
+        {
+            __UIElement x = e;
 
-			var z = x.InternalGetDisplayObject();
+            var z = x.InternalGetDisplayObject();
 
-			z.addedToStage +=
-				delegate
-				{
-					h(z.stage);
-				};
-		}
+            z.addedToStage +=
+                delegate
+                {
+                    h(z.stage);
+                };
+        }
 
-		public static T AttachToContainer<T>(this T e, DisplayObjectContainer c) where T : global::System.Windows.Controls.Panel
-		{
-			__Panel p = e;
+        public static T AttachToContainer<T>(this T e, DisplayObjectContainer c) where T : global::System.Windows.Controls.Panel
+        {
+            __Panel p = e;
 
-			c.addChild(p.InternalSprite);
+            if (p.InternalSprite.parent != null)
+                p.InternalSprite.parent.removeChild(p.InternalSprite);
 
-			return e;
-		}
-	}
+            c.addChild(p.InternalSprite);
+
+            return e;
+        }
+    }
 }

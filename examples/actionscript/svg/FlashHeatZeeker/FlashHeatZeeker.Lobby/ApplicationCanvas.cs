@@ -63,7 +63,7 @@ namespace FlashHeatZeeker.Lobby
                 this.SizeChanged += (s, e) =>
                 {
                     r.Width = this.Width;
-                    r.Height = ((this.Height - 680) / 2).Max(0);
+                    r.Height = ((this.Height - 720) / 2).Max(0);
                 };
             }
 
@@ -82,7 +82,7 @@ namespace FlashHeatZeeker.Lobby
                     //at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows::__UIElement/VirtualGetHeight_100663342()
                     //at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows::__FrameworkElement/get Height()
 
-                    var Height = ((this.Height - 640) / 2).Max(0);
+                    var Height = ((this.Height - 720) / 2).Max(0);
 
                     r.Height = Height;
                     r.MoveTo(0, this.Height - Height);
