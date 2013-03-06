@@ -1,3 +1,4 @@
+using FlashHeatZeeker.CoreAudio.Library;
 using FlashHeatZeeker.PromotionPreloader;
 using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.TestDriversWithAudio.Library;
@@ -35,10 +36,25 @@ namespace FlashHeatZeeker.TestDriversWithAudio
 
         public ApplicationSprite()
         {
+            var lobby = new FlashHeatZeeker.Lobby.ApplicationSprite();
+            lobby.AttachTo(this);
+
             this.InvokeWhenPromotionIsReady(
               delegate
               {
-                  new ApplicationSpriteContent().AttachTo(this);
+
+                  lobby.StartClicked += delegate
+                  {
+                      if (lobby == null)
+                          return;
+
+                      lobby.ytp.pauseVideo();
+                      lobby.Orphanize();
+                      lobby = null;
+
+                      new ApplicationSpriteContent().AttachTo(this);
+                  };
+
               }
             );
         }
@@ -135,6 +151,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio
                   #endregion
 
 
+                  #region F8
                   var CanConnectAndroid = true;
                   this.stage.keyUp +=
                        e =>
@@ -145,6 +162,12 @@ namespace FlashHeatZeeker.TestDriversWithAudio
                                    return;
 
                                CanConnectAndroid = false;
+
+                               var sb = new Soundboard();
+                               sb.snd_lookingforlongrangecomms.play(
+                                   loops: 2,
+                                   sndTransform: new ScriptCoreLib.ActionScript.flash.media.SoundTransform(0.4)
+                               );
 
 
                                var text = new ScriptCoreLib.ActionScript.flash.text.TextField().AttachTo(this);
@@ -199,6 +222,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio
 
                            }
                        };
+                  #endregion
+
 
               }
           );
