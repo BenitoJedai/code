@@ -58,13 +58,19 @@ namespace DCIMCameraAppWithThumbnails
                                     img.style.width = "100%";
 
                                     div.style.color = JSColor.Red;
-                                    img.src = "/io/" + path;
+                                    img.src = "/thumb/" + path;
 
                                     #region onload +=
                                     img.InvokeOnComplete(
                                         delegate
                                         {
                                             div.style.color = JSColor.Green;
+
+
+                                            img.onclick += delegate
+                                            {
+                                                img.src = "/io/" + path;
+                                            };
                                         }
                                     );
                                     #endregion

@@ -85,14 +85,24 @@ namespace DCIMCameraAppWithThumbnails
         // refactor this into separate partial class file
         public void Handler(WebServiceHandler h)
         {
+            var thumb = "/thumb";
             var io = "/io";
+
             var path = h.Context.Request.Path;
-            if (path.StartsWith(io))
+
+            var is_io = path.StartsWith(io);
+            var is_thumb = path.StartsWith(thumb);
+
+            if (is_io || is_thumb)
             {
 
 
                 var filepath = path.SkipUntilIfAny(io);
 
+                if (is_thumb)
+                {
+                    filepath = path.SkipUntilIfAny(thumb);
+                }
 
                 // is this still a problem?
                 filepath = filepath.Replace("%20", " ");
@@ -104,7 +114,7 @@ namespace DCIMCameraAppWithThumbnails
                     if (file.isFile())
                         if (path.EndsWith(".jpg"))
                         {
-                            var bytes = InternalReadBytes(filepath);
+                            var bytes = InternalReadBytes(filepath, is_thumb);
 
                             h.Context.Response.ContentType = "image/jpg";
 
@@ -129,32 +139,36 @@ namespace DCIMCameraAppWithThumbnails
             }
         }
 
-        private static byte[] InternalReadBytes(string filepath)
+        private static byte[] InternalReadBytes(string filepath, bool thumb = true)
         {
             var mImageData = (sbyte[])(object)System.IO.File.ReadAllBytes(filepath);
 
-            // http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
-            int THUMBNAIL_HEIGHT = 48;
+            if (thumb)
+            {
+                // http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
+                int THUMBNAIL_HEIGHT = 96;
 
-            //int THUMBNAIL_WIDTH = 66;
+                //int THUMBNAIL_WIDTH = 66;
 
-            var imageBitmap = BitmapFactory.decodeByteArray(mImageData, 0, mImageData.Length);
-            float width = imageBitmap.getWidth();
-            float height = imageBitmap.getHeight();
-            float ratio = width / height;
-            imageBitmap = Bitmap.createScaledBitmap(imageBitmap, (int)(THUMBNAIL_HEIGHT * ratio), THUMBNAIL_HEIGHT, false);
+                var imageBitmap = BitmapFactory.decodeByteArray(mImageData, 0, mImageData.Length);
+                float width = imageBitmap.getWidth();
+                float height = imageBitmap.getHeight();
+                float ratio = width / height;
+                imageBitmap = Bitmap.createScaledBitmap(imageBitmap, (int)(THUMBNAIL_HEIGHT * ratio), THUMBNAIL_HEIGHT, false);
 
-            //int padding = (THUMBNAIL_WIDTH - imageBitmap.getWidth()) / 2;
-            //imageView.setPadding(padding, 0, padding, 0);
-            //imageView.setImageBitmap(imageBitmap);
+                //int padding = (THUMBNAIL_WIDTH - imageBitmap.getWidth()) / 2;
+                //imageView.setPadding(padding, 0, padding, 0);
+                //imageView.setImageBitmap(imageBitmap);
 
 
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            var bytes = baos.toByteArray();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                mImageData = baos.toByteArray();
 
-            return (byte[])(object)bytes;
+            }
+
+            return (byte[])(object)mImageData;
         }
     }
 }
