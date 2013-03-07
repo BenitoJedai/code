@@ -29,6 +29,11 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         // http://clients2.google.com/service/update2/crx?response=redirect&x=id%3Diiabebggdceojiejhopnopmbkgandhha%26uc%26lang%3Den-US&prod=chrome
         // Download interrupted
         // means servers are not yet in sync, wait some
+        // pbaaphpbkehboammnlcihpemkkimdfgo
+        // http://clients2.google.com/service/update2/crx?response=redirect&x=id%3Dpbaaphpbkehboammnlcihpemkkimdfgo%26uc%26lang%3Den-US&prod=chrome
+        // error-unknownApplication
+        // Error 404
+
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();

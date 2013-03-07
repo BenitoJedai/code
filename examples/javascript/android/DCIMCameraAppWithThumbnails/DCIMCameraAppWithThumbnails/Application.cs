@@ -41,21 +41,27 @@ namespace DCIMCameraAppWithThumbnails
 
             };
 
-            var container = new IHTMLDiv().AttachToDocument();
+            var container = new IHTMLCenter().AttachToDocument();
 
             ystring yfile = path =>
             {
-                new IHTMLDiv { innerText = path }.AttachTo(container).With(
+                new IHTMLDiv { innerText = path }.With(
                     div =>
                     {
-                        if (path.EndsWith(".jpg"))
+                        if (path.ToLower().EndsWith(".jpg"))
                         {
-                            new IHTMLBreak().AttachTo(div);
+                            div.innerText = "";
+
+                            div.AttachTo(container);
+                            // hide path
+
+                            //new IHTMLBreak().AttachTo(div);
+                            div.style.display = IStyle.DisplayEnum.inline_block;
 
                             new IHTMLImage { }.AttachTo(div).With(
                                 img =>
                                 {
-                                    img.style.width = "100%";
+                                    // portrait mode only!
 
                                     div.style.color = JSColor.Red;
                                     img.src = "/thumb/" + path;
@@ -70,6 +76,8 @@ namespace DCIMCameraAppWithThumbnails
                                             img.onclick += delegate
                                             {
                                                 img.src = "/io/" + path;
+                                                img.style.width = "100%";
+                                                div.style.display = IStyle.DisplayEnum.block;
                                             };
                                         }
                                     );
@@ -85,7 +93,7 @@ namespace DCIMCameraAppWithThumbnails
             };
 
             var skip = 0;
-            var take = 10;
+            var take = 30;
 
 
 

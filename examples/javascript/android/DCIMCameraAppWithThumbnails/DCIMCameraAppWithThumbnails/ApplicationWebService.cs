@@ -6,10 +6,10 @@ using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
 using System.Xml.Linq;
+using android.graphics;
 
 namespace DCIMCameraAppWithThumbnails
 {
-    using android.graphics;
     using ystring = Action<string>;
 
     /// <summary>
@@ -67,7 +67,9 @@ namespace DCIMCameraAppWithThumbnails
                         take--;
 
                         if (new File(path + "/" + item).isFile())
+                        {
                             yfile(path + "/" + item);
+                        }
 
                     }
                     else
@@ -163,7 +165,8 @@ namespace DCIMCameraAppWithThumbnails
 
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                // http://developer.android.com/reference/android/graphics/Bitmap.html
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, baos);
                 mImageData = baos.toByteArray();
 
             }
