@@ -22,6 +22,11 @@ namespace FlashHeatZeeker.UnitRocket.Library
         public double speed = 20;
 
         Stopwatch ApplyVelocityElapse = new Stopwatch();
+        public bool issmoke;
+        public double smokerandom;
+        public double smokescale = 2.0;
+        public long smoketime;
+
         public void ApplyVelocity()
         {
             // this is now

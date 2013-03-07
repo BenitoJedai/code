@@ -14,13 +14,20 @@ namespace FlashHeatZeeker.UnitRocket.Library
     public class StarlingGameSpriteWithRocketTextures
     {
         public Func<Texture>
-            rocket1;
+            smoke1,
+            rocket1,
+            rocket1_burn1,
+            rocket1_burn2;
 
         public StarlingGameSpriteWithRocketTextures(Texture64Constructor new_tex_crop)
         {
             //DRW 3
 
+            smoke1 = new_tex_crop("assets/FlashHeatZeeker.UnitRocket/smoke1.svg", innersize: 128, alpha: 0.7);
+
             rocket1 = new_tex_crop("assets/FlashHeatZeeker.UnitRocket/rocket1.svg", innersize: 128);
+            rocket1_burn1 = new_tex_crop("assets/FlashHeatZeeker.UnitRocket/rocket1_burn1.svg", innersize: 128);
+            rocket1_burn2 = new_tex_crop("assets/FlashHeatZeeker.UnitRocket/rocket1_burn2.svg", innersize: 128);
         }
 
     }
@@ -35,6 +42,10 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
             this.onbeforefirstframe += (stage, s) =>
             {
+
+                var cl = new PhysicalRocket(textures_rocket, this);
+
+                cl.issmoke = true;
 
                 current = new PhysicalRocket(textures_rocket, this);
 

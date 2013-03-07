@@ -18,8 +18,16 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
         public Image visual;
 
+        StarlingGameSpriteWithRocketTextures textures_rocket;
+        StarlingGameSpriteWithPhysics Context;
+
         public PhysicalRocket(StarlingGameSpriteWithRocketTextures textures_rocket, StarlingGameSpriteWithPhysics Context)
         {
+            this.Context = Context;
+            this.textures_rocket = textures_rocket;
+
+            this.CurrentInput = new KeySample();
+
             visual = new Image(textures_rocket.rocket1());
             visual.AttachTo(Context.Content);
 
@@ -42,7 +50,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 //bodyDef.angle = 1.57079633;
                 //bodyDef.fixedRotation = true;
 
-                body = Context.ground_b2world.CreateBody(bodyDef);
+                body = Context.smoke_b2world.CreateBody(bodyDef);
 
 
                 var fixDef = new Box2D.Dynamics.b2FixtureDef();
@@ -53,20 +61,20 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
                 fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(1.0);
 
+                // 
+                //var fix = body.CreateFixture(fixDef);
 
-                var fix = body.CreateFixture(fixDef);
+                //var fix_data = new Action<double>(
+                //    jeep_forceA =>
+                //    {
+                //        if (jeep_forceA < 1)
+                //            return;
 
-                var fix_data = new Action<double>(
-                    jeep_forceA =>
-                    {
-                        if (jeep_forceA < 1)
-                            return;
-
-                        if (Context.oncollision != null)
-                            Context.oncollision(this, jeep_forceA);
-                    }
-                );
-                fix.SetUserData(fix_data);
+                //        if (Context.oncollision != null)
+                //            Context.oncollision(this, jeep_forceA);
+                //    }
+                //);
+                //fix.SetUserData(fix_data);
             }
 
 

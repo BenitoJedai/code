@@ -91,7 +91,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             }
             set
             {
-                 this.visual.Altitude = value;
+                this.visual.Altitude = value;
             }
         }
 
@@ -212,10 +212,13 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
 
+        public Action ShowPositionAndAngleForSlaves;
+
         public void ShowPositionAndAngle()
         {
             if (body != null)
                 body.SetActive(true);
+
 
             if (current_slave1 != null)
             {
@@ -228,6 +231,10 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                         body.GetAngle()
                     );
             }
+
+            if (ShowPositionAndAngleForSlaves != null)
+                ShowPositionAndAngleForSlaves();
+
 
             if (this.driverseat.driver == null)
                 this.visual.Animate(Context.gametime);

@@ -10,10 +10,12 @@ using FlashHeatZeeker.UnitCannon.Library;
 using FlashHeatZeeker.UnitCannonControl.Library;
 using FlashHeatZeeker.UnitHind.Library;
 using FlashHeatZeeker.UnitHindControl.Library;
+using FlashHeatZeeker.UnitHindWeaponized.Library;
 using FlashHeatZeeker.UnitJeep.Library;
 using FlashHeatZeeker.UnitJeepControl.Library;
 using FlashHeatZeeker.UnitPed.Library;
 using FlashHeatZeeker.UnitPedControl.Library;
+using FlashHeatZeeker.UnitRocket.Library;
 using FlashHeatZeeker.UnitTank.Library;
 using FlashHeatZeeker.UnitTankControl.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
@@ -64,6 +66,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
             var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
+            var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);
 
             this.disablephysicsdiagnostics = true;
 
@@ -276,7 +279,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 // 12 = 34FPS
 
-                new PhysicalHind(textures_hind, this)
+                //new PhysicalHind(textures_hind, this)
+                new PhysicalHindWeaponized(textures_hind, textures_rocket, this)
                 {
                     AutomaticTakeoff = true
                 }.SetPositionAndAngle((128 + 256) / 16, -128 / 16);
@@ -922,49 +926,17 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                         #region simulate a weapone!
                         if (__keyDown[System.Windows.Forms.Keys.ControlKey])
-                            if (syncframeid % 4 == 0)
+                            if (syncframeid % 3 == 0)
                             {
-                                sb.snd_missleLaunch.play();
+                                (this.current as PhysicalHindWeaponized).With(
+                                    h =>
+                                    {
+                                        sb.snd_missleLaunch.play();
 
-                                var bodyDef = new b2BodyDef();
-
-                                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-
-                                // stop moving if legs stop walking!
-                                bodyDef.linearDamping = 0;
-                                bodyDef.angularDamping = 0;
-                                //bodyDef.angle = 1.57079633;
-                                bodyDef.fixedRotation = true;
-
-                                var body = current.body.GetWorld().CreateBody(bodyDef);
-                                body.SetPosition(
-                                    new b2Vec2(
-                                        current.body.GetPosition().x + 2,
-                                        current.body.GetPosition().y + 2
-                                    )
+                                        h.FireRocket();
+                                    }
                                 );
 
-                                body.SetLinearVelocity(
-                                       new b2Vec2(
-                                         100,
-                                        100
-                                    )
-                                );
-
-                                var fixDef = new Box2D.Dynamics.b2FixtureDef();
-                                fixDef.density = 0.1;
-                                fixDef.friction = 0.01;
-                                fixDef.restitution = 0;
-
-
-                                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(1.0);
-
-
-                                var fix = body.CreateFixture(fixDef);
-
-                                //body.SetPosition(
-                                //    new b2Vec2(0, -100 * 16)
-                                //);
                             }
                         #endregion
                     };
