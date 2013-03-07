@@ -75,9 +75,32 @@ namespace DCIMCameraAppWithThumbnails
 
                                             img.onclick += delegate
                                             {
-                                                img.src = "/io/" + path;
-                                                img.style.width = "100%";
-                                                div.style.display = IStyle.DisplayEnum.block;
+                                                if (img.src == "/thumb/" + path)
+                                                {
+                                                    img.src = "/io/" + path;
+                                                    img.style.width = "100%";
+                                                    div.style.display = IStyle.DisplayEnum.block;
+
+                                                    var p = new IHTMLPre { }.AttachTo(div);
+                                                    service.GetEXIF("/io/" + path,
+                                                        x =>
+                                                        {
+                                                            p.innerText = x;
+                                                        }
+                                                    );
+
+                                                    img.onclick += delegate
+                                                    {
+                                                        if (p == null)
+                                                            return;
+
+                                                        p.Orphanize();
+                                                        p = null;
+                                                        img.src = "/thumb/" + path;
+                                                        img.style.width = "";
+                                                    };
+                                                }
+
                                             };
                                         }
                                     );

@@ -11,6 +11,9 @@ using android.graphics;
 namespace DCIMCameraAppWithThumbnails
 {
     using ystring = Action<string>;
+    using com.drew.imaging;
+    using com.drew.metadata;
+    using System.Text;
 
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -82,13 +85,13 @@ namespace DCIMCameraAppWithThumbnails
             done("");
         }
 
-
+        const string thumb = "/thumb";
+        const string io = "/io";
 
         // refactor this into separate partial class file
         public void Handler(WebServiceHandler h)
         {
-            var thumb = "/thumb";
-            var io = "/io";
+
 
             var path = h.Context.Request.Path;
 
@@ -141,6 +144,37 @@ namespace DCIMCameraAppWithThumbnails
             }
         }
 
+        public void GetEXIF(string path, ystring yield)
+        {
+
+            var is_io = path.StartsWith(io);
+            var is_thumb = path.StartsWith(thumb);
+
+            var filepath = path.SkipUntilIfAny(io);
+
+            if (is_thumb)
+            {
+                filepath = path.SkipUntilIfAny(thumb);
+            }
+
+            // is this still a problem?
+            filepath = filepath.Replace("%20", " ");
+
+            var file = new File(filepath);
+
+
+            if (file.exists())
+                if (file.isFile())
+                    if (path.EndsWith(".jpg"))
+                    {
+
+                        file.print(yield);
+
+                    }
+        }
+
+
+
         private static byte[] InternalReadBytes(string filepath, bool thumb = true)
         {
             var mImageData = (sbyte[])(object)System.IO.File.ReadAllBytes(filepath);
@@ -172,6 +206,70 @@ namespace DCIMCameraAppWithThumbnails
             }
 
             return (byte[])(object)mImageData;
+        }
+    }
+
+    public static class X
+    {
+        public static void print(this File file, ystring yield)
+        {
+            // https://code.google.com/p/metadata-extractor/wiki/GettingStarted
+
+            var w = new StringBuilder();
+
+            w.AppendLine("metadata: ");
+
+            try
+            {
+
+                // http://drewnoakes.com/code/exif/
+                Metadata m = ImageMetadataReader.readMetadata(file);
+
+
+                //            [javac] V:\src\DCIMCameraAppWithThumbnails\ApplicationWebService.java:191: unreported exception com.drew.imaging.ImageProcessingException; must be caught or declared to be thrown
+                //[javac]                     metadata4 = ImageMetadataReader.readMetadata(file3);
+                //[javac]                                                                 ^
+
+
+
+                var i = m.getDirectories().iterator();
+
+                while (i.hasNext())
+                {
+                    var directory = (Directory)i.next();
+
+                    var tags = directory.getTags().toArray();
+
+                    foreach (Tag tag in tags)
+                    {
+
+                        w.AppendLine(new { tag }.ToString());
+                    }
+
+
+                    if (directory.hasErrors())
+                    {
+
+                        var ierror = directory.getErrors().iterator();
+
+                        while (ierror.hasNext())
+                        {
+                            var error = (string)ierror.next();
+
+                            w.AppendLine(new { error }.ToString());
+                        }
+                    }
+                }
+
+                w.AppendLine("end of metadata");
+
+            }
+            catch (Exception ex)
+            {
+                w.AppendLine("error " + new { ex.Message, ex.StackTrace });
+            }
+            yield(w.ToString());
+
         }
     }
 }

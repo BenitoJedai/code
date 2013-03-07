@@ -1,0 +1,20 @@
+﻿{
+    "version": "0.1",
+  "name": "Operation Heat Zeeker",
+  "description": "Operation Heat Zeeker",
+    "launch_path": "/index.htm",
+    "icons": {
+    "16": "/Preview16.png",
+    "128": "/Preview128.png"
+    },
+    "developer": {
+        "name": "Abstractatech",
+        "url": "http://visit.abstractatech.com"
+    },
+    "installs_allowed_from": ["*"],
+
+    "default_locale": "en",
+    "permissions": {
+      
+    }
+}
