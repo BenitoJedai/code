@@ -120,6 +120,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitRocket"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.Lobby", "FlashHeatZeeker.Lobby\FlashHeatZeeker.Lobby.csproj", "{06CA7FC9-ACAE-4DF3-B482-9ECF62829986}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.ChromeWebStoreCheck", "FlashHeatZeeker.ChromeWebStoreCheck\FlashHeatZeeker.ChromeWebStoreCheck.csproj", "{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -660,6 +662,16 @@ Global
 		{06CA7FC9-ACAE-4DF3-B482-9ECF62829986}.Release|Mixed Platforms.Build.0 = Release|x86
 		{06CA7FC9-ACAE-4DF3-B482-9ECF62829986}.Release|x86.ActiveCfg = Release|x86
 		{06CA7FC9-ACAE-4DF3-B482-9ECF62829986}.Release|x86.Build.0 = Release|x86
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{74CFF433-71D9-43D4-A4C1-A8DDBDDDA956}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
