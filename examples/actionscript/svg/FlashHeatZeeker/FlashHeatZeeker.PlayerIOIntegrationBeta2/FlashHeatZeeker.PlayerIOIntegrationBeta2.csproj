@@ -230,7 +230,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\manifest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup />
