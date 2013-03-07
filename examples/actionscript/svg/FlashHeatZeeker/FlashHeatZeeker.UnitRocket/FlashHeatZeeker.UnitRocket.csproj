@@ -137,6 +137,13 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Library\PhysicalRocket.SetPositionAndAngle.cs" />
+    <Compile Include="Library\PhysicalRocket.FeedKarma.cs" />
+    <Compile Include="Library\PhysicalRocket.SetVelocityFromInput.cs" />
+    <Compile Include="Library\PhysicalRocket.ExtractVelocityFromInput.cs" />
+    <Compile Include="Library\PhysicalRocket.ApplyVelocity.cs" />
+    <Compile Include="Library\PhysicalRocket.ShowPositionAndAngle.cs" />
+    <Compile Include="Library\PhysicalRocket.cs" />
     <Compile Include="Library\StarlingGameSpriteWithRocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />

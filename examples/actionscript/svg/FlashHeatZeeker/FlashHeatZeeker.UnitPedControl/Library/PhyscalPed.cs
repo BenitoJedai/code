@@ -20,18 +20,15 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 {
     public partial class PhysicalPed : IPhysicalUnit
     {
-        public double Altitude { get; set; }
         public RemoteGame RemoteGameReference { get; set; }
 
+        public double Altitude { get; set; }
         public string Identity { get; set; }
-
-
-
         public double CameraRotation { get; set; }
+        public DriverSeat driverseat { get; set; }
 
 
         public IPhysicalUnit seatedvehicle { get; set; }
-        public DriverSeat driverseat { get; set; }
 
         public b2Body body { get; set; }
         public b2Body karmabody { get; set; }
@@ -54,7 +51,6 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
 
 
-        Velocity velocity = new Velocity();
 
         // nop
         public void SetVelocityFromInput(KeySample __keyDown)
@@ -123,6 +119,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             public double LinearVelocityX;
             public double LinearVelocityY;
         }
+        Velocity velocity = new Velocity();
 
         public void ExtractVelocityFromInput(KeySample __keyDown, Velocity value)
         {
@@ -323,7 +320,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 // stop moving if legs stop walking!
                 bodyDef.linearDamping = 0;
-                bodyDef.angularDamping =6;
+                bodyDef.angularDamping = 6;
                 //bodyDef.angle = 1.57079633;
                 //bodyDef.fixedRotation = true;
 
@@ -357,7 +354,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
             #endregion
 
-
+            #region groundkarma_b2world
             {
                 var bodyDef = new b2BodyDef();
 
@@ -383,6 +380,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 var fix = karmabody.CreateFixture(fixDef);
             }
+            #endregion
 
 
 

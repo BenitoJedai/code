@@ -1,4 +1,5 @@
-﻿using FlashHeatZeeker.CorePhysics.Library;
+﻿using FlashHeatZeeker.Core.Library;
+using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
 using starling.display;
 using starling.textures;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitRocket.Library
 {
@@ -25,17 +27,45 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
     class StarlingGameSpriteWithRocket : StarlingGameSpriteWithPhysics
     {
+        public static KeySample __keyDown = new KeySample();
+
         public StarlingGameSpriteWithRocket()
         {
             var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);
 
             this.onbeforefirstframe += (stage, s) =>
             {
-                var n = new Image(textures_rocket.rocket1());
+
+                current = new PhysicalRocket(textures_rocket, this);
 
 
-                n.AttachTo(this);
+                #region __keyDown
 
+                stage.keyDown +=
+                   e =>
+                   {
+                       // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
+                       if (e.altKey)
+                           __keyDown[Keys.Alt] = true;
+
+                       __keyDown[(Keys)e.keyCode] = true;
+                   };
+
+                stage.keyUp +=
+                 e =>
+                 {
+                     if (!e.altKey)
+                         __keyDown[Keys.Alt] = false;
+
+                     __keyDown[(Keys)e.keyCode] = false;
+                 };
+
+                #endregion
+
+                onsyncframe += delegate
+                {
+                    current.SetVelocityFromInput(__keyDown);
+                };
             };
         }
     }

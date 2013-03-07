@@ -83,7 +83,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 onsyncframe += delegate
                 {
-
+                    #region patrol1
                     if (syncframeid % 300 == 100)
                     {
                         patrol1.body.SetAngle(
@@ -128,6 +128,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                         patrol1.SetVelocityFromInput(partol_commands);
                     }
+                    #endregion
+
 
                     current.SetVelocityFromInput(__keyDown);
 
