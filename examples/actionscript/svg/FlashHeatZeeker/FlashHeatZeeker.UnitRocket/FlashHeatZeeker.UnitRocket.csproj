@@ -152,6 +152,9 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitRocket\smoke1.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitRocket\rocket1_burn2.svg" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitRocket\rocket1_burn1.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitRocket\rocket1.svg" />
   </ItemGroup>
   <ItemGroup>

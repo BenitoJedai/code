@@ -37,10 +37,24 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
                 cm.translate(-64, -64);
                 // how big shall the shadow be?
-                //cm.scale(2.0, 2.0);
 
-                cm.rotate(a + Math.PI / 2);
+                if (issmoke)
+                {
+                    var sc = (1 - ((smokescale * smokerandom) * (this.Context.gametime.ElapsedMilliseconds - this.smoketime) / 9000.0)).Max(0).Min(1);
 
+                    cm.scale(smokescale * sc, smokescale * sc);
+                    cm.rotate(this.Context.gametime.ElapsedMilliseconds * 0.001 + smokerandom);
+                }
+                else
+                {
+                    cm.scale(0.7, 0.8);
+                    cm.rotate(a + Math.PI / 2);
+                }
+
+                {
+                    var ascale = 1 + this.Context.airzoom * this.Altitude;
+                    cm.scale(ascale, ascale);
+                }
 
                 cm.translate(
                      x, y
@@ -57,7 +71,24 @@ namespace FlashHeatZeeker.UnitRocket.Library
             //}
 
             //var iswalking = velocity.LinearVelocityX != 0 || velocity.LinearVelocityY != 0;
-            //var iswalking = this.body.GetLinearVelocity().Length() > 0;
+            var iswalking = this.body.GetLinearVelocity().Length() > 0;
+
+            if (issmoke)
+            {
+                visual.texture = this.textures_rocket.smoke1();
+            }
+            else
+                if (iswalking)
+                {
+                    if (this.Context.syncframeid % 2 == 0)
+                    {
+                        visual.texture = this.textures_rocket.rocket1_burn1();
+                    }
+                    else
+                    {
+                        visual.texture = this.textures_rocket.rocket1_burn2();
+                    }
+                }
             //this.visual.Animate(velocity.LinearVelocityX, velocity.LinearVelocityY);
 
 

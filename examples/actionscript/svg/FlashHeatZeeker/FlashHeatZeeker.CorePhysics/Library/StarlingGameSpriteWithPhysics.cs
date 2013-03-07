@@ -19,7 +19,8 @@ namespace FlashHeatZeeker.CorePhysics.Library
         public b2World
             ground_b2world,
             groundkarma_b2world,
-            air_b2world;
+            air_b2world,
+            smoke_b2world;
 
 
         IPhysicalUnit
@@ -44,7 +45,8 @@ namespace FlashHeatZeeker.CorePhysics.Library
         public ScriptCoreLib.ActionScript.flash.display.Sprite
             ground_dd,
             groundkarma_dd,
-            air_dd;
+            air_dd,
+            smoke_dd;
 
         public Stopwatch physicstime = new Stopwatch();
         public double airzoom = 0.35;
@@ -112,7 +114,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
             #endregion
 
 
-            #region ground_b2world
+            #region groundkarma_b2world
             // first frame  ... set up our physccs
             // zombies!!
             groundkarma_b2world = new b2World(new b2Vec2(0, 0), false);
@@ -178,6 +180,44 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
 
             #endregion
+
+            #region air_b2world
+            // first frame  ... set up our physccs
+            // zombies!!
+            smoke_b2world = new b2World(new b2Vec2(0, 0), false);
+
+            var smoke_b2debugDraw = new b2DebugDraw();
+
+            smoke_dd = new ScriptCoreLib.ActionScript.flash.display.Sprite();
+
+            // make it red!
+            //air_dd.transform.colorTransform = new ColorTransform(1.0, 0, 0);
+            // make it slave
+            smoke_dd.alpha = 0.3;
+
+
+
+
+
+            smoke_b2debugDraw.SetSprite(air_dd);
+            // textures are 512 pixels, while our svgs are 400px
+            // so how big is a meter in our game world? :)
+            smoke_b2debugDraw.SetDrawScale(16);
+            smoke_b2debugDraw.SetFillAlpha(0.1);
+            smoke_b2debugDraw.SetLineThickness(1.0);
+            smoke_b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
+
+            smoke_b2world.SetDebugDraw(air_b2debugDraw);
+
+
+
+
+
+
+
+
+            #endregion
+
 
 
             #region obstacles
@@ -284,6 +324,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                     s.nativeOverlay.addChild(ground_dd);
                     s.nativeOverlay.addChild(groundkarma_dd);
                     s.nativeOverlay.addChild(air_dd);
+                    s.nativeOverlay.addChild(smoke_dd);
                 }
                 // 1000 / 15
                 var syncframeinterval = 1000 / 15;
@@ -349,11 +390,13 @@ namespace FlashHeatZeeker.CorePhysics.Library
                         ground_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         groundkarma_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         air_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
+                        smoke_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         #endregion
 
                         ground_b2world.ClearForces();
                         groundkarma_b2world.ClearForces();
                         air_b2world.ClearForces();
+                        smoke_b2world.ClearForces();
 
 
                         #region DrawDebugData ClearForces
@@ -363,6 +406,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                             ground_b2world.DrawDebugData();
                             groundkarma_b2world.DrawDebugData();
                             air_b2world.DrawDebugData();
+                            smoke_b2world.DrawDebugData();
                         }
                         #endregion
 
@@ -481,6 +525,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                             ground_dd.transform.matrix = cm;
                             groundkarma_dd.transform.matrix = cm;
                             air_dd.transform.matrix = cm;
+                            smoke_dd.transform.matrix = cm;
                         }
                         #endregion
 

@@ -33,7 +33,7 @@ namespace FlashHeatZeeker.UnitHind.Library
 
 
 
-
+            #region visualbody_shadow
             {
                 var cm = new Matrix();
 
@@ -64,6 +64,7 @@ namespace FlashHeatZeeker.UnitHind.Library
 
                 visualbody_shadow.transformationMatrix = cm;
             }
+            #endregion
 
             {
                 var cm = new Matrix();
