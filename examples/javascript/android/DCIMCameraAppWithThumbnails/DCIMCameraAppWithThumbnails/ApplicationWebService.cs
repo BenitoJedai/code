@@ -7,13 +7,14 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 using android.graphics;
+using com.drew.imaging;
+using com.drew.metadata;
+using System.Text;
 
 namespace DCIMCameraAppWithThumbnails
 {
     using ystring = Action<string>;
-    using com.drew.imaging;
-    using com.drew.metadata;
-    using System.Text;
+
 
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -39,9 +40,9 @@ namespace DCIMCameraAppWithThumbnails
             string stake = "10",
             ystring done = null)
         {
-            var DIRECTORY_DCIM = android.os.Environment.DIRECTORY_DCIM;
+            var DIRECTORY_DCIM = global::android.os.Environment.DIRECTORY_DCIM;
 
-            path = android.os.Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getAbsolutePath();
+            path = global::android.os.Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getAbsolutePath();
             path += "/Camera";
 
             var f = new File(path);

@@ -72,16 +72,17 @@ namespace DCIMCameraAppWithThumbnails
                                         {
                                             div.style.color = JSColor.Green;
 
+                                            IHTMLPre p = null;
 
                                             img.onclick += delegate
                                             {
-                                                if (img.src == "/thumb/" + path)
+                                                if (p == null)
                                                 {
                                                     img.src = "/io/" + path;
                                                     img.style.width = "100%";
                                                     div.style.display = IStyle.DisplayEnum.block;
 
-                                                    var p = new IHTMLPre { }.AttachTo(div);
+                                                     p = new IHTMLPre { }.AttachTo(div);
                                                     service.GetEXIF("/io/" + path,
                                                         x =>
                                                         {
@@ -89,16 +90,15 @@ namespace DCIMCameraAppWithThumbnails
                                                         }
                                                     );
 
-                                                    img.onclick += delegate
-                                                    {
-                                                        if (p == null)
-                                                            return;
+                                               
+                                                }
+                                                else
+                                                {
 
-                                                        p.Orphanize();
-                                                        p = null;
-                                                        img.src = "/thumb/" + path;
-                                                        img.style.width = "";
-                                                    };
+                                                    p.Orphanize();
+                                                    p = null;
+                                                    img.src = "/thumb/" + path;
+                                                    img.style.width = "";
                                                 }
 
                                             };
