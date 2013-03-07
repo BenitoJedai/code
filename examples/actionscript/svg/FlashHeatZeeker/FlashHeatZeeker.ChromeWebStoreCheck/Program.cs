@@ -37,6 +37,7 @@ namespace FlashHeatZeeker.ChromeWebStoreCheck
                 try
                 {
                     var r = request.GetResponse();
+                    Console.WriteLine(new { r.ContentLength });
                 }
                 catch (Exception ex)
                 {
@@ -46,6 +47,9 @@ namespace FlashHeatZeeker.ChromeWebStoreCheck
 
                         continue;
                     }
+
+                    Console.WriteLine(ex);
+
                 }
 
                 Console.WriteLine("ready!");
