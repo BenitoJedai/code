@@ -23,6 +23,12 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
     /// </summary>
     public sealed class Application
     {
+        // crx
+        // https://chrome.google.com/webstore/detail/operation-heat-zeeker/iiabebggdceojiejhopnopmbkgandhha?hl=et&utm_source=chrome-ntp-launcher
+        // use non chrome to download without install
+        // http://clients2.google.com/service/update2/crx?response=redirect&x=id%3Diiabebggdceojiejhopnopmbkgandhha%26uc%26lang%3Den-US&prod=chrome
+        // Download interrupted
+        // means servers are not yet in sync, wait some
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();
