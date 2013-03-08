@@ -689,7 +689,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         }
                         else
                         {
-                            #region entermode_changepending
+                            #region Enter
                             if (!__keyDown[System.Windows.Forms.Keys.Enter])
                             {
                                 // space is not down.
@@ -741,6 +741,18 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                                 if (current is PhysicalJeep)
                                                 {
                                                     sb.snd_jeepengine_start.play();
+                                                }
+
+                                                else if (current is PhysicalBunker)
+                                                {
+                                                    if (random.NextDouble() > 0.5)
+                                                    {
+                                                        sb.snd_itsempty.play();
+                                                    }
+                                                    else
+                                                    {
+                                                        sb.snd_nothinghere.play();
+                                                    }
                                                 }
                                                 else
                                                 {

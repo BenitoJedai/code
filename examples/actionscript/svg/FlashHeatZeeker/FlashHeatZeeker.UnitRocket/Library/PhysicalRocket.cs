@@ -1,11 +1,13 @@
 ﻿using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using starling.display;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitRocket.Library
 {
@@ -111,6 +113,60 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
 
             Context.internalunits.Add(this);
+        }
+
+        public Queue<PhysicalRocket> CreateSmokeRecycleCache = new Queue<PhysicalRocket>();
+
+        public void CreateSmoke()
+        {
+            if (issmoke)
+                return;
+
+            PhysicalRocket smoke = null;
+
+            if (CreateSmokeRecycleCache.Count < 8)
+            {
+
+                smoke = new PhysicalRocket(textures_rocket, Context)
+                {
+                    issmoke = true
+                };
+
+            }
+            else
+            {
+                smoke = CreateSmokeRecycleCache.Dequeue();
+
+            }
+
+
+            smoke.smokerandom = Context.random.NextDouble() * Math.PI * 2;
+            smoke.smoketime = Context.gametime.ElapsedMilliseconds;
+
+            if (this.body.GetLinearVelocity().Length() > 0)
+            {
+                smoke.smokescale = 0.3 + 0.4 * Context.random.NextDouble();
+                CreateSmokeRecycleCache.Enqueue(smoke);
+            }
+            else
+            {
+            }
+
+            {
+                var up = new KeySample();
+                up[Keys.Up] = true;
+                smoke.speed = 5;
+                smoke.SetVelocityFromInput(up);
+            }
+
+            var a = this.body.GetAngle() + (175 + Context.random.Next(10)).DegreesToRadians();
+
+            smoke.SetPositionAndAngle(
+                this.body.GetPosition().x + Math.Cos(a) * 2,
+                this.body.GetPosition().y + Math.Sin(a) * 2,
+                a
+                );
+            smoke.ShowPositionAndAngle();
         }
     }
 }

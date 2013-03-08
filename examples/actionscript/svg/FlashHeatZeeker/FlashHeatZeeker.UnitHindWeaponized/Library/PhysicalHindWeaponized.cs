@@ -23,12 +23,36 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
             )
             : base(textures_hind, __Context)
         {
+            var RocketsMax = 12;
+            var Rockets = new Queue<PhysicalRocket>();
+
             var Context = __Context;
             var rocket0 = new PhysicalRocket(textures_rocket, Context);
             rocket0.SetPositionAndAngle(-0.5, 2);
 
+
             var rocket1 = new PhysicalRocket(textures_rocket, Context);
             rocket1.SetPositionAndAngle(-0.5, -2);
+
+            #region z fixup
+            rocket0.visual.parent.setChildIndex(
+                rocket0.visual,
+
+                this.visual.visualnowings.parent.getChildIndex(
+                    this.visual.visualnowings
+                )
+            );
+            #endregion
+
+            #region z fixup
+            rocket1.visual.parent.setChildIndex(
+                rocket1.visual,
+
+                this.visual.visualnowings.parent.getChildIndex(
+                    this.visual.visualnowings
+                )
+            );
+            #endregion
 
             var hind0 = this;
 
@@ -71,69 +95,82 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
 
             FireRocket = delegate
             {
-                #region create_smoke
-                Action<PhysicalRocket> create_smoke = rocket =>
-                {
-                    var smoke = new PhysicalRocket(textures_rocket, Context)
-                    {
-                        issmoke = true,
-                        smokerandom = Context.random.NextDouble() * Math.PI * 2,
-                        smoketime = Context.gametime.ElapsedMilliseconds
-                    };
 
-                    {
-                        var up = new KeySample();
-                        up[Keys.Up] = true;
-                        smoke.speed = 5;
-                        smoke.SetVelocityFromInput(up);
-                    }
-
-                    var a = rocket.body.GetAngle() + (175 + Context.random.Next(10)).DegreesToRadians();
-
-                    smoke.SetPositionAndAngle(
-                        rocket.body.GetPosition().x + Math.Cos(a) * 2,
-                        rocket.body.GetPosition().y + Math.Sin(a) * 2,
-                        a
-                        );
-                    smoke.ShowPositionAndAngle();
-                };
-                #endregion
 
 
                 if (rocket0 != null)
                 {
+                    rocket0.CreateSmoke();
                     {
                         var up = new KeySample();
                         up[Keys.Up] = true;
-                        rocket0.speed = 40 + this.body.GetLinearVelocity().Length();
+                        rocket0.speed = 60 + this.body.GetLinearVelocity().Length();
                         rocket0.SetVelocityFromInput(up);
                     }
-                    create_smoke(rocket0);
+                    Rockets.Enqueue(rocket0);
                     rocket0 = null;
 
 
                     if (rocket1 == null)
                     {
+                        if (Rockets.Count > RocketsMax)
+                        {
+                            rocket1 = Rockets.Dequeue();
+                            rocket1.SetVelocityFromInput(new KeySample());
+                        }
+                        else
+                        {
+                            rocket1 = new PhysicalRocket(textures_rocket, Context);
 
-                        rocket1 = new PhysicalRocket(textures_rocket, Context);
-                        rocket1.SetPositionAndAngle(-0.5, -2);
+                            #region z fixup
+                            rocket1.visual.parent.setChildIndex(
+                                rocket1.visual,
 
-
+                                this.visual.visualnowings.parent.getChildIndex(
+                                    this.visual.visualnowings
+                                )
+                            );
+                            #endregion
+                        }
                     }
                 }
                 else if (rocket1 != null)
                 {
-                    var up = new KeySample();
-                    up[Keys.Up] = true;
-                    rocket1.speed = 40 + this.body.GetLinearVelocity().Length();
-                    rocket1.SetVelocityFromInput(up);
-                    create_smoke(rocket1);
+                    rocket1.CreateSmoke();
+                    {
+                        var up = new KeySample();
+                        up[Keys.Up] = true;
+                        rocket1.speed = 60 + this.body.GetLinearVelocity().Length();
+                        rocket1.SetVelocityFromInput(up);
+                    }
+                    Rockets.Enqueue(rocket1);
                     rocket1 = null;
 
                     if (rocket0 == null)
                     {
-                        rocket0 = new PhysicalRocket(textures_rocket, Context);
-                        rocket0.SetPositionAndAngle(-0.5, 2);
+                        if (Rockets.Count > RocketsMax)
+                        {
+                            rocket0 = Rockets.Dequeue();
+                            rocket0.SetVelocityFromInput(new KeySample());
+                        }
+                        else
+                        {
+                            rocket0 = new PhysicalRocket(textures_rocket, Context);
+
+                            #region z fixup
+                            rocket0.visual.parent.setChildIndex(
+                                rocket0.visual,
+
+                                this.visual.visualnowings.parent.getChildIndex(
+                                    this.visual.visualnowings
+                                )
+                            );
+                            #endregion
+
+
+
+                        }
+
                     }
                 }
             };
