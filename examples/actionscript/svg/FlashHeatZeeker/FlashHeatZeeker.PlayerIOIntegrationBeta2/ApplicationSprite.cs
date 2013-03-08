@@ -127,6 +127,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
             var lobby = new FlashHeatZeeker.Lobby.ApplicationSprite();
             lobby.AttachTo(this);
 
+            var sb = new Soundboard();
 
             this.InvokeWhenPromotionIsReady(
                 delegate
@@ -135,6 +136,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                     {
                         if (lobby == null)
                             return;
+
+                        sb.snd_click.play();
 
                         lobby.ytp.pauseVideo();
                         lobby.Orphanize();
@@ -156,7 +159,6 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
                                      CanConnectAndroid = false;
 
-                                     var sb = new Soundboard();
                                      sb.snd_lookingforlongrangecomms.play(
                                          loops: 2,
                                          sndTransform: new ScriptCoreLib.ActionScript.flash.media.SoundTransform(0.4)

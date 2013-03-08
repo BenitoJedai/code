@@ -129,6 +129,7 @@ namespace InteractivePromotionB.Components
 
             bool once = false;
 
+            #region onReady
             Action<Event> onReady = e =>
             {
                 if (once)
@@ -166,6 +167,8 @@ namespace InteractivePromotionB.Components
 
 
             };
+            #endregion
+
 
             var PreviousCurrentState = YouTubePlayerState.unknown;
             var CurrentState = YouTubePlayerState.unknown;
@@ -174,6 +177,7 @@ namespace InteractivePromotionB.Components
             var CurrentScene = DefaultScene;
             Action CurrentSceneDone = delegate { };
 
+            #region onStateChange
             Action<Event> onStateChange = e =>
             {
                 PreviousCurrentState = CurrentState;
@@ -209,6 +213,8 @@ namespace InteractivePromotionB.Components
                     }
                 }
             };
+            #endregion
+
 
             var TimeToPause = 0.4;
 
@@ -261,6 +267,7 @@ namespace InteractivePromotionB.Components
 
             t.start();
 
+            #region PlayScene
             this.PlayScene =
                 (e, Done) =>
                 {
@@ -277,6 +284,15 @@ namespace InteractivePromotionB.Components
                     ldr.content.seekTo(e.start);
                     ldr.content.playVideo();
                 };
+            #endregion
+
+        
+
+            ldr.contentLoaderInfo.ioError +=
+                delegate
+                { 
+                
+                };
 
             ldr.contentLoaderInfo.init +=
                 delegate
@@ -288,7 +304,8 @@ namespace InteractivePromotionB.Components
 
             var ctx = new LoaderContext(true, ctx_app, ctx_sec);
             ldr.load(urlReq, ctx);
-
+            
+            
             this.Scenes = new SceneSequenzer { Owner = this };
         }
 

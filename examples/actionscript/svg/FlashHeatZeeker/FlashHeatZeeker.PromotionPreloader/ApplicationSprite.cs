@@ -92,10 +92,11 @@ namespace FlashHeatZeeker.PromotionPreloader
                                 {
                                     i.Orphanize();
                                     i = null;
-                                    tt.stop();
 
                                     if (yield != null)
                                         yield();
+
+                                    tt.stop();
                                 }
                             };
 

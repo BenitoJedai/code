@@ -55,7 +55,41 @@ namespace FlashHeatZeeker.Core.Library
             }
             set
             {
-                this[KeysToOffset(k)] = value;
+
+              
+
+
+                var i = KeysToOffset(k);
+
+                if (i == 0)
+                {
+                    // alias
+                    if (k == Keys.W)
+                        this[KeysToOffset(Keys.Up)] = value;
+                    if (k == Keys.S)
+                        this[KeysToOffset(Keys.Down)] = value;
+
+
+
+                    return;
+                }
+
+                this[i] = value;
+
+
+
+            }
+        }
+
+        public bool this[Keys k, Keys k2]
+        {
+            get
+            {
+                var a = this[KeysToOffset(k)];
+                var b = this[KeysToOffset(k2)];
+
+
+                return a || b;
             }
         }
 
@@ -80,6 +114,13 @@ namespace FlashHeatZeeker.Core.Library
                 return 8;
             if (k == Keys.N)
                 return 7;
+
+
+            if (k == Keys.A)
+                return 6;
+            if (k == Keys.D)
+                return 5;
+
 
             return 0;
         }
