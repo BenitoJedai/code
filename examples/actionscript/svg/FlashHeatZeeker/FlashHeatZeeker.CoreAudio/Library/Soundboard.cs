@@ -39,6 +39,8 @@ namespace FlashHeatZeeker.CoreAudio.Library
         public Sound snd_letsgo = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_letsgo.mp3"].ToSoundAsset();
         public Sound snd_SelectWeapon = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_SelectWeapon.mp3"].ToSoundAsset();
         public Sound snd_dooropen = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_dooropen.mp3"].ToSoundAsset();
+        public Sound snd_itsempty = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_itsempty.mp3"].ToSoundAsset();
+        public Sound snd_nothinghere = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_nothinghere.mp3"].ToSoundAsset();
 
         public Sound snd_lookingforlongrangecomms = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_lookingforlongrangecomms.mp3"].ToSoundAsset();
 

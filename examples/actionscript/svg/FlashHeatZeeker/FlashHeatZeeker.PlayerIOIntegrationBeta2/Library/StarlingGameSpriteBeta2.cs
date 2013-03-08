@@ -384,6 +384,17 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
                                          {
                                              sb.snd_jeepengine_start.play();
                                          }
+                                         else if (current is PhysicalBunker)
+                                         {
+                                             if (random.NextDouble() > 0.5)
+                                             {
+                                                 sb.snd_itsempty.play();
+                                             }
+                                             else
+                                             {
+                                                 sb.snd_nothinghere.play();
+                                             }
+                                         }
                                          else
                                          {
                                              sb.snd_dooropen.play(

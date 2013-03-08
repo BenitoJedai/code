@@ -26,6 +26,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
         public double smokerandom;
         public double smokescale = 2.0;
         public long smoketime;
+        public double smoketimelength = 4500.0;
 
         public void ApplyVelocity()
         {

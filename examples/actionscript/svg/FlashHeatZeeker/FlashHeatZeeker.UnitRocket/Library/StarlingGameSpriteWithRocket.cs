@@ -23,7 +23,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
         {
             //DRW 3
 
-            smoke1 = new_tex_crop("assets/FlashHeatZeeker.UnitRocket/smoke1.svg", innersize: 128, alpha: 0.3);
+            smoke1 = new_tex_crop("assets/FlashHeatZeeker.UnitRocket/smoke1.svg", innersize: 128, alpha: 0.8);
 
             rocket1 = new_tex_crop("assets/FlashHeatZeeker.UnitRocket/rocket1.svg", innersize: 128);
             rocket1_burn1 = new_tex_crop("assets/FlashHeatZeeker.UnitRocket/rocket1_burn1.svg", innersize: 128);
