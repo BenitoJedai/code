@@ -197,6 +197,12 @@
     <Reference Include="FlashHeatZeeker.TestGamePad.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.TestGamePad\bin\staging.AssetsLibrary\FlashHeatZeeker.TestGamePad.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.UnitHindWeaponized.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitHindWeaponized\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitHindWeaponized.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitRocket.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.UnitRocket\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitRocket.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />

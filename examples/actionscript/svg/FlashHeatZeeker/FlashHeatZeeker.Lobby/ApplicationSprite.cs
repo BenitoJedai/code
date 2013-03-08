@@ -36,6 +36,7 @@ namespace FlashHeatZeeker.Lobby
 
                     var yNext = default(Action);
 
+                    #region yinit
                     Action yinit = delegate
                     {
                         ytp.Loader.content.x = (this.stage.stageWidth - 1280) / 2;
@@ -56,6 +57,7 @@ namespace FlashHeatZeeker.Lobby
 
                         yNext();
                     };
+                    #endregion
 
                     // fails on android?
                     ytp = new YouTubePlayer(
@@ -71,6 +73,7 @@ namespace FlashHeatZeeker.Lobby
 
                     var yall = ytp["all", 0, 100000];
 
+                    #region yNext
                     yNext = delegate
                     {
                         ytp.PlayScene(
@@ -87,6 +90,7 @@ namespace FlashHeatZeeker.Lobby
                             }
                         );
                     };
+                    #endregion
 
                     var te = new TextField { autoSize = TextFieldAutoSize.LEFT };
 
@@ -133,12 +137,11 @@ namespace FlashHeatZeeker.Lobby
                     content.enter.MouseLeftButtonUp +=
                         delegate
                         {
-                            entero.Opacity = 0.0;
 
                             if (StartClicked != null)
                                 StartClicked();
 
-
+                            entero.Opacity = 0.0;
                         };
 
                     content.enter.MouseLeave +=
@@ -151,6 +154,8 @@ namespace FlashHeatZeeker.Lobby
                      };
                     #endregion
 
+                    content.AttachToContainer(this);
+                    content.AutoSizeTo(this.stage);
                 }
             );
 

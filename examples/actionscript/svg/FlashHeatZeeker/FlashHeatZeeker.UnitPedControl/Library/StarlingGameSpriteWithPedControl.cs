@@ -65,6 +65,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                            __keyDown[Keys.Alt] = true;
 
                        __keyDown[(Keys)e.keyCode] = true;
+
+                       this.Text = new { e.keyCode,  Keys.A }.ToString();
                    };
 
                 stage.keyUp +=

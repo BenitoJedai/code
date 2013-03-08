@@ -96,6 +96,21 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
                  #endregion
 
 
+                 #region :ego
+                 var ego = this.current as PhysicalPed;
+
+                 ego.Identity = sessionid + ":ego";
+
+                 ego.SetPositionAndAngle(
+                     random.NextDouble() * -8,
+                     random.NextDouble() * -8,
+                     random.NextDouble() * Math.PI
+                 );
+
+                 current = ego;
+                 #endregion
+
+
                  #region __at_sync
                  __at_sync += __egoid =>
                  {
@@ -155,6 +170,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
                      {
                          var o = other(__egoid);
 
+                         #region u PhysicalPed
                          var u = this.units.FirstOrDefault(k => k.Identity == __identity);
 
                          if (u == null)
@@ -177,7 +193,14 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
 
                                  o.ego = u;
                              }
+                         #endregion
 
+                         if (u == ego)
+                         {
+                             // discard, only we are allowed to move
+                             // ourselves for now
+                             return;
+                         }
 
                          // set the input!
 
@@ -254,20 +277,6 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
 
 
 
-
-                 #region :ego
-                 var ego = this.current as PhysicalPed;
-
-                 ego.Identity = sessionid + ":ego";
-
-                 ego.SetPositionAndAngle(
-                     random.NextDouble() * -8,
-                     random.NextDouble() * -8,
-                     random.NextDouble() * Math.PI
-                 );
-
-                 current = ego;
-                 #endregion
 
 
 
