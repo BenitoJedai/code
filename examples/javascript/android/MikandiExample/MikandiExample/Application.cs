@@ -29,11 +29,25 @@ namespace MikandiExample
         public Application(IApp page)
         {
             @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
+
+            page.Login.onclick += delegate
+            {
+                service.Login(
+                    @"",
+                    value => value.ToDocumentTitle()
+                );
+            };
+
+            page.Install.onclick += delegate
+            {
+                service.Install();
+            };
+
+            page.InterstitialAd.onclick += delegate
+            {
+                service.InterstitialAd();
+            };
         }
 
     }
