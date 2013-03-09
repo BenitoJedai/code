@@ -20,7 +20,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
             ground_b2world,
             groundkarma_b2world,
             air_b2world,
-            smoke_b2world;
+            damage_b2world;
 
 
         IPhysicalUnit
@@ -181,10 +181,13 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
             #endregion
 
-            #region air_b2world
+            #region damage_b2world
             // first frame  ... set up our physccs
             // zombies!!
-            smoke_b2world = new b2World(new b2Vec2(0, 0), false);
+            damage_b2world = new b2World(new b2Vec2(0, 0), false);
+            damage_b2world.SetContactListener(
+               new XContactListener()
+            );
 
             var smoke_b2debugDraw = new b2DebugDraw();
 
@@ -207,7 +210,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
             smoke_b2debugDraw.SetLineThickness(1.0);
             smoke_b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
 
-            smoke_b2world.SetDebugDraw(air_b2debugDraw);
+            damage_b2world.SetDebugDraw(air_b2debugDraw);
 
 
 
@@ -390,13 +393,13 @@ namespace FlashHeatZeeker.CorePhysics.Library
                         ground_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         groundkarma_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         air_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
-                        smoke_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
+                        damage_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         #endregion
 
                         ground_b2world.ClearForces();
                         groundkarma_b2world.ClearForces();
                         air_b2world.ClearForces();
-                        smoke_b2world.ClearForces();
+                        damage_b2world.ClearForces();
 
 
                         #region DrawDebugData ClearForces
@@ -406,7 +409,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                             ground_b2world.DrawDebugData();
                             groundkarma_b2world.DrawDebugData();
                             air_b2world.DrawDebugData();
-                            smoke_b2world.DrawDebugData();
+                            damage_b2world.DrawDebugData();
                         }
                         #endregion
 

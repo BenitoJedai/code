@@ -26,6 +26,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
         public DriverSeat driverseat { get; set; }
 
 
+        public b2Body damagebody { get; set; }
         public b2Body body { get; set; }
         public b2Body karmabody { get; set; }
 
@@ -39,6 +40,9 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
               new b2Vec2(x, y), 0
             );
 
+            this.damagebody.SetPositionAndAngle(
+               new b2Vec2(x, y), 0
+             );
         }
 
 
@@ -78,7 +82,44 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                textures.bunker2()
            ).AttachTo(Context.Content_layer3_buildings);
 
+            #region smoke_b2world
+            {
+                //initialize body
+                var bdef = new b2BodyDef();
+                bdef.angle = 0;
+                bdef.fixedRotation = true;
+                this.damagebody = Context.damage_b2world.CreateBody(bdef);
 
+                //initialize shape
+                var fixdef = new b2FixtureDef();
+
+                var shape = new b2PolygonShape();
+                fixdef.shape = shape;
+
+                shape.SetAsBox(4.5, 4.5);
+
+                fixdef.restitution = 0.4; //positively bouncy!
+
+
+
+                var fix = this.damagebody.CreateFixture(fixdef);
+
+                //var fix_data = new Action<double>(
+                //     force =>
+                //     {
+                //         if (force < 1)
+                //             return;
+
+                //         Context.oncollision(this, force);
+                //     }
+                //);
+
+                //fix.SetUserData(fix_data);
+            }
+            #endregion
+
+
+            #region ground_b2world
             {
                 //initialize body
                 var bdef = new b2BodyDef();
@@ -112,6 +153,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
                 fix.SetUserData(fix_data);
             }
+            #endregion
 
             {
                 //initialize body
