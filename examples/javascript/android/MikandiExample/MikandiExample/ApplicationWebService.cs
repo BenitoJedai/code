@@ -42,14 +42,23 @@ namespace MikandiExample
                 System.Console.WriteLine("onInterstitialFailed");
             }
 
+
+            public Action<InterstitialAd> InterstitialRecieved;
+
             public void onInterstitialRecieved(InterstitialAd value)
             {
                 System.Console.WriteLine("onInterstitialRecieved");
+
+                if (InterstitialRecieved != null)
+                    InterstitialRecieved(value);
             }
         }
 
         public void InterstitialAd(string e = "", Action<string> y = null)
         {
+
+            // D/Reporo SDK(23735): Got:gif-239888-http://netdna.reporo.net/resources/images/reporoads/smrc/650c22aeab97.gif
+
             //             Unable to load configuration.
             // Smart Zones: null - Interstitial Zone: null - Domain: null
             // Fetching interstitial ad
@@ -65,10 +74,17 @@ namespace MikandiExample
 
 
             var inAd = new InterstitialAd(context);
-            inAd.setListener(new InterstitialAdListener());
+            inAd.setListener(new InterstitialAdListener
+            {
+
+                InterstitialRecieved =
+                    x =>
+                    {
+                        inAd.showAd(context);
+                    }
+            });
             inAd.fetchNewAd(); //NOTE: Reporo SDK: pre-fecth ad
 
-            inAd.showAd(context);
 
             //            Error fetching interstitial ad
             //java.lang.Exception: Invalid or no ad retured.
