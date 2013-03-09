@@ -84,9 +84,11 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
+    <Compile Include="Android\CoreAndroidWebServiceActivity.cs" />
     <Compile Include="Android\Extensions\ContextExtensions.cs" />
     <Compile Include="Android\Extensions\ActivityExtensions.cs" />
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
+    <Compile Include="Android\Manifest\ApplicationMetaDataAttribute.cs" />
     <Compile Include="Android\RenderingContextView.cs" />
     <Compile Include="Extensions\SHA1CryptographyExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
