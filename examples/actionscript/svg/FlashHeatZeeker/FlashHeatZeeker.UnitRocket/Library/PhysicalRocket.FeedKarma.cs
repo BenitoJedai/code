@@ -18,33 +18,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
     {
         public void FeedKarma()
         {
-            if (this.KarmaInput0.Count > 0)
-            {
-                var k = new KeySample
-                {
-                    value = CurrentInput.value,
-
-                    BodyIsActive = this.body.IsActive(),
-
-                    fixup = true,
-
-                    angle = this.body.GetAngle(),
-                    x = this.body.GetPosition().x,
-                    y = this.body.GetPosition().y,
-                };
-
-                if (CurrentInput.fixup)
-                {
-                    k.x = CurrentInput.x;
-                    k.y = CurrentInput.y;
-                    k.angle = CurrentInput.angle;
-                }
-
-
-
-                this.KarmaInput0.Enqueue(k);
-                this.KarmaInput0.Dequeue();
-            }
+          
         }
 
 

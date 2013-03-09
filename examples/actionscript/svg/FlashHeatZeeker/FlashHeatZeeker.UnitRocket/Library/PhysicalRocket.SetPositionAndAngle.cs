@@ -27,9 +27,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 new b2Vec2(x, y), a
             );
 
-            this.karmabody.SetPositionAndAngle(
-              new b2Vec2(x, y), a
-            );
+      
 
         }
 

@@ -53,6 +53,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 //bodyDef.fixedRotation = true;
 
                 body = Context.smoke_b2world.CreateBody(bodyDef);
+                //body = Context.ground_b2world.CreateBody(bodyDef);
 
 
                 var fixDef = new Box2D.Dynamics.b2FixtureDef();
@@ -61,10 +62,10 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 fixDef.restitution = 0;
 
 
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(1.0);
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.1);
 
                 // 
-                //var fix = body.CreateFixture(fixDef);
+                var fix = body.CreateFixture(fixDef);
 
                 //var fix_data = new Action<double>(
                 //    jeep_forceA =>
@@ -82,33 +83,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
             #endregion
 
-            #region groundkarma_b2world
-            {
-                var bodyDef = new b2BodyDef();
-
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-
-                // stop moving if legs stop walking!
-                bodyDef.linearDamping = 0;
-                bodyDef.angularDamping = 6;
-                //bodyDef.angle = 1.57079633;
-                //bodyDef.fixedRotation = true;
-
-                karmabody = Context.groundkarma_b2world.CreateBody(bodyDef);
-
-
-                var fixDef = new Box2D.Dynamics.b2FixtureDef();
-                fixDef.density = 0.1;
-                fixDef.friction = 0.0;
-                fixDef.restitution = 0;
-
-
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(1.0);
-
-
-                var fix = karmabody.CreateFixture(fixDef);
-            }
-            #endregion
+        
 
 
 
@@ -150,6 +125,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
             }
             else
             {
+                smoke.smokescale = 2.0;
             }
 
             {

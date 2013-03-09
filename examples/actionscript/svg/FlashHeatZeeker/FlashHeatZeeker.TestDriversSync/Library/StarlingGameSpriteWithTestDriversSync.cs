@@ -17,6 +17,8 @@ using FlashHeatZeeker.UnitTank.Library;
 using FlashHeatZeeker.UnitTankControl.Library;
 using FlashHeatZeeker.UnitHindControl.Library;
 using FlashHeatZeeker.UnitHind.Library;
+using FlashHeatZeeker.UnitHindWeaponized.Library;
+using FlashHeatZeeker.UnitRocket.Library;
 
 namespace FlashHeatZeeker.TestDriversSync.Library
 {
@@ -52,6 +54,7 @@ namespace FlashHeatZeeker.TestDriversSync.Library
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
             var textures_tank = new StarlingGameSpriteWithTankTextures(new_tex_crop);
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
+            var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);
 
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
 
@@ -99,14 +102,16 @@ namespace FlashHeatZeeker.TestDriversSync.Library
 
                 new PhysicalBunker(textures_bunker, this) { Identity = "bunker:0" }.SetPositionAndAngle(0, -24);
 
-                new PhysicalHind(textures_hind, this)
+                var hind0 = new PhysicalHindWeaponized(textures_hind, textures_rocket, this)
                 {
                     Identity = ":1",
 
                     AutomaticTakeoff = true,
                     AutomaticTouchdown = true
 
-                }.SetPositionAndAngle(-12, -12);
+                };
+
+                hind0.SetPositionAndAngle(-12, -12);
 
                 new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
 
@@ -489,7 +494,21 @@ namespace FlashHeatZeeker.TestDriversSync.Library
 
                     current.SetVelocityFromInput(__keyDown);
 
+                    #region simulate a weapone!
+                    if (__keyDown[System.Windows.Forms.Keys.ControlKey])
+                        if (syncframeid % 3 == 0)
+                        {
+                            (this.current as PhysicalHindWeaponized).With(
+                                h =>
+                                {
+                                    //sb.snd_missleLaunch.play();
 
+                                    h.FireRocket();
+                                }
+                            );
+
+                        }
+                    #endregion
 
                     __raise_SetVelocityFromInput(
                          "" + sessionid,

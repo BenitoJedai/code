@@ -139,7 +139,14 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
                         sb.snd_click.play();
 
-                        lobby.ytp.pauseVideo();
+                        try
+                        {
+                            lobby.ytp.Loader.unloadAndStop(true);
+                            //lobby.ytp.pauseVideo();
+                        }
+                        catch
+                        {
+                        }
                         lobby.Orphanize();
                         lobby = null;
 
