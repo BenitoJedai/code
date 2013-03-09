@@ -11,6 +11,8 @@ using ScriptCoreLib.Extensions;
 using FlashHeatZeeker.CoreAudio.Library;
 using System.Windows.Forms;
 using FlashHeatZeeker.UnitJeepControl.Library;
+using FlashHeatZeeker.CoreMap.Library;
+using starling.display;
 
 namespace FlashHeatZeeker.UnitHindWeaponized.Library
 {
@@ -23,13 +25,41 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
         {
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);
+            var textures_map = new StarlingGameSpriteWithMapTextures(new_tex_crop);
 
             //this.internalscale = 1.0;
-            this.disablephysicsdiagnostics = true;
+            //this.disablephysicsdiagnostics = true;
 
             this.onbeforefirstframe += (stage, s) =>
             {
+                stage.color = 0x75C64F;
+
                 // hind is looking right
+
+                for (int i = -12; i < 12; i++)
+                {
+                    new Image(textures_map.road0()).AttachTo(Content).x = 256 * i;
+                }
+
+                #region other units
+                for (int i = 3; i < 9; i++)
+                {
+                    var hind2 = new PhysicalHindWeaponized(textures_hind, textures_rocket, this)
+                    {
+                        AutomaticTakeoff = true
+                    };
+
+                    hind2.SetPositionAndAngle(
+                        i * 16, 8, random.NextDouble()
+                    );
+
+
+
+
+
+                }
+                #endregion
+
 
 
                 var hind0 = new PhysicalHindWeaponized(
