@@ -36,7 +36,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
             //this.CameraRotation = Math.PI / 2;
 
-            #region b2world
+            #region smoke_b2world
 
 
 
@@ -52,7 +52,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 //bodyDef.angle = 1.57079633;
                 //bodyDef.fixedRotation = true;
 
-                body = Context.smoke_b2world.CreateBody(bodyDef);
+                body = Context.damage_b2world.CreateBody(bodyDef);
                 //body = Context.ground_b2world.CreateBody(bodyDef);
 
 
@@ -67,23 +67,29 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 // 
                 var fix = body.CreateFixture(fixDef);
 
-                //var fix_data = new Action<double>(
-                //    jeep_forceA =>
-                //    {
-                //        if (jeep_forceA < 1)
-                //            return;
+                var fix_data = new Action<double>(
+                    jeep_forceA =>
+                    {
+                        // explode?
+                        this.speed = 0;
+                        this.CurrentInput = new KeySample();
 
-                //        if (Context.oncollision != null)
-                //            Context.oncollision(this, jeep_forceA);
-                //    }
-                //);
-                //fix.SetUserData(fix_data);
+                        //if (jeep_forceA < 1)
+                        //    return;
+
+                        //if (Context.oncollision != null)
+                        //    Context.oncollision(this, jeep_forceA);
+                    }
+                );
+
+                // this does NOT work!
+                fix.SetUserData(fix_data);
             }
 
 
             #endregion
 
-        
+
 
 
 
@@ -120,7 +126,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
             if (this.body.GetLinearVelocity().Length() > 0)
             {
-                smoke.smokescale = 0.3 + 0.4 * Context.random.NextDouble();
+                smoke.smokescale = 0.7 + 0.7 * Context.random.NextDouble();
                 CreateSmokeRecycleCache.Enqueue(smoke);
             }
             else

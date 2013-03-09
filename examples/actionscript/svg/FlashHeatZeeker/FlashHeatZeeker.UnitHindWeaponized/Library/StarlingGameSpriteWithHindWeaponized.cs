@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using FlashHeatZeeker.UnitJeepControl.Library;
 using FlashHeatZeeker.CoreMap.Library;
 using starling.display;
+using FlashHeatZeeker.UnitBunkerControl.Library;
 
 namespace FlashHeatZeeker.UnitHindWeaponized.Library
 {
@@ -26,6 +27,7 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);
             var textures_map = new StarlingGameSpriteWithMapTextures(new_tex_crop);
+            var textures_bunker = new StarlingGameSpriteWithBunkerTextures(new_tex_crop);
 
             //this.internalscale = 1.0;
             //this.disablephysicsdiagnostics = true;
@@ -39,6 +41,10 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
                 for (int i = -12; i < 12; i++)
                 {
                     new Image(textures_map.road0()).AttachTo(Content).x = 256 * i;
+
+                    var bunker0 = new PhysicalBunker(textures_bunker, this);
+                    bunker0.SetPositionAndAngle(-12 * i, 24);
+
                 }
 
                 #region other units

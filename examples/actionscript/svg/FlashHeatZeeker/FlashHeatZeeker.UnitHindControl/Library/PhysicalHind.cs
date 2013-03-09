@@ -42,6 +42,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
         public b2Body ground_body = null;
         public b2Body groundkarma_body = null;
         public b2Body air_body = null;
+        public b2Body damage_body = null;
 
 
         public b2Body body
@@ -78,6 +79,10 @@ namespace FlashHeatZeeker.UnitHindControl.Library
             this.air_body.SetPositionAndAngle(
              new b2Vec2(x, y), a
            );
+
+            this.damage_body.SetPositionAndAngle(
+          new b2Vec2(x, y), a
+        );
         }
 
         public bool AutomaticTakeoff;
@@ -132,7 +137,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
 
- 
+
 
 
 
@@ -155,6 +160,11 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                         body.GetAngle()
                     );
             }
+
+            damage_body.SetPositionAndAngle(
+                  body.GetPosition(),
+                  body.GetAngle()
+              );
 
             if (ShowPositionAndAngleForSlaves != null)
                 ShowPositionAndAngleForSlaves();
@@ -308,6 +318,53 @@ namespace FlashHeatZeeker.UnitHindControl.Library
 
 
                 var air_fix = air_body.CreateFixture(air_fixDef);
+            }
+
+
+            #endregion
+
+            #region smoke_b2world
+
+
+
+
+            {
+                var bodyDef = new b2BodyDef();
+
+                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                // stop moving if legs stop walking!
+                bodyDef.linearDamping = 0;
+                bodyDef.angularDamping = 6;
+                //bodyDef.angle = 1.57079633;
+                //bodyDef.fixedRotation = true;
+
+                damage_body = Context.damage_b2world.CreateBody(bodyDef);
+                //body = Context.ground_b2world.CreateBody(bodyDef);
+
+
+                var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                fixDef.density = 0.1;
+                fixDef.friction = 0.0;
+                fixDef.restitution = 0;
+
+
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(5);
+
+                // 
+                var fix = damage_body.CreateFixture(fixDef);
+
+                //var fix_data = new Action<double>(
+                //    jeep_forceA =>
+                //    {
+                //        if (jeep_forceA < 1)
+                //            return;
+
+                //        if (Context.oncollision != null)
+                //            Context.oncollision(this, jeep_forceA);
+                //    }
+                //);
+                //fix.SetUserData(fix_data);
             }
 
 
