@@ -209,6 +209,9 @@ namespace FlashHeatZeeker.UnitTankControl.Library
             }
 
 
+            this.damagebody.SetPositionAndAngle(
+               new b2Vec2(this.body.GetPosition().x, this.body.GetPosition().y), this.body.GetAngle()
+             );
 
             ApplyVelocityElapse.Restart();
         }

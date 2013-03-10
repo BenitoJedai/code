@@ -12,6 +12,8 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Stage : DisplayObjectContainer
     {
+        public bool mouseLock { get; set; }
+
         #region Properties
         /// <summary>
         /// A value from the StageAlign class that specifies the alignment of the stage in Flash Player or the browser.

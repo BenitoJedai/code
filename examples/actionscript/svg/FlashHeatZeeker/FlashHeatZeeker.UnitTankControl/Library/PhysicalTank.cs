@@ -32,6 +32,7 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
 
 
+        public b2Body damagebody { set; get; }
         public b2Body body { set; get; }
         public b2Body karmabody { get; set; }
 
@@ -49,7 +50,9 @@ namespace FlashHeatZeeker.UnitTankControl.Library
             this.karmabody.SetPositionAndAngle(
               new b2Vec2(x, y), a
             );
-
+            this.damagebody.SetPositionAndAngle(
+            new b2Vec2(x, y), a
+          );
         }
 
         public KeySample CurrentInput { get; set; }
@@ -154,6 +157,56 @@ namespace FlashHeatZeeker.UnitTankControl.Library
 
             #endregion
 
+            #region b2world
+
+
+
+            {
+                var bodyDef = new b2BodyDef();
+
+                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                // stop moving if legs stop walking!
+                bodyDef.linearDamping = 1.0;
+                bodyDef.angularDamping = 8;
+                //bodyDef.angle = 1.57079633;
+                //bodyDef.fixedRotation = true;
+
+                damagebody = Context.damage_b2world.CreateBody(bodyDef);
+                //current = body;
+
+
+                var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                fixDef.density = 0.1;
+                fixDef.friction = 0.01;
+                fixDef.restitution = 0;
+
+                var fixdef_shape = new b2PolygonShape();
+
+                fixDef.shape = fixdef_shape;
+
+                // physics unit is looking to right
+                fixdef_shape.SetAsBox(3, 2);
+
+
+
+                var fix = damagebody.CreateFixture(fixDef);
+
+                var fix_data = new Action<double>(
+                    jeep_forceA =>
+                    {
+                        if (jeep_forceA < 1)
+                            return;
+
+                        Context.oncollision(this, jeep_forceA);
+                    }
+                );
+                fix.SetUserData(fix_data);
+            }
+
+
+
+            #endregion
 
 
             Context.internalunits.Add(this);

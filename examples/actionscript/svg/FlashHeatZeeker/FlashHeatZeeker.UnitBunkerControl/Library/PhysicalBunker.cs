@@ -82,7 +82,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                textures.bunker2()
            ).AttachTo(Context.Content_layer3_buildings);
 
-            #region smoke_b2world
+            #region damage_b2world
             {
                 //initialize body
                 var bdef = new b2BodyDef();
@@ -104,17 +104,17 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
                 var fix = this.damagebody.CreateFixture(fixdef);
 
-                //var fix_data = new Action<double>(
-                //     force =>
-                //     {
-                //         if (force < 1)
-                //             return;
+                var fix_data = new Action<double>(
+                     force =>
+                     {
+                         if (force < 1)
+                             return;
 
-                //         Context.oncollision(this, force);
-                //     }
-                //);
+                         Context.oncollision(this, force);
+                     }
+                );
 
-                //fix.SetUserData(fix_data);
+                fix.SetUserData(fix_data);
             }
             #endregion
 

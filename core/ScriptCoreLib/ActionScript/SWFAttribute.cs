@@ -22,6 +22,8 @@ namespace ScriptCoreLib.ActionScript
         public int width = ScriptApplicationEntryPointAttribute.DefaultWidth;
         public int height = ScriptApplicationEntryPointAttribute.DefaultHeight;
 
+
+
         public SWFAttribute()
         {
 

@@ -40,12 +40,23 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
                 if (issmoke)
                 {
+                    cm.rotate(this.Context.gametime.ElapsedMilliseconds * 0.001 + smokerandom);
+
+
                     var sc =
-                       
+
                         (1 - ((smokescale * smokerandom) * (this.Context.gametime.ElapsedMilliseconds - this.smoketime) / (this.smoketimelength * smokescale))).Max(0).Min(1);
 
-                    cm.scale(smokescale * sc, smokescale * sc);
-                    cm.rotate(this.Context.gametime.ElapsedMilliseconds * 0.001 + smokerandom);
+
+
+                    var __scale = smokescale * sc;
+                    cm.scale(__scale, __scale);
+
+                    if ((this.Context.gametime.ElapsedMilliseconds - this.smoketime) > this.smoketimelength)
+                    {
+                        this.body.SetActive(false);
+                        this.visual.visible = false;
+                    }
                 }
                 else
                 {
@@ -95,8 +106,13 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
                     if (this.Context.syncframeid % 2 == 0)
                     {
-                        CreateSmoke();
+                        //CreateSmoke();
                     }
+                }
+                else
+                {
+
+                    visual.texture = this.textures_rocket.rocket1();
                 }
             }
             //this.visual.Animate(velocity.LinearVelocityX, velocity.LinearVelocityY);

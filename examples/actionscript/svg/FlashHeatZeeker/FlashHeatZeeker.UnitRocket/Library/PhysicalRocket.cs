@@ -23,8 +23,15 @@ namespace FlashHeatZeeker.UnitRocket.Library
         StarlingGameSpriteWithRocketTextures textures_rocket;
         StarlingGameSpriteWithPhysics Context;
 
-        public PhysicalRocket(StarlingGameSpriteWithRocketTextures textures_rocket, StarlingGameSpriteWithPhysics Context)
+        public PhysicalRocket(
+            StarlingGameSpriteWithRocketTextures textures_rocket,
+            StarlingGameSpriteWithPhysics Context,
+            bool issmoke = false,
+            Image Explosion1 = null
+            )
         {
+            this.issmoke = issmoke;
+
             this.Context = Context;
             this.textures_rocket = textures_rocket;
 
@@ -52,8 +59,14 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 //bodyDef.angle = 1.57079633;
                 //bodyDef.fixedRotation = true;
 
-                body = Context.damage_b2world.CreateBody(bodyDef);
-                //body = Context.ground_b2world.CreateBody(bodyDef);
+                if (issmoke)
+                {
+                    body = Context.smoke_b2world.CreateBody(bodyDef);
+                }
+                else
+                {
+                    body = Context.damage_b2world.CreateBody(bodyDef);
+                }
 
 
                 var fixDef = new Box2D.Dynamics.b2FixtureDef();
@@ -62,7 +75,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 fixDef.restitution = 0;
 
 
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.1);
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.5);
 
                 // 
                 var fix = body.CreateFixture(fixDef);
@@ -70,15 +83,19 @@ namespace FlashHeatZeeker.UnitRocket.Library
                 var fix_data = new Action<double>(
                     jeep_forceA =>
                     {
+                        this.body.SetActive(false);
+                        this.visual.visible = false;
+
                         // explode?
                         this.speed = 0;
                         this.CurrentInput = new KeySample();
 
-                        //if (jeep_forceA < 1)
-                        //    return;
+                        Context.CreateExplosion(
+                             this.body.GetPosition().x,
+                              this.body.GetPosition().y
+                        );
 
-                        //if (Context.oncollision != null)
-                        //    Context.oncollision(this, jeep_forceA);
+
                     }
                 );
 
@@ -100,6 +117,8 @@ namespace FlashHeatZeeker.UnitRocket.Library
 
         public void CreateSmoke()
         {
+            // how much is this huring FPS?
+
             if (issmoke)
                 return;
 
@@ -108,16 +127,14 @@ namespace FlashHeatZeeker.UnitRocket.Library
             if (CreateSmokeRecycleCache.Count < 8)
             {
 
-                smoke = new PhysicalRocket(textures_rocket, Context)
-                {
-                    issmoke = true
-                };
+                smoke = new PhysicalRocket(textures_rocket, Context, issmoke: true);
 
             }
             else
             {
                 smoke = CreateSmokeRecycleCache.Dequeue();
-
+                smoke.body.SetActive(true);
+                smoke.visual.visible = true;
             }
 
 

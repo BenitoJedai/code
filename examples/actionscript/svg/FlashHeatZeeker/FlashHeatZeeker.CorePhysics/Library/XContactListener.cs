@@ -17,6 +17,9 @@ namespace FlashHeatZeeker.CorePhysics.Library
         }
         public void EndContact(b2Contact contact) { }
 
+
+        public bool DiscardSmallImpulse = true;
+
         public void PostSolve(b2Contact contact, b2ContactImpulse impulse)
         {
             // http://stackoverflow.com/questions/11149091/box2d-damage-physics
@@ -31,12 +34,13 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
             var forceB = impulse.normalImpulses[1];
 
-            if (forceA < 0.5)
-                if (forceB < 0.5)
-                {
-                    // do we care about friction?
-                    return;
-                }
+            if (DiscardSmallImpulse)
+                if (forceA < 0.5)
+                    if (forceB < 0.5)
+                    {
+                        // do we care about friction?
+                        return;
+                    }
 
             //var min = impulse.normalImpulses.AsEnumerable().Min();
             //var max = impulse.normalImpulses.AsEnumerable().Max();

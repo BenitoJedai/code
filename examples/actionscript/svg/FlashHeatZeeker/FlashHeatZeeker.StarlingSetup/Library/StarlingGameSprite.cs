@@ -19,10 +19,13 @@ using FlashHeatZeeker.Core.Library;
 namespace FlashHeatZeeker.StarlingSetup.Library
 {
 
+    public delegate Func<Texture> TextureFromImage(ScriptCoreLib.ActionScript.flash.display.IBitmapDrawable img, int innersize = 96);
 
     public delegate Func<Texture> Texture64Constructor(string asset, double alpha = 1.0, bool flipx = false, int innersize = 64);
 
     public delegate void FrameHandler(ScriptCoreLib.ActionScript.flash.display.Stage stage, Starling starling);
+
+
 
     public class StarlingGameSpriteBase : Sprite
     {
@@ -44,7 +47,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         public double internalscale = 0.3;
 
         public Texture64Constructor new_tex_crop;
-        public Func<ScriptCoreLib.ActionScript.flash.display.IBitmapDrawable, Func<Texture>> new_tex96;
+        public TextureFromImage new_tex96;
 
 
         public double stagescale;
@@ -212,9 +215,8 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
             #region new_tex96
             this.new_tex96 =
-               (shape) =>
+               (shape, innersize) =>
                {
-                   var innersize = 96;
 
                    // outer 400, inner 64
 

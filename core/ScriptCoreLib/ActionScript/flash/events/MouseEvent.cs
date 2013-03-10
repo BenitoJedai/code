@@ -6,7 +6,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 
 namespace ScriptCoreLib.ActionScript.flash.events
 {
-    // http://livedocs.adobe.com/flex/201/langref/flash/events/MouseEvent.html
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/events/MouseEvent.html
     [Script(IsNative = true)]
     public class MouseEvent : Event
     {
@@ -122,6 +122,8 @@ namespace ScriptCoreLib.ActionScript.flash.events
 
         #endregion
 
+        public double movementX { get; private set; }
+        public double movementY { get; private set; }
 
 
         /// <summary>

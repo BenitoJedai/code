@@ -85,6 +85,28 @@ namespace FlashHeatZeeker.UnitHindWeaponized
 
                   s.start();
 
+                  #region FULL_SCREEN_INTERACTIVE
+                  this.stage.keyUp +=
+                       e =>
+                       {
+                           //dynamic dstage = this.stage;
+
+                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
+                           {
+                               this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
+
+                               // ReferenceError: Error #1056: Cannot create property mouseLock on flash.display.Stage.
+                               //dstage.mouseLock = true;
+                           }
+
+                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F)
+                           {
+                               this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
+                               //dstage.mouseLock = true;
+                              //stage.mouseLock = true;
+                           }
+                       };
+                  #endregion
               }
           );
         }

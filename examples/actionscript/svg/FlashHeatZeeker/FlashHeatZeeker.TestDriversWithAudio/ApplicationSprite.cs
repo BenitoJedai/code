@@ -38,6 +38,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio
         {
             var lobby = new FlashHeatZeeker.Lobby.ApplicationSprite();
             lobby.AttachTo(this);
+            var sb = new Soundboard();
 
             this.InvokeWhenPromotionIsReady(
               delegate
@@ -48,7 +49,16 @@ namespace FlashHeatZeeker.TestDriversWithAudio
                       if (lobby == null)
                           return;
 
-                      lobby.ytp.pauseVideo();
+                      sb.snd_click.play();
+
+                      try
+                      {
+                          lobby.ytp.Loader.unloadAndStop(true);
+                          //lobby.ytp.pauseVideo();
+                      }
+                      catch
+                      {
+                      }
                       lobby.Orphanize();
                       lobby = null;
 

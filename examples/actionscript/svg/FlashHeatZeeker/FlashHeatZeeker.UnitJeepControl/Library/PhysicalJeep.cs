@@ -1,4 +1,5 @@
-﻿using Box2D.Common.Math;
+﻿using Box2D.Collision.Shapes;
+using Box2D.Common.Math;
 using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
@@ -45,6 +46,13 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
               new b2Vec2(x, y), a
             );
 
+            this.damagebody.SetPositionAndAngle(
+                  new b2Vec2(
+               x,
+                y
+               ),
+              a
+           );
         }
 
         public Queue<KeySample> KarmaInput0 = new Queue<KeySample>();
@@ -195,9 +203,37 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
                     visual0.tire1.transformationMatrix = cm;
                 };
             }
+
+            {
+                //initialize body
+                var def = new b2BodyDef();
+                def.type = b2Body.b2_dynamicBody;
+                def.linearDamping = 0.55;  //gradually reduces velocity, makes the car reduce speed slowly if neither accelerator nor brake is pressed
+                def.bullet = true; //dedicates more time to collision detection - car travelling at high speeds at low framerates otherwise might teleport through obstacles.
+                def.angularDamping = 0.3;
+
+                this.damagebody = Context.damage_b2world.CreateBody(def);
+
+                //initialize shape
+                var fixdef = new b2FixtureDef();
+                fixdef.density = 1.0;
+                fixdef.friction = 0.3; //friction when rubbing agaisnt other shapes
+                fixdef.restitution = 0.4;  //amount of force feedback when hitting something. >0 makes the car bounce off, it's fun!
+
+                var fixdef_shape = new b2PolygonShape();
+
+                fixdef.shape = fixdef_shape;
+                fixdef_shape.SetAsBox(2 / 2, 4 / 2);
+                var fix = damagebody.CreateFixture(fixdef);
+
+            }
+
             Context.internalunits.Add(this);
 
         }
+
+
+        public b2Body damagebody;
 
         public b2Body body
         {
@@ -288,6 +324,15 @@ namespace FlashHeatZeeker.UnitJeepControl.Library
 
             }
             #endregion
+
+
+            this.damagebody.SetPositionAndAngle(
+                    new b2Vec2(
+                 this.unit4_physics.body.GetPosition().x,
+                 this.unit4_physics.body.GetPosition().y
+                 ),
+                 this.unit4_physics.body.GetAngle()
+             );
         }
 
 
