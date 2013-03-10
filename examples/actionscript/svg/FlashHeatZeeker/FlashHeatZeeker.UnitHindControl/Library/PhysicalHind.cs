@@ -349,7 +349,7 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 fixDef.restitution = 0;
 
 
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(5);
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(2);
 
                 // 
                 var fix = damage_body.CreateFixture(fixDef);

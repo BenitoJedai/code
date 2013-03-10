@@ -6,6 +6,7 @@ using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.UnitJeepControl.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using starling.display;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +21,8 @@ namespace FlashHeatZeeker.CorePhysics.Library
             ground_b2world,
             groundkarma_b2world,
             air_b2world,
-            damage_b2world;
+            damage_b2world,
+            smoke_b2world;
 
 
         IPhysicalUnit
@@ -46,6 +48,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
             ground_dd,
             groundkarma_dd,
             air_dd,
+            damage_dd,
             smoke_dd;
 
         public Stopwatch physicstime = new Stopwatch();
@@ -65,7 +68,13 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
         public int sessionid;
 
+        public class ExplosionInfo
+        {
+            public Image visual;
+            public int index;
+        }
 
+        public Action<double, double> CreateExplosion = delegate { };
 
         public Action<IPhysicalUnit, double> oncollision = delegate { };
 
@@ -186,8 +195,45 @@ namespace FlashHeatZeeker.CorePhysics.Library
             // zombies!!
             damage_b2world = new b2World(new b2Vec2(0, 0), false);
             damage_b2world.SetContactListener(
-               new XContactListener()
+               new XContactListener { DiscardSmallImpulse = false }
             );
+
+            var damage_b2debugDraw = new b2DebugDraw();
+
+            damage_dd = new ScriptCoreLib.ActionScript.flash.display.Sprite();
+
+            // make it red!
+            //air_dd.transform.colorTransform = new ColorTransform(1.0, 0, 0);
+            // make it slave
+            damage_dd.alpha = 0.3;
+
+
+
+
+
+            damage_b2debugDraw.SetSprite(air_dd);
+            // textures are 512 pixels, while our svgs are 400px
+            // so how big is a meter in our game world? :)
+            damage_b2debugDraw.SetDrawScale(16);
+            damage_b2debugDraw.SetFillAlpha(0.1);
+            damage_b2debugDraw.SetLineThickness(1.0);
+            damage_b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
+
+            damage_b2world.SetDebugDraw(damage_b2debugDraw);
+
+
+
+
+
+
+
+
+            #endregion
+
+            #region smoke_b2world
+            // first frame  ... set up our physccs
+            // zombies!!
+            smoke_b2world = new b2World(new b2Vec2(0, 0), false);
 
             var smoke_b2debugDraw = new b2DebugDraw();
 
@@ -210,7 +256,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
             smoke_b2debugDraw.SetLineThickness(1.0);
             smoke_b2debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
 
-            damage_b2world.SetDebugDraw(air_b2debugDraw);
+            smoke_b2world.SetDebugDraw(smoke_b2debugDraw);
 
 
 
@@ -327,7 +373,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                     s.nativeOverlay.addChild(ground_dd);
                     s.nativeOverlay.addChild(groundkarma_dd);
                     s.nativeOverlay.addChild(air_dd);
-                    s.nativeOverlay.addChild(smoke_dd);
+                    s.nativeOverlay.addChild(damage_dd);
                 }
                 // 1000 / 15
                 var syncframeinterval = 1000 / 15;
@@ -379,6 +425,10 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
                             physicstime_elapsed_PRE -= dx;
                             syncframeextra += dx;
+
+
+                            // dropping frames?
+                            //syncframeextra = Math.Min(syncframeextra, syncframeinterval);
                         }
                         #endregion
 
@@ -394,12 +444,14 @@ namespace FlashHeatZeeker.CorePhysics.Library
                         groundkarma_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         air_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         damage_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
+                        smoke_b2world.Step(physicstime_elapsed_PRE / 1000.0, iterations, iterations);
                         #endregion
 
                         ground_b2world.ClearForces();
                         groundkarma_b2world.ClearForces();
                         air_b2world.ClearForces();
                         damage_b2world.ClearForces();
+                        smoke_b2world.ClearForces();
 
 
                         #region DrawDebugData ClearForces
@@ -410,6 +462,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                             groundkarma_b2world.DrawDebugData();
                             air_b2world.DrawDebugData();
                             damage_b2world.DrawDebugData();
+                            smoke_b2world.DrawDebugData();
                         }
                         #endregion
 
@@ -528,7 +581,7 @@ namespace FlashHeatZeeker.CorePhysics.Library
                             ground_dd.transform.matrix = cm;
                             groundkarma_dd.transform.matrix = cm;
                             air_dd.transform.matrix = cm;
-                            smoke_dd.transform.matrix = cm;
+                            damage_dd.transform.matrix = cm;
                         }
                         #endregion
 

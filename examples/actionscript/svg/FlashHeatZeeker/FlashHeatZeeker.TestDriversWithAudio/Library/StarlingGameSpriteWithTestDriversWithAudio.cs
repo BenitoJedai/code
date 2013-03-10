@@ -67,11 +67,14 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
             var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);
+            var textures_explosions = new StarlingGameSpriteWithMapExplosionsTextures(new_tex96);
 
             this.disablephysicsdiagnostics = true;
 
             this.onbeforefirstframe += (stage, s) =>
             {
+                var explosins = new List<ExplosionInfo>();
+
                 s.stage.color = 0xB27D51;
 
                 // error JSC1000: ActionScript : failure at starling.display.Stage.add_keyUp : Object reference not set to an instance of an object.
@@ -311,6 +314,32 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                  };
 
                 #endregion
+
+                #region CreateExplosion
+                this.CreateExplosion = (x, y) =>
+                {
+                    var size = 0.2 + 0.2 * random.NextDouble();
+
+                    sb.snd_explosion.play(
+                        sndTransform: new ScriptCoreLib.ActionScript.flash.media.SoundTransform(size)
+                    );
+
+                    var exp = new Image(textures_explosions.explosions[0]()).AttachTo(Content);
+                    var cm = new Matrix();
+
+                    cm.translate(-32, -32);
+                    cm.scale(10 * size, 10 * size);
+                    cm.translate(16 * x, 16 * y);
+
+                    exp.transformationMatrix = cm;
+
+                    explosins.Add(
+                    new ExplosionInfo { visual = exp }
+                    );
+
+                };
+                #endregion
+
 
                 bool nightvision_changepending = false;
                 bool entermode_changepending = false;
@@ -563,6 +592,21 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 onsyncframe +=
                     delegate
                     {
+                        foreach (var item in explosins.ToArray())
+                        {
+                            item.index++;
+
+                            if (item.index == textures_explosions.explosions.Length)
+                            {
+                                item.visual.Orphanize();
+                                explosins.Remove(item);
+                            }
+                            else
+                            {
+                                item.visual.texture = textures_explosions.explosions[item.index]();
+                            }
+                        }
+
                         #region Soundboard
                         if (barrel_forceA > 0)
                         {
