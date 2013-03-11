@@ -56,7 +56,8 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             visualshadow,
 
             visual_body,
-            visual_shopoverlay
+            visual_shopoverlay,
+            visual_shopoverlay_arrow
             ;
 
         public KeySample CurrentInput { get; set; }
@@ -92,7 +93,12 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             visual_shopoverlay = new Image(
                  textures.bunker2_shopoverlay()
              ).AttachTo(visual);
-            visual_shopoverlay.visible = false;
+
+            visual_shopoverlay_arrow = new Image(
+                 textures.bunker2_shopoverlay_arrow()
+             ).AttachTo(visual);
+
+            IsShop = false;
 
             #region damage_b2world
             {
@@ -191,6 +197,15 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             Context.internalunits.Add(this);
         }
 
+        public bool IsShop
+        {
+            get { return this.visual_shopoverlay.visible; }
+            set
+            {
+                this.visual_shopoverlay.visible = value;
+                this.visual_shopoverlay_arrow.visible = value;
+            }
+        }
 
         public void ShowPositionAndAngle()
         {
@@ -219,6 +234,10 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
                 visualshadow.transformationMatrix = cm;
             }
+
+            if (visual_shopoverlay_arrow.visible)
+                visual_shopoverlay_arrow.y = 8 * Math.Sin(this.Context.gametime.ElapsedMilliseconds * 0.002) + 96 - 4;
+
         }
 
 

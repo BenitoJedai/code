@@ -356,7 +356,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 {
                     var size = 0.2 + 0.2 * random.NextDouble();
 
-                    sb.snd_explosion.play(
+                    sb.snd_explosion_small.play(
                         sndTransform: new ScriptCoreLib.ActionScript.flash.media.SoundTransform(size)
                     );
 
@@ -633,7 +633,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 (units.FirstOrDefault(k => k is PhysicalBunker) as PhysicalBunker).With(
                     shop =>
                     {
-                        shop.visual_shopoverlay.visible = true;
+                        shop.IsShop = true;
                     }
                 );
 
@@ -963,12 +963,12 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                         {
                                             if (hind1.visual.Altitude == 0)
                                             {
-                                                nightvision_on();
+                                                //nightvision_on();
                                                 hind1.VerticalVelocity = 1.0;
                                             }
                                             else
                                             {
-                                                nightvision_off();
+                                                //nightvision_off();
 
                                                 hind1.VerticalVelocity = -0.4;
 
@@ -1059,7 +1059,9 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                 (this.current as PhysicalHindWeaponized).With(
                                     h =>
                                     {
-                                        sb.snd_missleLaunch.play();
+                                        sb.snd_missleLaunch.play(
+                                            sndTransform: new SoundTransform(0.5)
+                                            );
 
                                         h.FireRocket();
                                     }
