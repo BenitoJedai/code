@@ -16,6 +16,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
         public Func<Texture>
             bunker2,
             bunker2_shadow,
+            bunker2_shopoverlay,
 
             barrel1,
             barrel1_shadow,
@@ -28,8 +29,9 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
         public StarlingGameSpriteWithBunkerTextures(Texture64Constructor new_tex_crop)
         {
-            bunker2 = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2.svg", innersize: 192);
-            bunker2_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2_shadow.svg", innersize: 192, alpha: 0.3);
+            bunker2 = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2.svg", innersize: 256);
+            bunker2_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2_shadow.svg", innersize: 267, alpha: 0.3);
+            bunker2_shopoverlay = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2_shopoverlay.svg", innersize: 256);
 
             barrel1 = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/barrel1.svg", innersize: 192);
             barrel1_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/barrel1_shadow.svg", innersize: 192, alpha: 0.3);
@@ -51,6 +53,9 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
 
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(new_tex_crop);
+
+
+            disablephysicsdiagnostics = true;
 
             onbeforefirstframe += (stage, s) =>
             {
@@ -90,6 +95,10 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
                 var bunker0 = new PhysicalBunker(textures_bunker, this);
                 bunker0.SetPositionAndAngle(0, 8);
+                bunker0.visual_shopoverlay.visible = true;
+
+                var bunker1 = new PhysicalBunker(textures_bunker, this);
+                bunker1.SetPositionAndAngle(0, 32);
 
                 current = silo0;
                 onsyncframe += delegate

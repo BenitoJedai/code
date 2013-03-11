@@ -2,6 +2,7 @@ using FlashHeatZeeker.CoreAudio.Library;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared;
@@ -9,7 +10,6 @@ using System;
 
 namespace FlashHeatZeeker.PromotionPreloader
 {
-
     [Frame(typeof(ApplicationSpritePreloader))]
     [SWF(backgroundColor = 0x9A6C46, width = 800, height = 600, frameRate = 60)]
     public sealed class ApplicationSprite : Sprite, IAlternator
@@ -164,6 +164,7 @@ namespace FlashHeatZeeker.PromotionPreloader
         [TypeOfByNameOverride]
         public virtual Type GetTargetType()
         {
+            // ReferenceError: Error #1065: Variable ApplicationSprite is not defined.
             return typeof(ApplicationSprite);
         }
 

@@ -49,9 +49,14 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
         StarlingGameSpriteWithBunkerTextures textures;
         StarlingGameSpriteWithPhysics Context;
 
+        public Sprite visual;
+
+
         public Image
             visualshadow,
-            visual
+
+            visual_body,
+            visual_shopoverlay
             ;
 
         public KeySample CurrentInput { get; set; }
@@ -77,10 +82,17 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                textures.bunker2_shadow()
            ).AttachTo(Context.Content_layer2_shadows);
 
+            visual = new Sprite().AttachTo(Context.Content_layer3_buildings);
 
-            visual = new Image(
+
+            visual_body = new Image(
                textures.bunker2()
-           ).AttachTo(Context.Content_layer3_buildings);
+           ).AttachTo(visual);
+
+            visual_shopoverlay = new Image(
+                 textures.bunker2_shopoverlay()
+             ).AttachTo(visual);
+            visual_shopoverlay.visible = false;
 
             #region damage_b2world
             {
@@ -187,7 +199,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
             {
                 var cm = new Matrix();
-                cm.translate(-96, -96);
+                cm.translate(-128, -128);
                 cm.translate(
                     x,
                     y
@@ -198,7 +210,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             }
             {
                 var cm = new Matrix();
-                cm.translate(-96, -96);
+                cm.translate(-128, -128);
                 cm.translate(
                     x,
                     y

@@ -176,33 +176,40 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             }
             else
             {
-                var p = this.body.GetPosition();
-
-
-                var distance = X.GetLength(
-                    new __vec2(
-                    (float)(p.x - prevx),
-                    (float)(p.y - prevy)
-                    )
-                );
-
-                if (distance > 1)
+                if (this.visual.WalkLikeZombie)
                 {
-                    var tracks0 = new Image(textures.ped_footprints()).AttachTo(Context.Content_layer0_tracks);
+                    // nop
+                }
+                else
+                {
+                    var p = this.body.GetPosition();
 
-                    var cm = new Matrix();
 
-                    cm.translate(-32, -32);
-                    cm.rotate(this.body.GetAngle() - Math.PI / 2);
-                    cm.translate(
-                        p.x * 16.0,
-                        p.y * 16.0
+                    var distance = X.GetLength(
+                        new __vec2(
+                        (float)(p.x - prevx),
+                        (float)(p.y - prevy)
+                        )
                     );
 
-                    tracks0.transformationMatrix = cm;
+                    if (distance > 1)
+                    {
+                        var tracks0 = new Image(textures.ped_footprints()).AttachTo(Context.Content_layer0_tracks);
 
-                    prevx = p.x;
-                    prevy = p.y;
+                        var cm = new Matrix();
+
+                        cm.translate(-32, -32);
+                        cm.rotate(this.body.GetAngle() - Math.PI / 2);
+                        cm.translate(
+                            p.x * 16.0,
+                            p.y * 16.0
+                        );
+
+                        tracks0.transformationMatrix = cm;
+
+                        prevx = p.x;
+                        prevy = p.y;
+                    }
                 }
             }
             #endregion

@@ -100,7 +100,7 @@ namespace FlashHeatZeeker.UnitTank.Library
                    )
            {
            }.AttachTo(
-                    Context.Content
+                    Context.Content_layer2_shadows
                 );
 
             currentvisual = new Sprite().AttachTo(Context.Content);

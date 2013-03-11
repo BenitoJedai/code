@@ -150,6 +150,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\bunker2_shopoverlay.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\barrel1_shadow.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\barrel1.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitBunkerControl\watertower0_shadow.svg" />

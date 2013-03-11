@@ -5,31 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C8F78217-D723-4E69-BE48-D40814DCDB76}</ProjectGuid>
+    <ProjectGuid>{F6013DAF-4231-4FB3-B227-1110DF894291}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashHeatZeeker.CoreAudio</RootNamespace>
-    <AssemblyName>FlashHeatZeeker.CoreAudio</AssemblyName>
+    <RootNamespace>FlashHeatZeeker.Shop</RootNamespace>
+    <AssemblyName>FlashHeatZeeker.Shop</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FlashHeatZeeker.CoreAudio.Program</StartupObject>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>FlashHeatZeeker.Shop.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,9 +36,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abstractatech.ActionScript.Audio">
-      <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -133,75 +113,27 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashHeatZeeker.CoreAudio.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.CoreAudio.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashHeatZeeker.Shop.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.Shop.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Library\Soundboard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationSprite.cs" />
-    <Compile Include="ApplicationWebService.cs" />
-    <Compile Include="Application.cs" />
-    <Compile Include="Program.cs">
-      <DependentUpon>Application.cs</DependentUpon>
+    <Compile Include="ApplicationCanvas.cs" />
+    <Compile Include="ApplicationSprite.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_its_a_shop.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_itsempty.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_nothinghere.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_lookingforlongrangecomms.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_missleLaunch.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\heartbeat3.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_hardmetalsmash.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_woodsmash.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_dooropen.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_SelectWeapon.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_nightvision.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_letsgo.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_ped_hit.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_touchdown.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_didyouhearthat.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_needweapon.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_whatsthatsound.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\loopstrange1.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\sand_run.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\jeepengine.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\diesel4.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\crickets.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_jeepengine_start.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_metalsmash.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_click.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_explosion.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_Argh.mp3" />
-    <Content Include="web\assets\FlashHeatZeeker.CoreAudio\FNCL.mp3" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\helicopter1.mp3" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 4.5</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
+    <Compile Include="ApplicationWebService.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs">
+      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -215,5 +147,4 @@ start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFil
 
             </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
