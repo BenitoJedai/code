@@ -50,6 +50,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
         public List<RemoteGame> others = new List<RemoteGame>();
 
 
+        public static event Action ShopEnter;
+        public static event Action ShopExit;
         public StarlingGameSpriteBeta2()
         {
             var textures_beta = new_tex96(new BetaBanner());
@@ -386,13 +388,22 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
                                          }
                                          else if (current is PhysicalBunker)
                                          {
-                                             if (random.NextDouble() > 0.5)
+                                             if ((current as PhysicalBunker).visual_shopoverlay.visible)
                                              {
-                                                 sb.snd_itsempty.play();
+                                                 sb.snd_its_a_shop.play();
+                                                 if (ShopEnter != null)
+                                                     ShopEnter();
                                              }
                                              else
                                              {
-                                                 sb.snd_nothinghere.play();
+                                                 if (random.NextDouble() > 0.5)
+                                                 {
+                                                     sb.snd_itsempty.play();
+                                                 }
+                                                 else
+                                                 {
+                                                     sb.snd_nothinghere.play();
+                                                 }
                                              }
                                          }
                                          else
@@ -434,6 +445,15 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
                                          current.driverseat.driver = null;
                                          driver.seatedvehicle = null;
                                          current.SetVelocityFromInput(new KeySample());
+
+                                         if (current is PhysicalBunker)
+                                         {
+                                             if ((current as PhysicalBunker).IsShop)
+                                             {
+                                                 if (ShopExit != null)
+                                                     ShopExit();
+                                             }
+                                         }
 
                                          // crashland?
                                          (current as PhysicalHind).With(

@@ -203,6 +203,9 @@
     <Reference Include="FlashHeatZeeker.UnitRocket.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.UnitRocket\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitRocket.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.Shop.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.Shop\bin\staging.AssetsLibrary\FlashHeatZeeker.Shop.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -269,6 +272,10 @@
     <ProjectReference Include="..\FlashHeatZeeker.PromotionPreloader\FlashHeatZeeker.PromotionPreloader.csproj">
       <Project>{835aae48-31fc-40a4-b9fd-3664db5e26cc}</Project>
       <Name>FlashHeatZeeker.PromotionPreloader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlashHeatZeeker.Shop\FlashHeatZeeker.Shop.csproj">
+      <Project>{f6013daf-4231-4fb3-b227-1110df894291}</Project>
+      <Name>FlashHeatZeeker.Shop</Name>
     </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
       <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>

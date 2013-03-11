@@ -19,6 +19,9 @@ namespace FlashHeatZeeker.Shop
         public event Action BuyAmmo;
 
         public Rectangle overlay_ammo = new Rectangle();
+
+
+        public Rectangle  bg_ammo = new Rectangle();
         public Rectangle bg_shotgun = new Rectangle();
 
 
@@ -96,7 +99,7 @@ namespace FlashHeatZeeker.Shop
 
             t2o.Opacity = 0.2;
 
-            var bg_ammo = new Rectangle();
+             bg_ammo = new Rectangle();
 
 
             bg_ammo.Fill = Brushes.Yellow;

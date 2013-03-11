@@ -101,7 +101,6 @@ namespace FlashHeatZeeker.Shop
             WhenReady();
         }
 
-        public static global::playerio.Client CurrentClient;
 
         void WhenReady()
         {
@@ -287,6 +286,7 @@ namespace FlashHeatZeeker.Shop
             );
         }
 
+        public static global::playerio.Client CurrentClient;
         public static string __gameid = "test-4jazuo9jw0qx0cye9ihrqg";
     }
 }
