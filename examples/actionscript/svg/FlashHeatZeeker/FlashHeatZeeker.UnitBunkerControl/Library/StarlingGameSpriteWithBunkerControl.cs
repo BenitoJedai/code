@@ -17,6 +17,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             bunker2,
             bunker2_shadow,
             bunker2_shopoverlay,
+            bunker2_shopoverlay_arrow,
 
             barrel1,
             barrel1_shadow,
@@ -32,6 +33,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             bunker2 = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2.svg", innersize: 256);
             bunker2_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2_shadow.svg", innersize: 267, alpha: 0.3);
             bunker2_shopoverlay = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2_shopoverlay.svg", innersize: 256);
+            bunker2_shopoverlay_arrow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/bunker2_shopoverlay_arrow.svg", innersize: 256);
 
             barrel1 = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/barrel1.svg", innersize: 192);
             barrel1_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitBunkerControl/barrel1_shadow.svg", innersize: 192, alpha: 0.3);
@@ -95,7 +97,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
                 var bunker0 = new PhysicalBunker(textures_bunker, this);
                 bunker0.SetPositionAndAngle(0, 8);
-                bunker0.visual_shopoverlay.visible = true;
+                bunker0.IsShop = true;
 
                 var bunker1 = new PhysicalBunker(textures_bunker, this);
                 bunker1.SetPositionAndAngle(0, 32);

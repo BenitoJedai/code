@@ -55,15 +55,15 @@ namespace FlashHeatZeeker.UnitHindControl.Library
                 current.ApplyAngularImpulse(
                     this.AngularVelocity
                      * this.CurrentInput.forcex
-                    * 0.6 
+                    * 0.4
                     * (1 - (this.body.GetLinearVelocity().Length() / this.speed).Min(0.9) * 0.5)
                 );
 
 
                 var vx = Math.Cos(current.GetAngle()) * this.LinearVelocityY * this.speed * this.CurrentInput.forcey
-                        + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
+                        + Math.Cos(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed * this.CurrentInput.forcex;
                 var vy = Math.Sin(current.GetAngle()) * this.LinearVelocityY * this.speed * this.CurrentInput.forcey
-                        + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed;
+                        + Math.Sin(current.GetAngle() + Math.PI / 2) * this.LinearVelocityX * this.speed * this.CurrentInput.forcex;
 
 
 

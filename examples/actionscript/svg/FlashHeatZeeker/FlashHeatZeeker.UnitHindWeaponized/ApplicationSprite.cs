@@ -85,6 +85,7 @@ namespace FlashHeatZeeker.UnitHindWeaponized
 
                   s.start();
 
+              
                   #region FULL_SCREEN_INTERACTIVE
                   this.stage.keyUp +=
                        e =>
@@ -103,7 +104,8 @@ namespace FlashHeatZeeker.UnitHindWeaponized
                            {
                                this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
                                //dstage.mouseLock = true;
-                              //stage.mouseLock = true;
+
+                               // http://www.levelxgames.com/2012/11/how-to-overlay-abode-air-sdk-over-flex-sdk/
                            }
                        };
                   #endregion

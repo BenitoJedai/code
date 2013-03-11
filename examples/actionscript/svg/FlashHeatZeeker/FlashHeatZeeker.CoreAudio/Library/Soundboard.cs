@@ -46,7 +46,10 @@ namespace FlashHeatZeeker.CoreAudio.Library
 
         public Sound snd_missleLaunch = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_missleLaunch.mp3"].ToSoundAsset();
         public Sound snd_click = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_click.mp3"].ToSoundAsset();
+
+        public Sound snd_explosion_small = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_explosion_small.mp3"].ToSoundAsset();
         public Sound snd_explosion = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_explosion.mp3"].ToSoundAsset();
+
         public Sound snd_Argh = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_Argh.mp3"].ToSoundAsset();
         public Sound snd_its_a_shop = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_its_a_shop.mp3"].ToSoundAsset();
 

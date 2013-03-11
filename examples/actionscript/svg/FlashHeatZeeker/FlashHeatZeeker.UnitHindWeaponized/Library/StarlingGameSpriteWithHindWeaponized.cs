@@ -17,6 +17,7 @@ using FlashHeatZeeker.UnitBunkerControl.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using FlashHeatZeeker.UnitPedControl.Library;
 using FlashHeatZeeker.UnitPed.Library;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace FlashHeatZeeker.UnitHindWeaponized.Library
 {
@@ -127,6 +128,7 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
                 stage.keyDown +=
                    e =>
                    {
+                       e.preventDefault();
                        // http://circlecube.com/2008/08/actionscript-key-listener-tutorial/
                        if (e.altKey)
                            __keyDown[System.Windows.Forms.Keys.Alt] = true;
@@ -137,6 +139,8 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
                 stage.keyUp +=
                  e =>
                  {
+                     e.preventDefault();
+
                      if (!e.altKey)
                          __keyDown[System.Windows.Forms.Keys.Alt] = false;
 
@@ -148,25 +152,87 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
                 bool mode_changepending = false;
 
                 var dx_stop = false;
+                var dy_stop = false;
                 var dx = 0.0;
                 var dy = 0.0;
 
-                //stage.mouseMove +=
-                //     e =>
-                //     {
-                //         dynamic ee = e;
+                //              Error: Error #3707: Property can not be set in non full screen mode.
+                //at flash.display::Stage/set mouseLock()
 
-                //         // ReferenceError: Error #1069: Property movementX not found on flash.events.MouseEvent and there is no default value.
-                //         double movementX = ee.movementX;
-                //         double movementY = ee.movementY;
+                // http://inflagrantedelicto.memoryspiral.com/2012/07/as3-quickie-mouse-lock-and-relative-mouse-coordinates/
+                stage.fullScreen +=
+                    delegate
+                    {
+                        if (stage.displayState == StageDisplayState.NORMAL)
+                            return;
 
-                //         dx += movementX;
-                //         dy += movementY;
-                //     };
+                        // http://helpx.adobe.com/flash-player/release-note/fp_114_air_34_release_notes.html
+                        // · Mouse Lock feature disabled after entering Full Screen Interactive mode(3174344)
+                        stage.mouseLock = true;
+
+                    };
+
+
+
+                stage.mouseDown +=
+                    e =>
+                    {
+                        if (stage.displayState == StageDisplayState.NORMAL)
+                        {
+                            return;
+                        }
+
+                        __keyDown[Keys.ControlKey] = true;
+                    };
+
+                stage.doubleClickEnabled = true;
+                stage.doubleClick += delegate
+                {
+                    if (stage.displayState == StageDisplayState.NORMAL)
+                    {
+                        stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN;
+                        stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
+                        return;
+                    }
+                };
+
+                stage.mouseUp +=
+                    e =>
+                    {
+                        if (stage.displayState == StageDisplayState.NORMAL)
+                        {
+                            return;
+                        }
+
+                        __keyDown[Keys.ControlKey] = false;
+                    };
+
+                stage.mouseMove +=
+                     e =>
+                     {
+                         if (stage.displayState == StageDisplayState.NORMAL)
+                         {
+                             dx = 0;
+                             dy = 0;
+                             return;
+                         }
+
+                         //dynamic ee = e;
+
+                         //// ReferenceError: Erroe.r #1069: Property movementX not found on flash.events.MouseEvent and there is no default value.
+                         //double movementX = ee.me.ovementX;
+                         //double movementY = ee.movementY;
+
+                         // http://www.levelxgames.com/2012/11/how-to-overlay-abode-air-sdk-over-flex-sdk/
+                         dx += e.movementX;
+                         dy += e.movementY;
+                     };
 
                 onsyncframe +=
                    delegate
                    {
+                       this.Text = new { dx }.ToString();
+
                        foreach (var item in explosins.ToArray())
                        {
                            item.index++;
@@ -219,14 +285,16 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
                        if (dx < 0)
                        {
                            __keyDown[Keys.Left] = true;
-                           __keyDown.forcex = dx / 32.0;
+                           __keyDown[Keys.Right] = false;
+                           __keyDown.forcex = (Math.Abs(dx) / 100.0).Min(1.0);
                            dx = 0;
                            dx_stop = true;
                        }
                        else if (dx > 0)
                        {
                            __keyDown[Keys.Right] = true;
-                           __keyDown.forcex = dx / 32.0;
+                           __keyDown[Keys.Left] = false;
+                           __keyDown.forcex = (Math.Abs(dx) / 100.0).Min(1.0);
                            dx = 0;
                            dx_stop = true;
                        }
@@ -242,7 +310,31 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
                            __keyDown.forcex = 1.0;
                        }
 
+                       if (dy < 0)
+                       {
+                           __keyDown[Keys.Up] = true;
+                           __keyDown[Keys.Down] = false;
+                           __keyDown.forcey = (Math.Abs(dy) / 200.0).Min(1.0);
+                           dy_stop = true;
+                       }
+                       else if (dy > 0)
+                       {
+                           __keyDown[Keys.Up] = false;
+                           __keyDown[Keys.Down] = true;
+                           __keyDown.forcey = (Math.Abs(dy) / 200.0).Min(1.0);
+                           dy_stop = true;
+                       }
+                       else
+                       {
+                           if (dy_stop)
+                           {
+                               __keyDown[Keys.Up] = false;
+                               __keyDown[Keys.Down] = false;
+                           }
+                           dy_stop = false;
 
+                           __keyDown.forcey = 1.0;
+                       }
 
                        current.SetVelocityFromInput(__keyDown);
 

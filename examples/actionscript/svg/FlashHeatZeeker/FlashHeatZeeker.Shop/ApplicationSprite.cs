@@ -6,6 +6,9 @@ namespace FlashHeatZeeker.Shop
 {
     public sealed class ApplicationSprite : Sprite
     {
+        /*
+         * 1. add starling
+         */
         public readonly ApplicationCanvas content = new ApplicationCanvas();
 
         public ApplicationSprite()
