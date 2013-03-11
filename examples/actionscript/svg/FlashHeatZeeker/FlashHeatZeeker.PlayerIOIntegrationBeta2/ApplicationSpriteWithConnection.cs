@@ -285,6 +285,9 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                     {
                         WriteLine("Sucessfully connected to player.io");
 
+                        CurrentClient = client;
+                        global::playerio.PlayerIO.showLogo(stage, "BR");
+
                         var multiplayer = client.multiplayer;
 
                         //Set developmentsever (Comment out to connect to your server online)
@@ -424,7 +427,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
                     global::playerio.PlayerIO.connect(
                         stage,								//Referance to stage
-                        "test-4jazuo9jw0qx0cye9ihrqg",			//Game id (Get your own at playerio.com)
+                       __gameid,			//Game id (Get your own at playerio.com)
                         "public",							//Connection id, default is public
                         "GuestUser",						//Username
                         "",									//User auth. Can be left blank if authentication is disabled on connection
@@ -438,5 +441,9 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                 }
             );
         }
+
+        public static global::playerio.Client CurrentClient;
+        public static string __gameid = "test-4jazuo9jw0qx0cye9ihrqg";
+
     }
 }

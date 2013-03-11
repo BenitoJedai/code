@@ -65,7 +65,7 @@ namespace FlashHeatZeeker.Lobby
                         //DefaultVideo: "qZni5895I-M",
 
                         // https://groups.google.com/forum/?fromgroups=#!topic/youtube-api-gdata/Bx5z7CrL9Cs
-                        suggestedQuality: "medium",
+                        //suggestedQuality: "medium",
 
                         yield_init: yinit
                     );
