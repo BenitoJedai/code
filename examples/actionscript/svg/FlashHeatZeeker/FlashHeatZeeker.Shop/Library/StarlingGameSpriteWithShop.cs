@@ -35,6 +35,7 @@ namespace FlashHeatZeeker.Shop.Library
 
             this.onbeforefirstframe += (stage, s) =>
             {
+                s.stage.color = 0xB27D51;
                 current = new PhysicalPed(textures_ped, this);
                 current.SetPositionAndAngle(
                     16.Random(),
