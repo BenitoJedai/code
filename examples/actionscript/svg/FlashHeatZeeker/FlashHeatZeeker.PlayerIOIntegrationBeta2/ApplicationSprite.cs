@@ -239,10 +239,10 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
 
 
-        Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
 
 
         #region InitializeConsoleFormWriter
+        Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
         class __OutWriter : TextWriter
         {
             public Action<string> AtWrite;

@@ -1,3 +1,4 @@
+using Abstractatech.ConsoleFormPackage.Library;
 using FlashHeatZeeker.Shop.Design;
 using FlashHeatZeeker.Shop.HTML.Pages;
 using ScriptCoreLib;
@@ -13,6 +14,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Abstractatech.JavaScript.FormAsPopup;
 
 namespace FlashHeatZeeker.Shop
 {
@@ -30,7 +32,7 @@ namespace FlashHeatZeeker.Shop
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
-    {
+        {
             sprite.wmode();
 
             sprite.AttachSpriteToDocument().With(
@@ -46,6 +48,35 @@ namespace FlashHeatZeeker.Shop
                            };
                    }
                );
+
+            var con = new ConsoleForm();
+
+            con.InitializeConsoleFormWriter();
+
+            con.Show();
+
+            con.Left = Native.Window.Width - con.Width;
+            con.Top = 0;
+
+            Native.Window.onresize +=
+                  delegate
+                  {
+                      con.Left = Native.Window.Width - con.Width;
+                      con.Top = 0;
+                  };
+
+
+            con.Opacity = 0.6;
+
+
+            sprite.InitializeConsoleFormWriter(
+                       Console.Write,
+                       Console.WriteLine
+            );
+
+            con.HandleFormClosing = false;
+            con.PopupInsteadOfClosing();
+            "Operation «Heat Zeeker»".ToDocumentTitle();
         }
 
     }
@@ -57,7 +88,7 @@ namespace FlashHeatZeeker.Shop
 
         public static void wmode(this Sprite s, string value = "direct")
         {
-            var x = s.ToHTMLElement();
+            IHTMLElement x = s.ToHTMLElement();
 
             var p = x.parentNode;
             if (p != null)
