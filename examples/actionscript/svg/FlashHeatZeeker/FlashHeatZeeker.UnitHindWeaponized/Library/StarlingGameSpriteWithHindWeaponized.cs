@@ -15,6 +15,8 @@ using FlashHeatZeeker.CoreMap.Library;
 using starling.display;
 using FlashHeatZeeker.UnitBunkerControl.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
+using FlashHeatZeeker.UnitPedControl.Library;
+using FlashHeatZeeker.UnitPed.Library;
 
 namespace FlashHeatZeeker.UnitHindWeaponized.Library
 {
@@ -27,6 +29,9 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
 
         public StarlingGameSpriteWithHindWeaponized()
         {
+            var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
+
+
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);
             var textures_map = new StarlingGameSpriteWithMapTextures(new_tex_crop);
@@ -34,7 +39,7 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
             var textures_explosions = new StarlingGameSpriteWithMapExplosionsTextures(new_tex96);
 
             //this.internalscale = 1.0;
-            //this.disablephysicsdiagnostics = true;
+            this.disablephysicsdiagnostics = true;
 
             this.onbeforefirstframe += (stage, s) =>
             {
@@ -50,6 +55,10 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
                     var bunker0 = new PhysicalBunker(textures_bunker, this);
                     bunker0.SetPositionAndAngle(-12 * i, 24);
 
+                    var z = new PhysicalPed(textures_ped, this);
+
+                    z.SetPositionAndAngle(16 * i, 0);
+                    z.BehaveLikeZombie();
 
                     //var exp = new Image(textures_explosions.explosions[0]()).AttachTo(Content);
                     //explosins.Add(exp);

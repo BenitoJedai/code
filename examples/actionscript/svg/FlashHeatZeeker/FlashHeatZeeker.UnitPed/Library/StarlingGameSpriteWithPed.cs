@@ -24,17 +24,26 @@ namespace FlashHeatZeeker.UnitPed.Library
 
             ped_shadow,
 
-            ped_footprints,
-            ped_down,
+            ped_footprints;
 
-            ped_stand,
-            ped_walk1_leftfar,
-            ped_walk2_leftmid,
-            ped_walk3_leftclose,
+        public class WalkFrames
+        {
+            public Func<Texture>
+                ped_down,
+                ped_stand,
+                ped_walk1_leftfar,
+                ped_walk2_leftmid,
+                ped_walk3_leftclose,
 
-            ped_walk1x_rightfar,
-            ped_walk2x_rightmid,
-            ped_walk3x_rightclose;
+                ped_walk1x_rightfar,
+                ped_walk2x_rightmid,
+                ped_walk3x_rightclose;
+        }
+
+        public WalkFrames
+            ped_walk,
+            ped_walkzombie;
+
 
         public StarlingGameSpriteWithPedTextures(Texture64Constructor new_tex_crop)
         {
@@ -49,18 +58,54 @@ namespace FlashHeatZeeker.UnitPed.Library
 
             ped_footprints = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_footprints.svg", 0.07);
 
-            ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96);
-            ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg", innersize: 96);
 
-            // left foot
-            ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", innersize: 96);
-            ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", innersize: 96);
-            ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", innersize: 96);
+            var r = 0.2225;
+            var g = 0.7169;
+            var b = 0.0606;
 
-            ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", flipx: true, innersize: 96);
-            ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", flipx: true, innersize: 96);
-            ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", flipx: true, innersize: 96);
+            // http://blog.slapthink.net/2008/12/24/desaturategreyscale-a-movieclip-in-as3/
+            var ped_walkzombie_filter = new ScriptCoreLib.ActionScript.flash.filters.ColorMatrixFilter(
 
+                r, g, b, 0, 0,
+                r, g, b, 0, 0,
+                r, g, b, 0, 0,
+                0, 0, 0, 1, 0
+            );
+
+
+
+
+            ped_walkzombie = new WalkFrames
+            {
+                ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96, filter: ped_walkzombie_filter),
+
+                ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg", innersize: 96, filter: ped_walkzombie_filter),
+
+                // left foot
+                ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", innersize: 96, filter: ped_walkzombie_filter),
+                ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", innersize: 96, filter: ped_walkzombie_filter),
+                ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", innersize: 96, filter: ped_walkzombie_filter),
+
+                ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", flipx: true, innersize: 96, filter: ped_walkzombie_filter),
+                ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", flipx: true, innersize: 96, filter: ped_walkzombie_filter),
+                ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", flipx: true, innersize: 96, filter: ped_walkzombie_filter)
+            };
+
+            ped_walk = new WalkFrames
+            {
+                ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96),
+
+                ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand.svg", innersize: 96),
+
+                // left foot
+                ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk1.svg", innersize: 96),
+                ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk2.svg", innersize: 96),
+                ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk3.svg", innersize: 96),
+
+                ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk1.svg", flipx: true, innersize: 96),
+                ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk2.svg", flipx: true, innersize: 96),
+                ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk3.svg", flipx: true, innersize: 96)
+            };
         }
 
     }
@@ -99,7 +144,8 @@ namespace FlashHeatZeeker.UnitPed.Library
                             );
                         peds.Add(visual0);
 
-
+                        if (i == 0)
+                            visual0.WalkLikeZombie = true;
 
                     }
 

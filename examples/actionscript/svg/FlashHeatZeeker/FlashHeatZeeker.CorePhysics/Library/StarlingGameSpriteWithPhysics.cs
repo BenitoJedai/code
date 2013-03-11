@@ -269,99 +269,99 @@ namespace FlashHeatZeeker.CorePhysics.Library
 
 
 
-            #region obstacles
-            {
-                var bodyDef = new b2BodyDef();
+            //#region obstacles
+            //{
+            //    var bodyDef = new b2BodyDef();
 
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+            //    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
 
-                // stop moving if legs stop walking!
-                bodyDef.linearDamping = 10.0;
-                bodyDef.angularDamping = 0.3;
-                //bodyDef.angle = 1.57079633;
-                bodyDef.fixedRotation = true;
+            //    // stop moving if legs stop walking!
+            //    bodyDef.linearDamping = 10.0;
+            //    bodyDef.angularDamping = 0.3;
+            //    //bodyDef.angle = 1.57079633;
+            //    bodyDef.fixedRotation = true;
 
-                var body = air_b2world.CreateBody(bodyDef);
-                body.SetPosition(new b2Vec2(10, 10));
+            //    var body = air_b2world.CreateBody(bodyDef);
+            //    body.SetPosition(new b2Vec2(10, 10));
 
-                var fixDef = new Box2D.Dynamics.b2FixtureDef();
-                fixDef.density = 0.1;
-                fixDef.friction = 0.01;
-                fixDef.restitution = 0;
-
-
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
+            //    var fixDef = new Box2D.Dynamics.b2FixtureDef();
+            //    fixDef.density = 0.1;
+            //    fixDef.friction = 0.01;
+            //    fixDef.restitution = 0;
 
 
-                var fix = body.CreateFixture(fixDef);
-
-                body.SetPosition(
-                    new b2Vec2(-8, 0)
-                );
-            }
-
-            {
-                var bodyDef = new b2BodyDef();
-
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-
-                // stop moving if legs stop walking!
-                bodyDef.linearDamping = 10.0;
-                bodyDef.angularDamping = 0.3;
-                //bodyDef.angle = 1.57079633;
-                bodyDef.fixedRotation = true;
-
-                var body = ground_b2world.CreateBody(bodyDef);
-                body.SetPosition(new b2Vec2(10, 10));
-
-                var fixDef = new Box2D.Dynamics.b2FixtureDef();
-                fixDef.density = 0.1;
-                fixDef.friction = 0.01;
-                fixDef.restitution = 0;
+            //    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
 
 
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
+            //    var fix = body.CreateFixture(fixDef);
+
+            //    body.SetPosition(
+            //        new b2Vec2(-8, 0)
+            //    );
+            //}
+
+            //{
+            //    var bodyDef = new b2BodyDef();
+
+            //    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+            //    // stop moving if legs stop walking!
+            //    bodyDef.linearDamping = 10.0;
+            //    bodyDef.angularDamping = 0.3;
+            //    //bodyDef.angle = 1.57079633;
+            //    bodyDef.fixedRotation = true;
+
+            //    var body = ground_b2world.CreateBody(bodyDef);
+            //    body.SetPosition(new b2Vec2(10, 10));
+
+            //    var fixDef = new Box2D.Dynamics.b2FixtureDef();
+            //    fixDef.density = 0.1;
+            //    fixDef.friction = 0.01;
+            //    fixDef.restitution = 0;
 
 
-                var fix = body.CreateFixture(fixDef);
+            //    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
 
 
-                body.SetPosition(
-                    new b2Vec2(8, -8)
-                );
-            }
-
-            {
-                var bodyDef = new b2BodyDef();
-
-                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-
-                // stop moving if legs stop walking!
-                bodyDef.linearDamping = 10.0;
-                bodyDef.angularDamping = 0.3;
-                //bodyDef.angle = 1.57079633;
-                bodyDef.fixedRotation = true;
-
-                var body = groundkarma_b2world.CreateBody(bodyDef);
-                body.SetPosition(new b2Vec2(10, 10));
-
-                var fixDef = new Box2D.Dynamics.b2FixtureDef();
-                fixDef.density = 0.1;
-                fixDef.friction = 0.01;
-                fixDef.restitution = 0;
+            //    var fix = body.CreateFixture(fixDef);
 
 
-                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
+            //    body.SetPosition(
+            //        new b2Vec2(8, -8)
+            //    );
+            //}
+
+            //{
+            //    var bodyDef = new b2BodyDef();
+
+            //    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+            //    // stop moving if legs stop walking!
+            //    bodyDef.linearDamping = 10.0;
+            //    bodyDef.angularDamping = 0.3;
+            //    //bodyDef.angle = 1.57079633;
+            //    bodyDef.fixedRotation = true;
+
+            //    var body = groundkarma_b2world.CreateBody(bodyDef);
+            //    body.SetPosition(new b2Vec2(10, 10));
+
+            //    var fixDef = new Box2D.Dynamics.b2FixtureDef();
+            //    fixDef.density = 0.1;
+            //    fixDef.friction = 0.01;
+            //    fixDef.restitution = 0;
 
 
-                var fix = body.CreateFixture(fixDef);
+            //    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(4);
 
 
-                body.SetPosition(
-                    new b2Vec2(8, 8)
-                );
-            }
-            #endregion
+            //    var fix = body.CreateFixture(fixDef);
+
+
+            //    body.SetPosition(
+            //        new b2Vec2(8, 8)
+            //    );
+            //}
+            //#endregion
 
 
             physicstime.Start();

@@ -173,6 +173,7 @@
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_metalsmash.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_click.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_explosion.mp3" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\snd_Argh.mp3" />
     <Content Include="web\assets\FlashHeatZeeker.CoreAudio\FNCL.mp3" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.CoreAudio\helicopter1.mp3" />
   </ItemGroup>
