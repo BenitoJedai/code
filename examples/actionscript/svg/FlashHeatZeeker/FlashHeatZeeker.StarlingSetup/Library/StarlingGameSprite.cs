@@ -21,7 +21,14 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
     public delegate Func<Texture> TextureFromImage(ScriptCoreLib.ActionScript.flash.display.IBitmapDrawable img, int innersize = 96);
 
-    public delegate Func<Texture> Texture64Constructor(string asset, double alpha = 1.0, bool flipx = false, int innersize = 64);
+    public delegate Func<Texture> Texture64Constructor(
+        string asset,
+        double alpha = 1.0,
+        bool flipx = false,
+        int innersize = 64,
+        ColorTransform adjustAlpha = null,
+        ScriptCoreLib.ActionScript.flash.filters.ColorMatrixFilter filter = null
+    );
 
     public delegate void FrameHandler(ScriptCoreLib.ActionScript.flash.display.Stage stage, Starling starling);
 
@@ -141,7 +148,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
             #region new_tex_crop
             this.new_tex_crop =
-               (asset, alpha, flipx, innersize) =>
+               (asset, alpha, flipx, innersize, adjustAlpha, filter) =>
                {
                    //var innersize = 64;
                    // outer 400, inner 64
@@ -158,6 +165,9 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
                    {
                        var shape = ScriptCoreLib.ActionScript.Extensions.KnownEmbeddedResources.Default[asset].ToSprite();
+
+                       if (filter != null)
+                           shape.filters = new[] { filter };
 
                        // this does not work!
                        //shape.alpha = 0.3;
@@ -187,7 +197,9 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
                        // http://stackoverflow.com/questions/8035717/actionscript-3-draw-with-transparency-on-a-bitmap
 
-                       var adjustAlpha = new ColorTransform();
+                       if (adjustAlpha == null)
+                           adjustAlpha = new ColorTransform();
+
                        adjustAlpha.alphaMultiplier = alpha;
 
 

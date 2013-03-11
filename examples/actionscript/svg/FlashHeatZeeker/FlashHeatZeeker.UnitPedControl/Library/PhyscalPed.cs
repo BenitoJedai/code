@@ -30,6 +30,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         public IPhysicalUnit seatedvehicle { get; set; }
 
+        public b2Body damagebody { get; set; }
         public b2Body body { get; set; }
         public b2Body karmabody { get; set; }
 
@@ -46,7 +47,9 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             this.karmabody.SetPositionAndAngle(
               new b2Vec2(x, y), a
             );
-
+            this.damagebody.SetPositionAndAngle(
+            new b2Vec2(x, y), a
+          );
         }
 
 
@@ -159,6 +162,10 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             this.visual.Animate(velocity.LinearVelocityX, velocity.LinearVelocityY);
 
 
+            damagebody.SetPositionAndAngle(
+                  body.GetPosition(),
+                  body.GetAngle()
+              );
 
             #region Content_layer0_tracks
             if (!prev)
@@ -207,7 +214,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         public VisualPed visual;
 
         StarlingGameSpriteWithPedTextures textures;
-        StarlingGameSpriteWithPhysics Context;
+        public StarlingGameSpriteWithPhysics Context;
 
         public KeySample CurrentInput { get; set; }
 
@@ -268,6 +275,15 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                         if (jeep_forceA < 1)
                             return;
 
+                        if (jeep_forceA > 1)
+                            if (visual.WalkLikeZombie)
+                            {
+                                this.body.SetActive(false);
+                                this.damagebody.SetActive(false);
+                                this.visual.LayOnTheGround = true;
+                                this.SetVelocityFromInput(new KeySample());
+                            }
+
                         if (oncollision != null)
                             oncollision(this, jeep_forceA);
                     }
@@ -306,6 +322,61 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             }
             #endregion
 
+            #region b2world
+
+
+
+
+            {
+                var bodyDef = new b2BodyDef();
+
+                bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                // stop moving if legs stop walking!
+                bodyDef.linearDamping = 0;
+                bodyDef.angularDamping = 6;
+                //bodyDef.angle = 1.57079633;
+                //bodyDef.fixedRotation = true;
+
+                damagebody = Context.damage_b2world.CreateBody(bodyDef);
+
+
+                var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                fixDef.density = 0.1;
+                fixDef.friction = 0.0;
+                fixDef.restitution = 0;
+
+
+                fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(1.0);
+
+
+                var fix = damagebody.CreateFixture(fixDef);
+
+                var fix_data = new Action<double>(
+                    jeep_forceA =>
+                    {
+                        if (jeep_forceA < 0.5)
+                            return;
+
+                        if (visual.WalkLikeZombie)
+                        {
+                            this.body.SetActive(false);
+                            this.damagebody.SetActive(false);
+                            this.visual.LayOnTheGround = true;
+                            this.SetVelocityFromInput(new KeySample());
+                        }
+                        //if (jeep_forceA < 1)
+                        //    return;
+
+                        //if (oncollision != null)
+                        //    oncollision(this, jeep_forceA);
+                    }
+                );
+                fix.SetUserData(fix_data);
+            }
+
+
+            #endregion
 
 
             Context.internalunits.Add(this);

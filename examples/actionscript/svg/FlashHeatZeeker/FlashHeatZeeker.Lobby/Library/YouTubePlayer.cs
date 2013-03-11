@@ -225,6 +225,9 @@ namespace InteractivePromotionB.Components
             t.timer +=
                 delegate
                 {
+                    if (ldr.content == null)
+                        return;
+
                     if (CurrentState == YouTubePlayerState.playing)
                     {
                         var time = ldr.content.getCurrentTime();
@@ -286,12 +289,12 @@ namespace InteractivePromotionB.Components
                 };
             #endregion
 
-        
+
 
             ldr.contentLoaderInfo.ioError +=
                 delegate
-                { 
-                
+                {
+
                 };
 
             ldr.contentLoaderInfo.init +=
@@ -304,8 +307,8 @@ namespace InteractivePromotionB.Components
 
             var ctx = new LoaderContext(true, ctx_app, ctx_sec);
             ldr.load(urlReq, ctx);
-            
-            
+
+
             this.Scenes = new SceneSequenzer { Owner = this };
         }
 

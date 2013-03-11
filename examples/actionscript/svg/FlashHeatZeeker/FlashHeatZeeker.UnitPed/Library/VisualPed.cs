@@ -72,6 +72,7 @@ namespace FlashHeatZeeker.UnitPed.Library
         }
 
         Texture[] walk_ani;
+        Texture[] walkzombie_ani;
         Texture[] texframes;
 
 
@@ -94,11 +95,17 @@ namespace FlashHeatZeeker.UnitPed.Library
                 if (LayOnTheGround)
                 {
                     this.shadow.visible = false;
-                    currentvisual.texture = texframes[1];
+                    if (WalkLikeZombie)
+                        currentvisual.texture = texframes[3];
+                    else
+                        currentvisual.texture = texframes[1];
                 }
                 else
                 {
-                    currentvisual.texture = texframes[0];
+                    if (WalkLikeZombie)
+                        currentvisual.texture = texframes[2];
+                    else
+                        currentvisual.texture = texframes[0];
                 }
 
                 return;
@@ -110,10 +117,15 @@ namespace FlashHeatZeeker.UnitPed.Library
             if (dy < 0)
                 ii = walk_ani.Length - 1 - ii;
 
-            currentvisual.texture = walk_ani[ii];
+            if (WalkLikeZombie)
+                currentvisual.texture = walkzombie_ani[ii];
+            else
+                currentvisual.texture = walk_ani[ii];
 
 
         }
+
+        public bool WalkLikeZombie;
 
         /// <summary>
         /// If everybody walks the same time, look different
@@ -126,20 +138,33 @@ namespace FlashHeatZeeker.UnitPed.Library
             this.Context = Context;
 
             walk_ani = new[] {
-                    textures.ped_walk3_leftclose(), 
-                    textures.ped_walk3x_rightclose(),
-                    textures.ped_walk1x_rightfar(),
-                    textures.ped_walk2x_rightmid(),
-                    textures.ped_walk3x_rightclose(),
-                    textures.ped_walk3_leftclose(), 
-                    textures.ped_walk1_leftfar(), 
-                    textures.ped_walk2_leftmid(), 
+                    textures.ped_walk.ped_walk3_leftclose(), 
+                    textures.ped_walk.ped_walk3x_rightclose(),
+                    textures.ped_walk.ped_walk1x_rightfar(),
+                    textures.ped_walk.ped_walk2x_rightmid(),
+                    textures.ped_walk.ped_walk3x_rightclose(),
+                    textures.ped_walk.ped_walk3_leftclose(), 
+                    textures.ped_walk.ped_walk1_leftfar(), 
+                    textures.ped_walk.ped_walk2_leftmid(), 
 
                 };
 
+            walkzombie_ani = new[] {
+                    textures.ped_walkzombie.ped_walk3_leftclose(), 
+                    textures.ped_walkzombie.ped_walk3x_rightclose(),
+                    textures.ped_walkzombie.ped_walk1x_rightfar(),
+                    textures.ped_walkzombie.ped_walk2x_rightmid(),
+                    textures.ped_walkzombie.ped_walk3x_rightclose(),
+                    textures.ped_walkzombie.ped_walk3_leftclose(), 
+                    textures.ped_walkzombie.ped_walk1_leftfar(), 
+                    textures.ped_walkzombie.ped_walk2_leftmid(), 
+                };
+
             texframes = new[] {
-                textures.ped_stand(),
-                textures.ped_down(),
+                textures.ped_walk.ped_stand(),
+                textures.ped_walk.ped_down(),
+                textures.ped_walkzombie.ped_stand(),
+                textures.ped_walkzombie.ped_down(),
             };
 
             // 781

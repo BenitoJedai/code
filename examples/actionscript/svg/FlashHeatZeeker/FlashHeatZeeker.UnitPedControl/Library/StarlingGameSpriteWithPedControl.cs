@@ -7,6 +7,7 @@ using FlashHeatZeeker.UnitJeepControl.Library;
 using FlashHeatZeeker.UnitPed.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
 using starling.display;
+using starling.filters;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,6 +26,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         {
             var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop);
 
+            this.disablephysicsdiagnostics = true;
 
             this.onbeforefirstframe += (stage, s) =>
             {
@@ -34,11 +36,33 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                     speed = 10
                 };
 
-                var physical0 = new PhysicalPed(textures_ped, this);
+                var physical0 = new PhysicalPed(textures_ped, this)
+                {
+                    speed = 8
+                };
+
+
+                physical0.visual.WalkLikeZombie = true;
+
+         
+
                 current = physical0;
 
                 // 32x32 = 15FPS?
                 // 24x24 35?
+
+                stage.mouseWheel += e =>
+                    {
+                        if (e.delta < 0)
+                        {
+                            this.internalscale -= 0.05;
+                        }
+                        if (e.delta > 0)
+                        {
+                            this.internalscale += 0.05;
+                        }
+
+                    };
 
                 #region others
                 for (int ix = 0; ix < 4; ix++)
@@ -47,10 +71,11 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                         var p = new PhysicalPed(textures_ped, this);
 
                         p.SetPositionAndAngle(
-                            8 * ix, 8 * iy
+                            8 * ix, 8 * iy, random.NextDouble()
                         );
 
-
+                        if (ix == 0)
+                            p.BehaveLikeZombie();
                     }
                 #endregion
 
@@ -66,7 +91,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                        __keyDown[(Keys)e.keyCode] = true;
 
-                       this.Text = new { e.keyCode,  Keys.A }.ToString();
+                       this.Text = new { e.keyCode, Keys.A }.ToString();
                    };
 
                 stage.keyUp +=

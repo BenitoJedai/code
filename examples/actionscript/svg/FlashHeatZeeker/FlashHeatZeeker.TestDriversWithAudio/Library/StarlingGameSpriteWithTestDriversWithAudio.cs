@@ -96,6 +96,19 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 stage.keyUp +=
                      e =>
                      {
+                         if (e.keyCode == (uint)System.Windows.Forms.Keys.F3)
+                         {
+                             this.Content_layer0_tracks.visible =
+                                !this.Content_layer0_tracks.visible;
+                         }
+
+                     };
+                #endregion
+
+                #region FULL_SCREEN_INTERACTIVE
+                stage.keyUp +=
+                     e =>
+                     {
                          if (e.keyCode == (uint)System.Windows.Forms.Keys.F1)
                          {
                              if (this.internalscale == 0.3)
@@ -143,6 +156,11 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 for (int i = -12; i < 12; i++)
                 {
                     new Image(textures_map.road0()).AttachTo(Content_layer0_tracks).x = 256 * i;
+
+                    var z = new PhysicalPed(textures_ped, this);
+
+                    z.SetPositionAndAngle(16 * i, 0, random.NextDouble() * Math.PI);
+                    z.BehaveLikeZombie();
                 }
 
                 #region other units
@@ -288,6 +306,21 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                     AutomaticTakeoff = true
                 }.SetPositionAndAngle((128 + 256) / 16, -128 / 16);
 
+                #region mouseWheel
+                stage.mouseWheel += e =>
+                {
+                    if (e.delta < 0)
+                    {
+                        this.internalscale -= 0.05;
+                    }
+                    if (e.delta > 0)
+                    {
+                        this.internalscale += 0.05;
+                    }
+
+                };
+                #endregion
+
 
                 #region __keyDown
 
@@ -329,6 +362,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                     cm.translate(-32, -32);
                     cm.scale(10 * size, 10 * size);
+                    cm.rotate(random.NextDouble() * Math.PI);
+
                     cm.translate(16 * x, 16 * y);
 
                     exp.transformationMatrix = cm;
@@ -391,6 +426,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 var jeep_forceA = 0.0;
                 var ped_forceA = 0.0;
+                var pedzombie_forceA = 0.0;
                 var barrel_forceA = 0.0;
 
                 var hardmetal_forceA = 0.0;
@@ -420,7 +456,10 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 PhysicalPed.oncollision +=
                      (u, value) =>
                      {
-                         ped_forceA = ped_forceA.Max(value);
+                         if (u.visual.WalkLikeZombie)
+                             pedzombie_forceA = pedzombie_forceA.Max(value);
+                         else
+                             ped_forceA = ped_forceA.Max(value);
                      };
 
                 PhysicalBarrel.oncollision +=
@@ -649,6 +688,16 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                             ped_forceA = 0;
                         }
+                        else if (pedzombie_forceA > 0)
+                        {
+                            sb.snd_Argh.play(
+                               sndTransform: new SoundTransform(
+                                   Math.Min(1.0, pedzombie_forceA / 30.0) * (0.15 + 0.15 * random.NextDouble())
+                               )
+                           );
+
+                            pedzombie_forceA = 0;
+                        }
 
                         if (this.syncframeid == 200)
                             sb.snd_whatsthatsound.play();
@@ -713,8 +762,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         }
 
                         // stereoeffect // siren
-                        sb.loopstrange1.LeftVolume = 0.1 * (1 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.00001)) / 2.0;
-                        sb.loopstrange1.RightVolume = 0.2 * (1 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.00001)) / 2.0;
+                        sb.loopstrange1.LeftVolume = 0.2 * (1 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.00001)) / 2.0;
+                        sb.loopstrange1.RightVolume = 0.4 * (1 + Math.Cos(this.gametime.ElapsedMilliseconds * 0.00001)) / 2.0;
 
                         sb.loopcrickets.LeftVolume = (1 + Math.Sin(
                             this.gametime.ElapsedMilliseconds * 0.0001
