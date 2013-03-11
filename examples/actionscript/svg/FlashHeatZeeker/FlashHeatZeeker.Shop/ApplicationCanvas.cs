@@ -18,10 +18,12 @@ namespace FlashHeatZeeker.Shop
 
         public ApplicationCanvas()
         {
-            r.Fill = Brushes.Red;
+            r.Opacity = 0.2;
+            r.Fill = Brushes.Black;
             r.AttachTo(this);
             r.MoveTo(8, 8);
-            this.SizeChanged += (s, e) => r.SizeTo(this.Width - 16.0, this.Height - 16.0);
+            this.SizeChanged += (s, e) => r.SizeTo(
+                (this.Width - 16.0) / 2, this.Height - 16.0);
         }
 
     }
