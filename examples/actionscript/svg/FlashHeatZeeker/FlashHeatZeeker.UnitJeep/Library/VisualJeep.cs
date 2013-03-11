@@ -68,7 +68,7 @@ namespace FlashHeatZeeker.UnitJeep.Library
                     )
            {
            }.AttachTo(
-                    Context.Content
+                    Context.Content_layer2_shadows
                 //q
                 );
 

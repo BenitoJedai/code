@@ -65,6 +65,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
         public Sprite
             Content,
+            Content_layer0_ground,
             Content_layer0_tracks,
             Content_layer2_shadows,
             Content_layer3_buildings,
@@ -76,6 +77,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
             this.Content = new Sprite().AttachTo(this);
 
+            this.Content_layer0_ground = new Sprite().AttachTo(this.Content);
             this.Content_layer0_tracks = new Sprite().AttachTo(this.Content);
             this.Content_layer2_shadows = new Sprite().AttachTo(this.Content);
             this.Content_layer3_buildings = new Sprite().AttachTo(this.Content);

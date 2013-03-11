@@ -125,7 +125,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 #region hill1
                 for (int i = 0; i < 32; i++)
                 {
-                    new Image(textures_map.hill1()).AttachTo(Content_layer0_tracks).With(
+                    new Image(textures_map.hill1()).AttachTo(Content_layer0_ground).With(
                         hill =>
                         {
                             hill.x = 2048.Random();
@@ -133,7 +133,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         }
                     );
 
-                    new Image(textures_map.hole1()).AttachTo(Content_layer0_tracks).With(
+                    new Image(textures_map.hole1()).AttachTo(Content_layer0_ground).With(
                         hill =>
                         {
                             hill.x = 2048.Random();
@@ -141,7 +141,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         }
                     );
 
-                    new Image(textures_map.grass1()).AttachTo(Content_layer0_tracks).With(
+                    new Image(textures_map.grass1()).AttachTo(Content_layer0_ground).With(
                         hill =>
                         {
                             hill.x = 2048.Random();
@@ -155,12 +155,15 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 for (int i = -12; i < 12; i++)
                 {
-                    new Image(textures_map.road0()).AttachTo(Content_layer0_tracks).x = 256 * i;
+                    new Image(textures_map.road0()).AttachTo(Content_layer0_ground).x = 256 * i;
 
-                    var z = new PhysicalPed(textures_ped, this);
+                    if (i % 3 == 0)
+                    {
+                        var z = new PhysicalPed(textures_ped, this);
 
-                    z.SetPositionAndAngle(16 * i, 0, random.NextDouble() * Math.PI);
-                    z.BehaveLikeZombie();
+                        z.SetPositionAndAngle(16 * i, 0, random.NextDouble() * Math.PI);
+                        z.BehaveLikeZombie();
+                    }
                 }
 
                 #region other units
@@ -240,8 +243,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
 
 
-                new Image(textures_map.touchdown()).AttachTo(Content).MoveTo(256, -256);
-                new Image(textures_map.touchdown()).AttachTo(Content).y = 256;
+                new Image(textures_map.touchdown()).AttachTo(Content_layer0_ground).MoveTo(256, -256);
+                new Image(textures_map.touchdown()).AttachTo(Content_layer0_ground).y = 256;
 
                 new PhysicalTank(textures_tank, this).SetPositionAndAngle(128 / 16, 128 * 3 / 16);
 
@@ -627,10 +630,22 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                     };
                 #endregion
 
+                (units.FirstOrDefault(k => k is PhysicalBunker) as PhysicalBunker).With(
+                    shop =>
+                    {
+                        shop.visual_shopoverlay.visible = true;
+                    }
+                );
 
                 onsyncframe +=
                     delegate
                     {
+
+                        while (Content_layer0_tracks.numChildren > 128)
+                        {
+                            Content_layer0_tracks.removeChildAt(0);
+                        }
+
                         foreach (var item in explosins.ToArray())
                         {
                             item.index++;
@@ -838,13 +853,21 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                                                 else if (current is PhysicalBunker)
                                                 {
-                                                    if (random.NextDouble() > 0.5)
+                                                    if ((current as PhysicalBunker).visual_shopoverlay.visible)
                                                     {
-                                                        sb.snd_itsempty.play();
+                                                        sb.snd_its_a_shop.play();
+
                                                     }
                                                     else
                                                     {
-                                                        sb.snd_nothinghere.play();
+                                                        if (random.NextDouble() > 0.5)
+                                                        {
+                                                            sb.snd_itsempty.play();
+                                                        }
+                                                        else
+                                                        {
+                                                            sb.snd_nothinghere.play();
+                                                        }
                                                     }
                                                 }
                                                 else
