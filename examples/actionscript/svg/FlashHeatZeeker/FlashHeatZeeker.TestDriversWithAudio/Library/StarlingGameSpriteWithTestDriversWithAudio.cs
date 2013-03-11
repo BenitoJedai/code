@@ -79,7 +79,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 // error JSC1000: ActionScript : failure at starling.display.Stage.add_keyUp : Object reference not set to an instance of an object.
 
-                #region FULL_SCREEN_INTERACTIVE
+                #region F2
                 stage.keyUp +=
                      e =>
                      {
@@ -92,7 +92,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                      };
                 #endregion
 
-                #region FULL_SCREEN_INTERACTIVE
+                #region F3
                 stage.keyUp +=
                      e =>
                      {
@@ -105,7 +105,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                      };
                 #endregion
 
-                #region FULL_SCREEN_INTERACTIVE
+                #region F1
                 stage.keyUp +=
                      e =>
                      {
@@ -646,6 +646,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                             Content_layer0_tracks.removeChildAt(0);
                         }
 
+                        #region textures_explosions
                         foreach (var item in explosins.ToArray())
                         {
                             item.index++;
@@ -660,6 +661,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                 item.visual.texture = textures_explosions.explosions[item.index]();
                             }
                         }
+                        #endregion
 
                         #region Soundboard
                         if (barrel_forceA > 0)
