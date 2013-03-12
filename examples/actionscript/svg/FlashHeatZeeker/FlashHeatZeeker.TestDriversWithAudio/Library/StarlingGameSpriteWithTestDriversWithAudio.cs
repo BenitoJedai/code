@@ -167,6 +167,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                     }
                 }
 
+                var needdshop = true;
+
                 #region other units
                 for (int i = 3; i < 7; i++)
                 {
@@ -183,9 +185,10 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                     if (i % 3 == 0)
                     {
-                        new PhysicalBunker(textures_bunker, this).SetPositionAndAngle(
+                        new PhysicalBunker(textures_bunker, this, IsShop: needdshop).SetPositionAndAngle(
                             i * 16, -8, random.NextDouble()
                         );
+                        needdshop = false;
 
                         new PhysicalBunker(textures_bunker, this).SetPositionAndAngle(
                             i * 16, 24, random.NextDouble()
@@ -254,7 +257,12 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                 // can I have 
                 // new ped, hind, jeep, tank
-                current = new PhysicalPed(textures_ped, this);
+
+                current = new PhysicalPed(textures_ped, this)
+                {
+                    AttractZombies = true
+                };
+
                 current.SetPositionAndAngle(
                     16.Random(),
                     16.Random(),
@@ -631,12 +639,12 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                     };
                 #endregion
 
-                (units.FirstOrDefault(k => k is PhysicalBunker) as PhysicalBunker).With(
-                    shop =>
-                    {
-                        shop.IsShop = true;
-                    }
-                );
+                //(units.FirstOrDefault(k => k is PhysicalBunker) as PhysicalBunker).With(
+                //    shop =>
+                //    {
+                //        shop.IsShop = true;
+                //    }
+                //);
 
                 onsyncframe +=
                     delegate

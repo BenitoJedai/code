@@ -13,6 +13,8 @@ using FlashHeatZeeker.Core.Library;
 using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using FlashHeatZeeker.CoreAudio.Library;
 using ScriptCoreLib.ActionScript.flash.media;
+using starling.display;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FlashHeatZeeker.Shop.Library
 {
@@ -23,7 +25,7 @@ namespace FlashHeatZeeker.Shop.Library
         public Soundboard sb = new Soundboard();
 
 
-        public static event Action ShopEnter;
+        public static event Action<IPhysicalUnit> ShopEnter;
         public static event Action ShopExit;
 
         public StarlingGameSpriteWithShop()
@@ -36,16 +38,40 @@ namespace FlashHeatZeeker.Shop.Library
             this.onbeforefirstframe += (stage, s) =>
             {
                 s.stage.color = 0xB27D51;
-                current = new PhysicalPed(textures_ped, this);
+                current = new PhysicalPed(textures_ped, this)
+                {
+
+                    AttractZombies = true
+                };
+
                 current.SetPositionAndAngle(
                     16.Random(),
                     16.Random(),
                     360.Random().DegreesToRadians()
                 );
 
-                new PhysicalBunker(textures_bunker, this) { IsShop = true }.SetPositionAndAngle(
+
+                #region others
+                for (int ix = 0; ix < 2; ix++)
+                    for (int iy = 0; iy < 2; iy++)
+                    {
+                        var p = new PhysicalPed(textures_ped, this);
+
+                        p.SetPositionAndAngle(
+                            8 * ix, 8 * iy, random.NextDouble()
+                        );
+
+                        p.BehaveLikeZombie();
+                    }
+                #endregion
+
+                var myshop = new PhysicalBunker(textures_bunker, this, IsShop: true);
+
+                myshop.SetPositionAndAngle(
                           -8, -8
                       );
+
+
 
                 #region __keyDown
 
@@ -100,6 +126,7 @@ namespace FlashHeatZeeker.Shop.Library
                                 var candidatedriver = current as PhysicalPed;
                                 if (candidatedriver != null)
                                 {
+
                                     var target =
                                          from candidatevehicle in units
                                          where candidatevehicle.driverseat != null
@@ -144,7 +171,7 @@ namespace FlashHeatZeeker.Shop.Library
                                                 {
                                                     sb.snd_its_a_shop.play();
                                                     if (ShopEnter != null)
-                                                        ShopEnter();
+                                                        ShopEnter(candidatedriver);
                                                 }
                                                 else
                                                 {

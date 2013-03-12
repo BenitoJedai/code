@@ -31,6 +31,9 @@ namespace FlashHeatZeeker.UnitPed.Library
             public Func<Texture>
                 ped_down,
                 ped_stand,
+
+                // zombie with a gun?
+                ped_gunstand,
                 ped_walk1_leftfar,
                 ped_walk2_leftmid,
                 ped_walk3_leftclose,
@@ -80,6 +83,7 @@ namespace FlashHeatZeeker.UnitPed.Library
                 ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96, filter: ped_walkzombie_filter),
 
                 ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg", innersize: 96, filter: ped_walkzombie_filter),
+                ped_gunstand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_gunstand.svg", innersize: 96, filter: ped_walkzombie_filter),
 
                 // left foot
                 ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", innersize: 96, filter: ped_walkzombie_filter),
@@ -96,6 +100,7 @@ namespace FlashHeatZeeker.UnitPed.Library
                 ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96),
 
                 ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand.svg", innersize: 96),
+                ped_gunstand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_gunstand.svg", innersize: 96),
 
                 // left foot
                 ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk1.svg", innersize: 96),

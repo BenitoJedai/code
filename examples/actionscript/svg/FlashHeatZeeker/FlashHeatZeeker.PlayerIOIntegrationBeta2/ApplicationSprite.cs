@@ -234,140 +234,20 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                         #endregion
 
 
-                        var shopcontent = new FlashHeatZeeker.Shop.ApplicationCanvas();
-
-                        #region BuyAmmo
-                        shopcontent.BuyAmmo += delegate
-                        {
-                            Console.WriteLine("BuyAmmo");
-
-                            sb.snd_click.play();
-
-                            this.facebookOAuthConnectPopupItems(
-                                (Client xclient, string access_token, string facebookuserid, object[] items) =>
-                                {
-                                    Console.WriteLine("BuyAmmo  " + new { facebookuserid, xclient.payVault.items.Length });
-
-                                    #region itemKey_exists
-                                    var itemKey = "Shotgun3";
-                                    var itemKey_exists = false;
-
-                                    foreach (var item in items)
-                                    {
-                                        var dyn = new DynamicContainer { Subject = item };
-
-                                        var dyn_itemKey = (string)dyn["itemKey"];
-
-                                        Console.WriteLine(new { item });
-
-                                        if (dyn_itemKey == itemKey)
-                                            itemKey_exists = true;
-                                    }
-
-                                    if (itemKey_exists)
-                                    {
-                                        shopcontent.bg_ammo.Fill = Brushes.Green;
-                                        shopcontent.bg_shotgun.Fill = Brushes.Green;
-                                        sb.snd_SelectWeapon.play();
-                                        return;
-                                    }
-                                    #endregion
 
 
-                                    //                              facebookOAuthConnectPopup callback { connectUserId = fb1527339800, access_token = AAADLSABgZCZC0BAOroZC3jsNhsgRVFhBK4VcAT19uePwd2iZBKX8ZCVwtdu8ZBhtmU9bH6nMJHO0qJ6I5dzvhw9Ty1kt542zpH2BZCMKKPI0wZDZD, facebookuserid = 1527339800 }
-                                    //BuyAmmo { facebookuserid = 1527339800, Length = 1 }
-                                    //{ item = [playerio.VaultItem][itemKey="Shotgun3", id="403939388", purchaseDate=Mon Mar 11 21:32:08 GMT+0200 2013] = {
-                                    //FreelyGivable:true
-                                    //PriceUSD:99
-                                    //} }
+                        var shop = new ShopExperience(this);
 
-                                }
-                            );
-                        };
-                        #endregion
-
-                        #region BuyShotgun
-                        shopcontent.BuyShotgun += delegate
-                        {
-                            Console.WriteLine("BuyShotgun");
-                            sb.snd_click.play();
-
-                            this.facebookOAuthConnectPopupItems(
-                              (Client xclient, string access_token, string facebookuserid, object[] items) =>
-                              {
-                                  Console.WriteLine("BuyShotgun  " + new { facebookuserid, xclient.payVault.items.Length });
-
-                                  #region itemKey_exists
-                                  var itemKey = "Shotgun3";
-                                  var itemKey_exists = false;
-
-                                  foreach (var item in items)
-                                  {
-                                      var dyn = new DynamicContainer { Subject = item };
-
-                                      var dyn_itemKey = (string)dyn["itemKey"];
-
-                                      Console.WriteLine(new { item });
-
-                                      if (dyn_itemKey == itemKey)
-                                          itemKey_exists = true;
-                                  }
-
-                                  if (itemKey_exists)
-                                  {
-                                      shopcontent.bg_ammo.Fill = Brushes.Green;
-                                      shopcontent.bg_shotgun.Fill = Brushes.Green;
-                                      sb.snd_SelectWeapon.play();
-                                      return;
-                                  }
-                                  #endregion
-
-
-                                  // Gets information about how to make a direct item purchase with the specified PayVault provider.
-                                  this.getBuyDirectInfo(
-                                      xclient,
-                                      facebookuserid,
-
-                                      item_name: "Operation Heat Zeeker - Shotgun",
-                                      itemKey: itemKey,
-
-                                      yield_paypalurl: uri =>
-                                      {
-                                          shopcontent.bg_shotgun.Fill = Brushes.Red;
-
-                                          ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.NavigateTo(uri);
-                                          //uri.NavigateTo();
-                                      }
-                                  );
-
-
-                              }
-                          );
-
-
-                        };
-                        #endregion
-
-
-                        StarlingGameSpriteBeta2.ShopEnter +=
-                            delegate
+                        StarlingGameSpriteBeta2.ShopEnter += ped =>
                             {
                                 // no go
                                 if (ApplicationSpriteWithConnection.CurrentClient == null)
                                     return;
 
-                                shopcontent.AttachToContainer(this);
-                                shopcontent.AutoSizeTo(this.stage);
+                                shop.ShopEnter(ped);
                             };
 
-
-                        StarlingGameSpriteBeta2.ShopExit +=
-                           delegate
-                           {
-                               ScriptCoreLib.ActionScript.Extensions.CommonExtensions.Orphanize(
-                                   ScriptCoreLib.ActionScript.Extensions.AvalonExtensions.ToSprite(shopcontent)
-                                   );
-                           };
+                        StarlingGameSpriteBeta2.ShopExit += shop.ShopExit;
                     };
 
 

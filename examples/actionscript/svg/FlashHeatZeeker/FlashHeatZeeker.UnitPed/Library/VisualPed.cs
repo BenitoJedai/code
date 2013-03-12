@@ -105,7 +105,12 @@ namespace FlashHeatZeeker.UnitPed.Library
                     if (WalkLikeZombie)
                         currentvisual.texture = texframes[2];
                     else
-                        currentvisual.texture = texframes[0];
+                    {
+                        if (StandWithVisibleGun)
+                            currentvisual.texture = texframes[4];
+                        else
+                            currentvisual.texture = texframes[0];
+                    }
                 }
 
                 return;
@@ -126,6 +131,7 @@ namespace FlashHeatZeeker.UnitPed.Library
         }
 
         public bool WalkLikeZombie;
+        public bool StandWithVisibleGun;
 
         /// <summary>
         /// If everybody walks the same time, look different
@@ -165,6 +171,7 @@ namespace FlashHeatZeeker.UnitPed.Library
                 textures.ped_walk.ped_down(),
                 textures.ped_walkzombie.ped_stand(),
                 textures.ped_walkzombie.ped_down(),
+                textures.ped_walk.ped_gunstand(),
             };
 
             // 781
@@ -188,7 +195,7 @@ namespace FlashHeatZeeker.UnitPed.Library
 
             currentvisual = new Image(
                texframes[0]) { }.AttachTo(
-               Context.Content
+               Context.Content_layer3_buildings
            );
 
 

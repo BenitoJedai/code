@@ -144,6 +144,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\BetaBanner.png" />
+    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_gunstand.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_normalstand_walk3.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_normalstand_walk2.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_normalstand_walk1.svg" />
