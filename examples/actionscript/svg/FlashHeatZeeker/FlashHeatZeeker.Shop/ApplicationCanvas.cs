@@ -17,12 +17,16 @@ namespace FlashHeatZeeker.Shop
     {
         public event Action BuyShotgun;
         public event Action BuyAmmo;
+        public event Action Close;
 
         public Rectangle overlay_ammo = new Rectangle();
 
 
-        public Rectangle  bg_ammo = new Rectangle();
+        public Rectangle bg_ammo = new Rectangle();
         public Rectangle bg_shotgun = new Rectangle();
+
+        public TextBox t2;
+        public AnimatedOpacity<TextBox> t2o;
 
 
 
@@ -40,6 +44,7 @@ namespace FlashHeatZeeker.Shop
 
 
             var rcontent = new Canvas().AttachTo(this);
+
 
             var r0 = new Rectangle();
 
@@ -80,7 +85,7 @@ namespace FlashHeatZeeker.Shop
             t.MoveTo(8, 8);
 
 
-            var t2 = new TextBox();
+            t2 = new TextBox();
 
             t2.IsReadOnly = true;
 
@@ -95,11 +100,11 @@ namespace FlashHeatZeeker.Shop
             t2.BorderThickness = new Thickness(0);
             t2.MoveTo(8, 290);
 
-            var t2o = t2.ToAnimatedOpacity();
+            t2o = t2.ToAnimatedOpacity();
 
             t2o.Opacity = 0.2;
 
-             bg_ammo = new Rectangle();
+            bg_ammo = new Rectangle();
 
 
             bg_ammo.Fill = Brushes.Yellow;
@@ -214,6 +219,37 @@ namespace FlashHeatZeeker.Shop
                 rcontent.MoveTo((this.Width - 500) / 2, (this.Height - 400) / 2);
 
             };
+
+            var rclose_shadow = new Rectangle();
+
+
+            //rclose.Opacity = 0.8;
+            rclose_shadow.Fill = Brushes.Black;
+            rclose_shadow.AttachTo(rcontent);
+            rclose_shadow.Opacity = 0.3;
+
+            rclose_shadow.SizeTo(32, 32);
+
+            var rclose = new Rectangle();
+
+
+            rclose.Fill = Brushes.Red;
+            rclose.AttachTo(rcontent);
+            rclose.Cursor = Cursors.Hand;
+
+            rclose.SizeTo(32, 32);
+
+            var rclosemagin = -8;
+            rclose.MoveTo(500 - 32 - rclosemagin, rclosemagin);
+            rclose_shadow.MoveTo(500 - 32 - rclosemagin + 4, rclosemagin + 4);
+
+
+            rclose.MouseLeftButtonUp +=
+                delegate
+                {
+                    if (Close != null)
+                        Close();
+                };
         }
 
     }

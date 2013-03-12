@@ -277,14 +277,17 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                 var fix = body.CreateFixture(fixDef);
 
                 var fix_data = new Action<double>(
-                    jeep_forceA =>
+                    zombie_forceA =>
                     {
-                        if (jeep_forceA < 1)
+                        if (zombie_forceA < 1)
                             return;
 
-                        if (jeep_forceA > 1)
+                        // zombie runs against a building
+                        if (zombie_forceA > 3.6)
                             if (visual.WalkLikeZombie)
                             {
+                                Console.WriteLine(new { zombie_forceA });
+
                                 this.body.SetActive(false);
                                 this.damagebody.SetActive(false);
                                 this.visual.LayOnTheGround = true;
@@ -292,7 +295,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                             }
 
                         if (oncollision != null)
-                            oncollision(this, jeep_forceA);
+                            oncollision(this, zombie_forceA);
                     }
                 );
                 fix.SetUserData(fix_data);
@@ -329,7 +332,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             }
             #endregion
 
-            #region b2world
+            #region damage_b2world
 
 
 
@@ -389,6 +392,10 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             Context.internalunits.Add(this);
 
         }
+
+
+
+        public bool AttractZombies;
     }
 
 }

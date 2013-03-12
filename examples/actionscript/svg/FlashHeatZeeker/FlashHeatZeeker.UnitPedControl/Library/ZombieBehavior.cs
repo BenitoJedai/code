@@ -1,4 +1,6 @@
 ﻿using FlashHeatZeeker.Core.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
 using starling.filters;
 using System;
 using System.Collections.Generic;
@@ -39,10 +41,88 @@ namespace FlashHeatZeeker.UnitPedControl.Library
             physical0.Context.onsyncframe +=
                 delegate
                 {
-                    if (physical0.visual.LayOnTheGround)
-                        return;
-
                     var frame = (seed + physical0.Context.syncframeid) % 20;
+
+
+                    if (physical0.visual.LayOnTheGround)
+                    {
+                        if (frame == 0)
+                            if (physical0.Context.random.NextDouble() < 0.1)
+                            {
+                                // review!
+                                physical0.body.SetActive(true);
+                                physical0.damagebody.SetActive(true);
+                                physical0.visual.LayOnTheGround = false;
+                            }
+                        return;
+                    }
+
+
+                    Func<PhysicalPed, double, double> GetMotivation =
+                        (candidateped, distance) =>
+                        {
+                            if (candidateped.AttractZombies)
+                                return distance;
+
+
+                            return 16 + distance;
+                        };
+
+                    var target =
+                        from candidate in physical0.Context.units
+
+                        let candidateped = candidate as PhysicalPed
+                        where candidateped != null
+
+                        // zombies wont attract zombies
+                        where !candidateped.visual.WalkLikeZombie
+
+                        let gap = new __vec2(
+                            (float)(candidate.body.GetPosition().x - physical0.body.GetPosition().x),
+                            (float)(candidate.body.GetPosition().y - physical0.body.GetPosition().y)
+                        )
+
+                        let distance = gap.GetLength()
+
+                        let CloseEnoughToAttract = distance < 16
+                        let PreventWanderingOff = distance > 48
+                        where CloseEnoughToAttract || PreventWanderingOff
+
+                        orderby GetMotivation(candidateped, distance) ascending
+
+                        select new { candidateped, distance, gap };
+
+                    var firsttarget = target.FirstOrDefault();
+
+                    if (firsttarget != null)
+                    {
+
+
+                        // stare at victim
+                        var up = new KeySample();
+
+                        if (firsttarget.distance > 3)
+                        {
+                            up[Keys.Up] = true;
+                            up.forcey = firsttarget.distance.Min(8) / 4.0;
+                        }
+                        else
+                        {
+                            // attack isntead!
+                        }
+
+                        physical0.SetVelocityFromInput(up);
+
+
+                        physical0.SetPositionAndAngle(
+                            physical0.body.GetPosition().x,
+                            physical0.body.GetPosition().y,
+                            firsttarget.gap.GetRotation()
+                        );
+
+                        return;
+                    }
+
 
                     if (frame == 0)
                     {

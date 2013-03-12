@@ -38,13 +38,15 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                 var physical0 = new PhysicalPed(textures_ped, this)
                 {
-                    speed = 8
+                    AttractZombies = true
+                    //speed = 8
                 };
 
 
-                physical0.visual.WalkLikeZombie = true;
+                //physical0.visual.WalkLikeZombie = true;
+                physical0.visual.StandWithVisibleGun = true;
 
-         
+
 
                 current = physical0;
 
@@ -71,7 +73,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                         var p = new PhysicalPed(textures_ped, this);
 
                         p.SetPositionAndAngle(
-                            8 * ix, 8 * iy, random.NextDouble()
+                            32 * ix, 32 * iy, random.NextDouble()
                         );
 
                         if (ix == 0)

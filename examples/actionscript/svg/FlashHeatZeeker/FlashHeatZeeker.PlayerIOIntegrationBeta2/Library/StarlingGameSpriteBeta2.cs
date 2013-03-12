@@ -50,8 +50,9 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
         public List<RemoteGame> others = new List<RemoteGame>();
 
 
-        public static event Action ShopEnter;
+        public static event Action<IPhysicalUnit> ShopEnter;
         public static event Action ShopExit;
+
         public StarlingGameSpriteBeta2()
         {
             var textures_beta = new_tex96(new BetaBanner());
@@ -132,6 +133,13 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
                          var o = other(__sessionid);
 
                          var u = this.units.FirstOrDefault(k => k.Identity == identity);
+
+                         if (u == ego)
+                         {
+                             // discard, only we are allowed to move
+                             // ourselves for now
+                             return;
+                         }
 
                          (u as PhysicalHind).With(hind1 => hind1.VerticalVelocity = double.Parse(value));
 
@@ -392,7 +400,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
                                              {
                                                  sb.snd_its_a_shop.play();
                                                  if (ShopEnter != null)
-                                                     ShopEnter();
+                                                     ShopEnter(candidatedriver);
                                              }
                                              else
                                              {

@@ -3,7 +3,10 @@ using Box2D.Common.Math;
 using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
+using FlashHeatZeeker.UnitJeepControl.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using starling.core;
 using starling.display;
 using System;
 using System.Collections.Generic;
@@ -62,8 +65,11 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
         public KeySample CurrentInput { get; set; }
 
-        public PhysicalBunker(StarlingGameSpriteWithBunkerTextures textures, StarlingGameSpriteWithPhysics Context)
+
+        public PhysicalBunker(StarlingGameSpriteWithBunkerTextures textures, StarlingGameSpriteWithPhysics Context, bool IsShop = false)
         {
+            var textures_bunker = textures;
+
             this.CurrentInput = new KeySample();
 
             this.driverseat = new DriverSeat();
@@ -98,7 +104,69 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                  textures.bunker2_shopoverlay_arrow()
              ).AttachTo(visual);
 
-            IsShop = false;
+
+            if (IsShop)
+            {
+
+                var hud_arrow = new Image(
+                      textures_bunker.bunker2_shopoverlay_arrow()
+                  ).AttachTo(Context);
+
+
+                StarlingGameSpriteWithPhysics.onframe +=
+                    (ScriptCoreLib.ActionScript.flash.display.Stage stage, Starling starling) =>
+                    {
+                        var gap = new __vec2(
+                             (float)(this.body.GetPosition().x - Context.current.body.GetPosition().x),
+                             (float)(this.body.GetPosition().y - Context.current.body.GetPosition().y)
+                         );
+
+                        var distance = gap.GetLength();
+
+                        if (distance < 40)
+                        {
+                            visual_shopoverlay_arrow.visible = true;
+                            hud_arrow.visible = false;
+                            return;
+                        }
+
+
+                        //if (distance < 50)
+                        //{
+                        //    visual_shopoverlay_arrow.visible = false;
+                        //    hud_arrow.visible = false;
+                        //    return;
+                        //}
+
+                        visual_shopoverlay_arrow.visible = false;
+                        hud_arrow.visible = true;
+
+                        var cm = new Matrix();
+
+                        // 
+                        var yy = 8 * Math.Sin(this.Context.gametime.ElapsedMilliseconds * 0.002);
+
+
+
+                        cm.translate(-128, -128 - 64 + yy);
+
+
+                        cm.scale(Context.stagescale, Context.stagescale);
+
+
+                        cm.rotate(gap.GetRotation() - Context.current.body.GetAngle());
+
+                        cm.translate(
+                            (stage.stageWidth * 0.5),
+                            (stage.stageHeight * Context.internal_center_y)
+                        );
+
+
+                        hud_arrow.transformationMatrix = cm;
+                    };
+            }
+
+            this.IsShop = IsShop;
 
             #region damage_b2world
             {
