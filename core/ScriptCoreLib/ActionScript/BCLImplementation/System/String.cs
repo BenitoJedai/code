@@ -32,6 +32,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 		{
 			string v = (string)(object)this;
 
+            // this will be too slow :)
 			while (v.Length < total)
 				v += Convert.ToString(c);
 
@@ -43,7 +44,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 		{
 			string v = (string)(object)this;
 
-			while (v.Length < total)
+            // this will be too slow :)
+            while (v.Length < total)
 				v = Convert.ToString(c) + v;
 
 			return v;
