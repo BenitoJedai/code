@@ -10,11 +10,13 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Abstractatech.JavaScript.FormAsPopup;
+using System.Windows.Forms;
 
 namespace FlashHeatZeeker.Shop
 {
@@ -33,6 +35,25 @@ namespace FlashHeatZeeker.Shop
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            var f = new Form();
+
+            var fweb = new WebBrowser().AttachTo(f);
+            fweb.Dock = DockStyle.Fill;
+            var fiframe = (IHTMLIFrame)fweb.GetHTMLTargetContainer();
+            f.Show();
+
+
+            fiframe.onload += delegate
+            {
+                f.Text = "onload";
+
+                fiframe.contentWindow.onbeforeunload += delegate
+                {
+                    f.Text = "onbeforeunload";
+                };
+            };
+
+
             sprite.wmode();
 
             sprite.AttachSpriteToDocument().With(
@@ -49,6 +70,7 @@ namespace FlashHeatZeeker.Shop
                    }
                );
 
+            #region con
             var con = new ConsoleForm();
 
             con.InitializeConsoleFormWriter();
@@ -67,12 +89,17 @@ namespace FlashHeatZeeker.Shop
 
 
             con.Opacity = 0.6;
+            #endregion
 
 
             sprite.InitializeConsoleFormWriter(
                        Console.Write,
                        Console.WriteLine
             );
+
+            fiframe.id = "foo7";
+            fiframe.name = "foo7";
+            sprite.SetIFrameName(fiframe.name);
 
             con.HandleFormClosing = false;
             con.PopupInsteadOfClosing();

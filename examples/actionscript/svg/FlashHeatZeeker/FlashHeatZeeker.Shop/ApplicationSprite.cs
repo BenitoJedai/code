@@ -52,17 +52,24 @@ namespace FlashHeatZeeker.Shop
 
                      Action callback = delegate
                      {
+                         Console.WriteLine("at callback");
 
                          yield(xclient, access_token, facebookuserid, xclient.payVault.items);
 
 
                          // oh and the next time you dod that, lets cache it
                          // for how long?
+                         Console.WriteLine("set facebookOAuthConnectPopupItems_cache");
+
                          facebookOAuthConnectPopupItems_cache =
                              future_yield =>
                              {
+                                 Console.WriteLine("at facebookOAuthConnectPopupItems_cache");
+
                                  Action future_callback = delegate
                                  {
+                                     Console.WriteLine("at future_callback");
+
                                      yield(xclient, access_token, facebookuserid, xclient.payVault.items);
                                  };
 
@@ -77,6 +84,9 @@ namespace FlashHeatZeeker.Shop
             that.facebookOAuthConnectPopup(c);
         }
         static Soundboard sb = new Soundboard();
+
+
+        public static string facebookOAuthConnectPopup_window = "_blank";
 
         public static void facebookOAuthConnectPopup(this Sprite that, facebookOAuthConnectPopupCallback yield)
         {
@@ -110,10 +120,15 @@ namespace FlashHeatZeeker.Shop
             // http://test-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com/fb/_fb_quickconnect_oauth
             // QuickConnect for Facebook is not enabled for this game
             // facebookConnectPopup errorHandler Error: FacebookConnectPopup is no longer supported by Facebook. Please use FacebookConnectOAuthPopup
+
+            Console.WriteLine("facebookOAuthConnectPopup: " + new { facebookOAuthConnectPopup_window });
+
             playerio.PlayerIO.quickConnect.facebookOAuthConnectPopup(
                 stage: that.stage,
                 gameId: ApplicationSpriteWithConnection.__gameid,
-                window: "_blank",
+
+                window: facebookOAuthConnectPopup_window,
+
                 permissions: new object[0],
                   callback: callback.ToFunction(),
 
@@ -224,6 +239,20 @@ namespace FlashHeatZeeker.Shop
             {
                 Console.WriteLine("BuyAmmo");
 
+                //                BuyAmmo
+                //facebookOAuthConnectPopup: { facebookOAuthConnectPopup_window = _blank }
+                //after facebookOAuthConnectPopup
+                //still in window: { Right = 739, Left = 675 }
+                //{ zombie_forceA = 4.867357484065154 }
+                //facebookOAuthConnectPopup callback { connectUserId = fb1527339800, access_token = AAADLSABgZCZC0BAOroZC3jsNhsgRVFhBK4VcAT19uePwd2iZBKX8ZCVwtdu8ZBhtmU9bH6nMJHO0qJ6I5dzvhw9Ty1kt542zpH2BZCMKKPI0wZDZD, facebookuserid = 1527339800 }
+                //at callback
+                //BuyAmmo { facebookuserid = 1527339800, Length = 1 }
+                //{ item = [playerio.VaultItem][itemKey="Shotgun3", id="403939388", purchaseDate=Mon Mar 11 21:32:08 GMT+0200 2013] = {
+                //FreelyGivable:true
+                //PriceUSD:99
+                //} }
+                //set facebookOAuthConnectPopupItems_cache
+
 
                 sb.snd_click.play(
                       sndTransform: new ScriptCoreLib.ActionScript.flash.media.SoundTransform(0.5)
@@ -284,30 +313,43 @@ namespace FlashHeatZeeker.Shop
                   {
                       Console.WriteLine("BuyShotgun  " + new { facebookuserid, xclient.payVault.items.Length });
 
-                      #region itemKey_exists
                       var itemKey = "Shotgun3";
-                      var itemKey_exists = false;
 
-                      foreach (var item in items)
+
+                      var BuyAnyway = true;
+                      if (BuyAnyway)
                       {
-                          var dyn = new DynamicContainer { Subject = item };
 
-                          var dyn_itemKey = (string)dyn["itemKey"];
+                      }
+                      else
+                      {
 
-                          Console.WriteLine(new { item });
+                          #region itemKey_exists
+                          var itemKey_exists = false;
 
-                          if (dyn_itemKey == itemKey)
-                              itemKey_exists = true;
+                          foreach (var item in items)
+                          {
+                              var dyn = new DynamicContainer { Subject = item };
+
+                              var dyn_itemKey = (string)dyn["itemKey"];
+
+                              Console.WriteLine(new { item });
+
+                              if (dyn_itemKey == itemKey)
+                                  itemKey_exists = true;
+                          }
+
+                          if (itemKey_exists)
+                          {
+                              GiveMeWhatIWant();
+
+                              return;
+                          }
+                          #endregion
+
                       }
 
-                      if (itemKey_exists)
-                      {
-                          GiveMeWhatIWant();
-
-                          return;
-                      }
-                      #endregion
-
+                      Console.WriteLine("before getBuyDirectInfo");
 
                       // Gets information about how to make a direct item purchase with the specified PayVault provider.
                       that.getBuyDirectInfo(
@@ -319,7 +361,10 @@ namespace FlashHeatZeeker.Shop
 
                           yield_paypalurl: uri =>
                           {
+                              Console.WriteLine("at getBuyDirectInfo");
+
                               shopcontent.bg_shotgun.Fill = Brushes.Red;
+
 
                               uri.NavigateTo();
                           }
@@ -339,7 +384,7 @@ namespace FlashHeatZeeker.Shop
                 {
                     currentped = ped;
 
-          
+
                     shopcontent.AttachToContainer(that);
                     shopcontent.AutoSizeTo(that.stage);
                 };
@@ -513,6 +558,12 @@ namespace FlashHeatZeeker.Shop
             AtInitializeConsoleFormWriter(Console_Write, Console_WriteLine);
         }
         #endregion
+
+
+        public void SetIFrameName(string value)
+        {
+            ApplicationSpriteShopExtensions.facebookOAuthConnectPopup_window = value;
+        }
 
     }
 }
