@@ -20,6 +20,7 @@ using FlashHeatZeeker.Shop;
 using System.Windows.Media;
 using playerio;
 using FlashHeatZeeker.PlayerIOIntegrationBeta2.Library;
+using ScriptCoreLib.ActionScript.flash.system;
 
 namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 {
@@ -44,39 +45,54 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         public ApplicationSprite()
         {
 
-            var disable_F12 = false;
+            var disable_F9 = false;
+            var sb = new Soundboard();
 
             this.InvokeWhenStageIsReady(
                 delegate
                 {
+                    Security.allowDomain("*");
+                    Security.allowInsecureDomain("*");
+
+                    var lasterror = 0;
+
                     this.root.loaderInfo.uncaughtErrorEvents.uncaughtError +=
                        e =>
                        {
+                           if (lasterror == e.errorID)
+                               return;
+
                            Console.WriteLine("error: " + new { e.errorID, e.error, e } + "\n run in flash debugger for more details!");
 
+                           lasterror = e.errorID;
                        };
 
 
                     this.stage.keyUp +=
                        e =>
                        {
-                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F12)
+                           if (e.keyCode == (uint)System.Windows.Forms.Keys.F9)
                            {
-                               if (disable_F12)
+                               if (disable_F9)
                                    return;
 
-                               disable_F12 = true;
+                               disable_F9 = true;
+                               sb.snd_click.play();
 
                                Abstractatech.ActionScript.ConsoleFormPackage.ConsoleFormPackageExperience.Initialize();
                            }
 
                            if (e.keyCode == (uint)System.Windows.Forms.Keys.F11)
                            {
+                               sb.snd_click.play();
+
                                this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
                            }
 
                            if (e.keyCode == (uint)System.Windows.Forms.Keys.F)
                            {
+                               sb.snd_click.play();
+
                                this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
                            }
                        };
@@ -87,7 +103,6 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
             var lobby = new FlashHeatZeeker.Lobby.ApplicationSprite();
             lobby.AttachTo(this);
 
-            var sb = new Soundboard();
 
             this.InvokeWhenPromotionIsReady(
                 delegate

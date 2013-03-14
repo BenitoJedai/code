@@ -321,6 +321,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 #region mouseWheel
                 stage.mouseWheel += e =>
                 {
+                    e.preventDefault();
+
                     if (e.delta < 0)
                     {
                         this.internalscale -= 0.05;
@@ -339,6 +341,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 stage.keyDown +=
                    e =>
                    {
+                       e.preventDefault();
+
                        __keyDown.forcex = 1.0;
                        __keyDown.forcey = 1.0;
 
@@ -352,6 +356,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 stage.keyUp +=
                  e =>
                  {
+                     e.preventDefault();
+
                      if (!e.altKey)
                          __keyDown[System.Windows.Forms.Keys.Alt] = false;
 

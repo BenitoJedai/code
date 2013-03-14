@@ -122,6 +122,9 @@ namespace FlashHeatZeeker.Shop
             // facebookConnectPopup errorHandler Error: FacebookConnectPopup is no longer supported by Facebook. Please use FacebookConnectOAuthPopup
 
             Console.WriteLine("facebookOAuthConnectPopup: " + new { facebookOAuthConnectPopup_window });
+            
+            // http://test-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com/fb/_fb_quickconnect_oauth?partnerId=&req_perms=&clientinfo=playerType%3AStandAlone%40%7C%40version%3AWIN%2011%2C6%2C602%2C171%40%7C%40pixelAspectRatio%3A1%40%7C%40isDebugger%3Atrue%40%7C%40screenDPI%3A72%40%7C%40screenResolutionX%3A1280%40%7C%40language%3Aen%40%7C%40screenResolutionY%3A1024%40%7C%40manufacturer%3AAdobe%20Windows%40%7C%40touchscreenType%3Afinger%40%7C%40os%3AWindows%207%40%7C%40cpuArchitecture%3Ax86&communicationId=136329356332697710&clientapi=as3&playerinsightsegments=
+            // Error from Facebook when converting code argument to access_token: The remote server returned an error: (400) Bad Request.. Details: {"error":{"message":"This authorization code has been used.","type":"OAuthException","code":100}}
 
             playerio.PlayerIO.quickConnect.facebookOAuthConnectPopup(
                 stage: that.stage,
@@ -135,8 +138,15 @@ namespace FlashHeatZeeker.Shop
               errorHandler: errorHandler.ToFunction()
 
              );
+            
+            // http://playerio.com/forum/quickconnect/facebookoauthconnectpopup-an-error-occured-t34730
+            // https://www.facebook.com/login.php?skip_api_login=1&next=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Foauth%3Fclient_id%3D223510104440829%26display%3Dpopup%26redirect_uri%3Dhttp%253A%252F%252Ftest-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com%252Ffb%252F_fb_quickconnect_oauth_receive%253FcommunicationId%253D1363294542982821755%26scope%26from_login%3D1&cancel_uri=http%3A%2F%2Ftest-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com%2Ffb%2F_fb_quickconnect_oauth_receive%3FcommunicationId%3D1363294542982821755&display=popup&api_key=223510104440829
+            // https://www.facebook.com/checkpoint/?next=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Foauth%3Fclient_id%3D223510104440829%26display%3Dpopup%26redirect_uri%3Dhttp%253A%252F%252Ftest-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com%252Ffb%252F_fb_quickconnect_oauth_receive%253FcommunicationId%253D1363294542982821755%26scope%26from_login%3D1
+            // http://test-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com/fb/_fb_quickconnect_oauth_receive?communicationId=1363294542982821755&code=AQAAvNdEi4MI8LshIOlCynHzDQOCfp3BN7Z8jHrz4yAB4YBUd9eZjXtkjD-eWn_OdQ1AotbN_cVX5jZCcfTqScgIC6ClfhNEt41p5a32orG7S_nna1uIh5RYoIycjY5BAn0SrFCpjoxrgXI2EQfdG4Y8u-GzmuBeeou4TtxOJeLNxYLENeCTdMTHrkiMRuf98fX0vrgy-rRcUznzpibp7ouL#_=_
+            // You are now logged in
 
-            Console.WriteLine("after facebookOAuthConnectPopup");
+
+            Console.WriteLine("after facebookOAuthConnectPopup, did we get a callback?");
             //    }
             //);
         }
