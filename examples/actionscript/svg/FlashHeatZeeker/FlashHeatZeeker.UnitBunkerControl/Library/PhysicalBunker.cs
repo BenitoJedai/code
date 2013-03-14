@@ -108,6 +108,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
             if (IsShop)
             {
 
+                #region hud_arrow
                 var hud_arrow = new Image(
                       textures_bunker.bunker2_shopoverlay_arrow()
                   ).AttachTo(Context);
@@ -154,7 +155,7 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
                         cm.scale(Context.stagescale, Context.stagescale);
 
 
-                        cm.rotate(gap.GetRotation() - Context.current.body.GetAngle());
+                        cm.rotate(gap.GetRotation() - Context.current.body.GetAngle() + Context.current.CameraRotation);
 
                         cm.translate(
                             (stage.stageWidth * 0.5),
@@ -164,6 +165,8 @@ namespace FlashHeatZeeker.UnitBunkerControl.Library
 
                         hud_arrow.transformationMatrix = cm;
                     };
+                #endregion
+
             }
 
             this.IsShop = IsShop;
