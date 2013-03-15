@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8C36076C-7270-4841-BB8B-1C28A24ED1CE}</ProjectGuid>
+    <ProjectGuid>{919A6834-7BA5-489D-B8D7-A062E056E5A3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech.ActionScript.Audio</RootNamespace>
@@ -116,6 +116,7 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Library\MP3PitchLoop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
