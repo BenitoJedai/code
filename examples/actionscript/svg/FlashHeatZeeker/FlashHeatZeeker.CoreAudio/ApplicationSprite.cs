@@ -10,7 +10,6 @@ namespace FlashHeatZeeker.CoreAudio
 {
     public sealed class ApplicationSprite : Sprite
     {
-        Soundboard sb = new Soundboard();
 
         public ApplicationSprite()
         {
@@ -20,15 +19,16 @@ namespace FlashHeatZeeker.CoreAudio
         public void Visualize(Func<IVisualizer> new_Visualizer)
         {
             // how many sounds we have?
+            Soundboard sb = new Soundboard();
 
             new[] {
-                this.sb.loopmachinegun,
-                this.sb.loophelicopter1,
-                this.sb.loopdiesel2,
-                this.sb.loopsand_run,
-                this.sb.loopjeepengine,
-                this.sb.loopcrickets,
-                this.sb.loopstrange1,
+                sb.loopmachinegun,
+                sb.loophelicopter1,
+                sb.loopdiesel2,
+                sb.loopsand_run,
+                sb.loopjeepengine,
+                sb.loopcrickets,
+                sb.loopstrange1,
             }.WithEachIndex(
                 (s, index) =>
                 {

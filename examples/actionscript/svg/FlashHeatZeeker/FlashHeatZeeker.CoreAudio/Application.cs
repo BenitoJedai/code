@@ -31,9 +31,14 @@ namespace FlashHeatZeeker.CoreAudio
         public Application(IApp page)
         {
             // Initialize ApplicationSprite
-            sprite.AttachSpriteTo(page.Content);
+            sprite.AttachSpriteToDocument();
 
             sprite.Visualize();
+
+            // http://renaun.com/blog/2012/12/enable-advanced-telemetry-on-flex-or-old-swfs-with-swf-scount-enabler/
+            new IHTMLButton { innerText = "need more" }.AttachToDocument().WhenClicked(
+                btn => sprite.Visualize()
+            );
         }
 
     }

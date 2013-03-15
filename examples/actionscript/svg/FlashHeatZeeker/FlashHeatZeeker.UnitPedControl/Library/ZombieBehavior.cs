@@ -92,6 +92,7 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                         select new { candidateped, distance, gap };
 
+                    // this costs 10% Total time
                     var firsttarget = target.FirstOrDefault();
 
                     if (firsttarget != null)

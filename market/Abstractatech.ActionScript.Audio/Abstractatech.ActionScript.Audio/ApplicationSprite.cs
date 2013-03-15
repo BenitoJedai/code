@@ -129,6 +129,14 @@ namespace Abstractatech.ActionScript.Audio
                         looptone.Rate = rate;
                         loopsand_run.Rate = rate;
 
+                        var MasterVolume = (e.stageY / this.stage.stageHeight);
+
+                        loopdiesel2.MasterVolume = MasterVolume;
+                        loopjeep.MasterVolume = MasterVolume;
+                        loophelicopter1.MasterVolume = MasterVolume;
+                        looptone.MasterVolume = MasterVolume;
+                        loopsand_run.MasterVolume = MasterVolume;
+
                         Rate.text = new { rate, loopdiesel2.LeftVolume, loopdiesel2.RightVolume }.ToString();
 
 
