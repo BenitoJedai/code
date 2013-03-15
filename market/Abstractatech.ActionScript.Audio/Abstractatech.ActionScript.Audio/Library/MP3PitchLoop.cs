@@ -23,7 +23,8 @@ namespace Abstractatech.ActionScript.Audio
         public const int BLOCK_SIZE = 4096 / 2;
 
         // property costs us 4% of total time?
-        public double Rate { get; set; }
+        //public double Rate { get; set; }
+        public double Rate;
 
         public Sound Sound = new Sound();
 
@@ -306,7 +307,8 @@ namespace Abstractatech.ActionScript.Audio
                         var positionTargetInt = -1;
 
                         //-- COMPUTE NUMBER OF SAMPLES NEED TO PROCESS BLOCK (+2 FOR INTERPOLATION)
-                        var need = Convert.ToInt32(Math.Ceiling(scaledBlockSize) + 2);
+                        //var need = Convert.ToInt32(Math.Ceiling(scaledBlockSize) + 2);
+                        var need = (int)(Math.Ceiling(scaledBlockSize) + 2);
 
                         var nextposition = SourceAudioPosition + scaledBlockSize;
 
@@ -455,7 +457,8 @@ namespace Abstractatech.ActionScript.Audio
 
                         if (read != need)
                         {
-                            n = Convert.ToInt32(read / Rate);
+                            //n = Convert.ToInt32(read / Rate);
+                            n = (int)(read / Rate);
                         }
 
 
@@ -471,7 +474,8 @@ namespace Abstractatech.ActionScript.Audio
                             //-- AVOID READING EQUAL SAMPLES, IF RATE < 1.0
                             if (Convert.ToInt32(positionTargetNum) != positionTargetInt)
                             {
-                                positionTargetInt = Convert.ToInt32(positionTargetNum);
+                                //positionTargetInt = Convert.ToInt32(positionTargetNum);
+                                positionTargetInt = (int)(positionTargetNum);
 
                                 //-- SET TARGET READ POSITION
                                 LoopAudioStream.position = (uint)(positionTargetInt << 3);
