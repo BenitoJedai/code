@@ -258,10 +258,17 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 // can I have 
                 // new ped, hind, jeep, tank
 
-                current = new PhysicalPed(textures_ped, this)
+                var egoped = new PhysicalPed(textures_ped, this)
                 {
-                    AttractZombies = true
+                    AttractZombies = true,
+
+
+
                 };
+
+                egoped.visual.StandWithVisibleGun = true;
+
+                current = egoped;
 
                 current.SetPositionAndAngle(
                     16.Random(),
@@ -441,6 +448,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 sb.loopstrange1.MasterVolume = 0;
                 sb.loopstrange1.Sound.play();
 
+                sb.loop_GallinagoDelicata.MasterVolume = 0;
+                sb.loop_GallinagoDelicata.Sound.play();
 
                 var jeep_forceA = 0.0;
                 var ped_forceA = 0.0;
@@ -651,6 +660,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                 //        shop.IsShop = true;
                 //    }
                 //);
+                var mode_gun = false;
 
                 onsyncframe +=
                     delegate
@@ -744,7 +754,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         if (this.syncframeid == 1200)
                             sb.snd_whatsthatsound.play();
 
-                        sb.loopcrickets.MasterVolume = (1 - move_zoom) * 0.08;
+                        sb.loopcrickets.MasterVolume = (1 - move_zoom) * 0.09;
+                        sb.loop_GallinagoDelicata.MasterVolume = (1 - move_zoom) * 0.3;
 
                         sb.loopstrange1.MasterVolume = (1 - move_zoom) * 0.04;
 
@@ -789,7 +800,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                         else
                         {
                             sb.loopcrickets.MasterVolume = 0.2;
-
+                            sb.loop_GallinagoDelicata.MasterVolume = 0.2;
 
                         }
 
@@ -806,6 +817,10 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                             + this.current.CameraRotation
                             + this.current.body.GetAngle()
                             )) / 4.0;
+
+                        sb.loop_GallinagoDelicata.LeftVolume = sb.loopcrickets.RightVolume;
+                        sb.loop_GallinagoDelicata.RightVolume = sb.loopcrickets.LeftVolume;
+
                         #endregion
 
                         if (disable_enter_and_space)
@@ -1086,6 +1101,84 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                             }
                         #endregion
+
+                        #region simulate a weapone!
+                        if (__keyDown[System.Windows.Forms.Keys.ControlKey])
+                        {
+                            mode_gun = true;
+                        }
+                        else
+                        {
+                            if (mode_gun)
+                            {
+                                mode_gun = false;
+
+                                (this.current as PhysicalPed).With(
+                                       h =>
+                                       {
+
+                                           sb.snd_shotgun3.play();
+
+                                           #region CreateBullet
+                                           Action<double> CreateBullet =
+                                               a =>
+                                               {
+                                                   var bodyDef = new b2BodyDef();
+
+                                                   bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+
+                                                   // stop moving if legs stop walking!
+                                                   bodyDef.linearDamping = 0;
+                                                   bodyDef.angularDamping = 0;
+                                                   //bodyDef.angle = 1.57079633;
+                                                   bodyDef.fixedRotation = true;
+
+
+                                                   var dx = Math.Cos(current.body.GetAngle() + current.CameraRotation + a);
+                                                   var dy = Math.Sin(current.body.GetAngle() + current.CameraRotation + a);
+
+                                                   var body = damage_b2world.CreateBody(bodyDef);
+                                                   body.SetPosition(
+                                                       new b2Vec2(
+                                                           current.body.GetPosition().x + dx * 0.3,
+                                                           current.body.GetPosition().y + dy * 0.3
+                                                       )
+                                                   );
+
+                                                   body.SetLinearVelocity(
+                                                          new b2Vec2(
+                                                            dx * 100,
+                                                           dy * 100
+                                                       )
+                                                   );
+
+                                                   var fixDef = new Box2D.Dynamics.b2FixtureDef();
+                                                   fixDef.density = 20;
+                                                   fixDef.friction = 0.0;
+                                                   fixDef.restitution = 0;
+
+
+                                                   fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(0.3);
+
+
+                                                   var fix = body.CreateFixture(fixDef);
+                                               };
+                                           #endregion
+
+                                           CreateBullet(-6.DegreesToRadians());
+                                           CreateBullet(-2.DegreesToRadians());
+                                           CreateBullet(2.DegreesToRadians());
+                                           CreateBullet(6.DegreesToRadians());
+
+
+                                       }
+                                   );
+                            }
+
+                        }
+                        #endregion
+
+
                     };
             };
         }

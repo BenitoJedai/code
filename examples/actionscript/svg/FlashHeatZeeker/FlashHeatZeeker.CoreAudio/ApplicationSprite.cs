@@ -29,6 +29,7 @@ namespace FlashHeatZeeker.CoreAudio
                 sb.loopjeepengine,
                 sb.loopcrickets,
                 sb.loopstrange1,
+                sb.loop_GallinagoDelicata,
             }.WithEachIndex(
                 (s, index) =>
                 {

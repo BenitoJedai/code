@@ -36,6 +36,8 @@ namespace FlashHeatZeeker.Shop
 
         static Action<facebookOAuthConnectPopupItemsCallback> facebookOAuthConnectPopupItems_cache;
 
+  
+
         public static void facebookOAuthConnectPopupItems(this Sprite that, facebookOAuthConnectPopupItemsCallback yield)
         {
             if (facebookOAuthConnectPopupItems_cache != null)
@@ -317,6 +319,7 @@ namespace FlashHeatZeeker.Shop
                 sb.snd_click.play(
                   sndTransform: new ScriptCoreLib.ActionScript.flash.media.SoundTransform(0.5)
               );
+
 
                 that.facebookOAuthConnectPopupItems(
                   (Client xclient, string access_token, string facebookuserid, object[] items) =>

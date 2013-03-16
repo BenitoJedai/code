@@ -22,6 +22,7 @@ namespace FlashHeatZeeker.CoreAudio.Library
 
         public MP3PitchLoop loopstrange1 = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/loopstrange1.mp3"].ToSoundAsset().ToMP3PitchLoop();
         public MP3PitchLoop loopheartbeat3 = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/heartbeat3.mp3"].ToSoundAsset().ToMP3PitchLoop();
+        public MP3PitchLoop loop_GallinagoDelicata = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/loop_GallinagoDelicata.mp3"].ToSoundAsset().ToMP3PitchLoop();
 
 
 
@@ -44,6 +45,7 @@ namespace FlashHeatZeeker.CoreAudio.Library
 
         public Sound snd_lookingforlongrangecomms = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_lookingforlongrangecomms.mp3"].ToSoundAsset();
 
+        public Sound snd_shotgun3 = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_shotgun3.mp3"].ToSoundAsset();
         public Sound snd_missleLaunch = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_missleLaunch.mp3"].ToSoundAsset();
         public Sound snd_click = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_click.mp3"].ToSoundAsset();
 
