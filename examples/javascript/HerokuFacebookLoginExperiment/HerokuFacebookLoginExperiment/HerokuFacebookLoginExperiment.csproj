@@ -124,6 +124,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Audio\snd_click.mp3" />
+    <Content Include="Audio\snd_SelectWeapon.mp3" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Promotion3D_iso1_tiltshift_400x225.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

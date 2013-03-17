@@ -2,13 +2,32 @@
   <head>
     <title>App</title>
   </head>
-  <body>
+  <body style="overflow: hidden; background: #A26D41 ">
+    <img src="Promotion3D_iso1_tiltshift_400x225.png" style="position: absolute; left: 0px; top: 0px; " />
     <noscript>Error: This Application requires JavaScript.</noscript>
     <link rel='stylesheet' href='App.css'/>
 
 
-    <button>Facebook Login</button>
-    <button>Facebook Logout</button>
+    <style>
 
+      button {
+      cursor: hand;
+
+      background-color: rgba(0, 127, 0, 0.4); color: yellow; font-weight: bold; padding: 1em; border: 0px;
+      }
+
+      button:hover {
+
+      background-color: rgba(0, 127, 0, 1.0);
+      }
+
+    </style>
+
+    <div style='position: absolute; top: 10px; bottom: 32px; left: 10px; right: 10px; margin: auto;'>
+      <center>
+        <button style='display: none;'>Facebook Login</button>
+        <button style='display: none;'>Facebook Logout</button>
+      </center>
+    </div>
   </body>
 </html>

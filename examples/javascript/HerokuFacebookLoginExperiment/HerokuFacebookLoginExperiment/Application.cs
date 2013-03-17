@@ -29,35 +29,47 @@ namespace HerokuFacebookLoginExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            #region con
-            //var con = new Abstractatech.ConsoleFormPackage.Library.ConsoleForm();
-            var con = new ConsoleForm();
+            //#region con
+            ////var con = new Abstractatech.ConsoleFormPackage.Library.ConsoleForm();
+            //var con = new ConsoleForm();
 
-            con.InitializeConsoleFormWriter();
-
-            con.Show();
-
-            con.Left = Native.Window.Width - con.Width;
-            con.Top = 0;
-
-            Native.Window.onresize +=
-                  delegate
-                  {
-                      con.Left = Native.Window.Width - con.Width;
-                      con.Top = 0;
-                  };
+            //con.InitializeConsoleFormWriter();
 
 
-            con.Opacity = 0.6;
+            //con.Left = Native.Window.Width - con.Width;
+            //con.Top = 0;
+
+            //Native.Window.onresize +=
+            //      delegate
+            //      {
+            //          con.Left = Native.Window.Width - con.Width;
+            //          con.Top = 0;
+            //      };
+
+
+            //con.Opacity = 0.6;
 
 
 
-            con.HandleFormClosing = false;
-            con.PopupInsteadOfClosing();
-            #endregion
+            //con.HandleFormClosing = false;
+            //con.PopupInsteadOfClosing();
+
+            //con.Show();
+            //#endregion
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130317-facebook
-            Console.WriteLine("HerokuFacebookLoginExperiment " + new { Native.Document.location.href, Native.Document.domain });
+            Console.WriteLine("HerokuFacebookLoginExperiment " + new
+            {
+                Native.Document.location.href,
+                Native.Document.location.hash,
+                Native.Document.domain
+            });
+
+            var snd_click = new HerokuFacebookLoginExperiment.HTML.Audio.FromAssets.snd_click();
+            snd_click.load();
+            var snd_SelectWeapon = new HerokuFacebookLoginExperiment.HTML.Audio.FromAssets.snd_SelectWeapon();
+            snd_SelectWeapon.load();
+
 
             #region Greet
             Action Greet = delegate
@@ -80,6 +92,7 @@ namespace HerokuFacebookLoginExperiment
 
                         Console.WriteLine("Good to see you, " + name + " " + new { id, third_party_id });
 
+
                         Native.Window.opener.With(
                             opener =>
                             {
@@ -88,10 +101,28 @@ namespace HerokuFacebookLoginExperiment
                                 opener.postMessage(
                                    xml.ToString()
                                 );
+
+                                if (Native.Document.location.hash == "#c")
+                                {
+                                    page.FacebookLogin.Hide();
+                                    page.FacebookLogout.Hide();
+
+                                    // allow the sound to complete..
+                                    Native.Window.setTimeout(
+                                        delegate
+                                        {
+                                            Native.Window.close();
+                                        },
+                                        300
+                                    );
+                                }
                             }
                         );
+
+
                     };
 
+                snd_SelectWeapon.play();
 
                 Console.WriteLine("Welcome!  Fetching your information.... ");
 
@@ -105,12 +136,12 @@ namespace HerokuFacebookLoginExperiment
             #region DoLogin
             Action DoLogin = delegate
             {
-                page.FacebookLogin.style.color = "blue";
+                //page.FacebookLogin.style.color = "blue";
 
                 Action<dynamic> AtLogin =
                     response =>
                     {
-                        page.FacebookLogin.style.color = "";
+                        //page.FacebookLogin.style.color = "";
 
                         dynamic authResponse = response.authResponse;
 
@@ -125,6 +156,9 @@ namespace HerokuFacebookLoginExperiment
                             //   // connected
                             Greet();
 
+
+                            page.FacebookLogout.Show();
+                            page.FacebookLogin.Hide();
 
 
                             //response.status === 'connected' will be true whenever the User viewing the page is both logged into Facebook and has already previously authorized the current app.
@@ -173,9 +207,11 @@ namespace HerokuFacebookLoginExperiment
                         }
                     );
 
+
             page.FacebookLogin.WhenClicked(
                 delegate
                 {
+                    snd_click.play();
                     DoLogin();
                 }
             );
@@ -184,14 +220,20 @@ namespace HerokuFacebookLoginExperiment
             page.FacebookLogout.WhenClicked(
                 delegate
                 {
+                    snd_click.play();
+
                     Action<dynamic> AtLogout =
-                 response =>
-                 {
+                     response =>
+                     {
 
 
-                     Console.WriteLine("AtLogout!");
+                         Console.WriteLine("AtLogout!");
 
-                 };
+
+                         page.FacebookLogout.Hide();
+                         page.FacebookLogin.Show();
+
+                     };
 
                     // Now whenever the Log out button is clicked, the user will be logged out of your app, their session cleared and also logged out of Facebook. 
                     // They will not, however, have authorization for your app revoked.
@@ -246,13 +288,17 @@ namespace HerokuFacebookLoginExperiment
                             // AtLoginStatus: { status = not_authorized }
                             Console.WriteLine("AtLoginStatus: " + new { status });
 
+                            page.FacebookLogin.Hide();
+                            page.FacebookLogout.Hide();
 
                             if (status == "connected")
                             {
                                 //   // connected
                                 Greet();
 
+                                // now what?
 
+                                page.FacebookLogout.Show();
 
                                 //response.status === 'connected' will be true whenever the User viewing the page is both logged into Facebook and has already previously authorized the current app.
 
@@ -262,11 +308,14 @@ namespace HerokuFacebookLoginExperiment
                                 //   // not_authorized
 
                                 //response.status === 'not_authorized' is true whenever the User viewing the page is logged into Facebook, but has not yet authorized the current app. In this case, the FB.login() code shown in Step 4 can be used to prompt them to authenticate.
+                                page.FacebookLogin.Show();
 
                             }
                             else
                             {
+                                page.FacebookLogin.Show();
                                 //   // not_logged_in
+
 
                                 //The final else statement is true when the User viewing the page is not logged into Facebook, and therefore the state of their authorization of the app is unknown. In this case, the FB.login() code in Step 4 will prompt them to log in to Facebook and then again with the Login Dialog if they have not yet authorized, or with the response object described above if they have.
 
@@ -286,12 +335,12 @@ namespace HerokuFacebookLoginExperiment
 
                 };
 
-            @"Hello world".ToDocumentTitle();
+            @"Operation Heat Zeeker".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //service.WebMethod2(
+            //    @"Operation Heat Zeeker",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }
