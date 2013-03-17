@@ -17,6 +17,22 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
+
+namespace ScriptCoreLib.Extensions
+{
+    // intellisense friendly :) discoverability
+    public static class FormAsPopupExtensionsForConsoleFormPackage
+    {
+        public static T PopupInsteadOfClosing<T>(this T f) where T : Form
+        {
+            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(f);
+            return f;
+
+        }
+    }
+}
+
+
 namespace ScriptCoreLib.JavaScript.Windows.Forms
 {
     public static class FormAsPopupExtensions

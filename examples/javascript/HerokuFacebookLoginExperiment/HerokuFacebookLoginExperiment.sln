@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerokuFacebookLoginExperiment", "HerokuFacebookLoginExperiment\HerokuFacebookLoginExperiment.csproj", "{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerokuFacebookLoginApp", "HerokuFacebookLoginApp\HerokuFacebookLoginApp.csproj", "{CD560504-A557-4001-996E-C18B4691A205}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +17,14 @@ Global
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Debug|x86.Build.0 = Debug|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|x86.ActiveCfg = Release|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
+		{CD560504-A557-4001-996E-C18B4691A205}.Debug|x86.ActiveCfg = Debug|x86
+		{CD560504-A557-4001-996E-C18B4691A205}.Debug|x86.Build.0 = Debug|x86
+		{CD560504-A557-4001-996E-C18B4691A205}.Release|x86.ActiveCfg = Release|x86
+		{CD560504-A557-4001-996E-C18B4691A205}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
