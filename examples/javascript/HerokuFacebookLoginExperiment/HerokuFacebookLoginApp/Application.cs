@@ -101,10 +101,10 @@ namespace HerokuFacebookLoginApp
                delegate
                {
                    Console.WriteLine("loading... ");
-                   var i = new IWindow { };
-                   i.document.location.href = "http://young-beach-4377.herokuapp.com/";
+                   //var i = new IWindow { };
+                   //i.document.location.href = "http://young-beach-4377.herokuapp.com/";
 
-                   //var i = Native.Window.open("http://young-beach-4377.herokuapp.com/", "_blank", 400, 300);
+                   var i = Native.Window.open("http://young-beach-4377.herokuapp.com/", "_blank", 400, 225);
 
 
                    // doesnt tell us when loaded?
@@ -134,6 +134,52 @@ namespace HerokuFacebookLoginApp
                    //);
                }
            );
+
+
+            page.InitializeOurFacebookLoginServiceViaWindowAndClose.WhenClicked(
+              delegate
+              {
+                  Console.WriteLine("loading... ");
+                  //var i = new IWindow { };
+                  //i.document.location.href = "http://young-beach-4377.herokuapp.com/";
+
+                  var i = Native.Window.open("http://young-beach-4377.herokuapp.com/#c", "_blank", 400, 225);
+
+
+                  // doesnt tell us when loaded?
+                  i.onload +=
+                      delegate
+                      {
+                          Console.WriteLine("InitializeOurFacebookLoginServiceViaWindowAndClose loading... done...");
+                          //Console.WriteLine("loading... done " + new { i.document.title });
+                          //Console.WriteLine("loading... done " + new { i.document.location.href });
+
+                          // can we now talk to it?
+                          // 
+                      };
+
+                  i.onbeforeunload +=
+                      delegate
+                      {
+                          Console.WriteLine("InitializeOurFacebookLoginServiceViaWindowAndClose onbeforeunload");
+
+                      };
+
+                  // popup will be blocked
+                  //new IHTMLButton { innerText = "send DoLogin" }.AttachToDocument().WhenClicked(
+                  //     delegate
+                  //     {
+                  //         Console.WriteLine("send DoLogin");
+
+                  //         i.postMessage(
+                  //             new XElement("DoLogin", new XAttribute("tag", "foo")).ToString()
+                  //         );
+
+
+                  //     }
+                  //);
+              }
+          );
 
 
             @"Hello world".ToDocumentTitle();
