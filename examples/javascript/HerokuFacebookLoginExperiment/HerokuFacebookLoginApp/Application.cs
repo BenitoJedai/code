@@ -58,12 +58,33 @@ namespace HerokuFacebookLoginApp
 
             Console.WriteLine("click on InitializeOurFacebookLoginService!");
 
+            Native.Window.onmessage +=
+                 e =>
+                 {
+                     // http://developer.klout.com/blog/read/fb_identity_lookup
+
+                     Console.WriteLine("onmessage: " + e.data);
+                 };
+
+            // wont work as chrome app!
             page.InitializeOurFacebookLoginService.WhenClicked(
                 delegate
                 {
                     Console.WriteLine("loading... ");
-                    var i = new IHTMLIFrame { src = "http://young-beach-4377.herokuapp.com/" }.AttachToDocument();
 
+                    // http://caniuse.com/iframe-sandbox
+                    // http://security.stackexchange.com/questions/15146/using-iframes-to-sandbox-untrusted-code
+                    var i = new IHTMLIFrame { };
+
+                    // http://www.w3schools.com/tags/att_iframe_sandbox.asp
+                    // The value of the sandbox attribute can either be an empty string (all the restrictions is applied), or a space-separated list of pre-defined values that will REMOVE particular restrictions.
+
+                    // http://www.html5rocks.com/en/tutorials/security/sandboxed-iframes/
+
+                    // this will break our popups and cookies for facebook!
+                    //i.setAttribute("sandbox", "allow-scripts allow-forms allow-popups");
+                    i.src = "http://young-beach-4377.herokuapp.com/";
+                    i.AttachToDocument();
 
                     i.onload +=
                         delegate
@@ -75,6 +96,45 @@ namespace HerokuFacebookLoginApp
                         };
                 }
             );
+
+            page.InitializeOurFacebookLoginServiceViaWindow.WhenClicked(
+               delegate
+               {
+                   Console.WriteLine("loading... ");
+                   var i = new IWindow { };
+                   i.document.location.href = "http://young-beach-4377.herokuapp.com/";
+
+                   //var i = Native.Window.open("http://young-beach-4377.herokuapp.com/", "_blank", 400, 300);
+
+
+                   // doesnt tell us when loaded?
+                   i.onload +=
+                       delegate
+                       {
+                           Console.WriteLine("loading... done...");
+                           //Console.WriteLine("loading... done " + new { i.document.title });
+                           //Console.WriteLine("loading... done " + new { i.document.location.href });
+
+                           // can we now talk to it?
+                           // 
+                       };
+
+                   // popup will be blocked
+                   //new IHTMLButton { innerText = "send DoLogin" }.AttachToDocument().WhenClicked(
+                   //     delegate
+                   //     {
+                   //         Console.WriteLine("send DoLogin");
+
+                   //         i.postMessage(
+                   //             new XElement("DoLogin", new XAttribute("tag", "foo")).ToString()
+                   //         );
+
+
+                   //     }
+                   //);
+               }
+           );
+
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
