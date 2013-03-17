@@ -182,6 +182,19 @@ namespace HerokuFacebookLoginApp
           );
 
 
+            page.HerokuFacebookLoginAppLoginExperience.WhenClicked(
+                delegate
+                {
+                    HerokuFacebookLoginAppLoginExperience.Login(
+                            (string id, string name, string third_party_id) =>
+                            {
+                                Console.WriteLine(new { id, name, third_party_id });
+
+                            }
+                );
+                }
+            );
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             //service.WebMethod2(
@@ -190,5 +203,71 @@ namespace HerokuFacebookLoginApp
             //);
         }
 
+    }
+
+
+    public delegate void HerokuFacebookLoginAppLoginExperienceAction(string id, string name, string third_party_id);
+
+    public static class HerokuFacebookLoginAppLoginExperience
+    {
+        public static void Login(HerokuFacebookLoginAppLoginExperienceAction yield)
+        {
+
+            Console.WriteLine("loading... ");
+
+
+            Native.Window.onmessage +=
+                  e =>
+                  {
+                      if (yield == null)
+                          return;
+
+                      // http://developer.klout.com/blog/read/fb_identity_lookup
+                      // onmessage: <response name="Arvo Sulakatko" id="1527339800" third_party_id="PlMBKhbgKYAXmxiXIWoVpH8ULrM"/>
+
+                      try
+                      {
+
+                          var xml = XElement.Parse((string)e.data);
+
+                          if (xml.Name.LocalName == "response")
+                          {
+                              var name = xml.Attribute("name").Value;
+                              var id = xml.Attribute("id").Value;
+                              var third_party_id = xml.Attribute("third_party_id").Value;
+
+                              yield(id, name, third_party_id);
+
+                              yield = null;
+                          }
+                      }
+                      catch
+                      {
+
+                      }
+                  };
+
+
+
+            //var i = new IWindow { };
+            //i.document.location.href = "http://young-beach-4377.herokuapp.com/";
+
+            var i = Native.Window.open("http://young-beach-4377.herokuapp.com/#c", "_blank", 400, 225);
+
+
+
+            // doesnt tell us when loaded?
+            i.onload +=
+                delegate
+                {
+                    Console.WriteLine("InitializeOurFacebookLoginServiceViaWindowAndClose loading... done...");
+                    //Console.WriteLine("loading... done " + new { i.document.title });
+                    //Console.WriteLine("loading... done " + new { i.document.location.href });
+
+                    // can we now talk to it?
+                    // 
+                };
+
+        }
     }
 }
