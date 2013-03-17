@@ -56,7 +56,10 @@ namespace HerokuFacebookLoginExperiment
             con.PopupInsteadOfClosing();
             #endregion
 
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130317-facebook
+            Console.WriteLine("HerokuFacebookLoginExperiment " + new { Native.Document.location.href, Native.Document.domain });
 
+            #region Greet
             Action Greet = delegate
             {
 
@@ -64,25 +67,51 @@ namespace HerokuFacebookLoginExperiment
                 Action<dynamic> AtAPI =
                     response =>
                     {
+                        // https://developers.facebook.com/docs/reference/api/user/
                         string name = response.name;
+                        string id = response.id;
+                        string third_party_id = response.third_party_id;
 
-                        Console.WriteLine("Good to see you, " + name);
+                        var xml = new XElement("response",
+                                   new XAttribute("name", name),
+                                   new XAttribute("id", id),
+                                   new XAttribute("third_party_id", third_party_id)
+                               );
 
+                        Console.WriteLine("Good to see you, " + name + " " + new { id, third_party_id });
+
+                        Native.Window.opener.With(
+                            opener =>
+                            {
+
+
+                                opener.postMessage(
+                                   xml.ToString()
+                                );
+                            }
+                        );
                     };
-
 
 
                 Console.WriteLine("Welcome!  Fetching your information.... ");
 
-                new IFunction("e", "return FB.api('/me', e);").apply(null, IFunction.OfDelegate(AtAPI));
+                // http://stackoverflow.com/questions/7365110/get-facebook-third-party-id-from-uid-in-javascript
+                // ?fields=third_party_id
+                // https://developers.facebook.com/docs/reference/login/public-profile-and-friend-list/
+                new IFunction("e", "return FB.api('/me?fields=name,third_party_id', e);").apply(null, IFunction.OfDelegate(AtAPI));
             };
+            #endregion
 
-            page.FacebookLogin.WhenClicked(
-                delegate
-                {
-                    Action<dynamic> AtLogin =
+            #region DoLogin
+            Action DoLogin = delegate
+            {
+                page.FacebookLogin.style.color = "blue";
+
+                Action<dynamic> AtLogin =
                     response =>
                     {
+                        page.FacebookLogin.style.color = "";
+
                         dynamic authResponse = response.authResponse;
 
 
@@ -104,10 +133,50 @@ namespace HerokuFacebookLoginExperiment
                     };
 
 
-                    // !!
-                    // Under normal circumstances you should attach this FB.login() call to a Javascript onClick event 
-                    // as the call results in a popup window being opened, which will be blocked by most browsers.
-                    new IFunction("e", "return FB.login(e);").apply(null, IFunction.OfDelegate(AtLogin));
+
+                // !!
+                // Under normal circumstances you should attach this FB.login() call to a Javascript onClick event 
+                // as the call results in a popup window being opened, which will be blocked by most browsers.
+                Console.WriteLine("FB.login...");
+                new IFunction("e", "return FB.login(e);").apply(null, IFunction.OfDelegate(AtLogin));
+            };
+            #endregion
+
+            Native.Window.onmessage +=
+                e =>
+                {
+                    Console.WriteLine("onmessage: " + e.data);
+
+                    try
+                    {
+
+                        var xml = XElement.Parse((string)e.data);
+
+                        if (xml.Name.LocalName == "DoLogin")
+                        {
+                            DoLogin();
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                };
+
+            Native.Window.opener.With(
+                        opener =>
+                        {
+                            opener.postMessage(
+                               new XElement("ready", new XAttribute("tag", "foo")).ToString()
+                           );
+
+                        }
+                    );
+
+            page.FacebookLogin.WhenClicked(
+                delegate
+                {
+                    DoLogin();
                 }
             );
 
@@ -126,6 +195,7 @@ namespace HerokuFacebookLoginExperiment
 
                     // Now whenever the Log out button is clicked, the user will be logged out of your app, their session cleared and also logged out of Facebook. 
                     // They will not, however, have authorization for your app revoked.
+                    Console.WriteLine("FB.logout...");
                     new IFunction("e", "return FB.logout(e);").apply(null, IFunction.OfDelegate(AtLogout));
 
 
@@ -139,6 +209,8 @@ namespace HerokuFacebookLoginExperiment
             new IHTMLScript { src = "//connect.facebook.net/en_US/all.js" }.AttachToHead().onload +=
                 delegate
                 {
+
+
                     Console.WriteLine("loading facebook api... done");
 
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130317-facebook
