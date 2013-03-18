@@ -162,6 +162,9 @@
     <Reference Include="FlashHeatZeeker.UnitPed.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.UnitPed\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPed.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="HerokuFacebookLogin.ActionScriptViaLocalConnection.AssetsLibrary">
+      <HintPath>..\..\..\..\javascript\HerokuFacebookLoginExperiment\HerokuFacebookLogin.ActionScriptViaLocalConnection\bin\staging.AssetsLibrary\HerokuFacebookLogin.ActionScriptViaLocalConnection.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -190,6 +193,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\javascript\HerokuFacebookLoginExperiment\HerokuFacebookLogin.ActionScriptViaLocalConnection\HerokuFacebookLogin.ActionScriptViaLocalConnection.csproj">
+      <Project>{eb850f69-0cbb-4b39-a64a-5ccba315738f}</Project>
+      <Name>HerokuFacebookLogin.ActionScriptViaLocalConnection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.CoreAudio\FlashHeatZeeker.CoreAudio.csproj">
       <Project>{c8f78217-d723-4e69-be48-d40814dcdb76}</Project>
       <Name>FlashHeatZeeker.CoreAudio</Name>

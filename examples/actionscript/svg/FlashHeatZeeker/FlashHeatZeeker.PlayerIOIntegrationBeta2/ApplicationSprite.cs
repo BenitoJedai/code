@@ -35,7 +35,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
     // https://www.fgl.com/view_game.php?from=dev&game_id=27918
     //#if false
-    [Frame(typeof(XApplicationSpritePreloader))]
+    //[Frame(typeof(XApplicationSpritePreloader))]
     //#endif
     [SWF(backgroundColor = 0, width = 800, height = 600, frameRate = 60)]
     public sealed class ApplicationSprite : ApplicationSpriteWithConnection, IAlternator

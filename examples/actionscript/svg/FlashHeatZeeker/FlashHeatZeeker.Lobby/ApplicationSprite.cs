@@ -80,10 +80,12 @@ namespace FlashHeatZeeker.Lobby
                             yall,
                             delegate
                             {
-                                if (ytp.CurrentVideoId == "qZni5895I-M")
-                                    ytp.loadVideoById("f9xV-LJCmV4");
-                                else
+                                if (ytp.CurrentVideoId == "f9xV-LJCmV4")
+                                    ytp.loadVideoById("bfTL3ZwO0tk");
+                                else if (ytp.CurrentVideoId == "bfTL3ZwO0tk")
                                     ytp.loadVideoById("qZni5895I-M");
+                                else
+                                    ytp.loadVideoById("f9xV-LJCmV4");
 
 
                                 yNext();
@@ -105,53 +107,38 @@ namespace FlashHeatZeeker.Lobby
 
 
                     #region ToAnimatedOpacity
-                    var o = content.i.ToAnimatedOpacity();
-                    o.Opacity = 1.0;
+                    var Container720A = content.iA;
+                    Container720A.Opacity = 1.0;
 
-                    var VideoPlayingOpacity = 1.0;
+                    //var VideoPlayingOpacity = 1.0;
 
                     ytp.Playing += delegate
                     {
-                        VideoPlayingOpacity = 0;
-                        o.Opacity = VideoPlayingOpacity;
+                        content.VideoPlayingOpacity = 0;
+                        Container720A.Opacity = content.VideoPlayingOpacity;
                     };
 
                     ytp.NotPlaying += delegate
                     {
-                        VideoPlayingOpacity = 1;
-                        o.Opacity = VideoPlayingOpacity;
+                        content.VideoPlayingOpacity = 1;
+                        Container720A.Opacity = content.VideoPlayingOpacity;
                     };
 
 
-                    var entero = content.enter.ToAnimatedOpacity();
+                    var entero = content.entero;
 
                     entero.Opacity = 0.8;
-                    content.enter.MouseEnter +=
-                        delegate
-                        {
-                            entero.Opacity = 1;
-
-                            o.Opacity = 1;
-                        };
 
                     content.enter.MouseLeftButtonUp +=
-                        delegate
-                        {
+                         delegate
+                         {
 
-                            if (StartClicked != null)
-                                StartClicked();
+                             if (StartClicked != null)
+                                 StartClicked();
 
-                            entero.Opacity = 0.0;
-                        };
+                             entero.Opacity = 0.0;
+                         };
 
-                    content.enter.MouseLeave +=
-                     delegate
-                     {
-                         entero.Opacity = 0.8;
-
-                         // got video?
-                         o.Opacity = VideoPlayingOpacity;
-                     };
                     #endregion
 
                     content.AttachToContainer(this);

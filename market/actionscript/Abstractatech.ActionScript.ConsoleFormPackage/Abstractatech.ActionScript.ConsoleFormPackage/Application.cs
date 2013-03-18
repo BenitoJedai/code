@@ -64,7 +64,7 @@ namespace Abstractatech.ActionScript.ConsoleFormPackage
             if (page.__marker1 == null)
             {
                 // the other mode
-                // let flash know js is ready
+                #region let flash know js is ready
 
 
                 Console.WriteLine("looking for myself...");
@@ -111,21 +111,19 @@ namespace Abstractatech.ActionScript.ConsoleFormPackage
                          Native.Document.getElementsByTagName("embed").WithEach(y);
                      }
                     ).StartTimeout(500);
+                #endregion
 
-
+                return;
             }
-            else
-            {
 
 
-                var sprite = new ApplicationSprite();
-                sprite.AutoSizeSpriteTo(page.ContentSize);
-                sprite.AttachSpriteTo(page.Content);
+            var sprite = new ApplicationSprite();
+            sprite.AutoSizeSpriteTo(page.ContentSize);
+            sprite.AttachSpriteTo(page.Content);
 
 
-                //__SystemConsoleWrite
-                //sprite.InitializeConsoleFormWriter();
-            }
+            //__SystemConsoleWrite
+            //sprite.InitializeConsoleFormWriter();
 
         }
 
