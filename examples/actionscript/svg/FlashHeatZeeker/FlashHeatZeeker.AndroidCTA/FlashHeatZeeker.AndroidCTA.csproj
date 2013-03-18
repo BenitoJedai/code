@@ -118,6 +118,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Design\-2013-03-18_10.33.34.png" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm">
       <SubType>Designer</SubType>
@@ -129,8 +130,17 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Design\road0.svg" />
+    <Content Include="Design\Heat_Zeeker_Beta_-_Player.IO_-_Google_Chrome-2013-03-18_10.23.58.png" />
+    <Content Include="Design\Heat_Zeeker_Beta_-_Player.IO_-_Google_Chrome-2013-03-18_10.32.40.png" />
+    <Content Include="Design\Heat_Zeeker_Beta_-_Player.IO_-_Google_Chrome-2013-03-18_10.33.28.png" />
+    <Content Include="Design\Heat_Zeeker_Beta_-_Player.IO_-_Google_Chrome-2013-03-18_10.35.22.png" />
+    <Content Include="Design\Heat_Zeeker_Control_-_Android_Apps_on_Google_Play_-_Google_Chrome-2013-03-18_09.42.49.png" />
+    <Content Include="Design\Log_In__Facebook_-_Google_Chrome-2013-03-18_10.33.16.png" />
+    <Content Include="Design\Operation_Heat_Zeeker_-_Google_Chrome-2013-03-18_10.33.05.png" />
+    <Content Include="Design\Pay_with_a_PayPal_account_-_PayPal_-_Google_Chrome-2013-03-18_10.33.39.png" />
     <Content Include="Design\Promotion3D_iso1_tiltshift_400x225.png" />
     <Content Include="Design\Promotion3D_iso1_tiltshift_720p.png" />
+    <Content Include="Design\Promotion3D_PAN.png" />
     <Content Include="Design\Title.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
