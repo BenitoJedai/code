@@ -122,6 +122,9 @@
     <Reference Include="HerokuFacebookLoginExperiment.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\HerokuFacebookLoginExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.AndroidCTA.AssetsLibrary">
+      <HintPath>..\..\..\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.AndroidCTA\bin\staging.AssetsLibrary\FlashHeatZeeker.AndroidCTA.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Audio\snd_click.mp3" />
@@ -144,6 +147,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="staging\HerokuFacebookLoginExperiment.ApplicationWebService\staging.php\web\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.AndroidCTA\FlashHeatZeeker.AndroidCTA.csproj">
+      <Project>{590449fb-55c4-4a4e-9e49-2f4ab5a5483b}</Project>
+      <Name>FlashHeatZeeker.AndroidCTA</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

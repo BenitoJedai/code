@@ -192,6 +192,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\Promotion3D_iso1_tiltshift_128.png" />
     <EmbeddedResource Include="staging\FlashHeatZeeker.TestGamePad.ApplicationSprite\web\air.com.abstractatech.gamification.fhzpad.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

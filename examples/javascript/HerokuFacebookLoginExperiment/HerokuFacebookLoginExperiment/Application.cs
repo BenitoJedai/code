@@ -32,7 +32,7 @@ namespace HerokuFacebookLoginExperiment
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public Application(FlashHeatZeeker.AndroidCTA.HTML.Pages.IApp page)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130317-facebook
             // !!!
@@ -295,6 +295,7 @@ namespace HerokuFacebookLoginExperiment
             );
 
 
+            #region FacebookLogin
             page.FacebookLogin.WhenClicked(
                 delegate
                 {
@@ -308,8 +309,10 @@ namespace HerokuFacebookLoginExperiment
                     DoLogin();
                 }
             );
+            #endregion
 
 
+            #region FacebookLogout
             page.FacebookLogout.WhenClicked(
                 delegate
                 {
@@ -342,13 +345,14 @@ namespace HerokuFacebookLoginExperiment
 
                 }
             );
+            #endregion
 
 
 
 
             Console.WriteLine("loading facebook api... ");
 
-
+            #region fb
             var fb = new IHTMLScript { src = "//connect.facebook.net/en_US/all.js" };
 
             Console.WriteLine("will load " + new { fb.src });
@@ -451,6 +455,8 @@ namespace HerokuFacebookLoginExperiment
                 };
 
             fb.AttachToHead();
+            #endregion
+
 
 
             @"Operation Heat Zeeker".ToDocumentTitle();
@@ -459,6 +465,10 @@ namespace HerokuFacebookLoginExperiment
             //    @"Operation Heat Zeeker",
             //    value => value.ToDocumentTitle()
             //);
+
+            if (!CloseMode)
+                page.story.Show();
+
         }
 
     }
