@@ -132,6 +132,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerIO.GameLibrary", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ActionScript.Audio", "..\..\..\..\market\Abstractatech.ActionScript.Audio\Abstractatech.ActionScript.Audio\Abstractatech.ActionScript.Audio.csproj", "{919A6834-7BA5-489D-B8D7-A062E056E5A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerokuFacebookLogin.ActionScriptViaLocalConnection", "..\..\..\javascript\HerokuFacebookLoginExperiment\HerokuFacebookLogin.ActionScriptViaLocalConnection\HerokuFacebookLogin.ActionScriptViaLocalConnection.csproj", "{EB850F69-0CBB-4B39-A64A-5CCBA315738F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerokuFacebookLoginExperiment", "..\..\..\javascript\HerokuFacebookLoginExperiment\HerokuFacebookLoginExperiment\HerokuFacebookLoginExperiment.csproj", "{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.AndroidCTA", "FlashHeatZeeker.AndroidCTA\FlashHeatZeeker.AndroidCTA.csproj", "{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -916,6 +922,51 @@ Global
 		{919A6834-7BA5-489D-B8D7-A062E056E5A3}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
 		{919A6834-7BA5-489D-B8D7-A062E056E5A3}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
 		{919A6834-7BA5-489D-B8D7-A062E056E5A3}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Debug|x86.ActiveCfg = Debug|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Debug|x86.Build.0 = Debug|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Release|Any CPU.ActiveCfg = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Release|Mixed Platforms.Build.0 = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Release|x86.ActiveCfg = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Release|x86.Build.0 = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.ReleaseHerokuPHP|Any CPU.ActiveCfg = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.ReleaseHerokuPHP|Mixed Platforms.ActiveCfg = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Debug|x86.ActiveCfg = Debug|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Debug|x86.Build.0 = Debug|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|Any CPU.ActiveCfg = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|x86.ActiveCfg = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|x86.Build.0 = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.ReleaseHerokuPHP|Any CPU.ActiveCfg = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.ReleaseHerokuPHP|Mixed Platforms.ActiveCfg = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Debug|x86.ActiveCfg = Debug|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Debug|x86.Build.0 = Debug|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Release|Any CPU.ActiveCfg = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Release|x86.ActiveCfg = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.Release|x86.Build.0 = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.ReleaseHerokuPHP|Any CPU.ActiveCfg = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.ReleaseHerokuPHP|Mixed Platforms.ActiveCfg = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
+		{590449FB-55C4-4A4E-9E49-2F4AB5A5483B}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -941,6 +992,8 @@ Global
 		{BABA968B-41D7-4B0E-AFB9-DFA37307C833} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
 		{CB77A341-91A2-44EE-A627-88F62681AC74} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
 		{F6013DAF-4231-4FB3-B227-1110DF894291} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3} = {B4E00F77-4D72-49EA-87F7-A95BDA605035}
 		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {599F2D93-A905-438E-8896-965B4EC9015D}
 		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {599F2D93-A905-438E-8896-965B4EC9015D}
 		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {599F2D93-A905-438E-8896-965B4EC9015D}

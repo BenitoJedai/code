@@ -21,9 +21,8 @@ namespace HerokuFacebookLogin.ActionScript
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        //public readonly ApplicationWebService service = new ApplicationWebService();
 
-        public readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
         /// This is a javascript application.
@@ -31,17 +30,54 @@ namespace HerokuFacebookLogin.ActionScript
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
+
+
+            //sprite.set_Login(HerokuFacebookLoginAppLoginExperience.Login);
+
+            Action<string, string[]> embed_CallFunction = delegate { };
+
+
+            #region __Login
+            Action __Login = delegate
+            {
+                HerokuFacebookLoginAppLoginExperience.Login(
+                    (string id, string name, string third_party_id) =>
+                    {
+                        embed_CallFunction("__Login_yield", new[] { id, name, third_party_id });
+                    }
+                );
+            };
+
+            IFunction.OfDelegate(__Login).Export("__Login");
+            #endregion
+
+            if (page.__marker_HerokuFacebookLoginActionScript == null)
+            {
+                // find me
+
+                return;
+            }
+
+            ApplicationSprite sprite = new ApplicationSprite();
+
             sprite.AutoSizeSpriteTo(page.ContentSize);
             sprite.AttachSpriteTo(page.Content);
 
-            sprite.set_Login(HerokuFacebookLoginAppLoginExperience.Login);
+            embed_CallFunction =
+                (method, args) =>
+                {
+                    var embed = (IHTMLEmbedFlash)sprite.ToHTMLElement();
 
-            @"Hello world".ToDocumentTitle();
+                    embed.CallFunction(method, args);
+                };
+
+            //@"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }

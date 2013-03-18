@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerokuFacebookLogin.ActionS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ActionScript.ConsoleFormPackage", "..\..\..\market\actionscript\Abstractatech.ActionScript.ConsoleFormPackage\Abstractatech.ActionScript.ConsoleFormPackage\Abstractatech.ActionScript.ConsoleFormPackage.csproj", "{266AC7B2-550B-4B68-B4F7-DBFE482318BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerokuFacebookLogin.ActionScriptViaLocalConnection", "HerokuFacebookLogin.ActionScriptViaLocalConnection\HerokuFacebookLogin.ActionScriptViaLocalConnection.csproj", "{EB850F69-0CBB-4B39-A64A-5CCBA315738F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -37,6 +39,10 @@ Global
 		{266AC7B2-550B-4B68-B4F7-DBFE482318BF}.Debug|x86.Build.0 = Debug|x86
 		{266AC7B2-550B-4B68-B4F7-DBFE482318BF}.Release|x86.ActiveCfg = Release|x86
 		{266AC7B2-550B-4B68-B4F7-DBFE482318BF}.Release|x86.Build.0 = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Debug|x86.ActiveCfg = Debug|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Debug|x86.Build.0 = Debug|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Release|x86.ActiveCfg = Release|x86
+		{EB850F69-0CBB-4B39-A64A-5CCBA315738F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

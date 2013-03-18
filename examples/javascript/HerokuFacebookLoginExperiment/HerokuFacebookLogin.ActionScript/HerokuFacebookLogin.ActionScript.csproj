@@ -137,12 +137,21 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
+    <Content Include="staging\HerokuFacebookLogin.ActionScript.ApplicationSprite\web\index.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HerokuFacebookLoginApp\HerokuFacebookLoginApp.csproj">
       <Project>{cd560504-a557-4001-996e-c18b4691a205}</Project>
       <Name>HerokuFacebookLoginApp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="staging\HerokuFacebookLogin.ActionScript.ApplicationSprite\web\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,0 +1,33 @@
+﻿{
+"manifest_version": 2,
+  "name": "HerokuFacebookLogin.ActionScript",
+  "description": "HerokuFacebookLogin.ActionScript",
+  "version": "11",
+  
+  "minimum_chrome_version": "23.0.1261",
+  "offline_enabled": true,
+
+  "app": {
+
+
+    "launch": {
+      "local_path": "index.htm",
+      "container": "panel"
+    }
+  },
+  "icons": {
+
+  },
+  
+  
+  "content_security_policy": "script-src 'unsafe-eval' 'self' ; object-src 'self'  'unsafe-eval'" ,
+  
+  
+  "permissions": [
+    "unlimitedStorage",
+    "notifications",
+    "background"
+  ]
+  
+
+}

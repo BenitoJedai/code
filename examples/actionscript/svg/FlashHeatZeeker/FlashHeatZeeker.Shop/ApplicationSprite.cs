@@ -14,6 +14,7 @@ using ScriptCoreLib.ActionScript;
 using System.Windows.Media;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.UnitPedControl.Library;
+using HerokuFacebookLogin.ActionScriptViaLocalConnection;
 
 
 namespace FlashHeatZeeker.Shop
@@ -36,7 +37,7 @@ namespace FlashHeatZeeker.Shop
 
         static Action<facebookOAuthConnectPopupItemsCallback> facebookOAuthConnectPopupItems_cache;
 
-  
+
 
         public static void facebookOAuthConnectPopupItems(this Sprite that, facebookOAuthConnectPopupItemsCallback yield)
         {
@@ -109,38 +110,72 @@ namespace FlashHeatZeeker.Shop
             // http://playerio.com/documentation/reference/actionscript3/playerio.quickconnect#facebookConnectPopup
             // http://playerio.com/documentation/reference/actionscript3/playerio.quickconnect#facebookOAuthConnectPopup
 
-            facebookOAuthConnectPopupCallback callback =
-                (Client xclient, string access_token, string facebookuserid) =>
-                {
-                    Console.WriteLine("facebookOAuthConnectPopup callback " + new { xclient.connectUserId, access_token, facebookuserid });
 
-                    // facebookOAuthConnectPopup callback { xclient = [Player.IO Client], access_token = AAADLSABgZCZC0BAOroZC3jsNhsgRVFhBK4VcAT19uePwd2iZBKX8ZCVwtdu8ZBhtmU9bH6nMJHO0qJ6I5dzvhw9Ty1kt542zpH2BZCMKKPI0wZDZD, facebookuserid = 1527339800 }
-
-                    yield(xclient, access_token, facebookuserid);
-                };
 
             // http://test-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com/fb/_fb_quickconnect_oauth
             // QuickConnect for Facebook is not enabled for this game
             // facebookConnectPopup errorHandler Error: FacebookConnectPopup is no longer supported by Facebook. Please use FacebookConnectOAuthPopup
 
             Console.WriteLine("facebookOAuthConnectPopup: " + new { facebookOAuthConnectPopup_window });
-            
+
             // http://test-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com/fb/_fb_quickconnect_oauth?partnerId=&req_perms=&clientinfo=playerType%3AStandAlone%40%7C%40version%3AWIN%2011%2C6%2C602%2C171%40%7C%40pixelAspectRatio%3A1%40%7C%40isDebugger%3Atrue%40%7C%40screenDPI%3A72%40%7C%40screenResolutionX%3A1280%40%7C%40language%3Aen%40%7C%40screenResolutionY%3A1024%40%7C%40manufacturer%3AAdobe%20Windows%40%7C%40touchscreenType%3Afinger%40%7C%40os%3AWindows%207%40%7C%40cpuArchitecture%3Ax86&communicationId=136329356332697710&clientapi=as3&playerinsightsegments=
             // Error from Facebook when converting code argument to access_token: The remote server returned an error: (400) Bad Request.. Details: {"error":{"message":"This authorization code has been used.","type":"OAuthException","code":100}}
 
-            playerio.PlayerIO.quickConnect.facebookOAuthConnectPopup(
-                stage: that.stage,
-                gameId: ApplicationSpriteWithConnection.__gameid,
+            //playerio.PlayerIO.quickConnect.facebookOAuthConnect(
 
-                window: facebookOAuthConnectPopup_window,
+            // http://playerio.com/documentation/reference/actionscript3/playerio.quickconnect#facebookOAuthConnect
+            HerokuFacebookLoginAppLoginExperienceViaLocalConnection.Invoke(
+                (string id, string name, string third_party_id, string accessToken) =>
+                {
+                    Console.WriteLine(
+                        new { id, name, third_party_id, accessToken }
+                        );
 
-                permissions: new object[0],
-                  callback: callback.ToFunction(),
 
-              errorHandler: errorHandler.ToFunction()
+                    // http://playerio.com/documentation/reference/actionscript3/playerio.quickconnect#facebookOAuthConnect
+                    // 	Function executed on successful connect: function(client:Client, facebookuserid:String):void{...}
+                    Action<Client, string> callback =
+                        (Client xclient, string facebookuserid) =>
+                        {
+                            Console.WriteLine("facebookOAuthConnect callback " + new { xclient.connectUserId, accessToken, facebookuserid });
 
-             );
-            
+                            // facebookOAuthConnectPopup callback { xclient = [Player.IO Client], access_token = AAADLSABgZCZC0BAOroZC3jsNhsgRVFhBK4VcAT19uePwd2iZBKX8ZCVwtdu8ZBhtmU9bH6nMJHO0qJ6I5dzvhw9Ty1kt542zpH2BZCMKKPI0wZDZD, facebookuserid = 1527339800 }
+
+                            yield(xclient, accessToken, facebookuserid);
+                        };
+
+
+                    playerio.PlayerIO.quickConnect.facebookOAuthConnect(
+                         stage: that.stage,
+                         gameId: ApplicationSpriteWithConnection.__gameid,
+
+                         accessToken: accessToken,
+
+                         //permissions: new object[0],
+
+                         // 	Function executed on successful connect: function(client:Client, facebookuserid:String):void{...}
+                           callback: callback.ToFunction(),
+
+                       errorHandler: errorHandler.ToFunction()
+
+                      );
+
+                }
+            );
+
+            //playerio.PlayerIO.quickConnect.facebookOAuthConnectPopup(
+            //    stage: that.stage,
+            //    gameId: ApplicationSpriteWithConnection.__gameid,
+
+            //    window: facebookOAuthConnectPopup_window,
+
+            //    permissions: new object[0],
+            //      callback: callback.ToFunction(),
+
+            //  errorHandler: errorHandler.ToFunction()
+
+            // );
+
             // http://playerio.com/forum/quickconnect/facebookoauthconnectpopup-an-error-occured-t34730
             // https://www.facebook.com/login.php?skip_api_login=1&next=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Foauth%3Fclient_id%3D223510104440829%26display%3Dpopup%26redirect_uri%3Dhttp%253A%252F%252Ftest-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com%252Ffb%252F_fb_quickconnect_oauth_receive%253FcommunicationId%253D1363294542982821755%26scope%26from_login%3D1&cancel_uri=http%3A%2F%2Ftest-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com%2Ffb%2F_fb_quickconnect_oauth_receive%3FcommunicationId%3D1363294542982821755&display=popup&api_key=223510104440829
             // https://www.facebook.com/checkpoint/?next=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Foauth%3Fclient_id%3D223510104440829%26display%3Dpopup%26redirect_uri%3Dhttp%253A%252F%252Ftest-4jazuo9jw0qx0cye9ihrqg.fb.playerio.com%252Ffb%252F_fb_quickconnect_oauth_receive%253FcommunicationId%253D1363294542982821755%26scope%26from_login%3D1
@@ -329,7 +364,7 @@ namespace FlashHeatZeeker.Shop
                       var itemKey = "Shotgun3";
 
 
-                      var BuyAnyway = true;
+                      var BuyAnyway = false;
                       if (BuyAnyway)
                       {
 

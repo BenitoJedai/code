@@ -13,9 +13,14 @@ using System.Xml.Linq;
 using HerokuFacebookLoginExperiment.Design;
 using HerokuFacebookLoginExperiment.HTML.Pages;
 using Abstractatech.ConsoleFormPackage.Library;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.net;
 
 namespace HerokuFacebookLoginExperiment
 {
+
+
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -29,6 +34,10 @@ namespace HerokuFacebookLoginExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130317-facebook
+            // !!!
+            // B:\>git add -A & git commit -am "changed greeting" & git push heroku master
+
             //#region con
             ////var con = new Abstractatech.ConsoleFormPackage.Library.ConsoleForm();
             //var con = new ConsoleForm();
@@ -66,10 +75,46 @@ namespace HerokuFacebookLoginExperiment
             });
 
             var snd_click = new HerokuFacebookLoginExperiment.HTML.Audio.FromAssets.snd_click();
-            snd_click.load();
-            var snd_SelectWeapon = new HerokuFacebookLoginExperiment.HTML.Audio.FromAssets.snd_SelectWeapon();
-            snd_SelectWeapon.load();
 
+            var snd_SelectWeapon = new HerokuFacebookLoginExperiment.HTML.Audio.FromAssets.snd_SelectWeapon();
+
+
+            // http://stackoverflow.com/questions/388646/debugging-javascript-in-safari-for-windows
+            // safari bombs here
+            // TypeError: 'undefined' is not a function (evaluating 'd.snd_click.load()')
+            try
+            {
+                snd_click.load();
+                snd_SelectWeapon.load();
+            }
+            catch
+            {
+            }
+
+
+
+            var CloseMode = Native.Document.location.hash.StartsWith("#c");
+            var CloseModeCallback = "";
+
+            if (CloseMode)
+            {
+                // If you implement communication between SWF files in different domains, you specify 
+                // a connectionName parameter that begins with an underscore. Specifying the underscore 
+                // makes the SWF file with the receiving LocalConnection object more portable between 
+                // domains. Here are the two possible cases
+
+                CloseModeCallback = "_Invoke" + Native.Document.location.hash.Substring("#c".Length);
+                Console.WriteLine(new { CloseModeCallback });
+            }
+
+            var sprite = default(ApplicationSprite);
+
+            if (!string.IsNullOrEmpty(CloseModeCallback))
+            {
+                sprite = new ApplicationSprite();
+                sprite.AttachSpriteToDocument();
+
+            }
 
             #region Greet
             Action Greet = delegate
@@ -84,45 +129,80 @@ namespace HerokuFacebookLoginExperiment
                         string id = response.id;
                         string third_party_id = response.third_party_id;
 
+                        // http://stackoverflow.com/questions/4758770/how-to-get-access-token-from-fb-login-method-in-javascript-sdk
+                        var accessToken = (string)new IFunction("return FB.getAuthResponse()['accessToken'];").apply(null);
+
+
                         var xml = new XElement("response",
                                    new XAttribute("name", name),
                                    new XAttribute("id", id),
-                                   new XAttribute("third_party_id", third_party_id)
+                                   new XAttribute("third_party_id", third_party_id),
+                                   new XAttribute("accessToken", accessToken)
                                );
 
-                        Console.WriteLine("Good to see you, " + name + " " + new { id, third_party_id });
+                        Console.WriteLine("Good to see you, " + name + " " + new { id, third_party_id, accessToken });
 
+                        if (CloseMode)
+                        {
+                            page.FacebookLogin.Hide();
+                            page.FacebookLogout.Hide();
+                        }
 
                         Native.Window.opener.With(
-                            opener =>
+                             opener => opener.postMessage(xml.ToString())
+                         );
+
+
+                        if (sprite != null)
+                        {
+                            // http://livedocs.adobe.com/flex/3/html/help.html?content=17_Networking_and_communications_4.html
+                            Console.WriteLine("lc.send(connectionName: " + CloseModeCallback + ", data: " + xml.ToString() + ")");
+
+                            sprite.yield += ack_data =>
+                            {
+                                Console.WriteLine(new { ack_data });
+
+                                // allow the sound to complete..
+                                Native.Window.setTimeout(
+                                    delegate
+                                    {
+                                        Native.Window.close();
+                                    },
+                                    300
+                                );
+                            };
+
+                            sprite.Invoke(
+                                connectionName: CloseModeCallback,
+                                data: xml.ToString()
+                            );
+                        }
+                        else
+                        {
+                            if (CloseMode)
                             {
 
-
-                                opener.postMessage(
-                                   xml.ToString()
+                                // allow the sound to complete..
+                                Native.Window.setTimeout(
+                                    delegate
+                                    {
+                                        Native.Window.close();
+                                    },
+                                    300
                                 );
-
-                                if (Native.Document.location.hash == "#c")
-                                {
-                                    page.FacebookLogin.Hide();
-                                    page.FacebookLogout.Hide();
-
-                                    // allow the sound to complete..
-                                    Native.Window.setTimeout(
-                                        delegate
-                                        {
-                                            Native.Window.close();
-                                        },
-                                        300
-                                    );
-                                }
                             }
-                        );
-
-
+                        }
                     };
 
-                snd_SelectWeapon.play();
+                try
+                {
+                    snd_SelectWeapon.play();
+                }
+                catch
+                {
+                    // TypeError: 'undefined' is not a function (evaluating 'a.snd_click.play()')
+                    // no safari
+                }
 
                 Console.WriteLine("Welcome!  Fetching your information.... ");
 
@@ -197,21 +277,34 @@ namespace HerokuFacebookLoginExperiment
                     }
                 };
 
-            Native.Window.opener.With(
-                        opener =>
-                        {
-                            opener.postMessage(
-                               new XElement("ready", new XAttribute("tag", "foo")).ToString()
-                           );
+            if (sprite != null)
+                sprite.Invoke(
+                    connectionName: CloseModeCallback,
+                    data: new XElement("ready", new XAttribute("tag", "foo")).ToString()
+                );
 
-                        }
+
+            Native.Window.opener.With(
+                opener =>
+                {
+                    opener.postMessage(
+                        new XElement("ready", new XAttribute("tag", "foo")).ToString()
                     );
+
+                }
+            );
 
 
             page.FacebookLogin.WhenClicked(
                 delegate
                 {
-                    snd_click.play();
+                    try
+                    {
+                        snd_click.play();
+                    }
+                    catch
+                    { }
+
                     DoLogin();
                 }
             );
@@ -220,7 +313,13 @@ namespace HerokuFacebookLoginExperiment
             page.FacebookLogout.WhenClicked(
                 delegate
                 {
-                    snd_click.play();
+                    try
+                    {
+                        snd_click.play();
+                    }
+                    catch
+                    { }
+
 
                     Action<dynamic> AtLogout =
                      response =>
@@ -248,9 +347,15 @@ namespace HerokuFacebookLoginExperiment
 
 
             Console.WriteLine("loading facebook api... ");
-            new IHTMLScript { src = "//connect.facebook.net/en_US/all.js" }.AttachToHead().onload +=
+
+
+            var fb = new IHTMLScript { src = "//connect.facebook.net/en_US/all.js" };
+
+            Console.WriteLine("will load " + new { fb.src });
+            fb.onload +=
                 delegate
                 {
+                    Console.WriteLine("loaded " + new { fb.src });
 
 
                     Console.WriteLine("loading facebook api... done");
@@ -263,7 +368,8 @@ namespace HerokuFacebookLoginExperiment
                     a.appId = "625051627510580";
                     a.status = true;
                     a.cookie = true;
-
+                    a.oauth = true;
+                    a.xfbml = true;
 
                     //    FB.init({
                     //  appId      : 'YOUR_APP_ID', // App ID
@@ -298,7 +404,13 @@ namespace HerokuFacebookLoginExperiment
 
                                 // now what?
 
-                                page.FacebookLogout.Show();
+                                if (CloseMode)
+                                {
+                                }
+                                else
+                                {
+                                    page.FacebookLogout.Show();
+                                }
 
                                 //response.status === 'connected' will be true whenever the User viewing the page is both logged into Facebook and has already previously authorized the current app.
 
@@ -308,11 +420,14 @@ namespace HerokuFacebookLoginExperiment
                                 //   // not_authorized
 
                                 //response.status === 'not_authorized' is true whenever the User viewing the page is logged into Facebook, but has not yet authorized the current app. In this case, the FB.login() code shown in Step 4 can be used to prompt them to authenticate.
+
+
                                 page.FacebookLogin.Show();
 
                             }
                             else
                             {
+
                                 page.FacebookLogin.Show();
                                 //   // not_logged_in
 
@@ -334,6 +449,9 @@ namespace HerokuFacebookLoginExperiment
                     //});
 
                 };
+
+            fb.AttachToHead();
+
 
             @"Operation Heat Zeeker".ToDocumentTitle();
             // Send data from JavaScript to the server tier

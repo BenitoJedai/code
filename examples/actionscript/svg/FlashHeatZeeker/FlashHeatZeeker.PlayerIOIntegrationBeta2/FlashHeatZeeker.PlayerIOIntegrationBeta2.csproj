@@ -218,6 +218,9 @@
     <Reference Include="FlashHeatZeeker.Shop.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.Shop\bin\staging.AssetsLibrary\FlashHeatZeeker.Shop.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="HerokuFacebookLogin.ActionScriptViaLocalConnection.AssetsLibrary">
+      <HintPath>..\..\..\..\javascript\HerokuFacebookLoginExperiment\HerokuFacebookLogin.ActionScriptViaLocalConnection\bin\staging.AssetsLibrary\HerokuFacebookLogin.ActionScriptViaLocalConnection.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />

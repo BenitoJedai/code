@@ -137,7 +137,9 @@
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\Promotion3D_controller_720p.png" />
+    <Content Include="Textures\Promotion3D_controller_android_720.png" />
     <Content Include="Textures\start.png" />
+    <Content Include="Textures\Title.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

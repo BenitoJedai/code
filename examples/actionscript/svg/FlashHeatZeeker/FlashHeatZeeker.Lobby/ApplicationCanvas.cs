@@ -16,7 +16,7 @@ namespace FlashHeatZeeker.Lobby
     public class ApplicationCanvas : Canvas
     {
 
-        public Image i;
+        public Image i, ii;
 
 
 
@@ -25,22 +25,58 @@ namespace FlashHeatZeeker.Lobby
          enter
          ;
 
+        public AnimatedOpacity<Image> entero;
+
         public int fingersize = 96;
+
+        public Canvas Container720;
+        //public AnimatedOpacity<Canvas> Container720A;
+
+        public AnimatedOpacity<Image> iA;
 
 
         public ApplicationCanvas()
         {
 
-            i = new Avalon.Images.Promotion3D_controller_720p();
+            var Container720X = new Canvas().AttachTo(this);
 
-            i.AttachTo(this);
+            Container720 = new Canvas().AttachTo(Container720X);
+            //Container720A = Container720.ToAnimatedOpacity();
+
+            i = new Avalon.Images.Promotion3D_controller_720p();
+            i.AttachTo(Container720);
+            iA = i.ToAnimatedOpacity();
+            iA.Opacity = 0.8;
+
+            var ShadowOverlay = new Rectangle { Fill = Brushes.Black };
+            var ShadowOverlayA = ShadowOverlay.ToAnimatedOpacity();
+
+
+            ShadowOverlay.AttachTo(Container720);
+            ShadowOverlay.SizeTo(1280, 720);
+
+            ii = new Avalon.Images.Promotion3D_controller_android_720();
+            ii.AttachTo(Container720);
+            var iiA = ii.ToAnimatedOpacity();
+
+
+            var Title = new Avalon.Images.Title();
+            Title.AttachTo(Container720X);
+
+
+
+
 
             this.SizeChanged += (s, e) =>
             {
-                i.MoveTo(
+                Container720X.MoveTo(
                         (this.Width - 1280) / 2,
                     (this.Height - 720) / 2
                 );
+
+
+                Console.WriteLine(new { this.Width, this.Height });
+
 
             };
 
@@ -49,11 +85,14 @@ namespace FlashHeatZeeker.Lobby
                 Cursor = Cursors.Hand
             }.AttachTo(this);
 
+            entero = enter.ToAnimatedOpacity();
+
+
             this.SizeChanged += (s, e) => enter.MoveTo(
-                (this.Width - 128) * 0.6 + 64,
-                (this.Height - 128) / 2);
+                (this.Width - 128) * 0.8 + 64,
+                (this.Height - 128) / 2 + 32);
 
-
+            #region Black
             {
                 Rectangle r = new Rectangle();
                 r.Fill = Brushes.Black;
@@ -88,8 +127,75 @@ namespace FlashHeatZeeker.Lobby
                     r.MoveTo(0, this.Height - Height);
                 };
             }
+            #endregion
+
+            var hotzone = new Rectangle { Fill = Brushes.Green, Opacity = 0 }.AttachTo(Container720X);
+
+            hotzone.Cursor = Cursors.Hand;
+
+            hotzone.MoveTo(1280 / 3, 720 * 2 / 3);
+            hotzone.SizeTo(1280 / 3, 720 / 3);
+
+
+            hotzone.MouseEnter +=
+                delegate
+                {
+                    ShadowOverlayA.Opacity = 0.4;
+                    iiA.Opacity = 1.0;
+                    entero.Opacity = 0.2;
+
+                    //Container720A.Opacity = 1;
+                };
+
+
+            hotzone.MouseLeave +=
+                delegate
+                {
+                    ShadowOverlayA.Opacity = 0;
+                    iiA.Opacity = 0;
+                    entero.Opacity = 0.8;
+
+                    //Container720A.Opacity = VideoPlayingOpacity;
+                };
+
+
+            hotzone.MouseLeftButtonUp +=
+                delegate
+                {
+                    new Uri("http://young-beach-4377.herokuapp.com/android").NavigateTo();
+                };
+
+            #region enter
+            enter.MouseEnter +=
+                delegate
+                {
+                    entero.Opacity = 1;
+                    ShadowOverlayA.Opacity = 0.4;
+
+                    //Container720A.Opacity = 1;
+                };
+
+
+            enter.MouseLeave +=
+             delegate
+             {
+                 entero.Opacity = 0.8;
+                 ShadowOverlayA.Opacity = 0;
+
+                 // got video?
+                 //Container720A.Opacity = VideoPlayingOpacity;
+                 //Container720A.Opacity = 1.0;
+             };
+            #endregion
+
+
+
+            ShadowOverlayA.Opacity = 0;
+            iiA.Opacity = 0;
+            entero.Opacity = 0.8;
 
         }
 
+        public double VideoPlayingOpacity = 1.0;
     }
 }
