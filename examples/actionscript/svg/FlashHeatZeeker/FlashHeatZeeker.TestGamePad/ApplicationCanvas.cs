@@ -14,6 +14,9 @@ namespace FlashHeatZeeker.TestGamePad
 {
     public class ApplicationCanvas : Canvas
     {
+        Avalon.Images.Promotion3D_iso1_tiltshift_128 ref0;
+
+
         public readonly Rectangle r = new Rectangle();
 
         public Rectangle

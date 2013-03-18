@@ -119,13 +119,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
-    <Content Include="Design\App.htm" />
+    <Content Include="Design\App.htm">
+      <SubType>Designer</SubType>
+    </Content>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Design\road0.svg" />
+    <Content Include="Design\Promotion3D_iso1_tiltshift_400x225.png" />
+    <Content Include="Design\Promotion3D_iso1_tiltshift_720p.png" />
     <Content Include="Design\Title.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

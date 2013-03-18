@@ -2,14 +2,14 @@
 <application xmlns="http://ns.adobe.com/air/application/3.6">
   <id>com.abstractatech.gamification.fhzpad</id>
   <versionNumber>1.0.1</versionNumber>
-  <filename>FlashHeatZeeker Pad</filename>
-  <name>FlashHeatZeeker Pad</name>
+  <filename>Heat Zeeker Control</filename>
+  <name>Heat Zeeker Control</name>
   <description>
-    <text xml:lang="en">FlashHeatZeeker Pad</text>
+    <text xml:lang="en">Heat Zeeker Control</text>
   </description>
   <copyright>abstractatech.com</copyright>
   <initialWindow>
-    <title>FlashHeatZeeker Pad</title>
+    <title>Heat Zeeker Control</title>
     <content>
       FlashHeatZeeker.TestGamePad.ApplicationSprite.swf
     </content>
@@ -34,7 +34,7 @@
   -->
   <icon>
 
-
+    <image128x128>assets/FlashHeatZeeker.TestGamePad/Promotion3D_iso1_tiltshift_128.png</image128x128>
 
   </icon>
 
