@@ -21,7 +21,7 @@ namespace com.abstractatech.adminshell
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        HTML.Images.FromAssets.Preview ref0;
 
         /// <summary>
         /// This is a javascript application.
@@ -29,10 +29,10 @@ namespace com.abstractatech.adminshell
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
             page.LoginButton.onclick +=
                 delegate
                 {
-                    page.LoginButton.Orphanize();
 
                     // ask for credentials for new ui
 
@@ -42,17 +42,20 @@ namespace com.abstractatech.adminshell
                     s.onload +=
                         delegate
                         {
-                            Console.WriteLine("onload");
+                            page.LoginButton.Orphanize();
                         };
 
                     s.AttachToDocument();
 
                 };
+
+            "Remote Web Shell".ToDocumentTitle();
         }
 
 
         public sealed class a
         {
+            public readonly ApplicationWebService service = new ApplicationWebService();
 
 
             public a(IApp e)
@@ -60,7 +63,8 @@ namespace com.abstractatech.adminshell
 
                 var c = new ShellWithPing.Library.ConsoleWindow
                 {
-                    Text = "Administrator Shell (Logged in as " + new Cookie("foo").Value + ")",
+                    Text = "Remote Web Shell",
+                    //Text = "Remote Web Shell (Logged in as " + new Cookie("foo").Value + ")",
                     Color = Color.Red,
                     BackColor = Color.Black
                 };
@@ -68,7 +72,7 @@ namespace com.abstractatech.adminshell
                 c.AppendLine(
 @" *** WARNING *** be careful!
 example:
- am start -a android.intent.action.CALL tel:245007
+ am start -a android.intent.action.CALL tel:254007
 ");
 
                 c.Show();
@@ -82,7 +86,7 @@ example:
 
                 c.PopupInsteadOfClosing();
 
-                //c.AtCommand += applicationWebService1.ShellAsync;
+                c.AtCommand += service.ShellAsync;
             }
         }
     }
