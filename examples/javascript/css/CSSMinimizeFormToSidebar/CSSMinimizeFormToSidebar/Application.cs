@@ -20,12 +20,15 @@ namespace CSSMinimizeFormToSidebar
 {
     public static class ApplicationExtension
     {
-        public static void InitializeSidebarBehaviour(Form f)
+        public static void InitializeSidebarBehaviour(Form f, bool HandleClosed = true)
         {
 
             // can we do a dynamic upgrade?
 
             var newlayout = new global::CSSMinimizeFormToSidebar.HTML.Pages.App();
+
+            newlayout.AddMoreText.Hide();
+
             var newlayoutnodes = newlayout.Container.childNodes.ToArray();
 
             //newlayout.Sidebar.name = "Sidebar";
@@ -64,11 +67,11 @@ namespace CSSMinimizeFormToSidebar
             f.GetHTMLTarget().Orphanize().AttachToDocument();
 
             global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
-                newlayout, f
+                newlayout, f, HandleClosed: HandleClosed
             );
         }
 
-        public static void InitializeSidebarBehaviour(IApp page, Form f)
+        public static void InitializeSidebarBehaviour(IApp page, Form f, bool HandleClosed = true)
         {
             var tt = f.GetHTMLTarget();
 
@@ -107,6 +110,8 @@ namespace CSSMinimizeFormToSidebar
                                 old.Left.Max(page.Sidebar.clientWidth + 12)
                                 , old.Top);
 
+                            // prevent drawing artifacts
+                            tt.style.transform = "";
 
                         }
                     );
@@ -182,6 +187,10 @@ namespace CSSMinimizeFormToSidebar
             new ScriptCoreLib.JavaScript.Runtime.Timer(
                 delegate
                 {
+                    // popup mode?
+                    if (f.GetHTMLTarget().parentNode == null)
+                        return;
+
                     if (IsMinimized)
                         return;
 
@@ -211,17 +220,19 @@ namespace CSSMinimizeFormToSidebar
             ).StartInterval(100);
 
 
-
-            f.FormClosing += (s, e) =>
+            if (HandleClosed)
             {
-                if (e.CloseReason == System.Windows.Forms.CloseReason.UserClosing)
+                f.FormClosing += (s, e) =>
                 {
-                    e.Cancel = true;
+                    if (e.CloseReason == System.Windows.Forms.CloseReason.UserClosing)
+                    {
+                        e.Cancel = true;
 
-                    Minimize();
-                }
-            };
+                        Minimize();
+                    }
+                };
 
+            }
 
 
             dynamic xstyle = page.SidebarOverlay.style;
