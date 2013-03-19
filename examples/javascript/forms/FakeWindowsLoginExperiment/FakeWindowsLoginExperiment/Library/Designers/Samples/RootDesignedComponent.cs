@@ -13,7 +13,7 @@ namespace FakeWindowsLoginExperiment.Library.Designers.Samples
 
     // The following attribute associates the SampleRootDesigner designer  
     // with the SampleComponent component.
-    [Designer(typeof(SampleRootDesigner), typeof(IRootDesigner))]
+    //[Designer(typeof(SampleRootDesigner), typeof(IRootDesigner))]
     public class RootDesignedComponent : Component
     {
         public RootDesignedComponent()

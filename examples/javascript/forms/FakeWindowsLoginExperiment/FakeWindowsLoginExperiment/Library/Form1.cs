@@ -12,11 +12,11 @@ using System.Windows.Forms.Design;
 
 namespace FakeWindowsLoginExperiment.Library
 {
-    [ToolboxItem(true)]
-    [DesignTimeVisible(true)]
-#if DEBUG
-    [Designer(typeof(MyControlDesigner))]
-#endif
+//    [ToolboxItem(true)]
+//    [DesignTimeVisible(true)]
+//#if DEBUG
+//    [Designer(typeof(MyControlDesigner))]
+//#endif
     [DefaultEvent("FormButtonClick")]
     [DefaultProperty("Foo")]
     public partial class Form1 : Form
