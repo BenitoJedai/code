@@ -228,9 +228,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
                 var a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
 
-                foreach (var v in e.Keys)
+                var Keys = (ICollection<TKey>)e.Keys;
+
+                foreach (var Key in Keys)
                 {
-                    a.Add(new KeyValuePair<TKey, TValue>(v, e[v]));
+                    // Tested by X:\jsc.svn\examples\actionscript\Test\TestDictionaryKeys\TestDictionaryKeys\ApplicationCanvas.cs
+
+                    var kv = new KeyValuePair<TKey, TValue>(Key, e[Key]);
+
+                    a.Add(kv);
                 }
 
 
