@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace FakeWindowsLoginExperiment.Library
 {
-    [ToolboxItem(true)]
-    [DesignTimeVisible(true)]
-#if DEBUG
-    [Designer(typeof(MyControlDesigner))]
-#endif
+//    [ToolboxItem(true)]
+//    [DesignTimeVisible(true)]
+//#if DEBUG
+//    [Designer(typeof(MyControlDesigner))]
+//#endif
     public partial class TaskManagerForm : Form
     {
         public TaskManagerForm()
