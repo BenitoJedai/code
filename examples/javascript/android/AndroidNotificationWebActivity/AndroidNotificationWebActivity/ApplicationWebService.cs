@@ -89,8 +89,8 @@ namespace foo
             myNotification.defaults |= Notification.DEFAULT_SOUND;
             myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
             myNotification.setLatestEventInfo(context,
-                    "The title that goes in the expanded entry.",
-                    "The text that goes in the expanded entry.",
+                    Title,
+                    Title,
                pendingIntent);
             notificationManager.notify(1, myNotification);
 

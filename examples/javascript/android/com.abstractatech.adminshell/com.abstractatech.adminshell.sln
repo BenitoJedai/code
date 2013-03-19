@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1B5B13
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidNotificationWebActivity", "..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj", "{68616DF5-AD84-4D65-85C4-35BB96171391}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|x86 = Android|x86
@@ -21,8 +23,8 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Android|x86.ActiveCfg = Release|x86
-		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Android|x86.Build.0 = Release|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Android|x86.ActiveCfg = Android|x86
+		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Android|x86.Build.0 = Android|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.AppEngine|x86.ActiveCfg = Release|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.AppEngine|x86.Build.0 = Release|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Debug|x86.ActiveCfg = Debug|x86
@@ -41,6 +43,16 @@ Global
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.PHP|x86.Build.0 = PHP|x86
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.Release|x86.ActiveCfg = Release|x86
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826}.Release|x86.Build.0 = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Android|x86.ActiveCfg = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Android|x86.Build.0 = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.AppEngine|x86.ActiveCfg = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.AppEngine|x86.Build.0 = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Debug|x86.ActiveCfg = Debug|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Debug|x86.Build.0 = Debug|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.PHP|x86.ActiveCfg = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.PHP|x86.Build.0 = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Release|x86.ActiveCfg = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
