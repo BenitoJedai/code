@@ -8,6 +8,7 @@ using ScriptCoreLib;
 
 namespace android.widget
 {
+    // http://developer.android.com/reference/android/widget/FrameLayout.html
     [Script(IsNative = true)]
     public class FrameLayout : ViewGroup
     {

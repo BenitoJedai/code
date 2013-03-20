@@ -11,6 +11,16 @@ namespace android.graphics
     public class Color
     {
         // members and types are to be extended by jsc at release build
+
+
+        public static int WHITE;
+        public static int RED;
+
+
+        public static int argb(int alpha, int red, int green, int blue)
+        {
+            throw null;
+        }
     }
 
 }

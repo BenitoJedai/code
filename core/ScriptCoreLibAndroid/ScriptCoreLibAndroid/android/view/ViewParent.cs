@@ -7,12 +7,11 @@ using ScriptCoreLib;
 
 namespace android.view
 {
-    // http://developer.android.com/reference/android/view/WindowManager.html
+    // http://developer.android.com/reference/android/view/ViewParent.html
     [Script(IsNative = true)]
-    public interface WindowManager : ViewManager
+    public interface ViewParent
     {
         // members and types are to be extended by jsc at release build
 
-        Display getDefaultDisplay();
     }
 }

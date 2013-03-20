@@ -3,14 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using android.content;
+using android.os;
 
 namespace android.app
 {
 
     // http://developer.android.com/reference/android/app/Service.html
     [Script(IsNative = true)]
-    public abstract class Service
+    public abstract class Service : ContextWrapper
     {
         // members and types are to be extended by jsc at release build
+
+        public virtual IBinder onBind(Intent value)
+        {
+            throw null;
+        }
+        public virtual void onCreate()
+        {
+            throw null;
+        }
+
+        public virtual void onDestroy()
+        {
+            throw null;
+        }
+        public virtual int onStartCommand(Intent intent, int flags, int startId)
+        {
+            throw null;
+        }
+
     }
 }

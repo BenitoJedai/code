@@ -14,6 +14,18 @@ namespace android.widget
     {
         // members and types are to be extended by jsc at release build
 
+        // http://developer.android.com/reference/android/widget/RelativeLayout.LayoutParams.html
+        [Script(IsNative = true)]
+        public new class LayoutParams : MarginLayoutParams
+        {
+            public LayoutParams(int w, int h)
+            {
+            }
+        }
+
+
+
+
         public RelativeLayout(Context c)
             : base(c)
         {

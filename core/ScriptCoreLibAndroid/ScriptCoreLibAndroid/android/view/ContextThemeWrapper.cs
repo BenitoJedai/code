@@ -14,6 +14,7 @@ namespace android.view
     {
         // members and types are to be extended by jsc at release build
 
-
+        public void setTheme(int resid)
+        { }
     }
 }

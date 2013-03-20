@@ -12,6 +12,10 @@ namespace android.webkit
     [Script(IsNative = true)]
     public class WebChromeClient
     {
+        public virtual void onReceivedTitle(WebView view, String title)
+        {
+
+        }
         public virtual void openFileChooser(ValueCallback<Uri> uploadMsg)
         {
 

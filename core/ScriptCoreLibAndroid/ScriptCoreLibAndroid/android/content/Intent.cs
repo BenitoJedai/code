@@ -1,4 +1,7 @@
-﻿using ScriptCoreLib;
+﻿using android.os;
+using java.io;
+using java.lang;
+using ScriptCoreLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,36 @@ namespace android.content
     [Script(IsNative = true)]
     public class Intent
     {
+        public Intent putExtra(string name, int value)
+        {
+            throw null;
+        }
+        public Bundle getExtras()
+        {
+            throw null;
+        }
+
         public const string ACTION_VIEW = "android.intent.action.VIEW";
+
+        public string getAction() { throw null; }
+
+        public Serializable getSerializableExtra(string name)
+        {
+            throw null;
+        }
+
+        public Bundle getBundleExtra(string name)
+        {
+            throw null;
+        }
+
+        public int getIntExtra(string name, int defaultValue)
+        {
+            throw null;
+        }
+
+        public Intent(Context packageContext, Class cls)
+        { }
 
         public Intent(string action, android.net.Uri uri)
         {

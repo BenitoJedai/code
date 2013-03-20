@@ -88,7 +88,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         public class LocalSQLiteOpenHelper : SQLiteOpenHelper
         {
 
-            public LocalSQLiteOpenHelper(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory = null, int version = 1)
+            public LocalSQLiteOpenHelper(Context context, string name, 
+                SQLiteDatabase.CursorFactory factory = null, int version = 1)
                 : base(context, name, factory, version)
             {
 
