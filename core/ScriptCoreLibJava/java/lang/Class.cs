@@ -14,7 +14,7 @@ namespace java.lang
     // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Class.html
     // http://developer.android.com/reference/java/lang/Class.html
     [Script(IsNative = true)]
-    public sealed class Class : java.lang.reflect.Type
+    public sealed class Class : java.lang.reflect.Type, Serializable
     {
         public Annotation[] getAnnotations()
         {

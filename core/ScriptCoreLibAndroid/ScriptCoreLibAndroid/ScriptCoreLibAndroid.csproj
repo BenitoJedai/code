@@ -568,6 +568,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\util\AbstractList.cs">
       <Link>java\util\AbstractList.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\AbstractSet.cs">
+      <Link>java\util\AbstractSet.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\ArrayList.cs">
       <Link>java\util\ArrayList.cs</Link>
     </Compile>
@@ -591,6 +594,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\HashMap.cs">
       <Link>java\util\HashMap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\HashSet.cs">
+      <Link>java\util\HashSet.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Iterator.cs">
       <Link>java\util\Iterator.cs</Link>
@@ -720,6 +726,7 @@
     <Compile Include="android\os\IBinder.cs" />
     <Compile Include="android\os\Parcelable.cs" />
     <Compile Include="android\R.cs" />
+    <Compile Include="android\util\DisplayMetrics.cs" />
     <Compile Include="android\util\SparseArray.cs" />
     <Compile Include="android\util\Log.cs" />
     <Compile Include="android\view\accessibility\AccessibilityEventSource.cs" />

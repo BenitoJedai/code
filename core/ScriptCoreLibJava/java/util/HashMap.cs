@@ -7,7 +7,7 @@ namespace java.util
 {
     // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/HashMap.html
 	[Script(IsNative = true)]
-	public class HashMap
+	public class HashMap : Map
 	{
 		/// <summary>
 		/// Constructs an empty <tt>HashMap</tt> with the default initial capacity

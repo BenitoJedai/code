@@ -6,6 +6,7 @@ using android.os;
 using android.widget;
 using ScriptCoreLib;
 using android.content.res;
+using android.view;
 
 namespace android.content
 {
@@ -14,6 +15,10 @@ namespace android.content
     public class ContextWrapper : Context
     {
         // members and types are to be extended by jsc at release build
+
+        public void setTheme(int resid)
+        {
+        }
 
         public override Context getApplicationContext()
         {

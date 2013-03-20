@@ -15,7 +15,8 @@ namespace android.app
         public int flags;
 
         public static int FLAG_NO_CLEAR;
-
+        public static int FLAG_AUTO_CANCEL;
+        
         public Notification(int icon, string tickerText, long when)
         { 
         }
