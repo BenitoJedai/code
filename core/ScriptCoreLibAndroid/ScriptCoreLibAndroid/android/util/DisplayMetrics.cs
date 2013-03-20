@@ -12,7 +12,7 @@ namespace android.util
     {
         public int widthPixels;
         public int heightPixels;
-        public int density;
+        public float density;
 
     }
 
