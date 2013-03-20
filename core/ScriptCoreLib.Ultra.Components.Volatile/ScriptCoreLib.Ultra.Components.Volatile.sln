@@ -1,13 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile", "ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile.csproj", "{8B8C61EA-D890-403D-9B40-3ACCB679BB20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components", "..\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.csproj", "{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile.Splash", "ScriptCoreLib.Ultra.Components.Volatile.Splash\ScriptCoreLib.Ultra.Components.Volatile.Splash.csproj", "{952A2DDF-9EAE-402F-A66D-515E33F39637}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc.screencast", "ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation\jsc.screencast.csproj", "{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,21 +65,6 @@ Global
 		{952A2DDF-9EAE-402F-A66D-515E33F39637}.Release|Mixed Platforms.Build.0 = Release|x86
 		{952A2DDF-9EAE-402F-A66D-515E33F39637}.Release|x86.ActiveCfg = Release|x86
 		{952A2DDF-9EAE-402F-A66D-515E33F39637}.Release|x86.Build.0 = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Assets|Any CPU.ActiveCfg = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Assets|Mixed Platforms.ActiveCfg = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Assets|Mixed Platforms.Build.0 = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Assets|x86.ActiveCfg = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Assets|x86.Build.0 = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Debug|x86.ActiveCfg = Debug|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Debug|x86.Build.0 = Debug|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Release|Any CPU.ActiveCfg = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Release|Mixed Platforms.Build.0 = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Release|x86.ActiveCfg = Release|x86
-		{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
