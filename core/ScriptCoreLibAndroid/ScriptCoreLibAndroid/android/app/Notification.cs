@@ -6,11 +6,11 @@ using ScriptCoreLib;
 
 namespace android.app
 {
-
-    // http://developer.android.com/reference/android/app/Service.html
+    // http://developer.android.com/reference/android/app/Notification.html
     [Script(IsNative = true)]
-    public abstract class Service
+    public class Notification
     {
         // members and types are to be extended by jsc at release build
     }
+
 }

@@ -11,6 +11,13 @@ namespace android.view
     [Script(IsNative = true)]
     public abstract class ViewGroup : View
     {
+        [Script(IsNative = true)]
+        public class LayoutParams
+        {
+
+        }
+
+
         // members and types are to be extended by jsc at release build
 
         public ViewGroup(Context c) : base(c)

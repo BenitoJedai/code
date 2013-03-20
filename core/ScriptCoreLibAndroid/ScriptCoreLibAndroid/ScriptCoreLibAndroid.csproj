@@ -693,12 +693,16 @@
     </Compile>
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
+    <Compile Include="android\app\PendingIntent.cs" />
+    <Compile Include="android\app\NotificationManager.cs" />
+    <Compile Include="android\app\Notification.cs" />
     <Compile Include="android\content\Intent.cs" />
     <Compile Include="android\content\res\AssetManager.cs" />
     <Compile Include="android\content\res\Resources.cs" />
     <Compile Include="android\database\Cursor.cs" />
     <Compile Include="android\database\sqlite\SQLiteOpenHelper.cs" />
     <Compile Include="android\database\sqlite\SQLiteDatabase.cs" />
+    <Compile Include="android\graphics\Color.cs" />
     <Compile Include="android\hardware\SensorManager.cs" />
     <Compile Include="android\hardware\SensorEvent.cs" />
     <Compile Include="android\hardware\Sensor.cs" />
@@ -708,13 +712,18 @@
     <Compile Include="android\opengl\GLES20.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\R.cs" />
+    <Compile Include="android\util\SparseArray.cs" />
     <Compile Include="android\util\Log.cs" />
+    <Compile Include="android\view\animation\AnimationUtils.cs" />
     <Compile Include="android\view\ContextThemeWrapper.cs" />
     <Compile Include="android\content\ContextWrapper.cs" />
     <Compile Include="android\app\Service.cs" />
     <Compile Include="android\content\BroadcastReceiver.cs" />
     <Compile Include="android\content\Context.cs" />
     <Compile Include="android\os\Bundle.cs" />
+    <Compile Include="android\view\WindowManager.cs" />
+    <Compile Include="android\view\ViewManager.cs" />
+    <Compile Include="android\view\Display.cs" />
     <Compile Include="android\view\MotionEvent.cs" />
     <Compile Include="android\view\Menu.cs" />
     <Compile Include="android\view\MenuItem.cs" />
@@ -732,6 +741,7 @@
     <Compile Include="android\widget\CompoundButton.cs" />
     <Compile Include="android\widget\CheckBox.cs" />
     <Compile Include="android\widget\AbsoluteLayout.cs" />
+    <Compile Include="android\widget\RelativeLayout.cs" />
     <Compile Include="android\widget\Toast.cs" />
     <Compile Include="android\widget\EditText.cs" />
     <Compile Include="android\widget\FrameLayout.cs" />
