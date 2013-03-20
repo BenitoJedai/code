@@ -22,6 +22,7 @@ namespace com.abstractatech.adminshell
 
         public void ShellAsync(string e, Action<string> y)
         {
+            // http://a3nm.net/blog/android_cli.html
 #if Android
             // http://www.android.pk/blog/general/launch-app-through-adb-shell/
             //  am start -a android.intent.action.MAIN -n com.android.settings/.Settings
