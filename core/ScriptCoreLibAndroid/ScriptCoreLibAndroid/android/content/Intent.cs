@@ -1,8 +1,8 @@
-﻿using android.os;
+﻿using android.net;
+using android.os;
 using java.io;
 using java.lang;
 using ScriptCoreLib;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +13,16 @@ namespace android.content
     [Script(IsNative = true)]
     public class Intent
     {
+        public Intent putExtra(string name, Class value)
+        {
+            throw null;
+        }
+
+        public Intent putExtra(string name, Bundle value)
+        {
+            throw null;
+        }
+
         public Intent putExtra(string name, int value)
         {
             throw null;

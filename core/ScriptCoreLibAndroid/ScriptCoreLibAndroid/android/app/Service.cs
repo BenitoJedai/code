@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using android.content;
 using android.os;
+using android.view;
 
 namespace android.app
 {
@@ -14,6 +15,15 @@ namespace android.app
     public abstract class Service : ContextWrapper
     {
         // members and types are to be extended by jsc at release build
+
+        public static int START_NOT_STICKY;
+
+
+        public void startForeground(int id, Notification notification)
+        { }
+        public void stopForeground(bool removeNotification)
+        {
+        }
 
         public virtual IBinder onBind(Intent value)
         {

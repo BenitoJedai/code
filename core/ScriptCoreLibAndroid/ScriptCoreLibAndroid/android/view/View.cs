@@ -11,6 +11,11 @@ namespace android.view
     [Script(IsNative = true)]
     public class View
     {
+        public virtual bool dispatchKeyEvent(KeyEvent @event)
+        {
+            throw null;
+
+        }
 
 
         public virtual bool onTouchEvent(MotionEvent @event)
