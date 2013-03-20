@@ -13,5 +13,11 @@ namespace android.view
     {
         // members and types are to be extended by jsc at release build
 
+        void addView(View view, ViewGroup.LayoutParams @params);
+
+        void removeView(View view);
+
+        void updateViewLayout(View view, ViewGroup.LayoutParams @params);
+
     }
 }

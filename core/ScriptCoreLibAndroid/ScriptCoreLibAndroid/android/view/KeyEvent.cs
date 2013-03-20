@@ -9,9 +9,26 @@ namespace android.view
 {
     // http://developer.android.com/reference/android/view/KeyEvent.html
     [Script(IsNative = true)]
-    public class KeyEvent 
+    public class KeyEvent : InputEvent
     {
+        // http://developer.android.com/reference/android/view/KeyEvent.Callback.html
+        [Script(IsNative = true)]
+        public interface Callback
+        {
+
+        }
+
+        public int getKeyCode()
+        {
+            throw null;
+        }
+        public int getAction()
+        {
+            throw null;
+        }
+
         // members and types are to be extended by jsc at release build
+        public static int ACTION_UP;
 
         public const int KEYCODE_BACK = 4;
     }

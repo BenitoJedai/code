@@ -9,6 +9,6 @@ namespace ScriptCoreLib.Android
     public static class ThreadLocalContextReference
     {
         // this is a workaround until WebActivity finds a better way.
-        public static android.content.Context CurrentContext;
+        public static global::android.content.Context CurrentContext;
     }
 }

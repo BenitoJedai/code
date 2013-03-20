@@ -11,6 +11,12 @@ namespace android.app
     public class NotificationManager
     {
         // members and types are to be extended by jsc at release build
+
+        public void notify(int id, Notification notification)
+        { }
+
+        public void cancel(int id)
+        { }
     }
 
 }

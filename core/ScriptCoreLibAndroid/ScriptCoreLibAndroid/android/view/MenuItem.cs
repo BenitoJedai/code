@@ -12,7 +12,8 @@ namespace android.view
     public interface MenuItem
     {
 
-      
+        MenuItem setOnMenuItemClickListener(MenuItem_OnMenuItemClickListener menuItemClickListener);
+
 
         MenuItem setIcon(int value);
         MenuItem setIntent(Intent value);

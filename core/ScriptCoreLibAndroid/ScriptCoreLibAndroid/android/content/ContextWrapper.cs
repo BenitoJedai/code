@@ -9,11 +9,16 @@ using android.content.res;
 
 namespace android.content
 {
+    // http://developer.android.com/reference/android/content/ContextWrapper.html
     [Script(IsNative = true)]
     public class ContextWrapper : Context
     {
         // members and types are to be extended by jsc at release build
 
+        public override Context getApplicationContext()
+        {
+            throw new NotImplementedException();
+        }
         public override Resources getResources()
         {
             return default(Resources);
@@ -23,5 +28,12 @@ namespace android.content
         {
             return default(object);
         }
+
+        public override ComponentName startService(Intent service)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

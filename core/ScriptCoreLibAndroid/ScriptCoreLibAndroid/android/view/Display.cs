@@ -9,9 +9,18 @@ namespace android.view
 {
     // http://developer.android.com/reference/android/view/Display.html
     [Script(IsNative = true)]
-    public class Display 
+    public class Display
     {
         // members and types are to be extended by jsc at release build
 
+        public int getWidth()
+        {
+            throw null;
+        }
+
+        public int getHeight()
+        {
+            throw null;
+        }
     }
 }

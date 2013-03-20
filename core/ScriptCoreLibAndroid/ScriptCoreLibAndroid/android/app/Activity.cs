@@ -15,6 +15,21 @@ namespace android.app
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper
     {
+        public void finish()
+        {
+        }
+
+
+        public Intent getIntent()
+        {
+            throw null;
+        }
+
+        public virtual bool dispatchKeyEvent(KeyEvent @event)
+        {
+            throw null;
+        }
+
         protected virtual void onActivityResult(int arg0, int arg1, Intent arg2)
         {
 

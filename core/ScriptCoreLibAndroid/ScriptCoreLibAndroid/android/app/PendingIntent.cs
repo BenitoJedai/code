@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using android.content;
 
 namespace android.app
 {
@@ -11,6 +12,13 @@ namespace android.app
     public class PendingIntent
     {
         // members and types are to be extended by jsc at release build
+
+        public static int FLAG_UPDATE_CURRENT;
+
+        public static PendingIntent getService(Context context, int requestCode, Intent intent, int flags)
+        {
+            throw null;
+        }
     }
 
 }
