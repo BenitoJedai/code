@@ -13,6 +13,9 @@ namespace android
         public sealed class drawable
         {
             public const int ic_menu_view = 17301591;
+
+
+            public static int ic_menu_close_clear_cancel;
         }
     }
 }

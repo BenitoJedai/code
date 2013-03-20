@@ -9,7 +9,7 @@ namespace android.view
 {
     // http://developer.android.com/reference/android/view/ViewManager.html
     [Script(IsNative = true)]
-    public  class ViewManager
+    public interface ViewManager
     {
         // members and types are to be extended by jsc at release build
 
