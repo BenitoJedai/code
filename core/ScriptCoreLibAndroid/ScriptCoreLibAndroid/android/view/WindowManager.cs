@@ -9,7 +9,7 @@ namespace android.view
 {
     // http://developer.android.com/reference/android/view/WindowManager.html
     [Script(IsNative = true)]
-    public class WindowManager
+    public interface WindowManager
     {
         // members and types are to be extended by jsc at release build
 
