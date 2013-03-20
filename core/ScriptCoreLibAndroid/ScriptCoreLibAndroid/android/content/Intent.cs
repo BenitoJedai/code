@@ -27,6 +27,12 @@ namespace android.content
         {
             throw null;
         }
+
+        public Intent putExtra(string name, string value)
+        {
+            throw null;
+        }
+
         public Bundle getExtras()
         {
             throw null;
