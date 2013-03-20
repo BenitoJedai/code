@@ -7,6 +7,7 @@ using android.view;
 using android.widget;
 using ScriptCoreLib;
 using java.lang;
+using android.content;
 
 namespace android.app
 {
@@ -14,6 +15,11 @@ namespace android.app
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper
     {
+        protected virtual void onActivityResult(int arg0, int arg1, Intent arg2)
+        {
+
+        }
+
         // members and types are to be extended by jsc at release build
 
         // http://developer.android.com/reference/android/app/Activity.html#setContentView(android.view.View)
