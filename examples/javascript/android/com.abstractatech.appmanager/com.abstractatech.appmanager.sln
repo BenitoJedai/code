@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.appmanager", "com.abstractatech.appmanager\com.abstractatech.appmanager.csproj", "{B20451B6-4E24-4287-A475-0AB6A1B9560B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.appmanager.windows", "com.abstractatech.appmanager.windows\com.abstractatech.appmanager.windows.csproj", "{CED99E35-F368-472F-A254-1E479AE860FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{B20451B6-4E24-4287-A475-0AB6A1B9560B}.Debug|x86.Build.0 = Debug|x86
 		{B20451B6-4E24-4287-A475-0AB6A1B9560B}.Release|x86.ActiveCfg = Release|x86
 		{B20451B6-4E24-4287-A475-0AB6A1B9560B}.Release|x86.Build.0 = Release|x86
+		{CED99E35-F368-472F-A254-1E479AE860FF}.Debug|x86.ActiveCfg = Debug|x86
+		{CED99E35-F368-472F-A254-1E479AE860FF}.Debug|x86.Build.0 = Debug|x86
+		{CED99E35-F368-472F-A254-1E479AE860FF}.Release|x86.ActiveCfg = Release|x86
+		{CED99E35-F368-472F-A254-1E479AE860FF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
