@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
 
-    internal static partial class __Enumerable
+     static partial class __Enumerable
     {
         public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, global::System.Func<TSource, TKey> keySelector)
         {

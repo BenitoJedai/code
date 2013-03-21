@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
 
 
-    internal static partial class __Enumerable
+     static partial class __Enumerable
     {
         public static int Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
         {

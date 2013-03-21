@@ -6,51 +6,40 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
+
+
      static partial class __Enumerable
     {
 
-        public static IEnumerable<int> Range( int start, int count)
+        public static IEnumerable<TSource> Skip<TSource>(this IEnumerable<TSource> source, int count)
         {
-            long num;
-            num = (((long)start) + ((long)count)) - ((long)1);
-            if (count < 0)
+            if (source == null)
             {
-
+                throw new ArgumentNullException("source");
             }
-            else if (num <= ((long)0x7fffffff))
-            {
-                return RangeIterator(start, count);
-            }
-
-            throw __DefinedError.ArgumentOutOfRange("count");
+            return SkipIterator<TSource>(source, count);
         }
 
 
+
+
+
+
         [Script]
-        sealed partial class _RangeIterator_d__91 : IEnumerable<int>, IEnumerable, IEnumerator<int>, IEnumerator, IDisposable
+        private sealed partial class _SkipIterator_d__40<TSource> : IEnumerable<TSource>, IEnumerable, IEnumerator<TSource>, IEnumerator, IDisposable
         {
+            // Fields
             private int __1__state;
-
-
-
-            public int __3__start;
+            private TSource __2__current;
             public int __3__count;
-
-            public int start;
+            public IEnumerable<TSource> __3__source;
+            public IEnumerator<TSource> _e_5__4e;
+            public TSource _element_5__41;
             public int count;
+            public IEnumerable<TSource> source;
 
 
-            private int __2__current;
-
-
-
-            public int _i_5__92;
-
-
-
-
-
-            public _RangeIterator_d__91(int __1__state)
+            public _SkipIterator_d__40(int __1__state)
             {
                 this.__1__state = __1__state;
                 return;
@@ -63,9 +52,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             #region IEnumerable<int> Members
 
-            public IEnumerator<int> GetEnumerator()
+            public IEnumerator<TSource> GetEnumerator()
             {
-                _RangeIterator_d__91 _ret = null;
+
+                _SkipIterator_d__40<TSource> _ret = null;
 
                 if (this.__1__state == -2)
                 {
@@ -74,12 +64,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
                 }
                 else
                 {
-                    _ret = new _RangeIterator_d__91(0);
+                    _ret = new _SkipIterator_d__40<TSource>(0);
                 }
 
 
 
-                _ret.start = this.__3__start;
+                _ret.source = this.__3__source;
                 _ret.count = this.__3__count;
 
                 return _ret;
@@ -98,7 +88,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             #region IEnumerator<int> Members
 
-            public int Current
+            public TSource Current
             {
                 get { return this.__2__current; }
             }
@@ -109,6 +99,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
             public void Dispose()
             {
+                __m__Finally43();
             }
 
             #endregion
@@ -131,14 +122,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         }
 
 
-        private static IEnumerable<int> RangeIterator(int start, int count)
+        private static IEnumerable<TSource> SkipIterator<TSource>(IEnumerable<TSource> source, int count)
         {
-            _RangeIterator_d__91 d__;
-            d__ = new _RangeIterator_d__91(-2);
-            d__.__3__start = start;
-            d__.__3__count = count;
-            return d__;
+            return new _SkipIterator_d__40<TSource>(-2) { __3__source = source, __3__count = count };
         }
+
+
+
+
 
 
 

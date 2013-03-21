@@ -7,7 +7,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
 
     [Script(Implements = typeof(global::System.Linq.Enumerable))]
-    internal static partial class __Enumerable
+    public static partial class __Enumerable
     {
 
 
