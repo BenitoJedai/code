@@ -10,6 +10,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
     internal sealed class __HttpRequest
     {
+        public string UserHostAddress { get; set; }
+
         public string Path { get; set; }
 
         public string HttpMethod { get; set; }
