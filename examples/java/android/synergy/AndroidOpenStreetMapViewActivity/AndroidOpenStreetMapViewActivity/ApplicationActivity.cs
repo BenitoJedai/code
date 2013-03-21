@@ -73,14 +73,14 @@ namespace AndroidOpenStreetMapViewActivity.Activities
         org.slf4j.Logger hack;
         org.osmdroid.views.MapView.Projection hack1;
 
-        
-  //<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-  //<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-  //<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-  //<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  //<uses-permission android:name="android.permission.INTERNET" />
-  //<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  
+
+        //<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+        //<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        //<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        //<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        //<uses-permission android:name="android.permission.INTERNET" />
+        //<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
@@ -90,6 +90,18 @@ namespace AndroidOpenStreetMapViewActivity.Activities
             //getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
             //this.ShowToast("jsc-solutions.net\nWait while map loads...");
+
+            //var a = this;
+
+            //var sv = new ScrollView(a);
+            //var ll = new LinearLayout(a);
+            ////ll.setOrientation(LinearLayout.VERTICAL);
+            //sv.addView(ll);
+
+            //myOpenMapView = new MapView(this, 0);
+            //myOpenMapView.AttachTo(ll);
+
+            //a.setContentView(sv);
 
             setContentView(R.layout.main);
 
