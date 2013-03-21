@@ -136,9 +136,6 @@
     <Reference Include="ShellWithPing.AssetsLibrary">
       <HintPath>..\..\ShellWithPing\ShellWithPing\bin\staging.AssetsLibrary\ShellWithPing.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="AndroidNotificationWebActivity.AssetsLibrary">
-      <HintPath>..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\bin\staging.AssetsLibrary\AndroidNotificationWebActivity.AssetsLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.htm" />
@@ -152,10 +149,6 @@
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj">
-      <Project>{68616df5-ad84-4d65-85c4-35bb96171391}</Project>
-      <Name>AndroidNotificationWebActivity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ShellWithPing\ShellWithPing\ShellWithPing.csproj">
       <Project>{0267ab63-ecec-4ecc-a3b3-853c3138a826}</Project>
       <Name>ShellWithPing</Name>
@@ -173,7 +166,7 @@ rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocu
 
 if $(ConfigurationName)==Android (
 
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:6  /FilterTo:$(SolutionDir)
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:8  /FilterTo:$(SolutionDir)
 
 )</PostBuildEvent>
     <PreBuildEvent>

@@ -110,43 +110,61 @@ namespace com.abstractatech.adminshell
                 password = AuthorizationLiteral.SkipUntilOrEmpty(":"),
             };
 
-            System.Console.WriteLine(new { AuthorizationLiteralCredentials }.ToString());
+            var Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":");
+
+
+            System.Console.WriteLine(
+                new
+                {
+                    AuthorizationLiteralCredentials,
+                    Host,
+                    h.Context.Request.UserHostAddress,
+                }.ToString());
 
             var a = h.Applications.FirstOrDefault(k => k.TypeName == "a");
 
             if (h.Context.Request.Path == "/a")
             {
+                var OK = false;
+
+
+                if (Host == h.Context.Request.UserHostAddress)
+                    OK = true;
+
                 if (!string.IsNullOrEmpty(AuthorizationLiteralCredentials.user))
                     if (!string.IsNullOrEmpty(AuthorizationLiteralCredentials.password))
-                    {
-#if Android
-                        var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
+                        OK = true;
 
-                        var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
+                if (OK)
+                {
+                    //#if Android
+                    //                        var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
 
-                        intent.putExtra("data0", AuthorizationLiteralCredentials.user + " is using Remote Web Shell");
+                    //                        var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
 
-                        c.startService(intent);
-#endif
+                    //                        intent.putExtra("data0", AuthorizationLiteralCredentials.user + " is using Remote Web Shell");
 
-
-
-                        h.Context.Response.ContentType = "text/javascript";
-                        h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
+                    //                        c.startService(intent);
+                    //#endif
 
 
-                        //Implementation not found for type import :
-                        //type: System.Web.HttpResponse
-                        //method: Void AppendCookie(System.Web.HttpCookie)
-                        // not working on android?
-                        h.Context.Response.SetCookie(
-                            new HttpCookie("foo", "bar")
-                        );
 
-                        h.WriteSource(a);
-                        h.CompleteRequest();
-                        return;
-                    }
+                    h.Context.Response.ContentType = "text/javascript";
+                    h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
+
+
+                    //Implementation not found for type import :
+                    //type: System.Web.HttpResponse
+                    //method: Void AppendCookie(System.Web.HttpCookie)
+                    // not working on android?
+                    h.Context.Response.SetCookie(
+                        new HttpCookie("foo", "bar")
+                    );
+
+                    h.WriteSource(a);
+                    h.CompleteRequest();
+                    return;
+                }
 
                 h.Context.Response.StatusCode = 401;
                 h.Context.Response.AddHeader(
