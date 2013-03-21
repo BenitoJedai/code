@@ -1,6 +1,9 @@
 using android.content;
 using android.content.pm;
+using android.graphics;
+using android.graphics.drawable;
 using android.net;
+using android.util;
 using java.io;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
@@ -13,7 +16,13 @@ using System.Xml.Linq;
 
 namespace AndroidListApplications
 {
-    public delegate void yield_ACTION_MAIN(string packageName, string name);
+    public delegate void yield_ACTION_MAIN(
+        string packageName,
+        string name,
+        string icon_base64 = "",
+
+        string label = ""
+    );
 
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -36,15 +45,51 @@ namespace AndroidListApplications
 
             var context = ThreadLocalContextReference.CurrentContext;
 
+            var pm = context.getPackageManager();
 
-
-            var pkgAppsList = context.getPackageManager().queryIntentActivitiesEnumerable(mainIntent).OrderBy(k => k.activityInfo.packageName).WithEach(
+            var pkgAppsList = pm.queryIntentActivitiesEnumerable(mainIntent).OrderBy(k => k.activityInfo.packageName).WithEach(
                 r =>
                 {
+                    // http://stackoverflow.com/questions/6344694/get-foreground-application-icon-convert-to-base64
+
+                    var label = (string)(object)pm.getApplicationLabel(r.activityInfo.applicationInfo);
+
+                    var icon_base64 = "";
+
+                    try
+                    {
+                        var icon = pm.getApplicationIcon(r.activityInfo.applicationInfo);
+
+                        if (icon != null)
+                        {
+
+                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                            // bitmap.compress(CompressFormat.PNG, 0, outputStream); 
+
+                            BitmapDrawable bitDw = ((BitmapDrawable)icon);
+                            Bitmap bitmap = bitDw.getBitmap();
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            var bitmapByte = (byte[])(object)stream.toByteArray();
+
+                            icon_base64 = Convert.ToBase64String(bitmapByte);
+
+                            //bitmapByte = Base64.encode(bitmapByte,Base64.DEFAULT);
+                            //System.out.println("..length of image..."+bitmapByte.length);
+                        }
+                    }
+                    catch
+                    {
+
+                    }
 
 
                     yield(
-                        r.activityInfo.applicationInfo.packageName, r.activityInfo.name
+                        r.activityInfo.applicationInfo.packageName,
+                        r.activityInfo.name,
+
+                        icon_base64: icon_base64,
+                        label: label
                     );
                 }
             );

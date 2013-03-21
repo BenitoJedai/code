@@ -85,7 +85,7 @@ namespace AndroidListApplications
 
                                 // remove others!
                             },
-                        yield: (packageName, name) =>
+                        yield: (packageName, name, icon_base64, label) =>
                         {
                             a.Add(packageName);
 
@@ -101,6 +101,9 @@ namespace AndroidListApplications
                             else
                                 Native.Document.body.insertBefore(div, Native.Document.body.firstChild);
 
+                            new IHTMLImage { src = "data:image/png;base64," + icon_base64 }.AttachTo(div);
+                            new IHTMLSpan { innerText = label }.AttachTo(div);
+
                             var Remove = new IHTMLButton { innerText = "Remove" }.AttachTo(div).WhenClicked(
                                     btn =>
                                     {
@@ -113,6 +116,9 @@ namespace AndroidListApplications
                                         service.Remove(packageName, name);
                                     }
                                );
+
+
+                            //div.appendChild(new { icon_base64.Length }.ToString());
 
                             var Launch = new IHTMLButton { innerText = "Launch" }.AttachTo(div).WhenClicked(
                                     btn =>
