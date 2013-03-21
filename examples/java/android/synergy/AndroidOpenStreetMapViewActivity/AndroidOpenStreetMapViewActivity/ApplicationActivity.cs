@@ -91,6 +91,8 @@ namespace AndroidOpenStreetMapViewActivity.Activities
 
             //this.ShowToast("jsc-solutions.net\nWait while map loads...");
 
+            // http://stackoverflow.com/questions/8037101/how-to-get-attributeset-properties
+
             //var a = this;
 
             //var sv = new ScrollView(a);
@@ -98,7 +100,14 @@ namespace AndroidOpenStreetMapViewActivity.Activities
             ////ll.setOrientation(LinearLayout.VERTICAL);
             //sv.addView(ll);
 
-            //myOpenMapView = new MapView(this, 0);
+            //myOpenMapView = new MapView(this, null);
+            //myOpenMapView.setLayoutParams(
+            //    new ViewGroup.LayoutParams(
+            //        ViewGroup.LayoutParams.FILL_PARENT,
+            //        ViewGroup.LayoutParams.FILL_PARENT
+            //    )
+            //);
+
             //myOpenMapView.AttachTo(ll);
 
             //a.setContentView(sv);
