@@ -121,6 +121,8 @@
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs" />
     <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackTrace.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Skip.MoveNext.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Skip.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\_Attribute.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs" />

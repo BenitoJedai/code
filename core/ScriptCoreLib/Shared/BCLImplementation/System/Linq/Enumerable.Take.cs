@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
 
 
-    internal static partial class __Enumerable
+     static partial class __Enumerable
     {
 
         public static IEnumerable<TSource> Take<TSource>(this IEnumerable<TSource> source, int count)

@@ -11,39 +11,44 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
     {
 
 
-        partial class _TakeIterator_d__40<TSource>
+        partial class _SkipIterator_d__40<TSource>
         {
 
             public bool MoveNext()
             {
+
+
+
                 if ((this.__1__state == 0) || (this.__1__state == 2))
                 {
                     if (this.__1__state == 0)
                     {
                         this.__1__state = -1;
-                        if (this.count <= 0)
+
+                        this._e_5__4e = this.source.AsEnumerable().GetEnumerator();
+
+
+                        while (this.count > 0 && this._e_5__4e.MoveNext())
+                        {
+                            this.count--;
+                        }
+
+                        if ((this.count > 0))
                         {
                             this.__m__Finally43();
                             return false;
                         }
-                        this.__7__wrap42 = this.source.AsEnumerable().GetEnumerator();
-
 
                     }
                     else if (this.__1__state == 2)
                     {
                         this.__1__state = 1;
-                        this.count--;
-                        if (this.count == 0)
-                        {
-                            this.__m__Finally43();
-                            return false;
-                        }
+
                     }
 
-                    if (this.__7__wrap42.MoveNext())
+                    if (this._e_5__4e.MoveNext())
                     {
-                        this._element_5__41 = this.__7__wrap42.Current;
+                        this._element_5__41 = this._e_5__4e.Current;
                         this.__2__current = this._element_5__41;
                         this.__1__state = 2;
                         return true;
@@ -56,9 +61,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             private void __m__Finally43()
             {
                 this.__1__state = -1;
-                if (this.__7__wrap42 != null)
+                if (this._e_5__4e != null)
                 {
-                    this.__7__wrap42.Dispose();
+                    this._e_5__4e.Dispose();
                 }
             }
 

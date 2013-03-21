@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
-    internal static partial class __Enumerable
+     static partial class __Enumerable
     {
         //[Script(NotImplementedHere = true)]
         public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source)

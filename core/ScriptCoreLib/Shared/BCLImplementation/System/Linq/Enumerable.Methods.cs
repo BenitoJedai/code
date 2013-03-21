@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
 
-    internal static partial class __Enumerable
+     static partial class __Enumerable
     {
         public static double Average<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
         {
