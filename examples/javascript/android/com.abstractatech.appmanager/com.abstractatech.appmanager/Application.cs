@@ -115,10 +115,12 @@ namespace com.abstractatech.appmanager
                 yield_ACTION_MAIN yield = (
                             packageName,
                             name,
-                            icon_base64,
+                            __IsCoreAndroidWebServiceActivity,
                             label
                         ) =>
                 {
+                    var IsCoreAndroidWebServiceActivity = Convert.ToBoolean(__IsCoreAndroidWebServiceActivity);
+
                     count++;
 
                     var a = new AppPreview();
@@ -139,7 +141,9 @@ namespace com.abstractatech.appmanager
                     //a.Icon.src = "data:image/png;base64," + icon_base64;
                     a.Label.innerText = label;
 
+
                     a.Container.AttachTo(ScrollArea);
+
 
                     #region Clickable
                     a.Clickable.onclick +=
@@ -157,66 +161,98 @@ namespace com.abstractatech.appmanager
 
 
                             var f = new Form { Text = label };
-
                             f.ClientSize = content.Size;
-
-                            f.Controls.Add(content);
-                            content.Dock = DockStyle.Fill;
-
                             f.Show();
 
+                            if (IsCoreAndroidWebServiceActivity)
+                            {
+                                f.Opacity = 0.5;
 
-                            f.PopupInsteadOfClosing(HandleFormClosing: false);
+                                var w = new WebBrowser();
+                                w.Dock = DockStyle.Fill;
 
-                            content.Label.Text = label;
-                            content.Package.Text = packageName;
+                                f.Controls.Add(w);
 
-                            a.Icon.cloneNode(true).AttachTo(
+                                service.Launch(
+                                    packageName,
+                                    name,
 
-                                ScriptCoreLib.JavaScript.Windows.Forms.Extensions.GetHTMLTargetContainer(content.Icon)
+                                    yield_port:
+                                        port =>
+                                        {
+                                            f.Opacity = 1.0;
 
-                            );
+                                            var uri = Native.Document.location.protocol
+                                                + "//"
+                                                + Native.Document.location.host.TakeUntilIfAny(":")
+                                                + ":" + port;
+
+
+                                            w.Navigate(uri);
+
+                                            f.ClientSize = content.Size;
+                                        }
+                                );
+                            }
+                            else
+                            {
+                                f.Controls.Add(content);
+                                content.Dock = DockStyle.Fill;
 
 
 
-                            content.Launch.Click +=
-                                delegate
-                                {
-                                    // level 1
-                                    // run on android
+                                f.PopupInsteadOfClosing(HandleFormClosing: false);
 
-                                    // level 2
-                                    // run as float
+                                content.Label.Text = label;
+                                content.Package.Text = packageName;
 
-                                    // level 3 
-                                    // run here as iframe
+                                a.Icon.cloneNode(true).AttachTo(
 
-                                    // level 4
-                                    // run here as js import
+                                    ScriptCoreLib.JavaScript.Windows.Forms.Extensions.GetHTMLTargetContainer(content.Icon)
 
-                                    service.Launch(
-                                        packageName,
-                                        name,
+                                );
 
-                                        yield_port:
-                                            port =>
-                                            {
-                                                var uri = Native.Document.location.protocol
-                                                    + "//"
-                                                    + Native.Document.location.host.TakeUntilIfAny(":")
-                                                    + ":" + port;
 
-                                                var w = new WebBrowser();
 
-                                                f.Controls.Add(w);
-                                                w.Dock = DockStyle.Fill;
-                                                w.Navigate(uri);
+                                content.Launch.Click +=
+                                    delegate
+                                    {
+                                        // level 1
+                                        // run on android
 
-                                                f.ClientSize = content.Size;
-                                            }
-                                    );
+                                        // level 2
+                                        // run as float
 
-                                };
+                                        // level 3 
+                                        // run here as iframe
+
+                                        // level 4
+                                        // run here as js import
+
+                                        service.Launch(
+                                            packageName,
+                                            name,
+
+                                            yield_port:
+                                                port =>
+                                                {
+                                                    var uri = Native.Document.location.protocol
+                                                        + "//"
+                                                        + Native.Document.location.host.TakeUntilIfAny(":")
+                                                        + ":" + port;
+
+                                                    var w = new WebBrowser();
+
+                                                    f.Controls.Add(w);
+                                                    w.Dock = DockStyle.Fill;
+                                                    w.Navigate(uri);
+
+                                                    f.ClientSize = content.Size;
+                                                }
+                                        );
+
+                                    };
+                            }
 
                             //f.Icon.toh
                         };

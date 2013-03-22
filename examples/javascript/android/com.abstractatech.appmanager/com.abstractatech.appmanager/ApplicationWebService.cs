@@ -80,7 +80,7 @@ namespace com.abstractatech.appmanager
     public delegate void yield_ACTION_MAIN(
         string packageName,
         string name,
-        string icon_base64 = "",
+        string IsCoreAndroidWebServiceActivity = "",
 
         string label = ""
     );
@@ -120,7 +120,14 @@ namespace com.abstractatech.appmanager
             lock (ApplicationPackageManagerLock)
                 context
                     .GetLaunchers()
-                    .OrderBy(r => (string)(object)pm.getApplicationLabel(r.activityInfo.applicationInfo))
+                    .OrderByDescending(r =>
+                        {
+
+                            return r.IsCoreAndroidWebServiceActivity();
+                        }
+                    )
+                    .ThenBy(
+                        r => (string)(object)pm.getApplicationLabel(r.activityInfo.applicationInfo))
                     // do we have skip yet?
 
      //Implementation not found for type import :
@@ -140,12 +147,14 @@ namespace com.abstractatech.appmanager
 
                         var icon_base64 = "";
 
+                        ;
+
 
                         yield(
                             r.activityInfo.applicationInfo.packageName,
                             r.activityInfo.name,
 
-                            icon_base64: icon_base64,
+                            IsCoreAndroidWebServiceActivity: Convert.ToString(r.IsCoreAndroidWebServiceActivity()),
                             label: label
                         );
                     }
@@ -414,6 +423,16 @@ namespace com.abstractatech.appmanager
 
     static class X
     {
+
+        public static bool IsCoreAndroidWebServiceActivity(this ResolveInfo r)
+        {
+            if (r.activityInfo.applicationInfo.metaData != null)
+                return r.activityInfo.applicationInfo.metaData.containsKey("CoreAndroidWebServiceActivity");
+
+
+            return false;
+        }
+
         public static IEnumerable<ResolveInfo> GetLaunchers(this  Context c)
         {
             var mainIntent = new Intent(Intent.ACTION_MAIN, null);
@@ -428,8 +447,8 @@ namespace com.abstractatech.appmanager
 
         public static IEnumerable<ResolveInfo> queryIntentActivitiesEnumerable(this  PackageManager pm, Intent mainIntent, int arg1 = 0)
         {
-
-            var pkgAppsList = pm.queryIntentActivities(mainIntent, 0);
+            // http://imogene-map.googlecode.com/svn-history/r40/trunk/org.imogene.map/src/org/imogene/map/app/Supplier.java
+            var pkgAppsList = pm.queryIntentActivities(mainIntent, PackageManager.GET_META_DATA);
 
             //for (int i = 0; i < pkgAppsList.size(); i++)
             //{

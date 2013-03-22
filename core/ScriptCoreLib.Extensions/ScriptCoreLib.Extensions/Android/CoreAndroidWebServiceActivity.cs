@@ -1,4 +1,5 @@
 ﻿using android.app;
+using ScriptCoreLib.Android.Manifest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Android
 {
+    // mark ourselves 
+    [ApplicationMetaData(name = "CoreAndroidWebServiceActivity", value = "http://my.jsc-solutions.net")]
     public abstract class CoreAndroidWebServiceActivity : Activity
     {
         // tested by X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\Java\InternalAndroidWebServiceActivity.cs
