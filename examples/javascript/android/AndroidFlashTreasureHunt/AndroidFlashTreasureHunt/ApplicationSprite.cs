@@ -25,7 +25,7 @@ namespace com.abstractatech.gamification.fth
 
 
 
-            InternalContent = new FlashTreasureHunt.ActionScript.FlashTreasureHunt();
+            InternalContent = new global::FlashTreasureHunt.ActionScript.FlashTreasureHunt();
             InternalContent.AttachTo(this);
 
 
