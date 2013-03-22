@@ -2,7 +2,7 @@ using com.abstractatech.appmanager.windows.Design;
 using com.abstractatech.appmanager.windows.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
-//using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;

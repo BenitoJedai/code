@@ -23,9 +23,9 @@ namespace ScriptCoreLib.Extensions
     // intellisense friendly :) discoverability
     public static class FormAsPopupExtensionsForConsoleFormPackage
     {
-        public static T PopupInsteadOfClosing<T>(this T f) where T : Form
+        public static T PopupInsteadOfClosing<T>(this T f, bool HandleFormClosing = true) where T : Form
         {
-            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(f);
+            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(f, HandleFormClosing);
             return f;
 
         }
@@ -33,23 +33,23 @@ namespace ScriptCoreLib.Extensions
 }
 
 
-namespace ScriptCoreLib.JavaScript.Windows.Forms
-{
-    public static class FormAsPopupExtensions
-    {
-        public static T PopupInsteadOfClosing<T>(this T f) where T : Form
-        {
-            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(f);
-            return f;
+//namespace ScriptCoreLib.JavaScript.Windows.Forms
+//{
+//    public static class FormAsPopupExtensions
+//    {
+//        public static T PopupInsteadOfClosing<T>(this T f) where T : Form
+//        {
+//            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(f);
+//            return f;
 
-        }
-    }
-}
+//        }
+//    }
+//}
 namespace Abstractatech.JavaScript.FormAsPopup
 {
     public static class FormAsPopupExtensions
     {
-        public static void PopupInsteadOfClosing(this Form f)
+        public static void PopupInsteadOfClosing(this Form f, bool HandleFormClosing = true)
         {
             __Form __f = f;
 
@@ -156,8 +156,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 {
                     var z = new { f.Right, f.Left };
 
-                    if (z.Right > 0)
-                        if (z.Left < Native.Window.Width)
+                    if ((z.Right - f.Width / 2) > 0)
+                        if ((z.Left + f.Width / 2) < Native.Window.Width)
                         {
                             Console.WriteLine("still in window: " + z);
                             // still in the window!
@@ -172,15 +172,16 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     f.Close();
                 };
 
-            content.f.FormClosing +=
-                (sender, e) =>
-                {
-                    Console.WriteLine("FormClosing!");
+            if (HandleFormClosing)
+                content.f.FormClosing +=
+                    (sender, e) =>
+                    {
+                        Console.WriteLine("FormClosing!");
 
-                    e.Cancel = true;
+                        e.Cancel = true;
 
-                    AtClose();
-                };
+                        AtClose();
+                    };
         }
     }
 }

@@ -64,7 +64,7 @@ start /WAIT /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemp
 )
 
 if $(ConfigurationName)==Release (
-start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe RewriteToJavaConsoleApplication /assembly:$(TargetPath)
+start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath)
 )
 </PostBuildEvent>
   </PropertyGroup>
