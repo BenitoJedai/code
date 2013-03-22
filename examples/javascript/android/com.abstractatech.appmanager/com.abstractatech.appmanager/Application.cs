@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
@@ -64,9 +65,49 @@ namespace com.abstractatech.appmanager
 
             public a(IBeforeLogin ee)
             {
-                var page = new App();
+                var ff = new Form { FormBorderStyle = FormBorderStyle.None };
 
-                page.ScrollArea.AttachToDocument();
+
+                var ScrollArea = new App().ScrollArea.AttachTo(ff.GetHTMLTargetContainer());
+
+
+
+                ScrollArea.style.backgroundColor = "#185D7B";
+
+                var SidebarWidth = 172;
+
+                ff.MoveTo(SidebarWidth, 0);
+
+                Action AtResize = delegate
+                {
+
+                    ff.SizeTo(Native.Window.Width - SidebarWidth, Native.Window.Height);
+                };
+
+                Native.Window.onresize +=
+                    delegate
+                    {
+                        AtResize();
+
+                    };
+
+                AtResize();
+
+                global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
+              ff, HandleClosed: true
+          );
+                Native.Document.body.style.backgroundColor = "#105070";
+
+                Native.Window.onresize +=
+                    delegate
+                    {
+                        ff.Show();
+                    };
+
+
+                //var page = new App();
+
+                //page.ScrollArea.AttachToDocument();
 
                 var count = 0;
 
@@ -82,25 +123,31 @@ namespace com.abstractatech.appmanager
 
                     var a = new AppPreview();
 
-                    var i = new IHTMLImage { src = "/icon/" + packageName };
-                    i.InvokeOnComplete(
-                        delegate
-                        {
-                            a.Icon.src = i.src;
-                        }
-                    );
+                    if (packageName != "foo")
+                    {
+                        var i = new IHTMLImage { src = "/icon/" + packageName };
+                        i.InvokeOnComplete(
+                            delegate
+                            {
+                                a.Icon.src = i.src;
+                            }
+                        );
+                    }
 
                     //a.Icon.src = "/icon/" + packageName;
 
                     //a.Icon.src = "data:image/png;base64," + icon_base64;
                     a.Label.innerText = label;
 
-                    a.Container.AttachTo(page.ScrollArea);
+                    a.Container.AttachTo(ScrollArea);
 
                     #region Clickable
                     a.Clickable.onclick +=
                         e =>
                         {
+                            // close to left sidebar!
+                            ff.Close();
+
                             Console.WriteLine(new { label });
                             e.preventDefault();
 
@@ -181,103 +228,103 @@ namespace com.abstractatech.appmanager
 
                 #region more
                 var skip = 0;
-                var take = 10;
+                var take = 32;
 
                 var getmore = "Scroll down for more...";
 
-                new IHTMLButton { innerText = getmore }.AttachToDocument().With(
-                  more =>
-                  {
-                      more.style.position = IStyle.PositionEnum.@fixed;
-                      more.style.left = "2px";
-                      more.style.bottom = "2px";
+                //new IHTMLButton { innerText = getmore }.AttachToDocument().With(
+                //  more =>
+                {
+                    //more.style.position = IStyle.PositionEnum.@fixed;
+                    //more.style.left = "2px";
+                    //more.style.bottom = "2px";
 
-                      Action done = delegate { };
-
-
-                      Action MoveNext = delegate
-                      {
-                          more.disabled = true;
-                          more.innerText = "checking for more...";
-
-                          Console.WriteLine("MoveNext: " + new { skip, take });
-
-                          service.queryIntentActivities(
-                              yield,
-                              skip: "" + skip,
-                              take: "" + take,
-                              yield_done: done
-
-                          );
+                    Action done = delegate { };
 
 
-                          //service.File_list("",
-                          //    ydirectory: ydirectory,
-                          //    yfile: yfile,
-                          //    sskip: skip.ToString(),
-                          //    stake: take.ToString(),
-                          //    done: done
-                          //);
+                    Action MoveNext = delegate
+                    {
+                        //more.disabled = true;
+                        //more.innerText = "checking for more...";
 
-                          skip += take;
+                        Console.WriteLine("MoveNext: " + new { skip, take });
 
-                      };
+                        service.queryIntentActivities(
+                            yield,
+                            skip: "" + skip,
+                            take: "" + take,
+                            yield_done: done
 
-                      done = delegate
-                      {
-                          more.innerText = getmore;
-                          more.disabled = false;
-
-                          if (count == skip)
-                          {
-                              Native.Document.body.With(
-                                   body =>
-                                   {
-                                       if (more.disabled)
-                                           return;
-
-                                       if (body.scrollHeight - 1 <= Native.Window.Height + body.scrollTop)
-                                       {
-                                           MoveNext();
-                                       }
-
-                                   }
-                             );
-                          }
-                      };
+                        );
 
 
+                        //service.File_list("",
+                        //    ydirectory: ydirectory,
+                        //    yfile: yfile,
+                        //    sskip: skip.ToString(),
+                        //    stake: take.ToString(),
+                        //    done: done
+                        //);
 
-                      MoveNext();
+                        skip += take;
 
-                      more.onclick += delegate
-                      {
-                          MoveNext();
-                      };
+                    };
+
+                    done = delegate
+                    {
+                        //more.innerText = getmore;
+                        //more.disabled = false;
+
+                        if (count == skip)
+                        {
+                            //Native.Document.body.With(
+                            //     body =>
+                            //     {
+                            //         if (more.disabled)
+                            //             return;
+
+                            //         if (body.scrollHeight - 1 <= Native.Window.Height + body.scrollTop)
+                            //         {
+                            MoveNext();
+                            //          }
+
+                            //      }
+                            //);
+                        }
+                    };
 
 
 
-                      Native.Window.onscroll +=
-                            e =>
-                            {
+                    MoveNext();
 
-                                Native.Document.body.With(
-                                    body =>
-                                    {
-                                        if (more.disabled)
-                                            return;
+                    //more.onclick += delegate
+                    //{
+                    //    MoveNext();
+                    //};
 
-                                        if (body.scrollHeight - 1 <= Native.Window.Height + body.scrollTop)
-                                        {
-                                            MoveNext();
-                                        }
 
-                                    }
-                              );
 
-                            };
-                  }
-              );
+                    //Native.Window.onscroll +=
+                    //      e =>
+                    //      {
+
+                    //          Native.Document.body.With(
+                    //              body =>
+                    //              {
+                    //                  if (more.disabled)
+                    //                      return;
+
+                    //                  if (body.scrollHeight - 1 <= Native.Window.Height + body.scrollTop)
+                    //                  {
+                    //                      MoveNext();
+                    //                  }
+
+                    //              }
+                    //        );
+
+                    //      };
+                }
+                //);
                 #endregion
 
 
