@@ -40,10 +40,9 @@ namespace WoodsXmasByRobert
 
             var ScreenWidth = Native.Screen.width;
             var ScreenHeight = Native.Screen.height;
-            var location = "" + Native.Document.location;
 
             Console.WriteLine(
-                new { ScreenWidth, ScreenHeight, Native.Window.Width, Native.Window.Height, location }
+                new { ScreenWidth, ScreenHeight, Native.Window.Width, Native.Window.Height }
             );
 
 
@@ -57,8 +56,23 @@ namespace WoodsXmasByRobert
             // the outer code wil just stop doing anything
             // and the inner app will take over.
 
+            var ApplyWorkaround = false;
+            var location = "";
 
-            if (Native.Window.Width < Native.Screen.width)
+            try
+            {
+                location = Native.Document.location.href;
+                //var pl = Native.Window.parent.document.location;
+
+                if (Native.Window.Width < Native.Screen.width)
+                    ApplyWorkaround = true;
+            }
+            catch
+            {
+
+            }
+
+            if (ApplyWorkaround)
             {
                 #region make sure the url looks different to make iframe actually load
                 Native.Window.parent.With(
@@ -66,7 +80,17 @@ namespace WoodsXmasByRobert
                     {
                         // http://stackoverflow.com/questions/5934538/is-there-a-limitation-on-an-iframe-containing-another-iframe-with-the-same-url
 
-                        var parentlocation = "" + parent.document.location;
+                        var parentlocation = "";
+
+                        try
+                        {
+                            parentlocation = parent.document.location.href;
+                        }
+                        catch
+                        { 
+                            // parent from another origin
+                        }
+
                         Console.WriteLine(new { parentlocation });
 
                         if (parentlocation.TakeUntilIfAny("#") == location.TakeUntilIfAny("#"))
@@ -87,7 +111,7 @@ namespace WoodsXmasByRobert
                 );
                 #endregion
 
-
+                #region ApplyWorkaround
 
                 // this check only looks for default screen width
                 // what about height and secondary screens?
@@ -145,6 +169,8 @@ namespace WoodsXmasByRobert
                         iframe.AttachToDocument();
                         iframe.src = location;
                     };
+                #endregion
+
 
                 return;
             }

@@ -23,7 +23,6 @@ namespace com.abstractatech.appmanager.windows
             this.label3 = new System.Windows.Forms.Label();
             this.Launch = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.NavigateTo = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Icon
@@ -80,18 +79,8 @@ namespace com.abstractatech.appmanager.windows
             this.button2.Text = "Uninstall";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // NavigateTo
-            // 
-            this.NavigateTo.Location = new System.Drawing.Point(294, 218);
-            this.NavigateTo.Name = "NavigateTo";
-            this.NavigateTo.Size = new System.Drawing.Size(75, 23);
-            this.NavigateTo.TabIndex = 6;
-            this.NavigateTo.Text = "NavigateTo";
-            this.NavigateTo.UseVisualStyleBackColor = true;
-            // 
             // ApplicationControl
             // 
-            this.Controls.Add(this.NavigateTo);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Launch);
             this.Controls.Add(this.label3);
@@ -120,7 +109,6 @@ namespace com.abstractatech.appmanager.windows
         public Label Label;
         public Label Package;
         public Button Launch;
-        public Button NavigateTo;
 
     }
 }
