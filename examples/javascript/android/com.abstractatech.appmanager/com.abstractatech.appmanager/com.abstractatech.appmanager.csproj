@@ -122,6 +122,9 @@
     <Reference Include="com.abstractatech.appmanager.windows.AssetsLibrary">
       <HintPath>..\com.abstractatech.appmanager.windows\bin\staging.AssetsLibrary\com.abstractatech.appmanager.windows.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="AndroidNotificationWebActivity.AssetsLibrary">
+      <HintPath>..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\bin\staging.AssetsLibrary\AndroidNotificationWebActivity.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\BeforeLogin.htm" />
@@ -138,6 +141,10 @@
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj">
+      <Project>{68616df5-ad84-4d65-85c4-35bb96171391}</Project>
+      <Name>AndroidNotificationWebActivity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.abstractatech.appmanager.windows\com.abstractatech.appmanager.windows.csproj">
       <Project>{ced99e35-f368-472f-a254-1e479ae860ff}</Project>
       <Name>com.abstractatech.appmanager.windows</Name>

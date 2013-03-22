@@ -88,6 +88,7 @@
     <Compile Include="Android\Extensions\ContextExtensions.cs" />
     <Compile Include="Android\Extensions\ActivityExtensions.cs" />
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
+    <Compile Include="Android\IntentFilterAttribute.cs" />
     <Compile Include="Android\Manifest\ApplicationMetaDataAttribute.cs" />
     <Compile Include="Android\RenderingContextView.cs" />
     <Compile Include="Extensions\SHA1CryptographyExtensions.cs" />

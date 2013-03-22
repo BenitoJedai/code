@@ -15,6 +15,13 @@ namespace android.app
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper
     {
+        public static int RESULT_OK;
+
+        public void setResult(int resultCode, Intent data)
+        {
+
+        }
+
         public void finish()
         {
         }

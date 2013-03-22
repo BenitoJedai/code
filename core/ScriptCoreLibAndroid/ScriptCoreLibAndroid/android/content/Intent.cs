@@ -57,6 +57,8 @@ namespace android.content
             throw null;
         }
 
+        public Intent()
+        { }
         public Intent(Context packageContext, Class cls)
         { }
 

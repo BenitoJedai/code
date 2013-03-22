@@ -2,8 +2,10 @@ using android.content;
 using android.content.pm;
 using android.graphics;
 using android.graphics.drawable;
+using android.os;
 using java.io;
 using ScriptCoreLib;
+using ScriptCoreLibJava.Extensions;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -14,9 +16,59 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace com.abstractatech.appmanager
 {
+    // http://developer.android.com/reference/android/content/BroadcastReceiver.html
+    [IntentFilter(Action = "ScriptCoreLib.Android.CoreAndroidWebServiceActivity.AtWebServiceDiscovery")]
+    public class AtWebServiceDiscovery : BroadcastReceiver
+    {
+        public static Thread XCallback;
+
+        public override void onReceive(Context c, Intent data)
+        {
+            //            I/System.Console(17864): setResult { port = 5781 }
+            //I/System.Console(18183): AtWebServiceDiscovery: { port = 5781, extras = Bundle[{port=5781}] }
+
+            var port = 0;
+            var CallbackToken = 0;
+
+            Bundle extras = null;
+
+            if (data != null)
+            {
+                extras = data.getExtras();
+
+                //I/System.Console(14280): startActivityForResult: { packageName = com.abstractatech.adminshell, name = com.abstractatech.adminshell.ApplicationWebServiceActivity }
+                //I/System.Console(14280): ActivityResult: { packageName = com.abstractatech.adminshell, port = 0, resultCode = 0, requestCode = 1, extras =  }
+
+                if (extras != null)
+                {
+                    if (extras.containsKey("port"))
+                        port = extras.getInt("port");
+
+                    if (extras.containsKey("CallbackToken"))
+                        CallbackToken = extras.getInt("CallbackToken");
+                }
+            }
+
+
+            //System.Console.WriteLine("AtWebServiceDiscovery");
+
+            // I/System.Console(18971): AtWebServiceDiscovery: { port = 16846, CallbackToken = 1554743048 }
+
+            System.Console.WriteLine(
+                "AtWebServiceDiscovery: " + new { port, CallbackToken }
+            );
+
+            if (XCallback != null)
+            {
+                XCallback.Start();
+                XCallback = null;
+            }
+        }
+    }
 
     public delegate void yield_ACTION_MAIN(
         string packageName,
@@ -31,7 +83,7 @@ namespace com.abstractatech.appmanager
     /// </summary>
     public sealed class ApplicationWebService
     {
-
+        AtWebServiceDiscovery ref0;
 
         public void queryIntentActivities(
             yield_ACTION_MAIN yield,
@@ -142,7 +194,10 @@ namespace com.abstractatech.appmanager
          string name,
 
          string ExtraKey = "Float",
-         string ExtraValue = "Float"
+         string ExtraValue = "Float",
+
+
+            Action<string> yield_port = null
          )
         {
 #if Android
@@ -159,10 +214,52 @@ namespace com.abstractatech.appmanager
             // http://stackoverflow.com/questions/2844440/passing-arguments-from-loading-activity-to-main-activity
             i.putExtra(ExtraKey, ExtraValue);
 
+            var CallbackToken = new Random().Next();
+
+            i.putExtra("CallbackToken", CallbackToken);
+
 
             var context = ThreadLocalContextReference.CurrentContext;
 
-            context.startActivity(i);
+            (context as CoreAndroidWebServiceActivity).With(
+               a =>
+               {
+
+
+                   System.Console.WriteLine(
+                               "startActivityForResult: " + new
+                               {
+                                   packageName,
+                                   name
+                               }
+                               );
+
+
+                   var yield = new Thread(
+                       delegate()
+                       {
+                           System.Console.WriteLine("callback!...");
+
+                       }
+                   );
+
+
+                   AtWebServiceDiscovery.XCallback = yield;
+
+                   // http://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent, int)
+                   // http://stackoverflow.com/questions/1984233/onactivityresult-doesnt-work
+                   a.startActivityForResult(i, 0);
+
+                   System.Console.WriteLine("waiting for callback...");
+
+                   // how long shall we wait? what if the app is not a jsc app?
+                   yield.Join(300);
+                   System.Console.WriteLine("waiting for callback... done!");
+               }
+            );
+
+
+
 #endif
 
         }
@@ -204,8 +301,8 @@ namespace com.abstractatech.appmanager
                 var OK = false;
 
 
-                //if (Host == h.Context.Request.UserHostAddress)
-                //    OK = true;
+                if (Host == h.Context.Request.UserHostAddress)
+                    OK = true;
 
                 if (!string.IsNullOrEmpty(AuthorizationLiteralCredentials.user))
                     if (!string.IsNullOrEmpty(AuthorizationLiteralCredentials.password))
@@ -213,15 +310,18 @@ namespace com.abstractatech.appmanager
 
                 if (OK)
                 {
-                    //#if Android
-                    //                        var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
+#if Android
+                    if (!string.IsNullOrEmpty(AuthorizationLiteralCredentials.user))
+                    {
+                        var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
 
-                    //                        var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
+                        var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
 
-                    //                        intent.putExtra("data0", AuthorizationLiteralCredentials.user + " is using Remote Web Shell");
+                        intent.putExtra("data0", AuthorizationLiteralCredentials.user + " is using Remote Web Shell");
 
-                    //                        c.startService(intent);
-                    //#endif
+                        c.startService(intent);
+                    }
+#endif
 
 
 
