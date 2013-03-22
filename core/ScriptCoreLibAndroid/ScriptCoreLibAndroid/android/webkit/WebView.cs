@@ -14,6 +14,12 @@ namespace android.webkit
     {
         // members and types are to be extended by jsc at release build
 
+        public static int SCROLLBARS_OUTSIDE_OVERLAY;
+
+        public void setScrollBarStyle(int style)
+        { 
+        }
+
         public WebView(Context c)
             : base(c)
         {
