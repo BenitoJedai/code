@@ -82,14 +82,22 @@ namespace com.abstractatech.appmanager
 
                     var a = new AppPreview();
 
-                    //a.Icon.src = new DefaultIcon().src;
+                    var i = new IHTMLImage { src = "/icon/" + packageName };
+                    i.InvokeOnComplete(
+                        delegate
+                        {
+                            a.Icon.src = i.src;
+                        }
+                    );
+
+                    //a.Icon.src = "/icon/" + packageName;
 
                     //a.Icon.src = "data:image/png;base64," + icon_base64;
                     a.Label.innerText = label;
 
                     a.Container.AttachTo(page.ScrollArea);
 
-
+                    #region Clickable
                     a.Clickable.onclick +=
                         e =>
                         {
@@ -123,23 +131,7 @@ namespace com.abstractatech.appmanager
                             );
 
 
-                            content.NavigateTo.Click +=
-                                delegate
-                                {
-                                    var uri = Native.Window.prompt("Where to?", "http://" + Native.Document.location.host + ":", label);
 
-                                    if (string.IsNullOrEmpty(uri))
-                                        return;
-
-                                    var w = new WebBrowser();
-
-                                    f.Controls.Add(w);
-                                    w.Dock = DockStyle.Fill;
-                                    w.Navigate(uri);
-
-                                    f.ClientSize = content.Size;
-
-                                };
                             content.Launch.Click +=
                                 delegate
                                 {
@@ -181,6 +173,8 @@ namespace com.abstractatech.appmanager
 
                             //f.Icon.toh
                         };
+                    #endregion
+
                 };
                 #endregion
 

@@ -172,16 +172,21 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     f.Close();
                 };
 
-            if (HandleFormClosing)
-                content.f.FormClosing +=
-                    (sender, e) =>
+            content.f.FormClosing +=
+                (sender, e) =>
+                {
+                    if (!HandleFormClosing)
                     {
-                        Console.WriteLine("FormClosing!");
+                        if (e.CloseReason == CloseReason.UserClosing)
+                            return;
+                    }
 
-                        e.Cancel = true;
+                    Console.WriteLine("FormClosing!");
 
-                        AtClose();
-                    };
+                    e.Cancel = true;
+
+                    AtClose();
+                };
         }
     }
 }
