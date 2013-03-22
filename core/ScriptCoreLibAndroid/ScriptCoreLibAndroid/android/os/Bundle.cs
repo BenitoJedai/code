@@ -15,6 +15,16 @@ namespace android.os
         // members and types are to be extended by jsc at release build
 
 
+        public int getInt(string e)
+        {
+            throw null;
+        }
+
+        public bool containsKey(string e)
+        {
+            throw null;
+        }
+
         public Set keySet()
         {
             throw null;

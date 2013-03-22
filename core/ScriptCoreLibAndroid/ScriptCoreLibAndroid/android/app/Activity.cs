@@ -17,6 +17,10 @@ namespace android.app
     {
         public static int RESULT_OK;
 
+        public void sendBroadcast(Intent intent)
+        {
+        }
+
         public void setResult(int resultCode, Intent data)
         {
 
