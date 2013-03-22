@@ -44,7 +44,6 @@ namespace com.abstractatech.appmanager.windows
             f.Show();
 
 
-            f.PopupInsteadOfClosing();
         }
 
     }

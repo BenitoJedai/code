@@ -82,6 +82,7 @@ namespace CSSMinimizeFormToSidebar
 
             var IsMinimized = false;
 
+
             #region Minimize
             Action Minimize =
                 delegate
@@ -89,7 +90,6 @@ namespace CSSMinimizeFormToSidebar
                     if (IsMinimized)
                         return;
 
-                    IsMinimized = true;
 
                     var t = tt;
                     dynamic style = t.style;
@@ -116,6 +116,30 @@ namespace CSSMinimizeFormToSidebar
                         }
                     );
 
+                    Action DoRestore = null;
+
+                    DoRestore = delegate
+                    {
+                        if (t == null)
+                            return;
+                        DoRestore = null;
+
+                        Console.WriteLine("DoRestore");
+
+                        style.webkitTransition = "all 0.3s linear";
+
+                        t.style.transform = "scale(1)";
+
+                        t.style.left = old.Left.Max(page.Sidebar.clientWidth + 12) + "px";
+                        t.style.top = old.Top + "px";
+
+                        //t.style.Opacity = 1;
+                        f.Opacity = 1;
+                        t = null;
+                        page.SidebarInfo.style.marginTop = (0) + "px";
+                    };
+
+
 
                     var clicktorestore = new ScriptCoreLib.JavaScript.Runtime.Timer(
                         delegate
@@ -125,23 +149,17 @@ namespace CSSMinimizeFormToSidebar
                             page.SidebarOverlay.onclick +=
                                 delegate
                                 {
-                                    if (t == null)
-                                        return;
 
+                                    if (DoRestore != null)
+                                        DoRestore();
 
-                                    style.webkitTransition = "all 0.3s linear";
+                                };
 
-                                    t.style.transform = "scale(1)";
-
-                                    t.style.left = old.Left.Max(page.Sidebar.clientWidth + 12) + "px";
-                                    t.style.top = old.Top + "px";
-
-                                    //t.style.Opacity = 1;
-                                    f.Opacity = 1;
-                                    t = null;
-                                    page.SidebarInfo.style.marginTop = (0) + "px";
-
-
+                            f.Resize +=
+                                delegate
+                                {
+                                    if (DoRestore != null)
+                                        DoRestore();
                                 };
                         }
                     );
@@ -181,6 +199,9 @@ namespace CSSMinimizeFormToSidebar
                     //t.style.Opacity = 0.5;
 
                     f.Opacity = 0.5;
+
+                    IsMinimized = true;
+
                 };
             #endregion
 
@@ -192,8 +213,12 @@ namespace CSSMinimizeFormToSidebar
                         return;
 
                     if (IsMinimized)
-                        return;
+                    {
 
+
+
+                        return;
+                    }
 
 
                     if (tt.offsetLeft < page.Sidebar.clientWidth)
