@@ -34,9 +34,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
                     if (a.StartsWith("/"))
                         a = a.Substring(1);
 
-                    var i = a.IndexOf(":");
-                    if (i > 0)
-                        a = a.Substring(0, i);
+                    {
+                        var i = a.IndexOf(":");
+                        if (i > 0)
+                            a = a.Substring(0, i);
+                    }
+                    //               Caused by: java.net.UnknownHostException: 192.168.1.103/192.168.1.103
+                    //      at java.net.InetAddress.lookupHostByName(InetAddress.java:506)
+                    //      at java.net.InetAddress.getAllByNameImpl(InetAddress.java:294)
+                    //      at java.net.InetAddress.getByName(InetAddress.java:325)
+                    //      at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__Socket.get_RemoteEndPoint(__Socket.java:53)
+                    //      ... 20 more
+                    //}
+
+                    {
+                        var i = a.IndexOf("/");
+                        if (i > 0)
+                            a = a.Substring(0, i);
+                    }
 
                     RemoteSocketAddress = InetAddress.getByName(a);
 
