@@ -6,101 +6,132 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 {
-	[Script(Implements = typeof(global::System.Threading.Thread))]
-	internal class __Thread
-	{
-		public Thread InternalValue;
+    [Script(Implements = typeof(global::System.Threading.Thread))]
+    internal class __Thread
+    {
+        public Thread InternalValue;
 
-		[Script]
-		class RunnableHandler : Runnable
-		{
-			public global::System.Threading.ThreadStart Handler;
+        [Script]
+        class RunnableHandler : Runnable
+        {
+            public Action Handler;
 
-			public void run()
-			{
-				Handler();
-			}
-		}
+            public void run()
+            {
+                Handler();
+            }
+        }
 
-		internal __Thread()
-		{
+        internal __Thread()
+        {
 
-		}
+        }
 
-		public __Thread(global::System.Threading.ThreadStart t)
-		{
-			InternalValue = new java.lang.Thread(new RunnableHandler { Handler = t });
-		}
+        public __Thread(global::System.Threading.ThreadStart t)
+        {
+            InternalValue = new java.lang.Thread(
+                new RunnableHandler
+                {
+                    Handler =
+                        delegate
+                        {
+                            t();
+                        }
+                }
+            );
+        }
 
-		public static void Sleep(int millisecondsTimeout)
-		{
-			try
-			{
-				Thread.sleep(millisecondsTimeout);
-			}
-			catch
-			{
+        public __Thread(global::System.Threading.ParameterizedThreadStart t)
+        {
+            InternalValue = new java.lang.Thread(
+                      new RunnableHandler
+                      {
+                          Handler =
+                              delegate
+                              {
+                                  t(InternalParameterizedThreadStart);
+                              }
+                      }
+                  );
+        }
 
-				throw;
-			}
-		}
+        public static void Sleep(int millisecondsTimeout)
+        {
+            try
+            {
+                Thread.sleep(millisecondsTimeout);
+            }
+            catch
+            {
 
-		public void Start()
-		{
-			InternalValue.start();
-		}
+                throw;
+            }
+        }
 
-		public string Name
-		{
-			get
-			{
-				return InternalValue.getName();
-			}
-			set
-			{
-				InternalValue.setName(value);
-			}
-		}
+        public object InternalParameterizedThreadStart;
 
-		public bool IsAlive
-		{
-			get
-			{
-				return InternalValue.isAlive();
-			}
-		}
+        public void Start(object parameter)
+        {
+            InternalParameterizedThreadStart = parameter;
+            InternalValue.start();
+        }
 
-		public bool IsBackground { get { return InternalValue.isDaemon(); } set { InternalValue.setDaemon(value); } }
+        public void Start()
+        {
+            InternalValue.start();
+        }
 
-		public void Join()
-		{
-			try
-			{
-				InternalValue.join();
-			}
-			catch
-			{
-				throw;
-			}
-		}
+        public string Name
+        {
+            get
+            {
+                return InternalValue.getName();
+            }
+            set
+            {
+                InternalValue.setName(value);
+            }
+        }
 
-		public bool Join(int ms)
-		{
-			try
-			{
-				InternalValue.join(ms);
-			}
-			catch
-			{
-				throw;
-			}
+        public bool IsAlive
+        {
+            get
+            {
+                return InternalValue.isAlive();
+            }
+        }
 
-			return !InternalValue.isAlive();
-		}
+        public bool IsBackground { get { return InternalValue.isDaemon(); } set { InternalValue.setDaemon(value); } }
 
-		public void Abort()
-		{
-			InternalValue.stop();
-		}
-	}
+        public void Join()
+        {
+            try
+            {
+                InternalValue.join();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public bool Join(int ms)
+        {
+            try
+            {
+                InternalValue.join(ms);
+            }
+            catch
+            {
+                throw;
+            }
+
+            return !InternalValue.isAlive();
+        }
+
+        public void Abort()
+        {
+            InternalValue.stop();
+        }
+    }
 }
