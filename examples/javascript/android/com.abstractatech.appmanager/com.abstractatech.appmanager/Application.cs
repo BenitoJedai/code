@@ -82,7 +82,9 @@ namespace com.abstractatech.appmanager
 
                     var a = new AppPreview();
 
-                    a.Icon.src = "data:image/png;base64," + icon_base64;
+                    //a.Icon.src = new DefaultIcon().src;
+
+                    //a.Icon.src = "data:image/png;base64," + icon_base64;
                     a.Label.innerText = label;
 
                     a.Container.AttachTo(page.ScrollArea);
@@ -109,7 +111,7 @@ namespace com.abstractatech.appmanager
                             f.Show();
 
 
-                            //f.PopupInsteadOfClosing();
+                            f.PopupInsteadOfClosing(HandleFormClosing: false);
 
                             content.Label.Text = label;
                             content.Package.Text = packageName;
@@ -155,7 +157,24 @@ namespace com.abstractatech.appmanager
 
                                     service.Launch(
                                         packageName,
-                                        name
+                                        name,
+
+                                        yield_port:
+                                            port =>
+                                            {
+                                                var uri = Native.Document.location.protocol
+                                                    + "//"
+                                                    + Native.Document.location.host.TakeUntilIfAny(":")
+                                                    + ":" + port;
+
+                                                var w = new WebBrowser();
+
+                                                f.Controls.Add(w);
+                                                w.Dock = DockStyle.Fill;
+                                                w.Navigate(uri);
+
+                                                f.ClientSize = content.Size;
+                                            }
                                     );
 
                                 };

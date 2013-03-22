@@ -262,8 +262,17 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Text\UTF8Encoding.cs">
       <Link>BCLImplementation\System\Text\UTF8Encoding.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\AutoResetEvent.cs">
+      <Link>BCLImplementation\System\Threading\AutoResetEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\EventWaitHandle.cs">
+      <Link>BCLImplementation\System\Threading\EventWaitHandle.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs">
       <Link>BCLImplementation\System\Threading\Thread.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\WaitHandle.cs">
+      <Link>BCLImplementation\System\Threading\WaitHandle.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\TimeSpan.cs">
       <Link>BCLImplementation\System\TimeSpan.cs</Link>

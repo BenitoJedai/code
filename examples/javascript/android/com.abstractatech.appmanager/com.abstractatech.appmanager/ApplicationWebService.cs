@@ -20,6 +20,11 @@ using System.Threading;
 
 namespace com.abstractatech.appmanager
 {
+    class AtWebServiceDiscoveryArguments
+    {
+        public int port;
+    }
+
     // http://developer.android.com/reference/android/content/BroadcastReceiver.html
     [IntentFilter(Action = "ScriptCoreLib.Android.CoreAndroidWebServiceActivity.AtWebServiceDiscovery")]
     public class AtWebServiceDiscovery : BroadcastReceiver
@@ -64,7 +69,9 @@ namespace com.abstractatech.appmanager
 
             if (XCallback != null)
             {
-                XCallback.Start();
+                XCallback.Start(
+                    new AtWebServiceDiscoveryArguments { port = port }
+                );
                 XCallback = null;
             }
         }
@@ -134,32 +141,32 @@ namespace com.abstractatech.appmanager
 
                     var icon_base64 = "";
 
-                    try
-                    {
-                        var icon = pm.getApplicationIcon(r.activityInfo.applicationInfo);
+                    //try
+                    //{
+                    //    var icon = pm.getApplicationIcon(r.activityInfo.applicationInfo);
 
-                        if (icon != null)
-                        {
+                    //    if (icon != null)
+                    //    {
 
-                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                            // bitmap.compress(CompressFormat.PNG, 0, outputStream); 
+                    //        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    //        // bitmap.compress(CompressFormat.PNG, 0, outputStream); 
 
-                            BitmapDrawable bitDw = ((BitmapDrawable)icon);
-                            Bitmap bitmap = bitDw.getBitmap();
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                            var bitmapByte = (byte[])(object)stream.toByteArray();
+                    //        BitmapDrawable bitDw = ((BitmapDrawable)icon);
+                    //        Bitmap bitmap = bitDw.getBitmap();
+                    //        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    //        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    //        var bitmapByte = (byte[])(object)stream.toByteArray();
 
-                            icon_base64 = Convert.ToBase64String(bitmapByte);
+                    //        icon_base64 = Convert.ToBase64String(bitmapByte);
 
-                            //bitmapByte = Base64.encode(bitmapByte,Base64.DEFAULT);
-                            //System.out.println("..length of image..."+bitmapByte.length);
-                        }
-                    }
-                    catch
-                    {
+                    //        //bitmapByte = Base64.encode(bitmapByte,Base64.DEFAULT);
+                    //        //System.out.println("..length of image..."+bitmapByte.length);
+                    //    }
+                    //}
+                    //catch
+                    //{
 
-                    }
+                    //}
 
 
                     yield(
@@ -234,12 +241,15 @@ namespace com.abstractatech.appmanager
                                }
                                );
 
+                   var done = new EventWaitHandle(false, EventResetMode.AutoReset);
+                   AtWebServiceDiscoveryArguments value = null;
 
+                   // tested by X:\jsc.svn\examples\java\CLRJVMThreadAsCallback\CLRJVMThreadAsCallback\Program.cs
                    var yield = new Thread(
-                       delegate()
+                       (object e) =>
                        {
-                           System.Console.WriteLine("callback!...");
-
+                           value = (AtWebServiceDiscoveryArguments)e;
+                           done.Set();
                        }
                    );
 
@@ -253,8 +263,14 @@ namespace com.abstractatech.appmanager
                    System.Console.WriteLine("waiting for callback...");
 
                    // how long shall we wait? what if the app is not a jsc app?
-                   yield.Join(300);
+                   done.WaitOne(500);
+
                    System.Console.WriteLine("waiting for callback... done!");
+
+                   if (value != null)
+                   {
+                       yield_port("" + value.port);
+                   }
                }
             );
 

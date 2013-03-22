@@ -138,6 +138,7 @@
     </Compile>
     <Content Include="Design\AppPreview.htm" />
     <Content Include="Design\DBeforeLogon.png" />
+    <Content Include="Design\DefaultIcon.png" />
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
