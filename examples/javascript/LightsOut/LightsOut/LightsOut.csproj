@@ -129,7 +129,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\Preview.png" />
+    <Content Include="Design\Preview.png" />
     <Content Include="Textures\vistaLogoOff.png" />
     <Content Include="Textures\vistaLogoOn.png" />
   </ItemGroup>
