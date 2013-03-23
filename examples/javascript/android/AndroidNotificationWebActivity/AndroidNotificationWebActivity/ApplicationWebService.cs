@@ -69,8 +69,14 @@ namespace foo
 
             var Title = "Notification!";
 
+            var Title1 = "Notification!";
+
             if (value0.hasExtra("data0"))
                 Title = value0.getStringExtra("data0");
+
+            if (value0.hasExtra("data1"))
+                Title1 = value0.getStringExtra("data1");
+
 
             var myNotification = new Notification(
                 android.R.drawable.star_on,
@@ -90,7 +96,7 @@ namespace foo
             myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
             myNotification.setLatestEventInfo(context,
                     Title,
-                    Title,
+                    Title1,
                pendingIntent);
             notificationManager.notify(1, myNotification);
 
@@ -113,7 +119,7 @@ namespace foo
             return null;
         }
 
- 
+
     }
 
 }

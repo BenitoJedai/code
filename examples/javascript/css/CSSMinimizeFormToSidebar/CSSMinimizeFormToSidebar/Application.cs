@@ -20,7 +20,7 @@ namespace CSSMinimizeFormToSidebar
 {
     public static class ApplicationExtension
     {
-        public static void InitializeSidebarBehaviour(Form f, bool HandleClosed = true)
+        public static global::CSSMinimizeFormToSidebar.HTML.Pages.IApp InitializeSidebarBehaviour(Form f, bool HandleClosed = true)
         {
 
             // can we do a dynamic upgrade?
@@ -69,6 +69,8 @@ namespace CSSMinimizeFormToSidebar
             global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
                 newlayout, f, HandleClosed: HandleClosed
             );
+
+            return newlayout;
         }
 
         public static void InitializeSidebarBehaviour(IApp page, Form f, bool HandleClosed = true)

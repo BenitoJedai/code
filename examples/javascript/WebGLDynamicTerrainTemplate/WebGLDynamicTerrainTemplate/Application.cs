@@ -64,8 +64,17 @@ namespace WebGLDynamicTerrainTemplate
                     {
                         // http://stackoverflow.com/questions/5934538/is-there-a-limitation-on-an-iframe-containing-another-iframe-with-the-same-url
 
-                        var parentlocation = "" + parent.document.location;
-                        Console.WriteLine(new { parentlocation });
+                        var parentlocation = "";
+
+                        try
+                        {
+                            parentlocation = parent.document.location.href;
+                            Console.WriteLine(new { parentlocation });
+                        }
+                        catch
+                        {
+                            // we are sandboxed!
+                        }
 
                         if (parentlocation.TakeUntilIfAny("#") == location.TakeUntilIfAny("#"))
                         {

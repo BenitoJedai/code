@@ -24,6 +24,24 @@ namespace GravatarExperiment
             // http://en.gravatar.com/site/implement/hash/
             var hash = Encoding.UTF8.GetBytes(e.ToLower()).ToMD5Bytes().ToHexString();
 
+            // android needs attention
+            // Implementation not found for type import :
+            // type: System.Security.Cryptography.MD5CryptoServiceProvider
+            // method: Void .ctor()
+            // Did you forget to add the [Script] attribute?
+            // Please double check the signature!
+
+            // type: ScriptCoreLib.Ultra.Library.Extensions.CryptographyExtensions
+            // offset: 0x0001
+            //  method:Byte[] ToMD5Bytes(Byte[])
+            //System.NotSupportedException:
+
+            // Implementation not found for type import :
+            // type: System.Security.Cryptography.MD5CryptoServiceProvider
+            // method: Void .ctor()
+            // Did you forget to add the [Script] attribute?
+            // Please double check the signature!
+
 
 
             avatar("http://www.gravatar.com/avatar/" + hash);
