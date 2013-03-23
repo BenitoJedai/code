@@ -85,6 +85,21 @@ namespace com.abstractatech.appmanager
         string label = ""
     );
 
+
+
+    // http://stackoverflow.com/questions/7470314/receiving-package-install-and-uninstall-events
+
+    //[IntentFilter(Action = Intent.ACTION_PACKAGE_REPLACED)]
+    //[IntentFilter(Action = Intent.ACTION_PACKAGE_INSTALL)]
+    //public class AtInstall : BroadcastReceiver
+    //{
+    //    public override void onReceive(Context arg0, Intent arg1)
+    //    {
+    //        var context = ThreadLocalContextReference.CurrentContext;
+
+    //    }
+    //}
+
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
@@ -261,6 +276,17 @@ namespace com.abstractatech.appmanager
 
         }
 
+
+        public void Remove(string packageName, string name)
+        {
+            // http://stackoverflow.com/questions/6813322/install-uninstall-apks-programmatically-packagemanager-vs-intents
+            var context = ThreadLocalContextReference.CurrentContext;
+            // http://stackoverflow.com/questions/8228365/how-do-i-remove-any-app-from-a-device-using-my-app-in-android
+            // http://stackoverflow.com/questions/6049622/action-delete-android
+            Intent intent = new Intent(Intent.ACTION_DELETE);
+            intent.setData(global::android.net.Uri.parse("package:" + packageName));
+            context.startActivity(intent);
+        }
 
 
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
