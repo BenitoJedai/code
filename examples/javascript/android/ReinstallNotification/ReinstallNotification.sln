@@ -3,16 +3,71 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReinstallNotification", "ReinstallNotification\ReinstallNotification.csproj", "{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F2961EB9-E6E8-43B4-88B7-A1478E74B5A4}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|Any CPU = Android|Any CPU
+		Android|Mixed Platforms = Android|Mixed Platforms
+		Android|x86 = Android|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		PHP|Any CPU = PHP|Any CPU
+		PHP|Mixed Platforms = PHP|Mixed Platforms
+		PHP|x86 = PHP|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Android|Any CPU.ActiveCfg = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Android|Mixed Platforms.Build.0 = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Android|x86.ActiveCfg = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Android|x86.Build.0 = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Debug|x86.ActiveCfg = Debug|x86
 		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Debug|x86.Build.0 = Debug|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.PHP|Any CPU.ActiveCfg = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.PHP|x86.ActiveCfg = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.PHP|x86.Build.0 = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Release|Any CPU.ActiveCfg = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Release|Mixed Platforms.Build.0 = Release|x86
 		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Release|x86.ActiveCfg = Release|x86
 		{5EC07FC9-A4CF-4398-BB01-9E16C0F80EF8}.Release|x86.Build.0 = Release|x86
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|x86.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.Build.0 = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|x86.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

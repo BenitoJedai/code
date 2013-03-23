@@ -17,6 +17,7 @@ using System.Text;
 using System.Web;
 using System.Xml.Linq;
 using System.Threading;
+using System.Diagnostics;
 
 namespace com.abstractatech.appmanager
 {
@@ -83,22 +84,14 @@ namespace com.abstractatech.appmanager
         string IsCoreAndroidWebServiceActivity = "",
 
         string label = ""
+
+
+
     );
 
 
 
-    // http://stackoverflow.com/questions/7470314/receiving-package-install-and-uninstall-events
 
-    //[IntentFilter(Action = Intent.ACTION_PACKAGE_REPLACED)]
-    //[IntentFilter(Action = Intent.ACTION_PACKAGE_INSTALL)]
-    //public class AtInstall : BroadcastReceiver
-    //{
-    //    public override void onReceive(Context arg0, Intent arg1)
-    //    {
-    //        var context = ThreadLocalContextReference.CurrentContext;
-
-    //    }
-    //}
 
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -120,8 +113,6 @@ namespace com.abstractatech.appmanager
             // https://play.google.com/store/apps/details?id=com.flopcode.android.inspector
 
 
-            var context = ThreadLocalContextReference.CurrentContext;
-            var pm = context.getPackageManager();
 
 
             //            Caused by: java.net.SocketException: Broken pipe
@@ -131,6 +122,8 @@ namespace com.abstractatech.appmanager
             //ny.luni.net.PlainSocketImpl.write(PlainSocketImpl.java:472)
             //       at org.apache.harmony.luni.net.SocketOutputStream.write(SocketOutputStream.java:57)
 
+            var context = ThreadLocalContextReference.CurrentContext;
+            var pm = context.getPackageManager();
 
             lock (ApplicationPackageManagerLock)
                 context
@@ -143,13 +136,6 @@ namespace com.abstractatech.appmanager
                     )
                     .ThenBy(
                         r => (string)(object)pm.getApplicationLabel(r.activityInfo.applicationInfo))
-                    // do we have skip yet?
-
-     //Implementation not found for type import :
-                    //type: System.Linq.Enumerable
-                    //method: System.Collections.Generic.IEnumerable`1[android.content.pm.ResolveInfo] Skip[ResolveInfo](System.Collections.Generic.IEnumerable`1[android.content.pm.ResolveInfo], Int32)
-                    //Did you forget to add the [Script] attribute?
-                    //Please double check the signature!
 
                     .Skip(int.Parse(skip))
                     .Take(int.Parse(take))
@@ -159,11 +145,6 @@ namespace com.abstractatech.appmanager
                         // http://stackoverflow.com/questions/6344694/get-foreground-application-icon-convert-to-base64
 
                         var label = (string)(object)pm.getApplicationLabel(r.activityInfo.applicationInfo);
-
-                        var icon_base64 = "";
-
-                        ;
-
 
                         yield(
                             r.activityInfo.applicationInfo.packageName,
@@ -445,6 +426,135 @@ namespace com.abstractatech.appmanager
 
         public static object ApplicationPackageManagerLock = new object();
 
+
+
+
+        #region poll_oninstall
+        int sync_SelectContentUpdates_timeout = 5000;
+        int sync_SelectContentUpdates_waitmin = 100;
+        int sync_SelectContentUpdates_waitrandom = 300;
+
+
+        // jsc could upgrade this method to use EventSource?
+        // async yield?
+        public void poll_oninstall(string last_id, yield_ACTION_MAIN yield, Action<string> yield_last_id)
+        {
+            System.Console.WriteLine("enter poll_oninstall " + new { last_id });
+
+            if (last_id == "")
+            {
+                yield_last_id("" + AtInstall.History.Count);
+                return;
+            }
+
+
+
+            var int_last_id = int.Parse(last_id);
+
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var random = new Random();
+
+
+            // will this compile?
+
+
+            while (sw.IsRunning)
+            {
+                var id = int_last_id;
+
+                //sync.SelectTransaction(
+                //    nid => id = (int)nid
+                //);
+
+                id = AtInstall.History.Count;
+
+
+                //                type: System.Random
+                //method: Int32 Next(Int32)
+                var wait = sync_SelectContentUpdates_waitmin + random.Next(0, sync_SelectContentUpdates_waitrandom);
+
+                //Console.WriteLine("SelectTransaction " + new { id, int_last_id, sw.ElapsedMilliseconds });
+                if (id == int_last_id)
+                {
+                    Thread.Sleep(wait);
+                }
+                else
+                {
+                    // dont stop reading...
+                    //sw.Stop();
+
+                    //var value = new PointerSyncQueries.SelectContentUpdates
+                    //{
+                    //    FromTransaction = int_last_id,
+                    //    ToTransaction = (int)id
+                    //};
+
+                    //sync.SelectContentUpdates(
+                    //    value: value,
+                    //    yield: message =>
+                    //    {
+
+                    //        yield(XElement.Parse(message));
+                    //    }
+                    //);
+
+                    System.Console.WriteLine("raise oninstall " + new { int_last_id, id });
+
+                    AtInstall.History.ToArray().Skip(int_last_id).Take(id - int_last_id).WithEach(
+                        packageName =>
+                        {
+                            //var xml = new XElement("oninstall", new XAttribute("packageName", packageName));
+
+                            //// raise oninstall { int_last_id = 1, id = 2 }
+
+                            System.Console.WriteLine("yield " + new { packageName });
+
+
+                            var context = ThreadLocalContextReference.CurrentContext;
+                            var pm = context.getPackageManager();
+
+                            lock (ApplicationPackageManagerLock)
+                                context
+                                    .GetLaunchers()
+                                    .WithEach(
+                                    r =>
+                                    {
+                                        if (r.activityInfo.applicationInfo.packageName != packageName)
+                                            return;
+
+                                        // http://stackoverflow.com/questions/6344694/get-foreground-application-icon-convert-to-base64
+
+                                        var label = (string)(object)pm.getApplicationLabel(r.activityInfo.applicationInfo);
+
+                                        yield(
+                                            r.activityInfo.applicationInfo.packageName,
+                                            r.activityInfo.name,
+
+                                            IsCoreAndroidWebServiceActivity: Convert.ToString(r.IsCoreAndroidWebServiceActivity()),
+                                            label: label
+                                        );
+                                    }
+                                );
+
+                        }
+                    );
+
+                    int_last_id = (int)id;
+
+
+                    // return early
+                    sw.Stop();
+                }
+
+                if (sw.ElapsedMilliseconds >= sync_SelectContentUpdates_timeout)
+                    sw.Stop();
+            }
+
+            yield_last_id("" + int_last_id);
+        }
+        #endregion
     }
 
     static class X
@@ -484,5 +594,78 @@ namespace com.abstractatech.appmanager
             return Enumerable.Range(0, pkgAppsList.size()).Select(i => (ResolveInfo)pkgAppsList.get(i));
 
         }
+    }
+
+
+    //[DefaultEvent("oninstall")]
+    public static class ApplicationWebServiceClientSideExtensions
+    {
+
+        public static void oninstall(this ApplicationWebService service, yield_ACTION_MAIN value)
+        {
+            {
+                // based on X:\jsc.svn\examples\javascript\android\MultiMouse\com.abstractatech.multimouse\ApplicationWebService.sync_SelectContentUpdates.cs
+
+                System.Console.WriteLine("ApplicationWebService_oninstall");
+
+                // start polling!    
+
+                // empty string means skip to the end
+                var last_id = "";
+
+                #region async_poll_oninstall
+                var loop_index = 0;
+                Action loop = null;
+
+                loop = delegate
+                {
+                    loop_index++;
+
+                    //talk.innerText = "#" + loop_index + " " + new { last_id };
+
+                    new ScriptCoreLib.JavaScript.Runtime.Timer(
+                        delegate
+                        {
+                            service.poll_oninstall(
+                                last_id: last_id,
+                                yield: value,
+
+                                //{
+                                //    System.Console.WriteLine("async_poll_oninstall yield " + new { xml });
+
+                                //    var packageName = xml.Attribute("packageName").Value;
+
+                                //    //                             Caused by: android.content.ActivityNotFoundException: Unable to find explicit activity class {NASDAQSNA.Activities/NASDAQSNA.Activities}; have you declared this activity in your AndroidManifest.xml?
+                                //    //at android.app.Instrumentation.checkStartActivityResult(Instrumentation.java:1618)
+                                //    //at android.app.Instrumentation.execStartActivity(Instrumentation.java:1417)
+                                //    //at android.app.Activity.startActivityForResult(Activity.java:3370)
+                                //    //at android.app.Activity.startActivityForResult(Activity.java:3331)
+                                //    //at com.abstractatech.appmanager.ApplicationWebService___c__DisplayClassb._Launch_b__9(ApplicationWebService___c__DisplayClassb.java:53)
+
+                                //    value(packageName);
+                                //},
+                                yield_last_id:
+                                    id =>
+                                    {
+                                        // in stream mode this make a while to reach here
+                                        last_id = id;
+
+                                        // this would cause stackoverflow, yet since we are in 
+                                        // clent-server "tail" call it aint.
+                                        loop();
+                                    }
+                            );
+                        }
+                    ).StartTimeout(150);
+                };
+
+                loop();
+                #endregion
+            }
+
+        }
+
+
+
     }
 }

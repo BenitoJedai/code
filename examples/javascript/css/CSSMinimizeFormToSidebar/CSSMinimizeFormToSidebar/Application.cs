@@ -191,7 +191,7 @@ namespace CSSMinimizeFormToSidebar
                     page.SidebarInfo.style.marginTop = (f.Height * scale + 20) + "px";
 
 
-                    style.webkitTransition = "all 0.3s linear";
+                    style.webkitTransition = "all 0.2s linear";
 
                     t.style.transform = "scale(" + scale + ")";
                     t.style.left = "0.2em";

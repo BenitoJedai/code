@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace ReinstallNotification
+namespace ReinstallNotification.Activities
 {
     public partial class ApplicationWebService
     {

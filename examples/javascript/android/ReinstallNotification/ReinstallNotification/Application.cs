@@ -14,14 +14,13 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ReinstallNotification
+namespace ReinstallNotification.Activities
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationControl content = new ApplicationControl();
 
@@ -34,11 +33,7 @@ namespace ReinstallNotification
             content.AttachControlTo(page.Content);
             content.AutoSizeControlTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+      
         }
 
     }
