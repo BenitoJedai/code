@@ -31,8 +31,6 @@ namespace com.abstractatech.appmanager
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IBeforeLogin page)
         {
-            // http://stackoverflow.com/questions/2279978/webview-showing-white-bar-on-right-side
-            // webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
 
 
@@ -55,7 +53,7 @@ namespace com.abstractatech.appmanager
 
                     };
 
-            "App Mngr".ToDocumentTitle();
+            "My Appz".ToDocumentTitle();
         }
 
         public sealed class a
@@ -65,6 +63,8 @@ namespace com.abstractatech.appmanager
 
             public a(IBeforeLogin ee)
             {
+                FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+
                 var ff = new Form { FormBorderStyle = FormBorderStyle.None };
 
 
@@ -72,7 +72,9 @@ namespace com.abstractatech.appmanager
 
 
 
-                ScrollArea.style.backgroundColor = "#185D7B";
+                //ScrollArea.style.backgroundColor = "#185D7B";
+                //ScrollArea.style.backgroundColor = "#185D7B";
+                ScrollArea.style.backgroundColor = "#105070";
 
                 var SidebarWidth = 172;
 
@@ -93,10 +95,17 @@ namespace com.abstractatech.appmanager
 
                 AtResize();
 
-                global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
+                var iii = global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
               ff, HandleClosed: true
           );
-                Native.Document.body.style.backgroundColor = "#105070";
+                iii.SidebarText.className = "AppPreviewText";
+                //iii.SidebarText.innerText = "My Appz";
+                //iii.SidebarText.innerText = "Synchronizing...";
+                var finish = iii.SidebarText.ToASCIIStyledLoadAnimation("My Appz");
+
+
+                //Native.Document.body.style.backgroundColor = "#105070";
+                Native.Document.body.style.backgroundColor = "#185D7B";
 
                 Native.Window.onresize +=
                     delegate
@@ -136,7 +145,7 @@ namespace com.abstractatech.appmanager
                     #region icon
                     if (packageName != "foo")
                     {
-                        icon_throttle += 600;
+                        icon_throttle += 900;
 
                         new ScriptCoreLib.JavaScript.Runtime.Timer(
                             delegate
@@ -184,6 +193,22 @@ namespace com.abstractatech.appmanager
                             f.ClientSize = content.Size;
                             f.Show();
 
+                            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(
+                                f,
+                                HandleFormClosing: false,
+                                SpecialCloseOnLeft: delegate
+                                {
+                                    Console.WriteLine("SpecialCloseOnLeft");
+
+                                    service.Launch(
+                                        packageName,
+                                        name,
+                                        DisableCallbackToken: "true"
+                                    );
+
+                                }
+                            );
+
                             if (CanAutoLaunch && IsCoreAndroidWebServiceActivity)
                             {
 
@@ -226,7 +251,6 @@ namespace com.abstractatech.appmanager
 
 
 
-                                f.PopupInsteadOfClosing(HandleFormClosing: false);
 
                                 content.Label.Text = label;
                                 content.Package.Text = packageName;
@@ -321,14 +345,10 @@ namespace com.abstractatech.appmanager
                 var skip = 0;
                 var take = 32;
 
-                var getmore = "Scroll down for more...";
 
-                //new IHTMLButton { innerText = getmore }.AttachToDocument().With(
-                //  more =>
+
                 {
-                    //more.style.position = IStyle.PositionEnum.@fixed;
-                    //more.style.left = "2px";
-                    //more.style.bottom = "2px";
+
 
                     Action done = delegate { };
 
@@ -386,6 +406,7 @@ namespace com.abstractatech.appmanager
                         }
                         else
                         {
+                            finish();
                             yield_BringToFront = true;
 
                             service.oninstall(yield);
