@@ -232,7 +232,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //container.style.appleDashboardRegion = "dashboard-region(control rectangle)";
 
             #region ContentContainer
-            ContentContainerPadding.title = "ContentContainerPadding";
+            //ContentContainerPadding.title = "ContentContainerPadding";
             ContentContainerPadding.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ContentContainerPadding.style.left = 0 + "px";
             ContentContainerPadding.style.top = (26 + innerborder + 0) + "px";
@@ -240,7 +240,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ContentContainerPadding.style.bottom = 0 + "px";
 
             ContentContainer = new IHTMLDiv().AttachTo(ContentContainerPadding);
-            ContentContainer.title = "ContentContainer";
+            //ContentContainer.title = "ContentContainer";
             ContentContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ContentContainer.style.left = 0 + "px";
             ContentContainer.style.top = 0 + "px";
@@ -250,7 +250,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ContentContainer.style.zIndex = 1000;
 
             var ContentContainerShadow = new IHTMLDiv().AttachTo(ContentContainerPadding);
-            ContentContainerShadow.title = "ContentContainerShadow";
+            //ContentContainerShadow.title = "ContentContainerShadow";
             ContentContainerShadow.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ContentContainerShadow.style.left = 0 + "px";
             ContentContainerShadow.style.top = 0 + "px";
