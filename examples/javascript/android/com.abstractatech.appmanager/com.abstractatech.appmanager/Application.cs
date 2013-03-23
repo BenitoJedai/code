@@ -144,19 +144,14 @@ namespace com.abstractatech.appmanager
 
                     a.Container.AttachTo(ScrollArea);
 
-
-                    #region Clickable
-                    a.Clickable.onclick +=
-                        e =>
+                    #region onclick
+                    Action<bool> onclick =
+                        CanAutoLaunch =>
                         {
                             // close to left sidebar!
                             ff.Close();
 
                             Console.WriteLine(new { label });
-                            e.preventDefault();
-
-
-
                             var content = new ApplicationControl();
 
 
@@ -164,7 +159,7 @@ namespace com.abstractatech.appmanager
                             f.ClientSize = content.Size;
                             f.Show();
 
-                            if (IsCoreAndroidWebServiceActivity)
+                            if (CanAutoLaunch && IsCoreAndroidWebServiceActivity)
                             {
                                 f.Opacity = 0.5;
 
@@ -212,7 +207,19 @@ namespace com.abstractatech.appmanager
 
                                 );
 
+                                content.Uninstall.Click +=
+                                    delegate
+                                    {
+                                        service.Remove(
+                                           packageName,
+                                           name
+                                        );
 
+                                        f.Hide();
+
+                                        // http://www.w3schools.com/cssref/pr_text_text-decoration.asp
+                                        a.Label.style.textDecoration = "line-through";
+                                    };
 
                                 content.Launch.Click +=
                                     delegate
@@ -253,10 +260,24 @@ namespace com.abstractatech.appmanager
 
                                     };
                             }
-
-                            //f.Icon.toh
                         };
                     #endregion
+
+                    a.Clickable.oncontextmenu +=
+                       e =>
+                       {
+                           e.preventDefault();
+
+                           onclick(false);
+                       };
+
+                    a.Clickable.onclick +=
+                        e =>
+                        {
+                            e.preventDefault();
+
+                            onclick(true);
+                        };
 
                 };
                 #endregion
