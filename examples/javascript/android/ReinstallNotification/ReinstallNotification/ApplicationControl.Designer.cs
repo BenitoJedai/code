@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ReinstallNotification
+namespace ReinstallNotification.Activities
 {
     public partial class ApplicationControl
     {
@@ -21,11 +21,13 @@ namespace ReinstallNotification
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.applicationWebServiceWithEvents1 = new ReinstallNotification.Activities.ApplicationWebService_oninstall();
             this.SuspendLayout();
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
+            this.checkBox1.Enabled = false;
             this.checkBox1.Location = new System.Drawing.Point(33, 47);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(146, 17);
@@ -36,6 +38,7 @@ namespace ReinstallNotification
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
+            this.checkBox2.Enabled = false;
             this.checkBox2.Location = new System.Drawing.Point(33, 70);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(122, 17);
@@ -46,6 +49,7 @@ namespace ReinstallNotification
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
+            this.checkBox3.Enabled = false;
             this.checkBox3.Location = new System.Drawing.Point(33, 93);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(96, 17);
@@ -56,12 +60,18 @@ namespace ReinstallNotification
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
+            this.checkBox4.Checked = true;
+            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox4.Location = new System.Drawing.Point(33, 116);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(117, 17);
             this.checkBox4.TabIndex = 3;
             this.checkBox4.Text = "Show MessageBox";
             this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // applicationWebServiceWithEvents1
+            // 
+            this.applicationWebServiceWithEvents1.oninstall += new System.Action<string>(this.applicationWebServiceWithEvents1_oninstall);
             // 
             // ApplicationControl
             // 
@@ -90,6 +100,7 @@ namespace ReinstallNotification
         private CheckBox checkBox2;
         private CheckBox checkBox3;
         private CheckBox checkBox4;
+        private ApplicationWebService_oninstall applicationWebServiceWithEvents1;
 
     }
 }

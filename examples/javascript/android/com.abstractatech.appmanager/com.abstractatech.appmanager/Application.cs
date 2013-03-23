@@ -111,6 +111,10 @@ namespace com.abstractatech.appmanager
 
                 var count = 0;
 
+                var yield_BringToFront = false;
+
+                var icon_throttle = 0;
+
                 #region yield
                 yield_ACTION_MAIN yield = (
                             packageName,
@@ -119,37 +123,58 @@ namespace com.abstractatech.appmanager
                             label
                         ) =>
                 {
+
+                    if (string.IsNullOrEmpty(label))
+                        label = packageName;
+
                     var IsCoreAndroidWebServiceActivity = Convert.ToBoolean(__IsCoreAndroidWebServiceActivity);
 
                     count++;
 
                     var a = new AppPreview();
 
+                    #region icon
                     if (packageName != "foo")
                     {
-                        var i = new IHTMLImage { src = "/icon/" + packageName };
-                        i.InvokeOnComplete(
+                        icon_throttle += 600;
+
+                        new ScriptCoreLib.JavaScript.Runtime.Timer(
                             delegate
                             {
-                                a.Icon.src = i.src;
+                                var i = new IHTMLImage { src = "/icon/" + packageName };
+                                i.InvokeOnComplete(
+                                    delegate
+                                    {
+                                        a.Icon.src = i.src;
+                                    }
+                                );
                             }
-                        );
+                        ).StartTimeout(icon_throttle);
                     }
+                    #endregion
+
 
                     //a.Icon.src = "/icon/" + packageName;
 
                     //a.Icon.src = "data:image/png;base64," + icon_base64;
                     a.Label.innerText = label;
 
+                    if (yield_BringToFront)
+                    {
+                        Console.WriteLine("yield_BringToFront " + new { packageName });
 
-                    a.Container.AttachTo(ScrollArea);
+                        ScrollArea.insertBefore(a.Container, ScrollArea.firstChild);
+                    }
+                    else
+                    {
+                        a.Container.AttachTo(ScrollArea);
+                    }
 
                     #region onclick
                     Action<bool> onclick =
                         CanAutoLaunch =>
                         {
-                            // close to left sidebar!
-                            ff.Close();
+
 
                             Console.WriteLine(new { label });
                             var content = new ApplicationControl();
@@ -161,6 +186,7 @@ namespace com.abstractatech.appmanager
 
                             if (CanAutoLaunch && IsCoreAndroidWebServiceActivity)
                             {
+
                                 f.Opacity = 0.5;
 
                                 var w = new WebBrowser();
@@ -175,6 +201,10 @@ namespace com.abstractatech.appmanager
                                     yield_port:
                                         port =>
                                         {
+                                            // close to left sidebar!
+                                            ff.Close();
+
+
                                             f.Opacity = 1.0;
 
                                             var uri = Native.Document.location.protocol
@@ -243,6 +273,10 @@ namespace com.abstractatech.appmanager
                                             yield_port:
                                                 port =>
                                                 {
+                                                    // close to left sidebar!
+                                                    ff.Close();
+
+
                                                     var uri = Native.Document.location.protocol
                                                         + "//"
                                                         + Native.Document.location.host.TakeUntilIfAny(":")
@@ -301,6 +335,8 @@ namespace com.abstractatech.appmanager
 
                     Action MoveNext = delegate
                     {
+                        icon_throttle = 0;
+
                         //more.disabled = true;
                         //more.innerText = "checking for more...";
 
@@ -347,6 +383,13 @@ namespace com.abstractatech.appmanager
 
                             //      }
                             //);
+                        }
+                        else
+                        {
+                            yield_BringToFront = true;
+
+                            service.oninstall(yield);
+
                         }
                     };
 
