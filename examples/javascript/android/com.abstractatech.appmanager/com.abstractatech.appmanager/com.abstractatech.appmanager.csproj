@@ -134,6 +134,9 @@
     <Reference Include="AndroidNotificationWebActivity.AssetsLibrary">
       <HintPath>..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\bin\staging.AssetsLibrary\AndroidNotificationWebActivity.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="com.abstractatech.appmanager.about.AssetsLibrary">
+      <HintPath>..\com.abstractatech.appmanager.about\bin\staging.AssetsLibrary\com.abstractatech.appmanager.about.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\BeforeLogin.htm" />
@@ -156,12 +159,17 @@
       <Project>{68616df5-ad84-4d65-85c4-35bb96171391}</Project>
       <Name>AndroidNotificationWebActivity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\com.abstractatech.appmanager.about\com.abstractatech.appmanager.about.csproj">
+      <Project>{e0adc786-28c3-44fb-92f6-f2debe6a5ac4}</Project>
+      <Name>com.abstractatech.appmanager.about</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.abstractatech.appmanager.windows\com.abstractatech.appmanager.windows.csproj">
       <Project>{ced99e35-f368-472f-a254-1e479ae860ff}</Project>
       <Name>com.abstractatech.appmanager.windows</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Design\Promotion3D_PAN.skp" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

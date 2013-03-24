@@ -15,6 +15,7 @@ using com.abstractatech.appmanager.Design;
 using com.abstractatech.appmanager.HTML.Pages;
 using com.abstractatech.appmanager.windows;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace com.abstractatech.appmanager
 {
@@ -31,9 +32,12 @@ namespace com.abstractatech.appmanager
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IBeforeLogin page)
         {
+            "My Appz".ToDocumentTitle();
 
 
 
+
+            #region LoginButton
             page.LoginButton.onclick +=
                     delegate
                     {
@@ -52,8 +56,31 @@ namespace com.abstractatech.appmanager
                         s.AttachToDocument();
 
                     };
+            #endregion
 
-            "My Appz".ToDocumentTitle();
+            #region LaunchMyAppz
+            var about = new Cookie("about");
+
+            if (!about.BooleanValue)
+            {
+                var a = new com.abstractatech.appmanager.about.HTML.Pages.App();
+
+                a.Container.AttachToDocument();
+
+                a.LaunchMyAppz.onclick +=
+                    delegate
+                    {
+                        about.BooleanValue = true;
+
+                        a.Container.Orphanize();
+                    };
+
+
+                return;
+            }
+            #endregion
+
+
         }
 
         public sealed class a
@@ -136,7 +163,7 @@ namespace com.abstractatech.appmanager
                     if (string.IsNullOrEmpty(label))
                         label = packageName;
 
-                    var IsCoreAndroidWebServiceActivity = Convert.ToBoolean(__IsCoreAndroidWebServiceActivity);
+                    var IsCoreAndroidWebServiceActivity = System.Convert.ToBoolean(__IsCoreAndroidWebServiceActivity);
 
                     count++;
 
