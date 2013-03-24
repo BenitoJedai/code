@@ -12,7 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using TestNavigationTiming.Design;
 using TestNavigationTiming.HTML.Pages;
-using ScriptCoreLib.JavaScript.TimingAPI;
+//using ScriptCoreLib.JavaScript.TimingAPI;
 
 namespace TestNavigationTiming
 {
@@ -29,11 +29,12 @@ namespace TestNavigationTiming
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            var timing=window.performance.timing;
+            var timing = Native.Window.performance.timing;
             new IHTMLPre
             {
 
-                innerText = new {
+                innerText = new
+                {
                     timing.connectEnd,
                     timing.connectStart,
                     timing.domainLookupEnd,
@@ -55,7 +56,7 @@ namespace TestNavigationTiming
                     timing.secureConnectionStart,
                     timing.unloadEventEnd,
                     timing.unloadEventStart,
-                
+
                 }.ToString().Replace(",", "\n")
             }.AttachToDocument();
             @"Hello world".ToDocumentTitle();
@@ -66,13 +67,14 @@ namespace TestNavigationTiming
             );
         }
 
-        [Script(ExternalTarget = "window")]
-        static XWindow window;
+        //[Script(ExternalTarget = "window")]
+        //static IWindow window;
+        //static XWindow window;
     }
 
-    [Script(HasNoPrototype = true)]
-    class XWindow : IWindow
-    {
-        public Performance performance;
-    }
+    //[Script(HasNoPrototype = true)]
+    //class XWindow : IWindow
+    //{
+    //    public Performance performance;
+    //}
 }

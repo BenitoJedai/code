@@ -20,6 +20,7 @@ namespace ScriptCoreLib.Ultra.Library
             return new CachedFileGenerator(Arguments);
         }
 
+        [Obsolete("This is not safe, .NET keeps updating itself. Cache will break!")]
         public static new CachedFileGeneratorBase CreateForUnqualifiedEnvironment(CachedFileGeneratorBase.Arguments Arguments)
         {
             return new CachedFileGenerator(Arguments, true);
@@ -150,7 +151,7 @@ namespace ScriptCoreLib.Ultra.Library
                               Path.Combine(
                                   SDK.FullName,
                                    "cache/"
-                                    + Version 
+                                    + Version
                                     + "/"
                                   + this.ConstructorArguments.AssamblyFile.Name
                                   + "/"
