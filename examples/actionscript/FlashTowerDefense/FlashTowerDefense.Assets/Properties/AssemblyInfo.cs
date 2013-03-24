@@ -37,4 +37,5 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 
-[assembly: Obfuscation(Feature = @"merge")]
+[assembly: Obfuscation(Feature = @"script")]
+//[assembly: Obfuscation(Feature = @"merge")]
