@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}</ProjectGuid>
+    <ProjectGuid>{98C32548-743D-40BA-828D-50DC347D1736}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Android.Mikandi.ReporoAds</RootNamespace>
