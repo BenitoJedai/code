@@ -1,4 +1,5 @@
 ﻿using android.app;
+using android.widget;
 using ScriptCoreLib.Android.Manifest;
 using System;
 using System.Collections.Generic;
@@ -26,5 +27,8 @@ namespace ScriptCoreLib.Android
             if (ActivityResult != null)
                 ActivityResult(requestCode, resultCode, intent);
         }
+
+
+        public static FrameLayout InternalFloatContainer;
     }
 }
