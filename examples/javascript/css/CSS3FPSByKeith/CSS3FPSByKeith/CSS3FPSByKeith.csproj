@@ -128,11 +128,11 @@
     </Compile>
     <Content Include="Design\App.js" />
     <Content Include="Design\Textures\ceil.jpg" />
+    <Content Include="Design\Textures\map.png" />
     <Content Include="Design\Textures\crate.jpg" />
     <Content Include="Design\Textures\drum.png" />
     <Content Include="Design\Textures\floor.jpg" />
     <Content Include="Design\Textures\gun.png" />
-    <Content Include="Design\Textures\map.png" />
     <Content Include="Design\Textures\mouse.png" />
     <Content Include="Design\Textures\pipe.jpg" />
     <Content Include="Design\Textures\wall.jpg" />
@@ -140,7 +140,9 @@
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToDev11:true
+)
 if $(ConfigurationName)==Release (
 start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
