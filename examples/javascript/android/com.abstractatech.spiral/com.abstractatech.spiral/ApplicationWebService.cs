@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using android.widget;
 using ScriptCoreLib.Android;
 using WebGLSpiral.Shaders;
+using android.content;
 
 namespace com.abstractatech.spiral
 {
@@ -35,10 +36,14 @@ namespace com.abstractatech.spiral
 
         public void Hander(WebServiceHandler h)
         {
-            if (__crazy_workaround == null)
+            if (ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext is Activity)
             {
-                Console.WriteLine("__crazy_workaround");
-                __crazy_workaround = new __InitializeAndroidActivity();
+
+                if (__crazy_workaround == null)
+                {
+                    Console.WriteLine("__crazy_workaround");
+                    __crazy_workaround = new __InitializeAndroidActivity();
+                }
             }
         }
 #endif
@@ -47,9 +52,15 @@ namespace com.abstractatech.spiral
 
     class __InitializeAndroidActivity
     {
-        static __InitializeAndroidActivity()
+        public __InitializeAndroidActivity()
         {
-            Console.WriteLine("StaticInvoke");
+            var isActivity = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext is Activity;
+            var isService = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext is Service;
+
+
+            var t = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.GetType();
+
+            Console.WriteLine("StaticInvoke " + new { isActivity, isService, t });
 
             //  Exception Ljava/lang/RuntimeException; thrown while initializing LTryHideActionbarExperiment/StaticInvoke;
             try
@@ -57,6 +68,22 @@ namespace com.abstractatech.spiral
 
 
                 // https://groups.google.com/forum/?fromgroups=#!topic/android-developers/suLMCWiG0D8
+
+
+                // StaticInvoke { isActivity = false, t = com.abstractatech.spiral.ApplicationWebServiceXWidgetsWindow }
+
+                //(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as Service).With(
+
+                //                public virtual View getChildAt(int value);
+                //public virtual int getChildCount();
+
+                // 
+                //         Caused by: android.view.ViewRoot$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
+                //at android.view.ViewRoot.checkThread(ViewRoot.java:3020)
+                //at android.view.ViewRoot.clearChildFocus(ViewRoot.java:1699)
+
+
+
 
                 (ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as Activity).runOnUiThread(
                     a =>

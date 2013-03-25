@@ -21,8 +21,9 @@ namespace SQLiteWithDataGridView.Library
 
         public string ParentContentKey = "";
 
-        public ApplicationWebService service;
-        //public IApplicationWebService service;
+        //public ApplicationWebService service;
+
+        public IApplicationWebService service;
 
         private void Form1_Load(object sender, EventArgs e)
         {

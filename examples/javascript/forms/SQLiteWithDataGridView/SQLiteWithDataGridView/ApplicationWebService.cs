@@ -14,11 +14,68 @@ using System.Xml.Linq;
 
 namespace SQLiteWithDataGridView
 {
+    public interface IApplicationWebService
+    {
+        // __grid_SelectContent
 
+        void __grid_SelectContent(
+         string e,
+         Action<string, string, string, string> y,
+            /* int? */ string ParentContentKey,
+         Action<string> AtTransactionKey = null,
+         Action<string> AtError = null,
+         Action<string> AtConsole = null
+         );
+
+        // GridExample_UpdateItem
+
+        void GridExample_UpdateItem(
+
+                string ContentKey,
+                string ContentValue,
+                string ContentComment,
+
+                 Action<string> AtTransactionKey = null,
+
+                Action<string> AtConsole = null
+            );
+
+        void GridExample_GetTransactionKeyFor(
+            string e,
+
+            Action<string> y,
+            Action<string> AtConsole = null);
+
+        void GridExample_AddItem(
+            string ContentValue,
+            string ContentComment,
+            /* int? */ string ParentContentKey,
+
+            Action<string> AtContentReferenceKey,
+
+            Action<string> AtConsole = null
+
+            );
+
+        void GridExample_EnumerateItemsChangedBetweenTransactions(
+            /* int? */ string ParentContentKey,
+
+
+            string FromTransaction,
+            string ToTransaction,
+            Action<string, string, string, string> AtContent,
+            Action<string> done,
+
+                Action<string> AtConsole = null
+
+        );
+
+    }
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed partial class ApplicationWebService : Component
+    public sealed partial class ApplicationWebService : Component,
+        IApplicationWebService
     {
         public TheGridTable grid
         {
