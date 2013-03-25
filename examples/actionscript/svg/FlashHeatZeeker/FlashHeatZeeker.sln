@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker", "FlashHeatZeeker\FlashHeatZeeker.csproj", "{8C36076C-7270-4841-BB8B-1C28A24ED1CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarling", "FlashHeatZeekerWithStarling\FlashHeatZeekerWithStarling.csproj", "{F24A122C-5D7A-4E73-837F-7F421FCE7442}"
@@ -141,6 +141,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.TestBot", "FlashHeatZeeker.TestBot\FlashHeatZeeker.TestBot.csproj", "{E6C71081-DF10-42D6-ADF5-884BD537D0DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.PlayerIOBot", "FlashHeatZeeker.PlayerIOBot\FlashHeatZeeker.PlayerIOBot.csproj", "{61E37ADB-F882-462F-80C2-1584051076D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "box2dflash", "..\..\..\..\market\synergy\box2dflash\box2dflash\box2dflash.csproj", "{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1230,6 +1232,26 @@ Global
 		{61E37ADB-F882-462F-80C2-1584051076D2}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
 		{61E37ADB-F882-462F-80C2-1584051076D2}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
 		{61E37ADB-F882-462F-80C2-1584051076D2}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Android|Any CPU.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Android|Mixed Platforms.Build.0 = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Android|x86.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Android|x86.Build.0 = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Debug|x86.ActiveCfg = Debug|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Debug|x86.Build.0 = Debug|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Release|Any CPU.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Release|x86.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.Release|x86.Build.0 = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.ReleaseHerokuPHP|Any CPU.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.ReleaseHerokuPHP|Mixed Platforms.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1264,5 +1286,6 @@ Global
 		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {599F2D93-A905-438E-8896-965B4EC9015D}
 		{3F3896D2-07AB-4DFB-87E3-6139E5D40028} = {599F2D93-A905-438E-8896-965B4EC9015D}
 		{919A6834-7BA5-489D-B8D7-A062E056E5A3} = {599F2D93-A905-438E-8896-965B4EC9015D}
+		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C} = {599F2D93-A905-438E-8896-965B4EC9015D}
 	EndGlobalSection
 EndGlobal
