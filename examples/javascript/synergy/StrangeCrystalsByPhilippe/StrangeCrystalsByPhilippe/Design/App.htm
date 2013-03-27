@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>App</title>
+</head>
+<body style="margin: 0px; overflow: hidden;">
+    <noscript>Error: This Application requires JavaScript.</noscript>
+    <link rel='stylesheet' href='App.css' />
+    <center>
+    <canvas id="c" height="512" width="512"></canvas>
+            </center>
+    <script>
+        var b = document.body;
+        var c = document.getElementsByTagName('canvas')[0];
+        var a = c.getContext('2d');
+        document.body.clientWidth; // fix bug in webkit: http://qfox.nl/weblog/218
+    </script>
+    <script src="AppCode.js"></script>
+
+
+</body>
+</html>
