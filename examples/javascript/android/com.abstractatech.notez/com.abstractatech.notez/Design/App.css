@@ -1,0 +1,21 @@
+.SidebarForButtons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+
+.SidebarButton {
+    display: block;
+    width: 100%;
+    border-width: 0px;
+    background-color: transparent;
+    cursor: pointer;
+    text-align: left;
+    border-bottom: 1px solid rgba(0,0,0, 0.2);
+}
+
+    .SidebarButton:focus, .SidebarButton:hover {
+        color: blue;
+    }
