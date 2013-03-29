@@ -20,32 +20,11 @@ namespace ScriptCoreLib.JavaScript.Controls
     using StringPair = Pair<string, string>;
     using System.Linq;
 
-    [Script]
-    internal abstract class WebResource
-    {
-        public string Value;
-        public string Directory;
 
-        public static implicit operator IHTMLImage(WebResource e)
-        {
-            return new IHTMLImage(e.Directory + "/" + e.Value);
-        }
-    }
 
-    [Script]
     public class TextEditor
     {
 
-        //[Script]
-        //internal class fx : WebResource
-        //{
-        //    public const string Alias = "assets/Abstractatech.JavaScript.TextEditor";
-
-        //    public static implicit operator fx(string Value)
-        //    {
-        //        return new fx { Value = Value, Directory = Alias };
-        //    }
-        //}
 
         // http://download.dojotoolkit.org/release-0.2.2/dojo-0.2.2-widget/demos/widget/Editor.html
         // http://www.dynamicdrive.com/dynamicindex16/richtexteditor/index.htm
@@ -62,9 +41,10 @@ namespace ScriptCoreLib.JavaScript.Controls
 
         public readonly IHTMLDiv Control = new IHTMLDiv();
 
-        IHTMLIFrame Frame = new IHTMLIFrame();
-        IHTMLTextArea Text = new IHTMLTextArea();
+        public IHTMLIFrame Frame = new IHTMLIFrame();
+        public IHTMLTextArea TextArea = new IHTMLTextArea();
 
+        public IHTMLDiv BottomToolbar;
 
 
 
@@ -88,7 +68,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             {
                 _Height = value;
 
-                this.Text.style.height = value + "px";
+                this.TextArea.style.height = value + "px";
                 this.Frame.style.height = value + "px";
 
                 this.DesignerContainer.style.height = (value) + "px";
@@ -96,7 +76,6 @@ namespace ScriptCoreLib.JavaScript.Controls
             }
         }
 
-        [Script]
         public abstract class Popup<T>
         {
             public readonly IHTMLDiv Control = new IHTMLDiv();
@@ -214,7 +193,6 @@ namespace ScriptCoreLib.JavaScript.Controls
             }
         }
 
-        [Script]
         public class PopupMenu : Popup<string>
         {
 
@@ -311,7 +289,6 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-        [Script]
         public class ColorPopup : Popup<Color>
         {
 
@@ -410,8 +387,10 @@ namespace ScriptCoreLib.JavaScript.Controls
         }
 
 
-        IHTMLDiv DesignerContainer = new IHTMLDiv();
-        IHTMLDiv SourceContainer = new IHTMLDiv();
+        public IHTMLDiv DesignerContainer = new IHTMLDiv();
+        public IHTMLDiv SourceContainer = new IHTMLDiv();
+
+        public IHTMLDiv ContainerForBorders;
 
         /// <summary>
         /// spawns a new text editor as a child element
@@ -427,20 +406,20 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             //DesignerContainer.style.padding = "1px";
 
-            SourceContainer.appendChild(this.Text);
+            SourceContainer.appendChild(this.TextArea);
             //cnt2.style.overflow = IStyle.OverflowEnum.hidden;
             //SourceContainer.Hide();
             SourceContainer.style.display = IStyle.DisplayEnum.none;
 
-            this.Text.style.backgroundColor = Color.Transparent;
-            this.Text.style.border = "0";
-            this.Text.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
-            this.Text.style.fontSize = "10pt";
-            this.Text.style.padding = "0";
-            this.Text.style.margin = "0";
-            this.Text.style.overflow = IStyle.OverflowEnum.auto;
-            this.Text.style.display = IStyle.DisplayEnum.block;
-            this.Text.style.width = "100%";
+            this.TextArea.style.backgroundColor = Color.Transparent;
+            this.TextArea.style.border = "0";
+            this.TextArea.style.fontFamily = IStyle.FontFamilyEnum.Consolas;
+            this.TextArea.style.fontSize = "10pt";
+            this.TextArea.style.padding = "0";
+            this.TextArea.style.margin = "0";
+            this.TextArea.style.overflow = IStyle.OverflowEnum.auto;
+            this.TextArea.style.display = IStyle.DisplayEnum.block;
+            this.TextArea.style.width = "100%";
 
 
             //SourceContainer.style.backgroundColor = Color.Yellow;
@@ -461,15 +440,15 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             DesignerContainer.appendChild(this.Frame);
 
-            var btoolbar = new IHTMLDiv();
+            this.BottomToolbar = new IHTMLDiv();
 
             Toolbar.InvokeOnComplete(
                 delegate
                 {
-                    Toolbar.ToBackground(btoolbar);
+                    Toolbar.ToBackground(BottomToolbar);
 
-                    btoolbar.style.backgroundRepeat = "repeat-x";
-                    btoolbar.style.backgroundColor = Color.FromGray(0xcb);
+                    BottomToolbar.style.backgroundRepeat = "repeat-x";
+                    BottomToolbar.style.backgroundColor = Color.FromGray(0xcb);
                 });
 
             ToolbarButton design = null;
@@ -483,11 +462,11 @@ namespace ScriptCoreLib.JavaScript.Controls
             Control.style.backgroundColor = Color.White;
             Control.style.backgroundRepeat = "repeat-x";
 
-            var borders = new IHTMLDiv(ttoolbar, DesignerContainer, SourceContainer, btoolbar);
+            this.ContainerForBorders = new IHTMLDiv(ttoolbar, DesignerContainer, SourceContainer, BottomToolbar);
 
-            borders.style.border = "1px solid gray";
+            ContainerForBorders.style.border = "1px solid gray";
 
-            this.Control.appendChild(borders);
+            this.Control.appendChild(ContainerForBorders);
 
             parent.appendChild(Control);
 
@@ -505,21 +484,14 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             //ttoolbar.appendChild(Spinner);
 
-            //new IXMLHttpRequest(HTTPMethodEnum.GET, "example.html",
-            //    delegate(IXMLHttpRequest r)
-            //    {
-            //        Spinner.FadeOut();
-
-            //        this.Document.body.innerHTML = r.responseText;
-            //    }
-            //);
+   
 
             d.DesignMode = true;
             //d.body.setAttribute("contentEditable", "true");
 
             //d.body.contentEditable = true;
 
-
+            #region ToolbarButton
 
             var bold = AddButton("assets/Abstractatech.JavaScript.TextEditor/bold.gif", "Bold");
             var underline = AddButton("assets/Abstractatech.JavaScript.TextEditor/underline.gif", "Underline");
@@ -642,12 +614,15 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                 ttoolbar.appendChild(v);
             }
+            #endregion
 
+
+            #region ToDesign
             System.Action ToDesign =
                 delegate
                 {
 
-                    this.InternalSetInnerHTML(this.Text.value);
+                    this.InternalSetInnerHTML(this.TextArea.value);
 
                     SourceContainer.style.display = IStyle.DisplayEnum.none;
                     DesignerContainer.style.display = IStyle.DisplayEnum.block;
@@ -662,11 +637,13 @@ namespace ScriptCoreLib.JavaScript.Controls
                         v.Enabled = true;
                     }
                 };
+            #endregion
 
+            #region ToHTML
             System.Action ToHTML =
                 delegate
                 {
-                    this.Text.value = InternalGetInnerHTML();
+                    this.TextArea.value = InternalGetInnerHTML();
 
 
                     DesignerContainer.style.display = IStyle.DisplayEnum.none;
@@ -682,6 +659,8 @@ namespace ScriptCoreLib.JavaScript.Controls
                     }
 
                 };
+            #endregion
+
 
             this._set_IsDesignMode =
                 value =>
@@ -713,10 +692,10 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             design.Enabled = false;
 
-            btoolbar.appendChild(design, html);
+            BottomToolbar.appendChild(design, html);
 
             TopToolbarContainer = ttoolbar;
-            BottomToolbarContainer = btoolbar;
+            BottomToolbarContainer = BottomToolbar;
         }
 
         System.Action<bool> _set_IsDesignMode;
@@ -823,7 +802,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             {
                 if (!_IsDesignMode)
                 {
-                    InternalDocument.body.innerHTML = this.Text.value;
+                    InternalDocument.body.innerHTML = this.TextArea.value;
                 }
 
                 return InternalDocument;
@@ -839,7 +818,6 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-        [Script]
         public class ToolbarButton
         {
             public IHTMLImage Image;
