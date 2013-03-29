@@ -1,7 +1,9 @@
+using com.abstractatech.notez.Schema;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
+using System.Data.SQLite;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -12,14 +14,13 @@ namespace com.abstractatech.notez
     /// </summary>
     public sealed class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
+        SQLiteConnectionStringBuilder ref0;
+
+        XLocalStorage data = new XLocalStorage();
+
+
         public void get_LocalStorage(Action<string, string> add_localStorage, Action done)
         {
-
             #region default text
             var now = DateTime.Now;
 
@@ -43,7 +44,18 @@ namespace com.abstractatech.notez
             #endregion
 
             add_localStorage(yyyymmdd + " Hello world", InnerHTML);
+            data.Select(
+                r =>
+                {
+                    string key = r.ContentKey;
+                    string value = r.ContentValue;
 
+
+                    add_localStorage(key, value);
+                }
+            );
+
+    
             // Send it back to the caller.
             done();
         }
@@ -52,12 +64,15 @@ namespace com.abstractatech.notez
         public void remove_LocalStorage(string key)
         {
             Console.WriteLine("remove_LocalStorage: " + new { key });
+
+            data.Remove(key);
         }
 
         public void set_LocalStorage(string key, string value)
         {
 
             Console.WriteLine("set_LocalStorage: " + new { key, value });
+            data[key] = value;
         }
     }
 }
