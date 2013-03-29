@@ -20,7 +20,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 
 
         static Type DoubleType = typeof(Double);
+
+        static Type Int64Type = typeof(long);
+
         static Type Int32Type = typeof(int);
+
         static Type UInt32Type = typeof(uint);
         static Type StringType = typeof(string);
         static Type BooleanType = typeof(bool);
@@ -32,6 +36,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
                 return true;
 
             if (x is int)
+                return true;
+
+            if (x is long)
                 return true;
 
             if (x is uint)
@@ -94,6 +101,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 
                 return x.CompareTo(y);
             }
+
+            if (a is long)
+                if (b is long)
+                {
+                    var x = (long)a;
+                    var y = (long)b;
+
+                    return x.CompareTo(y);
+                }
+
 
             if (a is int)
                 if (b is int)

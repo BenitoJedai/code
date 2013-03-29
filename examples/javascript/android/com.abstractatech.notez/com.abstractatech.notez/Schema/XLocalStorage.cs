@@ -9,6 +9,7 @@ namespace com.abstractatech.notez.Schema
 {
     public class XLocalStorage : XLocalStorageQueries
     {
+      
         //        { Message = SQL logic error or missing database
 
         //near "ContentKey": syntax error, StackTrace =    at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
