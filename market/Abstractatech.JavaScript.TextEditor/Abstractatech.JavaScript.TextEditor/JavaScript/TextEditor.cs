@@ -45,6 +45,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         public IHTMLTextArea TextArea = new IHTMLTextArea();
 
         public IHTMLDiv BottomToolbar;
+        public IHTMLDiv TopToolbar;
 
 
 
@@ -399,7 +400,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         public TextEditor(IHTMLElement parent)
         {
 
-            var ttoolbar = new IHTMLDiv();
+            this.TopToolbar = new IHTMLDiv();
 
             //this.Control.style.border = "1px solid gray";
 
@@ -462,7 +463,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             Control.style.backgroundColor = Color.White;
             Control.style.backgroundRepeat = "repeat-x";
 
-            this.ContainerForBorders = new IHTMLDiv(ttoolbar, DesignerContainer, SourceContainer, BottomToolbar);
+            this.ContainerForBorders = new IHTMLDiv(TopToolbar, DesignerContainer, SourceContainer, BottomToolbar);
 
             ContainerForBorders.style.border = "1px solid gray";
 
@@ -606,13 +607,13 @@ namespace ScriptCoreLib.JavaScript.Controls
             customize.Control.style.Float = IStyle.FloatEnum.right;
 
 
-            ttoolbar.appendChild(customize);
+            TopToolbar.appendChild(customize);
 
             foreach (ToolbarButton v in tbuttons)
             {
                 v.Button.style.SetSize(24, 24);
 
-                ttoolbar.appendChild(v);
+                TopToolbar.appendChild(v);
             }
             #endregion
 
@@ -694,7 +695,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             BottomToolbar.appendChild(design, html);
 
-            TopToolbarContainer = ttoolbar;
+            TopToolbarContainer = TopToolbar;
             BottomToolbarContainer = BottomToolbar;
         }
 

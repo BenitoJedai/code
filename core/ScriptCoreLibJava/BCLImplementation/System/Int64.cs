@@ -10,6 +10,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		ImplementationType = typeof(java.lang.Long))]
 	internal class __Int64
 	{
+
+        [Script(DefineAsStatic = true)]
+        public long CompareTo(long value)
+        {
+            var v = (long)(object)this;
+
+            if (v < value)
+            {
+                return -1;
+            }
+            if (v > value)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
 		[Script(ExternalTarget = "parseLong")]
 		public static long Parse(string e)
 		{

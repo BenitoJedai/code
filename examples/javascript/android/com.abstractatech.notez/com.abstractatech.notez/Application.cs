@@ -16,6 +16,7 @@ using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.Dynamic;
 using System.Collections.Generic;
+using com.abstractatech.wiki;
 
 namespace com.abstractatech.notez
 {
@@ -80,6 +81,7 @@ namespace com.abstractatech.notez
             // localStorage not available on android webview!
             //E/Web Console( 3751): Uncaught TypeError: Cannot set property '20130329 Hello world' of null at http://192.168.1.107:25459/view-source:32300
 
+            "My Notez".ToDocumentTitle();
 
             var localStorage = new MyLocalStorage
             {
@@ -132,6 +134,18 @@ namespace com.abstractatech.notez
                     text.Control.style.right = "0px";
                     text.Control.style.bottom = "0px";
 
+
+                    Native.Window.onresize +=
+                        delegate
+                        {
+                            var TopToolbarHeight = text.TopToolbar.clientHeight;
+
+                            Console.WriteLine(new { TopToolbarHeight });
+
+                            text.DesignerContainer.style.top = (TopToolbarHeight + 4) + "px";
+                            text.SourceContainer.style.top = (TopToolbarHeight + 4) + "px";
+
+                        };
 
 
                     #region DesignerContainer
