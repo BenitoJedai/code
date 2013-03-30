@@ -10,5 +10,14 @@ namespace android.content
     [Script(IsNative = true)]
     public class ComponentName
     {
+        public ComponentName()
+        {
+
+        }
+
+        public ComponentName(string packageName, string activityName)
+        {
+
+        }
     }
 }

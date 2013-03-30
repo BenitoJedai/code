@@ -154,7 +154,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false /xDisableWebServicePHP:false    /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\xt7\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:10
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false /xDisableWebServicePHP:false    /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\xt7\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:12
 )</PostBuildEvent>
     <PreBuildEvent>
 

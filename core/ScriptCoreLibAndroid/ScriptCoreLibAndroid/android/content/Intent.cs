@@ -39,6 +39,12 @@ namespace android.content
         }
 
         public const string ACTION_VIEW = "android.intent.action.VIEW";
+        public static string ACTION_MAIN;
+        public static string CATEGORY_LAUNCHER;
+        public static int FLAG_ACTIVITY_NEW_TASK;
+        public static int FLAG_ACTIVITY_RESET_TASK_IF_NEEDED;
+        public static int FLAG_ACTIVITY_CLEAR_TOP;
+
 
         public string getAction() { throw null; }
 
@@ -59,6 +65,8 @@ namespace android.content
 
         public Intent()
         { }
+
+
         public Intent(Context packageContext, Class cls)
         { }
 
@@ -66,7 +74,10 @@ namespace android.content
         {
 
         }
+        public Intent(string action)
+        {
 
+        }
         public static Intent createChooser(Intent arg0, string arg1)
         {
             return default(Intent);
@@ -77,7 +88,23 @@ namespace android.content
             throw null;
         }
 
+        public virtual Intent setFlags(int value)
+        {
+            throw null;
+        }
+
         public virtual Intent setAction(string value)
+        {
+            throw null;
+        }
+
+        public Intent setComponent(ComponentName c)
+        {
+            throw null;
+        }
+
+
+        public Intent addCategory(string c)
         {
             throw null;
         }

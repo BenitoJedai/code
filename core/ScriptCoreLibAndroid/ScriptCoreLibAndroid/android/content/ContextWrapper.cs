@@ -40,5 +40,15 @@ namespace android.content
         }
 
 
+
+        public override SharedPreferences getSharedPreferences(string arg0, int arg1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void startActivity(Intent intent)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

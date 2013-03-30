@@ -21,16 +21,13 @@ namespace MineSweeper.js
 
 
 
-        public MineSweeperPanel()
-            : this(16, 16, 0.2, Assets.Default)
-        {
-
-        }
-
         public int ControlWidth;
         public int ControlHeight;
-        public MineSweeperPanel(int ButtonsX, int ButtonsY, double Mines, Assets MyAssets)
+        public MineSweeperPanel(int ButtonsX = 15, int ButtonsY = 16, double Mines = 0.2, Assets MyAssets = null)
         {
+            if (MyAssets == null)
+                MyAssets = Assets.Default;
+
             Control.style.position = IStyle.PositionEnum.relative;
             Control.style.backgroundColor = Color.FromGray(192);
 

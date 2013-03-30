@@ -59,7 +59,10 @@ namespace com.abstractatech.notez
             }
             get
             {
-                return InternalStorage[key];
+                if (InternalStorage.ContainsKey(key))
+                    return InternalStorage[key];
+
+                return "";
             }
         }
     }
@@ -81,14 +84,51 @@ namespace com.abstractatech.notez
             // localStorage not available on android webview!
             //E/Web Console( 3751): Uncaught TypeError: Cannot set property '20130329 Hello world' of null at http://192.168.1.107:25459/view-source:32300
 
+            Console.WriteLine("serial 57770");
+
             "My Notez".ToDocumentTitle();
 
-            var localStorage = new MyLocalStorage
+            var storage = new MyLocalStorage
             {
 
+                //AtRemove = service.remove_LocalStorage,
                 AtRemove = service.remove_LocalStorage,
-                AtSetItem = service.set_LocalStorage
+                AtSetItem =
+                    (key, value) =>
+                    {
+                        "My Notez (pending or offline)".ToDocumentTitle();
+
+                        service.set_LocalStorage(key, value,
+                            yield: delegate
+                            {
+                                "My Notez".ToDocumentTitle();
+                            }
+                        );
+                    }
             };
+
+            Console.WriteLine("Do we have localStorage? [2]");
+
+            Native.Window.localStorage.With(
+                localStorage =>
+                {
+                    Console.WriteLine("This browser has localStorage. Lets sync with that. [2]");
+
+                    for (uint i = 0; i < localStorage.length; i++)
+                    {
+                        var key = localStorage.key(i);
+                        var value = localStorage[key];
+
+                        storage[key] = value;
+                    }
+
+                    // jsc why aint ths working?
+                    //storage.AtRemove += localStorage.removeItem;
+                    storage.AtRemove += key => localStorage.removeItem(key);
+                    storage.AtSetItem += (key, value) => { localStorage[key] = value; };
+
+                }
+            );
 
             #region done
             Action done = delegate
@@ -243,7 +283,7 @@ namespace com.abstractatech.notez
                         {
                             oldtitle = buttons.First().innerText;
 
-                            text.InnerHTML = localStorage[oldtitle];
+                            text.InnerHTML = storage[oldtitle];
                         }
                     };
 
@@ -257,7 +297,7 @@ namespace com.abstractatech.notez
                                   return;
 
                               //Native.Window.localStorage.removeItem(button.innerText);
-                              localStorage.Remove(button.innerText);
+                              storage.Remove(button.innerText);
 
 
                               button.Orphanize();
@@ -305,7 +345,7 @@ namespace com.abstractatech.notez
 
 
                                                text.InnerHTML =
-                                                   localStorage[button.innerText];
+                                                   storage[button.innerText];
                                                //Native.Window.localStorage[button.innerText];
                                                DoRefresh();
 
@@ -317,7 +357,7 @@ namespace com.abstractatech.notez
                                    button.innerText = TitleElement.Value;
 
                                    if (oldtitle != TitleElement.Value)
-                                       localStorage.Remove(oldtitle);
+                                       storage.Remove(oldtitle);
 
                                    //Native.Window.localStorage.removeItem(oldtitle);
 
@@ -325,7 +365,7 @@ namespace com.abstractatech.notez
                                }
 
 
-                               localStorage[TitleElement.Value] = text.InnerHTML;
+                               storage[TitleElement.Value] = text.InnerHTML;
                                //Native.Window.localStorage[TitleElement.Value] = text.InnerHTML;
                                oldtitle = TitleElement.Value;
                                //Console.WriteLine("TitleElement: " + TitleElement.Value);
@@ -349,7 +389,7 @@ namespace com.abstractatech.notez
                     //    localStorage_keys.Add(button_text);
                     //}
 
-                    foreach (var button_text in localStorage.Keys)
+                    foreach (var button_text in storage.Keys)
                     {
 
 
@@ -369,7 +409,7 @@ namespace com.abstractatech.notez
 
                                 text.InnerHTML =
                                     //Native.Window.localStorage[button.innerText];
-                                localStorage[button.innerText];
+                                storage[button.innerText];
 
                                 DoRefresh();
 
@@ -397,16 +437,53 @@ namespace com.abstractatech.notez
                 };
             #endregion
 
+            var tt = default(Timer);
 
+            Action done_timeout = delegate
+            {
+                if (done == null)
+                    return;
 
+                tt.Stop();
+                done();
+                done = null;
+            };
 
 
             service.get_LocalStorage(
                 //add_localStorage: (key, value) => Native.Window.localStorage[key] = value,
-                add_localStorage: (key, value) => localStorage[key] = value,
+                add_localStorage:
+                    (key, value) =>
+                    {
+                        // what if we are resuming from offline edit.
+                        // merge?
 
-                done: done
+
+                        // keep the one we got from localStorage, because it has longer entry?
+                        if (storage[key].Length > value.Length)
+                            return;
+
+                        storage[key] = value;
+                    },
+
+                done: done_timeout
             );
+
+
+            // either server responds in 2000 or we consider us offline...
+            tt = new Timer(
+                delegate
+                {
+                    "My Notez (offline)".ToDocumentTitle();
+
+
+
+                    done_timeout();
+
+                }
+            );
+
+            tt.StartTimeout(3000);
 
         }
 

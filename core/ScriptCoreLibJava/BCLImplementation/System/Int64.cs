@@ -12,7 +12,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	{
 
         [Script(DefineAsStatic = true)]
-        public long CompareTo(long value)
+        public int CompareTo(long value)
         {
             var v = (long)(object)this;
 

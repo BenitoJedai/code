@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.Net;
 using java.net;
+using System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
@@ -13,6 +14,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
     {
         public global::java.net.ServerSocket InternalServerSocket;
         public global::java.net.Socket InternalSocket;
+
+        public void SetSocketOption(SocketOptionLevel optionLevel, SocketOptionName optionName, bool optionValue)
+        {
+            if (optionName == SocketOptionName.ReuseAddress)
+            {
+                if (this.InternalServerSocket != null)
+                {
+                    try
+                    {
+                        //Console.WriteLine("setReuseAddress... " + new { optionValue });
+
+                        this.InternalServerSocket.setReuseAddress(optionValue);
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
 
         public EndPoint RemoteEndPoint
         {

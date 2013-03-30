@@ -73,6 +73,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
             return this.Append(x);
         }
 
+        public int Length
+        {
+            get
+            {
+                return InternalBuffer.length();
+            }
+        }
+
         public override string ToString()
         {
             return InternalBuffer.ToString();

@@ -22,11 +22,6 @@ namespace MineSweeper.js
 
         public readonly IHTMLDiv Control = new IHTMLDiv();
 
-        public MineSweeperControl()
-            : this(24, 16, 0.2, Assets.Default)
-        {
-
-        }
 
         public int ButtonsX { get; private set; }
         public int ButtonsY { get; private set; }
@@ -57,9 +52,19 @@ namespace MineSweeper.js
 
         readonly Assets MyAssets;
 
+
+
+        public MineSweeperControl(int ButtonsX = 24, int ButtonsY = 16, double Mines = 0.2)
+            : this(ButtonsX, ButtonsY, Mines, Assets.Default)
+        {
+
+        }
+
         public MineSweeperControl(int ButtonsX, int ButtonsY, double Mines, Assets MyAssets)
         {
             var sndclick = new click();
+            var sndflag = new flag();
+            var sndexplosion = new explosion();
 
 
             this.MyAssets = MyAssets;
@@ -146,7 +151,8 @@ namespace MineSweeper.js
                     btn.ContextClick +=
                         delegate
                         {
-
+                            sndflag.play();
+                            sndflag = new flag();
 
                             if (MyAssets.numbers.Contains(btn.Source))
                             {
@@ -182,14 +188,9 @@ namespace MineSweeper.js
                         {
                             btn.Enabled = false;
 
-                            var sndclicknext = default(click);
 
-                            if (sndclick != null)
-                            {
-                                sndclick.play();
-                                sndclicknext = new click();
-                                sndclick = null;
-                            }
+                            sndclick.play();
+                            sndclick = new click();
 
                             //sndclick.load();
 
@@ -219,6 +220,9 @@ namespace MineSweeper.js
 
                                 Alive = false;
 
+                                sndexplosion.play();
+                                sndexplosion = new explosion();
+
                                 if (Bang != null)
                                     Bang();
                             }
@@ -240,8 +244,6 @@ namespace MineSweeper.js
 
                             }
 
-                            if (sndclicknext != null)
-                                sndclick = sndclicknext;
 
                         };
                 }
@@ -276,7 +278,6 @@ namespace MineSweeper.js
         readonly List<MineButton> Buttons = new List<MineButton>();
 
 
-        [Script]
         class MineButton : Button
         {
             public bool IsMined;

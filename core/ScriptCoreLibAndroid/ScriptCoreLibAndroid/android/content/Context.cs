@@ -11,6 +11,8 @@ namespace android.content
     [Script(IsNative = true)]
     public abstract class Context
     {
+        public const int MODE_PRIVATE = 0;
+
         public static string NOTIFICATION_SERVICE;
         public static string WINDOW_SERVICE;
 
@@ -23,5 +25,11 @@ namespace android.content
         public abstract Context getApplicationContext();
 
         public abstract ComponentName startService(Intent service);
+
+
+
+        public abstract SharedPreferences getSharedPreferences(string arg0, int arg1);
+
+        public abstract void startActivity(Intent intent);
     }
 }
