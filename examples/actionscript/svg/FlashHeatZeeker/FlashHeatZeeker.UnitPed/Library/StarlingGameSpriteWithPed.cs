@@ -34,6 +34,8 @@ namespace FlashHeatZeeker.UnitPed.Library
 
                 // zombie with a gun?
                 ped_gunstand,
+                ped_gunstand_fire,
+
                 ped_walk1_leftfar,
                 ped_walk2_leftmid,
                 ped_walk3_leftclose,
@@ -80,36 +82,38 @@ namespace FlashHeatZeeker.UnitPed.Library
 
             ped_walkzombie = new WalkFrames
             {
-                ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96, filter: ped_walkzombie_filter),
+                ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 128, filter: ped_walkzombie_filter),
 
-                ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg", innersize: 96, filter: ped_walkzombie_filter),
-                ped_gunstand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_gunstand.svg", innersize: 96, filter: ped_walkzombie_filter),
+                ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand.svg", innersize: 128, filter: ped_walkzombie_filter),
+                ped_gunstand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_gunstand.svg", innersize: 128, filter: ped_walkzombie_filter),
+                ped_gunstand_fire = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_gunstand_fire.svg", innersize: 128),
 
                 // left foot
-                ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", innersize: 96, filter: ped_walkzombie_filter),
-                ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", innersize: 96, filter: ped_walkzombie_filter),
-                ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", innersize: 96, filter: ped_walkzombie_filter),
+                ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", innersize: 128, filter: ped_walkzombie_filter),
+                ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", innersize: 128, filter: ped_walkzombie_filter),
+                ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", innersize: 128, filter: ped_walkzombie_filter),
 
-                ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", flipx: true, innersize: 96, filter: ped_walkzombie_filter),
-                ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", flipx: true, innersize: 96, filter: ped_walkzombie_filter),
-                ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", flipx: true, innersize: 96, filter: ped_walkzombie_filter)
+                ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk1.svg", flipx: true, innersize: 128, filter: ped_walkzombie_filter),
+                ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk2.svg", flipx: true, innersize: 128, filter: ped_walkzombie_filter),
+                ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_stand_walk3.svg", flipx: true, innersize: 128, filter: ped_walkzombie_filter)
             };
 
             ped_walk = new WalkFrames
             {
-                ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 96),
+                ped_down = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_down.svg", innersize: 128),
 
-                ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand.svg", innersize: 96),
-                ped_gunstand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_gunstand.svg", innersize: 96),
+                ped_stand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand.svg", innersize: 128),
+                ped_gunstand = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_gunstand.svg", innersize: 128),
+                ped_gunstand_fire = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_gunstand_fire.svg", innersize: 128),
 
                 // left foot
-                ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk1.svg", innersize: 96),
-                ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk2.svg", innersize: 96),
-                ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk3.svg", innersize: 96),
+                ped_walk1_leftfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk1.svg", innersize: 128),
+                ped_walk2_leftmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk2.svg", innersize: 128),
+                ped_walk3_leftclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk3.svg", innersize: 128),
 
-                ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk1.svg", flipx: true, innersize: 96),
-                ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk2.svg", flipx: true, innersize: 96),
-                ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk3.svg", flipx: true, innersize: 96)
+                ped_walk1x_rightfar = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk1.svg", flipx: true, innersize: 128),
+                ped_walk2x_rightmid = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk2.svg", flipx: true, innersize: 128),
+                ped_walk3x_rightclose = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_normalstand_walk3.svg", flipx: true, innersize: 128)
             };
         }
 

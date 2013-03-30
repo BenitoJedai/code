@@ -5,6 +5,7 @@ using starling.display;
 using starling.textures;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -31,7 +32,7 @@ namespace FlashHeatZeeker.UnitPed.Library
             {
                 var cm = new Matrix();
 
-                cm.translate(-48, -48);
+                cm.translate(-128 / 2, -128 / 2);
                 // how big shall the shadow be?
                 cm.scale(2.0, 2.0);
 
@@ -49,7 +50,7 @@ namespace FlashHeatZeeker.UnitPed.Library
             {
                 var cm = new Matrix();
 
-                cm.translate(-48, -48);
+                cm.translate(-128 / 2, -128 / 2);
                 //cm.scale(2.0, 2.0);
 
                 // physics 0 looks right
@@ -106,8 +107,15 @@ namespace FlashHeatZeeker.UnitPed.Library
                         currentvisual.texture = texframes[2];
                     else
                     {
-                        if (StandWithVisibleGun)
+                        if (StandWithVisibleGunFire.IsRunning 
+                            && StandWithVisibleGunFire.ElapsedMilliseconds < 1000 / 15)
+                        {
                             currentvisual.texture = texframes[4];
+                        }
+                        else if (StandWithVisibleGun)
+                        {
+                            currentvisual.texture = texframes[5];
+                        }
                         else
                             currentvisual.texture = texframes[0];
                     }
@@ -132,6 +140,7 @@ namespace FlashHeatZeeker.UnitPed.Library
 
         public bool WalkLikeZombie;
         public bool StandWithVisibleGun;
+        public Stopwatch StandWithVisibleGunFire = new Stopwatch();
 
         /// <summary>
         /// If everybody walks the same time, look different
@@ -171,6 +180,7 @@ namespace FlashHeatZeeker.UnitPed.Library
                 textures.ped_walk.ped_down(),
                 textures.ped_walkzombie.ped_stand(),
                 textures.ped_walkzombie.ped_down(),
+                textures.ped_walk.ped_gunstand_fire(),
                 textures.ped_walk.ped_gunstand(),
             };
 

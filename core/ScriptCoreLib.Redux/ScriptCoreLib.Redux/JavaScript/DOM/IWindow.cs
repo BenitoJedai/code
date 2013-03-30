@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    public class IWindow : ISink
+    public class IWindow : IEventTarget
     {
         public History history;
 
@@ -113,5 +113,40 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130330-cache-manifest
+
+        public ApplicationCache applicationCache;
+
+        #region event ononline
+        public event System.Action<IEvent> ononline
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "online");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "online");
+            }
+        }
+        #endregion
+
+        #region event ononline
+        public event System.Action<IEvent> onoffline
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "offline");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "offline");
+            }
+        }
+        #endregion
     }
 }

@@ -450,7 +450,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             add
             {
                 base.InternalEvent(true, value,
-                    new ISink.EventNames
+                    new IEventTarget.EventNames
                     {
                         Event = "onmousewheel",
                         EventListener = "DOMMouseScroll",
@@ -463,7 +463,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             remove
             {
                 base.InternalEvent(false, value,
-                    new ISink.EventNames
+                    new IEventTarget.EventNames
                     {
                         Event = "onmousewheel",
                         EventListener = "DOMMouseScroll",

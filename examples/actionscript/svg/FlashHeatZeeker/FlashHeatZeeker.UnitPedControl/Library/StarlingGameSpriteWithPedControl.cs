@@ -7,6 +7,7 @@ using FlashHeatZeeker.StarlingSetup.Library;
 using FlashHeatZeeker.UnitJeepControl.Library;
 using FlashHeatZeeker.UnitPed.Library;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Extensions;
 using starling.display;
 using starling.filters;
 using System;
@@ -25,6 +26,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
         public StarlingGameSpriteWithPedControl()
         {
+            // http://armorgames.com/play/13701/
+
             var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop);
 
             //this.disablephysicsdiagnostics = true;
@@ -176,8 +179,16 @@ namespace FlashHeatZeeker.UnitPedControl.Library
                         {
                             mode_gun = false;
 
+                            (current as PhysicalPed).With(
+                                ped =>
+                                {
+                                    ped.visual.StandWithVisibleGunFire.Restart();
+                                }
+                            );
+
                             sb.snd_shotgun3.play();
 
+                            #region CreateBullet
                             Action<double> CreateBullet =
                                 a =>
                                 {
@@ -221,6 +232,8 @@ namespace FlashHeatZeeker.UnitPedControl.Library
 
                                     var fix = body.CreateFixture(fixDef);
                                 };
+                            #endregion
+
 
                             CreateBullet(-6.DegreesToRadians());
                             CreateBullet(-2.DegreesToRadians());

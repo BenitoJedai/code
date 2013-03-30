@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/core/nsIDOMElement.idl
 	[Script(HasNoPrototype = true)]
-	public class INode : ISink, IEnumerable<INode>
+	public class INode : IEventTarget, IEnumerable<INode>
 	{
 		// http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
         // http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/idl-definitions.html

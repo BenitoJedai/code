@@ -10,24 +10,24 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
     [Script(InternalConstructor = true)]
-    public class IWindow : ISink
+    public class IWindow : IEventTarget
     {
         #region InternalConstructor
         public IWindow()
-		{
-		}
+        {
+        }
 
         private static IWindow InternalConstructor()
-		{
+        {
             IWindow a = Native.Window.open("about:blank", "_blank", 400, 400, false);
 
-			return a;
-		}
+            return a;
+        }
         #endregion
 
         public IFunction Array;
 
- 
+
         public string defaultStatus;
 
         public IHTMLDocument document;
@@ -53,6 +53,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script]
         public class NavigatorInfo
         {
+            // http://www.whatwg.org/specs/web-apps/current-work/multipage/offline.html#dfnReturnLink-0
+            public bool onLine;
+
             public string userAgent;
             public string appVersion;
 
@@ -116,7 +119,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             if (scrollbars)
                 f.push("scrollbars=" + "yes");
             else
-                f.push("scrollbars=" +  "no");
+                f.push("scrollbars=" + "no");
 
 
 
@@ -217,7 +220,23 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             add
             {
+                if (this.document == null)
+                {
+                    // Uncaught TypeError: Cannot read property 'readyState' of undefined 
+                    // X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
+
+
+
+                    // there is no document. nothing to load?
+
+                    // raise the event
+                    value(null);
+                    return;
+                }
+
                 base.InternalEvent(true, value, "load");
+
+  
 
                 if (this.document.readyState == "complete")
                 {
@@ -272,14 +291,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                         value(c);
 
-						// http://stackoverflow.com/questions/276660/how-can-i-override-the-onbeforeunload-dialog-and-replace-it-with-my-own
-						// http://www.coderanch.com/t/419881/HTML-JavaScript/Stopping-onbeforeunload-event
+                        // http://stackoverflow.com/questions/276660/how-can-i-override-the-onbeforeunload-dialog-and-replace-it-with-my-own
+                        // http://www.coderanch.com/t/419881/HTML-JavaScript/Stopping-onbeforeunload-event
 
-						if (c.Text == null)
-						{
-							//e.PreventDefault();
-							return new IFunction("return void(0);").apply(0);
-						}
+                        if (c.Text == null)
+                        {
+                            //e.PreventDefault();
+                            return new IFunction("return void(0);").apply(0);
+                        }
 
                         e.returnValue = c.Text;
 
@@ -406,21 +425,21 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-		/// <summary>
-		/// DatabaseName, DatabaseVersion, DisplayName, EstimatedSize
-		/// 
-		/// see: http://creativepark.net/blog/entry/id/1191
-		/// </summary>
-		public IFunction openDatabase;
+        /// <summary>
+        /// DatabaseName, DatabaseVersion, DisplayName, EstimatedSize
+        /// 
+        /// see: http://creativepark.net/blog/entry/id/1191
+        /// </summary>
+        public IFunction openDatabase;
 
 
 
 
         public event System.Action requestAnimationFrame
-		{
-			[Script(DefineAsStatic = true)]
-			add
-			{
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
                 // https://developer.mozilla.org/en/DOM/window.requestAnimationFrame
 
                 #region requestAnimFrame
@@ -437,12 +456,12 @@ namespace ScriptCoreLib.JavaScript.DOM
                 #endregion
 
                 requestAnimFrame.apply(null, IFunction.OfDelegate(value));
-			}
-			[Script(DefineAsStatic = true)]
-			remove
-			{
-				throw new System.NotSupportedException();
-			}
-		}
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                throw new System.NotSupportedException();
+            }
+        }
     }
 }

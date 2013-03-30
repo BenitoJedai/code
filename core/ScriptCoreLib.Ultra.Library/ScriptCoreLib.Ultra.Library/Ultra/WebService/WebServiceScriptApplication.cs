@@ -15,7 +15,8 @@ namespace ScriptCoreLib.Ultra.WebService
     public static class WebApplicationCacheManifest
     {
         public const string ManifestContentType = "text/cache-manifest";
-        public const string ManifestName = "cache.manifest";
+        public const string ManifestName = "cache-manifest";
+        //public const string ManifestName = "cache.manifest";
     }
 
     public class WebServiceScriptApplication
@@ -57,10 +58,12 @@ namespace ScriptCoreLib.Ultra.WebService
 
             WriteLine(@"<!DOCTYPE HTML>");
             WriteLine(@"<!-- Hello curious person, welcome to the source code. I hope you enjoy your time here. Please close the door after you've gone. --> ");
-            //WriteLine(@"<html manifest=""" + WebApplicationCacheManifest.ManifestName + @""">");
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130330-cache-manifest
+            WriteLine(@"<html manifest=""" + WebApplicationCacheManifest.ManifestName + @""">");
 
             // flash cannot be reloaded for some reason? why?
-            WriteLine(@"<html>");
+            //WriteLine(@"<html>");
             WriteLine(@"<head>");
 
             // do we need this?

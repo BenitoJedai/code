@@ -289,30 +289,35 @@ namespace ScriptCoreLib.Ultra.IDL
                      var KeywordDeleter = default(IDLParserToken);
                      var Keyword_stringifier = default(IDLParserToken);
 
-                     #region readonly
-                     if (pp.Text == "readonly")
+                     // keywords may be in any order, retry for now...
+                     for (int xi = 0; xi < 3; xi++)
                      {
-                         KeywordReadOnly = pp;
-                         pp = pp.SkipTo();
-                     }
-                     #endregion
+                         #region readonly
+                         if (pp.Text == "readonly")
+                         {
+                             KeywordReadOnly = pp;
+                             pp = pp.SkipTo();
+                         }
+                         #endregion
 
 
-                     #region deleter
-                     if (pp.Text == "deleter")
-                     {
-                         KeywordDeleter = pp;
-                         pp = pp.SkipTo();
-                     }
-                     #endregion
+                         #region deleter
+                         if (pp.Text == "deleter")
+                         {
+                             KeywordDeleter = pp;
+                             pp = pp.SkipTo();
+                         }
+                         #endregion
 
-                     #region stringifier
-                     if (pp.Text == "stringifier")
-                     {
-                         Keyword_stringifier = pp;
-                         pp = pp.SkipTo();
+                         #region stringifier
+                         if (pp.Text == "stringifier")
+                         {
+                             Keyword_stringifier = pp;
+                             pp = pp.SkipTo();
+                         }
+                         #endregion
                      }
-                     #endregion
+
 
                      var AnnotationArray = default(IDLMemberAnnotationArray);
 
@@ -493,7 +498,7 @@ namespace ScriptCoreLib.Ultra.IDL
             var Method = new IDLMemberMethod
             {
                 ReturnType = Type,
-                
+
                 KeywordGetter = KeywordGetter,
                 KeywordSetter = KeywordSetter,
                 KeywordStatic = KeywordStatic,

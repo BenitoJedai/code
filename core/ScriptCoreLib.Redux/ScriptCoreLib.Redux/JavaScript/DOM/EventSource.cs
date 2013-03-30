@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     [Script(HasNoPrototype = true, ExternalTarget = "EventSource")]
-    public class EventSource : ISink
+    public class EventSource : IEventTarget
     {
         public EventSource(string url = "/")
         {
