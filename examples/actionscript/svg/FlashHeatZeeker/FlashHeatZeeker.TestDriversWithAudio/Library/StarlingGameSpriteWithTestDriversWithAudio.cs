@@ -1117,6 +1117,10 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                        h =>
                                        {
 
+                                        
+                                                   h.visual.StandWithVisibleGunFire.Restart();
+
+
                                            sb.snd_shotgun3.play();
 
                                            #region CreateBullet

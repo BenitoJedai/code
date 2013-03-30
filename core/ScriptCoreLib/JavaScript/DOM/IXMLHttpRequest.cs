@@ -304,6 +304,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 			get
 			{
 				// note: IE in no-Addon mode will fail
+                // will fail for Web Workers?
+                // X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
+                // http://w3-org.9356.n7.nabble.com/Limited-DOM-in-Web-Workers-td44284.html
 				return IXMLDocument.Parse(responseText);
 			}
 		}

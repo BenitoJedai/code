@@ -5,9 +5,10 @@ using System;
 namespace ScriptCoreLib.JavaScript.DOM
 {
 
-
+    // http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#eventtarget
     [Script(HasNoPrototype = true)]
-    public class ISink
+    //public class ISink
+    public class IEventTarget
     {
         [Script]
         public sealed class EventNames

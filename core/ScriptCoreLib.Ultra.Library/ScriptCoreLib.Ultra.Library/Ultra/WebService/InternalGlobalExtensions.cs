@@ -372,6 +372,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
         private static void WriteCacheManifest(InternalGlobal g, System.Web.HttpApplication that, StringAction WriteLine)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130330-cache-manifest
+
             that.Response.ContentType = WebApplicationCacheManifest.ManifestContentType;
 
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/offline.html
@@ -384,9 +386,13 @@ namespace ScriptCoreLib.Ultra.WebService
             WriteLine(WebApplicationIcon.Icon);
             WriteLine(WebApplicationIcon.Image);
 
+            //Explicit entries
+
+            WriteLine("/");
+            WriteLine("/view-source");
+
             foreach (var item in files)
             {
-                WriteLine("# " + item.Length + " bytes");
 
                 var Command = item.Name;
 
@@ -400,21 +406,24 @@ namespace ScriptCoreLib.Ultra.WebService
                 // we need to figure out how to make the application fit to the cache limits.
                 // we could be optimizing javascript.
 
-                if (Command.EndsWith(".deploy"))
-                    Command = "# " + Command;
-                else if (Command.EndsWith(".swf"))
-                    Command = "# " + Command;
-                else
-                {
-                    bytes += item.Length;
-                }
+                if (Command.EndsWith(".css"))
+                    WriteLine(Command);
 
-                WriteLine(Command);
+
+
             }
 
-            var now = DateTime.Now;
+            WriteLine("");
+            WriteLine("SETTINGS:");
+            WriteLine("prefer-online");
 
-            WriteLine("# jsc: have good day! files: " + files.Length + " bytes: " + bytes);
+            WriteLine("");
+            WriteLine("NETWORK:");
+            WriteLine("*");
+
+            //var now = DateTime.Now;
+
+            //WriteLine("# jsc: have good day! files: " + files.Length + " bytes: " + bytes);
 
             that.CompleteRequest();
         }

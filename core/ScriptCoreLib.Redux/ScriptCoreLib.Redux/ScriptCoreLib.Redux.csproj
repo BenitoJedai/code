@@ -69,6 +69,8 @@
     <Content Include="JavaScript\IDL\!References.htm" />
     <None Include="JavaScript\IDL\TouchEvents.idl" />
     <None Include="JavaScript\IDL\xhr.idl" />
+    <None Include="JavaScript\IDL\offline.idl" />
+    <None Include="JavaScript\IDL\workers.idl" />
     <Content Include="JavaScript\IDL\typedarrays.idl" />
     <Content Include="JavaScript\IDL\webgl.idl" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     [Script(InternalConstructor=true)]
-    public class IActiveX : ISink
+    public class IActiveX : IEventTarget
     {
         public static bool IsSupported
         {
@@ -26,7 +26,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         [Script(HasNoPrototype = true, ExternalTarget = "ActiveXObject")]
-        class InternalIActiveX : ISink
+        class InternalIActiveX : IEventTarget
         {
             public InternalIActiveX(string c)
             {
