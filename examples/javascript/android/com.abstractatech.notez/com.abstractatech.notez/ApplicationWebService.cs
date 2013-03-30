@@ -76,11 +76,15 @@ namespace com.abstractatech.wiki
             data.Remove(key);
         }
 
-        public void set_LocalStorage(string key, string value)
+        public void set_LocalStorage(string key, string value, Action yield = null)
         {
 
             Console.WriteLine("set_LocalStorage: " + new { key, value });
             data[key] = value;
+
+
+            if (yield != null)
+                yield();
         }
     }
 }

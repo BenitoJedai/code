@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.Diagnostics;
 
 namespace MineSweeper.js
 {
@@ -78,14 +79,74 @@ namespace MineSweeper.js
                     return Source;
                 };
 
-            Control.onmousedown += e => mousedown.Value = true;
-            Control.onmouseup += e => mousedown.Value = false;
-            Control.onmouseout += e => mousedown.Value = false;
+            var LongClick = new Stopwatch();
+
+
+
+            Control.ontouchstart += e =>
+            {
+                e.preventDefault();
+                //e.stopImmediatePropagation();
+                e.stopPropagation();
+
+                mousedown.Value = true; LongClick.Start();
+            };
+
+            Control.ontouchmove += e =>
+           {
+               e.preventDefault();
+               //e.stopImmediatePropagation();
+               e.stopPropagation();
+           };
+
+            Control.ontouchend += e =>
+            {
+                e.preventDefault();
+                //e.stopImmediatePropagation();
+                e.stopPropagation();
+
+                mousedown.Value = false; LongClick.Stop();
+
+                if (LongClick.ElapsedMilliseconds > 200)
+                {
+                    if (ContextClick != null)
+                        ContextClick();
+
+                    return;
+                }
+                RaiseClick();
+            };
+
+            Control.onmousedown += e => { e.preventDefault(); mousedown.Value = true; LongClick.Start(); };
+            Control.onmouseup += e => { e.preventDefault(); mousedown.Value = false; LongClick.Stop(); };
+            Control.onmouseout += e => { e.preventDefault(); mousedown.Value = false; LongClick.Stop(); };
+
+            Control.onselectstart +=
+                e =>
+                {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                };
+
+            Control.oncontextmenu +=
+              e =>
+              {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  if (ContextClick != null)
+                      ContextClick();
+
+              };
             Control.onclick +=
                 e =>
                 {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     if (ContextEnabled)
-                        if (e.altKey || e.ctrlKey || e.shiftKey)
+                        if (e.altKey || e.ctrlKey || e.shiftKey || LongClick.ElapsedMilliseconds > 200)
                         {
                             if (ContextClick != null)
                                 ContextClick();

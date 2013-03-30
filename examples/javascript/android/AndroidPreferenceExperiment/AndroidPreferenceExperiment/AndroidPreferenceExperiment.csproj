@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D86318AB-4D84-4F15-96AC-3A2956FF8165}</ProjectGuid>
+    <ProjectGuid>{BB946822-D306-4488-8F29-349E1687D2D0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassicMinesweeper</RootNamespace>
-    <AssemblyName>ClassicMinesweeper</AssemblyName>
+    <RootNamespace>AndroidPreferenceExperiment</RootNamespace>
+    <AssemblyName>AndroidPreferenceExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ClassicMinesweeper.Program</StartupObject>
+    <StartupObject>AndroidPreferenceExperiment.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +40,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -89,15 +90,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
@@ -111,68 +112,25 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ClassicMinesweeper.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ClassicMinesweeper.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidPreferenceExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidPreferenceExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Audio\click.mp3" />
-    <Content Include="Audio\explosion.mp3" />
-    <Content Include="Audio\flag.mp3" />
-    <Content Include="Design\Default.css" />
-    <Content Include="Design\Default.htm" />
-    <Compile Include="Library\Assets.cs" />
-    <Compile Include="Library\Button.cs" />
-    <Compile Include="Library\Extensions.cs" />
-    <Compile Include="Library\MineSweeperControl.cs" />
-    <Compile Include="Library\MineSweeperDemoPage.cs" />
-    <Compile Include="Library\MineSweeperGame.cs" />
-    <Compile Include="Library\MineSweeperPanel.cs" />
-    <Compile Include="Library\RedNumberDisplay.cs" />
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\1.PNG" />
-    <Content Include="Textures\2.PNG" />
-    <Content Include="Textures\3.PNG" />
-    <Content Include="Textures\4.PNG" />
-    <Content Include="Textures\5.PNG" />
-    <Content Include="Textures\6.PNG" />
-    <Content Include="Textures\7.PNG" />
-    <Content Include="Textures\8.PNG" />
-    <Content Include="Textures\button.PNG" />
-    <Content Include="Textures\empty.PNG" />
-    <Content Include="Textures\face_cool.PNG" />
-    <Content Include="Textures\face_dead.PNG" />
-    <Content Include="Textures\face_ok.PNG" />
-    <Content Include="Textures\face_ok_down.PNG" />
-    <Content Include="Textures\face_scared.PNG" />
-    <Content Include="Textures\flag.PNG" />
-    <Content Include="Textures\g_6591cd.gif" />
-    <Content Include="Textures\mine.PNG" />
-    <Content Include="Textures\mine_found.PNG" />
-    <Content Include="Textures\notmine.PNG" />
-    <Content Include="Textures\Preview.png" />
-    <Content Include="Textures\question.PNG" />
-    <Content Include="Textures\red_0.PNG" />
-    <Content Include="Textures\red_1.PNG" />
-    <Content Include="Textures\red_2.PNG" />
-    <Content Include="Textures\red_3.PNG" />
-    <Content Include="Textures\red_4.PNG" />
-    <Content Include="Textures\red_5.PNG" />
-    <Content Include="Textures\red_6.PNG" />
-    <Content Include="Textures\red_7.PNG" />
-    <Content Include="Textures\red_8.PNG" />
-    <Content Include="Textures\red_9.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

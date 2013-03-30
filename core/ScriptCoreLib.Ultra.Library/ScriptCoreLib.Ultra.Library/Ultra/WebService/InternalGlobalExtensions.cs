@@ -375,26 +375,36 @@ namespace ScriptCoreLib.Ultra.WebService
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130330-cache-manifest
 
             that.Response.ContentType = WebApplicationCacheManifest.ManifestContentType;
+            that.Response.AddHeader("Cache-Control", "no-cache, private");
+
+            // http://stackoverflow.com/questions/1715568/how-to-properly-invalidate-an-html5-cache-manifest-for-online-offline-web-apps
+            // Cache-Control: no-cache, private
+
+            #region w
+            var w = new StringBuilder();
 
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/offline.html
 
-            WriteLine("CACHE MANIFEST");
+            w.AppendLine("CACHE MANIFEST");
 
             var files = g.GetFiles();
             var bytes = 0;
 
-            WriteLine(WebApplicationIcon.Icon);
-            WriteLine(WebApplicationIcon.Image);
+            w.AppendLine(WebApplicationIcon.Icon);
+            w.AppendLine(WebApplicationIcon.Image);
 
             //Explicit entries
 
-            WriteLine("/");
-            WriteLine("/view-source");
+            w.AppendLine("/");
+            w.AppendLine("/view-source");
+
 
             foreach (var item in files)
             {
 
                 var Command = item.Name;
+
+                bytes += item.Length;
 
                 // webkit seems to have 5MB limit.
                 // http://groups.google.com/a/chromium.org/group/chromium-html5/browse_thread/thread/e911f18b905d28ee/9f54c8cc1e8afb5d
@@ -407,23 +417,39 @@ namespace ScriptCoreLib.Ultra.WebService
                 // we could be optimizing javascript.
 
                 if (Command.EndsWith(".css"))
-                    WriteLine(Command);
+                    w.AppendLine(Command);
 
 
 
             }
 
-            WriteLine("");
-            WriteLine("SETTINGS:");
-            WriteLine("prefer-online");
+            w.AppendLine("");
+            w.AppendLine("SETTINGS:");
+            w.AppendLine("prefer-online");
 
-            WriteLine("");
-            WriteLine("NETWORK:");
-            WriteLine("*");
+            w.AppendLine("");
+            w.AppendLine("NETWORK:");
+            w.AppendLine("*");
 
-            //var now = DateTime.Now;
+            var now = DateTime.Now;
 
-            //WriteLine("# jsc: have good day! files: " + files.Length + " bytes: " + bytes);
+            // Application Cache Error event: Manifest changed during update, scheduling retry 
+            w.AppendLine("");
+            w.AppendLine("# " + new { bytes });
+            w.AppendLine("");
+            #endregion
+
+            //            Implementation not found for type import :
+            //type: System.Text.StringBuilder
+            //method: Int32 get_Length()
+            //Did you forget to add the [Script] attribute?
+            //Please double check the signature!
+
+
+            that.Response.AddHeader("Content-Length", "" + w.Length);
+            // chrome://appcache-internals/
+            that.Response.Write(w.ToString());
+
 
             that.CompleteRequest();
         }

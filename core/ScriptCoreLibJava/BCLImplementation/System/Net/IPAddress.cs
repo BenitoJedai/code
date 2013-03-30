@@ -14,12 +14,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
         public global::java.net.InetAddress InternalAddress;
 
         public static readonly IPAddress Loopback;
+        public static readonly IPAddress Any;
 
         static __IPAddress()
         {
             // fixme: jsc is too agressive here to inline the static initializer
             // and causes a fault here
             __IPAddress.Loopback = InitializeLoopback();
+
+
+            // http://msdn.microsoft.com/en-us/library/system.net.ipaddress.any.aspx
+
+            try
+            {
+                __IPAddress.Any = (IPAddress)(object)new __IPAddress { InternalAddress = global::java.net.InetAddress.getByName("0.0.0.0") };
+            }
+            catch
+            {
+                throw;
+            }
+
         }
 
         private static IPAddress InitializeLoopback()

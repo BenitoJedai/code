@@ -60,13 +60,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return (global::System.Type)(object)e;
         }
 
+        public string Namespace
+        {
+            get
+            {
+                var p = this.InternalTypeDescription.getPackage();
+
+                if (p != null)
+                    return p.getName();
+
+
+
+                return "";
+            }
+        }
+
         public string FullName
         {
             get
             {
                 var n = InternalFullName;
 
-           
+
 
                 return n;
             }
