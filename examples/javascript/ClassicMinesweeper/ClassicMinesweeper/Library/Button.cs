@@ -89,7 +89,7 @@ namespace MineSweeper.js
                 //e.stopImmediatePropagation();
                 e.stopPropagation();
 
-                mousedown.Value = true; LongClick.Start();
+                mousedown.Value = true; LongClick.Restart();
             };
 
             Control.ontouchmove += e =>
@@ -105,19 +105,22 @@ namespace MineSweeper.js
                 //e.stopImmediatePropagation();
                 e.stopPropagation();
 
-                mousedown.Value = false; LongClick.Stop();
-
-                if (LongClick.ElapsedMilliseconds > 200)
+                if (mousedown.Value)
                 {
-                    if (ContextClick != null)
-                        ContextClick();
+                    mousedown.Value = false; LongClick.Stop();
 
-                    return;
+                    if (LongClick.ElapsedMilliseconds > 200)
+                    {
+                        if (ContextClick != null)
+                            ContextClick();
+
+                        return;
+                    }
+                    RaiseClick();
                 }
-                RaiseClick();
             };
 
-            Control.onmousedown += e => { e.preventDefault(); mousedown.Value = true; LongClick.Start(); };
+            Control.onmousedown += e => { e.preventDefault(); mousedown.Value = true; LongClick.Restart(); };
             Control.onmouseup += e => { e.preventDefault(); mousedown.Value = false; LongClick.Stop(); };
             Control.onmouseout += e => { e.preventDefault(); mousedown.Value = false; LongClick.Stop(); };
 

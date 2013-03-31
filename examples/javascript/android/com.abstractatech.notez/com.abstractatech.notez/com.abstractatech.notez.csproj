@@ -96,10 +96,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -139,6 +135,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Test1.htm" />
     <Content Include="Design\Preview.png" />
     <Content Include="Schema\XLocalStorage\create.sql" />
     <Content Include="Schema\XLocalStorage\insert.sql" />
@@ -154,7 +151,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false /xDisableWebServicePHP:false    /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\xt7\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:12
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false /xDisableWebServicePHP:false    /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\xt7\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:13
 )</PostBuildEvent>
     <PreBuildEvent>
 
