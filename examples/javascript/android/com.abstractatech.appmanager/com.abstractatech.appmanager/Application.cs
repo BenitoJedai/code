@@ -251,6 +251,8 @@ namespace com.abstractatech.appmanager
                                     name,
 
                                     yield_port:
+                                        // we should remember the port
+                                        // to launch it offline via AppCache
                                         port =>
                                         {
                                             // close to left sidebar!

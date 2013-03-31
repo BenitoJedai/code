@@ -272,7 +272,7 @@ namespace com.abstractatech.appmanager
                        System.Console.WriteLine("waiting for callback...");
 
                        // how long shall we wait? what if the app is not a jsc app?
-                       done.WaitOne(500);
+                       done.WaitOne(900);
 
                        System.Console.WriteLine("waiting for callback... done!");
 
@@ -293,6 +293,7 @@ namespace com.abstractatech.appmanager
 
         public void Remove(string packageName, string name)
         {
+#if Android
             // http://stackoverflow.com/questions/6813322/install-uninstall-apks-programmatically-packagemanager-vs-intents
             var context = ThreadLocalContextReference.CurrentContext;
             // http://stackoverflow.com/questions/8228365/how-do-i-remove-any-app-from-a-device-using-my-app-in-android
@@ -300,6 +301,8 @@ namespace com.abstractatech.appmanager
             Intent intent = new Intent(Intent.ACTION_DELETE);
             intent.setData(global::android.net.Uri.parse("package:" + packageName));
             context.startActivity(intent);
+#endif
+
         }
 
 
@@ -396,6 +399,7 @@ namespace com.abstractatech.appmanager
             }
             #endregion
 
+            #region /icon/
             const string icon = "/icon/";
 
             var is_icon = path.StartsWith(icon);
@@ -403,6 +407,7 @@ namespace com.abstractatech.appmanager
             if (is_icon)
             {
 
+#if Android
                 // package will be a keyword and cannot be used as a field name in a closure!
                 // jsc could do some magic!
                 //var package = path.SkipUntilIfAny(icon);
@@ -449,7 +454,11 @@ namespace com.abstractatech.appmanager
 
                         }
                     );
+#endif
+
             }
+            #endregion
+
         }
 
         //#89 java.lang.RuntimeException: Package manager has died

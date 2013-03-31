@@ -48,6 +48,10 @@ namespace com.abstractatech.notez
         {
             set
             {
+                // ignore
+                if (string.IsNullOrWhiteSpace(key))
+                    return;
+
                 if (InternalStorage.ContainsKey(key))
                     if (InternalStorage[key] == value)
                         return;
@@ -73,7 +77,7 @@ namespace com.abstractatech.notez
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        public readonly ApplicationWebServiceWithReplay service = new ApplicationWebServiceWithReplay();
 
         /// <summary>
         /// This is a javascript application.
@@ -86,24 +90,44 @@ namespace com.abstractatech.notez
 
             Console.WriteLine("serial 57770");
 
-            "My Notez".ToDocumentTitle();
+            "My Notez (loading...)".ToDocumentTitle();
+
+
+            service.AtPendingActions +=
+                count =>
+                {
+                    if (service.ServicePending.ElapsedMilliseconds > 500)
+                    {
+                        if (service.ServicePending.ElapsedMilliseconds > 4000)
+                        {
+                            "My Notez (offline)".ToDocumentTitle();
+                            return;
+                        }
+
+                        "My Notez (pending)".ToDocumentTitle();
+                        return;
+                    }
+
+                    "My Notez".ToDocumentTitle();
+                };
+
+            Native.Window.onbeforeunload +=
+                e =>
+                {
+                    if (service.ServicePending.IsRunning)
+                        e.Text = "The changes made here have not yet made it to the server.";
+                };
 
             var storage = new MyLocalStorage
             {
 
-                //AtRemove = service.remove_LocalStorage,
-                AtRemove = service.remove_LocalStorage,
+                AtRemove =
+                    x => service.remove_LocalStorage(x),
+
                 AtSetItem =
                     (key, value) =>
                     {
-                        "My Notez (pending or offline)".ToDocumentTitle();
-
-                        service.set_LocalStorage(key, value,
-                            yield: delegate
-                            {
-                                "My Notez".ToDocumentTitle();
-                            }
-                        );
+                        service.set_LocalStorage(key, value);
                     }
             };
 
@@ -180,7 +204,7 @@ namespace com.abstractatech.notez
                         {
                             var TopToolbarHeight = text.TopToolbar.clientHeight;
 
-                            Console.WriteLine(new { TopToolbarHeight });
+                            //Console.WriteLine(new { TopToolbarHeight });
 
                             text.DesignerContainer.style.top = (TopToolbarHeight + 4) + "px";
                             text.SourceContainer.style.top = (TopToolbarHeight + 4) + "px";
@@ -232,6 +256,7 @@ namespace com.abstractatech.notez
 
                     Action DoRefresh = delegate { };
 
+                    #region DoCreateNew
                     Action DoCreateNew = delegate
                     {
                         oldtitle = "";
@@ -249,14 +274,14 @@ namespace com.abstractatech.notez
                             + mm.ToString().PadLeft(2, '0')
                             + dd.ToString().PadLeft(2, '0');
 
+                        string header = yyyymmdd + @" New Header " + storage.Keys.Count();
 
 
                         text.InnerHTML = @"
-
-<div><font face='Verdana' size='5' color='#0000fc'>" + yyyymmdd + @" This is a header</font></div><div><br /></div><blockquote style='margin: 0 0 0 40px; border: none; padding: 0px;'></blockquote><font face='Verdana'>This is your content.</font>
-
+<div><font face='Verdana' size='5' color='#0000fc'>" + header + @"</font></div><div><br /></div><blockquote style='margin: 0 0 0 40px; border: none; padding: 0px;'></blockquote><font face='Verdana'>This is your content.</font>
             ";
                         #endregion
+
 
 
                         DoRefresh();
@@ -267,13 +292,14 @@ namespace com.abstractatech.notez
                         {
                             DoCreateNew();
                         };
+                    #endregion
 
 
 
 
                     var buttons = new List<IHTMLButton>();
 
-                    Action DoShowSomething = delegate
+                    Action EitherCreateNewOrSelectFirst = delegate
                     {
                         if (buttons.Count == 0)
                         {
@@ -281,9 +307,16 @@ namespace com.abstractatech.notez
                         }
                         else
                         {
-                            oldtitle = buttons.First().innerText;
+                            if (buttons.Any(k => k.innerText == oldtitle))
+                            {
+                                //already selected
+                            }
+                            else
+                            {
+                                oldtitle = buttons.First().innerText;
 
-                            text.InnerHTML = storage[oldtitle];
+                                text.InnerHTML = storage[oldtitle];
+                            }
                         }
                     };
 
@@ -303,7 +336,7 @@ namespace com.abstractatech.notez
                               button.Orphanize();
                               buttons.Remove(button);
 
-                              DoShowSomething();
+                              EitherCreateNewOrSelectFirst();
                           }
                       );
 
@@ -312,6 +345,42 @@ namespace com.abstractatech.notez
 
                     text.BottomToolbar.appendChild(remove_element);
 
+                    #region new_SidebarButton
+                    Func<IHTMLButton> new_SidebarButton =
+                        delegate
+                        {
+                            var button = new IHTMLButton { className = "SidebarButton" }.AttachTo(
+                                           hh.Split.LeftScrollable
+                                        );
+
+                            button.onclick +=
+                                delegate
+                                {
+                                    oldtitle = "";
+                                    text.InnerHTML = storage[button.innerText];
+                                    DoRefresh();
+
+                                };
+
+                            button.oncontextmenu +=
+                               e =>
+                               {
+                                   e.preventDefault();
+
+                                   storage.Remove(button.innerText);
+
+
+                                   button.Orphanize();
+                                   buttons.Remove(button);
+
+                                   EitherCreateNewOrSelectFirst();
+                               };
+
+                            buttons.Add(button);
+
+                            return button;
+                        };
+                    #endregion
 
                     #region DoRefresh
                     DoRefresh = delegate
@@ -322,51 +391,52 @@ namespace com.abstractatech.notez
 
                        var xml = text.Document.body.AsXElement();
 
-                       xml.Elements().FirstOrDefault().With(
+                       // script: error JSC1000: No implementation found for this native method, please implement [static System.String.IsNullOrWhiteSpace(System.String)]
+
+                       xml.Elements().FirstOrDefault(k => !string.IsNullOrWhiteSpace(k.Value)).With(
                            TitleElement =>
                            {
+                               // take no action for no title
+                               if (string.IsNullOrWhiteSpace(TitleElement.Value))
+                                   return;
 
                                // is there a buttn with old title?
 
+
+                               var button = buttons.FirstOrDefault(
+                                   k =>
+                                   {
+                                       if (oldtitle == "")
+                                       {
+                                           return k.innerText == TitleElement.Value;
+                                       }
+
+                                       return k.innerText == oldtitle;
+                                   }
+                               );
+
+                               if (button == null)
+                               {
+                                   button = new_SidebarButton();
+                               }
+
+                               button.innerText = TitleElement.Value;
+
+                               buttons.WithEach(
+                                   x => x.setAttribute("data-active", x == button)
+                               );
+
+
                                if (oldtitle != "")
                                {
-                                   var button = buttons.FirstOrDefault(k => k.innerText == oldtitle);
-
-                                   if (button == null)
-                                   {
-                                       button = new IHTMLButton { className = "SidebarButton" }.AttachTo(
-                                              hh.Split.LeftScrollable
-                                           );
-
-                                       button.onclick +=
-                                           delegate
-                                           {
-                                               oldtitle = "";
-
-
-                                               text.InnerHTML =
-                                                   storage[button.innerText];
-                                               //Native.Window.localStorage[button.innerText];
-                                               DoRefresh();
-
-                                           };
-
-                                       buttons.Add(button);
-                                   }
-
-                                   button.innerText = TitleElement.Value;
-
                                    if (oldtitle != TitleElement.Value)
                                        storage.Remove(oldtitle);
 
-                                   //Native.Window.localStorage.removeItem(oldtitle);
 
-                                   //Native.Window.localStorage[oldtitle] = null;
                                }
 
 
                                storage[TitleElement.Value] = text.InnerHTML;
-                               //Native.Window.localStorage[TitleElement.Value] = text.InnerHTML;
                                oldtitle = TitleElement.Value;
                                //Console.WriteLine("TitleElement: " + TitleElement.Value);
                            }
@@ -378,46 +448,9 @@ namespace com.abstractatech.notez
 
 
 
-
-
-                    //var localStorage_keys = new List<string>();
-
-                    //for (uint i = 0; i < Native.Window.localStorage.length; i++)
-                    //{
-                    //    var button_text = Native.Window.localStorage.key(i);
-
-                    //    localStorage_keys.Add(button_text);
-                    //}
-
                     foreach (var button_text in storage.Keys)
                     {
-
-
-                        var button = new IHTMLButton
-                        {
-                            className = "SidebarButton",
-                            innerText = button_text
-                        }.AttachTo(
-                            hh.Split.LeftScrollable
-                        );
-
-                        button.onclick +=
-                            delegate
-                            {
-                                oldtitle = "";
-
-
-                                text.InnerHTML =
-                                    //Native.Window.localStorage[button.innerText];
-                                storage[button.innerText];
-
-                                DoRefresh();
-
-                            };
-
-                        Console.WriteLine(new { button_text });
-
-                        buttons.Add(button);
+                        new_SidebarButton().innerText = button_text;
                     }
 
 
@@ -430,10 +463,10 @@ namespace com.abstractatech.notez
 
 
                         }
-                    ).StartInterval(1000);
+                    ).StartInterval(500);
 
 
-                    DoShowSomething();
+                    EitherCreateNewOrSelectFirst();
                 };
             #endregion
 
@@ -474,12 +507,7 @@ namespace com.abstractatech.notez
             tt = new Timer(
                 delegate
                 {
-                    "My Notez (offline)".ToDocumentTitle();
-
-
-
                     done_timeout();
-
                 }
             );
 

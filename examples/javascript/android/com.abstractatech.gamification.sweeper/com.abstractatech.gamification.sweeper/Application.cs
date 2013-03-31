@@ -74,6 +74,25 @@ namespace com.abstractatech.gamification.sweeper
                 {
                     Create();
                 };
+
+            Native.Document.body.onselectstart +=
+              e =>
+              {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+              };
+
+            Native.Document.oncontextmenu +=
+              e =>
+              {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+
+
+              };
+
         }
 
     }

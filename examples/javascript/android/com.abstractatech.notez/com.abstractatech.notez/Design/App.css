@@ -19,3 +19,8 @@
     .SidebarButton:focus, .SidebarButton:hover {
         color: blue;
     }
+
+    .SidebarButton[data-active=true] {
+        background-color: blue;
+        color: white;
+    }

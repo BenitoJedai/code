@@ -232,7 +232,27 @@ namespace ScriptCoreLib.Ultra.WebService
                     var apps = g.GetScriptApplications();
                     var app = apps[0];
 
-                    app.WriteTo(Write);
+
+
+
+
+
+
+
+                    var Host = that.Context.Request.Headers["Host"].TakeUntilIfAny(":");
+
+                    var CacheManifest = true;
+
+                    // should disable that for android webview?
+
+                    //if (Host == that.Context.Request.UserHostAddress)
+                    //    CacheManifest = false;
+
+                    //// webdev?
+                    //if ("127.0.0.1" == that.Context.Request.UserHostAddress)
+                    //    CacheManifest = false;
+
+                    app.WriteTo(Write, CacheManifest);
 
                     IsComplete = true;
                     that.CompleteRequest();

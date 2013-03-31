@@ -58,6 +58,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
 
+
+        public static bool IsNullOrWhiteSpace(string e)
+        {
+            if (e == null)
+                return true;
+
+            if (e.Trim() == "")
+                return true;
+
+            return false;
+        }
+
         public static bool IsNullOrEmpty(string e)
         {
             if (e == null)
@@ -232,9 +244,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
         [Script(OptimizedCode = @"return a1.join(a0);")]
-		static public string Join(string a0, string[] a1)
+        static public string Join(string a0, string[] a1)
         {
-			return default(string);
+            return default(string);
         }
 
         [Script(NoDecoration = true)]
@@ -386,10 +398,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(bool);
         }
 
-		public static bool Equals(string a, string b)
-		{
-			return a == b;
-		}
+        public static bool Equals(string a, string b)
+        {
+            return a == b;
+        }
 
         [Script(DefineAsStatic = true)]
         public override bool Equals(object obj)
