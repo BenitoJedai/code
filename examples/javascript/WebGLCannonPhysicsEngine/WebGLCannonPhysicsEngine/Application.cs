@@ -203,7 +203,7 @@ namespace WebGLCannonPhysicsEngine
             mesh.receiveShadow = true;
             scene.add(mesh);
 
-            var renderer = new THREE_WebGLRenderer();
+            var renderer = new THREE_WebGLRenderer(new object());
             renderer.shadowMapEnabled = true;
             renderer.shadowMapSoft = true;
             //renderer.setSize(Native.Window.Width, Native.Window.Height);

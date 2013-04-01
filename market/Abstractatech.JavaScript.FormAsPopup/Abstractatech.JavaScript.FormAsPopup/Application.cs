@@ -45,12 +45,16 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
 namespace Abstractatech.JavaScript.FormAsPopup
 {
+
     public static class FormAsPopupExtensions
     {
+
+
+        // { ExceptionObject = System.MissingMethodException: Method not found: 'Void Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(System.Windows.Forms.Form, Boolean, System.Action)'.
         public static void PopupInsteadOfClosing(
             this Form f,
-            bool HandleFormClosing = true,
-            Action SpecialCloseOnLeft = null
+            bool HandleFormClosing,
+            Action SpecialCloseOnLeft
             )
         {
             __Form __f = f;
@@ -188,13 +192,13 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     var IsNotOnRight = (z.Left + f.Width / 2) < Native.Window.Width;
 
                     if (IsNotOnLeft)
-                    if (IsNotOnRight)
-                    {
-                        Console.WriteLine("still in window: " + z);
-                        // still in the window!
-                        // what about popups?
-                        return;
-                    }
+                        if (IsNotOnRight)
+                        {
+                            Console.WriteLine("still in window: " + z);
+                            // still in the window!
+                            // what about popups?
+                            return;
+                        }
 
                     if (!IsNotOnLeft)
                         if (SpecialCloseOnLeft != null)
@@ -206,7 +210,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                             return;
                         }
 
-                 
+
 
                     Console.WriteLine("close to popup");
                     f.Left = undo_x;
@@ -237,6 +241,16 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     AtClose();
                 };
         }
+
+        // error: System.MissingMethodException: Method not found: 'Void Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(System.Windows.Forms.Form, Boolean, System.Action)'.
+        public static void PopupInsteadOfClosing(
+            this Form f,
+            bool HandleFormClosing = true
+            )
+        {
+            PopupInsteadOfClosing(f, HandleFormClosing, null);
+        }
+
     }
 }
 
