@@ -11,7 +11,8 @@ using System.Xml.Linq;
 using JellyworldExperiment.Library;
 using JellyworldExperiment.Schema;
 
-namespace com.abstractatech.gamification.jellyworldexperiment
+//namespace com.abstractatech.gamification.jellyworldexperiment
+namespace com.abstractatech.gamification.jwe
 {
     public partial class ApplicationWebService
     {

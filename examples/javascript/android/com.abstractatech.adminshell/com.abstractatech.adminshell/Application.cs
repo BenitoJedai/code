@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using com.abstractatech.adminshell.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.Drawing;
+using Abstractatech.JavaScript.FormAsPopup;
 
 namespace com.abstractatech.adminshell
 {

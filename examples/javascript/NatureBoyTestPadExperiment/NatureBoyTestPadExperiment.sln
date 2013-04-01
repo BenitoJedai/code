@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatureBoyTestPadExperiment", "NatureBoyTestPadExperiment\NatureBoyTestPadExperiment.csproj", "{48A0B7BA-BD8F-49EC-858B-09774A8413B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatureBoyTestPadExperiment", "NatureBoyTestPadExperiment\NatureBoyTestPadExperiment.csproj", "{7C790787-CE0B-4918-95D1-63C5F1A90362}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6F3938F5-60E2-4001-956F-B7AFB5C9509D}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,16 +10,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6F3938
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Debug|x86.ActiveCfg = Debug|x86
-		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Debug|x86.Build.0 = Debug|x86
-		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Release|x86.ActiveCfg = Release|x86
-		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Release|x86.Build.0 = Release|x86
+		{7C790787-CE0B-4918-95D1-63C5F1A90362}.Debug|x86.ActiveCfg = Debug|x86
+		{7C790787-CE0B-4918-95D1-63C5F1A90362}.Debug|x86.Build.0 = Debug|x86
+		{7C790787-CE0B-4918-95D1-63C5F1A90362}.Release|x86.ActiveCfg = Release|x86
+		{7C790787-CE0B-4918-95D1-63C5F1A90362}.Release|x86.Build.0 = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Debug|x86.ActiveCfg = Debug|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Debug|x86.Build.0 = Debug|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.ActiveCfg = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
