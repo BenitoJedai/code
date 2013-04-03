@@ -11,6 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.multimous
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5F07E40D-39DE-4FC4-8DAF-AFB2FD92EC57}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|x86 = Android|x86
@@ -45,8 +52,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C} = {6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}
 		{EBBDD7EC-9BF1-4197-844E-E00C47012409} = {6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}
 		{B1337D90-888F-4C00-87C7-00447B28F4F7} = {6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}
+		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C} = {6ACFD3B0-AF2F-4652-90AF-D7071B1A92D9}
 	EndGlobalSection
 EndGlobal

@@ -60,15 +60,15 @@ namespace com.abstractatech.battery
 #else
             set(0);
 
-            Action batteryStatus = delegate
-            {
-                service.batteryStatus(
-                  batteryPct =>
-                  {
-                      set(Convert.ToDouble(batteryPct));
-                  }
-              );
-            };
+        Action batteryStatus = delegate
+        {
+            service.batteryStatus(
+                batteryPct =>
+                {
+                    set(Convert.ToDouble(batteryPct));
+                }
+            );
+        };
 
 
             new ScriptCoreLib.JavaScript.Runtime.Timer(

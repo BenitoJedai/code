@@ -92,6 +92,16 @@ namespace jsc.Library
                         RaiseResolve(k);
                     }
 
+                    if (!BaseDictionary.ContainsKey(k))
+                    {
+                        // what happened? why still no exist?
+
+                        //if (Debugger.IsAttached)
+                        //    Debugger.Break();
+
+                        return default(TValue);
+                    }
+
                     return BaseDictionary[k];
                 }
             }
