@@ -14,36 +14,33 @@ namespace com.abstractatech.battery
     /// </summary>
     public sealed class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
+        Context context = global::ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
+
+
+        // http://developer.android.com/training/monitoring-device-state/battery-monitoring.html
+        // http://davidwalsh.name/battery-api
+        // https://developer.mozilla.org/en-US/docs/DOM/window.navigator.battery
+
+        // Because it's a sticky intent, you don't need to 
+        // register a BroadcastReceiver—by simply 
+        // calling registerReceiver passing in null as the receiver as 
+        // shown in the next snippet, the current battery status 
+        // intent is returned.
+
+
         public void batteryStatus(Action<string> y)
         {
-            // http://developer.android.com/training/monitoring-device-state/battery-monitoring.html
-            // http://davidwalsh.name/battery-api
-            // https://developer.mozilla.org/en-US/docs/DOM/window.navigator.battery
-
-            // Because it's a sticky intent, you don't need to 
-            // register a BroadcastReceiver—by simply 
-            // calling registerReceiver passing in null as the receiver as 
-            // shown in the next snippet, the current battery status 
-            // intent is returned.
-
-            var context = global::ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
-
-            IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            Intent batteryStatus = context.registerReceiver(null, ifilter);
+            var ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+            var batteryStatus = context.registerReceiver(null, ifilter);
 
             int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
             float batteryPct = level / (float)scale;
 
-            // jsc please implement other datatypes :)
             y("" + batteryPct);
         }
 
+        // jsc please implement other datatypes :)
     }
 }
