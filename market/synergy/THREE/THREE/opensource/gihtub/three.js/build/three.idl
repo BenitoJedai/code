@@ -24,6 +24,7 @@ interface THREE.ImageUtilsType
 // this is an anonymous type actually
 interface THREE.ColorUtilsType
 { 
+	// no longer available [Obsolete]
 	void adjustHSV(long color, long x, long y, double z);
 
 };
@@ -46,6 +47,8 @@ interface THREE.PerspectiveCamera
 interface THREE.Scene 
 { 
 	attribute THREE.Fog         fog;
+
+	attribute THREE.Vector3  position;
 
 	void add(any value);
 };
@@ -110,8 +113,19 @@ interface THREE.MeshLambertMaterial
 interface THREE.Object3D
 { 
 	attribute THREE.Vector3  position;
+	attribute THREE.Vector3  rotation;
 };
 
+
+[Constructor(any geometry, any material)]
+interface THREE.Animation 
+{ 
+};
+
+[Constructor(any mesh, any name)]
+interface THREE.SkinnedMesh 
+{ 
+};
 
 [Constructor(any geometry, any material)]
 interface THREE.Mesh 
