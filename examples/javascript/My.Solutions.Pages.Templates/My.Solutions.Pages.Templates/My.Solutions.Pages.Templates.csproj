@@ -242,6 +242,9 @@
     <Reference Include="WebGLCannonPhysicsEngine.AssetsLibrary">
       <HintPath>..\..\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine\bin\staging.AssetsLibrary\WebGLCannonPhysicsEngine.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLBossHarvesterByOutsideOfSociety.AssetsLibrary">
+      <HintPath>..\..\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\bin\staging.AssetsLibrary\WebGLBossHarvesterByOutsideOfSociety.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.css" />
@@ -263,6 +266,10 @@
     <ProjectReference Include="..\..\ArduinoSpiderControlCenter\SpiderModel\SpiderModel.csproj">
       <Project>{3de096e7-b756-452a-b853-bf732acabd70}</Project>
       <Name>SpiderModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety.csproj">
+      <Project>{2dc51f7f-a815-4dbf-9015-8aea1e229b87}</Project>
+      <Name>WebGLBossHarvesterByOutsideOfSociety</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\webgl\WoodsXmasByRobert\WoodsXmasByRobert\WoodsXmasByRobert.csproj">
       <Project>{fa825f4a-f9f2-40eb-a63f-c54e9b34fc7d}</Project>
