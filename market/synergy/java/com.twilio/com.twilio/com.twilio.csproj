@@ -107,7 +107,11 @@
     <Content Include="References\objenesis-1.3.jar" />
     <Content Include="References\readme.txt" />
     <Content Include="References\servlet-api-2.3.jar" />
-    <Content Include="References\twilio-java-sdk-3.3.13.jar" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="X:\opensource\github\twilio-java\src\main\java\**\*.*">
+      <Link>opensource\github\twilio-java\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
