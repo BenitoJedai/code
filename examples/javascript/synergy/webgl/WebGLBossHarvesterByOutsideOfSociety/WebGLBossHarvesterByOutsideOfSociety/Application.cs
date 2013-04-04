@@ -112,28 +112,149 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 			var loader = new THREE_JSONLoader();
 
 
+       
+
+            var harvesterLoaded = IFunction.OfDelegate(
+                new Action<object>(
+                     (geometry) => 
+                     {
+
+                        //console.log("Number of bones: "+geometry.bones.length);
+
+                        var material = new THREE_MeshBasicMaterial( { color: 0xffffff, wireframe: true, opacity: 0.25, transparent: true, skinning: true } );
+
+                        harvesterMesh = new THREE_SkinnedMesh( geometry, material );
+                        scene.add( harvesterMesh );
+
+                        THREE.AnimationHandler.add( geometry.animation );
+                        animation = new THREE_Animation( harvesterMesh, "walk1" );
+                        animation.play();
+
+                        harvesterMesh.rotation.x = -Math.PI/2;
+                        harvesterMesh.rotation.z = -Math.PI/2;
+
+
+                        var skin = harvesterMesh;
+
+                        //setupBones(harvesterMesh);
+
+
+            	        boneArray = [];
+				        boneContainer = new THREE_Object3D();
+
+				        boneContainer.rotation.x = -Math.PI/2;
+				        boneContainer.rotation.z = -Math.PI/2;
+
+				        scene.add(boneContainer);
+
+				        var index = 0;
+				        var material = new THREE_MeshPhongMaterial( { color: 0xff0000 } );
+				
+				        for ( var b = 1; b != skin.bones.length; b++ ) 
+                        {
+					
+					        var bone = skin.bones[ b ];
+
+					        var nc = bone.children.length;
+
+					        for( var c = 0; c != nc; c++ ) {
+						        var child = bone.children[ c ];
+
+						        var size = Math.Min( child.position.length()*0.05, 8);
+						
+						        var cylinder = new THREE_CylinderGeometry( size, 0.1, child.position.length(), 6 );
+					            cylinder.applyMatrix( new THREE_Matrix4().setRotationFromEuler( new THREE_Vector3( Math.PI / 2, 0, 0 ) ) );
+
+						        cylinder.applyMatrix( new THREE_Matrix4().setPosition( new THREE_Vector3( 0, 0, 0.5 * child.position.length() ) ) );
+						        var mesh = new THREE_Mesh( cylinder, material );
+
+						        boneArray[child.id] = mesh;
+						        boneContainer.add( mesh );
+					        }
+					
+				        }
+
+
+
 
             
-            //function harvesterLoaded (geometry) {
+           //function updateBones ( skin ) {
 
-            //    console.log("Number of bones: "+geometry.bones.length);
+           //     if (!boneArray) return;
 
-            //    var material = new THREE_MeshBasicMaterial( { color: 0xffffff, wireframe: true, opacity: 0.25, transparent: true, skinning: true } );
+           //     for ( var b = 1; b != skin.bones.length; b++ ) {
+					
+           //         var bone = skin.bones[b];
+           //         var nc = bone.children.length;
 
-            //    harvesterMesh = new THREE_SkinnedMesh( geometry, material );
-            //    scene.add( harvesterMesh );
+           //         for( var c = 0; c != nc; c++ ) {
+						
+           //             var child = bone.children[c];
+           //             var id = child.id;
+           //             var mesh = boneArray[id];
 
-            //    THREE.AnimationHandler.add( geometry.animation );
-            //    animation = new THREE_Animation( harvesterMesh, "walk1" );
-            //    animation.play();
+           //             positionVector.getPositionFromMatrix(child.skinMatrix);
+           //             mesh.position.copy(positionVector);
 
-            //    harvesterMesh.rotation.x = -Math.PI/2;
-            //    harvesterMesh.rotation.z = -Math.PI/2;
+           //             lookVector.getPositionFromMatrix( child.parent.skinMatrix );
+           //             mesh.lookAt( lookVector );
 
-            //    setupBones(harvesterMesh);
+           //         }
+					
+           //     }
 
-            //    setInterval(render, 1000/60);
-            //}
+           // }
+
+           // function render() {
+
+           //     time = Date.now();
+           //     delta = time - oldTime;
+           //     oldTime = time;
+
+           //     if (isNaN(delta)) {
+           //         delta = 1000/60;
+           //     }
+
+           //     if (harvesterMesh) {
+
+           //         THREE.AnimationHandler.update( delta/1000 );
+
+           //         updateBones(harvesterMesh);
+
+           //         boneContainer.position.z = harvesterMesh.position.z;
+					
+           //         var frame = Math.floor(animation.currentTime*24);
+					
+           //         if (frame >= 0 && lastframe > frame ) {
+           //             harvesterMesh.position.z += 304.799987793; // got that from the root bone, total movement of one walk cycle
+           //         }
+           //         lastframe = frame;
+
+           //         var speed = delta*0.131;
+
+           //         cameraTarget.z += speed;
+
+           //         if (harvesterMesh.position.z > floor.position.z+1000) {
+           //             floor.position.z += 1000;
+           //         };
+
+           //     }
+
+           //     camera.position.x = 800 * Math.sin(time/3000);
+           //     camera.position.z = cameraTarget.z + 800 * Math.cos(time/3000);
+
+           //     camera.lookAt(cameraTarget);
+
+           //     if (has_gl) {
+           //         renderer.render( scene, camera );
+           //     }
+
+           // }
+                        //setInterval(render, 1000/60);
+                    }
+                )
+            );
+
 			loader.load( new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src, harvesterLoaded );
 
 			// lights
@@ -161,116 +282,8 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 		
 
-			function setupBones( skin ) {
 
-				boneArray = [];
-				boneContainer = new THREE.Object3D();
-
-				boneContainer.rotation.x = -Math.PI/2;
-				boneContainer.rotation.z = -Math.PI/2;
-
-				scene.add(boneContainer);
-
-				var index = 0;
-				var material = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
-				
-				for ( var b = 1; b != skin.bones.length; b++ ) {
-					
-					var bone = skin.bones[ b ];
-
-					var nc = bone.children.length;
-
-					for( var c = 0; c != nc; c++ ) {
-						var child = bone.children[ c ];
-
-						var size = Math.min( child.position.length()*0.05, 8);
-						
-						var cylinder = new THREE.CylinderGeometry( size, 0.1, child.position.length(), 6 );
-					    cylinder.applyMatrix( new THREE.Matrix4().setRotationFromEuler( new THREE.Vector3( Math.PI / 2, 0, 0 ) ) );
-
-						cylinder.applyMatrix( new THREE.Matrix4().setPosition( new THREE.Vector3( 0, 0, 0.5 * child.position.length() ) ) );
-						var mesh = new THREE.Mesh( cylinder, material );
-
-						boneArray[child.id] = mesh;
-						boneContainer.add( mesh );
-					}
-					
-				}
-
-			} 
-
-			function updateBones ( skin ) {
-
-				if (!boneArray) return;
-
-				for ( var b = 1; b != skin.bones.length; b++ ) {
-					
-					var bone = skin.bones[b];
-					var nc = bone.children.length;
-
-					for( var c = 0; c != nc; c++ ) {
-						
-						var child = bone.children[c];
-						var id = child.id;
-						var mesh = boneArray[id];
-
-						positionVector.getPositionFromMatrix(child.skinMatrix);
-						mesh.position.copy(positionVector);
-
-						lookVector.getPositionFromMatrix( child.parent.skinMatrix );
-						mesh.lookAt( lookVector );
-
-					}
-					
-				}
-
-			}
-
-			function render() {
-
-				time = Date.now();
-				delta = time - oldTime;
-				oldTime = time;
-
-				if (isNaN(delta)) {
-					delta = 1000/60;
-				}
-
-				if (harvesterMesh) {
-
-					THREE.AnimationHandler.update( delta/1000 );
-
-					updateBones(harvesterMesh);
-
-					boneContainer.position.z = harvesterMesh.position.z;
-					
-					var frame = Math.floor(animation.currentTime*24);
-					
-					if (frame >= 0 && lastframe > frame ) {
-						harvesterMesh.position.z += 304.799987793; // got that from the root bone, total movement of one walk cycle
-					}
-					lastframe = frame;
-
-					var speed = delta*0.131;
-
-					cameraTarget.z += speed;
-
-					if (harvesterMesh.position.z > floor.position.z+1000) {
-						floor.position.z += 1000;
-					};
-
-				}
-
-				camera.position.x = 800 * Math.sin(time/3000);
-				camera.position.z = cameraTarget.z + 800 * Math.cos(time/3000);
-
-				camera.lookAt(cameraTarget);
-
-				if (has_gl) {
-					renderer.render( scene, camera );
-				}
-
-			}
+		
 
         }
     }
