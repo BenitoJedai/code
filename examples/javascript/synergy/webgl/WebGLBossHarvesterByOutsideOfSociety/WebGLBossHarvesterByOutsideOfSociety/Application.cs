@@ -16,6 +16,23 @@ using WebGLBossHarvesterByOutsideOfSociety.HTML.Pages;
 
 namespace WebGLBossHarvesterByOutsideOfSociety
 {
+
+    sealed class __floor_MeshBasicMaterialDictionary
+    {
+        public bool wireframe;
+        public int color;
+    }
+
+    sealed class __MeshBasicMaterialDictionary
+    {
+        public int color;
+        public bool wireframe;
+        public double opacity;
+        public bool transparent;
+        public bool skinning;
+    }
+
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -103,7 +120,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 			// floor
 			var plane = new THREE_PlaneGeometry(10000,10000,50,50);
-			var floorMaterial = new THREE_MeshBasicMaterial( {wireframe: true, color: 0x333333} );
+			var floorMaterial = new THREE_MeshBasicMaterial( new __floor_MeshBasicMaterialDictionary {wireframe = true, color = 0x333333} );
 			var floor = new THREE_Mesh(plane, floorMaterial);
 			floor.rotation.x = -Math.PI/2;
 			scene.add(floor);
@@ -121,13 +138,15 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
                         //console.log("Number of bones: "+geometry.bones.length);
 
-                        var material = new THREE_MeshBasicMaterial( { color: 0xffffff, wireframe: true, opacity: 0.25, transparent: true, skinning: true } );
+                        var material = new THREE_MeshBasicMaterial( new __MeshBasicMaterialDictionary { 
+                            color = 0xffffff, wireframe= true, opacity= 0.25, transparent= true, skinning= true } );
 
-                        harvesterMesh = new THREE_SkinnedMesh( geometry, material );
+                        var harvesterMesh = new THREE_SkinnedMesh( geometry, material );
                         scene.add( harvesterMesh );
 
                         THREE.AnimationHandler.add( geometry.animation );
-                        animation = new THREE_Animation( harvesterMesh, "walk1" );
+
+                        var animation = new THREE_Animation( harvesterMesh, "walk1" );
                         animation.play();
 
                         harvesterMesh.rotation.x = -Math.PI/2;
@@ -140,7 +159,9 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 
             	        boneArray = [];
-				        boneContainer = new THREE_Object3D();
+
+
+				        var        boneContainer = new THREE_Object3D();
 
 				        boneContainer.rotation.x = -Math.PI/2;
 				        boneContainer.rotation.z = -Math.PI/2;
@@ -157,7 +178,8 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 					        var nc = bone.children.length;
 
-					        for( var c = 0; c != nc; c++ ) {
+					        for( var c = 0; c != nc; c++ ) 
+                            {
 						        var child = bone.children[ c ];
 
 						        var size = Math.Min( child.position.length()*0.05, 8);
@@ -177,7 +199,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 
 
-            
+#region render
            //function updateBones ( skin ) {
 
            //     if (!boneArray) return;
@@ -251,6 +273,8 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
            // }
                         //setInterval(render, 1000/60);
+#endregion
+
                     }
                 )
             );
@@ -263,7 +287,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 			try {
 				// renderer
-				renderer = new THREE_WebGLRenderer({antialias: true});
+				var renderer = new THREE_WebGLRenderer({antialias: true});
 				renderer.setClearColorHex(0x000000);
 				renderer.setSize(  (double)Native.Window.Width ,  (double)Native.Window.Height  );
                 //THREEx.WindowResize(renderer, camera);
