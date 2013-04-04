@@ -1,4 +1,5 @@
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -7,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -16,6 +18,16 @@ using WebGLBossHarvesterByOutsideOfSociety.HTML.Pages;
 
 namespace WebGLBossHarvesterByOutsideOfSociety
 {
+    sealed class __WebGLRendererDictionary
+    {
+        public bool antialias;
+    }
+
+    sealed class __MeshPhongMaterialDictionary
+    {
+        public int color;
+
+    }
 
     sealed class __floor_MeshBasicMaterialDictionary
     {
@@ -73,241 +85,257 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
         private static void InitializeContent()
         {
-            //var container;
+            // http://oos.moxiecode.com/js_webgl/md5_test/
 
-            //var camera, scene, renderer;
+            var has_gl = false;
+            THREE_WebGLRenderer renderer = null;
 
-			var has_gl = false;
+            var oldTime = 0L;
 
-            //var delta;
-            //var time;
-            //var oldTime;
+            var cameraTarget = new THREE_Vector3 { x = 0, y = 300, z = 0 };
 
-			var cameraTarget = new THREE_Vector3 { x = 0, y = 300, z = 0};
+            var positionVector = new THREE_Vector3();
+            var lookVector = new THREE_Vector3();
 
-            //var harvesterMesh;
-            //var animation;
+            var lastframe = 0;
 
-            //var floor;
+            var scene = new THREE_Scene();
+            scene.fog = new THREE_Fog(0x000000, 1000, 5000);
 
-            //var boneArray;
-            //var boneContainer;
-			var positionVector = new THREE_Vector3();
-			var lookVector = new THREE_Vector3();
+            var camera = new THREE_PerspectiveCamera(50, (double)Native.Window.Width / (double)Native.Window.Height, 1, 10000);
+            camera.position.z = 800;
+            camera.position.y = 100;
 
-			var lastframe = 0;
+            camera.lookAt(scene.position);
+            scene.add(camera);
 
+            // floor
+            var plane = new THREE_PlaneGeometry(10000, 10000, 50, 50);
+            var floorMaterial = new THREE_MeshBasicMaterial(new __floor_MeshBasicMaterialDictionary { wireframe = true, color = 0x333333 });
+            var floor = new THREE_Mesh(plane, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            scene.add(floor);
 
-
-
-
-
-
-		
-
-            //container = document.createElement( 'div' );
-            //document.body.appendChild( container );
-
-			var scene = new THREE_Scene();
-			scene.fog = new THREE_Fog( 0x000000, 1000, 5000 );
-				
-			var camera = new THREE_PerspectiveCamera( 50, (double)Native.Window.Width / (double)Native.Window.Height, 1, 10000 );
-			camera.position.z = 800;
-			camera.position.y = 100;
-				
-			camera.lookAt(scene.position);
-			scene.add( camera );
-
-			// floor
-			var plane = new THREE_PlaneGeometry(10000,10000,50,50);
-			var floorMaterial = new THREE_MeshBasicMaterial( new __floor_MeshBasicMaterialDictionary {wireframe = true, color = 0x333333} );
-			var floor = new THREE_Mesh(plane, floorMaterial);
-			floor.rotation.x = -Math.PI/2;
-			scene.add(floor);
-
-			// model
-			var loader = new THREE_JSONLoader();
+            // model
+            var loader = new THREE_JSONLoader();
 
 
-       
+
 
             var harvesterLoaded = IFunction.OfDelegate(
-                new Action<object>(
-                     (geometry) => 
+                new Action<dynamic>(
+                     (geometry) =>
                      {
+                         Console.WriteLine("geometry ready!");
 
-                        //console.log("Number of bones: "+geometry.bones.length);
+                         //console.log("Number of bones: "+geometry.bones.length);
 
-                        var material = new THREE_MeshBasicMaterial( new __MeshBasicMaterialDictionary { 
-                            color = 0xffffff, wireframe= true, opacity= 0.25, transparent= true, skinning= true } );
+                         var material = new THREE_MeshBasicMaterial(new __MeshBasicMaterialDictionary
+                         {
+                             color = 0xffffff,
+                             wireframe = true,
+                             opacity = 0.25,
+                             transparent = true,
+                             skinning = true
+                         });
 
-                        var harvesterMesh = new THREE_SkinnedMesh( geometry, material );
-                        scene.add( harvesterMesh );
-
-                        THREE.AnimationHandler.add( geometry.animation );
-
-                        var animation = new THREE_Animation( harvesterMesh, "walk1" );
-                        animation.play();
-
-                        harvesterMesh.rotation.x = -Math.PI/2;
-                        harvesterMesh.rotation.z = -Math.PI/2;
-
-
-                        var skin = harvesterMesh;
-
-                        //setupBones(harvesterMesh);
+                         object geometry_object = geometry;
+                         var skin = new THREE_SkinnedMesh(geometry_object, material);
+                         scene.add(skin);
 
 
-            	        boneArray = [];
+                         object geometry_animation = geometry.animation;
+                         THREE.Design.THREE.AnimationHandler.add(geometry_animation);
 
+                         var animation = new THREE_Animation(skin, "walk1");
+                         animation.play();
 
-				        var        boneContainer = new THREE_Object3D();
-
-				        boneContainer.rotation.x = -Math.PI/2;
-				        boneContainer.rotation.z = -Math.PI/2;
-
-				        scene.add(boneContainer);
-
-				        var index = 0;
-				        var material = new THREE_MeshPhongMaterial( { color: 0xff0000 } );
-				
-				        for ( var b = 1; b != skin.bones.length; b++ ) 
-                        {
-					
-					        var bone = skin.bones[ b ];
-
-					        var nc = bone.children.length;
-
-					        for( var c = 0; c != nc; c++ ) 
-                            {
-						        var child = bone.children[ c ];
-
-						        var size = Math.Min( child.position.length()*0.05, 8);
-						
-						        var cylinder = new THREE_CylinderGeometry( size, 0.1, child.position.length(), 6 );
-					            cylinder.applyMatrix( new THREE_Matrix4().setRotationFromEuler( new THREE_Vector3( Math.PI / 2, 0, 0 ) ) );
-
-						        cylinder.applyMatrix( new THREE_Matrix4().setPosition( new THREE_Vector3( 0, 0, 0.5 * child.position.length() ) ) );
-						        var mesh = new THREE_Mesh( cylinder, material );
-
-						        boneArray[child.id] = mesh;
-						        boneContainer.add( mesh );
-					        }
-					
-				        }
+                         skin.rotation.x = -Math.PI / 2;
+                         skin.rotation.z = -Math.PI / 2;
 
 
 
 
-#region render
-           //function updateBones ( skin ) {
 
-           //     if (!boneArray) return;
+                         var boneArray = new Dictionary<int, THREE_Mesh>();
 
-           //     for ( var b = 1; b != skin.bones.length; b++ ) {
-					
-           //         var bone = skin.bones[b];
-           //         var nc = bone.children.length;
 
-           //         for( var c = 0; c != nc; c++ ) {
-						
-           //             var child = bone.children[c];
-           //             var id = child.id;
-           //             var mesh = boneArray[id];
+                         var boneContainer = new THREE_Object3D();
 
-           //             positionVector.getPositionFromMatrix(child.skinMatrix);
-           //             mesh.position.copy(positionVector);
+                         boneContainer.rotation.x = -Math.PI / 2;
+                         boneContainer.rotation.z = -Math.PI / 2;
 
-           //             lookVector.getPositionFromMatrix( child.parent.skinMatrix );
-           //             mesh.lookAt( lookVector );
+                         scene.add(boneContainer);
 
-           //         }
-					
-           //     }
+                         var index = 0;
+                         var pmaterial = new THREE_MeshPhongMaterial(new __MeshPhongMaterialDictionary { color = 0xff0000 });
 
-           // }
+                         for (var b = 1; b != skin.bones.Length; b++)
+                         {
 
-           // function render() {
+                             var bone = skin.bones[b];
 
-           //     time = Date.now();
-           //     delta = time - oldTime;
-           //     oldTime = time;
+                             var nc = bone.children.Length;
 
-           //     if (isNaN(delta)) {
-           //         delta = 1000/60;
-           //     }
+                             for (var c = 0; c != nc; c++)
+                             {
+                                 var child = bone.children[c];
 
-           //     if (harvesterMesh) {
+                                 var size = Math.Min(child.position.length() * 0.05, 8);
 
-           //         THREE.AnimationHandler.update( delta/1000 );
+                                 var cylinder = new THREE_CylinderGeometry(size, 0.1, child.position.length(), 6);
+                                 cylinder.applyMatrix(new THREE_Matrix4().setRotationFromEuler(new THREE_Vector3(Math.PI / 2, 0, 0)));
 
-           //         updateBones(harvesterMesh);
+                                 cylinder.applyMatrix(new THREE_Matrix4().setPosition(new THREE_Vector3(0, 0, 0.5 * child.position.length())));
+                                 var mesh = new THREE_Mesh(cylinder, pmaterial);
 
-           //         boneContainer.position.z = harvesterMesh.position.z;
-					
-           //         var frame = Math.floor(animation.currentTime*24);
-					
-           //         if (frame >= 0 && lastframe > frame ) {
-           //             harvesterMesh.position.z += 304.799987793; // got that from the root bone, total movement of one walk cycle
-           //         }
-           //         lastframe = frame;
+                                 boneArray[child.id] = mesh;
+                                 boneContainer.add(mesh);
+                             }
 
-           //         var speed = delta*0.131;
+                         }
 
-           //         cameraTarget.z += speed;
 
-           //         if (harvesterMesh.position.z > floor.position.z+1000) {
-           //             floor.position.z += 1000;
-           //         };
 
-           //     }
 
-           //     camera.position.x = 800 * Math.sin(time/3000);
-           //     camera.position.z = cameraTarget.z + 800 * Math.cos(time/3000);
+                         #region render
 
-           //     camera.lookAt(cameraTarget);
 
-           //     if (has_gl) {
-           //         renderer.render( scene, camera );
-           //     }
+                         Action render = null;
 
-           // }
-                        //setInterval(render, 1000/60);
-#endregion
 
-                    }
+                         render = delegate
+                         {
+                             Func<long> Date_now = () => (long)new IFunction("return Date.now();").apply(null);
+
+                             var time = Date_now();
+                             double delta = time - oldTime;
+
+
+                             if (oldTime == 0)
+                             {
+                                 delta = 1000 / 60.0;
+                             }
+
+                             oldTime = time;
+
+
+
+
+                             THREE.Design.THREE.AnimationHandler.update(delta / 1000.0);
+
+
+                       
+
+                             for (var b = 1; b != skin.bones.Length; b++)
+                             {
+
+                                 var bone = skin.bones[b];
+                                 var nc = bone.children.Length;
+
+                                 for (var c = 0; c != nc; c++)
+                                 {
+
+                                     var child = bone.children[c];
+                                     var child_bone = (THREE.Design.THREE_Bone)(object)child;
+                                     var id = child.id;
+                                     var mesh = boneArray[id];
+
+                                     positionVector.getPositionFromMatrix(child_bone.skinMatrix);
+                                     mesh.position.copy(positionVector);
+
+                                     var child_parent_bone = (THREE.Design.THREE_Bone)(object)child.parent;
+                                     lookVector.getPositionFromMatrix(child_parent_bone.skinMatrix);
+                                     mesh.lookAt(lookVector);
+
+                                 }
+
+                             }
+
+
+                             boneContainer.position.z = skin.position.z;
+
+                             var frame = (int)Math.Floor(animation.currentTime * 24.0);
+
+                             if (frame >= 0 && lastframe > frame)
+                             {
+                                 skin.position.z += 304.799987793; // got that from the root bone, total movement of one walk cycle
+                             }
+                             lastframe = frame;
+
+                             var speed = delta * 0.131;
+
+                             cameraTarget.z += speed;
+
+                             if (skin.position.z > floor.position.z + 1000.0)
+                             {
+                                 floor.position.z += 1000.0;
+                             };
+
+
+                             camera.position.x = 800.0 * Math.Sin(time / 3000.0);
+                             camera.position.z = cameraTarget.z + 800.0 * Math.Cos(time / 3000.0);
+
+                             camera.lookAt(cameraTarget);
+
+                             if (has_gl)
+                             {
+                                 renderer.render(scene, camera);
+                             }
+
+                             Native.Window.requestAnimationFrame += render;
+                         };
+                         #endregion
+
+                         Native.Window.requestAnimationFrame += render;
+
+                         Console.WriteLine("requestAnimationFrame ready!");
+                     }
                 )
             );
 
-			loader.load( new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src, harvesterLoaded );
+            loader.load(new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src, harvesterLoaded);
 
-			// lights
-			var pointLight = new THREE_PointLight( 0xffffff, 1.0, z: 0 );
-			camera.add( pointLight );
+            // lights
+            var pointLight = new THREE_PointLight(0xffffff, 1.0, z: 0);
+            camera.add(pointLight);
 
-			try {
-				// renderer
-				var renderer = new THREE_WebGLRenderer({antialias: true});
-				renderer.setClearColorHex(0x000000);
-				renderer.setSize(  (double)Native.Window.Width ,  (double)Native.Window.Height  );
-                //THREEx.WindowResize(renderer, camera);
-
-				container.appendChild( renderer.domElement );
-				has_gl = true;
-			}
-			catch // (e) 
+            try
             {
-				// need webgl
-                //document.getElementById('info').innerHTML = "<P><BR><B>Note.</B> You need a modern browser that supports WebGL for this to run the way it is intended.<BR>For example. <a href='http://www.google.com/landing/chrome/beta/' target='_blank'>Google Chrome 9+</a> or <a href='http://www.mozilla.com/firefox/beta/' target='_blank'>Firefox 4+</a>.<BR><BR>If you are already using one of those browsers and still see this message, it's possible that you<BR>have old blacklisted GPU drivers. Try updating the drivers for your graphic card.<BR>Or try to set a '--ignore-gpu-blacklist' switch for the browser.</P><CENTER><BR><img src='../general/WebGL_logo.png' border='0'></CENTER>";
-                //document.getElementById('info').style.display = "block";
-                //return;
-			}
+                // renderer
+                renderer = new THREE_WebGLRenderer(new __WebGLRendererDictionary { antialias = true });
+                renderer.setClearColorHex(0x000000);
+
+                renderer.domElement.AttachToDocument();
+
+                Action AtResize = delegate
+                {
+                    camera.aspect = Native.Window.Width / Native.Window.Height;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(Native.Window.Width, Native.Window.Height);
+                };
+                Native.Window.onresize +=
+                  delegate
+                  {
+                      AtResize();
+                  };
+
+                AtResize();
+
+                has_gl = true;
+
+                Console.WriteLine("renderer ready!");
+            }
+            catch 
+            {
+         
+            }
 
 
-		
 
 
-		
+
+
 
         }
     }

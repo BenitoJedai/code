@@ -7,7 +7,8 @@ interface THREE
 { 
 	static attribute THREE.ColorUtilsType ColorUtils; 
 	static attribute THREE.ImageUtilsType ImageUtils; 
-
+	static attribute THREE.AnimationHandlerType AnimationHandler; 
+	
 	static attribute long DoubleSide; 
 	static attribute long AdditiveBlending; 
 
@@ -26,6 +27,13 @@ interface THREE.ColorUtilsType
 { 
 	// no longer available [Obsolete]
 	void adjustHSV(long color, long x, long y, double z);
+
+};
+
+interface THREE.AnimationHandlerType
+{ 
+	void add(any data);
+	void update(double delta);
 
 };
 
@@ -96,10 +104,34 @@ interface THREE.PlaneGeometry
 	void applyMatrix(any value);
 };
 
+
+
+[Constructor(), Constructor(double x, double y, double z)]
+interface THREE.Vector3 
+{ 
+	attribute double x; 
+	attribute double y;
+	attribute double z;
+
+	void set(double x, double y, double z);
+	void copy( THREE.Vector3  p);
+	
+	THREE.Vector3 subSelf(any xyz);
+	THREE.Vector3 normalize();
+
+	THREE.Vector3 getPositionFromMatrix(any m);
+
+	double length();
+
+};
+
 [Constructor()]
 interface THREE.Matrix4 
 { 
 	any makeRotationX(double value);
+
+	any setRotationFromEuler(any vec3);
+	any setPosition(any vec3);
 };
 
 [Constructor(any x)]
@@ -112,19 +144,47 @@ interface THREE.MeshLambertMaterial
 [Constructor()]
 interface THREE.Object3D
 { 
+	attribute THREE.Object3D  parent;
+
+	attribute long        id;
+
+
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  rotation;
+
+	void add(any mesh);
 };
 
 
 [Constructor(any geometry, any material)]
 interface THREE.Animation 
 { 
+	attribute long        currentTime;
+
+	void play();
 };
+
+
+[Constructor()]
+interface THREE.Bone
+{ 
+	attribute THREE.Matrix4 skinMatrix;
+
+	// object3D
+	attribute sequence<THREE.Object3D>        children;
+};
+
+
 
 [Constructor(any mesh, any name)]
 interface THREE.SkinnedMesh 
 { 
+	attribute THREE.Vector3  rotation;
+	attribute THREE.Vector3  position;
+
+
+	attribute sequence<THREE.Bone>        bones;
+
 };
 
 [Constructor(any geometry, any material)]
@@ -165,6 +225,8 @@ interface THREE.WebGLRenderer
 
 	attribute Element domElement;
 
+	
+	void setClearColorHex(long color);
 	void setClearColor(long color, long h);
 	void setSize(long w, long h);
 	void render(any scene, any camera);
@@ -186,19 +248,15 @@ interface THREE.SphereGeometry
 
 };
 
-[Constructor()]
-interface THREE.Vector3 
+[Constructor(double size, double arg1, double arg2, double arg3)]
+interface THREE.CylinderGeometry 
 { 
-	attribute double x; 
-	attribute double y;
-	attribute double z;
-
-	void set(double x, double y, double z);
-
-	THREE.Vector3 subSelf(any xyz);
-	THREE.Vector3 normalize();
+	void applyMatrix(any value);
 
 };
+
+
+
 
 [Constructor()]
 interface THREE.Projector 
@@ -250,6 +308,14 @@ interface THREE.MeshFaceMaterial
 
 [Constructor(any e)]
 interface THREE.MeshBasicMaterial 
+{ 
+
+
+};
+
+
+[Constructor(any e)]
+interface THREE.MeshPhongMaterial 
 { 
 
 
