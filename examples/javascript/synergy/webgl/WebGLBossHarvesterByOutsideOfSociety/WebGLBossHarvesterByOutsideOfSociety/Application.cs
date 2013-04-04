@@ -56,7 +56,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public Application(IApp page = null)
         {
             #region await Three.js then do InitializeContent
             new[]
@@ -225,7 +225,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                              THREE.Design.THREE.AnimationHandler.update(delta / 1000.0);
 
 
-                       
+
 
                              for (var b = 1; b != skin.bones.Length; b++)
                              {
@@ -326,13 +326,34 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
                 Console.WriteLine("renderer ready!");
             }
-            catch 
+            catch
             {
-         
+
             }
 
 
 
+
+            Native.Document.onmousedown +=
+                 e =>
+                 {
+                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                     {
+                         if (Native.Document.pointerLockElement == Native.Document.body)
+                         {
+                             // cant requestFullscreen while pointerLockElement
+                             Console.WriteLine("exitPointerLock");
+                             Native.Document.exitPointerLock();
+                             Native.Document.exitFullscreen();
+                             return;
+                         }
+
+                         Console.WriteLine("requestFullscreen");
+                         Native.Document.body.requestFullscreen();
+                         Native.Document.body.requestPointerLock();
+                         return;
+                     }
+                 };
 
 
 
