@@ -10,7 +10,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
     // see also: Y:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Web\HttpCachePolicy.cs
 
     [Script(Implements = typeof(global::System.Web.HttpCachePolicy))]
-    internal class __HttpCachePolicy
+    public class __HttpCachePolicy
     {
         public __HttpResponse InternalResponse;
 
