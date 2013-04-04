@@ -63,15 +63,6 @@
     <Reference Include="ScriptCoreLibAndroid">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibAndroid.Drawing">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibAndroid.Windows.Forms">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibAndroid.XLinq">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.XLinq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />

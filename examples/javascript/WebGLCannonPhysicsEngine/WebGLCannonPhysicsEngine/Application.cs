@@ -193,8 +193,14 @@ namespace WebGLCannonPhysicsEngine
             var material = new THREE_MeshLambertMaterial(new MeshLambertMaterialDictionary { color = 0xdddddd });
 
             //Native.Window.
-            THREE.Design.THREE.ColorUtils.adjustHSV(material.color, 0, 0, 0.9);
-            //new IFunction("material", "THREE.ColorUtils.adjustHSV( material.color, 0, 0, 0.9 );").apply(null, material);
+
+
+
+
+            // THREE.Design.THREE.ColorUtils.adjustHSV(material.color, 0, 0, 0.9);
+
+            //  Replaced ColorUtils.adjustHSV() with Color's .offsetHSL(). 
+            //new IFunction("material", "THREE.ColorUtils.offsetHSL( material.color, 0, 0, 0.9 );").apply(null, material);
 
             //    
 

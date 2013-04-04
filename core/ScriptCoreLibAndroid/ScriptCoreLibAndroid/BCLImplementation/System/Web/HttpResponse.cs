@@ -11,8 +11,10 @@ using System.IO;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpResponse))]
-    internal sealed class __HttpResponse
+    public sealed class __HttpResponse
     {
+        // X:\jsc.svn\examples\java\android\ApplicationWebService\ApplicationWebService\ApplicationActivity.cs
+
         public ContextWrapper InternalContext;
         public NetworkStream InternalStream;
 

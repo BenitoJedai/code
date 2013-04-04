@@ -8,8 +8,10 @@ using System.Web.Profile;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpContext))]
-    internal class __HttpContext
+    public class __HttpContext
     {
+        // X:\jsc.svn\examples\java\android\ApplicationWebService\ApplicationWebService\ApplicationActivity.cs
+
         public HttpRequest Request { get; set; }
         public HttpResponse Response { get; set; }
 

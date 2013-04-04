@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationWebService", "ApplicationWebService\ApplicationWebService.csproj", "{9D280B94-A86D-496D-940A-7C0C1C270590}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
 EndProject
 Global
@@ -20,12 +18,6 @@ Global
 		{9D280B94-A86D-496D-940A-7C0C1C270590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D280B94-A86D-496D-940A-7C0C1C270590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D280B94-A86D-496D-940A-7C0C1C270590}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Any CPU.ActiveCfg = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Any CPU.Build.0 = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Any CPU.Build.0 = Assets|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

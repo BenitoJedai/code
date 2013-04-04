@@ -8,8 +8,10 @@ using System.Web;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
-    internal sealed class __HttpRequest
+    public sealed class __HttpRequest
     {
+        // X:\jsc.svn\examples\java\android\ApplicationWebService\ApplicationWebService\ApplicationActivity.cs
+
         public string UserHostAddress { get; set; }
 
         public string Path { get; set; }
