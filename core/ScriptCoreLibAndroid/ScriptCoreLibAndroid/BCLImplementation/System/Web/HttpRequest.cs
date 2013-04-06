@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public string HttpMethod { get; set; }
 
+        public HttpFileCollection Files { get; set; }
+
         public NameValueCollection QueryString { get; internal set; }
 
         public NameValueCollection Form { get; internal set; }
@@ -28,6 +30,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public __HttpRequest()
         {
+            this.Files = (HttpFileCollection)(object)new __HttpFileCollection();
             this.QueryString = new NameValueCollection();
             this.Form = new NameValueCollection();
             this.Headers = new NameValueCollection();

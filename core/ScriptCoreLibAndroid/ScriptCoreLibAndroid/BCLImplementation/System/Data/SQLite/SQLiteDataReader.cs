@@ -125,9 +125,33 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             get { return this.cursor.getColumnCount(); }
         }
 
-        public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        public override long GetBytes(int ordinal, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
-            throw new NotImplementedException();
+            // // Get size of image data–pass null as the byte array parameter
+            var value = this.cursor.getBlob(ordinal);
+
+            if (length == 0)
+                if (buffer == null)
+                    return value.Length;
+
+
+
+            // how much data we need to copy?
+
+            // java.lang.ArrayIndexOutOfBoundsException: length=8022; index=8022
+
+            var c = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if ((i + bufferoffset) < buffer.Length)
+                    if ((i + fieldOffset) < value.Length)
+                    {
+                        c++;
+                        buffer[i + bufferoffset] = value[i + fieldOffset];
+                    }
+            }
+
+            return c;
         }
 
         public override double GetDouble(int ordinal)

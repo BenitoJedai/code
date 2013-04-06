@@ -103,7 +103,9 @@ namespace ScriptCoreLib.Shared.IO
             throw new NotImplementedException("");
         }
 
-        const int InternalBufferCapacity = 0x2000;
+        //const int InternalBufferCapacity = 0x2000;
+        public static int InternalBufferCapacity = 0x2000;
+
         byte[] InternalBuffer = new byte[InternalBufferCapacity];
         int InternalBufferCount = 0;
 
@@ -186,7 +188,7 @@ namespace ScriptCoreLib.Shared.IO
                 else
                     this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
 
-                flag = (this.InternalBufferCount > 0); 
+                flag = (this.InternalBufferCount > 0);
             }
             return target;
         }
@@ -205,7 +207,7 @@ namespace ScriptCoreLib.Shared.IO
 
                 this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
 
-                flag = (this.InternalBufferCount > 0); 
+                flag = (this.InternalBufferCount > 0);
             }
 
             return a.ToString();
@@ -235,7 +237,7 @@ namespace ScriptCoreLib.Shared.IO
                 for (int i = 0; i < this.InternalBufferCount; i++)
                 {
                     // jsc cannot handle byte to char for java?
-                    var b = (int)this.InternalBuffer[i]; 
+                    var b = (int)this.InternalBuffer[i];
                     var c = (char)b;
 
                     if (c == '\n')
@@ -259,7 +261,13 @@ namespace ScriptCoreLib.Shared.IO
                     a.Append(c);
                 }
 
-                this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
+                //this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
+                var len = InternalBufferCapacity - this.InternalBufferCount;
+
+                this.InternalBufferCount += this.BaseStream.Read(
+                    this.InternalBuffer, this.InternalBufferCount, len
+
+                    );
 
                 flag = (this.InternalBufferCount > 0);
             }
@@ -276,6 +284,81 @@ namespace ScriptCoreLib.Shared.IO
             {
                 w.Append((char)bytes[i]);
             }
+        }
+
+
+
+        public MemoryStream ReadToBoundary(string e)
+        {
+            if (e.Length >= this.InternalBuffer.Length)
+                throw new Exception("Buffer too small");
+
+            var m = new MemoryStream();
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20130401/20130405-file-upload
+
+            var ebytes = Encoding.UTF8.GetBytes(e);
+
+            var flag = true;
+            while (flag)
+            {
+
+
+                if (this.InternalBufferCount > e.Length)
+                {
+                    // we now have enough data to look at
+
+                    int i = 0;
+
+                    // how much of the buffer can we accept?
+                    for (; i < this.InternalBufferCount - e.Length + 1; i++)
+                    {
+                        // is this the start of the boundary?
+
+                        if (InternalCompareBytes(this.InternalBuffer, i, ebytes))
+                        {
+                            // we found waldo!
+                            flag = false;
+                            break;
+                        }
+
+                    }
+
+                    m.Write(this.InternalBuffer, 0, i);
+                    DiscardBuffer(i);
+                }
+
+
+                if (flag)
+                {
+                    var len = InternalBufferCapacity - this.InternalBufferCount;
+
+                    this.InternalBufferCount += this.BaseStream.Read(
+                        this.InternalBuffer, this.InternalBufferCount, len
+
+                        );
+
+                    flag = (this.InternalBufferCount > 0);
+                }
+            }
+
+            return m;
+        }
+
+        public static bool InternalCompareBytes(byte[] a, int aoffset, byte[] b)
+        {
+            var r = true;
+
+            for (int i = 0; i < b.Length; i++)
+            {
+                if (a[aoffset + i] != b[i])
+                {
+                    r = false;
+                }
+
+            }
+
+            return r;
         }
     }
 }
