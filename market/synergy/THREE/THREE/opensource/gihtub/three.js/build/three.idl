@@ -8,6 +8,7 @@ interface THREE
 	static attribute THREE.ColorUtilsType ColorUtils; 
 	static attribute THREE.ImageUtilsType ImageUtils; 
 	static attribute THREE.AnimationHandlerType AnimationHandler; 
+	static attribute THREE.GeometryUtilsType GeometryUtils; 
 
 	static attribute long DoubleSide; 
 	static attribute long AdditiveBlending; 
@@ -16,6 +17,12 @@ interface THREE
 
 };
 
+// this is an anonymous type actually
+interface THREE.GeometryUtilsType
+{ 
+	void merge(any x, any y);
+
+};
 
 // this is an anonymous type actually
 interface THREE.ImageUtilsType
@@ -60,12 +67,28 @@ interface THREE.Scene
 	attribute THREE.Vector3  position;
 
 	void add(any value);
+	void remove(any value);
 };
 
 [Constructor(long color)]
 interface THREE.Color 
 { 
 };
+
+// use dictionary instead?
+interface THREE.Raycaster_intersectObject
+{
+	attribute THREE.Vector3 point;
+};
+
+[Constructor]
+interface THREE.Raycaster 
+{ 
+	void set(any position, any vec);
+	sequence<THREE.Raycaster_intersectObject> intersectObject(THREE.Mesh position);
+};
+
+
 
 [Constructor(long color, long y, long z)]
 interface THREE.Fog 
@@ -128,11 +151,14 @@ interface THREE.Vector3
 
 	void set(double x, double y, double z);
 	void copy( THREE.Vector3  p);
+	void copy( any  p);
+	THREE.Vector3  sub( THREE.Vector3   p);
 
 	THREE.Vector3 subSelf(any xyz);
 	THREE.Vector3 normalize();
 
 	THREE.Vector3 getPositionFromMatrix(any m);
+	THREE.Vector3 multiplyScalar(double m);
 
 	double length();
 
@@ -200,6 +226,13 @@ interface THREE.SkinnedMesh
 
 };
 
+[Constructor()]
+interface THREE.Quaternion
+{
+	void copy( any  p);
+
+};
+
 [Constructor(any geometry), 
 	Constructor(any geometry, any material)]
 interface THREE.Mesh 
@@ -208,7 +241,7 @@ interface THREE.Mesh
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  scale;
 
-	attribute any quaternion;
+	attribute THREE.Quaternion quaternion;
 	attribute boolean visible;
 
 	attribute boolean        castShadow;
@@ -263,12 +296,21 @@ interface THREE.Geometry
 
 };
 
+[Constructor]
+interface THREE.Face4 
+{ 
+	attribute THREE.Color        color;
+
+};
+
+
 
 [Constructor(double radius),
  Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5),
  Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)]
 interface THREE.SphereGeometry 
 { 
+	attribute sequence<THREE.Face4>        faces;
 
 };
 

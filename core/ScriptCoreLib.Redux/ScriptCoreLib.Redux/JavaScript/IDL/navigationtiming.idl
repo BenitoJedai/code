@@ -34,4 +34,9 @@ interface PerformanceNavigation {
 interface Performance {
   readonly attribute PerformanceTiming timing;
   readonly attribute PerformanceNavigation navigation;
+
+  // http://msdn.microsoft.com/en-us/library/ie/hh973355(v=vs.85).aspx
+  // https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/HighResolutionTime/Overview.html
+  // http://updates.html5rocks.com/2012/08/When-milliseconds-are-not-enough-performance-now
+  double now();
 };

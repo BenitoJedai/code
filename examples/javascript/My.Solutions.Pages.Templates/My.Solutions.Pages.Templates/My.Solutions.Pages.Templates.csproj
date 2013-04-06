@@ -245,6 +245,9 @@
     <Reference Include="WebGLBossHarvesterByOutsideOfSociety.AssetsLibrary">
       <HintPath>..\..\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\bin\staging.AssetsLibrary\WebGLBossHarvesterByOutsideOfSociety.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLBeachballsByDoob.AssetsLibrary">
+      <HintPath>..\..\synergy\webgl\WebGLBeachballsByDoob\WebGLBeachballsByDoob\bin\staging.AssetsLibrary\WebGLBeachballsByDoob.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.css" />
@@ -266,6 +269,10 @@
     <ProjectReference Include="..\..\ArduinoSpiderControlCenter\SpiderModel\SpiderModel.csproj">
       <Project>{3de096e7-b756-452a-b853-bf732acabd70}</Project>
       <Name>SpiderModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\webgl\WebGLBeachballsByDoob\WebGLBeachballsByDoob\WebGLBeachballsByDoob.csproj">
+      <Project>{a660135f-61ff-461e-86cc-e450307b28f5}</Project>
+      <Name>WebGLBeachballsByDoob</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety.csproj">
       <Project>{2dc51f7f-a815-4dbf-9015-8aea1e229b87}</Project>

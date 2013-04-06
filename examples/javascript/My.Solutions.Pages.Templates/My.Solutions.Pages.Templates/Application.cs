@@ -348,6 +348,7 @@ namespace My.Solutions.Pages.Templates
             y("#WebGLCannonPhysicsEngine", () => new WebGLCannonPhysicsEngine.Application(), new WebGLCannonPhysicsEngine.HTML.Images.FromAssets.Preview());
             y("#WebGLBossHarvesterByOutsideOfSociety", () => new WebGLBossHarvesterByOutsideOfSociety.Application(), new WebGLBossHarvesterByOutsideOfSociety.HTML.Images.FromAssets.Preview());
             y("#WoodsXmasByRobert", () => new WoodsXmasByRobert.Application(), new WoodsXmasByRobert.HTML.Images.FromAssets.Preview());
+            y("#WebGLBeachballsByDoob", () => new WebGLBeachballsByDoob.Application(), new WebGLBeachballsByDoob.HTML.Images.FromAssets.Preview());
 
 
 

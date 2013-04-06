@@ -17,7 +17,7 @@ interface CANNON.Plane
 };
 
 [Constructor,
-Constructor(DOMString e)]
+	Constructor(DOMString e)]
 interface CANNON.Material 
 { 
 };
@@ -39,6 +39,8 @@ interface CANNON.Quaternion
 { 
 	void setFromAxisAngle(CANNON.Vec3 xyz, double q);
 	void copy(any xyz);
+	void set(double x, double y, double z);
+	void set(double x, double y, double z, double q);
 
 };
 
@@ -64,8 +66,10 @@ interface CANNON.RigidBody
 [Constructor()]
 interface CANNON.Solver 
 { 
-	attribute long        tolerance;
+	attribute double        tolerance;
 	attribute long        iterations;
+
+	// [Obsolete]
 	void setSpookParams(long x, long y);
 };
 
@@ -83,6 +87,7 @@ interface CANNON.World
 
 	void addContactMaterial(any value);
 	void add(any value);
+	void remove(any value);
 
 	void addConstraint(any value);
 	void step(double value);
