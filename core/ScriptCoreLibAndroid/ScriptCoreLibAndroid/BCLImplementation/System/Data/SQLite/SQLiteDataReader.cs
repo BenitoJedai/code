@@ -128,7 +128,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         public override long GetBytes(int ordinal, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
             // // Get size of image data–pass null as the byte array parameter
-            var value = this.cursor.getBlob(ordinal);
+            var value = (byte[])(object)this.cursor.getBlob(ordinal);
 
             if (length == 0)
                 if (buffer == null)

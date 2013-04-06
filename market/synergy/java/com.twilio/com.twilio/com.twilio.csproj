@@ -128,7 +128,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /AssemblyMerge:Twilio.Api.dll /AssemblyMerge:RestSharp.dll /AssemblyMerge:Newtonsoft.Json.dll /DiscardAttributesForAssembly:Newtonsoft.Json.dll  /OutputDirectory:C:\util\jsc\nuget
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /AssemblyMerge:Twilio.Api.dll /AssemblyMerge:RestSharp.dll /AssemblyMerge:Newtonsoft.Json.dll /DiscardAttributesForAssembly:Newtonsoft.Json.dll  /OutputDirectory:C:\util\jsc\nuget
 
 
 if $(ConfigurationName)==Debug (
