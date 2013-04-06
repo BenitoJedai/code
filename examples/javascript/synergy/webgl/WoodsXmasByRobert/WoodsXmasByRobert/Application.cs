@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WoodsXmasByRobert.Design;
-using WoodsXmasByRobert.Design.References;
+//using WoodsXmasByRobert.Design.References;
 using WoodsXmasByRobert.HTML.Images.FromAssets;
 using WoodsXmasByRobert.HTML.Pages;
 using ScriptCoreLib.Shared.Lambda;
@@ -87,7 +87,7 @@ namespace WoodsXmasByRobert
                             parentlocation = parent.document.location.href;
                         }
                         catch
-                        { 
+                        {
                             // parent from another origin
                         }
 
@@ -188,6 +188,9 @@ namespace WoodsXmasByRobert
                     var source = new[]
                     {
                         References.Three,
+                        //incompatible
+                        // new THREELibrary.opensource.gihtub.three.js.build.three().Content,
+
                         References.Tween,
                         References.CopyShader,
                         References.FilmShader,
@@ -315,7 +318,7 @@ namespace WoodsXmasByRobert
                  }
              );
 
-            var webglRenderer = new THREE_WebGLRenderer(
+            var webglRenderer = new THREE.WebGLRenderer(
                 webglRenderer_args
             );
 
@@ -331,7 +334,7 @@ namespace WoodsXmasByRobert
 
             webglRenderer.setSize(Native.Window.Width, Native.Window.Height);
 
-            var camera = new THREE_PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 1, 100000);
+            var camera = new THREE.PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 1, 100000);
 
             camera.position.z = 0;
             camera.position.x = 0;
@@ -339,7 +342,7 @@ namespace WoodsXmasByRobert
 
             window.camera = camera;
 
-            var cameraTarget = new THREE_Vector3();
+            var cameraTarget = new THREE.Vector3();
             cameraTarget.z = -400;
             camera.lookAt(cameraTarget);
 
@@ -439,7 +442,7 @@ namespace WoodsXmasByRobert
                     );
 
 
-                    var scene = (THREE_Scene)(object)window.scene;
+                    var scene = (THREE.Scene)(object)window.scene;
 
                     scene.add(camera);
 
@@ -456,8 +459,8 @@ namespace WoodsXmasByRobert
                             }
                         );
 
-                        var cloudPlane = new THREE_PlaneGeometry(12500, 1880);
-                        var cloud = new THREE_Mesh(cloudPlane, new THREE_MeshBasicMaterial(args));
+                        var cloudPlane = new THREE.PlaneGeometry(12500, 1880);
+                        var cloud = new THREE.Mesh(cloudPlane, new THREE.MeshBasicMaterial(args));
                         cloud.position.set(300, 5350, -4450);
                         cloud.lookAt(camera.position);
                         scene.add(cloud);
@@ -476,8 +479,8 @@ namespace WoodsXmasByRobert
                             }
                         );
 
-                        var skyPlane = new THREE_PlaneGeometry(9000, 6000);
-                        var sky = new THREE_Mesh(skyPlane, new THREE_MeshBasicMaterial(args));
+                        var skyPlane = new THREE.PlaneGeometry(9000, 6000);
+                        var sky = new THREE.Mesh(skyPlane, new THREE.MeshBasicMaterial(args));
 
                         sky.scale.set(4, 2.5, 2.5);
                         sky.position.set(0, 7500, -6000);
@@ -497,9 +500,9 @@ namespace WoodsXmasByRobert
                         moon_material_args.fog = false;
                         moon_material_args.blending = THREE.AdditiveBlending;
 
-                        var moonPlane = new THREE_PlaneGeometry(1000, 1000);
-                        var moon = new THREE_Mesh(moonPlane,
-                            new THREE_MeshBasicMaterial(
+                        var moonPlane = new THREE.PlaneGeometry(1000, 1000);
+                        var moon = new THREE.Mesh(moonPlane,
+                            new THREE.MeshBasicMaterial(
                                 (object)moon_material_args
                             )
                         );
@@ -520,9 +523,9 @@ namespace WoodsXmasByRobert
 
 
                     #region subtitleArray
-                    var subtitleArray = (IArray<THREE_Mesh>)(object)window.subtitleArray;
+                    var subtitleArray = (IArray<THREE.Mesh>)(object)window.subtitleArray;
 
-                    var textPlane = new THREE_PlaneGeometry(512, 80);
+                    var textPlane = new THREE.PlaneGeometry(512, 80);
 
                     new SubtitlesImages().Images.WithEach(
                         i =>
@@ -538,7 +541,7 @@ namespace WoodsXmasByRobert
                           );
 
 
-                            var sub = new THREE_Mesh(textPlane, new THREE_MeshBasicMaterial(args));
+                            var sub = new THREE.Mesh(textPlane, new THREE.MeshBasicMaterial(args));
                             sub.position.z = -800;
                             sub.position.y = -550;
                             sub.visible = false;
@@ -548,7 +551,7 @@ namespace WoodsXmasByRobert
                      );
 
                     {
-                        var endPlane = new THREE_PlaneGeometry(500, 100);
+                        var endPlane = new THREE.PlaneGeometry(500, 100);
 
                         object args = new object().With(
                             (dynamic a) =>
@@ -561,7 +564,7 @@ namespace WoodsXmasByRobert
                         );
 
 
-                        var end = new THREE_Mesh(endPlane, new THREE_MeshBasicMaterial(args));
+                        var end = new THREE.Mesh(endPlane, new THREE.MeshBasicMaterial(args));
                         end.position.z = -400;
                         end.position.y = 100;
                         end.visible = false;
@@ -575,17 +578,17 @@ namespace WoodsXmasByRobert
                     new IFunction("window.setupSubtitles();").apply(Native.Window);
                     #endregion
 
-                    var particles = (THREE_ParticleSystem)(object)window.particles;
-                    var bgSprite = (THREE_Sprite)(object)window.bgSprite;
-                    var loadingSprite = (THREE_Sprite)(object)window.loadingSprite;
-                    var pointLight = (THREE_PointLight)(object)window.pointLight;
-                    var treeArray = (IArray<THREE_Mesh>)(object)window.treeArray;
-                    var rockArray = (IArray<THREE_Mesh>)(object)window.rockArray;
-                    var flowerArray = (IArray<THREE_Mesh>)(object)window.flowerArray;
+                    var particles = (THREE.ParticleSystem)(object)window.particles;
+                    var bgSprite = (THREE.Sprite)(object)window.bgSprite;
+                    var loadingSprite = (THREE.Sprite)(object)window.loadingSprite;
+                    var pointLight = (THREE.PointLight)(object)window.pointLight;
+                    var treeArray = (IArray<THREE.Mesh>)(object)window.treeArray;
+                    var rockArray = (IArray<THREE.Mesh>)(object)window.rockArray;
+                    var flowerArray = (IArray<THREE.Mesh>)(object)window.flowerArray;
 
 
-                    var groundMesh1 = (THREE_Mesh)(object)window.groundMesh1;
-                    var groundMesh2 = (THREE_Mesh)(object)window.groundMesh2;
+                    var groundMesh1 = (THREE.Mesh)(object)window.groundMesh1;
+                    var groundMesh2 = (THREE.Mesh)(object)window.groundMesh2;
 
 
                     var renderModel = (object)window.renderModel;
@@ -594,7 +597,7 @@ namespace WoodsXmasByRobert
                     var effectCopy = (object)window.effectCopy;
 
 
-                    var composer = new THREE_EffectComposer(webglRenderer);
+                    var composer = new THREE.EffectComposer(webglRenderer);
                     composer.addPass(renderModel);
                     composer.addPass(effectFilm);
                     composer.addPass(effectVignette);
@@ -610,7 +613,7 @@ namespace WoodsXmasByRobert
                     Action<string, Action<object>> load =
                         (src, yield) =>
                         {
-                            new THREE_JSONLoader().load(
+                            new THREE.JSONLoader().load(
                                src,
                                IFunction.OfDelegate(yield)
                            );
@@ -624,9 +627,9 @@ namespace WoodsXmasByRobert
                         {
                             Console.WriteLine("got sled!");
 
-                            var sled = new THREE_Mesh(
+                            var sled = new THREE.Mesh(
                                 geometry,
-                                new THREE_MeshFaceMaterial()
+                                new THREE.MeshFaceMaterial()
                             );
 
                             var scale = 4;
@@ -674,7 +677,7 @@ namespace WoodsXmasByRobert
                                                      geo = tree1Geo;
                                                  }
 
-                                             var mesh = new THREE_Mesh(geo, new THREE_MeshFaceMaterial());
+                                             var mesh = new THREE.Mesh(geo, new THREE.MeshFaceMaterial());
                                              var scale = 1.2 + random.NextDouble();
                                              mesh.scale.set(scale, scale * 2, scale);
 
@@ -723,9 +726,9 @@ namespace WoodsXmasByRobert
                             args.morphTargets = true;
                             args.fog = false;
 
-                            var bird = new THREE_MorphAnimMesh(
+                            var bird = new THREE.MorphAnimMesh(
                                 geometry,
-                                new THREE_MeshBasicMaterial(
+                                new THREE.MeshBasicMaterial(
                                     (object)args
                                 )
                             );
@@ -761,7 +764,7 @@ namespace WoodsXmasByRobert
 
                                 args.color = 0x444444;
 
-                                var mesh = new THREE_Mesh(geometry, new THREE_MeshLambertMaterial((object)args));
+                                var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial((object)args));
 
                                 var scale = 1 + (random.NextDouble() * 0.5);
 
@@ -804,8 +807,8 @@ namespace WoodsXmasByRobert
                             horse_material_args.color = 0x090601;
                             horse_material_args.morphTargets = true;
 
-                            var horse = new THREE_MorphAnimMesh(geometry,
-                                new THREE_MeshLambertMaterial(
+                            var horse = new THREE.MorphAnimMesh(geometry,
+                                new THREE.MeshLambertMaterial(
                                     (object)horse_material_args
                                 )
                             );
@@ -822,7 +825,7 @@ namespace WoodsXmasByRobert
                             //checkLoadingDone();
 
                             // Handles
-                            var plane = new THREE_PlaneGeometry(700, 10, 40, 1);
+                            var plane = new THREE.PlaneGeometry(700, 10, 40, 1);
 
                             var l = Math.Floor(plane.vertices.Length / 2.0);
 
@@ -845,11 +848,11 @@ namespace WoodsXmasByRobert
                             material_args.color = 0x090601;
                             material_args.side = THREE.DoubleSide;
 
-                            var material = new THREE_MeshBasicMaterial(
+                            var material = new THREE.MeshBasicMaterial(
                                 (object)material_args
                             );
 
-                            var leftHandle = new THREE_Mesh(plane, material);
+                            var leftHandle = new THREE.Mesh(plane, material);
                             leftHandle.position.y = -120;
                             leftHandle.position.z = -350;
                             leftHandle.position.x = -30;
@@ -859,7 +862,7 @@ namespace WoodsXmasByRobert
                             scene.add(leftHandle);
                             window.leftHandle = leftHandle;
 
-                            var rightHandle = new THREE_Mesh(plane, material);
+                            var rightHandle = new THREE.Mesh(plane, material);
                             rightHandle.position.y = -120;
                             rightHandle.position.z = -350;
                             rightHandle.position.x = 30;
@@ -890,8 +893,8 @@ namespace WoodsXmasByRobert
 
                         for (var i = 0; i < half; ++i)
                         {
-                            var mesh = new THREE_Mesh(geometry,
-                                new THREE_MeshLambertMaterial(
+                            var mesh = new THREE.Mesh(geometry,
+                                new THREE.MeshLambertMaterial(
                                     (object)args
                                 )
                             );
@@ -957,7 +960,7 @@ namespace WoodsXmasByRobert
                         delta =>
                         {
                             // trees
-                            var mesh = default(THREE_Mesh);
+                            var mesh = default(THREE.Mesh);
 
                             for (var i = 0; i < treeArray.length; ++i)
                             {
@@ -1026,16 +1029,16 @@ namespace WoodsXmasByRobert
                     {
                         var allLoaded = (bool)(object)window.allLoaded;
 
-                        var horse = (THREE_MorphAnimMesh)(object)window.horse;
-                        var bird = (THREE_MorphAnimMesh)(object)window.bird;
+                        var horse = (THREE.MorphAnimMesh)(object)window.horse;
+                        var bird = (THREE.MorphAnimMesh)(object)window.bird;
 
-                        var leftHandle = (THREE_Mesh)(object)window.leftHandle;
-                        var rightHandle = (THREE_Mesh)(object)window.rightHandle;
+                        var leftHandle = (THREE.Mesh)(object)window.leftHandle;
+                        var rightHandle = (THREE.Mesh)(object)window.rightHandle;
 
-                        var moon = (THREE_Mesh)(object)window.moon;
-                        var cloud = (THREE_Mesh)(object)window.cloud;
-                        var sky = (THREE_Mesh)(object)window.sky;
-                        var sled = (THREE_Mesh)(object)window.sled;
+                        var moon = (THREE.Mesh)(object)window.moon;
+                        var cloud = (THREE.Mesh)(object)window.cloud;
+                        var sky = (THREE.Mesh)(object)window.sky;
+                        var sled = (THREE.Mesh)(object)window.sled;
 
                         //new IFunction("this.loop();").apply(Native.Window);
 

@@ -187,7 +187,7 @@ var starArray = [];
 
         values_size[v] = 50 + Math.random() * 80;
         values_color[v] = new THREE.Color(0xffffff);
-        values_color[v].setHSV(0.0, 0.0, 0.05 + Math.random() * 0.9);
+         values_color[v].setHSV(0.0, 0.0, 0.05 + Math.random() * 0.9);
 
         values_time[v] = Math.random();
 

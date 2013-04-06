@@ -91,6 +91,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLBossHarvesterByOutside
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLCannonPhysicsEngine", "..\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine\WebGLCannonPhysicsEngine.csproj", "{6AFA30D6-E490-4D20-ABEE-50E900779CF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLBeachballsByDoob", "..\synergy\webgl\WebGLBeachballsByDoob\WebGLBeachballsByDoob\WebGLBeachballsByDoob.csproj", "{A660135F-61FF-461E-86CC-E450307B28F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -987,6 +989,26 @@ Global
 		{6AFA30D6-E490-4D20-ABEE-50E900779CF4}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6AFA30D6-E490-4D20-ABEE-50E900779CF4}.Release|x86.ActiveCfg = Release|x86
 		{6AFA30D6-E490-4D20-ABEE-50E900779CF4}.Release|x86.Build.0 = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Android|Any CPU.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Android|Mixed Platforms.Build.0 = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Android|x86.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Android|x86.Build.0 = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Assets|Any CPU.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Assets|x86.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Assets|x86.Build.0 = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Debug|x86.ActiveCfg = Debug|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Debug|x86.Build.0 = Debug|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Release|Any CPU.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Release|x86.ActiveCfg = Release|x86
+		{A660135F-61FF-461E-86CC-E450307B28F5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1035,5 +1057,6 @@ Global
 		{9B68EA42-8C55-4481-9B26-54AF1A5292D9} = {EC576255-F2AA-4877-9A8B-E9858124B3AF}
 		{2DC51F7F-A815-4DBF-9015-8AEA1E229B87} = {EC576255-F2AA-4877-9A8B-E9858124B3AF}
 		{6AFA30D6-E490-4D20-ABEE-50E900779CF4} = {EC576255-F2AA-4877-9A8B-E9858124B3AF}
+		{A660135F-61FF-461E-86CC-E450307B28F5} = {EC576255-F2AA-4877-9A8B-E9858124B3AF}
 	EndGlobalSection
 EndGlobal

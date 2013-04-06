@@ -109,7 +109,7 @@ namespace WebGLCannonPhysicsEngine
 
             world.quatNormalizeSkip = 0;
             world.quatNormalizeFast = false;
-            world.solver.setSpookParams(300, 10);
+            //world.solver.setSpookParams(300, 10);
             world.solver.iterations = 5;
             world.gravity.set(0, -20, 0);
             world.broadphase = new CANNON.NaiveBroadphase();
