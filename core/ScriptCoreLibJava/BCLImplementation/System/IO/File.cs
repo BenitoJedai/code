@@ -54,12 +54,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             return InternalSByteArrayToByteArray(x);
         }
 
+        [Obsolete("Should use (sbyte[])(object)e instead!")]
         [Script(OptimizedCode = @"return e;")]
         public static byte[] InternalSByteArrayToByteArray(sbyte[] e)
         {
             return default(byte[]);
         }
 
+        [Obsolete("Should use (byte[])(object)e instead!")]
         [Script(OptimizedCode = @"return e;")]
         public static sbyte[] InternalByteArrayToSByteArray(byte[] e)
         {

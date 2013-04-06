@@ -30,11 +30,24 @@ namespace AndroidContacts
         {
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-            service.WebMethod2(
+            service.GetContacts(
                 @"A string from JavaScript.",
-                value =>
+                (
+                    string id,
+                    string name,
+                    string email,
+                    string gravatar
+
+                    ) =>
                 {
-                    new IHTMLPre { innerText = value }.AttachToDocument();
+
+                    // we are replacing elements with implicit elements
+                    var n = new ContactLayout { id = id, name = name, email = email };
+
+                    n.gravatar.src = gravatar;
+
+                    n.Container.AttachToDocument();
+
                 }
             );
         }

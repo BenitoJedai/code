@@ -10,7 +10,12 @@ namespace android.database
     [Script(IsNative = true)]
     public interface Cursor
     {
-        byte[] getBlob(int columnIndex);
+        //        0012:07aa ScriptCoreLibAndroid create android.test.mock.MockCursor
+        //Method 'getBlob' in type 'android.test.mock.MockCursor' from assembly 'ScriptCoreLibAndroid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+        //  fix compiler to wait for android.test.mock.MockCursor
+
+        // jsc should warn if we misspelled return type
+        sbyte[] getBlob(int columnIndex);
 
 
         void close();

@@ -241,6 +241,33 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs">
       <Link>BCLImplementation\System\Runtime\CompilerServices\CallSite.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\MD5.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\MD5.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSA.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\RSA.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSAParameters.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\RSAParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\SHA1.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\SHA1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\IEvidenceFactory.cs">
       <Link>BCLImplementation\System\Security\IEvidenceFactory.cs</Link>
     </Compile>
@@ -567,6 +594,12 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\CodeSource.cs">
       <Link>java\security\CodeSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\MessageDigest.cs">
+      <Link>java\security\MessageDigest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\MessageDigestSpi.cs">
+      <Link>java\security\MessageDigestSpi.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\ProtectionDomain.cs">
       <Link>java\security\ProtectionDomain.cs</Link>

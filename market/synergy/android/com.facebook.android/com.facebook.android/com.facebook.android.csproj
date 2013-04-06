@@ -135,6 +135,7 @@
       <Link>opensource\github\facebook-android-sdk\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
+  
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetDir)$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
