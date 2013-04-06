@@ -76,8 +76,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Amazon\EC2\AmazonEC2Client.cs" />
-    <Compile Include="Amazon\EC2\Model\InstanceStateChange.cs" />
     <Compile Include="Archive\JavaArchiveExtensions.cs" />
     <Compile Include="Archive\ZIPArchive.cs" />
     <Compile Include="Archive\ZIPArchiveFile.cs" />

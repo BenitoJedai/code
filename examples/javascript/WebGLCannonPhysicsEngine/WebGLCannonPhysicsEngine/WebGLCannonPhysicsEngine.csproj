@@ -112,7 +112,8 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="THREE">
+    <Reference Include="THREE, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\THREE.1.0.0.0\lib\THREE.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">

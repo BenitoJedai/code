@@ -10,10 +10,9 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using THREE.Design;
-using THREE.HTML.Pages;
+using THREELibrary.HTML.Pages;
 
-namespace THREE
+namespace THREELibrary
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.

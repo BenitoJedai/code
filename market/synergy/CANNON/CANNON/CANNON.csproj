@@ -8,11 +8,11 @@
     <ProjectGuid>{4FFD0992-0097-4C06-9362-19846B399732}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CANNON</RootNamespace>
-    <AssemblyName>CANNON</AssemblyName>
+    <RootNamespace>CANNONLibrary</RootNamespace>
+    <AssemblyName>CANNONLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>CANNON.Program</StartupObject>
+    <StartupObject>CANNONLibrary.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,8 +113,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="CANNON.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\CANNON.AssetsLibrary.dll</HintPath>
+    <Reference Include="CANNONLibrary.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\CANNONLibrary.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -134,7 +134,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName)
 
 
 if $(ConfigurationName)==Release (

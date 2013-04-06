@@ -13,6 +13,8 @@ using System.Text;
 using System.Xml.Linq;
 using WebGLBeachballsByDoob.Design;
 using WebGLBeachballsByDoob.HTML.Pages;
+using THREE.Design;
+using CANNON.Design;
 
 namespace WebGLBeachballsByDoob
 {
@@ -66,50 +68,48 @@ namespace WebGLBeachballsByDoob
 
 			var ballGeometry, ballMaterial, ballBodyMaterial;
 
-			var intersectionPlane, origin = new THREE.Vector3( 0, 15, 0 );
+			var intersectionPlane, origin = new THREE_Vector3( 0, 15, 0 );
 			var isMouseDown = false;
 
-			init();
-			animate();
 
-			function init() {
+#region init
 
-				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: false } );
-				renderer.setClearColor( new THREE.Color( 0x101010 ) );
+				var renderer = new THREE_WebGLRenderer( { antialias: true, alpha: false } );
+				renderer.setClearColor( new THREE_Color( 0x101010 ) );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				document.body.appendChild( renderer.domElement );
 
 				// scene
 
-				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
+				camera = new THREE_PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.x = - 30;
 				camera.position.y = 10;
 				camera.position.z = 30;
-				camera.lookAt( new THREE.Vector3( 0, 10, 0 ) );
+				camera.lookAt( new THREE_Vector3( 0, 10, 0 ) );
 
-				scene = new THREE.Scene();
+				scene = new THREE_Scene();
 
-				var light = new THREE.HemisphereLight( 0xffffff, 0x606060, 1.2 );
+				var light = new THREE_HemisphereLight( 0xffffff, 0x606060, 1.2 );
 				light.position.set( -10, 10, 10 );
 				scene.add( light );
 
-				var geometry = new THREE.CubeGeometry( 20, 20, 20 );
-				var material = new THREE.MeshBasicMaterial( { wireframe: true, opacity: 0.1, transparent: true } );
-				var mesh = new THREE.Mesh( geometry, material );
+				var geometry = new THREE_CubeGeometry( 20, 20, 20 );
+				var material = new THREE_MeshBasicMaterial( { wireframe: true, opacity: 0.1, transparent: true } );
+				var mesh = new THREE_Mesh( geometry, material );
 				mesh.position.y = 10;
 				scene.add( mesh );
 
-				var geometry = new THREE.PlaneGeometry( 20, 20, 8, 8 );
-				intersectionPlane = new THREE.Mesh( geometry );
+				var geometry = new THREE_PlaneGeometry( 20, 20, 8, 8 );
+				intersectionPlane = new THREE_Mesh( geometry );
 				intersectionPlane.position.y = 10;
 				intersectionPlane.visible = false;
 				scene.add( intersectionPlane );
 
 				// geometry
 
-				ballGeometry = new THREE.Geometry();
+				ballGeometry = new THREE_Geometry();
 
-				ballMaterial = new THREE.MeshPhongMaterial( {
+				ballMaterial = new THREE_MeshPhongMaterial( {
 					vertexColors: THREE.FaceColors,
 					specular: 0x808080,
 					shininess: 2000
@@ -118,18 +118,18 @@ namespace WebGLBeachballsByDoob
 				//
 
 				var colors = [
-					new THREE.Color( 0xe52b30 ),
-					new THREE.Color( 0xe52b30 ),
-					new THREE.Color( 0x2e1b6a ),
-					new THREE.Color( 0xdac461 ),
-					new THREE.Color( 0xf07017 ),
-					new THREE.Color( 0x38b394 ),
-					new THREE.Color( 0xeaf1f7 )
+					new THREE_Color( 0xe52b30 ),
+					new THREE_Color( 0xe52b30 ),
+					new THREE_Color( 0x2e1b6a ),
+					new THREE_Color( 0xdac461 ),
+					new THREE_Color( 0xf07017 ),
+					new THREE_Color( 0x38b394 ),
+					new THREE_Color( 0xeaf1f7 )
 				];
 
 				var amount = colors.length;
 
-				var geometryTop = new THREE.SphereGeometry( 1, 5 * amount, 2, 0, Math.PI * 2, 0, 0.30 );
+				var geometryTop = new THREE_SphereGeometry( 1, 5 * amount, 2, 0, Math.PI * 2, 0, 0.30 );
 
 				for ( var j = 0, jl = geometryTop.faces.length; j < jl; j ++ ) {
 
@@ -139,7 +139,7 @@ namespace WebGLBeachballsByDoob
 
 				THREE.GeometryUtils.merge( ballGeometry, geometryTop );
 
-				var geometryBottom = new THREE.SphereGeometry( 1, 5 * amount, 2, 0, Math.PI * 2, Math.PI - 0.30, 0.30 );
+				var geometryBottom = new THREE_SphereGeometry( 1, 5 * amount, 2, 0, Math.PI * 2, Math.PI - 0.30, 0.30 );
 
 				for ( var j = 0, jl = geometryBottom.faces.length; j < jl; j ++ ) {
 
@@ -154,7 +154,7 @@ namespace WebGLBeachballsByDoob
 
 				for ( var i = 0; i < sides; i ++ ) {
 
-					var patch = new THREE.SphereGeometry( 1, 5, 10, i * size, size, 0.30, Math.PI - 0.60 );
+					var patch = new THREE_SphereGeometry( 1, 5, 10, i * size, size, 0.30, Math.PI - 0.60 );
 
 					for ( var j = 0, jl = patch.faces.length; j < jl; j ++ ) {
 
@@ -168,44 +168,44 @@ namespace WebGLBeachballsByDoob
 
 				// physics
 
-				world = new CANNON.World();
-				world.broadphase = new CANNON.NaiveBroadphase();
+				world = new CANNON_World();
+				world.broadphase = new CANNON_NaiveBroadphase();
 				world.gravity.set( 0, - 15, 0 );
 				world.solver.iterations = 7;
 				world.solver.tolerance = 0.1;
 
-				var groundShape = new CANNON.Plane();
-				var groundMaterial = new CANNON.Material();
-				var groundBody = new CANNON.RigidBody( 0, groundShape, groundMaterial);
-				groundBody.quaternion.setFromAxisAngle( new CANNON.Vec3( 1, 0, 0 ), - Math.PI / 2 );
+				var groundShape = new CANNON_Plane();
+				var groundMaterial = new CANNON_Material();
+				var groundBody = new CANNON_RigidBody( 0, groundShape, groundMaterial);
+				groundBody.quaternion.setFromAxisAngle( new CANNON_Vec3( 1, 0, 0 ), - Math.PI / 2 );
 				world.add( groundBody );
 
-				var planeShapeXmin = new CANNON.Plane();
-				var planeXmin = new CANNON.RigidBody( 0, planeShapeXmin, groundMaterial );
-				planeXmin.quaternion.setFromAxisAngle( new CANNON.Vec3( 0, 1, 0 ), Math.PI / 2 );
+				var planeShapeXmin = new CANNON_Plane();
+				var planeXmin = new CANNON_RigidBody( 0, planeShapeXmin, groundMaterial );
+				planeXmin.quaternion.setFromAxisAngle( new CANNON_Vec3( 0, 1, 0 ), Math.PI / 2 );
 				planeXmin.position.set( - 10, 0, 0 );
 				world.add( planeXmin );
 
-				var planeShapeXmax = new CANNON.Plane();
-				var planeXmax = new CANNON.RigidBody( 0, planeShapeXmax, groundMaterial );
-				planeXmax.quaternion.setFromAxisAngle( new CANNON.Vec3( 0, 1, 0 ), - Math.PI / 2 );
+				var planeShapeXmax = new CANNON_Plane();
+				var planeXmax = new CANNON_RigidBody( 0, planeShapeXmax, groundMaterial );
+				planeXmax.quaternion.setFromAxisAngle( new CANNON_Vec3( 0, 1, 0 ), - Math.PI / 2 );
 				planeXmax.position.set( 10, 0, 0 );
 				world.add( planeXmax );
 
-				var planeShapeYmin = new CANNON.Plane();
-				var planeZmin = new CANNON.RigidBody( 0, planeShapeYmin, groundMaterial );
+				var planeShapeYmin = new CANNON_Plane();
+				var planeZmin = new CANNON_RigidBody( 0, planeShapeYmin, groundMaterial );
 				planeZmin.position.set( 0, 0, - 10 );
 				world.add( planeZmin );
 
-				var planeShapeYmax = new CANNON.Plane();
-				var planeZmax = new CANNON.RigidBody( 0, planeShapeYmax, groundMaterial );
-				planeZmax.quaternion.setFromAxisAngle( new CANNON.Vec3( 0, 1, 0 ),Math.PI );
+				var planeShapeYmax = new CANNON_Plane();
+				var planeZmax = new CANNON_RigidBody( 0, planeShapeYmax, groundMaterial );
+				planeZmax.quaternion.setFromAxisAngle( new CANNON_Vec3( 0, 1, 0 ),Math.PI );
 				planeZmax.position.set( 0, 0, 10 );
 				world.add( planeZmax );
 
-				ballBodyMaterial = new CANNON.Material();
-				world.addContactMaterial( new CANNON.ContactMaterial( groundMaterial, ballBodyMaterial, 0.2, 0.5 ) );
-				world.addContactMaterial( new CANNON.ContactMaterial( ballBodyMaterial, ballBodyMaterial, 0.2, 0.8 ) );
+				ballBodyMaterial = new CANNON_Material();
+				world.addContactMaterial( new CANNON_ContactMaterial( groundMaterial, ballBodyMaterial, 0.2, 0.5 ) );
+				world.addContactMaterial( new CANNON_ContactMaterial( ballBodyMaterial, ballBodyMaterial, 0.2, 0.8 ) );
 
 				for ( var i = 0; i < 100; i ++ ) {
 
@@ -219,9 +219,9 @@ namespace WebGLBeachballsByDoob
 
 				//
 
-				var projector = new THREE.Projector();
-				var ray = new THREE.Raycaster();
-				var mouse3D = new THREE.Vector3();
+				var projector = new THREE_Projector();
+				var ray = new THREE_Raycaster();
+				var mouse3D = new THREE_Vector3();
 
 				document.body.style.cursor = 'pointer';
 				document.addEventListener( 'mousedown', function ( event ) {
@@ -286,7 +286,8 @@ namespace WebGLBeachballsByDoob
 
 				onWindowResized( null );
 
-			}
+#endregion
+
 
 			function addBall( x, y, z ) {
 
@@ -329,30 +330,9 @@ namespace WebGLBeachballsByDoob
 
 			}
 
-			function animate() {
+		
 
-				requestAnimationFrame( animate );
-
-				if ( isMouseDown ) {
-
-					if ( spheres.length > 200 ) {
-
-						removeBall();
-
-					}
-
-					addBall(
-						origin.x + ( Math.random() * 4 - 2 ),
-						origin.y + ( Math.random() * 4 - 2 ),
-						origin.z + ( Math.random() * 4 - 2 )
-					);
-
-				}
-
-				render();
-
-			}
-
+#region animate
 			function render() {
 
 				time = performance.now();
@@ -379,6 +359,34 @@ namespace WebGLBeachballsByDoob
 				renderer.render( scene, camera );
 
 			}
+
+	        function animate() {
+
+				requestAnimationFrame( animate );
+
+				if ( isMouseDown ) {
+
+					if ( spheres.length > 200 ) {
+
+						removeBall();
+
+					}
+
+					addBall(
+						origin.x + ( Math.random() * 4 - 2 ),
+						origin.y + ( Math.random() * 4 - 2 ),
+						origin.z + ( Math.random() * 4 - 2 )
+					);
+
+				}
+
+				render();
+
+			}
+#endregion
+
+			animate();
+
         }
 
     }

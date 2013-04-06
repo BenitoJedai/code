@@ -14,8 +14,6 @@ using WebGLCannonPhysicsEngine.Design;
 using WebGLCannonPhysicsEngine.HTML.Pages;
 using System.Collections.Generic;
 using ScriptCoreLib.Shared.Lambda;
-using CANNON.Design;
-using THREE.Design;
 
 namespace WebGLCannonPhysicsEngine
 {
@@ -52,8 +50,8 @@ namespace WebGLCannonPhysicsEngine
             #region await Three.js then do InitializeContent
             new[]
             {
-                new CANNON.opensource.github.cannon.js.build.cannon().Content,
-                new THREE.opensource.gihtub.three.js.build.three().Content,
+                new CANNONLibrary.opensource.github.cannon.js.build.cannon().Content,
+                new THREELibrary.opensource.gihtub.three.js.build.three().Content,
                 new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
@@ -78,11 +76,11 @@ namespace WebGLCannonPhysicsEngine
 
         private static void InitializeContent()
         {
-            var boxes = new List<CANNON_RigidBody>();
-            var boxMeshes = new List<THREE_Mesh>();
+            var boxes = new List<CANNON.RigidBody>();
+            var boxMeshes = new List<THREE.Mesh>();
 
-            var balls = new List<CANNON_RigidBody>();
-            var ballMeshes = new List<THREE_Mesh>();
+            var balls = new List<CANNON.RigidBody>();
+            var ballMeshes = new List<THREE.Mesh>();
 
 
 
@@ -107,20 +105,20 @@ namespace WebGLCannonPhysicsEngine
 
             #region initCannon
             //    // Setup our world
-            var world = new CANNON_World();
+            var world = new CANNON.World();
 
             world.quatNormalizeSkip = 0;
             world.quatNormalizeFast = false;
             world.solver.setSpookParams(300, 10);
             world.solver.iterations = 5;
             world.gravity.set(0, -20, 0);
-            world.broadphase = new CANNON_NaiveBroadphase();
+            world.broadphase = new CANNON.NaiveBroadphase();
 
             //    // Create a slippery material (friction coefficient = 0.0)
-            var physicsMaterial = new CANNON_Material("slipperyMaterial");
+            var physicsMaterial = new CANNON.Material("slipperyMaterial");
 
 
-            var physicsContactMaterial = new CANNON_ContactMaterial(
+            var physicsContactMaterial = new CANNON.ContactMaterial(
                 physicsMaterial,
                 physicsMaterial,
                 0.0, // friction coefficient
@@ -130,14 +128,14 @@ namespace WebGLCannonPhysicsEngine
             //    // We must add the contact materials to the world
             world.addContactMaterial(physicsContactMaterial);
 
-            var controls_sphereShape = default(CANNON_Sphere);
-            var controls_sphereBody = default(CANNON_RigidBody);
+            var controls_sphereShape = default(CANNON.Sphere);
+            var controls_sphereBody = default(CANNON.RigidBody);
 
             {    // Create a sphere
                 var mass = 5;
                 var radius = 1.3;
-                var sphereShape = new CANNON_Sphere(radius);
-                var sphereBody = new CANNON_RigidBody(mass, sphereShape, physicsMaterial);
+                var sphereShape = new CANNON.Sphere(radius);
+                var sphereBody = new CANNON.RigidBody(mass, sphereShape, physicsMaterial);
                 controls_sphereShape = sphereShape;
                 controls_sphereBody = sphereBody;
                 sphereBody.position.set(0, 5, 0);
@@ -145,24 +143,24 @@ namespace WebGLCannonPhysicsEngine
                 world.add(sphereBody);
 
                 //    // Create a plane
-                var groundShape = new CANNON_Plane();
-                var groundBody = new CANNON_RigidBody(0, groundShape, physicsMaterial);
-                groundBody.quaternion.setFromAxisAngle(new CANNON_Vec3(1, 0, 0), -Math.PI / 2);
+                var groundShape = new CANNON.Plane();
+                var groundBody = new CANNON.RigidBody(0, groundShape, physicsMaterial);
+                groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
                 world.add(groundBody);
             }
             #endregion
 
             #region init
 
-            var camera = new THREE_PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 0.1, 1000);
+            var camera = new THREE.PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 0.1, 1000);
 
-            var scene = new THREE_Scene();
-            scene.fog = new THREE_Fog(0x000000, 0, 500);
+            var scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x000000, 0, 500);
 
-            var ambient = new THREE_AmbientLight(0x111111);
+            var ambient = new THREE.AmbientLight(0x111111);
             scene.add(ambient);
 
-            var light = new THREE_SpotLight(0xffffff);
+            var light = new THREE.SpotLight(0xffffff);
             light.position.set(10, 30, 20);
             light.target.position.set(0, 0, 0);
             //    if(true){
@@ -187,10 +185,10 @@ namespace WebGLCannonPhysicsEngine
             scene.add(controls.getObject());
 
             //    // floor
-            var geometry = new THREE_PlaneGeometry(300, 300, 50, 50);
-            geometry.applyMatrix(new THREE_Matrix4().makeRotationX(-Math.PI / 2));
+            var geometry = new THREE.PlaneGeometry(300, 300, 50, 50);
+            geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
 
-            var material = new THREE_MeshLambertMaterial(new MeshLambertMaterialDictionary { color = 0xdddddd });
+            var material = new THREE.MeshLambertMaterial(new MeshLambertMaterialDictionary { color = 0xdddddd });
 
             //Native.Window.
 
@@ -204,12 +202,12 @@ namespace WebGLCannonPhysicsEngine
 
             //    
 
-            var mesh = new THREE_Mesh(geometry, material);
+            var mesh = new THREE.Mesh(geometry, material);
             mesh.castShadow = true;
             mesh.receiveShadow = true;
             scene.add(mesh);
 
-            var renderer = new THREE_WebGLRenderer(new object());
+            var renderer = new THREE.WebGLRenderer(new object());
             renderer.shadowMapEnabled = true;
             renderer.shadowMapSoft = true;
             //renderer.setSize(Native.Window.Width, Native.Window.Height);
@@ -242,16 +240,16 @@ namespace WebGLCannonPhysicsEngine
                 {
                     var boxsize = Math_random() * 0.5;
 
-                    var halfExtents = new CANNON_Vec3(boxsize, boxsize, boxsize);
+                    var halfExtents = new CANNON.Vec3(boxsize, boxsize, boxsize);
 
-                    var boxShape = new CANNON_Box(halfExtents);
-                    var boxGeometry = new THREE_CubeGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2);
+                    var boxShape = new CANNON.Box(halfExtents);
+                    var boxGeometry = new THREE.CubeGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2);
 
                     var x = (Math_random() - 0.5) * 20;
                     var y = 1 + (Math_random() - 0.5) * 1;
                     var z = (Math_random() - 0.5) * 20;
-                    var boxBody = new CANNON_RigidBody(5, boxShape);
-                    var boxMesh = new THREE_Mesh(boxGeometry, material);
+                    var boxBody = new CANNON.RigidBody(5, boxShape);
+                    var boxMesh = new THREE.Mesh(boxGeometry, material);
                     world.add(boxBody);
                     scene.add(boxMesh);
                     boxBody.position.set(x, y, z);
@@ -269,19 +267,19 @@ namespace WebGLCannonPhysicsEngine
             #region Add linked boxes
             {    // 
                 var size = 0.5;
-                var he = new CANNON_Vec3(size, size, size * 0.1);
-                var boxShape = new CANNON_Box(he);
+                var he = new CANNON.Vec3(size, size, size * 0.1);
+                var boxShape = new CANNON.Box(he);
                 var mass = 0.0;
                 var space = 0.1 * size;
                 var N = 5;
-                var last = default(CANNON_RigidBody);
+                var last = default(CANNON.RigidBody);
 
-                var boxGeometry = new THREE_CubeGeometry(he.x * 2, he.y * 2, he.z * 2);
+                var boxGeometry = new THREE.CubeGeometry(he.x * 2, he.y * 2, he.z * 2);
 
                 for (var i = 0; i < N; i++)
                 {
-                    var boxbody = new CANNON_RigidBody(mass, boxShape);
-                    var boxMesh = new THREE_Mesh(boxGeometry, material);
+                    var boxbody = new CANNON.RigidBody(mass, boxShape);
+                    var boxMesh = new THREE.Mesh(boxGeometry, material);
                     boxbody.position.set(5, (N - i) * (size * 2 + 2 * space) + size * 2 + space, 0);
                     boxbody.linearDamping = 0.01;
                     boxbody.angularDamping = 0.01;
@@ -298,8 +296,8 @@ namespace WebGLCannonPhysicsEngine
                     if (i != 0)
                     {
                         // Connect this body to the last one
-                        var c1 = new CANNON_PointToPointConstraint(boxbody, new CANNON_Vec3(-size, size + space, 0), last, new CANNON_Vec3(-size, -size - space, 0));
-                        var c2 = new CANNON_PointToPointConstraint(boxbody, new CANNON_Vec3(size, size + space, 0), last, new CANNON_Vec3(size, -size - space, 0));
+                        var c1 = new CANNON.PointToPointConstraint(boxbody, new CANNON.Vec3(-size, size + space, 0), last, new CANNON.Vec3(-size, -size - space, 0));
+                        var c2 = new CANNON.PointToPointConstraint(boxbody, new CANNON.Vec3(size, size + space, 0), last, new CANNON.Vec3(size, -size - space, 0));
 
                         world.addConstraint(c1);
                         world.addConstraint(c2);
@@ -380,18 +378,18 @@ namespace WebGLCannonPhysicsEngine
 
                     var ballradius = 0.1 + Math_random() * 0.9;
 
-                    var ballShape = new CANNON_Sphere(ballradius);
-                    var ballGeometry = new THREE_SphereGeometry(ballShape.radius);
-                    var shootDirection = new THREE_Vector3();
+                    var ballShape = new CANNON.Sphere(ballradius);
+                    var ballGeometry = new THREE.SphereGeometry(ballShape.radius);
+                    var shootDirection = new THREE.Vector3();
                     var shootVelo = 15;
-                    var projector = new THREE_Projector();
+                    var projector = new THREE.Projector();
 
-                    Action<THREE_Vector3> getShootDir = (targetVec) =>
+                    Action<THREE.Vector3> getShootDir = (targetVec) =>
                     {
                         var vector = targetVec;
                         targetVec.set(0, 0, 1);
                         projector.unprojectVector(vector, camera);
-                        var ray = new THREE_Ray(controls_sphereBody.position,
+                        var ray = new THREE.Ray(controls_sphereBody.position,
                             vector
                             //.subSelf(controls_sphereBody.position)
                             .normalize()
@@ -407,8 +405,8 @@ namespace WebGLCannonPhysicsEngine
                     var y = controls_sphereBody.position.y;
                     var z = controls_sphereBody.position.z;
 
-                    var ballBody = new CANNON_RigidBody(1, ballShape);
-                    var ballMesh = new THREE_Mesh(ballGeometry, material);
+                    var ballBody = new CANNON.RigidBody(1, ballShape);
+                    var ballMesh = new THREE.Mesh(ballGeometry, material);
                     world.add(ballBody);
                     scene.add(ballMesh);
                     ballMesh.castShadow = true;

@@ -61,6 +61,11 @@ interface THREE.Scene
 	void add(any value);
 };
 
+[Constructor(long color)]
+interface THREE.Color 
+{ 
+};
+
 [Constructor(long color, long y, long z)]
 interface THREE.Fog 
 { 
