@@ -8,10 +8,11 @@ interface THREE
 	static attribute THREE.ColorUtilsType ColorUtils; 
 	static attribute THREE.ImageUtilsType ImageUtils; 
 	static attribute THREE.AnimationHandlerType AnimationHandler; 
-	
+
 	static attribute long DoubleSide; 
 	static attribute long AdditiveBlending; 
 
+    const long FaceColors = 1;
 
 };
 
@@ -79,6 +80,13 @@ interface THREE.PointLight
 	attribute THREE.Vector3  position;
 };
 
+[Constructor(long x, double y, double z)]
+interface THREE.HemisphereLight 
+{ 
+	attribute THREE.Vector3  position;
+};
+
+
 [Constructor(long x)]
 interface THREE.AmbientLight 
 { 
@@ -120,7 +128,7 @@ interface THREE.Vector3
 
 	void set(double x, double y, double z);
 	void copy( THREE.Vector3  p);
-	
+
 	THREE.Vector3 subSelf(any xyz);
 	THREE.Vector3 normalize();
 
@@ -192,7 +200,8 @@ interface THREE.SkinnedMesh
 
 };
 
-[Constructor(any geometry, any material)]
+[Constructor(any geometry), 
+	Constructor(any geometry, any material)]
 interface THREE.Mesh 
 { 
 	attribute THREE.Vector3  rotation;
@@ -230,9 +239,10 @@ interface THREE.WebGLRenderer
 
 	attribute Element domElement;
 
-	
+
 	void setClearColorHex(long color);
 	void setClearColor(long color, long h);
+	void setClearColor(THREE.Color color);
 	void setSize(long w, long h);
 	void render(any scene, any camera);
 
@@ -247,7 +257,16 @@ interface THREE.EffectComposer
 
 };
 
-[Constructor(double radius)]
+[Constructor]
+interface THREE.Geometry 
+{ 
+
+};
+
+
+[Constructor(double radius),
+ Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5),
+ Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)]
 interface THREE.SphereGeometry 
 { 
 
