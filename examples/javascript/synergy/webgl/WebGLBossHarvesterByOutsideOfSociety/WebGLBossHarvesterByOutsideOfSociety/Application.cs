@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using THREE.Design;
 using WebGLBossHarvesterByOutsideOfSociety.Design;
 using WebGLBossHarvesterByOutsideOfSociety.HTML.Pages;
 
@@ -62,7 +61,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             new[]
             {
                 //new CANNON.opensource.github.cannon.js.build.cannon().Content,
-                new THREE.opensource.gihtub.three.js.build.three().Content,
+                new THREELibrary.opensource.gihtub.three.js.build.three().Content,
                 //new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
@@ -88,21 +87,21 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             // http://oos.moxiecode.com/js_webgl/md5_test/
 
             var has_gl = false;
-            THREE_WebGLRenderer renderer = null;
+            THREE.WebGLRenderer renderer = null;
 
             var oldTime = 0L;
 
-            var cameraTarget = new THREE_Vector3 { x = 0, y = 300, z = 0 };
+            var cameraTarget = new THREE.Vector3 { x = 0, y = 300, z = 0 };
 
-            var positionVector = new THREE_Vector3();
-            var lookVector = new THREE_Vector3();
+            var positionVector = new THREE.Vector3();
+            var lookVector = new THREE.Vector3();
 
             var lastframe = 0;
 
-            var scene = new THREE_Scene();
-            scene.fog = new THREE_Fog(0x000000, 1000, 5000);
+            var scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x000000, 1000, 5000);
 
-            var camera = new THREE_PerspectiveCamera(50, (double)Native.Window.Width / (double)Native.Window.Height, 1, 10000);
+            var camera = new THREE.PerspectiveCamera(50, (double)Native.Window.Width / (double)Native.Window.Height, 1, 10000);
             camera.position.z = 800;
             camera.position.y = 100;
 
@@ -110,14 +109,14 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             scene.add(camera);
 
             // floor
-            var plane = new THREE_PlaneGeometry(10000, 10000, 50, 50);
-            var floorMaterial = new THREE_MeshBasicMaterial(new __floor_MeshBasicMaterialDictionary { wireframe = true, color = 0x333333 });
-            var floor = new THREE_Mesh(plane, floorMaterial);
+            var plane = new THREE.PlaneGeometry(10000, 10000, 50, 50);
+            var floorMaterial = new THREE.MeshBasicMaterial(new __floor_MeshBasicMaterialDictionary { wireframe = true, color = 0x333333 });
+            var floor = new THREE.Mesh(plane, floorMaterial);
             floor.rotation.x = -Math.PI / 2;
             scene.add(floor);
 
             // model
-            var loader = new THREE_JSONLoader();
+            var loader = new THREE.JSONLoader();
 
 
 
@@ -130,7 +129,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
                          //console.log("Number of bones: "+geometry.bones.length);
 
-                         var material = new THREE_MeshBasicMaterial(new __MeshBasicMaterialDictionary
+                         var material = new THREE.MeshBasicMaterial(new __MeshBasicMaterialDictionary
                          {
                              color = 0xffffff,
                              wireframe = true,
@@ -140,14 +139,14 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                          });
 
                          object geometry_object = geometry;
-                         var skin = new THREE_SkinnedMesh(geometry_object, material);
+                         var skin = new THREE.SkinnedMesh(geometry_object, material);
                          scene.add(skin);
 
 
                          object geometry_animation = geometry.animation;
-                         THREE.Design.THREE.AnimationHandler.add(geometry_animation);
+                         THREE.AnimationHandler.add(geometry_animation);
 
-                         var animation = new THREE_Animation(skin, "walk1");
+                         var animation = new THREE.Animation(skin, "walk1");
                          animation.play();
 
                          skin.rotation.x = -Math.PI / 2;
@@ -157,10 +156,10 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 
 
-                         var boneArray = new Dictionary<int, THREE_Mesh>();
+                         var boneArray = new Dictionary<int, THREE.Mesh>();
 
 
-                         var boneContainer = new THREE_Object3D();
+                         var boneContainer = new THREE.Object3D();
 
                          boneContainer.rotation.x = -Math.PI / 2;
                          boneContainer.rotation.z = -Math.PI / 2;
@@ -168,7 +167,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                          scene.add(boneContainer);
 
                          var index = 0;
-                         var pmaterial = new THREE_MeshPhongMaterial(new __MeshPhongMaterialDictionary { color = 0xff0000 });
+                         var pmaterial = new THREE.MeshPhongMaterial(new __MeshPhongMaterialDictionary { color = 0xff0000 });
 
                          for (var b = 1; b != skin.bones.Length; b++)
                          {
@@ -183,11 +182,11 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
                                  var size = Math.Min(child.position.length() * 0.05, 8);
 
-                                 var cylinder = new THREE_CylinderGeometry(size, 0.1, child.position.length(), 6);
-                                 cylinder.applyMatrix(new THREE_Matrix4().setRotationFromEuler(new THREE_Vector3(Math.PI / 2, 0, 0)));
+                                 var cylinder = new THREE.CylinderGeometry(size, 0.1, child.position.length(), 6);
+                                 cylinder.applyMatrix(new THREE.Matrix4().setRotationFromEuler(new THREE.Vector3(Math.PI / 2, 0, 0)));
 
-                                 cylinder.applyMatrix(new THREE_Matrix4().setPosition(new THREE_Vector3(0, 0, 0.5 * child.position.length())));
-                                 var mesh = new THREE_Mesh(cylinder, pmaterial);
+                                 cylinder.applyMatrix(new THREE.Matrix4().setPosition(new THREE.Vector3(0, 0, 0.5 * child.position.length())));
+                                 var mesh = new THREE.Mesh(cylinder, pmaterial);
 
                                  boneArray[child.id] = mesh;
                                  boneContainer.add(mesh);
@@ -222,7 +221,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 
 
-                             THREE.Design.THREE.AnimationHandler.update(delta / 1000.0);
+                             THREE.AnimationHandler.update(delta / 1000.0);
 
 
 
@@ -237,14 +236,14 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                                  {
 
                                      var child = bone.children[c];
-                                     var child_bone = (THREE.Design.THREE_Bone)(object)child;
+                                     var child_bone = (THREE.Bone)(object)child;
                                      var id = child.id;
                                      var mesh = boneArray[id];
 
                                      positionVector.getPositionFromMatrix(child_bone.skinMatrix);
                                      mesh.position.copy(positionVector);
 
-                                     var child_parent_bone = (THREE.Design.THREE_Bone)(object)child.parent;
+                                     var child_parent_bone = (THREE.Bone)(object)child.parent;
                                      lookVector.getPositionFromMatrix(child_parent_bone.skinMatrix);
                                      mesh.lookAt(lookVector);
 
@@ -297,13 +296,13 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             loader.load(new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src, harvesterLoaded);
 
             // lights
-            var pointLight = new THREE_PointLight(0xffffff, 1.0, z: 0);
+            var pointLight = new THREE.PointLight(0xffffff, 1.0, z: 0);
             camera.add(pointLight);
 
             try
             {
                 // renderer
-                renderer = new THREE_WebGLRenderer(new __WebGLRendererDictionary { antialias = true });
+                renderer = new THREE.WebGLRenderer(new __WebGLRendererDictionary { antialias = true });
                 renderer.setClearColorHex(0x000000);
 
                 renderer.domElement.AttachToDocument();

@@ -16,7 +16,8 @@ interface CANNON.Plane
 { 
 };
 
-[Constructor(DOMString e)]
+[Constructor,
+Constructor(DOMString e)]
 interface CANNON.Material 
 { 
 };
@@ -63,6 +64,7 @@ interface CANNON.RigidBody
 [Constructor()]
 interface CANNON.Solver 
 { 
+	attribute long        tolerance;
 	attribute long        iterations;
 	void setSpookParams(long x, long y);
 };
