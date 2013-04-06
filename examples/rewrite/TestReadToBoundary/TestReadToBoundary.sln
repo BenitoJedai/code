@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestReadToBoundary", "TestReadToBoundary\TestReadToBoundary.csproj", "{F5252EB4-97A8-4389-B98A-125111759AC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D794DEF0-C1A5-4C01-8978-C41B26410361}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|Any CPU = Android|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		PHP|Any CPU = PHP|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5252EB4-97A8-4389-B98A-125111759AC2}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{F5252EB4-97A8-4389-B98A-125111759AC2}.Android|Any CPU.Build.0 = Release|Any CPU
+		{F5252EB4-97A8-4389-B98A-125111759AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5252EB4-97A8-4389-B98A-125111759AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5252EB4-97A8-4389-B98A-125111759AC2}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{F5252EB4-97A8-4389-B98A-125111759AC2}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{F5252EB4-97A8-4389-B98A-125111759AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5252EB4-97A8-4389-B98A-125111759AC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

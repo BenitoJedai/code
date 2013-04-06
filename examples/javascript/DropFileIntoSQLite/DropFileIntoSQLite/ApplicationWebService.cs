@@ -164,6 +164,7 @@ namespace DropFileIntoSQLite
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
+            Console.WriteLine("WebMethod2");
             // Send it back to the caller.
             y(e);
         }
@@ -184,6 +185,8 @@ namespace DropFileIntoSQLite
 
         public void EnumerateFilesAsync(string e, AtFile y)
         {
+            Console.WriteLine("EnumerateFilesAsync");
+
             new Table1().SelectAll(
                  xx =>
                  {
@@ -242,24 +245,33 @@ namespace DropFileIntoSQLite
 
                 var ok = new XElement("ok");
 
-                foreach (HttpPostedFile item in h.Context.Request.Files.AllKeys.Select(k => h.Context.Request.Files[k]))
+                var Files = h.Context.Request.Files.AllKeys.Select(k => h.Context.Request.Files[k]);
+                foreach (HttpPostedFile item in Files)
                 {
                     //var bytes = item.InputStream.ReadToEnd();
                     var bytes = item.InputStream.ToBytes();
+                    var FileName = item.FileName;
 
                     Console.WriteLine(
-                        new { item.ContentType, item.FileName, item.ContentLength, bytes.Length }
+                        new { item.ContentType, FileName, item.ContentLength, bytes.Length }
                     );
 
                     // http://code.activestate.com/recipes/252531-storing-binary-data-in-sqlite/
 
-                    new Table1().Insert(
-                        new Table1Queries.Insert
-                        {
-                            ContentValue = item.FileName,
-                            ContentBytes = bytes
-                        },
 
+                    var t = new Table1();
+
+                    // jsc cannot handle method call parameter with initializer and a delegate?
+                    var __value = new Table1Queries.Insert
+                        {
+                            //ContentValue = item.FileName,
+                            ContentValue = FileName,
+                            ContentBytes = bytes
+                        };
+
+                    t.Insert(
+                        value: __value,
+                        yield:
                         LastInsertRowId =>
                         {
                             ok.Add(new XElement("ContentKey", "" + LastInsertRowId));
@@ -282,6 +294,7 @@ namespace DropFileIntoSQLite
             #region /io/
             var io = "/io/";
             var path = h.Context.Request.Path;
+            Console.WriteLine("is io? " + new { path, io });
             if (path.StartsWith(io))
             {
 
@@ -293,14 +306,22 @@ namespace DropFileIntoSQLite
                 filepath = filepath.Replace("%20", " ");
 
 
-                new Table1().SelectBytes(
-                     int.Parse(filepath),
-                    reader =>
+                var t = new Table1();
+
+                Console.WriteLine("SelectBytes " + new { filepath });
+                t.SelectBytes(
+                    value: int.Parse(filepath),
+                    yield: reader =>
                     {
-                        var chunkSize = 4096;
 
                         // Get size of image data–pass null as the byte array parameter
                         long bytesize = reader.GetBytes(reader.GetOrdinal("ContentBytes"), 0, null, 0, 0);
+                        //var chunkSize = 4096 * 4;
+                        var chunkSize = (int)bytesize;
+
+                        Console.WriteLine("SelectBytes " + new { bytesize });
+
+
                         // Allocate byte array to hold image data
                         byte[] imageData = new byte[bytesize];
                         long bytesread = 0;

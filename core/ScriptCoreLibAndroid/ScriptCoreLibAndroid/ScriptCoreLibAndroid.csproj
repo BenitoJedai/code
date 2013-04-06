@@ -785,6 +785,8 @@
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpFileCollection.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpPostedFile.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpHandler.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpResponse.cs" />

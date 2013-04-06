@@ -10,6 +10,8 @@ namespace android.database
     [Script(IsNative = true)]
     public interface Cursor
     {
+        byte[] getBlob(int columnIndex);
+
 
         void close();
 

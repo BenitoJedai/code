@@ -68,7 +68,7 @@ namespace DropFileIntoSQLite.Schema
             WithConnection(
                c =>
                {
-                   value.ExecuteReader(c).WithEach(yield);
+                   value.ExecuteReader(c).WithEachReader(yield);
                }
              );
         }
@@ -101,7 +101,8 @@ namespace DropFileIntoSQLite.Schema
 
     public static partial class XX
     {
-        public static void WithEach(this SQLiteDataReader reader, Action<IDataReader> y)
+        // jsc cannot handle generic that only differ in generic arguments?
+        public static void WithEachReader(this SQLiteDataReader reader, Action<IDataReader> y)
         {
             using (reader)
             {
@@ -124,7 +125,7 @@ namespace DropFileIntoSQLite.Schema
         }
 
 
-     
+
 
         public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
         {
