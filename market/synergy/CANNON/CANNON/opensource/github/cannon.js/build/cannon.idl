@@ -1,6 +1,10 @@
 ﻿// we will need TargetConstructor with a dot
 // should enable nesting instead
-// interface CANNON
+
+interface CANNON
+{ 
+
+};
 
 [Constructor()]
 interface CANNON.NaiveBroadphase 

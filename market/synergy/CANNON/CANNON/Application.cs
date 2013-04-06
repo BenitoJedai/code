@@ -10,10 +10,10 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using CANNON.Design;
-using CANNON.HTML.Pages;
+//using CANNONLibrary.Design;
+using CANNONLibrary.HTML.Pages;
 
-namespace CANNON
+namespace CANNONLibrary
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
