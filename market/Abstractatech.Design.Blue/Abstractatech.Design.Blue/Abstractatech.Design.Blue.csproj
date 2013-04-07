@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9122FB76-35CE-41C7-8894-4E58D1BA94BD}</ProjectGuid>
+    <ProjectGuid>{99FFCEB1-6A96-4780-AA7E-11ED8258D223}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech.Design.Blue</RootNamespace>

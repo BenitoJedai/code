@@ -148,13 +148,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 
         public void SetCookie(HttpCookie e)
         {
+            // http://en.wikipedia.org/wiki/HTTP_cookie
+
             // Set-Cookie:session="eyB0aWNrcyA9IDYzNDkzNzg5MDQyMzM5MDAwMCwgYWNjb3VudCA9IDEsIGNvbW1lbnQgPSB3ZSBzaGFsbCBTSEExIHRoaXMhIH0="
             // Set-Cookie:session=eyB0aWNrcyA9IDYzNDkzNzk2NTU3NzczMjI5MiwgYWNjb3VudCA9IDIsIGNvbW1lbnQgPSB3ZSBzaGFsbCBTSEExIHRoaXMhIH0=; path=/
 
-            this.InternalContext.addHeader("Set-Cookie",
+            this.AddHeader("Set-Cookie",
                 e.Name + "=" + e.Value + ";  path=/");
 
-            //this.InternalContext.addCookie(new javax.servlet.http.Cookie(e.Name, e.Value));
         }
     }
 }

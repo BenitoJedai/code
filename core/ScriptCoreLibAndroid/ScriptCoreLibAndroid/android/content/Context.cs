@@ -18,6 +18,9 @@ namespace android.content
 
         // members and types are to be extended by jsc at release build
 
+        public abstract void setTheme(int resid);
+
+
         public abstract Resources getResources();
 
         public abstract object getSystemService(string name);
