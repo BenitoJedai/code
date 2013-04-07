@@ -11,6 +11,10 @@ namespace android.view
     [Script(IsNative = true)]
     public class View
     {
+        public virtual void setScrollBarStyle(int style)
+        { 
+        }
+
         public virtual bool dispatchKeyEvent(KeyEvent @event)
         {
             throw null;
