@@ -5,16 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9122FB76-35CE-41C7-8894-4E58D1BA94BD}</ProjectGuid>
+    <ProjectGuid>{A660135F-61FF-461E-86CC-E450307B28F5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AccountExperiment</RootNamespace>
-    <AssemblyName>AccountExperiment</AssemblyName>
+    <RootNamespace>AndroidCookies</RootNamespace>
+    <AssemblyName>AndroidCookies</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>AccountExperiment.Program</StartupObject>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <StartupObject>AndroidCookies.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,39 +35,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Android|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Android\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LocalAppEngine|x86'">
-    <OutputPath>bin\x86\LocalAppEngine\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abstractatech.ConsoleFormPackage">
-      <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
-    </Reference>
-    <Reference Include="Abstractatech.Design.Blue">
-      <HintPath>..\packages\Abstractatech.Design.Blue.1.0.0.0\lib\Abstractatech.Design.Blue.dll</HintPath>
-    </Reference>
-    <Reference Include="AccountExperiment.MyDevicesComponent, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AccountExperiment.MyDevicesComponent.1.0.0.0\lib\AccountExperiment.MyDevicesComponent.dll</HintPath>
-    </Reference>
-    <Reference Include="GravatarExperiment">
-      <HintPath>..\packages\GravatarExperiment.1.0.0.0\lib\GravatarExperiment.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -133,13 +99,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.84.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.x86.1.0.84.0\lib\net40\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\packages\System.Data.SQLite.x86.1.0.84.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
@@ -154,13 +113,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="AccountExperiment.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AccountExperiment.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidCookies.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidCookies.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Schema\MyAccount.cs" />
-    <Compile Include="Schema\MySession.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -169,35 +126,11 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\App_login.htm" />
-    <Content Include="Design\App_dashboard.htm" />
-    <Content Include="Design\App_register.htm" />
-    <Content Include="Schema\MyAccount\select by password.sql" />
-    <Content Include="Schema\MyAccount\create.sql" />
-    <Content Include="Schema\MyAccount\insert.sql" />
-    <Content Include="Schema\MyAccount\select count.sql" />
-    <Content Include="Schema\MySession\create.sql" />
-    <Content Include="Schema\MySession\insert.sql" />
-    <Content Include="Schema\MyAccount\select by cookie.sql" />
-    <Content Include="Schema\MySession\delete by cookie.sql" />
-    <Content Include="Schema\MySession\select count.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
-)
-
-if $(ConfigurationName)==LocalAppEngine (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /xAttachDebugger:true  /DisableWebServiceJava:false /DisableWebServicePHP:true /DisableWebServiceAndroid:true /xDiagnosticsPauseBeforeClearingJavaFiles:true
-)
-
-
-if $(ConfigurationName)==Android (
 start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
@@ -206,5 +139,4 @@ start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFil
 
             </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

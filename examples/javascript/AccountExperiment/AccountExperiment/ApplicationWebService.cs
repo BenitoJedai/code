@@ -298,6 +298,8 @@ namespace AccountExperiment
             #region /login
             if (h.Context.Request.Path == "/login")
             {
+                Console.WriteLine("will try to log in... " + new { h.Context.Request.HttpMethod });
+
                 #region POST
                 if (h.Context.Request.HttpMethod == "POST")
                 {
@@ -308,13 +310,16 @@ namespace AccountExperiment
 
                     Action yield = delegate
                     {
+                        Console.WriteLine("check credentials!");
+
                         // slow it down!
                         Thread.Sleep(1000);
 
                         h.Context.Response.SetCookie(new System.Web.HttpCookie("message", "check credentials!"));
 
 
-                        h.Context.Response.Redirect(h.Context.Request.UrlReferrer.ToString());
+                        //h.Context.Response.Redirect(h.Context.Request.UrlReferrer.ToString());
+                        h.Context.Response.Redirect("/boo");
                         h.CompleteRequest();
                     };
 
@@ -325,6 +330,8 @@ namespace AccountExperiment
 
                             yield = delegate
                             {
+                                Console.WriteLine("hello! " + id);
+
                                 var now = DateTime.Now;
                                 var ticks = now.Ticks;
 
@@ -333,7 +340,8 @@ namespace AccountExperiment
 
                                 h.Context.Response.SetCookie(new System.Web.HttpCookie("session", cookie));
 
-                                h.Context.Response.Redirect(h.Context.Request.UrlReferrer.ToString().TakeUntilLastOrNull("/login"));
+                                //h.Context.Response.Redirect(h.Context.Request.UrlReferrer.ToString().TakeUntilLastOrNull("/login"));
+                                h.Context.Response.Redirect("/dashboard");
                                 h.CompleteRequest();
                             };
                         }
@@ -368,37 +376,51 @@ namespace AccountExperiment
 
 
             #region /dashboard
+
+
+
             h.Context.Request.Cookies["session"].With(
                 session_cookie =>
                 {
                     // does that cookie even exist?
+
+                    Console.WriteLine("are you really logged in?");
 
 
                     this.account.SelectByCookie(
                         new MyAccountQueries.SelectByCookie { cookie = session_cookie.Value },
                         r =>
                         {
+                            Console.WriteLine("ok, you should see the dashboard...");
+
                             long id = r.id;
                             string email = r.email;
 
                             if (h.IsDefaultPath)
                             {
+                                h.Context.Response.Redirect("/dashboard");
+                                h.CompleteRequest();
+                            }
+                            else if (h.Context.Request.Path == "/dashboard")
+                            {
                                 h.Applications.Single(k => k.TypeName == "Dashboard").With(
-                                    app =>
-                                    {
-                                        var html = XElement.Parse(app.PageSource);
+                                     app =>
+                                     {
+                                         Console.WriteLine("ok, you should see the dashboard... here it is...");
 
-                                        html.Add(
-                                            new XElement("script",
-                                                new XAttribute("src", "/dashboard/view-source"),
-                                                " "
-                                            )
-                                        );
+                                         var html = XElement.Parse(app.PageSource);
 
-                                        h.Context.Response.Write(html.ToString());
-                                        h.CompleteRequest();
-                                    }
-                                );
+                                         html.Add(
+                                             new XElement("script",
+                                                 new XAttribute("src", "/dashboard/view-source"),
+                                                 " "
+                                             )
+                                         );
+
+                                         h.Context.Response.Write(html.ToString());
+                                         h.CompleteRequest();
+                                     }
+                                 );
                             }
 
                         }
