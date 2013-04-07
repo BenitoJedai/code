@@ -7,11 +7,11 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle(@"Cloud Gallery")]
+[assembly: AssemblyTitle(@"Abstractatech.JavaScript.Forms.FloatStyler")]
 [assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
-[assembly: AssemblyProduct(@"WebApplication")]
-[assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2012")]
+[assembly: AssemblyProduct(@"FormsApplication")]
+[assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2013")]
 [assembly: AssemblyVersion(@"1.0.0.0")]
 [assembly: AssemblyFileVersion(@"1.0.0.0")]
 [assembly: Obfuscation(Feature = @"merge")]

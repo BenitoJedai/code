@@ -17,6 +17,7 @@ using System.Drawing;
 using ScriptCoreLib.GLSL;
 using System.Windows.Forms;
 using com.abstractatech.cloud.gallery.Controls;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace com.abstractatech.cloud.gallery
 {
@@ -43,13 +44,79 @@ namespace com.abstractatech.cloud.gallery
         {
             // https://code.google.com/p/chromium/issues/detail?id=171666
 
-            Console.WriteLine(new { Native.Document.location.hash });
+            Native.Document.title = "Cloud Gallery";
+
+            //if (new Cookie("about").Value == "me")
+            if (Native.Document.location.search == "?about=me")
+            {
+                Native.Document.body.style.margin = "3em";
+                Native.Document.body.style.color = "white";
+                Native.Document.body.style.backgroundColor = "black";
+
+                new IHTMLCenter { innerText = "open this on your laptop at " + Native.Document.location.href.TakeUntilLastIfAny("/") }.AttachToDocument();
+
+                return;
+            }
+
+            Console.WriteLine(new { Native.Document.location.href, Native.Document.location.search });
 
             if (Native.Document.location.hash != null)
                 if (Native.Document.location.hash.StartsWith("#window"))
                 {
+                    var index = int.Parse(Native.Document.location.hash.SkipUntilOrEmpty("#window"));
+
                     // ask opener where in 3D am i?
-                    new IHTMLButton { innerText = Native.Document.location.hash }.AttachToDocument();
+                    //new IHTMLButton { innerText = new { index }.ToString() }.AttachToDocument();
+                    Console.WriteLine("will load  " + new { index });
+
+                    Action<string> yfile = path =>
+                        {
+                            Console.WriteLine(new { index, path });
+
+                            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                                delegate
+                                {
+                                    new IHTMLImage { src = "/thumb/" + path }.AttachToDocument().InvokeOnComplete(
+                                        img =>
+                                        {
+                                            if (img.width < img.height)
+                                            {
+                                                img.style.height = "100%";
+                                            }
+                                            else
+                                            {
+                                                img.style.width = "100%";
+                                            }
+                                            Console.WriteLine("will load full " + new { path });
+                                            new IHTMLImage { src = "/io/" + path }.AttachToDocument().InvokeOnComplete(
+                                             io =>
+                                             {
+
+                                                 img.src = "/io/" + path;
+                                             }
+                                           );
+                                        }
+                                      );
+                                }
+                            ).StartTimeout(index * 500);
+
+                        };
+
+                    Action<string> done =
+                        delegate
+                        {
+
+                        };
+
+
+                    service.File_list("",
+                        null,
+                        yfile: yfile,
+                        sskip: "" + index,
+                        stake: "" + 1,
+                        done: done
+                    );
+
 
                     return;
                 }
@@ -229,7 +296,7 @@ namespace com.abstractatech.cloud.gallery
                                                 morespace.style.height = westContainer.clientHeight + "px";
 
                                                 // 3D DOCK
-                                                var ff = new Form { Text = "Gallery" };
+                                                var ff = new Form { Text = "Gallery #" + __index };
 
                                                 ff.StartPosition = FormStartPosition.Manual;
                                                 ff.Show();
@@ -680,6 +747,15 @@ namespace com.abstractatech.cloud.gallery
 
         public event Action AfterCameraRotationChange;
         public event Action AfterKeystateChange;
+
+
+
+
+
+        class local
+        {
+
+        }
 
     }
 
