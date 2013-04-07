@@ -22,6 +22,9 @@ namespace WebGLClouds
         /* Source: view-source:http://mrdoob.com/lab/javascript/webgl/clouds/
          */
 
+        public static bool DisableBackground;
+        public static double DefaultMouseY = 0.4;
+
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
@@ -86,22 +89,29 @@ namespace WebGLClouds
         {
             //page.PageContainer.style.color = Color.Blue;
 
-
+            if (DisableBackground)
+            {
+                // nop
+            }
+            else
+            {
+                Native.Document.body.style.backgroundColor = "#4584b4";
+            }
 
             // Bg gradient
 
-            var canvas = new IHTMLCanvas();
-            canvas.width = 32;
-            canvas.height = Native.Window.Height;
+            //var canvas = new IHTMLCanvas();
+            //canvas.width = 32;
+            //canvas.height = Native.Window.Height;
 
-            var context = (CanvasRenderingContext2D)canvas.getContext("2d");
+            //var context = (CanvasRenderingContext2D)canvas.getContext("2d");
 
-            var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0f, "#1e4877");
-            gradient.addColorStop(0.5f, "#4584b4");
+            //var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+            //gradient.addColorStop(0f, "#1e4877");
+            //gradient.addColorStop(0.5f, "#4584b4");
 
-            context.fillStyle = gradient;
-            context.fillRect(0, 0, canvas.width, canvas.height);
+            //context.fillStyle = gradient;
+            //context.fillRect(0, 0, canvas.width, canvas.height);
 
 
             // Clouds
@@ -110,18 +120,21 @@ namespace WebGLClouds
             //, h, color, colors = [], sprite, size, x, y, z;
 
             var mouseX = 0f;
-            var mouseY = 0f;
             var start_time = new IDate().getTime();
 
             var windowHalfX = Native.Window.Width / 2;
             var windowHalfY = Native.Window.Height / 2;
+
+            Console.WriteLine(new { DefaultMouseY });
+
+            var mouseY = (float)((Native.Window.Height * DefaultMouseY - windowHalfY) * 0.15);
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
             container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
-            container.style.background = "url(" + canvas.toDataURL("image/png") + ")";
+            //container.style.background = "url(" + canvas.toDataURL("image/png") + ")";
 
             #region Dispose
             var IsDisposed = false;
