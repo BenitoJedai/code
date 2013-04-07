@@ -18,7 +18,8 @@ using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
 
-namespace Abstractatech.JavaScript.FormAsPopup
+//namespace Abstractatech.JavaScript.FormAsPopup
+namespace ScriptCoreLib.Extensions
 {
     // intellisense friendly :) discoverability
     public static class FormAsPopupExtensionsForConsoleFormPackage
@@ -26,13 +27,17 @@ namespace Abstractatech.JavaScript.FormAsPopup
         public static T PopupInsteadOfClosing<T>(
             this T f,
             bool HandleFormClosing = true,
-            Action SpecialCloseOnLeft = null
+            Action SpecialCloseOnLeft = null,
+
+            // as if we were docked
+            bool SpecialNoMovement = false
             ) where T : Form
         {
             Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(
                 f,
                 HandleFormClosing,
-                SpecialCloseOnLeft
+                SpecialCloseOnLeft,
+                SpecialNoMovement
             );
 
             return f;
@@ -54,7 +59,9 @@ namespace Abstractatech.JavaScript.FormAsPopup
         public static void PopupInsteadOfClosing(
             this Form f,
             bool HandleFormClosing,
-            Action SpecialCloseOnLeft
+            Action SpecialCloseOnLeft,
+
+            bool SpecialNoMovement = false
             )
         {
             __Form __f = f;
@@ -152,14 +159,10 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 {
                     //fOpacity = __f.Opacity;
                     undo_x = __f.Left;
+
+
+                    undo_y = __f.Top;
                 };
-
-            __f.InternalCaptionDrag.DragStart +=
-                 delegate
-                 {
-
-                     undo_y = __f.Top;
-                 };
 
             var SpecialClose = false;
 
@@ -169,14 +172,34 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 {
                     var z = new { f.Right, f.Left };
 
-                    if ((z.Right - f.Width / 2) > 0)
-                        if ((z.Left + f.Width / 2) < Native.Window.Width)
-                        {
-                            __f.Opacity = 1;
+                    if (SpecialNoMovement)
+                    {
+                        var dx = Math.Abs(undo_x - f.Left);
+                        var dy = Math.Abs(undo_y - f.Top);
 
-                            return;
-                        }
 
+                        if (dx < 8)
+                            if (dy < 8)
+                            {
+                                __f.Opacity = 1;
+
+                                return;
+
+                            }
+
+
+                    }
+                    else
+                    {
+                        if ((z.Right - f.Width / 2) > 0)
+                            if ((z.Left + f.Width / 2) < Native.Window.Width)
+                            {
+                                __f.Opacity = 1;
+
+                                return;
+                            }
+
+                    }
 
                     __f.Opacity = 0.5;
                 };
@@ -191,26 +214,48 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     var IsNotOnLeft = (z.Right - f.Width / 2) > 0;
                     var IsNotOnRight = (z.Left + f.Width / 2) < Native.Window.Width;
 
-                    if (IsNotOnLeft)
-                        if (IsNotOnRight)
-                        {
-                            Console.WriteLine("still in window: " + z);
-                            // still in the window!
-                            // what about popups?
-                            return;
-                        }
+                    if (SpecialNoMovement)
+                    {
+                        var dx = Math.Abs(undo_x - f.Left);
+                        var dy = Math.Abs(undo_y - f.Top);
 
-                    if (!IsNotOnLeft)
-                        if (SpecialCloseOnLeft != null)
-                        {
-                            SpecialCloseOnLeft();
+                        Console.WriteLine("SpecialNoMovement snap? " + new { dx, dy });
 
-                            f.Close();
+                        if (dx < 8)
+                            if (dy < 8)
+                            {
+                                f.Left = undo_x;
+                                f.Top = undo_y;
+                                return;
 
-                            return;
-                        }
+                            }
 
 
+                    }
+                    else
+                    {
+
+
+                        if (IsNotOnLeft)
+                            if (IsNotOnRight)
+                            {
+                                Console.WriteLine("still in window: " + z);
+                                // still in the window!
+                                // what about popups?
+                                return;
+                            }
+
+                        if (!IsNotOnLeft)
+                            if (SpecialCloseOnLeft != null)
+                            {
+                                SpecialCloseOnLeft();
+
+                                f.Close();
+
+                                return;
+                            }
+
+                    }
 
                     Console.WriteLine("close to popup");
                     f.Left = undo_x;
@@ -277,7 +322,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
             content.AutoSizeControlTo(page.ContentSize);
 
 
-            content.f.PopupInsteadOfClosing(HandleFormClosing: false);
+            content.f.PopupInsteadOfClosing(HandleFormClosing: false, SpecialNoMovement: true);
         }
 
     }
