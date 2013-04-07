@@ -45,17 +45,18 @@ namespace com.abstractatech.cloud.gallery
 
             Console.WriteLine(new { Native.Document.location.hash });
 
-            if (Native.Document.location.hash == "#window")
-            {
-                // ask opener where in 3D am i?
-                new IHTMLButton { innerText = "window" }.AttachToDocument();
+            if (Native.Document.location.hash != null)
+                if (Native.Document.location.hash.StartsWith("#window"))
+                {
+                    // ask opener where in 3D am i?
+                    new IHTMLButton { innerText = Native.Document.location.hash }.AttachToDocument();
 
-                return;
-            }
+                    return;
+                }
 
             if (Native.Document.location.hash == "#cloud")
             {
-                WebGLClouds.Application.DefaultMouseY = 0.8;
+                WebGLClouds.Application.DefaultMouseY = 0.4;
                 WebGLClouds.Application.DisableBackground = true;
 
                 new WebGLClouds.Application();
@@ -65,6 +66,7 @@ namespace com.abstractatech.cloud.gallery
 
             //FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
             //FormStyler.AtFormCreated = FormStylerLikeAero.LikeAero;
+            FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
 
             // http://www.keithclark.co.uk/labs/3dcss/demo/
 
@@ -140,7 +142,9 @@ namespace com.abstractatech.cloud.gallery
 
             var zoom = 4;
             var zz = 60;
-            var low = -300;
+            var low = -500;
+
+            var __index = 0;
 
             #region CreateFromFloorplan
             Action CreateFromFloorplan = delegate
@@ -154,7 +158,7 @@ namespace com.abstractatech.cloud.gallery
 
                             var cubeheight = Math.Max(300, f.CubeHeight);
                             var z = 0;
-                            var cubetex = "rgba(0,0,0,0.5)";
+                            var cubetex = "rgba(0,0,0,0.1)";
 
                             if (f.LeftWallSource != null)
                                 if (f.LeftWallSource.StartsWith("#cloud"))
@@ -216,35 +220,43 @@ namespace com.abstractatech.cloud.gallery
                                             {
                                                 var morespace = new IHTMLDiv().AttachTo(westContainer);
 
-                                                morespace.className = "nolock";
 
                                                 // 3by3 grid
                                                 morespace.style.position = IStyle.PositionEnum.absolute;
-                                                morespace.style.top = -32 + "px";
+                                                morespace.style.top = -westContainer.clientHeight + "px";
                                                 morespace.style.left = 0 + "px";
                                                 morespace.style.width = westContainer.clientWidth + "px";
                                                 morespace.style.height = westContainer.clientHeight + "px";
 
                                                 // 3D DOCK
-                                                var ff = new Form();
+                                                var ff = new Form { Text = "Gallery" };
 
                                                 ff.StartPosition = FormStartPosition.Manual;
                                                 ff.Show();
-                                                ff.Left = 0;
+                                                ff.Left = 8;
 
-                                                ff.Top = -32;
+                                                ff.Top = westContainer.clientHeight + -27;
 
-                                                ff.Width = westContainer.clientWidth;
-                                                ff.Height = westContainer.clientHeight + 32;
+                                                ff.Width = westContainer.clientWidth - 16;
+                                                ff.Height = westContainer.clientHeight + 27 - 8;
 
                                                 ff.GetHTMLTarget().AttachTo(morespace);
+                                                ff.GetHTMLTarget().className = "nolock";
 
                                                 var ffw = new WebBrowser { Dock = DockStyle.Fill };
 
                                                 ffw.AttachTo(ff);
 
-                                                ffw.Navigate(src);
+                                                ffw.Navigate(
 
+                                                    Native.Document.location.href + src + __index
+                                                    );
+
+                                                __index++;
+
+                                                ff.PopupInsteadOfClosing(
+                                                    SpecialNoMovement: true
+                                                );
 
 
                                                 return;
