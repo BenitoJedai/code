@@ -30,7 +30,7 @@ namespace Box2DExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            new Box2D().Content.With(
+            new box2dweb.opensource.googlecode.box2dweb.Box2D().Content.With(
                 source =>
                 {
                     source.onload +=
@@ -57,16 +57,16 @@ namespace Box2DExperiment
 
 
             ;
-            var world = new Box2D_Dynamics_b2World(
-               new Box2D_Common_Math_b2Vec2(0, 10)    //gravity
+            var world = new Box2D.Dynamics.b2World(
+               new Box2D.Common.Math.b2Vec2(0, 10)    //gravity
             , true                 //allow sleep
          );
-            var fixDef = new Box2D_Dynamics_b2FixtureDef();
+            var fixDef = new Box2D.Dynamics.b2FixtureDef();
             fixDef.density = 1.0;
             fixDef.friction = 0.5;
             fixDef.restitution = 0.2;
 
-            var bodyDef = new Box2D_Dynamics_b2BodyDef();
+            var bodyDef = new Box2D.Dynamics.b2BodyDef();
 
             //create ground
             const int b2Body_b2_staticBody = 0;
@@ -74,8 +74,8 @@ namespace Box2DExperiment
 
             bodyDef.position.x = 9;
             bodyDef.position.y = 13;
-            fixDef.shape = new Box2D_Collision_Shapes_b2PolygonShape();
-            ((Box2D_Collision_Shapes_b2PolygonShape)fixDef.shape).SetAsBox(10, 0.5);
+            fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+            ((Box2D.Collision.Shapes.b2PolygonShape)fixDef.shape).SetAsBox(10, 0.5);
             world.CreateBody(bodyDef).CreateFixture(fixDef);
             //var x = world.CreateBody(bodyDef);
             //new IFunction("x", "alert(typeof x);").apply(null, x);
@@ -89,15 +89,15 @@ namespace Box2DExperiment
             {
                 if (Math_random() > 0.5)
                 {
-                    fixDef.shape = new Box2D_Collision_Shapes_b2PolygonShape();
-                    ((Box2D_Collision_Shapes_b2PolygonShape)fixDef.shape).SetAsBox(
+                    fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+                    ((Box2D.Collision.Shapes.b2PolygonShape)fixDef.shape).SetAsBox(
                           Math_random() + 0.1 //half width
                        , Math_random() + 0.1 //half height
                     );
                 }
                 else
                 {
-                    fixDef.shape = new Box2D_Collision_Shapes_b2CircleShape(
+                    fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(
                        Math_random() + 0.1 //radius
                     );
                 }
@@ -106,7 +106,7 @@ namespace Box2DExperiment
                 world.CreateBody(bodyDef).CreateFixture(fixDef);
             }
             //setup debug draw
-            var debugDraw = new Box2D_Dynamics_b2DebugDraw();
+            var debugDraw = new Box2D.Dynamics.b2DebugDraw();
             var context = page.canvas1.getContext("2d");
             debugDraw.SetSprite(context);
             debugDraw.SetDrawScale(30.0);
