@@ -3,6 +3,12 @@
 // interface CANNON
 // ouch. what about multiple dots??
 
+interface Box2D {};
+
+
+interface Box2D.Collision {};
+interface Box2D.Collision.Shapes {};
+
 [Constructor()]
 interface Box2D.Collision.Shapes.b2PolygonShape 
 { 
@@ -14,11 +20,18 @@ interface Box2D.Collision.Shapes.b2CircleShape
 { 
 };
 
+interface Box2D.Common {};
+interface Box2D.Common.Math {};
+
 [Constructor(double x, double y)]
 interface Box2D.Common.Math.b2Vec2
 { 
 	attribute double        x;
 	attribute double        y;
+};
+
+interface Box2D.Dynamics
+{
 };
 
 [Constructor()]
