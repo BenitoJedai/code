@@ -139,6 +139,9 @@
     <Reference Include="FlashHeatZeeker.UnitPed.AssetsLibrary">
       <HintPath>..\FlashHeatZeeker.UnitPed\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPed.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.CoreAudio.AssetsLibrary">
+      <HintPath>..\FlashHeatZeeker.CoreAudio\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreAudio.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
