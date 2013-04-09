@@ -11,7 +11,8 @@ namespace DropFileIntoSQLite.Schema
 {
     class Table1 : Table1Queries
     {
-        public const string DefaultDataSource = "SQLiteWithDataGridView52.sqlite";
+        //public const string DefaultDataSource = "SQLiteWithDataGridView52.sqlite";
+        public const string DefaultDataSource = "SQLiteWithDataGridView53.sqlite";
 
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
