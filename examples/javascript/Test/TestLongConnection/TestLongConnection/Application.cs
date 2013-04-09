@@ -84,12 +84,25 @@ namespace TestLongConnection
                 //Content-Type:text/html
                 //Transfer-Encoding:chunked
 
+                //Cache-Control:private
+                //Connection:Close
+                //Content-Type:text/html; charset=utf-8
+                //Date:Tue, 09 Apr 2013 20:27:16 GMT
+                //Server:ASP.NET Development Server/11.0.0.0
+                //Transfer-Encoding:chunked
+                //X-AspNet-Version:4.0.30319
+
+
                 h.Context.Response.ContentType = "text/html";
+                //h.Context.Response.Cache.SetCacheability(System.Web.HttpCacheability.Private);
+
 
                 var i = 0;
                 while (h.Context.Response.IsClientConnected)
                 {
                     i++;
+
+
 
                     #region flush
                     Action<object> flush =
@@ -99,7 +112,8 @@ namespace TestLongConnection
 
                             // Cannot implicitly convert type '<>f__AnonymousType0<System.DateTime,int>' to 'System.Collections.IEnumerable'
 
-                            //Console.WriteLine(new { time, i });
+                            Console.WriteLine(new { time, i });
+
 
                             w.Append("parent.stream(");
                             w.Append("{");
@@ -111,8 +125,13 @@ namespace TestLongConnection
                             w.Append("}");
                             w.Append(");");
 
-                            h.Context.Response.Write(new XElement("script", w.ToString()) + "\n");
-                            h.Context.Response.Flush();
+                            // http://stackoverflow.com/questions/13557900/chunked-transfer-encoding-browser-behavior
+
+                            w.Append(new string('/', 1024));
+
+
+                            h.Context.Response.Write(new XElement("script", w.ToString()) + "\r\n");
+                            //h.Context.Response.Flush();
                         };
                     #endregion
 
@@ -121,7 +140,7 @@ namespace TestLongConnection
 
 
 
-                    Thread.Sleep(1000 / 10);
+                    Thread.Sleep(1000);
                 }
 
                 h.CompleteRequest();

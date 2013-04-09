@@ -17,6 +17,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void SetCacheability(HttpCacheability cacheability)
         {
+            // Cache-Control:private
+
+            if (cacheability == HttpCacheability.Private)
+            {
+                this.InternalResponse.AddHeader("Cache-Control", "private");
+                return;
+            }
             this.InternalResponse.AddHeader("Cache-Control", "public");
 
         }
