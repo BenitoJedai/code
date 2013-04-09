@@ -22,12 +22,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 InternalUrl = value;
 
-                this.InternalElement.src = value.ToString();
+                Navigate(value.ToString());
             }
         }
 
         public void Navigate(string urlString)
         {
+            var loc = Native.Document.location.href;
+
+            if (!urlString.Contains("://"))
+            {
+                if (urlString.StartsWith("/"))
+                    if (loc.EndsWith("/"))
+                    {
+                        urlString = urlString.Substring(1);
+                    }
+
+                urlString = loc + urlString;
+            }
+
             this.InternalElement.src = urlString;
         }
 

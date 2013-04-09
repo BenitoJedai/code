@@ -37,8 +37,11 @@ namespace DropFileIntoSQLite
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
+
             // http://html5doctor.com/drag-and-drop-to-server/
 
+            #region ondrop
             Native.Document.body.ondragover +=
                 evt =>
                 {
@@ -83,6 +86,8 @@ namespace DropFileIntoSQLite
                         (f, index) =>
                         {
                             var ff = new Form();
+                            ff.PopupInsteadOfClosing(HandleFormClosing: false);
+
 
 
                             ff.Text = new { f.type, f.name, f.size }.ToString();
@@ -146,11 +151,18 @@ namespace DropFileIntoSQLite
                                             var __ContentKey = (Table1_ContentKey)int.Parse(ContentKey.Value);
 
                                             var src = "/io/" + ContentKey.Value;
+                                            i.Orphanize();
 
-                                            if (i != null)
-                                            {
-                                                i.src = src;
-                                            }
+                                            var web = new WebBrowser { Dock = DockStyle.Fill };
+
+                                            web.AttachTo(ff);
+
+                                            web.Navigate(src);
+
+                                            //if (i != null)
+                                            //{
+                                            //    i.src = src;
+                                            //}
 
                                             __ContentKey
                                                      .SetLeft(ff.Left)
@@ -228,6 +240,7 @@ namespace DropFileIntoSQLite
 
                     evt.preventDefault();
                 };
+            #endregion
 
             {
                 var index = 0;
@@ -237,6 +250,7 @@ namespace DropFileIntoSQLite
                     {
 
                         var ff = new Form();
+                        ff.PopupInsteadOfClosing(HandleFormClosing: false);
 
 
                         ff.Text = new { __ContentKey, ContentBytesLength }.ToString();
@@ -291,24 +305,30 @@ namespace DropFileIntoSQLite
                         var fc = ff.GetHTMLTargetContainer();
                         var src = "/io/" + __ContentKey;
 
-                        var i = new IHTMLImage { src = src }.AttachTo(fc);
-                        i.style.width = "100%";
+                        //var i = new IHTMLImage { src = src }.AttachTo(fc);
+                        //i.style.width = "100%";
+
+                        var web = new WebBrowser { Dock = DockStyle.Fill };
+
+                        web.AttachTo(ff);
+
+                        web.Navigate(src);
 
                         if (int.Parse(Width) > 0)
                             ff.SizeTo(
                                int.Parse(Width),
                                int.Parse(Height)
                            );
-                        else
-                            i.InvokeOnComplete(
-                                delegate
-                                {
+                        //else
+                        //    i.InvokeOnComplete(
+                        //        delegate
+                        //        {
 
 
-                                    ff.ClientSize = new System.Drawing.Size(i.width, i.height);
+                        //            ff.ClientSize = new System.Drawing.Size(i.width, i.height);
 
-                                }
-                            );
+                        //        }
+                        //    );
 
                         ff.LocationChanged +=
                             delegate

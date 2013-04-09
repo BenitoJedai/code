@@ -176,7 +176,8 @@ namespace DropFileIntoSQLite
         }
 #endif
 
-        public const string DataSource = "SQLiteWithDataGridView51.sqlite";
+        //public const string DataSource = "SQLiteWithDataGridView51.sqlite";
+        public const string DataSource = "SQLiteWithDataGridView57.sqlite";
 
         public void DeleteFileAsync(string ContentKey, Action<string, string> y)
         {
@@ -313,7 +314,11 @@ namespace DropFileIntoSQLite
                     value: int.Parse(filepath),
                     yield: reader =>
                     {
+                        dynamic r = reader;
 
+                        string ContentValue = r.ContentValue;
+
+                        #region ContentBytes
                         // Get size of image data–pass null as the byte array parameter
                         long bytesize = reader.GetBytes(reader.GetOrdinal("ContentBytes"), 0, null, 0, 0);
                         //var chunkSize = 4096 * 4;
@@ -335,12 +340,29 @@ namespace DropFileIntoSQLite
                             curpos += chunkSize;
                         }
 
-                        h.Context.Response.ContentType = "image/jpg";
+                        #endregion
+
+                        if (ContentValue.EndsWith(".pdf"))
+                        {
+                            h.Context.Response.ContentType = "application/pdf";
+                        }
+                        else
+                        {
+                            h.Context.Response.ContentType = "image/jpg";
+                        }
 
                         // http://www.webscalingblog.com/performance/caching-http-headers-cache-control-max-age.html
                         h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
+                        h.Context.Response.AddHeader("Content-Length", "" + imageData.Length);
 
                         // send all the bytes
+
+                        //                        W/DownloadManager(18100): Aborting request for download 578: can't know size of download, giving up
+                        //V/SnapshotDownloadReceiver(14586): Starting service from intent: Intent { act=com.google.android.apps.chrome.snapshot.ACTION_DOWNLOAD_FINISHED cmp=com.chrome.beta/com.google.android.apps.chrome.snapshot.SnapshotArchiveManager (has extras) }
+                        //E/SnapshotArchiveManager(14586): Failed to download file with downloadId = 578. Reason: 1004. placing job in error state.
+                        //E/SnapshotArchiveManager(14586): Error setting {state = UNABLE_TO_DOWNLOAD} for {downloadId=? : [578]}: Changed rows = 0
+
+
 
                         h.Context.Response.OutputStream.Write(imageData, 0, imageData.Length);
 
