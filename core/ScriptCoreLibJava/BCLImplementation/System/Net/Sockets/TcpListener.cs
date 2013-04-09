@@ -101,11 +101,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             {
                 r = new __Socket { InternalSocket = this.InternalSocket.accept() };
             }
-            catch //(csharp.ThrowableException t)
+            catch
             {
-                //((Throwable)(object)t).printStackTrace();
-
-                //throw new InvalidOperationException();
                 throw;
             }
 

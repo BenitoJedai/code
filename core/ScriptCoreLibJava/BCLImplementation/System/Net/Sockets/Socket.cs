@@ -17,6 +17,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
         public void SetSocketOption(SocketOptionLevel optionLevel, SocketOptionName optionName, bool optionValue)
         {
+      
             if (optionName == SocketOptionName.ReuseAddress)
             {
                 if (this.InternalServerSocket != null)

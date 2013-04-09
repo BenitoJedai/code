@@ -38,6 +38,8 @@ namespace TestMultipartHandler
                 // http://stackoverflow.com/questions/5010201/resolving-this-operation-requires-iis-integration-pipeline-mode-in-asp-net-mvc
                 // http://css-tricks.com/using-css-without-html/
                 //h.Context.Response.AddHeader("Link", "<Default.css>;rel=stylesheet");
+
+                // webview will not like this
                 h.Context.Response.ContentType = "multipart/x-mixed-replace; boundary=endofsection";
 
                 Action<string> WriteContent =
@@ -51,8 +53,15 @@ namespace TestMultipartHandler
 
                     };
 
-                WriteContent("After 4 seconds this will go away and a cat will appear...".PadRight(512));
+                //                Implementation not found for type import :
+                //type: System.String
+                //method: System.String PadRight(Int32)
+
+                //WriteContent("After 4 seconds this will go away and a cat will appear...".PadRight(512));
+                WriteContent("After 4 seconds this will go away and a cat will appear...");
                 h.Context.Response.Flush();
+
+
                 Thread.Sleep(1800);
 
 
