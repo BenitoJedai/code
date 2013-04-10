@@ -131,7 +131,9 @@ namespace TestLongConnection
 
 
                             h.Context.Response.Write(new XElement("script", w.ToString()) + "\r\n");
-                            //h.Context.Response.Flush();
+                            Thread.Sleep(100);
+                            Console.WriteLine("flush!");
+                            h.Context.Response.Flush();
                         };
                     #endregion
 

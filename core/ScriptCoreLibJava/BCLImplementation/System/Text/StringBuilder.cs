@@ -85,5 +85,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
         {
             return InternalBuffer.ToString();
         }
+
+        public __StringBuilder Clear()
+        {
+            this.InternalBuffer = new java.lang.StringBuffer();
+
+            return this;
+        }
     }
 }

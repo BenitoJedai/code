@@ -10,7 +10,8 @@ namespace SQLiteWithDataGridView
     partial class ApplicationWebService
     {
 
-
+        public static partial class Credentials
+        {
 #if AppEngine
         static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false)
         {
@@ -21,5 +22,6 @@ namespace SQLiteWithDataGridView
         }
 #endif
 
+        }
     }
 }

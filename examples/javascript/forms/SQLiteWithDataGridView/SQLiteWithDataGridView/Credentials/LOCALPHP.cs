@@ -12,7 +12,8 @@ namespace SQLiteWithDataGridView
 
         //Error	1	A partial method may not have multiple implementing declarations	X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Credentials\LOCALPHP.cs	15	29	SQLiteWithDataGridView
 
-
+        public static partial class Credentials
+        {
 #if LOCALPHP
         static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false)
         {
@@ -22,6 +23,7 @@ namespace SQLiteWithDataGridView
             b.Password = "mypass";
         }
 #endif
+        }
 
     }
 }
