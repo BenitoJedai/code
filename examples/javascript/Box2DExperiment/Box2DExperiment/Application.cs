@@ -117,18 +117,6 @@ namespace Box2DExperiment
             debugDraw.SetFlags(b2DebugDraw_e_shapeBit | b2DebugDraw_e_jointBit);
             world.SetDebugDraw(debugDraw);
 
-            #region requestAnimFrame
-            var requestAnimFrame = (IFunction)new IFunction(
-                @"return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           window.setTimeout(callback, 1000/60);
-         };"
-            ).apply(null);
-            #endregion
             var tick = default(Action);
             var c = 0;
             tick = delegate
@@ -145,9 +133,12 @@ namespace Box2DExperiment
 
 
 
-                requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                //requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                Native.Window.requestAnimationFrame += tick;
             };
             tick();
+
+            Native.Window.requestAnimationFrame += tick;
 
             //new IFunction("alert(Box2D);").apply(null);
             //Native.Window.alert("bodyDef=" + bodyDef);
