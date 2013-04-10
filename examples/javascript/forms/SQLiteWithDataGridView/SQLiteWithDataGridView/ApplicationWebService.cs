@@ -90,28 +90,41 @@ namespace SQLiteWithDataGridView
                         var DataSource = "SQLiteWithDataGridView7.sqlite";
 
                         x.csb_write.DataSource = DataSource;
-                        ApplyRestrictedCredentials(x.csb_write);
+                        Credentials.partial_ApplyRestrictedCredentials(x.csb_write);
 
                         x.csb.DataSource = DataSource;
                         x.csb.ReadOnly = true;
                         // this was expensive to figure out!
-                        ApplyRestrictedCredentials(x.csb);
+                        Credentials.partial_ApplyRestrictedCredentials(x.csb);
 
                         x.csb_admin.DataSource = DataSource;
-                        ApplyRestrictedCredentials(x.csb_admin, true);
+                        Credentials.partial_ApplyRestrictedCredentials(x.csb_admin, true);
                         x.Create();
                     }
                 );
             }
         }
 
+        //Error	8	A partial method cannot have access modifiers or the virtual, abstract, override, new, sealed, or extern modifiers	X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\ApplicationWebService.cs	111	40	SQLiteWithDataGridView
 
 
-        static partial void ApplyAdministratorCredentials(SQLiteConnectionStringBuilder b);
+        public static partial class Credentials
+        {
+            public static  void partial_ApplyAdministratorCredentials(SQLiteConnectionStringBuilder b)
+            {
+                ApplyAdministratorCredentials(b);
+            }
+
+            static partial void ApplyAdministratorCredentials(SQLiteConnectionStringBuilder b);
 
 
-        static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false);
+            public static  void partial_ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false)
+            {
+                ApplyRestrictedCredentials(b, admin);
+            }
+            static partial void ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false);
 
+        }
 
 
         public void GridExample_GetTransactionKeyFor(

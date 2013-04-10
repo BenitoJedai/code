@@ -66,7 +66,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         bool InternalWriteHeadersDone;
 
         // what will enabling this break?
-        bool InternalIsTransferEncodingChunked = true;
+        bool InternalIsTransferEncodingChunked;
 
         void InternalWriteHeaders()
         {
@@ -99,9 +99,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             else
                 WriteLine("Content-Type: " + ContentType);
 
-            // :ERR_INVALID_CHUNKED_ENCODING
-            if (InternalIsTransferEncodingChunked)
-                this.Headers["Transfer-Encoding"] = "chunked";
+                
 
             this.Headers["Connection"] = "close";
 
@@ -119,6 +117,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void Close()
         {
+            this.Flush();
+
             if (InternalIsTransferEncodingChunked)
             {
                 var ChunkedLengthString = "0\r\n\r\n";
@@ -126,7 +126,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
                 InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
 
-                Flush();
+                InternalStream.Flush();
             }
 
             IsClientConnected = false;
@@ -138,12 +138,15 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             Write(s.ToString());
         }
 
+        public StringBuilder WriteChuncks = new StringBuilder();
+
         public void Write(string s)
         {
             if (!InternalWriteHeadersDone)
             {
                 // needs more testing! breaks xml webmethod calls.
-                //InternalIsTransferEncodingChunked = true;
+                InternalIsTransferEncodingChunked = true;
+                this.Headers["Transfer-Encoding"] = "chunked";
 
                 //         Caused by: java.lang.RuntimeException: sendto failed: EPIPE (Broken pipe)
                 //at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__NetworkStream.Write(__NetworkStream.java:115)
@@ -160,59 +163,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
                 if (InternalIsTransferEncodingChunked)
                 {
-                    // why wont this work?
+                    WriteChuncks.Append(s);
 
-                    // http://web.mit.edu/javadev/packages/Acme/Serve/servlet/http/ChunkedOutputStream.java
-                    // Y:\jsc.community\zmovies\MovieAgent\MovieAgentCore\Server\Library\BasicWebCrawler.cs
-                    // http://www.httpwatch.com/httpgallery/chunked/
-                    // http://zoompf.com/2012/05/too-chunky
-                    // http://tools.ietf.org/html/rfc2616#section-3.6.1
-                    // http://www.jmarshall.com/easy/http/
-                    // http://code.google.com/p/chrome-browser/source/browse/trunk/src/net/http/http_chunked_decoder.cc
-                    // http://golang.org/src/pkg/net/http/chunked.go
-                    // http://www.java2s.com/Open-Source/Android/Game/mages/org/aksonov/tools/ChunkedClient.java.htm
-
-                    //var ChunkedLengthString = buffer.Length.ToString("x8") + "; jsc-chunck\r\n";
-
-                    var m = new MemoryStream();
-
-                    #region ChunkedLengthString
-                    // https://code.google.com/p/chromium/issues/detail?id=39206
-
-                    // this was expensive fix
-                    var ChunkedLengthStringWithPadding = (buffer.Length).ToString("x8");
-
-                    while (ChunkedLengthStringWithPadding[0] == '0')
-                    {
-                        if (ChunkedLengthStringWithPadding.Length == 1)
-                            break;
-
-                        ChunkedLengthStringWithPadding = ChunkedLengthStringWithPadding.Substring(1);
-                    }
-
-
-                    var ChunkedLengthString = ChunkedLengthStringWithPadding + "\r\n";
-                    var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
-
-
-                    m.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
-                    #endregion
-
-                    // http://stackoverflow.com/questions/5142649/how-to-send-http-reply-using-chunked-encoding
-
-                    // Unknown chromium error: -321
-                    buffer = Encoding.UTF8.GetBytes(s + "\r\n");
-                    m.Write(buffer, 0, buffer.Length);
-
-                    buffer = m.ToArray();
-
-
-                    //var DebugTransferEncodingChunked = Encoding.UTF8.GetString(buffer);
-
-                    //Console.WriteLine(new { DebugTransferEncodingChunked });
-
-                    InternalStream.Write(buffer, 0, buffer.Length);
-                    InternalStream.Flush();
 
                 }
                 else
@@ -245,7 +197,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
                 s.CopyTo(InternalStream);
 
-                Flush();
+                InternalStream.Flush();
             }
             catch
             {
@@ -259,10 +211,75 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             {
                 if (InternalIsTransferEncodingChunked)
                 {
-                    var ChunkedLengthString = "0\r\n\r\n";
-                    var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
+                    if (WriteChuncks.Length > 0)
+                    {
+                        var s = WriteChuncks.ToString();
+                        WriteChuncks.Clear();
 
-                    InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
+                        var buffer = Encoding.UTF8.GetBytes(s);
+
+
+                        // why wont this work?
+
+                        // http://web.mit.edu/javadev/packages/Acme/Serve/servlet/http/ChunkedOutputStream.java
+                        // Y:\jsc.community\zmovies\MovieAgent\MovieAgentCore\Server\Library\BasicWebCrawler.cs
+                        // http://www.httpwatch.com/httpgallery/chunked/
+                        // http://zoompf.com/2012/05/too-chunky
+                        // http://tools.ietf.org/html/rfc2616#section-3.6.1
+                        // http://www.jmarshall.com/easy/http/
+                        // http://code.google.com/p/chrome-browser/source/browse/trunk/src/net/http/http_chunked_decoder.cc
+                        // http://golang.org/src/pkg/net/http/chunked.go
+                        // http://www.java2s.com/Open-Source/Android/Game/mages/org/aksonov/tools/ChunkedClient.java.htm
+
+                        //var ChunkedLengthString = buffer.Length.ToString("x8") + "; jsc-chunck\r\n";
+
+                        var m = new MemoryStream();
+
+                        #region ChunkedLengthString
+                        // https://code.google.com/p/chromium/issues/detail?id=39206
+
+                        // this was expensive fix
+                        var ChunkedLengthStringWithPadding = (buffer.Length).ToString("x8");
+
+                        while (ChunkedLengthStringWithPadding[0] == '0')
+                        {
+                            if (ChunkedLengthStringWithPadding.Length == 1)
+                                break;
+
+                            ChunkedLengthStringWithPadding = ChunkedLengthStringWithPadding.Substring(1);
+                        }
+
+
+                        var ChunkedLengthString = ChunkedLengthStringWithPadding + "\r\n";
+                        var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
+
+
+                        m.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
+                        #endregion
+
+                        // http://stackoverflow.com/questions/5142649/how-to-send-http-reply-using-chunked-encoding
+
+                        // Unknown chromium error: -321
+                        buffer = Encoding.UTF8.GetBytes(s + "\r\n");
+                        m.Write(buffer, 0, buffer.Length);
+
+                        buffer = m.ToArray();
+
+
+                        //var DebugTransferEncodingChunked = Encoding.UTF8.GetString(buffer);
+
+                        //Console.WriteLine(new { DebugTransferEncodingChunked });
+
+                        InternalStream.Write(buffer, 0, buffer.Length);
+                        //InternalStream.Flush();
+
+
+
+                        //var ChunkedLengthString = "0\r\n\r\n";
+                        //var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
+
+                        //InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
+                    }
                 }
 
                 InternalStream.Flush();
