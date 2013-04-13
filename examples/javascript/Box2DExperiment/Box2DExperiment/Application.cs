@@ -48,7 +48,7 @@ namespace Box2DExperiment
 
         private void InitializeContent(IApp page)
         {
-
+            Console.WriteLine("InitializeContent");
 
             //, b2Fixture = Box2D.Dynamics.b2Fixture
 
@@ -139,6 +139,8 @@ namespace Box2DExperiment
             tick();
 
             Native.Window.requestAnimationFrame += tick;
+
+            Console.WriteLine("InitializeContent done");
 
             //new IFunction("alert(Box2D);").apply(null);
             //Native.Window.alert("bodyDef=" + bodyDef);
