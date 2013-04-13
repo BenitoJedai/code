@@ -1,0 +1,1 @@
+﻿select ContentKey, ContentValue, ContentType from FileStorageTable
