@@ -99,7 +99,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             else
                 WriteLine("Content-Type: " + ContentType);
 
-                
+
 
             this.Headers["Connection"] = "close";
 
@@ -121,12 +121,20 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
             if (InternalIsTransferEncodingChunked)
             {
-                var ChunkedLengthString = "0\r\n\r\n";
-                var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
+                try
+                {
+                    var ChunkedLengthString = "0\r\n\r\n";
+                    var ChunkedLengthStringBytes = Encoding.UTF8.GetBytes(ChunkedLengthString);
 
-                InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
+                    InternalStream.Write(ChunkedLengthStringBytes, 0, ChunkedLengthStringBytes.Length);
 
-                InternalStream.Flush();
+                    InternalStream.Flush();
+                }
+                catch
+                {
+                    // why?
+                    Console.WriteLine("failed to close chunk");
+                }
             }
 
             IsClientConnected = false;
@@ -176,6 +184,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             catch
             {
                 IsClientConnected = false;
+
+                Console.WriteLine("failed to write " + new { s.Length });
             }
         }
 
@@ -207,13 +217,15 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void Flush()
         {
+            var s = "";
+
             try
             {
                 if (InternalIsTransferEncodingChunked)
                 {
                     if (WriteChuncks.Length > 0)
                     {
-                        var s = WriteChuncks.ToString();
+                        s = WriteChuncks.ToString();
                         WriteChuncks.Clear();
 
                         var buffer = Encoding.UTF8.GetBytes(s);
@@ -286,6 +298,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             }
             catch
             {
+                Console.WriteLine("failed to flush " + new { s.Length });
+
                 IsClientConnected = false;
             }
         }

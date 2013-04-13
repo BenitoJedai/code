@@ -1,0 +1,1 @@
+﻿insert into FileStorageTable (ContentValue, ContentType, ContentBytes) values (@ContentValue /* text */, @ContentType /* text */, @ContentBytes)
