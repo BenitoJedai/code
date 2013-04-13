@@ -1,0 +1,8 @@
+﻿First order of business.
+Lets have pdf file drag drop work and synchrnized.
+
+Based on.
+"X:\jsc.svn\examples\javascript\android\com.abstractatech.notez\com.abstractatech.notez.sln"
+"X:\jsc.svn\examples\javascript\DropFileIntoSQLite\DropFileIntoSQLite.sln"
+"X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView.sln"
+"X:\jsc.svn\examples\javascript\Test\TestLongConnection\TestLongConnection.sln"
