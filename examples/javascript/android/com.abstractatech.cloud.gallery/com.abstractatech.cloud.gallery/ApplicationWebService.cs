@@ -19,8 +19,44 @@ namespace com.abstractatech.cloud.gallery
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed class ApplicationWebService :
+        // can we do explicit implementations too?
+        Abstractatech.JavaScript.FileStorage.IApplicationWebService
     {
+        // jsc does not yet look deep enough
+        Type ref0 = typeof(System.Data.SQLite.SQLiteCommand);
+        Type ref1 = typeof(ScriptCoreLib.Shared.Data.DynamicDataReader);
+
+
+        #region service
+        public Abstractatech.JavaScript.FileStorage.ApplicationWebService service = new Abstractatech.JavaScript.FileStorage.ApplicationWebService();
+
+
+
+        public void DeleteAsync(string Key, Action done = null)
+        {
+            service.DeleteAsync(Key, done);
+
+        }
+
+        public void EnumerateFilesAsync(Abstractatech.JavaScript.FileStorage.AtFile y, Action<string> done = null)
+        {
+            service.EnumerateFilesAsync(y, done);
+        }
+
+        public void GetTransactionKeyAsync(Action<string> done = null)
+        {
+            service.GetTransactionKeyAsync(done);
+        }
+
+        public void UpdateAsync(string Key, string Value, Action done = null)
+        {
+            service.UpdateAsync(Key, Value, done);
+        }
+        #endregion
+
+
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
@@ -92,12 +128,15 @@ namespace com.abstractatech.cloud.gallery
         }
 
         const string thumb = "/thumb";
-        const string io = "/io";
+        public const string io = "/io-image";
 
 
         // refactor this into separate partial class file
-        public void Handler(WebServiceHandler h)
+        public void InternalHandler(WebServiceHandler h)
         {
+            // HTTP routing? how to do this more elegantly?
+            service.InternalHandler(h);
+
             var Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":");
 
             var path = h.Context.Request.Path;
@@ -173,6 +212,7 @@ namespace com.abstractatech.cloud.gallery
         }
 
 
+#if Android
 
         private static byte[] InternalReadBytes(string filepath, bool thumb = true)
         {
@@ -206,5 +246,7 @@ namespace com.abstractatech.cloud.gallery
 
             return (byte[])(object)mImageData;
         }
+#endif
+
     }
 }
