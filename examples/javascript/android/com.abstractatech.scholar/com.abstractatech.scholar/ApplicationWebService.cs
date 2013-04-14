@@ -27,6 +27,7 @@ namespace com.abstractatech.scholar
 
 
 
+        #region service
         public Abstractatech.JavaScript.FileStorage.ApplicationWebService service = new Abstractatech.JavaScript.FileStorage.ApplicationWebService();
 
 
@@ -51,6 +52,7 @@ namespace com.abstractatech.scholar
         {
             service.UpdateAsync(Key, Value, done);
         }
+        #endregion
 
 
         public void InternalHandler(WebServiceHandler h)

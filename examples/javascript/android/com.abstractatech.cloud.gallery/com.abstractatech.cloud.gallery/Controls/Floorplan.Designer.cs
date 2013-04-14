@@ -33,14 +33,12 @@ namespace com.abstractatech.cloud.gallery.Controls
             this.deskCube7 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube14 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube1 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
-            this.deskCube13 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube2 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube12 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube3 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube11 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube10 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube20 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
-            this.deskCube4 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube8 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube9 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
             this.deskCube16 = new com.abstractatech.cloud.gallery.Controls.DeskCube();
@@ -69,12 +67,12 @@ namespace com.abstractatech.cloud.gallery.Controls
             this.deskCube6.ForeColor = System.Drawing.Color.Blue;
             this.deskCube6.LeftWallSource = null;
             this.deskCube6.LeftWallSourceAutoLoad = true;
-            this.deskCube6.Location = new System.Drawing.Point(470, 629);
+            this.deskCube6.Location = new System.Drawing.Point(452, 513);
             this.deskCube6.Name = "deskCube6";
-            this.deskCube6.Size = new System.Drawing.Size(13, 92);
+            this.deskCube6.Size = new System.Drawing.Size(12, 140);
             this.deskCube6.TabIndex = 17;
             this.deskCube6.WallSourceBottom = null;
-            this.deskCube6.WallSourceRight = "#window";
+            this.deskCube6.WallSourceRight = "#webfiles";
             this.deskCube6.WallSourceTop = null;
             // 
             // deskCube7
@@ -122,31 +120,16 @@ namespace com.abstractatech.cloud.gallery.Controls
             this.deskCube1.WallSourceRight = null;
             this.deskCube1.WallSourceTop = null;
             // 
-            // deskCube13
-            // 
-            this.deskCube13.BackColor = System.Drawing.Color.Blue;
-            this.deskCube13.CubeHeight = 0;
-            this.deskCube13.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube13.LeftWallSource = null;
-            this.deskCube13.LeftWallSourceAutoLoad = true;
-            this.deskCube13.Location = new System.Drawing.Point(470, 440);
-            this.deskCube13.Name = "deskCube13";
-            this.deskCube13.Size = new System.Drawing.Size(13, 92);
-            this.deskCube13.TabIndex = 14;
-            this.deskCube13.WallSourceBottom = null;
-            this.deskCube13.WallSourceRight = "#window";
-            this.deskCube13.WallSourceTop = null;
-            // 
             // deskCube2
             // 
             this.deskCube2.BackColor = System.Drawing.Color.Blue;
             this.deskCube2.CubeHeight = 0;
             this.deskCube2.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube2.LeftWallSource = "#window";
+            this.deskCube2.LeftWallSource = "#webfiles";
             this.deskCube2.LeftWallSourceAutoLoad = true;
-            this.deskCube2.Location = new System.Drawing.Point(994, 440);
+            this.deskCube2.Location = new System.Drawing.Point(1021, 448);
             this.deskCube2.Name = "deskCube2";
-            this.deskCube2.Size = new System.Drawing.Size(13, 92);
+            this.deskCube2.Size = new System.Drawing.Size(15, 270);
             this.deskCube2.TabIndex = 14;
             this.deskCube2.WallSourceBottom = null;
             this.deskCube2.WallSourceRight = null;
@@ -227,21 +210,6 @@ namespace com.abstractatech.cloud.gallery.Controls
             this.deskCube20.WallSourceRight = null;
             this.deskCube20.WallSourceTop = "#window";
             // 
-            // deskCube4
-            // 
-            this.deskCube4.BackColor = System.Drawing.Color.Blue;
-            this.deskCube4.CubeHeight = 0;
-            this.deskCube4.ForeColor = System.Drawing.Color.Blue;
-            this.deskCube4.LeftWallSource = "#window";
-            this.deskCube4.LeftWallSourceAutoLoad = true;
-            this.deskCube4.Location = new System.Drawing.Point(994, 629);
-            this.deskCube4.Name = "deskCube4";
-            this.deskCube4.Size = new System.Drawing.Size(13, 92);
-            this.deskCube4.TabIndex = 2;
-            this.deskCube4.WallSourceBottom = null;
-            this.deskCube4.WallSourceRight = null;
-            this.deskCube4.WallSourceTop = null;
-            // 
             // deskCube8
             // 
             this.deskCube8.BackColor = System.Drawing.Color.Blue;
@@ -308,14 +276,12 @@ namespace com.abstractatech.cloud.gallery.Controls
             this.Controls.Add(this.deskCube7);
             this.Controls.Add(this.deskCube14);
             this.Controls.Add(this.deskCube1);
-            this.Controls.Add(this.deskCube13);
             this.Controls.Add(this.deskCube2);
             this.Controls.Add(this.deskCube12);
             this.Controls.Add(this.deskCube3);
             this.Controls.Add(this.deskCube11);
             this.Controls.Add(this.deskCube10);
             this.Controls.Add(this.deskCube20);
-            this.Controls.Add(this.deskCube4);
             this.Controls.Add(this.deskCube8);
             this.Controls.Add(this.deskCube9);
             this.Controls.Add(this.deskCube16);
@@ -328,7 +294,6 @@ namespace com.abstractatech.cloud.gallery.Controls
 
         #endregion
 
-        private DeskCube deskCube4;
         private DeskCube deskCube16;
         private DeskCube deskCube20;
         private Floor floor1;
@@ -343,7 +308,6 @@ namespace com.abstractatech.cloud.gallery.Controls
         private DeskCube deskCube10;
         private DeskCube deskCube11;
         private DeskCube deskCube12;
-        private DeskCube deskCube13;
         private DeskCube deskCube14;
 
     }

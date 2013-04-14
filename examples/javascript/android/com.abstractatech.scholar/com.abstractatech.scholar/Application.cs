@@ -92,7 +92,7 @@ namespace com.abstractatech.scholar
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        public readonly Abstractatech.JavaScript.FileStorage.IApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -100,25 +100,43 @@ namespace com.abstractatech.scholar
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            new ApplicationContent(page, service);
+        }
+    }
+
+    public class ApplicationContent
+    {
+        
+        public ApplicationContent(
+            IApp page, 
+            Abstractatech.JavaScript.FileStorage.IApplicationWebService service,
+            bool DisableBackground = false
+
+            )
+        {
+
 
             FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
 
-            #region  I want animated background!
+            if (!DisableBackground)
+            {
+                #region  I want animated background!
 
-            WebGLClouds.Application.Loaded +=
-                a =>
-                {
-                    Native.Document.body.parentNode.insertBefore(
-                         a.container.Orphanize(),
-                          Native.Document.body
-                    );
-                    a.container.style.position = IStyle.PositionEnum.@fixed;
+                WebGLClouds.Application.Loaded +=
+                    a =>
+                    {
+                        Native.Document.body.parentNode.insertBefore(
+                             a.container.Orphanize(),
+                              Native.Document.body
+                        );
+                        a.container.style.position = IStyle.PositionEnum.@fixed;
 
-                };
+                    };
 
 
-            new WebGLClouds.Application();
-            #endregion
+                new WebGLClouds.Application();
+                #endregion
+            }
 
             //var minsize = new IHTMLDiv().AttachToDocument();
 

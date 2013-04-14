@@ -61,6 +61,23 @@ namespace com.abstractatech.cloud.gallery
             Console.WriteLine(new { Native.Document.location.href, Native.Document.location.search });
 
             if (Native.Document.location.hash != null)
+            {
+                if (Native.Document.location.hash.StartsWith("#webfiles"))
+                {
+                    var layout = new com.abstractatech.scholar.HTML.Pages.App();
+
+                    layout.Container.AttachToDocument();
+
+                    new com.abstractatech.scholar.ApplicationContent(
+                        layout,
+                        service,
+                        DisableBackground: true
+                    );
+
+                    return;
+                }
+
+
                 if (Native.Document.location.hash.StartsWith("#window"))
                 {
                     var index = int.Parse(Native.Document.location.hash.SkipUntilOrEmpty("#window"));
@@ -88,11 +105,11 @@ namespace com.abstractatech.cloud.gallery
                                                 img.style.width = "100%";
                                             }
                                             Console.WriteLine("will load full " + new { path });
-                                            new IHTMLImage { src = "/io/" + path }.AttachToDocument().InvokeOnComplete(
+                                            new IHTMLImage { src = ApplicationWebService.io + "/" + path }.AttachToDocument().InvokeOnComplete(
                                              io =>
                                              {
 
-                                                 img.src = "/io/" + path;
+                                                 img.src = ApplicationWebService.io + "/" + path;
                                              }
                                            );
                                         }
@@ -120,6 +137,7 @@ namespace com.abstractatech.cloud.gallery
 
                     return;
                 }
+            }
 
             if (Native.Document.location.hash == "#cloud")
             {
@@ -283,7 +301,7 @@ namespace com.abstractatech.cloud.gallery
                                     Action<IHTMLDiv, string> LoadContent =
                                         (westContainer, src) =>
                                         {
-                                            if (src == "#window")
+                                            if (src == "#window" || src == "#webfiles")
                                             {
                                                 var morespace = new IHTMLDiv().AttachTo(westContainer);
 

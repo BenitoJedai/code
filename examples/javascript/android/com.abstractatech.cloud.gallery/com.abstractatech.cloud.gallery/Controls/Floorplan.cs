@@ -20,5 +20,10 @@ namespace com.abstractatech.cloud.gallery.Controls
         {
 
         }
+
+        private void deskCube13_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
