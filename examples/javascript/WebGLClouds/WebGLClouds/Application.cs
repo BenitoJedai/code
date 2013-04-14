@@ -27,6 +27,12 @@ namespace WebGLClouds
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+
+        // hack for async ctor
+        public static event Action<Application> Loaded;
+
+        public IHTMLDiv container = new IHTMLDiv();
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -49,7 +55,8 @@ namespace WebGLClouds
                                       {
                                           InitializeContent(page);
 
-
+                                          if (Loaded != null)
+                                              Loaded(this);
                                       };
 
                               }
@@ -61,12 +68,12 @@ namespace WebGLClouds
             #endregion
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //@"Hello world".ToDocumentTitle();
+            //// Send data from JavaScript to the server tier
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
         sealed class MyUniforms
@@ -130,7 +137,6 @@ namespace WebGLClouds
             var mouseY = (float)((Native.Window.Height * DefaultMouseY - windowHalfY) * 0.15);
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            var container = new IHTMLDiv();
 
             container.AttachToDocument();
             container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
@@ -223,12 +229,13 @@ namespace WebGLClouds
             renderer.setSize(Native.Window.Width, Native.Window.Height);
             container.appendChild(renderer.domElement);
 
+            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
 
             #region onresize
             Native.Window.onresize +=
                 delegate
                 {
-                    container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                    container.style.SetSize(Native.Window.Width, Native.Window.Height);
 
                     camera.aspect = Native.Window.Width / Native.Window.Height;
                     camera.updateProjectionMatrix();

@@ -87,6 +87,10 @@
     <Compile Include="JavaScript\Extensions\FormStyler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\WebBrowserNavigatingEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\WebBrowserNavigatingEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\WebBrowserNavigatedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\WebBrowserNavigatedEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ScrollEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ScrollEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\KeyEventHandler.cs" />

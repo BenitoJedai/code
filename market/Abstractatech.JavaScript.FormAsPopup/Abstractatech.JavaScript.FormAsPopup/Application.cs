@@ -30,14 +30,18 @@ namespace ScriptCoreLib.Extensions
             Action SpecialCloseOnLeft = null,
 
             // as if we were docked
-            bool SpecialNoMovement = false
+            bool SpecialNoMovement = false,
+
+
+            Action NotifyDocked = null
             ) where T : Form
         {
             Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(
                 f,
                 HandleFormClosing,
                 SpecialCloseOnLeft,
-                SpecialNoMovement
+                SpecialNoMovement,
+                NotifyDocked
             );
 
             return f;
@@ -61,7 +65,9 @@ namespace Abstractatech.JavaScript.FormAsPopup
             bool HandleFormClosing,
             Action SpecialCloseOnLeft,
 
-            bool SpecialNoMovement = false
+            bool SpecialNoMovement = false,
+            Action NotifyDocked = null
+
             )
         {
             __Form __f = f;
@@ -96,11 +102,16 @@ namespace Abstractatech.JavaScript.FormAsPopup
                         HTMLTarget_parent = null;
                         HTMLTargetContainer_parent = null;
 
+                        if (w == null)
+                            return;
+
                         w.close();
                     };
 
                 content.f.GetHTMLTarget().Orphanize();
 
+                if (NotifyDocked != null)
+                    NotifyDocked();
 
                 w.onload +=
                     delegate
@@ -111,12 +122,26 @@ namespace Abstractatech.JavaScript.FormAsPopup
                         );
 
 
+                        #region title
                         w.document.title = content.f.Text;
 
+                        f.TextChanged +=
+                            delegate
+                            {
+                                if (w == null)
+                                    return;
+
+
+                                w.document.title = content.f.Text;
+                            };
+                        #endregion
 
                         w.onresize +=
                             delegate
                             {
+                                if (w == null)
+                                    return;
+
                                 var cs = content.f.ClientSize;
 
                                 cs.Width = w.Width;
@@ -143,6 +168,11 @@ namespace Abstractatech.JavaScript.FormAsPopup
                                 content.f.GetHTMLTarget().Orphanize().AttachTo(
                                     HTMLTarget_parent
                                 );
+
+                                w = null;
+
+                                if (NotifyDocked != null)
+                                    NotifyDocked();
                             };
                     };
             };
@@ -154,6 +184,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
             //var fOpacity = 1.0;
 
+            #region DragStart
             __f.InternalCaptionDrag.DragStart +=
                 delegate
                 {
@@ -163,10 +194,13 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                     undo_y = __f.Top;
                 };
+            #endregion
+
 
             var SpecialClose = false;
 
 
+            #region DragMove
             __f.InternalCaptionDrag.DragMove +=
                 delegate
                 {
@@ -203,7 +237,10 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                     __f.Opacity = 0.5;
                 };
+            #endregion
 
+
+            #region DragStop
             __f.InternalCaptionDrag.DragStop +=
                 delegate
                 {
@@ -264,6 +301,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     SpecialClose = true;
                     f.Close();
                 };
+            #endregion
 
             content.f.FormClosing +=
                 (sender, e) =>

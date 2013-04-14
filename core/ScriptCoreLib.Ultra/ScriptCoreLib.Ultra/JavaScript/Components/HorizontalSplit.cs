@@ -8,187 +8,197 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
-	public class HorizontalSplitBase
-	{
-		// to enable vertical split? :)
+    public class HorizontalSplitBase
+    {
+        // to enable vertical split? :)
 
-		public readonly IHorizontalSplitConcept Split;
-		public readonly IHorizontalSplitAreaConcept SplitArea;
+        public readonly IHorizontalSplitConcept Split;
+        public readonly IHorizontalSplitAreaConcept SplitArea;
 
-		public class Arguments
-		{
-			public IHorizontalSplitConcept Split;
-			public IHorizontalSplitAreaConcept SplitArea;
+        public class Arguments
+        {
+            public IHorizontalSplitConcept Split;
+            public IHorizontalSplitAreaConcept SplitArea;
 
-			public IHTMLImage SplitImage;
+            public IHTMLImage SplitImage;
 
-			public int SplitImageWidth;
-			public int SplitImageHeight;
-		}
+            public int SplitImageWidth;
+            public int SplitImageHeight;
+        }
 
-		public double Minimum = 0.2;
-		public double Maximum = 0.8;
+        public double Minimum = 0.2;
+        public double Maximum = 0.8;
 
-		public readonly IHTMLDiv SplitImageContainer;
+        public readonly IHTMLDiv SplitImageContainer;
 
-		double InternalValue;
-		public double Value
-		{
-			set
-			{
-				this.InternalValue = value;
-				this.InternalSetValue(Convert.ToInt32(value * 100));
-			}
-			get
-			{
-				return this.InternalValue;
-			}
-		}
-		Action<int> InternalSetValue;
+        double InternalValue;
+        public double Value
+        {
+            set
+            {
+                this.InternalValue = value;
+                this.InternalSetValue(Convert.ToInt32(value * 100));
 
-		public IHTMLDiv LeftContainer
-		{
-			get
-			{
-				return this.Split.LeftContainer;
-			}
-			set
-			{
-				this.Split.LeftContainer = value;
-			}
-		}
+                if (ValueChanged != null)
+                    ValueChanged();
+            }
+            get
+            {
+                return this.InternalValue;
+            }
+        }
+        Action<int> InternalSetValue;
 
-		public IHTMLDiv RightContainer
-		{
-			get
-			{
-				return this.Split.RightContainer;
-			}
-			set
-			{
-				this.Split.RightContainer = value;
-			}
-		}
+        public event Action ValueChanged;
 
-		public ScriptCoreLib.JavaScript.Runtime.JSColor SelectionColor 
-			= ScriptCoreLib.JavaScript.Runtime.JSColor.System.Highlight;
+        public IHTMLDiv LeftContainer
+        {
+            get
+            {
+                return this.Split.LeftContainer;
+            }
+            set
+            {
+                this.Split.LeftContainer = value;
+            }
+        }
 
-		public double SelectionBackgroundOpacity = 0.05;
+        public IHTMLDiv RightContainer
+        {
+            get
+            {
+                return this.Split.RightContainer;
+            }
+            set
+            {
+                this.Split.RightContainer = value;
+            }
+        }
 
-		public HorizontalSplitBase(Arguments args)
-		{
-			this.Split = args.Split;
-			this.SplitArea = args.SplitArea;
+        public ScriptCoreLib.JavaScript.Runtime.JSColor SelectionColor
+            = ScriptCoreLib.JavaScript.Runtime.JSColor.System.Highlight;
 
-			var hs = args.Split;
-			var hsArea = args.SplitArea;
+        public double SelectionBackgroundOpacity = 0.05;
 
-			var hsa = args.SplitImage;
+        public HorizontalSplitBase(Arguments args)
+        {
+            this.Split = args.Split;
+            this.SplitArea = args.SplitArea;
 
-			this.SplitImageContainer = new IHTMLDiv();
-			SplitImageContainer.AttachTo(hs.Splitter);
-			SplitImageContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-			SplitImageContainer.style.left = "1px";
-			SplitImageContainer.style.top = "50%";
-			SplitImageContainer.style.marginTop = (-args.SplitImageHeight / 2) + "px";
+            var hs = args.Split;
+            var hsArea = args.SplitArea;
 
-			hsa.AttachTo(SplitImageContainer);
+            var hsa = args.SplitImage;
 
+            this.SplitImageContainer = new IHTMLDiv();
+            SplitImageContainer.AttachTo(hs.Splitter);
+            SplitImageContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            SplitImageContainer.style.left = "1px";
+            SplitImageContainer.style.top = "50%";
+            SplitImageContainer.style.marginTop = (-args.SplitImageHeight / 2) + "px";
 
-			hsArea.Abort.style.Opacity = 0.05;
-
-
-			var dragmode = false;
-
-			hsArea.Target.onmousedown +=
-				ee =>
-				{
-					hsArea.Target.style.backgroundColor = SelectionColor;
-					dragmode = true;
-
-					ee.PreventDefault();
-					hsArea.Abort.style.Opacity = SelectionBackgroundOpacity;
-				};
-
-			hsArea.PageContainer.onmousemove +=
-				ee =>
-				{
-					var OffsetX = ee.GetOffsetX(hsArea.PageContainer);
+            hsa.AttachTo(SplitImageContainer);
 
 
-					if (!dragmode)
-						return;
+            hsArea.Abort.style.Opacity = 0.05;
 
-					var p = System.Convert.ToInt32(OffsetX * 100 / hsArea.PageContainer.offsetWidth);
 
-					if (p < Convert.ToInt32(Minimum * 100))
-						p = Convert.ToInt32(Minimum * 100);
-					if (p > Convert.ToInt32(Maximum * 100))
-						p = Convert.ToInt32(Maximum * 100);
+            var dragmode = false;
+            Action ReleaseCapture = delegate { };
 
-					hsArea.Target.style.left = p + "%";
-				};
+            hsArea.Target.onmousedown +=
+                ee =>
+                {
+                    ReleaseCapture = hsArea.Target.CaptureMouse();
 
-			InternalSetValue =
-				p =>
-				{
-					if (p < Convert.ToInt32(Minimum * 100))
-						p = Convert.ToInt32(Minimum * 100);
-					if (p > Convert.ToInt32(Maximum * 100))
-						p = Convert.ToInt32(Maximum * 100);
+                    hsArea.Target.style.backgroundColor = SelectionColor;
+                    dragmode = true;
 
-					hsArea.Target.style.left = p + "%";
-					hs.Right.style.left = p + "%";
-					hs.Right.style.width = (100 - p) + "%";
-					hs.Left.style.width = p + "%";
-				};
+                    ee.PreventDefault();
+                    hsArea.Abort.style.Opacity = SelectionBackgroundOpacity;
+                };
 
-			hsArea.PageContainer.onmouseup +=
-				ee =>
-				{
-					if (!dragmode)
-						return;
+            hsArea.PageContainer.onmousemove +=
+                ee =>
+                {
+                    var OffsetX = ee.GetOffsetX(hsArea.PageContainer);
 
-					var OffsetX = ee.GetOffsetX(hsArea.PageContainer);
 
-					dragmode = false;
-					var p = System.Convert.ToInt32(OffsetX * 100 / hsArea.PageContainer.offsetWidth);
+                    if (!dragmode)
+                        return;
 
-					Value = p * 0.01;
+                    var p = System.Convert.ToInt32(OffsetX * 100 / hsArea.PageContainer.offsetWidth);
 
-					hsArea.Abort.style.Opacity = 0;
-					hsArea.Target.style.backgroundColor = ScriptCoreLib.JavaScript.Runtime.JSColor.None;
+                    if (p < Convert.ToInt32(Minimum * 100))
+                        p = Convert.ToInt32(Minimum * 100);
+                    if (p > Convert.ToInt32(Maximum * 100))
+                        p = Convert.ToInt32(Maximum * 100);
 
-				};
+                    hsArea.Target.style.left = p + "%";
+                };
 
-			hsArea.Abort.onmousemove +=
-				ee =>
-				{
-					if (dragmode)
-					{
-						return;
-					}
+            InternalSetValue =
+                p =>
+                {
+                    if (p < Convert.ToInt32(Minimum * 100))
+                        p = Convert.ToInt32(Minimum * 100);
+                    if (p > Convert.ToInt32(Maximum * 100))
+                        p = Convert.ToInt32(Maximum * 100);
 
-					hsArea.Target.style.backgroundColor = ScriptCoreLib.JavaScript.Runtime.JSColor.None;
-					hsArea.PageContainer.Orphanize();
-				};
+                    hsArea.Target.style.left = p + "%";
+                    hs.Right.style.left = p + "%";
+                    hs.Right.style.width = (100 - p) + "%";
+                    hs.Left.style.width = p + "%";
+                };
 
-			hs.Splitter.onmouseover +=
-				delegate
-				{
-					hsArea.Abort.style.Opacity = 0.05;
+            hsArea.PageContainer.onmouseup +=
+                ee =>
+                {
+                    if (!dragmode)
+                        return;
 
-					hsArea.PageContainer.AttachTo(hs.ContentContainer);
-				};
-		}
+                    ReleaseCapture();
 
-		public IHTMLDiv Container
-		{
-			get
-			{
-				return this.Split.ContentContainer;
-			}
-		}
-	}
+                    var OffsetX = ee.GetOffsetX(hsArea.PageContainer);
+
+                    dragmode = false;
+                    var p = System.Convert.ToInt32(OffsetX * 100 / hsArea.PageContainer.offsetWidth);
+
+                    Value = p * 0.01;
+
+                    hsArea.Abort.style.Opacity = 0;
+                    hsArea.Target.style.backgroundColor = ScriptCoreLib.JavaScript.Runtime.JSColor.None;
+
+                };
+
+            hsArea.Abort.onmousemove +=
+                ee =>
+                {
+                    if (dragmode)
+                    {
+                        return;
+                    }
+
+                    hsArea.Target.style.backgroundColor = ScriptCoreLib.JavaScript.Runtime.JSColor.None;
+                    hsArea.PageContainer.Orphanize();
+                };
+
+            hs.Splitter.onmouseover +=
+                delegate
+                {
+                    hsArea.Abort.style.Opacity = 0.05;
+
+                    hsArea.PageContainer.AttachTo(hs.ContentContainer);
+                };
+        }
+
+        public IHTMLDiv Container
+        {
+            get
+            {
+                return this.Split.ContentContainer;
+            }
+        }
+    }
 
 }
