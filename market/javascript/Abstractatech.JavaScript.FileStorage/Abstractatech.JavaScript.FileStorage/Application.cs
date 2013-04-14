@@ -22,7 +22,7 @@ namespace Abstractatech.JavaScript.FileStorage
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        public readonly IApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -53,7 +53,7 @@ namespace Abstractatech.JavaScript.FileStorage
     {
         public ApplicationContent(
             IApp page = null,
-            ApplicationWebService service = null)
+            IApplicationWebService service = null)
         {
             // first order of business.
             // enable drop zone.

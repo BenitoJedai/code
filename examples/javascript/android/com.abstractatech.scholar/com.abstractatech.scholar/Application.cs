@@ -28,12 +28,28 @@ namespace com.abstractatech.scholar
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+
+
+            var c = new IHTMLDiv();
+
+            c.AttachToDocument();
+            c.style.SetSize(400, 400);
+
+            var layout = new Abstractatech.JavaScript.FileStorage.HTML.Pages.App();
+
+            layout.Container.AttachTo(c);
+
+
+
+            new Abstractatech.JavaScript.FileStorage.ApplicationContent(
+                layout,
+                service
             );
+
+            new IHTMLIFrame { name = "view" }.AttachToDocument();
+
+
+
         }
 
     }

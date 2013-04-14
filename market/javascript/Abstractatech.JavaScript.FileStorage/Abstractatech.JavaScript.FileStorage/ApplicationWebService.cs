@@ -18,10 +18,18 @@ namespace Abstractatech.JavaScript.FileStorage
         string ContentBytesLength
     );
 
+    public interface IApplicationWebService
+    {
+        void DeleteAsync(string Key, Action done = null);
+        void UpdateAsync(string Key, string Value, Action done = null);
+        void EnumerateFilesAsync(AtFile y, Action<string> done = null);
+        void GetTransactionKeyAsync(Action<string> done = null);
+    }
+
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed class ApplicationWebService : IApplicationWebService
     {
         //[javac] S:\src\Abstractatech\JavaScript\FileStorage\ApplicationWebService___c__DisplayClass23.java:30: data_FileStorageLog has private access in Abstractatech.JavaScript.FileStorage.ApplicationWebService
         //[javac]         this.CS___8__locals22.__4__this.data_FileStorageLog.Insert(insert0, null);
@@ -241,9 +249,10 @@ namespace Abstractatech.JavaScript.FileStorage
                                 {
                                     ContentKey = int.Parse(filepath),
                                     ContentBytesRangeOffset = i,
-                                    ContentBytesRangeLength = 1000000.Min((int)ContentBytesLength - i)
+                                    ContentBytesRangeLength = 1000000.Min((int)ContentBytesLength - i + 1)
                                 };
 
+                            // http://stackoverflow.com/questions/5406429/cursor-size-limit-in-android-sqlitedatabase
                             data_FileStorage.SelectBytesRange(
                                 value: __SelectBytesRange,
                                 yield: rangereader =>
