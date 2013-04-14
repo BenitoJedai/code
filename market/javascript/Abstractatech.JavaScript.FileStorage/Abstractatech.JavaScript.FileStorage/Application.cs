@@ -51,10 +51,15 @@ namespace Abstractatech.JavaScript.FileStorage
 
     public class ApplicationContent
     {
+        public static string Target = "_blank";
+
         public ApplicationContent(
             IApp page = null,
             IApplicationWebService service = null)
         {
+            // need absolute path when docked..
+            page.style1.href = page.style1.href;
+
             // first order of business.
             // enable drop zone.
             var dz = new DropZone();
@@ -142,9 +147,11 @@ namespace Abstractatech.JavaScript.FileStorage
                                         }
                                     );
 
-                                    e.open.href = "/io/" + ContentKey + "/" + ContentValue;
+                                    e.open.href = Native.Document.location.href.TakeUntilLastIfAny("/") + "/io/" + ContentKey + "/" + ContentValue;
                                 };
-                            e.open.href = "/io/" + ContentKey + "/" + ContentValue;
+                            e.open.href = Native.Document.location.href.TakeUntilLastIfAny("/") + "/io/" + ContentKey + "/" + ContentValue;
+                            e.open.target = Target;
+
                             #endregion
 
                             e.ContentType.innerText = ContentBytesLength + " bytes " + ContentType;
@@ -248,7 +255,7 @@ namespace Abstractatech.JavaScript.FileStorage
 
                     evt.preventDefault();
 
-
+                    Console.WriteLine("ondrop");
 
                     var xhr = new IXMLHttpRequest();
 
@@ -258,6 +265,7 @@ namespace Abstractatech.JavaScript.FileStorage
                     // which server?
                     xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/FileStorageUpload");
 
+                    #region send
                     var d = new FormData();
 
                     evt.dataTransfer.files.AsEnumerable().WithEachIndex(
@@ -291,6 +299,8 @@ namespace Abstractatech.JavaScript.FileStorage
                         };
 
                     xhr.send(d);
+                    #endregion
+
 
                     if (StayAlertTimer != null)
                         StayAlertTimer.Stop();

@@ -1,1 +1,38 @@
-h1 { color: blue; }
+
+div.FileEntry:hover {
+    background-color: #0014ae;
+}
+
+div.FileEntry {
+    background-color: black;
+}
+
+    div.FileEntry:hover button {
+        color: red;
+        border: 1px solid red;
+    }
+
+
+
+    div.FileEntry button {
+        color: #b60000;
+        border: 1px solid #b60000;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+
+
+    div.FileEntry a:visited {
+        color: #414102;
+        border: 1px solid #414102;
+    }
+
+    div.FileEntry a {
+        color: yellow;
+        border: 1px solid yellow;
+    }
+
+    div.FileEntry:hover a {
+        color: yellow;
+        border: 1px solid yellow;
+    }

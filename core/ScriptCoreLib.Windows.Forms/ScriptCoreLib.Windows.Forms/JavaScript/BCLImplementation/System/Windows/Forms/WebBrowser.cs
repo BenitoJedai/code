@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.Windows.Forms;
+using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -20,9 +22,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             set
             {
-                InternalUrl = value;
 
                 Navigate(value.ToString());
+            }
+        }
+
+
+        public string DocumentTitle
+        {
+            get
+            {
+                var x = "";
+                try
+                {
+                    x = InternalElement.title;
+                }
+                catch
+                { }
+
+                return x;
             }
         }
 
@@ -30,7 +48,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             var loc = Native.Document.location.href;
 
-            if (!urlString.Contains("://"))
+            // about:blank
+            if (!urlString.Contains(":"))
             {
                 if (urlString.StartsWith("/"))
                     if (loc.EndsWith("/"))
@@ -41,6 +60,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 urlString = loc + urlString;
             }
 
+            // onload: { Url = ://out:NaN/, src = about:blank, href = about:blank }
+            InternalUrl = new Uri(urlString);
             this.InternalElement.src = urlString;
         }
 
@@ -81,6 +102,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public event WebBrowserNavigatingEventHandler Navigating;
+
+        // or should this be document completed?
+        public event WebBrowserNavigatedEventHandler Navigated;
+
         public __WebBrowser()
         {
 
@@ -90,6 +116,50 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 allowTransparency = true,
                 allowFullScreen = true
             };
+
+            this.InternalElement.onload +=
+                delegate
+                {
+                    try
+                    {
+                        var href = this.InternalElement.contentWindow.document.location.href;
+
+                        InternalUrl = new Uri(href);
+
+                        // enable reloading
+                        if (this.InternalElement.src != href)
+                        {
+                            // fixup, loaded from cashe?
+                            this.InternalElement.src = href;
+                        }
+                        else
+                        {
+                            if (Navigated != null)
+                                Navigated(
+                                    this,
+                                    (WebBrowserNavigatedEventArgs)(object)new __WebBrowserNavigatedEventArgs { Url = InternalUrl }
+                                );
+
+
+                            this.InternalElement.contentWindow.onunload +=
+                                delegate
+                                {
+                                    if (Navigating != null)
+                                        Navigating(
+                                            this,
+                                            (WebBrowserNavigatingEventArgs)(object)new __WebBrowserNavigatingEventArgs
+                                            {
+                                                //Url = InternalUrl 
+                                            }
+                                        );
+                                };
+                        }
+
+
+                    }
+                    catch
+                    { }
+                };
 
             // http://www.w3schools.com/html5/att_iframe_sandbox.asp
             //dynamic iframe = this.InternalElement;

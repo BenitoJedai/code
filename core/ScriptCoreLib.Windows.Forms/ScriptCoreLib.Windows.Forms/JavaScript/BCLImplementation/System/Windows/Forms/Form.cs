@@ -87,6 +87,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public static event Action InternalMouseCapured;
         public static event Action InternalMouseReleased;
 
+        IHTMLDiv ResizeGripElement;
+
         public __Form()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -277,8 +279,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             #region ResizeGripElement
-            var ResizeGripElement = new IHTMLDiv().AttachTo(ContentContainerPadding);
-            ResizeGripElement.title = "ResizeGripElement";
+            ResizeGripElement = new IHTMLDiv().AttachTo(ContentContainerPadding);
             ResizeGripElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             ResizeGripElement.style.width = "12px";
             ResizeGripElement.style.height = "12px";
@@ -406,9 +407,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CloseButton.onclick +=
                 delegate
                 {
-              
 
-                    Close();
+
+                    InternalClose(reason: CloseReason.UserClosing);
                 };
             #endregion
 
@@ -641,7 +642,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #region Close
         public void Close()
         {
-            var a = new FormClosingEventArgs(CloseReason.UserClosing, false);
+            InternalClose();
+        }
+
+
+        public void InternalClose(CloseReason reason = CloseReason.None)
+        {
+            var a = new FormClosingEventArgs(reason, false);
 
             if (FormClosing != null)
                 FormClosing(this, a);
@@ -872,7 +879,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event EventHandler Shown;
         #endregion
 
-        public SizeGripStyle SizeGripStyle { get; set; }
+        public SizeGripStyle InternalSizeGripStyle = SizeGripStyle.Show;
+
+        public SizeGripStyle SizeGripStyle
+        {
+            get
+            {
+                return this.InternalSizeGripStyle;
+            }
+            set
+            {
+                this.InternalSizeGripStyle = value;
+
+                this.ResizeGripElement.Show(value != global::System.Windows.Forms.SizeGripStyle.Hide);
+
+            }
+        }
+
         public FormStartPosition StartPosition { get; set; }
 
         int __PreviousWidth;
