@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Schema\FileStorage.cs" />
+    <Compile Include="Schema\FileStorageLogTable.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,13 +131,20 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Uploading.htm" />
+    <Content Include="Design\FileLoadingDone.htm" />
+    <Content Include="Design\FileLoading.htm" />
     <Content Include="Design\FileEntry.htm" />
     <Content Include="Design\DropZone.htm" />
+    <Content Include="Schema\FileStorageLog\create.sql" />
+    <Content Include="Schema\FileStorageLog\select transaction.sql" />
     <Content Include="Schema\FileStorage\create.sql" />
     <Content Include="Schema\FileStorage\delete.sql" />
+    <Content Include="Schema\FileStorageLog\insert.sql" />
     <Content Include="Schema\FileStorage\insert.sql" />
     <Content Include="Schema\FileStorage\select all.sql" />
     <Content Include="Schema\FileStorage\select bytes.sql" />
+    <Content Include="Schema\FileStorage\update.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

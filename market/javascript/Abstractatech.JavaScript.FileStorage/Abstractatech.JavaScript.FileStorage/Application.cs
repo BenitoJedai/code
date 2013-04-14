@@ -63,12 +63,41 @@ namespace Abstractatech.JavaScript.FileStorage
             dz.Container.AttachToDocument();
             dz.Container.Hide();
 
+            var StayAlertTimer = default(Timer);
+            var DoRefresh = default(Action);
 
-            Action DoRefresh =
+            Action<string> StayAlert =
+                transaction_id =>
+                {
+                    StayAlertTimer = new Timer(
+                        delegate
+                        {
+                            service.GetTransactionKeyAsync(
+                                id =>
+                                {
+                                    if (id == transaction_id)
+                                        return;
+
+                                    Console.WriteLine("StayAlert " + new { id, transaction_id });
+
+                                    DoRefresh();
+                                }
+                            );
+                        }
+                    );
+
+                    StayAlertTimer.StartInterval(5000);
+                };
+
+            DoRefresh =
                 delegate
                 {
+                    if (StayAlertTimer != null)
+                        StayAlertTimer.Stop();
 
                     page.Output.Clear();
+
+                    new FileLoading().Container.AttachTo(page.Output);
 
                     service.EnumerateFilesAsync(
                         y:
@@ -81,10 +110,59 @@ namespace Abstractatech.JavaScript.FileStorage
                             var e = new FileEntry();
 
                             e.ContentValue.value = ContentValue.TakeUntilLastIfAny(".");
+                            e.ContentValue.onchange +=
+                                delegate
+                                {
+                                    var ext = ContentValue.SkipUntilLastOrEmpty(".");
 
-                            e.open.href = "/io/" + ContentKey;
+                                    if (ext != "")
+                                        ext = "." + ext;
+
+                                    ContentValue = e.ContentValue.value + ext;
+
+
+                                    Console.WriteLine("before update!");
+
+                                    service.UpdateAsync(
+                                        ContentKey,
+                                        ContentValue,
+                                        // null does not really work?
+                                        delegate
+                                        {
+                                            Console.WriteLine("update done!");
+                                        }
+                                    );
+
+                                    e.open.href = "/io/" + ContentKey + "/" + ContentValue;
+                                };
+
+
+                            e.open.href = "/io/" + ContentKey + "/" + ContentValue;
+
+                            e.Delete.WhenClicked(
+                                delegate
+                                {
+                                    //e.ContentValue.style.textDecoration = ""
+
+                                    if (StayAlertTimer != null)
+                                        StayAlertTimer.Stop();
+
+
+                                    service.DeleteAsync(
+                                        ContentKey,
+                                        delegate
+                                        {
+
+                                            DoRefresh();
+                                        }
+                                    );
+                                }
+                            );
+
 
                             e.Container.AttachTo(page.Output);
+
+
 
                             Console.WriteLine(
                                 new { ContentKey, ContentValue, ContentType }
@@ -92,8 +170,12 @@ namespace Abstractatech.JavaScript.FileStorage
 
                         },
 
-                        done: delegate
+                        done: transaction_id =>
                         {
+                            Console.WriteLine(new { transaction_id });
+                            new FileLoadingDone().Container.AttachTo(page.Output);
+
+                            StayAlert(transaction_id);
                         }
                     );
                 };
@@ -181,8 +263,10 @@ namespace Abstractatech.JavaScript.FileStorage
                     );
 
                     xhr.send(d);
+                    new Uploading().Container.AttachTo(page.Output);
 
-
+                    if (StayAlertTimer != null)
+                        StayAlertTimer.Stop();
 
 
 

@@ -1,0 +1,1 @@
+﻿insert into FileStorageLogTable (ContentValue) values (@ContentValue /* text */)
