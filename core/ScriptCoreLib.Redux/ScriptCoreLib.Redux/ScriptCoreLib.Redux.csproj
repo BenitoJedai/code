@@ -53,6 +53,7 @@
     <Compile Include="JavaScript\DOM\EventSource.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLElement.cs" />
     <Compile Include="JavaScript\DOM\IWindow.cs" />
+    <Compile Include="JavaScript\DOM\IXMLHttpRequest.cs" />
     <Compile Include="JavaScript\Extensions\WebGLExtensions.cs" />
     <Compile Include="JavaScript\Redux.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +72,7 @@
     <None Include="JavaScript\IDL\xhr.idl" />
     <None Include="JavaScript\IDL\offline.idl" />
     <None Include="JavaScript\IDL\workers.idl" />
+    <None Include="JavaScript\IDL\progressevents.idl" />
     <Content Include="JavaScript\IDL\typedarrays.idl" />
     <Content Include="JavaScript\IDL\webgl.idl" />
   </ItemGroup>

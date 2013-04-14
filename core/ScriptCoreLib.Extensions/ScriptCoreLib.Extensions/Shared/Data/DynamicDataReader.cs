@@ -122,7 +122,7 @@ namespace ScriptCoreLib.Shared.Data
 
         public Type GetFieldType(int i)
         {
-            throw new NotImplementedException();
+            return this.DataReader.GetFieldType(i);
         }
 
         public float GetFloat(int i)
@@ -195,7 +195,7 @@ namespace ScriptCoreLib.Shared.Data
         /// <summary>
         /// Cached Instance of DataReader passed in
         /// </summary>
-        IDataReader DataReader;
+        public IDataReader DataReader;
 
         /// <summary>
         /// Pass in a loaded DataReader
@@ -249,7 +249,7 @@ namespace ScriptCoreLib.Shared.Data
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("TryGetMember error: " + new { ex.Message, ex.StackTrace });
+                        Console.WriteLine("TryGetMember error: " + new { Name, ex.Message, ex.StackTrace });
 
 
                         result = null;

@@ -78,6 +78,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
         public override Type GetFieldType(int ordinal)
         {
+
             var FIELD_TYPE_INTEGER = 0x00000001;
             var FIELD_TYPE_STRING = 0x00000003;
 
@@ -114,9 +115,10 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             //12-04 10:56:47.453: D/dalvikvm(18774): VFY: replacing opcode 0x72 at 0x0002
             //12-04 10:56:47.453: D/dalvikvm(18774): VFY: dead code 0x0005-0029 in LScriptCoreLib/Android/BCLImplementation/System/Data/SQLite/__SQLiteDataReader;.GetFieldType (I)LScriptCoreLibJava/BCLImplementation/System/__Type;
 
+            // TryGetMember error: { Message = GetFieldType fault { ordinal = 1, t = 0 },
 
             throw new NotImplementedException("GetFieldType fault " +
-                new { ordinal, t }
+                new { ordinal, t, FIELD_TYPE_INTEGER, FIELD_TYPE_STRING }
             );
         }
 

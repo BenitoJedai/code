@@ -66,6 +66,7 @@ namespace Abstractatech.JavaScript.FileStorage
             var StayAlertTimer = default(Timer);
             var DoRefresh = default(Action);
 
+            #region StayAlert
             Action<string> StayAlert =
                 transaction_id =>
                 {
@@ -78,6 +79,10 @@ namespace Abstractatech.JavaScript.FileStorage
                                     if (id == transaction_id)
                                         return;
 
+                                    // shot down during flight?
+                                    if (!StayAlertTimer.IsAlive)
+                                        return;
+
                                     Console.WriteLine("StayAlert " + new { id, transaction_id });
 
                                     DoRefresh();
@@ -88,6 +93,8 @@ namespace Abstractatech.JavaScript.FileStorage
 
                     StayAlertTimer.StartInterval(5000);
                 };
+            #endregion
+
 
             DoRefresh =
                 delegate
@@ -104,11 +111,13 @@ namespace Abstractatech.JavaScript.FileStorage
                         (
                             string ContentKey,
                             string ContentValue,
-                            string ContentType
+                            string ContentType,
+                            string ContentBytesLength
                         ) =>
                         {
                             var e = new FileEntry();
 
+                            #region ContentValue
                             e.ContentValue.value = ContentValue.TakeUntilLastIfAny(".");
                             e.ContentValue.onchange +=
                                 delegate
@@ -135,10 +144,13 @@ namespace Abstractatech.JavaScript.FileStorage
 
                                     e.open.href = "/io/" + ContentKey + "/" + ContentValue;
                                 };
-
-
                             e.open.href = "/io/" + ContentKey + "/" + ContentValue;
+                            #endregion
 
+                            e.ContentType.innerText = ContentBytesLength + " bytes " + ContentType;
+
+
+                            #region Delete
                             e.Delete.WhenClicked(
                                 delegate
                                 {
@@ -147,6 +159,7 @@ namespace Abstractatech.JavaScript.FileStorage
                                     if (StayAlertTimer != null)
                                         StayAlertTimer.Stop();
 
+                                    e.Container.style.backgroundColor = "red";
 
                                     service.DeleteAsync(
                                         ContentKey,
@@ -158,6 +171,7 @@ namespace Abstractatech.JavaScript.FileStorage
                                     );
                                 }
                             );
+                            #endregion
 
 
                             e.Container.AttachTo(page.Output);
@@ -165,7 +179,7 @@ namespace Abstractatech.JavaScript.FileStorage
 
 
                             Console.WriteLine(
-                                new { ContentKey, ContentValue, ContentType }
+                                new { ContentKey, ContentValue, ContentType, ContentBytesLength }
                             );
 
                         },
@@ -262,8 +276,21 @@ namespace Abstractatech.JavaScript.FileStorage
                         }
                     );
 
+                    var upload = new Uploading();
+
+                    upload.Container.AttachTo(page.Output);
+                    // http://www.matlus.com/html5-file-upload-with-progress/
+                    xhr.upload.onprogress +=
+                        e =>
+                        {
+                            var p = (int)(e.loaded * 100 / e.total) + "%";
+
+                            upload.status = p;
+
+                            Console.WriteLine("upload.onprogress " + new { e.total, e.loaded });
+                        };
+
                     xhr.send(d);
-                    new Uploading().Container.AttachTo(page.Output);
 
                     if (StayAlertTimer != null)
                         StayAlertTimer.Stop();

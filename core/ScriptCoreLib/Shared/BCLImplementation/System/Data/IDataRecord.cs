@@ -17,6 +17,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         string GetName(int i);
 
         object this[string name] { get; }
+
+        Type GetFieldType(int i);
+
         //object this[int i] { get; }
     }
 }

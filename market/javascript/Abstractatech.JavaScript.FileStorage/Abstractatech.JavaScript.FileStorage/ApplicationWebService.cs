@@ -4,6 +4,7 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -13,7 +14,8 @@ namespace Abstractatech.JavaScript.FileStorage
     public delegate void AtFile(
         string ContentKey,
         string ContentValue,
-        string ContentType
+        string ContentType,
+        string ContentBytesLength
     );
 
     /// <summary>
@@ -69,7 +71,8 @@ namespace Abstractatech.JavaScript.FileStorage
                 xx =>
                 {
                     long
-                        ContentKey = xx.ContentKey;
+                        ContentKey = xx.ContentKey,
+                        ContentBytesLength = xx.ContentBytesLength;
 
                     string
                         ContentValue = xx.ContentValue,
@@ -81,7 +84,8 @@ namespace Abstractatech.JavaScript.FileStorage
                     y(
                         ContentKey: "" + ContentKey,
                         ContentValue: ContentValue,
-                        ContentType: ContentType
+                        ContentType: ContentType,
+                        ContentBytesLength: "" + ContentBytesLength
                     );
                 }
             );
@@ -125,6 +129,8 @@ namespace Abstractatech.JavaScript.FileStorage
             if (h.Context.Request.HttpMethod == "POST")
                 if (h.Context.Request.Path == "/FileStorageUpload")
                 {
+                    // Maximum request length exceeded.
+
                     var Files = h.Context.Request.Files.AllKeys.Select(k => h.Context.Request.Files[k]);
                     foreach (HttpPostedFile item in Files)
                     {
@@ -199,47 +205,101 @@ namespace Abstractatech.JavaScript.FileStorage
 
 
                 Console.WriteLine("SelectBytes " + new { filepath });
+
+                //W/CursorWindow(12675): Window is full: requested allocation 2419936 bytes, free space 2096696 bytes, window size 2097152 bytes
+                //W/CursorWindow(12675): Window is full: requested allocation 2419936 bytes, free space 2096696 bytes, window size 2097152 bytes
+                //E/CursorWindow(12675): Failed to read row 0, column 1 from a CursorWindow which has 0 rows, 3 columns.
+                //I/System.Console(12675): TryGetMember error: { Name = ContentValue, Message = GetFieldType fault { ordinal = 1, t = 0 }, StackTrace
+                // http://stackoverflow.com/questions/1407442/android-sqlite-and-huge-data-sets
+                // http://stackoverflow.com/questions/11863024/android-cursor-window-is-full
+
                 data_FileStorage.SelectBytes(
                     value: int.Parse(filepath),
                     yield: reader =>
                     {
                         dynamic r = reader;
 
+                        long ContentBytesLength = r.ContentBytesLength;
+
                         string ContentValue = r.ContentValue;
                         string ContentType = r.ContentType;
 
-                        #region ContentBytes
-                        // Get size of image data–pass null as the byte array parameter
-                        long bytesize = reader.GetBytes(reader.GetOrdinal("ContentBytes"), 0, null, 0, 0);
-                        //var chunkSize = 4096 * 4;
-                        var chunkSize = (int)bytesize;
-
-                        Console.WriteLine("SelectBytes " + new { bytesize });
-
-
-                        // Allocate byte array to hold image data
-                        byte[] imageData = new byte[bytesize];
-                        long bytesread = 0;
-                        int curpos = 0;
-                        while (bytesread < bytesize)
-                        {
-                            // chunkSize is an arbitrary application defined value 
-
-                            // can we stream it to the client instead?
-                            bytesread += reader.GetBytes(reader.GetOrdinal("ContentBytes"), curpos, imageData, curpos, chunkSize);
-                            curpos += chunkSize;
-                        }
-
-                        #endregion
-
+                        // http://stackoverflow.com/questions/12716859/retrieve-large-blob-from-android-sqlite-database
+                        // http://stackoverflow.com/questions/5406429/cursor-size-limit-in-android-sqlitedatabase
 
                         h.Context.Response.ContentType = ContentType;
 
                         // http://www.webscalingblog.com/performance/caching-http-headers-cache-control-max-age.html
                         h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
-                        h.Context.Response.AddHeader("Content-Length", "" + imageData.Length);
+                        h.Context.Response.AddHeader("Content-Length", "" + ContentBytesLength);
 
-                        h.Context.Response.OutputStream.Write(imageData, 0, imageData.Length);
+
+                        // android makes us to chuncked loading manually!
+                        for (int i = 0; i < ContentBytesLength; i += 1000000)
+                        {
+                            var __SelectBytesRange = new FileStorageQueries.SelectBytesRange
+                                {
+                                    ContentKey = int.Parse(filepath),
+                                    ContentBytesRangeOffset = i,
+                                    ContentBytesRangeLength = 1000000.Min((int)ContentBytesLength - i)
+                                };
+
+                            data_FileStorage.SelectBytesRange(
+                                value: __SelectBytesRange,
+                                yield: rangereader =>
+                                {
+                                    var ordinal = rangereader.GetOrdinal("ContentBytes");
+                                    //var t = rangereader.GetFieldType(ordinal);
+
+
+                                    // 'System.Data.SQLite.SQLiteDataReader.GetSQLiteType(int)' is inaccessible due to its protection level
+
+                                    //var GetSQLiteType = rangereader.DataReader.GetType().GetMethod("GetSQLiteType", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+                                    //// ex = {"Cannot invoke a non-delegate type"}
+                                    //object SQLiteType = GetSQLiteType.Invoke(rangereader.DataReader, new object[] { ordinal });
+
+                                    //rangereader.DataReader
+
+                                    // Get size of image data–pass null as the byte array parameter
+                                    long bytesize = rangereader.GetBytes(ordinal, 0, null, 0, 0);
+                                    byte[] imageData = new byte[bytesize];
+
+
+                                    //                                  System.InvalidCastException was caught
+                                    //HResult=-2147467262
+                                    //Message=Specified cast is not valid.
+                                    //Source=System.Data.SQLite
+                                    //StackTrace:
+                                    //     at System.Data.SQLite.SQLiteDataReader.VerifyType(Int32 i, DbType typ)
+                                    //     at System.Data.SQLite.SQLiteDataReader.GetBytes(Int32 i, Int64 fieldOffset, Byte[] buffer, Int32 bufferoffset, Int32 length)
+                                    //     at ScriptCoreLib.Shared.Data.DynamicDataReader.GetBytes(Int32 i, Int64 fieldOffset, Byte[] buffer, Int32 bufferoffset, Int32 length)
+                                    //     at Abstractatech.JavaScript.FileStorage.ApplicationWebService.<>c__DisplayClass2d.<>c__DisplayClass32.<InternalHandler>b__27(IDataReader rangereader)
+                                    //     at Abstractatech.JavaScript.FileStorage.Schema.XX.WithEachReader(SQLiteDataReader reader, Action`1 y)
+                                    //     at Abstractatech.JavaScript.FileStorage.Schema.FileStorageTable.<>c__DisplayClass9.<SelectBytesRange>b__8(SQLiteConnection c)
+                                    //     at Abstractatech.JavaScript.FileStorage.Schema.XX.<>c__DisplayClass1.<AsWithConnection>b__0(Action`1 y)
+                                    //InnerException: 
+
+                                    // ReadBytes will explicitly throw an exception if the affinity of the column is not "BLOB", (otherwise known as none). Something is definitely wrong either with the table definition, or the column being referenced
+
+                                    var len = 0L;
+
+                                    try
+                                    {
+                                        // this was expensive to figure out:P
+                                        len = rangereader.GetBytes(ordinal, 0, imageData, 0, (int)bytesize); ;
+                                    }
+                                    catch
+                                    {
+                                        Debugger.Break();
+
+                                    }
+                                    Console.WriteLine(new { r.ContentValue, r.ContentType, i, len });
+                                    h.Context.Response.OutputStream.Write(imageData, 0, (int)len);
+
+                                }
+                            );
+                        }
 
                         h.CompleteRequest();
 
