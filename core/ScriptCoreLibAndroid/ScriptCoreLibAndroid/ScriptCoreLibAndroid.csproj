@@ -109,6 +109,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Delegate.cs">
       <Link>BCLImplementation\System\Delegate.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Diagnostics\Debugger.cs">
+      <Link>BCLImplementation\System\Diagnostics\Debugger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Diagnostics\Trace.cs">
+      <Link>BCLImplementation\System\Diagnostics\Trace.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Double.cs">
       <Link>BCLImplementation\System\Double.cs</Link>
     </Compile>

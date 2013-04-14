@@ -294,9 +294,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                         buffer = m.ToArray();
 
 
-                        var DebugTransferEncodingChunked = Encoding.UTF8.GetString(buffer);
+                        //var DebugTransferEncodingChunked = Encoding.UTF8.GetString(buffer);
 
-                        Console.WriteLine(new { DebugTransferEncodingChunked });
+                        //Console.WriteLine(new { DebugTransferEncodingChunked });
 
                         InternalStream.Write(buffer, 0, buffer.Length);
                         //InternalStream.Flush();

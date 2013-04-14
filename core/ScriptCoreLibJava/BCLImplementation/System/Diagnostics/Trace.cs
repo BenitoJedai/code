@@ -17,7 +17,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Diagnostics
 			if (condition)
 				return;
 
-			throw new csharp.RuntimeException("Assert failed");
+            //throw new csharp.RuntimeException("Assert failed");
+            throw new Exception("Assert failed");
 		}
 	}
 }

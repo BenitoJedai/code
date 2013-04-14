@@ -138,6 +138,7 @@
     <Content Include="Design\DropZone.htm" />
     <Content Include="Schema\FileStorageLog\create.sql" />
     <Content Include="Schema\FileStorageLog\select transaction.sql" />
+    <Content Include="Schema\FileStorage\select bytes range.sql" />
     <Content Include="Schema\FileStorage\create.sql" />
     <Content Include="Schema\FileStorage\delete.sql" />
     <Content Include="Schema\FileStorageLog\insert.sql" />

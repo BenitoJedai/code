@@ -52,6 +52,15 @@ namespace Abstractatech.JavaScript.FileStorage.Schema
              );
         }
 
+        public void SelectBytesRange(SelectBytesRange value, Action<IDataReader> yield)
+        {
+            WithConnection(
+               c =>
+               {
+                   value.ExecuteReader(c).WithEachReader(yield);
+               }
+             );
+        }
 
         public void Delete(Delete value)
         {
@@ -99,6 +108,11 @@ namespace Abstractatech.JavaScript.FileStorage.Schema
         // jsc cannot handle generic that only differ in generic arguments?
         public static void WithEachReader(this SQLiteDataReader reader, Action<IDataReader> y)
         {
+ //            [javac] Compiling 494 source files to O:\bin\classes
+ //[javac] O:\src\Abstractatech\JavaScript\FileStorage\Schema\FileStorageTable___c__DisplayClass6.java:26: WithEachReader(ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteDataReader,ScriptCoreLib.Shared.BCLImplementation.System.__Action_1<ScriptCoreLib.Shared.Data.DynamicDataReader>) in Abstractatech.JavaScript.FileStorage.Schema.XX cannot be applied to (ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteDataReader,ScriptCoreLib.Shared.BCLImplementation.System.__Action_1<ScriptCoreLib.Shared.BCLImplementation.System.Data.__IDataReader>)
+ //[javac]         XX.WithEachReader(FileStorageExtensions.ExecuteReader(this.value, c), this.yield);
+ //[javac]           ^
+
             using (reader)
             {
                 while (reader.Read())
