@@ -46,10 +46,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         {
             // http://stackoverflow.com/questions/14315224/disable-chunked-encoding-for-http-server-responses
 
-            if (name == "Content-Length")
-            {
-                InternalIsTransferEncodingChunked = false;
-            }
+
 
             Headers[name] = value;
         }
@@ -83,6 +80,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                     InternalStream.Write(HeaderStringBytes, 0, HeaderStringBytes.Length);
                 };
 
+            #region StatusCode
             if (StatusCode == 200)
             {
                 WriteLine("HTTP/1.1 " + StatusCode + " 200");
@@ -91,23 +89,26 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             {
                 WriteLine("HTTP/1.1 " + StatusCode);
             }
+            #endregion
+
 
             // = "text/html; charset=utf-8";
 
             if (ContentType == "text/html")
-                WriteLine("Content-Type: text/html; charset=utf-8");
-            else
-                WriteLine("Content-Type: " + ContentType);
+                this.Headers["Content-Type"] = "text/html; charset=utf-8";
 
 
-
+            this.Headers["Content-Type"] = ContentType;
             this.Headers["Connection"] = "close";
 
             foreach (var item in this.Headers.AllKeys)
             {
                 //android.util.Log.wtf("InternalWriteHeaders", item);
 
-                WriteLine(item + ": " + this.Headers[item]);
+                var h = item + ": " + this.Headers[item];
+                WriteLine(h);
+
+                //Console.WriteLine(h);
             }
 
             WriteLine("");
@@ -121,6 +122,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
             if (InternalIsTransferEncodingChunked)
             {
+                //Console.WriteLine("Close InternalIsTransferEncodingChunked");
                 try
                 {
                     var ChunkedLengthString = "0\r\n\r\n";
@@ -133,7 +135,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                 catch
                 {
                     // why?
-                    Console.WriteLine("failed to close chunk");
+                    //Console.WriteLine("failed to close chunk");
                 }
             }
 
@@ -152,9 +154,19 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         {
             if (!InternalWriteHeadersDone)
             {
-                // needs more testing! breaks xml webmethod calls.
-                InternalIsTransferEncodingChunked = true;
-                this.Headers["Transfer-Encoding"] = "chunked";
+                if (this.Headers.AllKeys.Contains("Content-Length"))
+                {
+                    // cannot be chunked!
+                }
+                else
+                {
+
+                    // needs more testing! breaks xml webmethod calls.
+                    InternalIsTransferEncodingChunked = true;
+
+
+                    this.Headers["Transfer-Encoding"] = "chunked";
+                }
 
                 //         Caused by: java.lang.RuntimeException: sendto failed: EPIPE (Broken pipe)
                 //at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__NetworkStream.Write(__NetworkStream.java:115)
@@ -225,6 +237,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                 {
                     if (WriteChuncks.Length > 0)
                     {
+                        //Console.WriteLine("Flush InternalIsTransferEncodingChunked" + new { WriteChuncks.Length });
+
+
                         s = WriteChuncks.ToString();
                         WriteChuncks.Clear();
 
@@ -245,6 +260,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
                         //var ChunkedLengthString = buffer.Length.ToString("x8") + "; jsc-chunck\r\n";
 
+                        // Unknown chromium error: -324
                         var m = new MemoryStream();
 
                         #region ChunkedLengthString
@@ -278,9 +294,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
                         buffer = m.ToArray();
 
 
-                        //var DebugTransferEncodingChunked = Encoding.UTF8.GetString(buffer);
+                        var DebugTransferEncodingChunked = Encoding.UTF8.GetString(buffer);
 
-                        //Console.WriteLine(new { DebugTransferEncodingChunked });
+                        Console.WriteLine(new { DebugTransferEncodingChunked });
 
                         InternalStream.Write(buffer, 0, buffer.Length);
                         //InternalStream.Flush();

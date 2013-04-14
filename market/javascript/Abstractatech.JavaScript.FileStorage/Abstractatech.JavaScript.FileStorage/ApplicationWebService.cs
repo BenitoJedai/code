@@ -21,15 +21,51 @@ namespace Abstractatech.JavaScript.FileStorage
     /// </summary>
     public sealed class ApplicationWebService
     {
-        FileStorageTable data = new FileStorageTable();
+        //[javac] S:\src\Abstractatech\JavaScript\FileStorage\ApplicationWebService___c__DisplayClass23.java:30: data_FileStorageLog has private access in Abstractatech.JavaScript.FileStorage.ApplicationWebService
+        //[javac]         this.CS___8__locals22.__4__this.data_FileStorageLog.Insert(insert0, null);
 
 
-        public void EnumerateFilesAsync(AtFile y, Action done = null)
+        public FileStorageTable data_FileStorage = new FileStorageTable();
+        public FileStorageLogTable data_FileStorageLog = new FileStorageLogTable();
+
+        public void DeleteAsync(string Key, Action done = null)
+        {
+            data_FileStorage.Delete(
+                new FileStorageQueries.Delete
+                {
+                    ContentKey = int.Parse(Key),
+                }
+            );
+
+            data_FileStorageLog.Insert(
+                     new FileStorageLogQueries.Insert { ContentValue = "removed " + new { Key } }
+                 );
+
+            if (done != null)
+                done();
+        }
+
+
+        public void UpdateAsync(string Key, string Value, Action done = null)
+        {
+            data_FileStorage.Update(
+                new FileStorageQueries.Update
+                {
+                    ContentKey = int.Parse(Key),
+                    ContentValue = Value
+                }
+            );
+
+            if (done != null)
+                done();
+        }
+
+        public void EnumerateFilesAsync(AtFile y, Action<string> done = null)
         {
             Console.WriteLine("EnumerateFilesAsync");
 
 
-            data.SelectAll(
+            data_FileStorage.SelectAll(
                 xx =>
                 {
                     long
@@ -50,8 +86,34 @@ namespace Abstractatech.JavaScript.FileStorage
                 }
             );
 
-            if (done != null)
-                done();
+
+            this.data_FileStorageLog.SelectTransaction(
+                xx =>
+                {
+                    long
+                       ContentKey = xx.ContentKey;
+
+                    if (done != null)
+                        done("" + ContentKey);
+                }
+            );
+        }
+
+
+
+        public void GetTransactionKeyAsync(Action<string> done = null)
+        {
+
+            this.data_FileStorageLog.SelectTransaction(
+               xx =>
+               {
+                   long
+                      ContentKey = xx.ContentKey;
+
+                   if (done != null)
+                       done("" + ContentKey);
+               }
+           );
         }
 
 
@@ -87,15 +149,21 @@ namespace Abstractatech.JavaScript.FileStorage
                         };
 
 
-                        data.Insert(
+                        data_FileStorage.Insert(
                             value: __value,
                             yield:
                             LastInsertRowId =>
                             {
+                                data_FileStorageLog.Insert(
+                                    new FileStorageLogQueries.Insert { ContentValue = "added " + new { LastInsertRowId, FileName } }
+                                );
+
                                 Console.WriteLine("FileStorageUpload: " + new { LastInsertRowId });
                                 //ok.Add(new XElement("ContentKey", "" + LastInsertRowId));
                             }
                         );
+
+
 
                     }
 
@@ -106,7 +174,9 @@ namespace Abstractatech.JavaScript.FileStorage
 
 
                     h.Context.Response.StatusCode = 204;
+                    h.Context.Response.Write("ok");
                     h.CompleteRequest();
+                    return;
                 }
             #endregion
 
@@ -115,12 +185,12 @@ namespace Abstractatech.JavaScript.FileStorage
             #region /io/
             var io = "/io/";
             var path = h.Context.Request.Path;
-            Console.WriteLine("is io? " + new { path, io });
+            //Console.WriteLine("is io? " + new { path, io });
             if (path.StartsWith(io))
             {
 
 
-                var filepath = path.SkipUntilIfAny(io);
+                var filepath = path.SkipUntilIfAny(io).TakeUntilIfAny("/");
 
 
                 // is this still a problem?
@@ -129,7 +199,7 @@ namespace Abstractatech.JavaScript.FileStorage
 
 
                 Console.WriteLine("SelectBytes " + new { filepath });
-                data.SelectBytes(
+                data_FileStorage.SelectBytes(
                     value: int.Parse(filepath),
                     yield: reader =>
                     {

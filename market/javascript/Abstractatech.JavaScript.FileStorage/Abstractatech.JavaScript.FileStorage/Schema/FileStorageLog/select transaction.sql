@@ -1,0 +1,1 @@
+﻿select coalesce(max(ContentKey), 0) as ContentKey /* integer */ from  FileStorageLogTable

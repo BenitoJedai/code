@@ -8,9 +8,9 @@ using System.Text;
 
 namespace Abstractatech.JavaScript.FileStorage.Schema
 {
-    class FileStorageTable : FileStorageQueries
+    public class FileStorageTable : FileStorageQueries
     {
-        public SQLiteConnectionStringBuilder csb = new SQLiteConnectionStringBuilder
+        public static SQLiteConnectionStringBuilder csb = new SQLiteConnectionStringBuilder
         {
             DataSource = "FileStorage7.sqlite",
             Version = 3
@@ -21,13 +21,12 @@ namespace Abstractatech.JavaScript.FileStorage.Schema
 
         public FileStorageTable()
         {
-            this.WithConnection = csb.AsWithConnection();
+            this.WithConnection = FileStorageTable.csb.AsWithConnection();
 
             WithConnection(
                 c =>
                 {
                     new Create { }.ExecuteNonQuery(c);
-                    //new CreateLog { }.ExecuteNonQuery(c);
                 }
             );
         }
@@ -54,6 +53,16 @@ namespace Abstractatech.JavaScript.FileStorage.Schema
         }
 
 
+        public void Delete(Delete value)
+        {
+            WithConnection(
+             c =>
+             {
+                 value.ExecuteNonQuery(c);
+             }
+           );
+        }
+
         public void Insert(Insert value, Action<long> yield)
         {
             WithConnection(
@@ -64,6 +73,23 @@ namespace Abstractatech.JavaScript.FileStorage.Schema
                  yield(c.LastInsertRowId);
              }
            );
+        }
+
+        public void Update(Update value)
+        {
+            Console.WriteLine("enter Update");
+
+            //WithWriteConnection(
+            WithConnection(
+                c =>
+                {
+                    Console.WriteLine("before Update ExecuteNonQuery ");
+                    value.ExecuteNonQuery(c);
+                    Console.WriteLine("after Update ExecuteNonQuery ");
+                }
+            );
+
+            Console.WriteLine("exit Update");
         }
     }
 
