@@ -50,6 +50,14 @@
     <Reference Include="box2dflash">
       <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FlashHeatZeeker.Core.1.0.0.0\lib\FlashHeatZeeker.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.StarlingSetup, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FlashHeatZeeker.StarlingSetup.1.0.0.0\lib\FlashHeatZeeker.StarlingSetup.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -134,12 +142,6 @@
     <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.StarlingSetup\bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -164,19 +166,10 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FlashHeatZeeker.Core\FlashHeatZeeker.Core.csproj">
-      <Project>{0ab27151-12cd-4377-ae76-16e6f0f72580}</Project>
-      <Name>FlashHeatZeeker.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
-      <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
-      <Name>FlashHeatZeeker.StarlingSetup</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName) /AddDependencies:$(ProjectDir)packages.config /DisableWorkerDomain
+
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
