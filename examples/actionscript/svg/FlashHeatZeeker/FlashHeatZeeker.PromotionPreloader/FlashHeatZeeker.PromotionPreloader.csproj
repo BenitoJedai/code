@@ -50,6 +50,10 @@
     <Reference Include="Abstractatech.ActionScript.Audio">
       <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.CoreAudio, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FlashHeatZeeker.CoreAudio.1.0.0.0\lib\FlashHeatZeeker.CoreAudio.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -130,9 +134,6 @@
     <Reference Include="FlashHeatZeeker.PromotionPreloader.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.PromotionPreloader.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.CoreAudio.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.CoreAudio\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreAudio.AssetsLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -150,17 +151,12 @@
     <Content Include="Textures\Promotion3D_iso1_tiltshift_720p_green.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlashHeatZeeker.CoreAudio\FlashHeatZeeker.CoreAudio.csproj">
-      <Project>{c8f78217-d723-4e69-be48-d40814dcdb76}</Project>
-      <Name>FlashHeatZeeker.CoreAudio</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName) /AddDependencies:$(ProjectDir)packages.config /DisableWorkerDomain
+
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
