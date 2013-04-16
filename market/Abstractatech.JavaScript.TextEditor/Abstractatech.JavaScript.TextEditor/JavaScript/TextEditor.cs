@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 {
     using StringPair = Pair<string, string>;
     using System.Linq;
+    using System;
 
 
 
@@ -474,23 +475,44 @@ namespace ScriptCoreLib.JavaScript.Controls
             // e.insertNextSibling(Control);
 
             _IsDesignMode = true;
-            var d = this.InternalDocument;
 
 
-            d.write("<html><body style='height: auto; border: 0; overflow: auto; background-color:transparent;'>");
-            //d.write("<p><span style='font-family: verdana;'><b>Lorem</b> ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><p>");
-            d.write("</body></html>");
-            d.close();
+            InternalDocument.write("<html><body style='height: auto; border: 0; overflow: auto; background-color:transparent;'>");
+            InternalDocument.write("</body></html>");
+            InternalDocument.close();
+
+            // android 2.2 webview wont supprt this..
+
+            // https://developer.mozilla.org/en-US/docs/HTML/Content_Editable
+            InternalDocument.DesignMode = true;
+
+            Console.WriteLine("DesignMode switched on... for now..");
+
+            Native.Window.requestAnimationFrame +=
+                delegate
+                {
+                    var CurrentInternalDocument = this.InternalDocument;
+
+                    Frame.onload +=
+                        delegate
+                        {
+                            InternalDocument.DesignMode = true;
 
 
-            //ttoolbar.appendChild(Spinner);
 
-   
+                            //Console.WriteLine("onload " + new { Frame.src, Frame.contentWindow.document.location.href, x });
 
-            d.DesignMode = true;
-            //d.body.setAttribute("contentEditable", "true");
 
-            //d.body.contentEditable = true;
+                            Native.Window.requestAnimationFrame +=
+                               delegate
+                               {
+                                   // restore content
+                                   this.InnerHTML = CurrentInternalDocument.body.innerHTML;
+                                   CurrentInternalDocument = this.InternalDocument;
+                               };
+                        };
+                };
+
 
             #region ToolbarButton
 
@@ -793,7 +815,13 @@ namespace ScriptCoreLib.JavaScript.Controls
         {
             get
             {
-                return this.Frame.contentWindow.document;
+                var contentWindow = this.Frame.contentWindow;
+
+                // unloaded?
+                if (contentWindow == null)
+                    return null;
+
+                return contentWindow.document;
             }
         }
 
