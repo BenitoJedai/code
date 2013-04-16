@@ -14,9 +14,11 @@ using com.abstractatech.notez.Design;
 using com.abstractatech.notez.HTML.Pages;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System.Dynamic;
 using System.Collections.Generic;
 using com.abstractatech.wiki;
+using System.Windows.Forms;
 
 namespace com.abstractatech.notez
 {
@@ -178,6 +180,12 @@ namespace com.abstractatech.notez
                   hh.Split.LeftScrollable
                  );
 
+                    var ff = new Form
+                    {
+                        //StartPosition = FormStartPosition.Manual,
+                        SizeGripStyle = SizeGripStyle.Hide
+
+                    };
 
 
                     hh.Split.RightScrollable = new IHTMLDiv();
@@ -186,9 +194,16 @@ namespace com.abstractatech.notez
                     hh.Split.RightScrollable.style.width = "100%";
                     hh.Split.RightScrollable.style.height = "100%";
 
+                    ff.Show();
 
 
-                    var text = new TextEditor(hh.Split.RightScrollable);
+                    ff.PopupInsteadOfClosing(SpecialNoMovement: true
+                        //, HandleFormClosing: false
+                        //, NotifyDocked: AtResize
+                        );
+
+                    //var text = new TextEditor(hh.Split.RightScrollable);
+                    var text = new TextEditor(ff.GetHTMLTargetContainer());
 
                     text.ContainerForBorders.style.border = "";
 
@@ -389,6 +404,11 @@ namespace com.abstractatech.notez
                        // text not default anymore?
                        // title change?
 
+
+                       // document unloaded?
+                       if (text.Document == null)
+                           return;
+
                        var xml = text.Document.body.AsXElement();
 
                        // script: error JSC1000: No implementation found for this native method, please implement [static System.String.IsNullOrWhiteSpace(System.String)]
@@ -470,7 +490,7 @@ namespace com.abstractatech.notez
                 };
             #endregion
 
-            var tt = default(Timer);
+            var tt = default(ScriptCoreLib.JavaScript.Runtime.Timer);
 
             Action done_timeout = delegate
             {
@@ -504,7 +524,7 @@ namespace com.abstractatech.notez
 
 
             // either server responds in 2000 or we consider us offline...
-            tt = new Timer(
+            tt = new ScriptCoreLib.JavaScript.Runtime.Timer(
                 delegate
                 {
                     done_timeout();

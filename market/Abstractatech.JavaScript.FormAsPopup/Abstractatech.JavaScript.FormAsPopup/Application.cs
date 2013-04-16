@@ -116,6 +116,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 w.onload +=
                     delegate
                     {
+                        // keep relative links working..
+                        new IHTMLBase { href = Native.Document.location.href }.AttachTo(w.document.body);
 
                         content.f.GetHTMLTargetContainer().Orphanize().AttachTo(
                             w.document.body
