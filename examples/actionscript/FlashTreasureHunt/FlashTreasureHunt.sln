@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTreasureHunt", "FlashTreasureHunt\FlashTreasureHunt.csproj", "{53FAB63F-CFB0-4B48-A7BA-26E3CFAEB916}"
 	ProjectSection(ProjectDependencies) = postProject
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE} = {8C36076C-7270-4841-BB8B-1C28A24ED1CE}
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812} = {D6904364-3DE3-45CA-A117-EE45F2C1D812}
 		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {9122FB76-35CE-41C7-8894-4E58D1BA94BD}
 	EndProjectSection
 EndProject
@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{474B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Maze", "..\..\..\market\Abstractatech.Maze\Abstractatech.Maze\Abstractatech.Maze.csproj", "{9122FB76-35CE-41C7-8894-4E58D1BA94BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ActionScript.RayCaster", "..\..\..\market\Abstractatech.ActionScript.RayCaster\Abstractatech.ActionScript.RayCaster\Abstractatech.ActionScript.RayCaster.csproj", "{8C36076C-7270-4841-BB8B-1C28A24ED1CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ActionScript.RayCaster", "..\..\..\market\Abstractatech.ActionScript.RayCaster\Abstractatech.ActionScript.RayCaster\Abstractatech.ActionScript.RayCaster.csproj", "{D6904364-3DE3-45CA-A117-EE45F2C1D812}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{867F1FEE-A54E-48A1-83F7-65C902648EA3}"
 	ProjectSection(SolutionItems) = preProject
@@ -91,22 +91,22 @@ Global
 		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.ActiveCfg = Release|x86
 		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.Build.0 = Release|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Debug|x86.ActiveCfg = Debug|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Debug|x86.Build.0 = Debug|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|Any CPU.ActiveCfg = Release|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|Mixed Platforms.Build.0 = Release|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|x86.ActiveCfg = Release|x86
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|x86.Build.0 = Release|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Debug|x86.ActiveCfg = Debug|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Debug|x86.Build.0 = Debug|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Release|Any CPU.ActiveCfg = Release|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Release|x86.ActiveCfg = Release|x86
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {474B36AC-2C9D-4B3F-B392-538674E112EE}
-		{8C36076C-7270-4841-BB8B-1C28A24ED1CE} = {474B36AC-2C9D-4B3F-B392-538674E112EE}
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812} = {474B36AC-2C9D-4B3F-B392-538674E112EE}
 	EndGlobalSection
 EndGlobal

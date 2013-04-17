@@ -4,5 +4,5 @@ rem http://forum.starling-framework.org/topic/wrong-wmode-with-adobeair-32-deskt
 rem call build.bat
 
 
-rem C:\util\flex_sdk_4.6\bin\adl  foo-app.xml  -profile mobileDevice
-C:\util\AdobeAIRSDK\bin\adl  air.com.abstractatech.gamification.fth.xml  -profile mobileDevice -screensize 480x762:480x800
+
+C:\util\AIRSDK_Compiler\bin\adl  air.com.abstractatech.gamification.fth.xml  -profile mobileDevice -screensize 680x762:680x800

@@ -54,6 +54,9 @@
     <Reference Include="jsc.meta">
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="net.hires.debug">
+      <HintPath>..\packages\net.hires.debug.1.0.0.0\lib\net.hires.debug.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
@@ -193,7 +196,7 @@
     <PostBuildEvent>
 
 if $(ConfigurationName)==Release (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
