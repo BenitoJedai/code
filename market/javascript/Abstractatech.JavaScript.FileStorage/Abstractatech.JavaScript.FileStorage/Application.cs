@@ -210,52 +210,76 @@ namespace Abstractatech.JavaScript.FileStorage
                 }
             );
 
-            Native.Document.body.ondragover +=
+            Action<DragEvent> ondragover =
                 evt =>
                 {
+                    //Console.WriteLine("ondragover");
+
+
                     evt.stopPropagation();
                     evt.preventDefault();
 
-                    evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
+                    // ondragover { type = Files }
 
-                    dz.Container.Show();
+                    //foreach (var type in evt.dataTransfer.types)
+                    //{
+                    //    Console.WriteLine("ondragover " + new { type });
+                    //}
+
+
+                    if (evt.dataTransfer.types.Contains("Files"))
+                    {
+
+
+                        evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
+
+                        dz.Container.Show();
+                        TimerHide.Stop();
+                    }
+
+                    //}
+
                     //Console.WriteLine(" Native.Document.body.ondragover");
                 };
 
-            dz.Container.ondragover +=
-                evt =>
-                {
-                    evt.stopPropagation();
-                    evt.preventDefault();
+            Native.Document.body.ondragover += ondragover;
+            dz.Container.ondragover += ondragover;
 
-                    evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
-                    //Console.WriteLine(" dz.Container.ondragover");
+            //dz.Container.ondragstart +=
+            //    evt =>
+            //    {
+            //        Console.WriteLine("ondragstart");
 
-                    TimerHide.Stop();
-                };
+
+            //        evt.stopPropagation();
+            //        evt.preventDefault();
+            //    };
 
             dz.Container.ondragleave +=
                  evt =>
                  {
+                     //Console.WriteLine("ondragleave");
+
                      //Console.WriteLine(" dz.Container.ondragleave");
 
                      evt.stopPropagation();
                      evt.preventDefault();
 
-                     TimerHide.StartTimeout(50);
+                     TimerHide.StartTimeout(90);
                  };
 
             dz.Container.ondrop +=
                 evt =>
                 {
-                    TimerHide.StartTimeout(50);
+                    //Console.WriteLine("ondrop");
+
+                    TimerHide.StartTimeout(90);
 
                     evt.stopPropagation();
                     evt.stopImmediatePropagation();
 
                     evt.preventDefault();
 
-                    Console.WriteLine("ondrop");
 
                     var xhr = new IXMLHttpRequest();
 

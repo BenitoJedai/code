@@ -90,6 +90,11 @@ namespace com.abstractatech.notez
             // localStorage not available on android webview!
             //E/Web Console( 3751): Uncaught TypeError: Cannot set property '20130329 Hello world' of null at http://192.168.1.107:25459/view-source:32300
 
+
+            FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
+
+            new GrayPatternBackground.HTML.Images.FromAssets.background().ToDocumentBackground();
+
             Console.WriteLine("serial 57770");
 
             "My Notez (loading...)".ToDocumentTitle();
@@ -166,41 +171,126 @@ namespace com.abstractatech.notez
                     {
                         Minimum = 0.05,
                         Maximum = 0.95,
-                        Value = 0.2,
+                        Value = 0.4,
                     };
 
+
                     hh.Container.AttachToDocument();
+                    hh.Container.style.position = IStyle.PositionEnum.absolute;
+                    hh.Container.style.left = "0px";
+                    hh.Container.style.top = "0px";
+                    hh.Container.style.right = "0px";
+                    hh.Container.style.bottom = "0px";
+
+                    hh.Split.Splitter.style.backgroundColor = "rgba(0,0,0,0.0)";
+
+
+                    //var vv = new VerticalSplit
+                    var f = new Form
+                    {
+                        StartPosition = FormStartPosition.Manual,
+                        SizeGripStyle = SizeGripStyle.Hide,
+
+                        Text = "Entries"
+                    };
+
+                    var f1 = new Form
+                    {
+                        StartPosition = FormStartPosition.Manual,
+                        SizeGripStyle = SizeGripStyle.Hide,
+
+                        Text = "My Files"
+                    };
+
+                    f1.Show();
+
+
+                    var f2 = new Form
+                    {
+                        StartPosition = FormStartPosition.Manual,
+                        SizeGripStyle = SizeGripStyle.Hide,
+
+                        Text = "..."
+                    };
+
+                    f2.Show();
+
+                    var w = new WebBrowser
+                    {
+                        Dock = DockStyle.Fill
+                    };
+                    w.GetHTMLTarget().name = "viewer";
+                    w.AttachTo(f2);
+
+                    w.Navigating +=
+                        delegate
+                        {
+                            f2.Text = "Navigating";
+
+                        };
+
+                    w.Navigated +=
+                       delegate
+                       {
+                           if (w.Url.ToString() == "about:blank")
+                           {
+
+                               f2.Text = "...";
+
+
+                               return;
+                           }
+
+                           //ff.Text = w.DocumentTitle;
+                           f2.Text = Native.Window.unescape(
+                               w.Url.ToString().SkipUntilLastIfAny("/").TakeUntilLastIfAny(".")
+                               );
 
 
 
-                    hh.Split.LeftScrollable = new IHTMLDiv { className = "SidebarForButtons" };
+                       };
 
+                    Native.Window.requestAnimationFrame +=
+                        delegate
+                        {
+
+                            var layout = new Abstractatech.JavaScript.FileStorage.HTML.Pages.App();
+
+                            layout.Container.AttachTo(f1.GetHTMLTargetContainer());
+
+                            Abstractatech.JavaScript.FileStorage.ApplicationContent.Target = w.GetHTMLTarget().name;
+
+
+                            new Abstractatech.JavaScript.FileStorage.ApplicationContent(
+                                layout,
+                                service.service
+                            );
+
+                        };
+
+
+                    var LeftScrollable = new IHTMLDiv { className = "SidebarForButtons" }.AttachTo(f.GetHTMLTargetContainer());
+
+                    LeftScrollable.style.backgroundColor = "white";
 
                     var CreateNew = new IHTMLButton { innerText = "+ create new", className = "SidebarButton" }.AttachTo(
-                  hh.Split.LeftScrollable
-                 );
+                      LeftScrollable
+                     );
 
                     var ff = new Form
                     {
-                        //StartPosition = FormStartPosition.Manual,
+                        StartPosition = FormStartPosition.Manual,
                         SizeGripStyle = SizeGripStyle.Hide
 
                     };
 
 
-                    hh.Split.RightScrollable = new IHTMLDiv();
 
-                    hh.Split.RightScrollable.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-                    hh.Split.RightScrollable.style.width = "100%";
-                    hh.Split.RightScrollable.style.height = "100%";
-
+                    f.Show();
                     ff.Show();
 
 
-                    ff.PopupInsteadOfClosing(SpecialNoMovement: true
-                        //, HandleFormClosing: false
-                        //, NotifyDocked: AtResize
-                        );
+
 
                     //var text = new TextEditor(hh.Split.RightScrollable);
                     var text = new TextEditor(ff.GetHTMLTargetContainer());
@@ -214,17 +304,17 @@ namespace com.abstractatech.notez
                     text.Control.style.bottom = "0px";
 
 
-                    Native.Window.onresize +=
-                        delegate
-                        {
-                            var TopToolbarHeight = text.TopToolbar.clientHeight;
+                    //Native.Window.onresize +=
+                    //    delegate
+                    //    {
+                    //        var TopToolbarHeight = text.TopToolbar.clientHeight;
 
-                            //Console.WriteLine(new { TopToolbarHeight });
+                    //        //Console.WriteLine(new { TopToolbarHeight });
 
-                            text.DesignerContainer.style.top = (TopToolbarHeight + 4) + "px";
-                            text.SourceContainer.style.top = (TopToolbarHeight + 4) + "px";
+                    //        text.DesignerContainer.style.top = (TopToolbarHeight + 4) + "px";
+                    //        text.SourceContainer.style.top = (TopToolbarHeight + 4) + "px";
 
-                        };
+                    //    };
 
 
                     #region DesignerContainer
@@ -336,6 +426,7 @@ namespace com.abstractatech.notez
                     };
 
 
+                    #region Remove this document
                     var remove = text.AddButton(null, "Remove this document",
                           delegate
                           {
@@ -354,6 +445,8 @@ namespace com.abstractatech.notez
                               EitherCreateNewOrSelectFirst();
                           }
                       );
+                    #endregion
+
 
                     IHTMLElement remove_element = remove;
                     remove_element.style.Float = IStyle.FloatEnum.right;
@@ -365,7 +458,7 @@ namespace com.abstractatech.notez
                         delegate
                         {
                             var button = new IHTMLButton { className = "SidebarButton" }.AttachTo(
-                                           hh.Split.LeftScrollable
+                                           LeftScrollable
                                         );
 
                             button.onclick +=
@@ -455,8 +548,23 @@ namespace com.abstractatech.notez
 
                                }
 
+                               ff.Text = TitleElement.Value;
 
-                               storage[TitleElement.Value] = text.InnerHTML;
+                               // src="http://192.168.1.100:5763/
+
+                               var innerHTML = text.InnerHTML;
+
+                               var href = Native.Document.location.href.TakeUntilLastOrEmpty("/");
+
+                               // keep only relative paths to current host
+                               var xinnerHTML = innerHTML.Replace("src=\"" + href + "/", "src=\"/");
+
+                               if (innerHTML != xinnerHTML)
+                               {
+                                   text.InnerHTML = xinnerHTML;
+                               }
+
+                               storage[TitleElement.Value] = xinnerHTML;
                                oldtitle = TitleElement.Value;
                                //Console.WriteLine("TitleElement: " + TitleElement.Value);
                            }
@@ -487,6 +595,97 @@ namespace com.abstractatech.notez
 
 
                     EitherCreateNewOrSelectFirst();
+
+
+
+
+
+
+
+
+                    #region AtResize
+                    Action AtResize = delegate
+                    {
+                        Native.Document.getElementById("feedlyMiniIcon").Orphanize();
+
+                        Native.Document.body.style.minWidth = "";
+
+                        //if (ff.GetHTMLTarget().parentNode == null)
+                        //{
+                        //    Native.Window.scrollTo(0, 0);
+                        //    f.MoveTo(8, 8).SizeTo(Native.Window.Width - 16, Native.Window.Height - 16);
+
+                        //    return;
+                        //}
+
+                        //if (f.GetHTMLTarget().parentNode == null)
+                        //{
+                        //    Native.Window.scrollTo(0, 0);
+                        //    ff.MoveTo(8, 8).SizeTo(Native.Window.Width - 16, Native.Window.Height - 16);
+
+                        //    return;
+                        //}
+
+                        //if (Native.Window.Width < 1024)
+                        //{
+                        //    Native.Document.body.style.minWidth = (Native.Window.Width * 2) + "px";
+
+
+                        //    f.MoveTo(8, 8).SizeTo(Native.Window.Width - 16, Native.Window.Height - 16);
+
+                        //    ff.MoveTo(Native.Window.Width + 8, 8).SizeTo(Native.Window.Width - 16, Native.Window.Height - 16);
+
+                        //    // already scrolled...
+                        //    if (w.Url.ToString() != "about:blank")
+                        //        // docked?
+                        //        if (ff.GetHTMLTarget().parentNode != null)
+                        //            Native.Window.scrollTo(ff.Left - 8, ff.Top - 8);
+
+                        //    return;
+                        //}
+
+
+
+
+                        f.MoveTo(16, 16).SizeTo(hh.LeftContainer.clientWidth - 32, Native.Window.Height / 3 - 16 - 4);
+                        f1.MoveTo(16, Native.Window.Height / 3 + 4).SizeTo(hh.LeftContainer.clientWidth - 32, Native.Window.Height / 3 - 8);
+                        f2.MoveTo(16, Native.Window.Height / 3 * 2 + 4).SizeTo(hh.LeftContainer.clientWidth - 32, Native.Window.Height / 3 - 16);
+
+
+                        ff.MoveTo(
+                            Native.Window.Width - hh.RightContainer.clientWidth + 16
+
+                            , 16).SizeTo(hh.RightContainer.clientWidth - 32, Native.Window.Height - 32);
+
+                        //Console.WriteLine("LeftContainer " + new { hh.LeftContainer.clientWidth });
+                        //Console.WriteLine("RightContainer " + new { hh.RightContainer.clientWidth });
+                    };
+
+                    hh.ValueChanged +=
+                  delegate
+                  {
+                      AtResize();
+                  };
+
+                    Native.Window.onresize +=
+                     delegate
+                     {
+                         AtResize();
+                     };
+
+                    Native.Window.requestAnimationFrame +=
+                delegate
+                {
+                    AtResize();
+                };
+                    #endregion
+
+                    ff.PopupInsteadOfClosing(SpecialNoMovement: true, NotifyDocked: AtResize);
+                    f.PopupInsteadOfClosing(SpecialNoMovement: true, NotifyDocked: AtResize);
+                    f1.PopupInsteadOfClosing(SpecialNoMovement: true, NotifyDocked: AtResize);
+                    f2.PopupInsteadOfClosing(SpecialNoMovement: true, NotifyDocked: AtResize);
+
+
                 };
             #endregion
 
