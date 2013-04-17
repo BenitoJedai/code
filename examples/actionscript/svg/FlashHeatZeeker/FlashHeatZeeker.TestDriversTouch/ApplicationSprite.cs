@@ -42,7 +42,11 @@ namespace FlashHeatZeeker.TestDriversTouch
                      if (lobby == null)
                          return;
 
-                     lobby.ytp.pauseVideo();
+                     // internet unavailable?
+                     if (lobby.ytp != null)
+                         if (lobby.ytp.pauseVideo != null)
+                             lobby.ytp.pauseVideo();
+
                      lobby.Orphanize();
                      lobby = null;
 

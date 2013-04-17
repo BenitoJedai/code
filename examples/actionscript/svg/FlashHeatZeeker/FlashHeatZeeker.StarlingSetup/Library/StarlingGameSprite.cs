@@ -71,8 +71,24 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             Content_layer3_buildings,
             Content_layer10_hiddenforgoggles;
 
+
+
+        public static int DefaultLogoCount = 2;
+
+        TextField info;
+
+        int Source0TextureMaxBottom = 0;
+
+        double stagex = 200.0;
+        double stagey = 200.0;
+
+
+        public static StarlingGameSpriteBase instance;
+
         public StarlingGameSpriteBase()
         {
+            instance = this;
+
             gametime.Start();
 
             this.Content = new Sprite().AttachTo(this);
@@ -85,20 +101,19 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             this.Content_layer10_hiddenforgoggles = new Sprite().AttachTo(this.Content);
             this.Content_layer10_hiddenforgoggles.visible = false;
 
-            var info = new TextField(
+            this.info = new TextField(
                 800,
                 400,
                 "Welcome to Starling!"
                 ) { hAlign = HAlign.LEFT, vAlign = VAlign.TOP };
 
-            info.AttachTo(this);
+            //info.AttachTo(this);
             //.MoveTo(72, 8);
 
 
 
 
-            var stagex = 200.0;
-            var stagey = 200.0;
+
             this.stagescale = internalscale;
 
             onresize(
@@ -129,7 +144,6 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             // where to start?
             var Source0TextureTop = 0;
             var Source0TextureLeft = 0;
-            var Source0TextureMaxBottom = 0;
 
             // fighting mipmapping
             var Source0Padding = 4;
@@ -299,7 +313,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             onbeforefirstframe += delegate
             {
                 //var count = 64;
-                var count = 2;
+                var count = DefaultLogoCount;
 
                 for (int i = 0; i < count; i++)
                     for (int yi = 0; yi < count; yi++)
@@ -319,37 +333,69 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
             Text = Starling.current.context.driverInfo;
 
+            // how expensive is delegate call in a frame?
             onframe +=
                 (stage, starling) =>
                 {
-                    if (frameid == 0)
+                    if (this.frameid == 0)
                     {
-                        if (onbeforefirstframe != null)
-                            onbeforefirstframe(stage, starling);
+                        if (this.onbeforefirstframe != null)
+                            this.onbeforefirstframe(stage, starling);
                     }
 
-                    frameid++;
+                    this.frameid++;
 
 
-                    if (!DisableDefaultContentDransformation)
+                    if (!this.DisableDefaultContentDransformation)
                     {
                         var cm = new Matrix();
                         cm.scale(stagescale, stagescale);
 
                         if (autorotate)
-                            cm.rotate(gametime.ElapsedMilliseconds * 0.001);
+                            cm.rotate(this.gametime.ElapsedMilliseconds * 0.001);
 
                         cm.translate(stagex, stagey);
-                        Content.transformationMatrix = cm;
+                        this.Content.transformationMatrix = cm;
                     }
 
 
-                    var texmem = (Source0TextureMaxBottom * 100 / 2048) + "%";
+                    // does this cost us 40FPS??
+                    //var texmem = (this.Source0TextureMaxBottom * 100 / 2048) + "%";
 
-                    info.text = new { frameid, texmem, Text }.ToString();
+                    //this.info.text = new { this.frameid, texmem, this.Text }.ToString();
 
                 };
         }
+
+        ////public void __onframe(ScriptCoreLib.ActionScript.flash.display.Stage stage, Starling starling)
+        ////{
+        ////    //if (this.frameid == 0)
+        ////    //{
+        ////    //    if (this.onbeforefirstframe != null)
+        ////    //        this.onbeforefirstframe(stage, starling);
+        ////    //}
+
+        ////    this.frameid++;
+
+
+        ////    if (!this.DisableDefaultContentDransformation)
+        ////    {
+        ////        var cm = new Matrix();
+        ////        cm.scale(stagescale, stagescale);
+
+        ////        if (autorotate)
+        ////            cm.rotate(this.gametime.ElapsedMilliseconds * 0.001);
+
+        ////        cm.translate(stagex, stagey);
+        ////        this.Content.transformationMatrix = cm;
+        ////    }
+
+
+        ////    //var texmem = (this.Source0TextureMaxBottom * 100 / 2048) + "%";
+
+        ////    //this.info.text = new { this.frameid, texmem, this.Text }.ToString();
+        ////}
+
 
         public string Text;
 
