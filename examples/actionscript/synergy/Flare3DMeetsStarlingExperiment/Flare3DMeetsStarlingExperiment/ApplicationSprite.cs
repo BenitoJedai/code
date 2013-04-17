@@ -1,8 +1,8 @@
 extern alias gflare3d;
-
 using flare.basic;
 using flare.core;
 using Flare3DMeetsStarlingExperiment.Library;
+using net.hires.debug;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
@@ -30,24 +30,38 @@ namespace Flare3DMeetsStarlingExperiment
     {
         private Scene3D scene;
 
+    //    Error: Error #3709: The depthAndStencil flag in the application descriptor must match the enableDepthAndStencil Boolean passed to configureBackBuffer on the Context3D object.
+    //at flash.display3D::Context3D/configureBackBuffer()
+    //at flare.basic::Scene3D/stageContextEvent()[Z:\projects\flare3d 2.5\src\flare\basic\Scene3D.as:393]
+
 
 
         public ApplicationSprite()
         {
             scene = new Viewer3D(this);
+
+
             scene.autoResize = true;
             scene.clearColor.setTo(1, 1, 1);
 
             Action<ScriptCoreLib.ActionScript.flash.events.Event> contextCreateEvent =
                 e =>
                 {
+                    // https://github.com/PrimaryFeather/Starling-Framework/issues/74
+
                     starlingBack = new Starling(typeof(StarlingBack).ToClassToken(), stage, null, stage.stage3Ds[scene.stageIndex]);
                     starlingBack.start();
 
                     starlingTop = new Starling(typeof(StarlingTop).ToClassToken(), stage, null, stage.stage3Ds[scene.stageIndex]);
                     starlingTop.start();
+
+
+                    // http://www.flare3d.com/support/index.php?topic=1101.0
+                    this.addChild(new Stats());
                 };
 
+
+            // why isnt the event found by jsc flash natives gen?
             scene.addEventListener(ScriptCoreLib.ActionScript.flash.events.Event.CONTEXT3D_CREATE,
                 contextCreateEvent.ToFunction()
             );

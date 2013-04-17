@@ -46,8 +46,9 @@ namespace ScriptCoreLib
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public const int DefaultWidth = 500;
-        public const int DefaultHeight = 380;
+        // the adobe air tester will clip to swf size given. lets increase default to a tablet size.
+        public const int DefaultWidth = 800;
+        public const int DefaultHeight = 600;
 
         public ScriptApplicationEntryPointAttribute()
         {

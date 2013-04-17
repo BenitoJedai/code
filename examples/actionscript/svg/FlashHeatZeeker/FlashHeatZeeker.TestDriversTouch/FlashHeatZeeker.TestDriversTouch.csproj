@@ -38,8 +38,80 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ActionScript.Audio">
+      <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
+    </Reference>
     <Reference Include="box2dflash">
       <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.Core">
+      <HintPath>..\packages\FlashHeatZeeker.Core.1.0.0.0\lib\FlashHeatZeeker.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CoreAudio">
+      <HintPath>..\packages\FlashHeatZeeker.CoreAudio.1.0.0.0\lib\FlashHeatZeeker.CoreAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CoreMap">
+      <HintPath>..\packages\FlashHeatZeeker.CoreMap.1.0.0.0\lib\FlashHeatZeeker.CoreMap.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CorePhysics">
+      <HintPath>..\packages\FlashHeatZeeker.CorePhysics.1.0.0.0\lib\FlashHeatZeeker.CorePhysics.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.Lobby">
+      <HintPath>..\packages\FlashHeatZeeker.Lobby.1.0.0.0\lib\FlashHeatZeeker.Lobby.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.PromotionPreloader">
+      <HintPath>..\packages\FlashHeatZeeker.PromotionPreloader.1.0.0.0\lib\FlashHeatZeeker.PromotionPreloader.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.StarlingSetup">
+      <HintPath>..\packages\FlashHeatZeeker.StarlingSetup.1.0.0.0\lib\FlashHeatZeeker.StarlingSetup.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.TestDrivers">
+      <HintPath>..\packages\FlashHeatZeeker.TestDrivers.1.0.0.0\lib\FlashHeatZeeker.TestDrivers.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.TestDriversWithAudio">
+      <HintPath>..\packages\FlashHeatZeeker.TestDriversWithAudio.1.0.0.0\lib\FlashHeatZeeker.TestDriversWithAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.TestGamePad">
+      <HintPath>..\packages\FlashHeatZeeker.TestGamePad.1.0.0.0\lib\FlashHeatZeeker.TestGamePad.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitBunkerControl">
+      <HintPath>..\packages\FlashHeatZeeker.UnitBunkerControl.1.0.0.0\lib\FlashHeatZeeker.UnitBunkerControl.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitCannon">
+      <HintPath>..\packages\FlashHeatZeeker.UnitCannon.1.0.0.0\lib\FlashHeatZeeker.UnitCannon.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitCannonControl">
+      <HintPath>..\packages\FlashHeatZeeker.UnitCannonControl.1.0.0.0\lib\FlashHeatZeeker.UnitCannonControl.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitHind">
+      <HintPath>..\packages\FlashHeatZeeker.UnitHind.1.0.0.0\lib\FlashHeatZeeker.UnitHind.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitHindControl">
+      <HintPath>..\packages\FlashHeatZeeker.UnitHindControl.1.0.0.0\lib\FlashHeatZeeker.UnitHindControl.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitHindWeaponized">
+      <HintPath>..\packages\FlashHeatZeeker.UnitHindWeaponized.1.0.0.0\lib\FlashHeatZeeker.UnitHindWeaponized.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitJeep">
+      <HintPath>..\packages\FlashHeatZeeker.UnitJeep.1.0.0.0\lib\FlashHeatZeeker.UnitJeep.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitJeepControl">
+      <HintPath>..\packages\FlashHeatZeeker.UnitJeepControl.1.0.0.0\lib\FlashHeatZeeker.UnitJeepControl.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPed">
+      <HintPath>..\packages\FlashHeatZeeker.UnitPed.1.0.0.0\lib\FlashHeatZeeker.UnitPed.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPedControl">
+      <HintPath>..\packages\FlashHeatZeeker.UnitPedControl.1.0.0.0\lib\FlashHeatZeeker.UnitPedControl.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitRocket">
+      <HintPath>..\packages\FlashHeatZeeker.UnitRocket.1.0.0.0\lib\FlashHeatZeeker.UnitRocket.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitTank">
+      <HintPath>..\packages\FlashHeatZeeker.UnitTank.1.0.0.0\lib\FlashHeatZeeker.UnitTank.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitTankControl">
+      <HintPath>..\packages\FlashHeatZeeker.UnitTankControl.1.0.0.0\lib\FlashHeatZeeker.UnitTankControl.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
@@ -48,6 +120,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="net.hires.debug">
+      <HintPath>..\packages\net.hires.debug.1.0.0.0\lib\net.hires.debug.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -124,69 +199,6 @@
     <Reference Include="FlashHeatZeeker.TestDriversTouch.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.TestDriversTouch.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.StarlingSetup\bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.TestDrivers.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.TestDrivers\bin\staging.AssetsLibrary\FlashHeatZeeker.TestDrivers.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitHindControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitHindControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitHindControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitHind.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitHind\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitHind.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitJeepControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitJeepControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitJeepControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitJeep.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitJeep\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitJeep.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitPedControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitPedControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPedControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitPed.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitPed\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPed.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitTankControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitTankControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTankControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitTank.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitTank\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTank.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitCannonControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitCannonControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitCannonControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitCannon.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitCannon\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitCannon.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.TestDriversWithAudio.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.TestDriversWithAudio\bin\staging.AssetsLibrary\FlashHeatZeeker.TestDriversWithAudio.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.CoreAudio.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.CoreAudio\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreAudio.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.CoreMap.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.CoreMap\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreMap.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitBunkerControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitBunkerControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitBunkerControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.PromotionPreloader.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.PromotionPreloader\bin\staging.AssetsLibrary\FlashHeatZeeker.PromotionPreloader.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.Lobby.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.Lobby\bin\staging.AssetsLibrary\FlashHeatZeeker.Lobby.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.TestGamePad.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.TestGamePad\bin\staging.AssetsLibrary\FlashHeatZeeker.TestGamePad.AssetsLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -208,52 +220,6 @@
     <Content Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhztd.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
-      <Project>{e90af106-0535-4f20-9390-2536a8e4deb7}</Project>
-      <Name>FlashHeatZeeker.CorePhysics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.Core\FlashHeatZeeker.Core.csproj">
-      <Project>{0ab27151-12cd-4377-ae76-16e6f0f72580}</Project>
-      <Name>FlashHeatZeeker.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.Lobby\FlashHeatZeeker.Lobby.csproj">
-      <Project>{06ca7fc9-acae-4df3-b482-9ecf62829986}</Project>
-      <Name>FlashHeatZeeker.Lobby</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.PromotionPreloader\FlashHeatZeeker.PromotionPreloader.csproj">
-      <Project>{835aae48-31fc-40a4-b9fd-3664db5e26cc}</Project>
-      <Name>FlashHeatZeeker.PromotionPreloader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
-      <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
-      <Name>FlashHeatZeeker.StarlingSetup</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.TestDriversWithAudio\FlashHeatZeeker.TestDriversWithAudio.csproj">
-      <Project>{012aa7f8-61b3-4e05-8554-f4ac86f55b25}</Project>
-      <Name>FlashHeatZeeker.TestDriversWithAudio</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.TestDrivers\FlashHeatZeeker.TestDrivers.csproj">
-      <Project>{25e47b7d-5f39-4a35-a5d0-49952123a81a}</Project>
-      <Name>FlashHeatZeeker.TestDrivers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitHindControl\FlashHeatZeeker.UnitHindControl.csproj">
-      <Project>{0c611dd3-d71b-4802-9e87-781f6c73daa9}</Project>
-      <Name>FlashHeatZeeker.UnitHindControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitHind\FlashHeatZeeker.UnitHind.csproj">
-      <Project>{93432db4-6a44-4fc8-a037-faec549dabb3}</Project>
-      <Name>FlashHeatZeeker.UnitHind</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitPedControl\FlashHeatZeeker.UnitPedControl.csproj">
-      <Project>{4d349e4b-ebf4-4121-9022-f2d4f85ec280}</Project>
-      <Name>FlashHeatZeeker.UnitPedControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitPed\FlashHeatZeeker.UnitPed.csproj">
-      <Project>{28b82c3c-e90a-42a9-80c2-71bc99e91592}</Project>
-      <Name>FlashHeatZeeker.UnitPed</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
