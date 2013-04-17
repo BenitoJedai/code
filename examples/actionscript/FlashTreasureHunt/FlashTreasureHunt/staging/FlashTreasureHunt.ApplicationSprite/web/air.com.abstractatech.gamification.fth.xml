@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/3.0">
+<application xmlns="http://ns.adobe.com/air/application/3.6">
   <id>com.abstractatech.gamification.fth</id>
   <versionNumber>1.0.1</versionNumber>
   <filename>fth</filename>
@@ -16,6 +16,7 @@
 
     <autoOrients>false</autoOrients>
     <renderMode>direct</renderMode>
+    <depthAndStencil>true</depthAndStencil>
     <fullScreen>false</fullScreen>
     <visible>true</visible>
     <aspectRatio>landscape</aspectRatio>
