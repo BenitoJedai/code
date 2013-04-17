@@ -86,56 +86,43 @@
     <Reference Include="FlashHeatZeeker.TestGamePad">
       <HintPath>..\packages\FlashHeatZeeker.TestGamePad.1.0.0.0\lib\FlashHeatZeeker.TestGamePad.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitBunkerControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitBunkerControl">
       <HintPath>..\packages\FlashHeatZeeker.UnitBunkerControl.1.0.0.0\lib\FlashHeatZeeker.UnitBunkerControl.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitCannon, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitCannon">
       <HintPath>..\packages\FlashHeatZeeker.UnitCannon.1.0.0.0\lib\FlashHeatZeeker.UnitCannon.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitCannonControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitCannonControl">
       <HintPath>..\packages\FlashHeatZeeker.UnitCannonControl.1.0.0.0\lib\FlashHeatZeeker.UnitCannonControl.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitHind, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitHind">
       <HintPath>..\packages\FlashHeatZeeker.UnitHind.1.0.0.0\lib\FlashHeatZeeker.UnitHind.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitHindControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitHindControl">
       <HintPath>..\packages\FlashHeatZeeker.UnitHindControl.1.0.0.0\lib\FlashHeatZeeker.UnitHindControl.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitHindWeaponized, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitHindWeaponized">
       <HintPath>..\packages\FlashHeatZeeker.UnitHindWeaponized.1.0.0.0\lib\FlashHeatZeeker.UnitHindWeaponized.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitJeep, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitJeep">
       <HintPath>..\packages\FlashHeatZeeker.UnitJeep.1.0.0.0\lib\FlashHeatZeeker.UnitJeep.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitJeepControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitJeepControl">
       <HintPath>..\packages\FlashHeatZeeker.UnitJeepControl.1.0.0.0\lib\FlashHeatZeeker.UnitJeepControl.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitPed, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitPed">
       <HintPath>..\packages\FlashHeatZeeker.UnitPed.1.0.0.0\lib\FlashHeatZeeker.UnitPed.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitPedControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitPedControl">
       <HintPath>..\packages\FlashHeatZeeker.UnitPedControl.1.0.0.0\lib\FlashHeatZeeker.UnitPedControl.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitRocket, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitRocket">
       <HintPath>..\packages\FlashHeatZeeker.UnitRocket.1.0.0.0\lib\FlashHeatZeeker.UnitRocket.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitTank, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitTank">
       <HintPath>..\packages\FlashHeatZeeker.UnitTank.1.0.0.0\lib\FlashHeatZeeker.UnitTank.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.UnitTankControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FlashHeatZeeker.UnitTankControl">
       <HintPath>..\packages\FlashHeatZeeker.UnitTankControl.1.0.0.0\lib\FlashHeatZeeker.UnitTankControl.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
@@ -240,7 +227,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName) /AddDependencies:$(ProjectDir)packages.config /DisableWorkerDomain
+
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>

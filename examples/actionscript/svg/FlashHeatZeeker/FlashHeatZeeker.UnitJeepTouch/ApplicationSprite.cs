@@ -1,4 +1,5 @@
 using FlashHeatZeeker.UnitJeepControl.Library;
+using net.hires.debug;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -9,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FlashHeatZeeker.UnitJeepTouch
 {
-    [SWF(backgroundColor = 0xA26D41)]
+    [SWF(backgroundColor = 0xA26D41, width = 800, height = 600)]
     public sealed class ApplicationSprite : Sprite
     {
         public readonly ApplicationCanvas content1 = new ApplicationCanvas();
@@ -79,6 +80,10 @@ namespace FlashHeatZeeker.UnitJeepTouch
                 {
                     content1.AttachToContainer(this);
                     content1.AutoSizeTo(this.stage);
+
+
+                    // http://www.flare3d.com/support/index.php?topic=1101.0
+                    this.addChild(new Stats());
                 }
             );
         }

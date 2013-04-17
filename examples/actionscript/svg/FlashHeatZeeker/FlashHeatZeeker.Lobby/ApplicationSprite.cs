@@ -31,8 +31,18 @@ namespace FlashHeatZeeker.Lobby
 
 
                     // read more: http://www.senocular.com/flash/tutorials/contentdomains/
-                    Security.allowDomain("*");
-                    Security.allowInsecureDomain("*");
+
+                    //                SecurityError: Error #3207: Application-sandbox content cannot access this feature.
+                    //at flash.system::Security$/allowDomain()
+
+                    try
+                    {
+                        Security.allowDomain("*");
+                        Security.allowInsecureDomain("*");
+                    }
+                    catch
+                    {
+                    }
 
                     var yNext = default(Action);
 

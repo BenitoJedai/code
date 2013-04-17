@@ -1,6 +1,7 @@
 using FlashHeatZeeker.PromotionPreloader;
 using FlashHeatZeeker.TestDrivers.Library;
 using FlashHeatZeeker.TestDriversWithAudio.Library;
+using net.hires.debug;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -134,6 +135,10 @@ namespace FlashHeatZeeker.TestDriversTouch
                 {
                     content1.AttachToContainer(this);
                     content1.AutoSizeTo(this.stage);
+
+
+                    // http://www.flare3d.com/support/index.php?topic=1101.0
+                    this.addChild(new Stats());
                 }
             );
         }
