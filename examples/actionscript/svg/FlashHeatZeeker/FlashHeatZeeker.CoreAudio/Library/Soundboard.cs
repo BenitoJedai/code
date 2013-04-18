@@ -26,6 +26,8 @@ namespace FlashHeatZeeker.CoreAudio.Library
 
 
 
+        public Sound haarp = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/haarp.mp3"].ToSoundAsset();
+
         public Sound snd_whatsthatsound = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_whatsthatsound.mp3"].ToSoundAsset();
         public Sound snd_jeepengine_start = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/snd_jeepengine_start.mp3"].ToSoundAsset();
 
