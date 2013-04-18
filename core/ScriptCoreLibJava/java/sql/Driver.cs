@@ -20,5 +20,8 @@ namespace java.sql
 
 
         bool jdbcCompliant();
+
+        java.util.logging.Logger getParentLogger();
+
     }
 }

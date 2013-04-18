@@ -47,6 +47,9 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ActionScript.Audio">
+      <HintPath>..\packages\Abstractatech.ActionScript.Audio.1.0.0.0\lib\Abstractatech.ActionScript.Audio.dll</HintPath>
+    </Reference>
     <Reference Include="Abstractatech.ConsoleFormPackage">
       <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
     </Reference>
@@ -56,6 +59,30 @@
     <Reference Include="box2dflash">
       <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
     </Reference>
+    <Reference Include="FlashHeatZeeker.Core">
+      <HintPath>..\packages\FlashHeatZeeker.Core.1.0.0.0\lib\FlashHeatZeeker.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CoreAudio">
+      <HintPath>..\packages\FlashHeatZeeker.CoreAudio.1.0.0.0\lib\FlashHeatZeeker.CoreAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.CorePhysics">
+      <HintPath>..\packages\FlashHeatZeeker.CorePhysics.1.0.0.0\lib\FlashHeatZeeker.CorePhysics.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.StarlingSetup">
+      <HintPath>..\packages\FlashHeatZeeker.StarlingSetup.1.0.0.0\lib\FlashHeatZeeker.StarlingSetup.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitBunkerControl">
+      <HintPath>..\packages\FlashHeatZeeker.UnitBunkerControl.1.0.0.0\lib\FlashHeatZeeker.UnitBunkerControl.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPed">
+      <HintPath>..\packages\FlashHeatZeeker.UnitPed.1.0.0.0\lib\FlashHeatZeeker.UnitPed.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashHeatZeeker.UnitPedControl">
+      <HintPath>..\packages\FlashHeatZeeker.UnitPedControl.1.0.0.0\lib\FlashHeatZeeker.UnitPedControl.dll</HintPath>
+    </Reference>
+    <Reference Include="HerokuFacebookLogin.ActionScriptViaLocalConnection">
+      <HintPath>..\packages\HerokuFacebookLogin.ActionScriptViaLocalConnection.1.0.0.0\lib\HerokuFacebookLogin.ActionScriptViaLocalConnection.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -63,6 +90,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="net.hires.debug">
+      <HintPath>..\packages\net.hires.debug.1.0.0.0\lib\net.hires.debug.dll</HintPath>
     </Reference>
     <Reference Include="Player.IO GameLibrary">
       <HintPath>..\packages\PlayerIO.GameLibrary.1.0.0.0\lib\Player.IO GameLibrary.dll</HintPath>
@@ -141,39 +171,6 @@
     <Reference Include="FlashHeatZeeker.Shop.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\FlashHeatZeeker.Shop.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashHeatZeeker.CoreAudio.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.CoreAudio\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreAudio.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.CoreMap.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.CoreMap\bin\staging.AssetsLibrary\FlashHeatZeeker.CoreMap.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.CorePhysics.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.CorePhysics\bin\staging.AssetsLibrary\FlashHeatZeeker.CorePhysics.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.StarlingSetup.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.StarlingSetup\bin\staging.AssetsLibrary\FlashHeatZeeker.StarlingSetup.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.Core.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.Core\bin\staging.AssetsLibrary\FlashHeatZeeker.Core.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitTankControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitTankControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTankControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitTank.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitTank\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitTank.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitBunkerControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitBunkerControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitBunkerControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitPedControl.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitPedControl\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPedControl.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashHeatZeeker.UnitPed.AssetsLibrary">
-      <HintPath>..\FlashHeatZeeker.UnitPed\bin\staging.AssetsLibrary\FlashHeatZeeker.UnitPed.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="HerokuFacebookLogin.ActionScriptViaLocalConnection.AssetsLibrary">
-      <HintPath>..\..\..\..\javascript\HerokuFacebookLoginExperiment\HerokuFacebookLogin.ActionScriptViaLocalConnection\bin\staging.AssetsLibrary\HerokuFacebookLogin.ActionScriptViaLocalConnection.AssetsLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -202,50 +199,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\javascript\HerokuFacebookLoginExperiment\HerokuFacebookLogin.ActionScriptViaLocalConnection\HerokuFacebookLogin.ActionScriptViaLocalConnection.csproj">
-      <Project>{eb850f69-0cbb-4b39-a64a-5ccba315738f}</Project>
-      <Name>HerokuFacebookLogin.ActionScriptViaLocalConnection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.CoreAudio\FlashHeatZeeker.CoreAudio.csproj">
-      <Project>{c8f78217-d723-4e69-be48-d40814dcdb76}</Project>
-      <Name>FlashHeatZeeker.CoreAudio</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.CoreMap\FlashHeatZeeker.CoreMap.csproj">
-      <Project>{7f31c1d3-4952-4c9a-92e0-daaf8717075a}</Project>
-      <Name>FlashHeatZeeker.CoreMap</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj">
-      <Project>{e90af106-0535-4f20-9390-2536a8e4deb7}</Project>
-      <Name>FlashHeatZeeker.CorePhysics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.Core\FlashHeatZeeker.Core.csproj">
-      <Project>{0ab27151-12cd-4377-ae76-16e6f0f72580}</Project>
-      <Name>FlashHeatZeeker.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FlashHeatZeeker.PlayerIOServer\FlashHeatZeeker.PlayerIOServer.csproj">
       <Project>{baba968b-41d7-4b0e-afb9-dfa37307c833}</Project>
       <Name>FlashHeatZeeker.PlayerIOServer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj">
-      <Project>{f6418cc1-5b0b-4d49-afbb-c69ddbf1077b}</Project>
-      <Name>FlashHeatZeeker.StarlingSetup</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitBunkerControl\FlashHeatZeeker.UnitBunkerControl.csproj">
-      <Project>{2ee6e167-fea3-47b4-bbf4-b48f5c8666bf}</Project>
-      <Name>FlashHeatZeeker.UnitBunkerControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitPedControl\FlashHeatZeeker.UnitPedControl.csproj">
-      <Project>{4d349e4b-ebf4-4121-9022-f2d4f85ec280}</Project>
-      <Name>FlashHeatZeeker.UnitPedControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashHeatZeeker.UnitPed\FlashHeatZeeker.UnitPed.csproj">
-      <Project>{28b82c3c-e90a-42a9-80c2-71bc99e91592}</Project>
-      <Name>FlashHeatZeeker.UnitPed</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName) /AddDependencies:$(ProjectDir)packages.config /DisableWorkerDomain
+
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
