@@ -69,6 +69,15 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
             "Operation «Heat Zeeker»".ToDocumentTitle();
 
+            try
+            {
+                Console.WriteLine(new { chrome.app.isInstalled });
+
+            }
+            catch
+            {
+                Console.WriteLine("error, not in chrome?");
+            }
 
         }
 

@@ -286,7 +286,9 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                         WriteLine("Sucessfully connected to player.io");
 
                         CurrentClient = client;
-                        global::playerio.PlayerIO.showLogo(stage, "BR");
+
+                        // logo will be shown automatically for free tier_
+                        //global::playerio.PlayerIO.showLogo(stage, "BR");
 
                         var multiplayer = client.multiplayer;
 

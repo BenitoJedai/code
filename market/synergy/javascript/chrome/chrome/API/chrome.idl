@@ -1,0 +1,159 @@
+﻿// http://developer.chrome.com/trunk/apps/api_index.html
+
+// http://developer.chrome.com/extensions/bookmarks.html
+
+
+interface chrome
+{ 
+	static attribute WebstoreModule        webstore;
+	static attribute AppModule        app;
+	static attribute BookmarksModule        bookmarks;
+	static attribute SocketModule        socket;
+
+};
+
+// does this type even exist?
+interface SocketModule
+{
+
+	// http://developer.chrome.com/trunk/apps/socket.html#method-listen
+
+	void listen (int socketId, string address, int port, int backlog, function callback);
+	void accept(int socketId, function callback);
+	// void create(SocketType type, CreateOptions options, function callback);
+	void create(string type, CreateOptions options, function callback);
+
+};
+
+
+// http://developer.chrome.com/trunk/apps/socket.html#type-SocketInfo
+[Constructor]
+interface SocketInfo 
+{
+	attribute DOMString peerAddress;
+	attribute long peerPort;
+		
+	attribute DOMString localAddress;
+	attribute long localPort;
+		
+	attribute boolean connected;
+};
+
+// http://developer.chrome.com/trunk/apps/socket.html#type-NetworkInterface
+[Constructor]
+interface NetworkInterface 
+{
+	attribute DOMString name ;
+	attribute DOMString address ;
+};
+
+[Constructor]
+interface ReadInfo 
+{
+	attribute long resultCode;
+	attribute ArrayBufferView data;
+};
+
+[Constructor]
+interface AcceptInfo 
+{
+	attribute long resultCode;
+	attribute long socketId;
+};
+
+[Constructor]
+interface WriteInfo 
+{
+	attribute long bytesWritten;
+};
+
+
+[Constructor]
+interface RecvFromInfo 
+{
+	attribute long resultCode;
+	attribute long port;
+	attribute DOMString address;
+	attribute ArrayBufferView data;
+};
+
+[Constructor]
+interface CreateInfo 
+{
+	attribute long socketId;
+};
+
+[Constructor]
+interface CreateOptions
+{
+};
+
+
+
+
+
+
+
+// does this type even exist?
+interface WebstoreModule
+{
+	// https://developers.google.com/chrome/web-store/docs/inline_installation
+	void install(string url, function successCallback, function failureCallback);
+
+};
+
+// does this type even exist?
+interface AppModule
+{
+    // http://developer.chrome.com/trunk/apps/app.window.html
+
+	attribute boolean        isInstalled;
+
+	attribute AppWindowModule        window;
+};
+
+interface AppWindowModule
+{
+	AppWindow current();
+};
+
+
+interface BookmarksModule
+{
+	void getTree(function callback);
+};
+
+
+
+// http://developer.chrome.com/trunk/apps/app.window.html#type-AppWindow
+[Constructor]
+interface AppWindow 
+{
+
+	void restore();
+	void moveTo();
+	void clearAttention();
+	void minimize();
+	void drawAttention();
+	void focus();
+	void resizeTo();
+	void maximize();
+
+	readonly attribute WindowProxy? contentWindow;
+};
+
+
+
+// does this type use namespace?
+[Constructor]
+interface BookmarkTreeNode 
+{
+	attribute long index;
+	attribute DOMString title;
+	attribute DOMString url;
+	attribute DOMString id;
+	attribute DOMString parentId;
+	attribute BookmarkTreeNode[] children;
+
+
+};
