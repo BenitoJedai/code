@@ -107,6 +107,8 @@ interface AppModule
 {
     // http://developer.chrome.com/trunk/apps/app.window.html
 
+	// https://code.google.com/p/chromium/issues/detail?id=129960
+	// this does not seem to work at all
 	attribute boolean        isInstalled;
 
 	attribute AppWindowModule        window;
