@@ -39,5 +39,11 @@ namespace com.google.appengine.api.rdbms
         {
             throw new NotImplementedException();
         }
+
+        // new indexer 177?
+        public java.util.logging.Logger getParentLogger()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
