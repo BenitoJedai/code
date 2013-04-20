@@ -20,6 +20,8 @@ namespace FlashHeatZeeker.CoreAudio.Library
         public MP3PitchLoop loopjeepengine = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/jeepengine.mp3"].ToSoundAsset().ToMP3PitchLoop();
         public MP3PitchLoop loopcrickets = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/crickets.mp3"].ToSoundAsset().ToMP3PitchLoop();
 
+
+        // exp: http://www.youtube.com/watch?v=h0F_rDC2bPU
         public MP3PitchLoop loopstrange1 = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/loopstrange1.mp3"].ToSoundAsset().ToMP3PitchLoop();
         public MP3PitchLoop loopheartbeat3 = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/heartbeat3.mp3"].ToSoundAsset().ToMP3PitchLoop();
         public MP3PitchLoop loop_GallinagoDelicata = KnownEmbeddedResources.Default["assets/FlashHeatZeeker.CoreAudio/loop_GallinagoDelicata.mp3"].ToSoundAsset().ToMP3PitchLoop();
