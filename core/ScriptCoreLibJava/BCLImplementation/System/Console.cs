@@ -160,5 +160,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return z;
         }
 
+
+        // this is a nop
+        public static ConsoleColor ForegroundColor { get; set; }
     }
 }
