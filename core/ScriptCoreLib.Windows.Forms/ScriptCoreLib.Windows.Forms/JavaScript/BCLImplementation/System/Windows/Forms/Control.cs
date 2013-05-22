@@ -918,36 +918,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         InternalHandler<MouseEventHandler, DOMHandler> _MouseDown = new InternalHandler<MouseEventHandler, DOMHandler>();
         InternalHandler<MouseEventHandler, DOMHandler> _MouseUp = new InternalHandler<MouseEventHandler, DOMHandler>();
 
-        #region MouseMove
-        InternalHandler<MouseEventHandler, DOMHandler> _MouseMove = new InternalHandler<MouseEventHandler, DOMHandler>();
-        public event MouseEventHandler MouseMove
-        {
-            add
-            {
-                _MouseMove.Event += value;
-                if (_MouseMove)
-                {
-                    _MouseMove.EventInternal =
-                        i =>
-                        {
-                            this._MouseMove.Event(this, i.GetMouseEventHandler(MouseButtons.None));
-                        };
 
-                    this.HTMLTargetRef.onmousemove += _MouseMove.EventInternal;
-                }
-            }
-            remove
-            {
-
-                _MouseMove.Event -= value;
-                if (!_MouseMove)
-                {
-                    this.HTMLTargetRef.onmousemove -= _MouseMove.EventInternal;
-                    _MouseMove.EventInternal = null;
-                }
-            }
-        }
-        #endregion
 
         public event EventHandler TextChanged;
 
@@ -1609,8 +1580,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             public object GetData(string format)
             {
-                if (format == "Text")
-                    format = "text/plain";
+                //if (format == "Text")
+                //    format = "text/plain";
+
+                if (format == "text/plain")
+                    format = "Text";
 
 
                 var value = this.InternalData.dataTransfer.getData(format);
@@ -1671,6 +1645,118 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        #region MouseMove
+        //InternalHandler<MouseEventHandler, DOMHandler> _MouseMove = new InternalHandler<MouseEventHandler, DOMHandler>();
+        public event MouseEventHandler MouseMove
+        {
+            add
+            {
+                // what if the caller delegate will call DoDragDrop?
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201305/2130522-forms-drag
+
+                this.HTMLTargetRef.ondragstart +=
+                    e =>
+                    {
+                        var Buttons = e.GetMouseButton();
+
+                        //Console.WriteLine("ondragstart " + new { Buttons });
+
+                        var a = e.GetMouseEventHandler(Buttons);
+
+                        var MissingDoDragDrop = true;
+
+                        this.InternalDoDragDrop =
+                            (data, effects) =>
+                            {
+                                //Console.WriteLine("InternalDoDragDrop");
+
+
+                                MissingDoDragDrop = false;
+
+                                // X:\jsc.internal.svn\compiler\jsx.reflector\ReflectorWindow.AddNode.cs
+                                // X:\jsc.svn\examples\javascript\DragIntoCRX\DragIntoCRX\Application.cs
+
+                                // hope its a string?
+
+                                // http://msdn.microsoft.com/en-us/library/ie/ms536744(v=vs.85).aspx
+
+                                var dataTransfer = e.dataTransfer;
+                                var text = "" + data;
+
+                                // SCRIPT65535: Unexpected call to method or property access. 
+                                //dataTransfer.setData("text/plain", text);
+                                dataTransfer.setData("Text", text);
+
+                                //Uncaught TypeError: setDragImageFromElement: Invalid first argument 
+                                //e.dataTransfer.setDragImage(null, 0, 0);
+
+                            };
+
+                        value(this, a);
+
+                        this.InternalDoDragDrop = null;
+
+                        // can we abort?
+                        if (MissingDoDragDrop)
+                        {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                    };
+
+                //_MouseMove.Event += value;
+                //if (_MouseMove)
+                //{
+                //    _MouseMove.EventInternal =
+                //        i =>
+                //        {
+                //            this._MouseMove.Event(this, i.GetMouseEventHandler(MouseButtons.None));
+                //        };
+
+                //    this.HTMLTargetRef.onmousemove += _MouseMove.EventInternal;
+                //}
+            }
+            remove
+            {
+
+                //_MouseMove.Event -= value;
+                //if (!_MouseMove)
+                //{
+                //    this.HTMLTargetRef.onmousemove -= _MouseMove.EventInternal;
+                //    _MouseMove.EventInternal = null;
+                //}
+            }
+        }
+        #endregion
+
+        Action<object, DragDropEffects> InternalDoDragDrop;
+
+        public DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects)
+        {
+            if (InternalDoDragDrop != null)
+                InternalDoDragDrop(data, allowedEffects);
+
+
+            return allowedEffects;
+        }
+
+        public event EventHandler DragLeave
+        {
+            add
+            {
+                this.HTMLTargetRef.ondragleave +=
+                  e =>
+                  {
+                      e.stopPropagation();
+                      e.preventDefault();
+
+                      value(this, null);
+                  };
+
+            }
+
+            remove { }
+        }
         public event DragEventHandler DragDrop
         {
             add

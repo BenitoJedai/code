@@ -38,6 +38,8 @@ namespace TestDragDrop
             this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ApplicationControl_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.ApplicationControl_DragOver);
+            this.DragLeave += new System.EventHandler(this.ApplicationControl_DragLeave);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ApplicationControl_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 
