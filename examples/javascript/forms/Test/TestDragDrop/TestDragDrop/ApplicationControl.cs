@@ -19,22 +19,26 @@ namespace TestDragDrop
         private void ApplicationControl_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
-            label1.Text = "DragOver";
-
-        }
-
-        private void ApplicationControl_DragDrop(object sender, DragEventArgs e)
-        {
-            label1.Text = "DragDrop";
+            label1.Text = "DragOver = " + e.Data.GetData("Text");
 
             e.Data.GetFormats().WithEach(
                 f =>
                 {
                     label1.Text += "\n" + f;
-
                 }
             );
+        }
 
+        private void ApplicationControl_DragDrop(object sender, DragEventArgs e)
+        {
+            label1.Text = "DragDrop = " + e.Data.GetData("Text");
+
+            e.Data.GetFormats().WithEach(
+                f =>
+                {
+                    label1.Text += "\n" + f;
+                }
+            );
         }
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)

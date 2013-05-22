@@ -145,6 +145,7 @@
     <Content Include="docs\help.txt" />
     <Content Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Promotional\x100.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\FUNKYOU.mp3" />
