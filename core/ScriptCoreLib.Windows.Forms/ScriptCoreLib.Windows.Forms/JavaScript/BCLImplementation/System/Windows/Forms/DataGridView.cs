@@ -39,6 +39,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __DataGridView()
         {
+            //Console.WriteLine("__DataGridView");
 
             this.InternalColumns = new __DataGridViewColumnCollection();
             this.Columns = (DataGridViewColumnCollection)(object)this.InternalColumns;
@@ -299,7 +300,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
 
             #region InitializeCell
-            Action<__DataGridViewCell, __DataGridViewRow> InitializeCell =
+            Action<__DataGridViewCell, __DataGridViewRow> InitializeMissingCell =
                 (SourceCell, SourceRow) =>
                 {
                     //Console.WriteLine("InitializeCell  " + new { SourceCell.ColumnIndex });
@@ -458,7 +459,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             EditElement.AttachTo(SourceCell.InternalTableColumn);
 
-                            SourceCell.InternalStyle.InternalForeColorChanged =
+                            SourceCell.InternalStyle.InternalForeColorChanged +=
                                 delegate
                                 {
                                     EditElement.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
@@ -477,7 +478,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 EditElement.Orphanize();
                                 SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
 
-                                SourceCell.InternalStyle.InternalForeColorChanged =
+                                SourceCell.InternalStyle.InternalForeColorChanged +=
                                     delegate
                                     {
                                         SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
@@ -519,6 +520,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             EditElement.onblur +=
                                delegate
                                {
+                                   //Console.WriteLine("EditElement.onblur");
+
                                    if (CheckChanges != null)
                                        CheckChanges();
 
@@ -598,14 +601,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             #endregion
 
 
+                            #region onkeypress
                             EditElement.onkeypress +=
                                 _ev =>
                                 {
 
                                     if (_ev.IsReturn)
                                     {
-                                        _ev.PreventDefault();
-                                        _ev.StopPropagation();
+                                        _ev.preventDefault();
+                                        _ev.stopPropagation();
 
                                         if (CheckChanges != null)
                                             CheckChanges();
@@ -616,6 +620,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     }
 
                                 };
+                            #endregion
+
 
 
                         };
@@ -780,6 +786,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     this.InternalSelectedCells.RemoveAt(0);
                                 }
+
                             }
 
                             if (this.CellLeave != null)
@@ -787,6 +794,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         };
                     #endregion
+
+
 
 
 
@@ -811,12 +820,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
+                    #region InternalForeColorChanged
                     SourceCell.InternalStyle.InternalForeColorChanged +=
                        delegate
                        {
-                           if (!SourceCell.InternalSelected)
-                               SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                           if (SourceCell.InternalSelected)
+                               return;
+
+
+                           SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                        };
+
+                    SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                    #endregion
+
+
                 };
             #endregion
 
@@ -867,7 +885,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         var SourceCell = SourceRow.InternalCells.InternalItems[i];
 
                         if (SourceCell.InternalTableColumn == null)
-                            InitializeCell(
+                            InitializeMissingCell(
                                 SourceCell,
                                 SourceRow
                             );
@@ -973,25 +991,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region ColumnUpdateToHorizontalResizerScroll
                     Action ColumnUpdateToHorizontalResizerScroll = delegate
                     {
-                        ColumnHorizontalResizer.style.SetLocation(
-                                 ColumnHorizontalResizerDrag.Position.X,
-                                 0
-                            //this.InternalContainerElement.scrollTop
-                            );
+                        var x = ColumnHorizontalResizerDrag.Position.X;
 
                         var scrollHeight = this.InternalScrollContainerElement.scrollHeight;
                         if (scrollHeight < 44)
                             scrollHeight = 44;
 
+
+
+                        //Console.WriteLine("ColumnUpdateToHorizontalResizerScroll " + new { x, scrollHeight });
+                        ColumnHorizontalResizer.style.SetLocation(
+                                 x,
+                                 0
+                            //this.InternalContainerElement.scrollTop
+                            );
+
+
                         ColumnHorizontalResizer.style.height = scrollHeight + "px";
                     };
                     #endregion
 
-
-                    this.InternalRows.InternalItems.Source.ListChanged +=
+                    this.InternalRows.InternalItems.Added +=
+                        //this.InternalRows.InternalItems.Source.ListChanged +=
                         delegate
                         {
-                            ColumnUpdateToHorizontalResizerScroll();
+                            Native.Window.requestAnimationFrame +=
+                                delegate
+                                {
+                                    ColumnUpdateToHorizontalResizerScroll();
+                                };
+
                         };
 
                     this.InternalScrollContainerElement.onresize +=
@@ -1275,6 +1304,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                   };
             #endregion
 
+            #region InternalRows Removed
             this.InternalRows.InternalItems.Removed +=
                 (SourceRow, i) =>
                 {
@@ -1283,6 +1313,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // raise any events
                 };
+            #endregion
+
 
             __DataGridViewRow PendingNewRow = null;
 

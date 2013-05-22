@@ -15,6 +15,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
 
     using DOMHandler = global::System.Action<DOM.IEvent>;
+    using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
+    using ScriptCoreLib.JavaScript.DOM;
 
 
 
@@ -44,6 +46,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     public class __Control : __Component
     {
+
+
         public bool Capture { get; set; }
 
         public virtual DockStyle Dock { get; set; }
@@ -1556,8 +1560,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTargetRef.oncontextmenu +=
                     e =>
                     {
-                        e.StopPropagation();
-                        e.PreventDefault();
+                        e.stopPropagation();
+                        e.preventDefault();
 
                         var m = (__ContextMenuStrip)(object)value;
 
@@ -1589,5 +1593,146 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
 
         }
+
+
+
+
+
+        [Script]
+        class XDataObject : IDataObject
+        {
+
+            public object GetData(Type format)
+            {
+                throw new NotImplementedException();
+            }
+
+            public object GetData(string format)
+            {
+                if (format == "Text")
+                    format = "text/plain";
+
+
+                var value = this.InternalData.dataTransfer.getData(format);
+
+                return value;
+            }
+
+            public object GetData(string format, bool autoConvert)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool GetDataPresent(Type format)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool GetDataPresent(string format)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool GetDataPresent(string format, bool autoConvert)
+            {
+                throw new NotImplementedException();
+            }
+
+            public DragEvent InternalData;
+
+            public string[] GetFormats()
+            {
+                return InternalData.dataTransfer.types;
+            }
+
+            public string[] GetFormats(bool autoConvert)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetData(object data)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetData(Type format, object data)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetData(string format, object data)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetData(string format, bool autoConvert, object data)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public event DragEventHandler DragDrop
+        {
+            add
+            {
+
+                this.HTMLTargetRef.ondrop +=
+                   e =>
+                   {
+                       e.stopPropagation();
+                       e.preventDefault();
+
+
+                       var a = new __DragEventArgs
+                       {
+                           Data = new XDataObject { InternalData = e }
+                       };
+
+                       value(this, (DragEventArgs)(object)a);
+
+
+
+                   };
+
+            }
+            remove { }
+        }
+
+
+        public event DragEventHandler DragOver
+        {
+            add
+            {
+
+                this.HTMLTargetRef.ondragover +=
+                    e =>
+                    {
+                        e.stopPropagation();
+                        e.preventDefault();
+
+                        var a = new __DragEventArgs
+                        {
+                            Data = new XDataObject { InternalData = e },
+                            InternalSetEffect =
+                                Effect =>
+                                {
+
+                                    // translate?
+                                    e.dataTransfer.dropEffect = "copy";
+
+                                }
+                        };
+
+                        value(this, (DragEventArgs)(object)a);
+
+
+
+                    };
+            }
+            remove { }
+        }
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201305/2130522-forms-drag
+        public virtual bool AllowDrop { get; set; }
     }
 }

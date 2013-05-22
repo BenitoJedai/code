@@ -87,6 +87,9 @@
     <Compile Include="JavaScript\Extensions\FormStyler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\IDataObject.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\DragEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\DragEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\WebBrowserNavigatingEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\WebBrowserNavigatingEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\WebBrowserNavigatedEventArgs.cs" />
@@ -124,7 +127,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursors.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\IButtonControl.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\IButtonControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabelLinkClickedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabelLinkClickedEventHandler.cs" />
