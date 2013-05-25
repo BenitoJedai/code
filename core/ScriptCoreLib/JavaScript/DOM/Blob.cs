@@ -6,9 +6,9 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     [Script(HasNoPrototype = true)]
-    public class File : Blob
+    public class Blob
     {
-        public readonly string name;
-
+        public readonly ulong size;
+    
     }
 }
