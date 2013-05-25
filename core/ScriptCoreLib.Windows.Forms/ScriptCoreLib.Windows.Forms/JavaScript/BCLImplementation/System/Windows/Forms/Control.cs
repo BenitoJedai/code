@@ -205,8 +205,54 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.MinimumSize = DefaultMinimumSize;
             this.MaximumSize = DefaultMaximumSize;
+
+
         }
 
+        bool InternalInitializeContextMenuStripOnce = false;
+        public void InternalInitializeContextMenuStrip()
+        {
+            if (InternalInitializeContextMenuStripOnce)
+                return;
+
+            InternalInitializeContextMenuStripOnce = true;
+
+
+
+            // how much will this slow us down?
+            this.HTMLTargetRef.oncontextmenu +=
+                 e =>
+                 {
+                     e.stopPropagation();
+
+                     if (this is __TextBoxBase)
+                         return;
+
+                     e.preventDefault();
+
+                     if (this.ContextMenuStrip == null)
+                         return;
+
+                     var m = (__ContextMenuStrip)(object)this.ContextMenuStrip;
+
+                     var div = m.HTMLTargetRef.AttachToDocument();
+
+                     div.style.SetLocation(
+                         e.CursorX,
+                         e.CursorY
+                     );
+
+                     div.tabIndex = 0;
+
+                     div.onblur +=
+                         delegate
+                         {
+                             div.Orphanize();
+                         };
+
+                     div.focus();
+                 };
+        }
 
         protected int x;
         protected int y;
@@ -1391,6 +1437,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
 
             }
+
+            InternalInitializeContextMenuStrip();
         }
 
         protected virtual void OnParentVisibleChanged(EventArgs e)
@@ -1521,39 +1569,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public virtual ContextMenuStrip ContextMenuStrip
         {
-            get
-            {
-
-                return null;
-            }
-            set
-            {
-                this.HTMLTargetRef.oncontextmenu +=
-                    e =>
-                    {
-                        e.stopPropagation();
-                        e.preventDefault();
-
-                        var m = (__ContextMenuStrip)(object)value;
-
-                        var div = m.HTMLTargetRef.AttachToDocument();
-
-                        div.style.SetLocation(
-                            e.CursorX,
-                            e.CursorY
-                        );
-
-                        div.tabIndex = 0;
-
-                        div.onblur +=
-                            delegate
-                            {
-                                div.Orphanize();
-                            };
-
-                        div.focus();
-                    };
-            }
+            get;
+            set;
         }
 
         public virtual void BringToFront()
@@ -1583,8 +1600,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //if (format == "Text")
                 //    format = "text/plain";
 
+
+                if (format == "FileDrop")
+                {
+                    var files = this.InternalData.dataTransfer.files;
+
+                    return Enumerable.Range(
+                        0,
+                        (int)files.length
+                    ).Select(k => files[(uint)k].name);
+
+                }
+
+
                 if (format == "text/plain")
                     format = "Text";
+
 
 
                 var value = this.InternalData.dataTransfer.getData(format);
@@ -1768,6 +1799,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                        e.stopPropagation();
                        e.preventDefault();
 
+                       var files = e.dataTransfer.files;
+
+
+                       ScriptCoreLib.JavaScript.BCLImplementation.System.IO.__File.InternalFiles =
+
+                                Enumerable.Range(
+                                  0,
+                                  (int)files.length
+                              ).Select(k => files[(uint)k]);
 
                        var a = new __DragEventArgs
                        {

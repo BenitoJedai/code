@@ -91,10 +91,16 @@
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="Extensions\CoreStringExtensions.cs" />
+    <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int64.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\IO\FileInfo.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\IO\File.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSound.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="JavaScript\DOM\Blob.cs" />
+    <Compile Include="JavaScript\DOM\FileReader.cs" />
+    <Compile Include="JavaScript\DOM\FileReaderSync.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBase.cs" />
     <Compile Include="JavaScript\WebGL\WebGLTexture.cs" />
     <Compile Include="JavaScript\WebGL\WebGLBuffer.cs" />
