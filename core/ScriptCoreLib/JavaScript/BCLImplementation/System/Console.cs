@@ -109,9 +109,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             internal static void Dump(object e)
             {
-
-                InternalDump(Native.Window, e);
-
+                try
+                {
+                    InternalDump(Native.Window, e);
+                }
+                catch
+                {
+                    // X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
+                    // web worker wont have direct access to console?
+                }
             }
 
             public static void Write(object e)
@@ -148,6 +154,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 if (Native.Document == null)
                     return;
 
+                // browsers dont use status anymore?
                 if (ShowLogAsStatus)
                     Native.Window.status = p;
 

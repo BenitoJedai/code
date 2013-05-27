@@ -32,8 +32,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public __Delegate(object e, global::System.IntPtr p)
         {
-            if (e == null)
-                e = Native.Window;
+            // X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
+            //if (e == null)
+            //    e = Native.Window;
 
             Target = e;
             Method = p;
