@@ -24,15 +24,15 @@ namespace ScriptCoreLib
             [Script(ExternalTarget = "document")]
             static public IHTMLDocument Document;
 
-            
-			[Script(ExternalTarget = "Math"), System.Obsolete("Use global::System.Math instead!", false)]
-			static internal IMath Math;
-            
+
+            [Script(ExternalTarget = "Math"), System.Obsolete("Use global::System.Math instead!", false)]
+            static internal IMath Math;
+
 
             [Script(ExternalTarget = "screen")]
             static public IScreen Screen;
 
-			[System.Obsolete("To be moved out of CoreLib or removed")]
+            [System.Obsolete("To be moved out of CoreLib or removed")]
             public static System.Action<IEvent> DisabledEventHandler
             {
                 get
@@ -64,24 +64,32 @@ namespace ScriptCoreLib
             /// </summary>
             /// <param name="e">className</param>
             /// <param name="Spawn">delegate with owner element</param>
+            [System.Obsolete]
             public static void Spawn(string id, System.Action<IHTMLElement> Spawn)
             {
-                System.Console.WriteLine("spawn on load: " + id);
+                try
+                {
+                    System.Console.WriteLine("spawn on load: " + id);
 
-                if (Native.Window == null)
-                    return;
+                    //if (Native.Window == null)
 
-                Native.Window.onload +=
-                    delegate
-                    {
-                        Native.Document.getElementsByClassName(id).ForEach(
-                            delegate(IHTMLElement e)
-                            {
-                                System.Console.WriteLine("spawn: {" + id + "}");
 
-                                Spawn(e);
-                            });
-                    };
+                    Native.Window.onload +=
+                        delegate
+                        {
+                            Native.Document.getElementsByClassName(id).ForEach(
+                                delegate(IHTMLElement e)
+                                {
+                                    System.Console.WriteLine("spawn: {" + id + "}");
+
+                                    Spawn(e);
+                                });
+                        };
+                }
+                catch
+                {
+                    // wont work within web worker
+                }
             }
 
 
@@ -115,8 +123,8 @@ namespace ScriptCoreLib
                 Native.Document.getElementsByClassName(classname + ":inline").ForEach(h);
             }
 
-			[System.Obsolete("To be moved out of CoreLib or removed")]
-			public static IHTMLEmbed PlaySound(string src)
+            [System.Obsolete("To be moved out of CoreLib or removed")]
+            public static IHTMLEmbed PlaySound(string src)
             {
                 var u = new IHTMLEmbed();
 
@@ -130,8 +138,8 @@ namespace ScriptCoreLib
                 return u;
             }
 
-			[System.Obsolete("To be moved out of CoreLib or removed")]
-			public static void Include(string src)
+            [System.Obsolete("To be moved out of CoreLib or removed")]
+            public static void Include(string src)
             {
                 System.Console.WriteLine("include " + src);
 

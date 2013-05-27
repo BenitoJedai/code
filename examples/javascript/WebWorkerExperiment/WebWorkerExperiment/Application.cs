@@ -77,13 +77,29 @@ namespace WebWorkerExperiment
         // ApplicationWorker
         public sealed class w
         {
-            public readonly ApplicationWebService service = new ApplicationWebService();
+            //public readonly ApplicationWebService service = new ApplicationWebService();
 
             // for now jsc is only looking for HTML based apps
+
+
+            //public  w(DedicatedWorkerGlobalScope __self = null)
             public w(IApp page = null)
+            //public w(IHTMLElement page = null)
             {
+                // IE
+                // onmessage: { data = hello from worker? { self = [object WorkerGlobalScope], constructor = [object WorkerGlobalScope], prototype = , href = http://192.168.1.100:6581/
+                
+                // firefox
+                // onmessage: { data = hello from worker? { self = [object DedicatedWorkerGlobalScope], constructor = function DedicatedWorkerGlobalScope() {
+
+                //chrome
+                // onmessage: { data = hello from worker? { self = [object global], constructor = function DedicatedWorkerContext() {
+
                 // DedicatedWorkerContext
-                var self = (DedicatedWorkerGlobalScope)(object)Native.Window;
+                //var self = (DedicatedWorkerGlobalScope)(object)Native.Window;
+
+                // did jsc preserve this reference for us?
+                var self = (DedicatedWorkerGlobalScope)(object)new IFunction("x", "return __this;").apply(null);
 
                 // Uncaught ReferenceError: window is not defined 
                 Console.WriteLine("hello from worker!");
@@ -96,7 +112,8 @@ namespace WebWorkerExperiment
 
 
 
-                var w = Expando.Of(Native.Window);
+                //var w = Expando.Of(Native.Window);
+                var w = Expando.Of(self);
 
                 // onmessage: { data = hello from worker? { Window = [object global], constructor = function DedicatedWorkerContext() { [native code] }, prototype =  } }
 
