@@ -211,5 +211,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
             return w.ToString();
         }
+
+        public static bool IsWellFormedUriString(string uriString, UriKind uriKind)
+        {
+            // X:\jsc.svn\examples\javascript\forms\Test\TestDropURL\TestDropURL\ApplicationControl.cs
+            // a naive implementation
+            if (uriString.Contains("://"))
+                return true;
+
+
+            return false;
+        }
     }
 }

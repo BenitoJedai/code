@@ -218,6 +218,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalInitializeContextMenuStripOnce = true;
 
 
+            this.HTMLTargetRef.onselectstart +=
+                ev =>
+                {
+                    ev.stopPropagation();
+
+                    if (this is __TextBoxBase)
+                        return;
+
+                    ev.preventDefault();
+                };
 
             // how much will this slow us down?
             this.HTMLTargetRef.oncontextmenu +=
