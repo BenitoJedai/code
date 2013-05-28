@@ -396,6 +396,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     InternalContent.AttachTo(SourceCell.InternalContentContainer);
                     InternalContent.style.marginLeft = "4px";
+                    InternalContent.style.marginRight = "4px";
                     InternalContent.style.lineHeight = (SourceRow.Height - 1) + "px";
 
 
@@ -432,6 +433,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action EnterEditMode =
                         delegate
                         {
+                            if (SourceCell.ReadOnly)
+                                return;
+
                             if (SourceColumn.ReadOnly)
                                 return;
 
@@ -483,6 +487,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     {
                                         SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                                     };
+
+                                SourceCell.InternalContentContainer.style.backgroundColor = SourceCell.InternalStyle.InternalBackColor.ToString();
+
 
                                 InternalRaiseCellEndEdit(SourceCell);
 
@@ -781,7 +788,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 {
                                     var item = this.InternalSelectedCells.InternalItems[0];
 
-                                    item.InternalContentContainer.style.backgroundColor = JSColor.System.Window;
+                                    item.InternalContentContainer.style.backgroundColor = item.InternalStyle.InternalBackColor.ToString();
                                     item.InternalContentContainer.style.color = item.InternalStyle.InternalForeColor.ToString();
 
                                     this.InternalSelectedCells.RemoveAt(0);
@@ -831,7 +838,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                            SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                        };
 
+                    SourceCell.InternalStyle.InternalBackColorChanged +=
+                         delegate
+                         {
+                             if (SourceCell.InternalSelected)
+                                 return;
+
+
+                             SourceCell.InternalContentContainer.style.backgroundColor = SourceCell.InternalStyle.InternalBackColor.ToString();
+                         };
+
                     SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                    SourceCell.InternalContentContainer.style.backgroundColor = SourceCell.InternalStyle.InternalBackColor.ToString();
+
+                    if (SourceCell.InternalStyle.Alignment == DataGridViewContentAlignment.MiddleRight)
+                        SourceCell.InternalContentContainer.style.textAlign = IStyle.TextAlignEnum.right;
+
                     #endregion
 
 

@@ -10,6 +10,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewCell))]
     internal abstract class __DataGridViewCell : __DataGridViewElement
     {
+        public virtual bool ReadOnly { get; set; }
+
+
+
         public IHTMLDiv InternalContentContainer;
         public IHTMLTableColumn InternalTableColumn;
 

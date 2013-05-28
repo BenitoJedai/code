@@ -67,7 +67,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         static public __Color Lime { get { return 0x00ff00; } }
         static public __Color Green { get { return 0x00ff00; } }
         static public __Color Red { get { return 0xff0000; } }
-        static public __Color Yellow { get { return 0x00ffff; } }
+        static public __Color Yellow { get { return Shared.Drawing.Color.Yellow; } }
         static public __Color Blue { get { return 0x0000ff; } }
         static public __Color Black { get { return 0x000000; } }
         static public __Color White { get { return 0xffffff; } }
