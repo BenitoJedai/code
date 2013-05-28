@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -11,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     internal class __DataGridViewCellStyle : __DataGridViewElement
     {
         public Font Font { get; set; }
+
+        public DataGridViewContentAlignment Alignment { get; set; }
 
         #region ForeColor
         public Action InternalForeColorChanged;
@@ -34,9 +37,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        #region BackColor
+        public Action InternalBackColorChanged;
+
+        public Color InternalBackColor;
+        public Color BackColor
+        {
+            get
+            {
+                return InternalBackColor;
+            }
+            set
+            {
+                InternalBackColor = value;
+
+                if (InternalBackColorChanged != null)
+                    InternalBackColorChanged();
+            }
+
+
+        }
+        #endregion
+
         public __DataGridViewCellStyle()
         {
             this.InternalForeColor = SystemColors.WindowText;
+            this.InternalBackColor = SystemColors.Window;
         }
     }
 }
