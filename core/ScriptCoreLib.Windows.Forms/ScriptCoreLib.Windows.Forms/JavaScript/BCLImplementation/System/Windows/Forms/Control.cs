@@ -1398,6 +1398,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event EventHandler VisibleChanged;
 
+        public event Action InternalAtAfterVisibleChanged;
+
         public virtual void InternalBeforeVisibleChanged()
         {
 
@@ -1449,6 +1451,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
 
             InternalInitializeContextMenuStrip();
+
+            if (InternalAtAfterVisibleChanged != null)
+                InternalAtAfterVisibleChanged();
+
         }
 
         protected virtual void OnParentVisibleChanged(EventArgs e)

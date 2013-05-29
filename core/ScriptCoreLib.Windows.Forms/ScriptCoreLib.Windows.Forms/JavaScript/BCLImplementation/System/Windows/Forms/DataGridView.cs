@@ -1051,6 +1051,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             ColumnUpdateToHorizontalResizerScroll();
                         };
 
+                    this.InternalAtAfterVisibleChanged +=
+                     delegate
+                     {
+                         Native.Window.requestAnimationFrame +=
+                             delegate
+                             {
+                                 ColumnUpdateToHorizontalResizerScroll();
+                             };
+
+                     };
+
 
                     //this.InternalContainerElement.onscroll +=
                     //  e =>
@@ -1482,5 +1493,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
             }
         }
+
+
+
+
     }
 }
