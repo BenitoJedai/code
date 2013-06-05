@@ -24,6 +24,8 @@ namespace LANClickOnce
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.applicationControl1 = new LANClickOnce.Core.ApplicationControl();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -88,14 +90,37 @@ namespace LANClickOnce
             // applicationControl1
             // 
             this.applicationControl1.BackColor = System.Drawing.Color.Red;
+            this.applicationControl1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.applicationControl1.ForeColor = System.Drawing.Color.White;
             this.applicationControl1.Location = new System.Drawing.Point(24, 262);
             this.applicationControl1.Name = "applicationControl1";
             this.applicationControl1.Size = new System.Drawing.Size(350, 44);
             this.applicationControl1.TabIndex = 6;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(21, 358);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(116, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Android Installation";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.label8.Location = new System.Drawing.Point(40, 384);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(24, 13);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "n/a";
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.applicationControl1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -127,6 +152,8 @@ namespace LANClickOnce
         private Label label5;
         private Label label6;
         private Core.ApplicationControl applicationControl1;
+        private Label label7;
+        private Label label8;
 
     }
 }
