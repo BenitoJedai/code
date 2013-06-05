@@ -20,13 +20,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
         public static string ReadAllText(string path)
         {
-            return Encoding.ASCII.GetString(ReadAllBytes(path));
+            //return Encoding.ASCII.GetString(ReadAllBytes(path));
+            return Encoding.UTF8.GetString(ReadAllBytes(path));
         }
 
 
         public static void WriteAllText(string path, string value)
         {
-            WriteAllBytes(path, Encoding.ASCII.GetBytes(value));
+            //WriteAllBytes(path, Encoding.ASCII.GetBytes(value));
+            WriteAllBytes(path, Encoding.UTF8.GetBytes(value));
         }
 
         public static void WriteAllBytes(string path, byte[] value)
@@ -47,8 +49,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             }
         }
 
+        public static Func<string, byte[]> InternalReadAllBytes;
+
         public static byte[] ReadAllBytes(string path)
         {
+            // what if our files are virtual? like android assets.
+
+            if (InternalReadAllBytes != null)
+            {
+                var z = InternalReadAllBytes(path);
+                if (z != null)
+                    return z;
+            }
+
             var x = getBytesFromFile(new java.io.File(path));
 
             return InternalSByteArrayToByteArray(x);

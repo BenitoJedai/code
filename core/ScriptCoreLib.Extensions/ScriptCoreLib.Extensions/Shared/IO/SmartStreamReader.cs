@@ -290,32 +290,39 @@ namespace ScriptCoreLib.Shared.IO
 
         public MemoryStream ReadToBoundary(string e)
         {
-            if (e.Length >= this.InternalBuffer.Length)
-                throw new Exception("Buffer too small");
+            var BoundaryBytes = Encoding.UTF8.GetBytes(e);
 
+
+            return ReadToBoundary(BoundaryBytes);
+        }
+
+        public MemoryStream ReadToBoundary(byte[] BoundaryBytes)
+        {
             var m = new MemoryStream();
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20130401/20130405-file-upload
 
-            var ebytes = Encoding.UTF8.GetBytes(e);
+
+            if (BoundaryBytes.Length >= this.InternalBuffer.Length)
+                throw new Exception("Buffer too small");
 
             var flag = true;
             while (flag)
             {
 
 
-                if (this.InternalBufferCount > e.Length)
+                if (this.InternalBufferCount > BoundaryBytes.Length)
                 {
                     // we now have enough data to look at
 
                     int i = 0;
 
                     // how much of the buffer can we accept?
-                    for (; i < this.InternalBufferCount - e.Length + 1; i++)
+                    for (; i < this.InternalBufferCount - BoundaryBytes.Length + 1; i++)
                     {
                         // is this the start of the boundary?
 
-                        if (InternalCompareBytes(this.InternalBuffer, i, ebytes))
+                        if (InternalCompareBytes(this.InternalBuffer, i, BoundaryBytes))
                         {
                             // we found waldo!
                             flag = false;
