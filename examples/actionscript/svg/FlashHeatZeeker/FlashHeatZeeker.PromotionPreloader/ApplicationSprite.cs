@@ -235,38 +235,67 @@ namespace FlashHeatZeeker.PromotionPreloader
                 i.y = (i.stage.stageHeight - 720) / 2;
             };
 
-            var te = new TextField { textColor = 0xffffff }.AttachTo(this).MoveTo(8, 8);
+            var te = new TextField
+            {
+                textColor = 0xffffff,
+                autoSize = TextFieldAutoSize.LEFT,
+                //width = 800,
+
+            }.AttachTo(this).MoveTo(8, 8);
+
+            // http://stackoverflow.com/questions/859526/flash-progressevent-not-showing-total-size
+            // http://stackoverflow.com/questions/8234862/what-to-do-when-loaderinfo-bytestotal-is-zero
+            // http://stackoverflow.com/questions/1269875/why-loaderinfo-bytestotal-is-zero/14964646#14964646
 
             this.LoadingInProgress += delegate
             {
                 var per = (int)Math.Floor(100.0 * root.loaderInfo.bytesLoaded / root.loaderInfo.bytesTotal);
 
-                //te.text = new { root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal /*, framesLoaded, totalFrames */}.ToString();
-                te.text = per + "%";
+                te.text = "... " + loaderInfo.bytesLoaded;
+                //te.text = "LoadingInProgress " + new { root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal /*, framesLoaded, totalFrames */}.ToString();
+
+                //te.text = per + "%";
             };
+
+
 
             this.LoadingComplete +=
                 delegate
                 {
-                    te.Orphanize();
+                    //te.text = "LoadingComplete... " + new { root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal /*, framesLoaded, totalFrames */}.ToString();
 
 
-                    var x = CreateInstance();
-                    var a = x as IAlternator;
+                    try
+                    {
+                        var x = CreateInstance();
 
-                    a.Alternate = Alternate;
+                        //te.text = "LoadingComplete " + new { root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal /*, framesLoaded, totalFrames */, x }.ToString();
 
-                    var t = new ScriptCoreLib.ActionScript.flash.utils.Timer(700, 1);
+                        var a = x as IAlternator;
 
-                    t.timerComplete +=
-                         delegate
-                         {
-                             x.AttachTo(this);
-                             i.Orphanize();
-                             i = null;
-                         };
+                        a.Alternate = Alternate;
 
-                    t.start();
+                        var t = new ScriptCoreLib.ActionScript.flash.utils.Timer(700, 1);
+
+                        t.timerComplete +=
+                             delegate
+                             {
+                                 //te.text = "LoadingComplete timerComplete " + new { root.loaderInfo.bytesLoaded, root.loaderInfo.bytesTotal /*, framesLoaded, totalFrames */, x }.ToString();
+
+                                 x.AttachTo(this);
+                                 i.Orphanize();
+                                 i = null;
+                                 te.Orphanize();
+
+                             };
+
+                        t.start();
+                    }
+                    catch (Exception ex)
+                    {
+                        te.text = ("error: " + new { ex } + "\n run in flash debugger for more details!");
+
+                    }
                 };
         }
     }

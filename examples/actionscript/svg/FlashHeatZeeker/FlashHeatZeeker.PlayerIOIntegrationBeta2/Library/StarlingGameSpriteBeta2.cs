@@ -404,13 +404,21 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2.Library
                                              }
                                              else
                                              {
-                                                 if (random.NextDouble() > 0.5)
+                                                 if (random.NextDouble() > 0.8)
                                                  {
-                                                     sb.snd_itsempty.play();
+                                                     sb.haarp.play();
                                                  }
                                                  else
                                                  {
-                                                     sb.snd_nothinghere.play();
+                                                     if (random.NextDouble() > 0.5)
+                                                     {
+                                                         sb.snd_itsempty.play();
+                                                     }
+                                                     else
+                                                     {
+                                                         sb.snd_nothinghere.play();
+                                                     }
+
                                                  }
                                              }
                                          }

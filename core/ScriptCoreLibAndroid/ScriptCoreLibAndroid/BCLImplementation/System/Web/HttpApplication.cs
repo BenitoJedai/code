@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using java.io;
+using System.IO;
+
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
@@ -15,15 +18,15 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         public HttpRequest Request { get; set; }
         public HttpResponse Response { get; set; }
 
-        HttpContext _Context;
+        __HttpContext _Context;
         public HttpContext Context
         {
             get
             {
                 if (_Context == null)
-                    _Context = (HttpContext)(object)new __HttpContext { Request = this.Request, Response = this.Response };
+                    _Context = new __HttpContext { Request = this.Request, Response = this.Response };
 
-                return _Context;
+                return (HttpContext)(object)_Context;
             }
         }
 
@@ -62,6 +65,41 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             {
                 throw new NotImplementedException();
             }
+        }
+
+
+
+        public __HttpApplication()
+        {
+            // tested by X:\jsc.svn\examples\javascript\forms\android\LANClickOnce\LANClickOnce\Application.cs
+
+            ScriptCoreLibJava.BCLImplementation.System.IO.__File.InternalReadAllBytes =
+                path =>
+                {
+                    Console.WriteLine("InternalReadAllBytes " + new { path });
+
+                    var value = new MemoryStream();
+
+                    try
+                    {
+                        var Response = (__HttpResponse)(object)this._Context.Response;
+
+                        // assets only?
+                        var assets = Response.InternalContext.getResources().getAssets();
+
+                        var s = assets.open(path).ToNetworkStream();
+
+                        s.CopyTo(value);
+
+
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+
+                    return value.ToArray();
+                };
         }
     }
 }
