@@ -85,5 +85,10 @@ namespace TestDropURL
 
         }
 
+        private void ApplicationControl_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
