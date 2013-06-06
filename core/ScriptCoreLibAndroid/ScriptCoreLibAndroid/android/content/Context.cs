@@ -13,6 +13,7 @@ namespace android.content
     {
         public const int MODE_PRIVATE = 0;
 
+        public static string WIFI_SERVICE;
         public static string NOTIFICATION_SERVICE;
         public static string WINDOW_SERVICE;
 

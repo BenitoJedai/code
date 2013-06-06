@@ -46,6 +46,7 @@ namespace TestDropURL
             this.Controls.Add(this.label1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(536, 325);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ApplicationControl_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.ApplicationControl_DragOver);
             this.ResumeLayout(false);

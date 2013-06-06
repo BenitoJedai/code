@@ -544,6 +544,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Throwable.cs">
       <Link>java\lang\Throwable.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\DatagramPacket.cs">
+      <Link>java\net\DatagramPacket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\DatagramSocket.cs">
+      <Link>java\net\DatagramSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\HttpURLConnection.cs">
       <Link>java\net\HttpURLConnection.cs</Link>
     </Compile>
@@ -555,6 +561,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\InetSocketAddress.cs">
       <Link>java\net\InetSocketAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\MulticastSocket.cs">
+      <Link>java\net\MulticastSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\NetworkInterface.cs">
       <Link>java\net\NetworkInterface.cs</Link>
@@ -770,6 +779,7 @@
     <Compile Include="android\hardware\SensorEventListener.cs" />
     <Compile Include="android\media\MediaPlayer.cs" />
     <Compile Include="android\net\Uri.cs" />
+    <Compile Include="android\net\wifi\WifiManager.cs" />
     <Compile Include="android\opengl\GLES20.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\os\IBinder.cs" />
