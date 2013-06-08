@@ -63,7 +63,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
             public int Count
             {
-                get { throw new NotImplementedException(); }
+                // tested by X:\jsc.svn\examples\javascript\android\WithClickOnceLANLauncher\WithClickOnceLANLauncher\Application.cs
+                get { return this.InternalDictionary.size(); }
             }
 
             public bool IsReadOnly
@@ -137,7 +138,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
             int ICollection.Count
             {
-                get { throw new NotImplementedException(); }
+                // tested by X:\jsc.svn\examples\javascript\android\WithClickOnceLANLauncher\WithClickOnceLANLauncher\Application.cs
+                get { return this.Count; }
             }
 
             bool ICollection.IsSynchronized
@@ -228,7 +230,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
 
         #region GetEnumerator
-     
+
 
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
         public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
@@ -327,6 +329,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         //    return (IEnumerator<KeyValuePair<TKey, TValue>>)(object)new __Enumerator(this);
         //}
 
-     
+
     }
 }
