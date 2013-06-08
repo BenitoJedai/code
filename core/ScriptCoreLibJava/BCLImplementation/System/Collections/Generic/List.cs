@@ -77,7 +77,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            return this.InternalList.contains(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
