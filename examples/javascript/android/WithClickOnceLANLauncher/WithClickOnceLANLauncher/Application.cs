@@ -35,9 +35,17 @@ namespace WithClickOnceLANLauncher
                 @"A string from JavaScript.",
                 value => value.ToDocumentTitle()
             );
+
+
+            page.Vibrate.onclick +=
+                delegate
+                {
+                    service.Vibrate("");
+                };
         }
 
         static WithClickOnceLANLauncher.Assets.Publish ref0;
+        static WithClickOnceLANLauncher.Assets.Publish2 ref1;
     }
 
 
@@ -49,7 +57,6 @@ namespace WithClickOnceLANLauncher
         public static void DownloadSDK(WebServiceHandler h)
         {
             const string _download = "/download/";
-            const string a = @"assets/PromotionWebApplicationAssets";
 
             var path = h.Context.Request.Path;
 
@@ -63,6 +70,7 @@ namespace WithClickOnceLANLauncher
             }
 
             var p = new WithClickOnceLANLauncher.Assets.Publish();
+            var p2 = new WithClickOnceLANLauncher.Assets.Publish2();
 
             if (path == "/download")
             {
@@ -84,6 +92,23 @@ namespace WithClickOnceLANLauncher
                 h.CompleteRequest();
                 return;
             }
+
+            if (path == "/publish2")
+            {
+                var key = p2.Keys.AsEnumerable().Select(k => p2[(string)k]).First(k => k.EndsWith(".application")).SkipUntilLastIfAny("/");
+
+                Console.WriteLine(
+                    new
+                    {
+                        key
+                    }
+                );
+
+                h.Context.Response.Redirect("/publish2/" + key);
+                h.CompleteRequest();
+                return;
+            }
+
 
             //if (path == "/download/jsc-web-installer.exe")
             //{
@@ -129,6 +154,7 @@ namespace WithClickOnceLANLauncher
 
             // we will compare the win32 relative paths here...
             var publish = path.SkipUntilOrEmpty("/download/").Replace("/", @"\");
+            var publish2 = path.SkipUntilOrEmpty("/publish2/").Replace("/", @"\");
 
             // 	- Exception reading manifest from http://192.168.1.100:24257/#/download/Application%20Files/WithClickOnceLANLauncherClient_1_0_0_2/WithClickOnceLANLauncherClient.exe.manifest: the manifest may not be valid or the file could not be opened.
             // did publish work and were it compiled into AssetsLibrary correctly?
@@ -183,28 +209,67 @@ namespace WithClickOnceLANLauncher
             }
 
 
+            if (p2.ContainsKey(publish2))
+            {
+                var f = p2[publish2];
+
+
+                var ext = "." + f.SkipUntilLastOrEmpty(".").ToLower();
+
+                // http://en.wikipedia.org/wiki/Mime_type
+                // http://msdn.microsoft.com/en-us/library/ms228998.aspx
+
+                var ContentType = "application/octet-stream";
+
+                if (ext == ".application")
+                {
+                    ContentType = "application/x-ms-application";
+                }
+                else if (ext == ".manifest")
+                {
+                    ContentType = "application/x-ms-manifest";
+                }
+                else if (ext == ".htm")
+                {
+                    ContentType = "text/html";
+                }
+                else if (ext == ".crx")
+                {
+                    // http://feedback.livereload.com/knowledgebase/articles/85889-chrome-extensions-apps-and-user-scripts-cannot
+                    // http://stackoverflow.com/questions/12049366/re-enabling-extension-installs
+
+                    ContentType = "application/x-chrome-extension";
+                    // Resource interpreted as Document but transferred with MIME type application/x-chrome-extension: "http://192.168.1.106:16507/download/foo.crx".
+
+                    //h.Context.Response.AddHeader(
+                    //    "Content-Disposition", "attachment; filename=\"xfoo.crx\"");
+
+
+                }
+
+
+                h.Context.Response.ContentType = ContentType;
+
+
+
+
+                DownloadSDKFile(h, f, "/publish2");
+
+
+            }
+
             return;
         }
 
-        private static void DownloadSDKFile(WebServiceHandler h, string f)
+        private static void DownloadSDKFile(WebServiceHandler h, string fpath, string folder = "/download")
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201306/20130605-lan-clickonce
 
-            Console.WriteLine("download: " + f);
+            Console.WriteLine("download: " + fpath);
 
-            if (f.EndsWith(".application"))
+            if (fpath.EndsWith(".application"))
             {
-                //                #14 GET /download/LANClickOnceClient.application HTTP/1.1 error:
-                //#14 java.lang.RuntimeException: /assets/LANClickOnce/LANClickOnceClient.application: open failed: ENOENT (No such file or directory)
-
-                //if (f.StartsWith("/"))
-                //    f = f.Substring(1);
-
-                // System.TypeLoadException: Method 'addView' in type 'InternalPopupWebView.XWindow' from assembly 'jsc.meta, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
-                // Data at the root level is invalid. Line 1, position 1.
-
-
-                var bytes_application = System.IO.File.ReadAllText(f);
+                var bytes_application = System.IO.File.ReadAllText(fpath);
 
                 var HostUri = new
                 {
@@ -216,7 +281,7 @@ namespace WithClickOnceLANLauncher
                     "127.0.0.1:8181",
 
                     // change path by adding a sub folder
-                    HostUri.Host + ":" + HostUri.Port + "/download"
+                    HostUri.Host + ":" + HostUri.Port + folder
                 );
                 Console.WriteLine(x);
                 h.Context.Response.Write(x);
@@ -225,23 +290,7 @@ namespace WithClickOnceLANLauncher
             }
 
 
-            var bytes = System.IO.File.ReadAllBytes(f);
-
-            //var r = new MemoryStream(bytes);
-            //var s = new SmartStreamReader(r);
-
-            //var ascii = "127.0.0.1:8080";
-            //var boundary = new MemoryStream();
-
-            //foreach (byte item in Encoding.ASCII.GetBytes(ascii))
-            //{
-            //    boundary.WriteByte(item);
-            //    boundary.WriteByte(0);
-            //}
-
-            //var x = s.ReadToBoundary(boundary.ToArray());
-
-
+            var bytes = System.IO.File.ReadAllBytes(fpath);
             h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
             h.CompleteRequest();
         }

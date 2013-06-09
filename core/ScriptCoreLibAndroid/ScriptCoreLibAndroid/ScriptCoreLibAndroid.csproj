@@ -784,6 +784,7 @@
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\os\IBinder.cs" />
     <Compile Include="android\os\Parcelable.cs" />
+    <Compile Include="android\os\Vibrator.cs" />
     <Compile Include="android\R.cs" />
     <Compile Include="android\util\DisplayMetrics.cs" />
     <Compile Include="android\util\SparseArray.cs" />
@@ -859,6 +860,7 @@
     </Compile>
   </ItemGroup>-->
   <ItemGroup>
+    <Folder Include="android\provider\" />
     <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />

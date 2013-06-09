@@ -1,5 +1,6 @@
 using android.content;
 using android.net.wifi;
+using android.os;
 using java.net;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
@@ -29,6 +30,17 @@ namespace WithClickOnceLANLauncher
         {
             // Send it back to the caller.
             y(e);
+        }
+
+        public void Vibrate(string e)
+        { 
+#if !DEBUG
+            var vibrator = (Vibrator)
+            ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.getSystemService(Context.VIBRATOR_SERVICE);
+
+            vibrator.vibrate(600);
+
+#endif
         }
 
         public void DownloadSDK(WebServiceHandler h)
