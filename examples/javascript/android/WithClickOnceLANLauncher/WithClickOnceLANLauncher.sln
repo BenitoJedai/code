@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon", "..\..\..\..\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj", "{0910EC49-6697-4664-8A71-F09CAEC02E88}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithClickOnceLANLauncherTabClient", "WithClickOnceLANLauncherTabClient\WithClickOnceLANLauncherTabClient.csproj", "{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -189,6 +191,31 @@ Global
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|x86.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Android|Any CPU.Build.0 = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Android|x86.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Assets|x86.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.PHP|x86.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{429C0CE4-E3D2-42C3-A1CD-5D2BF11844E8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

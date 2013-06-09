@@ -192,7 +192,7 @@ start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument
 )</PostBuildEvent>
     <PreBuildEvent>
 
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true   /LinkedAssets:"X:\jsc.svn\examples\javascript\android\WithClickOnceLANLauncher\WithClickOnceLANLauncherClient\publish"
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true   /LinkedAssets:"X:\jsc.svn\examples\javascript\android\WithClickOnceLANLauncher\WithClickOnceLANLauncherClient\publish" /LinkedAssets:"X:\jsc.svn\examples\javascript\android\WithClickOnceLANLauncher\WithClickOnceLANLauncherTabClient\publish2"
 
 </PreBuildEvent>
   </PropertyGroup>

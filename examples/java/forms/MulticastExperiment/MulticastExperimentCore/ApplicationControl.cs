@@ -18,10 +18,19 @@ namespace MulticastExperimentCore
             this.InitializeComponent();
         }
 
+        // X:\opensource\github\chrome-app-samples\multicast
+        //var kIP = "237.132.123.123";
+        //var kPort = 3038;
+
         MulticastSettings testSettings = new MulticastSettings()
         {
-            Address = IPAddress.Parse("239.1.2.3"),
-            Port = 40404,
+            //Address = IPAddress.Parse("239.1.2.3"),
+            //Port = 40404,
+
+            Address = IPAddress.Parse("237.132.123.123"),
+            Port = 3038,
+
+
             TimeToLive = 30
         };
 
@@ -146,11 +155,13 @@ namespace MulticastExperimentCore
                     UdpClient.ExclusiveAddressUse = false;
                     UdpClient.EnableBroadcast = true;
 
+
                     UdpClient.Client.Bind(LocalIPEndPoint);
                     UdpClient.JoinMulticastGroup(Settings.Address, Settings.TimeToLive);
                 }
                 catch (Exception ex)
                 {
+                    // Additional information: An attempt was made to access a socket in a way forbidden by its access permissions
                     throw ex;
                 }
             }

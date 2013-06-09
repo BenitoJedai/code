@@ -16,6 +16,7 @@ namespace android.content
         public static string WIFI_SERVICE;
         public static string NOTIFICATION_SERVICE;
         public static string WINDOW_SERVICE;
+        public static string VIBRATOR_SERVICE;
 
         // members and types are to be extended by jsc at release build
 
