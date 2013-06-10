@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.appmanager.about", "com.abstractatech.appmanager.about\com.abstractatech.appmanager.about.csproj", "{E0ADC786-28C3-44FB-92F6-F2DEBE6A5AC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.appmanager.clrlauncher", "com.abstractatech.appmanager.clrlauncher\com.abstractatech.appmanager.clrlauncher.csproj", "{0A623671-F756-4E96-8526-7FD20C039026}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,16 @@ Global
 		{E0ADC786-28C3-44FB-92F6-F2DEBE6A5AC4}.Release|Mixed Platforms.Build.0 = Release|x86
 		{E0ADC786-28C3-44FB-92F6-F2DEBE6A5AC4}.Release|x86.ActiveCfg = Release|x86
 		{E0ADC786-28C3-44FB-92F6-F2DEBE6A5AC4}.Release|x86.Build.0 = Release|x86
+		{0A623671-F756-4E96-8526-7FD20C039026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0A623671-F756-4E96-8526-7FD20C039026}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
