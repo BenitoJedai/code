@@ -72,13 +72,16 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
         public __HttpApplication()
         {
             // tested by X:\jsc.svn\examples\javascript\forms\android\LANClickOnce\LANClickOnce\Application.cs
+            // tested by X:\jsc.svn\examples\javascript\android\DCIMCameraAppWithThumbnails\DCIMCameraAppWithThumbnails\ApplicationWebService.cs
 
             ScriptCoreLibJava.BCLImplementation.System.IO.__File.InternalReadAllBytes =
                 path =>
                 {
                     Console.WriteLine("InternalReadAllBytes " + new { path });
 
-                    var value = new MemoryStream();
+
+                    var bytes = default(byte[]);
+
 
                     try
                     {
@@ -89,16 +92,17 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
                         var s = assets.open(path).ToNetworkStream();
 
+                        var value = new MemoryStream();
                         s.CopyTo(value);
 
-
+                        bytes = value.ToArray();
                     }
                     catch
                     {
-                        throw;
+                        // no file
                     }
 
-                    return value.ToArray();
+                    return bytes;
                 };
         }
     }
