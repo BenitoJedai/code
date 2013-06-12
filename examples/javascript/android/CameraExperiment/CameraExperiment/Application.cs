@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using CameraExperiment.Design;
 using CameraExperiment.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace CameraExperiment
 {
@@ -28,17 +29,74 @@ namespace CameraExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            page.TakePicture.style.color = "blue";
+
+
 
             page.TakePicture.onclick +=
                 delegate
                 {
+                    //Unknown chromium error: -324
+
                     service.TakePicture("",
-                        e =>
+                        path =>
                         {
-                            Console.WriteLine(new { e });
+                            Console.WriteLine(new { path });
 
-                            new IHTMLDiv { innerText = new { e }.ToString() }.AttachToDocument();
+                            //new IHTMLDiv { innerText = new { e }.ToString() }.AttachToDocument();
 
+                            new IHTMLImage { }.AttachToDocument().With(
+                                img =>
+                                {
+                                    // portrait mode only!
+
+                                    //div.style.color = JSColor.Red;
+                                    img.src = "/thumb/" + path;
+
+                                    #region onload +=
+                                    img.InvokeOnComplete(
+                                        delegate
+                                        {
+                                            //div.style.color = JSColor.Green;
+
+                                            IHTMLPre p = null;
+
+                                            img.onclick += delegate
+                                            {
+                                                if (p == null)
+                                                {
+                                                    img.src = "/io/" + path;
+                                                    img.style.width = "100%";
+                                                    //div.style.display = IStyle.DisplayEnum.block;
+
+                                                    p = new IHTMLPre { }.AttachToDocument();
+                                                    service.GetEXIF("/io/" + path,
+                                                        x =>
+                                                        {
+                                                            p.innerText = x;
+                                                        }
+                                                    );
+
+
+                                                }
+                                                else
+                                                {
+
+                                                    p.Orphanize();
+                                                    p = null;
+                                                    img.src = "/thumb/" + path;
+                                                    img.style.width = "";
+                                                }
+
+                                            };
+                                        }
+                                    );
+                                    #endregion
+
+
+
+                                }
+                            );
                         }
                     );
 
