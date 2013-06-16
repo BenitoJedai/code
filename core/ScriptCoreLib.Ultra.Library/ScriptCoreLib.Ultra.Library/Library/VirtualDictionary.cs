@@ -6,6 +6,7 @@ using ScriptCoreLib.Ultra.Library;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace jsc.Library
 {
@@ -76,34 +77,41 @@ namespace jsc.Library
             }
         }
 
-
-        public object GetItemSync = new object();
+        // prevents reentrancy?
+        //public object GetItemSync = new object();
 
         public TValue this[TKey k]
         {
             //[method: DebuggerStepThrough]
             get
             {
-                lock (GetItemSync)
+                //lock (GetItemSync)
+                //{
+                if (!BaseDictionary.ContainsKey(k))
                 {
-                    if (!BaseDictionary.ContainsKey(k))
-                    {
 
-                        RaiseResolve(k);
-                    }
-
-                    if (!BaseDictionary.ContainsKey(k))
-                    {
-                        // what happened? why still no exist?
-
-                        //if (Debugger.IsAttached)
-                        //    Debugger.Break();
-
-                        return default(TValue);
-                    }
-
-                    return BaseDictionary[k];
+                    RaiseResolve(k);
                 }
+                //}
+
+                // prevent deadlock?
+                Thread.Yield();
+
+
+                //lock (GetItemSync)
+                //{
+                if (!BaseDictionary.ContainsKey(k))
+                {
+                    // what happened? why still no exist?
+
+                    //if (Debugger.IsAttached)
+                    //    Debugger.Break();
+
+                    return default(TValue);
+                }
+
+                return BaseDictionary[k];
+                //}
             }
             set
             {
@@ -119,7 +127,11 @@ namespace jsc.Library
         AutoResetEvent OtherThreadWaitInput;
         AutoResetEvent OtherThreadWaitOutput;
         object OtherTheadLock = new object();
+        static int OtherThreadCounter;
 
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201306/20130614-ilspy
+        // need reentrancy!
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         private void RaiseResolve(TKey k)
         {
             var FrameCount = new StackTrace().FrameCount;
@@ -140,9 +152,15 @@ namespace jsc.Library
 
                 OtherThreadWaitInput = new AutoResetEvent(false);
                 OtherThreadWaitOutput = new AutoResetEvent(false);
+
+                OtherThreadCounter++;
+
+                // a nice diagram or animation here would be great :)
+                // initialized only once!
                 OtherThread = new Thread(
                     delegate()
                     {
+                        // for reuse later
                         while (true)
                         {
                             OtherThreadWaitInput.WaitOne();
@@ -150,7 +168,6 @@ namespace jsc.Library
                             try
                             {
                                 OtherThreadContinuation();
-                                //Console.WriteLine("exit " + OtherThread.ManagedThreadId + " from " + CurrentThread.ManagedThreadId);
                             }
                             catch (Exception ex)
                             {
@@ -161,6 +178,9 @@ namespace jsc.Library
                             }
                             finally
                             {
+
+                                //Console.WriteLine("exit " + OtherThread.ManagedThreadId + " from " + CurrentThread.ManagedThreadId);
+
                                 lock (OtherTheadLock)
                                 {
                                     OtherThreadWaitOutput.Set();
@@ -168,7 +188,13 @@ namespace jsc.Library
                             }
                         }
                     }
-                ) { IsBackground = true };
+                )
+                {
+                    IsBackground = true,
+
+                    // concept: continuation of a thread
+                    Name = ":" + CurrentThread.ManagedThreadId + " *" + OtherThreadCounter
+                };
                 OtherThread.Start();
             }
             #endregion
@@ -199,9 +225,10 @@ namespace jsc.Library
             }
             Thread.Yield();
 
-            //Console.WriteLine(CurrentThread.ManagedThreadId + " join to " + OtherThread.ManagedThreadId);
             OtherThreadWaitOutput.WaitOne();
             OtherThreadContinuation = null;
+
+            //Console.WriteLine(CurrentThread.ManagedThreadId + " join to " + OtherThread.ManagedThreadId);
 
             return;
 

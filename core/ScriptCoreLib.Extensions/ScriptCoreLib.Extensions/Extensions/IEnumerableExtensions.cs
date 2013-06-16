@@ -8,7 +8,8 @@ namespace ScriptCoreLib.Extensions
 {
     public static class IEnumerableExtensions
     {
-        static public IEnumerable<object> AsEnumerable(this ICollection source)
+        // extension methods do clash
+        static public IEnumerable<object> ICollectionAsEnumerable(this ICollection source)
         {
             var r = source.GetEnumerator();
 
