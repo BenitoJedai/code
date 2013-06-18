@@ -39,7 +39,7 @@ namespace com.abstractatech.multimouse
 
                     var id = 0;
 
-                    if (header_id != null)
+                    if (!string.IsNullOrEmpty(header_id))
                     {
                         //__ConsoleToDatabaseWriter.InternalWrite("Continue " + new { session, header_id }.ToString() + Environment.NewLine);
 
