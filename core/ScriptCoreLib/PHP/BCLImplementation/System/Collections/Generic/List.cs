@@ -15,6 +15,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
         public object InternalArray = Native.API.array();
 
+        [Script]
         internal static class API
         {
             #region bool sort ( array &array [, int sort_flags] )
