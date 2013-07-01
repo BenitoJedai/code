@@ -80,6 +80,8 @@ using ScriptCoreLib.Shared;
 [assembly: InternalsVisibleTo("ScriptCoreLib.Web.Services")]
 //[assembly: InternalsVisibleTo("ScriptCoreLib.Ultra")]
 //[assembly: InternalsVisibleTo("ScriptCoreLib.Ultra.BCLImplementation")]
+
+// should remove this?
 [assembly: InternalsVisibleTo("jsc.meta")]
 
 [assembly: InternalsVisibleTo("TestSelectMany")]

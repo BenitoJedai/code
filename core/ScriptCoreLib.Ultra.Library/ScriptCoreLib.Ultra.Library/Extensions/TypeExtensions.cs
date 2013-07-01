@@ -60,8 +60,8 @@ namespace ScriptCoreLib.Extensions
             try
             {
                 var _MethodBase =
-                     (MemberInfo)(Methods.SingleOrDefault(kk => kk.MetadataToken == SourceMethod.MetadataToken && kk.GetParameters().Length == SourceMethod.GetParameters().Length)) ??
-                    (MemberInfo)(Constructors.SingleOrDefault(kk => kk.MetadataToken == SourceMethod.MetadataToken && kk.GetParameters().Length == SourceMethod.GetParameters().Length));
+                     (MemberInfo)(Methods.FirstOrDefault(kk => kk.MetadataToken == SourceMethod.MetadataToken && kk.GetParameters().Length == SourceMethod.GetParameters().Length)) ??
+                    (MemberInfo)(Constructors.FirstOrDefault(kk => kk.MetadataToken == SourceMethod.MetadataToken && kk.GetParameters().Length == SourceMethod.GetParameters().Length));
 
 
 
@@ -69,6 +69,7 @@ namespace ScriptCoreLib.Extensions
             }
             catch
             {
+                // TryGetGenericTypeDefinitionMethod: Boolean Get(Int32, Int32)
                 Console.WriteLine("TryGetGenericTypeDefinitionMethod: " + SourceMethod);
 
                 throw;

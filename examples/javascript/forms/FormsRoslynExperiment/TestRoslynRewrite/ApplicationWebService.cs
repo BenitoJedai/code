@@ -29,6 +29,10 @@ namespace TestRoslynRewrite
             var engine = new ScriptEngine();
             var session = engine.CreateSession();
 
+            //error: Attempt by method 'Roslyn.Compilers.ReadOnlyArray`1_ReadOnlyList_<GetEnumerator>d__d<T>.MoveNext()' to 
+            // access field 'Roslyn.Compilers.ReadOnlyArray`1+ReadOnlyList<System.__Canon>.array' failed.
+            // replace NestedPrivate!
+
             try
             {
                 Console.WriteLine(e);
