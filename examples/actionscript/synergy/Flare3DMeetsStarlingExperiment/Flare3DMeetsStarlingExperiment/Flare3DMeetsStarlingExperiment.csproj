@@ -143,6 +143,7 @@
     </Compile>
     <Content Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\ApplicationSprite.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Textures\reflections.jpg" />
     <Content Include="Textures\tree.png" />

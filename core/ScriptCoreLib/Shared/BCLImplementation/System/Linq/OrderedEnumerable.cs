@@ -13,7 +13,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
         public IComparer<TKey> comparer;
         public bool descending;
 
-        internal __OrderedEnumerable() :  this(null, null, null, false)
+        internal __OrderedEnumerable()
+            : this(null, null, null, false)
         {
 
         }
@@ -66,10 +67,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
     {
         // immutable 
 
-        protected __OrderedEnumerable<TSource> prev;
-        protected __OrderedEnumerable<TSource> next;
+        public __OrderedEnumerable<TSource> prev;
+        public __OrderedEnumerable<TSource> next;
 
-        protected IEnumerable<TSource> source;
+        public IEnumerable<TSource> source;
 
         protected abstract __OrderedEnumerable<TSource> Clone();
         public abstract int Compare(TSource a, TSource b);
