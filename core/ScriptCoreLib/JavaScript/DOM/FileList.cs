@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class FileList
     {
+        public uint length;
+
         public File this[uint i]
         {
             get

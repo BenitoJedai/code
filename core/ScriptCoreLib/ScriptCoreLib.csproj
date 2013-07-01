@@ -99,6 +99,10 @@
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="JavaScript\DOM\Blob.cs" />
+    <Compile Include="JavaScript\DOM\DataTransferItem.cs" />
+    <Compile Include="JavaScript\DOM\DataTransferItemList.cs" />
+    <Compile Include="JavaScript\DOM\DataTransfer.cs" />
+    <Compile Include="JavaScript\DOM\DragEvent.cs" />
     <Compile Include="JavaScript\DOM\FileReader.cs" />
     <Compile Include="JavaScript\DOM\FileReaderSync.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBase.cs" />

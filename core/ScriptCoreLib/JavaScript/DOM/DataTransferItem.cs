@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.DOM.HTML
+namespace ScriptCoreLib.JavaScript.DOM
 {
-    public class IHTMLElement : IElement
+    [Script(HasNoPrototype = true)]
+    public class DataTransferItem
     {
-
     }
 }
