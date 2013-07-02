@@ -19,22 +19,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Configuration
 
 
                 var w = (IWindow)(object)Native.Window;
+                object r = null;
+
                 var localStorage = w.localStorage;
-                var value = localStorage[propertyName];
-
-                object r = value;
-
-                try
+                // not available for android webview
+                if (localStorage != null)
                 {
-                    var int32 = int.Parse(value);
+                    var value = localStorage[propertyName];
 
-                    var int32string = "" + int32;
-                    if (value == int32string)
-                        r = int32;
-                }
-                catch
-                {
+                    r = value;
 
+                    try
+                    {
+                        var int32 = int.Parse(value);
+
+                        var int32string = "" + int32;
+                        if (value == int32string)
+                            r = int32;
+                    }
+                    catch
+                    {
+
+                    }
                 }
 
                 return r;
@@ -43,8 +49,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Configuration
             {
                 var w = (IWindow)(object)Native.Window;
                 var localStorage = w.localStorage;
-
-                localStorage[propertyName] = "" + value;
+                if (localStorage != null)
+                    localStorage[propertyName] = "" + value;
             }
         }
     }
