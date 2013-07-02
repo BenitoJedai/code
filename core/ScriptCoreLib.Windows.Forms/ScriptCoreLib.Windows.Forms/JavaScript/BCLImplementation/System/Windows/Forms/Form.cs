@@ -667,10 +667,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             HTMLTarget.Orphanize();
 
+            // allow to be showed again?!
+            InternalBeforeVisibleChangedDone = false;
+
+
             if (this.Closed != null)
                 this.Closed(this, new EventArgs());
 
             RaiseFormClosed();
+
         }
 
         public void RaiseFormClosed()
