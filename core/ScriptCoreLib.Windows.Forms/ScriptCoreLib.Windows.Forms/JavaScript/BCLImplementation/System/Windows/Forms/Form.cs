@@ -795,7 +795,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return;
             InternalBeforeVisibleChangedDone = true;
 
-            InternalRaiseLoad();
 
             if (this.StartPosition == FormStartPosition.CenterScreen)
             {
@@ -805,6 +804,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Y = Math.Max(0, (Native.Window.Height - this.Height) / 2)
                 };
             }
+
+            InternalRaiseLoad();
 
             InternalUpdateZIndex(HTMLTarget);
 
