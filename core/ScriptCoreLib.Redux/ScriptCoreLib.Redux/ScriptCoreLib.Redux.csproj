@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GLSL\ivec3.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Configuration\SettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="JavaScript\DOM\EventSource.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLElement.cs" />
