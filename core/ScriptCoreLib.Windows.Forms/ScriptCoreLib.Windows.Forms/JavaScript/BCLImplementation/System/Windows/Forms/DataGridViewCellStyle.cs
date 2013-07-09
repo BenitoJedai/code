@@ -59,6 +59,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+
+        // needs to be tested
+        public DataGridViewTriState WrapMode { get; set; }
+        public Color SelectionBackColor { get; set; }
+        public Color SelectionForeColor { get; set; }
+
         public __DataGridViewCellStyle()
         {
             this.InternalForeColor = SystemColors.WindowText;

@@ -49,6 +49,10 @@ namespace ScriptCoreLib.Extensions
             if (SourceMethod == null)
                 return _Member;
 
+            if (SourceMethod.DeclaringType == null)
+                return _Member;
+
+
             var Methods = SourceMethod.DeclaringType.TryGetGenericTypeDefinition().GetMethods(
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly
             );

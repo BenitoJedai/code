@@ -37,6 +37,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        // we do not yet use it.. needs to be tested
+        public DataGridViewCellStyle DefaultCellStyle { get; set; }
+        public DataGridViewCellStyle ColumnHeadersDefaultCellStyle { get; set; }
+        public DataGridViewCellStyle RowHeadersDefaultCellStyle { get; set; }
+
         public __DataGridView()
         {
             //Console.WriteLine("__DataGridView");
