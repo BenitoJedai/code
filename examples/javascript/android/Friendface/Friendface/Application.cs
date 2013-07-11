@@ -22,6 +22,9 @@ namespace Friendface
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        // jsc is confused if only mentioned on the server side?
+        static Images ref0;
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -30,6 +33,8 @@ namespace Friendface
         {
 
             page.MyContacts.Clear();
+
+            // http://stackoverflow.com/questions/6318659/string-error-constant-string-too-long
 
             service.AddContact(
                 Name =>

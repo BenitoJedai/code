@@ -90,10 +90,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -116,6 +112,12 @@
     <Reference Include="Friendface.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\Friendface.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="AndroidContacts.AssetsLibrary">
+      <HintPath>..\..\AndroidContacts\AndroidContacts\bin\staging.AssetsLibrary\AndroidContacts.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DCIMCameraAppWithThumbnails.AssetsLibrary">
+      <HintPath>..\..\DCIMCameraAppWithThumbnails\DCIMCameraAppWithThumbnails\bin\staging.AssetsLibrary\DCIMCameraAppWithThumbnails.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -131,11 +133,21 @@
     <Content Include="Design\Foo\TimelineTextUnit.htm" />
     <Content Include="Design\Images\robot-invasion.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AndroidContacts\AndroidContacts\AndroidContacts.csproj">
+      <Project>{0c5d14d2-3759-41df-94f5-7b7422c1e8d0}</Project>
+      <Name>AndroidContacts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DCIMCameraAppWithThumbnails\DCIMCameraAppWithThumbnails\DCIMCameraAppWithThumbnails.csproj">
+      <Project>{48a0b7ba-bd8f-49ec-858b-09774a8413b2}</Project>
+      <Name>DCIMCameraAppWithThumbnails</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

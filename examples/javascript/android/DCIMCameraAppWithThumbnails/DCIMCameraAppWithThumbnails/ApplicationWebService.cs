@@ -83,7 +83,8 @@ namespace DCIMCameraAppWithThumbnails
                 }
             }
 
-            done("");
+            if (done != null)
+                done("");
         }
 
         const string thumb = "/thumb";
