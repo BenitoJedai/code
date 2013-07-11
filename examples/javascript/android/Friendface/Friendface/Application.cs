@@ -1,0 +1,83 @@
+using ScriptCoreLib;
+using ScriptCoreLib.Delegates;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Components;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using System;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
+using Friendface.Design;
+using Friendface.HTML.Pages;
+
+namespace Friendface
+{
+    /// <summary>
+    /// Your client side code running inside a web browser as JavaScript.
+    /// </summary>
+    public sealed class Application
+    {
+        public readonly ApplicationWebService service = new ApplicationWebService();
+
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IApp page)
+        {
+
+            page.MyContacts.Clear();
+
+            service.AddContact(
+                Name =>
+                {
+                    var c = new Contact();
+
+                    c.Name.innerText = Name;
+
+                    c.Container.AttachTo(
+                        page.MyContacts
+                    );
+                }
+            );
+
+            service.AddTimelineUnit(
+                Content =>
+                {
+                    var u = new TimelineTextUnit();
+
+                    u.Content.innerText = Content;
+
+                    u.Container.AttachTo(
+                        page.u_0_15
+                    );
+                }
+            );
+
+
+            service.AddTimelinePictureUnit(
+                (PictureContent, dataside) =>
+                {
+                    var u = new TimelinePictureUnit();
+
+                    //u.Content.innerText = Content;
+                    //data-side="l"
+
+                    u.Container.setAttribute("data-side", dataside);
+
+                    u.PictureContent.src = PictureContent;
+
+                    u.Container.AttachTo(
+                        page.u_0_15
+                    );
+                }
+            );
+
+
+        }
+
+    }
+}
