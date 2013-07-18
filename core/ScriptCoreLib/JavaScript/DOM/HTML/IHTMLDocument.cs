@@ -367,36 +367,37 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         //public bool fullscreenEnabled;
 
 
+
+
+        [Script(OptimizedCode = @"
+if (that.exitFullscreen) {
+    that.exitFullscreen();
+}
+else if (that.mozCancelFullScreen) {
+    that.mozCancelFullScreen();
+}
+else if (that.webkitCancelFullScreen) {
+    that.webkitCancelFullScreen();
+}"
+            )]
+        static void __exitFullscreen(IHTMLDocument that)
+        {
+        }
+
+
         [Script(DefineAsStatic = true)]
         public void exitFullscreen()
         {
             // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
             // http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/
 
-            var exitFullscreen = new IFunction(@"
-if (this.exitFullscreen) {
-    this.exitFullscreen();
-}
-else if (this.mozCancelFullScreen) {
-    this.mozCancelFullScreen();
-}
-else if (this.webkitCancelFullScreen) {
-    this.webkitCancelFullScreen();
-}
-                    
-                    "
-            );
-
-            exitFullscreen.apply(this);
+            __exitFullscreen(this);
         }
 
-        // http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html
-        public IHTMLElement pointerLockElement
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                var f = new IFunction(@"
+
+
+
+        [Script(OptimizedCode = @"
 		if (this.pointerLockElement) {
 		    return this.pointerLockElement;
 		}
@@ -404,25 +405,52 @@ else if (this.webkitCancelFullScreen) {
 		    return this.webkitPointerLockElement;
 		}
                     return null;
-                ");
+                "
+      )]
+        static IHTMLElement __pointerLockElement(IHTMLDocument that)
+        {
+            return null;
+        }
 
-                return (IHTMLElement)f.apply(this);
+
+        // http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html
+        public IHTMLElement pointerLockElement
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return __pointerLockElement(this);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+        [Script(OptimizedCode = @"
+		if (that.exitPointerLock) {
+		    return that.exitPointerLock();
+		}
+		else if (that.webkitExitPointerLock) {
+		    return that.webkitExitPointerLock();
+		}
+                "
+)]
+        static void __exitPointerLock(IHTMLDocument that)
+        {
+        }
+
 
         [Script(DefineAsStatic = true)]
         public void exitPointerLock()
         {
-            var f = new IFunction(@"
-		if (this.exitPointerLock) {
-		    return this.exitPointerLock();
-		}
-		else if (this.webkitExitPointerLock) {
-		    return this.webkitExitPointerLock();
-		}
-                ");
-
-            f.apply(this);
+            __exitPointerLock(this);
         }
     }
 }

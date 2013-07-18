@@ -12,6 +12,8 @@ namespace WithClickOnceLANLauncherShared
     {
         static public MulticastSettings testSettings = new MulticastSettings()
         {
+            // 237.132.123.123
+            // 3038
             Address = IPAddress.Parse("239.1.2.3"),
             Port = 40404,
             TimeToLive = 30

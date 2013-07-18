@@ -28,6 +28,7 @@ namespace WithClickOnceLANLauncherShared
         {
             add
             {
+                // An attempt was made to access a socket in a way forbidden by its access permissions
                 InternalInitialize();
 
                 InternalAtData += value;
@@ -57,6 +58,9 @@ namespace WithClickOnceLANLauncherShared
                     InternalListener.StartListening(
                         bytes =>
                         {
+                            // +		$exception	{"'UTF16' is not a supported encoding name.\r\nParameter name: name"}	System.Exception {System.ArgumentException}
+                            // what if javascript does not know how many bytes it has?
+                            //var x = Encoding.GetEncoding("UTF-16").GetString(bytes);
                             var listen = Encoding.UTF8.GetString(bytes);
 
                             if (InternalAtData != null)
@@ -131,6 +135,8 @@ namespace WithClickOnceLANLauncherShared
                 UdpClient.EnableBroadcast = true;
 
                 UdpClient.Client.Bind(LocalIPEndPoint);
+
+                // An attempt was made to access a socket in a way forbidden by its access permissions
                 UdpClient.JoinMulticastGroup(Settings.Address, Settings.TimeToLive);
             }
             catch (Exception ex)

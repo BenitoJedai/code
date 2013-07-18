@@ -1,4 +1,4 @@
-﻿// http://developer.chrome.com/trunk/apps/api_index.html
+﻿// c
 
 // http://developer.chrome.com/extensions/bookmarks.html
 
@@ -21,12 +21,34 @@ interface SocketModule
 	void listen (int socketId, string address, int port, int backlog, function callback);
 	void accept(int socketId, function callback);
 	// void create(SocketType type, CreateOptions options, function callback);
-	void create(string type, CreateOptions options, function callback);
+	void create(string type, any options, function callback);
+
+	void setMulticastTimeToLive(int socketId, int ttl, function callback);
+	void bind(int socketId, string address, int port, function callback);
+	void joinGroup(int socketId, string address, function callback);
+	void recvFrom(int socketId, int bufferSize, function callback);
+	void sendTo(int socketId, any data, string address, int port, function callback);
 
 };
 
+interface RecvFromInfo 
+{
+	attribute long resultCode;
+	attribute long port;
+	attribute DOMString address;
+	attribute ArrayBufferView data;
+};
+
+interface CreateInfo 
+{
+	attribute long socketId;
+};
+
+
+
 
 // http://developer.chrome.com/trunk/apps/socket.html#type-SocketInfo
+// Obsolete?
 [Constructor]
 interface SocketInfo 
 {
@@ -61,32 +83,11 @@ interface AcceptInfo
 	attribute long socketId;
 };
 
-[Constructor]
 interface WriteInfo 
 {
 	attribute long bytesWritten;
 };
 
-
-[Constructor]
-interface RecvFromInfo 
-{
-	attribute long resultCode;
-	attribute long port;
-	attribute DOMString address;
-	attribute ArrayBufferView data;
-};
-
-[Constructor]
-interface CreateInfo 
-{
-	attribute long socketId;
-};
-
-[Constructor]
-interface CreateOptions
-{
-};
 
 
 

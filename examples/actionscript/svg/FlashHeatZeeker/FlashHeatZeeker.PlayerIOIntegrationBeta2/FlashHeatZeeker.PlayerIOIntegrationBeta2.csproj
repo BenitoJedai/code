@@ -72,7 +72,8 @@
     <Reference Include="box2dflash">
       <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
     </Reference>
-    <Reference Include="Chrome Web Store.dll">
+    <Reference Include="Chrome Web Store.dll, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll.dll</HintPath>
     </Reference>
     <Reference Include="FlashHeatZeeker.Core">

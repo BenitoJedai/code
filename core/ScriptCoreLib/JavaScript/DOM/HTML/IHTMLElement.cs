@@ -965,26 +965,30 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
+
+        [Script(OptimizedCode = @"
+		if (that.requestFullscreen) {
+		    that.requestFullscreen();
+		}
+		else if (that.mozRequestFullScreen) {
+		    that.mozRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+		}
+		else if (that.webkitRequestFullScreen) {
+		    that.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+		}
+                    
+                    ")]
+        static void __requestFullscreen(object that)
+        {
+        }
+
+
         [Script(DefineAsStatic = true)]
         public void requestFullscreen()
         {
             // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
-
-            var requestFullscreen = new IFunction(@"
-		if (this.requestFullscreen) {
-		    this.requestFullscreen();
-		}
-		else if (this.mozRequestFullScreen) {
-		    this.mozRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-		}
-		else if (this.webkitRequestFullScreen) {
-		    this.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-		}
-                    
-                    "
-            );
-
-            requestFullscreen.apply(this);
+            // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
+            __requestFullscreen(this);
         }
 
         internal void setCapture()
@@ -995,26 +999,30 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
         }
 
+
+        [Script(OptimizedCode = @"
+		if (that.requestPointerLock) {
+		    that.requestPointerLock();
+		}
+		else if (that.mozRequestPointerLock) {
+		    that.mozRequestPointerLock();
+		}
+		else if (this.webkitRequestPointerLock) {
+		    that.webkitRequestPointerLock();
+		}
+                    
+                    ")]
+        static void __requestPointerLock(object that)
+        {
+        }
+
         // http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html
         [Script(DefineAsStatic = true)]
         public void requestPointerLock()
         {
 
-            var requestPointerLock = new IFunction(@"
-		if (this.requestPointerLock) {
-		    this.requestPointerLock();
-		}
-		else if (this.mozRequestPointerLock) {
-		    this.mozRequestPointerLock();
-		}
-		else if (this.webkitRequestPointerLock) {
-		    this.webkitRequestPointerLock();
-		}
-                    
-                    "
-      );
-
-            requestPointerLock.apply(this);
+            // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
+            __requestPointerLock(this);
         }
     }
 }

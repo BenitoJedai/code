@@ -435,16 +435,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        public event System.Action requestAnimationFrame
-        {
-            [Script(DefineAsStatic = true)]
-            add
-            {
-                // https://developer.mozilla.org/en/DOM/window.requestAnimationFrame
-
-                #region requestAnimFrame
-                var requestAnimFrame = (IFunction)new IFunction(
-                    @"return window.requestAnimationFrame ||
+        [Script(OptimizedCode = @"return window.requestAnimationFrame ||
          window.webkitRequestAnimationFrame ||
          window.mozRequestAnimationFrame ||
          window.oRequestAnimationFrame ||
@@ -452,10 +443,21 @@ namespace ScriptCoreLib.JavaScript.DOM
          function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
            window.setTimeout(callback, 1000/60);
          };"
-                ).apply(null);
-                #endregion
+            )]
+        static IFunction __requestAnimationFrame()
+        {
+            return null;
+        }
 
-                requestAnimFrame.apply(null, IFunction.OfDelegate(value));
+        public event System.Action requestAnimationFrame
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                // https://developer.mozilla.org/en/DOM/window.requestAnimationFrame
+                // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
+
+                __requestAnimationFrame().apply(null, IFunction.OfDelegate(value));
             }
             [Script(DefineAsStatic = true)]
             remove
