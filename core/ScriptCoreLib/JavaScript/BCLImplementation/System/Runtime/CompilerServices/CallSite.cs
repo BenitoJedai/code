@@ -59,11 +59,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
                             //Console.WriteLine("__CallSite SetMember " + new { subject, SetMember.name, value });
 
-                            new IFunction("subject", "name", "value", "subject[name] = value;").apply(null,
+                            ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(
                                 subject,
                                 SetMember.Name,
                                 value
                             );
+
+                            //new IFunction("subject", "name", "value", "subject[name] = value;").apply(null,
+                            //    subject,
+                            //    SetMember.Name,
+                            //    value
+                            //);
 
                             return null;
                         }
@@ -94,10 +100,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
                             }
                             //Console.WriteLine("__CallSite GetMember " + new { subject, GetMember.name });
 
-                            var value = new IFunction("subject", "name", "return subject[name];").apply(null,
-                                subject,
-                                GetMember.Name
+                            var value = ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMember(
+                                subject, GetMember.Name
                             );
+
+                            //var value = new IFunction("subject", "name", "return subject[name];").apply(null,
+                            //    subject,
+                            //    GetMember.Name
+                            //);
 
                             return value;
                         }

@@ -89,6 +89,8 @@ namespace WithClickOnceLANLauncherShared
                 UdpClient.EnableBroadcast = true;
 
                 UdpClient.Client.Bind(LocalIPEndPoint);
+
+                // An attempt was made to access a socket in a way forbidden by its access permissions
                 UdpClient.JoinMulticastGroup(Settings.Address, Settings.TimeToLive);
                 UdpClient.Connect(RemoteIPEndPoint);
             }

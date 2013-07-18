@@ -116,10 +116,13 @@ namespace My.Solutions.Pages.Templates
                           content.style.zIndex = extrasize;
 
 
+
+
                           if (HasFocus)
-                              new IFunction("this.style.boxShadow = '0px 0px " + (extrasize) + "px 0px rgba(255, 255, 0, 1)';").apply(content);
+                              content.style.boxShadow = "0px 0px " + (extrasize) + "px 0px rgba(255, 255, 0, 1)";
                           else
-                              new IFunction("this.style.boxShadow = '0px 0px " + (extrasize) + "px 0px rgba(0, 0, 255, 1)';").apply(content);
+                              content.style.boxShadow = "0px 0px " + (extrasize) + "px 0px rgba(0, 0, 255, 1)";
+
                           //box-shadow: 0px 0px 70px 0px rgba(0, 0, 0, 1);
 
                           content.style.SetLocation(

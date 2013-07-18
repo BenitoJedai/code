@@ -2,15 +2,14 @@
 "manifest_version": 2,
   "name": "jsc-webgl-examples",
   "description": "jsc-webgl-examples",
-  "version": "2",
-    "minimum_chrome_version": "23.0.1261",
+  "version": "8",
+ "minimum_chrome_version": "27",
   "offline_enabled": true,
+
   "app": {
 
-
-    "launch": {
-      "local_path": "index.htm",
-      "container": "panel"
+	"background": {
+      "scripts": ["main.js"]
     }
   },
   "icons": {
@@ -19,14 +18,15 @@
   },
   
   
-  "content_security_policy": "script-src 'unsafe-eval' 'self' ; object-src 'self'  'unsafe-eval'" ,
-  
-  
   "permissions": [
+  "fullscreen",
+  "pointerLock",
     "unlimitedStorage",
-    "notifications",
-    "background"
+	    "notifications",
+		    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership"]
+    }
   ]
-  
 
 }
