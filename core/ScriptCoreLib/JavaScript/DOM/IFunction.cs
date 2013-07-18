@@ -12,7 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public Expando prototype;
 
-        [System.Obsolete("Chrome Applications will not like this unless jsc makes them literal functions via [Script(OptimizedCode...")]
+        //[System.Obsolete("Chrome Applications will not like this unless jsc makes them literal functions via [Script(OptimizedCode...")]
         public IFunction(string body)
         {
 
