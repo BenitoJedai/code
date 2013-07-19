@@ -133,7 +133,7 @@ namespace LANBroadcastListener.Activities
                             var listen = Encoding.UTF8.GetString(bytes.ToArray());
 
                             System.Console.WriteLine("Received "
-                                + listen
+                                + dgram.getLength()
                                 + " bytes from " + dgram.getAddress());
                             //dgram.setLength(b.Length); // must reset length field!s
 
