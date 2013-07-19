@@ -105,6 +105,14 @@ namespace ScriptCoreLib.JavaScript.DOM
             return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
         }
 
+
+
+
+        public static implicit operator IFunction(global::System.Delegate h)
+        {
+            return OfDelegate(h);
+        }
+
         public static IFunction OfDelegate(global::System.Delegate h)
         {
             return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
