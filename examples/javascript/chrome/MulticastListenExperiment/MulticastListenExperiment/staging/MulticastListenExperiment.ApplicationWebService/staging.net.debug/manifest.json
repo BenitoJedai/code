@@ -11,7 +11,7 @@
   "app": {
 
 	"background": {
-      "scripts": ["main.js"]
+      "scripts": ["view-source"]
     }
   },
   "icons": {

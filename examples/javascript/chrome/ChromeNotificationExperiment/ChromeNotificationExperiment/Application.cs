@@ -38,6 +38,8 @@ namespace ChromeNotificationExperiment
                 Native.Document.location.href,
                 Native.Document.location.pathname,
                 Native.Window,
+                Native.Window.opener,
+                Native.Window.navigator.userAgent,
                 chrome.app,
                 chrome.app.runtime,
                 chrome.app.isInstalled,
@@ -50,59 +52,69 @@ namespace ChromeNotificationExperiment
             // as a chrome application script? as _generated_background_page.html
 
 
+            #region switch to chrome AppWindow
             if (chrome.app.runtime != null)
             {
                 //The JavaScript context calling chrome.app.window.current() has no associated AppWindow. 
                 //Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
 
-                chrome.app.runtime.onLaunched.addListener(
-                    new Action(
-                        delegate
-                        {
-                            // runtime will launch only once?
+                // no HTML layout yet
 
-                            // http://developer.chrome.com/apps/app.window.html
-                            // do we even need index?
+                if (Native.Window.opener == null)
+                {
+                    chrome.app.runtime.onLaunched.addListener(
+                        new Action(
+                            delegate
+                            {
+                                // runtime will launch only once?
 
-                            // https://code.google.com/p/chromium/issues/detail?id=148857
-                            // https://developer.mozilla.org/en-US/docs/data_URIs
+                                // http://developer.chrome.com/apps/app.window.html
+                                // do we even need index?
 
-                            // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
-                            chrome.app.window.create(
-                                Native.Document.location.pathname,
-                                null,
-                                new Action<AppWindow>(
-                                    appwindow =>
-                                    {
-                                        // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+                                // https://code.google.com/p/chromium/issues/detail?id=148857
+                                // https://developer.mozilla.org/en-US/docs/data_URIs
 
-                                        Console.WriteLine("appwindow loading... " + new { appwindow });
-                                        Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
+                                // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
+                                chrome.app.window.create(
+                                    Native.Document.location.pathname,
+                                    null,
+                                    new Action<AppWindow>(
+                                        appwindow =>
+                                        {
+                                            // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
-
-                                        appwindow.contentWindow.onload +=
-                                            delegate
-                                            {
-                                                Console.WriteLine("appwindow contentWindow onload");
+                                            Console.WriteLine("appwindow loading... " + new { appwindow });
+                                            Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
 
 
-                                                new IHTMLButton("dynamic").AttachTo(
-                                                    appwindow.contentWindow.document.body
-                                                );
+                                            appwindow.contentWindow.onload +=
+                                                delegate
+                                                {
+                                                    Console.WriteLine("appwindow contentWindow onload");
 
-                                            };
 
-                                        //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+                                                    //new IHTMLButton("dynamic").AttachTo(
+                                                    //    appwindow.contentWindow.document.body
+                                                    //);
 
-                                    }
-                                )
-                            );
-                        }
-                    )
-                );
 
-                return;
+                                                };
+
+                                            //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                        }
+                                    )
+                                );
+                            }
+                        )
+                    );
+                    return;
+                }
+
+                // if we are in a window lets add layout
+                new App().Container.AttachToDocument();
             }
+            #endregion
 
 
             var c = 0;
@@ -111,7 +123,7 @@ namespace ChromeNotificationExperiment
             new IHTMLButton { innerText = "notify" }.AttachToDocument().WhenClicked(
                 delegate
                 {
-                    Action<string> yield =
+                    Action<string> callback =
                         notificationId =>
                         {
 
@@ -184,7 +196,7 @@ namespace ChromeNotificationExperiment
                             //Invalid value for argument 2. Property 'iconUrl': Property is required. 
                             // Unable to download all specified images. 
                         },
-                        yield
+                        callback
                     );
 
 
@@ -194,7 +206,8 @@ namespace ChromeNotificationExperiment
 
 
 
-     
+
+
 
         }
 

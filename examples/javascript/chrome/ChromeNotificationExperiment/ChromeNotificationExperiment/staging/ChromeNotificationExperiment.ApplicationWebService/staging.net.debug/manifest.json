@@ -1,7 +1,7 @@
 {
 "manifest_version": 2,
-  "name": "jsc-webgl-examples",
-  "description": "jsc-webgl-examples",
+  "name": "ChromeNotificationExperiment",
+  "description": "ChromeNotificationExperiment",
   "version": "8",
  "minimum_chrome_version": "27",
   "offline_enabled": true,
@@ -9,7 +9,7 @@
   "app": {
 
 	"background": {
-      "scripts": ["view-source"]
+      "scripts": ["main.js"]
     }
   },
   "icons": {
