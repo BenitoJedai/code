@@ -8,11 +8,11 @@
     <ProjectGuid>{0D736B38-1399-47C6-993F-4916BAD03990}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MulticastListenExperiment</RootNamespace>
-    <AssemblyName>MulticastListenExperiment</AssemblyName>
+    <RootNamespace>ChromeNotificationExperiment</RootNamespace>
+    <AssemblyName>ChromeNotificationExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>MulticastListenExperiment.Program</StartupObject>
+    <StartupObject>ChromeNotificationExperiment.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,8 +113,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="MulticastListenExperiment.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\MulticastListenExperiment.AssetsLibrary.dll</HintPath>
+    <Reference Include="ChromeNotificationExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeNotificationExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="chromelabs.AssetsLibrary">
       <HintPath>..\..\..\..\..\market\synergy\javascript\chrome\chrome\bin\staging.AssetsLibrary\chromelabs.AssetsLibrary.dll</HintPath>
@@ -129,23 +129,23 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="staging\MulticastListenExperiment.ApplicationWebService\staging.net.debug\Preview128.png">
+    <Content Include="staging\ChromeNotificationExperiment.ApplicationWebService\staging.net.debug\Preview128.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="staging\MulticastListenExperiment.ApplicationWebService\staging.net.debug\Preview16.png">
+    <Content Include="staging\ChromeNotificationExperiment.ApplicationWebService\staging.net.debug\Preview16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="staging\MulticastListenExperiment.ApplicationWebService\staging.net.debug\manifest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj">
       <Project>{6c8f3c29-10f3-432b-b0e4-14c8ea3c79d7}</Project>
       <Name>chromelabs</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="staging\ChromeNotificationExperiment.ApplicationWebService\staging.net.debug\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

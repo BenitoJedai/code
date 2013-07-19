@@ -21,13 +21,10 @@ namespace MulticastListenExperiment
     /// </summary>
     public sealed class Application
     {
+        // will the service run on cloud or lan?
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-        [Script(OptimizedCode = "return window['chrome'];")]
-        public static object __new_IFunction_ldstr_apply()
-        {
-            return null;
-        }
+
 
         /// <summary>
         /// This is a javascript application.
@@ -37,11 +34,74 @@ namespace MulticastListenExperiment
         {
             // https://developer.chrome.com/extensions/contentSecurityPolicy.html
             //var __chrome = new IFunction("return window['chrome'];").apply(null);
-            var __chrome = __new_IFunction_ldstr_apply();
 
-            new { chrome = __chrome }.ToString().ToDocumentTitle();
 
-            IHTMLElement.HTMLElementEnum.hr.AttachToDocument();
+            //new { chrome = __chrome }.ToString().ToDocumentTitle();
+
+
+            #region switch to chrome AppWindow
+            if (chrome.app.runtime != null)
+            {
+                //The JavaScript context calling chrome.app.window.current() has no associated AppWindow. 
+                //Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
+
+                // no HTML layout yet
+
+                if (Native.Window.opener == null)
+                {
+                    chrome.app.runtime.onLaunched.addListener(
+                        new Action(
+                            delegate
+                            {
+                                // runtime will launch only once?
+
+                                // http://developer.chrome.com/apps/app.window.html
+                                // do we even need index?
+
+                                // https://code.google.com/p/chromium/issues/detail?id=148857
+                                // https://developer.mozilla.org/en-US/docs/data_URIs
+
+                                // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
+                                chrome.app.window.create(
+                                    Native.Document.location.pathname,
+                                    null,
+                                    new Action<AppWindow>(
+                                        appwindow =>
+                                        {
+                                            // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                            Console.WriteLine("appwindow loading... " + new { appwindow });
+                                            Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
+
+
+                                            appwindow.contentWindow.onload +=
+                                                delegate
+                                                {
+                                                    Console.WriteLine("appwindow contentWindow onload");
+
+
+                                                    //new IHTMLButton("dynamic").AttachTo(
+                                                    //    appwindow.contentWindow.document.body
+                                                    //);
+
+
+                                                };
+
+                                            //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                        }
+                                    )
+                                );
+                            }
+                        )
+                    );
+                    return;
+                }
+
+                // if we are in a window lets add layout
+                new App().Container.AttachToDocument();
+            }
+            #endregion
 
 
             // not an app
@@ -283,12 +343,6 @@ namespace MulticastListenExperiment
                                 40, 41, 42
                             );
 
-
-                            Action<WriteInfo> yield = result =>
-                           {
-                               new IHTMLDiv { innerText = new { result.bytesWritten }.ToString() }.AttachToDocument();
-                           };
-
                             // Uncaught Error: Invocation of form socket.sendTo(object, string, integer, function) 
                             // doesn't match definition socket.sendTo(integer socketId, binary data, string address, integer port, function callback) 
 
@@ -297,7 +351,14 @@ namespace MulticastListenExperiment
                                 data.buffer,
                                 "239.1.2.3",
                                 40404,
-                                IFunction.OfDelegate(yield)
+
+                                callback:
+                                new Action<WriteInfo>(
+                                    result =>
+                                    {
+                                        new IHTMLDiv { innerText = new { result.bytesWritten }.ToString() }.AttachToDocument();
+                                    }
+                                )
                             );
 
 
@@ -325,22 +386,23 @@ namespace MulticastListenExperiment
 
                                             poll = delegate
                                             {
-                                                Action<RecvFromInfo> yield = result =>
-                                                {
-                                                    new IHTMLDiv { innerText = new { result.resultCode }.ToString() }.AttachToDocument();
-
-
-                                                    if (result.resultCode < 0)
-                                                        return;
-
-                                                    new IHTMLDiv { innerText = new { result.data.byteLength }.ToString() }.AttachToDocument();
-
-                                                    poll();
-                                                };
-
                                                 chrome.socket.recvFrom(socketId,
                                                     1048576,
-                                                    IFunction.OfDelegate(yield)
+
+                                                    callback: new Action<RecvFromInfo>(
+                                                        result =>
+                                                        {
+                                                            new IHTMLDiv { innerText = new { result.resultCode }.ToString() }.AttachToDocument();
+
+
+                                                            if (result.resultCode < 0)
+                                                                return;
+
+                                                            new IHTMLDiv { innerText = new { result.data.byteLength }.ToString() }.AttachToDocument();
+
+                                                            poll();
+                                                        }
+                                                    )
                                                 );
                                             };
 
