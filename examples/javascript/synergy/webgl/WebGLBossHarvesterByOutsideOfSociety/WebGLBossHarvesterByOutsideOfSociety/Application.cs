@@ -57,6 +57,8 @@ namespace WebGLBossHarvesterByOutsideOfSociety
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            Console.WriteLine("before three");
+
             #region await Three.js then do InitializeContent
             new[]
             {
@@ -66,9 +68,11 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
                 {
+                    Console.WriteLine("before three onload");
                     SourceScriptElement.AttachToDocument().onload +=
                         delegate
                         {
+                            Console.WriteLine("after three onload");
                             MoveNext();
                         };
                 }
@@ -84,6 +88,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
         private static void InitializeContent()
         {
+            Console.WriteLine("InitializeContent");
             // http://oos.moxiecode.com/js_webgl/md5_test/
 
             var has_gl = false;
@@ -293,7 +298,10 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                 )
             );
 
-            loader.load(new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src, harvesterLoaded);
+            var harvester_src = new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src;
+
+            Console.WriteLine("before harvester " + new { harvester_src });
+            loader.load(harvester_src, harvesterLoaded);
 
             // lights
             var pointLight = new THREE.PointLight(0xffffff, 1.0, z: 0);

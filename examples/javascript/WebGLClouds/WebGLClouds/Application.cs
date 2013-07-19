@@ -129,6 +129,8 @@ namespace WebGLClouds
             var mouseX = 0f;
             var start_time = new IDate().getTime();
 
+            Console.WriteLine(new { Native.Window.Width, Native.Window.Height });
+
             var windowHalfX = Native.Window.Width / 2;
             var windowHalfY = Native.Window.Height / 2;
 

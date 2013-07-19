@@ -41,58 +41,64 @@ namespace My.Solutions.Pages.Templates
                 // no HTML layout yet
 
                 if (Native.Window.opener == null)
-                {
-                    chrome.app.runtime.onLaunched.addListener(
-                        new Action(
-                            delegate
-                            {
-                                // runtime will launch only once?
+                    if (Native.Window.parent == Native.Window.self)
+                    {
+                        chrome.app.runtime.onLaunched.addListener(
+                            new Action(
+                                delegate
+                                {
+                                    // runtime will launch only once?
 
-                                // http://developer.chrome.com/apps/app.window.html
-                                // do we even need index?
+                                    // http://developer.chrome.com/apps/app.window.html
+                                    // do we even need index?
 
-                                // https://code.google.com/p/chromium/issues/detail?id=148857
-                                // https://developer.mozilla.org/en-US/docs/data_URIs
+                                    // https://code.google.com/p/chromium/issues/detail?id=148857
+                                    // https://developer.mozilla.org/en-US/docs/data_URIs
 
-                                // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
-                                chrome.app.window.create(
-                                    Native.Document.location.pathname,
-                                    null,
-                                    new Action<AppWindow>(
-                                        appwindow =>
-                                        {
-                                            // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+                                    // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
+                                    chrome.app.window.create(
+                                        Native.Document.location.pathname,
+                                        null,
+                                        new Action<AppWindow>(
+                                            appwindow =>
+                                            {
+                                                // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
-                                            Console.WriteLine("appwindow loading... " + new { appwindow });
-                                            Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
-
-
-                                            appwindow.contentWindow.onload +=
-                                                delegate
-                                                {
-                                                    Console.WriteLine("appwindow contentWindow onload");
+                                                Console.WriteLine("appwindow loading... " + new { appwindow });
+                                                Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
 
 
-                                                    //new IHTMLButton("dynamic").AttachTo(
-                                                    //    appwindow.contentWindow.document.body
-                                                    //);
+                                                appwindow.contentWindow.onload +=
+                                                    delegate
+                                                    {
+                                                        Console.WriteLine("appwindow contentWindow onload");
 
 
-                                                };
+                                                        //new IHTMLButton("dynamic").AttachTo(
+                                                        //    appwindow.contentWindow.document.body
+                                                        //);
 
-                                            //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
-                                        }
-                                    )
-                                );
-                            }
-                        )
-                    );
-                    return;
-                }
+                                                    };
+
+                                                //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                            }
+                                        )
+                                    );
+                                }
+                            )
+                        );
+                        return;
+                    }
 
                 // if we are in a window lets add layout
-                new DefaultPage().Container.AttachToDocument();
+
+
+                var newbody = new DefaultPage().Container;
+                newbody.childNodes.WithEach(k => k.AttachToDocument());
+                newbody.attributes.WithEach(k => Native.Document.body.setAttribute(k.name, k.value));
+
             }
             #endregion
 
