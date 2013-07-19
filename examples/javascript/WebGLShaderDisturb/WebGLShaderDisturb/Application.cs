@@ -184,11 +184,8 @@ namespace WebGLShaderDisturb
 
                 // Set values to program variables
 
-                dynamic program_uniforms = new ShaderProgramUniforms
-                {
-                    gl = gl,
-                    program = program
-                };
+                var program_uniforms = program.Uniforms(gl);
+
 
                 var resolution = new __vec2 { x = parameters_screenWidth, y = parameters_screenHeight };
 
@@ -237,41 +234,36 @@ namespace WebGLShaderDisturb
             #endregion
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+     
         }
 
         public readonly Action Dispose;
     }
 
-    class ShaderProgramUniforms : DynamicObject
-    {
-        public WebGLProgram program;
-        public gl gl;
+    //class ShaderProgramUniforms : DynamicObject
+    //{
+    //    public WebGLProgram program;
+    //    public gl gl;
 
-        public override bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            // cache location
+    //    public override bool TrySetMember(SetMemberBinder binder, object value)
+    //    {
+    //        // cache location
 
-            var isvec2 = value is __vec2;
-            if (isvec2)
-            {
-                var value_vec2 = (__vec2)value;
+    //        var isvec2 = value is __vec2;
+    //        if (isvec2)
+    //        {
+    //            var value_vec2 = (__vec2)value;
 
-                gl.uniform2f(
-                    gl.getUniformLocation(program, binder.Name),
-                    value_vec2
-                );
+    //            gl.uniform2f(
+    //                gl.getUniformLocation(program, binder.Name),
+    //                value_vec2
+    //            );
 
-                return true;
-            }
+    //            return true;
+    //        }
 
-            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
-            return true;
-        }
-    }
+    //        gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
+    //        return true;
+    //    }
+    //}
 }
