@@ -92,6 +92,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             ol,
             optgroup,
             option,
+            output,
             p,
             param,
             pre,

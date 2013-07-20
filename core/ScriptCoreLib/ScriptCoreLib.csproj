@@ -105,6 +105,9 @@
     <Compile Include="JavaScript\DOM\DragEvent.cs" />
     <Compile Include="JavaScript\DOM\FileReader.cs" />
     <Compile Include="JavaScript\DOM\FileReaderSync.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLParagraph.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLHeader1.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLOutput.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBase.cs" />
     <Compile Include="JavaScript\Extensions\INodeConvertible.cs" />
     <Compile Include="JavaScript\WebGL\WebGLTexture.cs" />
