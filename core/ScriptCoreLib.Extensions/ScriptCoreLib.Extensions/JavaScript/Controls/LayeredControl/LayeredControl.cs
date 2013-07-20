@@ -213,7 +213,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 {
                     if (x == null)
                         return;
-                    x.Dispose();
+                    x.Orphanize();
                     x = null;
                 };
 

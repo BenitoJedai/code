@@ -54,33 +54,32 @@ namespace LANBroadcastListener.Activities
 
                         new Thread(
                             delegate()
-                           {
+                            {
 
-                               try
-                               {
-                                   DatagramSocket socket = new DatagramSocket(); //construct a datagram socket and binds it to the available port and the localhos
+                                try
+                                {
+                                    var socket = new DatagramSocket(); //construct a datagram socket and binds it to the available port and the localhos
 
-                                   c++;
+                                    c++;
 
-                                   byte[] b = Encoding.UTF8.GetBytes(c + " hi from jvm!");    //creates a variable b of type byte
-                                   DatagramPacket dgram;
-                                   dgram = new DatagramPacket((sbyte[])(object)b, b.Length, InetAddress.getByName("239.1.2.3"), 40404);//sends the packet details, length of the packet,destination address and the port number as parameters to the DatagramPacket  
-                                   //dgram.setData(b);
-                                   //System.Console.WriteLine(
-                                   //    "Sending " + b.Length + " bytes to " + dgram.getAddress() + ":" + dgram.getPort());//standard error output stream
-                                   socket.send(dgram); //send the datagram packet from this port
-                               }
-                               catch (Exception ex)
-                               {
-                                   System.Console.WriteLine("server error " + new { ex.Message, ex.StackTrace });
-                               }
+                                    var b = Encoding.UTF8.GetBytes(c + " hi from jvm!");    //creates a variable b of type byte
+                                    var dgram = new DatagramPacket((sbyte[])(object)b, b.Length, InetAddress.getByName("239.1.2.3"), 40404);//sends the packet details, length of the packet,destination address and the port number as parameters to the DatagramPacket  
+                                    //dgram.setData(b);
+                                    //System.Console.WriteLine(
+                                    //    "Sending " + b.Length + " bytes to " + dgram.getAddress() + ":" + dgram.getPort());//standard error output stream
+                                    socket.send(dgram); //send the datagram packet from this port
+                                }
+                                catch (Exception ex)
+                                {
+                                    System.Console.WriteLine("server error " + new { ex.Message, ex.StackTrace });
+                                }
 
-                           }
+                            }
                                 )
                                {
 
-               Name = "sender"
-           }.Start();
+                                   Name = "sender"
+                               }.Start();
                     }
                 );
 

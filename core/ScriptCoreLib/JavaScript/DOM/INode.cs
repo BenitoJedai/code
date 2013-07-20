@@ -5,218 +5,246 @@ using ScriptCoreLib.JavaScript.Runtime;
 using System.Collections;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Query;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // SCRIPT5009: 'Node' is undefined 
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/core/nsIDOMElement.idl
-	[Script(HasNoPrototype = true)]
-	public class INode : IEventTarget, IEnumerable<INode>
-	{
-		// http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
+    [Script(HasNoPrototype = true)]
+    public class INode :
+        IEventTarget,
+        IEnumerable<INode>,
+
+        // Error	17	'ScriptCoreLib.JavaScript.DOM.INode' does not implement interface member 'ScriptCoreLib.JavaScript.Extensions.INodeConvertible<ScriptCoreLib.JavaScript.DOM.INode>.ToNode()'	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\INode.cs	14	15	ScriptCoreLib
+        // circular ref?
+        INodeConvertible<INode>
+    {
+        [Script(DefineAsStatic = true)]
+        INode INodeConvertible<INode>.InternalAsNode()
+        {
+            // cannot call this yet via interface invoke!
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/20130720
+            return this;
+        }
+
+        // http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
         // http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/idl-definitions.html
 
-		//readonly attribute NamedNodeMap     attributes;
+        //readonly attribute NamedNodeMap     attributes;
 
-		// add
+        // add
 
-		[Script(HasNoPrototype = true)]
-		class __INode_text : INode
-		{
-			public string text;
-			public string textContent;
-		}
+        [Script(HasNoPrototype = true)]
+        class __INode_text : INode
+        {
+            public string text;
+            public string textContent;
+        }
 
-		protected INode() { }
+        protected INode() { }
 
-		public string nodeValue;
-		public string nodeName;
+        public string nodeValue;
+        public string nodeName;
 
-		public string text
-		{
-			[Script(DefineAsStatic = true)]
-			get
-			{
-				// http://www.webmasterworld.com/forum26/119.htm
+        public string text
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // http://www.webmasterworld.com/forum26/119.htm
 
-				var x = (__INode_text)this;
+                var x = (__INode_text)this;
 
-				if (Expando.InternalIsMember(x, "text"))
-					return x.text;
+                if (Expando.InternalIsMember(x, "text"))
+                    return x.text;
 
-				if (Expando.InternalIsMember(x, "textContent"))
-					return x.textContent;
+                if (Expando.InternalIsMember(x, "textContent"))
+                    return x.textContent;
 
-				// why not only read this?
-				if (Expando.InternalIsMember(x, "nodeValue"))
-					return this.nodeValue;
+                // why not only read this?
+                if (Expando.InternalIsMember(x, "nodeValue"))
+                    return this.nodeValue;
 
-				throw new System.Exception(".text");
-			}
-
-
-		}
-
-		/// <summary>
-		/// http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/nodetype.asp
-		/// 
-		/// http://www.w3schools.com/dom/dom_nodetype.asp
-		/// 
-		/// to be replace with  System.Xml.XmlNodeType ?
-		/// </summary>
-		public enum NodeTypeEnum
-		{
-			None = 0,
-			ElementNode = 1,
-			TextNode = 3,
-			CommentNode = 8
-		}
-
-		public NodeTypeEnum nodeType;
-
-		public INode parentNode;
-
-		public INode firstChild;
-		public INode lastChild;
-
-		public INode previousSibling;
-		public INode nextSibling;
-
-		public INode[] childNodes;
-
-		public INode cloneNode(bool deep) { return default(INode); }
-
-		public readonly IDocument<IElement> ownerDocument;
+                throw new System.Exception(".text");
+            }
 
 
+        }
 
-		public void appendChild(INode child)
-		{
+        /// <summary>
+        /// http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/nodetype.asp
+        /// 
+        /// http://www.w3schools.com/dom/dom_nodetype.asp
+        /// 
+        /// to be replace with  System.Xml.XmlNodeType ?
+        /// </summary>
+        public enum NodeTypeEnum
+        {
+            None = 0,
+            ElementNode = 1,
+            TextNode = 3,
+            CommentNode = 8
+        }
 
-		}
+        public NodeTypeEnum nodeType;
 
-		public void insertBefore(INode newNode, INode oldNode)
-		{
+        public INode parentNode;
 
-		}
+        public INode firstChild;
+        public INode lastChild;
+
+        public INode previousSibling;
+        public INode nextSibling;
+
+        public INode[] childNodes;
+
+        public INode cloneNode(bool deep) { return default(INode); }
+
+        public readonly IDocument<IElement> ownerDocument;
 
 
 
-		[Script(DefineAsStatic = true)]
-		public void insertPreviousSibling(INode e)
-		{
-			parentNode.insertBefore(e, this);
-		}
+        public void appendChild(INode child)
+        {
 
-		/// <summary>
-		/// extension method
-		/// </summary>
-		/// <param name="e"></param>
-		[Script(DefineAsStatic = true)]
-		public void insertNextSibling(INode e)
-		{
-			if (nextSibling == null)
-			{
-				parentNode.appendChild(e);
-			}
-			else
-			{
-				nextSibling.insertPreviousSibling(e);
-			}
-		}
+        }
 
-		[Script(DefineAsStatic = true)]
-		public void appendChild(params INode[] children)
-		{
-			foreach (INode x in children)
-				appendChild(x);
+        [Script(DefineAsStatic = true)]
+        public void appendChild(INodeConvertible<INode> child)
+        {
+            appendChild(child.AsNode());
+        }
 
-		}
+        [Script(DefineAsStatic = true)]
+        public void appendChild(params INode[] children)
+        {
+            foreach (INode x in children)
+                appendChild(x);
 
-		[Script(DefineAsStatic = true)]
-		public void appendChild(params string[] e)
-		{
-			foreach (string z in e)
-				appendChild(new ITextNode(this.ownerDocument, z));
-		}
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void appendChild(params string[] e)
+        {
+            foreach (string z in e)
+                appendChild(new ITextNode(this.ownerDocument, z));
+        }
 
 
-		public void removeChild(INode e)
-		{
-		}
 
-		// http://developer.apple.com/internet/webcontent/dom2i.html
-		public void replaceChild(INode _new, INode _old)
-		{
-		}
 
-		#region IEnumerable<INode> Members
 
-		[Script(DefineAsStatic = true)]
-		public IEnumerator<INode> GetEnumerator()
-		{
-			// implementing interfaces on native types
-			// requres DefineAsStatic
 
-			// invoking explicit interface methods
-			// is not currently supported
+        public void insertBefore(INode newNode, INode oldNode)
+        {
 
-			// todo: jsc should create a wrapper to call DefineAsStatic methods via interf
+        }
 
-			// does jsc support Array / T[] to IEnumerable<T> yet?
 
-			var a = new List<INode>();
 
-			foreach (var item in this.childNodes)
-			{
-				a.Add(item);
-			}
+        [Script(DefineAsStatic = true)]
+        public void insertPreviousSibling(INode e)
+        {
+            parentNode.insertBefore(e, this);
+        }
 
-			return a.GetEnumerator();
-		}
+        /// <summary>
+        /// extension method
+        /// </summary>
+        /// <param name="e"></param>
+        [Script(DefineAsStatic = true)]
+        public void insertNextSibling(INode e)
+        {
+            if (nextSibling == null)
+            {
+                parentNode.appendChild(e);
+            }
+            else
+            {
+                nextSibling.insertPreviousSibling(e);
+            }
+        }
 
-		#endregion
 
-		#region IEnumerable Members
+        public void removeChild(INode e)
+        {
+        }
 
-		[Script(DefineAsStatic = true)]
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			// notice: this method cannot be called by current jsc 
-			// implementation.
+        // http://developer.apple.com/internet/webcontent/dom2i.html
+        public void replaceChild(INode _new, INode _old)
+        {
+        }
 
-			return this.GetEnumerator();
-		}
+        #region IEnumerable<INode> Members
 
-		#endregion
+        [Script(DefineAsStatic = true)]
+        public IEnumerator<INode> GetEnumerator()
+        {
+            // implementing interfaces on native types
+            // requres DefineAsStatic
 
-		[Script(DefineAsStatic = true)]
-		public void Add(INode e)
-		{
-			// Implementing Collection Initializers
-			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
+            // invoking explicit interface methods
+            // is not currently supported
 
-			this.appendChild(e);
-		}
+            // todo: jsc should create a wrapper to call DefineAsStatic methods via interf
 
-		[Script(DefineAsStatic = true)]
-		public void Add(INode[] e)
-		{
-			// Implementing Collection Initializers
-			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
+            // does jsc support Array / T[] to IEnumerable<T> yet?
 
-			foreach (var item in e)
-			{
-				this.appendChild(item);
-			}
-		}
+            var a = new List<INode>();
 
-		[Script(DefineAsStatic = true)]
-		public void Add(string e)
-		{
-			// Implementing Collection Initializers
-			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
+            foreach (var item in this.childNodes)
+            {
+                a.Add(item);
+            }
 
-			this.appendChild(new ITextNode(e));
-		}
-	}
+            return a.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        [Script(DefineAsStatic = true)]
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            // notice: this method cannot be called by current jsc 
+            // implementation.
+
+            return this.GetEnumerator();
+        }
+
+        #endregion
+
+        [Script(DefineAsStatic = true)]
+        public void Add(INode e)
+        {
+            // Implementing Collection Initializers
+            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+            this.appendChild(e);
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void Add(INode[] e)
+        {
+            // Implementing Collection Initializers
+            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+            foreach (var item in e)
+            {
+                this.appendChild(item);
+            }
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void Add(string e)
+        {
+            // Implementing Collection Initializers
+            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+            this.appendChild(new ITextNode(e));
+        }
+    }
 }

@@ -12,7 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLElement.idl
     [Script(InternalConstructor = true)]
-    public partial class IHTMLElement : IElement
+    public /* abstract */ partial class IHTMLElement : IElement
     {
         // element is like exception. its a base class. not ot be created. not to be thrown.
 

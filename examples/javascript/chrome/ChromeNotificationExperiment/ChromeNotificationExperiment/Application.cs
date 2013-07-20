@@ -46,7 +46,7 @@ namespace ChromeNotificationExperiment
                 chrome.app.window,
             });
 
-            // what are we running as?
+            // what are we running as?e
             // in browser by default?
             // in a web socket?
             // as a chrome application script? as _generated_background_page.html
@@ -61,7 +61,8 @@ namespace ChromeNotificationExperiment
                 // no HTML layout yet
 
                 if (Native.Window.opener == null)
-                {
+                    if (Native.Window.parent == Native.Window.self)
+                    {
                     chrome.app.runtime.onLaunched.addListener(
                         new Action(
                             delegate

@@ -48,7 +48,8 @@ namespace MulticastListenExperiment
                 // no HTML layout yet
 
                 if (Native.Window.opener == null)
-                {
+                    if (Native.Window.parent == Native.Window.self)
+                    {
                     chrome.app.runtime.onLaunched.addListener(
                         new Action(
                             delegate

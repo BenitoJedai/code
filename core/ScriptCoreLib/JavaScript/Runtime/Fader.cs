@@ -110,10 +110,10 @@ namespace ScriptCoreLib.JavaScript.Runtime
                             if (a.Counter == a.TimeToLive)
                             {
 
-                                target.Dispose();
+                                target.Orphanize();
 
                                 foreach (IHTMLElement z in cotargets)
-                                    z.Dispose();
+                                    z.Orphanize();
 
                                 
                                 

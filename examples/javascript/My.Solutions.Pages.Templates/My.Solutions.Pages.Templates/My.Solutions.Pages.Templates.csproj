@@ -273,6 +273,7 @@
     <Content Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\Preview512.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\Screenshot440x280.png" />
     <Content Include="staging\My.Solutions.Pages.Templates.ApplicationWebService\staging.net.debug\Screenshot640x400.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
