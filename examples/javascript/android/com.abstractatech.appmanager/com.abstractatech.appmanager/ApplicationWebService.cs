@@ -190,7 +190,9 @@ namespace com.abstractatech.appmanager
             Action<string> yield_port = null
          )
         {
-            System.Console.WriteLine("enter Launch " + new { packageName, name, ExtraKey, ExtraValue, DisableCallbackToken });
+            var context = ThreadLocalContextReference.CurrentContext as CoreAndroidWebServiceActivity;
+
+            System.Console.WriteLine("enter Launch " + new { packageName, name, ExtraKey, ExtraValue, DisableCallbackToken, context, ThreadLocalContextReference.CurrentContext });
 
 
 #if Android
@@ -225,9 +227,8 @@ namespace com.abstractatech.appmanager
                 i.putExtra("CallbackToken", CallbackToken);
             }
 
-            var context = ThreadLocalContextReference.CurrentContext;
 
-            (context as CoreAndroidWebServiceActivity).With(
+            context.With(
                a =>
                {
 
