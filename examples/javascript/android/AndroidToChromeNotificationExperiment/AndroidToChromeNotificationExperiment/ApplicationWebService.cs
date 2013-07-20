@@ -56,6 +56,10 @@ namespace AndroidToChromeNotificationExperiment
 
         }
 
+        public void Handler()
+        { 
+        
+        }
 
         // how would this look like?
         //internal void InitializeComponent(HTML.Pages.IApp page)

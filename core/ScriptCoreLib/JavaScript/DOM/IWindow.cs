@@ -102,7 +102,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         #region open
         // http://www.devguru.com/Technologies/ecmascript/quickref/win_open.html
-        public IWindow open(string URL, string target) { return default(IWindow); }
+        public IWindow open(string URL, string target = "_blank") { return default(IWindow); }
         public IWindow open(string URL, string target, string features) { return default(IWindow); }
 
         [Script(DefineAsStatic = true)]
@@ -236,7 +236,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 base.InternalEvent(true, value, "load");
 
-  
+
 
                 if (this.document.readyState == "complete")
                 {

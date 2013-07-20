@@ -254,10 +254,12 @@ namespace com.abstractatech.appmanager
                                     name,
 
                                     yield_port:
-                                        // we should remember the port
-                                        // to launch it offline via AppCache
+                                    // we should remember the port
+                                    // to launch it offline via AppCache
                                         port =>
                                         {
+                                            Console.WriteLine(new { port });
+
                                             // close to left sidebar!
                                             ff.Close();
 
@@ -329,6 +331,7 @@ namespace com.abstractatech.appmanager
                                             yield_port:
                                                 port =>
                                                 {
+                                                    Console.WriteLine(new { port });
                                                     // close to left sidebar!
                                                     ff.Close();
 
@@ -523,7 +526,7 @@ namespace com.abstractatech.appmanager
                 //I/System.Console( 3016):        at WithClickOnceLANLauncher.DownloadSDKFunction.DownloadSDK(DownloadSDKFunction.java:73)
                 //I/System.Console( 3016):        at WithClickOnceLANLauncher.ApplicationWebService.DownloadSDK(ApplicationWebService.java:44)
 
-                var key = p.Keys.AsEnumerable().Select(k => p[(string)k]).First(k => k.EndsWith(".application")).SkipUntilLastIfAny("/");
+                var key = p.Keys.ICollectionAsEnumerable().Select(k => p[(string)k]).First(k => k.EndsWith(".application")).SkipUntilLastIfAny("/");
 
                 Console.WriteLine(
                     new

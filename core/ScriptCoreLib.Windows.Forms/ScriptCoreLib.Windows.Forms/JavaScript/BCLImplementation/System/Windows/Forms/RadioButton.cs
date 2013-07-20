@@ -89,7 +89,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
 
 
-            button.Dispose();
+            button.Orphanize();
 
 
             this.button = IHTMLInput.CreateRadio(c.ControlGroupName, old.value, old_checked);

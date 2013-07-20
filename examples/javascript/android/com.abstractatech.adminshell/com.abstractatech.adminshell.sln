@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.adminshell", "com.abstractatech.adminshell\com.abstractatech.adminshell.csproj", "{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellWithPing", "..\ShellWithPing\ShellWithPing\ShellWithPing.csproj", "{0267AB63-ECEC-4ECC-A3B3-853C3138A826}"
@@ -17,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.adminshell.chrome", "com.abstractatech.adminshell.chrome\com.abstractatech.adminshell.chrome.csproj", "{19B71A41-320E-415A-B6E3-4B330E31CEF7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.adminshell.clrlauncher", "com.abstractatech.adminshell.clrlauncher\com.abstractatech.adminshell.clrlauncher.csproj", "{4F447B8E-F250-4877-8E1C-A571C79DEE01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Multicast", "..\..\..\..\market\Abstractatech.Multicast\Abstractatech.Multicast\Abstractatech.Multicast.csproj", "{327F22EB-51F3-4545-A839-F79005C69D8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -162,6 +164,31 @@ Global
 		{4F447B8E-F250-4877-8E1C-A571C79DEE01}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4F447B8E-F250-4877-8E1C-A571C79DEE01}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4F447B8E-F250-4877-8E1C-A571C79DEE01}.Release|x86.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Android|Any CPU.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Android|x86.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.AppEngine|Any CPU.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.AppEngine|Any CPU.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.AppEngine|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.AppEngine|Mixed Platforms.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.AppEngine|x86.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.PHP|x86.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
