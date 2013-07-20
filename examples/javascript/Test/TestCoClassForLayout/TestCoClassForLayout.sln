@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCoClassForLayout", "TestCoClassForLayout\TestCoClassForLayout.csproj", "{0D736B38-1399-47C6-993F-4916BAD03990}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TestCoClassForLayoutVB", "TestCoClassForLayoutVB\TestCoClassForLayoutVB.vbproj", "{ABB94A07-FADE-48C6-A5AE-B904900DC63E}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TestCoClassForLayoutFSharp", "TestCoClassForLayoutFSharp\TestCoClassForLayoutFSharp.fsproj", "{0A90FBAC-3302-40A3-839E-D49FB1A6015F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Debug|x86.ActiveCfg = Debug|x86
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Debug|x86.Build.0 = Debug|x86
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|x86.ActiveCfg = Release|x86
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|x86.Build.0 = Release|x86
+		{ABB94A07-FADE-48C6-A5AE-B904900DC63E}.Debug|x86.ActiveCfg = Debug|x86
+		{ABB94A07-FADE-48C6-A5AE-B904900DC63E}.Debug|x86.Build.0 = Debug|x86
+		{ABB94A07-FADE-48C6-A5AE-B904900DC63E}.Release|x86.ActiveCfg = Release|x86
+		{ABB94A07-FADE-48C6-A5AE-B904900DC63E}.Release|x86.Build.0 = Release|x86
+		{0A90FBAC-3302-40A3-839E-D49FB1A6015F}.Debug|x86.ActiveCfg = Debug|x86
+		{0A90FBAC-3302-40A3-839E-D49FB1A6015F}.Debug|x86.Build.0 = Debug|x86
+		{0A90FBAC-3302-40A3-839E-D49FB1A6015F}.Release|x86.ActiveCfg = Release|x86
+		{0A90FBAC-3302-40A3-839E-D49FB1A6015F}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
