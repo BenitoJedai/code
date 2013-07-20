@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.appmanager", "com.abstractatech.appmanager\com.abstractatech.appmanager.csproj", "{B20451B6-4E24-4287-A475-0AB6A1B9560B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.appmanager.windows", "com.abstractatech.appmanager.windows\com.abstractatech.appmanager.windows.csproj", "{CED99E35-F368-472F-A254-1E479AE860FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidNotificationWebActivity", "..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj", "{68616DF5-AD84-4D65-85C4-35BB96171391}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSMinimizeFormToSidebar", "..\..\css\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar.csproj", "{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}"
 EndProject
@@ -64,16 +64,16 @@ Global
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Release|Mixed Platforms.Build.0 = Release|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Release|x86.ActiveCfg = Release|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Release|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|Mixed Platforms.Build.0 = Debug|x86

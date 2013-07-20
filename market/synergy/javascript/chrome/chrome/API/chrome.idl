@@ -63,12 +63,13 @@ interface SocketModule
 
 };
 
+// dictionary?
 interface RecvFromInfo 
 {
 	attribute long resultCode;
 	attribute long port;
 	attribute DOMString address;
-	attribute ArrayBufferView data;
+	attribute ArrayBuffer data;
 };
 
 interface CreateInfo 

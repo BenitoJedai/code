@@ -190,6 +190,9 @@ namespace com.abstractatech.appmanager
             Action<string> yield_port = null
          )
         {
+            System.Console.WriteLine("enter Launch " + new { packageName, name, ExtraKey, ExtraValue, DisableCallbackToken });
+
+
 #if Android
             // http://stackoverflow.com/questions/12504954/how-to-start-an-intent-from-a-resolveinfo
             var c = new ComponentName(packageName, name);
@@ -275,12 +278,14 @@ namespace com.abstractatech.appmanager
                        System.Console.WriteLine("waiting for callback...");
 
                        // how long shall we wait? what if the app is not a jsc app?
-                       done.WaitOne(900);
+                       done.WaitOne(1200);
 
-                       System.Console.WriteLine("waiting for callback... done!");
+                       System.Console.WriteLine("waiting for callback... done! " + new { value });
 
                        if (value != null)
                        {
+                           System.Console.WriteLine("waiting for callback... done! " + new { value.port });
+
                            yield_port("" + value.port);
                        }
                    }
@@ -291,6 +296,7 @@ namespace com.abstractatech.appmanager
 
 #endif
 
+            System.Console.WriteLine("exit Launch " + new { packageName, name, ExtraKey, ExtraValue, DisableCallbackToken });
         }
 
 
@@ -343,7 +349,8 @@ namespace com.abstractatech.appmanager
 
             if (h.Context.Request.Path == "/a")
             {
-                var OK = false;
+                var OK = true;
+                //var OK = false; // chrome webview cannot do 401
 
 
                 if (Host == h.Context.Request.UserHostAddress)
@@ -633,6 +640,25 @@ namespace com.abstractatech.appmanager
                     Port = HostUri.Port,
 
                 };
+
+
+
+            if (h.IsDefaultPath)
+            {
+                new Thread(
+                      delegate()
+                      {
+
+
+                          InternalMulticast.SendVisitMeAt();
+                      }
+                                   )
+                {
+
+                    Name = "client"
+                }.Start();
+
+            }
 #endif
 
             DownloadSDKFunction.DownloadSDK(h);
@@ -736,9 +762,7 @@ namespace com.abstractatech.appmanager
 
                 if (xml.Value.StartsWith("Where are you?"))
                 {
-                    this.Send(
-                        "Visit me at " + this.Host + ":" + this.Port
-                    );
+                    SendVisitMeAt();
 
                 }
             }
@@ -749,6 +773,16 @@ namespace com.abstractatech.appmanager
 
 
         }
+
+        public void SendVisitMeAt()
+        {
+            System.Console.WriteLine("SendVisitMeAt");
+
+            this.Send(
+                "Visit me at " + this.Host + ":" + this.Port
+            );
+        }
+
 
         int c;
         void Send(string data)

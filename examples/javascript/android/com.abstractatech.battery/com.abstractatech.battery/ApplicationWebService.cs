@@ -14,7 +14,6 @@ namespace com.abstractatech.battery
     /// </summary>
     public sealed class ApplicationWebService
     {
-        Context context = global::ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
 
 
         // http://developer.android.com/training/monitoring-device-state/battery-monitoring.html
@@ -30,15 +29,27 @@ namespace com.abstractatech.battery
 
         public void batteryStatus(Action<string> y)
         {
+            Console.WriteLine("enter batteryStatus");
             var ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            var batteryStatus = context.registerReceiver(null, ifilter);
 
-            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            global::ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.With(
+                context =>
+                {
+                    context.registerReceiver(null, ifilter).With(
+                        batteryStatus =>
+                        {
 
-            float batteryPct = level / (float)scale;
+                            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-            y("" + batteryPct);
+                            float batteryPct = level / (float)scale;
+                            Console.WriteLine(new { batteryPct });
+                            y("" + batteryPct);
+                        }
+                    );
+                }
+            );
+            Console.WriteLine("exit batteryStatus");
         }
 
         // jsc please implement other datatypes :)

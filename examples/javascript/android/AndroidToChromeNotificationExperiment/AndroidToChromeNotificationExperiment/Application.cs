@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using AndroidToChromeNotificationExperiment.Design;
 using AndroidToChromeNotificationExperiment.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace AndroidToChromeNotificationExperiment
 {
@@ -226,7 +227,180 @@ namespace AndroidToChromeNotificationExperiment
                                                                                   callback: new Action<RecvFromInfo>(
                                                                                       result =>
                                                                                       {
-                                                                                          notify("recvFrom", new { result.resultCode }.ToString(), null);
+                                                                                          try
+                                                                                          {
+                                                                                              var bytes = new byte[result.data.byteLength];
+
+                                                                                              var source = new ScriptCoreLib.JavaScript.WebGL.Uint8Array(
+                                                                                                     result.data,
+                                                                                                     0,
+                                                                                                     result.data.byteLength
+                                                                                                     );
+
+                                                                                              for (uint i = 0; i < source.length; i++)
+                                                                                              {
+                                                                                                  bytes[i] = source[i];
+                                                                                              }
+
+                                                                                              var text = Encoding.UTF8.GetString(bytes);
+
+                                                                                              notify("recvFrom", new
+                                                                                              {
+                                                                                                  result.resultCode,
+                                                                                                  result.address,
+                                                                                                  result.port,
+                                                                                                  result.data.byteLength,
+                                                                                              }.ToString()
+                                                                                                 + "\n" + text,
+
+                                                                                                 delegate
+                                                                                                 {
+                                                                                                     Console.WriteLine("Click!");
+
+                                                                                                     var xml = XElement.Parse(text);
+
+                                                                                                     if (xml.Value.StartsWith("Visit me at "))
+                                                                                                     {
+                                                                                                         //StringExtensions
+                                                                                                         //StringExtensions
+
+                                                                                                         var uri = "http://" + xml.Value.SkipUntilOrEmpty("Visit me at ");
+
+
+                                                                                                         Console.WriteLine(new { uri });
+
+                                                                                                         #region AppWindow
+                                                                                                         chrome.app.window.create(
+                                                                                                                  Native.Document.location.pathname,
+                                                                                                                  null,
+                                                                                                                  new Action<AppWindow>(
+                                                                                                                      appwindow =>
+                                                                                                                      {
+                                                                                                                          // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                                                                                                          Console.WriteLine("appwindow loading... " + new { appwindow });
+                                                                                                                          Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
+
+
+
+                                                                                                                          appwindow.contentWindow.onload +=
+                                                                                                                              delegate
+                                                                                                                              {
+                                                                                                                                  Console.WriteLine("appwindow contentWindow onload");
+
+
+                                                                                                                                  //new IHTMLButton("dynamic").AttachTo(
+                                                                                                                                  //    appwindow.contentWindow.document.body
+                                                                                                                                  //);
+
+                                                                                                                                  // http://developer.chrome.com/apps/webview_tag.html
+                                                                                                                                  // http://stackoverflow.com/questions/16635739/google-chrome-app-webview-behavior
+                                                                                                                                  var webview = Native.Document.createElement("webview");
+                                                                                                                                  // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
+                                                                                                                                  webview.setAttribute("partition", "p1");
+                                                                                                                                  webview.setAttribute("src", uri);
+                                                                                                                                  webview.style.SetLocation(0, 0);
+                                                                                                                                  webview.style.width = "100%";
+                                                                                                                                  webview.style.height = "100%";
+
+                                                                                                                                  webview.AttachTo(appwindow.contentWindow.document.body);
+                                                                                                                                  // https://code.google.com/p/chromium/issues/detail?id=248421
+                                                                                                                                  // https://docs.google.com/document/d/1T4MOIw0CN_3RU5Dr9f6DDZUiXye0x0CGxgfYStP2Sms/edit?pli=1
+
+                                                                                                                                  webview.addEventListener(
+                                                                                                                                      "newwindow",
+                                                                                                                                      new Action<IEvent>(
+                                                                                                                                          ee =>
+                                                                                                                                          {
+                                                                                                                                              // Uncaught Error: <webview>: An action has already been taken for this "newwindow" event. 
+
+                                                                                                                                              ee.preventDefault();
+
+                                                                                                                                              dynamic e = ee;
+
+
+                                                                                                                                              // https://plus.google.com/100132233764003563318/posts/2dNmkacjiat
+
+                                                                                                                                              string targetUrl = e.targetUrl;
+                                                                                                                                              Console.WriteLine(new { targetUrl });
+
+                                                                                                                                              // attach or discard
+                                                                                                                                              object newwindow = e.window;
+
+                                                                                                                                              Console.WriteLine(new { newwindow });
+
+                                                                                                                                              chrome.app.window.create(
+                                                                                                                                                   Native.Document.location.pathname,
+                                                                                                                                                   null,
+                                                                                                                                                   new Action<AppWindow>(
+                                                                                                                                                       xappwindow =>
+                                                                                                                                                       {
+                                                                                                                                                           // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                                                                                                                                           Console.WriteLine("appwindow loading... " + new { xappwindow });
+                                                                                                                                                           Console.WriteLine("appwindow loading... " + new { xappwindow.contentWindow });
+
+
+
+                                                                                                                                                           xappwindow.contentWindow.onload +=
+                                                                                                                                                                delegate
+                                                                                                                                                                {
+                                                                                                                                                                    var xwebview = xappwindow.contentWindow.document.createElement("webview");
+                                                                                                                                                                    //var xwebview = xappwindow.contentWindow.document.createElement("webview");
+                                                                                                                                                                    // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
+                                                                                                                                                                    //xwebview.setAttribute("partition", "p1");
+                                                                                                                                                                    //xwebview.setAttribute("src", uri);
+                                                                                                                                                                    xwebview.style.SetLocation(0, 0);
+                                                                                                                                                                    xwebview.style.width = "100%";
+                                                                                                                                                                    xwebview.style.height = "100%";
+
+                                                                                                                                                                    xwebview.AttachTo(xappwindow.contentWindow.document.body);
+                                                                                                                                                                    //https://groups.google.com/a/chromium.org/forum/#!topic/chromium-apps/zzGLSiyWCnM
+                                                                                                                                                                    // <webview>: Unable to attach the new window to the provided webview. 
+
+
+                                                                                                                                                                    new IFunction("w", "v", "w.attach(v);").apply(null, newwindow, xwebview);
+
+                                                                                                                                                                };
+                                                                                                                                                       }
+                                                                                                                                                                               ));
+
+
+
+                                                                                                                                          }
+                                                                                                                                    ),
+                                                                                                                                    false
+                                                                                                                                  );
+                                                                                                                              };
+
+                                                                                                                          //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+
+
+
+                                                                                                                      }
+                                                                                                                  )
+                                                                                                              );
+                                                                                                         #endregion
+
+
+                                                                                                         // <webview>: A new window was blocked. 
+
+
+
+                                                                                                         //Native.Window.open(uri);
+
+
+
+
+                                                                                                     }
+                                                                                                 }
+                                                                                              );
+                                                                                          }
+                                                                                          catch
+                                                                                          {
+                                                                                              notify("recvFrom", "error", null);
+                                                                                          }
 
 
 

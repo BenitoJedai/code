@@ -162,7 +162,7 @@ namespace com.abstractatech.adminshell
                     //method: Void AppendCookie(System.Web.HttpCookie)
                     // not working on android?
                     h.Context.Response.SetCookie(
-                        new HttpCookie("foo", "bar")
+                        new System.Web.HttpCookie("foo", "bar")
                     );
 
                     h.WriteSource(a);
@@ -183,11 +183,11 @@ namespace com.abstractatech.adminshell
                 return;
             }
         }
-        
-        
-        
-        
-        
+
+
+
+
+
         public void DownloadSDK(WebServiceHandler h)
         {
             var HostUri = new
@@ -198,6 +198,7 @@ namespace com.abstractatech.adminshell
 
 
 #if DEBUG
+            // An attempt was made to access a socket in a way forbidden by its access permissions
             if (InternalMulticast == null)
                 InternalMulticast = new WithClickOnceLANLauncher.ApplicationWebServiceMulticast
                 {
@@ -213,6 +214,24 @@ namespace com.abstractatech.adminshell
                     Port = HostUri.Port,
 
                 };
+
+            if (h.IsDefaultPath)
+            {
+                new Thread(
+                      delegate()
+                      {
+
+
+                          InternalMulticast.SendVisitMeAt();
+                      }
+                                   )
+                  {
+
+                      Name = "client"
+                  }.Start();
+
+            }
+
 #endif
 
             DownloadSDKFunction.DownloadSDK(h);
@@ -302,7 +321,7 @@ namespace com.abstractatech.adminshell
 
         void AndroidApplicationWebServiceMulticast_AtData(string listen)
         {
-            Console.WriteLine(
+            System.Console.WriteLine(
 
                new { server = new { listen } }
                );
@@ -313,9 +332,7 @@ namespace com.abstractatech.adminshell
 
                 if (xml.Value.StartsWith("Where are you?"))
                 {
-                    this.Send(
-                        "Visit me at " + this.Host + ":" + this.Port
-                    );
+                    SendVisitMeAt();
 
                 }
             }
@@ -325,6 +342,15 @@ namespace com.abstractatech.adminshell
             }
 
 
+        }
+
+        public void SendVisitMeAt()
+        {
+            System.Console.WriteLine("SendVisitMeAt");
+
+            this.Send(
+                "Visit me at " + this.Host + ":" + this.Port
+            );
         }
 
         int c;
