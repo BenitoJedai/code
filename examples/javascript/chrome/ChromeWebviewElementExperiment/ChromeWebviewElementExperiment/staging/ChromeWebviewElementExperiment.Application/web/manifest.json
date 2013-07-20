@@ -1,0 +1,31 @@
+{
+"manifest_version": 2,
+  "name": "ChromeWebviewElementExperiment",
+  "description": "ChromeWebviewElementExperiment",
+  "version": "8",
+ "minimum_chrome_version": "27",
+  "offline_enabled": true,
+
+  "app": {
+
+	"background": {
+      "scripts": ["view-source"]
+    }
+  },
+  "icons": {
+  },
+  
+  
+  "permissions": [
+  "webview",
+  "fullscreen",
+  "pointerLock",
+    "unlimitedStorage",
+	    "notifications",
+		    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership"]
+    }
+  ]
+
+}
