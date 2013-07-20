@@ -337,6 +337,7 @@ namespace MulticastListenExperiment
 
                     new IHTMLDiv { innerText = new { socketId }.ToString() }.AttachToDocument();
 
+                    #region send data
                     new IHTMLButton { innerText = "send data" }.AttachToDocument().WhenClicked(
                         delegate
                         {
@@ -365,6 +366,7 @@ namespace MulticastListenExperiment
 
                         }
                     );
+                    #endregion
 
                     Action<int> at_setMulticastTimeToLive =
                         value_setMulticastTimeToLive =>
@@ -376,54 +378,55 @@ namespace MulticastListenExperiment
                                 {
                                     new IHTMLDiv { innerText = new { value_bind }.ToString() }.AttachToDocument();
 
-
-                                    Action<int> at_joinGroup =
-                                        value_joinGroup =>
-                                        {
-                                            new IHTMLDiv { innerText = new { value_joinGroup }.ToString() }.AttachToDocument();
-
-
-                                            Action poll = null;
-
-                                            poll = delegate
+                                    chrome.socket.joinGroup(socketId, "239.1.2.3", 
+                                    
+                                        callback: new  Action<int> (
+                                             value_joinGroup =>
                                             {
-                                                chrome.socket.recvFrom(socketId,
-                                                    1048576,
-
-                                                    callback: new Action<RecvFromInfo>(
-                                                        result =>
-                                                        {
-                                                            new IHTMLDiv { innerText = new { result.resultCode }.ToString() }.AttachToDocument();
+                                                new IHTMLDiv { innerText = new { value_joinGroup }.ToString() }.AttachToDocument();
 
 
-                                                            if (result.resultCode < 0)
-                                                                return;
+                                                Action poll = null;
 
-                                                            new IHTMLDiv { innerText = new { result.data.byteLength }.ToString() }.AttachToDocument();
+                                                poll = delegate
+                                                {
+                                                    chrome.socket.recvFrom(socketId,
+                                                        1048576,
 
-                                                            poll();
-                                                        }
-                                                    )
-                                                );
-                                            };
+                                                        callback: new Action<RecvFromInfo>(
+                                                            result =>
+                                                            {
+                                                                new IHTMLDiv { innerText = new { result.resultCode }.ToString() }.AttachToDocument();
 
-                                            poll();
-                                        };
 
-                                    chrome.socket.joinGroup(socketId, "239.1.2.3", IFunction.OfDelegate(at_joinGroup));
+                                                                if (result.resultCode < 0)
+                                                                    return;
+
+                                                                new IHTMLDiv { innerText = new { result.data.byteLength }.ToString() }.AttachToDocument();
+
+                                                                poll();
+                                                            }
+                                                        )
+                                                    );
+                                                };
+
+                                                poll();
+                                            }
+                                        )
+                                    );
                                 };
 
-                            chrome.socket.bind(socketId, "0.0.0.0", 40404, IFunction.OfDelegate(at_bind));
+                            chrome.socket.bind(socketId, "0.0.0.0", 40404, at_bind);
 
                         };
 
-                    chrome.socket.setMulticastTimeToLive(socket.socketId, 30, IFunction.OfDelegate(at_setMulticastTimeToLive));
+                    chrome.socket.setMulticastTimeToLive(socket.socketId, 30, at_setMulticastTimeToLive);
                 };
 
             // https://code.google.com/p/chromium/issues/detail?id=246872
             // chrome.socket is not available: 'socket' requires a different Feature that is not present. 
             // chrome.socket is not available: 'socket' is only allowed for packaged apps, and this is a legacy packaged app. 
-            chrome.socket.create("udp", new object(), IFunction.OfDelegate(atcreate));
+            chrome.socket.create("udp", new object(), atcreate);
 
         }
 

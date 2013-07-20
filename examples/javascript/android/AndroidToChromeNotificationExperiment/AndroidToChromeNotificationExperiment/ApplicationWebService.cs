@@ -25,7 +25,8 @@ namespace AndroidToChromeNotificationExperiment
 
 
 
-
+#if !DEBUG
+            Console.WriteLine("NotifyChromeViaLANBroadcast");
             new Thread(
                 delegate()
                 {
@@ -38,6 +39,7 @@ namespace AndroidToChromeNotificationExperiment
                         var b = Encoding.UTF8.GetBytes("hi from android!");    //creates a variable b of type byte
                         var dgram = new DatagramPacket((sbyte[])(object)b, b.Length, InetAddress.getByName("239.1.2.3"), 40404);//sends the packet details, length of the packet,destination address and the port number as parameters to the DatagramPacket  
                         socket.send(dgram); //send the datagram packet from this port
+                        Console.WriteLine("NotifyChromeViaLANBroadcast done!");
                     }
                     catch (Exception ex)
                     {
@@ -50,6 +52,7 @@ namespace AndroidToChromeNotificationExperiment
 
                 Name = "sender"
             }.Start();
+#endif
 
         }
 
