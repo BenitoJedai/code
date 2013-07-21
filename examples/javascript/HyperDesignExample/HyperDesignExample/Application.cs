@@ -110,7 +110,7 @@ namespace HyperDesignExample
 					i.Delete.onclick +=
 						delegate
 						{
-							i.Container.Dispose();
+							i.Container.Orphanize();
 						};
 
 					i.Container.AttachTo(Items);
@@ -132,14 +132,14 @@ namespace HyperDesignExample
 							details.Discard.onclick +=
 								delegate
 								{
-									details.Container.Dispose();
+                                    details.Container.Orphanize();
 									i.Edit.disabled = false;
 								};
 
 							details.Save.onclick +=
 								delegate
 								{
-									details.Container.Dispose();
+                                    details.Container.Orphanize();
 									i.Edit.disabled = false;
 
 									j.Bio = details.Bio.value;
