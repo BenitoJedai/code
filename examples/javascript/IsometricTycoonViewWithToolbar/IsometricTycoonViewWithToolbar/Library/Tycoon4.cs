@@ -926,7 +926,7 @@ namespace ThreeDStuff.js
                                 {
                                     foreach (var t in GetTileElementsAt(map_coords).ToArray())
                                     {
-                                        t.Image.Dispose();
+                                        t.Image.Orphanize();
 
                                         t.RemoveFrom(KnownTileElements);
                                         t.RemoveFrom(KnownDirtTileElements);
@@ -1166,7 +1166,7 @@ namespace ThreeDStuff.js
                                     {
                                         if (v.Image != null)
                                         {
-                                            v.Image.Dispose();
+                                            v.Image.Orphanize();
                                             v.Image = null;
                                         }
 

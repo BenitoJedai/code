@@ -112,7 +112,7 @@ namespace MatrixTransformC1Example
 
 					foreach (var k in z)
 					{
-						k.Image.Element.Dispose();
+						k.Image.Element.Orphanize();
 
 
 						//k.Image.style.SetSize(System.Convert.ToInt32(100 * k.M11), 100);
