@@ -315,7 +315,7 @@ namespace NatureBoyTestPad.js
 
                     if (pending != null)
                     {
-                        pending.Control.Dispose();
+                        pending.Control.Orphanize();
                         pending = null;
                         arena.ShowSelectionRectangle = true;
 
@@ -363,7 +363,7 @@ namespace NatureBoyTestPad.js
                 {
                     if (pending != null)
                     {
-                        pending.Control.Dispose();
+                        pending.Control.Orphanize();
                         pending = null;
 
                         return;
@@ -391,7 +391,7 @@ namespace NatureBoyTestPad.js
                 {
                     foreach (var v in selection.ToArray())
                     {
-                        v.Control.Dispose();
+                        v.Control.Orphanize();
                         actors.Remove(v);
                     }
 
