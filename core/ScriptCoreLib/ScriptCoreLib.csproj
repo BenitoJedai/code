@@ -110,6 +110,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLOutput.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBase.cs" />
     <Compile Include="JavaScript\Extensions\INodeConvertible.cs" />
+    <Compile Include="JavaScript\WebGL\ArrayBuffer.cs" />
     <Compile Include="JavaScript\WebGL\WebGLTexture.cs" />
     <Compile Include="JavaScript\WebGL\WebGLBuffer.cs" />
     <Compile Include="JavaScript\WebGL\WebGLObject.cs" />
