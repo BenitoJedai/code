@@ -47,7 +47,9 @@ namespace TestSolutionBuilderV1
 			// Send xml to server
 			// http://do.jsc-solutions.net/Send-xml-to-server
 
-			page.Content = new StudioView(null).Content;
+            // wtf?
+            //page.Content = new StudioView(null).Content;
+            new StudioView(null).Content.AttachToDocument();
 
 
             //new ApplicationWebService().WebMethod2(
