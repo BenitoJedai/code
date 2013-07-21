@@ -4,15 +4,15 @@
   "description": "Operation Heat Zeeker",
   "version": "11",
   
-  "minimum_chrome_version": "23.0.1261",
+ "minimum_chrome_version": "27",
   "offline_enabled": true,
 
   "app": {
 
 
-    "launch": {
-      "local_path": "index.htm",
-      "container": "panel"
+  
+	"background": {
+      "scripts": ["view-source"]
     }
   },
   "icons": {
@@ -21,10 +21,10 @@
   },
   
   
-  "content_security_policy": "script-src 'unsafe-eval' 'self' ; object-src 'self'  'unsafe-eval'" ,
   
   
   "permissions": [
+  "webview",
     "unlimitedStorage",
     "notifications",
     "background"

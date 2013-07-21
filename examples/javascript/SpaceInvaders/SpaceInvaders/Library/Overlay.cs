@@ -38,8 +38,8 @@ namespace SpaceInvadersTemplate.Library
                     {
                         if (!_Visible)
                         {
-                            ControlInBack.Dispose();
-                            ControlInFront.Dispose();
+                            ControlInBack.Orphanize();
+                            ControlInFront.Orphanize();
                         }
                     };
 

@@ -729,7 +729,7 @@ namespace SpaceInvadersTemplate.Library.Controls
                     }
                 };
 
-                msg_loading.Dispose();
+                msg_loading.Orphanize();
             }
             , 50);
 

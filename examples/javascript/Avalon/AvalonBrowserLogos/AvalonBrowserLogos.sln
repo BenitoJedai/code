@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonBrowserLogos", "AvalonBrowserLogos\AvalonBrowserLogos.csproj", "{3BD2BD38-102C-4C19-88E1-60522B55403C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonBrowserLogos", "AvalonBrowserLogos\AvalonBrowserLogos.csproj", "{1E159C6B-6A83-491D-9B06-00465A5DBB30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components", "..\..\..\..\core\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.csproj", "{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}"
 EndProject
@@ -20,21 +20,21 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|Any CPU.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|Mixed Platforms.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|Mixed Platforms.Build.0 = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|x86.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|x86.Build.0 = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|x86.ActiveCfg = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|x86.Build.0 = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|Any CPU.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|Mixed Platforms.Build.0 = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|x86.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|x86.Build.0 = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|Any CPU.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|x86.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|x86.Build.0 = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|x86.ActiveCfg = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|x86.Build.0 = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|Any CPU.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|x86.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|x86.Build.0 = Release|x86
 		{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
 		{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}.Assets|Any CPU.Build.0 = Assets|Any CPU
 		{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU

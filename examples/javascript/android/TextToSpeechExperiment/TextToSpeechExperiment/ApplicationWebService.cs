@@ -21,31 +21,35 @@ namespace TextToSpeechExperiment
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
-            var a = new EventWaitHandle(false, EventResetMode.ManualReset);
+            if (mTts == null)
+            {
+                var a = new EventWaitHandle(false, EventResetMode.ManualReset);
 
-            var mTts = new TextToSpeech(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext,
+                mTts = new TextToSpeech(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext,
 
-                new XListener
-                {
-                    yield = c =>
+                    new XListener
                     {
-                        a.Set();
+                        yield = c =>
+                        {
+                            a.Set();
 
+                        }
                     }
-                }
 
-            );
+                );
 
-            a.WaitOne();
+                a.WaitOne();
+            }
 
-
+            Console.WriteLine("speak " + new { e });
             mTts.speak(e, TextToSpeech.QUEUE_FLUSH, null);
-
 
             // Send it back to the caller.
             y(e);
         }
 
+
+        static TextToSpeech mTts;
     }
 
     class XListener : TextToSpeech.OnInitListener
