@@ -123,7 +123,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                 Control.onclick +=
                     delegate
                     {
-                        Control.Dispose();
+                        Control.Orphanize();
                     };
             }
 
@@ -148,7 +148,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                     }
                     else
                     {
-                        this.Control.Dispose();
+                        this.Control.Orphanize();
                     }
                 }
             }
@@ -361,7 +361,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                     {
                         c1.blur();
 
-                        this.Control.Dispose();
+                        this.Control.Orphanize();
 
                         this.Value = e;
                     };
