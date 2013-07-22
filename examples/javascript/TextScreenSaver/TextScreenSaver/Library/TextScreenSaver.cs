@@ -190,7 +190,7 @@ namespace TextScreenSaver.js
 
                             timer_ref.Stop();
 
-                            vectors.ForEach(v => v.Dispose());
+                            vectors.ForEach(v => v.Orphanize());
 
                             abort_me = null;
                         };
