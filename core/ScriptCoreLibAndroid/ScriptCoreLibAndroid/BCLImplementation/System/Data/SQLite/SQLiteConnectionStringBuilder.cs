@@ -13,8 +13,14 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         public int Version { get; set; }
         public bool ReadOnly { get; set; }
 
-        protected override string InternalGetConnectionString()
+        // protected internal virtual string InternalGetConnectionString();
+        // { Message = Derived method 'InternalGetConnectionString' in type 'ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteConnectionStringBuilder' from assembly 'ScriptCoreLibAndroid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' cannot reduce access. }
+        public override string InternalGetConnectionString()
         {
+            // public  String InternalGetConnectionString()
+            //            [javac] T:\src\ScriptCoreLib\Android\BCLImplementation\System\Data\SQLite\__SQLiteConnectionStringBuilder.java:51: error: InternalGetConnectionString() in __SQLiteConnectionStringBuilder cannot override InternalGetConnectionString() in __DbConnectionStringBuilder
+            //[javac]     protected  String InternalGetConnectionString()
+            //[javac]                       ^
 
             var r = "";
 

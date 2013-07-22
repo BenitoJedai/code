@@ -73,7 +73,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
             // do all languages support is interface yet?
 
 
-            return this.GetType().FullName;
+            //[javac] V:\src\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\__Component.java:67: error: cannot find symbol
+            //[javac]         return  __Object.ScriptCoreLibJava_BCLImplementation_System___Object_GetType_0600263a(this).get_FullName();
+            //[javac]                         ^
+            //[javac]   symbol:   method ScriptCoreLibJava_BCLImplementation_System___Object_GetType_0600263a(__Component)
+            //[javac]   location: class __Object
+
+            // why would java not find object?
+            var t = this.GetType();
+
+            return t.FullName;
         }
     }
 }

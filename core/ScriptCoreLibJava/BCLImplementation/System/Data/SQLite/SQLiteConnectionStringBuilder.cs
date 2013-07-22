@@ -43,7 +43,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public static __SQLiteConnectionStringBuilder InternalConnectionString;
 
-        protected override string InternalGetConnectionString()
+        public override string InternalGetConnectionString()
         {
             var r = "";
 
