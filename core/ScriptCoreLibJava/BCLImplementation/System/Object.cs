@@ -29,6 +29,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		[Script(DefineAsStatic = true)]
 		new public Type GetType()
 		{
+
 			return __Type.GetTypeFromValue(this);
 		}
 

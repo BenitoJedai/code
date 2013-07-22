@@ -16,7 +16,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             }
         }
 
-        protected virtual string InternalGetConnectionString()
+        // should use public instead of protected..
+        public virtual string InternalGetConnectionString()
         {
             return null;
         }
