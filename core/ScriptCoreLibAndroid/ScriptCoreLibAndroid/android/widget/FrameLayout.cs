@@ -14,20 +14,22 @@ namespace android.widget
     {
         // members and types are to be extended by jsc at release build
 
-        public FrameLayout(Context c) : base(c)
+        public FrameLayout(Context c)
+            : base(c)
         {
 
         }
 
-        public void addView(View view, ViewGroup.LayoutParams @params)
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/20130722-new-release
+        public virtual void addView(View view, ViewGroup.LayoutParams @params)
         {
         }
 
-        public void removeView(View view)
+        public virtual void removeView(View view)
         {
         }
 
-        public void updateViewLayout(View view, ViewGroup.LayoutParams @params)
+        public virtual void updateViewLayout(View view, ViewGroup.LayoutParams @params)
         {
         }
     }
