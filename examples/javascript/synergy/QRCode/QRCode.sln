@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BAD148
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeocoticQR", "..\..\..\..\market\synergy\NeocoticQR\NeocoticQR\NeocoticQR.csproj", "{4FFD0992-0097-4C06-9362-19846B399732}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -20,6 +22,10 @@ Global
 		{06C8DCD9-E3E1-46FC-AFB8-255B6A4F6EDA}.Debug|x86.Build.0 = Debug|x86
 		{06C8DCD9-E3E1-46FC-AFB8-255B6A4F6EDA}.Release|x86.ActiveCfg = Release|x86
 		{06C8DCD9-E3E1-46FC-AFB8-255B6A4F6EDA}.Release|x86.Build.0 = Release|x86
+		{4FFD0992-0097-4C06-9362-19846B399732}.Debug|x86.ActiveCfg = Debug|x86
+		{4FFD0992-0097-4C06-9362-19846B399732}.Debug|x86.Build.0 = Debug|x86
+		{4FFD0992-0097-4C06-9362-19846B399732}.Release|x86.ActiveCfg = Release|x86
+		{4FFD0992-0097-4C06-9362-19846B399732}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
