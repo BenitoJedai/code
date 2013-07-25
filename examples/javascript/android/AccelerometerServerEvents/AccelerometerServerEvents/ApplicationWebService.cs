@@ -43,9 +43,13 @@ namespace AccelerometerServerEvents
             // http://www.w3.org/Protocols/HTTP/HTRQ_Headers.html
             var Accepts = h.Context.Request.Headers["Accept"];
 
+            // Accept:text/event-stream
+
             if (Accepts != null)
                 if (Accepts.Contains("text/event-stream"))
                 {
+                    // EventSource's response has a MIME type ("text/html") that is not "text/event-stream". Aborting the connection.
+
                     h.Context.Response.ContentType = "text/event-stream";
 
                     Action<XElement> data =

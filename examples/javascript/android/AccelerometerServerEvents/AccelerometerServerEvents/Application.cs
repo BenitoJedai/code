@@ -103,14 +103,17 @@ namespace AccelerometerServerEvents
             try
             {
                 // this is like a ComponentModel timer where handler can raise events
-                new EventSource().onmessage +=
+
+                // cache will block it..
+                // https://code.google.com/p/chromium/issues/detail?id=264170
+                new EventSource("/event-stream").onmessage +=
                      e =>
                      {
                          var xml = XElement.Parse((string)e.data);
 
-                         movementX = double.Parse(xml.Attribute("x").Value) ;
-                         movementY = -double.Parse(xml.Attribute("y").Value) ;
-                         movementZ = -double.Parse(xml.Attribute("z").Value) ;
+                         movementX = double.Parse(xml.Attribute("x").Value);
+                         movementY = -double.Parse(xml.Attribute("y").Value);
+                         movementZ = -double.Parse(xml.Attribute("z").Value);
 
 
                          if (movementY < -2)
