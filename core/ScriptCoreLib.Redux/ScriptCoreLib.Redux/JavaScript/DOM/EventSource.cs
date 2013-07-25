@@ -8,7 +8,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "EventSource")]
     public class EventSource : IEventTarget
     {
-        public EventSource(string url = "/")
+        // https://code.google.com/p/chromium/issues/detail?id=264170
+        public EventSource(string url = "/event-stream")
         {
         }
 

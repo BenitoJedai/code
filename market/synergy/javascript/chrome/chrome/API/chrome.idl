@@ -11,7 +11,30 @@ interface chrome
 	static attribute SocketModule			socket;
 	static attribute NotificationsModule    notifications;
 	static attribute TabsModule				tabs;
+	static attribute RuntimeModule			runtime;
 
+};
+
+// http://developer.chrome.com/apps/runtime.html
+interface RuntimeModule
+{
+
+	
+	// http://stackoverflow.com/questions/2963260/how-do-i-auto-reload-a-chrome-extension-im-developing
+	void reload();
+
+	void getPackageDirectoryEntry(function callback);
+
+	attribute ChromeEventTarget onStartup;
+	attribute ChromeEventTarget onInstalled;
+	attribute ChromeEventTarget onSuspend;
+	attribute ChromeEventTarget onSuspendCanceled;
+	attribute ChromeEventTarget onUpdateAvailable;
+	attribute ChromeEventTarget onConnect;
+	attribute ChromeEventTarget onConnectExternal;
+	attribute ChromeEventTarget onMessage;
+	attribute ChromeEventTarget onMessageExternal;
+	attribute ChromeEventTarget onRestartRequired;
 };
 
 
@@ -156,8 +179,12 @@ interface AppRuntimeModule
 
 	attribute ChromeEventTarget onLaunched;
 	attribute ChromeEventTarget onRestarted;
+
+
 };
 
+// http://dev.chromium.org/developers/design-documents/aura/aura-and-shell-dependencies
+// http://stackoverflow.com/questions/16255325/what-does-only-supported-in-ash-mean
 // http://developer.chrome.com/apps/app.window.html
 interface AppWindowModule
 {
@@ -176,10 +203,12 @@ interface BookmarksModule
 
 
 // http://developer.chrome.com/trunk/apps/app.window.html#type-AppWindow
+// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
 [Constructor]
 interface AppWindow 
 {
 
+	void close();
 	void restore();
 	void moveTo();
 	void clearAttention();

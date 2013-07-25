@@ -71,13 +71,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         #region Load
         bool InternalBeforeVisibleChangedDone = false;
-        public override void InternalBeforeVisibleChanged()
+        public override void InternalBeforeVisibleChanged(Action yield)
         {
             if (InternalBeforeVisibleChangedDone)
                 return;
             InternalBeforeVisibleChangedDone = true;
 
             InternalRaiseLoad();
+            yield();
         }
 
         public void InternalRaiseLoad()

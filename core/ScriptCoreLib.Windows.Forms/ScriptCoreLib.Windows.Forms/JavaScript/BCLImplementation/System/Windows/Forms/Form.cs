@@ -34,9 +34,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public IHTMLDiv HTMLTarget { get; set; }
 
         IHTMLDiv Caption = new IHTMLDiv();
-        IHTMLDiv CaptionShadow;
+        public IHTMLDiv CaptionShadow;
         IHTMLDiv CaptionContent;
-        IHTMLDiv CaptionForeground;
+        public IHTMLDiv CaptionForeground;
 
         IHTMLDiv ContentContainerPadding = new IHTMLDiv();
         IHTMLDiv ContentContainer;
@@ -87,7 +87,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public static event Action InternalMouseCapured;
         public static event Action InternalMouseReleased;
 
-        IHTMLDiv ResizeGripElement;
+        public IHTMLDiv ResizeGripElement;
 
         public __Form()
         {
@@ -192,9 +192,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CaptionContent = (IHTMLDiv)Caption.cloneNode(false);
             CaptionContent.style.backgroundColor = JSColor.None;
 
-            CaptionContent.style.WithDynamic(
-                style => style.textOverflow = "ellipsis"
-            );
+            (CaptionContent.style as dynamic).textOverflow = "ellipsis";
+
+            //CaptionContent.style.WithDynamic(
+            //    style => style.textOverflow = "ellipsis"
+            //);
+
             CaptionContent.style.lineHeight = "26px";
             CaptionContent.style.left = "26px";
             CaptionContent.style.right = "30px";
@@ -205,6 +208,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CaptionForeground.style.backgroundColor = ScriptCoreLib.Shared.Drawing.Color.FromRGB(255, 0, 255);
             CaptionForeground.style.Opacity = 0;
             CaptionForeground.className = "caption";
+            CaptionForeground.style.right = "26px";
 
             // http://dojotoolkit.org/pipermail/dojo-checkins/2005-December/002867.html
 
@@ -793,43 +797,64 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         #region Load
+
+        // allow to create system window and attach to that instead
+        // see also: X:\jsc.svn\examples\javascript\chrome\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
+        public static Action<__Form, Action> InternalHTMLTargetAttachToDocument =
+            (that, yield) =>
+            {
+                that.HTMLTarget.AttachToDocument();
+
+                yield();
+            };
+
         bool InternalBeforeVisibleChangedDone = false;
-        public override void InternalBeforeVisibleChanged()
+        public override void InternalBeforeVisibleChanged(Action yield)
         {
             if (InternalBeforeVisibleChangedDone)
+            {
+                yield();
                 return;
+            }
+
             InternalBeforeVisibleChangedDone = true;
 
 
-            if (this.StartPosition == FormStartPosition.CenterScreen)
-            {
-                this.Location = new Point
+        
+
+
+            InternalHTMLTargetAttachToDocument(
+                this,
+                delegate
                 {
-                    X = (Native.Window.Width - this.Width) / 2,
-                    Y = Math.Max(0, (Native.Window.Height - this.Height) / 2)
-                };
-            }
+                    if (this.StartPosition == FormStartPosition.CenterScreen)
+                    {
+                        this.Location = new Point
+                        {
+                            X = (Native.Window.Width - this.Width) / 2,
+                            Y = Math.Max(0, (Native.Window.Height - this.Height) / 2)
+                        };
+                    }
 
-            InternalRaiseLoad();
+                    InternalRaiseLoad();
 
-            InternalUpdateZIndex(HTMLTarget);
+                    InternalUpdateZIndex(HTMLTarget);
 
-            this.HTMLTarget.AttachToDocument();
-
-
-
-            InternalRaiseShown();
+                    InternalRaiseShown();
 
 
-            var length = this.Controls.Count;
+                    var length = this.Controls.Count;
 
-            for (int i = 0; i < length; i++)
-            {
-                var item = this.Controls[i];
+                    for (int i = 0; i < length; i++)
+                    {
+                        var item = this.Controls[i];
 
-                if (item.TabIndex == 0)
-                    item.Focus();
-            }
+                        if (item.TabIndex == 0)
+                            item.Focus();
+                    }
+                }
+            );
+
 
         }
 
@@ -1215,14 +1240,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public static bool BreakAtWindowState;
     }
 
-    [Script]
-    internal static partial class InternalExtensions
-    {
-        public static T WithDynamic<T>(this T e, Action<dynamic> y)
-        {
-            y(e);
+    //[Script]
+    //internal static partial class InternalExtensions
+    //{
+    //    public static T WithDynamic<T>(this T e, Action<dynamic> y)
+    //    {
+    //        y(e);
 
-            return e;
-        }
-    }
+    //        return e;
+    //    }
+    //}
 }

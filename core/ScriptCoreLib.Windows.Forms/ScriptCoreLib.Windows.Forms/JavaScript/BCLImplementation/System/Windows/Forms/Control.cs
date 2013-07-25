@@ -1400,9 +1400,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event Action InternalAtAfterVisibleChanged;
 
-        public virtual void InternalBeforeVisibleChanged()
+        public virtual void InternalBeforeVisibleChanged(Action yield)
         {
-
+            yield();
         }
 
 
@@ -1419,41 +1419,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             //Console.WriteLine(this.Name + " InternalVisibileChanged" + new { visible });
 
-            InternalBeforeVisibleChanged();
-
-            if (VisibleChanged != null)
-                VisibleChanged(this, e);
-
-
-            if (c != null)
-            {
-                //Console.WriteLine(this.Name + " InternalVisibileChanged" + new { visible, c.Count });
-
-                for (int i = 0; i < c.Count; i++)
+            InternalBeforeVisibleChanged(
+                delegate
                 {
-                    __Control v = c[i];
 
-                    //Console.WriteLine(this.Name + " InternalVisibileChanged " + new { visible, v.Visible, v.Name });
+                    if (VisibleChanged != null)
+                        VisibleChanged(this, e);
 
 
-                    //if (v.Visible)
-                    //{
-                    v.OnParentVisibleChanged(null /* EventArgs.Empty */ );
-                    //}
-
-                    if (!visible)
+                    if (c != null)
                     {
-                        v.OnParentBecameInvisible();
+                        //Console.WriteLine(this.Name + " InternalVisibileChanged" + new { visible, c.Count });
+
+                        for (int i = 0; i < c.Count; i++)
+                        {
+                            __Control v = c[i];
+
+                            //Console.WriteLine(this.Name + " InternalVisibileChanged " + new { visible, v.Visible, v.Name });
+
+
+                            //if (v.Visible)
+                            //{
+                            v.OnParentVisibleChanged(null /* EventArgs.Empty */ );
+                            //}
+
+                            if (!visible)
+                            {
+                                v.OnParentBecameInvisible();
+                            }
+
+                        }
+
                     }
 
+                    InternalInitializeContextMenuStrip();
+
+                    if (InternalAtAfterVisibleChanged != null)
+                        InternalAtAfterVisibleChanged();
+
+
                 }
+             );
 
-            }
-
-            InternalInitializeContextMenuStrip();
-
-            if (InternalAtAfterVisibleChanged != null)
-                InternalAtAfterVisibleChanged();
 
         }
 
