@@ -1,5 +1,5 @@
-using ChromeAppWindowFrameNoneExperiment.Design;
-using ChromeAppWindowFrameNoneExperiment.HTML.Pages;
+using ChromeFormsWebBrowserExperiment.Design;
+using ChromeFormsWebBrowserExperiment.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -18,7 +18,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace ChromeAppWindowFrameNoneExperiment
+namespace ChromeFormsWebBrowserExperiment
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -27,7 +27,6 @@ namespace ChromeAppWindowFrameNoneExperiment
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-        public readonly ApplicationControl content = new ApplicationControl();
 
         /// <summary>
         /// This is a javascript application.
@@ -35,8 +34,6 @@ namespace ChromeAppWindowFrameNoneExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            //Console.WriteLine("Application loading...");
-
             #region do InternalHTMLTargetAttachToDocument
             if (Expando.InternalIsMember(Native.Window, "chrome"))
                 if (chrome.app.runtime != null)
@@ -208,6 +205,14 @@ namespace ChromeAppWindowFrameNoneExperiment
                        };
                     #endregion
 
+                    __WebBrowser.InitializeInternalElement = that =>
+                        {
+                            var webview = Native.Document.createElement("webview");
+                            // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
+                            webview.setAttribute("partition", "p1");
+
+                            that.InternalElement = (IHTMLIFrame)(object)webview;
+                        };
 
                     __Form.InternalHTMLTargetAttachToDocument =
                         (that, yield) =>
@@ -261,18 +266,11 @@ namespace ChromeAppWindowFrameNoneExperiment
             #endregion
 
 
-            //FormStyler.AtFormCreated = FormStylerLikeAero.LikeAero;
-            //FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
-            //FormStyler.AtFormCreated = FormStyler.LikeWindows3;
-            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
-
             var xf = new Form();
+            var content = new ApplicationControl();
             content.BackColor = System.Drawing.Color.Transparent;
             xf.Controls.Add(content);
             xf.Show();
-
-            //            The webpage at http://192.168.1.100:6669/ might be temporarily down or it may have moved permanently to a new web address.
-            //Error code: ERR_UNSAFE_PORT
         }
 
     }
