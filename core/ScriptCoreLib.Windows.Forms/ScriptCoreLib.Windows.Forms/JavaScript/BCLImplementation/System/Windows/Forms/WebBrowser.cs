@@ -8,8 +8,9 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // tested by X:\jsc.svn\examples\javascript\chrome\ChromeFormsWebBrowserExperiment\ChromeFormsWebBrowserExperiment\Application.cs
     [Script(Implements = typeof(global::System.Windows.Forms.WebBrowser))]
-    internal class __WebBrowser : __WebBrowserBase
+    public class __WebBrowser : __WebBrowserBase
     {
         public bool ScriptErrorsSuppressed { get; set; }
 
@@ -48,11 +49,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void Navigate(string urlString)
         {
-            var loc = Native.Document.location.href;
 
             // about:blank
             if (!urlString.Contains(":"))
             {
+                var loc = Native.Document.location.href;
                 if (urlString.StartsWith("/"))
                     if (loc.EndsWith("/"))
                     {
@@ -64,6 +65,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // onload: { Url = ://out:NaN/, src = about:blank, href = about:blank }
             InternalUrl = new Uri(urlString);
+
+            Console.WriteLine(new { InternalUrl });
+
             this.InternalElement.src = urlString;
         }
 
@@ -109,15 +113,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // or should this be document completed?
         public event WebBrowserNavigatedEventHandler Navigated;
 
+
+        public static Action<__WebBrowser> InitializeInternalElement =
+            that =>
+            {
+                // Refused to frame 'http://example.com/' because it violates the following Content Security Policy directive: "frame-src 'self' data: chrome-extension-resource:".
+
+                that.InternalElement = new IHTMLIFrame
+                {
+                    frameBorder = "0",
+                    allowTransparency = true,
+                    allowFullScreen = true
+                };
+            };
+
         public __WebBrowser()
         {
-
-            this.InternalElement = new IHTMLIFrame
-            {
-                frameBorder = "0",
-                allowTransparency = true,
-                allowFullScreen = true
-            };
+            InitializeInternalElement(this);
 
             this.InternalElement.onload +=
                 delegate

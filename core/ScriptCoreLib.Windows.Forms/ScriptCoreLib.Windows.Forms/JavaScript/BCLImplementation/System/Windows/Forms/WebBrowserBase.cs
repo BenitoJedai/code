@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.WebBrowserBase))]
-    internal class __WebBrowserBase : __Control
+    public class __WebBrowserBase : __Control
     {
   
 
