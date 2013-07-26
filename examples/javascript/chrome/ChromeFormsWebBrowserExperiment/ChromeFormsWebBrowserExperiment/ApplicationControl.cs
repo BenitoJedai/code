@@ -24,5 +24,11 @@ namespace ChromeFormsWebBrowserExperiment
 
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.webBrowser1.Navigate("http://192.168.1.100:27463/");
+
+        }
+
     }
 }

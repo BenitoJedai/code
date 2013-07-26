@@ -211,6 +211,73 @@ namespace ChromeFormsWebBrowserExperiment
                             // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
                             webview.setAttribute("partition", "p1");
 
+
+
+                            webview.addEventListener(
+                              "newwindow",
+                              new Action<IEvent>(
+                                  ee =>
+                                  {
+                                      Console.WriteLine("newwindow");
+
+                                      // Uncaught Error: <webview>: An action has already been taken for this "newwindow" event. 
+
+                                      ee.preventDefault();
+
+                                      dynamic e = ee;
+
+
+                                      // https://plus.google.com/100132233764003563318/posts/2dNmkacjiat
+
+                                      string targetUrl = e.targetUrl;
+                                      Console.WriteLine(new { targetUrl });
+
+                                      // attach or discard
+                                      object newwindow = e.window;
+
+                                      Console.WriteLine(new { newwindow });
+
+
+                                      var nf = new Form();
+                                      var nfw = new WebBrowser();
+                                      var __nfw = (__WebBrowser)nfw;
+                                      nfw.Dock = DockStyle.Fill;
+                                      nf.Controls.Add(nfw);
+
+                                      nf.FormClosing +=
+                                          delegate
+                                          {
+                                              // { InternalUrl = chrome-extension://aemlnmcokphbneegoefdckonejmknohh:80/_generated_background_page.htmlnull## } 
+                                              Console.WriteLine("newwindow FormClosing");
+
+
+                                              nfw.Navigate("about:blank#");
+
+                                          };
+                                      nf.Shown +=
+                                          delegate
+                                          {
+
+                                              Console.WriteLine("newwindow Shown");
+
+                                              new IFunction("w", "v", "w.attach(v);").apply(null, newwindow, __nfw.InternalElement);
+
+                                          };
+
+                                      nf.Show();
+                                  }
+                           )
+                           );
+
+
+
+
+
+
+
+
+
+
                             that.InternalElement = (IHTMLIFrame)(object)webview;
                         };
 
@@ -265,6 +332,7 @@ namespace ChromeFormsWebBrowserExperiment
                 }
             #endregion
 
+            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
 
             var xf = new Form();
             var content = new ApplicationControl();

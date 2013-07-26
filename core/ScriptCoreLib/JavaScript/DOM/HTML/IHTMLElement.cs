@@ -1001,6 +1001,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
 
+        // tested by X:\jsc.svn\examples\javascript\Test\TestStaticOptimizedCode\TestStaticOptimizedCode\Class1.cs
         [Script(OptimizedCode = @"
 		if (that.requestPointerLock) {
 		    that.requestPointerLock();
@@ -1008,7 +1009,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		else if (that.mozRequestPointerLock) {
 		    that.mozRequestPointerLock();
 		}
-		else if (this.webkitRequestPointerLock) {
+		else if (that.webkitRequestPointerLock) {
 		    that.webkitRequestPointerLock();
 		}
                     

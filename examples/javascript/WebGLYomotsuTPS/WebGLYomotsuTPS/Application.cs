@@ -245,7 +245,7 @@ namespace WebGLYomotsuTPS
                     rotate();
                 };
 
-    
+
             container.onmouseup +=
               e =>
               {
@@ -283,6 +283,7 @@ namespace WebGLYomotsuTPS
 
                     };
 
+                    Console.WriteLine("requestPointerLock");
                     container.requestPointerLock();
                 };
 
