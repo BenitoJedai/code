@@ -77,34 +77,34 @@ namespace com.abstractatech.scholar
             };
 
 
-#if DEBUG
-            if (InternalMulticast == null)
-                InternalMulticast = new WithClickOnceLANLauncher.ApplicationWebServiceMulticast
-                {
-                    Host = HostUri.Host,
-                    Port = HostUri.Port,
+            //#if DEBUG
+            //            if (InternalMulticast == null)
+            //                InternalMulticast = new WithClickOnceLANLauncher.ApplicationWebServiceMulticast
+            //                {
+            //                    Host = HostUri.Host,
+            //                    Port = HostUri.Port,
 
-                };
-#else
-            if (InternalMulticast == null)
-                InternalMulticast = new AndroidApplicationWebServiceMulticast
-                {
-                    Host = HostUri.Host,
-                    Port = HostUri.Port,
+            //                };
+            //#else
+            //            if (InternalMulticast == null)
+            //                InternalMulticast = new AndroidApplicationWebServiceMulticast
+            //                {
+            //                    Host = HostUri.Host,
+            //                    Port = HostUri.Port,
 
-                };
-#endif
+            //                };
+            //#endif
 
             DownloadSDKFunction.DownloadSDK(h);
 
         }
 
-#if DEBUG
-        static WithClickOnceLANLauncher.ApplicationWebServiceMulticast InternalMulticast;
-#else
-        static AndroidApplicationWebServiceMulticast InternalMulticast;
+        //#if DEBUG
+        //        static WithClickOnceLANLauncher.ApplicationWebServiceMulticast InternalMulticast;
+        //#else
+        //        static AndroidApplicationWebServiceMulticast InternalMulticast;
 
-#endif
+        //#endif
 
 
     }

@@ -51,11 +51,11 @@ namespace WebGLSphereRayTrace
         public event Action<gl> onsurface;
         #endregion
 
-        sealed class __preserveDrawingBuffer
-        {
-            public bool alpha = false;
-            public bool preserveDrawingBuffer = true;
-        }
+        //sealed class __preserveDrawingBuffer
+        //{
+        //    public bool alpha = false;
+        //    public bool preserveDrawingBuffer = true;
+        //}
 
         public void InitializeContent()
         {
@@ -75,7 +75,8 @@ namespace WebGLSphereRayTrace
             try
             {
                 // if canvas object makes use of toDataUrl then this arg is required!
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new __preserveDrawingBuffer());
+                //gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new __preserveDrawingBuffer());
+                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new { preserveDrawingBuffer = true, alpha = false });
 
             }
             catch { }

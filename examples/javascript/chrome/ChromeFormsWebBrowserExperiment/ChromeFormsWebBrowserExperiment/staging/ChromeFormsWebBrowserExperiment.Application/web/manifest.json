@@ -1,0 +1,33 @@
+﻿{
+"manifest_version": 2,
+  "name": "ChromeFormsWebBrowserExperiment",
+  "description": "ChromeFormsWebBrowserExperiment",
+  "version": "11",
+  
+  
+    "minimum_chrome_version": "27",
+  "offline_enabled": true,
+
+  "app": {
+
+	"background": {
+      "scripts": ["view-source"]
+    }
+  },
+  "icons": {
+  },
+  
+  
+
+  "permissions": [
+  "webview",
+    "unlimitedStorage",
+	    "notifications",
+		    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership"]
+    }
+  ]
+  
+
+}

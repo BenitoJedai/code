@@ -56,6 +56,8 @@ interface ChromeEventTarget
 	void addListener(function callback);
 };
 
+
+// http://developer.chrome.com/extensions/notifications.html
 interface NotificationsModule
 {
 	attribute ChromeEventTarget onClosed;
@@ -63,6 +65,7 @@ interface NotificationsModule
 	attribute ChromeEventTarget onButtonClicked;
 
 	void create(string notificationId, any options, function callback);
+	void update(string notificationId, any options, function callback);
 };
 
 

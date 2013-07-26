@@ -398,11 +398,11 @@ else if (that.webkitCancelFullScreen) {
 
 
         [Script(OptimizedCode = @"
-		if (this.pointerLockElement) {
-		    return this.pointerLockElement;
+		if (that.pointerLockElement) {
+		    return that.pointerLockElement;
 		}
-		else if (this.webkitPointerLockElement) {
-		    return this.webkitPointerLockElement;
+		else if (that.webkitPointerLockElement) {
+		    return that.webkitPointerLockElement;
 		}
                     return null;
                 "
