@@ -1,8 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
 
-//namespace com.abstractatech.gamification.lbapp
-namespace LBAPrequelPromotion
+namespace FindWebApplicationIcon
 {
     /// <summary>
     /// You can debug your application by hitting F5.
