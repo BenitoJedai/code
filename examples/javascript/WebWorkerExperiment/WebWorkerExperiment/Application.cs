@@ -32,7 +32,7 @@ namespace WebWorkerExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            new ConsoleForm().InitializeConsoleFormWriter().Show();
+            new ConsoleForm { HandleFormClosing = false }.InitializeConsoleFormWriter().PopupInsteadOfClosing().Show();
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -49,30 +49,83 @@ namespace WebWorkerExperiment
             //dynamic w = new IFunction("return new Worker('/w');").apply(null);
 
 
+            try
+            {
 
-            // E/Web Console(30665): Uncaught ReferenceError: Worker is not defined at http://192.168.1.101:6612/view-source:48124
-            // does not exist on android webview!
-            var w = new Worker("/view-source/w");
+                // E/Web Console(30665): Uncaught ReferenceError: Worker is not defined at http://192.168.1.101:6612/view-source:48124
+                // does not exist on android webview!
 
-            //            onmessage: { data = hello from worker? { self = [object global], constructor = function DedicatedWorkerContext() { [native code] }, prototype = , href = http://192.168.1.100:3054/w } }
-            // view-source:26922
-            //onmessage: { data = mirror: { data = from app to worker  } }
+                Action wwdone = delegate
+                {
+
+                };
 
 
-            w.onmessage = IFunction.OfDelegate(
-                new Action<MessageEvent>(
-                    e =>
+                // should automatic code analysis select part of this code 
+                // and make it background?
+                InlineWorker ww = (data, yield) =>
+                {
+
+                    // thinking
+
+                    yield("long thinking complete! took a lot of cpu!",
+                        delegate
+                        {
+                            // ah more work 
+                            // async?
+
+                            wwdone();
+                        }
+                    );
+                };
+
+                ww("from app to worker ",
+                    (result, yield) =>
                     {
-                        Console.WriteLine("onmessage: " + new { e.data });
-                        // onmessage: { data = hello from worker? 1 }
+                        // i think worker has more to do
+                        yield();
+                        // call wwdone if done
                     }
-                )
-            );
+                );
+
+                var w = new Worker("/view-source/w");
+
+                //            onmessage: { data = hello from worker? { self = [object global], constructor = function DedicatedWorkerContext() { [native code] }, prototype = , href = http://192.168.1.100:3054/w } }
+                // view-source:26922
+                //onmessage: { data = mirror: { data = from app to worker  } }
 
 
-            w.postMessage("from app to worker ");
+                w.onmessage = IFunction.OfDelegate(
+                    new Action<MessageEvent>(
+                        e =>
+                        {
+                            Console.WriteLine("onmessage: " + new { e.data });
+                            // onmessage: { data = hello from worker? 1 }
+                        }
+                    )
+                );
 
+
+                w.postMessage("from app to worker ");
+
+                page.SendAMessageToWebWorker.onclick +=
+                    delegate
+                    {
+                        w.postMessage("from click to worker ");
+                    };
+            }
+            catch (Exception ex)
+            {
+                // do we have stacktace in js?
+                // script: error JSC1000: No implementation found for this native method, please implement [System.Exception.get_StackTrace()]
+                //Console.WriteLine("error: " + new { ex.Message, ex.StackTrace });
+                Console.WriteLine("error: " + new { ex.Message });
+
+            }
         }
+
+
+        public delegate void InlineWorker(string data, Action<string, Action> yield);
 
         // ApplicationWorker
         public sealed class w
@@ -83,12 +136,21 @@ namespace WebWorkerExperiment
 
 
             //public  w(DedicatedWorkerGlobalScope __self = null)
-            public w(IApp page = null)
+
+            //1:0032:0001 WebWorkerExperiment.Application+w create <>f__AnonymousType$60$3`4
+            //RewriteToAssembly error: System.InvalidOperationException: Sequence contains no elements
+            //   at System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+            //   at jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.InjectJavaScriptBootstrap(TypeRewriteArguments a, Type arg) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs:line 81
+            //   at jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.<>c__DisplayClass1d9.<InternalInvoke>b__172(TypeRewriteArguments a) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.cs:line 545
+
+            //            public w(INodeConvertible<IHTMLScript> worker = null)
             //public w(IHTMLElement page = null)
+
+            public w(IApp parent = null)
             {
                 // IE
                 // onmessage: { data = hello from worker? { self = [object WorkerGlobalScope], constructor = [object WorkerGlobalScope], prototype = , href = http://192.168.1.100:6581/
-                
+
                 // firefox
                 // onmessage: { data = hello from worker? { self = [object DedicatedWorkerGlobalScope], constructor = function DedicatedWorkerGlobalScope() {
 

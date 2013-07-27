@@ -135,7 +135,7 @@
     <Content Include="Textures\laev.gif" />
     <Content Include="Textures\magnet.gif" />
     <Content Include="Textures\meri.gif" />
-    <Content Include="Textures\Preview.png" />
+    <Content Include="Design\Preview.png" />
     <Content Include="Textures\sadam.gif" />
     <Content Include="Textures\taust.jpg" />
   </ItemGroup>
