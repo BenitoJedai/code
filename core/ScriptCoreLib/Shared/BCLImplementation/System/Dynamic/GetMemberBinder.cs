@@ -15,5 +15,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
         public IEnumerable<CSharpArgumentInfo> argumentInfo;
 
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return "GetMemberBinder";
+        }
     }
 }

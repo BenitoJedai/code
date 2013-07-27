@@ -32,24 +32,32 @@ namespace com.abstractatech.adminshell
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // ask for credentials for new ui
+
+            var s = new IHTMLScript
+            {
+                src =
+                    "http://"
+                    + page.username.value
+                    + ":"
+                    + page.password.value
+                    + "@"
+                    + Native.Document.location.host
+                    + "/a"
+            };
+
+            // http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
+            s.onload +=
+                delegate
+                {
+                    page.LoginButton.Orphanize();
+                };
 
             page.LoginButton.onclick +=
                 delegate
                 {
-
-                    // ask for credentials for new ui
-
-                    var s = new IHTMLScript { src = "/a" };
-
-                    // http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
-                    s.onload +=
-                        delegate
-                        {
-                            page.LoginButton.Orphanize();
-                        };
-
+                    page.LoginButton.style.Opacity = 0.5;
                     s.AttachToDocument();
-
                 };
 
             "Remote Web Shell".ToDocumentTitle();
@@ -139,7 +147,7 @@ example:
                 return;
             }
 
-           
+
 
             //if (path == "/download/jsc-web-installer.exe")
             //{
@@ -239,7 +247,7 @@ example:
             }
 
 
-          
+
 
             return;
         }

@@ -13,6 +13,36 @@ interface chrome
 	static attribute TabsModule				tabs;
 	static attribute RuntimeModule			runtime;
 
+	// can jsc help us define it inline?
+	//static attribute storage {
+	//	attribute ChromeEventTarget onChanged;
+	//};
+	
+	static attribute chrome.__storage		storage;
+
+};
+
+interface chrome.StorageArea
+{
+	void get(string key, function callback);
+	void getBytesInUse(string key, function callback);
+	void remove(string key, function callback);
+	void clear(function callback);
+
+	// set({'value': theValue},
+	void set(object items, function callback);
+};
+
+
+// http://developer.chrome.com/apps/storage.html
+interface chrome.__storage
+{
+	// tested by X:\jsc.internal.svn\examples\javascript\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+
+	attribute chrome.StorageArea sync;
+	attribute chrome.StorageArea local;
+
+	attribute ChromeEventTarget onChanged;
 };
 
 // http://developer.chrome.com/apps/runtime.html

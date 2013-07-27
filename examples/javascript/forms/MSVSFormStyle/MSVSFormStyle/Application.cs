@@ -38,21 +38,21 @@ namespace MSVSFormStyle
                 delegate
                 {
                     FormStyler.AtFormCreated = FormStyler.LikeWindowsClassic;
-                    new Form1().PopupInsteadOfClosing().Show();
+                    new Form1().PopupInsteadOfClosing(HandleFormClosing: false).Show();
                 };
 
             content.button2.Click +=
                delegate
                {
                    FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
-                   new Form1().PopupInsteadOfClosing().Show();
+                   new Form1().PopupInsteadOfClosing(HandleFormClosing: false).Show();
                };
 
             content.button3.Click +=
                  delegate
                  {
                      FormStyler.AtFormCreated = FormStyler.LikeWindows3;
-                     new Form1().PopupInsteadOfClosing().Show();
+                     new Form1().PopupInsteadOfClosing(HandleFormClosing: false).Show();
                  };
 
 
@@ -81,26 +81,14 @@ namespace MSVSFormStyle
                             s.Caption.style.backgroundColor = JSColor.FromRGB(255, 122, 204);
                         };
 
-                     new Form1().PopupInsteadOfClosing().Show();
+                     new Form1().PopupInsteadOfClosing(HandleFormClosing: false).Show();
                  };
 
             content.button6.Click +=
                delegate
                {
-                   FormStyler.AtFormCreated = s =>
-                   {
-                       FormStyler.LikeWindowsClassic(s);
-
-                       // http://css-tricks.com/examples/CSS3Gradient/
-                       ;
-
-                       // http://www.codeguru.com/cpp/misc/misc/titlebar/article.php/c387/Win98-like-Gradient-Caption-Bar.htm
-                       //= RGB(16, 132, 208)
-
-                       s.Caption.style.background = "-webkit-linear-gradient(left, rgb(0, 0, 127), rgb(16, 132, 208))";
-                   };
-
-                   new Form1().PopupInsteadOfClosing().Show();
+                   FormStyler.AtFormCreated = FormStyler.LikeWindows98;
+                   new Form1().PopupInsteadOfClosing(HandleFormClosing: false).Show();
                };
 
 
@@ -109,7 +97,7 @@ namespace MSVSFormStyle
              {
                  FormStyler.AtFormCreated = FormStylerLikeAero.LikeAero;
 
-                 new Form1().PopupInsteadOfClosing().Show();
+                 new Form1().PopupInsteadOfClosing(HandleFormClosing: false).Show();
              };
 
 

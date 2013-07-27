@@ -32,6 +32,7 @@ namespace com.abstractatech.spiral
 
 
 #if Android
+        // libEGL  ( 7055): call to OpenGL ES API with no current context (logged once per thread)
         static __InitializeAndroidActivity __crazy_workaround;
 
         public void Hander(WebServiceHandler h)

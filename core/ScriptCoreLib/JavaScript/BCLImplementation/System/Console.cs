@@ -26,24 +26,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script]
         internal class __BrowserConsole : global::System.IDisposable
         {
-            [Script(InternalConstructor = true)]
-            class ConsoleImplementation : IActiveX
-            {
-                public bool CloseConsole()
-                {
-                    return default(bool);
-                }
+            //[Script(InternalConstructor = true)]
+            //class ConsoleImplementation : IActiveX
+            //{
+            //    public bool CloseConsole()
+            //    {
+            //        return default(bool);
+            //    }
 
-                public bool OpenConsole()
-                {
-                    return default(bool);
-                }
+            //    public bool OpenConsole()
+            //    {
+            //        return default(bool);
+            //    }
 
-                public bool WriteString(string e)
-                {
-                    return default(bool);
-                }
-            }
+            //    public bool WriteString(string e)
+            //    {
+            //        return default(bool);
+            //    }
+            //}
 
             #region IDisposable Members
 
@@ -51,7 +51,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             static int _ident;
 
-            static ConsoleImplementation _ci = null;
+            //static ConsoleImplementation _ci = null;
 
             static __BrowserConsole()
             {
@@ -59,20 +59,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             }
 
-            /// <summary>
-            /// Your internet explorer needs to allow creating the activex object.
-            /// Also you should register the ActiveXConsole.dll
-            /// </summary>
-            public static void EnableActiveXConsole()
-            {
-                if (_ci == null)
-                {
-                    _ci = (ConsoleImplementation)new IActiveX("ActiveXConsole.Console");
+            ///// <summary>
+            ///// Your internet explorer needs to allow creating the activex object.
+            ///// Also you should register the ActiveXConsole.dll
+            ///// </summary>
+            //public static void EnableActiveXConsole()
+            //{
+            //    if (_ci == null)
+            //    {
+            //        _ci = (ConsoleImplementation)new IActiveX("ActiveXConsole.Console");
 
-                    if (_ci != null)
-                        _ci.OpenConsole();
-                }
-            }
+            //        if (_ci != null)
+            //            _ci.OpenConsole();
+            //    }
+            //}
 
             double StartTime;
 
@@ -122,13 +122,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             public static void Write(object e)
             {
-                if (_ci == null)
-                    Dump(e);
-                else
-                    _ci.WriteString(e + "");
+                //if (_ci == null)
+                Dump(e);
+                //else
+                //    _ci.WriteString(e + "");
             }
 
             public static void WriteLine(string e)
+            {
+                Write(e);
+                Write("\n");
+            }
+
+            public static void WriteLine(object e)
             {
                 Write(e);
                 Write("\n");
@@ -182,7 +188,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void WriteLine(object e)
         {
-            Out.WriteLine(e.ToString());
+            Out.WriteLine(e);
         }
 
         public static void WriteLine(string e)
@@ -207,11 +213,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void Write(object e)
         {
-            Out.Write(e.ToString());
+            Out.Write(e);
         }
 
 
- 
+
 
 
         public void Beep()
@@ -240,6 +246,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script]
         class __OutWriter : TextWriter
         {
+            public override void Write(object value)
+            {
+                __BrowserConsole.Write(value);
+            }
+
+
             public override void Write(string value)
             {
                 __BrowserConsole.Write(value);
@@ -249,6 +261,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             {
                 __BrowserConsole.WriteLine(value);
             }
+
+            public override void WriteLine(object value)
+            {
+                __BrowserConsole.WriteLine(value);
+
+            }
+
 
             public override Encoding Encoding
             {

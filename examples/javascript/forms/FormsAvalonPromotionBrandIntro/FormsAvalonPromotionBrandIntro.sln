@@ -4,11 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsAvalonPromotionBrandIntro", "FormsAvalonPromotionBrandIntro\FormsAvalonPromotionBrandIntro.csproj", "{C5D0A6DE-2D74-4B59-90F1-91FEA9B34ED3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{679BE733-FC07-4EF4-A670-F13E2CC91238} = {679BE733-FC07-4EF4-A670-F13E2CC91238}
-		{3BD2BD38-102C-4C19-88E1-60522B55403C} = {3BD2BD38-102C-4C19-88E1-60522B55403C}
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30} = {1E159C6B-6A83-491D-9B06-00465A5DBB30}
 		{0910EC49-6697-4664-8A71-F09CAEC02E88} = {0910EC49-6697-4664-8A71-F09CAEC02E88}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {B8D28279-57CD-4163-86F9-1DFDF540B58B}
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39} = {2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra", "..\..\..\..\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj", "{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}"
@@ -28,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon.Integr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonBrowserLogos", "..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj", "{3BD2BD38-102C-4C19-88E1-60522B55403C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonBrowserLogos", "..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj", "{1E159C6B-6A83-491D-9B06-00465A5DBB30}"
 	ProjectSection(ProjectDependencies) = postProject
 		{679BE733-FC07-4EF4-A670-F13E2CC91238} = {679BE733-FC07-4EF4-A670-F13E2CC91238}
 		{0910EC49-6697-4664-8A71-F09CAEC02E88} = {0910EC49-6697-4664-8A71-F09CAEC02E88}
@@ -36,7 +35,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonBrowserLogos", "..\..
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonPromotionBrandIntro", "..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj", "{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EA59A5C6-4655-4117-8A0D-D093F7BD2224}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,11 +85,11 @@ Global
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|x86.ActiveCfg = Release|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.Build.0 = Assets|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Mixed Platforms.Build.0 = Assets|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|x86.ActiveCfg = Assets|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|x86.ActiveCfg = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -126,36 +130,21 @@ Global
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|Any CPU.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|Mixed Platforms.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|Mixed Platforms.Build.0 = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|x86.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Assets|x86.Build.0 = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|x86.ActiveCfg = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Debug|x86.Build.0 = Debug|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|Any CPU.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|Mixed Platforms.Build.0 = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|x86.ActiveCfg = Release|x86
-		{3BD2BD38-102C-4C19-88E1-60522B55403C}.Release|x86.Build.0 = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Assets|Any CPU.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Assets|Mixed Platforms.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Assets|Mixed Platforms.Build.0 = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Assets|x86.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Assets|x86.Build.0 = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|x86.ActiveCfg = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|x86.Build.0 = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|Any CPU.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|Mixed Platforms.Build.0 = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|x86.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|x86.Build.0 = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|Any CPU.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|x86.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Assets|x86.Build.0 = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|x86.ActiveCfg = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|x86.Build.0 = Debug|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|Any CPU.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|x86.ActiveCfg = Release|x86
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
