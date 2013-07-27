@@ -197,53 +197,53 @@ namespace com.abstractatech.adminshell
             };
 
 
-#if DEBUG
-            // An attempt was made to access a socket in a way forbidden by its access permissions
-            if (InternalMulticast == null)
-                InternalMulticast = new WithClickOnceLANLauncher.ApplicationWebServiceMulticast
-                {
-                    Host = HostUri.Host,
-                    Port = HostUri.Port,
+            //#if DEBUG
+            //            // An attempt was made to access a socket in a way forbidden by its access permissions
+            //            if (InternalMulticast == null)
+            //                InternalMulticast = new WithClickOnceLANLauncher.ApplicationWebServiceMulticast
+            //                {
+            //                    Host = HostUri.Host,
+            //                    Port = HostUri.Port,
 
-                };
-#else
-            if (InternalMulticast == null)
-                InternalMulticast = new AndroidApplicationWebServiceMulticast
-                {
-                    Host = HostUri.Host,
-                    Port = HostUri.Port,
+            //                };
+            //#else
+            //            if (InternalMulticast == null)
+            //                InternalMulticast = new AndroidApplicationWebServiceMulticast
+            //                {
+            //                    Host = HostUri.Host,
+            //                    Port = HostUri.Port,
 
-                };
+            //                };
 
-            if (h.IsDefaultPath)
-            {
-                new Thread(
-                      delegate()
-                      {
+            //            if (h.IsDefaultPath)
+            //            {
+            //                new Thread(
+            //                      delegate()
+            //                      {
 
 
-                          InternalMulticast.SendVisitMeAt();
-                      }
-                                   )
-                  {
+            //                          InternalMulticast.SendVisitMeAt();
+            //                      }
+            //                                   )
+            //                  {
 
-                      Name = "client"
-                  }.Start();
+            //                      Name = "client"
+            //                  }.Start();
 
-            }
+            //            }
 
-#endif
+            //#endif
 
             DownloadSDKFunction.DownloadSDK(h);
 
         }
 
-#if DEBUG
-        static WithClickOnceLANLauncher.ApplicationWebServiceMulticast InternalMulticast;
-#else
-        static AndroidApplicationWebServiceMulticast InternalMulticast;
+        //#if DEBUG
+        //        static WithClickOnceLANLauncher.ApplicationWebServiceMulticast InternalMulticast;
+        //#else
+        //        static AndroidApplicationWebServiceMulticast InternalMulticast;
 
-#endif
+        //#endif
 
     }
 

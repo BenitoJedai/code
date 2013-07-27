@@ -36,12 +36,24 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
         static FormStyler()
         {
-            AtFormCreated = LikeWindowsClassic;
+            AtFormCreated = LikeWindows98;
         }
 
         public static void LikeWindowsClassic(FormStyler s)
         {
 
+        }
+
+        public static void LikeWindows98(FormStyler s)
+        {
+            // tested by X:\jsc.svn\examples\javascript\forms\MSVSFormStyle\MSVSFormStyle\Application.cs
+
+            // http://css-tricks.com/examples/CSS3Gradient/
+            // http://www.codeguru.com/cpp/misc/misc/titlebar/article.php/c387/Win98-like-Gradient-Caption-Bar.htm
+            //= RGB(16, 132, 208)
+
+
+            s.Caption.style.background = "-webkit-linear-gradient(left, rgb(0, 0, 127), rgb(16, 132, 208))";
         }
 
         public static void LikeWindows3(FormStyler s)

@@ -124,6 +124,7 @@
     <Compile Include="PHP\Data\mysqli.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec3.cs" />
     <Compile Include="Shared\BCLImplementation\GLSL\vec2.cs" />
+    <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\CollectionBase.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs" />
     <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackTrace.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\SetIndexBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Skip.MoveNext.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Skip.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\_Assembly.cs" />
@@ -150,7 +152,6 @@
     <Compile Include="PHP\Data\SQLiteToMySQLConversion.cs" />
     <Compile Include="PHP\BCLImplementation\System\Web\Services\WebService.cs" />
     <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs" />
-    <Compile Include="Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\CSharpArgumentInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Single.cs" />

@@ -26,6 +26,76 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
             //Console.WriteLine("__CallSite.Create");
 
+            // see also: X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs
+
+            #region __SetIndexBinder
+            {
+                var __SetIndexBinder = (object)binder as __SetIndexBinder;
+                if (__SetIndexBinder != null)
+                {
+                    //0x006e . ldsfld                     [TestDynamicSetIndexer] TestDynamicSetIndexer.Application+<.ctor>o__SiteContainer0.<>p__Site1 : CallSite`1<(CallSite, object, string, string) -> Object>
+                    //0x0073 . ldfld                      [System.Core] System.Runtime.CompilerServices.CallSite`1[[System.Func`5[[System.Runtime.CompilerServices.CallSite, System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]].Target : (CallSite, object, string, string) -> Object
+                    //0x0078 . . ldsfld                   arg1 <- [TestDynamicSetIndexer] TestDynamicSetIndexer.Application+<.ctor>o__SiteContainer0.<>p__Site1 : CallSite`1<(CallSite, object, string, string) -> Object>
+                    //0x007d . . . ldloc.2                arg2 <- loc.2 : object
+                    //0x007e . . . . ldstr                str0 <- "preview:"
+                    //0x0083 . . . . . ldloc.0            str1 <- loc.0 : string
+                    //0x0084 . . . . call                 arg3 <- [mscorlib] System.String.Concat(str0 : string, str1 : string) : String
+                    //0x0089 . . . . . ldloc.1            arg4 <- loc.1 : string
+                    //0x008a . callvirt                   [mscorlib] System.Func`5.Invoke(arg1 : CallSite, arg2 : object, arg3 : string, arg4 : string) : Object
+                    //0x008f pop 
+                    //0x0090 . ldsfld                     [TestDynamicSetIndexer] TestDynamicSetIndexer.Application+<.ctor>o__SiteContainer0.<>p__Site2 : CallSite`1<(CallSite, Type, object) -> void>
+                    //0x0095 brtrue.s 
+                    //0x0095 -> 0x0097 0x00da 
+
+
+                    var r = new Func<__CallSite, object, object, object, object>(
+                        (site, subject, key, value) =>
+                        {
+                            //var x = subject as DynamicObject;
+                            //if (x != null)
+                            //{
+                            //    //Console.WriteLine("__SetMemberBinder DynamicObject");
+
+                            //    if (x.TrySetIndex((SetMemberBinder)(object)SetMember, value))
+                            //    {
+                            //        return null;
+                            //    }
+                            //}
+
+                            //#region special rule - boundary DOM / BCL
+                            //if (subject == Native.Window)
+                            //{
+                            //    var xx = value as Delegate;
+
+                            //    if (xx != null)
+                            //    {
+                            //        value = IFunction.OfDelegate(xx);
+                            //    }
+                            //}
+                            //#endregion
+
+                            //Console.WriteLine("__CallSite SetMember " + new { subject, SetMember.name, value });
+
+                            ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(
+                                subject,
+                                key,
+                                value
+                            );
+
+                            //new IFunction("subject", "name", "value", "subject[name] = value;").apply(null,
+                            //    subject,
+                            //    SetMember.Name,
+                            //    value
+                            //);
+
+                            return null;
+                        }
+                    );
+                    return r;
+                }
+            }
+            #endregion
+
             #region SetMember
             {
                 var SetMember = (object)binder as __SetMemberBinder;
@@ -137,7 +207,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             #endregion
 
 
-            throw new NotImplementedException("__CallSite.Create");
+            Console.WriteLine(new { binder });
+
+            throw new NotImplementedException("__CallSite.Create ");
 
         }
 

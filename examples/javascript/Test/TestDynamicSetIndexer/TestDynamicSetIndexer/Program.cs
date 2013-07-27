@@ -1,8 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
-using ScriptCoreLib.Desktop.Forms.Extensions;
 using System;
 
-namespace MSVSFormStyle
+namespace TestDynamicSetIndexer
 {
     /// <summary>
     /// You can debug your application by hitting F5.
@@ -11,7 +10,6 @@ namespace MSVSFormStyle
     {
         public static void Main(string[] args)
         {
-
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

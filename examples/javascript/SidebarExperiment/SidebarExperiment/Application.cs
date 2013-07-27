@@ -1,3 +1,4 @@
+using CSSShaderGrayScale;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -6,17 +7,16 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Windows.Forms;
+using SidebarExperiment.Design;
+using SidebarExperiment.HTML.Pages;
+using SidebarExperiment.Library;
 using System;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
-using SidebarExperiment.Design;
-using SidebarExperiment.HTML.Pages;
 using System.Windows.Forms;
-using SidebarExperiment.Library;
-using ScriptCoreLib.JavaScript.Runtime;
-using CSSShaderGrayScale;
+using System.Xml.Linq;
 
 namespace SidebarExperiment
 {
@@ -101,6 +101,7 @@ namespace SidebarExperiment
                    page.DocumentContent.style.right = w + "px";
                };
 
+            #region LocationChanged
             var LocationChangedDisabled = false;
             f.LocationChanged +=
                 delegate
@@ -117,16 +118,17 @@ namespace SidebarExperiment
                     SetLeftSidebarWidth(SidebarIdleWidth);
                     SetRightSidebarWidth(SidebarIdleWidth);
 
-                    if (f.Left < SidebarIdleWidth)
+                    if (f.Left < SidebarIdleWidth && c.checkBox1.Checked)
                         page.SidebarContainer.style.backgroundColor = JSColor.Blue;
                     else
                         page.SidebarContainer.style.backgroundColor = JSColor.Gray;
 
-                    if (f.Right > Native.Window.Width - SidebarIdleWidth)
+                    if (f.Right > Native.Window.Width - SidebarIdleWidth && c.checkBox2.Checked)
                         page.RightSidebarContainer.style.backgroundColor = JSColor.Blue;
                     else
                         page.RightSidebarContainer.style.backgroundColor = JSColor.Gray;
                 };
+            #endregion
 
 
 
@@ -158,72 +160,79 @@ namespace SidebarExperiment
 
                     if (f.Left < SidebarIdleWidth)
                     {
-                        var fs = f.Size;
-
-                        SetLeftSidebarWidth(f.ClientSize.Width);
-                        f.MoveTo(0, 0);
-                        f.SizeTo(f.ClientSize.Width, page.SidebarContainer.clientHeight);
-                        f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
-                        f.MaximumSize = new System.Drawing.Size(Native.Window.Width - page.RightSidebarContainer.clientWidth, Native.Window.Height);
-
-
-                        var done = false;
-                        Action<IEvent> onresize =
-                            delegate
-                            {
-                                if (done)
-                                    return;
-                                f.SizeTo(f.ClientSize.Width, page.SidebarContainer.clientHeight);
-                                f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
-                                f.MaximumSize = new System.Drawing.Size(Native.Window.Width - page.RightSidebarContainer.clientWidth, Native.Window.Height);
-
-
-                            };
-
-                        Native.Window.onresize += onresize;
-
-                        AtCapture = delegate
+                        if (c.checkBox1.Checked)
                         {
-                            done = true;
+                            var fs = f.Size;
 
-                            AtCapture = null;
-                            f.MinimumSize = new System.Drawing.Size(100, 100);
-                            f.SizeTo(fs.Width, fs.Height);
-                        };
+                            SetLeftSidebarWidth(f.ClientSize.Width);
+                            f.MoveTo(0, 0);
+                            f.SizeTo(f.ClientSize.Width, page.SidebarContainer.clientHeight);
+                            f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
+                            f.MaximumSize = new System.Drawing.Size(Native.Window.Width - page.RightSidebarContainer.clientWidth, Native.Window.Height);
+
+
+                            var done = false;
+                            Action<IEvent> onresize =
+                                delegate
+                                {
+                                    if (done)
+                                        return;
+                                    f.SizeTo(f.ClientSize.Width, page.SidebarContainer.clientHeight);
+                                    f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
+                                    f.MaximumSize = new System.Drawing.Size(Native.Window.Width - page.RightSidebarContainer.clientWidth, Native.Window.Height);
+
+
+                                };
+
+                            Native.Window.onresize += onresize;
+
+                            AtCapture = delegate
+                            {
+                                done = true;
+
+                                AtCapture = null;
+                                f.MinimumSize = new System.Drawing.Size(100, 100);
+                                f.SizeTo(fs.Width, fs.Height);
+                            };
+                        }
                     }
                     else if (f.Right > (Native.Window.Width - SidebarIdleWidth))
                     {
-                        var fs = f.Size;
-
-                        SetRightSidebarWidth(f.ClientSize.Width);
-                        f.MoveTo(page.RightSidebarContainer.offsetLeft, 0);
-                        f.SizeTo(f.ClientSize.Width, page.RightSidebarContainer.clientHeight);
-                        f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
-                        f.MaximumSize = new System.Drawing.Size(Native.Window.Width, Native.Window.Height);
-
-                        var done = false;
-                        Action<IEvent> onresize =
-                            delegate
-                            {
-                                if (done)
-                                    return;
-
-                                f.MoveTo(page.RightSidebarContainer.offsetLeft, 0);
-                                f.SizeTo(f.ClientSize.Width, page.RightSidebarContainer.clientHeight);
-                                f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
-                                f.MaximumSize = new System.Drawing.Size(Native.Window.Width, Native.Window.Height);
-                            };
-
-                        Native.Window.onresize += onresize;
-
-
-                        AtCapture = delegate
+                        if (c.checkBox2.Checked)
                         {
-                            done = true;
-                            AtCapture = null;
-                            f.MinimumSize = new System.Drawing.Size(100, 100);
-                            f.SizeTo(fs.Width, fs.Height);
-                        };
+
+                            var fs = f.Size;
+
+                            SetRightSidebarWidth(f.ClientSize.Width);
+                            f.MoveTo(page.RightSidebarContainer.offsetLeft, 0);
+                            f.SizeTo(f.ClientSize.Width, page.RightSidebarContainer.clientHeight);
+                            f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
+                            f.MaximumSize = new System.Drawing.Size(Native.Window.Width, Native.Window.Height);
+
+                            var done = false;
+                            Action<IEvent> onresize =
+                                delegate
+                                {
+                                    if (done)
+                                        return;
+
+                                    f.MoveTo(page.RightSidebarContainer.offsetLeft, 0);
+                                    f.SizeTo(f.ClientSize.Width, page.RightSidebarContainer.clientHeight);
+                                    f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
+                                    f.MaximumSize = new System.Drawing.Size(Native.Window.Width, Native.Window.Height);
+                                };
+
+                            Native.Window.onresize += onresize;
+
+
+                            AtCapture = delegate
+                            {
+                                done = true;
+                                AtCapture = null;
+                                f.MinimumSize = new System.Drawing.Size(100, 100);
+                                f.SizeTo(fs.Width, fs.Height);
+                            };
+                        }
                     }
                 };
             tt.StartInterval(100);
@@ -260,6 +269,7 @@ namespace SidebarExperiment
                 };
             #endregion
 
+            #region AtButton1
             Action AtButton1 =
                 delegate
                 {
@@ -316,6 +326,8 @@ namespace SidebarExperiment
 
                     cc.AttachTo(page.SidebarContainer);
                 };
+            #endregion
+
             #region button1
             c.button1.Click +=
                 delegate
@@ -326,12 +338,29 @@ namespace SidebarExperiment
 
             c.button2.Enabled = false;
 
+            c.button3.Click +=
+                delegate
+                {
+                    c.checkBox1.Enabled = false;
+                    c.checkBox2.Enabled = false;
+                    c.button3.Enabled = false;
+
+                    f.PopupInsteadOfClosing(
+                        HandleFormClosing: true
+                    );
+                };
+
             f.FormClosing +=
                 (ss, ee) =>
                 {
-                    ee.Cancel = true;
-                    if (c.button1.Enabled)
-                        AtButton1();
+                    if (c.button3.Enabled)
+                    {
+                        // not yet popup mode
+                        ee.Cancel = true;
+                        if (c.button1.Enabled)
+                            AtButton1();
+
+                    }
 
                 };
 

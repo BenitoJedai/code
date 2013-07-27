@@ -47,6 +47,9 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
+      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
+    </Reference>
     <Reference Include="CSSShaderGrayScale">
       <HintPath>..\..\..\..\..\jsc.internal.svn\core\com.abstractatech.web\packages\CSSShaderGrayScale.1.0.0.0\lib\CSSShaderGrayScale.dll</HintPath>
     </Reference>
@@ -151,6 +154,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Library\Sidebar.resx">

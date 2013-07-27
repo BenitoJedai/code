@@ -135,6 +135,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
     <Content Include="Textures\1.PNG" />
     <Content Include="Textures\2.PNG" />
     <Content Include="Textures\3.PNG" />
@@ -155,7 +156,6 @@
     <Content Include="Textures\mine.PNG" />
     <Content Include="Textures\mine_found.PNG" />
     <Content Include="Textures\notmine.PNG" />
-    <Content Include="Textures\Preview.png" />
     <Content Include="Textures\question.PNG" />
     <Content Include="Textures\red_0.PNG" />
     <Content Include="Textures\red_1.PNG" />

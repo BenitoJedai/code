@@ -84,14 +84,16 @@ namespace foo
                 java.lang.System.currentTimeMillis()
             );
 
-            Context context = getApplicationContext();
+            var context = getApplicationContext();
 
-            Intent myIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("http://www.jsc-solutions.net"));
+            var myIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("http://www.jsc-solutions.net"));
 
-            PendingIntent pendingIntent
-              = PendingIntent.getActivity(getBaseContext(),
+            var pendingIntent = PendingIntent.getActivity(
+                getBaseContext(),
                 0, myIntent,
-                Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent.FLAG_ACTIVITY_NEW_TASK
+            );
+
             myNotification.defaults |= Notification.DEFAULT_SOUND;
             myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
             myNotification.setLatestEventInfo(context,
