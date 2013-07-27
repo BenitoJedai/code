@@ -164,6 +164,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
     <Content Include="ManWithHorns\man2-horns_1.png" />
     <Content Include="ManWithHorns\man2-horns_2.png" />
     <Content Include="ManWithHorns\man2-horns_3.png" />

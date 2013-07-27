@@ -1,3 +1,4 @@
+using AndroidFlashTreasureHunt;
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
 

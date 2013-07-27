@@ -17,9 +17,9 @@ namespace SimpleSoundEffectGeneratorExperiment
     }
 }
 
-[Script(IsNative = true)]
-[SWCImport]
-public class SfxrApp : Sprite
-{
-    // for partial sdk builds use /DisableActionScriptNatives:true
-}
+//[Script(IsNative = true)]
+//[SWCImport]
+//public class SfxrApp : Sprite
+//{
+//    // for partial sdk builds use /DisableActionScriptNatives:true
+//}

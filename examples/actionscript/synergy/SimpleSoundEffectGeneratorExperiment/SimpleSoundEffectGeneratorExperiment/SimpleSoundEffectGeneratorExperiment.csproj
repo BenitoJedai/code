@@ -127,6 +127,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Design\Preview.png" />
     <Content Include="x:\opensource\googlecode\as3sfxr\src\**\*.*">
       <Link>opensource\googlecode\as3sfxr\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
@@ -135,11 +136,11 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /DisableActionScriptNatives:true
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /xDisableActionScriptNatives:true
 
 </PreBuildEvent>
   </PropertyGroup>

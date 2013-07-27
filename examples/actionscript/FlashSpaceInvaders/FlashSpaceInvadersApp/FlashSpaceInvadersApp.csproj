@@ -127,6 +127,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashSpaceInvaders.Assets.Sounds\FlashSpaceInvaders.Assets.Sounds.csproj">

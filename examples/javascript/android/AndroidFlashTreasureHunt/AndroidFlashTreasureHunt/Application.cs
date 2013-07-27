@@ -15,7 +15,10 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace com.abstractatech.gamification.fth
+using com.abstractatech.gamification.fth;
+
+
+namespace AndroidFlashTreasureHunt
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
