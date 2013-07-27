@@ -68,29 +68,9 @@ namespace WebGLClouds
             #endregion
 
 
-            //@"Hello world".ToDocumentTitle();
-            //// Send data from JavaScript to the server tier
-            //service.WebMethod2(
-            //    @"A string from JavaScript.",
-            //    value => value.ToDocumentTitle()
-            //);
+        
         }
 
-        sealed class MyUniforms
-        {
-            public sealed class MyUniform
-            {
-                public string type;
-                public object value;
-                public object texture;
-
-            }
-
-            public MyUniform map;
-            public MyUniform fogColor;
-            public MyUniform fogNear;
-            public MyUniform fogFar;
-        }
 
         void InitializeContent(IDefaultPage page)
         {
@@ -182,14 +162,14 @@ namespace WebGLClouds
             #region material
             var material = new THREE.MeshShaderMaterial(
 
-                new THREE.MeshShaderMaterialArguments39
+                new 
                 {
-                    uniforms = new MyUniforms
+                    uniforms = new 
                     {
-                        map = new MyUniforms.MyUniform { type = "t", value = 2, texture = texture },
-                        fogColor = new MyUniforms.MyUniform { type = "c", value = fog.color },
-                        fogNear = new MyUniforms.MyUniform { type = "f", value = fog.near },
-                        fogFar = new MyUniforms.MyUniform { type = "f", value = fog.far },
+                        map = new { type = "t", value = 2, texture = texture },
+                        fogColor = new { type = "c", value = fog.color },
+                        fogNear = new { type = "f", value = fog.near },
+                        fogFar = new { type = "f", value = fog.far },
                     },
 
                     vertexShader = new GeometryVertexShader().ToString(),

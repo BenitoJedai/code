@@ -12,7 +12,7 @@
     <AssemblyName>LBAPrequelPromotion</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>com.abstractatech.gamification.lbapp.Program</StartupObject>
+    <StartupObject>LBAPrequelPromotion.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>

@@ -157,6 +157,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\mouse.png" />
+    <Content Include="Design\Preview.png" />
     <Content Include="Design\Tiles\0.png" />
     <Content Include="Design\Tiles\1.png" />
     <Content Include="Design\Tiles\2.png" />

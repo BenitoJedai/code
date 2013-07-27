@@ -17,7 +17,12 @@ using ScriptCoreLib.JavaScript.Runtime;
 using LBAPrequelPromotion.HTML.Images.FromAssets;
 using ThreeDStuff.js;
 
-namespace com.abstractatech.gamification.lbapp
+// android will use servers name for package id
+using com.abstractatech.gamification.lbapp;
+
+
+// server will look at the first app and then try to find a preview from assets
+namespace LBAPrequelPromotion
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
