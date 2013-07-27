@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.spiral", "com.abstractatech.spiral\com.abstractatech.spiral.csproj", "{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpiral", "..\..\WebGLSpiral\WebGLSpiral\WebGLSpiral.csproj", "{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|x86 = Android|x86
@@ -16,6 +18,12 @@ Global
 		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Debug|x86.Build.0 = Debug|x86
 		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Release|x86.ActiveCfg = Release|x86
 		{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}.Release|x86.Build.0 = Release|x86
+		{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}.Android|x86.ActiveCfg = Release|x86
+		{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}.Android|x86.Build.0 = Release|x86
+		{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}.Debug|x86.ActiveCfg = Debug|x86
+		{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}.Debug|x86.Build.0 = Debug|x86
+		{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}.Release|x86.ActiveCfg = Release|x86
+		{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

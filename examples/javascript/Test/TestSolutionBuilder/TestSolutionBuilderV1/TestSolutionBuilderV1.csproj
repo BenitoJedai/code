@@ -114,7 +114,6 @@
   <ItemGroup>
     <Content Include="Design\About.htm" />
     <Content Include="Design\Default.htm">
-      <DependentUpon>About.htm</DependentUpon>
     </Content>
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
@@ -125,6 +124,7 @@
     <Compile Include="Views\StudioView.cs" />
     <Content Include="Design\Images\DownloadSDK.png" />
     <Content Include="Design\Images\Glow1.png" />
+    <Content Include="Design\Preview.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

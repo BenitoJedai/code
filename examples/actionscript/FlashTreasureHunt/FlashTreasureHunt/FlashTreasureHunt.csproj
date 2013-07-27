@@ -142,6 +142,7 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Content Include="Design\Preview.png" />
     <Content Include="docs\help.txt" />
     <Content Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -197,7 +198,7 @@
     <PostBuildEvent>
 
 if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

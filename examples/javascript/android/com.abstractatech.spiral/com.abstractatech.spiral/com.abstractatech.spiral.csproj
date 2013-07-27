@@ -117,7 +117,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="WebGLSpiral">
-      <HintPath>..\packages\WebGLSpiral.0.0.0.1\lib\WebGLSpiral.exe</HintPath>
+      <HintPath>..\packages\WebGLSpiral.1.0.0.0\lib\WebGLSpiral.dll</HintPath>
     </Reference>
     <Reference Include="WebGLSpiral.AssetsLibrary">
       <HintPath>..\packages\WebGLSpiral.0.0.0.1\lib\WebGLSpiral.AssetsLibrary.dll</HintPath>
@@ -158,7 +158,7 @@ rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocu
 
 
 if $(ConfigurationName)==Android (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\xt7\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:10
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\xt7\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:20
 )</PostBuildEvent>
     <PreBuildEvent>
 
