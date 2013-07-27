@@ -1,7 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualConsoleExperiment", "VirtualConsoleExperiment\VirtualConsoleExperiment.csproj", "{DC9288C0-7B9D-471D-AB96-3609B9EBB594}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ConsoleFormPackage", "..\..\..\market\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage.csproj", "{3D035C03-5D69-452B-9022-0269DBD26D8B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{00C3E71D-1D0F-4476-9780-0C8ED71B2EA8}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{F593A31B-E409-467D-B97E-3F7172C0631F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +24,15 @@ Global
 		{DC9288C0-7B9D-471D-AB96-3609B9EBB594}.Debug|x86.Build.0 = Debug|x86
 		{DC9288C0-7B9D-471D-AB96-3609B9EBB594}.Release|x86.ActiveCfg = Release|x86
 		{DC9288C0-7B9D-471D-AB96-3609B9EBB594}.Release|x86.Build.0 = Release|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Debug|x86.ActiveCfg = Debug|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Debug|x86.Build.0 = Debug|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|x86.ActiveCfg = Release|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {F593A31B-E409-467D-B97E-3F7172C0631F}
 	EndGlobalSection
 EndGlobal

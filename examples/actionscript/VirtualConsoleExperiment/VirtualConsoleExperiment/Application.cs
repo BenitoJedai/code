@@ -44,7 +44,9 @@ namespace VirtualConsoleExperiment
             new ConsoleForm().With(
                 f =>
                 {
+                    f.HandleFormClosing = false;
                     f.InitializeConsoleFormWriter();
+                    f.PopupInsteadOfClosing();
 
                     f.Shown +=
                         delegate
