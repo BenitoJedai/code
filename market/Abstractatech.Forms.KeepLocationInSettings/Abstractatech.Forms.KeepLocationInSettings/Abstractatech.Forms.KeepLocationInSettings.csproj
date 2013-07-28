@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C1881BA-FAAC-4475-B6D8-05250102160A}</ProjectGuid>
+    <ProjectGuid>{418C7EFC-CF27-44F6-808B-467B45E5948E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech.Forms.KeepLocationInSettings</RootNamespace>
