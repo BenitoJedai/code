@@ -181,6 +181,9 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     };
                 #endregion
 
+                var old = new { content.f.SizeGripStyle };
+
+                content.f.SizeGripStyle = SizeGripStyle.Hide;
 
                 content.f.GetHTMLTarget().Orphanize();
 
@@ -190,6 +193,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 w.onload +=
                     delegate
                     {
+
                         // keep relative links working..
                         new IHTMLBase { href = Native.Document.location.href }.AttachTo(w.document.body);
 
@@ -235,6 +239,10 @@ namespace Abstractatech.JavaScript.FormAsPopup
                                 if (w == null)
                                     return;
 
+                                // not supposed to resize?
+                                if (old.SizeGripStyle == SizeGripStyle.Hide)
+                                    return;
+
                                 var cs = content.f.ClientSize;
 
                                 cs.Width = w.Width;
@@ -278,6 +286,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                                 // undo
 
+                                f.SizeGripStyle = old.SizeGripStyle;
 
                                 if (FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
                                 {
@@ -302,6 +311,13 @@ namespace Abstractatech.JavaScript.FormAsPopup
                                     NotifyDocked();
                             };
                         #endregion
+
+                        Native.Window.requestAnimationFrame +=
+                            delegate
+                            {
+                                // chrome clips to white?
+                                w.resizeTo(content.f.Width + 16, content.f.Height);
+                            };
 
                     };
             };

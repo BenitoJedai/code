@@ -85,6 +85,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
         }
 
+        // http://stackoverflow.com/questions/4479260/change-height-of-popup-window
+        public void resizeTo(int x, int y)
+        {
+        }
+
+
         public string escape(string e)
         {
             return default(string);

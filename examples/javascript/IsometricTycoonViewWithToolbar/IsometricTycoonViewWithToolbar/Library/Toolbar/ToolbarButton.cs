@@ -10,6 +10,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
 namespace Toolbar.JavaScript
 {
@@ -33,7 +34,11 @@ namespace Toolbar.JavaScript
 
         public ToolbarButton AttachTo(ToolbarDialog e)
         {
-            Control.AttachTo(e.Control);
+            //Control.AttachTo(e.Control);
+
+            __Form ff = e.ControlForm;
+
+            Control.AttachTo(ff.HTMLTargetContainerRef);
 
             return this;
         }
@@ -61,7 +66,12 @@ namespace Toolbar.JavaScript
             btn.Control.SetDialogColor(t.Color);
 
             btn.Control.style.background = "url(" + img + ") no-repeat";
-            btn.Control.style.SetLocation(2 + 24 * (this.Toolbar.Buttons.Count - 1), 8, 22, 22);
+            btn.Control.style.SetLocation(
+                2 + 24 * (this.Toolbar.Buttons.Count - 1),
+                // ControlForm will have its own caption!
+                0,
+                22,
+                22);
 
 
             t.Grow();
