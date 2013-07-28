@@ -81,7 +81,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
         IHTMLDiv TargetResizerPadding;
-        IHTMLDiv TargetOuterBorder;
+        public IHTMLDiv TargetOuterBorder;
 
         [Description("Hide iframes from mouse to workaround event leaks.")]
         public static event Action InternalMouseCapured;
@@ -599,6 +599,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
+            #region ondblclick
             CaptionForeground.ondblclick +=
                 delegate
                 {
@@ -614,6 +615,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     else
                         InternalEnterFullscreen();
                 };
+            #endregion
 
 
             this.Size = new Size(400, 400);
@@ -649,10 +651,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalClose();
         }
 
+        public event Action<FormClosingEventArgs> InternalBeforeFormClosing;
 
         public void InternalClose(CloseReason reason = CloseReason.None)
         {
             var a = new FormClosingEventArgs(reason, false);
+
+            if (InternalBeforeFormClosing != null)
+                InternalBeforeFormClosing(a);
+
+            if (a.Cancel)
+                return;
 
             if (FormClosing != null)
                 FormClosing(this, a);
@@ -820,7 +829,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalBeforeVisibleChangedDone = true;
 
 
-        
+
 
 
             InternalHTMLTargetAttachToDocument(

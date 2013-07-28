@@ -57,7 +57,49 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
     public static class FormAsPopupExtensions
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/2013
+        public static bool InternalPopupHasFrame = false;
 
+        #region postMessage
+        static Action<IWindow, XElement> postMessage =
+          (w, x) =>
+          {
+              Console.WriteLine(new { x });
+
+              var data = w.escape(x.ToString());
+
+              var ww = w.open("http://hack-wtf-postmessage/" + data);
+          };
+        #endregion
+
+        static FormAsPopupExtensions()
+        {
+            // X:\jsc.internal.svn\examples\javascript\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+
+            Console.WriteLine("Can we pop with our own frame?");
+
+
+
+
+            Native.Window.onmessage +=
+                m =>
+                {
+                    try
+                    {
+                        var xml = XElement.Parse((string)m.data);
+
+                        if (xml.Value == "Do you want to pop with your own frame?")
+                        {
+                            InternalPopupHasFrame = true;
+
+                            postMessage(Native.Window, new XElement("re", "yes i have my own frame!"));
+                        }
+                    }
+                    catch
+                    {
+                    }
+                };
+        }
 
         // { ExceptionObject = System.MissingMethodException: Method not found: 'Void Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(System.Windows.Forms.Form, Boolean, System.Action)'.
         public static void PopupInsteadOfClosing(
@@ -75,6 +117,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
             __f.CloseButtonContent.title = "Popup";
 
             var content = new { f };
+
 
             #region AtClose
             Action AtClose = delegate
@@ -96,7 +139,10 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 var HTMLTargetContainer_parent = content.f.GetHTMLTargetContainer().parentNode;
                 var HTMLTarget_parent = content.f.GetHTMLTarget().parentNode;
 
-                Native.Window.onbeforeunload +=
+                //Native.Window.onbeforeunload +=
+                // chrome webview only supports onunload
+                #region Native.Window.onunload
+                Native.Window.onunload +=
                     delegate
                     {
                         HTMLTarget_parent = null;
@@ -107,6 +153,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                         w.close();
                     };
+                #endregion
+
 
                 content.f.GetHTMLTarget().Orphanize();
 
@@ -119,9 +167,24 @@ namespace Abstractatech.JavaScript.FormAsPopup
                         // keep relative links working..
                         new IHTMLBase { href = Native.Document.location.href }.AttachTo(w.document.body);
 
-                        content.f.GetHTMLTargetContainer().Orphanize().AttachTo(
-                            w.document.body
-                        );
+                        __Form ff = content.f;
+
+                        var ff_TargetOuterBorder_parent = ff.TargetOuterBorder.parentNode;
+
+                        if (InternalPopupHasFrame)
+                        {
+                            ff.TargetOuterBorder.Orphanize().AttachTo(
+                                w.document.body
+                            );
+                        }
+                        else
+                        {
+                            content.f.GetHTMLTargetContainer().Orphanize().AttachTo(
+                                w.document.body
+                            );
+                        }
+
+
 
 
                         #region title
@@ -138,6 +201,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
                             };
                         #endregion
 
+                        #region onresize
+                        // does this work for chrome?
                         w.onresize +=
                             delegate
                             {
@@ -155,17 +220,51 @@ namespace Abstractatech.JavaScript.FormAsPopup
                                 //    new EventArgs()
                                 //);
                             };
+                        #endregion
 
-                        w.onbeforeunload +=
+
+                        ff.InternalBeforeFormClosing +=
+                           (e) =>
+                           {
+                               if (w != null)
+                               {
+                                   e.Cancel = true;
+
+                                   Console.WriteLine("InternalBeforeFormClosing!");
+
+                                   if (InternalPopupHasFrame)
+                                   {
+                                       postMessage(Native.Window, new XElement("re", "close this window!"));
+                                   }
+
+                                   w.close();
+                               }
+                           };
+                        //w.onbeforeunload +=
+
+                        #region w.onunload
+                        w.onunload +=
                             delegate
                             {
+
                                 if (HTMLTargetContainer_parent == null)
                                     return;
 
                                 // undo
-                                content.f.GetHTMLTargetContainer().Orphanize().AttachTo(
-                                    HTMLTargetContainer_parent
-                                );
+
+
+                                if (InternalPopupHasFrame)
+                                {
+                                    ff.TargetOuterBorder.Orphanize().AttachTo(
+                                        ff_TargetOuterBorder_parent
+                                    );
+                                }
+                                else
+                                {
+                                    content.f.GetHTMLTargetContainer().Orphanize().AttachTo(
+                                        HTMLTargetContainer_parent
+                                    );
+                                }
 
                                 content.f.GetHTMLTarget().Orphanize().AttachTo(
                                     HTMLTarget_parent
@@ -176,6 +275,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
                                 if (NotifyDocked != null)
                                     NotifyDocked();
                             };
+                        #endregion
+
                     };
             };
             #endregion
@@ -305,9 +406,15 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 };
             #endregion
 
+            #region FormClosing
             content.f.FormClosing +=
                 (sender, e) =>
                 {
+                    //if (FormClosingMeansDock)
+                    //{
+                    //    return;
+                    //}
+
                     if (!HandleFormClosing)
                     {
                         if (!SpecialClose)
@@ -325,6 +432,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                     AtClose();
                 };
+            #endregion
+
         }
 
         // error: System.MissingMethodException: Method not found: 'Void Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(System.Windows.Forms.Form, Boolean, System.Action)'.

@@ -131,17 +131,17 @@ namespace ScriptCoreLib.JavaScript.DOM
             this.removeEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
         }
 
-        [Script(DefineAsStatic = true)]
-        public void addEventListener(string f, System.Delegate e, bool c = false)
-        {
-            this.addEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
-        }
+        //[Script(DefineAsStatic = true)]
+        //public void addEventListener(string f, System.Delegate e, bool c = false)
+        //{
+        //    this.addEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
+        //}
 
-        [Script(DefineAsStatic = true)]
-        public void removeEventListener(string f, System.Delegate e, bool c = false)
-        {
-            this.removeEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
-        }
+        //[Script(DefineAsStatic = true)]
+        //public void removeEventListener(string f, System.Delegate e, bool c = false)
+        //{
+        //    this.removeEventListener(f, ((BCLImplementation.System.__Delegate)(object)e).InvokePointer, c);
+        //}
 
 
         public void addEventListener(string f, IFunction e, bool c = false)
