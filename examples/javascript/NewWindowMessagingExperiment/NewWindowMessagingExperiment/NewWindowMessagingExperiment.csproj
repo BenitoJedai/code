@@ -5,16 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}</ProjectGuid>
+    <ProjectGuid>{0140BAE3-66C5-4A9E-9398-07714CEAD422}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.abstractatech.adminshell</RootNamespace>
-    <AssemblyName>com.abstractatech.adminshell</AssemblyName>
+    <RootNamespace>NewWindowMessagingExperiment</RootNamespace>
+    <AssemblyName>NewWindowMessagingExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>com.abstractatech.adminshell.Program</StartupObject>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <StartupObject>NewWindowMessagingExperiment.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,26 +35,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Android|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Android\</OutputPath>
-    <DefineConstants>Android</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
-      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
-    </Reference>
-    <Reference Include="Abstractatech.Multicast">
-      <HintPath>..\packages\Abstractatech.Multicast.1.0.0.0\lib\Abstractatech.Multicast.dll</HintPath>
-    </Reference>
-    <Reference Include="CSSMinimizeFormToSidebar">
-      <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -111,8 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibAndroid">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -133,59 +113,30 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="com.abstractatech.adminshell.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\com.abstractatech.adminshell.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="ShellWithPing.AssetsLibrary">
-      <HintPath>..\..\ShellWithPing\ShellWithPing\bin\staging.AssetsLibrary\ShellWithPing.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="AndroidNotificationWebActivity.AssetsLibrary">
-      <HintPath>..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\bin\staging.AssetsLibrary\AndroidNotificationWebActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="NewWindowMessagingExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\NewWindowMessagingExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationWebService.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\DBeforeLogon.png" />
-    <Content Include="Design\Preview.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj">
-      <Project>{68616df5-ad84-4d65-85c4-35bb96171391}</Project>
-      <Name>AndroidNotificationWebActivity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ShellWithPing\ShellWithPing\ShellWithPing.csproj">
-      <Project>{0267ab63-ecec-4ecc-a3b3-853c3138a826}</Project>
-      <Name>ShellWithPing</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
-)
-
-if $(ConfigurationName)==Android (
-
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:20  /FilterTo:$(SolutionDir)
-
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
 )</PostBuildEvent>
     <PreBuildEvent>
 
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /LinkedAssets:X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell.clrlauncher\publish
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
 
-</PreBuildEvent>
+            </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
