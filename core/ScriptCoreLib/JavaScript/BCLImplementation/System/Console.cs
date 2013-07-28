@@ -123,7 +123,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             public static void Write(object e)
             {
                 //if (_ci == null)
-                Dump(e);
+                Dump("" + e);
                 //else
                 //    _ci.WriteString(e + "");
             }

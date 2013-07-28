@@ -51,8 +51,15 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IWindow self;
         public IWindow window;
 
-        public void postMessage(object message, string targetOrigin = "*")
+        public void postMessage(object message, object[] transfer, string targetOrigin = "*")
         {
+
+            // http://www.whatwg.org/specs/web-apps/current-work/#the-window-object
+        }
+
+        public void postMessage(object message, string targetOrigin = "*", params object[] transfer)
+        {
+            
             // http://www.whatwg.org/specs/web-apps/current-work/#the-window-object
         }
 
