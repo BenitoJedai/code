@@ -1031,8 +1031,13 @@ namespace ThreeDStuff.js
 
                             infotoolbar.Control.Hide();
                             infotoolbar.Control.AttachToDocument();
-                            toolbar.Control.AttachToDocument();
 
+                            //toolbar.Control.AttachToDocument();
+                            toolbar.ControlForm.PopupInsteadOfClosing().Show();
+
+
+
+                            #region toolbar_btn_pause
                             var toolbar_btn_pause = new ToolbarButton(
                                 toolbar, new btn_pause().src
                                 )
@@ -1065,6 +1070,7 @@ namespace ThreeDStuff.js
 
                                     Dudes.ForEach(i => i.Paused = paused);
                                 };
+                            #endregion
 
                             #region toolbar_btn_demolish
                             var toolbar_btn_demolish = new ToolbarButton(
@@ -1765,7 +1771,7 @@ namespace ThreeDStuff.js
                                         //if (ev.shiftKey)
                                         //    v.IsSelected |= r.Contains(v.CurrentLocation.ToInt32());
                                         //else
-                                            v.IsSelected = r.Contains(v.CurrentLocation.ToInt32());
+                                        v.IsSelected = r.Contains(v.CurrentLocation.ToInt32());
                                     }
                                 };
                             #endregion

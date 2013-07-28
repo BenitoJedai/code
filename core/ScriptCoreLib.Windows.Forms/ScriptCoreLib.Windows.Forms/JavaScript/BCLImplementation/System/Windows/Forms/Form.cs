@@ -89,6 +89,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLDiv ResizeGripElement;
 
+        IHTMLImage icon = "assets/ScriptCoreLib/jsc.ico";
+
+
+        public bool ShowIcon
+        {
+            get { return icon.style.display != IStyle.DisplayEnum.none; }
+            set { icon.Show(value); }
+        }
+
         public __Form()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -166,7 +175,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             #region caption
             //IHTMLImage icon = "assets/ScriptCoreLib.Windows.Forms/App.ico";
-            IHTMLImage icon = "assets/ScriptCoreLib/jsc.ico";
 
             icon.style.SetLocation(5, 5, 16, 16);
 

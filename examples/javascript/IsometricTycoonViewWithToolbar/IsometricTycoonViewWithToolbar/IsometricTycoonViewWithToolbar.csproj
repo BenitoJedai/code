@@ -47,6 +47,9 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
+      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
+    </Reference>
     <Reference Include="Abstractatech.JavaScript.NatureBoy">
       <HintPath>..\packages\Abstractatech.JavaScript.NatureBoy.1.0.0.0\lib\Abstractatech.JavaScript.NatureBoy.dll</HintPath>
     </Reference>
