@@ -21,6 +21,71 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 //namespace Abstractatech.JavaScript.FormAsPopup
 namespace ScriptCoreLib.Extensions
 {
+
+    public class FormAsPopupExtensionsForConsoleFormPackageMediator
+    {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/2013
+        // tested by X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\Application.cs
+        public static bool InternalPopupHasFrame
+        {
+            get
+            {
+                // does the value exist?
+                bool value = (Native.Window as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame;
+
+                return !!value;
+            }
+
+            set
+            {
+                // this value should stay for app inline reloads
+                (Native.Window as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame = value;
+            }
+        }
+
+        #region postMessage
+        public static Action<IWindow, XElement> postMessage =
+          (w, x) =>
+          {
+              Console.WriteLine(new { x });
+
+              var data = w.escape(x.ToString());
+
+              var ww = w.open("http://hack-wtf-postmessage/" + data);
+          };
+        #endregion
+
+        static FormAsPopupExtensionsForConsoleFormPackageMediator()
+        {
+            // X:\jsc.internal.svn\examples\javascript\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+
+            // each inline app has its own version of this yet we need to keep sngle variable?
+            Console.WriteLine("Can we pop with our own frame? " + new { FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame });
+
+
+
+
+            Native.Window.onmessage +=
+                m =>
+                {
+                    try
+                    {
+                        var xml = XElement.Parse((string)m.data);
+
+                        if (xml.Value == "Do you want to pop with your own frame?")
+                        {
+                            FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame = true;
+
+                            postMessage(Native.Window, new XElement("re", "yes i have my own frame!"));
+                        }
+                    }
+                    catch
+                    {
+                    }
+                };
+        }
+    }
+
     // intellisense friendly :) discoverability
     public static class FormAsPopupExtensionsForConsoleFormPackage
     {
@@ -57,49 +122,10 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
     public static class FormAsPopupExtensions
     {
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/2013
-        public static bool InternalPopupHasFrame = false;
-
-        #region postMessage
-        static Action<IWindow, XElement> postMessage =
-          (w, x) =>
-          {
-              Console.WriteLine(new { x });
-
-              var data = w.escape(x.ToString());
-
-              var ww = w.open("http://hack-wtf-postmessage/" + data);
-          };
-        #endregion
-
-        static FormAsPopupExtensions()
-        {
-            // X:\jsc.internal.svn\examples\javascript\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
-
-            Console.WriteLine("Can we pop with our own frame?");
 
 
 
 
-            Native.Window.onmessage +=
-                m =>
-                {
-                    try
-                    {
-                        var xml = XElement.Parse((string)m.data);
-
-                        if (xml.Value == "Do you want to pop with your own frame?")
-                        {
-                            InternalPopupHasFrame = true;
-
-                            postMessage(Native.Window, new XElement("re", "yes i have my own frame!"));
-                        }
-                    }
-                    catch
-                    {
-                    }
-                };
-        }
 
         // { ExceptionObject = System.MissingMethodException: Method not found: 'Void Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(System.Windows.Forms.Form, Boolean, System.Action)'.
         public static void PopupInsteadOfClosing(
@@ -171,7 +197,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                         var ff_TargetOuterBorder_parent = ff.TargetOuterBorder.parentNode;
 
-                        if (InternalPopupHasFrame)
+                        if (FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
                         {
                             ff.TargetOuterBorder.Orphanize().AttachTo(
                                 w.document.body
@@ -232,9 +258,9 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                                    Console.WriteLine("InternalBeforeFormClosing!");
 
-                                   if (InternalPopupHasFrame)
+                                   if (FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
                                    {
-                                       postMessage(Native.Window, new XElement("re", "close this window!"));
+                                       FormAsPopupExtensionsForConsoleFormPackageMediator.postMessage(Native.Window, new XElement("re", "close this window!"));
                                    }
 
                                    w.close();
@@ -253,7 +279,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                                 // undo
 
 
-                                if (InternalPopupHasFrame)
+                                if (FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
                                 {
                                     ff.TargetOuterBorder.Orphanize().AttachTo(
                                         ff_TargetOuterBorder_parent

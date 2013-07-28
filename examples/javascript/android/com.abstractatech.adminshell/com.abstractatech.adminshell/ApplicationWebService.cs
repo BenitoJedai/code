@@ -141,15 +141,15 @@ namespace com.abstractatech.adminshell
 
                 if (OK)
                 {
-                    //#if Android
-                    //                        var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
+#if Android
+                    var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
 
-                    //                        var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
+                    var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
 
-                    //                        intent.putExtra("data0", AuthorizationLiteralCredentials.user + " is using Remote Web Shell");
+                    intent.putExtra("data0", AuthorizationLiteralCredentials.user + " is using Remote Web Shell");
 
-                    //                        c.startService(intent);
-                    //#endif
+                    c.startService(intent);
+#endif
 
 
 

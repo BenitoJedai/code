@@ -26,6 +26,10 @@ namespace com.abstractatech.adminshell
         HTML.Images.FromAssets.Preview ref0;
         com.abstractatech.adminshell.Assets.Publish publish0;
 
+
+        FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
