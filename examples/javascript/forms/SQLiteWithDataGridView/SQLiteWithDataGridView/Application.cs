@@ -35,7 +35,8 @@ namespace SQLiteWithDataGridView
         {
             content.label1.Text = Native.Document.location.href;
 
-            global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            // this is mesed up on Galaxy S, why?
+            //global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
             //FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
             content.AttachControlTo(page.Content);
