@@ -56,8 +56,8 @@ namespace ThreeDStuff.js
 
         public Tycoon4()
         {
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            Native.Document.body.style.color = Color.White;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.color = Color.White;
 
             if (Native.window.parent != Native.window.self)
             {
@@ -122,8 +122,10 @@ namespace ThreeDStuff.js
             var arena = new ArenaControl();
 
             arena.Control.AttachToDocument();
+            arena.Control.style.backgroundColor = Color.Transparent;
 
-            arena.Layers.Canvas.style.backgroundColor = Color.FromRGB(0, 0, 0);
+            //arena.Layers.Canvas.style.backgroundColor = Color.FromRGB(0, 0, 0);
+            arena.Layers.Canvas.style.backgroundColor = Color.Transparent;
 
 
 
@@ -133,6 +135,7 @@ namespace ThreeDStuff.js
                 ((MapSize.Height + +MapMargins.Y) * bg_size.h).ToInt32()
                 ));
 
+            #region PauseFog
             var PauseFog = new IHTMLDiv().AttachTo(arena.Layers.Info);
 
             PauseFog.style.backgroundColor = Color.Black;
@@ -146,15 +149,17 @@ namespace ThreeDStuff.js
 
             PauseFogTween.ValueChanged +=
                     () => PauseFog.style.Opacity = PauseFogTween.Value;
+            #endregion
+
 
             #region onresize
             Action onresize =
                 delegate
                 {
-                    info.style.SetLocation(4, 4, Native.Window.Width - 8, 0);
+                    info.style.SetLocation(4, 4, Native.window.Width - 8, 0);
                     info.style.height = "auto";
 
-                    var rect = Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height);
+                    var rect = Rectangle.Of(0, 0, Native.window.Width, Native.window.Height);
 
                     arena.SetLocation(rect);
                     PauseFog.style.SetLocation(rect);
@@ -1024,14 +1029,13 @@ namespace ThreeDStuff.js
                             new IHTMLAnchor("http://zproxy.wordpress.com", "zproxy.wordpress.com").AttachTo(infotoolbar_content).style.Aggregate(SetInfoAnchorStyle);
                             new IHTMLAnchor("http://jsc.sf.net", "jsc.sf.net").AttachTo(infotoolbar_content).style.Aggregate(SetInfoAnchorStyle);
 
-
                             var toolbar_size = new Point(96, 32);
-                            var toolbar_pos = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
+                            var toolbar_pos = new Point(8, Native.window.Height - toolbar_size.Y - 8);
 
                             Console.WriteLine("toolbar!");
                             var toolbar = ToolbarDialog.CreateToolbar(toolbar_pos, toolbar_size, toolbar_color);
 
-                            Native.Window.onresize +=
+                            Native.window.onresize +=
                                 delegate
                                 {
                                     infotoolbar.ApplyPosition();

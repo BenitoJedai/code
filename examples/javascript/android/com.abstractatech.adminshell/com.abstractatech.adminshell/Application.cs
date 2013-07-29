@@ -15,6 +15,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using System.Drawing;
 using Abstractatech.JavaScript.FormAsPopup;
 using ScriptCoreLib.Ultra.WebService;
+using Abstractatech.ConsoleFormPackage.Library;
 
 namespace com.abstractatech.adminshell
 {
@@ -26,7 +27,7 @@ namespace com.abstractatech.adminshell
         HTML.Images.FromAssets.Preview ref0;
         com.abstractatech.adminshell.Assets.Publish publish0;
 
-
+        // type is loaded before virtual console is loaded
         FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
 
 
@@ -37,6 +38,8 @@ namespace com.abstractatech.adminshell
         public Application(IApp page)
         {
             // ask for credentials for new ui
+
+            //new ConsoleForm().InitializeConsoleFormWriter().Show();
 
 
             // or just change the base?
@@ -97,6 +100,11 @@ namespace com.abstractatech.adminshell
 example:
  am start -a android.intent.action.CALL tel:254007
 ");
+
+                // if we will popup, wil we have a frame?
+                c.AppendLine(new { FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame }.ToString());
+
+
 
                 c.Show();
 
