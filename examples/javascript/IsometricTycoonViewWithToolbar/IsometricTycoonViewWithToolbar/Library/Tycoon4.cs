@@ -58,14 +58,23 @@ namespace ThreeDStuff.js
         {
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
             Native.Document.body.style.color = Color.White;
-            Native.Document.body.style.backgroundColor = Color.Black;
+
+            if (Native.window.parent != Native.window.self)
+            {
+                // why stop there. negotiate our own title bar!
+                Native.document.body.style.backgroundColor = JSColor.Transparent;
+            }
+            else
+            {
+                Native.document.body.style.backgroundColor = Color.Black;
+            }
 
             //var info_text =
             //    ((ApplicationDescriptionAttribute)typeof(Tycoon4).GetCustomAttributes(typeof(ApplicationDescriptionAttribute), false).Single()).Description;
 
             var info = new IHTMLDiv("loading...");
 
-            info.style.SetLocation(4, 4, Native.Window.Width - 8, 0);
+            info.style.SetLocation(4, 4, Native.window.Width - 8, 0);
             info.style.height = "auto";
 
 

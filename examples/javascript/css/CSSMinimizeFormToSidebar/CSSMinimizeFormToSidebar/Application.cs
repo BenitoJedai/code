@@ -16,11 +16,23 @@ using CSSMinimizeFormToSidebar.HTML.Pages;
 using CSSMinimizeFormToSidebar.Library;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 
+namespace ScriptCoreLib.Extensions
+{
+    public static class CSSMinimizeFormToSidebarExtensions
+    { 
+    
+    }
+}
+
 namespace CSSMinimizeFormToSidebar
 {
     public static class ApplicationExtension
     {
-        public static global::CSSMinimizeFormToSidebar.HTML.Pages.IApp InitializeSidebarBehaviour(Form f, bool HandleClosed = true)
+        // advertise in ScriptCoreLib.Extensions
+        public static global::CSSMinimizeFormToSidebar.HTML.Pages.IApp InitializeSidebarBehaviour(
+            Form f, 
+            bool HandleClosed = true,
+            bool HandleDragToLeft = true)
         {
 
             // can we do a dynamic upgrade?
@@ -67,13 +79,14 @@ namespace CSSMinimizeFormToSidebar
             f.GetHTMLTarget().Orphanize().AttachToDocument();
 
             global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
-                newlayout, f, HandleClosed: HandleClosed
+                newlayout, f, HandleClosed: HandleClosed, HandleDragToLeft: HandleDragToLeft
             );
 
             return newlayout;
         }
 
-        public static void InitializeSidebarBehaviour(IApp page, Form f, bool HandleClosed = true)
+        public static void InitializeSidebarBehaviour(IApp page, Form f, bool HandleClosed = true,
+            bool HandleDragToLeft = true)
         {
             var tt = f.GetHTMLTarget();
 
@@ -207,44 +220,42 @@ namespace CSSMinimizeFormToSidebar
                 };
             #endregion
 
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                delegate
-                {
-                    // popup mode?
-                    if (f.GetHTMLTarget().parentNode == null)
-                        return;
-
-                    if (IsMinimized)
+            if (HandleDragToLeft)
+                new ScriptCoreLib.JavaScript.Runtime.Timer(
+                    delegate
                     {
-
-
-
-                        return;
-                    }
-
-
-                    if (tt.offsetLeft < page.Sidebar.clientWidth)
-                    {
-                        page.SidebarOverlay.style.Opacity = 0.2;
-
-                        var scale = (double)(page.Sidebar.clientWidth - 10) / ((double)tt.clientHeight);
-                        Console.WriteLine(new { scale });
-                        page.SidebarInfo.style.marginTop = (f.Height * scale + 20) + "px";
-
-
-                        if (f.Capture)
+                        // popup mode?
+                        if (f.GetHTMLTarget().parentNode == null)
                             return;
 
-                        Minimize();
+                        if (IsMinimized)
+                        {
+                            return;
+                        }
 
+
+                        if (tt.offsetLeft < page.Sidebar.clientWidth)
+                        {
+                            page.SidebarOverlay.style.Opacity = 0.2;
+
+                            var scale = (double)(page.Sidebar.clientWidth - 10) / ((double)tt.clientHeight);
+                            Console.WriteLine(new { scale });
+                            page.SidebarInfo.style.marginTop = (f.Height * scale + 20) + "px";
+
+
+                            if (f.Capture)
+                                return;
+
+                            Minimize();
+
+                        }
+                        else
+                        {
+                            page.SidebarInfo.style.marginTop = (0) + "px";
+                        }
+                        page.SidebarOverlay.style.Opacity = 0;
                     }
-                    else
-                    {
-                        page.SidebarInfo.style.marginTop = (0) + "px";
-                    }
-                    page.SidebarOverlay.style.Opacity = 0;
-                }
-            ).StartInterval(100);
+                ).StartInterval(100);
 
 
             if (HandleClosed)

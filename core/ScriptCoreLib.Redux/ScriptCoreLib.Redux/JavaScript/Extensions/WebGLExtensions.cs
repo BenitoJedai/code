@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.GLSL;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
@@ -12,6 +13,6 @@ namespace ScriptCoreLib.JavaScript.Extensions
     [Script]
     public static class WebGLExtensions
     {
-     
+  
     }
 }

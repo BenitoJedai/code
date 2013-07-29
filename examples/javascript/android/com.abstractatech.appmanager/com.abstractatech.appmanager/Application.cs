@@ -17,6 +17,7 @@ using com.abstractatech.appmanager.windows;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Ultra.WebService;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
 namespace com.abstractatech.appmanager
 {
@@ -29,6 +30,9 @@ namespace com.abstractatech.appmanager
 
         com.abstractatech.appmanager.Assets.Publish ref0;
 
+        FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -38,28 +42,36 @@ namespace com.abstractatech.appmanager
             "My Appz".ToDocumentTitle();
 
 
+            var s = new IHTMLScript
+            {
+                src =
+                    "http://"
+                    + page.username.value
+                    + ":"
 
+                    // base64 of identity signature?
+                    + page.password.value
 
-            #region LoginButton
+                    + "@"
+                    + Native.document.location.host
+                    + "/a"
+            };
+
+            // http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
+            s.onload +=
+                delegate
+                {
+                    page.LoginButton.Orphanize();
+                };
+
             page.LoginButton.onclick +=
-                    delegate
-                    {
+                delegate
+                {
+                    page.LoginButton.style.Opacity = 0.5;
+                    s.AttachToDocument();
+                };
 
-                        // ask for credentials for new ui
 
-                        var s = new IHTMLScript { src = "/a" };
-
-                        // http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
-                        s.onload +=
-                            delegate
-                            {
-                                page.LoginButton.Orphanize();
-                            };
-
-                        s.AttachToDocument();
-
-                    };
-            #endregion
 
             #region LaunchMyAppz
             var about = new Cookie("about");
@@ -93,7 +105,8 @@ namespace com.abstractatech.appmanager
 
             public a(IBeforeLogin ee)
             {
-                FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+                //FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
+                FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
 
                 var ff = new Form { FormBorderStyle = FormBorderStyle.None };
 
@@ -113,10 +126,10 @@ namespace com.abstractatech.appmanager
                 Action AtResize = delegate
                 {
 
-                    ff.SizeTo(Native.Window.Width - SidebarWidth, Native.Window.Height);
+                    ff.SizeTo(Native.window.Width - SidebarWidth, Native.window.Height);
                 };
 
-                Native.Window.onresize +=
+                Native.window.onresize +=
                     delegate
                     {
                         AtResize();
@@ -124,10 +137,14 @@ namespace com.abstractatech.appmanager
                     };
 
                 AtResize();
-
                 var iii = global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
-              ff, HandleClosed: true
-          );
+                  ff,
+
+                  // should be handle close instead!
+                  HandleClosed: true,
+                  HandleDragToLeft: false
+                );
+
                 iii.SidebarText.className = "AppPreviewText";
                 //iii.SidebarText.innerText = "My Appz";
                 //iii.SidebarText.innerText = "Synchronizing...";
@@ -135,9 +152,9 @@ namespace com.abstractatech.appmanager
 
 
                 //Native.Document.body.style.backgroundColor = "#105070";
-                Native.Document.body.style.backgroundColor = "#185D7B";
+                Native.document.body.style.backgroundColor = "#185D7B";
 
-                Native.Window.onresize +=
+                Native.window.onresize +=
                     delegate
                     {
                         ff.Show();
@@ -175,20 +192,61 @@ namespace com.abstractatech.appmanager
                     #region icon
                     if (packageName != "foo")
                     {
+                        // see also: X:\jsc.svn\examples\javascript\ImageCachedIntoLocalStorageExperiment\ImageCachedIntoLocalStorageExperiment\Application.cs
+
+                        // extension to the system
+                        // data.icon[packageName].With
+
+                        Action loadicon = delegate
+                        {
+                            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                                delegate
+                                {
+                                    new IHTMLImage { src = "/icon/" + packageName }.InvokeOnComplete(
+                                        i =>
+                                        {
+                                            var dataURL = i.toDataURL();
+
+                                            // Uncaught QuotaExceededError: An attempt was made to add something to storage that exceeded the quota. 
+                                            // http://stackoverflow.com/questions/6276282/how-can-i-request-an-increase-to-the-html5-localstorage-size-on-ipad-like-the-f
+
+                                            //message: "An attempt was made to add something to storage that exceeded the quota."
+                                            //name: "QuotaExceededError"
+
+
+
+                                            a.Icon.src = dataURL;
+
+                                            try
+                                            {
+                                                Native.window.localStorage[new { packageName }] = dataURL;
+                                            }
+                                            catch (Exception err)
+                                            {
+                                                Console.WriteLine(new { packageName, error = new { err.Message } });
+                                            }
+                                        }
+                                    );
+                                }
+                            ).StartTimeout(icon_throttle);
+                        };
+
+                        // VirtualDictionary?
+                        Native.window.localStorage[new { packageName }].With(
+                            dataURL =>
+                            {
+                                Console.WriteLine("load from localstorage: " + new { packageName });
+
+                                a.Icon.src = dataURL;
+
+                                loadicon = delegate { };
+                            }
+                        );
+
+                        loadicon();
+
                         icon_throttle += 900;
 
-                        new ScriptCoreLib.JavaScript.Runtime.Timer(
-                            delegate
-                            {
-                                var i = new IHTMLImage { src = "/icon/" + packageName };
-                                i.InvokeOnComplete(
-                                    delegate
-                                    {
-                                        a.Icon.src = i.src;
-                                    }
-                                );
-                            }
-                        ).StartTimeout(icon_throttle);
                     }
                     #endregion
 
@@ -209,6 +267,14 @@ namespace com.abstractatech.appmanager
                         a.Container.AttachTo(ScrollArea);
                     }
 
+
+                    //(page.gauge_layer1.style as dynamic).webkitTransition = "-webkit-transform 0.7s ease-in";
+
+                    //-webkit-transition: filter 0.3s linear;
+                    __Form __ff = ff;
+                    (__ff.HTMLTarget.style as dynamic).webkitTransition = "-webkit-filter 0.7s ease-in";
+
+
                     #region onclick
                     Action<bool> onclick =
                         CanAutoLaunch =>
@@ -219,9 +285,22 @@ namespace com.abstractatech.appmanager
                             var content = new ApplicationControl();
 
 
-                            var f = new Form { Text = label };
+                            var f = new Form { Text = label, ShowIcon = false };
                             f.ClientSize = content.Size;
+
+                            f.FormClosed +=
+                                delegate
+                                {
+                                    (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(0px)";
+                                };
+
+                            f.Shown += delegate
+                            {
+                                (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(4px)";
+                            };
+
                             f.Show();
+
 
                             Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(
                                 f,
@@ -236,6 +315,7 @@ namespace com.abstractatech.appmanager
                                         DisableCallbackToken: "true"
                                     );
 
+                                    //f.Close();
                                 }
                             );
 
@@ -261,14 +341,15 @@ namespace com.abstractatech.appmanager
                                             Console.WriteLine(new { port });
 
                                             // close to left sidebar!
-                                            ff.Close();
+                                            // broken?
+                                            //ff.Close();
 
 
                                             f.Opacity = 1.0;
 
-                                            var uri = Native.Document.location.protocol
+                                            var uri = Native.document.location.protocol
                                                 + "//"
-                                                + Native.Document.location.host.TakeUntilIfAny(":")
+                                                + Native.document.location.host.TakeUntilIfAny(":")
                                                 + ":" + port;
 
 

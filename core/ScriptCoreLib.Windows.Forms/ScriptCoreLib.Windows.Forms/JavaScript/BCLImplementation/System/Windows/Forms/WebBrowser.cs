@@ -53,6 +53,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // about:blank
             if (!urlString.Contains(":"))
             {
+                /// baseURI
                 var loc = Native.Document.location.href;
                 if (urlString.StartsWith("/"))
                     if (loc.EndsWith("/"))
@@ -136,6 +137,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     try
                     {
+                        // DOM Exception?
                         var href = this.InternalElement.contentWindow.document.location.href;
 
                         InternalUrl = new Uri(href);

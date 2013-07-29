@@ -38,16 +38,24 @@ namespace com.abstractatech.adminshell
         {
             // ask for credentials for new ui
 
-            var s = new IHTMLScript
+
+            // or just change the base?
+
+            new IHTMLBase
             {
-                src =
-                    "http://"
+                href = "http://"
                     + page.username.value
                     + ":"
                     + page.password.value
                     + "@"
-                    + Native.Document.location.host
-                    + "/a"
+                    + Native.document.location.host
+
+            }.AttachToDocument();
+
+
+            var s = new IHTMLScript
+            {
+                src = "/a"
             };
 
             // http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
@@ -97,7 +105,15 @@ example:
                     c, HandleClosed: false
                 );
 
-                Native.Document.body.style.backgroundColor = "#185D7B";
+
+                if (Native.window.parent != Native.window.self)
+                {
+                    Native.document.body.style.backgroundColor = JSColor.Transparent;
+                }
+                else
+                {
+                    Native.document.body.style.backgroundColor = "#185D7B";
+                }
 
                 c.PopupInsteadOfClosing();
 

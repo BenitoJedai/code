@@ -65,7 +65,7 @@ namespace ScriptCoreLib.Extensions
 
 
 
-            Native.Window.onmessage +=
+            Native.window.onmessage +=
                 m =>
                 {
                     try
@@ -76,7 +76,9 @@ namespace ScriptCoreLib.Extensions
                         {
                             FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame = true;
 
-                            postMessage(Native.Window, new XElement("re", "yes i have my own frame!"));
+                            Console.WriteLine("yes i have my own frame! " + new { FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame });
+
+                            postMessage(Native.window, new XElement("re", "yes i have my own frame!"));
                         }
                     }
                     catch
@@ -154,7 +156,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 // cant be minimized
                 content.f.WindowState = FormWindowState.Normal;
 
-                var w = Native.Window.open("about:blank", "_blank",
+                var w = Native.window.open("about:blank", "_blank",
                           content.f.Width,
                           content.f.Height,
                           false
@@ -195,7 +197,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     {
 
                         // keep relative links working..
-                        new IHTMLBase { href = Native.Document.location.href }.AttachTo(w.document.body);
+                        new IHTMLBase { href = Native.document.location.href }.AttachTo(w.document.body);
 
                         __Form ff = content.f;
 
@@ -312,7 +314,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                             };
                         #endregion
 
-                        Native.Window.requestAnimationFrame +=
+                        Native.window.requestAnimationFrame +=
                             delegate
                             {
                                 // chrome clips to white?
@@ -394,7 +396,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     var z = new { f.Right, f.Left };
 
                     var IsNotOnLeft = (z.Right - f.Width / 2) > 0;
-                    var IsNotOnRight = (z.Left + f.Width / 2) < Native.Window.Width;
+                    var IsNotOnRight = (z.Left + f.Width / 2) < Native.window.Width;
 
                     if (SpecialNoMovement)
                     {
@@ -430,8 +432,9 @@ namespace Abstractatech.JavaScript.FormAsPopup
                         if (!IsNotOnLeft)
                             if (SpecialCloseOnLeft != null)
                             {
-                                SpecialCloseOnLeft();
+                                AtClose = null;
 
+                                SpecialCloseOnLeft();
                                 f.Close();
 
                                 return;
@@ -452,6 +455,9 @@ namespace Abstractatech.JavaScript.FormAsPopup
             content.f.FormClosing +=
                 (sender, e) =>
                 {
+                    if (AtClose == null)
+                        return;
+
                     //if (FormClosingMeansDock)
                     //{
                     //    return;

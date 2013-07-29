@@ -351,8 +351,8 @@ namespace com.abstractatech.appmanager
 
             if (h.Context.Request.Path == "/a")
             {
-                var OK = true;
-                //var OK = false; // chrome webview cannot do 401
+                // var OK = true;
+                var OK = false; // chrome webview cannot do 401 unless provided
 
 
                 if (Host == h.Context.Request.UserHostAddress)
@@ -428,6 +428,8 @@ namespace com.abstractatech.appmanager
                 var pm = context.getPackageManager();
 
                 lock (ApplicationPackageManagerLock)
+                {
+                    System.Console.WriteLine("ApplicationPackageManagerLock enter");
                     context.GetLaunchers().Where(r => r.activityInfo.applicationInfo.packageName == packageName).FirstOrDefault().With(
                         r =>
                         {
@@ -466,6 +468,8 @@ namespace com.abstractatech.appmanager
 
                         }
                     );
+                    System.Console.WriteLine("ApplicationPackageManagerLock exit");
+                }
 #endif
 
             }
@@ -627,13 +631,13 @@ namespace com.abstractatech.appmanager
 
 
 #if DEBUG
-            if (InternalMulticast == null)
-                InternalMulticast = new WithClickOnceLANLauncher.ApplicationWebServiceMulticast
-                {
-                    Host = HostUri.Host,
-                    Port = HostUri.Port,
+            //if (InternalMulticast == null)
+            //    InternalMulticast = new WithClickOnceLANLauncher.ApplicationWebServiceMulticast
+            //    {
+            //        Host = HostUri.Host,
+            //        Port = HostUri.Port,
 
-                };
+            //    };
 #else
             if (InternalMulticast == null)
                 InternalMulticast = new AndroidApplicationWebServiceMulticast
@@ -645,22 +649,22 @@ namespace com.abstractatech.appmanager
 
 
 
-            if (h.IsDefaultPath)
-            {
-                new Thread(
-                      delegate()
-                      {
+            //if (h.IsDefaultPath)
+            //{
+            //    new Thread(
+            //          delegate()
+            //          {
 
 
-                          InternalMulticast.SendVisitMeAt();
-                      }
-                                   )
-                {
+            //              InternalMulticast.SendVisitMeAt();
+            //          }
+            //                       )
+            //    {
 
-                    Name = "client"
-                }.Start();
+            //        Name = "client"
+            //    }.Start();
 
-            }
+            //}
 #endif
 
             DownloadSDKFunction.DownloadSDK(h);
