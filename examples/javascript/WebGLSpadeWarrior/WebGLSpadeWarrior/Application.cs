@@ -22,6 +22,7 @@ namespace WebGLSpadeWarrior
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using ScriptCoreLib.JavaScript.Runtime;
 
 
 
@@ -57,11 +58,21 @@ namespace WebGLSpadeWarrior
 
 
 
-   
+
         }
 
         void InitializeContent(IDefaultPage page = null)
         {
+            if (Native.window.parent != Native.window.self)
+            {
+                // why stop there. negotiate our own title bar!
+                Native.document.body.style.backgroundColor = JSColor.Transparent;
+            }
+            else
+            {
+                Native.window.document.body.style.backgroundColor = JSColor.Black;
+            }
+
             //page.PageContainer.style.color = Color.Blue;
 
             var size = 600;
@@ -69,7 +80,7 @@ namespace WebGLSpadeWarrior
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, size, size);
 
             canvas.width = size;
@@ -416,7 +427,8 @@ namespace WebGLSpadeWarrior
 
 
 
-            gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            //gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
             gl.enable(gl.DEPTH_TEST);
 
             var IsWalking = false;

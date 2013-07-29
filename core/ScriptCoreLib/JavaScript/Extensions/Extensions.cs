@@ -11,6 +11,20 @@ namespace ScriptCoreLib.JavaScript.Extensions
     [Script]
     public static class Extensions
     {
+        public static string toDataURL(this IHTMLImage img)
+        {
+            var context = new CanvasRenderingContext2D();
+
+            context.canvas.width = img.width;
+            context.canvas.height = img.height;
+
+            context.drawImage(img, 0, 0, img.width, img.height);
+
+            var dataURL = context.canvas.toDataURL();
+
+            return dataURL;
+        }
+
         /// <summary>
         /// shows element and sets opacity to 1
         /// </summary>

@@ -1,7 +1,13 @@
+// http://www.w3.org/TR/webstorage/
+
 interface Storage {
   readonly attribute unsigned long length;
   DOMString? key(unsigned long index);
+
+
+  // If the given key does not exist in the list associated with the object then this method must return null.
   getter DOMString getItem(DOMString key);
+
   setter creator void setItem(DOMString key, DOMString value);
   deleter void removeItem(DOMString key);
   void clear();

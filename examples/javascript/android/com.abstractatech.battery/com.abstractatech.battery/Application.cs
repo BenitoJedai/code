@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using com.abstractatech.battery.Design;
 using com.abstractatech.battery.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace com.abstractatech.battery
 {
@@ -28,6 +29,12 @@ namespace com.abstractatech.battery
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            if (Native.window.parent != Native.window.self)
+            {
+                Native.document.body.style.backgroundColor = JSColor.Transparent;
+            }
+
+
             Action<double> set =
                 a =>
                 {
@@ -38,7 +45,12 @@ namespace com.abstractatech.battery
                     else
                         page.gauge_layer3.Hide();
 
-                    page.gauge_layer1.style.transform = "rotate(" + deg + "deg)";
+
+                    var transform = "rotate(" + deg + "deg)";
+
+                    Console.WriteLine(new { a, transform });
+
+                    page.gauge_layer1.style.transform = transform;
                 };
 
 #if DEBUG
@@ -58,17 +70,24 @@ namespace com.abstractatech.battery
 
                 };
 #else
+            // it can get stuck. the dom might not represent the value we are setting if it is the same?
+            //set(1);
             set(0);
 
-        Action batteryStatus = delegate
-        {
-            service.batteryStatus(
-                batteryPct =>
-                {
-                    set(Convert.ToDouble(batteryPct));
-                }
-            );
-        };
+            // will this animate our popup?
+            (page.gauge_layer1.style as dynamic).webkitTransition = "-webkit-transform 0.7s ease-in";
+            //(page.gauge_layer1.style as dynamic).transition = "-webkit-transform 0.7s ease-in";
+
+
+            Action batteryStatus = delegate
+            {
+                service.batteryStatus(
+                    batteryPct =>
+                    {
+                        set(System.Convert.ToDouble(batteryPct));
+                    }
+                );
+            };
 
 
             new ScriptCoreLib.JavaScript.Runtime.Timer(

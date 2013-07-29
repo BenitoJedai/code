@@ -31,6 +31,8 @@ namespace IsometricTycoonViewWithToolbar
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+        
+
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>
@@ -79,7 +81,7 @@ namespace IsometricTycoonViewWithToolbar
             new gong().AttachToDocument().play();
             new ThreeDStuff.js.Tycoon4();
 
-
+           
         }
 
     }

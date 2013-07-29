@@ -5,16 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B20451B6-4E24-4287-A475-0AB6A1B9560B}</ProjectGuid>
+    <ProjectGuid>{0140BAE3-66C5-4A9E-9398-07714CEAD422}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.abstractatech.appmanager</RootNamespace>
-    <AssemblyName>com.abstractatech.appmanager</AssemblyName>
+    <RootNamespace>ImageCachedIntoLocalStorageExperiment</RootNamespace>
+    <AssemblyName>ImageCachedIntoLocalStorageExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>com.abstractatech.appmanager.Program</StartupObject>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <StartupObject>ImageCachedIntoLocalStorageExperiment.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,29 +29,13 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;Android</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abstractatech.JavaScript.ASCIIStyledLoadAnimation">
-      <HintPath>..\packages\Abstractatech.JavaScript.ASCIIStyledLoadAnimation.1.0.0.0\lib\Abstractatech.JavaScript.ASCIIStyledLoadAnimation.dll</HintPath>
-    </Reference>
-    <Reference Include="Abstractatech.JavaScript.FormAsPopup, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
-    </Reference>
-    <Reference Include="Abstractatech.JavaScript.Forms.FloatStyler">
-      <HintPath>..\packages\Abstractatech.JavaScript.Forms.FloatStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.FloatStyler.dll</HintPath>
-    </Reference>
-    <Reference Include="Abstractatech.Multicast">
-      <HintPath>..\packages\Abstractatech.Multicast.1.0.0.0\lib\Abstractatech.Multicast.dll</HintPath>
-    </Reference>
-    <Reference Include="CSSMinimizeFormToSidebar">
-      <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -108,9 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibAndroid, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="ScriptCoreLibJava">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -131,65 +113,31 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="com.abstractatech.appmanager.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\com.abstractatech.appmanager.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="com.abstractatech.appmanager.windows.AssetsLibrary">
-      <HintPath>..\com.abstractatech.appmanager.windows\bin\staging.AssetsLibrary\com.abstractatech.appmanager.windows.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="AndroidNotificationWebActivity.AssetsLibrary">
-      <HintPath>..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\bin\staging.AssetsLibrary\AndroidNotificationWebActivity.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="com.abstractatech.appmanager.about.AssetsLibrary">
-      <HintPath>..\com.abstractatech.appmanager.about\bin\staging.AssetsLibrary\com.abstractatech.appmanager.about.AssetsLibrary.dll</HintPath>
+    <Reference Include="ImageCachedIntoLocalStorageExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ImageCachedIntoLocalStorageExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\BeforeLogin.htm" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="AtInstall.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationWebService.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\AppPreview.htm" />
-    <Content Include="Design\DBeforeLogon.png" />
-    <Content Include="Design\DefaultIcon.png" />
-    <Content Include="Design\Preview.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj">
-      <Project>{68616df5-ad84-4d65-85c4-35bb96171391}</Project>
-      <Name>AndroidNotificationWebActivity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\com.abstractatech.appmanager.about\com.abstractatech.appmanager.about.csproj">
-      <Project>{e0adc786-28c3-44fb-92f6-f2debe6a5ac4}</Project>
-      <Name>com.abstractatech.appmanager.about</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\com.abstractatech.appmanager.windows\com.abstractatech.appmanager.windows.csproj">
-      <Project>{ced99e35-f368-472f-a254-1e479ae860ff}</Project>
-      <Name>com.abstractatech.appmanager.windows</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Design\Promotion3D_PAN.skp" />
-    <None Include="packages.config" />
+    <Content Include="Textures\Preview.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Release (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:20
+    <PostBuildEvent>
+if $(ConfigurationName)==Release (
+rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
 )</PostBuildEvent>
     <PreBuildEvent>
 
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /LinkedAssets:X:\jsc.svn\examples\javascript\android\com.abstractatech.appmanager\com.abstractatech.appmanager.clrlauncher\publish
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
 
-</PreBuildEvent>
+            </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
