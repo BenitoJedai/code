@@ -11,7 +11,6 @@ namespace Abstractatech.JavaScript.FormAsPopup
     {
         public static void Main(string[] args)
         {
-
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

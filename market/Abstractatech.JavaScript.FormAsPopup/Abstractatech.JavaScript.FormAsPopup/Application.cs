@@ -19,8 +19,50 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
 
 //namespace Abstractatech.JavaScript.FormAsPopup
-namespace ScriptCoreLib.Extensions
+namespace ScriptCoreLib.JavaScript.Extensions
 {
+    static class X
+    {
+        [Obsolete("MessageChannel may not work across webview boundary yet..")]
+        public static IWindow postMessage(this IWindow w, XElement sendxml, Action<XElement> yield)
+        {
+            if (w == null)
+                return null;
+
+            // lets not send a message to self
+            if (w == Native.window)
+                return w;
+
+            // http://www.w3.org/TR/webmessaging/#introduction-0
+            var ch = new MessageChannel();
+
+            ch.port1.onmessage = new Action<MessageEvent>(
+                m =>
+                {
+                    //Console.WriteLine("MessageChannel onmessage: " + new { m.data });
+
+                    var xml = XElement.Parse((string)m.data);
+
+
+                    yield(xml);
+                }
+            );
+
+            ch.port1.start();
+            ch.port2.start();
+
+            w.postMessage(
+                   sendxml.ToString(),
+                   "*",
+                   ch.port2
+            );
+
+
+
+
+            return w;
+        }
+    }
 
     public class FormAsPopupExtensionsForConsoleFormPackageMediator
     {
@@ -31,7 +73,7 @@ namespace ScriptCoreLib.Extensions
             get
             {
                 // does the value exist?
-                bool value = (Native.Window as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame;
+                bool value = (Native.window as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame;
 
                 return !!value;
             }
@@ -39,7 +81,7 @@ namespace ScriptCoreLib.Extensions
             set
             {
                 // this value should stay for app inline reloads
-                (Native.Window as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame = value;
+                (Native.window as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame = value;
             }
         }
 
@@ -55,13 +97,55 @@ namespace ScriptCoreLib.Extensions
           };
         #endregion
 
+        // what? DNS_PROBE_FINISHED_NO_INTERNET
         static FormAsPopupExtensionsForConsoleFormPackageMediator()
         {
             // X:\jsc.internal.svn\examples\javascript\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
 
-            // each inline app has its own version of this yet we need to keep sngle variable?
-            Console.WriteLine("Can we pop with our own frame? " + new { FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame });
 
+
+
+            // Uncaught SecurityError: Blocked a frame with origin "http://192.168.1.101:26097" from accessing a frame with origin "http://192.168.1.101:5682". Protocols, domains, and ports must match. 
+            // each inline app has its own version of this yet we need to keep sngle variable?
+
+            // Can we pop with our own frame ? { InternalPopupHasFrame = , opener = false, parent = true, top = true }
+            Console.WriteLine("Can we pop with our own frame ? "
+                + new
+                {
+                    FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame,
+
+                    // iframe need to know where it stands inside webview if any
+                    opener = null != Native.window.opener,
+                    parent = null != Native.window.parent,
+                    top = null != Native.window.top,
+                }
+            );
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/20130729-newwin
+            // only the top has access to webview?
+
+            // the caller should be a nested iframe 
+            Native.window.top.postMessage(
+                new XElement("re", "Did you want to pop with your own frame?"),
+                xml =>
+                {
+                    if (xml.Value == "yes i have my own frame!")
+                    {
+
+
+                        // too late?
+                        FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame = true;
+
+                        Console.WriteLine(
+                            new
+                            {
+                                FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
+                            }
+                        );
+
+                    }
+                }
+            );
 
 
 
@@ -72,12 +156,60 @@ namespace ScriptCoreLib.Extensions
                     {
                         var xml = XElement.Parse((string)m.data);
 
+                        // the caller should be a nested iframe 
+                        if (xml.Value == "Did you want to pop with your own frame?")
+                        {
+                            // { ports = 1, InternalPopupHasFrame = 1 } 
+                            Console.WriteLine(
+                                xml.Value + new
+                                {
+                                    ports = m.ports.Length,
+                                    FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
+                                }
+                            );
+
+                            // reply!
+                            if (
+                                 FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
+                                )
+                            {
+                                // tell our iframe what we know. 
+                                m.ports.WithEach(port =>
+                                    port.postMessage(
+                                     new XElement("re", "yes i have my own frame!").ToString(),
+                                     null
+                                    )
+                                );
+                            }
+
+                        }
+
+                        // if there are no ports we need to use the newwindow hack                        // Do you want to pop with your own frame?{ ports = 0, InternalPopupHasFrame = 1 }                        // the caller should be AppWindow webview
                         if (xml.Value == "Do you want to pop with your own frame?")
                         {
                             FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame = true;
 
-                            Console.WriteLine("yes i have my own frame! " + new { FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame });
+                            Console.WriteLine(xml.Value
+                                + new
+                                {
+                                    ports = m.ports.Length,
+                                    FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
+                                }
+                            );
 
+                            m.source.postMessage(
+                                new XElement("re", "yes i have my own frame!").ToString(),
+                                m.origin
+                            );
+
+                            m.ports.WithEach(port =>
+                                 port.postMessage(
+                                  new XElement("re", "yes i have my own frame!").ToString(),
+                                  null
+                                 )
+                             );
+
+                            // alternative hack as the one above does not yet work from html to webview
                             postMessage(Native.window, new XElement("re", "yes i have my own frame!"));
                         }
                     }

@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
+//using Abstractatech.JavaScript.FormAsPopup;
 
 namespace com.abstractatech.appmanager
 {
@@ -30,7 +31,7 @@ namespace com.abstractatech.appmanager
 
         com.abstractatech.appmanager.Assets.Publish ref0;
 
-        FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
+        Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
 
 
         /// <summary>
@@ -42,20 +43,24 @@ namespace com.abstractatech.appmanager
             "My Appz".ToDocumentTitle();
 
 
-            var s = new IHTMLScript
+
+            new IHTMLBase
             {
-                src =
-                    "http://"
+                href = "http://"
                     + page.username.value
                     + ":"
-
-                    // base64 of identity signature?
                     + page.password.value
-
                     + "@"
                     + Native.document.location.host
-                    + "/a"
+
+            }.AttachToDocument();
+
+
+            var s = new IHTMLScript
+            {
+                src = "/a"
             };
+
 
             // http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
             s.onload +=
@@ -68,6 +73,9 @@ namespace com.abstractatech.appmanager
                 delegate
                 {
                     page.LoginButton.style.Opacity = 0.5;
+
+
+                    Console.WriteLine("will load secondary application...");
                     s.AttachToDocument();
                 };
 
@@ -157,7 +165,8 @@ namespace com.abstractatech.appmanager
                 Native.window.onresize +=
                     delegate
                     {
-                        ff.Show();
+                        // lets not centerize
+                        //ff.Show();
                     };
 
 
@@ -352,6 +361,18 @@ namespace com.abstractatech.appmanager
                                                 + Native.document.location.host.TakeUntilIfAny(":")
                                                 + ":" + port;
 
+                                            //w.Navigated +=
+                                            //    delegate
+                                            //    {
+                                            //        Console.WriteLine("WebBrowser Navigated " + new { packageName, uri, Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame });
+
+                                            //        // FormAsPopupExtensionsForConsoleFormPackageMediator
+
+                                            //        if (Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
+                                            //        {
+
+                                            //        }
+                                            //    };
 
                                             w.Navigate(uri);
 
@@ -384,10 +405,12 @@ namespace com.abstractatech.appmanager
                                            name
                                         );
 
-                                        f.Hide();
+                                        //f.Hide();
 
                                         // http://www.w3schools.com/cssref/pr_text_text-decoration.asp
                                         a.Label.style.textDecoration = "line-through";
+
+                                        f.Close();
                                     };
 
                                 content.Launch.Click +=

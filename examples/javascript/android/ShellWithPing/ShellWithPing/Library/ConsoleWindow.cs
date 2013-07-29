@@ -98,7 +98,10 @@ namespace ShellWithPing.Library
             label1.Text += "\r\n" + x;
             textBox2.Text = label1.Text;
             textBox2.SelectionStart = textBox2.Text.Length - 1;
+
+            // does this work?
             textBox2.ScrollToCaret();
+            
             //textBox2.Select(textBox2.Text.Length - 1, 1);
             textBox1.Focus();
 
