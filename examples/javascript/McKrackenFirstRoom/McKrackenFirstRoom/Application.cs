@@ -30,7 +30,9 @@ namespace McKrackenFirstRoom
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            // why does it activate in float mode?
+            // shake should make it go away?
+            //global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
             var music = new HTML.Audio.FromAssets.zak().AttachToDocument();

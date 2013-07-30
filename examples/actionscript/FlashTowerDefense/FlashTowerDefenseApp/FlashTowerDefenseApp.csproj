@@ -132,6 +132,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
     <Content Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

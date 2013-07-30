@@ -129,6 +129,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\ClassicMinesweeper\ClassicMinesweeper\ClassicMinesweeper.csproj">
@@ -140,7 +141,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:13
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:20
 )</PostBuildEvent>
     <PreBuildEvent>
 

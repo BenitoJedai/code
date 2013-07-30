@@ -250,6 +250,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
     <Content Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\index.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

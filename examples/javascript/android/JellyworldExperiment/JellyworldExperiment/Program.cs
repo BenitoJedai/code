@@ -11,7 +11,7 @@ namespace com.abstractatech.gamification.jwe
         public static void Main(string[] args)
         {
             // {"Could not load type 'ScriptCoreLib.ActionScript.mx.core.ILayoutDirectionElement' from assembly 'ScriptCoreLib, Version=4.5.0.0, Culture=neutral, PublicKeyToken=null'.":"ScriptCoreLib.ActionScript.mx.core.ILayoutDirectionElement"}
-            RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
+            RewriteToUltraApplication.AsProgram.Launch(typeof(JellyworldExperiment.Application));
         }
 
     }
