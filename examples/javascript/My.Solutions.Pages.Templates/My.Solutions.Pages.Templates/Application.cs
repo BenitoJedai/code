@@ -31,7 +31,6 @@ namespace My.Solutions.Pages.Templates
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page = null)
         {
-
             #region switch to chrome AppWindow
             if (chrome.app.runtime != null)
             {

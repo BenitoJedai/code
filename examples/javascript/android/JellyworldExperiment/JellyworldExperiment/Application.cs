@@ -16,7 +16,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using JellyworldExperiment.HardwareDetection;
 using ScriptCoreLib.JavaScript.Runtime;
 
-namespace com.abstractatech.gamification.jwe
+namespace JellyworldExperiment
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.

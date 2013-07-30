@@ -132,6 +132,7 @@
     <Content Include="Design\Foo\TimelinePictureUnit.htm" />
     <Content Include="Design\Foo\TimelineTextUnit.htm" />
     <Content Include="Design\Images\robot-invasion.jpg" />
+    <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AndroidContacts\AndroidContacts\AndroidContacts.csproj">

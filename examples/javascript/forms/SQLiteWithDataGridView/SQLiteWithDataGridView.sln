@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{996A7E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{85E2030A-6C94-4164-AAE1-910FE741B315}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -152,5 +154,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4DB3E6CE-1C32-426F-8739-AFC2F0C94344} = {AECDC12B-1F3B-4A17-B917-2BD02F6D21FB}
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {85E2030A-6C94-4164-AAE1-910FE741B315}
 	EndGlobalSection
 EndGlobal
