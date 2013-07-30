@@ -97,6 +97,101 @@ namespace ScriptCoreLib.JavaScript.Extensions
           };
         #endregion
 
+
+        static Action later = delegate { };
+
+        public static Action<IWindow, MessageEvent> onmessage = (w, m) =>
+            {
+                try
+                {
+                    var xml = XElement.Parse((string)m.data);
+
+                    // the caller should be a nested iframe 
+                    if (xml.Value == "Did you want to pop with your own frame?")
+                    {
+                        // { ports = 1, InternalPopupHasFrame = 1 } 
+                        Console.WriteLine(
+                            xml.Value + new
+                            {
+                                ports = m.ports.Length,
+                                FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
+                            }
+                        );
+
+                        Action reply = delegate
+                        {
+                            // tell our iframe what we know. 
+                            m.ports.WithEach(port =>
+                                port.postMessage(
+                                    new XElement("re", "yes i have my own frame!").ToString(),
+                                    null
+                                )
+                            );
+                        };
+                        // reply!
+                        if (FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
+                        {
+                            reply();
+                        }
+                        else
+                        {
+                            later += delegate
+                            {
+                                if (m == null)
+                                    return;
+
+                                if (FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
+                                {
+                                    reply();
+                                }
+
+                                m = null;
+                            };
+                        }
+
+                    }
+
+                    // if there are no ports we need to use the newwindow hack
+                    // Do you want to pop with your own frame?{ ports = 0, InternalPopupHasFrame = 1 }
+                    // the caller should be AppWindow webview
+                    if (xml.Value == "Do you want to pop with your own frame?")
+                    {
+                        FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame = true;
+
+
+                        Console.WriteLine(xml.Value
+                            + new
+                            {
+                                ports = m.ports.Length,
+                                FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
+                            }
+                        );
+
+                        m.source.postMessage(
+                            new XElement("re", "yes i have my own frame!").ToString(),
+                            m.origin
+                        );
+
+                        m.ports.WithEach(port =>
+                                port.postMessage(
+                                new XElement("re", "yes i have my own frame!").ToString(),
+                                null
+                                )
+                            );
+
+                        // alternative hack as the one above does not yet work from html to webview
+                        postMessage(w, new XElement("re", "yes i have my own frame!"));
+
+                        later();
+
+                    }
+                }
+                catch
+                {
+                }
+            };
+
+
         // what? DNS_PROBE_FINISHED_NO_INTERNET
         static FormAsPopupExtensionsForConsoleFormPackageMediator()
         {
@@ -125,6 +220,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
             // only the top has access to webview?
 
             // the caller should be a nested iframe 
+
+            #region  Native.window.top.postMessage
             Native.window.top.postMessage(
                 new XElement("re", "Did you want to pop with your own frame?"),
                 xml =>
@@ -146,77 +243,13 @@ namespace ScriptCoreLib.JavaScript.Extensions
                     }
                 }
             );
+            #endregion
 
 
 
-            Native.window.onmessage +=
-                m =>
-                {
-                    try
-                    {
-                        var xml = XElement.Parse((string)m.data);
 
-                        // the caller should be a nested iframe 
-                        if (xml.Value == "Did you want to pop with your own frame?")
-                        {
-                            // { ports = 1, InternalPopupHasFrame = 1 } 
-                            Console.WriteLine(
-                                xml.Value + new
-                                {
-                                    ports = m.ports.Length,
-                                    FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
-                                }
-                            );
+            Native.window.onmessage += m => onmessage(Native.window, m);
 
-                            // reply!
-                            if (
-                                 FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
-                                )
-                            {
-                                // tell our iframe what we know. 
-                                m.ports.WithEach(port =>
-                                    port.postMessage(
-                                     new XElement("re", "yes i have my own frame!").ToString(),
-                                     null
-                                    )
-                                );
-                            }
-
-                        }
-
-                        // if there are no ports we need to use the newwindow hack                        // Do you want to pop with your own frame?{ ports = 0, InternalPopupHasFrame = 1 }                        // the caller should be AppWindow webview
-                        if (xml.Value == "Do you want to pop with your own frame?")
-                        {
-                            FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame = true;
-
-                            Console.WriteLine(xml.Value
-                                + new
-                                {
-                                    ports = m.ports.Length,
-                                    FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame
-                                }
-                            );
-
-                            m.source.postMessage(
-                                new XElement("re", "yes i have my own frame!").ToString(),
-                                m.origin
-                            );
-
-                            m.ports.WithEach(port =>
-                                 port.postMessage(
-                                  new XElement("re", "yes i have my own frame!").ToString(),
-                                  null
-                                 )
-                             );
-
-                            // alternative hack as the one above does not yet work from html to webview
-                            postMessage(Native.window, new XElement("re", "yes i have my own frame!"));
-                        }
-                    }
-                    catch
-                    {
-                    }
-                };
         }
     }
 
@@ -232,7 +265,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
             bool SpecialNoMovement = false,
 
 
-            Action NotifyDocked = null
+            Action NotifyDocked = null,
+            Action NotifyFloat = null
             ) where T : Form
         {
             Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(
@@ -240,7 +274,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
                 HandleFormClosing,
                 SpecialCloseOnLeft,
                 SpecialNoMovement,
-                NotifyDocked
+                NotifyDocked,
+                NotifyFloat
             );
 
             return f;
@@ -268,7 +303,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
             Action SpecialCloseOnLeft,
 
             bool SpecialNoMovement = false,
-            Action NotifyDocked = null
+            Action NotifyDocked = null,
+            Action NotifyFloat = null
 
             )
         {
@@ -347,6 +383,15 @@ namespace Abstractatech.JavaScript.FormAsPopup
                                 w.document.body
                             );
                         }
+
+
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/20130729-newwin
+                        // lets enable popup within a popup.
+                        // notice that events are in reverse tming
+                        //popup: <re>Did you want to pop with your own frame?</re>
+                        //popup: <re>Do you want to pop with your own frame?</re>
+                        //popup: <re>Do you want to pop with your own frame?</re>
+                        w.onmessage += m => FormAsPopupExtensionsForConsoleFormPackageMediator.onmessage(w, m);
 
 
 
@@ -452,6 +497,10 @@ namespace Abstractatech.JavaScript.FormAsPopup
                                 // chrome clips to white?
                                 w.resizeTo(content.f.Width + 16, content.f.Height);
                             };
+
+
+                        if (NotifyFloat != null)
+                            NotifyFloat();
 
                     };
             };
@@ -599,8 +648,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     {
                         if (!SpecialClose)
                         {
-                            if (e.CloseReason == CloseReason.UserClosing)
-                                return;
+                            //if (e.CloseReason == CloseReason.UserClosing)
+                            return;
                         }
 
                         SpecialClose = false;

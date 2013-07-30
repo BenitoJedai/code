@@ -31,7 +31,7 @@ namespace com.abstractatech.appmanager
 
         com.abstractatech.appmanager.Assets.Publish ref0;
 
-        Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
+        FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
 
 
         /// <summary>
@@ -311,9 +311,21 @@ namespace com.abstractatech.appmanager
                             f.Show();
 
 
-                            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(
+                            FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing(
                                 f,
                                 HandleFormClosing: false,
+
+                                NotifyDocked:
+                                    delegate
+                                    {
+                                        (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(4px)";
+                                    },
+
+                                    NotifyFloat:
+                                     delegate
+                                     {
+                                         (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(0px)";
+                                     },
                                 SpecialCloseOnLeft: delegate
                                 {
                                     Console.WriteLine("SpecialCloseOnLeft");
