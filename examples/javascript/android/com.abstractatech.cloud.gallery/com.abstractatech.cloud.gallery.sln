@@ -10,6 +10,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0599AF
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{B21C9CB7-D9AA-452B-98B4-B96C457FB2F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FileStorage", "..\..\..\..\market\javascript\Abstractatech.JavaScript.FileStorage\Abstractatech.JavaScript.FileStorage\Abstractatech.JavaScript.FileStorage.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Forms.FloatStyler", "..\..\..\..\market\javascript\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler.csproj", "{7E3E19CE-5998-41A5-8475-37B61FC63A64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.scholar", "..\com.abstractatech.scholar\com.abstractatech.scholar\com.abstractatech.scholar.csproj", "{94F24D15-B633-4B33-81BA-EB01D7583105}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|x86 = Android|x86
@@ -23,8 +33,38 @@ Global
 		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Debug|x86.Build.0 = Debug|x86
 		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|x86.ActiveCfg = Release|x86
 		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|x86.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|x86.ActiveCfg = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|x86.Build.0 = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.Build.0 = Release|x86
+		{94F24D15-B633-4B33-81BA-EB01D7583105}.Android|x86.ActiveCfg = Release|x86
+		{94F24D15-B633-4B33-81BA-EB01D7583105}.Android|x86.Build.0 = Release|x86
+		{94F24D15-B633-4B33-81BA-EB01D7583105}.Debug|x86.ActiveCfg = Debug|x86
+		{94F24D15-B633-4B33-81BA-EB01D7583105}.Debug|x86.Build.0 = Debug|x86
+		{94F24D15-B633-4B33-81BA-EB01D7583105}.Release|x86.ActiveCfg = Release|x86
+		{94F24D15-B633-4B33-81BA-EB01D7583105}.Release|x86.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|x86.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|x86.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {B21C9CB7-D9AA-452B-98B4-B96C457FB2F6}
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64} = {B21C9CB7-D9AA-452B-98B4-B96C457FB2F6}
+		{94F24D15-B633-4B33-81BA-EB01D7583105} = {B21C9CB7-D9AA-452B-98B4-B96C457FB2F6}
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {B21C9CB7-D9AA-452B-98B4-B96C457FB2F6}
 	EndGlobalSection
 EndGlobal
