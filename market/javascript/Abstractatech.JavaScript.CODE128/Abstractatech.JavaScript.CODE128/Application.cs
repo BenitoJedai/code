@@ -17,6 +17,7 @@ namespace ScriptCoreLib.Extensions
 {
     public static class CODE128Extensions
     {
+        // publish this method under ScriptCoreLib.Extensions for 50€, hide everything else that needs to go along..
         // async supported yet?
         public static /* async */ void ToCode128(this string data, int width = 2, int height = 50, Action<IHTMLImage> yield = null)
         {
