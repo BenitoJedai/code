@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCode128FromMarket", "TestCode128FromMarket\TestCode128FromMarket.csproj", "{22C8CE93-1EDE-4219-8B4F-C04C4B8D24AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestIE10", "TestIE10\TestIE10.csproj", "{205A3B14-8301-4136-B7B0-B974A6681B6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{22C8CE93-1EDE-4219-8B4F-C04C4B8D24AA}.Debug|x86.Build.0 = Debug|x86
 		{22C8CE93-1EDE-4219-8B4F-C04C4B8D24AA}.Release|x86.ActiveCfg = Release|x86
 		{22C8CE93-1EDE-4219-8B4F-C04C4B8D24AA}.Release|x86.Build.0 = Release|x86
+		{205A3B14-8301-4136-B7B0-B974A6681B6A}.Debug|x86.ActiveCfg = Debug|x86
+		{205A3B14-8301-4136-B7B0-B974A6681B6A}.Debug|x86.Build.0 = Debug|x86
+		{205A3B14-8301-4136-B7B0-B974A6681B6A}.Release|x86.ActiveCfg = Release|x86
+		{205A3B14-8301-4136-B7B0-B974A6681B6A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

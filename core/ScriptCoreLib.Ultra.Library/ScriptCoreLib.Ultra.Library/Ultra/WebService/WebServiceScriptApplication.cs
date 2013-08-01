@@ -119,7 +119,10 @@ namespace ScriptCoreLib.Ultra.WebService
 
             //}
 
-            Write(@"<script src='/view-source'></script>");
+            // prepeare for ChromeOS deployment. primary app script:
+            WriteLine("");
+
+            Write("<script src='view-source'></script>");
 
 
             WriteLine(@"</html>");

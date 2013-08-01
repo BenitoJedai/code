@@ -55,6 +55,9 @@ namespace ScriptCoreLib.Desktop
             s.Seek(68, SeekOrigin.Current);
             s.Read(subsystemBytes, 0, 2);
             int subSystem = subsystemBytes[0] | subsystemBytes[1] << 8;
+
+
+            // http://msdn.microsoft.com/en-us/library/fcc1zstk(v=vs.71).aspx
             return
                 // http://support.microsoft.com/kb/90493
                 subSystem == 3 ? PEFileKinds.ConsoleApplication :

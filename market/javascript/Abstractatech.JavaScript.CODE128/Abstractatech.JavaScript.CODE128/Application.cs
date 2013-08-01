@@ -19,9 +19,15 @@ namespace ScriptCoreLib.Extensions
     {
         // publish this method under ScriptCoreLib.Extensions for 50€, hide everything else that needs to go along..
         // async supported yet?
+
+        // [IHTMLMeta.AttachToHead(http-equiv: "X-UA-Compatible", content: "IE=10")]
         public static /* async */ void ToCode128(this string data, int width = 2, int height = 50, Action<IHTMLImage> yield = null)
         {
+            // for IE web browser control we would also need this:
+            // <meta http-equiv="X-UA-Compatible" content="IE=10" />
+
             // load only once?
+            // IE never fires ?
             new Abstractatech.JavaScript.CODE128.Design.CODE128().Content.AttachToDocument().onload +=
              delegate
              {
