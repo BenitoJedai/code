@@ -33,6 +33,8 @@ namespace TestCode128FromMarket
             // <package id="Abstractatech.JavaScript.CODE128" version="1.0.0.0" targetFramework="net40" />
             // "C:\Users\Arvo\AppData\Local\NuGet\Cache\Abstractatech.JavaScript.CODE128.1.0.0.0.nupkg"
 
+
+
             {
                 var data = new { foo = "text" }.ToString();
 

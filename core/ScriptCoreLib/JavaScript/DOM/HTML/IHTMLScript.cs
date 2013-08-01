@@ -45,6 +45,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
                 //Native.Window.alert("add_onload!");
 
+                // does it work for IE10 and file://
                 __onload.CombineDelegate(this, value);
             }
             [Script(DefineAsStatic = true)]
@@ -64,33 +65,47 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             internal static void CombineDelegate(IHTMLScript a, Action value)
             {
+                var whenloaded_null = false;
                 var whenloaded = true;
 
+                // http://stackoverflow.com/questions/1929742/can-script-readystate-be-trusted-to-detect-the-end-of-dynamic-script-loading
+                var done = false;
+
+                Action yield = delegate
+                {
+                    var readyState = a.readyState;
+
+                    //Console.WriteLine(new { readyState });
+
+                    if (readyState == null)
+                        done = whenloaded_null;
+
+                    if (readyState == "loaded")
+                        done = whenloaded;
+
+
+                    if (readyState == "complete")
+                        done = whenloaded;
+
+                    if (done)
+                    {
+                        whenloaded = false;
+                        whenloaded_null = false;
+                        value();
+                    }
+                };
+
+                yield();
+
+                // loading from file:// causes IE 10 to load it instantly?
+                if (done)
+                    return;
+
+                // enable trapping the event
+                whenloaded_null = true;
 
                 a.InternalEvent(true,
-                    (Action)delegate
-                    {
-                        var f = a.readyState;
-
-                        var done = false;
-
-
-                        if (f == null)
-                            done = whenloaded;
-
-                        if (f == "loaded")
-                            done = whenloaded;
-
-
-                        if (f == "complete")
-                            done = whenloaded;
-
-                        if (done)
-                        {
-                            whenloaded = false;
-                            value();
-                        }
-                    },
+                    yield,
                     "load",
                     "onreadystatechange"
                 );
