@@ -26,6 +26,8 @@ namespace com.twilio
         {
             // if jsc added manifest, this could be run with jvm also.
             // Error: Could not find or load main class com.twilio.exe
+            // META-INF/MANIFEST.MF
+            // Main-Class: 
 
             // http://www.twilio.com/docs/quickstart/java/sms
             // http://www.twilio.com/docs/quickstart/java/sms/sending-via-rest
