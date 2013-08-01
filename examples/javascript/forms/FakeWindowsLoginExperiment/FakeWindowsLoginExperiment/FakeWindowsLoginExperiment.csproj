@@ -136,9 +136,6 @@
     <Reference Include="FakeWindowsLoginExperiment.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\FakeWindowsLoginExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsSounds">
-      <HintPath>..\packages\WindowsSounds.1.0.0.0\lib\WindowsSounds.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Library\Designers\ExampleComponentDesigner.cs" />
@@ -274,11 +271,7 @@
 if $(ConfigurationName)==Android (
 start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
 )</PostBuildEvent>
-    <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
-
-            </PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget,http://192.168.1.102:5110/nuget</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

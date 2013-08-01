@@ -28,6 +28,11 @@ namespace TestCode128FromMarket
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // what if cache does not have our package, if we are a new project?
+            // packages.config
+            // <package id="Abstractatech.JavaScript.CODE128" version="1.0.0.0" targetFramework="net40" />
+            // "C:\Users\Arvo\AppData\Local\NuGet\Cache\Abstractatech.JavaScript.CODE128.1.0.0.0.nupkg"
+
             {
                 var data = new { foo = "text" }.ToString();
 
@@ -40,6 +45,7 @@ namespace TestCode128FromMarket
                             var c = new IHTMLCenter().AttachToDocument();
 
                             img.AttachTo(c);
+
                             new IHTMLBreak { }.AttachTo(c);
                             new IHTMLCode { innerText = data }.AttachTo(c).style.fontSize = "x-small";
                         }

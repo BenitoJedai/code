@@ -67,9 +67,9 @@ namespace ScriptCoreLib.Java
                     c = base.loadClass(name, resolve);
                 }
             }
-            catch (csharp.ThrowableException cc)
+            catch (System.Exception cc)
             {
-                Console.WriteLine("InternalURLClassLoader.loadClass error, name: " + name + "; " + cc + "; " + cc.Message);
+                Console.WriteLine("InternalURLClassLoader.loadClass error, check TypeDefinitionCache, " + new { name, cc.Message });
 
                 // what should we do with the missing types?
                 // we can only return null as it is going to gail anyhow

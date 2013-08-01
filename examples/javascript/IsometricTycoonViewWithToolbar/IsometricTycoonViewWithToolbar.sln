@@ -3,13 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsometricTycoonViewWithToolbar", "IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar.csproj", "{A28A2898-D11B-4027-B5FE-2A911CC5D66F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DE9B507D-CE8C-439A-B604-9BB417140EE4}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{D1B17B01-AAAC-49B8-9AE4-D5D5B73FF8CC}"

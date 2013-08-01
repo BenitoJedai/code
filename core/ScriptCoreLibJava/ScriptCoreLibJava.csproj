@@ -769,6 +769,7 @@
     <Compile Include="java\lang\annotation\Documented.cs" />
     <Compile Include="java\lang\Character.cs" />
     <Compile Include="java\lang\Comparable.cs" />
+    <Compile Include="java\lang\ReflectiveOperationException.cs" />
     <Compile Include="java\lang\Float.cs" />
     <Compile Include="java\lang\Iterable.cs" />
     <Compile Include="java\lang\LinkageError.cs" />

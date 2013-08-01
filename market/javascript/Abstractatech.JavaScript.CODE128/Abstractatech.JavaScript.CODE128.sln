@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.CODE128", "Abstractatech.JavaScript.CODE128\Abstractatech.JavaScript.CODE128.csproj", "{22C8CE93-1EDE-4219-8B4F-C04C4B8D24AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.CODE128.Extensions", "Abstractatech.JavaScript.CODE128.Extensions\Abstractatech.JavaScript.CODE128.Extensions.csproj", "{7193BF92-28CE-4F4A-B856-AEE711DFE7D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.CODE128.Layer3", "Abstractatech.JavaScript.CODE128.Layer3\Abstractatech.JavaScript.CODE128.Layer3.csproj", "{40E684C8-954B-4B05-A4CE-CCEDF59687D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +17,14 @@ Global
 		{22C8CE93-1EDE-4219-8B4F-C04C4B8D24AA}.Debug|x86.Build.0 = Debug|x86
 		{22C8CE93-1EDE-4219-8B4F-C04C4B8D24AA}.Release|x86.ActiveCfg = Release|x86
 		{22C8CE93-1EDE-4219-8B4F-C04C4B8D24AA}.Release|x86.Build.0 = Release|x86
+		{7193BF92-28CE-4F4A-B856-AEE711DFE7D1}.Debug|x86.ActiveCfg = Debug|x86
+		{7193BF92-28CE-4F4A-B856-AEE711DFE7D1}.Debug|x86.Build.0 = Debug|x86
+		{7193BF92-28CE-4F4A-B856-AEE711DFE7D1}.Release|x86.ActiveCfg = Release|x86
+		{7193BF92-28CE-4F4A-B856-AEE711DFE7D1}.Release|x86.Build.0 = Release|x86
+		{40E684C8-954B-4B05-A4CE-CCEDF59687D5}.Debug|x86.ActiveCfg = Debug|x86
+		{40E684C8-954B-4B05-A4CE-CCEDF59687D5}.Debug|x86.Build.0 = Debug|x86
+		{40E684C8-954B-4B05-A4CE-CCEDF59687D5}.Release|x86.ActiveCfg = Release|x86
+		{40E684C8-954B-4B05-A4CE-CCEDF59687D5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

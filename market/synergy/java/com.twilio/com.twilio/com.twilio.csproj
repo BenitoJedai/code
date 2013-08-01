@@ -119,9 +119,10 @@
     <Content Include="References\mockito-core-1.9.5.jar" />
     <Content Include="References\objenesis-1.3.jar" />
     <Content Include="References\readme.txt" />
-    <Content Include="References\servlet-api-2.3.jar" />
+    <None Include="References\servlet-api-2.3.xjar" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="References\servlet-api-2.3.jar" />
     <Content Include="X:\opensource\github\twilio-java\src\main\java\**\*.*">
       <Link>opensource\github\twilio-java\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>

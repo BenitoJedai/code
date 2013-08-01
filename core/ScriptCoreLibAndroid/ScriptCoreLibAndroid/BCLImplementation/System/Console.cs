@@ -10,11 +10,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(Implements = typeof(global::System.Console))]
     internal class __Console
     {
+        public static ConsoleColor ForegroundColor { get; set; }
+
         // notice we are not using Android namespace!
+        // why not?
 
         public static void WriteLine(object e)
         {
             Out.WriteLine(e.ToString());
+        }
+
+        //        Implementation not found for type import :
+        //type: System.Console
+        //method: Void WriteLine()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
+        public static void WriteLine()
+        {
+            Out.WriteLine();
         }
 
         public static void WriteLine(string e)
@@ -22,6 +37,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             Out.WriteLine(e);
         }
 
+        public static void Write(string e)
+        {
+            Out.Write(e);
+        }
 
         [Script]
         public class __ConsoleOut : TextWriter
