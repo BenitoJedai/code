@@ -11,13 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Fo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSMinimizeFormToSidebar", "..\..\css\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar.csproj", "{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D30BA7B8-F931-4D03-B4E8-525C2942F03B}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.appmanager.about", "com.abstractatech.appmanager.about\com.abstractatech.appmanager.about.csproj", "{E0ADC786-28C3-44FB-92F6-F2DEBE6A5AC4}"
@@ -122,8 +115,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {BFA237DD-2006-4B88-B5A8-F2A6049B5FDA}
-		{68616DF5-AD84-4D65-85C4-35BB96171391} = {BFA237DD-2006-4B88-B5A8-F2A6049B5FDA}
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678} = {BFA237DD-2006-4B88-B5A8-F2A6049B5FDA}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {BFA237DD-2006-4B88-B5A8-F2A6049B5FDA}
+		{68616DF5-AD84-4D65-85C4-35BB96171391} = {BFA237DD-2006-4B88-B5A8-F2A6049B5FDA}
 	EndGlobalSection
 EndGlobal

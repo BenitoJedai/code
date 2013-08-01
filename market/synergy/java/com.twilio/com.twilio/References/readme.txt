@@ -13,7 +13,7 @@ twilio-java-sdk
     commons-codec
 	commons-logging
 	  avalon-framework
-	  servlet-api
+	  servlet-api !replaced by appengine jar
 	  log4j
 	  
 	mockito-core

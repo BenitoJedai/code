@@ -15,6 +15,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Abstractatech.JavaScript.FormAsPopup;
 
 namespace MSVSFormStyle
 {
@@ -101,7 +102,7 @@ namespace MSVSFormStyle
              };
 
 
-            content.AttachControlTo(Native.Document.body);
+            content.AttachControlTo(Native.document.body);
 
             //content.AttachControlTo(page.Content);
             //content.AutoSizeControlTo(page.ContentSize);
@@ -111,7 +112,7 @@ namespace MSVSFormStyle
 
 
 
-            Native.Document.getElementsByTagName("script")
+            Native.document.getElementsByTagName("script")
                 .Select(k => (IHTMLScript)k)
                 .FirstOrDefault(k => k.src.EndsWith("/view-source"))
                 .With(
@@ -126,7 +127,7 @@ namespace MSVSFormStyle
                                     (IXMLHttpRequest r) =>
                                     {
                                         // store hash
-                                        xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.Document.location.hash)));
+                                        xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.document.location.hash)));
 
 
                                         #region script
@@ -219,9 +220,9 @@ namespace MSVSFormStyle
                                  var data64 = System.Convert.ToBase64String(bytes);
 
 
-                                 Native.Document.body.title = "Drag me!";
+                                 Native.document.body.title = "Drag me!";
 
-                                 Native.Document.body.ondragstart +=
+                                 Native.document.body.ondragstart +=
                                          e =>
                                          {
                                              //e.dataTransfer.setData("text/plain", "Sphere");
@@ -231,7 +232,7 @@ namespace MSVSFormStyle
 
                                              e.dataTransfer.setData("DownloadURL", "application/octet-stream:Spiral.htm:data:application/octet-stream;base64," + data64);
                                              e.dataTransfer.setData("text/html", data);
-                                             e.dataTransfer.setData("text/uri-list", Native.Document.location + "");
+                                             e.dataTransfer.setData("text/uri-list", Native.document.location + "");
                                              //e.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
                                          };
 

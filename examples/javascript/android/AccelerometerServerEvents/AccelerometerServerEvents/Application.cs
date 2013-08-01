@@ -106,7 +106,10 @@ namespace AccelerometerServerEvents
 
                 // cache will block it..
                 // https://code.google.com/p/chromium/issues/detail?id=264170
-                new EventSource("/event-stream").onmessage +=
+                new EventSource(
+                    //"/"
+                    //"/event-stream"
+                    ).onmessage +=
                      e =>
                      {
                          var xml = XElement.Parse((string)e.data);

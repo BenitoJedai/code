@@ -118,6 +118,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void Close()
         {
+
             this.Flush();
 
             if (InternalIsTransferEncodingChunked)
@@ -229,6 +230,10 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void Flush()
         {
+            if (!InternalWriteHeadersDone)
+                InternalWriteHeaders();
+
+
             var s = "";
 
             try
