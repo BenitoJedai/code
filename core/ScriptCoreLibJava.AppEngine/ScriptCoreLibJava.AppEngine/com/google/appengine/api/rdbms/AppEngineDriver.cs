@@ -10,6 +10,10 @@ namespace com.google.appengine.api.rdbms
     [Script(IsNative = true)]
     public class AppEngineDriver : java.sql.Driver
     {
+        // Caused by: java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+        // "C:\util\appengine-java-sdk-1.8.2\lib\impl\mysql-connector-java-5.1.22-bin.jar"
+        // "C:\util\xampp-win32-1.8.0-VC9\xampp\mysql_start.bat"
+
         public bool acceptsURL(string url)
         {
             throw new NotImplementedException();
