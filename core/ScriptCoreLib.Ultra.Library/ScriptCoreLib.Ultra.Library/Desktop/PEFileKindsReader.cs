@@ -23,7 +23,7 @@ namespace ScriptCoreLib.Desktop
         /// <remarks>The magic numbers in this method are extracted from the PE/COFF file
         /// format specification available from http://www.microsoft.com/whdc/system/platform/firmware/pecoff.mspx
         /// </remarks>
-        static PEFileKinds GetPEFileKinds(string assemblyPath)
+        public static PEFileKinds GetPEFileKinds(string assemblyPath)
         {
             using (var s = new FileStream(assemblyPath, FileMode.Open, FileAccess.Read))
             {
