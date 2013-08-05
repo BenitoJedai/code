@@ -31,6 +31,24 @@ namespace Abstractatech.Avalon.PromotionBrandIntro
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //        -compile:
+            //[javac] Compiling 450 source files to T:\bin\classes
+            //[javac] T:\src\ScriptCoreLibJava\BCLImplementation\System\__Console.java:62: error: cannot find symbol
+            //[javac]                 Log.i_060038ae("System.Console", e);
+            //[javac]                    ^
+            //[javac]   symbol:   method i_060038ae(String,String)
+            //[javac]   location: class Log
+            //[javac] T:\src\ScriptCoreLibJava\BCLImplementation\System\__Console.java:69: error: cannot find symbol
+            //[javac]                 Log.i_060038ae("System.Console", string1);
+            //[javac]                    ^
+            //[javac]   symbol:   method i_060038ae(String,String)
+            //[javac]   location: class Log
+            //[javac] Note: Some input files use or override a deprecated API.
+            //[javac] Note: Recompile with -Xlint:deprecation for details.
+            //[javac] Note: Some input files use unchecked or unsafe operations.
+            //[javac] Note: Recompile with -Xlint:unchecked for details.
+            //[javac] 2 errors
+
             content.AttachToContainer(page.Content);
             content.AutoSizeTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
