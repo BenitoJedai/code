@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsWebServiceWithDesigner", "FormsWebServiceWithDesigner\FormsWebServiceWithDesigner.csproj", "{E283F199-701C-4238-95E9-BC8C202EFE3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsWebServiceWithDesignerViaNuget", "FormsWebServiceWithDesignerViaNuget\FormsWebServiceWithDesignerViaNuget.csproj", "{BE38851B-4D47-4031-AACE-4B89483EFACA}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VBFormsWebServiceWithDesignerViaNuget", "VBFormsWebServiceWithDesignerViaNuget\VBFormsWebServiceWithDesignerViaNuget.vbproj", "{31C8B3B8-0358-4BDB-8D57-6430713AA541}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{4B0771F6-FB88-4F07-BBD4-1A736670DCA6}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpFormsWebServiceWithDesignerViaNuget", "FSharpFormsWebServiceWithDesignerViaNuget\FSharpFormsWebServiceWithDesignerViaNuget.fsproj", "{199404E9-0BDD-4E8E-8A07-D051A4A4B756}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E283F199-701C-4238-95E9-BC8C202EFE3D}.Debug|x86.ActiveCfg = Debug|x86
+		{E283F199-701C-4238-95E9-BC8C202EFE3D}.Debug|x86.Build.0 = Debug|x86
+		{E283F199-701C-4238-95E9-BC8C202EFE3D}.Release|x86.ActiveCfg = Release|x86
+		{E283F199-701C-4238-95E9-BC8C202EFE3D}.Release|x86.Build.0 = Release|x86
+		{BE38851B-4D47-4031-AACE-4B89483EFACA}.Debug|x86.ActiveCfg = Debug|x86
+		{BE38851B-4D47-4031-AACE-4B89483EFACA}.Debug|x86.Build.0 = Debug|x86
+		{BE38851B-4D47-4031-AACE-4B89483EFACA}.Release|x86.ActiveCfg = Release|x86
+		{BE38851B-4D47-4031-AACE-4B89483EFACA}.Release|x86.Build.0 = Release|x86
+		{31C8B3B8-0358-4BDB-8D57-6430713AA541}.Debug|x86.ActiveCfg = Debug|x86
+		{31C8B3B8-0358-4BDB-8D57-6430713AA541}.Debug|x86.Build.0 = Debug|x86
+		{31C8B3B8-0358-4BDB-8D57-6430713AA541}.Release|x86.ActiveCfg = Release|x86
+		{31C8B3B8-0358-4BDB-8D57-6430713AA541}.Release|x86.Build.0 = Release|x86
+		{199404E9-0BDD-4E8E-8A07-D051A4A4B756}.Debug|x86.ActiveCfg = Debug|x86
+		{199404E9-0BDD-4E8E-8A07-D051A4A4B756}.Debug|x86.Build.0 = Debug|x86
+		{199404E9-0BDD-4E8E-8A07-D051A4A4B756}.Release|x86.ActiveCfg = Release|x86
+		{199404E9-0BDD-4E8E-8A07-D051A4A4B756}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E283F199-701C-4238-95E9-BC8C202EFE3D} = {4B0771F6-FB88-4F07-BBD4-1A736670DCA6}
+	EndGlobalSection
+EndGlobal
