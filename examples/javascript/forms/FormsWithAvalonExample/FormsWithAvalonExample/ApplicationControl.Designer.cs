@@ -30,11 +30,12 @@ namespace FormsWithAvalonExample
         {
             this.button1 = new System.Windows.Forms.Button();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.animationControl1 = new FormsAvalonAnimation.AnimationControl();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(162, 141);
+            this.button1.Location = new System.Drawing.Point(261, 162);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -44,25 +45,27 @@ namespace FormsWithAvalonExample
             // 
             // elementHost1
             // 
+            this.elementHost1.BackColor = System.Drawing.Color.Yellow;
             this.elementHost1.Location = new System.Drawing.Point(6, 3);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(537, 246);
+            this.elementHost1.Size = new System.Drawing.Size(522, 239);
             this.elementHost1.TabIndex = 12;
             this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = new AnimationControl();
+            this.elementHost1.Child = this.animationControl1;
             // 
             // ApplicationControl
             // 
             this.Controls.Add(this.button1);
             this.Controls.Add(this.elementHost1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(400, 300);
+            this.Size = new System.Drawing.Size(570, 273);
             this.ResumeLayout(false);
 
         }
 
         private Button button1;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private AnimationControl animationControl1;
 
     }
 }

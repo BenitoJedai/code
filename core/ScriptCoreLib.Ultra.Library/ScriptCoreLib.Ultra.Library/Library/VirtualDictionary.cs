@@ -55,6 +55,7 @@ namespace jsc.Library
         // refactor to upper level type?
         public Dictionary<TKey, object> Flags = new Dictionary<TKey, object>();
 
+        public int TransientTransactionCounter;
 
         public event Action<TKey> Resolve;
 
@@ -247,10 +248,13 @@ namespace jsc.Library
 
             this.BaseDictionary = new Dictionary<TKey, TValue>(BaseDictionary);
             this.Flags = new Dictionary<TKey, object>(Flags);
+            this.TransientTransactionCounter++;
 
             return (Disposable)
                 delegate
                 {
+                    this.TransientTransactionCounter--;
+
                     this.BaseDictionary = BaseDictionary;
                     this.Flags = Flags;
                 };

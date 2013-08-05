@@ -147,7 +147,9 @@
     <Content Include="Textures\white-jsc.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="staging\FlashHeatZeeker.StarlingSetup.ApplicationSprite\web\air.com.abstractatech.gamification.starling-build.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -14,7 +14,6 @@ using ScriptCoreLib.Extensions;
 
 namespace CarouselExample2.Shared
 {
-    [Script]
     public class CarouselExample2Canvas : Canvas
     {
         public const int DefaultWidth = 480;
@@ -24,6 +23,7 @@ namespace CarouselExample2.Shared
         {
             Width = DefaultWidth;
             Height = DefaultHeight;
+
 
             Colors.Black.ToGradient(Colors.Red, DefaultHeight / 4).Select(
                 (c, i) =>
@@ -39,6 +39,7 @@ namespace CarouselExample2.Shared
             var cc = new SimpleCarouselControl(DefaultWidth, DefaultHeight);
 
 
+            new AvalonCarouselControlExample.Avalon.Images.Preview().AttachTo(this).Orphanize();
 
             new Image[]
 			{

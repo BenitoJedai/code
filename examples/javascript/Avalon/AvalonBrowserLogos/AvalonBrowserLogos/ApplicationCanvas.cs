@@ -15,7 +15,16 @@ namespace AvalonBrowserLogos
 {
     public class ApplicationCanvas : Canvas
     {
+        ScriptCoreLib.Ultra.Components.Volatile.Avalon.Images.Google_Chrome ref0;
+
         public ApplicationCanvas()
+        {
+
+            XInitialize();
+
+        }
+
+        private void XInitialize()
         {
 
             //this.Background = Brushes.Black;
@@ -50,7 +59,7 @@ namespace AvalonBrowserLogos
                     else
                         bg_black_opacity.Opacity = 1;
                 };
-            
+
             w.AtLogoClick +=
                 delegate
                 {
@@ -63,7 +72,7 @@ namespace AvalonBrowserLogos
                 delegate
                 {
                     OtherView = !OtherView;
-                
+
                     ChooseView();
 
                 };
@@ -82,6 +91,7 @@ namespace AvalonBrowserLogos
 
                 bg_black.SizeTo(this.Width, this.Height);
             };
+
 
         }
 

@@ -57,6 +57,13 @@ Development blog:
 http://zproxy.wordpress.com");
         }
 
-       
+        private void Form1_Load(object sender, EventArgs e)
+        {
+          
+
+            this.animationControlHost1.Child.Opacity = 0.5;
+        }
+
+
     }
 }

@@ -86,6 +86,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components.Volatile">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.Volatile.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Windows.Forms">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
@@ -260,6 +263,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\opensource\unmonitored\WebViewerTest\WebViewerTest.csproj">
+      <Project>{b20f5cd6-7cbb-450a-bf04-5d9b58b7b5f0}</Project>
+      <Name>WebViewerTest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FakeWindowsLoginExperiment.AssetsLibrary.Extensions\FakeWindowsLoginExperiment.AssetsLibrary.Extensions.csproj">
       <Project>{611acf38-08ed-41f3-83b6-199a0f2041aa}</Project>
       <Name>FakeWindowsLoginExperiment.AssetsLibrary.Extensions</Name>

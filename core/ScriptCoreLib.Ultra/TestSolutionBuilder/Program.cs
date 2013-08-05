@@ -22,7 +22,7 @@ namespace TestSolutionBuilder
 			{
 				Name = "VisualCSharpProject1",
 				//Language = new VisualFSharpLanguage()
-			};
+			}.WithAdobeFlashWithFlare3D();
 
 
 			sln.Interactive.GenerateApplicationExpressions +=
@@ -39,17 +39,17 @@ namespace TestSolutionBuilder
 					//);
 				};
 
-			sln.Interactive.GenerateTypes +=
-				Add =>
-				{
-					var Namespace = sln.Name + ".Components";
-					//var Name = "UserControl1";
+            //sln.Interactive.GenerateTypes +=
+            //    Add =>
+            //    {
+            //        var Namespace = sln.Name + ".Components";
+            //        //var Name = "UserControl1";
 
 
-					Add(
-						new StockAppletType(Namespace, "Applet1")
-					);
-				};
+            //        Add(
+            //            new StockAppletType(Namespace, "Applet1")
+            //        );
+            //    };
 
 			//sln.Interactive.GenerateHTMLFiles +=
 			//    Add =>

@@ -437,12 +437,31 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
             if (p == null)
                 return e;
 
+
+ //           var w = p as Window;
+ //           if (w != null)
+ //           {
+ ////                Implementation not found for type import :
+ ////type: System.Windows.Controls.ContentControl
+ ////method: Void set_Content(System.Object)
+ ////Did you forget to add the [Script] attribute?
+ ////Please double check the signature!
+
+ //               w.Content = null;
+ //               return e;
+ //           }
+
             var Panel = p as Panel;
 
-            if (Panel == null)
-                throw new NotImplementedException("Parent should have been a Panel");
+
 
             Panel.Children.Remove(e);
+
+        
+
+            if (Panel == null)
+                throw new NotImplementedException("Parent should have been a Panel or Window");
+
 
             return e;
         }

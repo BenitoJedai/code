@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C5D0A6DE-2D74-4B59-90F1-91FEA9B34ED3}</ProjectGuid>
+    <ProjectGuid>{6F4362D3-D6A5-4B13-80B4-81E31A127297}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FormsAvalonPromotionBrandIntro</RootNamespace>
@@ -44,9 +44,6 @@
     <Reference Include="AvalonBrowserLogos">
       <HintPath>..\..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\bin\Debug\AvalonBrowserLogos.exe</HintPath>
     </Reference>
-    <Reference Include="AvalonPromotionBrandIntro">
-      <HintPath>..\..\..\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\bin\Debug\AvalonPromotionBrandIntro.exe</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -82,10 +79,6 @@
     <Reference Include="ScriptCoreLib.Windows.Forms">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.XLinq">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Extensions">
       <SpecificVersion>False</SpecificVersion>
