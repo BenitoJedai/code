@@ -3,7 +3,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    [Script(InternalConstructor=true)]
+    [Script(InternalConstructor = true)]
     public class IActiveX : IEventTarget
     {
         public static bool IsSupported
@@ -16,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 //if (Expando.Of(Native.Window).Contains("GeckoActiveXObject"))
                 //    return true;
 
-     
+
 
                 return false;
             }
@@ -30,7 +30,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             public InternalIActiveX(string c)
             {
-				// see: http://msdn.microsoft.com/en-us/library/ms753804(VS.85).aspx
+                // see: http://msdn.microsoft.com/en-us/library/ms753804(VS.85).aspx
             }
         }
 
@@ -43,18 +43,65 @@ namespace ScriptCoreLib.JavaScript.DOM
         //    }
         //}
 
-  
+
         static public object TryCreate(string z)
         {
+            //TryCreate(string) : Object
+            //Analysis
+            //Attributes
+            //Signature Types
+            //Declaring Module
+            //Declaring Type
+            //arg.0 z : string
+            //loc.0 : object
+            //maxstack 6 (used 1)
+            //IL Code (21)
+            //0x0000 nop 
+            //.try
+            //0x0001 nop 
+            //0x0002 . ldarg.0      c <- arg.0 z : string
+            //0x0003 . newobj       [ScriptCoreLib] ScriptCoreLib.JavaScript.DOM.IActiveX+InternalIActiveX..ctor(c : string)
+            //0x0008 stloc.0        loc.0 : object
+            //0x0009 leave 
+            //.endtry
+            //0x0027 nop 
+            //0x0028 . ldloc.0      loc.0 : object
+            //0x0029 ret 
+            //.catch object 
+            //[mscorlib] System.Object
+            //0x0013 pop 
+            //0x0014 nop 
+            //0x0015 nop 
+            //0x0016 leave 
+            //.endtry
+            //0x0022 nop 
+            //0x0023 . ldnull       null
+            //0x0024 stloc.0        loc.0 : object
+            //0x0025 br.s 
+            //0x0009 0x0025 -> 0x0027
+            //0x0027 nop 
+            //0x0028 . ldloc.0      loc.0 : object
+            //0x0029 ret 
+
+
+
+
+            var x = default(InternalIActiveX);
+
             try
             {
 
-				return new InternalIActiveX(z);
+                x = new InternalIActiveX(z);
             }
             catch
             {
 
             }
+
+            //            020001ba ScriptCoreLib.JavaScript.DOM.IActiveX
+            //script: error JSC1000: Method: TryCreate, Type: ScriptCoreLib.JavaScript.DOM.IActiveX; emmiting failed : System.NotSupportedException: current OpCodes.Leave cannot be understood at
+            // type: ScriptCoreLib.JavaScript.DOM.IActiveX
+            // offset: 0x0016
 
             //try
             //{
@@ -66,29 +113,29 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             //}
 
-            return null;
+            return x;
         }
 
-		public IActiveX(params string[] e)
-		{
+        public IActiveX(params string[] e)
+        {
 
-		}
+        }
 
-		static public IActiveX InternalConstructor(params string[] e)
-		{
-			IActiveX r = null;
+        static public IActiveX InternalConstructor(params string[] e)
+        {
+            IActiveX r = null;
 
-			foreach (string z in e)
-			{
-				r = (IActiveX)TryCreate(z);
+            foreach (string z in e)
+            {
+                r = (IActiveX)TryCreate(z);
 
-				if (r != null)
-					break;
+                if (r != null)
+                    break;
 
-			}
+            }
 
-			return r;
-		}
+            return r;
+        }
         #endregion
 
     }

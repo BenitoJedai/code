@@ -66,7 +66,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public static SolutionBuilder WithAdobeFlash(this SolutionBuilder sln)
         {
-            Func<StockSpriteType> GetType = () => new StockSpriteType(sln.Name , "ApplicationSprite");
+            Func<StockSpriteType> GetType = () => new StockSpriteType(sln.Name, "ApplicationSprite");
 
             var sprite = default(SolutionProjectLanguageField);
 
@@ -83,13 +83,53 @@ namespace ScriptCoreLib.Ultra.Studio
                 };
 
 
-   
+
 
             sln.Interactive.GenerateApplicationExpressions +=
                 AddCode =>
                 {
                     AddCode(new CreateMySprite(GetType(), sprite));
                 };
+
+            return sln;
+        }
+
+        public static SolutionBuilder WithAdobeFlashWithFlare3D(this SolutionBuilder sln)
+        {
+            Func<StockSpriteType> GetType = () => new StockSpriteType(sln.Name, "ApplicationSprite");
+
+            var sprite = default(SolutionProjectLanguageField);
+
+            sln.Interactive.GenerateTypes +=
+                AddType =>
+                {
+                    var ApplicationSprite = GetType();
+
+                    sprite = ApplicationSprite.ToInitializedField("sprite");
+
+                    sprite.DeclaringType = sln.Interactive.ApplicationType;
+
+                    AddType(ApplicationSprite);
+                };
+
+
+
+
+            sln.Interactive.GenerateApplicationExpressions +=
+                AddCode =>
+                {
+                    AddCode(new CreateMySprite(GetType(), sprite));
+                };
+
+            // ..\packages\Flare3D.1.0.0.0\lib\Flare3D.dll
+            sln.NuGetReferences.Add(
+                new ScriptCoreLib.Ultra.Studio.SolutionBuilder.package
+                {
+                    id = "Flare3D"
+                }
+            );
+
+
 
             return sln;
         }

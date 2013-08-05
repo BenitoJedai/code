@@ -14,6 +14,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 {
     public class StockUltraApplicationBuilder
     {
+        public string AssemblyInfoFolder;
+
         public StockUltraApplicationBuilder(
                 Action<SolutionFile> AddFile,
                 SolutionBuilder Context,
@@ -234,7 +236,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
             #region AssemblyInfo
 
-            var AssemblyInfoFolder = "Properties";
+            AssemblyInfoFolder = "Properties";
 
             if (Context.Language == KnownLanguages.VisualBasic)
                 AssemblyInfoFolder = "My Project";
@@ -316,6 +318,48 @@ associated with an assembly."
 
 
             AddFile(AssemblyInfo);
+
+
+            new XElement("packages", new XComment("http://my.jsc-solutions.net")).With(
+                //new XElement("packages").With(
+              packages =>
+              {
+                  Context.NuGetReferences.WithEach(
+                      n =>
+                          packages.Add(
+                              new XElement("package",
+
+                                  // why wont it work implicitly?
+                                  content: new object[] {
+                                        new XAttribute("id", n.id),
+                                        new XAttribute("version", n.version),
+                                        new XAttribute("targetFramework", "net40")
+                                    }
+
+                              )
+                          )
+                  );
+
+                  ItemGroupForCompile.Add(
+                      new XElement("None",
+                          new XAttribute("Include",
+                              "packages.config"
+                          )
+                      )
+                  );
+
+
+                  var packages_config = new SolutionFile
+                    {
+                        Name = ToProjectFile("packages.config"),
+
+                    };
+
+                  packages_config.WriteXElement(packages);
+
+                  AddFile(packages_config);
+              }
+          );
             #endregion
 
 

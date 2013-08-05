@@ -37,6 +37,7 @@ namespace FormsAvalonAnimation
             this.panel6 = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.animationControlHost1 = new FormsAvalonAnimation.AvalonPromotionBrandIntroHost();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
             // 
             // panel1
@@ -103,18 +104,27 @@ namespace FormsAvalonAnimation
             this.animationControlHost1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.animationControlHost1.Location = new System.Drawing.Point(6, 3);
+            this.animationControlHost1.Location = new System.Drawing.Point(6, 12);
             this.animationControlHost1.Name = "animationControlHost1";
-            this.animationControlHost1.Size = new System.Drawing.Size(540, 225);
-
+            this.animationControlHost1.Size = new System.Drawing.Size(654, 216);
             this.animationControlHost1.TabIndex = 9;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(767, 255);
+            this.webBrowser1.TabIndex = 10;
+            this.webBrowser1.Url = new System.Uri("http://example.com", System.UriKind.Absolute);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(557, 255);
+            this.ClientSize = new System.Drawing.Size(767, 255);
             this.Controls.Add(this.animationControlHost1);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel5);
@@ -122,8 +132,10 @@ namespace FormsAvalonAnimation
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.webBrowser1);
             this.Name = "Form1";
             this.Text = "FormsAvalonAnimation. Your C# will be converted javascript.";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }
@@ -138,6 +150,7 @@ namespace FormsAvalonAnimation
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Timer timer1;
         private AvalonPromotionBrandIntroHost animationControlHost1;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 

@@ -226,7 +226,7 @@ namespace TestSolutionBuilderV1.Views
 
 
             var Viewer = new SolutionDocumentViewer();
-            SolutionDocumentViewerTab File7Tab = "Design/Default.htm";
+            SolutionDocumentViewerTab File7Tab = "Design/App.htm";
             Viewer.Add(File7Tab);
 
             #region OutputFile
@@ -732,7 +732,7 @@ namespace TestSolutionBuilderV1.Views
                     CodeSourceFormsDesignerTab.TabElement.Hide();
 
                     // hack :)
-                    if (CodeSourceBView.File.Name.EndsWith("/Default.htm"))
+                    if (CodeSourceBView.File.Name.EndsWith("/App.htm"))
                     {
                         // currently we only have one element :)
 
@@ -974,6 +974,13 @@ namespace TestSolutionBuilderV1.Views
                 }
               );
 
+            ToSpecificProjectType("Flash Flare3D App",
+               delegate
+               {
+                   sln.WithAdobeFlashWithFlare3D();
+               }
+             );
+
             ToSpecificProjectType("Applet App",
               delegate
               {
@@ -1096,6 +1103,8 @@ namespace TestSolutionBuilderV1.Views
                         n.WithIcon(() => new VisualFSharpProject());
                     else if (Extension == ".htm")
                         n.WithIcon(() => new HTMLDocument());
+                    else if (Extension == ".config")
+                        n.WithIcon(() => new ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets.HTMLDocument());
                     else if (Extension == ".css")
                         n.WithIcon(() => new StyleSheetFile());
 

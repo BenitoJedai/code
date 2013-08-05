@@ -77,6 +77,22 @@ namespace ScriptCoreLib.Ultra.Studio
             return a;
         }
 
+        // <package id="Flare3D" version="1.0.0.0" targetFramework="net40" />
+        public class package
+        {
+
+            public string id;
+            public string version = "1.0.0.0";
+
+            public override string ToString()
+            {
+                return @"..\packages\" + id + @".1.0.0.0\lib\" + id + @".dll";
+            }
+        }
+
+        public List<package> NuGetReferences = new List<package>();
+
+
         #region References + AssetsLibrary
         public XElement[] References
         {
@@ -97,6 +113,17 @@ namespace ScriptCoreLib.Ultra.Studio
                 );
 
                 a.Add(AssetsLibrary);
+
+
+                //           sln.NuGetReferences.Add(@"..\packages\Flare3D.1.0.0.0\lib\Flare3D.dll");
+                a.AddRange(
+                    from n in this.NuGetReferences
+                    let x = new XElement("Reference",
+                        new XAttribute("Include", n.id),
+                        new XElement("HintPath", n.ToString())
+                    )
+                    select x
+                );
 
                 return a.ToArray();
             }
@@ -169,7 +196,7 @@ namespace ScriptCoreLib.Ultra.Studio
             ItemGroupForCompile.RemoveAll();
 
             // new operator is the new call opcode? :)
-            new StockUltraApplicationBuilder(AddFile, this, ItemGroupForCompile,
+            var builder = new StockUltraApplicationBuilder(AddFile, this, ItemGroupForCompile,
                 StartupType =>
                 {
                     proj_Content.Elements("PropertyGroup").Elements("StartupObject").ReplaceContentWith(
@@ -189,23 +216,29 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
 
-
-            AddFile(
-                new SolutionFile
+            var fproj = new SolutionFile
                 {
                     Name = SolutionProjectFileName,
+                    Context = this
+                };
 
-
-                    Content = proj_Content.ToString().Replace(
-                        // dirty little hack
-                        // http://stackoverflow.com/questions/461251/add-xml-namespace-attribute-to-3rd-party-xml
+            fproj.WriteXElement(
+                XElement.Parse(
+                proj_Content.ToString().Replace(
+                // dirty little hack
+                // http://stackoverflow.com/questions/461251/add-xml-namespace-attribute-to-3rd-party-xml
 
                         "<Project ToolsVersion=\"3.5\" DefaultTargets=\"Build\">",
                         "<Project ToolsVersion=\"4.0\" DefaultTargets=\"Build\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\" >"
-                    ),
-                    Context = this
-                }
+                    )
+                    )
             );
+
+
+            AddFile(fproj);
+
+
+
 
 
             #endregion

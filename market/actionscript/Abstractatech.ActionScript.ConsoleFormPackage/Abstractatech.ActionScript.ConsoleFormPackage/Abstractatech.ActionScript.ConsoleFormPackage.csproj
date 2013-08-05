@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{266AC7B2-550B-4B68-B4F7-DBFE482318BF}</ProjectGuid>
+    <ProjectGuid>{0AB27151-12CD-4377-AE76-16E6F0F72580}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech.ActionScript.ConsoleFormPackage</RootNamespace>
@@ -163,5 +163,4 @@ start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFil
 
             </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

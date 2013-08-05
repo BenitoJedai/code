@@ -19,8 +19,29 @@ namespace FakeWindowsLoginExperiment.Library.Designers
         // The component parameter is the component that the designer is associated with.
         public override void Initialize(System.ComponentModel.IComponent component)
         {
+            // X:\opensource\unmonitored\WebViewerTest\WebViewer.cs
+
             // Always call the base Initialize method in an override of this method.
             base.Initialize(component);
+
+            //var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
+
+            //if (host == null)
+            //    return;
+
+            //var rootDesigner = host.GetDesigner(host.RootComponent) as IRootDesigner;
+            //if (rootDesigner == null)
+            //    return;
+
+            //var view = rootDesigner.GetView(ViewTechnology.Default) as Control;
+            ////var view = rootDesigner.GetView(ViewTechnology.WindowsForms) as Control;
+            //if (view == null)
+            //    return;
+
+            //var button1 = new Button { Text = "hi"  };
+
+            //view.Controls.Add(button1);
+
         }
 
         // This method is invoked when the associated component is double-clicked.

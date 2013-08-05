@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FakeWindowsLoginExperiment.Library.Designers.Samples
 {
     // Provides an example component associated with the example component designer.
-    //[DesignerAttribute(typeof(ExampleComponentDesigner), typeof(IDesigner))]
+    [DesignerAttribute(typeof(ExampleComponentDesigner), typeof(IDesigner))]
     public class ExampleComponent : System.ComponentModel.Component
     {
         public ExampleComponent()

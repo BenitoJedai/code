@@ -5,32 +5,74 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPromotionBrandIntro", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{0904A352-F100-41D6-8A0F-32F8F8594DCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonPromotionBrandIntro", "..\..\..\javascript\Avalon\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro\AvalonPromotionBrandIntro.csproj", "{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Avalon.PromotionBrandIntro", "..\..\..\..\market\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro.csproj", "{88A6D9ED-9611-4563-9239-3A632CEC6BD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon", "..\..\..\..\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj", "{0910EC49-6697-4664-8A71-F09CAEC02E88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|Any CPU = Android|Any CPU
+		Android|Mixed Platforms = Android|Mixed Platforms
 		Android|x86 = Android|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Android|Any CPU.ActiveCfg = Debug|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Android|Mixed Platforms.ActiveCfg = Debug|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Android|Mixed Platforms.Build.0 = Debug|x86
 		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Android|x86.ActiveCfg = Release|x86
 		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Android|x86.Build.0 = Release|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Debug|x86.ActiveCfg = Debug|x86
 		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Debug|x86.Build.0 = Debug|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Release|Any CPU.ActiveCfg = Release|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Release|x86.ActiveCfg = Release|x86
 		{3F3896D2-07AB-4DFB-87E3-6139E5D40028}.Release|x86.Build.0 = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|x86.ActiveCfg = Android|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Android|x86.Build.0 = Android|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|x86.ActiveCfg = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Debug|x86.Build.0 = Debug|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|x86.ActiveCfg = Release|x86
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39}.Release|x86.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|Any CPU.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|Mixed Platforms.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|x86.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Android|x86.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|x86.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|x86.Build.0 = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Any CPU.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|x86.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|x86.Build.0 = Release|x86
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Android|Any CPU.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Android|x86.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2F3573DB-52C7-4ACE-BEDB-27C4AED70F39} = {0904A352-F100-41D6-8A0F-32F8F8594DCF}
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9} = {0904A352-F100-41D6-8A0F-32F8F8594DCF}
+		{0910EC49-6697-4664-8A71-F09CAEC02E88} = {0904A352-F100-41D6-8A0F-32F8F8594DCF}
 	EndGlobalSection
 EndGlobal

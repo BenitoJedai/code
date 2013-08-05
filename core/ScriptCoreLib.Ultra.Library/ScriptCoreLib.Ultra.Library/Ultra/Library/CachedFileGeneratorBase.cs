@@ -141,7 +141,19 @@ namespace ScriptCoreLib.Ultra.Library
         {
             foreach (var item in this.Files)
             {
-                new FileInfo(item.FileName).Directory.Create();
+                try
+                {
+                    new FileInfo(item.FileName).Directory.Create();
+                }
+                catch
+                {
+                    //{ FileName = U:\staging\web\java/<module>/__5170d59c125f81cbfbf1d631ff2f46b8f3c27c58.java }
+
+                    Console.WriteLine(new { item.FileName });
+
+                    throw;
+                }
+
 
                 File.WriteAllText(item.FileName, item.Content);
             }
