@@ -1,0 +1,60 @@
+/**
+ * Adding tint and final blending.
+ */
+
+use namespace flare;
+use namespace flare.transforms;
+use namespace flare.filters;
+use namespace flare.blendMode;
+
+samplerCube skyMap;
+sampler2D normalMap;
+sampler2D mirrorMap;
+
+technique main 
+{
+	// vertex.
+	
+	float4 pos = position.xyzw;
+	
+	interpolated float3 iPosition = pos.xyz;
+	
+	pos *= worldViewProj;
+	
+	interpolated float4 iProjectedPos = pos;
+	
+	output vertex = pos;
+	
+	// fragment.
+	
+	param CAM_POS camPos;
+	param TIME time;
+	
+	float3 posCamVec = iPosition - camPos;
+	float3 normal = const( 0, 1, 0 );
+	
+	// displaced normal.
+	normal += sampler2D( normalMap, iUV0 * 30 + time.wz * 0.05 ).xzy - 0.5;
+	normal += sampler2D( normalMap, iUV0 * 30 - time.zw * 0.1 ).xzy - 0.5;
+	normal = normalize( normal );
+	
+	// cubemap reflection.
+	float4 highlights = samplerCube( skyMap, reflect( posCamVec, normal ) );
+	
+	// fog.
+	float fog = 1 - length( iUV0 - 0.5 ) * 2;
+	
+	// screen space reflection.
+	float2 projUV = iProjectedPos.xy / iProjectedPos.w * const( 0.5, -0.5 ) + 0.5;
+	float4 mirror = sampler2D( mirrorMap, projUV + normal.xz * 0.2 );
+	
+	// tint.
+	param float4 tint <ui = "color"> = float4( 0.4, 0.5, 0.6, 1 )
+	
+	// output the final color and set the blending.
+	float4 color = mix( mirror, tint, mirror.a ) + highlights * fog;
+	
+	output fragment = color;
+	output sourceFactor = "one";
+	output destFactor = "oneMinusSourceAlpha";
+}
