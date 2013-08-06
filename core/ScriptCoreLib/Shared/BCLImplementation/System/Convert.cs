@@ -50,10 +50,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return "" + value;
         }
 
-        public static string ToString(short value)
-        {
-            return "" + value;
-        }
+        //public static string ToString(short value)
+        //{
+        //    return "" + value;
+        //}
 
         public static string ToString(double value)
         {
@@ -90,10 +90,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         }
 
 
-        public static short ToInt16(string e)
-        {
-            return short.Parse(e);
-        }
+        //public static short ToInt16(string e)
+        //{
+        //    return short.Parse(e);
+        //}
 
         public static long ToInt64(string e)
         {
