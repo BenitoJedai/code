@@ -33,7 +33,6 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
 
         public Point Vector = new Point(1, 0);
 
-        [Script]
         public class Part
         {
             public Point Location;
@@ -67,7 +66,7 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
 
             public void Dispose()
             {
-                this.Control.Dispose();
+                this.Control.Orphanize();
             }
         }
 
@@ -180,7 +179,7 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
 
         public void Dispose()
         {
-            this.Control.Dispose();
+            this.Control.Orphanize();
         }
     }
 

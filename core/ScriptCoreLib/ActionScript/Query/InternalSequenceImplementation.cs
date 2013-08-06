@@ -11,6 +11,7 @@ using IDisposable = global::System.IDisposable;
 
 namespace ScriptCoreLib.ActionScript.Query
 {
+    
     [Script(Implements = typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable_AsEnumerable))]
     internal static class __InternalSequenceImplementation
     {
