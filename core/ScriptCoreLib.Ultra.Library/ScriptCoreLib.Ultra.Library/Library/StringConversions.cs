@@ -63,6 +63,7 @@ namespace ScriptCoreLib.Library
         #endregion
 
         #region string[]
+        [Obsolete]
         public static string ConvertStringArrayToString(string[] e)
         {
             if (e == null)
@@ -72,17 +73,20 @@ namespace ScriptCoreLib.Library
 
             var Length = e.Length;
 
+            // what about null elements?
+            // what about now?
             // ScriptCoreLibJava.XLinq does not yet support reading all elements :) thus we have to name then ahead of time..
             xml.Add(new XAttribute("c", "" + Length));
 
             for (int i = 0; i < Length; i++)
             {
-                xml.Add(new XElement("i" + i, e[i]));
+                xml.Add(new XElement("i" + i, (e[i])));
             }
 
             return ConvertXElementToString(xml);
         }
 
+        [Obsolete]
         public static string[] ConvertStringToStringArray(string e)
         {
             if (string.IsNullOrEmpty(e))
@@ -96,13 +100,13 @@ namespace ScriptCoreLib.Library
 
             for (int i = 0; i < Length; i++)
             {
-                y[i] = xml.Element("i" + i).Value;
+                y[i] = (xml.Element("i" + i).Value);
             }
 
             return y;
         }
         #endregion
 
-      
+
     }
 }

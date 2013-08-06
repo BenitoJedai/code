@@ -2,13 +2,31 @@ using ScriptCoreLib;
 
 namespace java.lang
 {
-    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Thread.html
+    // http://docs.oracle.com/javase/6/docs/api/java/lang/Thread.html
     // http://developer.android.com/reference/java/lang/Thread.html
-    [Script(IsNative=true)]
+    [Script(IsNative = true)]
     public class Thread : Runnable
     {
         public Thread(Runnable e)
         {
+        }
+
+        public long getId()
+        {
+            return default(long);
+        }
+
+        // http://docs.oracle.com/javase/6/docs/api/java/lang/Thread.UncaughtExceptionHandler.html
+        [Script(IsNative = true)]
+        public interface UncaughtExceptionHandler
+        {
+            void uncaughtException(Thread t, Throwable e);
+
+        }
+
+        public static void setDefaultUncaughtExceptionHandler(Thread.UncaughtExceptionHandler eh)
+        {
+
         }
 
         #region methods

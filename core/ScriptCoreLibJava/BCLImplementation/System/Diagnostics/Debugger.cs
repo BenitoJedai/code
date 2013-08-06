@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.BCLImplementation.System.Diagnostics
 {
     [Script(Implements = typeof(global::System.Diagnostics.Debugger))]
-    internal class Debugger
+    internal class __Debugger
     {
         public static bool IsAttached { get; internal set; }
 

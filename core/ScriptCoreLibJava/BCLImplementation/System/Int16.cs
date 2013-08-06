@@ -6,9 +6,14 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
-	[Script(Implements = typeof(global::System.Int16),
-		 ImplementationType = typeof(java.lang.Short))]
-	internal class __Int16
-	{
-	}
+    [Script(Implements = typeof(global::System.Int16),
+         ImplementationType = typeof(java.lang.Short))]
+    internal class __Int16
+    {
+        [Script(ExternalTarget = "parseShort")]
+        public static short Parse(string e)
+        {
+            return default(short);
+        }
+    }
 }
