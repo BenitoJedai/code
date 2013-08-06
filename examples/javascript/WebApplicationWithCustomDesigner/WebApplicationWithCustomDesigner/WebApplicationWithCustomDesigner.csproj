@@ -5,14 +5,29 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BE38851B-4D47-4031-AACE-4B89483EFACA}</ProjectGuid>
+    <ProjectGuid>{9661092F-4DAF-4773-91A9-98DD6BE59189}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FormsWebServiceWithDesignerViaNuget</RootNamespace>
-    <AssemblyName>FormsWebServiceWithDesignerViaNuget</AssemblyName>
+    <RootNamespace>WebApplicationWithCustomDesigner</RootNamespace>
+    <AssemblyName>WebApplicationWithCustomDesigner</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FormsWebServiceWithDesignerViaNuget.Program</StartupObject>
+    <StartupObject>WebApplicationWithCustomDesigner.Program</StartupObject>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,9 +51,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FormsWebServiceWithDesigner">
-      <HintPath>..\packages\FormsWebServiceWithDesigner.1.0.0.0\lib\FormsWebServiceWithDesigner.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -116,55 +128,78 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FormsWebServiceWithDesignerViaNuget.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FormsWebServiceWithDesignerViaNuget.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebApplicationWithCustomDesigner.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebApplicationWithCustomDesigner.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\App.css" />
-    <Content Include="Design\App.htm" />
-    <Compile Include="Bar.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationControl.cs">
+    <Content Include="Design\ApplicationLayout.css" />
+    <Content Include="Design\ApplicationLayout.htm" />
+    <Compile Include="Library\XComponentDesigner.cs" />
+    <Compile Include="Library\XDesignerView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ApplicationControl.Designer.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    <Compile Include="Library\XDesignerView.designer.cs">
+      <DependentUpon>XDesignerView.cs</DependentUpon>
     </Compile>
-    <Compile Include="ApplicationWebService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ApplicationWebService.Designer.cs">
-      <DependentUpon>ApplicationWebService.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Resources\AvalonWindowDrawer-2013-08-06_21.28.39.png" />
+    <None Include="Resources\New_Tab_-_Google_Chrome-2013-08-06_21.14.28.png" />
+    <None Include="packages.config" />
+    <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>Application.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <EmbeddedResource Include="Library\XDesignerView.resx">
+      <DependentUpon>XDesignerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ApplicationControl.resx">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </EmbeddedResource>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
-)</PostBuildEvent>
+		if $(ConfigurationName)==Release (
+		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
+		)</PostBuildEvent>
     <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget,http://192.168.1.102:5110/nuget
-
-            </PreBuildEvent>
+		
+		start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,6 +1,4 @@
 using FormsWebServiceWithDesigner.Library;
-using FormsWebServiceWithDesignerViaNuget.Design;
-using FormsWebServiceWithDesignerViaNuget.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -9,38 +7,32 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using WebApplicationWithCustomDesigner.Design;
+using WebApplicationWithCustomDesigner.HTML.Pages;
 
-namespace FormsWebServiceWithDesignerViaNuget
+namespace WebApplicationWithCustomDesigner
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application : XDesignedComponent
+    public sealed class Application : XAppFromDocument
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
-
-        public readonly ApplicationControl content = new ApplicationControl();
 
         public Application()
         {
 
         }
 
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public Application(IApp page = null)
         {
-            content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
@@ -50,4 +42,12 @@ namespace FormsWebServiceWithDesignerViaNuget
         }
 
     }
+
+    [Designer(typeof(XComponentDesigner), typeof(IRootDesigner))]
+    public class XAppFromDocument :
+        Component
+    {
+
+    }
+
 }

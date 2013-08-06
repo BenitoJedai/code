@@ -27,7 +27,6 @@ namespace FormsWebServiceWithDesigner
             this.xFoo1.Name = "xFoo1";
             this.xFoo1.Size = new System.Drawing.Size(265, 161);
             this.xFoo1.TabIndex = 0;
-            this.xFoo1.Text = "xFoo1";
             // 
             // ApplicationControl
             // 
