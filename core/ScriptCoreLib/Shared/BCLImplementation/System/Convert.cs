@@ -45,7 +45,32 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return "" + value;
         }
 
-    
+        public static string ToString(long value)
+        {
+            return "" + value;
+        }
+
+        public static string ToString(short value)
+        {
+            return "" + value;
+        }
+
+        public static string ToString(double value)
+        {
+            return "" + value;
+        }
+
+        public static string ToString(byte value)
+        {
+            return "" + value;
+        }
+
+
+        //        Implementation not found for type import :
+        //type: System.Convert
+        //method: System.String ToString(Int16)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
 
 
         public static int ToInt32(byte e)
@@ -62,6 +87,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         public static int ToInt32(string e)
         {
             return int.Parse(e);
+        }
+
+
+        public static short ToInt16(string e)
+        {
+            return short.Parse(e);
+        }
+
+        public static long ToInt64(string e)
+        {
+            return long.Parse(e);
         }
 
         // what about this : public static int ToInt32(int e)
@@ -193,7 +229,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         //    return (int)global::System.Math.Floor((double)value);
         //}
 
-  
+
         public static int ToInt32(float value)
         {
             return (int)global::System.Math.Floor(value);
@@ -216,7 +252,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return value;
         }
 
-  
+
         public static string ToString(object value)
         {
             if (value == null)
@@ -230,7 +266,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         }
 
 
-       
+
         public static double ToDouble(string value)
         {
             return double.Parse(value);
@@ -256,9 +292,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return 0;
         }
 
-       // ...
+        // ...
 
-     
+
 
         public static uint ToUInt32(int value)
         {
@@ -272,7 +308,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         }
 
-      
+
     }
 
 }
