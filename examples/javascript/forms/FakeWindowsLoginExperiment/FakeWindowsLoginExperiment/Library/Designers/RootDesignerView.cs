@@ -30,9 +30,7 @@ namespace FakeWindowsLoginExperiment.Library.Designers
         private Timer timer2;
         private Button button2;
         private WebBrowser webBrowser1;
-        private FormsAvalonAnimation.AvalonBrowserLogosHost avalonBrowserLogosHost1;
         private Button button3;
-        private FormsAvalonAnimation.XWebBrowser xWebBrowser1;
         private SampleRootDesigner m_designer;
 
         public RootDesignerView()
@@ -69,9 +67,7 @@ namespace FakeWindowsLoginExperiment.Library.Designers
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.button2 = new System.Windows.Forms.Button();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.avalonBrowserLogosHost1 = new FormsAvalonAnimation.AvalonBrowserLogosHost();
             this.button3 = new System.Windows.Forms.Button();
-            this.xWebBrowser1 = new FormsAvalonAnimation.XWebBrowser();
             this.SuspendLayout();
             // 
             // button1
@@ -82,6 +78,7 @@ namespace FakeWindowsLoginExperiment.Library.Designers
             this.button1.TabIndex = 0;
             this.button1.Text = "goo";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -102,13 +99,6 @@ namespace FakeWindowsLoginExperiment.Library.Designers
             this.webBrowser1.TabIndex = 2;
             this.webBrowser1.Url = new System.Uri("http://my.jsc-solutions.net", System.UriKind.Absolute);
             // 
-            // avalonBrowserLogosHost1
-            // 
-            this.avalonBrowserLogosHost1.Location = new System.Drawing.Point(376, 64);
-            this.avalonBrowserLogosHost1.Name = "avalonBrowserLogosHost1";
-            this.avalonBrowserLogosHost1.Size = new System.Drawing.Size(1055, 231);
-            this.avalonBrowserLogosHost1.TabIndex = 3;
-            // 
             // button3
             // 
             this.button3.ForeColor = System.Drawing.Color.Red;
@@ -119,25 +109,22 @@ namespace FakeWindowsLoginExperiment.Library.Designers
             this.button3.Text = "goo";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // xWebBrowser1
-            // 
-            this.xWebBrowser1.Location = new System.Drawing.Point(19, 301);
-            this.xWebBrowser1.Name = "xWebBrowser1";
-            this.xWebBrowser1.Size = new System.Drawing.Size(805, 383);
-            this.xWebBrowser1.TabIndex = 5;
-            // 
             // RootDesignerView
             // 
             this.AutoScroll = true;
-            this.Controls.Add(this.xWebBrowser1);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.avalonBrowserLogosHost1);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "RootDesignerView";
-            this.Size = new System.Drawing.Size(1769, 709);
+            this.Size = new System.Drawing.Size(697, 521);
             this.ResumeLayout(false);
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new Form { FormBorderStyle = FormBorderStyle.SizableToolWindow }.Show();
 
         }
     }

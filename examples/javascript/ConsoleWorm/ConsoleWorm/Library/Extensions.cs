@@ -10,7 +10,6 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ConsoleWorm.js
 {
-    [Script]
     static class Extensions
     {
         public static bool IsKeyCode(this IEvent e, string c)
