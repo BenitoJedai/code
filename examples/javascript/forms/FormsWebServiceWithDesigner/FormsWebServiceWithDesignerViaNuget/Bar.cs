@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FormsWebServiceWithDesignerViaNuget
 {
-    class Bar : XDesignedComponent
+    public class Bar : XDesignedComponent
     {
     }
 }

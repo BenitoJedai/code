@@ -9,8 +9,8 @@ namespace FormsWebServiceWithDesigner.Library
 {
     // FSharp does not support designers?
     public class XComponentDesigner :
-        //ComponentDesigner, 
-        ControlDesigner,
+        ComponentDesigner,
+        //ControlDesigner,
         IRootDesigner
     {
         //System.Windows.Forms.Design.UserControlDocumentDesigner

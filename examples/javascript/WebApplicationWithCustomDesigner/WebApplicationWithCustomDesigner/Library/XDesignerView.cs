@@ -22,6 +22,22 @@ namespace FormsWebServiceWithDesigner.Library
 
         private void XDesignerView_Load(object sender, EventArgs e)
         {
+            this.webBrowser1.DocumentText = @"
+<html>
+	<head>
+		<title>App</title>
+	</head>
+	<body>
+		<noscript>Error: This Application requires JavaScript.</noscript>
+		<div id='PageContainer'>
+			<h1 id='Header'>JSC - The .NET crosscompiler for web platforms.</h1>
+			<p id='Content' style='padding: 2em;
+				color: blue;'>Hello world</p>
+		</div>
+	</body>
+</html>
+
+";
 
         }
 
@@ -31,6 +47,11 @@ namespace FormsWebServiceWithDesigner.Library
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
