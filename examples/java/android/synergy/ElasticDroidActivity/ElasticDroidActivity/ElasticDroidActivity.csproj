@@ -94,398 +94,398 @@
   <ItemGroup>
     <Content Include="gen\org\elasticdroid\R.java" />
     <Content Include="org\elasticdroid\__EC2_START_INSTANCE.java" />
-    <Content Include="Y:\opensource\github\elastic-droid\libs\**\*.*">
+    <Content Include="x:\opensource\github\elastic-droid\libs\**\*.*">
       <Link>libs/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\github\elastic-droid\src\**\*.*">
+    <Content Include="x:\opensource\github\elastic-droid\src\**\*.*">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-hdpi\icon.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-hdpi\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-hdpi\icon.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-ldpi\icon.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-ldpi\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-ldpi\icon.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ami.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ami.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ami.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\droid_guy.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\droid_guy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\droid_guy.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\green_light.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\green_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\green_light.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\icon.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\icon.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_dialog_time.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_dialog_time.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_dialog_time.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_lock_lock.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_lock_lock.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_lock_lock.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_chart.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_chart.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_chart.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_elasticdroid.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_elasticdroid.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_elasticdroid.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_invite.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_invite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_invite.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_login.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_login.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_login.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_manage.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_manage.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_manage.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_mapmode.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_mapmode.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_mapmode.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_mylocation.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_mylocation.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_mylocation.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_play_clip.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_play_clip.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_play_clip.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_refresh.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_refresh.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_refresh.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_stop.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_stop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_stop.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_view.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ic_menu_view.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ic_menu_view.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\instance.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\instance.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\instance.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\keypair.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\keypair.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\keypair.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\linux_penguin.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\linux_penguin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\linux_penguin.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\red_light.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\red_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\red_light.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\ssh.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\ssh.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\ssh.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\tag.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\tag.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\tag.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable-mdpi\yellow_light.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable-mdpi\yellow_light.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable-mdpi\yellow_light.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\drawable\widget_bg.9.png">
+    <Content Include="x:\opensource\github\elastic-droid\res\drawable\widget_bg.9.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/drawable\widget_bg.9.png</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout-land\ec2singleinstancerow.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout-land\ec2singleinstancerow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout-land\ec2singleinstancerow.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout-land\monitorinstanceoptions.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout-land\monitorinstanceoptions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout-land\monitorinstanceoptions.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\about.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\about.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\about.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\customspinnerdropdownitem.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\customspinnerdropdownitem.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\customspinnerdropdownitem.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\customspinneritem.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\customspinneritem.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\customspinneritem.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\defaultregion.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\defaultregion.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\defaultregion.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\ec2dashboard.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\ec2dashboard.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\ec2dashboard.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\ec2displayinstances.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\ec2displayinstances.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\ec2displayinstances.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\ec2displayinstancesrow.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\ec2displayinstancesrow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\ec2displayinstancesrow.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\ec2instancegroups.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\ec2instancegroups.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\ec2instancegroups.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\ec2instancegroupsrow.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\ec2instancegroupsrow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\ec2instancegroupsrow.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\ec2singleinstance.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\ec2singleinstance.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\ec2singleinstance.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\ec2singleinstancerow.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\ec2singleinstancerow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\ec2singleinstancerow.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\elasticips.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\elasticips.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\elasticips.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\elasticipsrow.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\elasticipsrow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\elasticipsrow.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\instancegroupedit.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\instancegroupedit.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\instancegroupedit.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\login.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\login.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\login.xml</Link>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\monitorinstance.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\monitorinstance.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\monitorinstance.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\monitorinstanceoptions.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\monitorinstanceoptions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\monitorinstanceoptions.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\securitygrouprow.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\securitygrouprow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\securitygrouprow.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\securitygroups.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\securitygroups.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\securitygroups.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\selectableinstancerow.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\selectableinstancerow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\selectableinstancerow.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\sshconnector.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\sshconnector.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\sshconnector.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\tag.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\tag.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\tag.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\userpicker.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\userpicker.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\userpicker.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\layout\userpickerrow.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\layout\userpickerrow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/layout\userpickerrow.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\menu\dashboard_menu.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\menu\dashboard_menu.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/menu\dashboard_menu.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\menu\displayinstances_menu.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\menu\displayinstances_menu.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/menu\displayinstances_menu.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\menu\elasticips_menu.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\menu\elasticips_menu.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/menu\elasticips_menu.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\menu\login_menu.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\menu\login_menu.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/menu\login_menu.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\menu\monitorinstance_menu.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\menu\monitorinstance_menu.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/menu\monitorinstance_menu.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\menu\securitygroups_menu.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\menu\securitygroups_menu.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/menu\securitygroups_menu.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\menu\singleinstance_menu.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\menu\singleinstance_menu.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/menu\singleinstance_menu.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\ec2dashboardview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\ec2dashboardview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\ec2dashboardview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\ec2displayinstances_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\ec2displayinstances_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\ec2displayinstances_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\ec2singleinstance_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\ec2singleinstance_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\ec2singleinstance_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\elasticips_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\elasticips_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\elasticips_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\loginview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\loginview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\loginview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\monitorinstanceview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\monitorinstanceview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\monitorinstanceview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\regionsview_string.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\regionsview_string.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\regionsview_string.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\securitygroups_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\securitygroups_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\securitygroups_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\sshconnector_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\sshconnector_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\sshconnector_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-es\userpickerview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-es\userpickerview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-es\userpickerview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\ec2dashboardview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\ec2dashboardview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\ec2dashboardview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\ec2displayinstances_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\ec2displayinstances_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\ec2displayinstances_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\ec2singleinstance_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\ec2singleinstance_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\ec2singleinstance_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\elasticips_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\elasticips_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\elasticips_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\loginview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\loginview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\loginview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\monitorinstanceview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\monitorinstanceview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\monitorinstanceview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\regionsview_string.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\regionsview_string.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\regionsview_string.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\securitygroups_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\securitygroups_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\securitygroups_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\sshconnector_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\sshconnector_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\sshconnector_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values-ru\userpickerview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values-ru\userpickerview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values-ru\userpickerview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\donottranslate_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\donottranslate_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\donottranslate_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\ec2dashboardview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\ec2dashboardview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\ec2dashboardview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\ec2displayinstances_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\ec2displayinstances_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\ec2displayinstances_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\ec2instancegroupsview.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\ec2instancegroupsview.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\ec2instancegroupsview.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\ec2singleinstance_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\ec2singleinstance_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\ec2singleinstance_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\elasticips_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\elasticips_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\elasticips_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\loginview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\loginview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\loginview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\monitorinstanceview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\monitorinstanceview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\monitorinstanceview_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\monitorinstancewidget_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\monitorinstancewidget_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\monitorinstancewidget_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\regionsview_string.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\regionsview_string.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\regionsview_string.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\securitygroups_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\securitygroups_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\securitygroups_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\sshconnector_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\sshconnector_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\sshconnector_strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\strings.xml</Link>
     </Content>
-    <Content Include="Y:\opensource\github\elastic-droid\res\values\userpickerview_strings.xml">
+    <Content Include="x:\opensource\github\elastic-droid\res\values\userpickerview_strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>staging\apk\res/values\userpickerview_strings.xml</Link>
     </Content>

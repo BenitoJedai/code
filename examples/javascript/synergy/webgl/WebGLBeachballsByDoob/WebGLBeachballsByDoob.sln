@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLBeachballsByDoob", "We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticsConsole", "..\..\..\DiagnosticsConsole\DiagnosticsConsole\DiagnosticsConsole.csproj", "{979239DB-60D4-45A3-A236-27F2D984AE17}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{582BA3A4-8636-4CCA-8EF1-04A8780F3E05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -22,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{979239DB-60D4-45A3-A236-27F2D984AE17} = {582BA3A4-8636-4CCA-8EF1-04A8780F3E05}
 	EndGlobalSection
 EndGlobal
