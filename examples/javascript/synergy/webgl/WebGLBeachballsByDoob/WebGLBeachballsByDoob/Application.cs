@@ -81,6 +81,7 @@ namespace WebGLBeachballsByDoob
 
         private static void InitializeContent()
         {
+            Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
             var origin = new THREE.Vector3(0, 15, 0);
