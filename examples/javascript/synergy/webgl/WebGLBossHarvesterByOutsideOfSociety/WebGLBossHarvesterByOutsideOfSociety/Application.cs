@@ -17,31 +17,6 @@ using WebGLBossHarvesterByOutsideOfSociety.HTML.Pages;
 
 namespace WebGLBossHarvesterByOutsideOfSociety
 {
-    sealed class __WebGLRendererDictionary
-    {
-        public bool antialias;
-    }
-
-    sealed class __MeshPhongMaterialDictionary
-    {
-        public int color;
-
-    }
-
-    sealed class __floor_MeshBasicMaterialDictionary
-    {
-        public bool wireframe;
-        public int color;
-    }
-
-    sealed class __MeshBasicMaterialDictionary
-    {
-        public int color;
-        public bool wireframe;
-        public double opacity;
-        public bool transparent;
-        public bool skinning;
-    }
 
 
     /// <summary>
@@ -88,6 +63,9 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
         private static void InitializeContent()
         {
+            Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+
+
             Console.WriteLine("InitializeContent");
             // http://oos.moxiecode.com/js_webgl/md5_test/
 
@@ -106,7 +84,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             var scene = new THREE.Scene();
             scene.fog = new THREE.Fog(0x000000, 1000, 5000);
 
-            var camera = new THREE.PerspectiveCamera(50, (double)Native.Window.Width / (double)Native.Window.Height, 1, 10000);
+            var camera = new THREE.PerspectiveCamera(50, (double)Native.window.Width / (double)Native.window.Height, 1, 10000);
             camera.position.z = 800;
             camera.position.y = 100;
 
@@ -115,7 +93,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
             // floor
             var plane = new THREE.PlaneGeometry(10000, 10000, 50, 50);
-            var floorMaterial = new THREE.MeshBasicMaterial(new __floor_MeshBasicMaterialDictionary { wireframe = true, color = 0x333333 });
+            var floorMaterial = new THREE.MeshBasicMaterial(new { wireframe = true, color = 0x333333 });
             var floor = new THREE.Mesh(plane, floorMaterial);
             floor.rotation.x = -Math.PI / 2;
             scene.add(floor);
@@ -134,7 +112,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
                          //console.log("Number of bones: "+geometry.bones.length);
 
-                         var material = new THREE.MeshBasicMaterial(new __MeshBasicMaterialDictionary
+                         var material = new THREE.MeshBasicMaterial(new
                          {
                              color = 0xffffff,
                              wireframe = true,
@@ -172,7 +150,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                          scene.add(boneContainer);
 
                          var index = 0;
-                         var pmaterial = new THREE.MeshPhongMaterial(new __MeshPhongMaterialDictionary { color = 0xff0000 });
+                         var pmaterial = new THREE.MeshPhongMaterial(new { color = 0xff0000 });
 
                          for (var b = 1; b != skin.bones.Length; b++)
                          {
@@ -287,11 +265,11 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                                  renderer.render(scene, camera);
                              }
 
-                             Native.Window.requestAnimationFrame += render;
+                             Native.window.requestAnimationFrame += render;
                          };
                          #endregion
 
-                         Native.Window.requestAnimationFrame += render;
+                         Native.window.requestAnimationFrame += render;
 
                          Console.WriteLine("requestAnimationFrame ready!");
                      }
@@ -310,18 +288,18 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             try
             {
                 // renderer
-                renderer = new THREE.WebGLRenderer(new __WebGLRendererDictionary { antialias = true });
+                renderer = new THREE.WebGLRenderer(new { antialias = true });
                 renderer.setClearColorHex(0x000000);
 
                 renderer.domElement.AttachToDocument();
 
                 Action AtResize = delegate
                 {
-                    camera.aspect = Native.Window.Width / Native.Window.Height;
+                    camera.aspect = Native.window.Width / Native.window.Height;
                     camera.updateProjectionMatrix();
-                    renderer.setSize(Native.Window.Width, Native.Window.Height);
+                    renderer.setSize(Native.window.Width, Native.window.Height);
                 };
-                Native.Window.onresize +=
+                Native.window.onresize +=
                   delegate
                   {
                       AtResize();
@@ -341,23 +319,23 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 
 
-            Native.Document.onmousedown +=
+            Native.document.onmousedown +=
                  e =>
                  {
                      if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                      {
-                         if (Native.Document.pointerLockElement == Native.Document.body)
+                         if (Native.document.pointerLockElement == Native.document.body)
                          {
                              // cant requestFullscreen while pointerLockElement
                              Console.WriteLine("exitPointerLock");
-                             Native.Document.exitPointerLock();
-                             Native.Document.exitFullscreen();
+                             Native.document.exitPointerLock();
+                             Native.document.exitFullscreen();
                              return;
                          }
 
                          Console.WriteLine("requestFullscreen");
-                         Native.Document.body.requestFullscreen();
-                         Native.Document.body.requestPointerLock();
+                         Native.document.body.requestFullscreen();
+                         Native.document.body.requestPointerLock();
                          return;
                      }
                  };
