@@ -3,12 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLBeachballsByDoob", "WebGLBeachballsByDoob\WebGLBeachballsByDoob.csproj", "{A660135F-61FF-461E-86CC-E450307B28F5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{41512BF7-33EF-4A73-9600-5370A8DE8C9D}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticsConsole", "..\..\..\DiagnosticsConsole\DiagnosticsConsole\DiagnosticsConsole.csproj", "{979239DB-60D4-45A3-A236-27F2D984AE17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +15,10 @@ Global
 		{A660135F-61FF-461E-86CC-E450307B28F5}.Debug|x86.Build.0 = Debug|x86
 		{A660135F-61FF-461E-86CC-E450307B28F5}.Release|x86.ActiveCfg = Release|x86
 		{A660135F-61FF-461E-86CC-E450307B28F5}.Release|x86.Build.0 = Release|x86
+		{979239DB-60D4-45A3-A236-27F2D984AE17}.Debug|x86.ActiveCfg = Debug|x86
+		{979239DB-60D4-45A3-A236-27F2D984AE17}.Debug|x86.Build.0 = Debug|x86
+		{979239DB-60D4-45A3-A236-27F2D984AE17}.Release|x86.ActiveCfg = Release|x86
+		{979239DB-60D4-45A3-A236-27F2D984AE17}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
