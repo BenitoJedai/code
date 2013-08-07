@@ -14,6 +14,18 @@ namespace org.elasticdroid
     {
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 
+
+        //x:\opensource\github\elastic-droid\src\org\elasticdroid\InstanceGroupEditView.java:426: error: cannot find symbol
+        //                inflater.inflate(R.menu.instancegroup_menu, menu);
+        //                                       ^
+        //  symbol:   variable instancegroup_menu
+        //  location: class menu
+        //x:\opensource\github\elastic-droid\src\org\elasticdroid\InstanceGroupEditView.java:437: error: cannot find symbol
+        //                case R.id.instancegroup_menuitem_save:
+        //                         ^
+        //  symbol:   variable instancegroup_menuitem_save
+        //  location: class id
+
         class local__EC2_START_INSTANCE : __EC2_START_INSTANCE
         {
             public Action AtInvoke;

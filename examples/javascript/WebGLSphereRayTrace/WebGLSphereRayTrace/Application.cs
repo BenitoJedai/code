@@ -208,13 +208,14 @@ namespace WebGLSphereRayTrace
                     //img.width = Native.Window.Width / 2;
                     //img.height = Native.Window.Height / 2;
 
+#if PackageAsApplication
                     Native.Document.getElementsByTagName("script")
                         .Select(k => (IHTMLScript)k)
                         .FirstOrDefault(k => k.src.EndsWith("/view-source"))
                         .With(
                             source =>
                             {
-                                #region PackageAsApplication
+                    #region PackageAsApplication
                                 Action<IHTMLScript, XElement, Action<string>> PackageAsApplication =
                                     (source0, xml, yield) =>
                                     {
@@ -225,7 +226,7 @@ namespace WebGLSphereRayTrace
                                                 // store hash
                                                 xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.Document.location.hash)));
 
-                                                #region script
+                    #region script
                                                 xml.Add(
                                                     new XElement("script",
                                                         "/* source */"
@@ -249,7 +250,7 @@ namespace WebGLSphereRayTrace
                                                 xml.Elements("link").ToList().ForEach(
                                                     (XElement link, Action next) =>
                                                     {
-                                                        #region style
+                    #region style
                                                         var rel = link.Attribute("rel");
                                                         if (rel.Value != "stylesheet")
                                                         {
@@ -338,6 +339,7 @@ namespace WebGLSphereRayTrace
                     );
 
 
+#endif
 
 
                 };
