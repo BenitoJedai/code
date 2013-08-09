@@ -3,13 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flare3DMeetsStarlingExperiment", "Flare3DMeetsStarlingExperiment\Flare3DMeetsStarlingExperiment.csproj", "{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DE9D0B2E-1CE8-48CC-A61D-AE4A93E013F7}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flare3D", "..\..\..\..\market\synergy\actionscript\Flare3D\Flare3D\Flare3D.csproj", "{78BC6FC8-8C6A-4184-9650-29D3C3116457}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{16FDE238-AF52-4D6C-9034-6469B1C182AF}"
