@@ -128,7 +128,9 @@
     <EmbeddedResource Include="web\assets\Flare3DWaterStep6ShipOnFire\highlights.png" />
     <EmbeddedResource Include="web\assets\Flare3DWaterStep6ShipOnFire\normalmap.jpg" />
     <EmbeddedResource Include="web\assets\Flare3DWaterStep6ShipOnFire\skybox.png" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
