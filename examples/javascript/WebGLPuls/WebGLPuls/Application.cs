@@ -28,6 +28,7 @@ namespace WebGLPuls
     /// </summary>
     public sealed class Application : ISurface
     {
+        // http://wakaba.c3.cx/w/puls.html
         // see also: http://meatfighter.com/puls/
         // it only took 2 years :)
         // Revision: 2744

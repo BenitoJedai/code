@@ -1,1 +1,0 @@
-﻿OrcasNativeJavaConsoleApplication. Crosscompiled from C# to Java. Can dynamically load C DLLs.

@@ -1,2 +1,0 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AnimatedLabel.ascx.cs" Inherits="AnimatedLabel" %>
-<asp:Label ID="Label1" runat="server" Text="AnimatedLabel" CssClass="AnimatedLabel"></asp:Label>
