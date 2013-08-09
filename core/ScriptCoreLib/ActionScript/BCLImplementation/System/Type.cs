@@ -109,6 +109,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
         }
 
+         //<method name="start" declaredBy="com.lytro::Player" returnType="void"/>
+
         public __FieldInfo[] GetFields()
         {
             // fixme: at this time also inherited and private fields are show

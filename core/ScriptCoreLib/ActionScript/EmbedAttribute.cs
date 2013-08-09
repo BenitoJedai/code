@@ -19,6 +19,11 @@ namespace ScriptCoreLib.ActionScript
         /// </summary>
         public string source;
 
+        // http://yourpalmark.com/2007/03/31/associating-custom-as3-classes-with-embedded-assets/
+
+        public string symbol;
+
+
         public EmbedAttribute()
         {
 
