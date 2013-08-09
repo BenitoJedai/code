@@ -15,7 +15,8 @@ namespace ScriptCoreLibJava.AppEngine.API.memcache
 	/// The values returned from this API are mutable copies from the cache; altering them has no effect upon the cached value itself until assigned with one of the put methods. Likewise, the methods returning collections return mutable collections, but changes do not affect the cache.
 	/// </summary>
 	[Script(IsNative = true)]
-	public interface MemcacheService
+    [Obsolete]
+    public interface MemcacheService
 	{
 		/// <summary>
 		/// Tests whether a given value is in cache, even if its value is null.

@@ -7,6 +7,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.AppEngine.API.memcache
 {
 	// http://code.google.com/intl/et-EE/appengine/docs/java/javadoc/com/google/appengine/api/memcache/Expiration.html
+[Obsolete]
 	[Script(IsNative = true)]
 	public class Expiration
 	{
