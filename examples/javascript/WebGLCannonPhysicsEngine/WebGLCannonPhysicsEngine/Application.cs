@@ -21,12 +21,12 @@ namespace WebGLCannonPhysicsEngine
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
 
-    sealed class MeshLambertMaterialDictionary
-    {
-        public int color;
-        public bool morphTargets;
-        public int vertexColors;
-    }
+    //sealed class MeshLambertMaterialDictionary
+    //{
+    //    public int color;
+    //    public bool morphTargets;
+    //    public int vertexColors;
+    //}
 
 
     /// <summary>
@@ -188,7 +188,7 @@ namespace WebGLCannonPhysicsEngine
             var geometry = new THREE.PlaneGeometry(300, 300, 50, 50);
             geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
 
-            var material = new THREE.MeshLambertMaterial(new MeshLambertMaterialDictionary { color = 0xdddddd });
+            var material = new THREE.MeshLambertMaterial(new { color = 0xdddddd });
 
             //Native.Window.
 

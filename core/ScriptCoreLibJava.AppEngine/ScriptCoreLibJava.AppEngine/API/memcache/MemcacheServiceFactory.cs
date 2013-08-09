@@ -7,7 +7,8 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.AppEngine.API.memcache
 {
 	// http://code.google.com/intl/et-EE/appengine/docs/java/javadoc/com/google/appengine/api/memcache/MemcacheServiceFactory.html
-	[Script(IsNative = true)]
+    [Obsolete]
+    [Script(IsNative = true)]
 	public static class MemcacheServiceFactory
 	{
 		/// <summary>
