@@ -5,10 +5,14 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // is the namespace correct?
     // updated by IDL
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     public class CanvasRenderingContext2D
     {
+        // see also 
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\WebGL\WebGLRenderingContext.cs
+
         public IHTMLCanvas canvas;
 
 

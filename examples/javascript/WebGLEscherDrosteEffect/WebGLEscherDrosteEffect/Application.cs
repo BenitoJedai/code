@@ -7,14 +7,16 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using WebGLEscherDrosteEffect.HTML.Pages;
 using WebGLEscherDrosteEffect.Shaders;
+using System.Dynamic;
+using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+using System.Diagnostics;
 
 namespace WebGLEscherDrosteEffect
 {
     using gl = WebGLRenderingContext;
     using WebGLFloatArray = Float32Array;
     using WebGLUnsignedShortArray = Uint16Array;
-    using System.Dynamic;
-    using ScriptCoreLib.Shared.BCLImplementation.GLSL;
+
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -50,32 +52,14 @@ namespace WebGLEscherDrosteEffect
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page = null)
         {
-            #region canvas 3D
-            var canvas = new IHTMLCanvas();
+            var gl = new WebGLRenderingContext();
+            var canvas = gl.canvas;
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             canvas.AttachToDocument();
             canvas.style.SetLocation(0, 0);
 
-            // Initialise WebGL
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
 
             #region Dispose
             var IsDisposed = false;
@@ -138,8 +122,8 @@ namespace WebGLEscherDrosteEffect
             #region AtResize
             Action AtResize = delegate
             {
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
 
                 var width = canvas.width;
                 var height = canvas.height;
@@ -154,7 +138,7 @@ namespace WebGLEscherDrosteEffect
 
             AtResize();
 
-            Native.Window.onresize += delegate
+            Native.window.onresize += delegate
             {
                 if (IsDisposed)
                     return;
@@ -182,41 +166,32 @@ namespace WebGLEscherDrosteEffect
 
             #endregion
 
+            var start_time = new Stopwatch();
+            start_time.Start();
 
 
-            #region loop
-            var start_time = new IDate().getTime();
+            Native.window.onframe +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
 
-            Action loop = null;
+                    var t = start_time.ElapsedMilliseconds / 1000.0f;
 
-            loop = delegate
-             {
-                 if (IsDisposed)
-                     return;
+                    var program_uniforms = program.Uniforms(gl);
 
-                 var t = (new IDate().getTime() - start_time) / 1000;
+                    program_uniforms.t = t;
 
-                 dynamic program_uniforms = new ShaderProgramUniforms
-                 {
-                     gl = gl,
-                     program = program
-                 };
+                    //gl.uniform1f(gl.getUniformLocation(program, "t"), t);
+                    gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
+                    gl.flush();
 
-                 program_uniforms.t = t;
 
-                 //gl.uniform1f(gl.getUniformLocation(program, "t"), t);
-                 gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
-                 gl.flush();
+                };
 
-                 Native.Window.requestAnimationFrame += loop;
-
-             };
-
-            Native.Window.requestAnimationFrame += loop;
-            #endregion
 
             #region requestFullscreen
-            Native.Document.body.ondblclick +=
+            Native.document.body.ondblclick +=
                 delegate
                 {
                     if (IsDisposed)
@@ -224,19 +199,19 @@ namespace WebGLEscherDrosteEffect
 
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    Native.Document.body.requestFullscreen();
+                    Native.document.body.requestFullscreen();
 
 
                 };
             #endregion
 
 
-            @"Hello world".ToDocumentTitle();
+            @"WebGLEscherDrosteEffect".ToDocumentTitle();
             // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
         public readonly Action Dispose;
@@ -244,29 +219,5 @@ namespace WebGLEscherDrosteEffect
 
     }
 
-    // whats the performance hit?
-    class ShaderProgramUniforms : DynamicObject
-    {
-        public WebGLProgram program;
-        public gl gl;
 
-        public override bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            // cache location
-
-            var isvec2 = value is __vec2;
-            if (isvec2)
-            {
-                var value_vec2 = (__vec2)value;
-                gl.uniform2f(
-                    gl.getUniformLocation(program, binder.Name),
-                    value_vec2
-                );
-                return true;
-            }
-
-            gl.uniform1f(gl.getUniformLocation(program, binder.Name), (float)value);
-            return true;
-        }
-    }
 }

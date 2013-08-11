@@ -79,38 +79,23 @@ namespace WebGLSpiral
             InitializeContent();
         }
 
-        sealed class __preserveDrawingBuffer
-        {
-            public bool alpha = false;
-            public bool preserveDrawingBuffer = true;
-        }
 
 
         private void InitializeContent()
         {
-            var canvas = new IHTMLCanvas().AttachToDocument();
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+
+            //          public bool alpha = false;
+            //public bool preserveDrawingBuffer = true;
+
+            var gl = new WebGLRenderingContext(alpha: false, preserveDrawingBuffer: true);
+
+            var canvas = gl.canvas.AttachToDocument();
+
             canvas.style.SetLocation(0, 0);
 
-            #region gl
 
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new __preserveDrawingBuffer());
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
 
             #region Dispose
             var IsDisposed = false;
@@ -139,10 +124,10 @@ namespace WebGLSpiral
                     return;
                 }
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
 
-                this.onresize(Native.Window.Width, Native.Window.Height);
+                this.onresize(Native.window.Width, Native.window.Height);
             };
 
             AtResize();
@@ -154,22 +139,16 @@ namespace WebGLSpiral
             #endregion
 
 
-            #region loop
-            Action loop = null;
 
-            loop = delegate
+            Native.window.onframe += delegate
             {
                 if (IsDisposed)
                     return;
 
                 this.onframe();
 
-                Native.Window.requestAnimationFrame += loop;
 
             };
-
-            Native.Window.requestAnimationFrame += loop;
-            #endregion
 
 
             #region requestFullscreen
@@ -215,11 +194,11 @@ namespace WebGLSpiral
             #endregion
 
 
-            Native.Document.onmousemove +=
+            Native.document.onmousemove +=
                 e =>
                 {
-                    s.ucolor_1 = e.CursorX / Native.Window.Width;
-                    s.ucolor_2 = e.CursorY / Native.Window.Height;
+                    s.ucolor_1 = e.CursorX / Native.window.Width;
+                    s.ucolor_2 = e.CursorY / Native.window.Height;
                 };
 
             Action speed_AtResize = delegate
@@ -235,7 +214,7 @@ namespace WebGLSpiral
 
             speed_AtResize();
 
-            Native.Document.body.onclick +=
+            Native.document.body.onclick +=
                 delegate
                 {
                     if (IsDisposed)
@@ -246,6 +225,7 @@ namespace WebGLSpiral
 
             @"Spiral".ToDocumentTitle();
 
+#if PackageAsApplication
             Native.Window.requestAnimationFrame +=
               delegate
               {
@@ -261,7 +241,7 @@ namespace WebGLSpiral
                       .With(
                           source =>
                           {
-                              #region PackageAsApplication
+            #region PackageAsApplication
                               Action<IHTMLScript, XElement, Action<string>> PackageAsApplication =
                                   (source0, xml, yield) =>
                                   {
@@ -273,7 +253,7 @@ namespace WebGLSpiral
                                               xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.Document.location.hash)));
 
 
-                                              #region script
+            #region script
                                               xml.Add(
                                                   new XElement("script",
                                                       "/* source */"
@@ -289,7 +269,7 @@ namespace WebGLSpiral
                                                   data = data.Replace("/* source */", r.responseText);
 
                                               };
-                                              #endregion
+            #endregion
 
 
                                               //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
@@ -297,7 +277,7 @@ namespace WebGLSpiral
                                               xml.Elements("link").ToList().ForEach(
                                                   (XElement link, Action next) =>
                                                   {
-                                                      #region style
+            #region style
                                                       var rel = link.Attribute("rel");
                                                       if (rel.Value != "stylesheet")
                                                       {
@@ -333,7 +313,7 @@ namespace WebGLSpiral
                                                           }
                                                       );
 
-                                                      #endregion
+            #endregion
                                                   }
                                               )(
                                                   delegate
@@ -351,7 +331,7 @@ namespace WebGLSpiral
                                       );
 
                                   };
-                              #endregion
+            #endregion
 
 
                               PackageAsApplication(
@@ -389,6 +369,8 @@ namespace WebGLSpiral
 
 
               };
+#endif
+
         }
 
         public Action Dispose;
