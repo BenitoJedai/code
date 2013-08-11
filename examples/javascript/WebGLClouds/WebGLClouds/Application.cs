@@ -11,7 +11,6 @@ namespace WebGLClouds
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using THREE = WebGLClouds.Design.THREE;
 
 
     /// <summary>
@@ -37,44 +36,9 @@ namespace WebGLClouds
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
-            #region ThreeExtras - InitializeContent
-            new WebGLClouds.Design.THREE.__ThreeWebGL().Content.With(
-               source2 =>
-               {
-                   source2.onload +=
-                       delegate
-                       {
 
-                           new WebGLClouds.Design.THREE.__ThreeExtras().Content.With(
-                              source =>
-                              {
-                                  source.onload +=
-                                      delegate
-                                      {
-                                          InitializeContent(page);
-
-                                          if (Loaded != null)
-                                              Loaded(this);
-                                      };
-
-                              }
-                          ).AttachToDocument();
-                       };
-
-               }
-            ).AttachToDocument();
-            #endregion
-
-
-        
-        }
-
-
-        void InitializeContent(IDefaultPage page)
-        {
-            //page.PageContainer.style.color = Color.Blue;
 
             if (DisableBackground)
             {
@@ -82,7 +46,7 @@ namespace WebGLClouds
             }
             else
             {
-                Native.Document.body.style.backgroundColor = "#4584b4";
+                Native.document.body.style.backgroundColor = "#4584b4";
             }
 
             // Bg gradient
@@ -109,19 +73,19 @@ namespace WebGLClouds
             var mouseX = 0f;
             var start_time = new IDate().getTime();
 
-            Console.WriteLine(new { Native.Window.Width, Native.Window.Height });
+            Console.WriteLine(new { Native.window.Width, Native.window.Height });
 
-            var windowHalfX = Native.Window.Width / 2;
-            var windowHalfY = Native.Window.Height / 2;
+            var windowHalfX = Native.window.Width / 2;
+            var windowHalfY = Native.window.Height / 2;
 
             Console.WriteLine(new { DefaultMouseY });
 
-            var mouseY = (float)((Native.Window.Height * DefaultMouseY - windowHalfY) * 0.15);
+            var mouseY = (float)((Native.window.Height * DefaultMouseY - windowHalfY) * 0.15);
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             container.AttachToDocument();
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             //container.style.background = "url(" + canvas.toDataURL("image/png") + ")";
 
             #region Dispose
@@ -142,31 +106,27 @@ namespace WebGLClouds
 
 
 
-            var camera = new THREE.Camera(30, Native.Window.Width / Native.Window.Height, 1, 3000);
+            var camera = new THREE.PerspectiveCamera(30, Native.window.Width / (double)Native.window.Height, 1, 3000);
             camera.position.z = 6000;
 
             var scene = new THREE.Scene();
 
             var geometry = new THREE.Geometry();
 
-            var texture = THREE.__ThreeExtras.ImageUtils.loadTexture(new HTML.Images.FromAssets.cloud10().src);
+            var texture = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.cloud10().src);
 
-            var THREE_LinearMipMapLinearFilter = 8;
-
-
-            texture.magFilter = THREE_LinearMipMapLinearFilter;
-            texture.minFilter = THREE_LinearMipMapLinearFilter;
+            texture.magFilter = THREE.LinearMipMapLinearFilter;
+            texture.minFilter = THREE.LinearMipMapLinearFilter;
 
             var fog = new THREE.Fog(0x4584b4, -100, 3000);
 
-            #region material
-            var material = new THREE.MeshShaderMaterial(
+            var material = new THREE.ShaderMaterial(
 
-                new 
+                new
                 {
-                    uniforms = new 
+                    uniforms = new
                     {
-                        map = new { type = "t", value = 2, texture = texture },
+                        map = new { type = "t", value = texture },
                         fogColor = new { type = "c", value = fog.color },
                         fogNear = new { type = "f", value = fog.near },
                         fogFar = new { type = "f", value = fog.far },
@@ -174,17 +134,17 @@ namespace WebGLClouds
 
                     vertexShader = new GeometryVertexShader().ToString(),
                     fragmentShader = new GeometryFragmentShader().ToString(),
-                    depthTest = false
+                    depthWrite = false,
+                    depthTest = false,
+                    transparent = true
 
                 }
             );
-            #endregion
-
 
             var r = new Random();
             Func<float> Math_random = () => (float)r.NextDouble();
 
-            var plane = new THREE.Mesh(new THREE.Plane(64, 64));
+            var plane = new THREE.Mesh(new THREE.PlaneGeometry(64, 64));
 
             for (var i = 0; i < 8000; i++)
             {
@@ -196,74 +156,64 @@ namespace WebGLClouds
                 plane.scale.x = Math_random() * Math_random() * 1.5f + 0.5f;
                 plane.scale.y = plane.scale.x;
 
-                THREE.__ThreeExtras.GeometryUtils.merge(geometry, plane);
+                THREE.GeometryUtils.merge(geometry, plane);
 
             }
 
             var mesh = new THREE.Mesh(geometry, material);
-            scene.addObject(mesh);
+            scene.add(mesh);
 
             mesh = new THREE.Mesh(geometry, material);
             mesh.position.z = -8000;
-            scene.addObject(mesh);
+            scene.add(mesh);
 
-            var renderer = new THREE.WebGLRenderer(new THREE.WebGLRendererArguments { antialias = false });
-            renderer.setSize(Native.Window.Width, Native.Window.Height);
+            var renderer = new THREE.WebGLRenderer(new { antialias = false });
+            renderer.setSize(Native.window.Width, Native.window.Height);
             container.appendChild(renderer.domElement);
 
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
             #region onresize
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
-                    container.style.SetSize(Native.Window.Width, Native.Window.Height);
+                    container.style.SetSize(Native.window.Width, Native.window.Height);
 
-                    camera.aspect = Native.Window.Width / Native.Window.Height;
+                    camera.aspect = Native.window.Width / Native.window.Height;
                     camera.updateProjectionMatrix();
 
-                    renderer.setSize(Native.Window.Width, Native.Window.Height);
+                    renderer.setSize(Native.window.Width, Native.window.Height);
                 };
             #endregion
 
 
-            #region render
-            Action render = () =>
-            {
 
-                var position = ((new IDate().getTime() - start_time) * 0.03) % 8000;
-
-                camera.position.x += (float)((mouseX - camera.target.position.x) * 0.01);
-                camera.position.y += (float)((-mouseY - camera.target.position.y) * 0.01);
-                camera.position.z = (f)(-position + 8000);
-
-                camera.target.position.x = camera.position.x;
-                camera.target.position.y = camera.position.y;
-                camera.target.position.z = camera.position.z - 1000;
-
-                renderer.render(scene, camera);
-
-            };
-            #endregion
 
 
             #region animate
-            Action animate = null;
 
-            animate = delegate
+            Native.window.onframe += delegate
             {
                 if (IsDisposed)
                     return;
 
-                render();
+                var position = ((new IDate().getTime() - start_time) * 0.03) % 8000;
 
-                Native.Window.requestAnimationFrame += animate;
+
+                camera.position.x += (float)((mouseX - camera.position.x) * 0.01);
+                camera.position.y += (float)((-mouseY - camera.position.y) * 0.01);
+
+                camera.position.z = (f)(-position + 8000);
+
+
+
+                renderer.render(scene, camera);
+
             };
 
-            Native.Window.requestAnimationFrame += animate;
             #endregion
 
-            Native.Document.onmousemove +=
+            Native.document.onmousemove +=
                 e =>
                 {
                     mouseX = (float)((e.CursorX - windowHalfX) * 0.25);
@@ -273,7 +223,7 @@ namespace WebGLClouds
 
 
             #region requestFullscreen
-            Native.Document.body.ondblclick +=
+            Native.document.body.ondblclick +=
                 delegate
                 {
                     if (IsDisposed)
@@ -281,7 +231,7 @@ namespace WebGLClouds
 
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    Native.Document.body.requestFullscreen();
+                    Native.document.body.requestFullscreen();
 
 
                 };

@@ -35,7 +35,7 @@ namespace LBAPrequelPromotion
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             // https://docs.google.com/a/jsc-solutions.net/spreadsheet/ccc?key=0AjBm0oHdZ3DwdFhMb2UxVnBYUnNnUE16LUNiUzJJSVE#gid=0
             //<iframe src="https://docs.google.com/a/jsc-solutions.net/spreadsheet/embeddedform?formkey=dFhMb2UxVnBYUnNnUE16LUNiUzJJSVE6MQ" width="760" height="692" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
