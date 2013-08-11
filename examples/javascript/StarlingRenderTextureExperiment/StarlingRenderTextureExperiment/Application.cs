@@ -36,15 +36,15 @@ namespace StarlingRenderTextureExperiment
             var embed = SpriteExtensions.ToHTMLElement(sprite);
 
 
-            embed.wmode();
+            //embed.wmode();
 
             embed.style.SetLocation(0, 0);
-            embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+            embed.style.SetSize(Native.window.Width, Native.window.Height);
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
-                    embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                    embed.style.SetSize(Native.window.Width, Native.window.Height);
                 };
 
             sprite.AttachSpriteToDocument();
@@ -53,17 +53,17 @@ namespace StarlingRenderTextureExperiment
     }
 
 
-    public static class XX
-    {
-        public static void wmode(this IHTMLElement x, string value = "direct")
-        {
+    //public static class XX
+    //{
+    //    public static void wmode(this IHTMLElement x, string value = "direct")
+    //    {
 
-            var p = x.parentNode;
-
-
-            x.setAttribute("wmode", value);
+    //        var p = x.parentNode;
 
 
-        }
-    }
+    //        x.setAttribute("wmode", value);
+
+
+    //    }
+    //}
 }

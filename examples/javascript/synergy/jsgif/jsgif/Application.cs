@@ -31,7 +31,7 @@ namespace jsgif
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             new Design.b64().Content.WhenAvailable(
                delegate
@@ -69,7 +69,7 @@ namespace jsgif
             );
         }
 
-        private void InitializeContent(IDefaultPage page)
+        private void InitializeContent(IDefault page)
         {
             var canvas = new IHTMLCanvas().AttachToDocument();
 

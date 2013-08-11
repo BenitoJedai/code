@@ -10,9 +10,10 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using WithInlineStylesheet.HTML.Pages;
+using WebGLToAnimatedGIFExperiment.Design;
+using WebGLToAnimatedGIFExperiment.HTML.Pages;
 
-namespace WithInlineStylesheet
+namespace WebGLToAnimatedGIFExperiment
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -21,25 +22,16 @@ namespace WithInlineStylesheet
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault page)
+        public Application(IApp page)
         {
-            page.Hi.onclick +=
-                delegate
-                {
-                    new Toolbar().Container.AttachToDocument();
-                };
+         
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
+
         }
 
     }
