@@ -35,46 +35,27 @@ namespace WebGLChocolux
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IXDefaultPage page = null)
+        public Application(IDefault page = null)
         {
             Initialize(page);
         }
 
-        sealed class __preserveDrawingBuffer
+
+
+
+        private void Initialize(IDefault page = null)
         {
-            public bool alpha = false;
-            public bool preserveDrawingBuffer = true;
-        }
+            int w = Native.window.Width;
+            int h = Native.window.Height;
 
 
-        private void Initialize(IXDefaultPage page = null)
-        {
-            int w = Native.Window.Width;
-            int h = Native.Window.Height;
 
-            var canvas = new IHTMLCanvas().AttachToDocument();
+            var gl = new WebGLRenderingContext(preserveDrawingBuffer: true);
+
+            var canvas = gl.canvas.AttachToDocument();
             canvas.style.backgroundColor = JSColor.Black;
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0);
-
-            #region gl
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new __preserveDrawingBuffer());
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
 
 
             #region Dispose
@@ -230,6 +211,7 @@ namespace WebGLChocolux
                       newicon();
                   };
 
+#if PackageAsApplication
             @"Spiral".ToDocumentTitle();
 
             Native.Window.requestAnimationFrame +=
@@ -247,7 +229,7 @@ namespace WebGLChocolux
                       .With(
                           source =>
                           {
-                              #region PackageAsApplication
+            #region PackageAsApplication
                               Action<IHTMLScript, XElement, Action<string>> PackageAsApplication =
                                   (source0, xml, yield) =>
                                   {
@@ -258,7 +240,7 @@ namespace WebGLChocolux
                                               // store hash
                                               xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.Document.location.hash)));
 
-                                              #region script
+            #region script
                                               xml.Add(
                                                   new XElement("script",
                                                       "/* source */"
@@ -282,7 +264,7 @@ namespace WebGLChocolux
                                               xml.Elements("link").ToList().ForEach(
                                                   (XElement link, Action next) =>
                                                   {
-                                                      #region style
+            #region style
                                                       var rel = link.Attribute("rel");
                                                       if (rel.Value != "stylesheet")
                                                       {
@@ -374,6 +356,8 @@ namespace WebGLChocolux
 
 
               };
+#endif
+
         }
 
         public Action Dispose;

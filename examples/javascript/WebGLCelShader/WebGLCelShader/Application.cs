@@ -29,7 +29,7 @@ namespace WebGLCelShader
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault  page = null)
         {
             #region ThreeExtras
             new WebGLCelShader.Design.THREE.__ThreeExtras().Content.With(
@@ -69,7 +69,7 @@ namespace WebGLCelShader
             public MyUniform uBaseColor = new MyUniform { type = "c", value = new THREE.Color(0xff0000) };
         }
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent(IDefault  page = null)
         {
 
 

@@ -28,7 +28,7 @@ namespace WebGLInvade
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
             new[]
             {
@@ -55,25 +55,15 @@ namespace WebGLInvade
                 }
             );
 
-
-
-
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
         }
 
 
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent(IDefault page = null)
         {
 
-            var SCREEN_WIDTH = Native.Window.Width;
-            var SCREEN_HEIGHT = Native.Window.Height;
+            var SCREEN_WIDTH = Native.window.Width;
+            var SCREEN_HEIGHT = Native.window.Height;
 
             //var ,stats;
 
@@ -90,11 +80,11 @@ namespace WebGLInvade
 
 
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
             var camera = new THREE.Camera(75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 100000);
             camera.position.z = 50;
@@ -216,35 +206,29 @@ namespace WebGLInvade
                 };
             #endregion
 
-            #region animate
-            Action animate = null;
-
-            animate = () =>
+            Native.window.onframe +=
+            delegate
             {
                 if (IsDisposed)
                     return;
 
                 render();
 
-
-                Native.Window.requestAnimationFrame += animate;
             };
 
-            Native.Window.requestAnimationFrame += animate;
-            #endregion
 
             #region AtResize
             Action AtResize = delegate
             {
-                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                camera.aspect = Native.Window.Width / Native.Window.Height;
+                camera.aspect = Native.window.Width / Native.window.Height;
                 camera.updateProjectionMatrix();
 
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.window.Width, Native.window.Height);
             };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();
@@ -254,7 +238,7 @@ namespace WebGLInvade
             #endregion
 
             #region requestFullscreen
-            Native.Document.body.ondblclick +=
+            Native.document.body.ondblclick +=
                 delegate
                 {
                     if (IsDisposed)
@@ -262,7 +246,7 @@ namespace WebGLInvade
 
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    Native.Document.body.requestFullscreen();
+                    Native.document.body.requestFullscreen();
 
 
                 };

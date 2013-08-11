@@ -61,7 +61,7 @@ namespace WebGLFireballExplosion
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
 
             #region await Three.js then do InitializeContent
@@ -85,15 +85,15 @@ namespace WebGLFireballExplosion
             );
             #endregion
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //@"Hello world".ToDocumentTitle();
+            //// Send data from JavaScript to the server tier
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent(IDefault page = null)
         {
 
 
@@ -104,30 +104,30 @@ namespace WebGLFireballExplosion
 
 
             #region container
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
             container.style.backgroundColor = "#000000";
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             #endregion
 
 
             var scene = new THREE.Scene();
             var bkgScene = new THREE.Scene();
 
-            var camera = new THREE.PerspectiveCamera(fov, Native.Window.Width / Native.Window.Height, 1, 10000);
+            var camera = new THREE.PerspectiveCamera(fov, Native.window.Width / Native.window.Height, 1, 10000);
             camera.position.z = 100;
             camera.target = new THREE.Vector3(0, 0, 0);
 
             scene.add(camera);
 
             var bkgCamera = new THREE.OrthographicCamera(
-                Native.Window.Width / -2, 
-                Native.Window.Width / 2, 
-                Native.Window.Height / 2, 
-                Native.Window.Height / -2, 
-                -10000, 
+                Native.window.Width / -2,
+                Native.window.Width / 2,
+                Native.window.Height / 2,
+                Native.window.Height / -2,
+                -10000,
                 10000
             );
 
@@ -147,20 +147,20 @@ namespace WebGLFireballExplosion
                             )
                         },
 
-                        resolution = new uniforms_item { type = "v2", value = new THREE.Vector2(Native.Window.Width, Native.Window.Height) }
+                        resolution = new uniforms_item { type = "v2", value = new THREE.Vector2(Native.window.Width, Native.window.Height) }
                     },
 
                     vertexShader = new Shaders.ExplosionVertexShader().ToString(),
                     //        fragmentShader: document.getElementById( 'fs_Gradient' ).textContent,
-                     //fragmentShader = new Shaders.GradientFragmentShader().ToString(),
-                     fragmentShader = new Shaders.ExplosionFragmentShader().ToString(),
+                    //fragmentShader = new Shaders.GradientFragmentShader().ToString(),
+                    fragmentShader = new Shaders.ExplosionFragmentShader().ToString(),
 
                     depthWrite = false,
 
                 }
             );
 
-            var quad = new THREE.Mesh(new THREE.PlaneGeometry(Native.Window.Width, Native.Window.Height), bkgShader);
+            var quad = new THREE.Mesh(new THREE.PlaneGeometry(Native.window.Width, Native.window.Height), bkgShader);
             quad.position.z = -100;
             quad.rotation.x = (float)Math.PI / 2;
             bkgScene.add(quad);
@@ -170,9 +170,9 @@ namespace WebGLFireballExplosion
 
                 new THREE.ShaderMaterialArguments
                 {
-                    uniforms = new material_uniforms
+                    uniforms = new // material_uniforms
                     {
-                        tExplosion = new uniforms_item
+                        tExplosion = new  //uniforms_item
                         {
                             type = "t",
                             value = 0,
@@ -180,8 +180,8 @@ namespace WebGLFireballExplosion
                                 new HTML.Images.FromAssets.explosion().src
                             )
                         },
-                        time = new uniforms_item { type = "f", value = 0.0 },
-                        weight = new uniforms_item { type = "f", value = 8.0 },
+                        time = new { type = "f", value = 0.0 },
+                        weight = new { type = "f", value = 8.0 },
                     },
 
                     vertexShader = new Shaders.ExplosionVertexShader().ToString(),
@@ -195,7 +195,7 @@ namespace WebGLFireballExplosion
             scene.add(mesh);
 
             var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(Native.Window.Width, Native.Window.Height);
+            renderer.setSize(Native.window.Width, Native.window.Height);
             renderer.autoClear = false;
 
             container.appendChild(renderer.domElement);
@@ -225,9 +225,8 @@ namespace WebGLFireballExplosion
             var scale = 0.0;
 
             #region render
-            Action render = null;
 
-            render = delegate
+            Native.window.onframe += delegate
             {
 
                 ((material_uniforms)material.uniforms).time.value = .00025 * (IDate.Now - start);
@@ -252,11 +251,9 @@ namespace WebGLFireballExplosion
 
                 //    stats.update();
 
-                Native.Window.requestAnimationFrame += render;
             };
 
 
-            Native.Window.requestAnimationFrame += render;
             #endregion
 
 
