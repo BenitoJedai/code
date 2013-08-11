@@ -5,16 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7C790787-CE0B-4918-95D1-63C5F1A90362}</ProjectGuid>
+    <ProjectGuid>{F3ADDA84-E84C-4ECF-B44D-C2EA9908AB3E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NatureBoyTestPadExperiment</RootNamespace>
-    <AssemblyName>NatureBoyTestPadExperiment</AssemblyName>
+    <RootNamespace>TestTHREELinkage</RootNamespace>
+    <AssemblyName>TestTHREELinkage</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>NatureBoyTestPadExperiment.Program</StartupObject>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <StartupObject>TestTHREELinkage.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,29 +35,12 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android|x86'">
-    <OutputPath>bin\x86\Android\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
-      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
-    </Reference>
-    <Reference Include="Abstractatech.JavaScript.NatureBoy">
-      <HintPath>..\packages\Abstractatech.JavaScript.NatureBoy.1.0.0.0\lib\Abstractatech.JavaScript.NatureBoy.dll</HintPath>
-    </Reference>
-    <Reference Include="DiagnosticsConsole">
-      <HintPath>..\packages\DiagnosticsConsole.1.0.0.0\lib\DiagnosticsConsole.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -118,6 +99,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
@@ -125,92 +107,40 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="THREE">
+      <HintPath>..\packages\THREE.1.0.0.0\lib\THREE.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="NatureBoyTestPadExperiment.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\NatureBoyTestPadExperiment.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestTHREELinkage.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestTHREELinkage.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Audio\Affirmative.mp3" />
-    <Content Include="Audio\Argh.mp3" />
-    <Content Include="Audio\Argh_LChannel.mp3" />
-    <Content Include="Audio\Argh_RChannel.mp3" />
-    <Content Include="Audio\ChangeRoom.mp3" />
-    <Content Include="Audio\click.mp3" />
-    <Content Include="Audio\ghoullaugh.mp3" />
-    <Content Include="Audio\pig.mp3" />
-    <Content Include="Audio\sheep.mp3" />
-    <Content Include="Audio\Talk.mp3" />
-    <Content Include="Audio\world.mp3" />
-    <Content Include="cnc\383.png" />
-    <Content Include="Debris\bump2.png" />
-    <Content Include="Debris\footsteps.png" />
-    <Content Include="Debris\grass1.png" />
-    <Content Include="Debris\hole_1.png" />
-    <Content Include="Debris\hole_2.png" />
-    <Content Include="Debris\man2-horns_dead_2.png" />
-    <Content Include="Debris\pig_blood.png" />
-    <Content Include="Debris\sheep-blood.png" />
-    <Content Include="Design\Default.css" />
-    <Content Include="Design\Default.htm" />
-    <Compile Include="Library\Extensions.cs" />
-    <Compile Include="Library\MyFrames.cs" />
-    <Compile Include="Library\NatureBoyTestPad.cs" />
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="packages.config" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Preview.png" />
-    <Content Include="ManWithHorns\man2-horns_1.png" />
-    <Content Include="ManWithHorns\man2-horns_2.png" />
-    <Content Include="ManWithHorns\man2-horns_3.png" />
-    <Content Include="ManWithHorns\man2-horns_4.png" />
-    <Content Include="ManWithHorns\man2-horns_5.png" />
-    <Content Include="ManWithHorns\man2-horns_6.png" />
-    <Content Include="ManWithHorns\man2-horns_7.png" />
-    <Content Include="ManWithHorns\man2-horns_8.png" />
-    <Content Include="ManWithHorns\man2-horns_9.png" />
-    <Content Include="Textures\npc3_bk1.gif" />
-    <Content Include="Textures\npc3_bk2.gif" />
-    <Content Include="Textures\npc3_fr1.gif" />
-    <Content Include="Textures\npc3_fr2.gif" />
-    <Content Include="Textures\npc3_lf1.gif" />
-    <Content Include="Textures\npc3_lf2.gif" />
-    <Content Include="Textures\npc3_rt1.gif" />
-    <Content Include="Textures\npc3_rt2.gif" />
-    <Content Include="TheCactus\img_cactus_1.png" />
-    <Content Include="TheCactus\img_cactus_2.png" />
-    <Content Include="TheCactus\img_cactus_3.png" />
-    <Content Include="ThePig\pig_1.png" />
-    <Content Include="ThePig\pig_2.png" />
-    <Content Include="ThePig\pig_3.png" />
-    <Content Include="ThePig\pig_4.png" />
-    <Content Include="TheSheep\sheep-walk_1.png" />
-    <Content Include="TheSheep\sheep-walk_2.png" />
-    <Content Include="TheSheep\sheep-walk_3.png" />
-    <Content Include="TheSheep\sheep-walk_4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
-)
-if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false  /FilterTo:$(SolutionDir)
-)</PostBuildEvent>
-    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget</PreBuildEvent>
+		if $(ConfigurationName)==Release (
+		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
+		)</PostBuildEvent>
+    <PreBuildEvent>
+		
+		start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -145,9 +145,7 @@
     </Compile>
     <Content Include="Design\Textures\grid.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Library\References\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Shaders\sphere_simple.vert" />
   </ItemGroup>

@@ -39,38 +39,10 @@ namespace WebGLCannonPhysicsEngine
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+
             //            DEPRECATED: Quaternion's .multiplyVector3() has been removed. Use is now vector.applyQuaternion( quaternion ) instead. Three.js:913
             //Uncaught TypeError: Object [object Object] has no method 'subSelf' 
-
-            #region await Three.js then do InitializeContent
-            new[]
-            {
-                new THREELibrary.opensource.gihtub.three.js.build.three().Content,
-                new CANNONLibrary.opensource.github.cannon.js.build.cannon().Content,
-                new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
-            }.ForEach(
-                (SourceScriptElement, i, MoveNext) =>
-                {
-                    SourceScriptElement.AttachToDocument().onload +=
-                        delegate
-                        {
-                            MoveNext();
-                        };
-                }
-            )(
-                delegate
-                {
-                    InitializeContent();
-                }
-            );
-            #endregion
-
-
-
-        }
-
-        private static void InitializeContent()
-        {
             // { REVISION: '57' };
 
             var boxes = new List<CANNON.RigidBody>();

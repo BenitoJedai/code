@@ -19,7 +19,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
 
 //namespace Abstractatech.JavaScript.FormAsPopup
-namespace Abstractatech.JavaScript.FormAsPopup
+namespace ScriptCoreLib.Extensions
 {
     static class X
     {

@@ -3,14 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatureBoyTestPadExperiment", "NatureBoyTestPadExperiment\NatureBoyTestPadExperiment.csproj", "{7C790787-CE0B-4918-95D1-63C5F1A90362}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6F3938F5-60E2-4001-956F-B7AFB5C9509D}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{ABA5DBFB-1901-4F55-8A35-850EBF71B492}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,8 +23,16 @@ Global
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Debug|x86.Build.0 = Debug|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.ActiveCfg = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
 	EndGlobalSection
 EndGlobal

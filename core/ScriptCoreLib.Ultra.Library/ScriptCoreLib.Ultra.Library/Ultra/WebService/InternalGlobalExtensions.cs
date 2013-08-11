@@ -594,13 +594,13 @@ namespace ScriptCoreLib.Ultra.WebService
 
                 Write(" <code style='color: darkcyan;'>" + app.TypeName + "</code>");
 
-                var app_references = app.References.Select(
-                   item => ff.First(k => k.Name == item.AssemblyFile + ".js")
-               ).ToArray();
+               // var app_references = app.References.Select(
+               //    item => ff.First(k => k.Name == item.AssemblyFile + ".js")
+               //).ToArray();
 
-                var app_size = app_references.Sum(k => k.Length);
+               // var app_size = app_references.Sum(k => k.Length);
 
-                Write(" <span style='color: gray;'>(" + app_size + " bytes)</span>");
+               // Write(" <span style='color: gray;'>(" + app_size + " bytes)</span>");
 
                 foreach (var r in app.References)
                 {

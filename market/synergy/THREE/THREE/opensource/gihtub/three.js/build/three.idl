@@ -169,7 +169,12 @@ interface THREE.Matrix4
 { 
 	any makeRotationX(double value);
 
+	// https://github.com/chandlerprall/Physijs/issues/91
+	// stop breaking your library guys!
+	// tested by X:\jsc.svn\examples\javascript\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\Application.cs
 	any setRotationFromEuler(any vec3);
+	any makeRotationFromEuler(any vec3);
+
 	any setPosition(any vec3);
 };
 
