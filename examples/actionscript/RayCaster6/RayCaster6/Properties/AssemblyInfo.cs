@@ -37,6 +37,4 @@ using ScriptCoreLib;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly:
-    Script,
-    ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")]
+[assembly: Obfuscation(Feature = "merge")]

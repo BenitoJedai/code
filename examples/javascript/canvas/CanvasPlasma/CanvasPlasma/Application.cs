@@ -33,13 +33,13 @@ namespace CanvasPlasma
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
             InitializeContent();
 
             //style.Content.AttachToHead();
             @"Plasma".ToDocumentTitle();
-        
+
         }
 
 
@@ -59,7 +59,12 @@ namespace CanvasPlasma
 
             var shift = 0;
 
-            var canvas = new IHTMLCanvas();
+
+
+            var context = new CanvasRenderingContext2D();
+
+
+            var canvas = context.canvas;
 
             canvas.width = DefaultWidth;
             canvas.height = DefaultHeight;
@@ -67,18 +72,15 @@ namespace CanvasPlasma
             canvas.style.position = IStyle.PositionEnum.absolute;
             canvas.style.SetLocation(0, 0, DefaultWidth, DefaultHeight);
 
-            var context = (CanvasRenderingContext2D)canvas.getContext("2d");
-
             var xx = context.getImageData(0, 0, DefaultWidth, DefaultHeight);
             //var x = (ImageData)(object)xx;
             var x = xx;
 
-            Action AtTick = null;
 
-            AtTick = delegate
+            Native.window.onframe += delegate
             {
-                if (DefaultWidth != Native.Window.Width)
-                    if (DefaultHeight != Native.Window.Height)
+                if (DefaultWidth != Native.window.Width)
+                    if (DefaultHeight != Native.window.Height)
                     {
                         canvas.Orphanize();
                         InitializeContent();
@@ -108,10 +110,8 @@ namespace CanvasPlasma
 
                 context.putImageData(xx, 0, 0, 0, 0, DefaultWidth, DefaultHeight);
                 shift++;
-                Native.Window.requestAnimationFrame += AtTick;
             };
 
-            Native.Window.requestAnimationFrame += AtTick;
 
             #region requestFullscreen
             Native.Document.body.ondblclick +=
@@ -173,8 +173,10 @@ namespace CanvasPlasma
                 newicon();
             };
 
-            @"Spiral".ToDocumentTitle();
+            //@"Spiral".ToDocumentTitle();
 
+
+#if PackageAsApplication
             Native.Window.requestAnimationFrame +=
               delegate
               {
@@ -190,7 +192,7 @@ namespace CanvasPlasma
                       .With(
                           source =>
                           {
-                              #region PackageAsApplication
+            #region PackageAsApplication
                               Action<IHTMLScript, XElement, Action<string>> PackageAsApplication =
                                   (source0, xml, yield) =>
                                   {
@@ -198,7 +200,7 @@ namespace CanvasPlasma
                                           ScriptCoreLib.Shared.HTTPMethodEnum.GET, source0.src,
                                           (IXMLHttpRequest r) =>
                                           {
-                                              #region script
+            #region script
                                               xml.Add(
                                                   new XElement("script",
                                                       "/* source */"
@@ -214,7 +216,7 @@ namespace CanvasPlasma
                                                   data = data.Replace("/* source */", r.responseText);
 
                                               };
-                                              #endregion
+            #endregion
 
 
                                               //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
@@ -222,7 +224,7 @@ namespace CanvasPlasma
                                               xml.Elements("link").ToList().ForEach(
                                                   (XElement link, Action next) =>
                                                   {
-                                                      #region style
+            #region style
                                                       var rel = link.Attribute("rel");
                                                       if (rel.Value != "stylesheet")
                                                       {
@@ -258,7 +260,7 @@ namespace CanvasPlasma
                                                           }
                                                       );
 
-                                                      #endregion
+            #endregion
                                                   }
                                               )(
                                                   delegate
@@ -276,7 +278,7 @@ namespace CanvasPlasma
                                       );
 
                                   };
-                              #endregion
+            #endregion
 
 
                               PackageAsApplication(
@@ -314,6 +316,8 @@ namespace CanvasPlasma
 
 
               };
+#endif
+
         }
 
 

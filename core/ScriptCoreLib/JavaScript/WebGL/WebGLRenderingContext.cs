@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,5 +129,13 @@ namespace ScriptCoreLib.JavaScript.WebGL
         public void uniform3f(WebGLUniformLocation location, float x, float y, float z)
         {
         }
+
+
+        //[Script(DefineAsStatic = true)]
+        //IHTMLCanvas INodeConvertible<IHTMLCanvas>.InternalAsNode()
+        //{
+        //    // see also X:\jsc.svn\core\ScriptCoreLib\JavaScript\Extensions\INodeConvertible.cs
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -6,7 +6,7 @@ namespace jsgif
     /// <summary>
     /// You can debug your application by hitting F5.
     /// </summary>
-    internal static class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

@@ -41,6 +41,13 @@ namespace ScriptCoreLib.JavaScript.Extensions
                     if (nodeType != 0)
                         return (INode)e;
                 }
+
+                // not yet?
+                // see also: X:\jsc.svn\core\ScriptCoreLib\JavaScript\WebGL\WebGLRenderingContext.cs
+                //if (Expando.InternalIsMember(e, "canvas"))
+                //{
+                //    return as_INode(Expando.InternalGetMember(e, "canvas"));
+                //}
             }
 
 

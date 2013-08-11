@@ -118,7 +118,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Textures.htm" />
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
