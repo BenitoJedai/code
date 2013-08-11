@@ -134,7 +134,7 @@ namespace jsgif
     }
 
     [Script(HasNoPrototype = true)]
-    class b64
+    public class b64
     {
         [Script(ExternalTarget = "window")]
         public static b64 Window;
@@ -157,32 +157,32 @@ namespace jsgif
             }
         }
 
-        internal void setRepeat(int p)
+        public void setRepeat(int p)
         {
             throw new NotImplementedException();
         }
 
-        internal void setDelay(int p)
+        public void setDelay(int p)
         {
             throw new NotImplementedException();
         }
 
-        internal void start()
+        public void start()
         {
             throw new NotImplementedException();
         }
 
-        internal void addFrame(CanvasRenderingContext2D context)
+        public void addFrame(CanvasRenderingContext2D context)
         {
             throw new NotImplementedException();
         }
 
-        internal void finish()
+        public void finish()
         {
             throw new NotImplementedException();
         }
 
-        internal ByteArray stream()
+        public ByteArray stream()
         {
             throw new NotImplementedException();
         }

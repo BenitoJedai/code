@@ -13,7 +13,7 @@ namespace RayCaster4
     /// type mappings but no real type usage.
     /// </summary>
     public interface IAssemblyReferenceToken :
-        ScriptCoreLib.Shared.RayCaster.IAssemblyReferenceToken,
+        //ScriptCoreLib.Shared.RayCaster.IAssemblyReferenceToken,
         ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
         ScriptCoreLib.Shared.IAssemblyReferenceToken
     {

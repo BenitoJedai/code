@@ -28,25 +28,29 @@ namespace PrettyGlowingLines
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
-            var canvas = new IHTMLCanvas().AttachTo(page.Content);
 
             //AddTransform(canvas);
 
+            var context = new CanvasRenderingContext2D();
+
+            var canvas = context.canvas.AttachTo(page.Content);
             canvas.style.SetSize(400, 400);
 
-            var context = (CanvasRenderingContext2D)canvas.getContext("2d");
 
             Action DrawLogo = delegate { };
 
             new white_jsc().InvokeOnComplete(
                 img =>
                 {
+                    var data = img.toDataURL();
+
                     DrawLogo = delegate
                     {
+
                         context.drawImage(
-                            img,
+                            new IHTMLImage { src = data },
                             0, 0, 96, 48 // ??
                         );
                     };
@@ -85,7 +89,7 @@ namespace PrettyGlowingLines
 
             };
 
-            line.AtInterval(50);
+            //line.AtInterval(50);
 
 
             Action blank = delegate
@@ -94,10 +98,12 @@ namespace PrettyGlowingLines
                 context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
                 DrawLogo();
-               
+
             };
 
-            blank.AtInterval(40);
+            blank();
+
+            //blank.AtInterval(40);
         }
 
         private static void AddTransform(IHTMLCanvas canvas)

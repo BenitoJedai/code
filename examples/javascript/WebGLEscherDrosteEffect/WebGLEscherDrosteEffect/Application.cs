@@ -22,6 +22,9 @@ namespace WebGLEscherDrosteEffect
     /// This type will run as JavaScript.
     /// </summary>
     public sealed class Application
+        // experimenting base class
+
+        : Default
     {
         /* Steps taken to create this example port of http://wakaba.c3.cx/w/escher_droste.html
          * 
@@ -46,19 +49,27 @@ namespace WebGLEscherDrosteEffect
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        public WebGLRenderingContext gl = new WebGLRenderingContext(alpha: false, preserveDrawingBuffer: true);
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
-            var gl = new WebGLRenderingContext();
             var canvas = gl.canvas;
 
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            canvas.AttachToDocument();
-            canvas.style.SetLocation(0, 0);
+            // which is it?
+            if (page == null)
+                canvas.AttachTo(this.body);
+            else
+            {
+                canvas.AttachTo(page.body);
+                canvas.style.SetLocation(0, 0);
+
+            }
 
 
             #region Dispose
@@ -119,11 +130,13 @@ namespace WebGLEscherDrosteEffect
 
             var texture = loadTexture(new HTML.Images.FromAssets.escher());
 
-            #region AtResize
-            Action AtResize = delegate
+
+
+
+            if (page == null)
             {
-                canvas.width = Native.window.Width;
-                canvas.height = Native.window.Height;
+                canvas.width = 96;
+                canvas.height = 96;
 
                 var width = canvas.width;
                 var height = canvas.height;
@@ -134,18 +147,39 @@ namespace WebGLEscherDrosteEffect
 
                 var h = height / width;
                 gl.uniform1f(gl.getUniformLocation(program, "h"), h);
-            };
-
-            AtResize();
-
-            Native.window.onresize += delegate
+            }
+            else
             {
-                if (IsDisposed)
-                    return;
+
+                #region AtResize
+                Action AtResize = delegate
+                {
+                    canvas.width = Native.window.Width;
+                    canvas.height = Native.window.Height;
+
+                    var width = canvas.width;
+                    var height = canvas.height;
+
+                    gl.viewport(0, 0, canvas.width, canvas.height);
+
+
+
+                    var h = height / width;
+                    gl.uniform1f(gl.getUniformLocation(program, "h"), h);
+                };
 
                 AtResize();
-            };
-            #endregion
+
+                Native.window.onresize += delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    AtResize();
+                };
+                #endregion
+
+            }
 
             gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
 

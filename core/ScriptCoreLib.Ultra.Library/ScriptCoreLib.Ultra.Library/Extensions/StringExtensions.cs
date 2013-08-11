@@ -78,6 +78,9 @@ namespace ScriptCoreLib.Extensions
 
         public static string TakeUntilIfAny(this string e, string u)
         {
+            if (e == null)
+                return null;
+
             var i = e.IndexOf(u);
 
             if (i < 0)

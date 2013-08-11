@@ -51,6 +51,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ActionScript.RayCaster">
+      <HintPath>..\..\..\javascript\Ultra\UltraRaycast6\packages\Abstractatech.ActionScript.RayCaster.1.0.0.0\lib\Abstractatech.ActionScript.RayCaster.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
@@ -58,10 +61,6 @@
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.RayCaster, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLib.RayCaster.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -95,6 +94,7 @@
     <EmbeddedResource Include="web\assets\RayCaster6.Sounds\treasure.mp3" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="tools\build.bat" />
     <EmbeddedResource Include="web\assets\RayCaster6\ammo.zip" />
     <EmbeddedResource Include="web\assets\RayCaster6\dude5.zip">
@@ -133,7 +133,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-start /WAIT build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+rem start /WAIT build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

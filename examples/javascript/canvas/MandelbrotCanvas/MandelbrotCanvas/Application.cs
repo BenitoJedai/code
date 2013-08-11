@@ -28,7 +28,7 @@ namespace MandelbrotCanvas
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             var shift = 0;
             //Debugger.Break();
@@ -38,14 +38,16 @@ namespace MandelbrotCanvas
                 buffer[i] = 0;
             }
 
-            var canvas = (IHTMLCanvas)Native.Document.createElement("canvas");
 
+
+
+            var context = new CanvasRenderingContext2D();
+
+            var canvas = context.canvas.AttachToDocument();
             canvas.width = MandelbrotProvider.DefaultWidth;
             canvas.height = MandelbrotProvider.DefaultHeight;
 
-            var context = (CanvasRenderingContext2D)canvas.getContext("2d");
-
-            var t = new Timer();
+            //var t = new Timer();
 
             //var x = new MyImageData(DefaultWidth, DefaultHeight);
             var x = context.getImageData(0, 0, MandelbrotProvider.DefaultWidth, MandelbrotProvider.DefaultHeight);
@@ -84,7 +86,9 @@ namespace MandelbrotCanvas
 
                 };
 
-            t.Tick +=
+
+
+            Native.window.onframe +=
                 delegate
                 {
 
@@ -93,18 +97,25 @@ namespace MandelbrotCanvas
                     shift++;
                 };
 
-            t.StartInterval(50);
+
+            canvas.ondblclick +=
+                delegate
+                {
+                    canvas.requestFullscreen();
+
+                };
+            //t.StartInterval(50);
             //Refresh();
 
-            canvas.AttachToDocument();
+            //canvas.AttachToDocument();
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //@"Hello world".ToDocumentTitle();
+            //// Send data from JavaScript to the server tier
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }

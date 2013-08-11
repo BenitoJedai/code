@@ -167,7 +167,7 @@ namespace RayCaster6.ActionScript
 			Action<int, int> setPixel = (mul, div) =>
 					e.setPixel32((x + dx * mul / div), (y + dy * mul / div), color);
 
-			var len = new Point { x = dx, y = dy }.length.Floor().Min(64);
+			var len = Math.Min(64,  new Point { x = dx, y = dy }.length.Floor());
 
 			if (len > 2)
 			{

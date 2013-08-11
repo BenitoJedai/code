@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Delegates;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
@@ -58,6 +59,27 @@ namespace ScriptCoreLib.Ultra.WebService
 
             WriteLine(@"<!DOCTYPE HTML>");
             WriteLine(@"<!-- Hello curious person, welcome to the source code. I hope you enjoy your time here. Please close the door after you've gone. --> ");
+
+
+            // if XElement
+            var html = XElement.Parse(this.PageSource);
+
+            if (CacheManifest)
+                html.SetAttributeValue("manifest", WebApplicationCacheManifest.ManifestName);
+
+            html.Add(
+                new XElement("script",
+                // will jvm autoclose this element?
+                    new XAttribute("src", "view-source"), " "
+                )
+            );
+
+            WriteLine(html.ToString());
+            return;
+
+
+
+            //<script src='view-source'></script>
 
             if (CacheManifest)
             {
