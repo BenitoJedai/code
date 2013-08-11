@@ -28,17 +28,23 @@ namespace VisibleTitleElement
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            @"Hello world".ToDocumentTitle();
+            //@"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
                 @"A string from JavaScript.",
                 value =>
                 {
-                    value.ToDocumentTitle();
+                    //value.ToDocumentTitle();
 
-                    page.foo.AttachTo(Native.Document.getElementsByTagName("title")[0]);
+                    page.foo.AttachTo(page.title);
 
-                    Native.Document.getElementsByTagName("title")[0].Add("y");
+                    //Native.document.bo
+                    page.title.Add("y");
+
+
+                    //page.foo.AttachTo(Native.document.getElementsByTagName("title")[0]);
+
+                    //Native.document.getElementsByTagName("title")[0].Add("y");
 
                 }
             );

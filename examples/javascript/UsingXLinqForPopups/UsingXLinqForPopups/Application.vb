@@ -13,7 +13,7 @@ Partial NotInheritable Class Application
 
     Public Sub New(ByVal a As IAboutJSC)
 
-        Native.Document.title = "UsingXLinqForPopups"
+        'Native.Document.title = "UsingXLinqForPopups"
 
         Dim ww As New UltraWebService
 

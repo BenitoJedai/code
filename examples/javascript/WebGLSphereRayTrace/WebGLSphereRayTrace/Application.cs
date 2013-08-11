@@ -59,34 +59,20 @@ namespace WebGLSphereRayTrace
 
         public void InitializeContent()
         {
-            #region canvas 3D
-            var canvas = new IHTMLCanvas();
+     
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            // Initialise WebGL
+
+            // if canvas object makes use of toDataUrl then this arg is required!
+            var gl = new WebGLRenderingContext(preserveDrawingBuffer: true, alpha: false);
+
+            var canvas = gl.canvas;
+
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             canvas.AttachToDocument();
             canvas.style.SetLocation(0, 0);
             canvas.style.backgroundColor = "black";
-
-            // Initialise WebGL
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-                // if canvas object makes use of toDataUrl then this arg is required!
-                //gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new __preserveDrawingBuffer());
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl", new { preserveDrawingBuffer = true, alpha = false });
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
 
             var s = new RaySurface(this);
 
@@ -116,15 +102,15 @@ namespace WebGLSphereRayTrace
                     return;
                 }
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
 
-                this.onresize(Native.Window.Width, Native.Window.Height);
+                this.onresize(Native.window.Width, Native.window.Height);
             };
 
             AtResize();
 
-            Native.Window.onresize += delegate
+            Native.window.onresize += delegate
             {
                 AtResize();
             };
@@ -134,7 +120,7 @@ namespace WebGLSphereRayTrace
             {
                 var icon = canvas.toDataURL("image/png");
 
-                Native.Document.getElementsByTagName("link").AsEnumerable().ToList().WithEach(
+                Native.document.getElementsByTagName("link").AsEnumerable().ToList().WithEach(
                     e =>
                     {
                         var link = (IHTMLLink)e;
@@ -157,23 +143,16 @@ namespace WebGLSphereRayTrace
                 return icon;
             };
 
-            Action loop = null;
 
-            loop = delegate
+            Native.window.onframe += delegate
             {
                 if (IsDisposed)
                     return;
 
                 this.onframe();
-
-                Native.Window.requestAnimationFrame += loop;
-
-
             };
 
-            Native.Window.requestAnimationFrame += loop;
-
-            Native.Document.body.onclick +=
+            Native.document.body.onclick +=
                 delegate
                 {
                     if (IsDisposed)
@@ -183,14 +162,14 @@ namespace WebGLSphereRayTrace
                 };
 
 
-            Native.Document.body.ondblclick +=
+            Native.document.body.ondblclick +=
                 delegate
                 {
                     if (IsDisposed)
                         return;
 
 
-                    Native.Document.body.requestFullscreen();
+                    Native.document.body.requestFullscreen();
                 };
 
             #region draggable
@@ -199,7 +178,7 @@ namespace WebGLSphereRayTrace
             // can we drag ourself into crx?
             @"Sphere Ray Trace".ToDocumentTitle();
 
-            Native.Window.requestAnimationFrame +=
+            Native.window.requestAnimationFrame +=
                 delegate
                 {
                     var icon = newicon();
@@ -242,7 +221,7 @@ namespace WebGLSphereRayTrace
                                                     data = data.Replace("/* source */", r.responseText);
 
                                                 };
-                                                #endregion
+                    #endregion
 
 
                                                 //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
@@ -286,7 +265,7 @@ namespace WebGLSphereRayTrace
                                                             }
                                                         );
 
-                                                        #endregion
+                    #endregion
                                                     }
                                                 )(
                                                     delegate
@@ -304,7 +283,7 @@ namespace WebGLSphereRayTrace
                                         );
 
                                     };
-                                #endregion
+                    #endregion
 
 
                                 PackageAsApplication(
