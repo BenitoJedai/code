@@ -455,6 +455,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             return null;
         }
 
+
+
         public event System.Action requestAnimationFrame
         {
             [Script(DefineAsStatic = true)]
@@ -464,6 +466,39 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
 
                 __requestAnimationFrame().apply(null, IFunction.OfDelegate(value));
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                throw new System.NotSupportedException();
+            }
+        }
+
+
+
+        // what do name every frame yield? as uses enterFrame, onframe seems decent
+        // should it be part of extensions?
+        // there are no extension events yet
+        public event System.Action onframe
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                // https://developer.mozilla.org/en/DOM/window.requestAnimationFrame
+                // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
+
+                System.Action loop = null;
+
+
+                loop = delegate
+                {
+                    // exception would stop the loop?
+                    value();
+
+                    this.requestAnimationFrame += loop;
+                };
+
+                this.requestAnimationFrame += loop;
             }
             [Script(DefineAsStatic = true)]
             remove

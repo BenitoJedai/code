@@ -1,3 +1,0 @@
-
-@call jsc
-@call mxmlc

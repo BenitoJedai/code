@@ -1,13 +1,82 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
-    [Script(HasNoPrototype = true)]
+    [Script(HasNoPrototype = true, InternalConstructor = true)]
     public class WebGLRenderingContext
     {
+        // see also
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\CanvasRenderingContext2D.cs
+
+        public IHTMLCanvas canvas;
+
+        [Script]
+        sealed class __preserveDrawingBuffer
+        {
+            // tested by X:\jsc.svn\examples\javascript\WebGLSpiral\WebGLSpiral\Application.cs
+
+            public bool alpha;
+            public bool preserveDrawingBuffer;
+        }
+
+
+        #region Constructor
+
+        public WebGLRenderingContext(
+            )
+        {
+            // InternalConstructor
+        }
+
+        static WebGLRenderingContext InternalConstructor(
+
+            )
+        {
+            // tested by X:\jsc.svn\examples\javascript\ImageCachedIntoLocalStorageExperiment\ImageCachedIntoLocalStorageExperiment\Application.cs
+
+            var canvas = new IHTMLCanvas();
+            var context = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
+
+            return context;
+        }
+
+        #endregion
+
+        #region Constructor
+
+        public WebGLRenderingContext(
+            bool alpha = false,
+            bool preserveDrawingBuffer = false
+            )
+        {
+            // InternalConstructor
+        }
+
+        static WebGLRenderingContext InternalConstructor(
+
+             bool alpha,
+            bool preserveDrawingBuffer
+
+            )
+        {
+            // tested by X:\jsc.svn\examples\javascript\ImageCachedIntoLocalStorageExperiment\ImageCachedIntoLocalStorageExperiment\Application.cs
+
+            var canvas = new IHTMLCanvas();
+            var context = (WebGLRenderingContext)canvas.getContext("experimental-webgl",
+
+                new __preserveDrawingBuffer { alpha = alpha, preserveDrawingBuffer = preserveDrawingBuffer }
+                );
+
+            return context;
+        }
+
+        #endregion
+
+
         public const uint FRAGMENT_SHADER = 0x8B30;
         public const uint VERTEX_SHADER = 0x8B31;
 
