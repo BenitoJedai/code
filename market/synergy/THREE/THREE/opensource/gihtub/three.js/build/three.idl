@@ -14,6 +14,7 @@ interface THREE
 	static attribute long AdditiveBlending; 
 
     const long FaceColors = 1;
+    const long LinearMipMapLinearFilter = 8;
 
 };
 
@@ -27,8 +28,16 @@ interface THREE.GeometryUtilsType
 // this is an anonymous type actually
 interface THREE.ImageUtilsType
 { 
-	any loadTexture(any src);
+	THREE.Texture loadTexture(any src);
 };
+
+interface THREE.Texture
+{ 
+    attribute long magFilter;
+    attribute long minFilter;
+};
+
+
 
 // this is an anonymous type actually
 interface THREE.ColorUtilsType
@@ -57,6 +66,7 @@ interface THREE.PerspectiveCamera
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  up;
 
+
 };
 
 [Constructor()]
@@ -66,8 +76,18 @@ interface THREE.Scene
 
 	attribute THREE.Vector3  position;
 
+
+
+
 	void add(any value);
 	void remove(any value);
+};
+
+
+
+[Constructor(any parameters)]
+interface THREE.ShaderMaterial 
+{
 };
 
 [Constructor(long color)]
@@ -75,7 +95,14 @@ interface THREE.Color
 { 
 };
 
-// use dictionary instead?
+
+[Constructor(long x, long y)]
+interface THREE.Plane 
+{ 
+};
+
+
+// use dictionary instead? obsolete?
 interface THREE.Raycaster_intersectObject
 {
 	attribute THREE.Vector3 point;
@@ -93,6 +120,12 @@ interface THREE.Raycaster
 [Constructor(long color, long y, long z)]
 interface THREE.Fog 
 { 
+	// tested by X:\jsc.svn\examples\javascript\WebGLClouds\WebGLClouds\Application.cs
+
+	attribute long        near;
+	attribute long        far;
+
+
 	attribute long        color;
 
 };
