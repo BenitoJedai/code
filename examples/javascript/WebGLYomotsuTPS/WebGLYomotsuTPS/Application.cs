@@ -11,9 +11,10 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using WebGLYomotsuTPS.Design;
+//using WebGLYomotsuTPS.Design;
 using WebGLYomotsuTPS.HTML.Pages;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace WebGLYomotsuTPS
 {
@@ -25,45 +26,6 @@ namespace WebGLYomotsuTPS
         // inspired by http://yomotsu.github.com/threejs-examples/tps/
 
         public readonly ApplicationWebService service = new ApplicationWebService();
-
-
-
-
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
-        {
-            #region await then do InitializeContent
-            new[]
-            {
-                new global::WebGLYomotsuTPS.Design.Three().Content,
-                //new global::WebGLYomotsuTPS.Design.droid().Content,
-            }.ForEach(
-                (SourceScriptElement, i, MoveNext) =>
-                {
-                    SourceScriptElement.AttachToDocument().onload +=
-                        delegate
-                        {
-                            MoveNext();
-                        };
-                }
-            )(
-                delegate
-                {
-                    InitializeContent(page);
-                }
-            );
-            #endregion
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
-        }
 
 
         sealed class motion
@@ -106,8 +68,13 @@ namespace WebGLYomotsuTPS
 
         }
 
-        void InitializeContent(IDefaultPage page = null)
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IDefault page = null)
         {
+
             var fov = 40;
 
             #region container
@@ -131,10 +98,12 @@ namespace WebGLYomotsuTPS
             var player_camera_z = 0.0f;
             var player_motion = default(motion);
 
-            var width = Native.Window.Width;
-            var height = Native.Window.Height;
+            var width = Native.window.Width;
+            var height = Native.window.Height;
 
-            var clock = new THREE.Clock();
+            var clock = new Stopwatch();
+            clock.Start();
+            //var clock = new THREE.Clock();
 
             var scene = new THREE.Scene();
             scene.fog = new THREE.FogExp2(0x000000, 0.05f);
@@ -230,7 +199,7 @@ namespace WebGLYomotsuTPS
             container.onmousemove +=
                 e =>
                 {
-                    if (Native.Document.pointerLockElement == container)
+                    if (Native.document.pointerLockElement == container)
                     {
                         oldPointerX = 0;
                         oldPointerY = 0;
@@ -251,7 +220,7 @@ namespace WebGLYomotsuTPS
               {
                   rotate = delegate { };
 
-                  Native.Document.exitPointerLock();
+                  Native.document.exitPointerLock();
               };
 
             container.onmousedown +=
@@ -302,22 +271,31 @@ namespace WebGLYomotsuTPS
 
 
             var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
-            var planeMaterial = new THREE.MeshLambertMaterial(new THREE.MeshLambertMaterialArguments
-            {
-                map = __THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.bg().src),
-                color = 0xffffff
-            });
+            var planeMaterial = new THREE.MeshLambertMaterial(
+                new
+                {
+                    map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.bg().src),
+                    color = 0xffffff
+                }
+            );
 
-            const int THREE_RepeatWrapping = 0;
             planeMaterial.map.repeat.x = 300;
             planeMaterial.map.repeat.y = 300;
-            planeMaterial.map.wrapS = THREE_RepeatWrapping;
-            planeMaterial.map.wrapT = THREE_RepeatWrapping;
-
+            planeMaterial.map.wrapS = THREE.RepeatWrapping;
+            planeMaterial.map.wrapT = THREE.RepeatWrapping;
             var plane = new THREE.Mesh(planeGeometry, planeMaterial);
             plane.castShadow = false;
             plane.receiveShadow = true;
-            scene.add(plane);
+
+
+            {
+
+                var parent = new THREE.Object3D();
+                parent.add(plane);
+                parent.rotation.x = -Math.PI / 2;
+
+                scene.add(parent);
+            }
 
             var random = new Random();
             var meshArray = new List<THREE.Mesh>();
@@ -327,7 +305,7 @@ namespace WebGLYomotsuTPS
             {
 
                 var ii = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(
-                    new THREE.MeshLambertMaterialArguments
+                    new
                     {
                         color = (Convert.ToInt32(0xffffff * random.NextDouble()))
                     }));
@@ -354,9 +332,9 @@ namespace WebGLYomotsuTPS
             //load converted md2 data
 
             var material = new THREE.MeshPhongMaterial(
-                new THREE.MeshPhongMaterialArguments
+                new
                 {
-                    map = __THREE.ImageUtils.loadTexture(
+                    map = THREE.ImageUtils.loadTexture(
                         new HTML.Images.FromAssets._1().src
                     ),
                     ambient = 0x999999,
@@ -398,7 +376,7 @@ namespace WebGLYomotsuTPS
                                     var animFps = motion.fps;
 
                                     md2meshBody.time = 0;
-                                    md2meshBody.duration = 1000f * ((animMax - animMin) / animFps);
+                                    md2meshBody.duration = 1000 * ((animMax - animMin) / animFps);
                                     md2meshBody.setFrameRange(animMin, animMax);
                                 };
 
@@ -476,10 +454,9 @@ namespace WebGLYomotsuTPS
 
 
                                 #region loop
-                                Action loop = null;
 
 
-                                loop = delegate
+                                Native.window.onframe += delegate
                                 {
                                     if (moveState_front || moveState_Backwards || moveState_left || moveState_right)
                                         move();
@@ -515,7 +492,9 @@ namespace WebGLYomotsuTPS
 
                                     #region model animation
 
-                                    var delta = clock.getDelta();
+                                    var delta = clock.ElapsedMilliseconds * 0.001;
+                                    clock.Restart();
+
                                     var isEndFleame = (player_motion.max == md2meshBody.currentKeyframe);
                                     var isAction = player_motion.action;
 
@@ -537,11 +516,9 @@ namespace WebGLYomotsuTPS
 
                                     renderer.render(scene, camera);
 
-                                    Native.Window.requestAnimationFrame += loop;
 
                                 };
 
-                                loop();
                                 #endregion
 
 
@@ -572,7 +549,7 @@ namespace WebGLYomotsuTPS
                                 #endregion
 
                                 #region requestFullscreen
-                                Native.Document.body.ondblclick +=
+                                Native.document.body.ondblclick +=
                                     delegate
                                     {
                                         if (IsDisposed)
@@ -580,7 +557,7 @@ namespace WebGLYomotsuTPS
 
                                         // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                                        Native.Document.body.requestFullscreen();
+                                        Native.document.body.requestFullscreen();
 
                                         //AtResize();
                                     };
