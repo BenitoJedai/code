@@ -8,13 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SidebarExperiment", "Sideba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlasmaFormsControl", "..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj", "{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{780363F0-5664-4BD0-BEEA-C126F045F72D}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{A2D14446-DF5F-4F75-B0D9-ED5504B65842}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSShaderGrayScale", "..\css\CSSShaderGrayScale\CSSShaderGrayScale\CSSShaderGrayScale.csproj", "{BEAA5C6F-9803-48E6-B53E-987F5A983560}"
@@ -64,7 +57,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{BEAA5C6F-9803-48E6-B53E-987F5A983560} = {A2D14446-DF5F-4F75-B0D9-ED5504B65842}
 		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82} = {A2D14446-DF5F-4F75-B0D9-ED5504B65842}
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560} = {A2D14446-DF5F-4F75-B0D9-ED5504B65842}
 	EndGlobalSection
 EndGlobal
