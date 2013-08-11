@@ -8,10 +8,11 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using WebGLYomotsuMD2Model.Design;
+//using WebGLYomotsuMD2Model.Design;
 using WebGLYomotsuMD2Model.HTML.Pages;
 
 namespace WebGLYomotsuMD2Model
@@ -25,39 +26,6 @@ namespace WebGLYomotsuMD2Model
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-
-
-
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault page = null)
-        {
-            #region await then do InitializeContent
-            new[]
-            {
-                new global::WebGLYomotsuMD2Model.Design.Three().Content,
-                //new global::WebGLYomotsuMD2Model.Design.droid().Content,
-            }.ForEach(
-                (SourceScriptElement, i, MoveNext) =>
-                {
-                    SourceScriptElement.AttachToDocument().onload +=
-                        delegate
-                        {
-                            MoveNext();
-                        };
-                }
-            )(
-                delegate
-                {
-                    InitializeContent(page);
-                }
-            );
-            #endregion
-
-      
-        }
 
 
         sealed class motion
@@ -76,7 +44,7 @@ namespace WebGLYomotsuMD2Model
 
             public motion
 
-  
+
               stand = new motion { min = 0, max = 39, fps = 9, state = "stand", action = false },   // STAND
 
               run = new motion { min = 40, max = 45, fps = 10, state = "stand", action = false },   // RUN
@@ -103,18 +71,26 @@ namespace WebGLYomotsuMD2Model
 
         }
 
-        void InitializeContent(IDefault page = null)
+
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IDefault page = null)
         {
+            DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+
+
             //var fov = 40;
             var fov = 100;
 
             #region container
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
             container.style.backgroundColor = "#000000";
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             #endregion
 
 
@@ -127,9 +103,9 @@ namespace WebGLYomotsuMD2Model
             var scene = new THREE.Scene();
 
             var camera = new THREE.PerspectiveCamera(
-                fov, 
-                width / height, 
-                1, 
+                fov,
+                width / height,
+                1,
                 1000
             );
 
@@ -160,9 +136,9 @@ namespace WebGLYomotsuMD2Model
             //load converted md2 data
 
             var material = new THREE.MeshPhongMaterial(
-                new THREE.MeshPhongMaterialArguments
+                new
                 {
-                    map = __THREE.ImageUtils.loadTexture(
+                    map = THREE.ImageUtils.loadTexture(
                         new HTML.Images.FromAssets._1().src
                     ),
                     ambient = 0x999999,
@@ -178,18 +154,18 @@ namespace WebGLYomotsuMD2Model
             #region AtResize
             Action AtResize = delegate
             {
-                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
 
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.window.Width, Native.window.Height);
 
-                camera.projectionMatrix.makePerspective(fov, Native.Window.Width / Native.Window.Height, 1, 1100);
+                camera.projectionMatrix.makePerspective(fov, Native.window.Width / Native.window.Height, 1, 1100);
 
                 //camera.aspect = Native.Window.Width / Native.Window.Height;
                 //camera.updateProjectionMatrix();
             };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();
@@ -234,7 +210,7 @@ namespace WebGLYomotsuMD2Model
                                 var player_mesh = new THREE.MorphAnimMesh(geometry, material);
 
                                 player_mesh.rotation.y = (float)(-Math.PI / 2);
-                                //player.mesh.scale.set(2, 2, 2);
+                                player_mesh.scale.set(2, 2, 2);
                                 player_mesh.castShadow = true;
                                 player_mesh.receiveShadow = false;
 
@@ -251,7 +227,7 @@ namespace WebGLYomotsuMD2Model
                                     var animFps = motion.fps;
 
                                     player_mesh.time = 0;
-                                    player_mesh.duration = 1000f * ((animMax - animMin) / animFps);
+                                    player_mesh.duration = 1000 * ((animMax - animMin) / animFps);
                                     player_mesh.setFrameRange(animMin, animMax);
                                 };
 
@@ -263,15 +239,19 @@ namespace WebGLYomotsuMD2Model
 
                                 var theta = 0;
 
-                                var clock = new THREE.Clock();
+                                //var clock = new THREE.Clock();
+
+                                var clock = new Stopwatch();
+                                clock.Start();
 
                                 #region loop
-                                Action loop = null;
 
 
-                                loop = delegate
+                                Native.window.onframe += delegate
                                 {
-                                    var delta = clock.getDelta();
+                                    var delta = clock.ElapsedMilliseconds * 0.001;
+                                    clock.Restart();
+
                                     var isEndFleame = (player_motion.max == player_mesh.currentKeyframe);
                                     var isAction = player_motion.action;
 
@@ -309,11 +289,9 @@ namespace WebGLYomotsuMD2Model
 
                                     renderer.render(scene, camera);
 
-                                    Native.Window.requestAnimationFrame += loop;
 
                                 };
 
-                                loop();
                                 #endregion
 
 
@@ -368,8 +346,8 @@ namespace WebGLYomotsuMD2Model
 
 
 
-            
-        
+
+
         }
         bool IsDisposed = false;
 
