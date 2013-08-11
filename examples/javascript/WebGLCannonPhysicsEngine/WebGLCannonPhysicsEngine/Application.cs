@@ -21,12 +21,7 @@ namespace WebGLCannonPhysicsEngine
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
 
-    //sealed class MeshLambertMaterialDictionary
-    //{
-    //    public int color;
-    //    public bool morphTargets;
-    //    public int vertexColors;
-    //}
+
 
 
     /// <summary>
@@ -50,8 +45,8 @@ namespace WebGLCannonPhysicsEngine
             #region await Three.js then do InitializeContent
             new[]
             {
-                new CANNONLibrary.opensource.github.cannon.js.build.cannon().Content,
                 new THREELibrary.opensource.gihtub.three.js.build.three().Content,
+                new CANNONLibrary.opensource.github.cannon.js.build.cannon().Content,
                 new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
@@ -76,6 +71,8 @@ namespace WebGLCannonPhysicsEngine
 
         private static void InitializeContent()
         {
+            // { REVISION: '57' };
+
             var boxes = new List<CANNON.RigidBody>();
             var boxMeshes = new List<THREE.Mesh>();
 
@@ -91,10 +88,10 @@ namespace WebGLCannonPhysicsEngine
 
             #region havePointerLock
 
-            Native.Document.body.onclick +=
+            Native.document.body.onclick +=
                 delegate
                 {
-                    Native.Document.body.requestPointerLock();
+                    Native.document.body.requestPointerLock();
                 };
 
 
@@ -152,7 +149,7 @@ namespace WebGLCannonPhysicsEngine
 
             #region init
 
-            var camera = new THREE.PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 0.1, 1000);
+            var camera = new THREE.PerspectiveCamera(75, Native.window.Width / Native.window.Height, 0.1, 1000);
 
             var scene = new THREE.Scene();
             scene.fog = new THREE.Fog(0x000000, 0, 500);
@@ -217,11 +214,11 @@ namespace WebGLCannonPhysicsEngine
 
             Action AtResize = delegate
             {
-                camera.aspect = Native.Window.Width / Native.Window.Height;
+                camera.aspect = Native.window.Width / Native.window.Height;
                 camera.updateProjectionMatrix();
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.window.Width, Native.window.Height);
             };
-            Native.Window.onresize +=
+            Native.window.onresize +=
               delegate
               {
                   AtResize();
@@ -256,7 +253,7 @@ namespace WebGLCannonPhysicsEngine
                     boxMesh.position.set(x, y, z);
                     boxMesh.castShadow = true;
                     boxMesh.receiveShadow = true;
-                    boxMesh.useQuaternion = true;
+                    //boxMesh.useQuaternion = true;
 
                     boxes.Add(boxBody);
                     boxMeshes.Add(boxMesh);
@@ -283,7 +280,7 @@ namespace WebGLCannonPhysicsEngine
                     boxbody.position.set(5, (N - i) * (size * 2 + 2 * space) + size * 2 + space, 0);
                     boxbody.linearDamping = 0.01;
                     boxbody.angularDamping = 0.01;
-                    boxMesh.useQuaternion = true;
+                    //boxMesh.useQuaternion = true;
                     boxMesh.castShadow = true;
                     boxMesh.receiveShadow = true;
 
@@ -314,12 +311,10 @@ namespace WebGLCannonPhysicsEngine
             #endregion
 
 
-            #region animate
             var dt = 1.0 / 60;
-            Action animate = null;
             controls.enabled = true;
 
-            animate = delegate
+            Native.window.onframe += delegate
             {
 
                 if (controls.enabled)
@@ -345,34 +340,30 @@ namespace WebGLCannonPhysicsEngine
                 renderer.render(scene, camera);
                 time = Date_now();
 
-                Native.Window.requestAnimationFrame += animate;
 
             };
 
-            animate();
-
-            #endregion
 
 
 
 
-            Native.Document.onmousedown +=
+            Native.document.onmousedown +=
                 e =>
                 {
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
-                        if (Native.Document.pointerLockElement == Native.Document.body)
+                        if (Native.document.pointerLockElement == Native.document.body)
                         {
                             // cant requestFullscreen while pointerLockElement
                             Console.WriteLine("exitPointerLock");
-                            Native.Document.exitPointerLock();
-                            Native.Document.exitFullscreen();
+                            Native.document.exitPointerLock();
+                            Native.document.exitFullscreen();
                             return;
                         }
 
                         Console.WriteLine("requestFullscreen");
-                        Native.Document.body.requestFullscreen();
-                        Native.Document.body.requestPointerLock();
+                        Native.document.body.requestFullscreen();
+                        Native.document.body.requestPointerLock();
                         return;
                     }
 
@@ -424,7 +415,7 @@ namespace WebGLCannonPhysicsEngine
                     z += shootDirection.z * (controls_sphereShape.radius + ballShape.radius);
                     ballBody.position.set(x, y, z);
                     ballMesh.position.set(x, y, z);
-                    ballMesh.useQuaternion = true;
+                    //ballMesh.useQuaternion = true;
                 };
         }
 

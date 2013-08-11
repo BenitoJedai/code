@@ -119,7 +119,8 @@ var PointerLockControls = function (camera, cannonBody) {
 
     this.getDirection = function (targetVec) {
         targetVec.set(0, 0, -1);
-        quat.multiplyVector3(targetVec);
+        //targetVec.applyQuaternion(quat);
+        //quat.multiplyVector3(targetVec);
     }
 
     // Moves the camera to the Cannon.js object position and adds velocity to the object if the run key is down
@@ -148,7 +149,8 @@ var PointerLockControls = function (camera, cannonBody) {
 
         // Convert velocity to world coordinates
         quat.setFromEuler({ x: pitchObject.rotation.x, y: yawObject.rotation.y, z: 0 }, "XYZ");
-        quat.multiplyVector3(inputVelocity);
+        //inputVelocity.applyQuaternion(quat);
+        //quat.multiplyVector3(inputVelocity);
 
         // Add to the object
         velocity.x += inputVelocity.x;

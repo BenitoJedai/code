@@ -67,6 +67,7 @@ namespace ScriptCoreLib.Ultra.WebService
             if (CacheManifest)
                 html.SetAttributeValue("manifest", WebApplicationCacheManifest.ManifestName);
 
+            //  method: Void SetAttributeValue(System.Xml.Linq.XName, System.Object)
             html.Add(
                 new XElement("script",
                 // will jvm autoclose this element?
