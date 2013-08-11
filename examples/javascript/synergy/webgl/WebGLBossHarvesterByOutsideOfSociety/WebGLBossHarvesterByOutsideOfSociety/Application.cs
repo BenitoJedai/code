@@ -34,35 +34,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
         {
             Console.WriteLine("before three");
 
-            #region await Three.js then do InitializeContent
-            new[]
-            {
-                //new CANNON.opensource.github.cannon.js.build.cannon().Content,
-                new THREELibrary.opensource.gihtub.three.js.build.three().Content,
-                //new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
-            }.ForEach(
-                (SourceScriptElement, i, MoveNext) =>
-                {
-                    Console.WriteLine("before three onload");
-                    SourceScriptElement.AttachToDocument().onload +=
-                        delegate
-                        {
-                            Console.WriteLine("after three onload");
-                            MoveNext();
-                        };
-                }
-            )(
-                delegate
-                {
-                    InitializeContent();
-                }
-            );
-            #endregion
 
-        }
-
-        private static void InitializeContent()
-        {
             Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
@@ -166,7 +138,8 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                                  var size = Math.Min(child.position.length() * 0.05, 8);
 
                                  var cylinder = new THREE.CylinderGeometry(size, 0.1, child.position.length(), 6);
-                                 cylinder.applyMatrix(new THREE.Matrix4().setRotationFromEuler(new THREE.Vector3(Math.PI / 2, 0, 0)));
+
+                                  cylinder.applyMatrix(new THREE.Matrix4().makeRotationFromEuler(new THREE.Vector3(Math.PI / 2, 0, 0)));
 
                                  cylinder.applyMatrix(new THREE.Matrix4().setPosition(new THREE.Vector3(0, 0, 0.5 * child.position.length())));
                                  var mesh = new THREE.Mesh(cylinder, pmaterial);

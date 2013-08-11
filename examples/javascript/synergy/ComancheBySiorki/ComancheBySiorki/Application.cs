@@ -28,10 +28,10 @@ namespace ComancheBySiorki
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            Native.Window.onresize +=
+            Native.window.onresize +=
                      delegate
                      {
-                         var s = (double)Native.Window.Width / (double)page.c.width;
+                         var s = (double)Native.window.Width / (double)page.c.width;
 
 
                          page.c.style.transform = "scale(" + s + ")";

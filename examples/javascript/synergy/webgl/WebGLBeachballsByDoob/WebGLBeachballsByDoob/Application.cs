@@ -51,36 +51,8 @@ namespace WebGLBeachballsByDoob
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
-
-            #region await Three.js then do InitializeContent
-            new[]
-            {
-                new CANNONLibrary.opensource.github.cannon.js.build.cannon().Content,
-                new THREELibrary.opensource.gihtub.three.js.build.three().Content,
-                //new global::WebGLCannonPhysicsEngine.Design.References.PointerLockControls().Content,
-            }.ForEach(
-                (SourceScriptElement, i, MoveNext) =>
-                {
-                    SourceScriptElement.AttachToDocument().onload +=
-                        delegate
-                        {
-                            MoveNext();
-                        };
-                }
-            )(
-                delegate
-                {
-                    InitializeContent();
-                }
-            );
-            #endregion
-
-
-
-        }
-
-        private static void InitializeContent()
-        {
+            // broken?
+            // view-source:http://www.mrdoob.com/lab/javascript/beachballs/
             Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
@@ -90,7 +62,7 @@ namespace WebGLBeachballsByDoob
 
 
             var renderer = new THREE.WebGLRenderer(
-                new __WebGLRendererDictionary
+                new
                 {
                     antialias = true,
                     alpha = false
@@ -105,7 +77,7 @@ namespace WebGLBeachballsByDoob
 
             var camera = new THREE.PerspectiveCamera(
                 40,
-                (double)Native.Window.Width / (double)Native.Window.Height, 1,
+                (double)Native.window.Width / (double)Native.window.Height, 1,
                 1000
                 );
 
@@ -141,7 +113,7 @@ namespace WebGLBeachballsByDoob
             {
                 var geometry = new THREE.CubeGeometry(20, 20, 20);
                 var material = new THREE.MeshBasicMaterial(
-                    new __MeshBasicMaterialDictionary { wireframe = true, opacity = 0.1, transparent = true });
+                    new { wireframe = true, opacity = 0.1, transparent = true });
                 var mesh = new THREE.Mesh(geometry, material);
                 mesh.position.y = 10;
                 scene.add(mesh);
@@ -284,7 +256,7 @@ namespace WebGLBeachballsByDoob
 
                 var sphere = new THREE.Mesh(ballGeometry, ballMaterial);
                 sphere.scale.multiplyScalar(size);
-                sphere.useQuaternion = true;
+                //sphere.useQuaternion = true;
                 scene.add(sphere);
 
                 spheres.Enqueue(sphere);
@@ -302,7 +274,7 @@ namespace WebGLBeachballsByDoob
                 };
                 Console.WriteLine("addBall " + new { x, y, z, q });
 
-                sphereBody.quaternion.set(q.a, q.b, q.c, q.d);
+                //sphereBody.quaternion.set(q.a, q.b, q.c, q.d);
                 world.add(sphereBody);
 
                 bodies.Enqueue(sphereBody);
@@ -427,15 +399,15 @@ namespace WebGLBeachballsByDoob
 
 
 
-            var time = Native.Window.performance.now();
-            var lastTime = Native.Window.performance.now();
+            var time = Native.window.performance.now();
+            var lastTime = Native.window.performance.now();
 
             #region animate
             Action render =
                 delegate
                 {
 
-                    time = Native.Window.performance.now();
+                    time = Native.window.performance.now();
 
                     camera.position.x = -Math.Cos(time * 0.0001) * 40;
                     camera.position.z = Math.Sin(time * 0.0001) * 40;
@@ -462,10 +434,8 @@ namespace WebGLBeachballsByDoob
                 };
 
 
-            Action animate = null;
 
-
-            animate = delegate
+            Native.window.onframe += delegate
             {
 
 
@@ -489,9 +459,7 @@ namespace WebGLBeachballsByDoob
 
                 render();
 
-                Native.Window.requestAnimationFrame += animate;
             };
-            Native.Window.requestAnimationFrame += animate;
 
             #endregion
 
