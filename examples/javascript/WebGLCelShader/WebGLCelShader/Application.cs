@@ -8,11 +8,13 @@ using ScriptCoreLib.JavaScript.Runtime;
 using WebGLCelShader.HTML.Pages;
 using WebGLCelShader.Shaders;
 
+// upgrade to nuget?
+using THREE = WebGLCelShader.Design.THREE;
+
 namespace WebGLCelShader
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using THREE = WebGLCelShader.Design.THREE;
 
 
     /// <summary>
@@ -29,7 +31,7 @@ namespace WebGLCelShader
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page = null)
+        public Application(IDefault page = null)
         {
             #region ThreeExtras
             new WebGLCelShader.Design.THREE.__ThreeExtras().Content.With(
@@ -46,12 +48,7 @@ namespace WebGLCelShader
             #endregion
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+      
         }
 
         sealed class MyUniforms
@@ -69,7 +66,7 @@ namespace WebGLCelShader
             public MyUniform uBaseColor = new MyUniform { type = "c", value = new THREE.Color(0xff0000) };
         }
 
-        void InitializeContent(IDefault  page = null)
+        void InitializeContent(IDefault page = null)
         {
 
 
@@ -80,14 +77,14 @@ namespace WebGLCelShader
             var windowHalfY = size / 2;
 
             ///////////////////////////////
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
             container.style.backgroundColor = JSColor.Black;
-      
+
 
 
             var camera = new THREE.Camera(40, windowHalfX / windowHalfY, 1, 3000);
@@ -168,15 +165,15 @@ namespace WebGLCelShader
             #region AtResize
             Action AtResize = delegate
             {
-                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                camera.aspect = Native.Window.Width / Native.Window.Height;
+                camera.aspect = Native.window.Width / Native.window.Height;
                 camera.updateProjectionMatrix();
 
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.window.Width, Native.window.Height);
             };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();
@@ -200,9 +197,8 @@ namespace WebGLCelShader
             #endregion
 
             #region tick
-            var tick = default(Action);
 
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 if (IsDisposed)
                     return;
@@ -211,7 +207,7 @@ namespace WebGLCelShader
 
 
 
-                Native.Document.title = "" + c;
+                Native.document.title = "" + c;
 
                 var time = new IDate().getTime() * 0.0004;
 
@@ -234,10 +230,8 @@ namespace WebGLCelShader
 
                 renderer.render(scene, camera);
 
-                Native.Window.requestAnimationFrame += tick;
             };
 
-            tick();
             #endregion
 
             #region requestFullscreen

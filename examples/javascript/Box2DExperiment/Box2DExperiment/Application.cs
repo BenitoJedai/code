@@ -30,24 +30,7 @@ namespace Box2DExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            new box2dweb.opensource.googlecode.box2dweb.Box2D().Content.With(
-                source =>
-                {
-                    source.onload +=
-                        delegate
-                        {
-                            //new IFunction("alert(Box2D);").apply(null);
 
-                            InitializeContent(page);
-                        };
-
-                    source.AttachToDocument();
-                }
-            );
-        }
-
-        private void InitializeContent(IApp page)
-        {
             Console.WriteLine("InitializeContent");
 
             //, b2Fixture = Box2D.Dynamics.b2Fixture
@@ -117,12 +100,11 @@ namespace Box2DExperiment
             debugDraw.SetFlags(b2DebugDraw_e_shapeBit | b2DebugDraw_e_jointBit);
             world.SetDebugDraw(debugDraw);
 
-            var tick = default(Action);
             var c = 0;
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 c++;
-                Native.Document.title = "" + c;
+                Native.document.title = "" + c;
                 world.Step(
                        1.0 / 60   //frame-rate
                     , 10       //velocity iterations
@@ -133,12 +115,7 @@ namespace Box2DExperiment
 
 
 
-                //requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
-                Native.Window.requestAnimationFrame += tick;
             };
-            tick();
-
-            Native.Window.requestAnimationFrame += tick;
 
             Console.WriteLine("InitializeContent done");
 

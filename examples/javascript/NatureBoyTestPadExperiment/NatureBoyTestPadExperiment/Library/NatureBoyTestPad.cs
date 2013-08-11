@@ -1,22 +1,25 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.JavaScript.Controls;
-using ScriptCoreLib.JavaScript.Controls.NatureBoy;
-using ScriptCoreLib.JavaScript.Controls.LayeredControl;
-using ScriptCoreLib.JavaScript.DOM;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using ScriptCoreLib.JavaScript.Runtime;
-using NatureBoyTestPadExperiment.HTML.Audio.FromAssets;
+﻿using NatureBoyTestPadExperiment.HTML.Audio.FromAssets;
 using NatureBoyTestPadExperiment.HTML.Images.FromAssets;
 using NatureBoyTestPadExperiment.HTML.Pages;
+using ScriptCoreLib;
+//using ScriptCoreLib.Extensions;
+using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Controls;
+using ScriptCoreLib.JavaScript.Controls.LayeredControl;
+using ScriptCoreLib.JavaScript.Controls.NatureBoy;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
+using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
-
+using Abstractatech.JavaScript.FormAsPopup;
 
 
 namespace NatureBoyTestPad.js
@@ -197,46 +200,62 @@ namespace NatureBoyTestPad.js
             var CreateDialogAt =
                 new
                 {
-                    Dialog = default(IHTMLDiv),
+                    //Dialog = default(IHTMLDiv),
                     Content = default(IHTMLDiv),
                     Width = default(string)
                 }
                 .ToFunc(
                 (Point pos, string width) =>
                 {
-                    var dialog = new IHTMLDiv();
+                    var f = new Form();
 
-                    dialog.style.SetLocation(pos.X, pos.Y);
+                    f.Show();
 
-                    dialog.style.backgroundColor = Color.Gray;
-                    dialog.style.padding = "1px";
+                    f.SizeTo(200, 200);
 
-                    var caption = new IHTMLDiv().AttachTo(dialog);
+                    f.PopupInsteadOfClosing();
 
-                    caption.style.backgroundColor = Color.Blue;
-                    caption.style.width = width;
-                    caption.style.height = "0.5em";
-                    caption.style.cursor = IStyle.CursorEnum.move;
+                    f.MoveTo(pos.X, pos.Y);
+                    //f.SizeTo(
 
-                    var drag = new DragHelper(caption);
 
-                    drag.Position = pos;
-                    drag.Enabled = true;
-                    drag.DragMove +=
-                        delegate
-                        {
-                            dialog.style.SetLocation(drag.Position.X, drag.Position.Y);
-                        };
+                    //var dialog = new IHTMLDiv();
 
-                    var _content = new IHTMLDiv().AttachTo(dialog);
+                    //dialog.style.SetLocation(pos.X, pos.Y);
+
+                    //dialog.style.backgroundColor = Color.Gray;
+                    //dialog.style.padding = "1px";
+
+                    //var caption = new IHTMLDiv().AttachTo(dialog);
+
+                    //caption.style.backgroundColor = Color.Blue;
+                    //caption.style.width = width;
+                    //caption.style.height = "0.5em";
+                    //caption.style.cursor = IStyle.CursorEnum.move;
+
+                    //var drag = new DragHelper(caption);
+
+                    //drag.Position = pos;
+                    //drag.Enabled = true;
+                    //drag.DragMove +=
+                    //    delegate
+                    //    {
+                    //        dialog.style.SetLocation(drag.Position.X, drag.Position.Y);
+                    //    };
+
+                    var _content = new IHTMLDiv().AttachTo(f.GetHTMLTargetContainer());
 
                     _content.style.textAlign = IStyle.TextAlignEnum.center;
                     _content.style.backgroundColor = Color.White;
                     _content.style.padding = "1px";
 
-                    dialog.AttachToDocument();
+                    //dialog.AttachToDocument();
 
-                    return new { Dialog = dialog, Content = _content, Width = width };
+                    return new
+                    { //Dialog = dialog,
+                        Content = _content,
+                        Width = width
+                    };
                 }
             );
             #endregion
@@ -311,7 +330,7 @@ namespace NatureBoyTestPad.js
             arena.Layers.User.oncontextmenu +=
                 e =>
                 {
-                    e.PreventDefault();
+                    e.preventDefault();
 
                     if (pending != null)
                     {
@@ -346,8 +365,8 @@ namespace NatureBoyTestPad.js
                     var x = GetSelectedArsenal();
                     pending = CreateActor(x,
                        new Point(
-                           Native.Window.Width / 2,
-                           Native.Window.Height / 2
+                           Native.window.Width / 2,
+                           Native.window.Height / 2
                            )
                    );
 
@@ -373,8 +392,8 @@ namespace NatureBoyTestPad.js
 
                     pending = CreateActor(x,
                         new Point(
-                            Native.Window.Width / 2,
-                            Native.Window.Height / 2
+                            Native.window.Width / 2,
+                            Native.window.Height / 2
                             )
                     );
 

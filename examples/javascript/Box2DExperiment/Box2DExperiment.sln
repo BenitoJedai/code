@@ -3,12 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box2DExperiment", "Box2DExperiment\Box2DExperiment.csproj", "{4FFD0992-0097-4C06-9362-19846B399732}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{764905A5-6361-484D-B680-0BCB129D33AA}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "box2dweb", "..\..\..\market\synergy\box2dweb\box2dweb\box2dweb.csproj", "{E8DF1DE6-EFA5-4B78-B2FD-6C22B1679802}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{86A51AB7-AD93-42AC-86CA-07ACB04C9A03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,8 +17,15 @@ Global
 		{4FFD0992-0097-4C06-9362-19846B399732}.Debug|x86.Build.0 = Debug|x86
 		{4FFD0992-0097-4C06-9362-19846B399732}.Release|x86.ActiveCfg = Release|x86
 		{4FFD0992-0097-4C06-9362-19846B399732}.Release|x86.Build.0 = Release|x86
+		{E8DF1DE6-EFA5-4B78-B2FD-6C22B1679802}.Debug|x86.ActiveCfg = Debug|x86
+		{E8DF1DE6-EFA5-4B78-B2FD-6C22B1679802}.Debug|x86.Build.0 = Debug|x86
+		{E8DF1DE6-EFA5-4B78-B2FD-6C22B1679802}.Release|x86.ActiveCfg = Release|x86
+		{E8DF1DE6-EFA5-4B78-B2FD-6C22B1679802}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E8DF1DE6-EFA5-4B78-B2FD-6C22B1679802} = {86A51AB7-AD93-42AC-86CA-07ACB04C9A03}
 	EndGlobalSection
 EndGlobal

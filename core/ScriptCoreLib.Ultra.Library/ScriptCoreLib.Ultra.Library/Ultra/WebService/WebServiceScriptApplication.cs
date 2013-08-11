@@ -35,6 +35,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public string GZipAssemblyFile;
 
+
+        // <html>
         public string PageSource;
 
 

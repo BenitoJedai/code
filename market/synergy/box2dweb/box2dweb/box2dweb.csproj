@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4FFD0992-0097-4C06-9362-19846B399732}</ProjectGuid>
+    <ProjectGuid>{E8DF1DE6-EFA5-4B78-B2FD-6C22B1679802}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>box2dweb</RootNamespace>
