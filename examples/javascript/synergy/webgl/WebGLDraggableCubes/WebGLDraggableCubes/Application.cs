@@ -29,12 +29,17 @@ namespace WebGLDraggableCubes
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            THREE.Color ReferenceTHREE;
+
+            DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+
+            // "X:\opensource\github\three.js\examples\js\controls\TrackballControls.js"
 
             // http://mrdoob.github.com/three.js/examples/webgl_interactive_draggablecubes.html
             #region await Three.js then do InitializeContent
             new[]
             {
-                new THREE.opensource.gihtub.three.js.build.three().Content,
+                //new THREE.opensource.gihtub.three.js.build.three().Content,
                 new TrackballControls().Content,
                 new stats().Content,
                 new AppCode().Content,
