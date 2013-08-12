@@ -26,7 +26,7 @@ namespace OutRun4KTemplate
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             // Initialize MyApplet1
             var a = new OutRun4KTemplate_Components_MyApplet1();

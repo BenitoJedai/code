@@ -159,7 +159,7 @@ namespace ScriptCoreLib.Ultra.Studio
                         IsReadOnly = true
                     };
 
-                    ApplicationSprite.Fields.Add(this_ship);
+                    //ApplicationSprite.Fields.Add(this_ship);
                     ApplicationSprite.Fields.Add(this_camera);
                     ApplicationSprite.Fields.Add(this_scene);
 
@@ -205,7 +205,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
                     ApplicationSprite.Constructor.Code.Add(
-                        Methods_addChild.ToCallExpression(this_scene, this_ship)
+                        Methods_addChild.ToCallExpression(this_scene, Types_ship.GetDefaultConstructor())
                     );
 
                     AddType(ApplicationSprite);
