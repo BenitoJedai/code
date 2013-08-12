@@ -29,7 +29,7 @@ namespace My.Solutions.Pages.Templates
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault  page = null)
         {
             #region switch to chrome AppWindow
             if (chrome.app.runtime != null)
@@ -94,7 +94,7 @@ namespace My.Solutions.Pages.Templates
                 // if we are in a window lets add layout
 
 
-                var newbody = new DefaultPage().Container;
+                var newbody = new Default().Container;
                 newbody.childNodes.WithEach(k => k.AttachToDocument());
                 newbody.attributes.WithEach(k => Native.Document.body.setAttribute(k.name, k.value));
 
