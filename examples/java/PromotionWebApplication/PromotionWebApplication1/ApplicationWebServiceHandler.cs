@@ -140,63 +140,63 @@ namespace PromotionWebApplication1
                     //    }
                     //);
 
-        #region /view-source
-                    var IsViewSource = h.Context.Request.Path == "/view-source";
+                    //#region /view-source
+                    //            var IsViewSource = h.Context.Request.Path == "/view-source";
 
-                    var __explicit = "/" + app.domain + "/view-source";
+                    //            var __explicit = "/" + app.domain + "/view-source";
 
-                    if (h.Context.Request.Path == __explicit)
-                        IsViewSource = true;
+                    //            if (h.Context.Request.Path == __explicit)
+                    //                IsViewSource = true;
 
-                    if (IsViewSource)
-                    {
-                        h.Context.Response.ContentType = "text/javascript";
-
-
-                        // http://www.webscalingblog.com/performance/caching-http-headers-cache-control-max-age.html
-                        // this will break if decision was based on referal. should use redirect instead?
-                        h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
+                    //            if (IsViewSource)
+                    //            {
+                    //                h.Context.Response.ContentType = "text/javascript";
 
 
-                        // Accept-Encoding: gzip,deflate,sdch
-                        foreach (var item in app.client.References)
-                        {
-                            h.Context.Response.WriteFile("" + item.AssemblyFile + ".js");
-                        }
-
-                        h.CompleteRequest();
-                        return;
-                    }
-                    #endregion
-
-                    if (h.IsDefaultPath)
-                    {
-                        h.Context.Response.ContentType = "text/html";
-
-                        var xml = XElement.Parse(app.client.PageSource);
-
-                        var src = __explicit;
-
-                        if (HostUri.Host == app.domain)
-                            src = "/view-source";
+                    //                // http://www.webscalingblog.com/performance/caching-http-headers-cache-control-max-age.html
+                    //                // this will break if decision was based on referal. should use redirect instead?
+                    //                h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
 
 
+                    //                // Accept-Encoding: gzip,deflate,sdch
+                    //                foreach (var item in app.client.References)
+                    //                {
+                    //                    h.Context.Response.WriteFile("" + item.AssemblyFile + ".js");
+                    //                }
 
-                        xml.Add(
-                            new XElement("script",
-                                new XAttribute("src", src),
+                    //                h.CompleteRequest();
+                    //                return;
+                    //            }
+                    //            #endregion
 
-                                // android otherwise closes the tag?
-                                " "
-                            )
-                        );
+                    //            if (h.IsDefaultPath)
+                    //            {
+                    //                h.Context.Response.ContentType = "text/html";
+
+                    //                var xml = XElement.Parse(app.client.PageSource);
+
+                    //                var src = __explicit;
+
+                    //                if (HostUri.Host == app.domain)
+                    //                    src = "/view-source";
 
 
 
-                        h.Context.Response.Write(xml.ToString());
+                    //                xml.Add(
+                    //                    new XElement("script",
+                    //                        new XAttribute("src", src),
 
-                        h.CompleteRequest();
-                    }
+                    //                        // android otherwise closes the tag?
+                    //                        " "
+                    //                    )
+                    //                );
+
+
+
+                    //                h.Context.Response.Write(xml.ToString());
+
+                    //                h.CompleteRequest();
+                    //            }
 
                 };
 
