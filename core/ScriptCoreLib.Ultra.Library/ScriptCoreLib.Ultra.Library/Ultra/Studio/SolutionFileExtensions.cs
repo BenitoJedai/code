@@ -69,6 +69,7 @@ namespace ScriptCoreLib.Ultra.Studio
                 }
                 Type.BaseType.With(VisitType);
                 Type.Methods.WithEach(VisitMethod);
+                Type.Fields.WithEach(k => VisitType(k.FieldType));
             }
         }
 

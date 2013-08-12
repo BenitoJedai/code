@@ -109,6 +109,105 @@ namespace ScriptCoreLib.Ultra.Studio
 
                     sprite.DeclaringType = sln.Interactive.ApplicationType;
 
+
+
+
+
+                    // as per X:\jsc.svn\market\synergy\actionscript\Flare3DWaterShipComponent\Flare3DWaterShipComponent\ApplicationSprite.cs
+                    // jsc does not like field initializers to properties in anonymous type?
+                    var Types_ship = new SolutionProjectLanguageType { Namespace = "Flare3DWaterShipComponent", Name = "ship" };
+                    var Types_Viewer3D = new SolutionProjectLanguageType { Namespace = "flare.basic", Name = "Viewer3D" };
+                    var Types_Camera3D = new SolutionProjectLanguageType { Namespace = "flare.core", Name = "Camera3D" };
+
+                    var Methods_set_scene = new SolutionProjectLanguageMethod
+                        {
+                            Name = "set_scene",
+                            IsProperty = true,
+                            DeclaringType = ApplicationSprite
+                        };
+
+                    var Methods_set_camera = new SolutionProjectLanguageMethod
+                    {
+                        Name = "set_camera",
+                        IsProperty = true,
+                        DeclaringType = Types_Viewer3D
+                    };
+
+                    var Methods_setPosition = new SolutionProjectLanguageMethod
+                    {
+                        Name = "setPosition",
+                        DeclaringType = Types_Camera3D
+                    };
+                    var Methods_lookAt = new SolutionProjectLanguageMethod
+                   {
+                       Name = "lookAt",
+                       DeclaringType = Types_Camera3D
+                   };
+                    var Methods_addChild = new SolutionProjectLanguageMethod
+                    {
+                        Name = "addChild",
+                        DeclaringType = Types_Viewer3D
+                    };
+
+                    var this_camera = Types_Camera3D.ToInitializedField("camera");
+                    var this_ship = Types_ship.ToInitializedField("ship");
+
+                    var this_scene = new SolutionProjectLanguageField
+                    {
+                        FieldType = Types_Viewer3D,
+                        Name = "scene",
+                        IsReadOnly = true
+                    };
+
+                    ApplicationSprite.Fields.Add(this_ship);
+                    ApplicationSprite.Fields.Add(this_camera);
+                    ApplicationSprite.Fields.Add(this_scene);
+
+
+                    var newobj_Viewer3D = new PseudoCallExpression
+                    {
+
+                        Method = Types_Viewer3D.GetDefaultConstructorDefinition(),
+
+                        ParameterExpressions = new object[] {
+                            new PseudoThisExpression()
+                        }
+                    };
+
+
+                    var set_scene_to_newobj_Viewer3D = Methods_set_scene.ToCallExpression(
+                        new PseudoThisExpression(), newobj_Viewer3D
+                    );
+
+                    ApplicationSprite.Constructor.Code.Add(set_scene_to_newobj_Viewer3D);
+
+
+                    var this_camera_setPosition = Methods_setPosition.ToCallExpression(this_camera,
+                          (PseudoInt32ConstantExpression)120,
+                          (PseudoInt32ConstantExpression)40,
+                          (PseudoInt32ConstantExpression)(-30)
+                      );
+
+                    ApplicationSprite.Constructor.Code.Add(this_camera_setPosition);
+
+                    var this_camera_lookAt = Methods_lookAt.ToCallExpression(this_camera,
+                            (PseudoInt32ConstantExpression)0,
+                            (PseudoInt32ConstantExpression)0,
+                            (PseudoInt32ConstantExpression)0
+                    );
+
+                    ApplicationSprite.Constructor.Code.Add(this_camera_lookAt);
+
+
+                    ApplicationSprite.Constructor.Code.Add(
+                          Methods_set_camera.ToCallExpression(this_scene, this_camera)
+                    );
+
+
+                    ApplicationSprite.Constructor.Code.Add(
+                        Methods_addChild.ToCallExpression(this_scene, this_ship)
+                    );
+
                     AddType(ApplicationSprite);
                 };
 
@@ -123,10 +222,10 @@ namespace ScriptCoreLib.Ultra.Studio
 
             // ..\packages\Flare3D.1.0.0.0\lib\Flare3D.dll
             sln.NuGetReferences.Add(
-                new ScriptCoreLib.Ultra.Studio.SolutionBuilder.package
-                {
-                    id = "Flare3D"
-                }
+                new ScriptCoreLib.Ultra.Studio.SolutionBuilder.package { id = "Flare3D" }
+            );
+            sln.NuGetReferences.Add(
+                new ScriptCoreLib.Ultra.Studio.SolutionBuilder.package { id = "Flare3DWaterShipComponent" }
             );
 
 

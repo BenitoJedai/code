@@ -20,14 +20,13 @@ namespace Flare3DWaterShipComponent
     {
         public ApplicationSprite()
         {
+            var scene = new Viewer3D(this);
 
-            var scene = new Viewer3D(this, "", 0.2);
             scene.camera = new Camera3D();
             scene.camera.setPosition(120, 40, -30);
             scene.camera.lookAt(0, 0, 0);
 
-            var ship1 = new ship();
-            scene.addChild(ship1);
+            scene.addChild(new ship());
         }
 
     }
