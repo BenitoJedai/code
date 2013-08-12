@@ -29,7 +29,7 @@ namespace WebGLTunnel
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault  page = null)
         {
             // view-source:http://www.rozengain.com/files/webgl/tunnel/
             // http://www.rozengain.com/blog/2010/08/10/using-webgl-glsl-shaders-to-create-a-tunnel-effect/
@@ -71,7 +71,7 @@ namespace WebGLTunnel
 
         public Action Dispose;
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent(IDefault  page = null)
         {
             var vertices = new List<float>();
             var indices = new List<ushort>();

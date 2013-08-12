@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLNyanCat", "WebGLNyanCat\WebGLNyanCat.csproj", "{BD79EB41-FC59-40ED-AB2A-85557A4F300F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\market\synergy\THREE\THREE\THREE.csproj", "{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{3099E1CE-8C1C-40EA-BF93-894C7FB3BCDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,8 +17,15 @@ Global
 		{BD79EB41-FC59-40ED-AB2A-85557A4F300F}.Debug|x86.Build.0 = Debug|x86
 		{BD79EB41-FC59-40ED-AB2A-85557A4F300F}.Release|x86.ActiveCfg = Release|x86
 		{BD79EB41-FC59-40ED-AB2A-85557A4F300F}.Release|x86.Build.0 = Release|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|x86.ActiveCfg = Debug|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|x86.Build.0 = Debug|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.ActiveCfg = Release|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {3099E1CE-8C1C-40EA-BF93-894C7FB3BCDB}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArduinoSpiderControlCenter", "ArduinoSpiderControlCenter\ArduinoSpiderControlCenter.csproj", "{2E5BD9AF-6CF4-4C30-8B15-8D235BC5D0A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiderModel", "SpiderModel\SpiderModel.csproj", "{3DE096E7-B756-452A-B853-BF732ACABD70}"
@@ -18,8 +18,8 @@ Global
 		{2E5BD9AF-6CF4-4C30-8B15-8D235BC5D0A5}.Debug|x86.Build.0 = Debug|x86
 		{2E5BD9AF-6CF4-4C30-8B15-8D235BC5D0A5}.Release|x86.ActiveCfg = Release|x86
 		{2E5BD9AF-6CF4-4C30-8B15-8D235BC5D0A5}.Release|x86.Build.0 = Release|x86
-		{3DE096E7-B756-452A-B853-BF732ACABD70}.Assets|x86.ActiveCfg = Assets|x86
-		{3DE096E7-B756-452A-B853-BF732ACABD70}.Assets|x86.Build.0 = Assets|x86
+		{3DE096E7-B756-452A-B853-BF732ACABD70}.Assets|x86.ActiveCfg = Release|x86
+		{3DE096E7-B756-452A-B853-BF732ACABD70}.Assets|x86.Build.0 = Release|x86
 		{3DE096E7-B756-452A-B853-BF732ACABD70}.Debug|x86.ActiveCfg = Debug|x86
 		{3DE096E7-B756-452A-B853-BF732ACABD70}.Debug|x86.Build.0 = Debug|x86
 		{3DE096E7-B756-452A-B853-BF732ACABD70}.Release|x86.ActiveCfg = Release|x86

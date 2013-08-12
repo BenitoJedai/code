@@ -33,7 +33,7 @@ namespace SpiderModel
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
             new ApplicationContent().With(
                 Content =>
@@ -103,16 +103,16 @@ namespace SpiderModel
                             // ?
                         };
 
-                    Native.Document.onclick +=
+                    Native.document.onclick +=
                         e =>
                         {
                         };
 
-                    Native.Document.onmousemove +=
+                    Native.document.onmousemove +=
                         e =>
                         {
-                            var x = e.CursorX / Native.Window.Width;
-                            var y = e.CursorY / Native.Window.Height;
+                            var x = e.CursorX / Native.window.Width;
+                            var y = e.CursorY / Native.window.Height;
                             var cx = 1f - x;
                             var cy = 1f - y;
 
@@ -133,12 +133,7 @@ namespace SpiderModel
                 }
             );
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+        
         }
 
 

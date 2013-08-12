@@ -154,7 +154,8 @@ interface THREE.DirectionalLight
 	attribute THREE.Vector3  position;
 };
 
-[Constructor(long x, double y, long z)]
+[Constructor(long x),
+ Constructor(long x, double y, long z)]
 interface THREE.PointLight 
 { 
 	attribute THREE.Vector3  position;
@@ -408,7 +409,8 @@ interface THREE.Projector
 };
 
 
-[Constructor(double x, double y, double z)]
+[Constructor(double x, double y, double z),
+ Constructor(double x, double y, double z, double cx, double cy, double cz)]
 interface THREE.CubeGeometry 
 { 
 };

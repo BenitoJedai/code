@@ -39,7 +39,7 @@ namespace WebGLSpadeWarrior
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault  page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -61,7 +61,7 @@ namespace WebGLSpadeWarrior
 
         }
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent(IDefault  page = null)
         {
             if (Native.window.parent != Native.window.self)
             {
@@ -77,35 +77,18 @@ namespace WebGLSpadeWarrior
 
             var size = 600;
 
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
+
+            var gl = new WebGLRenderingContext();
+
+
+            var canvas = gl.canvas.AttachToDocument();
 
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, size, size);
 
             canvas.width = size;
             canvas.height = size;
-            #endregion
 
-            #region gl - Initialise WebGL
-
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
 
 
             var gl_viewportWidth = size;
@@ -1009,24 +992,19 @@ namespace WebGLSpadeWarrior
 
 
 
-            #region tick - new in lesson 03
-            var tick = default(Action);
 
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 c++;
 
 
-                Native.Document.title = "" + c + " " + (rCube) + " " + ego_z + " " + ego_za;
+                Native.document.title = "" + c + " " + (rCube) + " " + ego_z + " " + ego_za;
 
                 drawScene();
                 animate();
 
-                Native.Window.requestAnimationFrame += tick;
             };
 
-            tick();
-            #endregion
 
 
             #region onkeyup

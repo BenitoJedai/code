@@ -42,7 +42,7 @@ namespace WebGLPuls
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IXDefaultPage page = null)
+        public Application(IDefault page = null)
         {
 
             InitializeContent(page);
@@ -59,7 +59,7 @@ namespace WebGLPuls
 
         public Action Dispose;
 
-        private void InitializeContent(IXDefaultPage page = null)
+        private void InitializeContent(IDefault page = null)
         {
             var canvas = new IHTMLCanvas().AttachToDocument();
 

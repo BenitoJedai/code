@@ -29,7 +29,7 @@ namespace WebGLShaderDisturb
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
             // view-source:http://mrdoob.com/lab/javascript/webgl/glsl/04/
 
@@ -116,8 +116,8 @@ namespace WebGLShaderDisturb
             {
                 canvas.style.SetLocation(0, 0);
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
 
                 parameters_screenWidth = canvas.width;
                 parameters_screenHeight = canvas.height;
