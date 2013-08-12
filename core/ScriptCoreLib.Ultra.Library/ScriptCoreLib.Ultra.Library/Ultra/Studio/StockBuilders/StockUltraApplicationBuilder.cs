@@ -72,7 +72,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             var DefaultPageElement =
                 new XElement("html",
                     new XElement("head",
-                        new XElement("title", Context.Name)
+                        // visual studio does
+                        new XElement("title", "App")
                     ),
                     Context.ApplicationPage
                 );

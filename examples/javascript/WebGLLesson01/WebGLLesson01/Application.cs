@@ -44,22 +44,30 @@ namespace WebGLLesson01
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
-            #region glMatrix.js -> InitializeContent
-            new __glMatrix().Content.With(
-               source =>
-               {
-                   source.onload +=
-                       delegate
-                       {
-                           InitializeContent(page);
-                       };
+            //Z:\jsc.svn\examples\javascript\WebGLLesson01\WebGLLesson01\Application.cs(48,13): error CS0121: The call is ambiguous between the following methods or properties: 
+            // 'ScriptCoreLib.Extensions.LinqExtensions.With<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript>(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript, System.Action<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript>)' and 
+            // 'ScriptCoreLib.Extensions.LinqExtensions.With<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript>(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript, System.Action<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript>)'
 
-                   source.AttachToDocument();
-               }
+            #region glMatrix.js -> InitializeContent
+
+            LinqExtensions.With(
+                new __glMatrix(),
+                new Action<__glMatrix>(
+                   source =>
+                   {
+                       source.Content.onload +=
+                           delegate
+                           {
+                               InitializeContent(page);
+                           };
+
+                       source.Content.AttachToDocument();
+                   }
+               )
            );
             #endregion
 
-        
+
         }
 
         public bool IsDisposed;
