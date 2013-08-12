@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flare3DWaterShipComponent", "Flare3DWaterShipComponent\Flare3DWaterShipComponent.csproj", "{4CE2EAB2-6DB7-4678-A0BD-49AED7A95D0C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1} = {753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flare3D", "..\Flare3D\Flare3D\Flare3D.csproj", "{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}"
 EndProject
