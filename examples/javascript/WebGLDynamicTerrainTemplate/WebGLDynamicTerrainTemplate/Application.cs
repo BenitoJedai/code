@@ -40,9 +40,9 @@ namespace WebGLDynamicTerrainTemplate
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
-            var location = "" + Native.Document.location;
+            var location = "" + Native.document.location;
 
 
             #region workaround for ThreeJS/chrome webgl upscale bug
@@ -56,10 +56,10 @@ namespace WebGLDynamicTerrainTemplate
             // and the inner app will take over.
 
 
-            if (Native.Window.Width < Native.Screen.width)
+            if (Native.window.Width < Native.screen.width)
             {
                 #region make sure the url looks different to make iframe actually load
-                Native.Window.parent.With(
+                Native.window.parent.With(
                     parent =>
                     {
                         // http://stackoverflow.com/questions/5934538/is-there-a-limitation-on-an-iframe-containing-another-iframe-with-the-same-url
@@ -106,8 +106,8 @@ namespace WebGLDynamicTerrainTemplate
                     allowFullScreen = true
                 };
 
-                iframe.style.minWidth = Native.Screen.width + "px";
-                iframe.style.minHeight = Native.Screen.height + "px";
+                iframe.style.minWidth = Native.screen.width + "px";
+                iframe.style.minHeight = Native.screen.height + "px";
 
                 iframe.style.position = IStyle.PositionEnum.absolute;
                 iframe.style.left = "0px";
@@ -115,10 +115,10 @@ namespace WebGLDynamicTerrainTemplate
                 iframe.style.width = "100%";
                 iframe.style.height = "100%";
 
-                Native.Document.body.Clear();
-                Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+                Native.document.body.Clear();
+                Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-                Native.Window.onmessage +=
+                Native.window.onmessage +=
                    e =>
                    {
                        Console.WriteLine("Native.Window.onmessage " + new { e.data });
@@ -137,7 +137,7 @@ namespace WebGLDynamicTerrainTemplate
                         if (iframe.src != location)
                             return;
 
-                        Native.Window.requestAnimationFrame +=
+                        Native.window.requestAnimationFrame +=
                           delegate
                           {
                               Console.WriteLine("reload done! " + new { location, iframe.src });
@@ -145,7 +145,7 @@ namespace WebGLDynamicTerrainTemplate
                           };
                     };
 
-                Native.Window.requestAnimationFrame +=
+                Native.window.requestAnimationFrame +=
                     delegate
                     {
                         Console.WriteLine("will reload... " + location);
@@ -166,6 +166,7 @@ namespace WebGLDynamicTerrainTemplate
             new[]
             {
                 new global::WebGLDynamicTerrainTemplate.Design.ThreeTerrain().Content,
+
                 new global::WebGLDynamicTerrainTemplate.Design.ShaderTerrain().Content,
                 new global::WebGLDynamicTerrainTemplate.Design.ShaderExtrasTerrain().Content,
                 new global::WebGLDynamicTerrainTemplate.Design.PostprocessingTerrain().Content,
@@ -219,28 +220,28 @@ namespace WebGLDynamicTerrainTemplate
 
 
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent(IDefault page = null)
         {
             #region make sure we atleast have our invisible DOM
             if (page == null)
-                page = new HTML.Pages.DefaultPage();
+                page = new HTML.Pages.Default();
             #endregion
 
             #region container
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
             container.style.backgroundColor = "#000000";
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             #endregion
 
 
 
             #region code port
 
-            var SCREEN_WIDTH = Native.Window.Width;
-            var SCREEN_HEIGHT = Native.Window.Height;
+            var SCREEN_WIDTH = Native.window.Width;
+            var SCREEN_HEIGHT = Native.window.Height;
 
             var animDelta = 0;
             var animDeltaDir = -1;
@@ -270,7 +271,7 @@ namespace WebGLDynamicTerrainTemplate
             #region HasFocus
             var HasFocus = false;
 
-            Native.Window.onblur +=
+            Native.window.onblur +=
                delegate
                {
                    HasFocus = false;
@@ -278,7 +279,7 @@ namespace WebGLDynamicTerrainTemplate
                    soundtrack.volume = 0.1;
                };
 
-            Native.Window.onfocus +=
+            Native.window.onfocus +=
                 delegate
                 {
                     HasFocus = true;
@@ -799,7 +800,7 @@ namespace WebGLDynamicTerrainTemplate
 
 
             #region onkeydown
-            Native.Document.body.onkeydown +=
+            Native.document.body.onkeydown +=
                  (e) =>
                  {
 
@@ -816,7 +817,7 @@ namespace WebGLDynamicTerrainTemplate
 
             #region event Action loaded;
 
-            Native.Window.parent.With(
+            Native.window.parent.With(
                 parent =>
                 {
                     __loaded = delegate
@@ -937,24 +938,19 @@ namespace WebGLDynamicTerrainTemplate
 
 
 
-            #region tick
-            Action tick = null;
 
-            tick = () =>
-            {
-                if (IsDisposed)
-                    return;
-
-
-                render();
-                //    stats.update();
+            Native.window.onframe +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
 
 
-                Native.Window.requestAnimationFrame += tick;
-            };
+                    render();
 
-            tick();
-            #endregion
+
+                };
+
 
 
 
@@ -986,15 +982,15 @@ namespace WebGLDynamicTerrainTemplate
             #region AtResize
             Action AtResize = delegate
             {
-                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.window.Width, Native.window.Height);
 
-                camera.aspect = Native.Window.Width / Native.Window.Height;
+                camera.aspect = Native.window.Width / Native.window.Height;
                 camera.updateProjectionMatrix();
             };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();
@@ -1004,17 +1000,17 @@ namespace WebGLDynamicTerrainTemplate
             #endregion
 
 
-            Native.Document.body.onmousedown +=
+            Native.document.body.onmousedown +=
                 e =>
                 {
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
-                        Native.Document.body.requestFullscreen();
+                        Native.document.body.requestFullscreen();
                     }
                 };
 
             #region requestFullscreen
-            Native.Document.body.ondblclick +=
+            Native.document.body.ondblclick +=
                 delegate
                 {
                     if (IsDisposed)
@@ -1022,7 +1018,7 @@ namespace WebGLDynamicTerrainTemplate
 
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    Native.Document.body.requestFullscreen();
+                    Native.document.body.requestFullscreen();
 
                     //AtResize();
                 };

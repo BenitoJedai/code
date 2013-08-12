@@ -39,70 +39,29 @@ namespace WebGLCone
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
-        {
-            #region CanvasMatrix.js -> InitializeContent
-            new CanvasMatrix().Content.With(
-               source =>
-               {
-                   source.onload +=
-                       delegate
-                       {
-                           InitializeContent(page);
-                       };
-
-                   source.AttachToDocument();
-               }
-           );
-            #endregion
-
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
-        }
-
-        void InitializeContent(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
 
 
             var gl_viewportWidth = 500;
             var gl_viewportHeight = 500;
 
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            var gl = new WebGLRenderingContext();
+
+
+
+
+
+            #region canvas
+            var canvas = gl.canvas.AttachToDocument();
+
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
             canvas.width = gl_viewportWidth;
             canvas.height = gl_viewportHeight;
             #endregion
-
-            #region gl - Initialise WebGL
-
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
-
-
 
 
 
@@ -196,7 +155,7 @@ namespace WebGLCone
             gl.vertexAttribPointer((uint)normLoc, 3, gl.FLOAT, false, 0, 0);
 
             var prMatrix = new CanvasMatrix4();
-     
+
             gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
                false, new Float32Array(prMatrix.getAsArray()));
 
@@ -282,10 +241,8 @@ namespace WebGLCone
 
 
 
-            #region tick
-            var tick = default(Action);
 
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 if (IsDisposed)
                     return;
@@ -295,16 +252,13 @@ namespace WebGLCone
                 xRot += 2;
                 yRot += 3;
 
-                Native.Document.title = "" + c;
+                Native.document.title = "" + c;
 
                 drawScene();
                 //animate();
 
-                Native.Window.requestAnimationFrame += tick;
             };
 
-            tick();
-            #endregion
 
 
 
@@ -318,7 +272,7 @@ namespace WebGLCone
                     prMatrix = new CanvasMatrix4();
                     prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
 
-                    
+
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
                     canvas.width = gl_viewportWidth;

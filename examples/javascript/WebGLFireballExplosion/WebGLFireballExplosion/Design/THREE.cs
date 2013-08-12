@@ -9,7 +9,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 
-namespace WebGLFireballExplosion
+namespace WebGLFireballExplosionx
 {
     using f = System.Single;
 

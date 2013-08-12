@@ -44,7 +44,7 @@ namespace WebGLLesson08
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault  page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -65,15 +65,10 @@ namespace WebGLLesson08
 
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+      
         }
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent(IDefault  page = null)
         {
 
             var size = 500;

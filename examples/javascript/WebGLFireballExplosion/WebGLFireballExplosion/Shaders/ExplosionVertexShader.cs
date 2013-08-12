@@ -237,7 +237,7 @@ namespace WebGLFireballExplosion.Shaders
         mat4 projectionMatrix;
 
         [uniform]
-        mat4 objectMatrix;
+        mat4 modelMatrix;
 
         [uniform] vec3 cameraPosition;
 
@@ -246,8 +246,8 @@ namespace WebGLFireballExplosion.Shaders
 
             vUv = uv;
 
-            vec4 mPosition = objectMatrix * vec4(position, 1.0f);
-            vec3 nWorld = normalize(mat3(objectMatrix[0].xyz, objectMatrix[1].xyz, objectMatrix[2].xyz) * normal);
+            vec4 mPosition = modelMatrix * vec4(position, 1.0f);
+            vec3 nWorld = normalize(mat3(modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz) * normal);
             vReflect = normalize(reflect(normalize(mPosition.xyz - cameraPosition), nWorld));
 
             pos = position;
