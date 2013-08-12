@@ -145,7 +145,6 @@
     <Compile Include="ApplicationWebServiceHandler.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Components\SaveActionSprite.cs" />
     <Compile Include="Library\GoogleAnalytics.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Library\MyFader.cs" />
@@ -153,7 +152,6 @@
     <Compile Include="Services\SoundCloudTracks.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Services\ThreeDWarehouse.cs" />
-    <Compile Include="Components\UltraSprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Audio\AudioGroup.htm" />
@@ -165,6 +163,7 @@
     <Content Include="Design.UltraSource\references.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Components\" />
     <Folder Include="Design.UltraSource\Placeholders\" />
     <Folder Include="Design\" />
   </ItemGroup>
@@ -213,5 +212,4 @@ start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /ass
 
 </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

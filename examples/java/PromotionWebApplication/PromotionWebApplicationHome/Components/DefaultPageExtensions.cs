@@ -18,7 +18,7 @@ namespace PromotionWebApplicationHome.Components
 {
     public static class DefaultPageExtensions
     {
-        public static void AnimateHomePage(this IDefaultPage page)
+        public static void AnimateHomePage(this IDefault page)
         {
             var w = new JSCSolutionsNETWhiteCarouselCanvas();
 

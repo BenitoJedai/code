@@ -56,22 +56,22 @@ namespace PromotionWebApplication1
         PromotionWebApplication1.Assets.Publish __Assets;
 #endif
 
-        public Application(PromotionWebApplicationHome.HTML.Pages.IDefaultPage app)
+        public Application(PromotionWebApplicationHome.HTML.Pages.IDefault app)
         {
             "jsc".ToDocumentTitle();
 
             // http://www.google.com/support/forum/p/Google+Analytics/thread?tid=486a963e463df665&hl=en
-            var gapathname = Native.Document.location.pathname;
-            var gasearch = Native.Document.location.search;
-            var gahash = Native.Window.escape(Native.Document.location.hash);
+            var gapathname = Native.document.location.pathname;
+            var gasearch = Native.document.location.search;
+            var gahash = Native.window.escape(Native.document.location.hash);
             var gapageview = gapathname + gasearch + gahash;
 
-            var hash = Native.Document.location.hash;
+            var hash = Native.document.location.hash;
 
             Action<string> Analytics =
                 __hash =>
                 {
-                    var __gahash = Native.Window.escape(__hash);
+                    var __gahash = Native.window.escape(__hash);
                     var __gapageview = gapathname + gasearch + __gahash;
 
 
@@ -86,7 +86,7 @@ namespace PromotionWebApplication1
                     );
                 };
 
-            Analytics(Native.Document.location.hash);
+            Analytics(Native.document.location.hash);
 
             ////var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
 
@@ -115,7 +115,7 @@ namespace PromotionWebApplication1
             canvas.AnimationAllWhite +=
                 delegate
                 {
-                    Native.Document.body.style.backgroundColor = JSColor.None;
+                    Native.document.body.style.backgroundColor = JSColor.None;
                 };
 
             canvas.AnimationStartDelay = 1;
@@ -139,8 +139,8 @@ namespace PromotionWebApplication1
 
                 };
 
-            canvas.AttachToContainer(Native.Document.body);
-            canvas.AutoSizeTo(Native.Document.body);
+            canvas.AttachToContainer(Native.document.body);
+            canvas.AutoSizeTo(Native.document.body);
 
             canvas.AnimationStartDelay = 1;
             canvas.PrepareAnimation()();

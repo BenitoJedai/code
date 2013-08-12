@@ -150,7 +150,7 @@ namespace AccelerometerServerEvents
                 // not available on built in web browser for android
             }
 
-            Native.Window.ondeviceorientation +=
+            Native.window.ondeviceorientation +=
                 eventData =>
                 {
                     #region desktop chrome misreports?

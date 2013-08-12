@@ -17,7 +17,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile
 	{
 		public Application(IAbout a)
 		{
-			Native.Document.title = "ScriptCoreLib.Ultra.Components.Volatile";
+			Native.document.title = "ScriptCoreLib.Ultra.Components.Volatile";
 
 
 			a.JSCSolutionsNETCarouselProgram.With(
