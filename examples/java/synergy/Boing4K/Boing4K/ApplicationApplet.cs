@@ -8,10 +8,17 @@ using System.ComponentModel;
 [Description("Subclass this class in your own applet.")]
 public abstract class Boing4KApplet : a
 {
+    //    0001 0200000a <module>.SHA1634771bc450e967ca9380bb62bb4df7b3b4036ba@2042611486$00000043
+    //- javac
+    //"C:\Program Files (x86)\Java\jdk1.7.0_25\bin\javac.exe" -classpath "S:\ApplicationApplet\web\java";release -d release java\ApplicationApplet.java
+    //javac: file not found: java\ApplicationApplet.java
+    //Usage: javac <options> <source files>
+    //use -help for a list of possible options
+
 
 }
 
-internal sealed class ApplicationApplet : Boing4KApplet
+public sealed class ApplicationApplet : Boing4KApplet
 {
     //        CreateType:  ApplicationApplet
     //error: System.InvalidOperationException: Unable to change after type has been created.

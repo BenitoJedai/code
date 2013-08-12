@@ -608,7 +608,7 @@ namespace TestSolutionBuilderV1.Views
 
             var _Project = _Solution.Add();
 
-            var About = new AboutPage();
+            var About = new About();
 
             #region UpdateFile1Text
             Action UpdateFile1Text =
