@@ -88,6 +88,7 @@ namespace ScriptCoreLib.Ultra.Studio
             {
                 return @"..\packages\" + id + @".1.0.0.0\lib\" + id + @".dll";
             }
+
         }
 
         public List<package> NuGetReferences = new List<package>();

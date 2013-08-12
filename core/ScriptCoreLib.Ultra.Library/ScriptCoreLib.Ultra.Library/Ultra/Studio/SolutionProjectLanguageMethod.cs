@@ -88,6 +88,11 @@ namespace ScriptCoreLib.Ultra.Studio
 
     public static class SolutionProjectLanguageMethodExtensions
     {
+        public static PseudoCallExpression ToCallExpression(this SolutionProjectLanguageMethod Method, object Object, object ParameterExpression)
+        {
+            return Method.ToCallExpression(Object, new object[] { ParameterExpression });
+        }
+
         public static PseudoCallExpression ToCallExpression(this SolutionProjectLanguageMethod Method, object Object = null, params object[] ParameterExpressions)
         {
             if (Method.IsExtensionMethod)
