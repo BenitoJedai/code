@@ -135,7 +135,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetFileName) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /ProjectFileName:"$(ProjectPath)"
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.internal.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetFileName) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /ProjectFileName:"$(ProjectPath)"
 
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
