@@ -84,74 +84,21 @@ namespace WebGLSimpleCubic
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault  page = null)
         {
-            new CanvasMatrix().Content.With(
-                CanvasMatrix =>
-                {
-                    CanvasMatrix.onload +=
-                        delegate
-                        {
-                            InitializeContent();
-                        };
+            var gl_viewportWidth = Native.window.Width;
+            var gl_viewportHeight = Native.window.Height;
 
-                    CanvasMatrix.AttachToDocument();
-                }
-            );
+        
 
 
-            //InitializeContent();
+            var gl = new WebGLRenderingContext();
 
 
+            var canvas = gl.canvas.AttachToDocument();
 
-
-            @"WebGL loading..".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"WebGL Simple Cubic",
-                value => value.ToDocumentTitle()
-            );
-        }
-
-        private void InitializeContent(IDefaultPage page = null)
-        {
-            // functions to port manually
-            // * webGLStart
-            // * canvas.resize
-            // * getShader
-
-            //var gl, canvas;
-
-            var gl_viewportWidth = Native.Window.Width;
-            var gl_viewportHeight = Native.Window.Height;
-
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
-
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportWidth);
-            #endregion
-
-            #region gl - Initialise WebGL
-
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
-
 
 
             gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
@@ -502,9 +449,8 @@ namespace WebGLSimpleCubic
             #endregion
 
             #region tick
-            var tick = default(Action);
 
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 if (IsDisposed)
                     return;
@@ -518,10 +464,8 @@ namespace WebGLSimpleCubic
                 drawScene();
                 //animate();
 
-                Native.Window.requestAnimationFrame += tick;
             };
 
-            tick();
             #endregion
 
 

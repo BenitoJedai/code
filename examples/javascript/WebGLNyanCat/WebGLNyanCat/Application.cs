@@ -13,13 +13,14 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using WebGLNyanCat.HTML.Pages;
 using WebGLNyanCat.Design;
-using THREE = WebGLNyanCat.Design.THREE;
+//using THREE = WebGLNyanCat.Design.THREE;
 
 namespace WebGLNyanCat
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using WebGLNyanCat.HTML.Audio.FromAssets;
+    using System.Diagnostics;
 
 
 
@@ -38,32 +39,13 @@ namespace WebGLNyanCat
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault page = null)
         {
-            #region await Three.js then do InitializeContent
-            new WebGLNyanCat.Design.__Three().Content.With(
-                source =>
-                {
-                    source.onload +=
-                        delegate
-                        {
-                            InitializeContent();
 
-
-                        };
-
-                }
-            ).AttachToDocument();
-            #endregion
-
+            InitializeContent();
 
             style.Content.AttachToHead();
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
         void InitializeContent()
@@ -77,16 +59,16 @@ namespace WebGLNyanCat
             #endregion
 
             #region container
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
             container.style.backgroundColor = "#003366";
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             #endregion
 
             var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(Native.Window.Width, Native.Window.Height);
+            renderer.setSize(Native.window.Width, Native.window.Height);
             renderer.domElement.AttachTo(container);
 
             var numStars = 10;
@@ -94,7 +76,9 @@ namespace WebGLNyanCat
             var mouseX = 0;
             var mouseY = 0;
 
-            var clock = new THREE.Clock();
+            var clock = new Stopwatch();
+            clock.Start();
+
             var deltaSum = 0f;
             //tick=0, 
             var frame = 0;
@@ -188,7 +172,7 @@ namespace WebGLNyanCat
                 (o, x, y, z, w, h, d, c) =>
                 {
                     //            function helper(o, x, y, z, w, h, d, c){
-                    var material = new THREE.MeshLambertMaterial(new THREE.MeshLambertMaterialArguments { color = c });
+                    var material = new THREE.MeshLambertMaterial(new { color = c });
                     var geometry = new THREE.CubeGeometry(w, h, d, 1, 1, 1);
                     var mesh = new THREE.Mesh(geometry, material);
                     mesh.position.x = x + (w / 2);
@@ -259,7 +243,7 @@ namespace WebGLNyanCat
 
             #region  init
             var camera = new THREE.PerspectiveCamera(45,
-            Native.Window.Width / Native.Window.Height, .1f, 10000);
+            Native.window.Width / Native.window.Height, .1f, 10000);
 
             camera.position.z = 30;
             camera.position.x = 0;
@@ -445,11 +429,32 @@ namespace WebGLNyanCat
             #endregion
 
 
-            #region render
-            Action render =
+
+
+            #region IsDisposed
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                page_song.pause();
+                page_song2.pause();
+
+                container.Orphanize();
+            };
+            #endregion
+
+
+
+
+            Native.window.onframe +=
                 delegate
                 {
-                    f delta = clock.getDelta();
+                    f delta = clock.ElapsedMilliseconds * 0.001f;
+                    clock.Restart();
 
                     if (running) deltaSum += delta;
 
@@ -567,53 +572,22 @@ namespace WebGLNyanCat
                     renderer.render(scene, camera);
                 };
 
-            #endregion
-
-            #region IsDisposed
-
-            Dispose = delegate
-            {
-                if (IsDisposed)
-                    return;
-
-                IsDisposed = true;
-
-                page_song.pause();
-                page_song2.pause();
-
-                container.Orphanize();
-            };
-            #endregion
 
 
-
-            #region animate
-            Action animate = null;
-
-            animate = delegate
-            {
-                render();
-
-                Native.Window.requestAnimationFrame += animate;
-            };
-            #endregion
-
-
-            animate();
 
 
             #region AtResize
             Action AtResize = delegate
             {
-                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                camera.aspect = Native.Window.Width / Native.Window.Height;
+                camera.aspect = Native.window.Width / Native.window.Height;
                 camera.updateProjectionMatrix();
 
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.window.Width, Native.window.Height);
             };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();
@@ -623,7 +597,7 @@ namespace WebGLNyanCat
             #endregion
 
             #region requestFullscreen
-            Native.Document.body.ondblclick +=
+            Native.document.body.ondblclick +=
                 delegate
                 {
                     if (IsDisposed)
@@ -631,7 +605,7 @@ namespace WebGLNyanCat
 
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    Native.Document.body.requestFullscreen();
+                    Native.document.body.requestFullscreen();
 
 
                 };
