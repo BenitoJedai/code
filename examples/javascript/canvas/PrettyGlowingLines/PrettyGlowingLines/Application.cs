@@ -89,7 +89,7 @@ namespace PrettyGlowingLines
 
             };
 
-            //line.AtInterval(50);
+            line.AtInterval(50);
 
 
             Action blank = delegate
@@ -103,7 +103,7 @@ namespace PrettyGlowingLines
 
             blank();
 
-            //blank.AtInterval(40);
+            blank.AtInterval(40);
         }
 
         private static void AddTransform(IHTMLCanvas canvas)
