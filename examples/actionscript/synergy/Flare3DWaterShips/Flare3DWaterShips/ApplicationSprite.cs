@@ -174,8 +174,7 @@ namespace Flare3DWaterShips
                 ).ToFunction()
             );
 
-            //scene.render +=
-            //    ;
+      
         }
 
 

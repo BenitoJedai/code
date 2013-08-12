@@ -25,32 +25,9 @@ namespace QRCodeTemplate
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
-            // manually import the file
-            // this should be automatic for jsc market components!
-            new NeocoticQR.opensource.neocotic.qom.qr().Content.With(
-                source =>
-                {
-                    source.onload +=
-                        delegate
-                        {
-                            InitializeContent(page);
-                        };
-
-                }
-            ).AttachToDocument();
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
-        }
-
-        void InitializeContent(IDefaultPage page = null)
-        {
+        
             // see also: http://neocotic.com/qr.js/
 
             Action<string> Add =
@@ -72,7 +49,7 @@ namespace QRCodeTemplate
                 };
 
 
-            Add("" + Native.Document.location);
+            Add("" + Native.document.location);
             Add("http://www.jsc-solutions.net");
 
 
