@@ -2,8 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRCodeTemplate", "QRCode\QRCodeTemplate.csproj", "{06C8DCD9-E3E1-46FC-AFB8-255B6A4F6EDA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4FFD0992-0097-4C06-9362-19846B399732} = {4FFD0992-0097-4C06-9362-19846B399732}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeocoticQR", "..\..\..\..\market\synergy\NeocoticQR\NeocoticQR\NeocoticQR.csproj", "{4FFD0992-0097-4C06-9362-19846B399732}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{3C46C4AE-B43E-4B06-AD30-D64EE150EDC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,5 +27,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4FFD0992-0097-4C06-9362-19846B399732} = {3C46C4AE-B43E-4B06-AD30-D64EE150EDC3}
 	EndGlobalSection
 EndGlobal
