@@ -205,8 +205,8 @@ float pnoise(vec3 P, vec3 rep)
 
 		vUv = uv;
 	
-		vec4 mPosition = objectMatrix * vec4( position, 1.0 );
-		vec3 nWorld = normalize( mat3( objectMatrix[0].xyz, objectMatrix[1].xyz, objectMatrix[2].xyz ) * normal );
+		vec4 mPosition = modelMatrix * vec4( position, 1.0 );
+		vec3 nWorld = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );
 		vReflect = normalize( reflect( normalize( mPosition.xyz - cameraPosition ), nWorld ) );
 		
 		pos = position;

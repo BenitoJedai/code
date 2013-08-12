@@ -37,7 +37,7 @@ namespace WebGLSphereRayTrace
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault  page = null)
         {
 
             InitializeContent();
@@ -51,12 +51,7 @@ namespace WebGLSphereRayTrace
         public event Action<gl> onsurface;
         #endregion
 
-        //sealed class __preserveDrawingBuffer
-        //{
-        //    public bool alpha = false;
-        //    public bool preserveDrawingBuffer = true;
-        //}
-
+       
         public void InitializeContent()
         {
      

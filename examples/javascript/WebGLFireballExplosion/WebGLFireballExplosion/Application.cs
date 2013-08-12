@@ -53,6 +53,7 @@ namespace WebGLFireballExplosion
     /// </summary>
     public sealed class Application
     {
+        // new three broke it?
         // http://www.clicktorelease.com/code/perlin/explosion.html
 
         public readonly ApplicationWebService service = new ApplicationWebService();
@@ -64,39 +65,9 @@ namespace WebGLFireballExplosion
         public Application(IDefault page = null)
         {
 
-            #region await Three.js then do InitializeContent
-            new[]
-            {
-                new global::WebGLFireballExplosion.Design.Three().Content,
-            }.ForEach(
-                (SourceScriptElement, i, MoveNext) =>
-                {
-                    SourceScriptElement.AttachToDocument().onload +=
-                        delegate
-                        {
-                            MoveNext();
-                        };
-                }
-            )(
-                delegate
-                {
-                    InitializeContent(page);
-                }
-            );
-            #endregion
+       
 
-            //@"Hello world".ToDocumentTitle();
-            //// Send data from JavaScript to the server tier
-            //service.WebMethod2(
-            //    @"A string from JavaScript.",
-            //    value => value.ToDocumentTitle()
-            //);
-        }
-
-        void InitializeContent(IDefault page = null)
-        {
-
-
+            // http://stackoverflow.com/questions/16765120/ashima-perlin-noise-shader-not-working-with-recent-versions-of-three-js
 
             //var container, renderer,  camera, mesh;
             var start = IDate.Now;
@@ -118,7 +89,7 @@ namespace WebGLFireballExplosion
 
             var camera = new THREE.PerspectiveCamera(fov, Native.window.Width / Native.window.Height, 1, 10000);
             camera.position.z = 100;
-            camera.target = new THREE.Vector3(0, 0, 0);
+            //camera.target = new THREE.Vector3(0, 0, 0);
 
             scene.add(camera);
 
@@ -134,20 +105,19 @@ namespace WebGLFireballExplosion
             bkgScene.add(bkgCamera);
 
             var bkgShader = new THREE.ShaderMaterial(
-                new THREE.ShaderMaterialArguments
+                new 
                 {
-                    uniforms = new bkg_uniforms
+                    uniforms = new 
                     {
-                        tDiffuse = new uniforms_item
+                        tDiffuse = new 
                         {
                             type = "t",
-                            value = 0,
-                            texture = __THREE.ImageUtils.loadTexture(
+                            value = THREE.ImageUtils.loadTexture(
                                 new HTML.Images.FromAssets.bkg().src
                             )
                         },
 
-                        resolution = new uniforms_item { type = "v2", value = new THREE.Vector2(Native.window.Width, Native.window.Height) }
+                        resolution = new  { type = "v2", value = new THREE.Vector2(Native.window.Width, Native.window.Height) }
                     },
 
                     vertexShader = new Shaders.ExplosionVertexShader().ToString(),
@@ -156,7 +126,8 @@ namespace WebGLFireballExplosion
                     fragmentShader = new Shaders.ExplosionFragmentShader().ToString(),
 
                     depthWrite = false,
-
+                    depthTest = false,
+                    transparent = true
                 }
             );
 
@@ -168,15 +139,14 @@ namespace WebGLFireballExplosion
 
             var material = new THREE.ShaderMaterial(
 
-                new THREE.ShaderMaterialArguments
+                new 
                 {
                     uniforms = new // material_uniforms
                     {
                         tExplosion = new  //uniforms_item
                         {
                             type = "t",
-                            value = 0,
-                            texture = __THREE.ImageUtils.loadTexture(
+                            value =  THREE.ImageUtils.loadTexture(
                                 new HTML.Images.FromAssets.explosion().src
                             )
                         },
@@ -186,7 +156,9 @@ namespace WebGLFireballExplosion
 
                     vertexShader = new Shaders.ExplosionVertexShader().ToString(),
                     fragmentShader = new Shaders.ExplosionFragmentShader().ToString(),
-
+                    depthWrite = false,
+                    depthTest = false,
+                    transparent = true
                 }
             );
 
@@ -347,12 +319,12 @@ namespace WebGLFireballExplosion
             #region AtResize
             Action AtResize = delegate
             {
-                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
 
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.window.Width, Native.window.Height);
 
-                camera.projectionMatrix.makePerspective(fov, Native.Window.Width / Native.Window.Height, 1, 1100);
+                camera.projectionMatrix.makePerspective(fov, Native.window.Width / Native.window.Height, 1, 1100);
 
                 //camera.aspect = Native.Window.Width / Native.Window.Height;
                 //camera.updateProjectionMatrix();

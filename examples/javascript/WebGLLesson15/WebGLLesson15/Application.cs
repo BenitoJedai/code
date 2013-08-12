@@ -39,7 +39,7 @@ namespace WebGLLesson15
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page = null)
+        public Application(IDefault  page = null)
         {
             #region await __glMatrix
             new __glMatrix().Content.With(
@@ -60,15 +60,10 @@ namespace WebGLLesson15
 
 
             style.Content.AttachToHead();
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+      
         }
 
-        void InitializeContent(IDefaultPage page = null)
+        void InitializeContent(IDefault  page = null)
         {
 
             var gl_viewportWidth = Native.Window.Width;
