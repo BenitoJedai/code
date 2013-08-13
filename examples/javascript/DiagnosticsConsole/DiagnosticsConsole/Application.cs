@@ -67,7 +67,7 @@ namespace DiagnosticsConsole
                  );
             diagnostics.style.With(
               (dynamic s) => s.transition = "all 0.3s ease-in-out"
-        );
+            );
 
 
             Action Hide =
