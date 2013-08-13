@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 {
     public partial class VisualFSharpLanguage : SolutionProjectLanguage
     {
+        // roslyn vs reflection emit vs compilerjob
+
         public override string ProjectFileExtension { get { return ".fsproj"; } }
         public override string CodeFileExtension { get { return ".fs"; } }
         public override string LanguageSpelledName { get { return "Visual FSharp"; } }
@@ -138,7 +140,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         File.WriteSpace(Keywords.@override);
                     else
                         File.WriteSpace(Keywords.member);
-                    
+
                     File.Write("this").Write(".");
                 }
                 File.Write(Method.Name);
@@ -281,13 +283,33 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         }
                         else
                         {
-                            File.WriteSpace(Keywords.@do);
+                            var ImplicitField = default(SolutionProjectLanguageField);
 
-                            WritePseudoCallExpression(File, Lambda, Context);
-                            if (Lambda.Method.ReturnType != null)
+                            if (Lambda.Method.IsProperty && Lambda.Object is PseudoThisExpression)
+                                ImplicitField = Code.OwnerMethod.DeclaringType.Fields.FirstOrDefault(
+                                    k => k.Name == Lambda.Method.Name.SkipUntilIfAny("set_") && k.IsReadOnly
+                                );
+
+                            if (ImplicitField != null)
                             {
-                                File.WriteSpaces("|>");
-                                File.Write(Keywords.ignore);
+                                File.WriteSpace(Keywords.let).Write(ImplicitField.Name).WriteSpaces("=");
+
+
+                                WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
+                            }
+                            else
+                            {
+
+                                File.WriteSpace(Keywords.@do);
+
+                                // we could group next similar statements in a single do
+                                WritePseudoCallExpression(File, Lambda, Context);
+
+                                if (Lambda.Method.ReturnType != null)
+                                {
+                                    File.WriteSpaces("|>");
+                                    File.Write(Keywords.ignore);
+                                }
                             }
                         }
 
@@ -446,7 +468,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                     File.WriteLine();
                                                 }
 
-
+                                                // only need this if there are any members beyond ctor?
                                                 File.WriteIndent();
                                                 File.WriteSpace(Keywords.@let);
                                                 File.Write("this");
@@ -454,9 +476,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                 File.Write("me");
                                                 File.WriteLine();
 
+                                                File.WriteLine();
+
                                                 File.WriteIndent();
                                                 File.WriteSpace(Keywords.@do);
                                                 File.Write("()");
+                                                File.WriteLine();
+
                                                 File.WriteLine();
                                             }
                                         );
@@ -471,6 +497,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                         {
                                             if (!Type.IsStatic)
                                             {
+                                                #region Fields with FieldConstructor
                                                 Type.Fields.WithEach(
                                                     Field =>
                                                     {
@@ -486,6 +513,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                         }
                                                         else
                                                         {
+                                                            // first asignment shall do a let
+                                                            if (Field.IsReadOnly)
+                                                                return;
+
                                                             File.WriteIndent().WriteSpace(Keywords.let).WriteSpace(Keywords.mutable);
                                                             File.Write(Field.Name).WriteSpaces(":");
                                                             WriteTypeName(File, Field.FieldType);
@@ -496,6 +527,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                         File.WriteLine();
                                                     }
                                                 );
+                                                #endregion
+
 
                                                 if (Constructor != null)
                                                 {
@@ -504,6 +537,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                     );
                                                 }
 
+                                                File.WriteLine();
                                                 File.WriteLine();
                                             }
 
@@ -631,6 +665,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
+            #region PseudoStringConstantExpression
             {
                 var Constant = Parameter as PseudoStringConstantExpression;
                 if (Constant != null)
@@ -643,7 +678,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     return;
                 }
             }
+            #endregion
 
+            #region PseudoInt32ConstantExpression
             {
                 var Constant = Parameter as PseudoInt32ConstantExpression;
                 if (Constant != null)
@@ -652,7 +689,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     return;
                 }
             }
+            #endregion
 
+            #region PseudoDoubleConstantExpression
             {
                 var Constant = Parameter as PseudoDoubleConstantExpression;
                 if (Constant != null)
@@ -665,6 +704,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     return;
                 }
             }
+            #endregion
+
 
             var Call = Parameter as PseudoCallExpression;
             if (Call != null)
@@ -721,6 +762,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
+            #region PseudoArrayExpression
             var Array = Parameter as PseudoArrayExpression;
             if (Array != null)
             {
@@ -773,6 +815,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                 return;
             }
+            #endregion
+
 
         }
 

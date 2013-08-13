@@ -46,6 +46,93 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                 };
             #endregion
 
+            #region AssemblyInfo
+
+            AssemblyInfoFolder = "Properties";
+
+            if (Context.Language == KnownLanguages.VisualBasic)
+                AssemblyInfoFolder = "My Project";
+
+            var AssemblyInfo =
+                new SolutionFile
+                {
+                    Name = ToProjectFile(AssemblyInfoFolder + "/AssemblyInfo" + Context.Language.CodeFileExtension),
+                };
+
+
+            {
+                AssemblyInfo.Write(Context.Language, Context, new[] { Context.Interactive.FileHeader });
+
+                AssemblyInfo.WriteLine();
+
+                Context.Language.WriteAssemblyAttributeNamespace(AssemblyInfo, Context.Name,
+                    delegate
+                    {
+                        Context.Language.WriteUsingNamespace(AssemblyInfo, "System.Reflection");
+
+                        AssemblyInfo.WriteLine();
+
+                        // language write assembly attribute
+
+                        Action<string, string> WriteGeneralInformation =
+                            (TypeName, Constant) =>
+                            {
+                                Context.Language.WriteAssemblyAttribute(
+                                    AssemblyInfo,
+                                    new StockAttributeGeneralInformation(
+                                        new SolutionProjectLanguageType { Name = TypeName, Namespace = "System.Reflection" },
+                                        Constant
+                                    ),
+                                    Context
+                                );
+                            };
+
+                        Context.Language.WriteIndentedComment(AssemblyInfo,
+@"General Information about an assembly is controlled through the following 
+set of attributes. Change these attribute values to modify the information
+associated with an assembly."
+                        );
+
+                        //[assembly: AssemblyTitle("Ultra Application")]
+                        //[assembly: AssemblyDescription("Ultra Application. Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
+                        //[assembly: AssemblyConfiguration("")]
+                        //[assembly: AssemblyCompany("jsc-solutions.net")]
+                        //[assembly: AssemblyProduct("UltraApplication")]
+                        //[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
+
+                        WriteGeneralInformation("AssemblyTitle", Context.Name);
+                        WriteGeneralInformation("AssemblyDescription", Context.Description);
+                        WriteGeneralInformation("AssemblyCompany", Context.Company);
+
+
+                        WriteGeneralInformation("AssemblyProduct", Context.Name.Replace(" ", ""));
+                        WriteGeneralInformation("AssemblyCopyright", "Copyright © " + Context.Company + " " + DateTime.Now.Year);
+                        WriteGeneralInformation("AssemblyVersion", "1.0.0.0");
+                        WriteGeneralInformation("AssemblyFileVersion", "1.0.0.0");
+
+                        Context.Language.WriteAssemblyAttribute(
+                            AssemblyInfo,
+                            new StockAttributeObfuscation(),
+                            Context
+                        );
+                    }
+                );
+
+            }
+
+            ItemGroupForCompile.Add(
+                new XElement("Compile",
+                    new XAttribute("Include",
+                        AssemblyInfoFolder + @"\AssemblyInfo" + Context.Language.CodeFileExtension
+                    )
+                )
+            );
+
+
+            AddFile(AssemblyInfo);
+            #endregion
+
+
 
 
             #region Design/App.css
@@ -72,7 +159,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             var DefaultPageElement =
                 new XElement("html",
                     new XElement("head",
-                        // visual studio does
+                // visual studio does
                         new XElement("title", "App")
                     ),
                     Context.ApplicationPage
@@ -235,134 +322,6 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                 };
             #endregion
 
-            #region AssemblyInfo
-
-            AssemblyInfoFolder = "Properties";
-
-            if (Context.Language == KnownLanguages.VisualBasic)
-                AssemblyInfoFolder = "My Project";
-
-            var AssemblyInfo =
-                new SolutionFile
-                {
-                    Name = ToProjectFile(AssemblyInfoFolder + "/AssemblyInfo" + Context.Language.CodeFileExtension),
-                };
-
-
-            {
-                AssemblyInfo.Write(Context.Language, Context, new[] { Context.Interactive.FileHeader });
-
-                AssemblyInfo.WriteLine();
-
-                Context.Language.WriteAssemblyAttributeNamespace(AssemblyInfo, Context.Name,
-                    delegate
-                    {
-                        Context.Language.WriteUsingNamespace(AssemblyInfo, "System.Reflection");
-
-                        AssemblyInfo.WriteLine();
-
-                        // language write assembly attribute
-
-                        Action<string, string> WriteGeneralInformation =
-                            (TypeName, Constant) =>
-                            {
-                                Context.Language.WriteAssemblyAttribute(
-                                    AssemblyInfo,
-                                    new StockAttributeGeneralInformation(
-                                        new SolutionProjectLanguageType { Name = TypeName, Namespace = "System.Reflection" },
-                                        Constant
-                                    ),
-                                    Context
-                                );
-                            };
-
-                        Context.Language.WriteIndentedComment(AssemblyInfo,
-@"General Information about an assembly is controlled through the following 
-set of attributes. Change these attribute values to modify the information
-associated with an assembly."
-                        );
-
-                        //[assembly: AssemblyTitle("Ultra Application")]
-                        //[assembly: AssemblyDescription("Ultra Application. Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
-                        //[assembly: AssemblyConfiguration("")]
-                        //[assembly: AssemblyCompany("jsc-solutions.net")]
-                        //[assembly: AssemblyProduct("UltraApplication")]
-                        //[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
-
-                        WriteGeneralInformation("AssemblyTitle", Context.Name);
-                        WriteGeneralInformation("AssemblyDescription", Context.Description);
-                        WriteGeneralInformation("AssemblyCompany", Context.Company);
-
-
-                        WriteGeneralInformation("AssemblyProduct", Context.Name.Replace(" ", ""));
-                        WriteGeneralInformation("AssemblyCopyright", "Copyright © " + Context.Company + " " + DateTime.Now.Year);
-                        WriteGeneralInformation("AssemblyVersion", "1.0.0.0");
-                        WriteGeneralInformation("AssemblyFileVersion", "1.0.0.0");
-
-                        Context.Language.WriteAssemblyAttribute(
-                            AssemblyInfo,
-                            new StockAttributeObfuscation(),
-                            Context
-                        );
-                    }
-                );
-
-            }
-
-            ItemGroupForCompile.Add(
-                new XElement("Compile",
-                    new XAttribute("Include",
-                        AssemblyInfoFolder + @"\AssemblyInfo" + Context.Language.CodeFileExtension
-                    )
-                )
-            );
-
-
-            AddFile(AssemblyInfo);
-
-
-            new XElement("packages", new XComment("http://my.jsc-solutions.net")).With(
-                //new XElement("packages").With(
-              packages =>
-              {
-                  Context.NuGetReferences.WithEach(
-                      n =>
-                          packages.Add(
-                              new XElement("package",
-
-                                  // why wont it work implicitly?
-                                  content: new object[] {
-                                        new XAttribute("id", n.id),
-                                        new XAttribute("version", n.version),
-                                        new XAttribute("targetFramework", "net40")
-                                    }
-
-                              )
-                          )
-                  );
-
-                  ItemGroupForCompile.Add(
-                      new XElement("None",
-                          new XAttribute("Include",
-                              "packages.config"
-                          )
-                      )
-                  );
-
-
-                  var packages_config = new SolutionFile
-                    {
-                        Name = ToProjectFile("packages.config"),
-
-                    };
-
-                  packages_config.WriteXElement(packages);
-
-                  AddFile(packages_config);
-              }
-          );
-            #endregion
-
 
 
             Context.Interactive.RaiseGenerateTypes(AddType);
@@ -440,6 +399,51 @@ associated with an assembly."
 
             #endregion
 
+
+
+            #region packages
+
+            new XElement("packages", new XComment("http://my.jsc-solutions.net")).With(
+                //new XElement("packages").With(
+              packages =>
+              {
+                  Context.NuGetReferences.WithEach(
+                      n =>
+                          packages.Add(
+                              new XElement("package",
+
+                                  // why wont it work implicitly?
+                                  content: new object[] {
+                                        new XAttribute("id", n.id),
+                                        new XAttribute("version", n.version),
+                                        new XAttribute("targetFramework", "net40")
+                                    }
+
+                              )
+                          )
+                  );
+
+                  ItemGroupForCompile.Add(
+                      new XElement("None",
+                          new XAttribute("Include",
+                              "packages.config"
+                          )
+                      )
+                  );
+
+
+                  var packages_config = new SolutionFile
+                  {
+                      Name = ToProjectFile("packages.config"),
+
+                  };
+
+                  packages_config.WriteXElement(packages);
+
+                  AddFile(packages_config);
+              }
+          );
+            #endregion
         }
 
     }
