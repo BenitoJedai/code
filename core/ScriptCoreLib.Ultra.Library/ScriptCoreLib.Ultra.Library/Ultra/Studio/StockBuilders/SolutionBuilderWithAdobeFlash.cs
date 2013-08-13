@@ -146,7 +146,8 @@ namespace ScriptCoreLib.Ultra.Studio
                     var Methods_addChild = new SolutionProjectLanguageMethod
                     {
                         Name = "addChild",
-                        DeclaringType = Types_Viewer3D
+                        DeclaringType = Types_Viewer3D,
+                        ReturnType = Types_Viewer3D
                     };
 
                     var this_camera = Types_Camera3D.ToInitializedField("camera");
@@ -183,17 +184,17 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
                     var this_camera_setPosition = Methods_setPosition.ToCallExpression(this_camera,
-                          (PseudoInt32ConstantExpression)120,
-                          (PseudoInt32ConstantExpression)40,
-                          (PseudoInt32ConstantExpression)(-30)
+                          (PseudoDoubleConstantExpression)120.0,
+                          (PseudoDoubleConstantExpression)40.0,
+                          (PseudoDoubleConstantExpression)(-30.0)
                       );
 
                     ApplicationSprite.Constructor.Code.Add(this_camera_setPosition);
 
                     var this_camera_lookAt = Methods_lookAt.ToCallExpression(this_camera,
-                            (PseudoInt32ConstantExpression)0,
-                            (PseudoInt32ConstantExpression)0,
-                            (PseudoInt32ConstantExpression)0
+                            (PseudoDoubleConstantExpression)0.0,
+                            (PseudoDoubleConstantExpression)0.0,
+                            (PseudoDoubleConstantExpression)0.0
                     );
 
                     ApplicationSprite.Constructor.Code.Add(this_camera_lookAt);
