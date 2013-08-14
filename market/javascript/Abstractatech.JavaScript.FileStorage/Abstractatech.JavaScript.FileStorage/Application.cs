@@ -107,9 +107,9 @@ namespace Abstractatech.JavaScript.FileStorage
                     if (StayAlertTimer != null)
                         StayAlertTimer.Stop();
 
-                    page.Output.Clear();
+                    page.output.Clear();
 
-                    new FileLoading().Container.AttachTo(page.Output);
+                    new FileLoading().Container.AttachTo(page.output);
 
                     service.EnumerateFilesAsync(
                         y:
@@ -181,7 +181,7 @@ namespace Abstractatech.JavaScript.FileStorage
                             #endregion
 
 
-                            e.Container.AttachTo(page.Output);
+                            e.Container.AttachTo(page.output);
 
 
 
@@ -194,7 +194,7 @@ namespace Abstractatech.JavaScript.FileStorage
                         done: transaction_id =>
                         {
                             Console.WriteLine(new { transaction_id });
-                            new FileLoadingDone().Container.AttachTo(page.Output);
+                            new FileLoadingDone().Container.AttachTo(page.output);
 
                             StayAlert(transaction_id);
                         }
@@ -310,7 +310,7 @@ namespace Abstractatech.JavaScript.FileStorage
 
                     var upload = new Uploading();
 
-                    upload.Container.AttachTo(page.Output);
+                    upload.Container.AttachTo(page.output);
                     // http://www.matlus.com/html5-file-upload-with-progress/
                     xhr.upload.onprogress +=
                         e =>

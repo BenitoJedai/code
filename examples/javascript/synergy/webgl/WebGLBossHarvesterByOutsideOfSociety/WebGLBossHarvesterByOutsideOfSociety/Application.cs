@@ -34,7 +34,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
         {
             Console.WriteLine("before three");
 
-
+            // fails with gallery? why?
             Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
