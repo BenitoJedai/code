@@ -21,6 +21,10 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
                     Name = "IApp"
                 },
 
+
+
+                
+                //Name = "document",
                 Name = "page",
                 Summary = "HTML document rendered by the web server which can now be enhanced."
             };

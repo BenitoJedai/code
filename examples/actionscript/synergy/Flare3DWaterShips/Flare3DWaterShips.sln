@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flare3DWaterShips", "Flare3DWaterShips\Flare3DWaterShips.csproj", "{4CE2EAB2-6DB7-4678-A0BD-49AED7A95D0C}"
 	ProjectSection(ProjectDependencies) = postProject
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {6193012A-2B4F-4FB9-BC0A-42C3D75BF815}
 		{922E6D92-A57F-4334-A335-B7042EBCAA8C} = {922E6D92-A57F-4334-A335-B7042EBCAA8C}
 		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1} = {753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}
 	EndProjectSection
@@ -15,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flare3DWaterShipComponent",
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{BD0056D9-DF80-4ED9-A0A7-931FD2778DFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\net.hires.debug\net.hires.debug\net.hires.debug.csproj", "{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,12 +37,17 @@ Global
 		{922E6D92-A57F-4334-A335-B7042EBCAA8C}.Debug|x86.Build.0 = Debug|x86
 		{922E6D92-A57F-4334-A335-B7042EBCAA8C}.Release|x86.ActiveCfg = Release|x86
 		{922E6D92-A57F-4334-A335-B7042EBCAA8C}.Release|x86.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.ActiveCfg = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.Build.0 = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1} = {BD0056D9-DF80-4ED9-A0A7-931FD2778DFA}
 		{922E6D92-A57F-4334-A335-B7042EBCAA8C} = {BD0056D9-DF80-4ED9-A0A7-931FD2778DFA}
+		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1} = {BD0056D9-DF80-4ED9-A0A7-931FD2778DFA}
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {BD0056D9-DF80-4ED9-A0A7-931FD2778DFA}
 	EndGlobalSection
 EndGlobal
