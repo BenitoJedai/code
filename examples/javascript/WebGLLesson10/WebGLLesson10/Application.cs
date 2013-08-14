@@ -40,6 +40,8 @@ namespace WebGLLesson10
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
+            // works in IE11
+
             #region await __glMatrix then do InitializeContent
             new __glMatrix().Content.With(
               source =>
@@ -331,7 +333,7 @@ namespace WebGLLesson10
             canvas.onmousemove +=
                 e =>
                 {
-                    if (Native.Document.pointerLockElement == canvas)
+                    if (Native.document.pointerLockElement == canvas)
                     {
 
                         __pointer_x += e.movementX;
@@ -513,23 +515,20 @@ namespace WebGLLesson10
                     #endregion
 
 
-                    #region tick
-                    Action tick = null;
 
-                    tick = () =>
-                    {
-                        if (IsDisposed)
-                            return;
 
-                        handleKeys();
-                        drawScene();
-                        animate();
+                    Native.window.onframe +=
+                        delegate
+                        {
 
-                        Native.Window.requestAnimationFrame += tick;
-                    };
+                            if (IsDisposed)
+                                return;
 
-                    tick();
-                    #endregion
+                            handleKeys();
+                            drawScene();
+                            animate();
+                        };
+
 
 
                 }
