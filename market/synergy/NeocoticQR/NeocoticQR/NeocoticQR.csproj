@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4FFD0992-0097-4C06-9362-19846B399732}</ProjectGuid>
+    <ProjectGuid>{B4988F57-432C-4FB8-9C17-1BE00F00B7A2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NeocoticQR</RootNamespace>
