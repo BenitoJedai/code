@@ -16,7 +16,6 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using WebGLEthanolMolecule.HTML.Pages;
 using WebGLEthanolMolecule.Shaders;
-using WebGLEthanolMolecule.Design;
 
 namespace WebGLEthanolMolecule
 {

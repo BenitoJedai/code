@@ -16,7 +16,6 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using WebGLCone.HTML.Pages;
 using WebGLCone.Shaders;
-using WebGLCone.Design;
 
 namespace WebGLCone
 {

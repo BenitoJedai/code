@@ -16,7 +16,6 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using WebGLDopamineMolecule.HTML.Pages;
 using WebGLDopamineMolecule.Shaders;
-using WebGLDopamineMolecule.Design;
 
 namespace WebGLDopamineMolecule
 {

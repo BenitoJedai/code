@@ -13,7 +13,6 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Drawing;
-using WebGLSimpleCubic.Design;
 using WebGLSimpleCubic.HTML.Pages;
 using WebGLSimpleCubic.Shaders;
 
