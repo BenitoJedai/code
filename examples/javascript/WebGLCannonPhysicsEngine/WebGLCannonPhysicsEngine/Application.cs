@@ -19,6 +19,7 @@ namespace WebGLCannonPhysicsEngine
 {
     using f = Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using ScriptCoreLib.JavaScript.Runtime;
 
 
 
@@ -183,8 +184,9 @@ namespace WebGLCannonPhysicsEngine
             renderer.shadowMapEnabled = true;
             renderer.shadowMapSoft = true;
             //renderer.setSize(Native.Window.Width, Native.Window.Height);
-            renderer.setClearColor(scene.fog.color, 1);
+            //renderer.setClearColor(scene.fog.color, 1);
 
+            renderer.domElement.style.backgroundColor = JSColor.Black;
             renderer.domElement.AttachToDocument();
 
             Action AtResize = delegate
