@@ -39,6 +39,9 @@ namespace WebGLCannonPhysicsEngine
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            // WEBGL11095: INVALID_OPERATION: clearStencil: Method not currently supported
+            // IE11 does not work yet
+
             DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
             //            DEPRECATED: Quaternion's .multiplyVector3() has been removed. Use is now vector.applyQuaternion( quaternion ) instead. Three.js:913

@@ -48,6 +48,8 @@ namespace WebGLLesson01
             // 'ScriptCoreLib.Extensions.LinqExtensions.With<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript>(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript, System.Action<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript>)' and 
             // 'ScriptCoreLib.Extensions.LinqExtensions.With<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript>(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript, System.Action<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLScript>)'
 
+            // works for IE11
+
             #region glMatrix.js -> InitializeContent
 
             LinqExtensions.With(

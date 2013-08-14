@@ -41,6 +41,8 @@ namespace WebGLSpadeWarrior
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault  page = null)
         {
+            // works for IE11
+
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
                source =>
