@@ -174,7 +174,9 @@ namespace Flare3DWaterShips
                 ).ToFunction()
             );
 
-      
+            // http://www.flare3d.com/support/index.php?topic=1101.0
+            this.addChild(new net.hires.debug.Stats());
+
         }
 
 
