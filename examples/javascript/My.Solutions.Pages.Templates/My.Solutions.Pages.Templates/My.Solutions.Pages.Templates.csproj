@@ -223,9 +223,6 @@
     <Reference Include="WebGLChocolux.AssetsLibrary">
       <HintPath>..\..\WebGLChocolux\WebGLChocolux\bin\staging.AssetsLibrary\WebGLChocolux.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLFireballExplosion.AssetsLibrary">
-      <HintPath>..\..\WebGLFireballExplosion\WebGLFireballExplosion\bin\staging.AssetsLibrary\WebGLFireballExplosion.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLSphereRayTrace.AssetsLibrary">
       <HintPath>..\..\WebGLSphereRayTrace\WebGLSphereRayTrace\bin\staging.AssetsLibrary\WebGLSphereRayTrace.AssetsLibrary.dll</HintPath>
     </Reference>
@@ -249,9 +246,6 @@
     </Reference>
     <Reference Include="WebGLBossHarvesterByOutsideOfSociety.AssetsLibrary">
       <HintPath>..\..\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\bin\staging.AssetsLibrary\WebGLBossHarvesterByOutsideOfSociety.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGLBeachballsByDoob.AssetsLibrary">
-      <HintPath>..\..\synergy\webgl\WebGLBeachballsByDoob\WebGLBeachballsByDoob\bin\staging.AssetsLibrary\WebGLBeachballsByDoob.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -282,10 +276,6 @@
     <ProjectReference Include="..\..\ArduinoSpiderControlCenter\SpiderModel\SpiderModel.csproj">
       <Project>{3de096e7-b756-452a-b853-bf732acabd70}</Project>
       <Name>SpiderModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\synergy\webgl\WebGLBeachballsByDoob\WebGLBeachballsByDoob\WebGLBeachballsByDoob.csproj">
-      <Project>{a660135f-61ff-461e-86cc-e450307b28f5}</Project>
-      <Name>WebGLBeachballsByDoob</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety.csproj">
       <Project>{2dc51f7f-a815-4dbf-9015-8aea1e229b87}</Project>
@@ -330,10 +320,6 @@
     <ProjectReference Include="..\..\WebGLEthanolMolecule\WebGLEthanolMolecule\WebGLEthanolMolecule.csproj">
       <Project>{33e5fdf1-fd33-4839-bc39-80715c974a3c}</Project>
       <Name>WebGLEthanolMolecule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebGLFireballExplosion\WebGLFireballExplosion\WebGLFireballExplosion.csproj">
-      <Project>{a5a2005d-d90d-4a59-aa2a-c61d2b5f5010}</Project>
-      <Name>WebGLFireballExplosion</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WebGLHand\WebGLHand\WebGLHand.csproj">
       <Project>{fee6ff6c-7ce4-4dd8-9bb8-c522d9fae2d5}</Project>
@@ -474,5 +460,4 @@ start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFil
 
             </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
