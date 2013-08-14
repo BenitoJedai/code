@@ -29,7 +29,7 @@ namespace My.Solutions.Pages.Templates
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page = null)
+        public Application(IDefault page = null)
         {
             #region switch to chrome AppWindow
             if (chrome.app.runtime != null)
@@ -383,7 +383,7 @@ namespace My.Solutions.Pages.Templates
             y("#WebGLYomotsuTPS", () => new WebGLYomotsuTPS.Application(), new WebGLYomotsuTPS.HTML.Images.FromAssets.Preview());
             y("#WebGLYomotsuMD2Model", () => new WebGLYomotsuMD2Model.Application(), new WebGLYomotsuMD2Model.HTML.Images.FromAssets.Preview());
             y("#WebGLSphereRayTrace", () => new WebGLSphereRayTrace.Application(), new WebGLSphereRayTrace.HTML.Images.FromAssets.Preview());
-            y("#WebGLFireballExplosion", () => new WebGLFireballExplosion.Application(), new WebGLFireballExplosion.HTML.Images.FromAssets.Preview());
+            //y("#WebGLFireballExplosion", () => new WebGLFireballExplosion.Application(), new WebGLFireballExplosion.HTML.Images.FromAssets.Preview());
             y("#WebGLChocolux", () => new WebGLChocolux.Application(), new WebGLChocolux.HTML.Images.FromAssets.Preview());
             y("#WebGLPuls", () => new WebGLPuls.Application(), new WebGLPuls.HTML.Images.FromAssets.Preview());
             y("#WebGLCelShader", () => new WebGLCelShader.Application(), new WebGLCelShader.HTML.Images.FromAssets.Preview());
@@ -422,7 +422,7 @@ namespace My.Solutions.Pages.Templates
             y("#WebGLCannonPhysicsEngine", () => new WebGLCannonPhysicsEngine.Application(), new WebGLCannonPhysicsEngine.HTML.Images.FromAssets.Preview());
             y("#WebGLBossHarvesterByOutsideOfSociety", () => new WebGLBossHarvesterByOutsideOfSociety.Application(), new WebGLBossHarvesterByOutsideOfSociety.HTML.Images.FromAssets.Preview());
             y("#WoodsXmasByRobert", () => new WoodsXmasByRobert.Application(), new WoodsXmasByRobert.HTML.Images.FromAssets.Preview());
-            y("#WebGLBeachballsByDoob", () => new WebGLBeachballsByDoob.Application(), new WebGLBeachballsByDoob.HTML.Images.FromAssets.Preview());
+            //y("#WebGLBeachballsByDoob", () => new WebGLBeachballsByDoob.Application(), new WebGLBeachballsByDoob.HTML.Images.FromAssets.Preview());
 
 
 
