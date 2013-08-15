@@ -10,8 +10,8 @@ namespace ScriptCoreLib.JavaScript
 	/// Interfaces which inherit this interface can define concepts. Concept interfaces are
 	/// automatically implemented by generated HTML classes.
 	/// </summary>
-    [Obsolete]
-	public interface IUltraComponent
+    [Obsolete("SciprtCoreLib.JavaScript.Components.IApplicationComponent")]
+    public interface IUltraComponent
 	{
 		IHTMLImage[] Images { get; }
 

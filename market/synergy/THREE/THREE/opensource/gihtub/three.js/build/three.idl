@@ -13,9 +13,13 @@ interface THREE
 	static attribute long DoubleSide; 
 	static attribute long AdditiveBlending; 
 
-    const long RepeatWrapping = 0;
-    const long FaceColors = 1;
-    const long LinearMipMapLinearFilter = 8;
+	// enum colors?
+	const long VertexColors = 2;
+	const long FaceColors = 1;
+
+
+	const long RepeatWrapping = 0;
+	const long LinearMipMapLinearFilter = 8;
 
 };
 
@@ -32,14 +36,21 @@ interface THREE.ImageUtilsType
 	THREE.Texture loadTexture(any src);
 };
 
+[Constructor(html::HTMLCanvasElement c)]
 interface THREE.Texture
 { 
 	attribute THREE.Vector2 repeat;
+
+	attribute long wrapS;
+	attribute long wrapT;
+	attribute long magFilter;
+	attribute long minFilter;
+
+	attribute boolean needsUpdate;
+
+	attribute int anisotropy;
 	
-    attribute long wrapS;
-    attribute long wrapT;
-    attribute long magFilter;
-    attribute long minFilter;
+
 };
 
 
@@ -79,7 +90,7 @@ interface THREE.PerspectiveCamera
 
 	attribute THREE.Matrix4  projectionMatrix;
 
-	
+
 };
 
 [Constructor()]
@@ -108,6 +119,10 @@ interface THREE.ShaderMaterial
 [Constructor(long color)]
 interface THREE.Color 
 { 
+	THREE.Color  setRGB(double r,double g,double b);
+	THREE.Color  clone();
+	THREE.Color  multiply( THREE.Color c);
+
 };
 
 
@@ -162,7 +177,7 @@ interface THREE.DirectionalLight
 };
 
 [Constructor(long x),
- Constructor(long x, double y, long z)]
+	Constructor(long x, double y, long z)]
 interface THREE.PointLight 
 { 
 	attribute THREE.Vector3  position;
@@ -209,8 +224,10 @@ interface THREE.PlaneGeometry
 [Constructor(), Constructor(double x, double y)]
 interface THREE.Vector2
 { 
-		attribute double x; 
+	attribute double x; 
 	attribute double y;
+
+	THREE.Vector2  set(double x, double y);
 };
 
 
@@ -248,6 +265,9 @@ interface THREE.Matrix4
 	// tested by X:\jsc.svn\examples\javascript\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\Application.cs
 	any setRotationFromEuler(any vec3);
 	any makeRotationFromEuler(any vec3);
+
+
+	THREE.Matrix4 makeTranslation(double x, double y, double z);
 
 	any setPosition(any vec3);
 };
@@ -320,6 +340,7 @@ interface THREE.Mesh
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  scale;
 
+	attribute THREE.Geometry geometry;
 	attribute THREE.Quaternion quaternion;
 	attribute boolean visible;
 
@@ -339,9 +360,9 @@ interface THREE.MorphAnimMesh
 	attribute long duration;
 	attribute long time;
 	attribute long currentKeyframe;
-	
+
 	attribute boolean castShadow;
-    attribute boolean receiveShadow;
+	attribute boolean receiveShadow;
 
 	void updateAnimation(double delta);
 	void setFrameRange(long animMin, long animMax);
@@ -365,6 +386,9 @@ interface THREE.WebGLRenderer
 	void render(any scene, any camera);
 
 	void clear();
+
+	int getMaxAnisotropy();
+
 };
 
 [Constructor(THREE.WebGLRenderer r)]
@@ -378,7 +402,9 @@ interface THREE.EffectComposer
 [Constructor]
 interface THREE.Geometry 
 { 
-
+	attribute sequence<THREE.Geometry>        faces;
+	attribute sequence<THREE.Color>        vertexColors;
+	
 };
 
 [Constructor]
@@ -386,14 +412,15 @@ interface THREE.Face4
 { 
 	attribute THREE.Color        color;
 
+
 };
 
 
 
 [Constructor(double radius),
- Constructor(double size, double arg1, double arg2),
- Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5),
- Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)]
+	Constructor(double size, double arg1, double arg2),
+	Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5),
+	Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)]
 interface THREE.SphereGeometry 
 { 
 	attribute sequence<THREE.Face4>        faces;
@@ -418,9 +445,14 @@ interface THREE.Projector
 
 
 [Constructor(double x, double y, double z),
- Constructor(double x, double y, double z, double cx, double cy, double cz)]
+	Constructor(double x, double y, double z, double cx, double cy, double cz)]
 interface THREE.CubeGeometry 
 { 
+	// array?
+	attribute sequence<THREE.Face4>        faces;
+	attribute sequence<sequence<sequence<THREE.Vector2>>>        faceVertexUvs;
+
+	void applyMatrix(THREE.Matrix4 m);
 };
 
 [Constructor(any position, any n)]

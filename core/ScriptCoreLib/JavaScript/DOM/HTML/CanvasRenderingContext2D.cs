@@ -18,6 +18,26 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         #region Constructor
 
+        public CanvasRenderingContext2D(int w, int h)
+        {
+            // InternalConstructor
+        }
+
+        static CanvasRenderingContext2D InternalConstructor(int w, int h)
+        {
+            // tested by X:\jsc.svn\examples\javascript\ImageCachedIntoLocalStorageExperiment\ImageCachedIntoLocalStorageExperiment\Application.cs
+
+            var canvas = new IHTMLCanvas { width = w, height = h };
+            var context = (CanvasRenderingContext2D)canvas.getContext("2d");
+
+            return context;
+        }
+
+        #endregion
+
+
+        #region Constructor
+
         public CanvasRenderingContext2D()
         {
             // InternalConstructor

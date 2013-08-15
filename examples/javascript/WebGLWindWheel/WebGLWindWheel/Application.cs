@@ -15,7 +15,6 @@ using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using WebGLWindWheel.HTML.Pages;
-using WebGLWindWheel.Design;
 using WebGLWindWheel.Shaders;
 
 namespace WebGLWindWheel
@@ -36,60 +35,23 @@ namespace WebGLWindWheel
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page = null)
+        public Application(IDefault page = null)
         {
-            #region __glMatrix -> InitializeContent
-            new __glMatrix().Content.With(
-               source =>
-               {
-                   source.onload +=
-                       delegate
-                       {
-                           InitializeContent(page);
-                       };
 
-                   source.AttachToDocument();
-               }
-           );
-            #endregion
-
-
-        
-        }
-
-        void InitializeContent(IDefault page = null)
-        {
             var size = 600;
 
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+
+            var gl = new WebGLRenderingContext();
+
+            var canvas = gl.canvas.AttachToDocument();
+
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, size, size);
 
             canvas.width = size;
             canvas.height = size;
-            #endregion
-
-            #region gl - Initialise WebGL
-
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
 
 
             var gl_viewportWidth = size;
@@ -140,16 +102,16 @@ namespace WebGLWindWheel
 
 
 
-            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrix = glMatrix.mat4.create();
             var mvMatrixStack = new Stack<Float32Array>();
 
-            var pMatrix = __glMatrix.mat4.create();
+            var pMatrix = glMatrix.mat4.create();
 
             #region new in lesson 03
             Action mvPushMatrix = delegate
             {
-                var copy = __glMatrix.mat4.create();
-                __glMatrix.mat4.set(mvMatrix, copy);
+                var copy = glMatrix.mat4.create();
+                glMatrix.mat4.set(mvMatrix, copy);
                 mvMatrixStack.Push(copy);
             };
 
@@ -385,14 +347,14 @@ namespace WebGLWindWheel
                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                __glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                __glMatrix.mat4.identity(mvMatrix);
+                glMatrix.mat4.identity(mvMatrix);
 
-                __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
+                glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
 
                 mvPushMatrix();
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rWind), new float[] { 0f, 1f, 0f });
+                glMatrix.mat4.rotate(mvMatrix, degToRad(rWind), new float[] { 0f, 1f, 0f });
 
 
                 #region DrawFrameworkWingAtX
@@ -402,7 +364,7 @@ namespace WebGLWindWheel
                         #region draw center cube
                         mvPushMatrix();
 
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { cubesize * WingX, cubesize * WingY, 0 });
+                        glMatrix.mat4.translate(mvMatrix, new float[] { cubesize * WingX, cubesize * WingY, 0 });
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
                         gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
@@ -425,7 +387,7 @@ namespace WebGLWindWheel
                     {
                         mvPushMatrix();
 
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { cubesize * WingX, 0, 0 });
+                        glMatrix.mat4.translate(mvMatrix, new float[] { cubesize * WingX, 0, 0 });
 
                         if (WingRotationOffset == 0)
                         {
@@ -437,8 +399,8 @@ namespace WebGLWindWheel
                             PartIndex =>
                             {
                                 mvPushMatrix();
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(WingRotationOffset + (rCube * WingRotationMultiplier)), new float[] { 1f, 0f, 0f });
-                                __glMatrix.mat4.translate(mvMatrix, new float[] { 0f, cubesize * PartIndex * 2, 0 });
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(WingRotationOffset + (rCube * WingRotationMultiplier)), new float[] { 1f, 0f, 0f });
+                                glMatrix.mat4.translate(mvMatrix, new float[] { 0f, cubesize * PartIndex * 2, 0 });
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
                                 gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
@@ -518,10 +480,10 @@ namespace WebGLWindWheel
 
 
                 #region draw cube on the right to remind where we started
-                __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 2.0f, 0.0f });
+                glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 2.0f, 0.0f });
 
                 mvPushMatrix();
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube), new float[] { 1f, 1f, 1f });
+                glMatrix.mat4.rotate(mvMatrix, degToRad(rCube), new float[] { 1f, 1f, 1f });
 
 
 

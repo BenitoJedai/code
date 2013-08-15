@@ -14,7 +14,6 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
-using WebGLHand.Design;
 using WebGLHand.HTML.Pages;
 using WebGLHand.Shaders;
 
@@ -40,58 +39,21 @@ namespace WebGLHand
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault  page = null)
         {
-            #region glMatrix.js -> InitializeContent
-            new __glMatrix().Content.With(
-               source =>
-               {
-                   source.onload +=
-                       delegate
-                       {
-                           InitializeContent(page);
-                       };
 
-                   source.AttachToDocument();
-               }
-           );
-            #endregion
-
-
-        }
-
-        void InitializeContent(IDefault  page = null)
-        {
             var gl_viewportWidth = Native.window.Width;
             var gl_viewportHeight = Native.window.Height;
 
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
+   
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+
+            var gl = new WebGLRenderingContext();
+            var canvas = gl.canvas.AttachToDocument();
+
             canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
             canvas.width = gl_viewportWidth;
             canvas.height = gl_viewportHeight;
-            #endregion
-
-            #region gl - Initialise WebGL
-
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
 
             #region toolbar
             var toolbar = new Toolbar();
@@ -206,16 +168,16 @@ namespace WebGLHand
 
 
 
-            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrix = glMatrix.mat4.create();
             var mvMatrixStack = new Stack<Float32Array>();
 
-            var pMatrix = __glMatrix.mat4.create();
+            var pMatrix = glMatrix.mat4.create();
 
             #region new in lesson 03
             Action mvPushMatrix = delegate
             {
-                var copy = __glMatrix.mat4.create();
-                __glMatrix.mat4.set(mvMatrix, copy);
+                var copy = glMatrix.mat4.create();
+                glMatrix.mat4.set(mvMatrix, copy);
                 mvMatrixStack.Push(copy);
             };
 
@@ -412,7 +374,7 @@ namespace WebGLHand
             canvas.onmousemove +=
                 e =>
                 {
-                    if (Native.Document.pointerLockElement == canvas)
+                    if (Native.document.pointerLockElement == canvas)
                     {
 
                         __pointer_x += e.movementX;
@@ -423,7 +385,7 @@ namespace WebGLHand
             canvas.onmouseup +=
                 delegate
                 {
-                    Native.Document.exitPointerLock();
+                    Native.document.exitPointerLock();
                 };
             #endregion
 
@@ -435,9 +397,9 @@ namespace WebGLHand
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 
-                __glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                __glMatrix.mat4.identity(mvMatrix);
+                glMatrix.mat4.identity(mvMatrix);
 
 
 
@@ -453,15 +415,15 @@ namespace WebGLHand
                 #endregion
 
 
-                __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
+                glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
 
                 mvPushMatrix();
 
 
                 // rotate all of it
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.05f), new float[] { -1f, 0.5f, 0f });
-                __glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, new float[] { 1f, 0, 0f });
-                __glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, new float[] { 0, 1f, 0f });
+                glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.05f), new float[] { -1f, 0.5f, 0f });
+                glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, new float[] { 1f, 0, 0f });
+                glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, new float[] { 0, 1f, 0f });
 
 
                 #region DrawCubeAt
@@ -469,7 +431,7 @@ namespace WebGLHand
                     (x, y) =>
                     {
                         mvPushMatrix();
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { 2 * cubesize * x, 2 * cubesize * -y, 0 });
+                        glMatrix.mat4.translate(mvMatrix, new float[] { 2 * cubesize * x, 2 * cubesize * -y, 0 });
 
                         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
                         setMatrixUniforms();
@@ -494,7 +456,7 @@ namespace WebGLHand
                         mvPushMatrix();
 
 
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
+                        glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
 
                         // 01.34.67.89.01
                         DrawCubeAt(3 * x + 0, -2);
@@ -504,9 +466,9 @@ namespace WebGLHand
 
                         mvPushMatrix();
 
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (5), 0 });
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (-5), 0 });
+                        glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (5), 0 });
+                        glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
+                        glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (-5), 0 });
 
                         DrawCubeAt(3 * x + 0, -5);
                         DrawCubeAt(3 * x + 1, -5);
@@ -515,9 +477,9 @@ namespace WebGLHand
 
                         mvPushMatrix();
 
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (8), 0 });
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (-8), 0 });
+                        glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (8), 0 });
+                        glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
+                        glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (-8), 0 });
 
                         DrawCubeAt(3 * x + 0, -8);
                         DrawCubeAt(3 * x + 1, -8);
@@ -546,9 +508,9 @@ namespace WebGLHand
 
                 mvPushMatrix();
 
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(-90), new float[] { 0f, 0f, 1f });
+                glMatrix.mat4.rotate(mvMatrix, degToRad(-90), new float[] { 0f, 0f, 1f });
                 // we have misplaced it now. lets put it into its place:)
-                __glMatrix.mat4.translate(mvMatrix, new float[] { 2 * cubesize * -4, 2 * cubesize * 11, 0 });
+                glMatrix.mat4.translate(mvMatrix, new float[] { 2 * cubesize * -4, 2 * cubesize * 11, 0 });
 
 
 
@@ -563,11 +525,11 @@ namespace WebGLHand
 
 
                 #region original cube
-                __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
+                glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
 
                 mvPushMatrix();
 
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube), new float[] { 1f, 1f, 1f });
+                glMatrix.mat4.rotate(mvMatrix, degToRad(rCube), new float[] { 1f, 1f, 1f });
 
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
                 setMatrixUniforms();
@@ -779,10 +741,8 @@ namespace WebGLHand
              };
             #endregion
 
-            #region tick
-            var tick = default(Action);
 
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 c++;
 
@@ -803,17 +763,13 @@ namespace WebGLHand
 
                     }
                 }
-
-                Native.Document.title = "" + c;
+                
+                Native.document.title = "" + c;
 
                 drawScene();
                 animate();
-
-                Native.Window.requestAnimationFrame += tick;
             };
 
-            tick();
-            #endregion
 
           
         }
