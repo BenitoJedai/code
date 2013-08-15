@@ -1,0 +1,38 @@
+﻿//interface glMatrix
+//{ 
+//	// what about extension methods?
+//	static attribute mat4 mat4; 
+//
+//
+//
+//};
+
+interface mat4
+{ 
+
+	WebGLFloatArray create();
+	void rotate(WebGLFloatArray mvMatrix, float rad, float[] vec3);
+	
+	void translate(WebGLFloatArray mvMatrix, float[] p);
+
+	void scale(WebGLFloatArray mvMatrix, float[] p);
+	void identity(WebGLFloatArray mvMatrix);
+	void set(WebGLFloatArray mvMatrix, WebGLFloatArray copy);
+	void perspective(float p, float p2, float p3, float p4, WebGLFloatArray mvMatrix);
+};
+
+interface mat3
+{ 
+
+	WebGLFloatArray create();
+	void transpose(WebGLFloatArray normalMatrix);
+};
+
+interface vec3
+{ 
+
+	WebGLFloatArray create();
+	void transpose(WebGLFloatArray normalMatrix);
+	void normalize(float[] lightingDirection, any adjustedLD);
+	void scale(WebGLFloatArray mvMatrix, float[] p);
+};

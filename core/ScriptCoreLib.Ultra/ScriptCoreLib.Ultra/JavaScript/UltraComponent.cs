@@ -11,7 +11,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 namespace ScriptCoreLib.JavaScript
 {
     // The way in which text or pictures are set out on a page.
-    [Obsolete("rename to Layout?")]
+    [Obsolete("SciprtCoreLib.JavaScript.Components.ApplicationComponent")]
     public abstract class UltraComponent : IUltraComponent
     {
         // Should we inherit ComponentModel.Component?

@@ -7,6 +7,8 @@ using ScriptCoreLib.GLSL;
 
 namespace WebGLSpadeWarrior.Shaders
 {
+    //using mat4 = ScriptCoreLib.GLSL.mat4;
+
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
     class __GeometryVertexShader : ScriptCoreLib.GLSL.VertexShader
     {

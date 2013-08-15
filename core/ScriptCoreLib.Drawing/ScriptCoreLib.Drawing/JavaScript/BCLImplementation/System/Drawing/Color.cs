@@ -52,6 +52,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         }
         #endregion
 
+  
+
+        public int ToArgb()
+        {
+            var e = this;
+
+            return e.B + (e.G << 8) + (e.R << 16);
+        }
+
+        // [static System.Drawing.Color.FromArgb(System.Int32, System.Int32, System.Int32)
         public static Color FromArgb(int red, int green, int blue)
         {
             return new __Color { Value = Shared.Drawing.Color.FromRGB(red, green, blue) };

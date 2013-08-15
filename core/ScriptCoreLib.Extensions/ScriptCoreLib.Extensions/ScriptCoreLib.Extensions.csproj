@@ -94,9 +94,15 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\SHA1CryptographyExtensions.cs" />
     <Compile Include="Extensions\StringConversionExtensions.cs" />
+    <Compile Include="JavaScript\Components\ApplicationComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\CharExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilderExtensions.cs" />
+    <Compile Include="Shared\Components\ApplicationWebServiceComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Shared\Data\DynamicDataReader.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDataReaderExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Int32Extensions.cs" />
@@ -126,7 +132,6 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

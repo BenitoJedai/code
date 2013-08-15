@@ -31,6 +31,8 @@ namespace My.Solutions.Pages.Templates
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
+            THREE.Color ref0;
+
             #region switch to chrome AppWindow
             if (Expando.InternalIsMember(Native.window, "chrome"))
                 if (chrome.app.runtime != null)
@@ -104,19 +106,19 @@ namespace My.Solutions.Pages.Templates
 
                     var newbody = new Default().Container;
                     newbody.childNodes.WithEach(k => k.AttachToDocument());
-                    newbody.attributes.WithEach(k => Native.Document.body.setAttribute(k.name, k.value));
+                    newbody.attributes.WithEach(k => Native.document.body.setAttribute(k.name, k.value));
 
                 }
             #endregion
 
 
-            var h = Native.Document.location.hash;
+            var h = Native.document.location.hash;
 
 
             // are we running as a clone?
             // if so our location hash should be stored as html.
 
-            Native.Document.getElementsByTagName("link").Select(k => (IHTMLLink)k).Where(k => k.rel == "location").ToList().ForEach(
+            Native.document.getElementsByTagName("link").Select(k => (IHTMLLink)k).Where(k => k.rel == "location").ToList().ForEach(
                 location =>
                 {
                     //  href = file:///X:/temp/Spiral.htm#WebGLSpiral 
@@ -139,7 +141,7 @@ namespace My.Solutions.Pages.Templates
             DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
-            Console.WriteLine("Templates loaded... " + new { Native.Document.location, h });
+            Console.WriteLine("Templates loaded... " + new { Native.document.location, h });
 
             //{
             //    var html = new global::wolfenstein4kTemplate.HTML.Pages.DefaultPage();
@@ -391,6 +393,7 @@ namespace My.Solutions.Pages.Templates
 
             // jsc cannot handle multiple delegates on the same statement yet.
 
+
             y("#WebGLDopamineMolecule", () => new WebGLDopamineMolecule.Application(), new WebGLDopamineMolecule.HTML.Images.FromAssets.Preview());
             y("#WebGLEthanolMolecule", () => new WebGLEthanolMolecule.Application(), new WebGLEthanolMolecule.HTML.Images.FromAssets.Preview());
             y("#WebGLYomotsuTPS", () => new WebGLYomotsuTPS.Application(), new WebGLYomotsuTPS.HTML.Images.FromAssets.Preview());
@@ -405,7 +408,6 @@ namespace My.Solutions.Pages.Templates
             y("#WebGLShaderDisturb", () => new WebGLShaderDisturb.Application(), new WebGLShaderDisturb.HTML.Images.FromAssets.Preview());
             y("#WebGLDynamicTerrainTemplate", () => new WebGLDynamicTerrainTemplate.Application(), new WebGLDynamicTerrainTemplate.HTML.Images.FromAssets.Preview());
             y("#WebGLEscherDrosteEffect", () => new WebGLEscherDrosteEffect.Application(), new WebGLEscherDrosteEffect.HTML.Images.FromAssets.Preview());
-            y("#WebGLHand", () => new WebGLHand.Application(), new WebGLHand.HTML.Images.FromAssets.Preview());
             y("#WebGLInvade", () => new WebGLInvade.Application(), new WebGLInvade.HTML.Images.FromAssets.Preview());
             y("#WebGLLesson01", () => new WebGLLesson01.Application(), new WebGLLesson01.HTML.Images.FromAssets.Preview());
             y("#WebGLLesson02", () => new WebGLLesson02.Application(), new WebGLLesson02.HTML.Images.FromAssets.Preview());
@@ -426,7 +428,6 @@ namespace My.Solutions.Pages.Templates
             y("#WebGLNyanCat", () => new WebGLNyanCat.Application(), new WebGLNyanCat.HTML.Images.FromAssets.Preview());
             y("#WebGLPlanetGenerator", () => new WebGLPlanetGenerator.Application(), new WebGLPlanetGenerator.HTML.Images.FromAssets.Preview());
             y("#WebGLSimpleCubic", () => new WebGLSimpleCubic.Application(), new WebGLSimpleCubic.HTML.Images.FromAssets.Preview());
-            y("#WebGLSpadeWarrior", () => new WebGLSpadeWarrior.Application(), new WebGLSpadeWarrior.HTML.Images.FromAssets.Preview());
             y("#SpiderModel", () => new SpiderModel.Application(), new SpiderModel.HTML.Images.FromAssets.Preview());
             y("#WebGLWindWheel", () => new WebGLWindWheel.Application(), new WebGLWindWheel.HTML.Images.FromAssets.Preview());
             y("#WebGLTunnel", () => new WebGLTunnel.Application(), new WebGLTunnel.HTML.Images.FromAssets.Preview());
@@ -437,7 +438,11 @@ namespace My.Solutions.Pages.Templates
             y("#WoodsXmasByRobert", () => new WoodsXmasByRobert.Application(), new WoodsXmasByRobert.HTML.Images.FromAssets.Preview());
             //y("#WebGLBeachballsByDoob", () => new WebGLBeachballsByDoob.Application(), new WebGLBeachballsByDoob.HTML.Images.FromAssets.Preview());
 
+            y("#WebGLCity", () => new WebGLCity.Application(), new WebGLCity.HTML.Images.FromAssets.Preview());
 
+            // glMatrix
+            y("#WebGLHand", () => new WebGLHand.Application(), new WebGLHand.HTML.Images.FromAssets.Preview());
+            y("#WebGLSpadeWarrior", () => new WebGLSpadeWarrior.Application(), new WebGLSpadeWarrior.HTML.Images.FromAssets.Preview());
 
             if (h == "")
             {

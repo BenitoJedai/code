@@ -120,6 +120,7 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="Extensions\THREEExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
@@ -127,6 +128,8 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="opensource\gihtub\three.js\build\!References.htm" />
+    <Content Include="opensource\gihtub\three.js\build\FirstPersonControls.idl" />
+    <Content Include="opensource\gihtub\three.js\build\FirstPersonControls.js" />
     <Content Include="opensource\gihtub\three.js\build\three.idl" />
     <Content Include="opensource\gihtub\three.js\build\three.js" />
   </ItemGroup>

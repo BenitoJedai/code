@@ -14,6 +14,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using WebGLLesson10.Design;
 using WebGLLesson10.HTML.Pages;
+using glMatrixLibrary;
 
 namespace WebGLLesson10
 {
@@ -42,60 +43,26 @@ namespace WebGLLesson10
         {
             // works in IE11
 
-            #region await __glMatrix then do InitializeContent
-            new __glMatrix().Content.With(
-              source =>
-              {
-                  source.onload +=
-                    delegate
-                    {
-                        InitializeContent(page);
-                    };
-
-                  source.AttachToDocument();
-              }
-           );
-            #endregion
 
 
             style.Content.AttachToHead();
-         
-        }
 
-        void InitializeContent(IDefault  page = null)
-        {
-            var gl_viewportWidth = Native.Window.Width;
-            var gl_viewportHeight = Native.Window.Height;
+            var gl_viewportWidth = Native.window.Width;
+            var gl_viewportHeight = Native.window.Height;
 
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+
+            var gl = new WebGLRenderingContext();
+
+
+            var canvas = gl.canvas.AttachToDocument();
+
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
             canvas.width = gl_viewportWidth;
             canvas.height = gl_viewportHeight;
-            #endregion
-
-            #region gl - Initialise WebGL
-
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
 
             #region IsDisposed
             var IsDisposed = false;
@@ -126,7 +93,7 @@ namespace WebGLLesson10
                 };
             #endregion
 
-        
+
 
             #region init shaders
 
@@ -167,16 +134,16 @@ namespace WebGLLesson10
 
 
 
-            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrix = glMatrix.mat4.create();
             var mvMatrixStack = new Stack<Float32Array>();
 
-            var pMatrix = __glMatrix.mat4.create();
+            var pMatrix = glMatrix.mat4.create();
 
             #region mvPushMatrix
             Action mvPushMatrix = delegate
             {
-                var copy = __glMatrix.mat4.create();
-                __glMatrix.mat4.set(mvMatrix, copy);
+                var copy = glMatrix.mat4.create();
+                glMatrix.mat4.set(mvMatrix, copy);
                 mvMatrixStack.Push(copy);
             };
             #endregion
@@ -327,6 +294,8 @@ namespace WebGLLesson10
             canvas.onmousedown +=
                 delegate
                 {
+
+                    // http://connect.microsoft.com/IE/feedback/details/793718/ie11-feature-request-support-for-pointer-lock-api
                     canvas.requestPointerLock();
                 };
 
@@ -479,9 +448,9 @@ namespace WebGLLesson10
 
 
 
-                        __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                        glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                        __glMatrix.mat4.identity(mvMatrix);
+                        glMatrix.mat4.identity(mvMatrix);
 
                         if (__pointer_y != 0)
                             pitch = radToDeg(__pointer_y * -0.01f);
@@ -490,14 +459,14 @@ namespace WebGLLesson10
                             yaw = radToDeg(__pointer_x * -0.01f);
 
 
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-pitch), 1, 0, 0);
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-yaw), 0, 1, 0);
+                        glMatrix.mat4.rotate(mvMatrix, degToRad(-pitch), new f[] { 1, 0, 0 });
+                        glMatrix.mat4.rotate(mvMatrix, degToRad(-yaw), new f[] { 0, 1, 0 });
 
-                        //__glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, 1, 0, 0);
-                        //__glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, 0, 1, 0);
+                        //glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, 1, 0, 0);
+                        //glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, 0, 1, 0);
 
 
-                        __glMatrix.mat4.translate(mvMatrix, -xPos, -yPos, -zPos);
+                        glMatrix.mat4.translate(mvMatrix, new[] { -xPos, -yPos, -zPos });
 
                         gl.activeTexture(gl.TEXTURE0);
                         gl.bindTexture(gl.TEXTURE_2D, mudTexture);

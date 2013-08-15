@@ -1,4 +1,6 @@
-﻿interface CanvasRenderingContext2D {
+﻿// https://groups.google.com/a/dartlang.org/forum/#!topic/misc/0KFrVZkY5fE/discussion
+
+interface CanvasRenderingContext2D {
 
   // back-reference to the canvas
   readonly attribute HTMLCanvasElement canvas;

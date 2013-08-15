@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSimpleCubic", "WebGLSimpleCubic\WebGLSimpleCubic.csproj", "{11AD23FF-1798-4AEC-AE29-B687589A3CFC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454} = {7C0B6A91-F338-41A2-8879-E2E837D6D454}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasMatrixLibrary", "..\..\..\market\synergy\javascript\CanvasMatrixLibrary\CanvasMatrixLibrary\CanvasMatrixLibrary.csproj", "{7C0B6A91-F338-41A2-8879-E2E837D6D454}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{11AD23FF-1798-4AEC-AE29-B687589A3CFC}.Debug|x86.Build.0 = Debug|x86
 		{11AD23FF-1798-4AEC-AE29-B687589A3CFC}.Release|x86.ActiveCfg = Release|x86
 		{11AD23FF-1798-4AEC-AE29-B687589A3CFC}.Release|x86.Build.0 = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.ActiveCfg = Debug|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.Build.0 = Debug|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

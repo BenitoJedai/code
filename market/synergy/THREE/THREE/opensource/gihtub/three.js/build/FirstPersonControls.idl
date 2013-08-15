@@ -1,0 +1,15 @@
+﻿// CLR does not provie us open mixin types yet. All DeclaringType members thus must be in the same package. 
+// How to overcome this?
+// C# has extensionmethods for that.
+
+// does jsc do idl inheritance just yet?
+//[Constructor(THREE.Camera c)]
+[Constructor(THREE.PerspectiveCamera c)]
+interface THREE.FirstPersonControls
+{ 
+	attribute double movementSpeed;
+	attribute double lookSpeed;
+	attribute boolean lookVertical;
+
+	void update(double delta);
+};

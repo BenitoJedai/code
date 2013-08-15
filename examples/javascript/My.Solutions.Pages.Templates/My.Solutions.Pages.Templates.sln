@@ -94,6 +94,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLCannonPhysicsEngine", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLCity", "..\synergy\webgl\WebGLCity\WebGLCity\WebGLCity.csproj", "{7C0B6A91-F338-41A2-8879-E2E837D6D454}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -990,6 +992,26 @@ Global
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Android|Any CPU.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Android|Mixed Platforms.Build.0 = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Android|x86.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Android|x86.Build.0 = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Assets|Any CPU.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Assets|x86.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Assets|x86.Build.0 = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.ActiveCfg = Debug|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.Build.0 = Debug|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|Any CPU.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.ActiveCfg = Release|x86
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1038,5 +1060,6 @@ Global
 		{2DC51F7F-A815-4DBF-9015-8AEA1E229B87} = {EC576255-F2AA-4877-9A8B-E9858124B3AF}
 		{6AFA30D6-E490-4D20-ABEE-50E900779CF4} = {EC576255-F2AA-4877-9A8B-E9858124B3AF}
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {EC576255-F2AA-4877-9A8B-E9858124B3AF}
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454} = {EC576255-F2AA-4877-9A8B-E9858124B3AF}
 	EndGlobalSection
 EndGlobal
