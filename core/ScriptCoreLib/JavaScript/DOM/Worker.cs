@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -81,18 +82,23 @@ namespace ScriptCoreLib.JavaScript.DOM
             // so multiple inline workers could know which they are.
 
 
-            var c = new global::ScriptCoreLib.JavaScript.DOM.MessageChannel();
+            //var c = new global::ScriptCoreLib.JavaScript.DOM.MessageChannel();
 
-            c.port1.onmessage +=
-                e =>
-                {
-                    Console.Write("" + e.data);
-                };
+            //c.port1.onmessage +=
+            //    e =>
+            //    {
+            //        Console.Write("" + e.data);
+            //    };
 
-            c.port1.start();
-            c.port2.start();
+            //c.port1.start();
+            //c.port2.start();
 
-            w.postMessage("" + index, new[] { c.port2 });
+            w.postMessage("" + index,
+                 e =>
+                 {
+                     Console.Write("" + e.data);
+                 }
+            );
 
             return w;
         }
@@ -109,6 +115,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                 Native.worker.onmessage +=
                     e =>
                     {
+                        if (default_yield == null)
+                            return;
+
                         var s = "" + e.data;
                         if (!string.IsNullOrEmpty(s))
                         {
@@ -120,7 +129,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
                                     #region ConsoleFormWriter
-                                    var w = new InternalConsoleForm_TextWriter();
+                                    var w = new InternalInlineWorkerTextWriter();
 
                                     var o = Console.Out;
 
@@ -144,6 +153,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                                     //    };
                                     #endregion
 
+                                    default_yield = null;
 
                                     yield(Native.worker);
                                 }
@@ -159,7 +169,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     }
 
     [Script]
-    public class InternalConsoleForm_TextWriter : TextWriter
+    public class InternalInlineWorkerTextWriter : TextWriter
     {
         public Action<string> AtWrite;
         public Action<string> AtWriteLine;

@@ -117,6 +117,7 @@
     <Compile Include="JavaScript\DOM\MessagePort.cs" />
     <Compile Include="JavaScript\DOM\Worker.cs" />
     <Compile Include="JavaScript\Extensions\INodeConvertible.cs" />
+    <Compile Include="JavaScript\Extensions\MessagePortExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ArrayBuffer.cs" />
     <Compile Include="JavaScript\WebGL\WebGLTexture.cs" />
     <Compile Include="JavaScript\WebGL\WebGLBuffer.cs" />
