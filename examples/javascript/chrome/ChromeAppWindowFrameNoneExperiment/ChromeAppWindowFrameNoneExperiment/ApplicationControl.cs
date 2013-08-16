@@ -1,4 +1,5 @@
 using ChromeAppWindowFrameNoneExperiment;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -17,6 +18,7 @@ namespace ChromeAppWindowFrameNoneExperiment
 
         private void button1_Click(object sender, System.EventArgs e)
         {
+            Console.WriteLine("new window!");
             new Form().Show();
 
         }

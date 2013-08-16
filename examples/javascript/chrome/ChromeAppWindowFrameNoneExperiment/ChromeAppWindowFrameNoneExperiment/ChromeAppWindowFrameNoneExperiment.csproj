@@ -38,6 +38,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ConsoleFormPackage">
+      <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
+    </Reference>
     <Reference Include="Abstractatech.JavaScript.Forms.AeroStyler">
       <HintPath>..\packages\Abstractatech.JavaScript.Forms.AeroStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.AeroStyler.dll</HintPath>
     </Reference>
@@ -175,5 +178,4 @@ start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFil
 
             </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

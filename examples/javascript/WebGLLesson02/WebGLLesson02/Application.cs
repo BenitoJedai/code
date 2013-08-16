@@ -15,7 +15,6 @@ using WebGLLesson02.HTML.Pages;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Drawing;
 using WebGLLesson02.Shaders;
-using WebGLLesson02.Design;
 using System.Collections.Generic;
 
 namespace WebGLLesson02
@@ -38,6 +37,7 @@ namespace WebGLLesson02
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
+        public bool IsDisposed;
 
         /// <summary>
         /// This is a javascript application.
@@ -45,65 +45,22 @@ namespace WebGLLesson02
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
-            #region glMatrix.js -> InitializeContent
-            new __glMatrix().Content.With(
-               source =>
-               {
-                   source.onload +=
-                       delegate
-                       {
-                           //new IFunction("alert(CanvasMatrix4);").apply(null);
 
-                           InitializeContent(page);
-                       };
-
-                   source.AttachToDocument();
-               }
-           );
-            #endregion
-
-
-
-       
-        }
-
-
-        public bool IsDisposed;
-
-        void InitializeContent(IDefault page = null)
-        {
             var size = 500;
 
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+
+            var gl = new WebGLRenderingContext();
+
+
+            var canvas = gl.canvas.AttachToDocument();
+
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, size, size);
 
             canvas.width = size;
             canvas.height = size;
-            #endregion
-
-            #region gl - Initialise WebGL
-
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
-
 
             var gl_viewportWidth = size;
             var gl_viewportHeight = size;
@@ -140,7 +97,7 @@ namespace WebGLLesson02
                 // verify
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
                     throw new InvalidOperationException("shader failed");
                 }
 
@@ -172,8 +129,8 @@ namespace WebGLLesson02
 
 
 
-            var mvMatrix = __glMatrix.mat4.create();
-            var pMatrix = __glMatrix.mat4.create();
+            var mvMatrix = glMatrix.mat4.create();
+            var pMatrix = glMatrix.mat4.create();
 
             #region setMatrixUniforms
             Action setMatrixUniforms =
@@ -264,11 +221,11 @@ namespace WebGLLesson02
                     gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                    __glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                    glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                    __glMatrix.mat4.identity(mvMatrix);
+                    glMatrix.mat4.identity(mvMatrix);
 
-                    __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
+                    glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
                     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
                     gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
@@ -283,7 +240,7 @@ namespace WebGLLesson02
                     gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
 
 
-                    __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
+                    glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
                     gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
                     gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
@@ -303,8 +260,8 @@ namespace WebGLLesson02
             Action AtResize =
                 delegate
                 {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
+                    gl_viewportWidth = Native.window.Width;
+                    gl_viewportHeight = Native.window.Height;
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
@@ -314,7 +271,7 @@ namespace WebGLLesson02
                     drawScene();
                 };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 e =>
                 {
                     AtResize();
