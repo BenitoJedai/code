@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared.Drawing;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
@@ -62,14 +63,15 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         /// as fullscreen
         /// </summary>
         [Script(DefineAsStatic=true)]
+        [Obsolete("ScriptCoreLib.Extensions")]
         public void ToFullscreen()
         {
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            if (this.parentNode != Native.Document.body)
+            if (this.parentNode != Native.document.body)
                 this.AttachToDocument();
 
-            var p = new Point(Native.Window.Width, Native.Window.Height);
+            var p = new Point(Native.window.Width, Native.window.Height);
 
             System.Console.WriteLine("fullscreen: " + p.X + ", " + p.Y);
 

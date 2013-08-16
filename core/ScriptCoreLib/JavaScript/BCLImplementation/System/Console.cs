@@ -111,7 +111,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             {
                 try
                 {
-                    InternalDump(Native.Window, e);
+                    InternalDump(Native.window, e);
                 }
                 catch
                 {
@@ -162,7 +162,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
                 // browsers dont use status anymore?
                 if (ShowLogAsStatus)
-                    Native.Window.status = p;
+                    Native.window.status = p;
 
                 WriteLine(IDate.Now.toLocaleString() + " " + p);
             }

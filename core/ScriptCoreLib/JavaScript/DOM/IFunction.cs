@@ -92,7 +92,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static IFunction Of(string name)
         {
-            return Expando.Of(Native.Window).GetMember<IFunction>(name);
+            return Expando.Of(Native.window).GetMember<IFunction>(name);
         }
 
         public static IFunction Of(System.Action h)

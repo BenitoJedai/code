@@ -18,7 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Configuration
                 // Error	207	Cannot implicitly convert type 'ScriptCoreLib.JavaScript.DOM.IWindow [x:\jsc.svn\core\ScriptCoreLib\bin\Debug\ScriptCoreLib.dll]' to 'ScriptCoreLib.JavaScript.DOM.IWindow [x:\jsc.svn\core\ScriptCoreLib.Redux\ScriptCoreLib.Redux\JavaScript\DOM\IWindow.cs(8)]'	X:\jsc.svn\core\ScriptCoreLib.Redux\ScriptCoreLib.Redux\JavaScript\BCLImplementation\System\Configuration\SettingsBase.cs	19	29	ScriptCoreLib.Redux
 
 
-                var w = (IWindow)(object)Native.Window;
+                var w = (IWindow)(object)Native.window;
                 object r = null;
 
                 var localStorage = w.localStorage;
@@ -47,7 +47,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Configuration
             }
             set
             {
-                var w = (IWindow)(object)Native.Window;
+                var w = (IWindow)(object)Native.window;
                 var localStorage = w.localStorage;
                 if (localStorage != null)
                     localStorage[propertyName] = "" + value;

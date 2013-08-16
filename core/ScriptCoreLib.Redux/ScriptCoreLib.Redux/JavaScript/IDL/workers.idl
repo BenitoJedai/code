@@ -3,9 +3,11 @@ interface Worker : EventTarget {
 	void terminate();
 
 	// void postMessage(any message, optional sequence<Transferable> transfer);
+	void postMessage(any message, sequence<Transferable> transfer);
+	void postMessage(any message, sequence<MessagePort> transfer);
 	void postMessage(any message);
 
-	attribute EventHandler onmessage;
+	//attribute EventHandler onmessage;
 
 
 
@@ -32,7 +34,9 @@ interface WorkerGlobalScope : EventTarget {
 interface DedicatedWorkerGlobalScope : WorkerGlobalScope {
 	// jsc does not yet set correct attributes for optional args
 	// void postMessage(any message, optional sequence<Transferable> transfer);
+	void postMessage(any message, sequence<Transferable> transfer);
+	void postMessage(any message, sequence<MessagePort> transfer);
 	void postMessage(any message);
 
-	attribute EventHandler onmessage;
+	//attribute EventHandler onmessage;
 };

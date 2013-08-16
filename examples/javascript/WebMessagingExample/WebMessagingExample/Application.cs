@@ -29,7 +29,7 @@ namespace WebMessagingExample
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault  page)
         {
-            if (Native.Document.location.hash == "")
+            if (Native.document.location.hash == "")
             {
                 page.Content.innerText = "this page shall have child frames!";
 
@@ -49,9 +49,9 @@ namespace WebMessagingExample
             }
             else
             {
-                page.Content.innerText = Native.Document.location.hash;
+                page.Content.innerText = Native.document.location.hash;
 
-                Native.Window.parent.With(
+                Native.window.parent.With(
                     parent =>
                     {
 
@@ -62,7 +62,7 @@ namespace WebMessagingExample
                                     delegate
                                     {
 
-                                        parent.postMessage("hi from " + Native.Document.location.hash);
+                                        parent.postMessage("hi from " + Native.document.location.hash);
                                     };
                             }
                         ).AttachToDocument();
@@ -70,13 +70,13 @@ namespace WebMessagingExample
                 );
             }
 
-            Native.Window.onmessage +=
+            Native.window.onmessage +=
                 e =>
                 {
                     new IHTMLButton { innerText = e.data + " (click to reply)" }.With(
                         btn =>
                         {
-                            if (Native.Document.location.hash == "")
+                            if (Native.document.location.hash == "")
                                 btn.style.color = JSColor.Blue;
                             else
                                 btn.style.color = JSColor.Red;
@@ -89,7 +89,7 @@ namespace WebMessagingExample
                                     btn.Orphanize();
 
 
-                                    var WhoAmI = Native.Document.location.hash;
+                                    var WhoAmI = Native.document.location.hash;
 
                                     if (WhoAmI == "")
                                         WhoAmI = "parent";

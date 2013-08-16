@@ -101,13 +101,13 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             get
             {
-                return Native.Window.escape(Name);
+                return Native.window.escape(Name);
             }
         }
 
         public void Delete()
         {
-            Native.Document.cookie = EscapedName + "=;expires=" + new IDate( 0 ).toGMTString();
+            Native.document.cookie = EscapedName + "=;expires=" + new IDate( 0 ).toGMTString();
 
         }
 
@@ -117,7 +117,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             {
                 int z = int.Parse(Value);
                 
-                if (Native.Window.isNaN(z))
+                if (Native.window.isNaN(z))
                     return 0;
 
                 return z;
@@ -186,7 +186,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 if (x == null)
                     x = "";
 
-                x = Native.Window.unescape(x);
+                x = Native.window.unescape(x);
               
 
                 return x.Trim();
@@ -196,7 +196,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 string o = Value;
                 string x = value;
 
-                x = Native.Window.escape(IArray<string>.SplitLines(x)[0].Trim());
+                x = Native.window.escape(IArray<string>.SplitLines(x)[0].Trim());
 
                 if (o == x)
                     return;

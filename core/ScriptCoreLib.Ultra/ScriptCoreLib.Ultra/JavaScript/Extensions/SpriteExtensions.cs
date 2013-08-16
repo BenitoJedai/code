@@ -52,7 +52,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
                  };
 
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     Update();

@@ -65,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         static IFunction ConstructorOfTypeName(string e)
         {
-            return Expando.Of(Native.Window).GetMember<IFunction>(e);
+            return Expando.Of(Native.window).GetMember<IFunction>(e);
         }
 
         public IFunction TypeConstructor
@@ -725,7 +725,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             get
             {
                 if (IsObject)
-                    if (this.IsInstanceOf(Native.Window.Array))
+                    if (this.IsInstanceOf(new IFunction("return Array;").apply(null)))
                         return true;
 
                 return false;
@@ -985,7 +985,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             System.Console.WriteLine("ExportCallback @ " + name);
 
-            Expando.Of(Native.Window).SetMember(name, f);
+            Expando.Of(Native.window).SetMember(name, f);
         }
 
         public static void ExportCallback<TArg>(string name, System.Action<TArg> h)

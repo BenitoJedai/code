@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 			// we could emulate this via html
 			// we could show new window/popup
 
-			Native.Window.alert(text);
+			Native.window.alert(text);
 
 			return DialogResult.OK;
 		}
@@ -26,7 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (b == MessageBoxButtons.YesNo)
             {
-                var x = Native.Window.confirm(text);
+                var x = Native.window.confirm(text);
 
                 if (x)
                     return DialogResult.Yes;
@@ -34,7 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return DialogResult.No;
             }
 
-            Native.Window.alert(text);
+            Native.window.alert(text);
 
             return DialogResult.OK;
         }
