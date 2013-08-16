@@ -49,10 +49,10 @@ namespace CanvasPlasma
 
         public void InitializeContent()
         {
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            var DefaultWidth = Native.Window.Width;
-            var DefaultHeight = Native.Window.Height;
+            var DefaultWidth = Native.window.Width;
+            var DefaultHeight = Native.window.Height;
 
 
             Plasma.generatePlasma(DefaultWidth, DefaultHeight);
@@ -114,7 +114,7 @@ namespace CanvasPlasma
 
 
             #region requestFullscreen
-            Native.Document.body.ondblclick +=
+            Native.document.body.ondblclick +=
                 delegate
                 {
                     //if (IsDisposed)
@@ -125,7 +125,7 @@ namespace CanvasPlasma
                     if (canvas.parentNode == null)
                         return;
 
-                    Native.Document.body.requestFullscreen();
+                    Native.document.body.requestFullscreen();
 
 
                 };
