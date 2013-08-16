@@ -941,12 +941,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
             foreach (string v in InternalCaptureMouseEvents)
-                Native.Window.addEventListener(v, _capture, true);
+                Native.window.addEventListener(v, _capture, true);
 
             return delegate
                     {
                         foreach (string v in InternalCaptureMouseEvents)
-                            Native.Window.removeEventListener(v, _capture, true);
+                            Native.window.removeEventListener(v, _capture, true);
                     }
                 ;
         }

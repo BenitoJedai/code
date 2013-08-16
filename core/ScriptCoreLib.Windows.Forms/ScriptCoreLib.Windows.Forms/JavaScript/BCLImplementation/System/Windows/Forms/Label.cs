@@ -51,7 +51,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (this.AutoSize)
                 {
-                    Native.Window.requestAnimationFrame +=
+                    Native.window.requestAnimationFrame +=
                         delegate
                         {
                             this.Size = new global::System.Drawing.Size(

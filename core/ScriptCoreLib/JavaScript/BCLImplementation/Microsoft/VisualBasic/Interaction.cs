@@ -11,7 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.Microsoft.VisualBasic
 	{
 		public static MsgBoxResult MsgBox(object Prompt, MsgBoxStyle Buttons, object Title)
 		{
-			Native.Window.alert(Convert.ToString(Prompt));
+			Native.window.alert(Convert.ToString(Prompt));
 
 			return MsgBoxResult.Ok;
 		}

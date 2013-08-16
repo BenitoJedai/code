@@ -48,9 +48,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                         if (n.length > 1)
                         {
-                            if (Native.Window.unescape(n[0]) == e)
+                            if (Native.window.unescape(n[0]) == e)
                             {
-                                z = Native.Window.unescape(n[1]);
+                                z = Native.window.unescape(n[1]);
 
                                 break;
                             }

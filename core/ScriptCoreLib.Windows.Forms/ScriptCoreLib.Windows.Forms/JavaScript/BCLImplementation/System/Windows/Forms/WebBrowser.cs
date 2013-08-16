@@ -200,7 +200,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //        this.InternalElement.contentWindow.document.body.innerHTML = value;
                 //    };
 
-                Native.Window.requestAnimationFrame +=
+                Native.window.requestAnimationFrame +=
                     delegate
                     {
 

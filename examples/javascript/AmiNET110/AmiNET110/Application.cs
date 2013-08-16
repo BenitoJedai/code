@@ -26,7 +26,7 @@ namespace AmiNET110
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault  page)
         {
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -102,7 +102,7 @@ namespace AmiNET110
                                             t2 =>
                                             {
 
-                                                x.Dispose();
+                                                x.Orphanize();
 
                                             }
                                         )
@@ -123,7 +123,7 @@ namespace AmiNET110
                             div.ontouchmove +=
                                ev =>
                                {
-                                   ev.PreventDefault();
+                                   ev.preventDefault();
 
 
                                    for (uint i = 0; i < ev.touches.length; i++)
@@ -223,10 +223,10 @@ namespace AmiNET110
                             alpha.ForEach(i => AddKeyCodesString(i.Key, i.Value));
 
 
-                            Native.Document.onkeyup +=
+                            Native.document.onkeyup +=
                                 ev =>
                                 {
-                                    ev.PreventDefault();
+                                    ev.preventDefault();
 
                                     var z = map.Where(i => i.KeyCode == ev.KeyCode).ToArray();
 

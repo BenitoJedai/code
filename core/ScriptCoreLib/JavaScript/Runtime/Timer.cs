@@ -37,7 +37,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
             if (duetime > 0)
             {
-                Native.Window.setTimeout(
+                Native.window.setTimeout(
                     delegate
                     {
                         if (interval > 0)
@@ -110,7 +110,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             Stop();
             isInterval = true;
-            id = Native.Window.setInterval(Invoke, i);
+            id = Native.window.setInterval(Invoke, i);
         }
 
         public void StartTimeout()
@@ -122,7 +122,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             Stop();
             isTimeout = true;
-            id = Native.Window.setTimeout(Invoke, i);
+            id = Native.window.setTimeout(Invoke, i);
         }
 
         public bool Enabled = true;
@@ -138,10 +138,10 @@ namespace ScriptCoreLib.JavaScript.Runtime
         public void Stop()
         {
             if (isTimeout)
-                Native.Window.clearTimeout(id);
+                Native.window.clearTimeout(id);
 
             if (isInterval)
-                Native.Window.clearInterval(id);
+                Native.window.clearInterval(id);
 
             isInterval = false;
             isTimeout = false;

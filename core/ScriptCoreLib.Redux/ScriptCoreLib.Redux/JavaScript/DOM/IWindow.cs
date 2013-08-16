@@ -63,21 +63,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             // http://www.whatwg.org/specs/web-apps/current-work/#the-window-object
         }
 
-        #region event onmessage
-        public event System.Action<MessageEvent> onmessage
-        {
-            [Script(DefineAsStatic = true)]
-            add
-            {
-                base.InternalEvent(true, value, "message");
-            }
-            [Script(DefineAsStatic = true)]
-            remove
-            {
-                base.InternalEvent(false, value, "message");
-            }
-        }
-        #endregion
+
 
         public Storage sessionStorage;
         public Storage localStorage;

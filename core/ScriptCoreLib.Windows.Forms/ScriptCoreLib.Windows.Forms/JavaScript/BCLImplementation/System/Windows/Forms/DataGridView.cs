@@ -1042,7 +1042,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         //this.InternalRows.InternalItems.Source.ListChanged +=
                         delegate
                         {
-                            Native.Window.requestAnimationFrame +=
+                            Native.window.requestAnimationFrame +=
                                 delegate
                                 {
                                     ColumnUpdateToHorizontalResizerScroll();
@@ -1059,7 +1059,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.InternalAtAfterVisibleChanged +=
                      delegate
                      {
-                         Native.Window.requestAnimationFrame +=
+                         Native.window.requestAnimationFrame +=
                              delegate
                              {
                                  ColumnUpdateToHorizontalResizerScroll();

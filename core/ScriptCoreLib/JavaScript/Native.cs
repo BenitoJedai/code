@@ -19,25 +19,23 @@ namespace ScriptCoreLib
         {
             #region window
             [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-            [Obsolete("window")]
+            [Obsolete("window", true)]
             [Script(ExternalTarget = "window")]
             static public IWindow Window;
 
             // web worker will not have this. this is the global this object
-            [Script(ExternalTarget = "window")]
-            static public IWindow window;
             #endregion
 
+            // 60 issues to deal with before we can recompile
+            const bool error = false;
 
             #region document
             [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
             [Script(ExternalTarget = "document")]
-            [Obsolete("document")]
+            [Obsolete("document", error)]
             static public IHTMLDocument Document;
 
-            // alias for window.document. not available for web workers
-            [Script(ExternalTarget = "document")]
-            static public IHTMLDocument document;
+
             #endregion
 
 
@@ -48,12 +46,10 @@ namespace ScriptCoreLib
 
             #region screen
             [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-            [Obsolete("screen")]
+            [Obsolete("screen", error)]
             [Script(ExternalTarget = "screen")]
             static public IScreen Screen;
 
-            [Script(ExternalTarget = "screen")]
-            static public IScreen screen;
             #endregion
 
 
@@ -72,13 +68,45 @@ namespace ScriptCoreLib
                 }
             }
 
+            // dynamic ?
+            public static object self;
+
+            static public IWindow window;
+
+            // alias for window.document. not available for web workers
+            static public IHTMLDocument document;
+
+            static public IScreen screen;
+            static public DedicatedWorkerGlobalScope worker;
+
             static Native()
             {
+                // x:\jsc.svn\examples\javascript\OmniWebWorkerExperiment\OmniWebWorkerExperiment\Application.cs
+                self = new IFunction("return this;").apply(null);
 
+                // what is it?
+                if (Expando.InternalIsMember(self, "document")
+                    && Expando.InternalIsMember(self, "screen"))
+                {
+                    // should be a window with a document
+                    window = (IWindow)self;
 
+                    document = window.document;
+                    screen = window.screen;
+                }
+                else if (Expando.InternalIsMember(self, "postMessage"))
+                {
+                    // now what. are we running as a web worker?
+                    // WorkerGlobalScope
+                    // DedicatedWorkerGlobalScope
+                    // DedicatedWorkerContext
+
+                    worker = (DedicatedWorkerGlobalScope)self;
+                }
             }
 
             [System.Obsolete]
+            [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
             public static void Spawn(params SpawnItem[] e)
             {
                 foreach (var x in e)
@@ -93,6 +121,7 @@ namespace ScriptCoreLib
             /// <param name="e">className</param>
             /// <param name="Spawn">delegate with owner element</param>
             [System.Obsolete]
+            [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
             public static void Spawn(string id, System.Action<IHTMLElement> Spawn)
             {
                 try
@@ -102,10 +131,10 @@ namespace ScriptCoreLib
                     //if (Native.Window == null)
 
 
-                    Native.Window.onload +=
+                    Native.window.onload +=
                         delegate
                         {
-                            Native.Document.getElementsByClassName(id).ForEach(
+                            Native.document.getElementsByClassName(id).ForEach(
                                 delegate(IHTMLElement e)
                                 {
                                     System.Console.WriteLine("spawn: {" + id + "}");
@@ -122,16 +151,17 @@ namespace ScriptCoreLib
 
 
             [System.Obsolete]
+            [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
             public static void Spawn(string id, System.Action<IHTMLElement, string> s)
             {
                 System.Console.WriteLine("spawn on load: " + id);
 
-                Native.Window.onload +=
+                Native.window.onload +=
                     delegate
                     {
 
 
-                        Native.Document.getElementsByClassName(id).ForEach(
+                        Native.document.getElementsByClassName(id).ForEach(
                             delegate(IHTMLElement v)
                             {
                                 System.Console.WriteLine("spawn: {" + id + "}");
@@ -148,37 +178,14 @@ namespace ScriptCoreLib
             }
 
             [System.Obsolete]
+            [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
             internal static void SpawnInline(string classname, System.Action<IHTMLElement> h)
             {
                 Native.Document.getElementsByClassName(classname + ":inline").ForEach(h);
             }
 
-            //[System.Obsolete("To be moved out of CoreLib or removed")]
-            //public static IHTMLEmbed PlaySound(string src)
-            //{
-            //    var u = new IHTMLEmbed();
 
-            //    u.autostart = "true";
-            //    u.volume = "100";
-            //    u.src = src;
-            //    u.style.SetLocation(0, 0, 0, 0);
 
-            //    Native.Document.body.appendChild(u);
-
-            //    return u;
-            //}
-
-            //[System.Obsolete("To be moved out of CoreLib or removed")]
-            //public static void Include(string src)
-            //{
-            //    System.Console.WriteLine("include " + src);
-
-            //    var s = new IHTMLScript();
-            //    s.type = "text/javascript";
-            //    s.src = src;
-
-            //    s.AttachToDocument();
-            //}
         }
     }
 

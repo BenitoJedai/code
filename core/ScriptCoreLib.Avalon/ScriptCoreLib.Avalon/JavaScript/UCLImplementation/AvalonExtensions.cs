@@ -68,7 +68,7 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
         {
             //var _e = (__Uri)(object)e;
 
-            var w = Native.Window.open(e.OriginalString, "_blank");
+            var w = Native.window.open(e.OriginalString, "_blank");
 
         }
 

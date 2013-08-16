@@ -2,32 +2,34 @@
 
 [Constructor(DOMString type)]
 interface MessageEvent : Event {
-  readonly attribute any data;
-  readonly attribute DOMString origin;
-  readonly attribute DOMString lastEventId;
-  // readonly attribute (WindowProxy or MessagePort)? source;
-  readonly attribute WindowProxy? source;
+	readonly attribute any data;
+	readonly attribute DOMString origin;
+	readonly attribute DOMString lastEventId;
+	// readonly attribute (WindowProxy or MessagePort)? source;
+	readonly attribute WindowProxy? source;
 
-  readonly attribute MessagePort[]? ports;
+	readonly attribute MessagePort[]? ports;
 };
 
 [Constructor]
 interface MessageChannel {
-  readonly attribute MessagePort port1;
-  readonly attribute MessagePort port2;
+	readonly attribute MessagePort port1;
+	readonly attribute MessagePort port2;
 };
 
 [NoInterfaceObject]
 interface Transferable { };
 
 interface MessagePort : EventTarget {
-  void postMessage(any message, optional sequence<Transferable> transfer);
-  // void postMessage(any message, DOMString transfer);
-  void start();
-  void close();
+	void postMessage(any message, optional sequence<Transferable> transfer);
+	void postMessage(any message, optional sequence<MessagePort> transfer);
+	void postMessage(any message);
 
-  // event handlers
-  [TreatNonCallableAsNull] attribute Function? onmessage;
+	void start();
+	void close();
+
+	// event handlers
+	//[TreatNonCallableAsNull] attribute Function? onmessage;
 };
 
 
@@ -36,20 +38,20 @@ interface MessagePort : EventTarget {
 //[Constructor(DOMString url, optional EventSourceInit eventSourceInitDict)]
 [Constructor(DOMString url)]
 interface EventSource : EventTarget {
-  readonly attribute DOMString url;
-  readonly attribute boolean withCredentials;
+	readonly attribute DOMString url;
+	readonly attribute boolean withCredentials;
 
-  // ready state
-  const unsigned short CONNECTING = 0;
-  const unsigned short OPEN = 1;
-  const unsigned short CLOSED = 2;
-  readonly attribute unsigned short readyState;
+	// ready state
+	const unsigned short CONNECTING = 0;
+	const unsigned short OPEN = 1;
+	const unsigned short CLOSED = 2;
+	readonly attribute unsigned short readyState;
 
-  // networking
-           //attribute EventHandler onopen;
-           //attribute EventHandler onmessage;
-           //attribute EventHandler onerror;
-  void close();
+	// networking
+	//attribute EventHandler onopen;
+	//attribute EventHandler onmessage;
+	//attribute EventHandler onerror;
+	void close();
 };
 
 //dictionary EventSourceInit {

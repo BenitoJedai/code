@@ -99,7 +99,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
 		public static void OrphanizeLater(IHTMLElement e)
 		{
-			Native.Window.onbeforeunload +=
+			Native.window.onbeforeunload +=
 				delegate
 				{
 					e.Orphanize();

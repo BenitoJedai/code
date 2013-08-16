@@ -503,7 +503,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         InternalUpdateZIndex(HTMLTarget);
                     }
 
-                    var MinimizeY = Native.Window.Height - 26;
+                    var MinimizeY = Native.window.Height - 26;
 
                     var y = Math.Min(MinimizeY, Math.Max(-4, InternalCaptionDrag.Position.Y));
 
@@ -541,9 +541,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     TargetNoBorder.style.cursor = IStyle.CursorEnum.@default;
                     CaptionForeground.style.cursor = IStyle.CursorEnum.@default;
-                    Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
+                    Native.document.body.style.cursor = IStyle.CursorEnum.@default;
 
-                    var MinimizeY = Native.Window.Height - 26;
+                    var MinimizeY = Native.window.Height - 26;
                     var y = InternalCaptionDrag.Position.Y;
 
                     if (y < 0)
@@ -848,8 +848,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         this.Location = new Point
                         {
-                            X = (Native.Window.Width - this.Width) / 2,
-                            Y = Math.Max(0, (Native.Window.Height - this.Height) / 2)
+                            X = (Native.window.Width - this.Width) / 2,
+                            Y = Math.Max(0, (Native.window.Height - this.Height) / 2)
                         };
                     }
 
@@ -1015,7 +1015,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         if (InternalMaximizedForms.Count == 0)
                         {
                             // exit only if we are not maximized again
-                            Native.Window.requestAnimationFrame +=
+                            Native.window.requestAnimationFrame +=
                                 delegate
                                 {
                                     if (InternalMaximizedForms.Count == 0)
@@ -1023,13 +1023,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                         //Console.WriteLine("set_WindowState exitFullscreen InternalMaximizedForms.Count == 0");
 
 
-                                        Native.Document.exitFullscreen();
+                                        Native.document.exitFullscreen();
                                     }
                                 };
 
                         }
 
-                        Native.Window.requestAnimationFrame +=
+                        Native.window.requestAnimationFrame +=
                             delegate
                             {
                                 InternalClientSizeChanged();
@@ -1078,7 +1078,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             onresize =
                                 delegate
                                 {
-                                    Native.Window.onresize -= onresize;
+                                    Native.window.onresize -= onresize;
 
                                     InternalClientSizeChanged();
 
@@ -1096,7 +1096,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                                 return;
                                             }
 
-                                            dynamic window = Native.Window;
+                                            dynamic window = Native.window;
 
 
                                             int innerHeight = window.innerHeight;
@@ -1113,14 +1113,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                             }
 
 
-                                            Native.Window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
+                                            Native.window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
                                         };
 
-                                    Native.Window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
+                                    Native.window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
                                     #endregion
                                 };
 
-                            Native.Window.onresize += onresize;
+                            Native.window.onresize += onresize;
 
                             //Console.WriteLine("set_WindowState requestFullscreen");
                             Native.Document.body.requestFullscreen();
@@ -1141,13 +1141,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.MinimumSize = this.DefaultMinimumSize;
                     this.ClientSize = new Size(200, 0);
 
-                    Native.Window.requestAnimationFrame +=
+                    Native.window.requestAnimationFrame +=
                         delegate
                         {
                             this.MinimumSize = this.Size;
-                            this.MaximumSize = new Size(Native.Window.Width, this.Height);
+                            this.MaximumSize = new Size(Native.window.Width, this.Height);
 
-                            this.Top = Native.Document.body.scrollHeight - 26;
+                            this.Top = Native.document.body.scrollHeight - 26;
                         };
 
                 }

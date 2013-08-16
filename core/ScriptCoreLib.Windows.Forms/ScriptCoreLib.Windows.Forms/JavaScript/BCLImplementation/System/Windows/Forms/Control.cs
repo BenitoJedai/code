@@ -497,7 +497,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 this.HTMLTargetRef.style.SetSize(width, height);
 
-                Native.Window.requestAnimationFrame +=
+                Native.window.requestAnimationFrame +=
                   delegate
                   {
                       InternalClientSizeChanged();
@@ -1329,7 +1329,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalInvalidate =
                     delegate
                     {
-                        Native.Window.requestAnimationFrame +=
+                        Native.window.requestAnimationFrame +=
                             delegate
                             {
                                 value(this, (PaintEventArgs)(object)a);

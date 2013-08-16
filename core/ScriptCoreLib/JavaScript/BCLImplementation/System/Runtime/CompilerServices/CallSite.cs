@@ -116,7 +116,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
                             }
 
                             #region special rule - boundary DOM / BCL
-                            if (subject == Native.Window)
+                            if (subject == Native.window)
                             {
                                 var xx = value as Delegate;
 

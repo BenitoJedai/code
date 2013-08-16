@@ -56,7 +56,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
                 };
 
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     Update();

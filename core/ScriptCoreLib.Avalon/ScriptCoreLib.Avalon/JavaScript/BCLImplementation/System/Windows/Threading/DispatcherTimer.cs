@@ -54,7 +54,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Threading
 			if (IsEnabled)
 				return;
 
-			InternalTimer = Native.Window.setInterval(
+			InternalTimer = Native.window.setInterval(
 				delegate
 				{
 					if (Tick != null)
@@ -71,7 +71,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Threading
 			if (!IsEnabled)
 				return;
 
-			Native.Window.clearInterval(InternalTimer);
+			Native.window.clearInterval(InternalTimer);
 
 			InternalIsEnabled = false;
 

@@ -12,6 +12,23 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class IWindow : IEventTarget
     {
+        #region event onmessage
+        public event System.Action<MessageEvent> onmessage
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "message");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "message");
+            }
+        }
+        #endregion
+
+
         #region InternalConstructor
         public IWindow()
         {
@@ -19,13 +36,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         private static IWindow InternalConstructor()
         {
-            IWindow a = Native.Window.open("about:blank", "_blank", 400, 400, false);
+            // what if we are a worker?
+            // shall we talk to the oper?
+
+            IWindow a = Native.window.open("about:blank", "_blank", 400, 400, false);
 
             return a;
         }
         #endregion
 
-        public IFunction Array;
+        //public IFunction Array;
 
 
         public string defaultStatus;
@@ -101,8 +121,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             return default(string);
         }
 
+        public IScreen screen;
+
         public string status;
 
+
+        // available in global namespace for web workers?
         public bool isNaN(int i)
         { return default(bool); }
 
