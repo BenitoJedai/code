@@ -41,7 +41,7 @@ namespace InlineNestedWorkerExperiment
                 {
                     // running in worker context. cannot talk to outer scope yet.
 
-                    worker.RedirectConsoleOutput();
+                    //worker.RedirectConsoleOutput();
 
 
 
@@ -62,7 +62,7 @@ namespace InlineNestedWorkerExperiment
                            {
                                // running in worker context. cannot talk to outer scope yet.
 
-                               wworker.RedirectConsoleOutput();
+                               //wworker.RedirectConsoleOutput();
 
 
                                // hello from the background worker { self = [object WorkerGlobalScope] }
@@ -97,7 +97,7 @@ namespace InlineNestedWorkerExperiment
                             {
                                 // running in worker context. cannot talk to outer scope yet.
 
-                                wworker.RedirectConsoleOutput();
+                                //wworker.RedirectConsoleOutput();
 
 
                                 // hello from the background worker { self = [object WorkerGlobalScope] }

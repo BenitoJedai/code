@@ -28,6 +28,10 @@ namespace EventSourceForWebServiceYield
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            new Abstractatech.ConsoleFormPackage.Library.ConsoleForm { }.InitializeConsoleFormWriter().Show();
+
+
+
             page.Invoke.onclick +=
                 delegate
                 {
@@ -41,7 +45,8 @@ namespace EventSourceForWebServiceYield
                         n,
                         xml =>
                         {
-                            new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.right);
+                            Console.WriteLine(xml.ToString());
+                            //new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.right);
                         }
                     );
                 };
@@ -59,17 +64,67 @@ namespace EventSourceForWebServiceYield
                         n,
                         xml =>
                         {
-                            new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.left);
+                            Console.WriteLine(xml.ToString());
+                            //new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.left);
                         }
                     );
                 };
 
+            page.InvokeSpecalInsideWorker.onclick +=
+                delegate
+                {
+                    Console.WriteLine("InvokeSpecalInsideWorker");
+
+                    var ww = new Worker(
+                       worker =>
+                       {
+                           // running in worker context. cannot talk to outer scope yet.
+
+                           worker.RedirectConsoleOutput();
+                           Console.WriteLine("at worker");
+
+
+                           var now = DateTime.Now;
+
+                           var n = "<client  value='now' />";
+
+
+                           var xservice = new ApplicationWebService();
+
+                           Console.WriteLine("before InvokeSpecialString");
+                           xservice.InvokeSpecialString(
+                               n,
+                               xml =>
+                               {
+                                   Console.WriteLine("at InvokeSpecialString");
+
+                                   Console.WriteLine(xml);
+                                   //new IHTMLPre { innerText = xml.ToString() }.AttachTo(page.left);
+                               }
+                           );
+                       }
+                   );
+
+
+                    ww.onmessage +=
+                        e =>
+                        {
+                            Console.Write("" + e.data);
+                        };
+                };
+
+
+
             page.Clear.onclick +=
                 delegate
                 {
+                    // Error	1	The call is ambiguous between the following methods or properties: 
+                    // 'ScriptCoreLib.JavaScript.Extensions.INodeExtensions.Clear(ScriptCoreLib.JavaScript.DOM.INode)' and
+                    // 'ScriptCoreLib.JavaScript.Extensions.INodeExtensions.Clear(ScriptCoreLib.JavaScript.DOM.INode)'	X:\jsc.svn\examples\javascript\EventSourceForWebServiceYield\EventSourceForWebServiceYield\Application.cs	71	21	EventSourceForWebServiceYield
 
-                    page.left.Clear();
-                    page.right.Clear();
+
+                    //page.left.Clear();
+                    //page.right.Clear();
                 };
         }
 
