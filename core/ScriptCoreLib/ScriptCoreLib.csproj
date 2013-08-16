@@ -112,6 +112,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLHeader1.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLOutput.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBase.cs" />
+    <Compile Include="JavaScript\DOM\MessageChannel.cs" />
     <Compile Include="JavaScript\DOM\MessageEvent.cs" />
     <Compile Include="JavaScript\DOM\MessagePort.cs" />
     <Compile Include="JavaScript\DOM\Worker.cs" />

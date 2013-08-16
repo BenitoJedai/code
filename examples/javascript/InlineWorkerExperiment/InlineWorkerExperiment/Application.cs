@@ -66,6 +66,8 @@ namespace InlineWorkerExperiment
                                 {
                                     // running in worker context. cannot talk to outer scope yet.
 
+                                    Console.WriteLine("xxx via Console");
+
                                     worker.postMessage("xxx");
                                 }
                             );

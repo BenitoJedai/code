@@ -9,5 +9,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class MessageEvent : IEvent
     {
         public object data;
+
+        public readonly MessagePort[] ports;
+
     }
 }

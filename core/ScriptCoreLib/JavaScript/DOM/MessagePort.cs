@@ -24,6 +24,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-
+        public void postMessage(object message, MessagePort[] transfer) { }
+        public void start() { }
     }
 }

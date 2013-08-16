@@ -50,41 +50,42 @@ namespace EventSourceForWebServiceYield
         {
             var Accepts = h.Context.Request.Headers["Accept"];
 
-            if (h.Context.Request.Path == "/xml")
-                if (Accepts != null)
-                    if (Accepts.Contains("text/event-stream"))
-                    {
-                        h.Context.Response.ContentType = "text/event-stream";
+            //if (h.Context.Request.Path == "/xml")
+
+            if (Accepts != null)
+                if (Accepts.Contains("text/event-stream"))
+                {
+                    h.Context.Response.ContentType = "text/event-stream";
 
 
-                        // A potentially dangerous Request.QueryString value was detected from the client (e="<client value="15.12...").
-                        var _e_xml = h.Context.Request.RawUrl
-                            .SkipUntilLastOrEmpty("?")
-                            .SkipUntilOrEmpty("e=")
-                            .TakeUntilIfAny("&");
+                    // A potentially dangerous Request.QueryString value was detected from the client (e="<client value="15.12...").
+                    var _e_xml = h.Context.Request.RawUrl
+                        .SkipUntilLastOrEmpty("?")
+                        .SkipUntilOrEmpty("e=")
+                        .TakeUntilIfAny("&");
 
-                        var _e_xml_decoded = HttpUtility.UrlDecode(_e_xml);
+                    var _e_xml_decoded = HttpUtility.UrlDecode(_e_xml);
 
-                        var _e = XElement.Parse(_e_xml_decoded);
+                    var _e = XElement.Parse(_e_xml_decoded);
 
-                        this.Invoke(
-                            _e,
-                            y =>
-                            {
-                                var _y = y.ToString()
-                                    .Replace("\n", "\\n")
-                                    .Replace("\r", "\\r");
+                    this.Invoke(
+                        _e,
+                        y =>
+                        {
+                            var _y = y.ToString()
+                                .Replace("\n", "\\n")
+                                .Replace("\r", "\\r");
 
 
-                                h.Context.Response.Write("event: y\n");
-                                h.Context.Response.Write("data: " + _y + "\n\n");
-                                h.Context.Response.Flush();
-                            }
-                        );
+                            h.Context.Response.Write("event: y\n");
+                            h.Context.Response.Write("data: " + _y + "\n\n");
+                            h.Context.Response.Flush();
+                        }
+                    );
 
-                        h.CompleteRequest();
-                        return;
-                    }
+                    h.CompleteRequest();
+                    return;
+                }
         }
     }
 
@@ -94,7 +95,7 @@ namespace EventSourceForWebServiceYield
         {
             var q = new StringBuilder();
 
-            q.Append("/xml");
+            //q.Append("/event-stream");
             q.Append("?");
 
             q.Append("e=" + e.ToString());
@@ -114,6 +115,40 @@ namespace EventSourceForWebServiceYield
                 var _y = XElement.Parse(data);
 
                 y(_y);
+            };
+
+            s.onerror +=
+                delegate
+                {
+                    s.close();
+                };
+
+        }
+
+        public static void InvokeSpecialString(this ApplicationWebService service, string e, Action<string> y)
+        {
+            var q = new StringBuilder();
+
+            //q.Append("/event-stream");
+            q.Append("?");
+
+            q.Append("e=" + e);
+
+            var s = new EventSource(q.ToString());
+
+            s["y"] = a =>
+            {
+
+
+                var data = a.data.ToString()
+                    .Replace("\\r", "\r")
+                    .Replace("\\n", "\n");
+
+                Console.WriteLine(new { data });
+
+                //var _y = XElement.Parse(data);
+
+                y(data);
             };
 
             s.onerror +=

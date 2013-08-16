@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             get
             {
-                if (Expando.Of(Native.window).Contains("ActiveXObject"))
+                if (Expando.Of(Native.self).Contains("ActiveXObject"))
                     return true;
 
                 //if (Expando.Of(Native.Window).Contains("GeckoActiveXObject"))
