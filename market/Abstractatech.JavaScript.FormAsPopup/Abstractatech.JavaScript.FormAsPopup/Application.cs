@@ -36,7 +36,7 @@ namespace ScriptCoreLib.Extensions
             // http://www.w3.org/TR/webmessaging/#introduction-0
             var ch = new MessageChannel();
 
-            ch.port1.onmessage = new Action<MessageEvent>(
+            ch.port1.onmessage += new Action<MessageEvent>(
                 m =>
                 {
                     //Console.WriteLine("MessageChannel onmessage: " + new { m.data });
@@ -123,8 +123,8 @@ namespace ScriptCoreLib.Extensions
                             // tell our iframe what we know. 
                             m.ports.WithEach(port =>
                                 port.postMessage(
-                                    new XElement("re", "yes i have my own frame!").ToString(),
-                                    null
+                                    new XElement("re", "yes i have my own frame!").ToString()
+                                    //null
                                 )
                             );
                         };
@@ -174,8 +174,8 @@ namespace ScriptCoreLib.Extensions
 
                         m.ports.WithEach(port =>
                                 port.postMessage(
-                                new XElement("re", "yes i have my own frame!").ToString(),
-                                null
+                                new XElement("re", "yes i have my own frame!").ToString()
+                                //null
                                 )
                             );
 
@@ -338,7 +338,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                 //Native.Window.onbeforeunload +=
                 // chrome webview only supports onunload
                 #region Native.Window.onunload
-                Native.Window.onunload +=
+                Native.window.onunload +=
                     delegate
                     {
                         HTMLTarget_parent = null;
@@ -447,7 +447,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                                    if (FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
                                    {
-                                       FormAsPopupExtensionsForConsoleFormPackageMediator.postMessage(Native.Window, new XElement("re", "close this window!"));
+                                       FormAsPopupExtensionsForConsoleFormPackageMediator.postMessage(Native.window, new XElement("re", "close this window!"));
                                    }
 
                                    w.close();
@@ -554,7 +554,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     else
                     {
                         if ((z.Right - f.Width / 2) > 0)
-                            if ((z.Left + f.Width / 2) < Native.Window.Width)
+                            if ((z.Left + f.Width / 2) < Native.window.Width)
                             {
                                 __f.Opacity = 1;
 

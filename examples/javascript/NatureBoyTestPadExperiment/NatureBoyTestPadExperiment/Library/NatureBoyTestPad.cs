@@ -50,7 +50,7 @@ namespace NatureBoyTestPad.js
             arena.Layers.Canvas.style.backgroundColor =
                 Color.FromGray(0xc0);
             arena.SetLocation(
-                Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height));
+                Rectangle.Of(0, 0, Native.window.Width, Native.window.Height));
 
             arena.SetCanvasSize(map);
 
@@ -59,11 +59,11 @@ namespace NatureBoyTestPad.js
 
             arena.DrawTextToInfo(Title, new Point(8, 8), Color.Blue);
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     arena.SetLocation(
-                        Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height));
+                        Rectangle.Of(0, 0, Native.window.Width, Native.window.Height));
 
                     arena.SetCanvasPosition(
                         arena.CurrentCanvasPosition

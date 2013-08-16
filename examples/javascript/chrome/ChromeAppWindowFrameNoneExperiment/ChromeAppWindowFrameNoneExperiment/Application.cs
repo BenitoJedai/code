@@ -13,6 +13,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ namespace ChromeAppWindowFrameNoneExperiment
             //Console.WriteLine("Application loading...");
 
             #region do InternalHTMLTargetAttachToDocument
-            if (Expando.InternalIsMember(Native.Window, "chrome"))
+            if (Expando.InternalIsMember(Native.window, "chrome"))
                 if (chrome.app.runtime != null)
                 {
                     // X:\jsc.svn\examples\javascript\chrome\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
@@ -47,7 +48,7 @@ namespace ChromeAppWindowFrameNoneExperiment
                     //Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
                     // no HTML layout yet
 
-                    if (!(Native.Window.opener == null && Native.Window.parent == Native.Window.self))
+                    if (!(Native.window.opener == null && Native.window.parent == Native.window.self))
                     {
                         Console.WriteLine("i am about:blank");
                         return;
@@ -83,7 +84,7 @@ namespace ChromeAppWindowFrameNoneExperiment
 
                            // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
                            chrome.app.window.create(
-                                 Native.Document.location.pathname,
+                                 Native.document.location.pathname,
                                  new
                                  {
                                      frame = "none"
@@ -270,6 +271,50 @@ namespace ChromeAppWindowFrameNoneExperiment
             content.BackColor = System.Drawing.Color.Transparent;
             xf.Controls.Add(content);
             xf.Show();
+
+            content.button2.Click +=
+                delegate
+                {
+
+                    var www = new Worker(
+                          wworker =>
+                          {
+                              // running in worker context. cannot talk to outer scope yet.
+
+                              //wworker.RedirectConsoleOutput();
+
+
+                              // hello from the background worker { self = [object WorkerGlobalScope] }
+
+                              var x = 0.0;
+
+
+                              Console.WriteLine("Start");
+                              var s = new Stopwatch();
+                              s.Start();
+                              for (int j = 0; j < 32; j++)
+                              {
+                                  for (int i = 0; i < 32000000; i++)
+                                  {
+                                      x = Math.Sin(i);
+
+                                  }
+                                  Console.WriteLine(new { j, s.Elapsed }.ToString());
+                              }
+                              Console.WriteLine("Stop");
+                          }
+                      );
+
+                    www.onmessage +=
+                        e =>
+                        {
+                            Console.Write("www: " + e.data);
+                        };
+                
+                };
+
+            new Abstractatech.ConsoleFormPackage.Library.ConsoleForm { }.InitializeConsoleFormWriter().Show();
+
 
             //            The webpage at http://192.168.1.100:6669/ might be temporarily down or it may have moved permanently to a new web address.
             //Error code: ERR_UNSAFE_PORT
