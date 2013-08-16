@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             get;
         }
 
+        //script: error JSC1000: No implementation found for this native method, please implement [static System.Reflection.MethodInfo.op_Equality(System.Reflection.MethodInfo, System.Reflection.MethodInfo)]
 
         public abstract object[] GetCustomAttributes(Type x, bool inherit);
         public abstract object[] GetCustomAttributes(bool inherit);

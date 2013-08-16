@@ -28,10 +28,25 @@ namespace InlineWorkerExperiment
         public Application(IApp page)
         {
             Native.worker.With(
+                // #0
+                  worker =>
+                  {
+                      // ww3.onmessage: { data = xxx fake0 { href = http://192.168.1.100:4216/view-source#goo, 
+
+                      var href = Native.worker.location.href;
+                      var index = href.SkipUntilOrEmpty("#");
+
+                      // fake inline
+                      worker.postMessage("xxx fake0 " + new { index, worker.location.href });
+                  }
+              );
+
+            Native.worker.With(
+                // #1
                 worker =>
                 {
                     // fake inline
-                    worker.postMessage("xxx fake");
+                    worker.postMessage("xxx fake1 ");
                 }
             );
 
@@ -41,21 +56,110 @@ namespace InlineWorkerExperiment
                     // what about multiple?
                     // what about dynamic handler selector?
 
-                    var ww = new Worker(
-                        (DedicatedWorkerGlobalScope worker) =>
-                        {
-                            // running in worker context. cannot talk to outer scope yet.
 
-                            worker.postMessage("xxx");
+                    new IHTMLButton { innerText = "w2" }.AttachToDocument().WhenClicked(
+                        btn =>
+                        {
+                            var ww = new Worker(
+                                // #2
+                                worker =>
+                                {
+                                    // running in worker context. cannot talk to outer scope yet.
+
+                                    worker.postMessage("xxx");
+                                }
+                            );
+
+                            // ww.onmessage: { data = xxx fake }
+                            ww.onmessage +=
+                                e =>
+                                {
+                                    Console.WriteLine("ww.onmessage: " + new { e.data });
+                                };
                         }
                     );
 
-                    // ww.onmessage: { data = xxx fake }
-                    ww.onmessage +=
-                        e =>
+
+                    Action<string, Action<DedicatedWorkerGlobalScope>, Action<MessageEvent>> work =
+                        (innerText, handler, onmessage) =>
                         {
-                            Console.WriteLine("ww.onmessage: " + new { e.data });
+                            new IHTMLButton { innerText = innerText }.AttachToDocument().WhenClicked(
+                                  btn =>
+                                  {
+                                      var ww = new Worker(handler);
+
+                                      // ww.onmessage: { data = xxx fake }
+                                      ww.onmessage += onmessage;
+                                  }
+                              );
                         };
+
+
+                    Action<MessageEvent> work7onmessage = e =>
+                    {
+                        Console.WriteLine("work 7 onmessage " + new { e.data });
+                    };
+
+                    work("work 7",
+                        arg2: worker =>
+                        {
+                            worker.postMessage("work 7");
+                        },
+                          arg3: work7onmessage
+                    );
+
+
+
+                    Action<MessageEvent> work8onmessage = e =>
+                    {
+                        Console.WriteLine("work 8 onmessage " + new { e.data });
+                    };
+
+
+                    work("work 8",
+                        arg2: worker =>
+                        {
+                            worker.postMessage("work 8");
+                        },
+                        arg3: work8onmessage
+                    );
+
+
+                    new IHTMLButton { innerText = "w3" }.AttachToDocument().WhenClicked(
+                        btn =>
+                        {
+                            var ww = new Worker(
+                                // #2
+                                worker =>
+                                {
+                                    // running in worker context. cannot talk to outer scope yet.
+
+                                    worker.postMessage("xxx3");
+                                }
+                            );
+
+                            // ww.onmessage: { data = xxx fake }
+                            ww.onmessage +=
+                                e =>
+                                {
+                                    Console.WriteLine("ww3.onmessage: " + new { e.data });
+                                };
+                        }
+                    );
+
+                    new IHTMLButton { innerText = "w goo" }.AttachToDocument().WhenClicked(
+                           btn =>
+                           {
+                               var ww = new Worker("view-source#goo");
+
+                               // ww.onmessage: { data = xxx fake }
+                               ww.onmessage +=
+                                   e =>
+                                   {
+                                       Console.WriteLine("ww3.onmessage: " + new { e.data });
+                                   };
+                           }
+                       );
                 }
             );
 

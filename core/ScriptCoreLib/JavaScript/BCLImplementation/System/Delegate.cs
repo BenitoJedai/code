@@ -9,9 +9,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Delegate))]
     internal class __Delegate
     {
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Delegate.op_Equality(System.Delegate, System.Delegate)]
+
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
         public object Target;
 
+        // script: error JSC1000: No implementation found for this native method, please implement [System.Delegate.get_Method()]
+
+        // public MethodInfo Method { get; }
+        // Method: "BAAABm4i9DaI0uFGgA1UPA"
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Method)]
         public global::System.IntPtr Method;
 
@@ -51,11 +57,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static __Delegate Combine(__Delegate a, __Delegate b)
         {
-            if (a == null)
+            if ((object)a == null)
             {
                 return b;
             }
-            if (b == null)
+            if ((object)b == null)
             {
                 return a;
             }
@@ -110,15 +116,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         // a bug if the operator itself compares to nulls
 
-        //public static bool operator == (DelegateImpl a, DelegateImpl b)
-        //{
-        //    return IsEqual(a, b);
-        //}
+        public static bool operator ==(__Delegate a, __Delegate b)
+        {
+            return IsEqual(a, b);
+        }
 
-        //public static bool operator != (DelegateImpl a, DelegateImpl b)
-        //{
-        //    return !IsEqual(a, b);
-        //}
+        public static bool operator !=(__Delegate a, __Delegate b)
+        {
+            return !IsEqual(a, b);
+        }
 
         public override int GetHashCode()
         {

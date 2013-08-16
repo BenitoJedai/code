@@ -9,8 +9,16 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class WorkerGlobalScope : IEventTarget
     {
 
-
+        public readonly WorkerLocation location;
+    
     }
+
+    [Script(HasNoPrototype = true)]
+    public class WorkerLocation
+    {
+        public readonly string href;
+    }
+
 
     [Script(HasNoPrototype = true)]
     public class DedicatedWorkerGlobalScope : WorkerGlobalScope
@@ -30,6 +38,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
         #endregion
+
+
 
         public void postMessage(object message) { }
     }

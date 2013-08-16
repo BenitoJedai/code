@@ -18,33 +18,13 @@ namespace Abstractatech.ConsoleFormPackage.Library
             InitializeComponent();
         }
 
-        class ConsoleFormWriter : TextWriter
-        {
-            public Action<string> AtWrite;
-            public Action<string> AtWriteLine;
-
-            public override void Write(string value)
-            {
-                AtWrite(value);
-            }
-
-            public override void WriteLine(string value)
-            {
-                AtWriteLine(value);
-
-            }
-
-            public override Encoding Encoding
-            {
-                get { return Encoding.UTF8; }
-            }
-        }
+  
 
         public ConsoleForm InitializeConsoleFormWriter()
         {
             var f = this;
 
-            var w = new ConsoleFormWriter();
+            var w = new ConsoleForm_TextWriter();
 
             var o = Console.Out;
 
@@ -53,7 +33,7 @@ namespace Abstractatech.ConsoleFormPackage.Library
             w.AtWrite =
                 x =>
                 {
-                    f.textBox1.AppendText(x);
+                    f.textBox1.AppendText(x.Replace("\r", "").Replace("\n", "\r\n"));
                     o.Write(x);
                     f.textBox1.ScrollToCaret();
                 };
@@ -61,7 +41,9 @@ namespace Abstractatech.ConsoleFormPackage.Library
             w.AtWriteLine =
                 x =>
                 {
-                    f.textBox1.AppendText(x + Environment.NewLine);
+                    // IE is special
+                    f.textBox1.AppendText(x + "\r\n");
+                    //f.textBox1.AppendText(x + Environment.NewLine);
                     o.WriteLine(x);
                     f.textBox1.ScrollToCaret();
                 };
@@ -95,6 +77,28 @@ namespace Abstractatech.ConsoleFormPackage.Library
         private void ConsoleForm_Load(object sender, EventArgs e)
         {
             this.textBox1.Clear();
+        }
+    }
+
+    public class ConsoleForm_TextWriter : TextWriter
+    {
+        public Action<string> AtWrite;
+        public Action<string> AtWriteLine;
+
+        public override void Write(string value)
+        {
+            AtWrite(value);
+        }
+
+        public override void WriteLine(string value)
+        {
+            AtWriteLine(value);
+
+        }
+
+        public override Encoding Encoding
+        {
+            get { return Encoding.UTF8; }
         }
     }
 }
