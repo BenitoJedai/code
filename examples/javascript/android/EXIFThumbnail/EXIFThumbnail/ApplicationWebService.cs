@@ -37,9 +37,14 @@ namespace EXIFThumbnail
 
             var dir = new java.io.File(path);
 
-            //  { Elapsed = 14595.0ms }
-            var a = dir.listFiles().OrderByDescending(k => (double)k.lastModified()).Take(10).ToArray();
+            Console.WriteLine("before listFiles " + new { s.Elapsed });
 
+            //  { Elapsed = 14595.0ms }
+            var files = dir.listFiles();
+            Console.WriteLine("before ordering " + new { s.Elapsed, files.Length });
+            var a = files.OrderByDescending(k => (double)k.lastModified()).Take(10).ToArray();
+
+            Console.WriteLine("after listFiles " + new { s.Elapsed });
 
             a.WithEach(
                 f =>
