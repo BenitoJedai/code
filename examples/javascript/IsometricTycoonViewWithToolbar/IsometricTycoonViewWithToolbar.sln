@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsometricTycoonViewWithToolbar", "IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar.csproj", "{A28A2898-D11B-4027-B5FE-2A911CC5D66F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {B8D28279-57CD-4163-86F9-1DFDF540B58B}
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
 EndProject

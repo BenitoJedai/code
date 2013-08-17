@@ -43,14 +43,14 @@ namespace SpaceInvadersTemplate.Library
                         }
                     };
 
-                Native.Window.onresize +=
+                Native.window.onresize +=
                     delegate
                     {
                         if (_Visible)
                             UpdateLocation();
                     };
 
-                Native.Window.onscroll +=
+                Native.window.onscroll +=
                     delegate
                     {
                         if (_Visible)
@@ -65,13 +65,13 @@ namespace SpaceInvadersTemplate.Library
 
             public void UpdateLocation()
             {
-                var w = Native.Window.Width;
-                var h = Native.Window.Height;
+                var w = Native.window.Width;
+                var h = Native.window.Height;
 
-                ControlInBack.style.SetLocation(Native.Document.body.scrollLeft,
-                    Native.Document.body.scrollTop, w, h);
+                ControlInBack.style.SetLocation(Native.document.body.scrollLeft,
+                    Native.document.body.scrollTop, w, h);
 
-                ControlInFront.SetCenteredLocation(Native.Document.body.scrollLeft +w / 2, Native.Document.body.scrollTop + h / 2);
+                ControlInFront.SetCenteredLocation(Native.document.body.scrollLeft +w / 2, Native.document.body.scrollTop + h / 2);
 
             }
 

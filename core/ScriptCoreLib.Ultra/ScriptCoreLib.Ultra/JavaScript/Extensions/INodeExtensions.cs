@@ -99,26 +99,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return that;
 		}
 
-		public static void Clear(this INode e)
-		{
-			var p = e.firstChild;
-
-			while (p != null)
-			{
-				e.removeChild(p);
-				p = e.firstChild;
-			}
-		}
-
-		public static void ReplaceWith(this INode e, INode value)
-		{
-			// http://msdn.microsoft.com/en-us/library/system.xml.linq.xnode.replacewith.aspx
-
-			if (e.parentNode == null)
-				return;
-
-			e.parentNode.replaceChild(value, e);
-		}
+	
 
 		public static void ReplaceContentWith(this INode parent, INode value)
 		{

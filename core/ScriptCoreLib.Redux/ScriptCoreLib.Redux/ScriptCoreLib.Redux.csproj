@@ -91,12 +91,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMerge:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMergeExtension:"$(TargetPath)" /AssemblyMergeExtension:"$(ProjectDir)bin\staging.UltraSource\$(TargetName).UltraSource.dll" /RemoveObfuscationMergeAttributes:true /XAttachDebugger:true /EnableDelayedFileMove:true /xDiagnosticsPauseBeforeInvoke:true
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMerge:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMergeExtension:"$(TargetPath)" /AssemblyMergeExtension:"$(TargetName).UltraSource.dll" /RemoveObfuscationMergeAttributes:true /XAttachDebugger:true /EnableDelayedFileMove:true /xDiagnosticsPauseBeforeInvoke:true
 
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>start /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false</PreBuildEvent>
+    <PreBuildEvent>start /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /DisableUltraComponent:true</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

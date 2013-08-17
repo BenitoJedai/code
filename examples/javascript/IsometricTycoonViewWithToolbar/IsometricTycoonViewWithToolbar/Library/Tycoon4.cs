@@ -165,7 +165,7 @@ namespace ThreeDStuff.js
                     PauseFog.style.SetLocation(rect);
                 };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 ev =>
                 {
                     onresize();
