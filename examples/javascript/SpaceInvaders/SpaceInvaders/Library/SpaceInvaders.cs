@@ -608,7 +608,7 @@ namespace SpaceInvadersTemplate.Library.Controls
 
                 double gamma = 0;
 
-                Native.Window.ondeviceorientation +=
+                Native.window.ondeviceorientation +=
                     eventData =>
                     {
                         if (eventData.gamma < -50)

@@ -1,3 +1,5 @@
+using jsgif;
+using jsgif.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -13,16 +15,14 @@ using System.Text;
 using System.Xml.Linq;
 using WebGLSpiral.Shaders;
 using WebGLToAnimatedGIFExperiment.Design;
+using WebGLToAnimatedGIFExperiment.HTML.Images.FromAssets;
 using WebGLToAnimatedGIFExperiment.HTML.Pages;
-using jsgif;
-using jsgif.Library;
 
 namespace WebGLToAnimatedGIFExperiment
 {
     using ScriptCoreLib.JavaScript.Runtime;
     using System.Diagnostics;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using WebGLToAnimatedGIFExperiment.HTML.Images.FromAssets;
 
 
 
@@ -132,7 +132,8 @@ namespace WebGLToAnimatedGIFExperiment
 
                                                                c0.canvas.AttachToDocument();
 
-                                                               page.output.Clear();
+                                                               INodeExtensions.Clear(page.output);
+                                                               //page.output.Clear();
 
 
                                                                var encoder = new GIFEncoder();

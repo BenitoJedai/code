@@ -33,7 +33,7 @@ namespace SpaceInvadersTemplate
         {
             new SpaceInvadersTemplate.Library.Controls.SpaceInvaders();
 
-            style.Content.AttachToHead();
+            //style.Content.AttachToHead();
             @"Space Invaders".ToDocumentTitle();
      
         }

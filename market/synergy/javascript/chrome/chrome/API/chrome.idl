@@ -3,6 +3,7 @@
 // http://developer.chrome.com/extensions/bookmarks.html
 
 
+//module chrome
 interface chrome
 { 
 	static attribute WebstoreModule			webstore;
