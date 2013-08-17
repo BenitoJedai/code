@@ -1,0 +1,24 @@
+﻿// CLR does not provie us open mixin types yet. All DeclaringType members thus must be in the same package. 
+// How to overcome this?
+// C# has extensionmethods for that.
+
+[Constructor(any e)]
+interface THREE.CSS3DObject 
+	 : THREE.Object3D
+{ 
+	// tested by 
+	// X:\jsc.svn\examples\javascript\synergy\css\CSS3DPanoramaByHumus\CSS3DPanoramaByHumus\Application.cs
+};
+
+[Constructor()]
+interface THREE.CSS3DRenderer 
+{
+	void setSize(long w, long h);
+	attribute Element domElement;
+	void render(any scene, any camera);
+};
+
+//interface THREExObject3D
+//{
+//
+//}

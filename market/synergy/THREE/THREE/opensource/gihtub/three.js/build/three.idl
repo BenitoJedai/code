@@ -9,6 +9,7 @@ interface THREE
 	static attribute THREE.ImageUtilsType ImageUtils; 
 	static attribute THREE.AnimationHandlerType AnimationHandler; 
 	static attribute THREE.GeometryUtilsType GeometryUtils; 
+	static attribute THREE.MathType Math; 
 
 	static attribute long DoubleSide; 
 	static attribute long AdditiveBlending; 
@@ -20,6 +21,13 @@ interface THREE
 
 	const long RepeatWrapping = 0;
 	const long LinearMipMapLinearFilter = 8;
+
+};
+
+// this is an anonymous type actually
+interface THREE.MathType
+{ 
+	double degToRad(double e);
 
 };
 
@@ -49,7 +57,7 @@ interface THREE.Texture
 	attribute boolean needsUpdate;
 
 	attribute int anisotropy;
-	
+
 
 };
 
@@ -84,6 +92,9 @@ interface THREE.PerspectiveCamera
 	void updateProjectionMatrix();
 	void lookAt(THREE.Vector3 target);
 	void add(any e);
+
+	attribute double  fov;
+
 
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  up;
@@ -237,6 +248,8 @@ interface THREE.Vector3
 	attribute double x; 
 	attribute double y;
 	attribute double z;
+
+	THREE.Vector3  fromArray ( sequence<double> array );
 
 	THREE.Vector3  set(double x, double y, double z);
 
@@ -404,7 +417,7 @@ interface THREE.Geometry
 { 
 	attribute sequence<THREE.Geometry>        faces;
 	attribute sequence<THREE.Color>        vertexColors;
-	
+
 };
 
 [Constructor]
