@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.Ultra.IDL
 {
@@ -41,6 +42,9 @@ namespace ScriptCoreLib.Ultra.IDL
                     if (t.Text == Text)
                         return t;
                 }
+
+            if (Debugger.IsAttached)
+                Debugger.Break();
 
             throw new NotSupportedException("AssertName failed at line " + t.LineNumber);
         }

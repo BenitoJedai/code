@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using CSS3DPanoramaByHumus;
 using CSS3DPanoramaByHumus.Design;
 using CSS3DPanoramaByHumus.HTML.Pages;
+using CSS3DPanoramaByHumus.HTML.Images.FromAssets;
 
 namespace CSS3DPanoramaByHumus
 {
@@ -23,6 +24,12 @@ namespace CSS3DPanoramaByHumus
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        public class side
+        {
+            public IHTMLImage img;
+            public THREE.Vector3 position;
+            public THREE.Vector3 rotation;
+        }
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -31,183 +38,174 @@ namespace CSS3DPanoramaByHumus
         {
             // view-source:file:///X:/opensource/github/three.js/examples/css3d_panorama.html
 
-            //Uncaught ReferenceError: THREE is not defined 
-            THREE.Scene ref0;
-            THREE.CSS3DObject ref2;
-            TexturesImages ref1;
+            var camera = new THREE.PerspectiveCamera(75, (double)Native.window.Width / Native.window.Height, 1, 1000);
+            var scene = new THREE.Scene();
 
-            new IFunction(@"
+            var renderer = new THREE.CSS3DRenderer();
+
+            #region sides
+            var sides = new[] 
+            {
+                new side
+			    {
+                    img=  new posx(),
+				    position= new THREE.Vector3( -512, 0, 0 ),
+				    rotation= new THREE.Vector3( 0, Math.PI / 2, 0 )
+                },
+			    new side {
+                    img=  new negx(),
+				    position= new THREE.Vector3( 512, 0, 0 ),
+				    rotation= new THREE.Vector3( 0, -Math.PI / 2, 0 )
+			    },
+			    new side{
+                    img=  new posy(),
+				    position= new THREE.Vector3( 0,  512, 0 ),
+				    rotation= new THREE.Vector3( Math.PI / 2, 0, Math.PI )
+			    },
+			    new side{
+				    img=  new negy(),
+				    position= new THREE.Vector3( 0, -512, 0 ),
+				    rotation= new THREE.Vector3( - Math.PI / 2, 0, Math.PI )
+			    },
+			    new side{
+                    img=  new posz(),
+				    position= new THREE.Vector3( 0, 0,  512 ),
+				    rotation= new THREE.Vector3( 0, Math.PI, 0 )
+			    },
+			    new side{
+				    img=  new negz(),
+				    position= new THREE.Vector3( 0, 0, -512 ),
+				    rotation= new THREE.Vector3( 0, 0, 0 )
+			    }
+		    };
+            #endregion
+
+            for (var i = 0; i < sides.Length; i++)
+            {
+                var side = sides[i];
+
+                var element = side.img;
+
+                element.style.SetSize(1026, 1026);
+
+                //element.width = 1026; // 2 pixels extra to close the gap.
+
+                var xobject = new THREE.CSS3DObject(element);
+                xobject.position.set(side.position.x, side.position.y, side.position.z);
+                xobject.rotation.set(side.rotation.x, side.rotation.y, side.rotation.z);
+                scene.add(xobject);
+
+            }
 
 
-			var camera, scene, renderer;
-			var geometry, material, mesh;
-			var target = new THREE.Vector3();
+            //<div style="-webkit-transform-style: preserve-3d; width: 978px; height: 664px; -webkit-transform: translate3d(0px, 0px, 432.6708237832803px) matrix3d(0.34382355213165283, -0.024581052362918854, -0.938712477684021, 0, 0, -0.9996572732925415, 0.026176948100328445, 0, 0.9390342831611633, 0.00900025200098753, 0.34370577335357666, 0, 0, 0, 0, 0.9999999403953552) translate3d(489px, 332px, 0px);">
+            //        <img src="assets/CSS3DPanoramaByHumus/posx.jpg" width="1026" style="width: 1024px; height: 1024px; position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, -512, 0, 0, 1);"><img src="assets/CSS3DPanoramaByHumus/negx.jpg" width="1026" style="width: 1024px; height: 1024px; position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 512, 0, 0, 1);"><img src="assets/CSS3DPanoramaByHumus/posy.jpg" width="1026" style="width: 1024px; height: 1024px; position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 512, 0, 1);"><img src="assets/CSS3DPanoramaByHumus/negy.jpg" width="1026" style="width: 1024px; height: 1024px; position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, -512, 0, 1);"><img src="assets/CSS3DPanoramaByHumus/posz.jpg" width="1026" style="width: 1024px; height: 1024px; position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 512, 1);"><img src="assets/CSS3DPanoramaByHumus/negz.jpg" width="1026" style="width: 1024px; height: 1024px; position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, -512, 1);"></div>
+            //<div style="-webkit-transform-style: preserve-3d; width: 978px; height: 664px; -webkit-transform: translate3d(0px, 0px, 432.6708237832803px) matrix3d(-0.4524347484111786, 0, 0.8917974829673767, 0, 0, -1, 0, 0, -0.8917974829673767, 0, -0.4524347484111786, 0, 0, 0, 0, 1) translate3d(489px, 332px, 0px);">
+            // <img width="1026" src="textures/cube/Bridge2/posx.jpg"                                             style="position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(0, 0, -1, 0, 0, -1, 0, 0, 1, 0, 0, 0, -512, 0, 0, 1);"><img width="1026" src="textures/cube/Bridge2/negx.jpg" style="position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(0, 0, 1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 512, 0, 0, 1);"><img width="1026" src="textures/cube/Bridge2/posy.jpg" style="position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(-1, 0, 0, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0, 512, 0, 1);"><img width="1026" src="textures/cube/Bridge2/negy.jpg" style="position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(-1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, -512, 0, 1);"><img width="1026" src="textures/cube/Bridge2/posz.jpg" style="position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(-1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 512, 1);"><img width="1026" src="textures/cube/Bridge2/negz.jpg" style="position: absolute; -webkit-transform-style: preserve-3d; -webkit-transform: translate3d(-50%, -50%, 0px) matrix3d(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, -512, 1);"></div> 
 
-			var lon = 90, lat = 0;
-			var phi = 0, theta = 0;
 
-			var touchX, touchY;
+            renderer.setSize(Native.window.Width, Native.window.Height);
+            renderer.domElement.AttachToDocument();
 
-			init();
-			animate();
+            var target = new THREE.Vector3();
 
-			function init() {
+            var lon = 90.0;
+            var lat = 0.0;
+            var phi = 0.0;
+            var theta = 0.0;
 
-				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+            Native.window.onresize +=
+                delegate
+                {
+                    camera.aspect = (double)Native.window.Width / Native.window.Height;
+                    camera.updateProjectionMatrix();
 
-				scene = new THREE.Scene();
+                    renderer.setSize(Native.window.Width, Native.window.Height);
+                };
 
-				var sides = [
-					{
-						url: 'assets/CSS3DPanoramaByHumus/posx.jpg',
-						position: [ -512, 0, 0 ],
-						rotation: [ 0, Math.PI / 2, 0 ]
-					},
-					{
-						url: 'assets/CSS3DPanoramaByHumus/negx.jpg',
-						position: [ 512, 0, 0 ],
-						rotation: [ 0, -Math.PI / 2, 0 ]
-					},
-					{
-						url: 'assets/CSS3DPanoramaByHumus/posy.jpg',
-						position: [ 0,  512, 0 ],
-						rotation: [ Math.PI / 2, 0, Math.PI ]
-					},
-					{
-						url: 'assets/CSS3DPanoramaByHumus/negy.jpg',
-						position: [ 0, -512, 0 ],
-						rotation: [ - Math.PI / 2, 0, Math.PI ]
-					},
-					{
-						url: 'assets/CSS3DPanoramaByHumus/posz.jpg',
-						position: [ 0, 0,  512 ],
-						rotation: [ 0, Math.PI, 0 ]
-					},
-					{
-						url: 'assets/CSS3DPanoramaByHumus/negz.jpg',
-						position: [ 0, 0, -512 ],
-						rotation: [ 0, 0, 0 ]
-					}
-				];
+            var drag = false;
 
-				for ( var i = 0; i < sides.length; i ++ ) {
 
-					var side = sides[ i ];
+            Native.window.onframe +=
+                delegate
+                {
+                    if (Native.document.pointerLockElement == Native.document.body)
+                        lon += 0.00;
+                    else
+                        lon += 0.01;
 
-					var element = document.createElement( 'img' );
-					element.width = 1026; // 2 pixels extra to close the gap.
-					element.src = side.url;
+                    lat = Math.Max(-85, Math.Min(85, lat));
 
-					var object = new THREE.CSS3DObject( element );
-					object.position.fromArray( side.position );
-					object.rotation.fromArray( side.rotation );
-					scene.add( object );
+                    //Native.document.title = new { lon, lat }.ToString();
 
-				}
 
-				renderer = new THREE.CSS3DRenderer();
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.body.appendChild( renderer.domElement );
+                    phi = THREE.Math.degToRad(90 - lat);
+                    theta = THREE.Math.degToRad(lon);
 
-				//
+                    target.x = Math.Sin(phi) * Math.Cos(theta);
+                    target.y = Math.Cos(phi);
+                    target.z = Math.Sin(phi) * Math.Sin(theta);
 
-				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
+                    camera.lookAt(target);
 
-				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+                    renderer.render(scene, camera);
 
-				window.addEventListener( 'resize', onWindowResize, false );
+                };
 
-			}
 
-			function onWindowResize() {
+            #region camera rotation
+            Native.document.body.onmousemove +=
+                e =>
+                {
+                    e.preventDefault();
 
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
+                    if (Native.document.pointerLockElement == Native.document.body)
+                    {
+                        lon += e.movementX * 0.1;
+                        lat -= e.movementY * 0.1;
 
-				renderer.setSize( window.innerWidth, window.innerHeight );
+                        //Console.WriteLine(new { lon, lat, e.movementX, e.movementY });
+                    }
+                };
 
-			}
 
-			function onDocumentMouseDown( event ) {
+            Native.document.body.onmouseup +=
+              e =>
+              {
+                  drag = false;
+                  e.preventDefault();
+              };
 
-				event.preventDefault();
+            Native.document.body.onmousedown +=
+                e =>
+                {
+                    //e.CaptureMouse();
 
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+                    drag = true;
+                    e.preventDefault();
+                    Native.document.body.requestPointerLock();
 
-			}
+                };
 
-			function onDocumentMouseMove( event ) {
 
-				var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-				var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+            Native.document.body.ondblclick +=
+                e =>
+                {
+                    e.preventDefault();
 
-				lon -= movementX * 0.1;
-				lat += movementY * 0.1;
+                    Console.WriteLine("requestPointerLock");
+                };
 
-			}
+            #endregion
 
-			function onDocumentMouseUp( event ) {
 
-				document.removeEventListener( 'mousemove', onDocumentMouseMove );
-				document.removeEventListener( 'mouseup', onDocumentMouseUp );
 
-			}
-
-			function onDocumentMouseWheel( event ) {
-
-				camera.fov -= event.wheelDeltaY * 0.05;
-				camera.updateProjectionMatrix();
-
-			}
-
-			function onDocumentTouchStart( event ) {
-
-				event.preventDefault();
-
-				var touch = event.touches[ 0 ];
-
-				touchX = touch.screenX;
-				touchY = touch.screenY;
-
-			}
-
-			function onDocumentTouchMove( event ) {
-
-				event.preventDefault();
-
-				var touch = event.touches[ 0 ];
-
-				lon -= ( touch.screenX - touchX ) * 0.1;
-				lat += ( touch.screenY - touchY ) * 0.1;
-
-				touchX = touch.screenX;
-				touchY = touch.screenY;
-
-			}
-
-			function animate() {
-
-				requestAnimationFrame( animate );
-
-				lon +=  0.1;
-				lat = Math.max( - 85, Math.min( 85, lat ) );
-				phi = THREE.Math.degToRad( 90 - lat );
-				theta = THREE.Math.degToRad( lon );
-
-				target.x = Math.sin( phi ) * Math.cos( theta );
-				target.y = Math.cos( phi );
-				target.z = Math.sin( phi ) * Math.sin( theta );
-
-				camera.lookAt( target );
-
-				renderer.render( scene, camera );
-
-			}
-
-            ").apply(null);
+            Native.document.body.onmousewheel +=
+                e =>
+                {
+                    camera.fov -= e.WheelDirection * 5.0;
+                    camera.updateProjectionMatrix();
+                };
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
