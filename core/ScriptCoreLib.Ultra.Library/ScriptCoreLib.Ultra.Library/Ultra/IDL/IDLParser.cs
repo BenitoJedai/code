@@ -249,7 +249,17 @@ namespace ScriptCoreLib.Ultra.IDL
                     {
                         i.BaseType = pp.SkipTo().AssertName();
 
-                        return i.BaseType.SkipTo();
+                        pp = i.BaseType.SkipTo();
+
+                        while (pp.Text == ".")
+                        {
+                            var NameFragment = pp.SkipTo().AssertName();
+
+                            i.BaseType = new[] { i.BaseType, pp, NameFragment }.Combine();
+
+                            pp = i.Name.SkipTo();
+                        }
+
                     }
 
                     return pp;

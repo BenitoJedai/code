@@ -8,5 +8,8 @@ namespace ScriptCoreLib.Archive
     public class ZIPArchiveFile
     {
         public string Name;
+
+        // compressed data?
+        //public Func<byte[]> GetData;
     }
 }

@@ -73,7 +73,7 @@ namespace ScriptCoreLib.Archive
 
             Func<long, bool> seek_f = p => { /*Console.WriteLine("seek: " + p);*/ s.Seek(p, SeekOrigin.Begin); return false; };
 
-            Func<long, int, byte[]> bytes_at = (p, c) => { seek_f(p); return bytes(c);  };
+            Func<long, int, byte[]> bytes_at = (p, c) => { seek_f(p); return bytes(c); };
 
             // reading from the end towards the start
             seek_f(s.Length - 20);
@@ -81,7 +81,7 @@ namespace ScriptCoreLib.Archive
             return from CentralDirectoryFound in WhileReading(s)
 
                    // how large could the zip comment possibly be? :)
-                   where (s.Length - s.Position) < 4096  || CentralDirectoryFound()
+                   where (s.Length - s.Position) < 4096 || CentralDirectoryFound()
 
                    // should we seek backwards?
                    let NextPosition = s.Position - 1
@@ -205,6 +205,7 @@ namespace ScriptCoreLib.Archive
                    select new ZIPArchiveFile
                    {
                        Name = utf8_File_name
+                       //GetData = FH_GetData
                    };
 
 

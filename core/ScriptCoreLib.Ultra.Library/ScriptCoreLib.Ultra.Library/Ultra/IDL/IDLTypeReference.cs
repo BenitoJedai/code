@@ -14,10 +14,27 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public readonly List<IDLTypeReference> GenericParameters = new List<IDLTypeReference>();
         public readonly IDLParserTokenPair GenericParameterSymbols = new IDLParserTokenPair();
-        
-        public  IDLParserToken NullableSymbol ;
+
+        public IDLParserToken NullableSymbol;
 
         public readonly IDLParserTokenPair ArraySymbols = new IDLParserTokenPair();
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is IDLTypeReference)
+            {
+                var x = obj as IDLTypeReference;
+
+                return x.ToString() == this.ToString();
+            }
+
+            return false;
+        }
 
         public override string ToString()
         {
@@ -79,7 +96,7 @@ namespace ScriptCoreLib.Ultra.IDL
                 if (ArraySymbols.Item2 != null)
                     return ArraySymbols.Item2;
 
-             
+
 
                 return Name;
             }

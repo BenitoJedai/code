@@ -140,18 +140,18 @@ namespace DiagnosticsConsole
                 };
 
 
-            Native.Document.onkeyup +=
+            Native.document.onkeyup +=
                 e =>
                 {
                     AtKeyCode(e.KeyCode);
                 };
 
-            Native.Window.onorientationchange +=
+            Native.window.onorientationchange +=
                 delegate
                 {
-                    if (Native.Window.orientation == 90)
+                    if (Native.window.orientation == 90)
                         Show();
-                    else if (Native.Window.orientation == -90)
+                    else if (Native.window.orientation == -90)
                         Show();
                     else
                         Hide();
