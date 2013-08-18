@@ -69,7 +69,7 @@ namespace TestMultipartHandler
                 h.Context.Response.Write(
                      @"--endofsection
 Content-type: text/html
-Link: <Default.css>;rel=stylesheet
+Link: <assets/TestMultipartHandler/Default.css>;rel=stylesheet
 
 <body>
 <h1>Cat</h1>

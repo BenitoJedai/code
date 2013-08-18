@@ -9,7 +9,6 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Avalon.Tween;
 using SpiderModel.HTML.Pages;
-using SpiderModel.Library;
 using SpiderModel.Shaders;
 
 namespace SpiderModel
@@ -133,7 +132,7 @@ namespace SpiderModel
                 }
             );
 
-        
+
         }
 
 
@@ -141,66 +140,7 @@ namespace SpiderModel
 
     public class ApplicationContent
     {
-        public IHTMLCanvas canvas = new IHTMLCanvas();
 
-        public ApplicationContent()
-        {
-            canvas.AttachToDocument();
-
-            #region glMatrix.js -> InitializeContent
-            new __glMatrix().Content.With(
-               source =>
-               {
-                   source.onload +=
-                       delegate
-                       {
-                           InitializeContent(canvas);
-                       };
-
-                   source.AttachToDocument();
-               }
-           );
-            #endregion
-
-            #region tween
-            NumericEmitter.OfDouble(
-                (value, reserved) => red_obstacle_L_y = (f)value
-            ).With(
-                e =>
-                {
-                    tween_red_obstacle_L_y = (value) => e(value, 0);
-                }
-            );
-
-            NumericEmitter.OfDouble(
-               (value, reserved) => red_obstacle_R_y = (f)value
-           ).With(
-               e =>
-               {
-                   tween_red_obstacle_R_y = (value) => e(value, 0);
-               }
-           );
-
-            NumericEmitter.OfDouble(
-             (value, reserved) => white_arrow_x = (f)value
-         ).With(
-             e =>
-             {
-                 tween_white_arrow_x = (value) => e(value, 0);
-             }
-         );
-
-            NumericEmitter.OfDouble(
-      (value, reserved) => white_arrow_y = (f)value
-  ).With(
-      e =>
-      {
-          tween_white_arrow_y = (value) => e(value, 0);
-      }
-  );
-            #endregion
-
-        }
 
         // 0..30
         public sealed class vec2
@@ -248,20 +188,65 @@ namespace SpiderModel
 
         public event Action AtTick;
 
-        void InitializeContent(IHTMLCanvas canvas)
+
+        public IHTMLCanvas canvas = new IHTMLCanvas();
+
+        public ApplicationContent()
         {
+            canvas.AttachToDocument();
+
+
+
+            #region tween
+            NumericEmitter.OfDouble(
+                (value, reserved) => red_obstacle_L_y = (f)value
+            ).With(
+                e =>
+                {
+                    tween_red_obstacle_L_y = (value) => e(value, 0);
+                }
+            );
+
+            NumericEmitter.OfDouble(
+               (value, reserved) => red_obstacle_R_y = (f)value
+           ).With(
+               e =>
+               {
+                   tween_red_obstacle_R_y = (value) => e(value, 0);
+               }
+           );
+
+            NumericEmitter.OfDouble(
+             (value, reserved) => white_arrow_x = (f)value
+         ).With(
+             e =>
+             {
+                 tween_white_arrow_x = (value) => e(value, 0);
+             }
+         );
+
+            NumericEmitter.OfDouble(
+      (value, reserved) => white_arrow_y = (f)value
+  ).With(
+      e =>
+      {
+          tween_white_arrow_y = (value) => e(value, 0);
+      }
+  );
+            #endregion
+
 
 
             #region canvas
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             #endregion
 
             #region gl - Initialise WebGL
 
 
-            var gl = default(WebGLRenderingContext);
+            var gl = new WebGLRenderingContext();
 
             try
             {
@@ -273,14 +258,14 @@ namespace SpiderModel
 
             if (gl == null)
             {
-                Native.Window.alert("WebGL not supported");
+                Native.window.alert("WebGL not supported");
                 throw new InvalidOperationException("cannot create webgl context");
             }
             #endregion
 
 
-            var gl_viewportWidth = Native.Window.Width;
-            var gl_viewportHeight = Native.Window.Height;
+            var gl_viewportWidth = Native.window.Width;
+            var gl_viewportHeight = Native.window.Height;
 
 
 
@@ -295,7 +280,7 @@ namespace SpiderModel
                 // verify
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
                     throw new InvalidOperationException("shader failed");
                 }
 
@@ -329,16 +314,16 @@ namespace SpiderModel
 
 
 
-            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrix = glMatrix.mat4.create();
             var mvMatrixStack = new Stack<Float32Array>();
 
-            var pMatrix = __glMatrix.mat4.create();
+            var pMatrix = glMatrix.mat4.create();
 
             #region new in lesson 03
             Action mvPushMatrix = delegate
             {
-                var copy = __glMatrix.mat4.create();
-                __glMatrix.mat4.set(mvMatrix, copy);
+                var copy = glMatrix.mat4.create();
+                glMatrix.mat4.set(mvMatrix, copy);
                 mvMatrixStack.Push(copy);
             };
 
@@ -685,9 +670,9 @@ namespace SpiderModel
                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                __glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                __glMatrix.mat4.identity(mvMatrix);
+                glMatrix.mat4.identity(mvMatrix);
 
 
                 Action<Action> mw =
@@ -744,10 +729,10 @@ namespace SpiderModel
                 mw(
                     delegate
                     {
-                        __glMatrix.mat4.translate(mvMatrix, 0f, 0.0f, -4f);
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-70), 1f, 0f, 0f);
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad((f)(Math.Sin(a * 0.0003f) * 33)), 0f, 0f, 1f);
-                        __glMatrix.mat4.translate(mvMatrix, 0f, camera_z, 0f);
+                        glMatrix.mat4.translate(mvMatrix, new[] { 0f, 0.0f, -4f });
+                        glMatrix.mat4.rotate(mvMatrix, degToRad(-70), new[] { 1f, 0f, 0f });
+                        glMatrix.mat4.rotate(mvMatrix, degToRad((f)(Math.Sin(a * 0.0003f) * 33)), new[] { 0f, 0f, 1f });
+                        glMatrix.mat4.translate(mvMatrix, new[] { 0f, camera_z, 0f });
 
 
 
@@ -770,7 +755,7 @@ namespace SpiderModel
                                 mw(
                                     delegate
                                     {
-                                        __glMatrix.mat4.translate(mvMatrix, x * size * 2, y * size * 2, z * size * 2);
+                                        glMatrix.mat4.translate(mvMatrix, new[] { x * size * 2, y * size * 2, z * size * 2 });
 
                                         setMatrixUniforms();
                                         gl.drawElements(drawElements_mode, cubeVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
@@ -787,7 +772,7 @@ namespace SpiderModel
                             mw(
                                   delegate
                                   {
-                                      __glMatrix.mat4.translate(mvMatrix, x * size * 2, y * size * 2, z * size * 2);
+                                      glMatrix.mat4.translate(mvMatrix, new[] { x * size * 2, y * size * 2, z * size * 2 });
 
                                       h();
                                   }
@@ -799,10 +784,10 @@ namespace SpiderModel
                         Action arrow =
                             delegate
                             {
-                                __glMatrix.mat4.translate(mvMatrix, 0, 0, (float)(Math.Sin(a * 0.1) * size));
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(a * 0.1f), 0f, 0f, -1f);
+                                glMatrix.mat4.translate(mvMatrix, new[] { 0, 0, (float)(Math.Sin(a * 0.1) * size) });
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(a * 0.1f), new[] { 0f, 0f, -1f });
 
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(a * -0.5f), 0f, 0f, 1f);
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(a * -0.5f), new[] { 0f, 0f, 1f });
 
                                 var cc = (cyclecount - cycle) - 1;
 
@@ -1407,9 +1392,9 @@ namespace SpiderModel
                                     delegate
                                     {
 
-                                        __glMatrix.mat4.rotate(mvMatrix, degToRad(x), 0f, 0f, 1f);
-                                        __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_sideway), 0f, 0f, 1f);
-                                        __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_vertical), 1f, 0f, 0);
+                                        glMatrix.mat4.rotate(mvMatrix, degToRad(x), new[] { 0f, 0f, 1f });
+                                        glMatrix.mat4.rotate(mvMatrix, degToRad(deg_sideway), new[] { 0f, 0f, 1f });
+                                        glMatrix.mat4.rotate(mvMatrix, degToRad(deg_vertical), new[] { 1f, 0f, 0 });
 
 
                                         leg(wirecolor, fillcolor);
@@ -1479,18 +1464,18 @@ namespace SpiderModel
             #region AtResize
             Action AtResize = delegate
             {
-                canvas.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                canvas.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                gl_viewportWidth = Native.Window.Width;
-                gl_viewportHeight = Native.Window.Height;
+                gl_viewportWidth = Native.window.Width;
+                gl_viewportHeight = Native.window.Height;
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
             };
 
             AtResize();
 
-            Native.Window.onresize += delegate { AtResize(); };
+            Native.window.onresize += delegate { AtResize(); };
             #endregion
 
             #region onmousewheel
@@ -1505,9 +1490,8 @@ namespace SpiderModel
 
             #region tick
             var c = 0;
-            var tick = default(Action);
 
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 if (IsDisposed)
                     return;
@@ -1522,17 +1506,9 @@ namespace SpiderModel
                 if (AtTick != null)
                     AtTick();
 
-                if (Native.Screen.width < 1024)
-                {
-                    // mobile device
-                }
-                else
-                {
-                    Native.Window.requestAnimationFrame += tick;
-                }
+
             };
 
-            tick();
             #endregion
 
             #region white_arrows

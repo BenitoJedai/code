@@ -45,12 +45,12 @@ namespace TestLongConnection
                     object time = x.time;
                     object i = x.i;
 
-                    Native.Document.title = new { time, i }.ToString();
+                    Native.document.title = new { time, i }.ToString();
                     Console.WriteLine(new { time, i }.ToString());
                     page.Content.innerText = new { time, i }.ToString();
                 };
 
-            dynamic window = Native.Window;
+            dynamic window = Native.window;
 
             window.stream = stream;
 
@@ -69,7 +69,7 @@ namespace TestLongConnection
                     iframe.Orphanize();
                 };
 
-            Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
+            Native.document.body.style.cursor = IStyle.CursorEnum.@default;
         }
     }
 
