@@ -113,9 +113,8 @@ namespace WebGLChocolux
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, q, gl.STATIC_DRAW);
 
             var start = new IDate().getTime();
-            Action redraw = null;
 
-            redraw = delegate
+            Native.window.onframe += delegate
             {
                 var timestamp = new IDate().getTime();
                 var t = (timestamp - start) / 1000.0f * 30f;
@@ -127,11 +126,9 @@ namespace WebGLChocolux
                 gl.flush();
 
 
-                Native.Window.requestAnimationFrame += redraw;
 
             };
 
-            Native.Window.requestAnimationFrame += redraw;
 
 
 
@@ -143,8 +140,8 @@ namespace WebGLChocolux
                     return;
                 }
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
 
 
                 gl.viewport(0, 0, canvas.width, canvas.height);
@@ -152,7 +149,7 @@ namespace WebGLChocolux
 
             AtResize();
 
-            Native.Window.onresize += delegate
+            Native.window.onresize += delegate
             {
                 AtResize();
             };
@@ -256,7 +253,7 @@ namespace WebGLChocolux
                                                   data = data.Replace("/* source */", r.responseText);
 
                                               };
-                                              #endregion
+            #endregion
 
 
                                               //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
@@ -300,7 +297,7 @@ namespace WebGLChocolux
                                                           }
                                                       );
 
-                                                      #endregion
+            #endregion
                                                   }
                                               )(
                                                   delegate
@@ -318,7 +315,7 @@ namespace WebGLChocolux
                                       );
 
                                   };
-                              #endregion
+            #endregion
 
 
                               PackageAsApplication(

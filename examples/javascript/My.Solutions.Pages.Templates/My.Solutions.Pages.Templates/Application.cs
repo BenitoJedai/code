@@ -31,6 +31,7 @@ namespace My.Solutions.Pages.Templates
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
+            glMatrix ref1;
             THREE.Color ref0;
 
             #region switch to chrome AppWindow
@@ -381,7 +382,7 @@ namespace My.Solutions.Pages.Templates
                 (alias, yield, preview) =>
                 {
                     if (h == "")
-                        if (Native.Window.Width > cutoff)
+                        if (Native.window.Width > cutoff)
                             iframe(96, 96, 3, preview, alias);
                         else
                             iframe(32, 32, 3, preview, alias);
@@ -401,7 +402,7 @@ namespace My.Solutions.Pages.Templates
             y("#WebGLSphereRayTrace", () => new WebGLSphereRayTrace.Application(), new WebGLSphereRayTrace.HTML.Images.FromAssets.Preview());
             //y("#WebGLFireballExplosion", () => new WebGLFireballExplosion.Application(), new WebGLFireballExplosion.HTML.Images.FromAssets.Preview());
             y("#WebGLChocolux", () => new WebGLChocolux.Application(), new WebGLChocolux.HTML.Images.FromAssets.Preview());
-            y("#WebGLPuls", () => new WebGLPuls.Application(), new WebGLPuls.HTML.Images.FromAssets.Preview());
+            //y("#WebGLPuls", () => new WebGLPuls.Application(), new WebGLPuls.HTML.Images.FromAssets.Preview());
             y("#WebGLCelShader", () => new WebGLCelShader.Application(), new WebGLCelShader.HTML.Images.FromAssets.Preview());
             y("#WebGLClouds", () => new WebGLClouds.Application(), new WebGLClouds.HTML.Images.FromAssets.Preview());
             y("#WebGLCone", () => new WebGLCone.Application(), new WebGLCone.HTML.Images.FromAssets.Preview());
@@ -451,7 +452,7 @@ namespace My.Solutions.Pages.Templates
                 var iheight = 96;
 
 
-                if (Native.Window.Width > cutoff)
+                if (Native.window.Width > cutoff)
                 {
                     iframe(iwidth, iheight, maxextra, new HTML.Images.FromAssets.Preview(), "");
                     //iframe(iwidth, iheight, maxextra, new HTML.Images.FromAssets.Preview(), "");
@@ -499,7 +500,7 @@ namespace My.Solutions.Pages.Templates
                 #region ApplyMargins
                 Action ApplyMargins = delegate
                 {
-                    if (Native.Window.Width < cutoff)
+                    if (Native.window.Width < cutoff)
                     {
                         cc.style.margin = "0px";
                     }
@@ -512,7 +513,7 @@ namespace My.Solutions.Pages.Templates
 
                 ApplyMargins();
 
-                Native.Window.onresize +=
+                Native.window.onresize +=
                     delegate
                     {
                         ApplyMargins();

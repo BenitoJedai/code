@@ -96,7 +96,7 @@ namespace WebGLPlanetGenerator
 
             if (gl == null)
             {
-                Native.Window.alert("WebGL not supported");
+                Native.window.alert("WebGL not supported");
                 throw new InvalidOperationException("cannot create webgl context");
             }
             #endregion
@@ -295,26 +295,26 @@ namespace WebGLPlanetGenerator
                 drawScene();
                 animate();
 
-                Native.Window.requestAnimationFrame += tick;
+                Native.window.requestAnimationFrame += tick;
             };
 
-            Native.Window.requestAnimationFrame += tick;
+            Native.window.requestAnimationFrame += tick;
             #endregion
 
             #region AtResize
             Action AtResize = delegate
             {
-                gl_viewportWidth = Native.Window.Width;
-                gl_viewportHeight = Native.Window.Height;
+                gl_viewportWidth = Native.window.Width;
+                gl_viewportHeight = Native.window.Height;
 
-                canvas.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                canvas.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
             };
 
             #region onresize
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();

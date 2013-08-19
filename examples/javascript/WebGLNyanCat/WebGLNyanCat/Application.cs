@@ -13,14 +13,13 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using WebGLNyanCat.HTML.Pages;
 using WebGLNyanCat.Design;
-//using THREE = WebGLNyanCat.Design.THREE;
+using System.Diagnostics;
 
 namespace WebGLNyanCat
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using WebGLNyanCat.HTML.Audio.FromAssets;
-    using System.Diagnostics;
 
 
 
@@ -93,8 +92,8 @@ namespace WebGLNyanCat
                     if (IsDisposed)
                         return;
 
-                    var windowHalfX = Native.Window.Width / 2;
-                    var windowHalfY = Native.Window.Height / 2;
+                    var windowHalfX = Native.window.Width / 2;
+                    var windowHalfY = Native.window.Height / 2;
 
                     mouseX = (e.CursorX - windowHalfX);
                     mouseY = (e.CursorY - windowHalfY);
@@ -132,7 +131,7 @@ namespace WebGLNyanCat
             #region HasFocus
             var HasFocus = false;
 
-            Native.Window.onblur +=
+            Native.window.onblur +=
                delegate
                {
                    HasFocus = false;
@@ -141,7 +140,7 @@ namespace WebGLNyanCat
                    page_song2.pause();
                };
 
-            Native.Window.onfocus +=
+            Native.window.onfocus +=
                 delegate
                 {
                     HasFocus = true;
