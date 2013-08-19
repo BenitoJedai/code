@@ -44,7 +44,7 @@ namespace WebGLPuls
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
-
+            // broken!
             InitializeContent(page);
         }
 
@@ -69,7 +69,7 @@ namespace WebGLPuls
 
 
             //http://www.khronos.org/webgl/public-mailing-list/archives/1002/msg00125.html
-        
+
 
             var gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
 
@@ -100,15 +100,17 @@ namespace WebGLPuls
                     return;
                 }
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
 
-                this.onresize(Native.Window.Width, Native.Window.Height);
+                this.onresize(Native.window.Width, Native.window.Height);
+
+                Console.WriteLine("onresize");
             };
 
             AtResize();
 
-            Native.Window.onresize += delegate
+            Native.window.onresize += delegate
             {
                 AtResize();
             };
@@ -144,11 +146,11 @@ namespace WebGLPuls
 
                 this.onframe();
 
-                Native.Window.requestAnimationFrame += loop;
+                Native.window.requestAnimationFrame += loop;
 
             };
 
-            Native.Window.requestAnimationFrame += loop;
+            Native.window.requestAnimationFrame += loop;
             #endregion
 
 

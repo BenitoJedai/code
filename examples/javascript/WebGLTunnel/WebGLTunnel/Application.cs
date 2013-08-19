@@ -29,7 +29,7 @@ namespace WebGLTunnel
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page = null)
+        public Application(IDefault page = null)
         {
             // view-source:http://www.rozengain.com/files/webgl/tunnel/
             // http://www.rozengain.com/blog/2010/08/10/using-webgl-glsl-shaders-to-create-a-tunnel-effect/
@@ -71,7 +71,7 @@ namespace WebGLTunnel
 
         public Action Dispose;
 
-        void InitializeContent(IDefault  page = null)
+        void InitializeContent(IDefault page = null)
         {
             var vertices = new List<float>();
             var indices = new List<ushort>();
@@ -172,7 +172,7 @@ namespace WebGLTunnel
 
             if (gl == null)
             {
-                Native.Window.alert("WebGL not supported");
+                Native.window.alert("WebGL not supported");
                 throw new InvalidOperationException("cannot create webgl context");
             }
             #endregion
@@ -202,7 +202,7 @@ namespace WebGLTunnel
 
 
 
-         
+
 
 
             gl.linkProgram(shaderProgram);
@@ -352,17 +352,17 @@ namespace WebGLTunnel
                     Action AtResize = delegate
                     {
 
-                        gl_viewportWidth = Convert.ToInt32( Native.Window.Width * zoom);
-                        gl_viewportHeight = Convert.ToInt32( Native.Window.Height * zoom);
+                        gl_viewportWidth = Convert.ToInt32(Native.window.Width * zoom);
+                        gl_viewportHeight = Convert.ToInt32(Native.window.Height * zoom);
 
-                        canvas.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                        canvas.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                        canvas.width = Convert.ToInt32( Native.Window.Width * zoom);
-                        canvas.height = Convert.ToInt32(Native.Window.Height * zoom);
+                        canvas.width = Convert.ToInt32(Native.window.Width * zoom);
+                        canvas.height = Convert.ToInt32(Native.window.Height * zoom);
                     };
 
                     #region onresize
-                    Native.Window.onresize +=
+                    Native.window.onresize +=
                         delegate
                         {
                             AtResize();
@@ -375,9 +375,8 @@ namespace WebGLTunnel
                     var rCube = 0;
 
                     #region drawScene
-                    Action drawScene = null;
 
-                    drawScene = delegate
+                    Native.window.onframe += delegate
                     {
                         if (IsDisposed)
                             return;
@@ -415,10 +414,8 @@ namespace WebGLTunnel
 
                         mvPopMatrix();
 
-                        Native.Window.requestAnimationFrame += drawScene;
                     };
 
-                    drawScene();
                     #endregion
 
                     #region requestFullscreen

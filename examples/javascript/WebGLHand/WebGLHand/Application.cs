@@ -89,8 +89,8 @@ namespace WebGLHand
             Action AtResize =
                 delegate
                 {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
+                    gl_viewportWidth = Native.window.Width;
+                    gl_viewportHeight = Native.window.Height;
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
@@ -98,7 +98,7 @@ namespace WebGLHand
                     canvas.height = gl_viewportHeight;
                 };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 e =>
                 {
                     AtResize();
@@ -132,7 +132,7 @@ namespace WebGLHand
                 // verify
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
                     throw new InvalidOperationException("shader failed");
                 }
 

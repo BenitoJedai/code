@@ -45,6 +45,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DiagnosticsConsole.1.0.0.0\lib\DiagnosticsConsole.dll</HintPath>
     </Reference>
+    <Reference Include="glMatrixLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\glMatrixLibrary.1.0.0.0\lib\glMatrixLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -415,10 +419,6 @@
     <ProjectReference Include="..\..\WebGLPlanetGenerator\WebGLPlanetGenerator\WebGLPlanetGenerator.csproj">
       <Project>{0c7f1758-1ab8-437b-9e3e-52a9e67a8a75}</Project>
       <Name>WebGLPlanetGenerator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebGLPuls\WebGLPuls\WebGLPuls.csproj">
-      <Project>{9123bd19-1fd3-4d88-85c8-b92a1116db40}</Project>
-      <Name>WebGLPuls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WebGLShaderDisturb\WebGLShaderDisturb\WebGLShaderDisturb.csproj">
       <Project>{9ad900ff-1176-400c-bc72-ff09ec14d7f5}</Project>

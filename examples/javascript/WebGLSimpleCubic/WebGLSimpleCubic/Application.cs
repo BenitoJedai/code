@@ -313,8 +313,8 @@ namespace WebGLSimpleCubic
             #region AtResize
             Action AtResize = delegate
             {
-                gl_viewportWidth = Native.Window.Width;
-                gl_viewportHeight = Native.Window.Height;
+                gl_viewportWidth = Native.window.Width;
+                gl_viewportHeight = Native.window.Height;
 
                 prMatrix = new CanvasMatrix4();
                 prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
@@ -330,7 +330,7 @@ namespace WebGLSimpleCubic
 
             AtResize();
 
-            Native.Window.onresize += delegate
+            Native.window.onresize += delegate
             {
                 AtResize();
             };

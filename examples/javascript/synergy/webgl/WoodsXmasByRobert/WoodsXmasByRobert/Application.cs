@@ -42,7 +42,7 @@ namespace WoodsXmasByRobert
             var ScreenHeight = Native.Screen.height;
 
             Console.WriteLine(
-                new { ScreenWidth, ScreenHeight, Native.Window.Width, Native.Window.Height }
+                new { ScreenWidth, ScreenHeight, Native.window.Width, Native.window.Height }
             );
 
 
@@ -64,7 +64,7 @@ namespace WoodsXmasByRobert
                 location = Native.Document.location.href;
                 //var pl = Native.Window.parent.document.location;
 
-                if (Native.Window.Width < Native.Screen.width)
+                if (Native.window.Width < Native.screen.width)
                     ApplyWorkaround = true;
             }
             catch
@@ -75,7 +75,7 @@ namespace WoodsXmasByRobert
             if (ApplyWorkaround)
             {
                 #region make sure the url looks different to make iframe actually load
-                Native.Window.parent.With(
+                Native.window.parent.With(
                     parent =>
                     {
                         // http://stackoverflow.com/questions/5934538/is-there-a-limitation-on-an-iframe-containing-another-iframe-with-the-same-url
@@ -135,7 +135,7 @@ namespace WoodsXmasByRobert
                 Native.Document.body.Clear();
                 Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-                Native.Window.onmessage +=
+                Native.window.onmessage +=
                    e =>
                    {
                        Console.WriteLine("Native.Window.onmessage " + new { e.data });
@@ -154,7 +154,7 @@ namespace WoodsXmasByRobert
                         if (iframe.src != location)
                             return;
 
-                        Native.Window.requestAnimationFrame +=
+                        Native.window.requestAnimationFrame +=
                           delegate
                           {
                               Console.WriteLine("reload done! " + new { location, iframe.src });
@@ -162,7 +162,7 @@ namespace WoodsXmasByRobert
                           };
                     };
 
-                Native.Window.requestAnimationFrame +=
+                Native.window.requestAnimationFrame +=
                     delegate
                     {
                         Console.WriteLine("will reload... " + location);
@@ -234,11 +234,11 @@ namespace WoodsXmasByRobert
             Action __WoodsXmasByRobert_loaded = null;
 
             Console.WriteLine(
-                new { Native.Window.opener, Native.Window.parent }
+                new { Native.window.opener, Native.window.parent }
             );
 
 
-            Native.Window.parent.With(
+            Native.window.parent.With(
                 parent =>
                 {
                     parent.postMessage("WoodsXmasByRobert.preparing");
@@ -261,7 +261,7 @@ namespace WoodsXmasByRobert
             new IHTMLScript { type = "x-shader/x-vertex", id = "vertexshader", innerText = new Shaders.particlesVertexShader().ToString() }.AttachToDocument();
             new IHTMLScript { type = "x-shader/x-fragment", id = "fragmentshader", innerText = new Shaders.particlesFragmentShader().ToString() }.AttachToDocument();
 
-            var w = Native.Window;
+            var w = Native.window;
 
             dynamic window = w;
 
@@ -282,7 +282,7 @@ namespace WoodsXmasByRobert
             window.snd = snd;
 
 
-            Native.Window.onfocus +=
+            Native.window.onfocus +=
                 delegate
                 {
                     Console.WriteLine("WoodsXmasByRobert onfocus");
@@ -290,7 +290,7 @@ namespace WoodsXmasByRobert
                 };
 
 
-            Native.Window.onblur +=
+            Native.window.onblur +=
                 delegate
                 {
                     Console.WriteLine("WoodsXmasByRobert onblur");
@@ -332,9 +332,9 @@ namespace WoodsXmasByRobert
 
             canvas.AttachToDocument();
 
-            webglRenderer.setSize(Native.Window.Width, Native.Window.Height);
+            webglRenderer.setSize(Native.window.Width, Native.window.Height);
 
-            var camera = new THREE.PerspectiveCamera(75, Native.Window.Width / Native.Window.Height, 1, 100000);
+            var camera = new THREE.PerspectiveCamera(75, Native.window.Width / Native.window.Height, 1, 100000);
 
             camera.position.z = 0;
             camera.position.x = 0;
@@ -397,16 +397,16 @@ namespace WoodsXmasByRobert
                     }
 
                     // keep cursor in view
-                    CursorX = CursorX.Max(0).Min(Native.Window.Width);
-                    CursorY = CursorY.Max(0).Min(Native.Window.Height);
+                    CursorX = CursorX.Max(0).Min(Native.window.Width);
+                    CursorY = CursorY.Max(0).Min(Native.window.Height);
 
-                    if (Native.Document.pointerLockElement == Native.Document.body)
+                    if (Native.document.pointerLockElement == Native.document.body)
                     {
                         cursor.style.SetLocation(CursorX - 16, CursorY - 16);
                     }
 
-                    var windowHalfX = Native.Window.Width >> 1;
-                    var windowHalfY = Native.Window.Height >> 1;
+                    var windowHalfX = Native.window.Width >> 1;
+                    var windowHalfY = Native.window.Height >> 1;
 
                     var mouseX = (CursorX - windowHalfX);
                     var mouseY = (CursorY - windowHalfY);
@@ -436,7 +436,7 @@ namespace WoodsXmasByRobert
                         new Action(
                             delegate
                             {
-                                new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                                new IFunction("window.checkLoadingDone();").apply(Native.window);
                             }
                         )
                     );
@@ -575,7 +575,7 @@ namespace WoodsXmasByRobert
                     }
 
 
-                    new IFunction("window.setupSubtitles();").apply(Native.Window);
+                    new IFunction("window.setupSubtitles();").apply(Native.window);
                     #endregion
 
                     var particles = (THREE.ParticleSystem)(object)window.particles;
@@ -607,7 +607,7 @@ namespace WoodsXmasByRobert
 
 
 
-                    var speedEffector_value = (int)new IFunction("return window.speedEffector.value;").apply(Native.Window);
+                    var speedEffector_value = (int)new IFunction("return window.speedEffector.value;").apply(Native.window);
 
                     #region load
                     Action<string, Action<object>> load =
@@ -643,7 +643,7 @@ namespace WoodsXmasByRobert
 
                             window.sled = sled;
 
-                            new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                            new IFunction("window.checkLoadingDone();").apply(Native.window);
                         }
                     );
                     #endregion
@@ -705,7 +705,7 @@ namespace WoodsXmasByRobert
                                          }
                                      }
 
-                                     new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                                     new IFunction("window.checkLoadingDone();").apply(Native.window);
                                  }
                              );
                         }
@@ -744,7 +744,7 @@ namespace WoodsXmasByRobert
 
                             window.bird = bird;
 
-                            new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                            new IFunction("window.checkLoadingDone();").apply(Native.window);
                         }
                     );
                     #endregion
@@ -790,7 +790,7 @@ namespace WoodsXmasByRobert
                             }
 
 
-                            new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                            new IFunction("window.checkLoadingDone();").apply(Native.window);
                         }
                     );
                     #endregion
@@ -872,7 +872,7 @@ namespace WoodsXmasByRobert
                             scene.add(rightHandle);
                             window.rightHandle = rightHandle;
 
-                            new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                            new IFunction("window.checkLoadingDone();").apply(Native.window);
                         }
                     );
                     #endregion
@@ -925,7 +925,7 @@ namespace WoodsXmasByRobert
                             flowerArray.push(mesh);
                         }
 
-                        new IFunction("window.checkLoadingDone();").apply(Native.Window);
+                        new IFunction("window.checkLoadingDone();").apply(Native.window);
                     };
                     #endregion
 
@@ -1139,10 +1139,10 @@ namespace WoodsXmasByRobert
 
                             particles.position.z -= speed;
 
-                            new IFunction("e", "window.uniforms.globalTime.value += e;").apply(Native.Window, delta * 0.00015);
-                            new IFunction("e", "window.uniforms.speed.value = e;").apply(Native.Window, speed / maxSpeed);
+                            new IFunction("e", "window.uniforms.globalTime.value += e;").apply(Native.window, delta * 0.00015);
+                            new IFunction("e", "window.uniforms.speed.value = e;").apply(Native.window, speed / maxSpeed);
 
-                            new IFunction("window.runSubtitles();").apply(Native.Window);
+                            new IFunction("window.runSubtitles();").apply(Native.window);
 
 
                             //disableNextFrame = true;
@@ -1154,18 +1154,18 @@ namespace WoodsXmasByRobert
                         {
                             if (loadingSprite != null)
                             {
-                                loadingSprite.position.set(Native.Window.Width >> 1, Native.Window.Height >> 1, 0);
+                                loadingSprite.position.set(Native.window.Width >> 1, Native.window.Height >> 1, 0);
                                 loadingSprite.rotation -= 0.08;
                             }
                         }
 
                         if (bgSprite != null)
                         {
-                            bgSprite.position.set(Native.Window.Width >> 1, Native.Window.Height >> 1, 0);
+                            bgSprite.position.set(Native.window.Width >> 1, Native.window.Height >> 1, 0);
                         }
 
 
-                        new IFunction("window.TWEEN.update();").apply(Native.Window);
+                        new IFunction("window.TWEEN.update();").apply(Native.window);
 
                         //if (has_gl)
                         {
@@ -1177,18 +1177,14 @@ namespace WoodsXmasByRobert
 
 
                     #region animate
-                    Action animate = null;
-
-                    animate = delegate
+                    Native.window.onframe += delegate
                     {
                         if (disableNextFrame)
                             return;
 
-                        Native.Window.requestAnimationFrame += animate;
                         loop();
                     };
 
-                    animate();
                     #endregion
 
 
@@ -1198,16 +1194,16 @@ namespace WoodsXmasByRobert
                     {
 
                         // notify the renderer of the size change
-                        webglRenderer.setSize(Native.Window.Width, Native.Window.Height);
+                        webglRenderer.setSize(Native.window.Width, Native.window.Height);
 
                         // update the camera
-                        camera.aspect = Native.Window.Width / Native.Window.Height;
+                        camera.aspect = Native.window.Width / Native.window.Height;
                         camera.updateProjectionMatrix();
                     };
 
 
                     #region onresize
-                    Native.Window.onresize +=
+                    Native.window.onresize +=
                         delegate
                         {
                             AtResize();
