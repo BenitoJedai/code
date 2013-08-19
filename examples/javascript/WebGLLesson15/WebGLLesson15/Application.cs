@@ -39,65 +39,24 @@ namespace WebGLLesson15
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page = null)
+        public Application(IDefault page = null)
         {
-            #region await __glMatrix
-            new __glMatrix().Content.With(
-              source =>
-              {
-                  source.onload +=
-                    delegate
-                    {
-
-                        InitializeContent(page);
-
-                    };
-
-                  source.AttachToDocument();
-              }
-           );
-            #endregion
+            var size = 500;
 
 
-            style.Content.AttachToHead();
-      
-        }
-
-        void InitializeContent(IDefault  page = null)
-        {
-
-            var gl_viewportWidth = Native.Window.Width;
-            var gl_viewportHeight = Native.Window.Height;
-
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
-
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
-
-            canvas.width = gl_viewportWidth;
-            canvas.height = gl_viewportHeight;
-            #endregion
-
-            #region gl - Initialise WebGL
+            var gl = new WebGLRenderingContext();
 
 
-            var gl = default(WebGLRenderingContext);
+            var canvas = gl.canvas.AttachToDocument();
 
-            try
-            {
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            canvas.style.SetLocation(0, 0, size, size);
 
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
+            canvas.width = size;
+            canvas.height = size;
 
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
+            var gl_viewportWidth = size;
+            var gl_viewportHeight = size;
 
             #region toolbar
             var toolbar = new Toolbar();
@@ -133,8 +92,8 @@ namespace WebGLLesson15
             Action AtResize =
                 delegate
                 {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
+                    gl_viewportWidth = Native.window.Width;
+                    gl_viewportHeight = Native.window.Height;
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
@@ -142,7 +101,7 @@ namespace WebGLLesson15
                     canvas.height = gl_viewportHeight;
                 };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 e =>
                 {
                     AtResize();
@@ -174,7 +133,7 @@ namespace WebGLLesson15
                 // verify
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
 
                     throw new InvalidOperationException("shader failed");
                 }
@@ -253,16 +212,16 @@ namespace WebGLLesson15
 
             var currentProgram = programs.First();
 
-            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrix = glMatrix.mat4.create();
             var mvMatrixStack = new Stack<Float32Array>();
 
-            var pMatrix = __glMatrix.mat4.create();
+            var pMatrix = glMatrix.mat4.create();
 
             #region mvPushMatrix
             Action mvPushMatrix = delegate
             {
-                var copy = __glMatrix.mat4.create();
-                __glMatrix.mat4.set(mvMatrix, copy);
+                var copy = glMatrix.mat4.create();
+                glMatrix.mat4.set(mvMatrix, copy);
                 mvMatrixStack.Push(copy);
             };
             #endregion
@@ -303,9 +262,9 @@ namespace WebGLLesson15
                                     gl.uniformMatrix4fv(currentProgram.mvMatrixUniform, false, mvMatrix);
                                     #endregion
 
-                                    var normalMatrix = __glMatrix.mat3.create();
-                                    __glMatrix.mat4.toInverseMat3(mvMatrix, normalMatrix);
-                                    __glMatrix.mat3.transpose(normalMatrix);
+                                    var normalMatrix = glMatrix.mat3.create();
+                                    glMatrix.mat4.toInverseMat3(mvMatrix, normalMatrix);
+                                    glMatrix.mat3.transpose(normalMatrix);
 
                                     #region [uniform] mat3 uNMatrix <- normalMatrix
                                     gl.uniformMatrix3fv(currentProgram.nMatrixUniform, false, normalMatrix);
@@ -452,7 +411,7 @@ namespace WebGLLesson15
                                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                                __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                                glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
                                 #region [uniform] uUseColorMap <- color_map
                                 var useColorMap = toolbar.color_map.@checked;
@@ -512,11 +471,11 @@ namespace WebGLLesson15
 
                                 }
 
-                                __glMatrix.mat4.identity(mvMatrix);
+                                glMatrix.mat4.identity(mvMatrix);
 
-                                __glMatrix.mat4.translate(mvMatrix, 0, 0, -40);
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(23.4f), 1, 0, -1);
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(earthAngle), 0, 1, 0);
+                                glMatrix.mat4.translate(mvMatrix, new f[] { 0, 0, -40 });
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(23.4f), new f[] { 1, 0, -1 });
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(earthAngle), new f[] { 0, 1, 0 });
 
                                 gl.activeTexture(gl.TEXTURE0);
                                 gl.bindTexture(gl.TEXTURE_2D, earthColorMapTexture);
@@ -545,10 +504,8 @@ namespace WebGLLesson15
 
 
 
-                            #region tick
-                            Action tick = null;
 
-                            tick = () =>
+                            Native.window.onframe += delegate
                             {
                                 if (IsDisposed)
                                     return;
@@ -558,11 +515,8 @@ namespace WebGLLesson15
                                 drawScene();
 
 
-                                Native.Window.requestAnimationFrame += tick;
                             };
 
-                            tick();
-                            #endregion
 
 
                         }

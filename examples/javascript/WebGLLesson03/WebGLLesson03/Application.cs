@@ -14,7 +14,6 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
-using WebGLLesson03.Design;
 using WebGLLesson03.HTML.Pages;
 using WebGLLesson03.Shaders;
 
@@ -47,59 +46,22 @@ namespace WebGLLesson03
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
-            #region glMatrix.js -> InitializeContent
-            new __glMatrix().Content.With(
-               source =>
-               {
-                   source.onload +=
-                       delegate
-                       {
-                           InitializeContent(page);
-                       };
-
-                   source.AttachToDocument();
-               }
-           );
-            #endregion
-
-      
-        }
-
-        void InitializeContent(IDefault page = null)
-        {
-            var gl_viewportWidth = Native.Window.Width;
-            var gl_viewportHeight = Native.Window.Height;
-
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
-
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
-
-            canvas.width = gl_viewportWidth;
-            canvas.height = gl_viewportHeight;
-            #endregion
-
-            #region gl - Initialise WebGL
+            var size = 500;
 
 
-            var gl = default(WebGLRenderingContext);
+            var gl = new WebGLRenderingContext();
 
-            try
-            {
 
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
+            var canvas = gl.canvas.AttachToDocument();
 
-            }
-            catch { }
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            canvas.style.SetLocation(0, 0, size, size);
 
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
+            canvas.width = size;
+            canvas.height = size;
 
+            var gl_viewportWidth = size;
+            var gl_viewportHeight = size;
 
 
             #region IsDisposed
@@ -120,8 +82,8 @@ namespace WebGLLesson03
             Action AtResize =
                 delegate
                 {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
+                    gl_viewportWidth = Native.window.Width;
+                    gl_viewportHeight = Native.window.Height;
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
@@ -129,7 +91,7 @@ namespace WebGLLesson03
                     canvas.height = gl_viewportHeight;
                 };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 e =>
                 {
                     AtResize();
@@ -167,7 +129,7 @@ namespace WebGLLesson03
                 // verify
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
                     throw new InvalidOperationException("shader failed");
 
                 }
@@ -202,16 +164,16 @@ namespace WebGLLesson03
 
 
 
-            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrix = glMatrix.mat4.create();
             var mvMatrixStack = new Stack<Float32Array>();
 
-            var pMatrix = __glMatrix.mat4.create();
+            var pMatrix = glMatrix.mat4.create();
 
             #region new in lesson 03
             Action mvPushMatrix = delegate
             {
-                var copy = __glMatrix.mat4.create();
-                __glMatrix.mat4.set(mvMatrix, copy);
+                var copy = glMatrix.mat4.create();
+                glMatrix.mat4.set(mvMatrix, copy);
                 mvMatrixStack.Push(copy);
             };
 
@@ -333,17 +295,17 @@ namespace WebGLLesson03
                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                __glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                __glMatrix.mat4.identity(mvMatrix);
+                glMatrix.mat4.identity(mvMatrix);
 
-                __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
+                glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
 
                 #region new in lesson 03
                 mvPushMatrix();
                 // we’re changing our current rotation state as stored in the model-view matrix
                 // MVC? :)
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rTri), new float[] { 0f, 1f, 0f });
+                glMatrix.mat4.rotate(mvMatrix, degToRad(rTri), new float[] { 0f, 1f, 0f });
                 #endregion
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
@@ -365,11 +327,11 @@ namespace WebGLLesson03
                 mvPopMatrix();
                 #endregion
 
-                __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
+                glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
 
                 #region new in lesson 03
                 mvPushMatrix();
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rSquare), new float[] { 1f, 0f, 0f });
+                glMatrix.mat4.rotate(mvMatrix, degToRad(rSquare), new float[] { 1f, 0f, 0f });
                 #endregion
 
 
@@ -394,14 +356,12 @@ namespace WebGLLesson03
             drawScene();
             #endregion
 
-      
+
 
             var c = 0;
 
-            #region tick - new in lesson 03
-            var tick = default(Action);
 
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 c++;
 
@@ -409,12 +369,7 @@ namespace WebGLLesson03
 
                 drawScene();
                 animate();
-
-                Native.Window.requestAnimationFrame += tick;
             };
-
-            tick();
-            #endregion
         }
 
     }

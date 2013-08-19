@@ -151,6 +151,15 @@ namespace CameraPreviewExperiment
                      c0.canvas.height = 240;
                      c0.canvas.style.SetSize(320, 240);
 
+
+
+                     var c1 = new CanvasRenderingContext2D();
+
+                     // no scale!
+                     c1.canvas.width = 320;
+                     c1.canvas.height = 240;
+                     c1.canvas.style.SetSize(320, 240);
+
                      //c0.canvas.AttachToDocument();
 
                      var maxframes = 15;
@@ -180,9 +189,12 @@ namespace CameraPreviewExperiment
                                  {
                                      Console.WriteLine("gif " + new { datai, st.Elapsed });
 
+                                     c1.drawImage(new IHTMLImage { src = data[datai] }, 0, 0, 320, 240);
+                                     encoder2.addFrame(c1);
+
+
                                      c0.drawImage(new IHTMLImage { src = data[datai] }, 0, 0, 320, 240);
 
-                                     encoder2.addFrame(c0);
 
                                      var imageData = c0.getImageData(0, 0, 320, 240);
 
@@ -196,11 +208,11 @@ namespace CameraPreviewExperiment
                                              var green = imageData.data[index + 1];
                                              var blue = imageData.data[index + 2];
                                              var alpha = imageData.data[index + 3];
-                                             var average = (byte)(255 - (red + green + blue) / 3);
+                                             var average = (byte)((red + green + blue) / 3);
 
-                                             imageData.data[index] = 0;
+                                             imageData.data[index] = average;
                                              imageData.data[index + 1] = average;
-                                             imageData.data[index + 2] = 0;
+                                             imageData.data[index + 2] = average;
 
                                              //imageData.data[index + 1] = average;
                                              //imageData.data[index + 2] = average;
@@ -220,6 +232,7 @@ namespace CameraPreviewExperiment
 
 
                                  encoder1.finish();
+                                 encoder2.finish();
 
 
                                  {

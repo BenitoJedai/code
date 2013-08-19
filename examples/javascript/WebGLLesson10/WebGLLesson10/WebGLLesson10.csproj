@@ -123,7 +123,6 @@
     <Compile Include="Shaders\GeometryVertexShader.cs">
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
-    <Content Include="Data\world1.xml" />
     <Content Include="Textures\mud.gif" />
     <Content Include="Design\Preview.png" />
     <Content Include="Design\Default.css" />
