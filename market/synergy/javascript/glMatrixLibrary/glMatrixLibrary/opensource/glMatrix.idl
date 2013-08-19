@@ -15,6 +15,11 @@ interface mat4
 	
 	void translate(WebGLFloatArray mvMatrix, float[] p);
 
+	mat3 toInverseMat3(WebGLFloatArray a, WebGLFloatArray b);
+	
+	void multiply(WebGLFloatArray newRotationMatrix, WebGLFloatArray moonRotationMatrix, WebGLFloatArray moonRotationMatrix);
+	void multiply(WebGLFloatArray newRotationMatrix, WebGLFloatArray moonRotationMatrix);
+
 	void scale(WebGLFloatArray mvMatrix, float[] p);
 	void identity(WebGLFloatArray mvMatrix);
 	void set(WebGLFloatArray mvMatrix, WebGLFloatArray copy);

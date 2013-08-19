@@ -68,38 +68,23 @@ namespace WebGLLesson04
 
         void InitializeContent(IDefault page = null)
         {
-            var gl_viewportWidth = Native.Window.Width;
-            var gl_viewportHeight = Native.Window.Height;
-
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
-
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
-
-            canvas.width = gl_viewportWidth;
-            canvas.height = gl_viewportHeight;
-            #endregion
-
-            #region gl - Initialise WebGL
+            var size = 500;
 
 
-            var gl = default(WebGLRenderingContext);
+            var gl = new WebGLRenderingContext();
 
-            try
-            {
 
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
+            var canvas = gl.canvas.AttachToDocument();
 
-            }
-            catch { }
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            canvas.style.SetLocation(0, 0, size, size);
 
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
+            canvas.width = size;
+            canvas.height = size;
+
+            var gl_viewportWidth = size;
+            var gl_viewportHeight = size;
+
 
 
 
@@ -121,8 +106,8 @@ namespace WebGLLesson04
             Action AtResize =
                 delegate
                 {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
+                    gl_viewportWidth = Native.window.Width;
+                    gl_viewportHeight = Native.window.Height;
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
@@ -130,7 +115,7 @@ namespace WebGLLesson04
                     canvas.height = gl_viewportHeight;
                 };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 e =>
                 {
                     AtResize();
@@ -165,7 +150,7 @@ namespace WebGLLesson04
             );
 
 
-      
+
 
             gl.linkProgram(shaderProgram);
             gl.useProgram(shaderProgram);
@@ -476,15 +461,13 @@ namespace WebGLLesson04
             drawScene();
             #endregion
 
-        
+
 
 
             var c = 0;
 
-            #region tick - new in lesson 03
-            var tick = default(Action);
 
-            tick = delegate
+            Native.window.onframe += delegate
             {
                 c++;
 
@@ -492,12 +475,8 @@ namespace WebGLLesson04
 
                 drawScene();
                 animate();
-
-                Native.Window.requestAnimationFrame += tick;
             };
 
-            tick();
-            #endregion
         }
 
     }

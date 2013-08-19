@@ -50,12 +50,11 @@ namespace WebGLLesson16
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page = null)
+        public Application(IDefault page = null)
         {
             #region await then do InitializeContent
             new[]
             {
-                new __glMatrix().Content,
                 new Data.macbook().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
@@ -79,43 +78,25 @@ namespace WebGLLesson16
             style.Content.AttachToHead();
         }
 
-        void InitializeContent(IDefault  page = null)
+        void InitializeContent(IDefault page = null)
         {
 
-            var gl_viewportWidth = Native.Window.Width;
-            var gl_viewportHeight = Native.Window.Height;
-
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
-
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
-
-            canvas.width = gl_viewportWidth;
-            canvas.height = gl_viewportHeight;
-            #endregion
-
-            #region gl - Initialise WebGL
+            var size = 500;
 
 
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
+            var gl = new WebGLRenderingContext();
 
 
+            var canvas = gl.canvas.AttachToDocument();
+
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            canvas.style.SetLocation(0, 0, size, size);
+
+            canvas.width = size;
+            canvas.height = size;
+
+            var gl_viewportWidth = size;
+            var gl_viewportHeight = size;
             #region IsDisposed
             var IsDisposed = false;
 
@@ -134,8 +115,8 @@ namespace WebGLLesson16
             Action AtResize =
                 delegate
                 {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
+                    gl_viewportWidth = Native.window.Width;
+                    gl_viewportHeight = Native.window.Height;
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
@@ -143,7 +124,7 @@ namespace WebGLLesson16
                     canvas.height = gl_viewportHeight;
                 };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 e =>
                 {
                     AtResize();
@@ -175,7 +156,7 @@ namespace WebGLLesson16
                 // verify
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
                     throw new InvalidOperationException("shader failed");
                 }
 
@@ -257,16 +238,16 @@ namespace WebGLLesson16
 
             var currentProgram = programs.First();
 
-            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrix = glMatrix.mat4.create();
             var mvMatrixStack = new Stack<Float32Array>();
 
-            var pMatrix = __glMatrix.mat4.create();
+            var pMatrix = glMatrix.mat4.create();
 
             #region mvPushMatrix
             Action mvPushMatrix = delegate
             {
-                var copy = __glMatrix.mat4.create();
-                __glMatrix.mat4.set(mvMatrix, copy);
+                var copy = glMatrix.mat4.create();
+                glMatrix.mat4.set(mvMatrix, copy);
                 mvMatrixStack.Push(copy);
             };
             #endregion
@@ -335,9 +316,9 @@ namespace WebGLLesson16
                                     gl.uniformMatrix4fv(currentProgram.mvMatrixUniform, false, mvMatrix);
                                     #endregion
 
-                                    var normalMatrix = __glMatrix.mat3.create();
-                                    __glMatrix.mat4.toInverseMat3(mvMatrix, normalMatrix);
-                                    __glMatrix.mat3.transpose(normalMatrix);
+                                    var normalMatrix = glMatrix.mat3.create();
+                                    glMatrix.mat4.toInverseMat3(mvMatrix, normalMatrix);
+                                    glMatrix.mat3.transpose(normalMatrix);
 
                                     #region [uniform] mat3 uNMatrix <- normalMatrix
                                     gl.uniformMatrix3fv(currentProgram.nMatrixUniform, false, normalMatrix);
@@ -731,7 +712,7 @@ namespace WebGLLesson16
                                 gl.viewport(0, 0, rttFramebuffer_width, rttFramebuffer_height);
                                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                                __glMatrix.mat4.perspective(45, laptopScreenAspectRatio, 0.1f, 100.0f, pMatrix);
+                                glMatrix.mat4.perspective(45, laptopScreenAspectRatio, 0.1f, 100.0f, pMatrix);
 
                                 gl.uniform1i(shaderProgram.showSpecularHighlightsUniform, Convert.ToInt32(false));
                                 gl.uniform3f(shaderProgram.ambientLightingColorUniform, 0.2f, 0.2f, 0.2f);
@@ -747,14 +728,14 @@ namespace WebGLLesson16
                                 gl.uniform1f(shaderProgram.materialShininessUniform, 0);
                                 gl.uniform3f(shaderProgram.materialEmissiveColorUniform, 0.0f, 0.0f, 0.0f);
 
-                                __glMatrix.mat4.identity(mvMatrix);
+                                glMatrix.mat4.identity(mvMatrix);
 
-                                __glMatrix.mat4.translate(mvMatrix, 0, 0, -5);
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(30), 1, 0, 0);
+                                glMatrix.mat4.translate(mvMatrix, new f[] { 0, 0, -5 });
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(30), new f[] { 1, 0, 0 });
 
                                 mvPushMatrix();
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(moonAngle), 0, 1, 0);
-                                __glMatrix.mat4.translate(mvMatrix, 2, 0, 0);
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(moonAngle), new f[] { 0, 1, 0 });
+                                glMatrix.mat4.translate(mvMatrix, new f[] { 2, 0, 0 });
                                 gl.activeTexture(gl.TEXTURE0);
                                 gl.bindTexture(gl.TEXTURE_2D, moonTexture);
                                 gl.uniform1i(shaderProgram.samplerUniform, 0);
@@ -775,8 +756,8 @@ namespace WebGLLesson16
 
 
                                 mvPushMatrix();
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(cubeAngle), 0, 1, 0);
-                                __glMatrix.mat4.translate(mvMatrix, 1.25f, 0, 0);
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(cubeAngle), new f[] { 0, 1, 0 });
+                                glMatrix.mat4.translate(mvMatrix, new f[] { 1.25f, 0, 0 });
                                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
                                 gl.vertexAttribPointer((uint)shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
@@ -814,26 +795,29 @@ namespace WebGLLesson16
                                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                                __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                                glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                                __glMatrix.mat4.identity(mvMatrix);
+                                glMatrix.mat4.identity(mvMatrix);
 
                                 mvPushMatrix();
 
-                                __glMatrix.mat4.translate(mvMatrix, 0, -0.4f,
-                                   (float) Math.Min(0,
+                                glMatrix.mat4.translate(mvMatrix,
+                                    new f[]{ 
+                                    0, -0.4f,
+                                   (float)Math.Min(0,
                                     -2.2f
                                     + __pointer_y * 0.01)
+                                    }
                                     );
 
                                 if (__pointer_x != 0)
                                     laptopAngle = __pointer_x + 0.01f;
 
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(laptopAngle), 0, 1, 0);
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(-90), 1, 0, 0);
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(laptopAngle), new f[] { 0, 1, 0 });
+                                glMatrix.mat4.rotate(mvMatrix, degToRad(-90), new f[] { 1, 0, 0 });
 
-                                //__glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, 0, 1, 0);
-                                //__glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, 1, 0, 0);
+                                //glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, 0, 1, 0);
+                                //glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, 1, 0, 0);
 
                                 gl.uniform1i(shaderProgram.showSpecularHighlightsUniform, Convert.ToInt32(true));
                                 gl.uniform3f(shaderProgram.pointLightingLocationUniform, -1, 2, -1);
@@ -896,10 +880,8 @@ namespace WebGLLesson16
 
 
 
-                            #region tick
-                            Action tick = null;
 
-                            tick = () =>
+                            Native.window.onframe += delegate
                             {
                                 if (IsDisposed)
                                     return;
@@ -909,11 +891,7 @@ namespace WebGLLesson16
                                 drawScene();
 
 
-                                Native.Window.requestAnimationFrame += tick;
                             };
-
-                            tick();
-                            #endregion
 
 
                         }
