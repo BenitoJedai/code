@@ -132,7 +132,7 @@ namespace WebGLSpiral
 
             AtResize();
 
-            Native.Window.onresize += delegate
+            Native.window.onresize += delegate
             {
                 AtResize();
             };
@@ -206,7 +206,7 @@ namespace WebGLSpiral
                 //s.speed = Native.Screen.width - Native.Screen.width;
             };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     speed_AtResize();

@@ -1,0 +1,19 @@
+﻿// CLR does not provie us open mixin types yet. All DeclaringType members thus must be in the same package. 
+// How to overcome this?
+// C# has extensionmethods for that.
+
+[Constructor()]
+interface GIFEncoder
+{
+	void setRepeat(long p);
+	void setDelay(long p);
+	void start();
+	void addFrame(any canvas2d);
+	void finish();
+	GIFEncoder.ByteArray stream();
+};
+
+interface GIFEncoder.ByteArray
+{
+    string getData();
+};
