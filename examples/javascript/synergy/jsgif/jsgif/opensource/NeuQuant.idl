@@ -1,0 +1,8 @@
+﻿// CLR does not provie us open mixin types yet. All DeclaringType members thus must be in the same package. 
+// How to overcome this?
+// C# has extensionmethods for that.
+
+[Constructor()]
+interface NeuQuant
+{
+};

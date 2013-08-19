@@ -60,6 +60,9 @@ namespace InlineWorkerExperiment
                     new IHTMLButton { innerText = "w2" }.AttachToDocument().WhenClicked(
                         btn =>
                         {
+                            // whats next, ApplicationWorker with methods or WorkerAction<> delegate
+                            // what if jsc would detect any delegate Action<Action> that only communicates 
+                            // cia delegates and turn them into background workers?
                             var ww = new Worker(
                                 // #2
                                 worker =>

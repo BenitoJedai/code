@@ -1,5 +1,4 @@
 using jsgif;
-using jsgif.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -17,11 +16,10 @@ using WebGLSpiral.Shaders;
 using WebGLToAnimatedGIFExperiment.Design;
 using WebGLToAnimatedGIFExperiment.HTML.Images.FromAssets;
 using WebGLToAnimatedGIFExperiment.HTML.Pages;
+using System.Diagnostics;
 
 namespace WebGLToAnimatedGIFExperiment
 {
-    using ScriptCoreLib.JavaScript.Runtime;
-    using System.Diagnostics;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
 
@@ -92,120 +90,110 @@ namespace WebGLToAnimatedGIFExperiment
 
 
             // jsc should link that js file once we reference it. for now its manual
-            new jsgif.Design.b64().Content.WhenAvailable(
-                   delegate
-                   {
 
-                       new jsgif.Design.LZWEncoder().Content.WhenAvailable(
-                            delegate
-                            {
 
-                                new jsgif.Design.NeuQuant().Content.WhenAvailable(
-                                   delegate
-                                   {
-
-                                       new jsgif.Design.GIFEncoder().Content.WhenAvailable(
-                                          delegate
-                                          {
-
-                                              Action<WebGLRenderingContext> activate =
-                                                  context =>
-                                                  {
+            Action<WebGLRenderingContext> activate =
+                context =>
+                {
 
 
 
-                                                      context.canvas.style.border = "2px solid yellow";
-                                                      context.canvas.style.cursor = IStyle.CursorEnum.pointer;
+                    context.canvas.style.border = "2px solid yellow";
+                    context.canvas.style.cursor = IStyle.CursorEnum.pointer;
 
 
 
 
-                                                      context.canvas.onclick +=
-                                                           delegate
-                                                           {
-                                                               var c0 = new CanvasRenderingContext2D();
+                    context.canvas.onclick +=
+                         delegate
+                         {
+                             var c0 = new CanvasRenderingContext2D();
 
-                                                               // no scale!
-                                                               c0.canvas.width = 96;
-                                                               c0.canvas.height = 96;
-                                                               c0.canvas.style.SetSize(96, 96);
+                             // no scale!
+                             c0.canvas.width = 96;
+                             c0.canvas.height = 96;
+                             c0.canvas.style.SetSize(96, 96);
 
-                                                               c0.canvas.AttachToDocument();
+                             c0.canvas.AttachToDocument();
 
-                                                               INodeExtensions.Clear(page.output);
-                                                               //page.output.Clear();
-
-
-                                                               var encoder = new GIFEncoder();
-
-                                                               encoder.setRepeat(0); //auto-loop
-
-                                                               encoder.setDelay(1000 / 60);
-                                                               encoder.start();
-
-                                                               var t = new Timer();
-
-                                                               t.Tick +=
-                                                                   delegate
-                                                                   {
-                                                                       if (t.Counter == 60 * 4)
-                                                                       {
-                                                                           t.Stop();
+                             //INodeExtensions.Clear(page.output);
 
 
-                                                                           encoder.finish();
-
-                                                                           var image = new IHTMLImage();
-                                                                           image.src = "data:image/gif;base64," + b64.Window.encode64(encoder.stream().getData());
-                                                                           image.AttachToDocument();
-
-                                                                           return;
-                                                                       }
-
-                                                                       #region force redraw all
-                                                                       s.ucolor_2 = t.Counter / 32.0f;
-
-                                                                       // force redraw
-                                                                       this.onframe();
-                                                                       #endregion
+                             page.output.Clear();
 
 
-                                                                       var icon = new IHTMLImage(context.canvas.toDataURL("image/png"));
+                             var encoder = new GIFEncoder();
 
-                                                                       icon.InvokeOnComplete(
-                                                                           delegate
-                                                                           {
-                                                                               if (!t.IsAlive)
-                                                                                   return;
+                             encoder.setRepeat(0); //auto-loop
 
-                                                                               icon.AttachTo(page.output);
-                                                                               page.output.ScrollToBottom();
+                             encoder.setDelay(1000 / 60);
+                             encoder.start();
 
-                                                                               c0.drawImage(icon, 0, 0, 96, 96);
+                             var t = new ScriptCoreLib.JavaScript.Runtime.Timer();
 
-                                                                               encoder.addFrame(c0);
-                                                                           }
-                                                                       );
+                             t.Tick +=
+                                 delegate
+                                 {
+                                     if (t.Counter == 60)
+                                     {
+                                         t.Stop();
+
+
+                                         encoder.finish();
 
 
 
-                                                                   };
+                                         {
+                                             var image = new IHTMLImage();
+                                             var data = encoder.stream().getData();
+                                             var bytes = Encoding.ASCII.GetBytes(data);
 
-                                                               t.StartInterval(1000 / 60);
+                                             image.src = "data:image/gif;base64," + Convert.ToBase64String(bytes);
+                                             image.AttachToDocument();
+                                         }
 
-                                                           };
-                                                  };
 
-                                              activate(gl);
-                                              activate(ani2.gl);
-                                          }
-                                        );
-                                   }
-                                );
-                            }
-                         );
-                   }
-                );
+
+                                         return;
+                                     }
+
+                                     #region force redraw all
+                                     s.ucolor_2 = t.Counter / 32.0f;
+
+                                     // force redraw
+                                     this.onframe();
+                                     #endregion
+
+
+                                     var icon = new IHTMLImage(context.canvas.toDataURL("image/png"));
+
+                                     icon.InvokeOnComplete(
+                                         delegate
+                                         {
+                                             if (!t.IsAlive)
+                                                 return;
+
+                                             icon.AttachTo(page.output);
+                                             page.output.ScrollToBottom();
+
+                                             c0.drawImage(icon, 0, 0, 96, 96);
+
+                                             encoder.addFrame(c0);
+                                         }
+                                     );
+
+
+
+                                 };
+
+                             t.StartInterval(1000 / 60);
+
+                         };
+                };
+
+            activate(gl);
+            activate(ani2.gl);
+
 
 
 

@@ -4,9 +4,13 @@ using android.view;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Web;
 using System.Xml.Linq;
 
 namespace CameraPreviewExperiment
@@ -14,8 +18,20 @@ namespace CameraPreviewExperiment
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed partial class ApplicationWebService
     {
+
+        //Caused by: java.lang.RuntimeException: android-81d176f57160fb0c
+        //       at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__Socket.get_RemoteEndPoint(__Socket.java:91)
+        //       at CameraPreviewExperiment.Activities.ApplicationWebServiceActivity___c__DisplayClass22._CreateServer_b__1d(ApplicationWebServiceActivity___c__DisplayClass22.java:153)
+        //       ... 19 more
+        //Caused by: java.net.UnknownHostException: android-81d176f57160fb0c
+        //       at java.net.InetAddress.lookupHostByName(InetAddress.java:497)
+        //       at java.net.InetAddress.getAllByNameImpl(InetAddress.java:294)
+        //       at java.net.InetAddress.getByName(InetAddress.java:325)
+        //       at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__Socket.get_RemoteEndPoint(__Socket.java:87)
+        //       ... 20 more
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
@@ -29,17 +45,124 @@ namespace CameraPreviewExperiment
             // http://stackoverflow.com/questions/2456802/android-camera-preview
             // https://github.com/commonsguy/cw-advandroid/blob/master/Camera/Preview/src/com/commonsware/android/camera/PreviewDemo.java
 
+            // reactivate camera and give me frames
             foo.Invoke(y);
             // Send it back to the caller.
             //y(e);
         }
 
+
+        public void WebMethod2Long(string e, Action<string> y)
+        {
+            // JSC shold use chrome omnisearch to tell about running network apps
+
+            // http://stackoverflow.com/questions/14815103/android-streaming-the-camera-as-mjpeg
+            // http://stackoverflow.com/questions/2456802/android-camera-preview
+            // https://github.com/commonsguy/cw-advandroid/blob/master/Camera/Preview/src/com/commonsware/android/camera/PreviewDemo.java
+
+            // reactivate camera and give me frames
+            foo.Invoke(y, 60);
+            // Send it back to the caller.
+            //y(e);
+        }
     }
+
+    #region WebMethod2
+    public sealed partial class ApplicationWebService
+    {
+        public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
+        {
+            var Accepts = h.Context.Request.Headers["Accept"];
+
+            //if (h.Context.Request.Path == "/xml")
+
+            if (Accepts != null)
+                if (Accepts.Contains("text/event-stream"))
+                {
+                    h.Context.Response.ContentType = "text/event-stream";
+
+
+                    // A potentially dangerous Request.QueryString value was detected from the client (e="<client value="15.12...").
+                    //var _e_xml = h.Context.Request.RawUrl
+                    //    .SkipUntilLastOrEmpty("?")
+                    //    .SkipUntilOrEmpty("e=")
+                    //    .TakeUntilIfAny("&");
+
+                    //  method: System.String get_RawUrl()
+                    //var _e_xml_decoded = HttpUtility.UrlDecode(_e_xml);
+
+                    //var _e = XElement.Parse(_e_xml_decoded);
+
+                    this.WebMethod2Long(
+                        //_e_xml_decoded,
+                        "",
+                        y =>
+                        {
+                            Console.WriteLine("*");
+                            Console.WriteLine("*");
+                            Console.WriteLine("event!");
+
+
+                            var _y = y.ToString()
+                                .Replace("\n", "\\n")
+                                .Replace("\r", "\\r");
+
+
+                            h.Context.Response.Write("event: y\n");
+                            h.Context.Response.Write("data: " + _y + "\n\n");
+                            h.Context.Response.Flush();
+                        }
+                    );
+
+                    h.CompleteRequest();
+                    return;
+                }
+        }
+    }
+
+    public static class __ApplicationWebService_WebMethod2
+    {
+        public static void async_WebMethod2(this ApplicationWebService x, string e, Action<string> y)
+        {
+            var q = new StringBuilder();
+
+            //q.Append("/event-stream");
+            q.Append("?");
+
+            q.Append("e=" + e);
+
+            var s = new EventSource(q.ToString());
+
+            s["y"] = a =>
+            {
+
+
+                var data = a.data.ToString()
+                    .Replace("\\r", "\r")
+                    .Replace("\\n", "\n");
+
+                Console.WriteLine(new { data });
+
+                //var _y = XElement.Parse(data);
+
+                y(data);
+            };
+
+            s.onerror +=
+                delegate
+                {
+                    s.close();
+                };
+        }
+
+    }
+    #endregion
+
 
     static class foo
     {
         // can we send a zip file?
-        public static void Invoke(int index, Action<string> y)
+        public static void Invoke(int index, Action<string> y, int frames = 4)
         {
             var DIRECTORY_DCIM = global::android.os.Environment.DIRECTORY_DCIM;
 
@@ -294,7 +417,7 @@ namespace CameraPreviewExperiment
                                                                    //camera.addCallbackBuffer();
                                                                    camera.addCallbackBuffer(new sbyte[buffersize]);
 
-                                                                   if (cc == 16)
+                                                                   if (cc == frames)
                                                                    {
                                                                        camera.stopPreview();
 
@@ -359,7 +482,7 @@ namespace CameraPreviewExperiment
             }
         }
 
-        public static void Invoke(Action<string> y)
+        public static void Invoke(Action<string> y, int frames = 4)
         {
             try
             {
@@ -367,7 +490,7 @@ namespace CameraPreviewExperiment
                 //for (int i = 0; i < android.hardware.Camera.getNumberOfCameras(); i++)
                 for (int i = 0; i < 1; i++)
                 {
-                    Invoke(i, y);
+                    Invoke(i, y, frames);
                 }
             }
             catch
