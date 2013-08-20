@@ -300,7 +300,7 @@ namespace CSSMinimizeFormToSidebar
 
 
             #region enforce overflow:hidden
-            Native.Window.onscroll +=
+            Native.window.onscroll +=
                 e =>
                 {
                     e.PreventDefault();
@@ -357,7 +357,7 @@ namespace CSSMinimizeFormToSidebar
 
                         ss.webkitTransition = "all 3s linear";
 
-                        Native.Window.requestAnimationFrame +=
+                        Native.window.requestAnimationFrame +=
                             delegate
                             {
                                 s.color = "";

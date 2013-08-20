@@ -79,9 +79,9 @@ namespace SidebarExperiment
                     f.Text = "Sidebar";
 
                 }
-                Native.Window.requestAnimationFrame += WhileDragging;
+                Native.window.requestAnimationFrame += WhileDragging;
             };
-            Native.Window.requestAnimationFrame += WhileDragging;
+            Native.window.requestAnimationFrame += WhileDragging;
             #endregion
 
 
@@ -114,7 +114,7 @@ namespace SidebarExperiment
                     if (f.Left == 0)
                         return;
 
-                    if (f.Right == Native.Window.Width)
+                    if (f.Right == Native.window.Width)
                         return;
 
                     SetLeftSidebarWidth(SidebarIdleWidth);
@@ -125,7 +125,7 @@ namespace SidebarExperiment
                     else
                         page.SidebarContainer.style.backgroundColor = JSColor.Gray;
 
-                    if (f.Right > Native.Window.Width - SidebarIdleWidth && c.checkBox2.Checked)
+                    if (f.Right > Native.window.Width - SidebarIdleWidth && c.checkBox2.Checked)
                         page.RightSidebarContainer.style.backgroundColor = JSColor.Blue;
                     else
                         page.RightSidebarContainer.style.backgroundColor = JSColor.Gray;
@@ -148,7 +148,7 @@ namespace SidebarExperiment
                     if (f.Left == 0)
                         return;
 
-                    if (f.Right == Native.Window.Width)
+                    if (f.Right == Native.window.Width)
                         return;
 
                     if (f.Capture)
@@ -169,8 +169,8 @@ namespace SidebarExperiment
                             SetLeftSidebarWidth(f.ClientSize.Width);
                             f.MoveTo(0, 0);
                             f.SizeTo(f.ClientSize.Width, page.SidebarContainer.clientHeight);
-                            f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
-                            f.MaximumSize = new System.Drawing.Size(Native.Window.Width - page.RightSidebarContainer.clientWidth, Native.Window.Height);
+                            f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.window.Height);
+                            f.MaximumSize = new System.Drawing.Size(Native.window.Width - page.RightSidebarContainer.clientWidth, Native.window.Height);
 
 
                             var done = false;
@@ -180,13 +180,13 @@ namespace SidebarExperiment
                                     if (done)
                                         return;
                                     f.SizeTo(f.ClientSize.Width, page.SidebarContainer.clientHeight);
-                                    f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
-                                    f.MaximumSize = new System.Drawing.Size(Native.Window.Width - page.RightSidebarContainer.clientWidth, Native.Window.Height);
+                                    f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.window.Height);
+                                    f.MaximumSize = new System.Drawing.Size(Native.window.Width - page.RightSidebarContainer.clientWidth, Native.window.Height);
 
 
                                 };
 
-                            Native.Window.onresize += onresize;
+                            Native.window.onresize += onresize;
 
                             AtCapture = delegate
                             {
@@ -198,7 +198,7 @@ namespace SidebarExperiment
                             };
                         }
                     }
-                    else if (f.Right > (Native.Window.Width - SidebarIdleWidth))
+                    else if (f.Right > (Native.window.Width - SidebarIdleWidth))
                     {
                         if (c.checkBox2.Checked)
                         {
@@ -208,8 +208,8 @@ namespace SidebarExperiment
                             SetRightSidebarWidth(f.ClientSize.Width);
                             f.MoveTo(page.RightSidebarContainer.offsetLeft, 0);
                             f.SizeTo(f.ClientSize.Width, page.RightSidebarContainer.clientHeight);
-                            f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
-                            f.MaximumSize = new System.Drawing.Size(Native.Window.Width, Native.Window.Height);
+                            f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.window.Height);
+                            f.MaximumSize = new System.Drawing.Size(Native.window.Width, Native.window.Height);
 
                             var done = false;
                             Action<IEvent> onresize =
@@ -220,11 +220,11 @@ namespace SidebarExperiment
 
                                     f.MoveTo(page.RightSidebarContainer.offsetLeft, 0);
                                     f.SizeTo(f.ClientSize.Width, page.RightSidebarContainer.clientHeight);
-                                    f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.Window.Height);
-                                    f.MaximumSize = new System.Drawing.Size(Native.Window.Width, Native.Window.Height);
+                                    f.MinimumSize = new System.Drawing.Size(SidebarIdleWidth, Native.window.Height);
+                                    f.MaximumSize = new System.Drawing.Size(Native.window.Width, Native.window.Height);
                                 };
 
-                            Native.Window.onresize += onresize;
+                            Native.window.onresize += onresize;
 
 
                             AtCapture = delegate
@@ -284,7 +284,7 @@ namespace SidebarExperiment
 
                     var cc = f.GetHTMLTarget();
 
-                    var IsLeft = f.Left < (Native.Window.Width - f.Width) / 2;
+                    var IsLeft = f.Left < (Native.window.Width - f.Width) / 2;
 
                     if (IsLeft)
                     {
@@ -297,10 +297,10 @@ namespace SidebarExperiment
 
                     f.FormBorderStyle = FormBorderStyle.None;
 
-                    Native.Window.requestAnimationFrame +=
+                    Native.window.requestAnimationFrame +=
                         delegate
                         {
-                            f.Height = Native.Window.Height;
+                            f.Height = Native.window.Height;
                         };
 
                     c.button2.Click +=

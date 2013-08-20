@@ -705,11 +705,11 @@ namespace CSSTransform3DFPSBlueprint
             x = delegate
             {
                 e();
-                Native.Window.requestAnimationFrame += x;
+                Native.window.requestAnimationFrame += x;
 
             };
 
-            Native.Window.requestAnimationFrame += x;
+            Native.window.requestAnimationFrame += x;
         }
     }
 }

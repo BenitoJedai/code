@@ -138,8 +138,8 @@
     <Compile Include="UltraWebService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\SolutionDockWindow.htm" />
-    <Content Include="Design\SolutionDocumentViewer.htm" />
+    <Content Include="Design\SolutionDockWindowPage.htm" />
+    <Content Include="Design\SolutionDocumentViewerPage.htm" />
     <Content Include="JavaScript\Studio\comments.txt" />
     <Content Include="My.UltraSource\Gadgets\CountDownGadget.htm" />
     <Content Include="My.UltraSource\Images\Common\black192.png" />
@@ -159,7 +159,7 @@
     <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodePage.htm" />
     <Content Include="My.UltraSource\HorizontalSplitPage.htm" />
     <Content Include="My.UltraSource\HorizontalSplitAreaPage.htm" />
-    <Content Include="My.UltraSource\Images\Backgrounds\!References.htm" />
+    <Content Include="My.UltraSource\Images\Backgrounds\ImagesBackgrounds.htm" />
     <Content Include="My.UltraSource\Images\Backgrounds\TwentyTenWorkspace.png" />
     <Content Include="My.UltraSource\Images\loading.gif" />
     <Content Include="My.UltraSource\ApplicationLoader.htm" />
@@ -177,7 +177,7 @@
     <Content Include="My.UltraSource\Images\Reflection\PublicInterface.png" />
     <Content Include="My.UltraSource\Images\Reflection\PublicMethod.png" />
     <Content Include="My.UltraSource\Images\Reflection\PublicProperty.png" />
-    <Content Include="My.UltraSource\Images\Reflection\!References.htm" />
+    <Content Include="My.UltraSource\Images\Reflection\ImagesReflection.htm" />
     <Content Include="My.UltraSource\Images\Reflection\References.png" />
     <Content Include="My.UltraSource\Images\Reflection\SolutionExplorer.png" />
     <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodeClosed.png" />
@@ -190,7 +190,7 @@
     <Content Include="My.UltraSource\Images\Reflection\VisualCSharpProject.png" />
     <Content Include="My.UltraSource\Images\Reflection\VisualFSharpCode.png" />
     <Content Include="My.UltraSource\Images\Reflection\VisualFSharpProject.png" />
-    <Content Include="My.UltraSource\Images\RichTextAreaIcons\!References.htm" />
+    <Content Include="My.UltraSource\Images\RichTextAreaIcons\RichTextAreaIcons.htm" />
     <Content Include="My.UltraSource\Images\RichTextAreaIcons\RTA_bulletedlist.gif" />
     <Content Include="My.UltraSource\Images\RichTextAreaIcons\RTA_customize.gif" />
     <Content Include="My.UltraSource\Images\RichTextAreaIcons\RTA_forecolor.gif" />
@@ -221,7 +221,7 @@
     <Content Include="My.UltraSource\Images\RichTextAreaIcons\RTA_text-smaller.gif" />
     <Content Include="My.UltraSource\Images\RichTextAreaIcons\RTA_underline.gif" />
     <Content Include="My.UltraSource\Images\RichTextAreaIcons\RTA_undo.gif" />
-    <Content Include="My.UltraSource\Images\ToolboxIcons\!References.htm" />
+    <Content Include="My.UltraSource\Images\ToolboxIcons\ToolboxIconsPage.htm" />
     <Content Include="My.UltraSource\Images\ToolboxIcons\ToolboxIconsIHTMLButton.gif" />
     <Content Include="My.UltraSource\Images\ToolboxIcons\ToolboxIconsIHTMLTextarea.gif" />
     <Content Include="My.UltraSource\Images\ToolboxIcons\ToolboxIconsIHTMLInputCheckbox.gif" />
@@ -230,7 +230,7 @@
     <Content Include="My.UltraSource\Sprites\LibC.htm" />
     <Content Include="My.UltraSource\Sprites\LibC.png" />
     <Content Include="My.UltraSource\Sprites\SpriteSheetSelection.png" />
-    <Content Include="Ultra\Studio\StockToolboxImages\!References.htm" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImages.htm" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForAvalonCanvas.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForFlashSprite.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForFlashSpriteAvalonCanvas.png" />

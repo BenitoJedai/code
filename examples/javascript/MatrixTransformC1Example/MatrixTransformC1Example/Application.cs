@@ -29,7 +29,7 @@ namespace MatrixTransformC1Example
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -37,115 +37,115 @@ namespace MatrixTransformC1Example
             //    @"A string from JavaScript.",
             //    value => value.ToDocumentTitle()
             //);
-	
 
-			AddAnimation(100, 200);
-			AddAnimation(300, 300);
-			AddAnimation(600, 250);
-			AddAnimation(900, 350);
 
-		}
+            AddAnimation(100, 200);
+            AddAnimation(300, 300);
+            AddAnimation(600, 250);
+            AddAnimation(900, 350);
 
-		private static void AddAnimation(int X, int Y)
-		{
-			XRectangle Image1;
-			XRectangle Image2;
-			XRectangle Image3;
-			XRectangle Image4;
+        }
+
+        private static void AddAnimation(int X, int Y)
+        {
+            XRectangle Image1;
+            XRectangle Image2;
+            XRectangle Image3;
+            XRectangle Image4;
 
 
             Func<IHTMLImage, XRectangle> f =
                 ContentImage =>
-				{
-					var r = new XRectangle();
+                {
+                    var r = new XRectangle();
 
                     r.ContentImage = ContentImage;
-					r.ContentImage.style.SetSize(185, 100);
-					r.Content.appendChild(r.ContentImage);
-					r.Element.AttachToDocument().MoveTo(X, Y);
+                    r.ContentImage.style.SetSize(185, 100);
+                    r.Content.appendChild(r.ContentImage);
+                    r.Element.AttachToDocument().MoveTo(X, Y);
 
 
-					return r;
-				};
+                    return r;
+                };
 
-			Image1 = f(new wood_green());
-			Image2 = f(new wood_green());
-			Image3 = f(new wood_green());
-			Image4 = f(new wood_green());
-
-
-			var t = new Timer();
-			var sw = new Stopwatch();
-			var x = 0.0;
-
-			t.Tick +=
-				delegate
-				{
-					sw.Stop();
-
-					var elapsed = sw.ElapsedMilliseconds;
-
-					x += 0.0015 * elapsed;
-					//sw.Reset();
-
-					sw = new Stopwatch();
-					sw.Start();
+            Image1 = f(new wood_green());
+            Image2 = f(new wood_green());
+            Image3 = f(new wood_green());
+            Image4 = f(new wood_green());
 
 
+            var t = new Timer();
+            var sw = new Stopwatch();
+            var x = 0.0;
 
-					var DefaultRotation = 0;
+            t.Tick +=
+                delegate
+                {
+                    sw.Stop();
+
+                    var elapsed = sw.ElapsedMilliseconds;
+
+                    x += 0.0015 * elapsed;
+                    //sw.Reset();
+
+                    sw = new Stopwatch();
+                    sw.Start();
 
 
-					var z = Enumerable.ToArray(
-							from k in new[] { 
+
+                    var DefaultRotation = 0;
+
+
+                    var z = Enumerable.ToArray(
+                            from k in new[] { 
 								new {Image = Image1, r = (double)0.0 + DefaultRotation }, 
 								new {Image =Image2, r = (double)0.5 + DefaultRotation }, 
 								new {Image =Image3, r = (double)1.0 + DefaultRotation }, 
 								new {Image =Image4, r = (double)1.5 + DefaultRotation} 
 							}
-							let M11 = Math.Cos(x + Math.PI * k.r)
-							let M12 = Math.Sin(x + Math.PI * k.r) * 0.5
-							orderby M12
-							select new { k.Image, M11, M12 }
-					);
+                            let M11 = Math.Cos(x + Math.PI * k.r)
+                            let M12 = Math.Sin(x + Math.PI * k.r) * 0.5
+                            orderby M12
+                            select new { k.Image, M11, M12 }
+                    );
 
 
-					foreach (var k in z)
-					{
-						k.Image.Element.Orphanize();
+                    foreach (var k in z)
+                    {
+                        k.Image.Element.Orphanize();
 
 
-						//k.Image.style.SetSize(System.Convert.ToInt32(100 * k.M11), 100);
+                        //k.Image.style.SetSize(System.Convert.ToInt32(100 * k.M11), 100);
 
-						k.Image.ApplyMatrix(0, 0,
-							k.M11, k.M12, 0, 1, 0, 0);
+                        k.Image.ApplyMatrix(0, 0,
+                            k.M11, k.M12, 0, 1, 0, 0);
 
-						//k.Image.RenderTransform =
-						//    new MatrixTransform
-						//    {
-						//        Matrix = new Matrix
-						//        {
-						//            M11 = k.M11,
-						//            M12 = k.M12,
-						//            M21 = 0,
-						//            M22 = 1,
-						//            //M22 = -1,
-						//            //OffsetY = -75
-						//            OffsetY = 0
-						//        }
-						//    };
-					}
+                        //k.Image.RenderTransform =
+                        //    new MatrixTransform
+                        //    {
+                        //        Matrix = new Matrix
+                        //        {
+                        //            M11 = k.M11,
+                        //            M12 = k.M12,
+                        //            M21 = 0,
+                        //            M22 = 1,
+                        //            //M22 = -1,
+                        //            //OffsetY = -75
+                        //            OffsetY = 0
+                        //        }
+                        //    };
+                    }
 
-					foreach (var k in z)
-					{
-						k.Image.Element.AttachToDocument();
-					}
+                    foreach (var k in z)
+                    {
+                        k.Image.Element.AttachToDocument();
+                    }
 
 
-				};
+                };
 
-			t.StartInterval(1000 / 30);
-		}
+            t.StartInterval(1000 / 30);
+        }
 
     }
 

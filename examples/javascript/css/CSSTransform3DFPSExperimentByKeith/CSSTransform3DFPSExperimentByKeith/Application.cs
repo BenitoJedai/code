@@ -128,7 +128,7 @@ namespace CSSTransform3DFPSExperimentByKeith
                 "http://discover.xavalon.net"
 
                          //"/"
-                        
+
                         );
 
                     cf.FormClosing +=
@@ -418,11 +418,11 @@ namespace CSSTransform3DFPSExperimentByKeith
             x = delegate
             {
                 e();
-                Native.Window.requestAnimationFrame += x;
+                Native.window.requestAnimationFrame += x;
 
             };
 
-            Native.Window.requestAnimationFrame += x;
+            Native.window.requestAnimationFrame += x;
         }
     }
 }

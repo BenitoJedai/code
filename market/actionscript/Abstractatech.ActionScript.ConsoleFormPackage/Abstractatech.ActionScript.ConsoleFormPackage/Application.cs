@@ -22,7 +22,10 @@ namespace Abstractatech.ActionScript.ConsoleFormPackage
     /// </summary>
     public sealed class Application
     {
-
+        //assembly: C:\Users\Arvo\AppData\Local\Temp\ox3kmhez.pak\Abstractatech.JavaScript.FormAsPopup.dll
+        //type: ScriptCoreLib.JavaScript.Extensions.X, Abstractatech.JavaScript.FormAsPopup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        //offset: 0x004d
+        // method:ScriptCoreLib.JavaScript.DOM.IWindow postMessage(ScriptCoreLib.JavaScript.DOM.IWindow, System.Xml.Linq.XElement, System.Action`1[System.Xml.Linq.XElement]) }
 
         /// <summary>
         /// This is a javascript application.
@@ -39,13 +42,13 @@ namespace Abstractatech.ActionScript.ConsoleFormPackage
 
             con.Show();
 
-            con.Left = Native.Window.Width - con.Width;
+            con.Left = Native.window.Width - con.Width;
             con.Top = 0;
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                   delegate
                   {
-                      con.Left = Native.Window.Width - con.Width;
+                      con.Left = Native.window.Width - con.Width;
                       con.Top = 0;
                   };
 

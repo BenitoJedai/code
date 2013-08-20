@@ -83,7 +83,7 @@ namespace WebGLYomotsuTPS
 
             container.AttachToDocument();
             container.style.backgroundColor = "#000000";
-            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             #endregion
 
             var player_model_objects = new THREE.Object3D();
@@ -528,18 +528,18 @@ namespace WebGLYomotsuTPS
                                 #region AtResize
                                 Action AtResize = delegate
                                 {
-                                    container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                                    container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
 
-                                    renderer.setSize(Native.Window.Width, Native.Window.Height);
+                                    renderer.setSize(Native.window.Width, Native.window.Height);
 
-                                    camera.projectionMatrix.makePerspective(fov, Native.Window.Width / Native.Window.Height, 1, 1100);
+                                    camera.projectionMatrix.makePerspective(fov, Native.window.Width / Native.window.Height, 1, 1100);
 
                                     //camera.aspect = Native.Window.Width / Native.Window.Height;
                                     //camera.updateProjectionMatrix();
                                 };
 
-                                Native.Window.onresize +=
+                                Native.window.onresize +=
                                     delegate
                                     {
                                         AtResize();

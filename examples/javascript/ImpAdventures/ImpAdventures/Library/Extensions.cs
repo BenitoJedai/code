@@ -111,15 +111,15 @@ namespace NatureBoy.js
             Action MoveToCenter =
                 delegate
                 {
-                    var w = Native.Window.Width;
-                    var h = Native.Window.Height;
+                    var w = Native.window.Width;
+                    var h = Native.window.Height;
 
 
                     e.SetCenteredLocation(Native.Document.body.scrollLeft + w / 2, Native.Document.body.scrollTop + h / 2);
 
                 };
 
-            Native.Window.onresize += delegate { MoveToCenter(); };
+            Native.window.onresize += delegate { MoveToCenter(); };
 
             MoveToCenter();
         }

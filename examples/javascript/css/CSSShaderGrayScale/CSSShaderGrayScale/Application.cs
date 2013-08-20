@@ -112,9 +112,9 @@ namespace CSSShaderGrayScale
                         f.Text = "CSS filter shader";
 
                     }
-                    Native.Window.requestAnimationFrame += WhileDragging;
+                    Native.window.requestAnimationFrame += WhileDragging;
                 };
-                Native.Window.requestAnimationFrame += WhileDragging;
+                Native.window.requestAnimationFrame += WhileDragging;
                 #endregion
 
                 var i = new WebBrowser
