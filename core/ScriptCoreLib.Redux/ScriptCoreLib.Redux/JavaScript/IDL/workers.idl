@@ -11,9 +11,22 @@ interface Worker : EventTarget {
 
 
 
-
 	attribute EventHandler onerror;
 };
+
+// http://www.whatwg.org/specs/web-apps/current-work/multipage/workers.html#the-abstractworker-abstract-interface
+[Constructor(DOMString scriptURL),
+ Constructor(DOMString scriptURL, optional DOMString name)
+]
+interface SharedWorker : EventTarget {
+  readonly attribute MessagePort port;
+};
+
+
+
+
+
+
 
 interface WorkerLocation {
 	stringifier readonly attribute DOMString href;
@@ -22,6 +35,11 @@ interface WorkerLocation {
 interface WorkerGlobalScope : EventTarget {
 	readonly attribute WorkerGlobalScope self;
 	readonly attribute WorkerLocation location;
+
+	// https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers
+	// does not return until all the scripts have been loaded and executed.
+	//void importScripts(DOMString... urls);
+	void importScripts(DOMString urls);
 
 	void close();
 	attribute EventHandler onerror;
@@ -39,4 +57,11 @@ interface DedicatedWorkerGlobalScope : WorkerGlobalScope {
 	void postMessage(any message);
 
 	//attribute EventHandler onmessage;
+};
+
+[Global]
+/*sealed*/ interface SharedWorkerGlobalScope : WorkerGlobalScope {
+  readonly attribute DOMString name;
+  readonly attribute ApplicationCache applicationCache;
+           attribute EventHandler onconnect;
 };

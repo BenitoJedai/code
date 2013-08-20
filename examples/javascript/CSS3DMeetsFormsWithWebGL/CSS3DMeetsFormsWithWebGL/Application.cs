@@ -35,7 +35,7 @@ namespace CSS3DMeetsFormsWithWebGL
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             // http://www.addyosmani.com/resources/googlebox/
 
@@ -168,7 +168,7 @@ namespace CSS3DMeetsFormsWithWebGL
         }
         #endregion
 
-        public void Initialize(IDefaultPage page, Action yield = null)
+        public void Initialize(IDefault page, Action yield = null)
         {
             global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
@@ -185,7 +185,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
         public FrontPanel frontcontrol;
 
-        public void InitializeContent(IDefaultPage page)
+        public void InitializeContent(IDefault page)
         {
             var control = new UserControl1();
 
@@ -483,7 +483,7 @@ namespace CSS3DMeetsFormsWithWebGL
                     if (playing)
                     {
                         var _this = this;
-                        Native.Window.requestAnimationFrame +=
+                        Native.window.requestAnimationFrame +=
                             delegate
                             {
                                 doAnimation();
@@ -683,7 +683,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     sealed class __WebGLLesson10Application
     {
-        public __WebGLLesson10Application(global::WebGLLesson10.HTML.Pages.IDefaultPage page)
+        public __WebGLLesson10Application(global::WebGLLesson10.HTML.Pages.IDefault page)
         {
             new global::WebGLLesson10.Application(page);
         }
@@ -691,7 +691,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     sealed class __WebGLSpiral
     {
-        public __WebGLSpiral(global::WebGLSpiral.HTML.Pages.IDefaultPage page)
+        public __WebGLSpiral(global::WebGLSpiral.HTML.Pages.IDefault page)
         {
             new global::WebGLSpiral.Application(page);
         }
@@ -699,24 +699,24 @@ namespace CSS3DMeetsFormsWithWebGL
 
     sealed class __ImpAdventures
     {
-        public __ImpAdventures(global::ImpAdventures.HTML.Pages.IDefaultPage page)
+        public __ImpAdventures(global::ImpAdventures.HTML.Pages.IDefault page)
         {
             // did you know we will be binding to keyboard?
             new global::ImpAdventures.Application(page);
         }
     }
 
-    sealed class __IsometricTycoonViewWithToolbar
-    {
-        public __IsometricTycoonViewWithToolbar(global::IsometricTycoonViewWithToolbar.HTML.Pages.IDefaultPage page)
-        {
-            new global::IsometricTycoonViewWithToolbar.Application(page);
-        }
-    }
+    //sealed class __IsometricTycoonViewWithToolbar
+    //{
+    //    public __IsometricTycoonViewWithToolbar(global::IsometricTycoonViewWithToolbar.HTML.Pages.IDefault page)
+    //    {
+    //        new global::IsometricTycoonViewWithToolbar.Application(page);
+    //    }
+    //}
 
     sealed class __McKrackenFirstRoom
     {
-        public __McKrackenFirstRoom(global::McKrackenFirstRoom.HTML.Pages.IDefaultPage page)
+        public __McKrackenFirstRoom(global::McKrackenFirstRoom.HTML.Pages.IDefault page)
         {
             new global::McKrackenFirstRoom.Application(page);
         }
@@ -724,7 +724,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     //sealed class __AvalonUgh
     //{
-    //    public __AvalonUgh(global::AvalonUgh.LabsActivity.HTML.Pages.IDefaultPage page)
+    //    public __AvalonUgh(global::AvalonUgh.LabsActivity.HTML.Pages.IDefault page)
     //    {
     //        new global::AvalonUgh.LabsActivity.Application(page);
     //    }
@@ -732,7 +732,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     //sealed class __AvalonTycoonMansion
     //{
-    //    public __AvalonTycoonMansion(global::AvalonTycoonMansion.iPad.HTML.Pages.IDefaultPage page)
+    //    public __AvalonTycoonMansion(global::AvalonTycoonMansion.iPad.HTML.Pages.IDefault page)
     //    {
     //        new global::AvalonTycoonMansion.iPad.ApplicationContent();
     //    }
@@ -740,7 +740,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     //sealed class __JavaDosBoxQuakeBeta
     //{
-    //    public __JavaDosBoxQuakeBeta(global::JavaDosBoxQuakeBeta.HTML.Pages.IDefaultPage page)
+    //    public __JavaDosBoxQuakeBeta(global::JavaDosBoxQuakeBeta.HTML.Pages.IDefault page)
     //    {
     //        new global::JavaDosBoxQuakeBeta.Application(page);
     //    }
@@ -748,7 +748,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     //sealed class __Boing4KTemplate
     //{
-    //    public __Boing4KTemplate(global::Boing4KTemplate.HTML.Pages.IDefaultPage page)
+    //    public __Boing4KTemplate(global::Boing4KTemplate.HTML.Pages.IDefault page)
     //    {
     //        new global::Boing4KTemplate.Application(page);
     //    }
@@ -756,7 +756,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     //sealed class __RayCasterApplet
     //{
-    //    public __RayCasterApplet(global::RayCasterApplet.HTML.Pages.IDefaultPage page)
+    //    public __RayCasterApplet(global::RayCasterApplet.HTML.Pages.IDefault page)
     //    {
     //        new global::RayCasterApplet.Application(page);
     //    }
@@ -764,7 +764,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     //sealed class __FlashCamera
     //{
-    //    public __FlashCamera(global::FlashCamera.HTML.Pages.IDefaultPage page)
+    //    public __FlashCamera(global::FlashCamera.HTML.Pages.IDefault page)
     //    {
     //        new global::FlashCamera.Application(page);
     //    }

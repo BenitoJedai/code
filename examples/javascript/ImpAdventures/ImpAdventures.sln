@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpAdventures", "ImpAdventures\ImpAdventures.csproj", "{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}
+		{979239DB-60D4-45A3-A236-27F2D984AE17} = {979239DB-60D4-45A3-A236-27F2D984AE17}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{C18742DF-DE94-4B6C-9950-6330E08E8B1A}"
 EndProject

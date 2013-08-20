@@ -459,7 +459,7 @@ namespace TestSolutionBuilderV1.Views
 
 
 
-            Split.Split.LeftScrollable = SolutionToolbox.Container;
+            Split.Split.LeftScrollable = (IHTMLDiv)(object)SolutionToolbox.body;
             Split.Split.RightScrollable = Viewer.Container;
 
             // ...
@@ -832,7 +832,7 @@ namespace TestSolutionBuilderV1.Views
             _Solution.Container.style.height = "100%";
             _Solution.Container.style.backgroundColor = Color.White;
 
-            EditorTreeSplit.Split.RightContainer = SolutionExplorer.Container;
+            EditorTreeSplit.Split.RightContainer = (IHTMLDiv)(object)SolutionExplorer.Container;
 
             EditorTreeSplit.Container.AttachTo(Workspace);
 

@@ -32,9 +32,9 @@ namespace CSSLightingEffectsByTom
                 e =>
                 {
                     //var horizontal = e.pageX / $(document).width();
-                    var horizontal = e.CursorX / Native.Window.Width;
+                    var horizontal = e.CursorX / Native.window.Width;
                     //var vertical = e.pageY / $(document).height();
-                    var vertical = e.CursorY / Native.Window.Height;
+                    var vertical = e.CursorY / Native.window.Height;
 
 
                     //$('.ipad').css({

@@ -21,6 +21,8 @@ namespace InlineWorkerExperiment
     /// </summary>
     public sealed class Application
     {
+        // jsc, every visit is a new process, see procfs
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>

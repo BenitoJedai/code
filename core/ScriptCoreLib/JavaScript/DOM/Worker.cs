@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Worker")]
     public class Worker : IEventTarget
     {
+        // http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
+
         public const string ScriptApplicationSource = "view-source";
 
         #region event onmessage

@@ -29,15 +29,16 @@ namespace AvalonBrowserLogos
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
+            // jsc, can we switch avalon renderer to threejs or starling?
             content.AttachToContainer(Native.Document.body);
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
-                    content.Width = Native.Window.Width;
-                    content.Height = Native.Window.Height;
+                    content.Width = Native.window.Width;
+                    content.Height = Native.window.Height;
                 };
         }
 
