@@ -108,65 +108,76 @@ namespace ScriptCoreLib.JavaScript.DOM
         [System.ComponentModel.Description("Will run as JavaScript Web Worker")]
         public static void InternalInvoke(Action default_yield)
         {
-            var href = Native.worker.location.href;
+            // called by X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs
+            // tested by X:\jsc.svn\examples\javascript\SharedWorkerExperiment\Application.cs
 
-            if (href.EndsWith("#worker"))
+            if (Native.worker != null)
             {
 
+                #region #worker
+                var href = Native.worker.location.href;
+                if (href.EndsWith("#worker"))
+                {
 
-                Native.worker.onmessage +=
-                    e =>
-                    {
-                        if (default_yield == null)
-                            return;
 
-                        var s = "" + e.data;
-                        if (!string.IsNullOrEmpty(s))
+                    Native.worker.onmessage +=
+                        e =>
                         {
-                            var index = int.Parse(s);
-                            if (index >= 0)
-                                if (index < Handlers.Count)
-                                {
-                                    var yield = Handlers[index];
+                            if (default_yield == null)
+                                return;
+
+                            var s = "" + e.data;
+                            if (!string.IsNullOrEmpty(s))
+                            {
+                                var index = int.Parse(s);
+                                if (index >= 0)
+                                    if (index < Handlers.Count)
+                                    {
+                                        var yield = Handlers[index];
 
 
-                                    #region ConsoleFormWriter
-                                    var w = new InternalInlineWorkerTextWriter();
+                                        #region ConsoleFormWriter
+                                        var w = new InternalInlineWorkerTextWriter();
 
-                                    var o = Console.Out;
+                                        var o = Console.Out;
 
-                                    Console.SetOut(w);
+                                        Console.SetOut(w);
 
-                                    w.AtWrite =
-                                         x =>
-                                         {
-                                             foreach (MessagePort port in e.ports)
+                                        w.AtWrite =
+                                             x =>
                                              {
+                                                 foreach (MessagePort port in e.ports)
+                                                 {
 
-                                                 port.postMessage(x, new MessagePort[0]);
-                                             }
+                                                     port.postMessage(x, new MessagePort[0]);
+                                                 }
 
-                                         };
+                                             };
 
-                                    //w.AtWriteLine =
-                                    //    x =>
-                                    //    {
-                                    //        Native.worker.postMessage(x + Environment.NewLine);
-                                    //    };
-                                    #endregion
+                                        //w.AtWriteLine =
+                                        //    x =>
+                                        //    {
+                                        //        Native.worker.postMessage(x + Environment.NewLine);
+                                        //    };
+                                        #endregion
 
-                                    default_yield = null;
+                                        default_yield = null;
 
-                                    yield(Native.worker);
-                                }
+                                        yield(Native.worker);
+                                    }
 
-                        }
-                    };
+                            }
+                        };
 
-                return;
+                    return;
+                }
+                #endregion
+
             }
 
+
             default_yield();
+
         }
     }
 
