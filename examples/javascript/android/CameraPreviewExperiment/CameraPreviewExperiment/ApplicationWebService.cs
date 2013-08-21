@@ -7,6 +7,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Ultra.WebService;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -54,6 +55,13 @@ namespace CameraPreviewExperiment
 
         public void WebMethod2Long(string e, Action<string> y)
         {
+            y("WebMethod2Long entering");
+
+            // throttle the client
+            Thread.Sleep(11);
+
+            y("WebMethod2Long entered");
+
             // JSC shold use chrome omnisearch to tell about running network apps
 
             // http://stackoverflow.com/questions/14815103/android-streaming-the-camera-as-mjpeg
@@ -64,6 +72,8 @@ namespace CameraPreviewExperiment
             foo.Invoke(y, 60);
             // Send it back to the caller.
             //y(e);
+
+            y("WebMethod2Long exit");
         }
     }
 
@@ -141,7 +151,7 @@ namespace CameraPreviewExperiment
                     .Replace("\\r", "\r")
                     .Replace("\\n", "\n");
 
-                Console.WriteLine(new { data });
+                //Console.WriteLine(new { data });
 
                 //var _y = XElement.Parse(data);
 
@@ -164,6 +174,16 @@ namespace CameraPreviewExperiment
         // can we send a zip file?
         public static void Invoke(int index, Action<string> y, int frames = 4)
         {
+            var st = new Stopwatch();
+            st.Start();
+            Action<string> log =
+                x =>
+                {
+                    y(st.Elapsed + " " + x);
+                };
+
+            log("getting ready...");
+
             var DIRECTORY_DCIM = global::android.os.Environment.DIRECTORY_DCIM;
 
             var path = global::android.os.Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getAbsolutePath();
@@ -183,6 +203,8 @@ namespace CameraPreviewExperiment
                 Console.WriteLine("*");
                 Console.WriteLine("*");
                 Console.WriteLine("android.hardware.Camera.open");
+
+                log("android.hardware.Camera.open...");
 
                 camera = android.hardware.Camera.open(index);
 
@@ -318,6 +340,8 @@ namespace CameraPreviewExperiment
 
                 var a = new EventWaitHandle(false, EventResetMode.ManualReset);
 
+                log("before runOnUiThread...");
+
                 System.Console.WriteLine("before runOnUiThread");
                 (ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as Activity).With(
                     aa =>
@@ -328,10 +352,14 @@ namespace CameraPreviewExperiment
                            {
                                y = delegate
                                {
+                                   log("at runOnUiThread...");
                                    System.Console.WriteLine("at runOnUiThread");
 
 
                                    dummy = new SurfaceView(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext);
+
+                                   //dummy.setWidth(96);
+                                   //dummy.setHeight(96);
 
                                    var h = dummy.getHolder();
 
@@ -350,6 +378,8 @@ namespace CameraPreviewExperiment
                                                    Console.WriteLine("*");
                                                    Console.WriteLine("*");
                                                    Console.WriteLine("yield_surfaceChanged");
+                                                   log("at yield_surfaceChanged...");
+
                                                    camera.addCallbackBuffer(new sbyte[buffersize]);
 
                                                    var cc = 0;
@@ -378,6 +408,12 @@ namespace CameraPreviewExperiment
                                                                    }
 
 
+                                                                   var cst = new Stopwatch();
+                                                                   cst.Start();
+
+                                                                   log("PreviewCallbackWithBuffer enter " + new { cc, dataNV21.Length });
+
+
                                                                    // http://stackoverflow.com/questions/3426614/android-converting-from-nv21-preview-format-on-nexus-one-to-jpeg
                                                                    // http://developer.android.com/reference/android/graphics/YuvImage.html
 
@@ -393,10 +429,13 @@ namespace CameraPreviewExperiment
 
                                                                    yuv.compressToJpeg(
                                                                        new Rect(0, 0, min.width, min.height),
-                                                                       50,
+                                                                       20,
                                                                        m);
 
                                                                    var data = (byte[])(object)m.toByteArray();
+
+                                                                   log("PreviewCallbackWithBuffer compressToJpeg done " + new { cc, cst.Elapsed });
+
 
                                                                    Console.WriteLine("compressToJpeg "
                                                                         + new { data.Length }
@@ -407,6 +446,8 @@ namespace CameraPreviewExperiment
                                                                              data
                                                                          );
 
+                                                                   log("PreviewCallbackWithBuffer ToBase64String done " + new { cc, cst.Elapsed });
+
                                                                    y(src);
 
 
@@ -416,6 +457,8 @@ namespace CameraPreviewExperiment
 
                                                                    //camera.addCallbackBuffer();
                                                                    camera.addCallbackBuffer(new sbyte[buffersize]);
+
+                                                                   log("PreviewCallbackWithBuffer exit " + new { cc, cst.Elapsed });
 
                                                                    if (cc == frames)
                                                                    {
@@ -430,16 +473,23 @@ namespace CameraPreviewExperiment
                                                        }
                                                    );
 
+                                                   log("startPreview");
                                                    camera.startPreview();
                                                }
                                        }
                                    );
 
-                                   aa.addContentView(dummy, new android.widget.LinearLayout.LayoutParams(
-                                     android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
-                                     android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
-                                     )
-                                   );
+
+                                   var pp = new android.widget.LinearLayout.LayoutParams(
+                                     android.widget.LinearLayout.LayoutParams.FILL_PARENT,
+                                     android.widget.LinearLayout.LayoutParams.FILL_PARENT
+                                     );
+
+                                   pp.setMargins(64, 64, 64, 64);
+
+                                   dummy.setBackgroundColor(Color.argb(0x0F, 255, 0, 0));
+
+                                   aa.addContentView(dummy, pp);
 
                                    Console.WriteLine("before setPreviewDisplay");
                                    // https://code.google.com/p/zxing/source/browse/trunk/android/src/com/google/zxing/client/android/camera/CameraManager.java
@@ -464,6 +514,9 @@ namespace CameraPreviewExperiment
 
                 a.WaitOne();
                 Console.WriteLine("done!");
+
+                log("PreviewCallbackWithBuffer done");
+
             }
             finally
             {

@@ -18,7 +18,7 @@ namespace Abstractatech.ConsoleFormPackage.Library
             InitializeComponent();
         }
 
-  
+
 
         public ConsoleForm InitializeConsoleFormWriter()
         {
@@ -85,6 +85,10 @@ namespace Abstractatech.ConsoleFormPackage.Library
         public Action<string> AtWrite;
         public Action<string> AtWriteLine;
 
+        public override void Write(object value)
+        {
+            AtWrite("" + value);
+        }
         public override void Write(string value)
         {
             AtWrite(value);

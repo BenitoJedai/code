@@ -32,6 +32,26 @@ namespace CameraPreviewExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            new Abstractatech.ConsoleFormPackage.Library.ConsoleForm()
+                .InitializeConsoleFormWriter()
+                .PopupInsteadOfClosing()
+                .Show();
+
+
+            // 
+            new IHTMLIFrame
+            {
+                src = "http://www.whatsmyip.us/",
+                //src = "http://whatsmyip.net/", 
+                frameBorder = "0",
+
+                width = 600,
+                height = 128
+            }.AttachToDocument().style.SetSize(
+                600, 128);
+
+            new IHTMLBreak().AttachToDocument();
+
             new IHTMLButton { innerText = "swapCache" }.AttachToDocument().WhenClicked(
                 delegate
                 {
@@ -44,14 +64,29 @@ namespace CameraPreviewExperiment
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
 
+            #region show me stills
             new IHTMLButton { innerText = "show me stills" }.AttachToDocument().onclick +=
                 delegate
                 {
                     service.WebMethod2(
                         @"A string from JavaScript.",
-                        value => new IHTMLImage { src = value }.AttachToDocument()
+                        value =>
+                        {
+                            if (!value.StartsWith("data:"))
+                            {
+                                Console.WriteLine(value);
+                                return;
+                            }
+
+                            new IHTMLImage { src = value }.AttachToDocument();
+                        }
                     );
                 };
+            #endregion
+
+
+            #region show me animation
+
 
             new IHTMLButton { innerText = "show me animation" }.AttachToDocument().onclick +=
                 delegate
@@ -62,7 +97,16 @@ namespace CameraPreviewExperiment
 
                     service.WebMethod2(
                         @"A string from JavaScript.",
-                        value => data.Add(value)
+                        value =>
+                        {
+                            if (!value.StartsWith("data:"))
+                            {
+                                Console.WriteLine(value);
+                                return;
+                            }
+
+                            data.Add(value);
+                        }
                     );
 
                     new Timer(
@@ -75,8 +119,10 @@ namespace CameraPreviewExperiment
                         }
                     ).StartInterval(1000 / 15);
                 };
+            #endregion
 
 
+            #region show me animation async
             new IHTMLButton { innerText = "show me animation async" }.AttachToDocument().onclick +=
                  delegate
                  {
@@ -93,6 +139,12 @@ namespace CameraPreviewExperiment
                          @"A string from JavaScript.",
                          value =>
                          {
+                             if (!value.StartsWith("data:"))
+                             {
+                                 Console.WriteLine(value);
+                                 return;
+                             }
+
                              data.Add(value);
 
 
@@ -110,12 +162,14 @@ namespace CameraPreviewExperiment
                          }
                      ).StartInterval(1000 / 15);
                  };
-
+            #endregion
 
 
             new IHTMLButton { innerText = "show me animation async and gif it" }.AttachToDocument().onclick +=
                  delegate
                  {
+                     Console.WriteLine("working...");
+
                      var encoder1 = new GIFEncoder();
 
                      encoder1.setRepeat(0); //auto-loop
@@ -162,107 +216,123 @@ namespace CameraPreviewExperiment
 
                      //c0.canvas.AttachToDocument();
 
-                     var maxframes = 15;
+                     var gifmaxframes = 60;
+
+                     // http://stackoverflow.com/questions/1864756/web-workers-and-canvas
 
                      service.async_WebMethod2(
                          @"A string from JavaScript.",
                          value =>
                          {
+                             if (!value.StartsWith("data:"))
+                             {
+                                 Console.WriteLine(value);
+                                 return;
+                             }
+
                              data.Add(value);
 
 
 
-                             if (data.Count < maxframes)
+                             if (data.Count == gifmaxframes)
                              {
+                                 // need webworker!
 
+                                 Console.WriteLine("working on gif!");
 
-
-                             }
-                             else if (data.Count == maxframes)
-                             {
-                                 var st = new Stopwatch();
-                                 st.Start();
-
-                                 Console.WriteLine("gif " + new { st.Elapsed });
-
-                                 for (int datai = 0; datai < data.Count; datai++)
-                                 {
-                                     Console.WriteLine("gif " + new { datai, st.Elapsed });
-
-                                     c1.drawImage(new IHTMLImage { src = data[datai] }, 0, 0, 320, 240);
-                                     encoder2.addFrame(c1);
-
-
-                                     c0.drawImage(new IHTMLImage { src = data[datai] }, 0, 0, 320, 240);
-
-
-                                     var imageData = c0.getImageData(0, 0, 320, 240);
-
-                                     // This loop gets every pixels on the image and
-                                     for (var j = 0; j < imageData.width; j++)
+                                 Native.window.requestAnimationFrame +=
+                                     delegate
                                      {
-                                         for (var i = 0; i < imageData.height; i++)
+                                         #region gif
+                                         var st = new Stopwatch();
+                                         st.Start();
+
+                                         #region frames
+                                         Console.WriteLine("gif " + new { st.Elapsed });
+
+                                         for (int datai = 0; datai < data.Count; datai += 4)
                                          {
-                                             var index = (uint)((i * 4) * imageData.width + (j * 4));
-                                             var red = imageData.data[index];
-                                             var green = imageData.data[index + 1];
-                                             var blue = imageData.data[index + 2];
-                                             var alpha = imageData.data[index + 3];
-                                             var average = (byte)((red + green + blue) / 3);
+                                             Console.WriteLine("gif " + new { datai, st.Elapsed });
 
-                                             imageData.data[index] = average;
-                                             imageData.data[index + 1] = average;
-                                             imageData.data[index + 2] = average;
+                                             c1.drawImage(new IHTMLImage { src = data[datai] }, 0, 0, 320, 240);
+                                             encoder2.addFrame(c1);
 
-                                             //imageData.data[index + 1] = average;
-                                             //imageData.data[index + 2] = average;
 
-                                             imageData.data[index + 3] = alpha;
+                                             c0.drawImage(new IHTMLImage { src = data[datai] }, 0, 0, 320, 240);
+
+                                             #region grayscale
+                                             var imageData = c0.getImageData(0, 0, 320, 240);
+
+                                             // This loop gets every pixels on the image and
+                                             for (var j = 0; j < imageData.width; j++)
+                                             {
+                                                 for (var i = 0; i < imageData.height; i++)
+                                                 {
+                                                     var index = (uint)((i * 4) * imageData.width + (j * 4));
+                                                     var red = imageData.data[index];
+                                                     var green = imageData.data[index + 1];
+                                                     var blue = imageData.data[index + 2];
+                                                     var alpha = imageData.data[index + 3];
+                                                     var average = (byte)((red + green + blue) / 3);
+
+                                                     imageData.data[index] = average;
+                                                     imageData.data[index + 1] = average;
+                                                     imageData.data[index + 2] = average;
+
+                                                     //imageData.data[index + 1] = average;
+                                                     //imageData.data[index + 2] = average;
+
+                                                     imageData.data[index + 3] = alpha;
+                                                 }
+                                             }
+
+                                             // overwrite original image
+                                             c0.putImageData(imageData, 0, 0, 0, 0, 320, 240);
+                                             #endregion
+
+
+                                             encoder1.addFrame(c0);
+
+                                             Console.WriteLine("gif done " + new { datai, st.Elapsed });
+
                                          }
-                                     }
-
-                                     // overwrite original image
-                                     c0.putImageData(imageData, 0, 0, 0, 0, 320, 240);
-
-                                     encoder1.addFrame(c0);
-
-                                     Console.WriteLine("gif done " + new { datai, st.Elapsed });
-
-                                 }
 
 
-                                 encoder1.finish();
-                                 encoder2.finish();
+                                         encoder1.finish();
+                                         encoder2.finish();
+                                         #endregion
+
+                                         {
+                                             var image = new IHTMLImage();
+                                             var xdata = encoder1.stream().getData();
+                                             var bytes = Encoding.ASCII.GetBytes(xdata);
 
 
-                                 {
-                                     var image = new IHTMLImage();
-                                     var xdata = encoder1.stream().getData();
-                                     var bytes = Encoding.ASCII.GetBytes(xdata);
+                                             image.src = "data:image/gif;base64," + System.Convert.ToBase64String(bytes);
+                                             image.style.SetSize(640, 480);
+
+                                             Console.WriteLine("gif got src" + new { st.Elapsed, bytes.Length });
+
+                                             image.AttachToDocument();
+                                         }
 
 
-                                     image.src = "data:image/gif;base64," + System.Convert.ToBase64String(bytes);
-                                     image.style.SetSize(640, 480);
-
-                                     Console.WriteLine("gif got src" + new { st.Elapsed, bytes.Length });
-
-                                     image.AttachToDocument();
-                                 }
+                                         {
+                                             var image = new IHTMLImage();
+                                             var xdata = encoder2.stream().getData();
+                                             var bytes = Encoding.ASCII.GetBytes(xdata);
 
 
-                                 {
-                                     var image = new IHTMLImage();
-                                     var xdata = encoder2.stream().getData();
-                                     var bytes = Encoding.ASCII.GetBytes(xdata);
+                                             image.src = "data:image/gif;base64," + System.Convert.ToBase64String(bytes);
+                                             image.style.SetSize(640, 480);
 
+                                             Console.WriteLine("gif got src" + new { st.Elapsed, bytes.Length });
 
-                                     image.src = "data:image/gif;base64," + System.Convert.ToBase64String(bytes);
-                                     image.style.SetSize(640, 480);
+                                             image.AttachToDocument();
+                                         }
+                                         #endregion
 
-                                     Console.WriteLine("gif got src" + new { st.Elapsed, bytes.Length });
-
-                                     image.AttachToDocument();
-                                 }
+                                     };
 
 
                              }
@@ -271,6 +341,8 @@ namespace CameraPreviewExperiment
                      );
 
                  };
+
+            new IHTMLBreak().AttachToDocument();
         }
 
     }
