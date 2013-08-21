@@ -34,15 +34,19 @@ namespace InlineSharedWorkerExperiment
             Native.window.With(
                 window =>
                 {
-                    new IHTMLButton { innerText = "open" }.AttachToDocument().onclick +=
+
+                    new IHTMLButton { innerText = "open 1" }.AttachToDocument().onclick +=
                         delegate
                         {
                             Console.WriteLine("opening SharedWorker");
 
                             // what about async keyword?
+                            // note that two inline shared workers will have differnet urls, thus are disconnected from each other.
                             var s = new SharedWorker(
                                 sharedworker =>
                                 {
+                                    //Console.WriteLine("at sharedworker");
+
                                     // the portal effect
                                     // this code is no longer in the same context
                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130812-sharedworker
@@ -105,6 +109,85 @@ namespace InlineSharedWorkerExperiment
                                 delegate
                                 {
                                     s.port.postMessage("hello!");
+                                };
+
+                        };
+
+
+
+                    new IHTMLButton { innerText = "open 2" }.AttachToDocument().onclick +=
+                        delegate
+                        {
+                            Console.WriteLine("opening SharedWorker");
+
+                            // what about async keyword?
+                            var s = new SharedWorker(
+                                sharedworker =>
+                                {
+                                    //Console.WriteLine("at sharedworker");
+
+                                    // the portal effect
+                                    // this code is no longer in the same context
+                                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130812-sharedworker
+
+                                    var random = new Random().Next();
+
+
+                                    var st = new Stopwatch();
+                                    st.Start();
+
+
+                                    var ports = new List<MessagePort>();
+                                    var messages = 0;
+
+                                    // this might happen once?
+                                    sharedworker.onconnect +=
+                                        e =>
+                                        {
+
+                                            e.ports.WithEach(
+                                                port =>
+                                                {
+                                                    port.start();
+
+                                                    ports.AddDistinct(port);
+
+                                                    port.onmessage +=
+                                                        x =>
+                                                        {
+                                                            messages++;
+
+                                                            port.postMessage("reply2 " + new { sharedworker.name, st.Elapsed, x.data, messages, ports.Count, random });
+
+                                                        };
+
+                                                    ports.Add(port);
+
+
+                                                    port.postMessage("hi2 from shared worker " + new { sharedworker.name, st.Elapsed, ports.Count, random });
+
+
+                                                }
+                                            );
+
+                                        };
+                                }
+                            );
+
+                            s.port.onmessage +=
+                                e =>
+                                {
+                                    // onmessage: { data = reply { name = foo, Elapsed = 0.00:00:06, data = hello! } }
+
+                                    Console.WriteLine("onmessage2: " + new { e.data });
+                                };
+
+                            s.port.start();
+
+                            new IHTMLButton { innerText = "post" }.AttachToDocument().onclick +=
+                                delegate
+                                {
+                                    s.port.postMessage("hello2!");
                                 };
 
                         };
