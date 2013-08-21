@@ -14,6 +14,7 @@ namespace ScriptCoreLib
     /// and provides pre runtime information, to build static
     /// files
     /// </summary>
+    [Obsolete]
     public static class SharedHelper
     {
 

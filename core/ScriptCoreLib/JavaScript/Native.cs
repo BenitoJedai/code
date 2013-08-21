@@ -78,6 +78,7 @@ namespace ScriptCoreLib
 
             static public IScreen screen;
             static public DedicatedWorkerGlobalScope worker;
+            static public SharedWorkerGlobalScope sharedworker;
 
             static Native()
             {
@@ -94,14 +95,27 @@ namespace ScriptCoreLib
                     document = window.document;
                     screen = window.screen;
                 }
-                else if (Expando.InternalIsMember(self, "postMessage"))
+                else if (Expando.InternalIsMember(self, "importScripts"))
                 {
-                    // now what. are we running as a web worker?
-                    // WorkerGlobalScope
-                    // DedicatedWorkerGlobalScope
-                    // DedicatedWorkerContext
 
-                    worker = (DedicatedWorkerGlobalScope)self;
+                    if (Expando.InternalIsMember(self, "postMessage"))
+                    {
+                        // now what. are we running as a web worker?
+                        // WorkerGlobalScope
+                        // DedicatedWorkerGlobalScope
+                        // DedicatedWorkerContext
+
+                        worker = (DedicatedWorkerGlobalScope)self;
+                    }
+                    else
+                    {
+                        // now what. are we running as a web worker?
+                        // WorkerGlobalScope
+                        // DedicatedWorkerGlobalScope
+                        // DedicatedWorkerContext
+
+                        sharedworker = (SharedWorkerGlobalScope)self;
+                    }
                 }
             }
 

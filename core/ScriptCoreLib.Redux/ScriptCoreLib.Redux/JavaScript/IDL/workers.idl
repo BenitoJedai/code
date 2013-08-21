@@ -63,5 +63,5 @@ interface DedicatedWorkerGlobalScope : WorkerGlobalScope {
 /*sealed*/ interface SharedWorkerGlobalScope : WorkerGlobalScope {
   readonly attribute DOMString name;
   readonly attribute ApplicationCache applicationCache;
-           attribute EventHandler onconnect;
+   //attribute EventHandler onconnect;
 };
