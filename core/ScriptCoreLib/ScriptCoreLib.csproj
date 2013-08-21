@@ -115,6 +115,7 @@
     <Compile Include="JavaScript\DOM\MessageChannel.cs" />
     <Compile Include="JavaScript\DOM\MessageEvent.cs" />
     <Compile Include="JavaScript\DOM\MessagePort.cs" />
+    <Compile Include="JavaScript\DOM\SharedWorker.cs" />
     <Compile Include="JavaScript\DOM\SharedWorkerGlobalScope.cs" />
     <Compile Include="JavaScript\DOM\Worker.cs" />
     <Compile Include="JavaScript\Extensions\INodeConvertible.cs" />

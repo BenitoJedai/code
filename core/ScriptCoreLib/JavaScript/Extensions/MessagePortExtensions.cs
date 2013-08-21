@@ -27,5 +27,24 @@ namespace ScriptCoreLib.JavaScript.Extensions
                 ).ToArray()
             );
         }
+
+        public static void postMessage(this MessagePort x, object message, params Action<MessageEvent>[] yield)
+        {
+            x.postMessage(message,
+                yield.Select(
+                    y =>
+                    {
+                        var c = new MessageChannel();
+
+                        c.port1.onmessage += y;
+
+                        c.port1.start();
+                        c.port2.start();
+
+                        return c.port2;
+                    }
+                ).ToArray()
+            );
+        }
     }
 }

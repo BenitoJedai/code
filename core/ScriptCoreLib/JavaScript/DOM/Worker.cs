@@ -50,14 +50,57 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public class InternalInlineWorker
     {
+        // WorkerGlobalScope
+
         static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>> Handlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>>();
+        static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>> SharedWorkerHandlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>>();
+
+        public static void InternalAddSharedWorker(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
+        {
+            Console.WriteLine("InternalInlineWorker InternalAddSharedWorker");
+
+            SharedWorkerHandlers.Add(yield);
+        }
 
         public static void InternalAdd(Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope> yield)
         {
             Console.WriteLine("InternalInlineWorker InternalAdd");
 
             Handlers.Add(yield);
+        }
 
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130812-sharedworker
+        public static global::ScriptCoreLib.JavaScript.DOM.SharedWorker InternalSharedWorkerConstructor(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
+        {
+            var index = -1;
+
+            for (int i = 0; i < SharedWorkerHandlers.Count; i++)
+            {
+                if (SharedWorkerHandlers[i] == yield)
+                    index = i;
+            }
+
+            Console.WriteLine("InternalInlineWorker InternalSharedWorkerConstructor " + new { index });
+
+
+            var w = new global::ScriptCoreLib.JavaScript.DOM.SharedWorker(
+                    global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSource + "#sharedworker"
+            );
+
+
+            w.port.postMessage("" + index,
+                  e =>
+                  {
+                      // since this is shared, we actually need it only once
+                      // need to deduplicate
+
+                      Console.Write("" + e.data);
+                  }
+             );
+
+
+            return w;
         }
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker
@@ -118,8 +161,6 @@ namespace ScriptCoreLib.JavaScript.DOM
                 var href = Native.worker.location.href;
                 if (href.EndsWith("#worker"))
                 {
-
-
                     Native.worker.onmessage +=
                         e =>
                         {
@@ -154,11 +195,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                                              };
 
-                                        //w.AtWriteLine =
-                                        //    x =>
-                                        //    {
-                                        //        Native.worker.postMessage(x + Environment.NewLine);
-                                        //    };
                                         #endregion
 
                                         default_yield = null;
@@ -174,7 +210,74 @@ namespace ScriptCoreLib.JavaScript.DOM
                 #endregion
 
             }
+            else if (Native.sharedworker != null)
+            {
 
+                #region #sharedworker
+                var href = Native.sharedworker.location.href;
+                if (href.EndsWith("#sharedworker"))
+                {
+                    Native.sharedworker.onconnect +=
+                        ce =>
+                        {
+
+                            foreach (MessagePort cport in ce.ports)
+                            {
+                                // listen for the first message from this new connection
+                                cport.onmessage +=
+                                    e =>
+                                    {
+                                        if (ce == null)
+                                            return;
+
+                                        var s = "" + e.data;
+                                        if (!string.IsNullOrEmpty(s))
+                                        {
+                                            var index = int.Parse(s);
+                                            if (index >= 0)
+                                                if (index < SharedWorkerHandlers.Count)
+                                                {
+                                                    var yield = SharedWorkerHandlers[index];
+
+
+                                                    #region ConsoleFormWriter
+                                                    var w = new InternalInlineWorkerTextWriter();
+
+                                                    var o = Console.Out;
+
+                                                    Console.SetOut(w);
+
+                                                    w.AtWrite =
+                                                         x =>
+                                                         {
+                                                             foreach (MessagePort port in e.ports)
+                                                             {
+
+                                                                 port.postMessage(x, new MessagePort[0]);
+                                                             }
+
+                                                         };
+
+                                                    #endregion
+
+                                                    ce = null;
+
+                                                    yield(Native.sharedworker);
+                                                }
+
+                                        }
+
+                                    };
+                            }
+
+                        };
+
+
+                    return;
+                }
+                #endregion
+
+            }
 
             default_yield();
 
