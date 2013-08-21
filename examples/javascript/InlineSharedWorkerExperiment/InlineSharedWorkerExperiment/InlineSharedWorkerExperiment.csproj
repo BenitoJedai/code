@@ -116,6 +116,9 @@
     <Reference Include="InlineSharedWorkerExperiment.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\InlineSharedWorkerExperiment\bin\staging.AssetsLibrary\InlineSharedWorkerExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="InlineSharedWorkerExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\InlineSharedWorkerExperiment.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

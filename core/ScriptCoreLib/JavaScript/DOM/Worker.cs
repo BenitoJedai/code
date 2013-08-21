@@ -85,19 +85,21 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
             var w = new global::ScriptCoreLib.JavaScript.DOM.SharedWorker(
-                    global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSource + "#sharedworker"
+                    global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSource
+                    + "#" + index
+                    + "#sharedworker"
             );
 
+            //w.port.start();
+            //w.port.postMessage("" + index,
+            //      e =>
+            //      {
+            //          // since this is shared, we actually need it only once
+            //          // need to deduplicate
 
-            w.port.postMessage("" + index,
-                  e =>
-                  {
-                      // since this is shared, we actually need it only once
-                      // need to deduplicate
-
-                      Console.Write("" + e.data);
-                  }
-             );
+            //          Console.Write("" + e.data);
+            //      }
+            // );
 
 
             return w;
@@ -120,7 +122,9 @@ namespace ScriptCoreLib.JavaScript.DOM
             // discard params
 
             var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSource + "#worker"
+                global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSource
+                + "#" + index
+                + "#worker"
             );
 
             // we need some kind of per Application activation index
@@ -214,63 +218,31 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
 
                 #region #sharedworker
+
                 var href = Native.sharedworker.location.href;
                 if (href.EndsWith("#sharedworker"))
                 {
-                    Native.sharedworker.onconnect +=
-                        ce =>
-                        {
+                    var s = href.Substring(0, href.Length - "#sharedworker".Length);
+                    var si = s.LastIndexOf("#");
 
-                            foreach (MessagePort cport in ce.ports)
+                    s = s.Substring(si + 1);
+                    
+                    if (!string.IsNullOrEmpty(s))
+                    {
+                        var index = int.Parse(s);
+                        if (index >= 0)
+                            if (index < SharedWorkerHandlers.Count)
                             {
-                                // listen for the first message from this new connection
-                                cport.onmessage +=
-                                    e =>
-                                    {
-                                        if (ce == null)
-                                            return;
-
-                                        var s = "" + e.data;
-                                        if (!string.IsNullOrEmpty(s))
-                                        {
-                                            var index = int.Parse(s);
-                                            if (index >= 0)
-                                                if (index < SharedWorkerHandlers.Count)
-                                                {
-                                                    var yield = SharedWorkerHandlers[index];
+                                var yield = SharedWorkerHandlers[index];
 
 
-                                                    #region ConsoleFormWriter
-                                                    var w = new InternalInlineWorkerTextWriter();
-
-                                                    var o = Console.Out;
-
-                                                    Console.SetOut(w);
-
-                                                    w.AtWrite =
-                                                         x =>
-                                                         {
-                                                             foreach (MessagePort port in e.ports)
-                                                             {
-
-                                                                 port.postMessage(x, new MessagePort[0]);
-                                                             }
-
-                                                         };
-
-                                                    #endregion
-
-                                                    ce = null;
-
-                                                    yield(Native.sharedworker);
-                                                }
-
-                                        }
-
-                                    };
+                                // do we have to regenerate onconnect event?
+                                yield(Native.sharedworker);
                             }
 
-                        };
+                    }
+
+
 
 
                     return;
