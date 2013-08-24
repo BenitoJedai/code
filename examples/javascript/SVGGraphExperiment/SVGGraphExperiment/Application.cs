@@ -138,7 +138,7 @@ namespace SVGGraphExperiment
             };
 
 
-            Native.Window.ondeviceorientation +=
+            Native.window.ondeviceorientation +=
                 eventData =>
                 {
 
