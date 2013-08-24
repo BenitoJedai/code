@@ -12,6 +12,8 @@ using System.Text;
 using System.Xml.Linq;
 using Abstractatech.JavaScript.NatureBoy.Design;
 using Abstractatech.JavaScript.NatureBoy.HTML.Pages;
+using ScriptCoreLib.JavaScript.Controls.LayeredControl;
+using ScriptCoreLib.Shared.Drawing;
 
 namespace Abstractatech.JavaScript.NatureBoy
 {
@@ -28,12 +30,34 @@ namespace Abstractatech.JavaScript.NatureBoy
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            #region arena
+            var map = new Point(2000, 2000);
+
+            var arena = new ArenaControl();
+
+            arena.Layers.Canvas.style.backgroundColor =
+                Color.FromGray(0xc0);
+            arena.SetLocation(
+                Rectangle.Of(0, 0, Native.window.Width, Native.window.Height));
+
+            arena.SetCanvasSize(map);
+
+            arena.Control.AttachToDocument();
+
+
+            arena.DrawTextToInfo("hello world", new Point(8, 8), Color.Blue);
+
+            Native.window.onresize +=
+                delegate
+                {
+                    arena.SetLocation(
+                        Rectangle.Of(0, 0, Native.window.Width, Native.window.Height));
+
+                    arena.SetCanvasPosition(
+                        arena.CurrentCanvasPosition
+                        );
+                };
+            #endregion
         }
 
     }

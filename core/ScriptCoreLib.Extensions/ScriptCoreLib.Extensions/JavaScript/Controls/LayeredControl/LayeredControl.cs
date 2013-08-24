@@ -24,12 +24,10 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
     /// <summary>
     /// provides a draggable control
     /// </summary>
-    [Script]
     public abstract class LayeredControl
     {
         public readonly IHTMLDiv Control = new IHTMLDiv();
 
-        [Script]
         public class LayersGroup
         {
             public IHTMLDiv Canvas;
@@ -105,7 +103,12 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 
         protected void InternalSetCanvasPosition(Point p)
         {
-            CurrentCanvasPosition = p.Min(new Point(0, 0)).Max(new Point(this.CurrentLocation.Width - this.CurrentCanvasSize.X, this.CurrentLocation.Height - this.CurrentCanvasSize.Y));
+            CurrentCanvasPosition = p.Min(new Point(0, 0)).Max(
+                new Point(
+                    this.CurrentLocation.Width - this.CurrentCanvasSize.X,
+                    this.CurrentLocation.Height - this.CurrentCanvasSize.Y
+                    )
+                    );
 
             if (this.CurrentLocation.Height > CurrentCanvasSize.Y)
             {
@@ -129,9 +132,22 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             RaiseCanvasViewChanged();
         }
 
+        public Point GetCanvasViewCenter()
+        {
+            return new Point(
+                    -(this.CurrentCanvasPosition.X - this.CurrentLocation.Width / 2),
+                    -(this.CurrentCanvasPosition.Y - this.CurrentLocation.Height / 2)
+                );
+        }
+
         public void SetCanvasViewCenter(Point p)
         {
-            this.InternalSetCanvasPosition(new Point(this.CurrentLocation.Width / 2 - p.X, this.CurrentLocation.Height / 2 - p.Y));
+            this.InternalSetCanvasPosition(
+                new Point(
+                     -(p.X - this.CurrentLocation.Width / 2),
+                     -(p.Y - this.CurrentLocation.Height / 2)
+                )
+            );
         }
 
         void RaiseCanvasViewChanged()
@@ -182,7 +198,6 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
         }
 
 
-        [Script]
         public class CanvasRectangle : IDisposable
         {
             public Rectangle Location;
@@ -245,9 +260,10 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             this.Layers.Canvas.appendChild(box);
         }
 
+        public bool DragEngaged = false;
+
         protected void InitializeCanvasDrag()
         {
-            var drag_enabled = false;
             var drag_start = Point.Zero;
 
             var u = this.Layers.User;
@@ -260,7 +276,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle || e.MouseButton == IEvent.MouseButtonEnum.Right)
                     {
-                        drag_enabled = true;
+                        DragEngaged = true;
                         drag_start = e.OffsetPosition - this.CurrentCanvasPosition;
                         //e.CaptureMouse();
                         // can we do this?
@@ -275,7 +291,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             u.onmousemove +=
                 delegate(IEvent e)
                 {
-                    if (drag_enabled)
+                    if (DragEngaged)
                     {
                         if (Native.Document.pointerLockElement == u)
                         {
@@ -301,7 +317,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 {
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle || e.MouseButton == IEvent.MouseButtonEnum.Right)
                     {
-                        drag_enabled = false;
+                        DragEngaged = false;
 
                         if (Native.Document.pointerLockElement == u)
                         {
@@ -314,46 +330,52 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             u.onmouseout +=
                 delegate
                 {
-                    if (drag_enabled)
+                    if (DragEngaged)
                     {
-                        drag_enabled = false;
+                        DragEngaged = false;
                     }
                 };
             #endregion
 
 
 
-            #region onmousemove
+            #region ontouchmove
             u.ontouchstart +=
                 e =>
                 {
-                    e.PreventDefault();
-                    drag_enabled = true;
-                    var OffsetPosition = new Point(e.touches[0].clientX, e.touches[0].clientY);
+                    // one finger to pan around
+                    if (e.touches.length == 1)
+                    {
+                        e.preventDefault();
+                        DragEngaged = true;
+                        var OffsetPosition = new Point(e.touches[0].clientX, e.touches[0].clientY);
 
-                    drag_start = OffsetPosition - this.CurrentCanvasPosition;
+                        drag_start = OffsetPosition - this.CurrentCanvasPosition;
+                    }
                 };
 
             u.ontouchmove +=
                 e =>
                 {
-                    if (drag_enabled)
-                    {
-                        e.PreventDefault();
-                        var OffsetPosition = new Point(e.touches[0].clientX, e.touches[0].clientY);
+                    if (e.touches.length == 1)
+                        if (DragEngaged)
+                        {
+                            e.preventDefault();
+                            var OffsetPosition = new Point(e.touches[0].clientX, e.touches[0].clientY);
 
-                        this.SetCanvasPosition(OffsetPosition - drag_start);
-                    }
+                            this.SetCanvasPosition(OffsetPosition - drag_start);
+                        }
 
                 };
 
             u.ontouchend +=
                 e =>
                 {
-                    e.PreventDefault();
-                    drag_enabled = false;
-
-
+                    if (DragEngaged)
+                    {
+                        e.preventDefault();
+                        DragEngaged = false;
+                    }
                 };
 
 
@@ -442,7 +464,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             var selection = new IHTMLDiv();
 
             selection.style.border = "1px solid #ffffff";
-            selection.style.overflow = IStyle.OverflowEnum.hidden;
+            //selection.style.overflow = IStyle.OverflowEnum.hidden;
 
 
             var selection_start = Point.Zero;
@@ -499,9 +521,148 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 
             Action ReleaseCapture = null;
 
+
+
+            var aa = default(Point);
+            var bb = default(Point);
+
+            var disablemouse = false;
+
+            #region ontouchmove
+            u.ontouchstart +=
+                e =>
+                {
+                    disablemouse = true;
+
+                    // one finger to pan around
+                    if (e.touches.length == 2)
+                    {
+                        //Console.WriteLine("ontouchstart");
+                        e.preventDefault();
+                        selection.style.border = "1px solid white";
+
+                        _InSelectionMode = true;
+
+                        if (ShowSelectionRectangle)
+                            selection.AttachTo(this.Layers.CanvasInfo);
+
+                        //this.Layers.CanvasInfo.appendChild(selection);
+
+                        aa = new Point(
+                            // selection_start
+                              Math.Min(
+                                  e.touches[0].screenX,
+                                  e.touches[1].screenX
+                              ),
+                              Math.Min(
+                                  e.touches[0].screenY,
+                                  e.touches[1].screenY
+                              )
+                          );
+
+                        bb = new Point(
+                            // selection_start
+                            Math.Max(
+                                e.touches[0].screenX,
+                                e.touches[1].screenX
+                            ),
+                            Math.Max(
+                                e.touches[0].screenY,
+                                e.touches[1].screenY
+                            )
+                        );
+                    }
+                };
+
+            u.ontouchmove +=
+                e =>
+                {
+                    if (e.touches.length == 2)
+                        if (_InSelectionMode)
+                        {
+                            selection.style.border = "1px solid green";
+                            //Console.WriteLine("ontouchmove");
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            var a = new Point(
+                                // selection_start
+                                Math.Min(
+                                    e.touches[0].screenX,
+                                    Math.Min(e.touches[1].screenX, aa.X)
+                                ),
+                                Math.Min(
+                                    e.touches[0].screenY,
+                                    Math.Min(e.touches[1].screenY, aa.Y)
+                                )
+                            );
+
+                            var b = new Point(
+                                // selection_start
+                                Math.Max(
+                                    e.touches[0].screenX,
+                                    Math.Max(e.touches[1].screenX, aa.X)
+                                ),
+                                Math.Max(
+                                    e.touches[0].screenY,
+                                    Math.Max(e.touches[1].screenY, bb.Y)
+                                )
+                            );
+
+
+                            selection_start = a - this.CurrentCanvasPosition;
+                            selection_end = b - this.CurrentCanvasPosition;
+
+
+                            UpdateSelection();
+                        }
+
+                };
+
+            u.ontouchend +=
+                e =>
+                {
+
+                    if (_InSelectionMode)
+                    {
+                        _InSelectionMode = false;
+
+                        selection.style.border = "1px solid yellow";
+                        //Console.WriteLine("ontouchend");
+
+                        Native.window.requestAnimationFrame +=
+                            delegate
+                            {
+                                // !!! workaround for webview. 
+                                selection.style.SetLocation(0, 0, 0, 0);
+                                //selection.Orphanize();
+
+                                Console.WriteLine("ontouchend done?");
+                            };
+
+
+
+
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+
+                };
+
+
+            #endregion
+
+
+
+
+
+            #region mouse
             u.onmousedown +=
                 e =>
                 {
+                    if (disablemouse)
+                        return;
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                     {
@@ -516,8 +677,8 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                         UpdateSelection();
 
                         Console.WriteLine("CaptureMouse");
-                        e.PreventDefault();
-                        e.StopPropagation();
+                        e.preventDefault();
+                        e.stopPropagation();
                         ReleaseCapture = u.CaptureMouse();
                     }
                 };
@@ -528,12 +689,16 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             u.onmousemove +=
                 delegate(IEvent e)
                 {
+                    if (disablemouse)
+                        return;
+
+
                     if (_InSelectionMode)
                     {
                         selection_end = e.OffsetPosition - this.CurrentCanvasPosition;
 
-                        e.PreventDefault();
-                        e.StopPropagation();
+                        e.preventDefault();
+                        e.stopPropagation();
                         UpdateSelection();
                     }
                 };
@@ -541,13 +706,17 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             u.onmouseup +=
                 delegate(IEvent e)
                 {
+                    if (disablemouse)
+                        return;
+
+
                     if (_InSelectionMode)
                     {
                         if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                         {
                             _InSelectionMode = false;
-                            e.PreventDefault();
-                            e.StopPropagation();
+                            e.preventDefault();
+                            e.stopPropagation();
 
                             if (IsSelectionMinimumSize(selection_rect))
                             {
@@ -585,6 +754,8 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                         }
                     }
                 };
+            #endregion
+
 
             //u.onmouseout +=
             //    delegate

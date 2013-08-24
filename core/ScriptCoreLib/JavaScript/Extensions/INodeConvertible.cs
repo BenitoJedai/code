@@ -73,5 +73,15 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return e.InternalAsNode();
         }
 
+
+        public static IEnumerable<IHTMLAudio> AudioElements(this INodeConvertible<IElement> e)
+        {
+            return e.AsNode().querySelectorAll(IHTMLElement.HTMLElementEnum.audio).Select(k => (IHTMLAudio)k);
+        }
+
+        public static IEnumerable<IHTMLImage> ImageElements(this INodeConvertible<IElement> e)
+        {
+            return e.AsNode().querySelectorAll(IHTMLElement.HTMLElementEnum.img).Select(k => (IHTMLImage)k);
+        }
     }
 }

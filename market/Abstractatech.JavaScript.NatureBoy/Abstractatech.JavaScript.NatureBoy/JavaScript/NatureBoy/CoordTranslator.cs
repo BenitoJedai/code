@@ -7,14 +7,12 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
 {
-    [Script]
     public class CoordTranslatorBase
     {
         public Func<Point<double>, Point<double>> ConvertMapToCanvas;
         public Func<Point<double>, Point<double>> ConvertCanvasToMap;
     }
 
-    [Script]
     public class CoordTranslatorDual
     {
         public readonly CoordTranslator From;
@@ -29,7 +27,6 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         
     }
 
-    [Script]
     public class CoordTranslator
     {
         public CoordTranslator()
