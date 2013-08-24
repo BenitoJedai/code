@@ -29,6 +29,7 @@ namespace MathMLExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // 2013-08-23 Chrome no longer supports mathML?
             // http://en.wikipedia.org/wiki/MathML
 
             page.InteractiveNumber.innerText = "500";

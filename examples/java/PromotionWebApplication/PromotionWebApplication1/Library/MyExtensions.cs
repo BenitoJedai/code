@@ -83,7 +83,7 @@ var pageTracker = _gat._getTracker('UA-13087448-1');
 pageTracker._setDomainName('.jsc-solutions.net');
 pageTracker._trackPageview();
 } catch(err) { }
-").apply(Native.Window);
+").apply(Native.window);
 						}
 					);
 				};

@@ -69,7 +69,7 @@ namespace PromotionWebApplication1.Library
 						{
 							if (InternalGoogleAnalytics == null)
 							{
-								InternalGoogleAnalytics = (GoogleAnalytics)new IFunction("return _gat;").apply(Native.Window);
+								InternalGoogleAnalytics = (GoogleAnalytics)new IFunction("return _gat;").apply(Native.window);
 							}
 
 							e(InternalGoogleAnalytics);

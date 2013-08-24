@@ -141,7 +141,7 @@
     <Content Include="Design\Images\Internet_Explorer_7_Logo.png" />
     <Content Include="Design\WebBrowsers.htm" />
     <Content Include="My.UltraSource\About.htm" />
-    <Content Include="My.UltraSource\WebBrowsers.htm" />
+    <Content Include="My.UltraSource\XWebBrowsers.htm" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

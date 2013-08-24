@@ -114,14 +114,14 @@ namespace GameOfLife.js
             vv.SetCanvasSize(new Point(cx * w, cy * h));
 
 
-            vv.SetLocation(new Rectangle { Left = 0, Top = 0, Width = Native.Window.Width, Height = Native.Window.Height });
+            vv.SetLocation(new Rectangle { Left = 0, Top = 0, Width = Native.window.Width, Height = Native.window.Height });
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     Console.WriteLine("onresize");
-                    vv.SetLocation(new Rectangle { Left = 0, Top = 0, Width = Native.Window.Width, Height = Native.Window.Height });
-
+                    vv.SetLocation(new Rectangle { Left = 0, Top = 0, Width = Native.window.Width, Height = Native.window.Height });
+                    
                 };
 
             vv.Layers.Canvas.style.backgroundColor = Color.White;

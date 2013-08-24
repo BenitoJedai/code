@@ -99,7 +99,7 @@ namespace SubSquare.source.js
                             , _bg
                         );
 
-                        this.Base.Dispose();
+                        this.Base.Orphanize();
                     };
                 }
             }

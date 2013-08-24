@@ -10,15 +10,16 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using FlashTowerDefenseApp.Components;
-using FlashTowerDefenseApp.HTML.Pages;
+using TestReactiveExtensions;
+using TestReactiveExtensions.Design;
+using TestReactiveExtensions.HTML.Pages;
 
-namespace FlashTowerDefenseApp
+namespace TestReactiveExtensions
 {
     /// <summary>
-    /// This type will run as JavaScript.
+    /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -26,10 +27,8 @@ namespace FlashTowerDefenseApp
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page)
+        public Application(IApp page)
         {
-            // Initialize MySprite1
-            new MySprite1().AttachSpriteToDocument();
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
