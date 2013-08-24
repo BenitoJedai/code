@@ -78,19 +78,26 @@ interface THREE.AnimationHandlerType
 
 };
 
+interface THREE.Camera : THREE.Object3D
+{
+	attribute THREE.Matrix4  projectionMatrix;
+
+	void lookAt(THREE.Vector3 target);
+};
+
 [Constructor(double  left, double right, double top, double bottom, double near, double far)]
-interface THREE.OrthographicCamera 
+interface THREE.OrthographicCamera :  THREE.Camera 
 {
 
 };
 
 [Constructor(double x, double ratio, double a, double fov)]
-interface THREE.PerspectiveCamera 
+interface THREE.PerspectiveCamera :  THREE.Camera 
 { 
 	attribute double aspect; 
 
 	void updateProjectionMatrix();
-	void lookAt(THREE.Vector3 target);
+
 	void add(any e);
 
 	attribute double  fov;
@@ -99,7 +106,7 @@ interface THREE.PerspectiveCamera
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  up;
 
-	attribute THREE.Matrix4  projectionMatrix;
+
 
 
 };

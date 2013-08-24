@@ -37,7 +37,7 @@ namespace SubSquare.source.js.Controls
                 {
                     a();
 
-                    Control.Dispose();
+                    Control.Orphanize();
                 };
         }
 
@@ -61,8 +61,8 @@ namespace SubSquare.source.js.Controls
                     var r = Rectangle.Of(
                             0,
                             0,
-                            Native.Window.Width,
-                            Native.Window.Height
+                            Native.window.Width,
+                            Native.window.Height
                         );
 
                     Console.WriteLine("bounds: " + r);

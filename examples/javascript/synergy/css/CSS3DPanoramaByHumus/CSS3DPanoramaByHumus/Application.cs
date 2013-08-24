@@ -107,13 +107,7 @@ namespace CSS3DPanoramaByHumus
             renderer.setSize(Native.window.Width, Native.window.Height);
             renderer.domElement.AttachToDocument();
 
-            var target = new THREE.Vector3();
-
-            var lon = 90.0;
-            var lat = 0.0;
-            var phi = 0.0;
-            var theta = 0.0;
-
+            #region onresize
             Native.window.onresize +=
                 delegate
                 {
@@ -122,6 +116,18 @@ namespace CSS3DPanoramaByHumus
 
                     renderer.setSize(Native.window.Width, Native.window.Height);
                 };
+            #endregion
+
+            var target = new THREE.Vector3();
+
+            var lon = 90.0;
+            var lat = 0.0;
+            var phi = 0.0;
+            var theta = 0.0;
+
+
+
+      
 
             var drag = false;
 
@@ -151,6 +157,43 @@ namespace CSS3DPanoramaByHumus
                     renderer.render(scene, camera);
 
                 };
+
+            #region ontouchmove
+            var touchX = 0;
+            var touchY = 0;
+
+            Native.document.body.ontouchstart +=
+                e =>
+                {
+                    e.preventDefault();
+
+                    var touch = e.touches[0];
+
+                    touchX = touch.screenX;
+                    touchY = touch.screenY;
+
+                };
+
+
+            Native.document.body.ontouchmove +=
+              e =>
+              {
+                  e.preventDefault();
+
+                  var touch = e.touches[0];
+
+                  lon -= (touch.screenX - touchX) * 0.1;
+                  lat += (touch.screenY - touchY) * 0.1;
+
+                  touchX = touch.screenX;
+                  touchY = touch.screenY;
+
+              };
+            #endregion
+
+
+
+
 
 
             #region camera rotation

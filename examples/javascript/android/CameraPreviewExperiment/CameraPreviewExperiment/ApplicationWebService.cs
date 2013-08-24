@@ -1,4 +1,5 @@
 using android.app;
+using android.content.pm;
 using android.graphics;
 using android.view;
 using ScriptCoreLib;
@@ -247,7 +248,12 @@ namespace CameraPreviewExperiment
                 p.setPictureFormat(ImageFormat.NV21);
                 p.setPreviewFormat(ImageFormat.NV21);
 
-                p.setRotation(0);
+                //D/DOMX    (  127): ERROR: failed check:(eError == OMX_ErrorNone) || (eError == OMX_ErrorNoMore) - returning error: 0x80001005 - Error returned from OMX API in ducati
+                //E/CameraHAL(  127): Error while configuring rotation 0x80001005
+                // http://questiontrack.com/galaxy-nexus-specificaly-camera-startpreview-failed-993603.html
+                // http://stackoverflow.com/questions/16839869/orientation-error-causing-crash
+
+                ////p.setRotation(0);
 
                 #region setPictureSize
                 var s = p.getSupportedPictureSizes();
@@ -355,6 +361,12 @@ namespace CameraPreviewExperiment
                                    log("at runOnUiThread...");
                                    System.Console.WriteLine("at runOnUiThread");
 
+                                   // solve issue with callback not being called: release the camera and try again. It usually works.
+                                   //To solve issue with rotation 0x80001005: restart app / service
+
+                                   // http://stackoverflow.com/questions/13546788/camera-takepicture-not-working-on-my-jb-gb-froyo-phones
+                                   aa.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
 
                                    dummy = new SurfaceView(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext);
 
@@ -388,6 +400,7 @@ namespace CameraPreviewExperiment
                                                    //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(3) > 0
                                                    //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(2) > 0
                                                    //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(1) > 0
+                                                   #region setPreviewCallbackWithBuffer
                                                    camera.setPreviewCallbackWithBuffer(
                                                        new XCameraPreviewCallback
                                                        {
@@ -472,6 +485,8 @@ namespace CameraPreviewExperiment
                                                                }
                                                        }
                                                    );
+                                                   #endregion
+
 
                                                    log("startPreview");
                                                    camera.startPreview();

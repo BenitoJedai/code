@@ -14,6 +14,7 @@ namespace  ScriptCoreLib.JavaScript.Net
     /// Provides a way to monitor web resource, and get notified as the resource changes
     /// </summary>
     [Script]
+    [System.Obsolete]
     public class UrlMonitor
     {
         public readonly Timer MonitorTimer = new Timer();
@@ -80,7 +81,7 @@ namespace  ScriptCoreLib.JavaScript.Net
             }
             catch
             {
-                Native.Window.alert(" send error ");
+                Native.window.alert(" send error ");
             }
 
             r.InvokeOnComplete(
