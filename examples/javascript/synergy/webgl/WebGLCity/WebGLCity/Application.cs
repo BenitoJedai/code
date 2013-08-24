@@ -36,18 +36,19 @@ namespace WebGLCity
             // decent simcity comes to mind
             // http://www.mrdoob.com/lab/javascript/webgl/city/01/
 
-            var renderer = this.renderer.renderer;
+            //var renderer = this.renderer.renderer;
 
-            //var renderer = new THREE.WebGLRenderer(
-            //    new { antialias = false, alpha = false }
-            //);
+            var renderer = new THREE.WebGLRenderer(
+                new { antialias = false, alpha = false }
+            );
 
-            //renderer.setClearColor(new THREE.Color(0xd8e7ff));
+            renderer.setClearColor(new THREE.Color(0xd8e7ff));
 
             renderer.setSize(Native.window);
 
             // INodeConvertible?
             renderer.domElement.AttachToDocument();
+            renderer.domElement.style.SetLocation(0, 0);
 
             var camera = new THREE.PerspectiveCamera(40, Native.window.Width / Native.window.Height, 1, 3000);
             camera.position.y = 80;
@@ -64,7 +65,11 @@ namespace WebGLCity
 
 
 
-            var plane = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshBasicMaterial(new { color = 0x101018 }));
+            var plane = new THREE.Mesh(
+                new THREE.PlaneGeometry(2000, 2000),
+                new THREE.MeshBasicMaterial(new { color = 0x101018 })
+            );
+
             plane.rotation.x = -90 * Math.PI / 180;
             scene.add(plane);
 
@@ -73,7 +78,7 @@ namespace WebGLCity
             var lastTime = Native.window.performance.now() / 1000;
 
 
-   
+
 
             var building_geometry = new THREE.CubeGeometry(1, 1, 1);
             building_geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0));
@@ -159,17 +164,12 @@ namespace WebGLCity
                         }
 
 
-                    var context = new CanvasRenderingContext2D(
-                        512, 1024
-                    );
+                    var context = new CanvasRenderingContext2D(512, 1024)
+                    {
+                        ImageSmoothingEnabled = false
+                    };
 
-                    // https://github.com/LearnBoost/node-canvas/issues/211
-                    // update scriptcorelib? why isnt this defined in idl?
-                    // what about patternQuality ?
-                    (context as dynamic).imageSmoothingEnabled = false;
-                    (context as dynamic).webkitImageSmoothingEnabled = false;
-                    (context as dynamic).mozImageSmoothingEnabled = false;
-
+          
                     context.drawImage(context1.canvas, 0, 0, context.canvas.width, context.canvas.height);
 
                     return context.canvas;

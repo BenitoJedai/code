@@ -11,7 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IElement : INode
     {
-		// http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
+        // http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
 
         public string tagName;
 
@@ -25,7 +25,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
-		// http://msdn.microsoft.com/en-us/library/ms536429(VS.85).aspx
+        // http://msdn.microsoft.com/en-us/library/ms536429(VS.85).aspx
 
         public object getAttribute(string name)
         {
@@ -41,7 +41,19 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
         }
 
-		// https://developer.mozilla.org/En/DOM/Node.attributes
-		public IAttr[] attributes;
+        // https://developer.mozilla.org/En/DOM/Node.attributes
+        public IAttr[] attributes;
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/element?redirectlocale=en-US&redirectslug=DOM%2Felement
+        //public INode[] querySelectorAll( selectors[, nsresolver] )
+        public INode[] querySelectorAll(string selectors)
+        {
+            return null;
+        }
+
+        public INode[] querySelectorAll(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum selectors)
+        {
+            return null;
+        }
     }
 }

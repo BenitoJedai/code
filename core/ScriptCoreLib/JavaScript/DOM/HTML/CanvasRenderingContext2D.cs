@@ -70,5 +70,25 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
         }
 
+
+        public bool ImageSmoothingEnabled
+        {
+
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                // https://github.com/LearnBoost/node-canvas/issues/211
+                // update scriptcorelib? why isnt this defined in idl?
+                // what about patternQuality ?
+
+                dynamic context = this;
+
+                context.imageSmoothingEnabled = value;
+                context.webkitImageSmoothingEnabled = value;
+                context.mozImageSmoothingEnabled = value;
+            }
+        }
+
+
     }
 }

@@ -8,7 +8,6 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
 {
-    [Script]
     internal static class Extensions
     {
 
