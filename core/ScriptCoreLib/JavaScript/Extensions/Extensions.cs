@@ -178,10 +178,10 @@ namespace ScriptCoreLib.JavaScript.Extensions
         [Obsolete]
         public static void SpawnEntrypointWithBrandning(this Type alias)
         {
-            if (Native.Window == null)
+            if (Native.window == null)
                 return;
 
-            Native.Window.onload +=
+            Native.window.onload +=
                 delegate
                 {
                     IHTMLImage i = "assets/ScriptCoreLib/jsc.png";

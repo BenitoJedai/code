@@ -194,7 +194,7 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
             var canvas = new IHTMLDiv();
 
             canvas.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            canvas.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             canvas.style.backgroundColor = Color.Black;
             canvas.AttachToDocument();
             //canvas.style.position = IStyle.PositionEnum.relative;
@@ -207,8 +207,8 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
 
                      var zoom = 24;
 
-                     Func<int> RoomWidth = () => (Native.Window.Width / zoom).ToInt32();
-                     Func<int> RoomHeight = () => ((Native.Window.Height /*- scull.height - 16*/) / zoom).ToInt32();
+                     Func<int> RoomWidth = () => (Native.window.Width / zoom).ToInt32();
+                     Func<int> RoomHeight = () => ((Native.window.Height /*- scull.height - 16*/) / zoom).ToInt32();
 
                      var score = 0;
                      var status = new IHTMLDiv("0$");
@@ -223,24 +223,24 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
                      scull.AttachTo(canvas);
                      scull.style.SetLocation(
                          8,
-                         Native.Window.Height - scull.height - 8);
+                         Native.window.Height - scull.height - 8);
 
 
                      status.AttachTo(canvas);
                      status.style.SetLocation(
                          8 + scull.width + 8,
-                         Native.Window.Height - scull.height
+                         Native.window.Height - scull.height
                      );
-                     Native.Window.onresize +=
+                     Native.window.onresize +=
                          delegate
                          {
-                             canvas.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+                             canvas.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
                              scull.style.SetLocation(
                                   8,
-                                  Native.Window.Height - scull.height - 8);
+                                  Native.window.Height - scull.height - 8);
                              status.style.SetLocation(
                                     8 + scull.width + 8,
-                                    Native.Window.Height - scull.height
+                                    Native.window.Height - scull.height
                                 );
                          };
 
@@ -414,7 +414,7 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
                              ev.StopPropagation();
                              var KeyCode = PreviousKeyCode;
 
-                             if (ev.CursorX < Native.Window.Width / 2)
+                             if (ev.CursorX < Native.window.Width / 2)
                              {
                                  if (KeyCode == 38) KeyCode = 37;
                                  else if (KeyCode == 37) KeyCode = 40;

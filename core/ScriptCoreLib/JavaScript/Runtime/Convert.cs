@@ -133,11 +133,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
                 enc4 = chr3 & 63;
 
-                if (Native.Window.isNaN(chr2))
+                if (Native.window.isNaN(chr2))
                 {
                     enc3 = enc4 = 64;
                 }
-                else if (Native.Window.isNaN(chr3))
+                else if (Native.window.isNaN(chr3))
                 {
                     enc4 = 64;
                 }

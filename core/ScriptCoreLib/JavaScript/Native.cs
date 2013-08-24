@@ -17,14 +17,14 @@ namespace ScriptCoreLib
         [Script]
         public static class Native
         {
-            #region window
-            [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-            [Obsolete("window", true)]
-            [Script(ExternalTarget = "window")]
-            static public IWindow Window;
+            //#region window
+            //[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+            //[Obsolete("window", true)]
+            //[Script(ExternalTarget = "window")]
+            //static public IWindow Window;
 
-            // web worker will not have this. this is the global this object
-            #endregion
+            //// web worker will not have this. this is the global this object
+            //#endregion
 
             // 60 issues to deal with before we can recompile
             const bool error = false;

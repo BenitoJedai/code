@@ -1,0 +1,109 @@
+// http://dev.w3.org/2011/webrtc/editor/webrtc.html
+// http://www.webrtc.org/reference/native-apis
+// http://www.webrtc.org/reference/getting-started/
+// http://www.easyrtc.com/
+// http://www.webrtc.org/
+
+interface RTCError {
+	readonly    attribute DOMString  name;
+	readonly    attribute DOMString? message;
+};
+
+interface RTCSdpError : RTCError {
+	readonly    attribute long sdpLineNumber;
+};
+
+//[Constructor (optional RTCSessionDescriptionInit descriptionInitDict)]
+[Constructor (optional any descriptionInitDict)]
+interface RTCSessionDescription {
+	//attribute RTCSdpType? type;
+	attribute DOMString?  sdp;
+	//serializer = {attribute};
+};
+
+//[Constructor (optional RTCIceCandidateInit candidateInitDict)]
+[Constructor (optional any candidateInitDict)]
+interface RTCIceCandidate {
+	attribute DOMString?      candidate;
+	attribute DOMString?      sdpMid;
+	attribute unsigned short? sdpMLineIndex;
+	//serializer = {attribute};
+};
+
+//[Constructor(DOMString type, RTCPeerConnectionIceEventInit eventInitDict)]
+[Constructor(DOMString type, any eventInitDict)]
+interface RTCPeerConnectionIceEvent : Event {
+	readonly    attribute RTCIceCandidate candidate;
+};
+
+
+//partial 
+interface RTCPeerConnection {
+	//RTCDataChannel createDataChannel ([TreatNullAs=EmptyString] DOMString label, optional RTCDataChannelInit dataChannelDict);
+	attribute EventHandler ondatachannel;
+
+	//void getStats (MediaStreamTrack? selector, RTCStatsCallback successCallback, RTCPeerConnectionErrorCallback failureCallback);
+
+
+
+	   void setIdentityProvider (DOMString provider, optional DOMString protocol, optional DOMString username);
+    void getIdentityAssertion ();
+    //readonly    attribute RTCIdentityAssertion? peerIdentity;
+                attribute EventHandler          onidentityresult;
+
+};
+
+interface RTCDataChannel : EventTarget {
+	readonly    attribute DOMString           label;
+	readonly    attribute boolean             ordered;
+	readonly    attribute unsigned short?     maxRetransmitTime;
+	readonly    attribute unsigned short?     maxRetransmits;
+	readonly    attribute DOMString           protocol;
+	readonly    attribute boolean             negotiated;
+	readonly    attribute unsigned short?     id;
+	//readonly    attribute RTCDataChannelState readyState;
+	readonly    attribute unsigned long       bufferedAmount;
+	attribute EventHandler        onopen;
+	attribute EventHandler        onerror;
+	attribute EventHandler        onclose;
+	void close ();
+	attribute EventHandler        onmessage;
+	attribute DOMString           binaryType;
+	void send (DOMString data);
+	void send (Blob data);
+	void send (ArrayBuffer data);
+	void send (ArrayBufferView data);
+};
+
+//[Constructor(DOMString type, RTCDataChannelEventInit eventInitDict)]
+[Constructor(DOMString type, any eventInitDict)]
+interface RTCDataChannelEvent : Event {
+	readonly    attribute RTCDataChannel channel;
+};
+
+//[NoInterfaceObject]
+interface RTCDTMFSender {
+	readonly    attribute boolean          canInsertDTMF;
+	void insertDTMF (DOMString tones, optional long duration, optional long interToneGap);
+	//readonly    attribute MediaStreamTrack track;
+	attribute EventHandler     ontonechange;
+	readonly    attribute DOMString        toneBuffer;
+	readonly    attribute long             duration;
+	readonly    attribute long             interToneGap;
+};
+
+//[Constructor(DOMString type, RTCDTMFToneChangeEventInit eventInitDict)]
+[Constructor(DOMString type, any eventInitDict)]
+interface RTCDTMFToneChangeEvent : Event {
+	readonly    attribute DOMString tone;
+};
+
+interface RTCStatsReport {
+    //getter RTCStats (DOMString id);
+};
+
+//[Constructor(DOMString type, MediaStreamEventInit eventInitDict)]
+[Constructor(DOMString type, any eventInitDict)]
+interface MediaStreamEvent : Event {
+    //readonly    attribute MediaStream? stream;
+};
