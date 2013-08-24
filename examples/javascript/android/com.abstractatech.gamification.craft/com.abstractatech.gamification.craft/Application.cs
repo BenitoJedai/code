@@ -36,6 +36,9 @@ namespace com.abstractatech.gamification.craft
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // Process com.abstractatech.gamification.craft (pid 1456) has died.
+            // http://stackoverflow.com/questions/7316680/process-has-died
+
             // http://zproxy.wordpress.com/2012/11/13/dos-warcraft/
             // load the shadow land
 
@@ -99,7 +102,8 @@ namespace com.abstractatech.gamification.craft
 
 
             #region arena
-            var map = new Point(2048 * 4, 2048 * 5);
+            // could run out of memory fast!
+            var map = new Point(2048 * 3, 2048 * 2);
 
             var arena = new ArenaControl();
 
@@ -171,7 +175,7 @@ namespace com.abstractatech.gamification.craft
             var scalarx = 0;
 
             new WarcraftImages().ImageElements().Randomize()
-                //.Take(4)
+                .Take(6)
                 .WithEachIndex(
                 (img, index) =>
                 {
