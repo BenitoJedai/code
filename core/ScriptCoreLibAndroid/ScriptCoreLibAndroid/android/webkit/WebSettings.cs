@@ -12,6 +12,12 @@ namespace android.webkit
     [Script(IsNative = true)]
     public abstract class WebSettings
     {
+        public static readonly int LOAD_NO_CACHE = 0x00000002;
+
+        public void setCacheMode(int value)
+        {
+        }
+
         public void setJavaScriptEnabled(bool value)
         {
         }
