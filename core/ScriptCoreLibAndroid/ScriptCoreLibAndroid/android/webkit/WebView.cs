@@ -16,6 +16,10 @@ namespace android.webkit
 
         public static int SCROLLBARS_OUTSIDE_OVERLAY;
 
+        public void freeMemory()
+        { 
+        }
+
         public override void setScrollBarStyle(int style)
         {
         }
