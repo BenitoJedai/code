@@ -20,6 +20,10 @@ namespace ParallelForEachExperiment
 
         private async void button1_Click(object sender, System.EventArgs e)
         {
+            // see also
+            // X:\jsc.svn\examples\javascript\Test\TestThreadStartAsWebWorker\TestThreadStartAsWebWorker\Application.cs
+
+            // 
             button1.Enabled = false;
 
             // Switch to a thread pool thread

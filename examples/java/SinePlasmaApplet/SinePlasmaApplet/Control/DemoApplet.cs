@@ -78,7 +78,7 @@ namespace SinePlasma.source.java
 
 		Image img;
 
-
+        //  public  void paint_06000005(Graphics g)
 		public override void paint(global::java.awt.Graphics g)
 		{
 			if (g == null)

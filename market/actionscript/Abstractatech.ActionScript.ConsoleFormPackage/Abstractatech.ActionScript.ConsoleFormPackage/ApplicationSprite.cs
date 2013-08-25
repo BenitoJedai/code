@@ -256,12 +256,12 @@ var f = null;
 
         public ApplicationSprite()
         {
-            this.loaderInfo.uncaughtErrorEvents.uncaughtError +=
-                e =>
-                {
-                    Console.WriteLine("error: " + new { e.errorID, e.error, e } + "\n run in flash debugger for more details!");
+            //this.loaderInfo.uncaughtErrorEvents.uncaughtError +=
+            //    e =>
+            //    {
+            //        Console.WriteLine("error: " + new { e.errorID, e.error, e } + "\n run in flash debugger for more details!");
 
-                };
+            //    };
 
             this.InvokeWhenStageIsReady(
                    () =>

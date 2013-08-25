@@ -79,11 +79,18 @@ namespace CanvasPlasma
 
             Native.window.onframe += delegate
             {
+                if (canvas == null)
+                    return;
+
+
                 if (DefaultWidth != Native.window.Width)
                     if (DefaultHeight != Native.window.Height)
                     {
+
                         canvas.Orphanize();
                         InitializeContent();
+
+                        canvas = null;
                         return;
                     }
 

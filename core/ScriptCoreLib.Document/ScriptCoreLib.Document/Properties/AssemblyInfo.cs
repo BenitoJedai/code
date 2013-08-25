@@ -36,7 +36,10 @@ using ScriptCoreLib;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: 
-	Script(IsCoreLib = true),
-	ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.ActionScript.DOM.ExternalContext))
-]
+// to be moved to market?
+[assembly: Obfuscation(Feature = @"merge")]
+
+//[assembly: 
+//    Script(IsCoreLib = true),
+//    ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.ActionScript.DOM.ExternalContext))
+//]

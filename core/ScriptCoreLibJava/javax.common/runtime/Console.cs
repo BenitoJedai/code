@@ -12,7 +12,7 @@ using java.text;
 namespace javax.common.runtime
 {
     [Script]
-	[System.Obsolete]
+	[System.Obsolete("", true)]
 	public sealed class Console
     {
         

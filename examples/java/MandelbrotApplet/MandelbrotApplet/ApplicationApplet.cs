@@ -3,6 +3,7 @@ using java.awt;
 using java.awt.image;
 using java.lang;
 using Mandelbrot;
+using System;
 
 namespace MandelbrotApplet
 {
@@ -12,12 +13,32 @@ namespace MandelbrotApplet
         {
             base.resize(MandelbrotProvider.DefaultWidth, MandelbrotProvider.DefaultHeight);
 
-
+            //Console
+            System.Console.WriteLine("init");
 
             this.buffer = new MemoryImageSource(MandelbrotProvider.DefaultWidth, MandelbrotProvider.DefaultHeight, MandelbrotProvider.DrawMandelbrotSet(0), 0, MandelbrotProvider.DefaultWidth);
 
             buffer.setAnimated(true);
             buffer.setFullBufferUpdates(true);
+
+            var shift = 0;
+
+            Action onframe = delegate
+            {
+
+                var a = MandelbrotProvider.DrawMandelbrotSet(shift);
+                for (int i = 0; i < a.Length; i++)
+                {
+                    a[i] = (int)(0xFF000000u | (uint)a[i]);
+                }
+
+                this.buffer.newPixels();
+                this.paint(this.getGraphics());
+
+                shift++;
+            };
+
+            onframe();
 
             this.img = this.createImage(buffer);
 
@@ -25,20 +46,12 @@ namespace MandelbrotApplet
             var t = new System.Threading.Thread(
                 delegate()
                 {
-                    var shift = 0;
+                    System.Console.WriteLine("Thread start");
 
                     while (true)
                     {
-                        var a = MandelbrotProvider.DrawMandelbrotSet(shift);
-                        for (int i = 0; i < a.Length; i++)
-                        {
-                            a[i] = (int)(0xFF000000u | (uint)a[i]);
-                        }
+                        onframe();
 
-                        this.buffer.newPixels();
-                        this.paint(this.getGraphics());
-
-                        shift++;
                         Thread.yield();
                     }
                 }
@@ -69,7 +82,7 @@ namespace MandelbrotApplet
         Image img;
         public MemoryImageSource buffer;
 
-     
+
 
     }
 }

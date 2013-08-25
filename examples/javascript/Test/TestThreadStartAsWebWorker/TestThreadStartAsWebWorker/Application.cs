@@ -1,0 +1,105 @@
+using ScriptCoreLib;
+using ScriptCoreLib.Delegates;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Components;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using System;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Xml.Linq;
+using TestThreadStartAsWebWorker;
+using TestThreadStartAsWebWorker.Design;
+using TestThreadStartAsWebWorker.HTML.Pages;
+
+namespace TestThreadStartAsWebWorker
+{
+    public static class X
+    {
+        public static void JoinAsync(this Thread t, Action yield)
+        {
+            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                timer =>
+                {
+                    if (t.IsAlive)
+                        return;
+
+                    // { goo = from thread } 
+                    yield();
+
+                    timer.Stop();
+                }
+            ).StartInterval(1000 / 10);
+        }
+    }
+    /// <summary>
+    /// Your client side code running inside a web browser as JavaScript.
+    /// </summary>
+    public sealed class Application
+    {
+        public readonly ApplicationWebService service = new ApplicationWebService();
+
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IApp page)
+        {
+            // X:\jsc.svn\examples\java\ParallelForEachExperiment\ParallelForEachExperiment\ApplicationControl.cs
+
+            var t = new Thread(
+                new ParameterizedThreadStart(
+                    o =>
+                    {
+                        // we have a local copy of the object.
+                        var oo = o as XData;
+                        // all member access methods should be non blocking
+                        // if they need to span across thread boundaries
+
+                        Console.WriteLine("working on the other thread");
+
+
+                        // update local, then update parent memory
+                        oo.goo = "from thread";
+
+                        // or should the fields be transferable dictionary?
+                        // we could just send the data part back now
+                    }
+                )
+            );
+
+            var ooo = new XData { goo = "goo1" };
+
+            t.Start(
+                // we are sending in data/objects
+                ooo
+            );
+
+
+            t.JoinAsync(
+                delegate
+                {
+                    Console.WriteLine(new { ooo.goo });
+                }
+            );
+
+            //t.IsAlive
+
+            @"Hello world".ToDocumentTitle();
+            // Send data from JavaScript to the server tier
+            service.WebMethod2(
+                @"A string from JavaScript.",
+                value => value.ToDocumentTitle()
+            );
+        }
+
+    }
+
+    class XData
+    {
+        public string goo;
+    }
+}

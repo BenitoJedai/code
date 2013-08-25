@@ -17,6 +17,12 @@ namespace FormsLinqToObjects
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            //            symbol  : method Dispose_06000a29(boolean)
+            //location: class ScriptCoreLibJava.BCLImplementation.System.Windows.Forms.__UserControl
+            //        super.Dispose_06000a29(disposing);
+            //             ^
+
+
             // Note: This jsc project does not support unmanaged resources.
             base.Dispose(disposing);
         }

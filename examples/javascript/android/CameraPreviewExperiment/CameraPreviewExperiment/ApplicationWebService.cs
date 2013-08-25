@@ -368,6 +368,35 @@ namespace CameraPreviewExperiment
                                    aa.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 
+
+                                   //D/Camera  (28463): app passed NULL surface
+                                   //I/System.Console(28463): after setPreviewDisplay
+                                   //W/SurfaceTexture( 1439): [CameraPreviewExperiment.Activities/CameraPreviewExperiment.Activities.ApplicationWebServiceActivity] cancelBuffer: SurfaceTexture has been abandoned!
+                                   //D/memalloc(28463): /dev/pmem: Unmapping buffer base:0x55afb000 size:15032320 offset:13496320
+                                   //D/memalloc(28463): /dev/pmem: Unmapping buffer base:0x5969b000 size:16568320 offset:15032320
+                                   //D/memalloc(28463): /dev/pmem: Unmapping buffer base:0x56951000 size:12042240 offset:10506240
+                                   //I/Adreno200-EGLSUB(28463): <ConfigWindowMatch:2078>: Format RGBA_8888.
+                                   //I/System.Console(28463): *
+                                   //I/System.Console(28463): *
+                                   //I/System.Console(28463): yield_surfaceChanged
+                                   //I/System.Console(28463): *
+                                   //I/System.Console(28463): *
+                                   //I/System.Console(28463): event!
+                                   //D/dalvikvm(28463): GC_FOR_ALLOC freed 6K, 25% free 6544K/8675K, paused 34ms
+                                   //I/dalvikvm-heap(28463): Grow heap (frag case) to 6.925MB for 460816-byte allocation
+                                   //D/dalvikvm(28463): GC_FOR_ALLOC freed 0K, 24% free 6994K/9187K, paused 33ms
+                                   //I/System.Console(28463): *
+                                   //I/System.Console(28463): *
+                                   //I/System.Console(28463): event!
+                                   //D/CameraService( 1442): startPreview (pid 28463)
+                                   //D/CameraService( 1442): OMADM DCMO CAMERA flag = 1
+                                   //D/QualcommCameraHardware( 1442): previewEnabled()  E
+                                   //D/QualcommCameraHardware( 1442): previewEnabled() X, mCameraRunning=0 mPreviewStartInProgress=0
+                                   //I/mm-camera( 1442): int android::set_preview_window(camera_device*, preview_stream_ops*): E window = 0x0
+                                   //I/QualcommCameraHardware( 1442): setPreviewWindow: E, window 0x0, mPreviewWindow 0x0
+                                   //I/mm-camera( 1442): int android::set_preview_window(camera_device*, preview_stream_ops*): X
+
+
                                    dummy = new SurfaceView(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext);
 
                                    //dummy.setWidth(96);
