@@ -66,7 +66,7 @@ namespace FlashBootstrapsSecondaryApplication
             //    Console.WriteLine("looking for myself... done!");
 
             //};
-            Native.Window.requestAnimationFrame +=
+            Native.window.requestAnimationFrame +=
                 delegate
                 {
                     Native.Document.getElementsByTagName("embed").WithEach(

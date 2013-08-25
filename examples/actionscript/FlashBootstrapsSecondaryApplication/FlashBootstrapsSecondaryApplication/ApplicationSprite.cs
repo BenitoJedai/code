@@ -173,12 +173,12 @@ var f = null;
 
 
 
-            this.loaderInfo.uncaughtErrorEvents.uncaughtError +=
-           e =>
-           {
-               content.t.Text = ("error: " + new { e.errorID, e.error, e } + "\n run in flash debugger for more details!");
+            // this.loaderInfo.uncaughtErrorEvents.uncaughtError +=
+            //e =>
+            //{
+            //    content.t.Text = ("error: " + new { e.errorID, e.error, e } + "\n run in flash debugger for more details!");
 
-           };
+            //};
 
             content.t.Text = "before InvokeWhenStageIsReady";
 

@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 
 namespace FlashGoogleMaps
 {
+    // The Google Maps API for Flash has been officially deprecated as of September 2, 2011. The API will continue to work until September 2, 2014.
     public sealed class ApplicationSprite : FlashGoogleMapsExample.ActionScript.FlashGoogleMapsExample
     {
         /*

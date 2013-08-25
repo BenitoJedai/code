@@ -393,6 +393,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
         private static void WriteCacheManifest(InternalGlobal g, System.Web.HttpApplication that, StringAction WriteLine)
         {
+            // should the app be able to control manifest on its own?
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130330-cache-manifest
 
             that.Response.ContentType = WebApplicationCacheManifest.ManifestContentType;
@@ -440,7 +442,8 @@ namespace ScriptCoreLib.Ultra.WebService
                 if (Command.EndsWith(".css"))
                     w.AppendLine(Command);
 
-
+                if (Command.EndsWith(".swf"))
+                    w.AppendLine(Command);
 
             }
 

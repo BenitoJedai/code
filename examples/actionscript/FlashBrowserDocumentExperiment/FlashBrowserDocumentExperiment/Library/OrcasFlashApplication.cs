@@ -10,12 +10,11 @@ using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.DOM;
 using ScriptCoreLib.ActionScript.DOM.Extensions;
 using ScriptCoreLib.ActionScript.DOM.HTML;
+using Abstractatech.ActionScript.ConsoleFormPackage;
 
 namespace FlashBrowserDocument.ActionScript
 {
-    /// <summary>
-    /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
-    /// </summary>
+
     //[Script, ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight, Feed = DefaultFeed)]
     //[SWF(width = DefaultWidth, height = DefaultHeight)]
     public class FlashBrowserDocument : Sprite
@@ -44,6 +43,10 @@ namespace FlashBrowserDocument.ActionScript
         /// </summary>
         public FlashBrowserDocument()
         {
+            ConsoleFormPackageExperience.Initialize();
+
+            Console.WriteLine("ConsoleFormPackageExperience");
+
             var t = new TextField
             {
                 defaultTextFormat = new TextFormat { font = "Courier" },
@@ -72,9 +75,11 @@ namespace FlashBrowserDocument.ActionScript
             {
 
 
+                Console.WriteLine("before ExternalAuthentication");
                 ExternalContext.ExternalAuthentication(
                     context =>
                     {
+                        Console.WriteLine("at ExternalAuthentication");
                         t.text = "after ExternalAuthentication";
 
                         context.Document.body.style.backgroundColor = "#afafff";
@@ -141,6 +146,8 @@ namespace FlashBrowserDocument.ActionScript
                         DynamicChildImage.onclick +=
                             delegate
                             {
+                                Console.WriteLine("at DynamicChildImage onclick");
+
                                 DynamicChild.removeChild(DynamicChildImage);
                                 DynamicChild.innerHTML = "you have removed that image!";
 
@@ -157,6 +164,7 @@ namespace FlashBrowserDocument.ActionScript
                         DynamicChild.onclick +=
                             delegate
                             {
+                                Console.WriteLine("at DynamicChild onclick");
 
                             };
                     }

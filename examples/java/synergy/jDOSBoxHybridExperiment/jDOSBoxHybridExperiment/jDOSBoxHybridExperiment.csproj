@@ -110,6 +110,11 @@
       <Link>opensource\sourceforge\jdosbox\src_compiler\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="x:\opensource\sourceforge\jdosbox\src_j2se\**\*.*">
+      <Link>opensource\sourceforge\jdosbox\src_j2se\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
