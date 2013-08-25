@@ -48,7 +48,7 @@ namespace WebServiceLatencyBenchmarker
 
             bool once = false;
 
-            Native.Window.onfocus +=
+            Native.window.onfocus +=
                 e =>
                 {
                     if (once)
@@ -61,7 +61,7 @@ namespace WebServiceLatencyBenchmarker
         void WriteLine(string e)
         {
             new IHTMLDiv { innerText = e }.AttachToDocument();
-            Native.Window.scrollTo(0, Native.Document.body.clientHeight);
+            Native.window.scrollTo(0, Native.Document.body.clientHeight);
         }
 
         int Counter = 0;

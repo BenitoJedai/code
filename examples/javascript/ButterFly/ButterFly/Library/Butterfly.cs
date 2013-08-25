@@ -117,13 +117,13 @@ Click to capture pointer lock and see how the butterfly warps from left to right
                             }
 
                             if (x < -img.width / 2)
-                                x += Native.Window.Width;
+                                x += Native.window.Width;
 
                             if (y < -img.height / 2)
-                                y += Native.Window.Height;
+                                y += Native.window.Height;
 
-                            x = x % Native.Window.Width;
-                            y = y % Native.Window.Height;
+                            x = x % Native.window.Width;
+                            y = y % Native.window.Height;
                             #endregion
 
 
