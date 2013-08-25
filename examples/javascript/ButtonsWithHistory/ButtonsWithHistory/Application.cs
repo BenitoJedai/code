@@ -51,7 +51,7 @@ namespace ButtonsWithHistory
             page.Foo1.onclick +=
                 delegate
                 {
-                    Native.Window.history.pushState(
+                    Native.window.history.pushState(
                         data: null,
                         title: "/Button1",
                         url: "/Button1"
@@ -62,7 +62,7 @@ namespace ButtonsWithHistory
             page.Foo2.onclick +=
                 delegate
                 {
-                    Native.Window.history.pushState(
+                    Native.window.history.pushState(
                         data: null,
                         title: "/Button2",
                         url: "/Button2"
@@ -73,7 +73,7 @@ namespace ButtonsWithHistory
             page.Foo3.onclick +=
                 delegate
                 {
-                    Native.Window.history.pushState(
+                    Native.window.history.pushState(
                         data: null,
                         title: "/Button3",
                         url: "/Button3"
@@ -81,7 +81,7 @@ namespace ButtonsWithHistory
                     handler();
                 };
 
-            Native.Window.onpopstate +=
+            Native.window.onpopstate +=
                 delegate
                 {
                     handler();

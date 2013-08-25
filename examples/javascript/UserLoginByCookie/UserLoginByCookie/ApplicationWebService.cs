@@ -26,6 +26,25 @@ namespace UserLoginByCookie
 
         public void Handler(WebServiceHandler h)
         {
+            // http://samy.pl/evercookie/
+            // http://yro.slashdot.org/story/13/08/25/1521233/cookieless-web-tracking-using-https-etag
+
+            //Hey, a new visitor to the website? I wonder who he is?
+            //Well, I'll just drop a cookie on there to keep track of him... and, hmm, it seems he's blocking cookies.
+            //Oh well, let me just insert this bit of Javascript; that'll work just as well.
+            //Dear oh dear, it seems Javascript isn't working.
+            //No worries, I'll just insert a little 0-byte web-bug graphic and... wait? That's prevented as well?
+            //Damn it, Flash-cookie! That'll get him! WHAT?!?!? Disabled as well?
+            //E-Tag! That has to work, right?
+            //ARGH!!!!!
+
+            //Gee... I wonder if he's trying to tell me something like, oh I don't know, "I don't like being tracked".
+
+            //Nah, who doesn't like being pushed, filed, stamped, indexed, briefed, debriefed, or numbered? I wonder if there's some other way I can use...
+
+
+
+
             if (h.Context.Request.Path == "/Other")
             {
                 var Other = h.Applications[1];
