@@ -17,6 +17,11 @@ namespace android.app
     {
         public static int RESULT_OK;
 
+        public virtual void onLowMemory()
+        { 
+        
+        }
+
         public void sendBroadcast(Intent intent)
         {
         }
