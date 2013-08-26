@@ -21,7 +21,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
                         c.port1.start();
                         c.port2.start();
-
+                        
                         return c.port2;
                     }
                 ).ToArray()

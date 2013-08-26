@@ -61,7 +61,10 @@ namespace jsgif
             context.fillStyle = "rgb(20,0,200)";
             context.fillRect(30, 30, 55, 50);
 
-            encoder.addFrame(context);
+            encoder.addFrame(
+                context.getImageData(0, 0, context.canvas.width, context.canvas.height).data,
+                true
+            );
 
             encoder.finish();
 

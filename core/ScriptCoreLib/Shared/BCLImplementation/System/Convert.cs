@@ -115,7 +115,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         }
 
         #region Base64Key
-        internal readonly static string Base64Key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        internal const string Base64Key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 
 

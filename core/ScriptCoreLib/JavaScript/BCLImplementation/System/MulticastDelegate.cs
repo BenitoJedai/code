@@ -12,6 +12,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.List)]
         IArray<__Delegate> list = new IArray<__Delegate>();
 
+        //public __MulticastDelegate()
+        //{
+        //    list.push(this);
+        //}
+
         public __MulticastDelegate(object e, global::System.IntPtr p)
             :
             base(e, p)

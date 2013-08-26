@@ -19,12 +19,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public object Target { get { return this.InternalTarget; } }
 
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Delegate.get_Method()]
 
         // public MethodInfo Method { get; }
         // Method: "BAAABm4i9DaI0uFGgA1UPA"
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Method)]
+        // string instead?
         public global::System.IntPtr InternalMethod;
+
+        public IFunction InternalMethodReference;
 
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodInfo.cs
         public global::System.Reflection.MethodInfo Method
@@ -34,7 +36,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 // for now, this will only work with static methods
                 // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
 
-                var m = new __MethodInfo { InternalMethod = this.InternalMethod };
+                //global::System.Runtime.InteropServices.Expando
+                //ScriptCoreLib.JavaScript.Runtime.Expando.
+
+                var MethodToken = (string)(object)this.InternalMethod;
+
+                if (InternalMethodReference == null)
+                    InternalMethodReference = IFunction.Of(MethodToken);
+
+                var m = new __MethodInfo
+                {
+                    MethodToken = MethodToken,
+                    InternalMethodReference = InternalMethodReference
+                };
 
                 return (global::System.Reflection.MethodInfo)(object)m;
             }
@@ -54,6 +68,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
+
+        //public __Delegate()
+        //{
+
+        //}
+
+        // CLR, you using string?
+        //  protected Delegate(object target, string method);
         public __Delegate(object e, global::System.IntPtr p)
         {
             // X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
