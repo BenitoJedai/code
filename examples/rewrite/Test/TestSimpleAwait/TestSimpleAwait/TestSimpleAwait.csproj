@@ -50,7 +50,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"TestSimpleAwait.merged.exe" /AssemblyMerge:"TestSimpleAwait.exe" /EntryPointAssembly:"TestSimpleAwait.exe" /DiagnosticsTypesToAlsoMerge:System.Runtime.CompilerServices.AsyncTaskMethodBuilder,System.Runtime.CompilerServices.TaskAwaiter</PostBuildEvent>
+    <PostBuildEvent>start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"TestSimpleAwait.merged.exe" /AssemblyMerge:"TestSimpleAwait.exe" /EntryPointAssembly:"TestSimpleAwait.exe" /xDiagnosticsTypesToAlsoMerge:System.Runtime.CompilerServices.AsyncTaskMethodBuilder,System.Runtime.CompilerServices.TaskAwaiter</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -23,30 +23,33 @@ namespace TestTaskDelay
 
         private async void button1_Click(object sender, System.EventArgs e)
         {
-            Console.WriteLine("at button1_Click");
+            //Console.WriteLine("at button1_Click");
 
-            button1.Text = new { Thread.CurrentThread.ManagedThreadId }.ToString();
+            //button1.Text = new { Thread.CurrentThread.ManagedThreadId }.ToString();
 
-            // basically a timer event on the same thread
-            await Task.Delay(2000);
+            //// basically a timer event on the same thread
+            //await Task.Delay(2000);
 
-            Console.WriteLine("button1_Click done");
-            button1.Text = new { Thread.CurrentThread.ManagedThreadId }.ToString();
+            //Console.WriteLine("button1_Click done");
+            //button1.Text = new { Thread.CurrentThread.ManagedThreadId }.ToString();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("at button2_Click");
+            //Console.WriteLine("at button2_Click");
 
-            button2.Text = new { Thread.CurrentThread.ManagedThreadId }.ToString();
-            //await Task.Delay(2000);
-            // blocks the thread
-            Thread.Sleep(2000);
+            //button2.Text = new { Thread.CurrentThread.ManagedThreadId }.ToString();
+            ////await Task.Delay(2000);
+            //// blocks the thread
+            //Thread.Sleep(2000);
 
-            Console.WriteLine("button2_Click done");
-            button2.Text = new { Thread.CurrentThread.ManagedThreadId }.ToString();
+            //Console.WriteLine("button2_Click done");
+            //button2.Text = new { Thread.CurrentThread.ManagedThreadId }.ToString();
         }
 
+
+
+        static
         private async void button3_Click(object sender, EventArgs e)
         {
             // http://billwagner.azurewebsites.net/blog/async-10-switching-threads
@@ -60,60 +63,24 @@ namespace TestTaskDelay
             // http://msdn.microsoft.com/en-us/library/vstudio/ee370351.aspx
 
 
-            await Async.SwitchToWebWorker();
 
 
             Console.WriteLine("On the UI thread.");
+            Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
 
-            // Switch to a thread pool thread
-            // Error	3	Cannot await 'TestTaskDelay.Extensions.SynchronizationContextAwaiter'	X:\jsc.svn\examples\javascript\Test\TestTaskDelay\TestTaskDelay\ApplicationControl.cs	61	13	TestTaskDelay
-            await new SynchronizationContext().SwitchTo();
-
-            Console.WriteLine("Starting CPU-intensive work on background thread...");
-
-            //int result = DoCpuIntensiveWork();
-            Thread.Sleep(1000);
-
-            Console.WriteLine("Done with CPU-intensive work!");
-
-            // Switch back to UI thread
-            await Dispatcher.SwitchTo();
-
-            Console.WriteLine("Back on the UI thread.  ");
-            Async
-
-
-            //await ThreadPool.SwitchTo();
-            //try
-            //{
-            //  // Do something dangerous here.
-            //}
-            //finally
-            //{
-            //  await button1.Dispatcher.SwitchTo(); // COMPILE ERROR!
-            //}
-
+            // access UI controls
+            await Task.Delay(1).ConfigureAwait(false);
+            // DO NOT access UI controls here, as you're very likely on a ThreadPool thread
+            Console.WriteLine("Back!");
+            Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
+            //            On the UI thread.
+            //{ ManagedThreadId = 3 }
+            //Back!
+            //{ ManagedThreadId = 5 }
         }
 
 
     }
 
-    public static class Extensions
-    {
-        public static Task SwitchTo(this SynchronizationContext context)
-        {
-            var x = new Task(
-                delegate
-                {
-                    Console.WriteLine();
-                }
-            );
 
-            
-
-            return x;
-        }
-
-
-    }
 }

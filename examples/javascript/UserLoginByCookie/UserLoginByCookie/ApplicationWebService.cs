@@ -64,14 +64,14 @@ namespace UserLoginByCookie
                 );
 
                 if (PasswordOK)
-                    xml.Element("h3").ReplaceAll(
+                    xml.Element("body").Element("h3").ReplaceAll(
                         new XElement("code",
                             new XAttribute("style", "color:green;"),
                             "Hello! You are now logged in!"
                         )
                     );
                 else
-                    xml.Element("h3").ReplaceAll(
+                    xml.Element("body").Element("h3").ReplaceAll(
                         new XElement("code",
                             new XAttribute("style", "color:red;"),
                             "Not logged in. Please try again!"
