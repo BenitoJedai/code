@@ -4,23 +4,41 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
     using ScriptCoreLib.JavaScript.DOM;
 
     [Script(Implements = typeof(global::System.Delegate))]
     internal class __Delegate
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130825
+
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Delegate.op_Equality(System.Delegate, System.Delegate)]
 
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
-        public object Target;
+        public object InternalTarget;
+
+        public object Target { get { return this.InternalTarget; } }
 
         // script: error JSC1000: No implementation found for this native method, please implement [System.Delegate.get_Method()]
 
         // public MethodInfo Method { get; }
         // Method: "BAAABm4i9DaI0uFGgA1UPA"
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Method)]
-        public global::System.IntPtr Method;
+        public global::System.IntPtr InternalMethod;
 
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodInfo.cs
+        public global::System.Reflection.MethodInfo Method
+        {
+            get
+            {
+                // for now, this will only work with static methods
+                // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
+
+                var m = new __MethodInfo { InternalMethod = this.InternalMethod };
+
+                return (global::System.Reflection.MethodInfo)(object)m;
+            }
+        }
 
         // TODO: dom events and delay events do not support truly multiple targets
         IFunction InvokePointerCache;
@@ -30,7 +48,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             get
             {
                 if (InvokePointerCache == null)
-                    InvokePointerCache = InternalGetAsyncInvoke(Target, Method);
+                    InvokePointerCache = InternalGetAsyncInvoke(InternalTarget, InternalMethod);
 
                 return InvokePointerCache;
             }
@@ -42,8 +60,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             //if (e == null)
             //    e = Native.Window;
 
-            Target = e;
-            Method = p;
+            InternalTarget = e;
+            InternalMethod = p;
         }
 
 
@@ -107,8 +125,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             if ((object)b == null)
                 return false;
 
-            if (a.Method == b.Method)
-                if (a.Target == b.Target)
+            if (a.InternalMethod == b.InternalMethod)
+                if (a.InternalTarget == b.InternalTarget)
                     return true;
 
             return false;

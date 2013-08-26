@@ -27,14 +27,14 @@ namespace UserLoginByCookie
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             new IHTMLButton { innerText = "Log in!" }.AttachToDocument().onclick +=
                 delegate
                 {
                     new Cookie("Password").Value = "mypassword";
 
-                    Native.Window.open("/Other", "_self");
+                    Native.window.open("/Other", "_self");
 
                 };
 
@@ -43,7 +43,7 @@ namespace UserLoginByCookie
              {
                  new Cookie("Password").Value = "";
 
-                 Native.Window.open("/Other", "_self");
+                 Native.window.open("/Other", "_self");
 
              };
 
@@ -70,7 +70,7 @@ namespace UserLoginByCookie
             new IHTMLButton { innerText = "open Default page" }.AttachToDocument().onclick +=
                delegate
                {
-                   Native.Window.open("/", "_self");
+                   Native.window.open("/", "_self");
 
                };
 
