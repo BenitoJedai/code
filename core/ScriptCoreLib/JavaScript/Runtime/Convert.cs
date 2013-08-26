@@ -111,7 +111,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return ToRadixString((int)value, 16);
         }
 
-        internal readonly static string Base64Key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        internal const string Base64Key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
         public static string ToBase64String(string input)
         {

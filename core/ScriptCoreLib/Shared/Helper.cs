@@ -37,8 +37,8 @@ namespace ScriptCoreLib.Shared
             }
         }
 
-        public static string FormTemplateID = "Web.Runtime.FormTemplate";
-        public static string FormTemplateJSONField = "json_field";
+        public const string FormTemplateID = "Web.Runtime.FormTemplate";
+        public const string FormTemplateJSONField = "json_field";
 
 
        

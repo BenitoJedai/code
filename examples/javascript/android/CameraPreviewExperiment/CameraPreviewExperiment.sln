@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ConsoleFormPa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{99A8FCFA-CEFD-4414-88A6-7F32DC4B35D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsgif", "..\..\synergy\jsgif\jsgif\jsgif.csproj", "{2B82F864-2565-470E-BE62-68C54825510F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -24,11 +26,16 @@ Global
 		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Debug|x86.Build.0 = Debug|x86
 		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|x86.ActiveCfg = Release|x86
 		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|x86.Build.0 = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.Build.0 = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {99A8FCFA-CEFD-4414-88A6-7F32DC4B35D5}
+		{2B82F864-2565-470E-BE62-68C54825510F} = {99A8FCFA-CEFD-4414-88A6-7F32DC4B35D5}
 	EndGlobalSection
 EndGlobal

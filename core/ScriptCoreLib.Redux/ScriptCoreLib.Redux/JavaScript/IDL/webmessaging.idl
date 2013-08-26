@@ -6,7 +6,7 @@ interface MessageEvent : Event {
 	readonly attribute DOMString origin;
 	readonly attribute DOMString lastEventId;
 	// readonly attribute (WindowProxy or MessagePort)? source;
-	readonly attribute WindowProxy? source;
+	//readonly attribute any source;
 
 	readonly attribute MessagePort[]? ports;
 };

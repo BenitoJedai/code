@@ -9,6 +9,7 @@ interface GIFEncoder
 	void setDelay(long p);
 	void start();
 	void addFrame(any canvas2d);
+	void addFrame(any canvas2d, boolean is_imageData);
 	void finish();
 	GIFEncoder.ByteArray stream();
 };

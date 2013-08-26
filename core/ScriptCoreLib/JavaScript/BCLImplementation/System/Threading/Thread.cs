@@ -11,21 +11,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     {
         // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStartAsWebWorker\TestThreadStartAsWebWorker\Application.cs
 
-        public static Thread InternalCurrentThread;
+        static __Thread InternalCurrentThreadValue;
+
+        public static __Thread InternalCurrentThread
+        {
+            get
+            {
+                // Web Worker needs to be told which it is
+
+                if (InternalCurrentThreadValue == null)
+                {
+                    InternalCurrentThreadValue = new __Thread(default(ThreadStart));
+
+
+                    if (Native.window != null)
+                        InternalCurrentThreadValue.ManagedThreadId = 1;
+
+
+                }
+
+                return InternalCurrentThreadValue;
+            }
+        }
 
         public static Thread CurrentThread
         {
             get
             {
-                // Web Worker?
-
-                if (InternalCurrentThread == null)
-                    InternalCurrentThread = (Thread)(object)new __Thread(default(ThreadStart))
-                    {
-                        ManagedThreadId = 1
-                    };
-
-                return InternalCurrentThread;
+                return (Thread)(object)InternalCurrentThread;
             }
         }
 

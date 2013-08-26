@@ -220,6 +220,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             [Script(DefineAsStatic = true)]
             set
             {
+                // what if the caller is from Web Worker?
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130825
+
                 ITextNode n = null;
 
                 if (this.childNodes.Length == 0)

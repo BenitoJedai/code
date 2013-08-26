@@ -4,6 +4,8 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib;
+using System;
+using ScriptCoreLib.JavaScript.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -92,7 +94,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static IFunction Of(string name)
         {
-            return Expando.Of(Native.window).GetMember<IFunction>(name);
+            // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
+
+            return Expando.Of(Native.self).GetMember<IFunction>(name);
         }
 
         public static IFunction Of(System.Action h)
@@ -106,7 +110,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+        public static explicit operator MulticastDelegate(IFunction f)
+        {
+            var x = new __MulticastDelegate(default(object), default(IntPtr)) { InternalMethodReference = f };
 
+            return (MulticastDelegate)(object)x;
+        }
 
         public static implicit operator IFunction(global::System.Delegate h)
         {
