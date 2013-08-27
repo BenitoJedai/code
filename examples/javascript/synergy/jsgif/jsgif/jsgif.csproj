@@ -43,6 +43,7 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -125,6 +126,7 @@
     <Content Include="opensource\LZWEncoder.js" />
     <Content Include="opensource\NeuQuant.js" />
     <Content Include="opensource\References.htm" />
+    <Compile Include="Library\GIFEncoderAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />

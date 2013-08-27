@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.WebGL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -89,6 +90,15 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             }
         }
 
+        public static implicit operator Uint8ClampedArray(CanvasRenderingContext2D c)
+        {
+            // tested by X:\jsc.svn\examples\javascript\android\CameraPreviewExperiment\CameraPreviewExperiment\Application.cs
 
+            var x = c.getImageData(
+                0, 0, c.canvas.width, c.canvas.height
+            );
+
+            return x.data;
+        }
     }
 }

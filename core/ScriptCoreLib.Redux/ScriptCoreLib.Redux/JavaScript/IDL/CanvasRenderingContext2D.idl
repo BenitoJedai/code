@@ -103,7 +103,11 @@ interface TextMetrics {
 interface ImageData {
   readonly attribute unsigned long width;
   readonly attribute unsigned long height;
-  readonly attribute CanvasPixelArray data;
+
+  // http://www.khronos.org/registry/typedarray/specs/latest/
+  // Uint8ClampedArray is defined in order to replace CanvasPixelArray.
+  // readonly attribute CanvasPixelArray data;
+  readonly attribute Uint8ClampedArray data;
 };
 
 interface CanvasPixelArray {

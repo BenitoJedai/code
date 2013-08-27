@@ -41,6 +41,7 @@ namespace CameraPreviewExperiment
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
+            var i = int.Parse(e);
             // JSC shold use chrome omnisearch to tell about running network apps
 
             // http://stackoverflow.com/questions/14815103/android-streaming-the-camera-as-mjpeg
@@ -48,15 +49,34 @@ namespace CameraPreviewExperiment
             // https://github.com/commonsguy/cw-advandroid/blob/master/Camera/Preview/src/com/commonsware/android/camera/PreviewDemo.java
 
             // reactivate camera and give me frames
-            foo.Invoke(y);
+            //foo.Invoke(y);
+            foo.Invoke(i, y, 60);
+
             // Send it back to the caller.
             //y(e);
         }
 
+        public void getNumberOfCameras(Action<string> yield)
+        {
+            // http://stackoverflow.com/questions/10679261/accessing-front-and-back-camera-in-android-at-the-same-time
+            // http://stackoverflow.com/questions/12382322/is-it-possible-to-use-front-and-back-camera-at-same-time-in-android
+
+            var i = android.hardware.Camera.getNumberOfCameras();
+
+            yield("" + i);
+        }
 
         public void WebMethod2Long(string e, Action<string> y)
         {
-            y("WebMethod2Long entering");
+            //            I/DEBUG   (17693): *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+            //I/DEBUG   (17693): Build fingerprint: 'samsung/GT-I9000/GT-I9000:2.3.3/GINGERBREAD/XWJVN:user/release-keys'
+            //I/DEBUG   (17693): pid: 18667, tid: 18690  >>> /system/bin/mediaserver <<<
+            //I/DEBUG   (17693): signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 00000000
+            //I/DEBUG   (17693):  r0 000628b8  r1 00000000  r2 726a2622  r3 726a2622
+
+            var i = int.Parse(e);
+
+            y("WebMethod2Long entering " + new { i });
 
             // throttle the client
             Thread.Sleep(11);
@@ -70,7 +90,8 @@ namespace CameraPreviewExperiment
             // https://github.com/commonsguy/cw-advandroid/blob/master/Camera/Preview/src/com/commonsware/android/camera/PreviewDemo.java
 
             // reactivate camera and give me frames
-            foo.Invoke(y, 60);
+            foo.Invoke(i, y, 60);
+
             // Send it back to the caller.
             //y(e);
 
@@ -104,9 +125,10 @@ namespace CameraPreviewExperiment
 
                     //var _e = XElement.Parse(_e_xml_decoded);
 
+                    var e = h.Context.Request.QueryString["e"];
+
                     this.WebMethod2Long(
-                        //_e_xml_decoded,
-                        "",
+                        e,
                         y =>
                         {
                             Console.WriteLine("*");
@@ -180,7 +202,10 @@ namespace CameraPreviewExperiment
             Action<string> log =
                 x =>
                 {
-                    y(st.Elapsed + " " + x);
+                    var z = (st.Elapsed + " " + x);
+
+                    Console.WriteLine(z);
+                    y(z);
                 };
 
             log("getting ready...");
@@ -408,6 +433,9 @@ namespace CameraPreviewExperiment
                                    var SURFACE_TYPE_PUSH_BUFFERS = 0x00000003;
                                    h.setType(SURFACE_TYPE_PUSH_BUFFERS);
 
+
+
+
                                    System.Console.WriteLine("before addCallback");
                                    camera.addCallbackBuffer(new sbyte[0x100000]);
                                    h.addCallback(
@@ -436,81 +464,105 @@ namespace CameraPreviewExperiment
                                                            yield =
                                                                (dataNV21, c) =>
                                                                {
-
-                                                                   Console.WriteLine("*");
-                                                                   Console.WriteLine("*");
-                                                                   Console.WriteLine("PreviewCallbackWithBuffer "
-                                                                       + new { cc, dataNV21.Length, dummy }
-                                                                   );
-
                                                                    if (dummy == null)
                                                                    {
                                                                        // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
                                                                        return;
                                                                    }
 
+                                                                   //                                                                   10080.0ms PreviewCallbackWithBuffer enter { cc = 58, Length = 460800 }
+                                                                   //10119.0ms PreviewCallbackWithBuffer compressToJpeg done { cc = 58, Elapsed = 39.0ms }
+                                                                   //10174.0ms PreviewCallbackWithBuffer ToBase64String done { cc = 58, Elapsed = 94.0ms }
 
-                                                                   var cst = new Stopwatch();
-                                                                   cst.Start();
+                                                                   var xcc = cc;
 
-                                                                   log("PreviewCallbackWithBuffer enter " + new { cc, dataNV21.Length });
-
-
-                                                                   // http://stackoverflow.com/questions/3426614/android-converting-from-nv21-preview-format-on-nexus-one-to-jpeg
-                                                                   // http://developer.android.com/reference/android/graphics/YuvImage.html
-
-                                                                   var yuv = new YuvImage(
-                                                                       dataNV21,
-                                                                       ImageFormat.NV21,
-                                                                       min.width,
-                                                                       min.height,
-                                                                       null
-                                                                    );
-
-                                                                   var m = new java.io.ByteArrayOutputStream();
-
-                                                                   yuv.compressToJpeg(
-                                                                       new Rect(0, 0, min.width, min.height),
-                                                                       20,
-                                                                       m);
-
-                                                                   var data = (byte[])(object)m.toByteArray();
-
-                                                                   log("PreviewCallbackWithBuffer compressToJpeg done " + new { cc, cst.Elapsed });
+                                                                   log("PreviewCallbackWithBuffer enter " + new { xcc, dataNV21.Length });
 
 
-                                                                   Console.WriteLine("compressToJpeg "
-                                                                        + new { data.Length }
-                                                                    );
+                                                                   new Thread(
+                                                                       delegate()
+                                                                       {
 
-                                                                   var src = "data:image/jpg;base64," +
-                                                                         Convert.ToBase64String(
-                                                                             data
-                                                                         );
+                                                                           var cst = new Stopwatch();
+                                                                           cst.Start();
 
-                                                                   log("PreviewCallbackWithBuffer ToBase64String done " + new { cc, cst.Elapsed });
+                                                                           // http://stackoverflow.com/questions/3426614/android-converting-from-nv21-preview-format-on-nexus-one-to-jpeg
+                                                                           // http://developer.android.com/reference/android/graphics/YuvImage.html
 
-                                                                   y(src);
+                                                                           var yuv = new YuvImage(
+                                                                               dataNV21,
+                                                                               ImageFormat.NV21,
+                                                                               min.width,
+                                                                               min.height,
+                                                                               null
+                                                                            );
+
+                                                                           var m = new java.io.ByteArrayOutputStream();
+
+                                                                           yuv.compressToJpeg(
+                                                                               new Rect(0, 0, min.width, min.height),
+                                                                               20,
+                                                                               m);
+
+                                                                           var data = (byte[])(object)m.toByteArray();
+
+                                                                           log("PreviewCallbackWithBuffer compressToJpeg done " + new { xcc, cst.Elapsed });
 
 
-                                                                   //PreviewCallbackWithBuffer { cc = 0, Length = 1048576 }
+                                                                           Console.WriteLine("compressToJpeg "
+                                                                                + new { data.Length }
+                                                                            );
+
+                                                                           var src = "data:image/jpg;base64," +
+                                                                                 Convert.ToBase64String(
+                                                                                     data
+                                                                                 );
+
+                                                                           log("PreviewCallbackWithBuffer ToBase64String done " + new { xcc, cst.Elapsed });
+
+                                                                           y(src);
+
+
+                                                                           //PreviewCallbackWithBuffer { cc = 0, Length = 1048576 }
+
+
+                                                                           //camera.addCallbackBuffer();
+                                                                           camera.addCallbackBuffer(new sbyte[buffersize]);
+
+                                                                           log("PreviewCallbackWithBuffer exit " + new { xcc, cst.Elapsed });
+
+
+                                                                           if (xcc == frames)
+                                                                           {
+
+                                                                               //dummy.setVisibility(View.GONE);
+                                                                               //dummy = null;
+
+                                                                               // Caused by: android.view.ViewRoot$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
+
+                                                                               aa.runOnUiThread(
+                                                                                  new f
+                                                                                  {
+                                                                                      y = delegate
+                                                                                      {
+                                                                                          if (dummy != null)
+                                                                                          {
+                                                                                              dummy.setVisibility(View.GONE);
+                                                                                              dummy = null;
+
+                                                                                          }
+
+                                                                                          a.Set();
+                                                                                      }
+                                                                                  }
+                                                                              );
+                                                                           }
+                                                                       }
+                                                                   ).Start();
+
                                                                    cc++;
 
 
-                                                                   //camera.addCallbackBuffer();
-                                                                   camera.addCallbackBuffer(new sbyte[buffersize]);
-
-                                                                   log("PreviewCallbackWithBuffer exit " + new { cc, cst.Elapsed });
-
-                                                                   if (cc == frames)
-                                                                   {
-                                                                       camera.stopPreview();
-
-                                                                       dummy.setVisibility(View.GONE);
-                                                                       dummy = null;
-
-                                                                       a.Set();
-                                                                   }
                                                                }
                                                        }
                                                    );
@@ -570,12 +622,12 @@ namespace CameraPreviewExperiment
                 // using
                 if (camera != null)
                 {
+                    camera.stopPreview();
                     camera.release();
                     camera = null;
                 }
 
-                if (dummy != null)
-                    dummy.setVisibility(View.GONE);
+
             }
         }
 
@@ -587,7 +639,7 @@ namespace CameraPreviewExperiment
                 //for (int i = 0; i < android.hardware.Camera.getNumberOfCameras(); i++)
                 for (int i = 0; i < 1; i++)
                 {
-                    Invoke(i, y, frames);
+                    Invoke(0, y, frames);
                 }
             }
             catch

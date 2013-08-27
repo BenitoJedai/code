@@ -3,18 +3,32 @@
 // C# has extensionmethods for that.
 
 [Constructor()]
-interface GIFEncoder
+/*async*/ interface GIFEncoder
 {
 	void setRepeat(long p);
 	void setDelay(long p);
+
+	void setSize(long x, long y);
+
 	void start();
 	void addFrame(any canvas2d);
-	void addFrame(any canvas2d, boolean is_imageData);
+
+
+	/*async*/ void addFrame(Uint8ClampedArray canvas2d, boolean is_imageData);
+
 	void finish();
+
+	// async void finish(Action<string> yield) { yield(stream()); }
+
+	// can we define some code here inline?
+	// do we need roslyn to help us out?
+	// would this define an extension from IDL?
+
 	GIFEncoder.ByteArray stream();
 };
 
+
 interface GIFEncoder.ByteArray
 {
-    string getData();
+	string getData();
 };

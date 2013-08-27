@@ -123,6 +123,7 @@
     <Compile Include="JavaScript\Extensions\INodeConvertible.cs" />
     <Compile Include="JavaScript\Extensions\MessagePortExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ArrayBuffer.cs" />
+    <Compile Include="JavaScript\WebGL\Uint8ClampedArray.cs" />
     <Compile Include="JavaScript\WebGL\WebGLTexture.cs" />
     <Compile Include="JavaScript\WebGL\WebGLBuffer.cs" />
     <Compile Include="JavaScript\WebGL\WebGLObject.cs" />

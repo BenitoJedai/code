@@ -11,5 +11,10 @@ namespace ScriptCoreLib.Extensions
         {
             return (float)r.NextDouble();
         }
+
+        public static byte NextByte(this Random r)
+        {
+            return (byte)r.Next(255);
+        }
     }
 }

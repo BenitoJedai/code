@@ -8,7 +8,13 @@
  *   https://cvs.khronos.org/svn/repos/registry/trunk/public/webgl/doc/spec/TypedArray-spec.html
  */
 
+// http://www.khronos.org/registry/typedarray/specs/latest/
+
 module typedarrays {
+
+
+
+
 
 [ Constructor(unsigned long length) ]
 interface ArrayBuffer {
@@ -16,11 +22,63 @@ interface ArrayBuffer {
 };
 
 
+
+
 interface ArrayBufferView {
     readonly attribute ArrayBuffer buffer;
     readonly attribute unsigned long byteOffset;
     readonly attribute unsigned long byteLength;
 };
+
+
+
+// http://www.khronos.org/registry/typedarray/specs/latest/
+// The 'unsigned byte' type does not currently exist in Web IDL, though
+// 'octet' is equivalent.
+[
+    Constructor(unsigned long length),
+    Constructor(Uint8ClampedArray array),
+    Constructor(octet[] array),
+    Constructor(ArrayBuffer buffer,
+                optional unsigned long byteOffset, optional unsigned long length)
+]
+interface Uint8ClampedArray : ArrayBufferView {
+    const unsigned long BYTES_PER_ELEMENT = 1;
+
+    readonly attribute unsigned long length;
+
+    getter octet get(unsigned long index);
+    setter void set(unsigned long index, /*[Clamp]*/ octet value);
+    void set(Uint8ClampedArray array, optional unsigned long offset);
+    void set(octet[] array, optional unsigned long offset);
+    Uint8ClampedArray subarray(long begin, optional long end);
+};
+//Uint8ClampedArray implements ArrayBufferView;
+
+
+// The 'unsigned byte' type does not currently exist in Web IDL, though
+// 'octet' is equivalent.
+[
+    Constructor(unsigned long length),
+    Constructor(Uint8Array array),
+    Constructor(unsigned byte[] array),
+    Constructor(ArrayBuffer buffer, 
+                optional unsigned long byteOffset, optional unsigned long length)
+]
+interface Uint8Array : ArrayBufferView {
+    const long BYTES_PER_ELEMENT = 1;
+    
+    readonly attribute unsigned long length;
+    
+    omittable getter unsigned byte get(unsigned long index);
+    omittable setter void set(unsigned long index, unsigned byte value);
+    void set(Uint8Array array, optional unsigned long offset);
+    void set(unsigned byte[] array, optional unsigned long offset);
+    Uint8Array slice(long start, long end);
+};
+
+
+
 
 
 // The 'byte' type does not currently exist in Web IDL.
@@ -45,26 +103,8 @@ interface Int8Array : ArrayBufferView {
 };
 
 
-// The 'unsigned byte' type does not currently exist in Web IDL, though
-// 'octet' is equivalent.
-[
-    Constructor(unsigned long length),
-    Constructor(Uint8Array array),
-    Constructor(unsigned byte[] array),
-    Constructor(ArrayBuffer buffer, 
-                optional unsigned long byteOffset, optional unsigned long length)
-]
-interface Uint8Array : ArrayBufferView {
-    const long BYTES_PER_ELEMENT = 1;
-    
-    readonly attribute unsigned long length;
-    
-    omittable getter unsigned byte get(unsigned long index);
-    omittable setter void set(unsigned long index, unsigned byte value);
-    void set(Uint8Array array, optional unsigned long offset);
-    void set(unsigned byte[] array, optional unsigned long offset);
-    Uint8Array slice(long start, long end);
-};
+
+
 
 
 [

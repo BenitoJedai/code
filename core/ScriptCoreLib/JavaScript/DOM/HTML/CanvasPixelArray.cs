@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // updated by IDL
+    [Obsolete("Uint8ClampedArray")]
     [Script(HasNoPrototype = true)]
     public class CanvasPixelArray
     {

@@ -14,6 +14,9 @@ using System.Xml.Linq;
 using CanvasPlasma.HTML.Pages;
 //using CanvasPlasma.Styles;
 using CanvasPlasma.Library;
+using System.Diagnostics;
+using ScriptCoreLib.JavaScript.WebGL;
+using System.Collections.Generic;
 
 namespace CanvasPlasma
 {
@@ -45,19 +48,161 @@ namespace CanvasPlasma
 
 
 
+        class PlasmaAsync
+        {
+            public readonly Action Dispose;
 
+            public Uint8ClampedArray frame { private set; get; }
+
+
+            public event Action onframe;
+
+            public PlasmaAsync(int _DefaultWidth, int _DefaultHeight)
+            {
+                var xscope = new { DefaultWidth = _DefaultWidth, DefaultHeight = _DefaultHeight };
+
+
+                var w = new Worker(
+                    scope =>
+                    {
+                        Console.WriteLine("waiting for scope data");
+
+                        int shift = 0;
+                        int zDefaultWidth = 0;
+                        int zDefaultHeight = 0;
+
+                        var once = false;
+                        Action<object> init =
+                            data =>
+                            {
+                                int zzDefaultWidth = (data as dynamic).DefaultWidth;
+                                int zzDefaultHeight = (data as dynamic).DefaultHeight;
+
+                                zDefaultWidth = zzDefaultWidth;
+                                zDefaultHeight = zzDefaultHeight;
+                            };
+
+
+                        scope.onmessage +=
+                            ze =>
+                            {
+                                #region waiting for scope data
+                                if (!once)
+                                {
+                                    once = true;
+
+                                    init(ze.data);
+
+
+                                    Plasma.generatePlasma(zDefaultWidth, zDefaultHeight);
+
+                                    return;
+                                }
+                                #endregion
+
+
+
+                                var frame = (Uint8ClampedArray)ze.data;
+
+
+
+                                var e = new Stopwatch();
+                                e.Start();
+
+
+                                var buffer = Plasma.shiftPlasma(shift);
+
+                                var k = 0;
+                                for (int i = 0; i < zDefaultWidth; i++)
+                                    for (int j = 0; j < zDefaultHeight; j++)
+                                    {
+                                        var i4 = i * 4;
+                                        var j4 = j * 4;
+
+
+                                        frame[(uint)(i4 + j4 * zDefaultWidth + 2)] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
+                                        frame[(uint)(i4 + j4 * zDefaultWidth + 1)] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
+                                        frame[(uint)(i4 + j4 * zDefaultWidth + 0)] = (byte)((buffer[k] >> (2 * 8)) & 0xff);
+                                        frame[(uint)(i4 + j4 * zDefaultWidth + 3)] = 0xff;
+
+                                        k++;
+                                    }
+
+                                ze.ports.WithEach(port => port.postMessage(frame));
+
+                                //Console.WriteLine("worker: " + new { shift, e.ElapsedMilliseconds });
+
+                                shift++;
+
+                            };
+                    }
+                );
+
+                w.postMessage(xscope);
+
+
+                var memory = new Queue<Uint8ClampedArray>();
+
+                for (int i = 0; i < 3; i++)
+                    memory.Enqueue(new Uint8ClampedArray((uint)(_DefaultWidth * _DefaultHeight * 4)));
+                //memory.Enqueue(new Uint8ClampedArray((uint)(_DefaultWidth * _DefaultHeight * 4)));
+                //memory.Enqueue(new Uint8ClampedArray((uint)(_DefaultWidth * _DefaultHeight * 4)));
+                //memory.Enqueue(new Uint8ClampedArray((uint)(_DefaultWidth * _DefaultHeight * 4)));
+
+                Native.window.onframe +=
+                    delegate
+                    {
+                        // need a few next frames
+
+                        if (memory.Count > 0)
+                        {
+                            var x = memory.Dequeue();
+
+                            Action<MessageEvent> yield =
+                                e =>
+                                {
+                                    var xe = new Stopwatch();
+                                    xe.Start();
+
+
+                                    if (frame != null)
+                                        memory.Enqueue(frame);
+
+                                    frame = (Uint8ClampedArray)e.data;
+
+                                    if (onframe != null)
+                                        onframe();
+
+                                    //Console.WriteLine("yield: " + new { xe.ElapsedMilliseconds });
+                                };
+
+                            w.postMessage(x, yield);
+                        }
+                    };
+
+                Dispose = () => { w.terminate(); memory.Clear(); };
+
+            }
+        }
 
         public void InitializeContent()
         {
+            // now can we supply this to css3d, webgl?
+
+            // fullscreen 20fps
+            // fullscreen 50fps, 4wfps
+            // fullscreen 38fps, 8wfps
+
+
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             var DefaultWidth = Native.window.Width;
             var DefaultHeight = Native.window.Height;
 
+            var PlasmaAsync = new PlasmaAsync(DefaultWidth, DefaultHeight);
 
-            Plasma.generatePlasma(DefaultWidth, DefaultHeight);
-
-            var shift = 0;
+            //Plasma.generatePlasma(DefaultWidth, DefaultHeight);
+            //var shift = 0;
 
 
 
@@ -72,51 +217,81 @@ namespace CanvasPlasma
             canvas.style.position = IStyle.PositionEnum.absolute;
             canvas.style.SetLocation(0, 0, DefaultWidth, DefaultHeight);
 
-            var xx = context.getImageData(0, 0, DefaultWidth, DefaultHeight);
-            //var x = (ImageData)(object)xx;
-            var x = xx;
+            var x = context.getImageData(0, 0, DefaultWidth, DefaultHeight);
 
+
+            var fpsca = new Stopwatch();
+            fpsca.Start();
+            var fpsa = 0;
+            var fpsavalue = 0;
+
+            var fpsc = new Stopwatch();
+            fpsc.Start();
+
+            var fps = 0;
+            var xxx = 0;
+            var yyy = 0;
+
+            PlasmaAsync.onframe += delegate
+            {
+                if (fpsca.ElapsedMilliseconds < 1000)
+                {
+                    fpsa++;
+                }
+                else
+                {
+                    fpsavalue = fpsa;
+                    fpsa = 0;
+                    fpsca.Restart();
+                }
+            };
 
             Native.window.onframe += delegate
             {
                 if (canvas == null)
                     return;
 
-
                 if (DefaultWidth != Native.window.Width)
                     if (DefaultHeight != Native.window.Height)
                     {
 
+
+                        PlasmaAsync.Dispose();
+
                         canvas.Orphanize();
+                        canvas = null;
+
+
                         InitializeContent();
 
-                        canvas = null;
                         return;
                     }
 
-                var buffer = Plasma.shiftPlasma(shift);
 
-                //var x = context.createImageData(DefaultWidth, DefaultHeight);
+                if (PlasmaAsync.frame == null)
+                    return;
 
+                yyy++;
 
-                var k = 0;
-                for (int i = 0; i < DefaultWidth; i++)
-                    for (int j = 0; j < DefaultHeight; j++)
-                    {
-                        var i4 = i * 4;
-                        var j4 = j * 4;
+                //Console.WriteLine(new { xxx, yyy });
 
 
-                        x.data[(uint)(i4 + j4 * DefaultWidth + 2)] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
-                        x.data[(uint)(i4 + j4 * DefaultWidth + 1)] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
-                        x.data[(uint)(i4 + j4 * DefaultWidth + 0)] = (byte)((buffer[k] >> (2 * 8)) & 0xff);
-                        x.data[(uint)(i4 + j4 * DefaultWidth + 3)] = 0xff;
+                if (fpsc.ElapsedMilliseconds < 1000)
+                {
+                    fps++;
+                }
+                else
+                {
+                    Native.document.title = new { fps, wfps = fpsavalue }.ToString();
+                    fps = 0;
+                    fpsc.Restart();
+                }
 
-                        k++;
-                    }
 
-                context.putImageData(xx, 0, 0, 0, 0, DefaultWidth, DefaultHeight);
-                shift++;
+
+                x.data.set(PlasmaAsync.frame, 0);
+                context.putImageData(x, 0, 0, 0, 0, DefaultWidth, DefaultHeight);
+
             };
 
 
@@ -177,7 +352,7 @@ namespace CanvasPlasma
                 //if (IsDisposed)
                 //    return;
 
-                newicon();
+                //newicon();
             };
 
             //@"Spiral".ToDocumentTitle();
