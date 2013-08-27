@@ -2,13 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
     {
-        public CanvasPixelArray PointerToUInt8;
+        // tested by
+        // X:\jsc.svn\core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\JavaScript\BCLImplementation\System\Drawing\Bitmap.cs
+        // X:\jsc.svn\examples\javascript\forms\MandelbrotFormsControl\MandelbrotFormsControl\Application.cs
+
+        public Uint8ClampedArray PointerToUInt8;
 
         [Script(OptimizedCode = "return a==b")]
         static public bool operator ==(__IntPtr a, __IntPtr b)

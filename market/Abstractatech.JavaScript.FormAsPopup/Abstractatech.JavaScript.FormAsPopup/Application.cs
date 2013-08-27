@@ -72,8 +72,11 @@ namespace ScriptCoreLib.Extensions
         {
             get
             {
+                // what if we are in web worker?
+
+
                 // does the value exist?
-                bool value = (Native.window as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame;
+                bool value = (Native.self as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame;
 
                 return !!value;
             }
@@ -81,7 +84,7 @@ namespace ScriptCoreLib.Extensions
             set
             {
                 // this value should stay for app inline reloads
-                (Native.window as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame = value;
+                (Native.self as dynamic).__FormAsPopupExtensions_InternalPopupHasFrame = value;
             }
         }
 
@@ -175,7 +178,7 @@ namespace ScriptCoreLib.Extensions
                         m.ports.WithEach(port =>
                                 port.postMessage(
                                 new XElement("re", "yes i have my own frame!").ToString()
-                                //null
+                                    //null
                                 )
                             );
 
@@ -197,7 +200,14 @@ namespace ScriptCoreLib.Extensions
         {
             // X:\jsc.internal.svn\examples\javascript\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
 
+            if (Native.window == null)
+            {
+                // no DOM
 
+                Console.WriteLine("FormAsPopupExtensionsForConsoleFormPackageMediator skipped due to no DOM...");
+
+                return;
+            }
 
 
             // Uncaught SecurityError: Blocked a frame with origin "http://192.168.1.101:26097" from accessing a frame with origin "http://192.168.1.101:5682". Protocols, domains, and ports must match. 
