@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNewByteArray", "TestNewByteArray\TestNewByteArray.csproj", "{C4C0EE88-2DF8-400A-B801-FBF81B9B55AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNewByteArrayViaScriptCoreLib", "TestNewByteArrayViaScriptCoreLib\TestNewByteArrayViaScriptCoreLib.csproj", "{567ACD60-A783-4F48-8E32-B96AB08CE13B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4C0EE88-2DF8-400A-B801-FBF81B9B55AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4C0EE88-2DF8-400A-B801-FBF81B9B55AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4C0EE88-2DF8-400A-B801-FBF81B9B55AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4C0EE88-2DF8-400A-B801-FBF81B9B55AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{567ACD60-A783-4F48-8E32-B96AB08CE13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{567ACD60-A783-4F48-8E32-B96AB08CE13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{567ACD60-A783-4F48-8E32-B96AB08CE13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{567ACD60-A783-4F48-8E32-B96AB08CE13B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

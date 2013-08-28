@@ -52,7 +52,7 @@ namespace CanvasPlasma
         {
             public readonly Action Dispose;
 
-            public Uint8ClampedArray frame { private set; get; }
+            public byte[] frame { private set; get; }
 
 
             public event Action onframe;
@@ -102,9 +102,9 @@ namespace CanvasPlasma
 
 
 
-                                var frame = (Uint8ClampedArray)ze.data;
+                                var frame = (byte[])ze.data;
 
-
+                                Console.WriteLine("got frame: " + new { frame.Length });
 
                                 var e = new Stopwatch();
                                 e.Start();
@@ -120,10 +120,10 @@ namespace CanvasPlasma
                                         var j4 = j * 4;
 
 
-                                        frame[(uint)(i4 + j4 * zDefaultWidth + 2)] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
-                                        frame[(uint)(i4 + j4 * zDefaultWidth + 1)] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
-                                        frame[(uint)(i4 + j4 * zDefaultWidth + 0)] = (byte)((buffer[k] >> (2 * 8)) & 0xff);
-                                        frame[(uint)(i4 + j4 * zDefaultWidth + 3)] = 0xff;
+                                        frame[(i4 + j4 * zDefaultWidth + 2)] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
+                                        frame[(i4 + j4 * zDefaultWidth + 1)] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
+                                        frame[(i4 + j4 * zDefaultWidth + 0)] = (byte)((buffer[k] >> (2 * 8)) & 0xff);
+                                        frame[(i4 + j4 * zDefaultWidth + 3)] = 0xff;
 
                                         k++;
                                     }
@@ -141,13 +141,10 @@ namespace CanvasPlasma
                 w.postMessage(xscope);
 
 
-                var memory = new Queue<Uint8ClampedArray>();
+                var memory = new Queue<byte[]>();
 
                 for (int i = 0; i < 3; i++)
-                    memory.Enqueue(new Uint8ClampedArray((uint)(_DefaultWidth * _DefaultHeight * 4)));
-                //memory.Enqueue(new Uint8ClampedArray((uint)(_DefaultWidth * _DefaultHeight * 4)));
-                //memory.Enqueue(new Uint8ClampedArray((uint)(_DefaultWidth * _DefaultHeight * 4)));
-                //memory.Enqueue(new Uint8ClampedArray((uint)(_DefaultWidth * _DefaultHeight * 4)));
+                    memory.Enqueue(new byte[_DefaultWidth * _DefaultHeight * 4]);
 
                 Native.window.onframe +=
                     delegate
@@ -168,7 +165,9 @@ namespace CanvasPlasma
                                     if (frame != null)
                                         memory.Enqueue(frame);
 
-                                    frame = (Uint8ClampedArray)e.data;
+                                    frame = (byte[])e.data;
+
+                                    Console.WriteLine("got new frame: " + new { frame.Length });
 
                                     if (onframe != null)
                                         onframe();
@@ -176,6 +175,7 @@ namespace CanvasPlasma
                                     //Console.WriteLine("yield: " + new { xe.ElapsedMilliseconds });
                                 };
 
+                            Console.WriteLine("send frame: " + new { x.Length, x });
                             w.postMessage(x, yield);
                         }
                     };
@@ -217,7 +217,6 @@ namespace CanvasPlasma
             canvas.style.position = IStyle.PositionEnum.absolute;
             canvas.style.SetLocation(0, 0, DefaultWidth, DefaultHeight);
 
-            var x = context.getImageData(0, 0, DefaultWidth, DefaultHeight);
 
 
             var fpsca = new Stopwatch();
@@ -251,21 +250,20 @@ namespace CanvasPlasma
                 if (canvas == null)
                     return;
 
-                if (DefaultWidth != Native.window.Width)
-                    if (DefaultHeight != Native.window.Height)
-                    {
+                if (DefaultWidth != Native.window.Width || DefaultHeight != Native.window.Height)
+                {
 
 
-                        PlasmaAsync.Dispose();
+                    PlasmaAsync.Dispose();
 
-                        canvas.Orphanize();
-                        canvas = null;
+                    canvas.Orphanize();
+                    canvas = null;
 
 
-                        InitializeContent();
+                    InitializeContent();
 
-                        return;
-                    }
+                    return;
+                }
 
 
                 if (PlasmaAsync.frame == null)
@@ -287,10 +285,13 @@ namespace CanvasPlasma
                     fpsc.Restart();
                 }
 
+                Console.WriteLine("set frame");
 
+                context.bytes = PlasmaAsync.frame;
 
-                x.data.set(PlasmaAsync.frame, 0);
-                context.putImageData(x, 0, 0, 0, 0, DefaultWidth, DefaultHeight);
+                //var x = context.getImageData();
+                //x.data.set(PlasmaAsync.frame, 0);
+                //context.putImageData(x, 0, 0, 0, 0, DefaultWidth, DefaultHeight);
 
             };
 

@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1", "PromotionWebApplication1\PromotionWebApplication1.csproj", "{00A6CB37-64BC-4C54-849D-70A834E146A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplicationHome", "PromotionWebApplicationHome\PromotionWebApplicationHome.csproj", "{52091756-B888-4CAF-BEA5-F1D539F6FB81}"
+	ProjectSection(ProjectDependencies) = postProject
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9} = {88A6D9ED-9611-4563-9239-3A632CEC6BD9}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{2851E5F2-1D09-4796-9988-6E3E7F767BFB}"
 EndProject
@@ -72,7 +75,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{88A6D9ED-9611-4563-9239-3A632CEC6BD9} = {2851E5F2-1D09-4796-9988-6E3E7F767BFB}
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81} = {2851E5F2-1D09-4796-9988-6E3E7F767BFB}
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9} = {2851E5F2-1D09-4796-9988-6E3E7F767BFB}
 	EndGlobalSection
 EndGlobal

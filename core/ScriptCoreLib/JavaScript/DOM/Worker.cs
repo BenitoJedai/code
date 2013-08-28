@@ -7,15 +7,20 @@ using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading;
 using ScriptCoreLib.JavaScript.BCLImplementation.System;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    [Script]
+    public delegate void ActionOfDedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope scope);
+
     [Script(HasNoPrototype = true, ExternalTarget = "Worker")]
     public class Worker : IEventTarget
     {
         // http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
 
         public const string ScriptApplicationSource = "view-source";
+        public const string ScriptApplicationSourceForInlineWorker = ScriptApplicationSource + "#worker";
 
         #region event onmessage
         public event System.Action<MessageEvent> onmessage
@@ -43,7 +48,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        [Obsolete("https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker")]
+        //[Obsolete("https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker")]
         public Worker(Action<DedicatedWorkerGlobalScope> yield)
         {
 
@@ -56,9 +61,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         // WorkerGlobalScope
 
-        static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>> Handlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>>();
+        //static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>> Handlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>>();
         static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>> SharedWorkerHandlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>>();
 
+        [Obsolete]
         public static void InternalAddSharedWorker(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
         {
             Console.WriteLine("InternalInlineWorker InternalAddSharedWorker");
@@ -66,7 +72,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             SharedWorkerHandlers.Add(yield);
         }
 
-        static object __string
+        [Obsolete("the hacky way to share static string fields..")]
+        internal static object __string
         {
             get
             {
@@ -74,15 +81,14 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        [Obsolete]
         public static void InternalAdd(Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope> yield)
         {
-            Console.WriteLine("InternalInlineWorker InternalAdd");
-
-            Handlers.Add(yield);
+            // thanks compiler, but we are doing this now on runtime
         }
 
         // how many threads have we created? lets start at ten
-        static int InternalThreadCounter = 10;
+        internal static int InternalThreadCounter = 10;
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130812-sharedworker
         public static global::ScriptCoreLib.JavaScript.DOM.SharedWorker InternalSharedWorkerConstructor(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
@@ -120,45 +126,19 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker
-        public static global::ScriptCoreLib.JavaScript.DOM.Worker InternalConstructor(Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope> yield)
+        public static global::ScriptCoreLib.JavaScript.DOM.Worker InternalConstructor(Action<DedicatedWorkerGlobalScope> yield)
         {
-            // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.TakeWhile(System.Collections.Generic.IEnumerable`1[[System.Action`1[[ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope, ScriptCoreLib, Version=4.5.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], System.Func`2[[System.Action`1[[ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope, ScriptCoreLib, Version=4.5.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
-            var index = -1;
+            var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
 
-            for (int i = 0; i < Handlers.Count; i++)
-            {
-                if (Handlers[i] == yield)
-                    index = i;
-            }
-
-            Console.WriteLine("InternalInlineWorker InternalConstructor " + new { index, InternalThreadCounter });
+            Console.WriteLine("InternalInlineWorker InternalConstructor " + new { MethodToken, InternalThreadCounter });
 
             // discard params
 
 
-            var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSource
 
-                // why not just post the function name to jump to?
-                + "#" + index
-                + "#worker"
-            );
 
             // we need some kind of per Application activation index
             // so multiple inline workers could know which they are.
-
-
-            //var c = new global::ScriptCoreLib.JavaScript.DOM.MessageChannel();
-
-            //c.port1.onmessage +=
-            //    e =>
-            //    {
-            //        Console.Write("" + e.data);
-            //    };
-
-            //c.port1.start();
-            //c.port2.start();
-
 
             // x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
             // share scope
@@ -166,7 +146,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             dynamic xdata = new object();
 
-            xdata.InternalThreadCounter = InternalThreadCounter;
+            xdata.InternalThreadCounter = InternalInlineWorker.InternalThreadCounter;
+            xdata.MethodToken = MethodToken;
+            xdata.MethodType = typeof(ActionOfDedicatedWorkerGlobalScope).Name;
 
             #region xdata___string
             dynamic xdata___string = new object();
@@ -181,9 +163,13 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
             #endregion
 
-
             xdata.__string = xdata___string;
 
+            InternalInlineWorker.InternalThreadCounter++;
+
+            var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
+                global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
+            );
 
             w.postMessage((object)xdata,
                  e =>
@@ -193,12 +179,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                      dynamic zdata = e.data;
 
+                     #region AtWrite
                      string AtWrite = zdata.AtWrite;
 
                      if (!string.IsNullOrEmpty(AtWrite))
                          Console.Write(AtWrite);
+                     #endregion
 
-
+                     #region __string
                      var zdata___string = (object)zdata.__string;
                      if (zdata___string != null)
                      {
@@ -214,181 +202,227 @@ namespace ScriptCoreLib.JavaScript.DOM
                          }
                          #endregion
                      }
+                     #endregion
+
                  }
             );
 
-            InternalThreadCounter++;
             return w;
+        }
+
+
+
+
+        static void __worker_onfirstmessage(MessageEvent e,
+            int InternalThreadCounter,
+             object data___string,
+              string MethodToken,
+            string MethodType,
+            object state,
+            object Result
+            )
+        {
+            #region ConsoleFormWriter
+            var w = new InternalInlineWorkerTextWriter();
+
+            var o = Console.Out;
+
+            Console.SetOut(w);
+
+            w.AtWrite =
+                 x =>
+                 {
+                     dynamic zdata = new object();
+
+                     zdata.AtWrite = x;
+
+
+                     foreach (MessagePort port in e.ports)
+                     {
+
+
+                         port.postMessage((object)zdata, new MessagePort[0]);
+                     }
+
+                 };
+
+            #endregion
+
+            __Thread.InternalCurrentThread.ManagedThreadId = InternalThreadCounter;
+            __Thread.InternalCurrentThread.IsBackground = true;
+
+            Console.WriteLine(
+                new
+                {
+                    Native.worker.location.href,
+                    InternalThreadCounter,
+                    MethodToken,
+                    MethodType
+                }
+            );
+
+            // whats the type?
+
+
+
+            #region __string
+            dynamic target = __string;
+            var m = Expando.Of(data___string).GetMembers();
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130826-domainmemory
+            foreach (ExpandoMember nn in m)
+            {
+                target[nn.Name] = nn.Value;
+
+                var trigger = "set_" + nn.Name;
+                var trigger_default = IFunction.Of(trigger);
+
+                (Native.self as dynamic)[trigger] = IFunction.OfDelegate(
+                    new Action<string>(
+                        Value =>
+                        {
+                            if (nn.Value == Value)
+                                return;
+
+                            trigger_default.apply(null, Value);
+
+                            #region sync one field only
+
+                            {
+                                dynamic zdata = new object();
+                                dynamic zdata___string = new object();
+
+                                zdata.__string = zdata___string;
+
+
+                                zdata___string[nn.Name] = Value;
+
+                                // prevent sync via diff
+                                nn.Value = Value;
+
+                                foreach (MessagePort port in e.ports)
+                                {
+                                    port.postMessage((object)zdata, new MessagePort[0]);
+                                }
+
+                            }
+
+
+                            #endregion
+                        }
+                    )
+                );
+            }
+            #endregion
+
+
+            {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
+                // for now we only support static calls
+
+                dynamic zdata = new object();
+
+
+                if (MethodType == typeof(ActionOfDedicatedWorkerGlobalScope).Name)
+                {
+                    IFunction.Of(MethodToken).apply(null, Native.worker);
+                }
+                else if (MethodType == typeof(FuncOfObjectToObject).Name)
+                {
+                    var value = IFunction.Of(MethodToken).apply(null, state);
+                    var yield = new { value };
+
+                    //Console.WriteLine(new { yield });
+
+                    zdata.yield = yield;
+
+                    // now what?
+                }
+                else if (MethodType == typeof(FuncOfTaskToObject).Name)
+                {
+                    // need to reconstruct the caller task?
+
+                    var task = new __Task<object> { Result  = Result };
+
+                    var value = IFunction.Of(MethodToken).apply(null, task);
+                    var yield = new { value };
+
+                    //Console.WriteLine(new { yield });
+
+                    zdata.yield = yield;
+
+                    // now what?
+                }
+
+                #region [sync] diff and upload changes to DOM context, the latest now
+                {
+                    dynamic zdata___string = new object();
+
+                    zdata.__string = zdata___string;
+
+                    foreach (ExpandoMember nn in m)
+                    {
+                        string Value = (string)Expando.InternalGetMember((object)target, nn.Name);
+                        // this is preferred:
+                        //string Value = target[nn.Name];
+
+                        if (Value != nn.Value)
+                        {
+                            zdata___string[nn.Name] = Value;
+                        }
+                    }
+
+
+
+
+                }
+                #endregion
+
+
+                foreach (MessagePort port in e.ports)
+                {
+                    port.postMessage((object)zdata, new MessagePort[0]);
+                }
+            }
         }
 
         [System.ComponentModel.Description("Will run as JavaScript Web Worker")]
         public static void InternalInvoke(Action default_yield)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
+
             // called by X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs
             // tested by X:\jsc.svn\examples\javascript\SharedWorkerExperiment\Application.cs
 
             if (Native.worker != null)
-            {
-                #region #worker
-                var href = Native.worker.location.href;
-                if (href.EndsWith("#worker"))
+                if (Native.worker.location.href.EndsWith("#worker"))
                 {
-                    var ss = href.Substring(0, href.Length - "#worker".Length);
-                    var ssi = ss.LastIndexOf("#");
+                    Native.worker.onfirstmessage +=
+                        e =>
+                        {
+                            dynamic e_data = e.data;
 
-                    ss = ss.Substring(ssi + 1);
-
-                    if (!string.IsNullOrEmpty(ss))
-                    {
-                        var sindex = int.Parse(ss);
-                        if (sindex >= 0)
-                            if (sindex < Handlers.Count)
-                            {
-
-                                Native.worker.onmessage +=
-                                    e =>
-                                    {
-                                        if (default_yield == null)
-                                            return;
+                            int InternalThreadCounter = e_data.InternalThreadCounter;
+                            object data___string = e_data.__string;
+                            string MethodToken = e_data.MethodToken;
+                            string MethodType = e_data.MethodType;
 
 
-                                        dynamic data = e.data;
+                            // used byTask.ctor 
+                            object state = e_data.state;
 
-                                        int InternalThreadCounter = data.InternalThreadCounter;
+                            // used by ContinueWith
+                            object Result = e_data.Result;
 
-                                        #region __string
-                                        dynamic target = __string;
-                                        var data___string = (object)data.__string;
-                                        var m = Expando.Of(data___string).GetMembers();
-                                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130826-domainmemory
-                                        foreach (ExpandoMember nn in m)
-                                        {
-                                            target[nn.Name] = nn.Value;
+                            // 3 dynamic uses messes up jsc? why?
 
-                                            var trigger = "set_" + nn.Name;
-                                            var trigger_default = IFunction.Of(trigger);
-
-                                            (Native.self as dynamic)[trigger] = IFunction.OfDelegate(
-                                                new Action<string>(
-                                                    Value =>
-                                                    {
-                                                        if (nn.Value == Value)
-                                                            return;
-
-                                                        trigger_default.apply(null, Value);
-
-                                                        #region sync one field only
-
-                                                        {
-                                                            dynamic zdata = new object();
-                                                            dynamic zdata___string = new object();
-
-                                                            zdata.__string = zdata___string;
-
-
-                                                            zdata___string[nn.Name] = Value;
-
-                                                            // prevent sync via diff
-                                                            nn.Value = Value;
-
-                                                            foreach (MessagePort port in e.ports)
-                                                            {
-                                                                port.postMessage((object)zdata, new MessagePort[0]);
-                                                            }
-
-                                                        }
-
-
-                                                        #endregion
-                                                    }
-                                                )
-                                            );
-                                        }
-                                        #endregion
-
-
-                                        //var s = "" + e.data;
-                                        //if (!string.IsNullOrEmpty(s))
-                                        //{
-                                        __Thread.InternalCurrentThread.ManagedThreadId = InternalThreadCounter;
-
-                                        var syield = Handlers[sindex];
-
-
-                                        #region ConsoleFormWriter
-                                        var w = new InternalInlineWorkerTextWriter();
-
-                                        var o = Console.Out;
-
-                                        Console.SetOut(w);
-
-                                        w.AtWrite =
-                                             x =>
-                                             {
-                                                 dynamic zdata = new object();
-
-                                                 zdata.AtWrite = x;
-
-
-                                                 foreach (MessagePort port in e.ports)
-                                                 {
-
-
-                                                     port.postMessage((object)zdata, new MessagePort[0]);
-                                                 }
-
-                                             };
-
-                                        #endregion
-
-                                        default_yield = null;
-
-                                        syield(Native.worker);
-
-
-                                        #region [sync] diff and upload changes to DOM context, the latest now
-                                        {
-                                            dynamic zdata = new object();
-                                            dynamic zdata___string = new object();
-
-                                            zdata.__string = zdata___string;
-
-                                            foreach (ExpandoMember nn in m)
-                                            {
-                                                string Value = (string)Expando.InternalGetMember((object)target, nn.Name);
-                                                // this is preferred:
-                                                //string Value = target[nn.Name];
-
-                                                if (Value != nn.Value)
-                                                {
-                                                    zdata___string[nn.Name] = Value;
-                                                }
-                                            }
-
-
-                                            foreach (MessagePort port in e.ports)
-                                            {
-                                                port.postMessage((object)zdata, new MessagePort[0]);
-                                            }
-
-                                        }
-                                        #endregion
-
-                                    };
-
-
-
-
-                            }
-
-                    }
+                            __worker_onfirstmessage(e, InternalThreadCounter, data___string, MethodToken, MethodType, state, Result);
+                        };
 
                     return;
                 }
-                #endregion
 
-            }
-            else if (Native.sharedworker != null)
+
+            if (Native.sharedworker != null)
             {
 
                 #region #sharedworker

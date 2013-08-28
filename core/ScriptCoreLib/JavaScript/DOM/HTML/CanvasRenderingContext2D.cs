@@ -17,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public IHTMLCanvas canvas;
 
 
+
+
         #region Constructor
 
         public CanvasRenderingContext2D(int w, int h)
@@ -31,11 +33,39 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             var canvas = new IHTMLCanvas { width = w, height = h };
             var context = (CanvasRenderingContext2D)canvas.getContext("2d");
 
+
+
+
             return context;
         }
 
         #endregion
 
+        public byte[] bytes
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var i = this.getImageData();
+
+                return i.data;
+            }
+
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                if (value != null)
+                    if (value.Length == canvas.width * canvas.height * 4)
+                    {
+                        // tested by 
+                        // X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
+
+                        var i = this.getImageData();
+                        i.data.set(value, 0);
+                        this.putImageData(i, 0, 0, 0, 0, canvas.width, canvas.height);
+                    }
+            }
+        }
 
         #region Constructor
 
@@ -60,6 +90,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public void putImageData(ImageData imagedata, float dx, float dy, float dirtyX, float dirtyY, float dirtyWidth, float dirtyHeight)
         {
 
+        }
+
+
+
+        [Script(DefineAsStatic = true)]
+        public ImageData getImageData()
+        {
+            return this.getImageData(0, 0, this.canvas.width, this.canvas.height);
         }
 
         public ImageData getImageData(float sx, float sy, float sw, float sh)
@@ -90,6 +128,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             }
         }
 
+        [Obsolete]
         public static implicit operator Uint8ClampedArray(CanvasRenderingContext2D c)
         {
             // tested by X:\jsc.svn\examples\javascript\android\CameraPreviewExperiment\CameraPreviewExperiment\Application.cs

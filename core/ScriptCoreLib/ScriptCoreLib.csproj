@@ -101,6 +101,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskFactory.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskScheduler.cs" />
     <Compile Include="JavaScript\DOM\Blob.cs" />
     <Compile Include="JavaScript\DOM\DataTransferItem.cs" />
     <Compile Include="JavaScript\DOM\DataTransferItemList.cs" />
