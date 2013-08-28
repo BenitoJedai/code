@@ -14,6 +14,9 @@ using MandelbrotCanvas.Design;
 using MandelbrotCanvas.HTML.Pages;
 using Mandelbrot;
 using ScriptCoreLib.JavaScript.Runtime;
+using System.Diagnostics;
+using ScriptCoreLib.JavaScript.WebGL;
+using System.Collections.Generic;
 
 namespace MandelbrotCanvas
 {
@@ -24,98 +27,157 @@ namespace MandelbrotCanvas
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+
+        class MandelbrotAsync
+        {
+
+            public byte[] frame { private set; get; }
+
+
+            public event Action onframe;
+
+
+            public MandelbrotAsync()
+            {
+                var w = new Worker(
+                     scope =>
+                     {
+                         Console.WriteLine("waiting for scope data");
+
+                         int shift = 0;
+
+
+                         var once = false;
+                         scope.onmessage +=
+                              ze =>
+                              {
+                                  #region waiting for scope data
+                                  if (!once)
+                                  {
+                                      once = true;
+                                      return;
+                                  }
+                                  #endregion
+
+
+
+                                  var frame = (byte[])ze.data;
+
+
+
+                                  var zDefaultWidth = MandelbrotProvider.DefaultWidth;
+                                  var zDefaultHeight = MandelbrotProvider.DefaultHeight;
+
+
+                                  var e = new Stopwatch();
+                                  e.Start();
+
+                                  var buffer = MandelbrotProvider.DrawMandelbrotSet(shift);
+
+                                  var k = 0;
+                                  for (int i = 0; i < zDefaultWidth; i++)
+                                      for (int j = 0; j < zDefaultHeight; j++)
+                                      {
+                                          var i4 = i * 4;
+                                          var j4 = j * 4;
+
+
+                                          frame[(i4 + j4 * zDefaultWidth + 2)] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
+                                          frame[(i4 + j4 * zDefaultWidth + 1)] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
+                                          frame[(i4 + j4 * zDefaultWidth + 0)] = (byte)((buffer[k] >> (2 * 8)) & 0xff);
+                                          frame[(i4 + j4 * zDefaultWidth + 3)] = 0xff;
+
+                                          k++;
+                                      }
+
+                                  ze.ports.WithEach(port => port.postMessage(frame));
+
+                                  //Console.WriteLine("worker: " + new { shift, e.ElapsedMilliseconds });
+
+                                  shift++;
+                              };
+
+                     }
+                );
+
+
+                w.postMessage(new { });
+
+
+
+                var memory = new Queue<byte[]>();
+
+                for (int i = 0; i < 3; i++)
+                    memory.Enqueue(new byte[MandelbrotProvider.DefaultWidth * MandelbrotProvider.DefaultHeight * 4]);
+
+                Native.window.onframe +=
+                    delegate
+                    {
+                        // need a few next frames
+
+                        if (memory.Count > 0)
+                        {
+                            var x = memory.Dequeue();
+
+                            Action<MessageEvent> yield =
+                                e =>
+                                {
+                                    var xe = new Stopwatch();
+                                    xe.Start();
+
+
+                                    if (frame != null)
+                                        memory.Enqueue(frame);
+
+                                    frame = (byte[])e.data;
+
+                                    if (onframe != null)
+                                        onframe();
+
+                                    //Console.WriteLine("yield: " + new { xe.ElapsedMilliseconds });
+                                };
+
+                            w.postMessage(x, yield);
+                        }
+                    };
+
+            }
+        }
+
         public Application(IDefault page)
         {
-            var shift = 0;
-            //Debugger.Break();
-            var buffer = MandelbrotProvider.DrawMandelbrotSet(shift);
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                buffer[i] = 0;
-            }
+            var MandelbrotAsync = new MandelbrotAsync();
 
 
-
-
-            var context = new CanvasRenderingContext2D();
-
+            var context = new CanvasRenderingContext2D(MandelbrotProvider.DefaultWidth, MandelbrotProvider.DefaultHeight);
             var canvas = context.canvas.AttachToDocument();
-            canvas.width = MandelbrotProvider.DefaultWidth;
-            canvas.height = MandelbrotProvider.DefaultHeight;
 
-            //var t = new Timer();
+            var fpsc = new Stopwatch();
+            fpsc.Start();
 
-            //var x = new MyImageData(DefaultWidth, DefaultHeight);
-            var x = context.getImageData(0, 0, MandelbrotProvider.DefaultWidth, MandelbrotProvider.DefaultHeight);
-
-            Action Refresh =
-                delegate
-                {
-                    buffer = MandelbrotProvider.DrawMandelbrotSet(shift);
-
-                    //var x = context.createImageData(DefaultWidth, DefaultHeight);
-
-
-                    var k = 0;
-                    for (int i = 0; i < MandelbrotProvider.DefaultWidth; i++)
-                        for (int j = 0; j < MandelbrotProvider.DefaultHeight; j++)
-                        {
-                            var i4 = i * 4;
-                            var j4 = j * 4;
-
-                            var offset = (uint)(i4 + j4 * MandelbrotProvider.DefaultWidth);
-
-                            x.data[offset + 2] = (byte)((buffer[k] >> (0 * 8)) & 0xff);
-                            x.data[offset + 1] = (byte)((buffer[k] >> (1 * 8)) & 0xff);
-                            x.data[offset + 0] = (byte)((buffer[k] >> (2 * 8)) & 0xff);
-                            x.data[offset + 3] = 0xff;
-
-                            //x.data[offset + 2] = 0x0f;
-                            //x.data[offset + 1] = 0xff;
-                            //x.data[offset + 0] = 0x0f;
-                            //x.data[offset + 3] = 0xff;
-
-                            k++;
-                        }
-
-                    context.putImageData(x, 0, 0, 0, 0, MandelbrotProvider.DefaultWidth, MandelbrotProvider.DefaultHeight);
-
-                };
-
-
-
+            var fps = 0;
             Native.window.onframe +=
                 delegate
                 {
+                    if (fpsc.ElapsedMilliseconds < 1000)
+                    {
+                        fps++;
+                    }
+                    else
+                    {
+                        Native.document.title = new { fps }.ToString();
+                        fps = 0;
+                        fpsc.Restart();
+                    }
 
-                    Refresh();
+                    if (MandelbrotAsync.frame == null)
+                        return;
 
-                    shift++;
+                    context.bytes = MandelbrotAsync.frame;
                 };
 
 
-            canvas.ondblclick +=
-                delegate
-                {
-                    canvas.requestFullscreen();
 
-                };
-            //t.StartInterval(50);
-            //Refresh();
-
-            //canvas.AttachToDocument();
-
-
-            //@"Hello world".ToDocumentTitle();
-            //// Send data from JavaScript to the server tier
-            //service.WebMethod2(
-            //    @"A string from JavaScript.",
-            //    value => value.ToDocumentTitle()
-            //);
         }
 
     }

@@ -16,6 +16,18 @@ namespace TestSimpleAwait
         {
             Z.Foo().Wait();
 
+            Task.Run(
+                delegate
+                {
+                    // cpu!
+                }
+            ).GetAwaiter().OnCompleted(
+                delegate
+                {
+                    // gui
+                    // done!
+                }
+            );
 
             Console.WriteLine("any key to exit ");
             Console.ReadKey();
@@ -30,6 +42,13 @@ namespace TestSimpleAwait
         {
             Console.WriteLine("before await ");
 
+            X.WebMethod2().ContinueWith(
+                t =>
+                {
+
+                }
+            );
+
             await X.WebMethod2();
 
             Console.WriteLine("after await ");
@@ -38,20 +57,22 @@ namespace TestSimpleAwait
 
     class X
     {
-        public static async Task WebMethod2()
+        public static async Task<int> WebMethod2()
         {
-            var s = new TaskCompletionSource<object>();
+            var s = new TaskCompletionSource<int>();
 
             new Thread(
                 delegate()
                 {
                     Thread.Sleep(1500);
 
-                    s.SetResult(null);
+                    s.SetResult(5);
                 }
             ).Start();
 
-            await s.Task;
+            //await s.Task;
+
+            return s.Task;
         }
     }
 }

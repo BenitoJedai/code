@@ -478,87 +478,97 @@ namespace CameraPreviewExperiment
 
                                                                    log("PreviewCallbackWithBuffer enter " + new { xcc, dataNV21.Length });
 
+                                                                   // failed to flush { Length = 14619 }
+                                                                   //new Thread(
+                                                                   //    delegate()
+                                                                   {
+                                                                       if (dummy == null)
+                                                                       {
+                                                                           // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
+                                                                           return;
+                                                                       }
 
-                                                                   new Thread(
-                                                                       delegate()
+                                                                       var cst = new Stopwatch();
+                                                                       cst.Start();
+
+                                                                       // http://stackoverflow.com/questions/3426614/android-converting-from-nv21-preview-format-on-nexus-one-to-jpeg
+                                                                       // http://developer.android.com/reference/android/graphics/YuvImage.html
+
+                                                                       var yuv = new YuvImage(
+                                                                           dataNV21,
+                                                                           ImageFormat.NV21,
+                                                                           min.width,
+                                                                           min.height,
+                                                                           null
+                                                                        );
+
+                                                                       var m = new java.io.ByteArrayOutputStream();
+
+                                                                       yuv.compressToJpeg(
+                                                                           new Rect(0, 0, min.width, min.height),
+                                                                           20,
+                                                                           m);
+
+                                                                       var data = (byte[])(object)m.toByteArray();
+
+                                                                       log("PreviewCallbackWithBuffer compressToJpeg done " + new { xcc, cst.Elapsed });
+
+
+                                                                       Console.WriteLine("compressToJpeg "
+                                                                            + new { data.Length }
+                                                                        );
+
+                                                                       var src = "data:image/jpg;base64," +
+                                                                             Convert.ToBase64String(
+                                                                                 data
+                                                                             );
+
+                                                                       log("PreviewCallbackWithBuffer ToBase64String done " + new { xcc, cst.Elapsed });
+
+                                                                       y(src);
+
+
+                                                                       //PreviewCallbackWithBuffer { cc = 0, Length = 1048576 }
+
+                                                                       if (dummy == null)
+                                                                       {
+                                                                           // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
+                                                                           return;
+                                                                       }
+
+                                                                       //camera.addCallbackBuffer();
+                                                                       camera.addCallbackBuffer(new sbyte[buffersize]);
+
+                                                                       log("PreviewCallbackWithBuffer exit " + new { xcc, cst.Elapsed });
+
+
+                                                                       if (xcc == frames)
                                                                        {
 
-                                                                           var cst = new Stopwatch();
-                                                                           cst.Start();
+                                                                           //dummy.setVisibility(View.GONE);
+                                                                           //dummy = null;
 
-                                                                           // http://stackoverflow.com/questions/3426614/android-converting-from-nv21-preview-format-on-nexus-one-to-jpeg
-                                                                           // http://developer.android.com/reference/android/graphics/YuvImage.html
+                                                                           // Caused by: android.view.ViewRoot$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
 
-                                                                           var yuv = new YuvImage(
-                                                                               dataNV21,
-                                                                               ImageFormat.NV21,
-                                                                               min.width,
-                                                                               min.height,
-                                                                               null
-                                                                            );
-
-                                                                           var m = new java.io.ByteArrayOutputStream();
-
-                                                                           yuv.compressToJpeg(
-                                                                               new Rect(0, 0, min.width, min.height),
-                                                                               20,
-                                                                               m);
-
-                                                                           var data = (byte[])(object)m.toByteArray();
-
-                                                                           log("PreviewCallbackWithBuffer compressToJpeg done " + new { xcc, cst.Elapsed });
-
-
-                                                                           Console.WriteLine("compressToJpeg "
-                                                                                + new { data.Length }
-                                                                            );
-
-                                                                           var src = "data:image/jpg;base64," +
-                                                                                 Convert.ToBase64String(
-                                                                                     data
-                                                                                 );
-
-                                                                           log("PreviewCallbackWithBuffer ToBase64String done " + new { xcc, cst.Elapsed });
-
-                                                                           y(src);
-
-
-                                                                           //PreviewCallbackWithBuffer { cc = 0, Length = 1048576 }
-
-
-                                                                           //camera.addCallbackBuffer();
-                                                                           camera.addCallbackBuffer(new sbyte[buffersize]);
-
-                                                                           log("PreviewCallbackWithBuffer exit " + new { xcc, cst.Elapsed });
-
-
-                                                                           if (xcc == frames)
-                                                                           {
-
-                                                                               //dummy.setVisibility(View.GONE);
-                                                                               //dummy = null;
-
-                                                                               // Caused by: android.view.ViewRoot$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
-
-                                                                               aa.runOnUiThread(
-                                                                                  new f
+                                                                           aa.runOnUiThread(
+                                                                              new f
+                                                                              {
+                                                                                  y = delegate
                                                                                   {
-                                                                                      y = delegate
+                                                                                      if (dummy != null)
                                                                                       {
-                                                                                          if (dummy != null)
-                                                                                          {
-                                                                                              dummy.setVisibility(View.GONE);
-                                                                                              dummy = null;
+                                                                                          dummy.setVisibility(View.GONE);
+                                                                                          dummy = null;
 
-                                                                                          }
-
-                                                                                          a.Set();
                                                                                       }
+
+                                                                                      a.Set();
                                                                                   }
-                                                                              );
-                                                                           }
+                                                                              }
+                                                                          );
                                                                        }
-                                                                   ).Start();
+                                                                   }
+                                                                   //).Start();
 
                                                                    cc++;
 

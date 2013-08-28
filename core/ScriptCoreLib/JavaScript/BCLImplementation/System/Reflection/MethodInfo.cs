@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib.JavaScript.DOM;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
@@ -37,7 +38,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         public override string ToString()
         {
             // is jsc setting it to be string for methods?
-      
+
             return new { MethodToken }.ToString();
         }
 
@@ -48,9 +49,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         public override object InternalInvoke(object obj, object[] parameters)
         {
 
-     
+
 
             return InternalMethodReference.apply(obj, parameters);
+        }
+
+
+
+        public static implicit operator MethodInfo(__MethodInfo e)
+        {
+            return (MethodInfo)(object)e;
+        }
+
+        public static implicit operator __MethodInfo(MethodInfo e)
+        {
+            return (__MethodInfo)(object)e;
         }
     }
 }

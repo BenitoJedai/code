@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -42,9 +43,33 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
+        public static void Sleep(int ms)
+        {
+            // fake sleep. keep cpu busy!
+
+            var e = new Stopwatch();
+            e.Start();
+
+            if (ms > 0)
+                while (e.ElapsedMilliseconds < ms)
+                {
+                    Thread.Yield();
+                }
+        }
+
+
+        public static bool Yield()
+        {
+            // how do we yield? :P
+
+            return false;
+        }
+
         public int ManagedThreadId { get; set; }
 
         public bool IsAlive { get; set; }
+
+        public bool IsBackground { get; set; }
 
         #region ThreadStart
         public ThreadStart InternalMethod;

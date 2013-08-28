@@ -94,6 +94,7 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\SHA1CryptographyExtensions.cs" />
     <Compile Include="Extensions\StringConversionExtensions.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="JavaScript\Components\ApplicationComponent.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
 
         public readonly WorkerLocation location;
-    
+
     }
 
     [Script(HasNoPrototype = true)]
@@ -39,7 +39,32 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        #region event onfirstmessage
+        public event System.Action<MessageEvent> onfirstmessage
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
 
+                System.Action<MessageEvent> yield = null;
+
+                yield = e =>
+                {
+                    value(e);
+
+
+                    this.onmessage -= yield;
+                };
+
+                this.onmessage += yield;
+
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+            }
+        }
+        #endregion
 
         public void postMessage(object message) { }
     }
