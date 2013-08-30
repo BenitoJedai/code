@@ -29,6 +29,24 @@ namespace FlashSpaceInvadersApp
 
         public ApplicationSprite()
         {
+            //        VerifyError: Error #1030: Stack depth is unbalanced. 1 != 0.
+
+            //at Function/http://adobe.com/AS3/2006/builtin::apply()
+            //at ScriptCoreLib.Shared.BCLImplementation.System::__Action/Invoke_4ebbe596_06001ab0()[U:\web\ScriptCoreLib\Shared\BCLImplementation\System\__Action.as:30]
+            //at FlashSpaceInvaders.ActionScript.StarShips::EnemyCloud___c__DisplayClass13/__ctor_b__a_a19717b2_0600014a()[U:\web\FlashSpaceInvaders\ActionScript\StarShips\EnemyCloud___c__DisplayClass13.as:79]
+            //at Function/http://adobe.com/AS3/2006/builtin::apply()
+            //at ScriptCoreLib.Shared.BCLImplementation.System::__Action_1/Invoke_4ebbe596_06001ab4()[U:\web\ScriptCoreLib\Shared\BCLImplementation\System\__Action_1.as:30]
+            //at FlashSpaceInvaders.ActionScript::Property_1/set Value()[U:\web\FlashSpaceInvaders\ActionScript\Property_1.as:77]
+            //at FlashSpaceInvaders.ActionScript::Game/__ctor_b__2d_a19717b2_0600001c()[U:\web\FlashSpaceInvaders\ActionScript\Game.as:497]
+            //at Function/http://adobe.com/AS3/2006/builtin::apply()
+            //at ScriptCoreLib.Shared.BCLImplementation.System::__Action/Invoke_4ebbe596_06001ab0()[U:\web\ScriptCoreLib\Shared\BCLImplementation\System\__Action.as:30]
+            //at FlashSpaceInvaders.ActionScript::Game()[U:\web\FlashSpaceInvaders\ActionScript\Game.as:329]
+            //at FlashSpaceInvadersApp::ApplicationSprite/PlaySinglePlayer_a19717b2_06000002()[U:\web\FlashSpaceInvadersApp\ApplicationSprite.as:39]
+            //at FlashSpaceInvadersApp::ApplicationSprite()[U:\web\FlashSpaceInvadersApp\ApplicationSprite.as:26]
+
+
+
+
             //PlayMultiPlayerWithMochi();
             //PlaySplitScreen();
             PlaySinglePlayer();

@@ -21,7 +21,6 @@ namespace FlashTreasureHunt.ActionScript
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script]
 	public partial class FlashTreasureHunt : Sprite
 	{
 		// http://www.users.globalnet.co.uk/~brlowe/index.html
@@ -110,6 +109,8 @@ namespace FlashTreasureHunt.ActionScript
 
 			// users can override this method
 			this.ReadyWithLoadingCurrentLevel = this.ReadyWithLoadingCurrentLevelDirect;
+
+
 
 			this.ReadyForNextLevel =
 				AlmostDone =>

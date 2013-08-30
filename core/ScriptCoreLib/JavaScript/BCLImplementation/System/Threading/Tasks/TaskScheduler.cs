@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     internal class __TaskScheduler
     {
         public static TaskScheduler Current { get; set; }
+
+        // to add: WorkerTaskScheduler with url
         public static TaskScheduler Default { get; set; }
 
         public static TaskScheduler FromCurrentSynchronizationContext()

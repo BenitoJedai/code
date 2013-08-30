@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
     /// helps to prevent recurring events to be discarded
     /// </summary>
     [Script]
-	[System.Obsolete("To be moved out of CoreLib or removed")]
+	[System.Obsolete("What about Tasks?")]
     public class WorkPool
     {
         [Script]

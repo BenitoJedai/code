@@ -13,6 +13,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Text
 
         }
 
+        public int Length
+        {
+            get
+            {
+                return this._Value.Length;
+            }
+        }
+
+
         string _Value = "";
 
         public __StringBuilder Append(bool e)

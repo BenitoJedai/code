@@ -1,4 +1,5 @@
 using MandelbrotFormsControl;
+using MandelbrotFormsControl.Library;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,21 +18,17 @@ namespace MandelbrotFormsControl
             this.InitializeComponent();
         }
 
- 
+
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
-         
+
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            mandelbrotComponent1.timer1.Enabled = checkBox1.Checked;
+            new MandelbrotForm().Show();
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            mandelbrotComponent2.timer1.Enabled = checkBox2.Checked;
-        }
 
     }
 }

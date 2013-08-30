@@ -12,6 +12,8 @@ namespace FlashTowerDefenseApp.Components
 
         public MySprite1()
         {
+            // http://stackoverflow.com/questions/4003286/error-1030-stack-depth-is-unbalanced
+
             var g = new FlashTowerDefense.ActionScript.FlashTowerDefense();
 
             g.AttachTo(this);

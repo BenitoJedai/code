@@ -14,16 +14,12 @@ using WebGLCannonPhysicsEngine.Design;
 using WebGLCannonPhysicsEngine.HTML.Pages;
 using System.Collections.Generic;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace WebGLCannonPhysicsEngine
 {
     using f = Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.JavaScript.Runtime;
-
-
-
-
 
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -175,9 +171,12 @@ namespace WebGLCannonPhysicsEngine
 
             //    
 
-            var mesh = new THREE.Mesh(geometry, material);
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
+            var mesh = new THREE.Mesh(geometry, material)
+            {
+                castShadow = true,
+                receiveShadow = true
+            };
+
             scene.add(mesh);
 
             var renderer = new THREE.WebGLRenderer(new object());
@@ -296,6 +295,8 @@ namespace WebGLCannonPhysicsEngine
 
                 if (controls.enabled)
                 {
+                    // how big of a world can we hold?
+                    // async ?
                     world.step(dt);
 
                     // Update ball positions

@@ -80,14 +80,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script]
     internal delegate object FuncOfTaskToObject(Task task);
 
+    [Script]
+    internal delegate object FuncOfTaskOfObjectArrayToObject(Task<object>[] task);
+
 
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
     internal class __Task<TResult> : __Task
     {
         // see also: http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.getawaiter(v=vs.110).aspx
+
+
         public __TaskAwaiter<TResult> GetAwaiter()
         {
-            return default(__TaskAwaiter<TResult>);
+            // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
+
+            var awaiter = new __TaskAwaiter<TResult> { };
+
+            this.InternalYield += delegate
+            {
+                awaiter.InternalResult = this.Result;
+                awaiter.IsCompleted = true;
+
+                if (awaiter.InternalOnCompleted != null)
+                    awaiter.InternalOnCompleted();
+            };
+
+            return awaiter;
         }
 
 
@@ -251,7 +269,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public Task<TNewResult> ContinueWith<TNewResult>(Func<Task<TResult>, TNewResult> continuationFunction, TaskScheduler scheduler)
         {
             var function = continuationFunction;
-
             var MethodType = typeof(FuncOfTaskToObject).Name;
 
             #region MethodToken
@@ -275,6 +292,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             {
                 Console.WriteLine("ContinueWith " + new { this.Result, scheduler });
 
+                // what if only GUI scheduler is available?
                 if (scheduler != null)
                 {
 
@@ -286,99 +304,102 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
                     if (t.InternalYield != null)
                         t.InternalYield();
+
+                    return;
                 }
-                else
+
+                #region xdata___string
+                dynamic xdata___string = new object();
+
+                // how much does this slow us down?
+                // connecting to a new scope, we need a fresh copy of everything
+                // we can start with strings
+                foreach (ExpandoMember nn in Expando.Of(InternalInlineWorker.__string).GetMembers())
                 {
-                    #region xdata___string
-                    dynamic xdata___string = new object();
-
-                    // how much does this slow us down?
-                    // connecting to a new scope, we need a fresh copy of everything
-                    // we can start with strings
-                    foreach (ExpandoMember nn in Expando.Of(InternalInlineWorker.__string).GetMembers())
-                    {
-                        if (nn.Value != null)
-                            xdata___string[nn.Name] = nn.Value;
-                    }
-                    #endregion
-
-
-                    var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                           global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
-                       );
-
-                    #region postMessage
-                    w.postMessage(
-                        new
-                        {
-                            InternalInlineWorker.InternalThreadCounter,
-                            MethodToken,
-                            MethodType,
-
-                            //state = state,
-
-                            // pass the result for reconstruction
-                            this.Result,
-
-                            __string = (object)xdata___string
-                        }
-                        ,
-                         e =>
-                         {
-                             // what kind of write backs do we expect?
-                             // for now it should be console only
-
-                             dynamic zdata = e.data;
-
-                             #region AtWrite
-                             string AtWrite = zdata.AtWrite;
-
-                             if (!string.IsNullOrEmpty(AtWrite))
-                                 Console.Write(AtWrite);
-                             #endregion
-
-                             #region __string
-                             var zdata___string = (object)zdata.__string;
-                             if (zdata___string != null)
-                             {
-                                 #region __string
-                                 dynamic target = InternalInlineWorker.__string;
-                                 var m = Expando.Of(zdata___string).GetMembers();
-
-                                 foreach (ExpandoMember nn in m)
-                                 {
-                                     Console.WriteLine("Worker has sent changes " + new { nn.Name });
-
-                                     target[nn.Name] = nn.Value;
-                                 }
-                                 #endregion
-                             }
-                             #endregion
-
-                             #region yield
-                             dynamic yield = zdata.yield;
-                             if ((object)yield != null)
-                             {
-
-                                 object value = yield.value;
-
-                                 //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
-
-                                 this.Result = (TResult)value;
-
-                                 //w.terminate();
-
-                                 if (t.InternalYield != null)
-                                     t.InternalYield();
-                             }
-                             #endregion
-
-                         }
-                    );
-                    #endregion
-
-                    InternalInlineWorker.InternalThreadCounter++;
+                    if (nn.Value != null)
+                        xdata___string[nn.Name] = nn.Value;
                 }
+                #endregion
+
+
+                var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
+                       global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
+                   );
+
+                #region postMessage
+                w.postMessage(
+                    new
+                    {
+                        InternalInlineWorker.InternalThreadCounter,
+                        MethodToken,
+                        MethodType,
+
+                        //state = state,
+
+                        // pass the result for reconstruction
+
+                        // task[0].Result
+
+                        Task = new[] { new { this.Result } },
+
+                        __string = (object)xdata___string
+                    }
+                    ,
+                     e =>
+                     {
+                         // what kind of write backs do we expect?
+                         // for now it should be console only
+
+                         dynamic zdata = e.data;
+
+                         #region AtWrite
+                         string AtWrite = zdata.AtWrite;
+
+                         if (!string.IsNullOrEmpty(AtWrite))
+                             Console.Write(AtWrite);
+                         #endregion
+
+                         #region __string
+                         var zdata___string = (object)zdata.__string;
+                         if (zdata___string != null)
+                         {
+                             #region __string
+                             dynamic target = InternalInlineWorker.__string;
+                             var m = Expando.Of(zdata___string).GetMembers();
+
+                             foreach (ExpandoMember nn in m)
+                             {
+                                 Console.WriteLine("Worker has sent changes " + new { nn.Name });
+
+                                 target[nn.Name] = nn.Value;
+                             }
+                             #endregion
+                         }
+                         #endregion
+
+                         #region yield
+                         dynamic yield = zdata.yield;
+                         if ((object)yield != null)
+                         {
+
+                             object value = yield.value;
+
+                             //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
+
+                             t.Result = (TNewResult)value;
+
+                             //w.terminate();
+
+                             if (t.InternalYield != null)
+                                 t.InternalYield();
+                         }
+                         #endregion
+
+                     }
+                );
+                #endregion
+
+                InternalInlineWorker.InternalThreadCounter++;
             };
 
             return t;

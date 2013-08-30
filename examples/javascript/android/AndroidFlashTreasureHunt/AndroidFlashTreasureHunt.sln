@@ -2,27 +2,35 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidFlashTreasureHunt", "AndroidFlashTreasureHunt\AndroidFlashTreasureHunt.csproj", "{85E2DFC6-C768-4115-AF3D-114C7C7A4854}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812} = {D6904364-3DE3-45CA-A117-EE45F2C1D812}
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {9122FB76-35CE-41C7-8894-4E58D1BA94BD}
+		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1} = {753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{5D68C1BC-D07C-4DFF-BE10-EC5805944548}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidFlashTreasureHunt.IsometricBuilder", "AndroidFlashTreasureHunt.IsometricBuilder\AndroidFlashTreasureHunt.IsometricBuilder.csproj", "{A28A2898-D11B-4027-B5FE-2A911CC5D66F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3CAD096A-A3C4-4DC8-A5C9-418C9D352969}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
+	ProjectSection(ProjectDependencies) = postProject
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTreasureHunt", "..\..\..\actionscript\FlashTreasureHunt\FlashTreasureHunt\FlashTreasureHunt.csproj", "{53FAB63F-CFB0-4B48-A7BA-26E3CFAEB916}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D6904364-3DE3-45CA-A117-EE45F2C1D812} = {D6904364-3DE3-45CA-A117-EE45F2C1D812}
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {9122FB76-35CE-41C7-8894-4E58D1BA94BD}
+		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1} = {753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Maze", "..\..\..\..\market\Abstractatech.Maze\Abstractatech.Maze\Abstractatech.Maze.csproj", "{9122FB76-35CE-41C7-8894-4E58D1BA94BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ActionScript.RayCaster", "..\..\..\..\market\Abstractatech.ActionScript.RayCaster\Abstractatech.ActionScript.RayCaster\Abstractatech.ActionScript.RayCaster.csproj", "{D6904364-3DE3-45CA-A117-EE45F2C1D812}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\..\..\actionscript\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj", "{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +135,21 @@ Global
 		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}.Release|Mixed Platforms.Build.0 = Release|x86
 		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}.Release|x86.ActiveCfg = Release|x86
 		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1}.Release|x86.Build.0 = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Android|Any CPU.ActiveCfg = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Android|Mixed Platforms.Build.0 = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Android|x86.ActiveCfg = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Android|x86.Build.0 = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Debug|x86.ActiveCfg = Debug|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Debug|x86.Build.0 = Debug|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|Any CPU.ActiveCfg = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|Mixed Platforms.Build.0 = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.ActiveCfg = Release|x86
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,5 +160,6 @@ Global
 		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 		{D6904364-3DE3-45CA-A117-EE45F2C1D812} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 		{753AC2A6-7B22-4655-BC7D-DAE840A8B9F1} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
+		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 	EndGlobalSection
 EndGlobal

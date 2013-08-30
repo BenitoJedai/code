@@ -28,7 +28,9 @@ namespace ScriptCoreLib
                     {
                         // yay.
                         this.InternalImplements = Type.GetType(this.ImplementsViaAssemblyQualifiedName);
-                        this.ImplementsViaAssemblyQualifiedName = null;
+
+                        if (this.InternalImplements != null)
+                            this.ImplementsViaAssemblyQualifiedName = null;
                         // cannot be both!
                     }
 
@@ -40,11 +42,10 @@ namespace ScriptCoreLib
             }
         }
 
-        /// <summary>
-        /// Supports redirecting BCLImplementation type while the target is visible.
-        /// 
-        /// Example for F# interactive: typeof[System.Tuple].AssemblyQualifiedName;;
-        /// </summary>
+        // Supports redirecting BCLImplementation type while the target is visible.
+        // 
+        // Example for F# interactive: typeof[System.Tuple].AssemblyQualifiedName;;
+        // x:\jsc.svn\examples\javascript\Test\TestGetAwaiter\TestGetAwaiter\Class1.cs
         public string ImplementsViaAssemblyQualifiedName { get; set; }
 
     }

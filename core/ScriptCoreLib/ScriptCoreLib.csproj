@@ -91,6 +91,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Int64.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="ActionScript\flash\system\WorkerDomain.cs" />
+    <Compile Include="ActionScript\flash\system\Worker.cs" />
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int64.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\CancellationToken.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskFactory.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskScheduler.cs" />
     <Compile Include="JavaScript\DOM\Blob.cs" />
