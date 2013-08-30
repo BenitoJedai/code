@@ -21,6 +21,7 @@ using System.Diagnostics;
 namespace WebGLToAnimatedGIFExperiment
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using System.Collections.Generic;
 
 
 
@@ -95,64 +96,46 @@ namespace WebGLToAnimatedGIFExperiment
             Action<WebGLRenderingContext> activate =
                 context =>
                 {
-
-
-
                     context.canvas.style.border = "2px solid yellow";
                     context.canvas.style.cursor = IStyle.CursorEnum.pointer;
-
-
-
 
                     context.canvas.onclick +=
                          delegate
                          {
-                             var c0 = new CanvasRenderingContext2D();
-
-                             // no scale!
-                             c0.canvas.width = 96;
-                             c0.canvas.height = 96;
-                             c0.canvas.style.SetSize(96, 96);
-
+                             var c0 = new CanvasRenderingContext2D(96, 96);
                              c0.canvas.AttachToDocument();
 
-                             //INodeExtensions.Clear(page.output);
+                             var frames = new List<byte[]>();
 
-
-                             page.output.Clear();
-
-
-                             var encoder = new GIFEncoder();
-
-                             encoder.setRepeat(0); //auto-loop
-
-                             encoder.setDelay(1000 / 60);
-                             encoder.start();
-
-                             var t = new ScriptCoreLib.JavaScript.Runtime.Timer();
-
-                             t.Tick +=
-                                 delegate
+                             new ScriptCoreLib.JavaScript.Runtime.Timer(
+                                 t =>
                                  {
                                      if (t.Counter == 60)
                                      {
-                                         t.Stop();
+                                         Console.WriteLine("GIFEncoderWorker!");
 
+                                         new GIFEncoderWorker(
+                                                 96,
+                                                 96,
+                                                  delay: 1000 / 60,
+                                                 frames: frames
+                                         ).Task.ContinueWith(
+                                            task =>
+                                            {
+                                                var src = task.Result;
 
-                                         encoder.finish();
+                                                Console.WriteLine("done!");
 
+                                                new IHTMLImage { src = src }.AttachToDocument();
+                                            }
+                                         );
 
+                                         Console.WriteLine("GIFEncoderWorker! working in the background");
+                                     }
 
-                                         {
-                                             var image = new IHTMLImage();
-                                             var data = encoder.stream().getData();
-                                             var bytes = Encoding.ASCII.GetBytes(data);
-
-                                             image.src = "data:image/gif;base64," + Convert.ToBase64String(bytes);
-                                             image.AttachToDocument();
-                                         }
-
-
+                                     if (t.Counter >= 60)
+                                     {
+                                         c0.bytes = frames[t.Counter % frames.Count];
 
                                          return;
                                      }
@@ -165,28 +148,17 @@ namespace WebGLToAnimatedGIFExperiment
                                      #endregion
 
 
-                                     var icon = new IHTMLImage(context.canvas.toDataURL("image/png"));
+                                     if (!t.IsAlive)
+                                         return;
 
-                                     icon.InvokeOnComplete(
-                                         delegate
-                                         {
-                                             if (!t.IsAlive)
-                                                 return;
+                                     c0.drawImage(context.canvas, 0, 0, 96, 96);
 
-                                             icon.AttachTo(page.output);
-                                             page.output.ScrollToBottom();
-
-                                             c0.drawImage(icon, 0, 0, 96, 96);
-
-                                             encoder.addFrame(c0);
-                                         }
-                                     );
+                                     frames.Add(c0.getImageData().data);
 
 
 
-                                 };
-
-                             t.StartInterval(1000 / 60);
+                                 }
+                              ).StartInterval(1000 / 60);
 
                          };
                 };

@@ -46,7 +46,31 @@ namespace System.Threading.Tasks
             return Task<TResult>.Factory.StartNew(x.f, (object)state);
         }
 
+        //cancellationToken: default(CancellationToken),
+        //         creationOptions: TaskCreationOptions.LongRunning,
+        //         scheduler: TaskScheduler.Default
 
+        public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory that,
+            TSource state,
+            Func<TSource, TResult> function,
+            CancellationToken cancellationToken,
+            TaskCreationOptions creationOptions,
+            TaskScheduler scheduler
+            ) where TSource : class
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\forms\MandelbrotFormsControl\MandelbrotFormsControl\Library\MandelbrotComponent.cs
+            // X:\jsc.svn\examples\javascript\forms\TaskRunExperiment\TaskRunExperiment\ApplicationControl.cs
+
+
+            var x = new InternalTaskExtensionsScope<TSource, TResult> { InternalTaskExtensionsScope_function = function };
+
+            return Task<TResult>.Factory.StartNew(x.f, (object)state,
+                cancellationToken,
+                creationOptions,
+                scheduler
+            );
+        }
 
     }
 }

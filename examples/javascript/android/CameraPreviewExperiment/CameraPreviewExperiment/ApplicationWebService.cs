@@ -8,6 +8,8 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Ultra.WebService;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -197,6 +199,7 @@ namespace CameraPreviewExperiment
         // can we send a zip file?
         public static void Invoke(int index, Action<string> y, int frames = 4)
         {
+            #region log
             var st = new Stopwatch();
             st.Start();
             Action<string> log =
@@ -207,6 +210,7 @@ namespace CameraPreviewExperiment
                     Console.WriteLine(z);
                     y(z);
                 };
+            #endregion
 
             log("getting ready...");
 
@@ -219,59 +223,89 @@ namespace CameraPreviewExperiment
             //var f = new java.io.File(path + "/shot" + n.Ticks + ".jpg");
 
             var camera = default(android.hardware.Camera);
-            var dummy = default(SurfaceView);
+            var surface = default(SurfaceView);
 
             try
             {
                 // PreviewCallbackWithBuffer { cc = 0, Length = 1048576 }
                 // W/CameraService(   84): CameraService::connect X (pid 2117) rejected (existing client).
 
-                Console.WriteLine("*");
-                Console.WriteLine("*");
-                Console.WriteLine("android.hardware.Camera.open");
-
-                log("android.hardware.Camera.open...");
+                log("android.hardware.Camera.open... " + new { index });
 
                 camera = android.hardware.Camera.open(index);
 
-                Console.WriteLine("*");
-                Console.WriteLine("*");
-                Console.WriteLine("after android.hardware.Camera.open");
+                log("android.hardware.Camera.open... done ");
 
-                //I/SecCameraHardwareInterface(   84): SecCameraHardwareInterface created: pid=84, cameraId=0
-                //I/SecCamera(   84): Name of input channel[0] is CE147
-                //I/SecCamera(   84): Name of input channel[0] is CE147
-                //I/SecCamera(   84): Name of input channel[0] is CE147
-                //I/ShotCommon(   84): ShotCommon created: pid=84
-                //I/ShotCommon(   84): Preview width(640), height(480)
-                //I/ShotCommon(   84): Preview color format yuv420sp
-                //I/ShotCommon(   84): Picture width(2560), height(1920)
-                //I/ShotCommon(   84): Picture color format jpeg
-                //I/ShotCommon(   84): mUseOverlay = 1
-                //I/ShotSingle(   84): ShotSingle created: pid=84
+                var PreviewFormat = ImageFormat.UNKNOWN;
 
-
+                #region setParameters
                 var p = camera.getParameters();
 
                 // The size of the buffer must match the values described above.
                 // Gets the supported preview formats. NV21 is always supported.
 
                 // http://developer.android.com/reference/android/hardware/Camera.Parameters.html#getSupportedPreviewFormats()
-                p.getSupportedPreviewFormats().With(
-                    pformats =>
-                    {
-                        for (int i = 0; i < pformats.size(); i++)
-                        {
-                            var pformat = (int)pformats.get(i);
 
-                            Console.WriteLine(new { pformat });
-                        }
-                    }
-                );
+                #region SupportedPictureFormat
+
+                foreach (int SupportedPictureFormat in p.getSupportedPictureFormats().AsEnumerable())
+                {
+                    Console.WriteLine(new { SupportedPictureFormat });
+                }
+
+                //p.getSupportedPictureFormats().With(
+                //     pformats =>
+                //     {
+                //         for (int i = 0; i < pformats.size(); i++)
+                //         {
+                //             var SupportedPictureFormat = (int)pformats.get(i);
+
+                //             Console.WriteLine(new { SupportedPictureFormat });
+                //         }
+                //     }
+                // );
+                #endregion
 
 
-                p.setPictureFormat(ImageFormat.NV21);
-                p.setPreviewFormat(ImageFormat.NV21);
+
+                #region SupportedPreviewFormat
+
+                foreach (int SupportedPreviewFormat in p.getSupportedPreviewFormats().AsEnumerable())
+                {
+
+                    if (SupportedPreviewFormat == ImageFormat.NV21)
+                        PreviewFormat = SupportedPreviewFormat;
+                    else if (PreviewFormat == ImageFormat.UNKNOWN)
+                        PreviewFormat = SupportedPreviewFormat;
+
+                    log("" + new { SupportedPreviewFormat });
+
+                    Console.WriteLine(new { SupportedPreviewFormat });
+                }
+                //p.getSupportedPreviewFormats().With(
+                //    pformats =>
+                //    {
+                //        for (int i = 0; i < pformats.size(); i++)
+                //        {
+                //            var SupportedPreviewFormat = (int)pformats.get(i);
+
+
+                //            if (SupportedPreviewFormat == ImageFormat.NV21)
+                //                PreviewFormat = SupportedPreviewFormat;
+                //            else if (PreviewFormat == ImageFormat.UNKNOWN)
+                //                PreviewFormat = SupportedPreviewFormat;
+
+                //            log("" + new { SupportedPreviewFormat });
+                //        }
+                //    }
+                //);
+                #endregion
+
+
+                //p.setPictureFormat(ImageFormat.YV12);
+
+                p.setPreviewFormat(PreviewFormat);
+
 
                 //D/DOMX    (  127): ERROR: failed check:(eError == OMX_ErrorNone) || (eError == OMX_ErrorNoMore) - returning error: 0x80001005 - Error returned from OMX API in ducati
                 //E/CameraHAL(  127): Error while configuring rotation 0x80001005
@@ -280,57 +314,57 @@ namespace CameraPreviewExperiment
 
                 ////p.setRotation(0);
 
-                #region setPictureSize
-                var s = p.getSupportedPictureSizes();
+                #region getSupportedPreviewSizes
+                //var s = p.getSupportedPreviewSizes();
 
                 var min = default(android.hardware.Camera.Size);
 
-                for (int i = 0; i < s.size(); i++)
+                //for (int i = 0; i < s.size(); i++)
+                foreach (android.hardware.Camera.Size size in p.getSupportedPreviewSizes().AsEnumerable())
                 {
-                    var size = (android.hardware.Camera.Size)s.get(i);
+                    //var size = (android.hardware.Camera.Size)s.get(i);
 
                     //                I/System.Console( 6058): before takePicture { f = /mnt/sdcard/Pictures/shot.jpg }
                     //I/System.Console( 6058): { size = android.hardware.Camera$Size@4fde180 }
 
-                    System.Console.WriteLine(new { size.width, size.height });
+                    var SupportedPreviewSize = new { size.width, size.height };
+                    log("" + new { SupportedPreviewSize });
 
                     if (min == null)
                         min = size;
                     else if (min.width > size.width)
                         min = size;
 
-
                 }
 
 
                 #endregion
+                p.setPreviewSize(min.width, min.height);
 
                 //For formats besides YV12, the size of the buffer is determined by multiplying the
                 // preview image width, height, and bytes per pixel. The width and height can be read 
                 // from getPreviewSize(). Bytes per pixel can be computed from getBitsPerPixel(int) / 8, 
                 // using the image format from getPreviewFormat().
 
-                p.setPictureSize(min.width, min.height);
-                p.setPreviewSize(min.width, min.height);
+                //p.setPictureSize(min.width, min.height);
 
-                // { buffersize = -307200 }
 
                 // I/System.Console( 2860): { width = 640, height = 480, bytesperpixel = 0, buffersize = 0 }
                 // the number of bits per pixel of the given format or -1 if the format doesn't exist or is not supported.
-                var bytesperpixel = (ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8);
-                //var buffersize = min.width * min.height * bytesperpixel;
-                var buffersize = 460800;
+                //var bytesperpixel = (ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8);
 
-                Console.WriteLine("*");
-                Console.WriteLine("*");
-                Console.WriteLine("" + new { min.width, min.height, bytesperpixel, buffersize });
+                // http://stackoverflow.com/questions/13703596/mediacodec-and-camera-colorspaces-dont-match
+                // https://code.google.com/p/android/issues/detail?id=37655
 
+                var bitsperpixel = (ImageFormat.getBitsPerPixel(PreviewFormat));
+                var buffersize = min.width * min.height / 8 * bitsperpixel;
 
-                // E/Camera-JNI( 3148): Manually set buffer was too small! Expected 460800 bytes, but got 307200!
-                camera.addCallbackBuffer(new sbyte[buffersize]);
-                camera.addCallbackBuffer(new sbyte[buffersize]);
-                camera.addCallbackBuffer(new sbyte[buffersize]);
-                camera.addCallbackBuffer(new sbyte[buffersize]);
+                // 12
+                // http://www.fourcc.org/yuv.php
+
+                //var buffersize = 460800;
+
+                log("" + new { min.width, min.height, bitsperpixel, buffersize });
 
 
                 #region setFocusMode
@@ -351,284 +385,278 @@ namespace CameraPreviewExperiment
                 #endregion
 
                 camera.setParameters(p);
+                #endregion
 
-                //I/System.Console(29651): { width = 2560, height = 1920 }
-                //I/System.Console(29651): { width = 2560, height = 1536 }
-                //I/System.Console(29651): { width = 2048, height = 1536 }
-                //I/System.Console(29651): { width = 2048, height = 1232 }
-                //I/System.Console(29651): { width = 1600, height = 1200 }
-                //I/System.Console(29651): { width = 1600, height = 960 }
-                //I/System.Console(29651): { width = 800, height = 480 }
-                //I/System.Console(29651): { width = 640, height = 480 }
-                //I/System.Console(29651): { focusMode = auto }
-                //I/System.Console(29651): { focusMode = infinity }
-                //I/System.Console(29651): { focusMode = macro }
-                //I/System.Console(29651): before runOnUiThread
-                //I/System.Console(29651): at runOnUiThread
-                //I/System.Console(29651): before addCallback
-                //I/System.Console(29651): before setPreviewDisplay
-                //D/Camera  (29651): app passed NULL surface
+
+                // preview layout size: 736/1216
+                buffersize = 1843200;
+
+                // E/Camera-JNI( 3148): Manually set buffer was too small! Expected 460800 bytes, but got 307200!
+                camera.addCallbackBuffer(new sbyte[buffersize]);
+                camera.addCallbackBuffer(new sbyte[buffersize]);
+                camera.addCallbackBuffer(new sbyte[buffersize]);
+                camera.addCallbackBuffer(new sbyte[buffersize]);
+                camera.addCallbackBuffer(new sbyte[buffersize]);
 
                 var a = new EventWaitHandle(false, EventResetMode.ManualReset);
 
-                log("before runOnUiThread...");
+                // Task.ContinueWith
+                // await
 
-                System.Console.WriteLine("before runOnUiThread");
-                (ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as Activity).With(
+                (ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as Activity).StartNew(
                     aa =>
                     {
+                        log("at runOnUiThread...");
 
-                        aa.runOnUiThread(
-                           new f
+
+                        // solve issue with callback not being called: release the camera and try again. It usually works.
+                        //To solve issue with rotation 0x80001005: restart app / service
+
+                        // http://stackoverflow.com/questions/13546788/camera-takepicture-not-working-on-my-jb-gb-froyo-phones
+                        aa.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+
+                        #region setErrorCallback
+                        camera.setErrorCallback(
+                           new XErrorCallback
                            {
-                               y = delegate
+                               yield = (err, c) =>
                                {
-                                   log("at runOnUiThread...");
-                                   System.Console.WriteLine("at runOnUiThread");
-
-                                   // solve issue with callback not being called: release the camera and try again. It usually works.
-                                   //To solve issue with rotation 0x80001005: restart app / service
-
-                                   // http://stackoverflow.com/questions/13546788/camera-takepicture-not-working-on-my-jb-gb-froyo-phones
-                                   aa.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-
-
-                                   //D/Camera  (28463): app passed NULL surface
-                                   //I/System.Console(28463): after setPreviewDisplay
-                                   //W/SurfaceTexture( 1439): [CameraPreviewExperiment.Activities/CameraPreviewExperiment.Activities.ApplicationWebServiceActivity] cancelBuffer: SurfaceTexture has been abandoned!
-                                   //D/memalloc(28463): /dev/pmem: Unmapping buffer base:0x55afb000 size:15032320 offset:13496320
-                                   //D/memalloc(28463): /dev/pmem: Unmapping buffer base:0x5969b000 size:16568320 offset:15032320
-                                   //D/memalloc(28463): /dev/pmem: Unmapping buffer base:0x56951000 size:12042240 offset:10506240
-                                   //I/Adreno200-EGLSUB(28463): <ConfigWindowMatch:2078>: Format RGBA_8888.
-                                   //I/System.Console(28463): *
-                                   //I/System.Console(28463): *
-                                   //I/System.Console(28463): yield_surfaceChanged
-                                   //I/System.Console(28463): *
-                                   //I/System.Console(28463): *
-                                   //I/System.Console(28463): event!
-                                   //D/dalvikvm(28463): GC_FOR_ALLOC freed 6K, 25% free 6544K/8675K, paused 34ms
-                                   //I/dalvikvm-heap(28463): Grow heap (frag case) to 6.925MB for 460816-byte allocation
-                                   //D/dalvikvm(28463): GC_FOR_ALLOC freed 0K, 24% free 6994K/9187K, paused 33ms
-                                   //I/System.Console(28463): *
-                                   //I/System.Console(28463): *
-                                   //I/System.Console(28463): event!
-                                   //D/CameraService( 1442): startPreview (pid 28463)
-                                   //D/CameraService( 1442): OMADM DCMO CAMERA flag = 1
-                                   //D/QualcommCameraHardware( 1442): previewEnabled()  E
-                                   //D/QualcommCameraHardware( 1442): previewEnabled() X, mCameraRunning=0 mPreviewStartInProgress=0
-                                   //I/mm-camera( 1442): int android::set_preview_window(camera_device*, preview_stream_ops*): E window = 0x0
-                                   //I/QualcommCameraHardware( 1442): setPreviewWindow: E, window 0x0, mPreviewWindow 0x0
-                                   //I/mm-camera( 1442): int android::set_preview_window(camera_device*, preview_stream_ops*): X
-
-
-                                   dummy = new SurfaceView(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext);
-
-                                   //dummy.setWidth(96);
-                                   //dummy.setHeight(96);
-
-                                   var h = dummy.getHolder();
-
-                                   // http://developer.android.com/reference/android/view/SurfaceHolder.html#SURFACE_TYPE_PUSH_BUFFERS
-                                   var SURFACE_TYPE_PUSH_BUFFERS = 0x00000003;
-                                   h.setType(SURFACE_TYPE_PUSH_BUFFERS);
-
-
-
-
-                                   System.Console.WriteLine("before addCallback");
-                                   camera.addCallbackBuffer(new sbyte[0x100000]);
-                                   h.addCallback(
-                                       new XSurfaceHolder_Callback
-                                       {
-                                           yield_surfaceChanged =
-                                               delegate
-                                               {
-                                                   Console.WriteLine("*");
-                                                   Console.WriteLine("*");
-                                                   Console.WriteLine("yield_surfaceChanged");
-                                                   log("at yield_surfaceChanged...");
-
-                                                   camera.addCallbackBuffer(new sbyte[buffersize]);
-
-                                                   var cc = 0;
-
-
-                                                   //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(3) > 0
-                                                   //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(2) > 0
-                                                   //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(1) > 0
-                                                   #region setPreviewCallbackWithBuffer
-                                                   camera.setPreviewCallbackWithBuffer(
-                                                       new XCameraPreviewCallback
-                                                       {
-                                                           yield =
-                                                               (dataNV21, c) =>
-                                                               {
-                                                                   if (dummy == null)
-                                                                   {
-                                                                       // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
-                                                                       return;
-                                                                   }
-
-                                                                   //                                                                   10080.0ms PreviewCallbackWithBuffer enter { cc = 58, Length = 460800 }
-                                                                   //10119.0ms PreviewCallbackWithBuffer compressToJpeg done { cc = 58, Elapsed = 39.0ms }
-                                                                   //10174.0ms PreviewCallbackWithBuffer ToBase64String done { cc = 58, Elapsed = 94.0ms }
-
-                                                                   var xcc = cc;
-
-                                                                   log("PreviewCallbackWithBuffer enter " + new { xcc, dataNV21.Length });
-
-                                                                   // failed to flush { Length = 14619 }
-                                                                   //new Thread(
-                                                                   //    delegate()
-                                                                   {
-                                                                       if (dummy == null)
-                                                                       {
-                                                                           // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
-                                                                           return;
-                                                                       }
-
-                                                                       var cst = new Stopwatch();
-                                                                       cst.Start();
-
-                                                                       // http://stackoverflow.com/questions/3426614/android-converting-from-nv21-preview-format-on-nexus-one-to-jpeg
-                                                                       // http://developer.android.com/reference/android/graphics/YuvImage.html
-
-                                                                       var yuv = new YuvImage(
-                                                                           dataNV21,
-                                                                           ImageFormat.NV21,
-                                                                           min.width,
-                                                                           min.height,
-                                                                           null
-                                                                        );
-
-                                                                       var m = new java.io.ByteArrayOutputStream();
-
-                                                                       yuv.compressToJpeg(
-                                                                           new Rect(0, 0, min.width, min.height),
-                                                                           20,
-                                                                           m);
-
-                                                                       var data = (byte[])(object)m.toByteArray();
-
-                                                                       log("PreviewCallbackWithBuffer compressToJpeg done " + new { xcc, cst.Elapsed });
-
-
-                                                                       Console.WriteLine("compressToJpeg "
-                                                                            + new { data.Length }
-                                                                        );
-
-                                                                       var src = "data:image/jpg;base64," +
-                                                                             Convert.ToBase64String(
-                                                                                 data
-                                                                             );
-
-                                                                       log("PreviewCallbackWithBuffer ToBase64String done " + new { xcc, cst.Elapsed });
-
-                                                                       y(src);
-
-
-                                                                       //PreviewCallbackWithBuffer { cc = 0, Length = 1048576 }
-
-                                                                       if (dummy == null)
-                                                                       {
-                                                                           // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
-                                                                           return;
-                                                                       }
-
-                                                                       //camera.addCallbackBuffer();
-                                                                       camera.addCallbackBuffer(new sbyte[buffersize]);
-
-                                                                       log("PreviewCallbackWithBuffer exit " + new { xcc, cst.Elapsed });
-
-
-                                                                       if (xcc == frames)
-                                                                       {
-
-                                                                           //dummy.setVisibility(View.GONE);
-                                                                           //dummy = null;
-
-                                                                           // Caused by: android.view.ViewRoot$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
-
-                                                                           aa.runOnUiThread(
-                                                                              new f
-                                                                              {
-                                                                                  y = delegate
-                                                                                  {
-                                                                                      if (dummy != null)
-                                                                                      {
-                                                                                          dummy.setVisibility(View.GONE);
-                                                                                          dummy = null;
-
-                                                                                      }
-
-                                                                                      a.Set();
-                                                                                  }
-                                                                              }
-                                                                          );
-                                                                       }
-                                                                   }
-                                                                   //).Start();
-
-                                                                   cc++;
-
-
-                                                               }
-                                                       }
-                                                   );
-                                                   #endregion
-
-
-                                                   log("startPreview");
-                                                   camera.startPreview();
-                                               }
-                                       }
-                                   );
-
-
-                                   var pp = new android.widget.LinearLayout.LayoutParams(
-                                     android.widget.LinearLayout.LayoutParams.FILL_PARENT,
-                                     android.widget.LinearLayout.LayoutParams.FILL_PARENT
-                                     );
-
-                                   pp.setMargins(64, 64, 64, 64);
-
-                                   dummy.setBackgroundColor(Color.argb(0x0F, 255, 0, 0));
-
-                                   aa.addContentView(dummy, pp);
-
-                                   Console.WriteLine("before setPreviewDisplay");
-                                   // https://code.google.com/p/zxing/source/browse/trunk/android/src/com/google/zxing/client/android/camera/CameraManager.java
-                                   // http://stackoverflow.com/questions/16945524/app-passed-null-surface-while-taking-a-picture-without-a-surfaceview
-
-                                   try
-                                   {
-                                       camera.setPreviewDisplay(h);
-                                   }
-                                   catch
-                                   {
-                                       throw;
-                                   }
-                                   Console.WriteLine("after setPreviewDisplay");
-
+                                   log("" + new { err });
                                }
+
                            }
+                       );
+                        #endregion
+
+                        surface = new SurfaceView(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext);
+
+                        var holder = surface.getHolder();
+
+                        // http://developer.android.com/reference/android/view/SurfaceHolder.html#SURFACE_TYPE_PUSH_BUFFERS
+                        var SURFACE_TYPE_PUSH_BUFFERS = 0x00000003;
+                        holder.setType(SURFACE_TYPE_PUSH_BUFFERS);
+
+
+
+
+                        log("setPreviewCallbackWithBuffer");
+
+                        var cc = 0;
+
+                        //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(3) > 0
+                        //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(2) > 0
+                        //E/CameraHardwareSec(   84): int android::CameraHardwareSec::previewThread(): mSkipFrame(1) > 0
+
+                        // http://stackoverflow.com/questions/16878042/camera-not-working-in-google-nexus-tablet
+
+                        #region camera.PreviewCallbackWithBuffer
+                        camera.PreviewCallbackWithBuffer(
+                            (rawdata, c) =>
+                            {
+                                if (surface == null)
+                                {
+                                    // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
+                                    return;
+                                }
+
+                                //                                                                   10080.0ms PreviewCallbackWithBuffer enter { cc = 58, Length = 460800 }
+                                //10119.0ms PreviewCallbackWithBuffer compressToJpeg done { cc = 58, Elapsed = 39.0ms }
+                                //10174.0ms PreviewCallbackWithBuffer ToBase64String done { cc = 58, Elapsed = 94.0ms }
+
+                                var xcc = cc;
+
+                                log("PreviewCallbackWithBuffer enter " + new { xcc, rawdata.Length });
+
+                                // failed to flush { Length = 14619 }
+                                //new Thread(
+                                //    delegate()
+                                {
+                                    if (surface == null)
+                                    {
+                                        // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
+                                        return;
+                                    }
+
+                                    var cst = new Stopwatch();
+                                    cst.Start();
+
+                                    // http://stackoverflow.com/questions/3426614/android-converting-from-nv21-preview-format-on-nexus-one-to-jpeg
+                                    // http://developer.android.com/reference/android/graphics/YuvImage.html
+
+                                    //Caused by: java.lang.IllegalArgumentException: only support ImageFormat.NV21 and ImageFormat.YUY2 for now
+                                    //at android.graphics.YuvImage.<init>(YuvImage.java:82)
+
+
+                                    // https://code.google.com/p/android/issues/detail?id=823
+                                    // https://code.google.com/p/android-source-browsing/source/browse/graphics/java/android/graphics/YuvImage.java?repo=platform--frameworks--base&name=android-cts-4.1_r1
+                                    var yuv = new YuvImage(
+                                        rawdata,
+                                        PreviewFormat,
+                                        min.width,
+                                        min.height,
+                                        null
+                                    );
+
+                                    var m = new java.io.ByteArrayOutputStream();
+
+                                    yuv.compressToJpeg(
+                                        new Rect(0, 0, min.width, min.height),
+                                        20,
+                                        m);
+
+                                    var data = (byte[])(object)m.toByteArray();
+
+                                    log("PreviewCallbackWithBuffer compressToJpeg done " + new { xcc, cst.Elapsed });
+
+
+                                    Console.WriteLine("compressToJpeg "
+                                        + new { data.Length }
+                                    );
+
+                                    var src = "data:image/jpg;base64," +
+                                            Convert.ToBase64String(
+                                                data
+                                            );
+
+                                    log("PreviewCallbackWithBuffer ToBase64String done " + new { xcc, cst.Elapsed });
+
+                                    y(src);
+
+
+                                    //PreviewCallbackWithBuffer { cc = 0, Length = 1048576 }
+
+                                    if (surface == null)
+                                    {
+                                        // W/CameraHardwareSec(   84): virtual android::status_t android::CameraHardwareSec::cancelPicture() : not supported, just returning NO_ERROR
+                                        return;
+                                    }
+
+                                    //camera.addCallbackBuffer();
+                                    camera.addCallbackBuffer(new sbyte[buffersize]);
+
+                                    log("PreviewCallbackWithBuffer exit " + new { xcc, cst.Elapsed });
+
+
+                                    if (xcc == frames)
+                                    {
+
+                                        //dummy.setVisibility(View.GONE);
+                                        //dummy = null;
+
+                                        // Caused by: android.view.ViewRoot$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
+
+                                        aa.StartNew(
+                                                delegate
+                                                {
+                                                    if (surface != null)
+                                                    {
+                                                        surface.setVisibility(View.GONE);
+                                                        surface = null;
+
+                                                    }
+
+                                                    a.Set();
+                                                }
+                                        );
+                                    }
+                                }
+                                //).Start();
+
+                                cc++;
+
+
+                            }
                         );
+                        #endregion
+
+
+                        #region holder.surfaceChanged
+                        holder.surfaceChanged(
+                            delegate
+                            {
+                                log("surfaceChanged?");
+                            }
+                        );
+                        #endregion
+
+                        #region holder.surfaceCreated
+                        holder.surfaceCreated(
+                            delegate
+                            {
+                                log("surfaceCreated!");
+
+                                // http://stackoverflow.com/questions/12098298/android-camera-app-passed-null-surface
+                                // http://stackoverflow.com/questions/16945524/app-passed-null-surface-while-taking-a-picture-without-a-surfaceview
+
+                                //  app passed NULL surface
+                                log("before setPreviewDisplay, delay");
+
+                                Thread.Sleep(400);
+
+                                // https://code.google.com/p/zxing/source/browse/trunk/android/src/com/google/zxing/client/android/camera/CameraManager.java
+                                // http://stackoverflow.com/questions/16945524/app-passed-null-surface-while-taking-a-picture-without-a-surfaceview
+
+                                // http://stackoverflow.com/questions/4852740/surfaceview-getholder-not-returning-surfaceholder
+
+                                log("before setPreviewDisplay " + new { holder });
+                                // inside surface changed?
+
+                                //if (surface == 0)
+                                //{
+                                //    LOGE("app passed NULL surface");
+                                //    return NO_INIT;
+                                //}
+
+                                // https://android.googlesource.com/platform/frameworks/native/+/a6938bab1f6fa76ae98ebbe44f4e534e05fa0993/libs/ui/Camera.cpp
+                                camera.setTryPreviewDisplay(holder);
+                                log("after setPreviewDisplay");
+
+
+                                log("startPreview, delay");
+                                Thread.Sleep(200);
+                                log("startPreview");
+
+                                camera.startPreview();
+                                log("after startPreview");
+                            }
+                        );
+                        #endregion
+
+
+                        #region addContentView
+                        //surface.setBackgroundColor(Color.argb(0x0F, 255, 0, 0));
+
+                        var pp = new android.widget.LinearLayout.LayoutParams(
+                            android.widget.LinearLayout.LayoutParams.FILL_PARENT,
+                            android.widget.LinearLayout.LayoutParams.FILL_PARENT
+                            );
+                        //pp.setMargins(64, 64, 64, 64);
+
+                        aa.addContentView(surface, pp);
+                        #endregion
+
+
+
+
 
                     }
                 );
 
                 a.WaitOne();
-                Console.WriteLine("done!");
 
                 log("PreviewCallbackWithBuffer done");
 
             }
+            catch (Exception ex)
+            {
+                log("error: " + new { ex.Message, ex.StackTrace });
+
+                throw new Exception("", ex);
+            }
             finally
             {
-                Console.WriteLine("*");
-                Console.WriteLine("*");
-                Console.WriteLine("finally");
+                log("finally");
                 // using
                 if (camera != null)
                 {
@@ -641,22 +669,8 @@ namespace CameraPreviewExperiment
             }
         }
 
-        public static void Invoke(Action<string> y, int frames = 4)
-        {
-            try
-            {
 
-                //for (int i = 0; i < android.hardware.Camera.getNumberOfCameras(); i++)
-                for (int i = 0; i < 1; i++)
-                {
-                    Invoke(0, y, frames);
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
+
     }
 
     class f : java.lang.Runnable
@@ -673,15 +687,19 @@ namespace CameraPreviewExperiment
     {
         // https://github.com/commonsguy/cw-advandroid/blob/master/Camera/Preview/src/com/commonsware/android/camera/PreviewDemo.java
 
+        public Action yield_surfaceCreated;
         public Action yield_surfaceChanged;
 
         public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3)
         {
+            if (yield_surfaceChanged != null)
+                yield_surfaceChanged();
         }
 
         public void surfaceCreated(SurfaceHolder value)
         {
-            yield_surfaceChanged();
+            if (yield_surfaceCreated != null)
+                yield_surfaceCreated();
         }
 
         public void surfaceDestroyed(SurfaceHolder value)
@@ -700,4 +718,83 @@ namespace CameraPreviewExperiment
         }
     }
 
+    class XErrorCallback : global::android.hardware.Camera.ErrorCallback
+    {
+        public Action<int, global::android.hardware.Camera> yield;
+
+
+
+        public void onError(int arg0, global::android.hardware.Camera arg1)
+        {
+            yield(arg0, arg1);
+        }
+    }
+
+    public static class X
+    {
+        public static void setTryPreviewDisplay(this android.hardware.Camera c, SurfaceHolder i)
+        {
+            try
+            {
+                c.setPreviewDisplay(i);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public static void PreviewCallbackWithBuffer(this android.hardware.Camera camera, Action<sbyte[], android.hardware.Camera> yield)
+        {
+            camera.setPreviewCallbackWithBuffer(
+                      new XCameraPreviewCallback
+                      {
+                          yield = yield
+                      }
+            );
+
+        }
+
+
+
+
+
+        public static void surfaceChanged(this SurfaceHolder h, Action yield_surfaceChanged)
+        {
+            h.addCallback(
+                new XSurfaceHolder_Callback
+                {
+                    yield_surfaceCreated = yield_surfaceChanged
+                }
+            );
+        }
+
+        public static void surfaceCreated(this SurfaceHolder h, Action yield_surfaceCreated)
+        {
+            h.addCallback(
+                new XSurfaceHolder_Callback
+                {
+                    yield_surfaceCreated = yield_surfaceCreated
+                }
+            );
+        }
+
+        public static void StartNew(this Activity e, Action<Activity> yield)
+        {
+            e.runOnUiThread(
+                        new f
+                        {
+                            y = () => yield(e)
+                        }
+
+            );
+
+        }
+
+        public static IEnumerable<object> AsEnumerable(this java.util.List source)
+        {
+            return Enumerable.Range(0, source.size()).Select(k => source.get(k));
+
+        }
+    }
 }

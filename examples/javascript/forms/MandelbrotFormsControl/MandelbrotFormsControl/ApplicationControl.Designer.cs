@@ -27,36 +27,15 @@ namespace MandelbrotFormsControl
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.mandelbrotComponent2 = new MandelbrotFormsControl.Library.MandelbrotComponent();
             this.mandelbrotComponent1 = new MandelbrotFormsControl.Library.MandelbrotComponent();
+            this.mandelbrotComponent3 = new MandelbrotFormsControl.Library.MandelbrotComponent();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(20, 176);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(40, 17);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "Go";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(176, 176);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(40, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Go";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // mandelbrotComponent2
             // 
+            this.mandelbrotComponent2.BackColor = System.Drawing.Color.Black;
             this.mandelbrotComponent2.Location = new System.Drawing.Point(176, 19);
             this.mandelbrotComponent2.Name = "mandelbrotComponent2";
             this.mandelbrotComponent2.Size = new System.Drawing.Size(132, 132);
@@ -64,30 +43,48 @@ namespace MandelbrotFormsControl
             // 
             // mandelbrotComponent1
             // 
+            this.mandelbrotComponent1.BackColor = System.Drawing.Color.Black;
             this.mandelbrotComponent1.Location = new System.Drawing.Point(20, 19);
             this.mandelbrotComponent1.Name = "mandelbrotComponent1";
             this.mandelbrotComponent1.Size = new System.Drawing.Size(131, 132);
             this.mandelbrotComponent1.TabIndex = 0;
             // 
+            // mandelbrotComponent3
+            // 
+            this.mandelbrotComponent3.BackColor = System.Drawing.Color.Black;
+            this.mandelbrotComponent3.Location = new System.Drawing.Point(20, 179);
+            this.mandelbrotComponent3.Name = "mandelbrotComponent3";
+            this.mandelbrotComponent3.Size = new System.Drawing.Size(744, 491);
+            this.mandelbrotComponent3.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(375, 69);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // ApplicationControl
             // 
-            this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.mandelbrotComponent3);
             this.Controls.Add(this.mandelbrotComponent2);
             this.Controls.Add(this.mandelbrotComponent1);
             this.DoubleBuffered = true;
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(400, 300);
+            this.Size = new System.Drawing.Size(798, 690);
             this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         private Library.MandelbrotComponent mandelbrotComponent2;
         private Library.MandelbrotComponent mandelbrotComponent1;
-        private CheckBox checkBox1;
-        private CheckBox checkBox2;
+        private Library.MandelbrotComponent mandelbrotComponent3;
+        private Button button1;
 
     }
 }

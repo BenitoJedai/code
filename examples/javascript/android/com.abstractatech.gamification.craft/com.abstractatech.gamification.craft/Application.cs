@@ -42,13 +42,16 @@ namespace com.abstractatech.gamification.craft
             // http://zproxy.wordpress.com/2012/11/13/dos-warcraft/
             // load the shadow land
 
-            var cursor = "url('" + new severed().src + "')";
+            var cursor = "url('" + new severed().src + "'), auto";
 
             Console.WriteLine(new { cursor });
 
             // why does this not work??
-            (page.Preview.style as dynamic).cursor = cursor;
-            (page.Preview.style as dynamic).cursor = "url('" + new guantlet().src + "')";
+            (page.body.style as dynamic).cursor = cursor;
+            (page.Preview.style as dynamic).cursor = "url('" + new guantlet().src + "'), auto";
+
+            // IStyleSheet.Default.AddRule("body", "cursor: url('" + new cursor().src + "'), auto;", 0);
+            // 
 
             // do we have to use MIDI.js?
             //new HTML.Audio.FromAssets.Warcraft1_TitleTheme().play();

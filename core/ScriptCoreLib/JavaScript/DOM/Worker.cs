@@ -8,6 +8,7 @@ using System.Threading;
 using ScriptCoreLib.JavaScript.BCLImplementation.System;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -219,7 +220,7 @@ namespace ScriptCoreLib.JavaScript.DOM
               string MethodToken,
             string MethodType,
             object state,
-            object Result
+            __Task<object>[] TaskArray
             )
         {
             #region ConsoleFormWriter
@@ -341,9 +342,33 @@ namespace ScriptCoreLib.JavaScript.DOM
                 {
                     // need to reconstruct the caller task?
 
-                    var task = new __Task<object> { Result  = Result };
 
-                    var value = IFunction.Of(MethodToken).apply(null, task);
+                    var value = IFunction.Of(MethodToken).apply(null, TaskArray.Single());
+                    var yield = new { value };
+
+                    //Console.WriteLine(new { yield });
+
+                    zdata.yield = yield;
+
+                    // now what?
+                }
+                else if (MethodType == typeof(FuncOfTaskOfObjectArrayToObject).Name)
+                {
+                    // need to reconstruct the caller task?
+
+                    Console.WriteLine("__worker_onfirstmessage: " + new { TaskArray = TaskArray.Length });
+
+                    //Debugger.Break();
+
+                    var args = new object[] { TaskArray };
+
+                    var value = IFunction.Of(MethodToken).apply(
+                        o: null,
+
+                        // watch out
+                        args: args
+                    );
+
                     var yield = new { value };
 
                     //Console.WriteLine(new { yield });
@@ -410,12 +435,51 @@ namespace ScriptCoreLib.JavaScript.DOM
                             // used byTask.ctor 
                             object state = e_data.state;
 
+
+                            //                            if (!(WwoABMesEj6KKMa59FrqOw))
+                            //{
+                            //  WwoABMesEj6KKMa59FrqOw = _6QIABkmHWjqHBHzPjs4Qsg(kAIABiO2_aTySKN41_aKL3ew(0, sBkABtC6ljmbrk8x5kK6iA(new ctor$UBkABhfpfj6IFLf_a4gLSZg(type$AAAAAAAAAAAAAAAAAAAAAA)), sBkABtC6ljmbrk8x5kK6iA(new ctor$UBkABhfpfj6IFLf_a4gLSZg(type$G74_bZyECQzqq6_bVD_ak58Wg))));
+                            //}
+                            // X:\jsc.svn\examples\javascript\forms\ParallelTaskExperiment\ParallelTaskExperiment\ApplicationControl.cs
+
+
                             // used by ContinueWith
-                            object Result = e_data.Result;
+
+                            // jsc, why cant i do arrays?
+                            var __TaskArray = (object[])(object)e_data.TaskArray;
+
+                            //Console.WriteLine(new { __TaskArray });
+
+
+                            __Task<object>[] TaskArray = null;
+
+                            if (__TaskArray != null)
+                            {
+                                // reviwing parent tasks the primitive way
+                                TaskArray = __TaskArray.Select(
+                                    (dynamic k) =>
+                                    {
+                                        object Result = k.Result;
+
+                                        return new __Task<object> { Result = Result };
+                                    }
+                                ).ToArray();
+
+                            }
+                            //var task = new __Task<object> { Result  = ResuWot };
+
 
                             // 3 dynamic uses messes up jsc? why?
 
-                            __worker_onfirstmessage(e, InternalThreadCounter, data___string, MethodToken, MethodType, state, Result);
+                            __worker_onfirstmessage(
+                                e,
+                                InternalThreadCounter,
+                                data___string,
+                                MethodToken,
+                                MethodType,
+                                state,
+                                TaskArray
+                                );
                         };
 
                     return;

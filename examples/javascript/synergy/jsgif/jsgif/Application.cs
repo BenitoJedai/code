@@ -71,7 +71,7 @@ namespace jsgif
             // 8 : 0.00:00:06 
             // 16 : 0.00:00:18 
 
-            var frames = new List<Uint8ClampedArray>();
+            var frames = new List<byte[]>();
 
             // whats the difference? should jsc switch to tyhe typed array yet?
             //var frames = new List<byte[]>();
@@ -86,7 +86,7 @@ namespace jsgif
                     32 + random()
                 );
 
-                var data = context.getImageData(0, 0, context.canvas.width, context.canvas.height).data;
+                var data = context.getImageData().data;
 
                 //Uint8Array
                 // { data = [object Uint8ClampedArray] } 
@@ -120,7 +120,7 @@ namespace jsgif
                     foreach (var data in frames)
                     {
                         Console.WriteLine("addFrame");
-                        encoder.addFrame(data, true);
+                        encoder.addFrame((Uint8ClampedArray)(object)data, true);
                     }
 
                     Console.WriteLine("finish");
@@ -269,7 +269,7 @@ namespace jsgif
 
                     foreach (var data in frames)
                     {
-                        w.addFrame(data,
+                        w.addFrame((Uint8ClampedArray)(object)data,
                             delegate
                             {
                                 Console.WriteLine("addFrame done");
@@ -297,6 +297,39 @@ namespace jsgif
 
                         }
                     );
+
+
+                }
+            );
+
+
+            new IHTMLButton { innerText = "encode via GIFEncoderWorker" }.AttachToDocument().WhenClicked(
+                btn =>
+                {
+                    btn.disabled = true;
+                    var e = new Stopwatch();
+                    e.Start();
+
+                    new GIFEncoderWorker(
+                         x,
+                         y,
+                          delay: 1000 / 10,
+                         frames: frames
+                     ).Task.ContinueWith(
+                         t =>
+                         {
+                             var src = t.Result;
+
+                             Console.WriteLine("done!");
+                             Console.WriteLine(e.Elapsed);
+
+                             new IHTMLImage { src = src }.AttachToDocument();
+
+
+                             btn.disabled = false;
+                             btn.title = new { e.Elapsed }.ToString();
+                         }
+                     );
 
 
                 }

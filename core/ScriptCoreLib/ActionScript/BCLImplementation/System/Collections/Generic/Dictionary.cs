@@ -230,12 +230,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
                 var Keys = (ICollection<TKey>)e.Keys;
 
+                // tested by 
+                // X:\jsc.svn\examples\actionscript\Test\TestDictionaryOfTypeAndFunc\TestDictionaryOfTypeAndFunc\ApplicationCanvas.cs
+                Func<TKey, KeyValuePair<TKey, TValue>> initobj =
+                    xKey => new KeyValuePair<TKey, TValue>(xKey, e[xKey]);
+
+
                 foreach (var Key in Keys)
                 {
                     // Tested by X:\jsc.svn\examples\actionscript\Test\TestDictionaryKeys\TestDictionaryKeys\ApplicationCanvas.cs
 
-                    var kv = new KeyValuePair<TKey, TValue>(Key, e[Key]);
+                    var kv = initobj(Key);
 
+                    // structs moving out out of scope must make a copy of themselves!
                     a.Add(kv);
                 }
 
@@ -243,7 +250,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
                 this.list = a.GetEnumerator();
 
             }
-
 
 
             public KeyValuePair<TKey, TValue> Current { get { return list.Current; } }

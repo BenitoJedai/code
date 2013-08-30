@@ -15,6 +15,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 
 		string _Value = "";
 
+        public int Length
+        {
+            get
+            {
+                return this._Value.Length;
+            }
+        }
+
 		public __StringBuilder Append(bool e)
 		{
 			_Value += e;

@@ -45,6 +45,11 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
 					};
 
+    //        VerifyError: Error #1030: Stack depth is unbalanced. 1 != 0.
+
+    //at ScriptCoreLib.ActionScript.RayCaster::ViewEngineBase/UpdatePOV_8d06839e_0600013a()[U:\web\ScriptCoreLib\ActionScript\RayCaster\ViewEngineBase.as:894]
+    //at ScriptCoreLib.ActionScript.RayCaster::ViewEngineBase/RenderScene_8d06839e_06000140()[U:\web\ScriptCoreLib\ActionScript\RayCaster\ViewEngineBase.as:214]
+    //at FlashTreasureHunt.ActionScript::FlashTreasureHunt/_InitializeMap_b__cb_8d06839e_06000056()[U:\web\FlashTreasureHunt\ActionScript\FlashTreasureHunt.as:2131]
 
 
 		}

@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashBrowserDocumentExperiment", "FlashBrowserDocumentExperiment\FlashBrowserDocumentExperiment.csproj", "{21938B3C-4C9C-4203-A42C-02E4D8F5DB5B}"
 	ProjectSection(ProjectDependencies) = postProject
+		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {3D035C03-5D69-452B-9022-0269DBD26D8B}
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
 		{266AC7B2-550B-4B68-B4F7-DBFE482318BF} = {266AC7B2-550B-4B68-B4F7-DBFE482318BF}
 		{C060FFEA-382D-4ED3-92AF-3E7A71DC0AA5} = {C060FFEA-382D-4ED3-92AF-3E7A71DC0AA5}
 	EndProjectSection
@@ -12,6 +14,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{99C871F2-07D6-40E2-889E-7FEC08838AE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ActionScript.ConsoleFormPackage", "..\..\..\market\actionscript\Abstractatech.ActionScript.ConsoleFormPackage\Abstractatech.ActionScript.ConsoleFormPackage\Abstractatech.ActionScript.ConsoleFormPackage.csproj", "{266AC7B2-550B-4B68-B4F7-DBFE482318BF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {3D035C03-5D69-452B-9022-0269DBD26D8B}
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ConsoleFormPackage", "..\..\..\market\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage.csproj", "{3D035C03-5D69-452B-9022-0269DBD26D8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +63,26 @@ Global
 		{266AC7B2-550B-4B68-B4F7-DBFE482318BF}.Release|Mixed Platforms.Build.0 = Release|x86
 		{266AC7B2-550B-4B68-B4F7-DBFE482318BF}.Release|x86.ActiveCfg = Release|x86
 		{266AC7B2-550B-4B68-B4F7-DBFE482318BF}.Release|x86.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Any CPU.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Debug|x86.ActiveCfg = Debug|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Debug|x86.Build.0 = Debug|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|Any CPU.ActiveCfg = Release|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|x86.ActiveCfg = Release|x86
+		{3D035C03-5D69-452B-9022-0269DBD26D8B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,5 +90,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C060FFEA-382D-4ED3-92AF-3E7A71DC0AA5} = {99C871F2-07D6-40E2-889E-7FEC08838AE7}
 		{266AC7B2-550B-4B68-B4F7-DBFE482318BF} = {99C871F2-07D6-40E2-889E-7FEC08838AE7}
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {99C871F2-07D6-40E2-889E-7FEC08838AE7}
+		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {99C871F2-07D6-40E2-889E-7FEC08838AE7}
 	EndGlobalSection
 EndGlobal

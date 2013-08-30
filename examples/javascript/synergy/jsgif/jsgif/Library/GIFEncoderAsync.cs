@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Threading.Tasks;
 
 
 [Description("This is the first synergy javascript component we wrapped into a worker")]
@@ -166,5 +167,55 @@ public class GIFEncoderAsync
             };
         #endregion
 
+    }
+}
+
+
+public class GIFEncoderWorker
+{
+    public readonly Task<string> Task;
+
+    public GIFEncoderWorker(
+        int width,
+        int height,
+        int delay = 1000 / 15,
+        int repeat = 0,
+        IEnumerable<byte[]> frames = null
+        )
+    {
+        this.Task = System.Threading.Tasks.Task.Factory.StartNew(
+            new { width, height, delay, repeat, frames = frames.ToArray() },
+            x =>
+            {
+                var state = new { x.width, x.height, x.delay, x.repeat, x.frames.Length };
+
+                // { state = { width = 640, height = 480, delay = 100, repeat = 0, Length = 16 } } 
+                Console.WriteLine(new { state });
+
+                var encoder = new GIFEncoder();
+                encoder.setSize(x.width, x.height);
+                encoder.setRepeat(x.repeat); //auto-loop
+                encoder.setDelay(x.delay);
+                encoder.start();
+
+                x.frames.WithEachIndex(
+                    (frame, index) =>
+                    {
+                        Console.WriteLine("addFrame " + new { index });
+
+                        encoder.addFrame((Uint8ClampedArray)(object)frame, true);
+                    }
+                );
+
+                Console.WriteLine("finish");
+
+                encoder.finish();
+
+                var bytes = Encoding.ASCII.GetBytes(encoder.stream().getData());
+                var src = "data:image/gif;base64," + Convert.ToBase64String(bytes);
+
+                return src;
+            }
+        );
     }
 }

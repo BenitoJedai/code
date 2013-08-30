@@ -143,7 +143,39 @@ namespace ScriptCoreLib.ActionScript.RayCaster
 
         protected void UpdatePOV()
         {
+
+            //VerifyError: Error #1030: Stack depth is unbalanced. 1 != 0.
+
+            //    at FlashTreasureHunt.ActionScript::FlashTreasureHunt___c__DisplayClassa4/_AttachGuardLogic_b__a1_8d06839e_060000ba()[U:\web\FlashTreasureHunt\ActionScript\FlashTreasureHunt___c__DisplayClassa4.as:51]
+            //    at Function/http://adobe.com/AS3/2006/builtin::apply()
+            //    at ScriptCoreLib.Shared.BCLImplementation.System::__Action/Invoke_4ebbe596_06001bb1()[U:\web\ScriptCoreLib\Shared\BCLImplementation\System\__Action.as:30]
+            //    at FlashTreasureHunt.ActionScript::Extensions___c__DisplayClassc/_AtDelayDo_b__b_8d06839e_060001b5()[U:\web\FlashTreasureHunt\ActionScript\Extensions___c__DisplayClassc.as:21]
+            //    at flash.utils::Timer/_timerDispatch()
+            //    at flash.utils::Timer/tick()
+
+
+
+            //        VerifyError: Error #1030: Stack depth is unbalanced. 1 != 0.
+
+            //at ScriptCoreLib.ActionScript.RayCaster::ViewEngineBase/UpdatePOV_8d06839e_0600013a()[U:\web\ScriptCoreLib\ActionScript\RayCaster\ViewEngineBase.as:894]
+            //at ScriptCoreLib.ActionScript.RayCaster::ViewEngineBase/RenderScene_8d06839e_06000140()[U:\web\ScriptCoreLib\ActionScript\RayCaster\ViewEngineBase.as:214]
+            //at FlashTreasureHunt.ActionScript::FlashTreasureHunt/_InitializeMap_b__cb_8d06839e_06000056()[U:\web\FlashTreasureHunt\ActionScript\FlashTreasureHunt.as:2131]
+
+
+            // flash will blow up here?
+
+            Console.WriteLine("enter UpdatePOV");
+
+            // x:\jsc.svn\examples\actionscript\Test\TestLogicArrayNullOrLength\TestLogicArrayNullOrLength\ApplicationSprite.cs
             var SpritesHaveChanged = _SpritesFromPOV == null || _SpritesFromPOV.Length != Sprites.Count;
+
+            //var hint = "what the hell flash?  VerifyError: Error #1030: Stack depth is unbalanced. 1 != 0.";
+
+
+            //var SpritesHaveChanged = _SpritesFromPOV == null;
+
+            //if (!SpritesHaveChanged)
+            //    SpritesHaveChanged = _SpritesFromPOV.Length != Sprites.Count;
 
             UpdatePOV(SpritesHaveChanged);
         }
