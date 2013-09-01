@@ -41,6 +41,11 @@ namespace EvilChopperByPer
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // incompatible!
+            //Uncaught TypeError: Object [object Object] has no method 'addSelf' level.js:575
+
+            //THREE.Object3D ref0;
+
             //THREE.opensource.gihtub.three.js.build.three ref0;
 
             IFunction.Of("loadResources").apply(null);

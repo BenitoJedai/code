@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public static class LocalMediaStreamExtensions
     {
+        // .src instead?
         public static string ToObjectURL(this MediaStream e)
         {
             var src = (string)new IFunction("return window.URL.createObjectURL(this);").apply(e);
