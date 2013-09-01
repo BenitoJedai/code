@@ -20,6 +20,8 @@ namespace ScriptCoreLib.ActionScript.flash.system
         // http://flexmonkey.blogspot.co.uk/2012/09/multi-threaded-sound-synthesis-in-flex.html
 
 
+        public static readonly bool isSupported;
+
         public static Worker createWorker(ByteArray swf, bool giveAppPrivileges = false)
         {
             return null;

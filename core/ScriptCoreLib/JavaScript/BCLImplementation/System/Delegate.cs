@@ -28,6 +28,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public IFunction InternalMethodReference;
 
+        // TODO: dom events and delay events do not support truly multiple targets
+        public IFunction InvokePointer
+        {
+            get
+            {
+                if (InternalMethodReference == null)
+                    InternalMethodReference = InternalGetAsyncInvoke(InternalTarget, InternalMethod);
+
+                return InternalMethodReference;
+            }
+        }
+
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodInfo.cs
         public global::System.Reflection.MethodInfo Method
         {
@@ -54,19 +66,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
-        // TODO: dom events and delay events do not support truly multiple targets
-        IFunction InvokePointerCache;
 
-        public IFunction InvokePointer
-        {
-            get
-            {
-                if (InvokePointerCache == null)
-                    InvokePointerCache = InternalGetAsyncInvoke(InternalTarget, InternalMethod);
-
-                return InvokePointerCache;
-            }
-        }
 
 
         //public __Delegate()

@@ -66,6 +66,22 @@ interface HTMLCanvasElement : HTMLElement {
 
         #endregion
 
+
+        public byte[] bytes
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var c = new CanvasRenderingContext2D(this.clientWidth, this.clientHeight);
+
+                c.drawImage(
+                    this, 0, 0, c.canvas.width, c.canvas.height
+                );
+
+                return c.bytes;
+            }
+
+        }
     }
 
 

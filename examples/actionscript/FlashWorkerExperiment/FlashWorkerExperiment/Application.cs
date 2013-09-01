@@ -1,5 +1,8 @@
-using CSharpSwitch.HTML.Pages;
+using FlashWorkerExperiment;
+using FlashWorkerExperiment.Design;
+using FlashWorkerExperiment.HTML.Pages;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -12,24 +15,25 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace CSharpSwitch
+namespace FlashWorkerExperiment
 {
     /// <summary>
-    /// This type will run as JavaScript.
+    /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-        public readonly ApplicationCanvas content = new ApplicationCanvas();
+        public readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page)
+        public Application(IApp page)
         {
-            content.AttachToContainer(page.Content).AutoSizeTo(page.ContentSize);
+            // Initialize ApplicationSprite
+            sprite.AttachSpriteTo(page.Content);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(

@@ -140,6 +140,23 @@ namespace ScriptCoreLib.JavaScript.Extensions
         //}
 
 
+
+
+        public static IEnumerable<T> AttachToDocument<T>(this IEnumerable<T> e)
+       where T : INodeConvertible<INode>
+        {
+            if (e != null)
+            {
+                foreach (var item in e)
+                {
+                    item.AttachToDocument();
+                }
+            }
+
+            return e;
+        }
+
+
         // RewriteToAssembly error: System.MissingMethodException: Method not found: '!!0 ScriptCoreLib.JavaScript.Extensions.Extensions.AttachToDocument(!!0)'.
         public static T AttachToDocument<T>(this T e)
             where T : INodeConvertible<INode>

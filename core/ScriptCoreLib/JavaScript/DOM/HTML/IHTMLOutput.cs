@@ -25,5 +25,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         #endregion
 
+
+        public static implicit operator IHTMLOutput(string innerText)
+        {
+            return new IHTMLOutput { innerText = innerText };
+        }
     }
 }

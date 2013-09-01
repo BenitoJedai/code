@@ -11,5 +11,13 @@ namespace ScriptCoreLib.ActionScript.flash.system
     public class Worker : EventDispatcher
     {
         // Each additional worker is created from a separate swf. 
+
+        public bool isPrimordial { get; private set; }
+        
+        public static  Worker current { get; private set; }
+
+        public void start()
+        { 
+        }
     }
 }
