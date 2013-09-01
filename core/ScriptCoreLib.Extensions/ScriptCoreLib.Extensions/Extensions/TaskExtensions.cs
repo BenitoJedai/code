@@ -39,7 +39,7 @@ namespace System.Threading.Tasks
         {
             // tested by
             // X:\jsc.svn\examples\javascript\forms\TaskRunExperiment\TaskRunExperiment\ApplicationControl.cs
-
+            // X:\jsc.svn\examples\javascript\WebCamToGIFAnimation\WebCamToGIFAnimation\Application.cs
 
             var x = new InternalTaskExtensionsScope<TSource, TResult> { InternalTaskExtensionsScope_function = function };
 
@@ -65,7 +65,9 @@ namespace System.Threading.Tasks
 
             var x = new InternalTaskExtensionsScope<TSource, TResult> { InternalTaskExtensionsScope_function = function };
 
-            return Task<TResult>.Factory.StartNew(x.f, (object)state,
+            return Task<TResult>.Factory.StartNew(
+                x.f, 
+                (object)state,
                 cancellationToken,
                 creationOptions,
                 scheduler

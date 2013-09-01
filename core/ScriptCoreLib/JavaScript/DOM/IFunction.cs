@@ -124,6 +124,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static IFunction OfDelegate(global::System.Delegate h)
         {
+            if (h == null)
+                return null;
+
             return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
         }
 
