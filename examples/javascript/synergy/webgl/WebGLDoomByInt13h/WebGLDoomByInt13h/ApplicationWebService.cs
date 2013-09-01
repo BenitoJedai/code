@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
 using System.Xml.Linq;
@@ -23,5 +24,20 @@ namespace WebGLDoomByInt13h
             y(e);
         }
 
+        public void Handler(WebServiceHandler h)
+        {
+
+
+            var f = h.GetFiles().FirstOrDefault(k => k.Name.SkipUntilLastOrEmpty("/") == h.Context.Request.Path.SkipUntilLastOrEmpty("/"));
+            if (f != null)
+            {
+                if (h.Context.Request.Path != "/" + f.Name)
+                {
+                    h.Context.Response.Redirect("/" + f.Name);
+                    h.CompleteRequest();
+                    return;
+                }
+            }
+        }
     }
 }

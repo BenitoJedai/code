@@ -29,11 +29,34 @@ namespace WebGLDoomByInt13h
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            { WebGLDoomByInt13h.Assets.he3d.Scripts ref0; }
+            { WebGLDoomByInt13h.Assets.he3d.Shaders ref0; }
+            { WebGLDoomByInt13h.Assets.webgldoom.Shaders ref1; }
+            { WebGLDoomByInt13h.Assets.webgldoom.Wads ref1; }
+
+            { WebGLDoomByInt13h.Design.opensource.github.webgldoom.wadLoader ref3; }
+            { WebGLDoomByInt13h.Design.opensource.github.webgldoom.wadLoader_audio ref3; }
+            { WebGLDoomByInt13h.Design.opensource.github.webgldoom.wadLoader_heightmap ref3; }
+            { WebGLDoomByInt13h.Design.opensource.github.webgldoom.wadLoader_level ref3; }
+            { WebGLDoomByInt13h.Design.opensource.github.webgldoom.wadLoader_textures ref3; }
+            { WebGLDoomByInt13h.Design.opensource.github.webgldoom.wadLoader_things ref3; }
+
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
                 @"A string from JavaScript.",
                 value => value.ToDocumentTitle()
+            );
+
+
+
+            Native.window.navigator.getUserMedia(
+                stream =>
+                {
+                    page.v.src = stream.ToObjectURL();
+                    page.v.play();
+                }
             );
         }
 

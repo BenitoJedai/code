@@ -81,7 +81,9 @@ namespace ScriptCoreLib.Ultra.WebService
             html.AddFirst(
                 new XElement("script",
                 // will jvm autoclose this element?
-                    new XAttribute("src", "view-source"), " "
+                    new XAttribute("src",
+                        //global::ScriptCoreLib.j
+                        "view-source"), " "
                 )
             );
 

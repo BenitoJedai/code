@@ -224,6 +224,11 @@ namespace ScriptCoreLib.Ultra.WebService
 
                 Applications = g.GetScriptApplications(),
 
+                // tested by
+                // X:\jsc.svn\examples\javascript\synergy\webgl\EvilChopperByPer\EvilChopperByPer\ApplicationWebService.cs
+                // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLDoomByInt13h\WebGLDoomByInt13h\ApplicationWebService.cs
+                GetFiles = g.GetFiles,
+
                 Default = delegate
                 {
                     that.Response.ContentType = "text/html";

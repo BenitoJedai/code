@@ -90,10 +90,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -119,7 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
@@ -128,13 +123,31 @@
     </Compile>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="X:\opensource\github\he3d\scripts\he3d.js">
+      <Link>Design\he3d.js</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="X:\opensource\github\he3d\css\he3d.css">
+      <Link>Design\he3d.css</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="X:\opensource\github\webgldoom\scripts\**\*.*">
+      <Link>Design\opensource\github\webgldoom\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Shaders\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>
-    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
-		            </PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget /LinkedAssetDirectory:X:\opensource\github\he3d\scripts /LinkedAssetDirectory:X:\opensource\github\he3d\shaders /LinkedAssetDirectory:X:\opensource\github\webgldoom\shaders /LinkedAssetDirectory:X:\opensource\github\webgldoom\wads
+		</PreBuildEvent>
   </PropertyGroup>
 </Project>
