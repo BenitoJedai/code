@@ -108,15 +108,35 @@ namespace FormsAsyncButtonExperiment
 
 
 
-#if !DEBUG
+#if true
         async partial void button2_Click(object sender, EventArgs e)
         {
+            // see also: https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201309
+
+            //script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x000c] beq        +0 -2{[0x0009] ldloc.2    +1 -0} {[0x000a] ldc.i4.s   +1 -0} , Location =
+            // assembly: S:\FormsAsyncButtonExperiment.Application.exe
+            // type: FormsAsyncButtonExperiment.ApplicationControl+<button2_Click>d__15, FormsAsyncButtonExperiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x000c
+            //  method:Void MoveNext() }
+
+
+            //assembly: S:\FormsAsyncButtonExperiment.Application.exe
+            //type: FormsAsyncButtonExperiment.ApplicationControl+<button2_Click>d__15, FormsAsyncButtonExperiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            //offset: 0x002e
+            // method:Int32 <MoveNext><008e>.try(<MoveNext>, <button2_Click>d__15 ByRef)
 
             // X:\jsc.svn\examples\javascript\AsyncButtonExperiment\AsyncButtonExperiment\Application.cs
 
             button2.Enabled = false;
 
             // will do some work in the background... { handler = { IsBackground = False, ManagedThreadId = 3 }, task = { IsBackground = True, ManagedThreadId = 4 } }
+
+            // script: error JSC1000: Method: <MoveNext><008e>.try, 
+            // Type: FormsAsyncButtonExperiment.ApplicationControl+<button2_Click>d__15; 
+            // emmiting failed : System.NotImplementedException: { 
+            // ParameterType = System.Runtime.CompilerServices.TaskAwaiter`1[System.String]&, 
+            // p = [0x002e] call       +0 -3{[0x0021] ldflda     +1 -1{[0x001f] ldarg.s    +1 -0} } {[0x0027] ldflda     +1 -1{[0x0026] ldarg.0    +1 -0} } {[0x002c] ldarg.s    +1 -0} , 
+            // m = Void AwaitUnsafeOnCompleted[TaskAwaiter`1,<button2_Click>d__15](System.Runtime.CompilerServices.TaskAwaiter`1[System.String] ByRef, <button2_Click>d__15 ByRef) }
 
             var task_Result = await Task.Factory.StartNew(
                 new

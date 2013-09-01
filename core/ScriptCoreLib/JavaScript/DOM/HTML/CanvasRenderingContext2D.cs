@@ -105,6 +105,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return default(ImageData);
         }
 
+        public void drawImage(IHTMLCanvas image, float dx, float dy, float dw, float dh)
+        {
+        }
+
         public void drawImage(IHTMLImage image, float dx, float dy, float dw, float dh)
         {
         }

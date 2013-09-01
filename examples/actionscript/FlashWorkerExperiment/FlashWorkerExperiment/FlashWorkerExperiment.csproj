@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}</ProjectGuid>
+    <ProjectGuid>{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLDoomByInt13h</RootNamespace>
-    <AssemblyName>WebGLDoomByInt13h</AssemblyName>
+    <RootNamespace>FlashWorkerExperiment</RootNamespace>
+    <AssemblyName>FlashWorkerExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebGLDoomByInt13h.Program</StartupObject>
+    <StartupObject>FlashWorkerExperiment.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,9 +36,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GIFEncoder">
-      <HintPath>..\packages\GIFEncoder.1.0.0.0\lib\GIFEncoder.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -93,6 +90,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -112,13 +113,18 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLDoomByInt13h.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebGLDoomByInt13h.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashWorkerExperiment.AssetsLibrary">
+      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\FlashWorkerExperiment\bin\staging.AssetsLibrary\FlashWorkerExperiment.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashWorkerExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashWorkerExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
@@ -126,32 +132,13 @@
     </Compile>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Design\AppCode.htm" />
-    <Content Include="X:\opensource\github\he3d\scripts\he3d.js">
-      <Link>Design\he3d.js</Link>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="X:\opensource\github\he3d\css\he3d.css">
-      <Link>Design\he3d.css</Link>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="X:\opensource\github\webgldoom\scripts\**\*.*">
-      <Link>Design\opensource\github\webgldoom\%(RecursiveDir)%(FileName)%(Extension)</Link>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Shaders\" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>
-    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget /LinkedAssetDirectory:X:\opensource\github\he3d\scripts /LinkedAssetDirectory:X:\opensource\github\he3d\shaders /LinkedAssetDirectory:X:\opensource\github\webgldoom\shaders /LinkedAssetDirectory:X:\opensource\github\webgldoom\wads
-		</PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{B3A6D472-73F9-4063-B4FE-F2E841D5310C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsgif", "..\..\jsgif\jsgif\jsgif.csproj", "{2B82F864-2565-470E-BE62-68C54825510F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -50,11 +52,27 @@ Global
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B82F864-2565-470E-BE62-68C54825510F}.Assets|Any CPU.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Assets|x86.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Assets|x86.Build.0 = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.Build.0 = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|Any CPU.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {B3A6D472-73F9-4063-B4FE-F2E841D5310C}
+		{2B82F864-2565-470E-BE62-68C54825510F} = {B3A6D472-73F9-4063-B4FE-F2E841D5310C}
 	EndGlobalSection
 EndGlobal

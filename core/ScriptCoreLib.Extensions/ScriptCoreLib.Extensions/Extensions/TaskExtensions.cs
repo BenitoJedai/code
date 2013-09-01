@@ -22,21 +22,26 @@ namespace System.Threading.Tasks
             }
         }
 
-        [Obsolete]
-        public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory<TResult> that, TSource state, Func<TSource, TResult> function) where TSource : class
+        //[Obsolete]
+        //public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory<TResult> that, TSource state, Func<TSource, TResult> function) where TSource : class
+        //{
+        //    // tested by
+        //    // X:\jsc.svn\examples\javascript\forms\TaskRunExperiment\TaskRunExperiment\ApplicationControl.cs
+
+
+        //    var x = new InternalTaskExtensionsScope<TSource, TResult> { InternalTaskExtensionsScope_function = function };
+
+        //    return Task<TResult>.Factory.StartNew(x.f, (object)state);
+        //}
+
+
+        public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory that, 
+            TSource state, 
+            Func<TSource, TResult> function) where TSource : class
         {
-            // tested by
-            // X:\jsc.svn\examples\javascript\forms\TaskRunExperiment\TaskRunExperiment\ApplicationControl.cs
+            if (function == null)
+                throw new Exception("function missing");
 
-
-            var x = new InternalTaskExtensionsScope<TSource, TResult> { InternalTaskExtensionsScope_function = function };
-
-            return Task<TResult>.Factory.StartNew(x.f, (object)state);
-        }
-
-
-        public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory that, TSource state, Func<TSource, TResult> function) where TSource : class
-        {
             // tested by
             // X:\jsc.svn\examples\javascript\forms\TaskRunExperiment\TaskRunExperiment\ApplicationControl.cs
             // X:\jsc.svn\examples\javascript\WebCamToGIFAnimation\WebCamToGIFAnimation\Application.cs
@@ -58,6 +63,9 @@ namespace System.Threading.Tasks
             TaskScheduler scheduler
             ) where TSource : class
         {
+            if (function == null)
+                throw new Exception("function missing");
+
             // tested by
             // X:\jsc.svn\examples\javascript\forms\MandelbrotFormsControl\MandelbrotFormsControl\Library\MandelbrotComponent.cs
             // X:\jsc.svn\examples\javascript\forms\TaskRunExperiment\TaskRunExperiment\ApplicationControl.cs
