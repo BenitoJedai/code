@@ -12,7 +12,6 @@ using System.Text;
 using System.Xml.Linq;
 using TestMediaCaptureAPI.Design;
 using TestMediaCaptureAPI.HTML.Pages;
-using ScriptCoreLib.JavaScript.Media;
 
 namespace TestMediaCaptureAPI
 {
@@ -33,15 +32,27 @@ namespace TestMediaCaptureAPI
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
-            var navigator = (NavigatorUserMedia)(object)Native.Window.navigator;
+            // http://blog.teamtreehouse.com/accessing-the-device-camera-with-getusermedia
+            // http://stackoverflow.com/questions/11539689/why-localstreams-contains-localmediastream-and-remotestreams-contains-mediastrea
+            // https://developer.mozilla.org/en-US/docs/Web/API/Navigator.getUserMedia
+            // http://neave.github.io/face-detection/
+
+
+            var navigator = (NavigatorUserMedia)(object)Native.window.navigator;
 
             var successCallback =
-                new Action<MediaStream>(
-                    stream =>
+                new Action<LocalMediaStream>(
+                    localMediaStream =>
                     {
-                        Native.Window.alert("got video");
+                        Console.WriteLine("got video");
+
+                        //var src = (string)new IFunction("return window.URL.createObjectURL(this);").apply(localMediaStream);
+
+                        var v = new IHTMLVideo { src = localMediaStream.ToObjectURL() }.AttachToDocument();
+
+                        v.play();
                     }
                 );
 
@@ -50,19 +61,19 @@ namespace TestMediaCaptureAPI
                     e =>
                     {
                         // restart on error? :P
-                        Native.Window.alert("no video: " + new { e.code });
+                        Native.window.alert("no video: " + new { e.code });
                     }
                 );
 
-            var a = 1;
+            //var a = 1;
 
-           var c= new MediaStreamConstraints  { video = a == 1, audio = a == 0  };
+            //var c = new MediaStreamConstraints { video = a == 1, audio = a == 0 };
 
-           var o = new IFunction("return {video: true};").apply(null);
+            //var o = new IFunction("return {video: true};").apply(null);
 
 
             navigator.webkitGetUserMedia(
-                o,
+                new { video = true, audio = false },
                 successCallback: IFunction.OfDelegate(
                     successCallback
                 ),
@@ -79,6 +90,6 @@ namespace TestMediaCaptureAPI
             );
         }
 
-        
+
     }
 }

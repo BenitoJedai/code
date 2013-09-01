@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Threading;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -124,6 +125,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public __Task(Func<object, TResult> function, object state)
         {
+            InternalInitialize(function, state, default(CancellationToken), default(TaskCreationOptions), TaskScheduler.Default);
+        }
+
+        public void InternalInitialize(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
+        {
+            
+            // what if this is a GUI task?
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
             var MethodType = typeof(FuncOfObjectToObject).Name;
 

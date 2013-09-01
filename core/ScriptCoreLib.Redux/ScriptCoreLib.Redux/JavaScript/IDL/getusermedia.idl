@@ -1,0 +1,55 @@
+﻿// heavily modifed from http://dev.w3.org/2011/webrtc/editor/getusermedia.html
+
+interface MediaStreamTrack {
+    readonly attribute DOMString      kind;
+    readonly attribute DOMString      label;
+             attribute boolean        enabled;
+    const unsigned short LIVE = 0;
+    const unsigned short MUTED = 1;
+    const unsigned short ENDED = 2;
+    readonly attribute unsigned short readyState;
+             attribute Function?      onmute;
+             attribute Function?      onunmute;
+             attribute Function?      onended;
+};
+
+interface MediaStreamTrackList {
+    readonly attribute unsigned long length;
+    MediaStreamTrack item (unsigned long index);
+    void             add (MediaStreamTrack track);
+    void             remove (MediaStreamTrack track);
+             attribute Function?     onaddtrack;
+             attribute Function?     onremovetrack;
+};
+
+[Constructor (MediaStreamTrackList? audioTracks, MediaStreamTrackList? videoTracks)]
+interface MediaStream {
+    readonly attribute DOMString            label;
+    readonly attribute MediaStreamTrackList audioTracks;
+    readonly attribute MediaStreamTrackList videoTracks;
+             attribute boolean              ended;
+             attribute Function?            onended;
+};
+
+[Constructor ()]
+interface LocalMediaStream : MediaStream {
+    void stop ();
+};
+
+
+
+
+
+
+interface NavigatorUserMedia {
+	
+    void webkitGetUserMedia (object constraints, Function? successCallback, optional Function? errorCallback);
+};
+
+[NoInterfaceObject]
+interface NavigatorUserMediaError {
+    const unsigned short PERMISSION_DENIED = 1;
+    readonly attribute unsigned short code;
+};
+
+

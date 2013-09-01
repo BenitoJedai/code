@@ -77,7 +77,8 @@ namespace ScriptCoreLib.Ultra.WebService
                 //  method: Void SetAttributeValue(System.Xml.Linq.XName, System.Object)
             }
 
-            html.Add(
+            //
+            html.AddFirst(
                 new XElement("script",
                 // will jvm autoclose this element?
                     new XAttribute("src", "view-source"), " "

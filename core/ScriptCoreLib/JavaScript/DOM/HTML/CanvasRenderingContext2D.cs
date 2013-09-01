@@ -109,6 +109,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
         }
 
+        public void drawImage(IHTMLVideo image, float dx, float dy, float dw, float dh)
+        {
+        }
+
 
         public bool ImageSmoothingEnabled
         {

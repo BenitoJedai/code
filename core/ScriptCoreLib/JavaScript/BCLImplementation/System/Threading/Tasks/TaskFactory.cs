@@ -234,5 +234,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             return x;
         }
+
+        public Task<TResult> StartNew(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
+        {
+            var x = new __Task<TResult>();
+
+            x.InternalInitialize(
+                function, state, c, o, s
+            );
+
+
+            x.Start();
+
+            return x;
+        }
     }
 }
