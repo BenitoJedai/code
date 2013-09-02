@@ -22,6 +22,7 @@ namespace WebGLToAnimatedGIFExperiment
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
 
 
@@ -30,7 +31,9 @@ namespace WebGLToAnimatedGIFExperiment
     /// </summary>
     public sealed class Application :
         // should jsc promote inheritance? would enable html component designer scenario
-        App.FromDocument, ISurface
+        //App.FromDocument,
+
+        ISurface
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -52,7 +55,7 @@ namespace WebGLToAnimatedGIFExperiment
             // : ScriptComponent
             var ani2 = new WebGLEscherDrosteEffect.Application();
 
-            ani2.gl.canvas.AttachTo(this.e1);
+            ani2.gl.canvas.AttachTo(page.e1);
 
 
 
@@ -61,11 +64,11 @@ namespace WebGLToAnimatedGIFExperiment
             var gl = new WebGLRenderingContext(alpha: false, preserveDrawingBuffer: true);
 
             // replace placeholder
-            gl.canvas.id = canvas.id;
-            canvas = gl.canvas;
+            gl.canvas.id = page.canvas.id;
+            page.canvas = gl.canvas;
 
-            canvas.width = 96;
-            canvas.height = 96;
+            page.canvas.width = 96;
+            page.canvas.height = 96;
 
             var s = new SpiralSurface(this);
 
@@ -73,7 +76,7 @@ namespace WebGLToAnimatedGIFExperiment
 
 
 
-            this.onresize(canvas.width, canvas.height);
+            this.onresize(page.canvas.width, page.canvas.height);
 
             var st = new Stopwatch();
             st.Start();
@@ -108,29 +111,25 @@ namespace WebGLToAnimatedGIFExperiment
                              var frames = new List<byte[]>();
 
                              new ScriptCoreLib.JavaScript.Runtime.Timer(
-                                 t =>
+                                 async t =>
                                  {
                                      if (t.Counter == 60)
                                      {
                                          Console.WriteLine("GIFEncoderWorker!");
 
-                                         new GIFEncoderWorker(
+
+                                         var src = await new GIFEncoderWorker(
                                                  96,
                                                  96,
                                                   delay: 1000 / 60,
                                                  frames: frames
-                                         ).Task.ContinueWith(
-                                            task =>
-                                            {
-                                                var src = task.Result;
-
-                                                Console.WriteLine("done!");
-
-                                                new IHTMLImage { src = src }.AttachToDocument();
-                                            }
                                          );
 
-                                         Console.WriteLine("GIFEncoderWorker! working in the background");
+                                         Console.WriteLine("done!");
+
+                                         new IHTMLImage { src = src }.AttachToDocument();
+                                    
+                                         return;
                                      }
 
                                      if (t.Counter >= 60)

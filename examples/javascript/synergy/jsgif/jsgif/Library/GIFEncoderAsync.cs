@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 
 [Description("This is the first synergy javascript component we wrapped into a worker")]
@@ -174,6 +175,11 @@ public class GIFEncoderAsync
 public class GIFEncoderWorker
 {
     public readonly Task<string> Task;
+
+    public TaskAwaiter<string> GetAwaiter()
+    {
+        return this.Task.GetAwaiter();
+    }
 
     public GIFEncoderWorker(
         int width,

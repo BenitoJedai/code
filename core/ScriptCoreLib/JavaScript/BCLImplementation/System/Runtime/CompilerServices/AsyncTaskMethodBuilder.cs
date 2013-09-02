@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
+﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
+using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void Start<TStateMachine>(
             ref  TStateMachine stateMachine
-        ) where TStateMachine : __IAsyncStateMachine
+        )
+        // script: error JSC1000: Method: FooAsync, Type: VBAsyncExperiment.ApplicationControl; emmiting failed : System.ArgumentException: GenericArguments[0], 'VBAsyncExperiment.ApplicationControl+VB$StateMachine_3_FooAsync', on 'Void Start[TStateMachine](TStateMachine ByRef)' violates the constraint of type 'TStateMachine'. ---> System.Security.VerificationException: Method ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.Start: type argument 'VBAsyncExperiment.ApplicationControl+VB$StateMachine_3_FooAsync' violates the constraint of type parameter 'TStateMachine'.
+        //where TStateMachine : __IAsyncStateMachine
         {
             // we need ref support in JSC!
+            Console.WriteLine("__AsyncTaskMethodBuilder Start");
 
         }
 
@@ -55,6 +59,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
              ref  TStateMachine stateMachine
 )
         {
+            Console.WriteLine("__AsyncTaskMethodBuilder AwaitOnCompleted");
         }
 
 
@@ -63,6 +68,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             ref  TStateMachine stateMachine
 )
         {
+            Console.WriteLine("__AsyncTaskMethodBuilder AwaitUnsafeOnCompleted");
         }
 
         public void PreBoxInitialization()
@@ -71,7 +77,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     }
 
     // see: http://msdn.microsoft.com/en-us/library/hh138506(v=vs.110).aspx
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.AsyncTaskMethodBuilder")]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1")]
     internal class __AsyncTaskMethodBuilder<TResult>
     {
         public __Task<TResult> Task { get; set; }
@@ -80,6 +86,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
              ref TStateMachine stateMachine
         )
         {
+            Console.WriteLine("__AsyncTaskMethodBuilder<TResult> Start");
             // we need ref support in JSC!
 
         }

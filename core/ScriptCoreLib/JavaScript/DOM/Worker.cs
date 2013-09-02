@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 using System.Diagnostics;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {

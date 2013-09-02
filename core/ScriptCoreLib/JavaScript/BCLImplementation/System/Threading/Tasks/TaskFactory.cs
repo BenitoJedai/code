@@ -13,9 +13,36 @@ using System.Diagnostics;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskFactory))]
-    internal class __TaskFactory
+    internal partial class __TaskFactory
     {
-        public Task<TResult> ContinueWhenAll<TAntecedentResult, TResult>(Task<TAntecedentResult>[] tasks, Func<Task<TAntecedentResult>[], TResult> continuationFunction, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler)
+        public static implicit operator TaskFactory(__TaskFactory e)
+        {
+            return (TaskFactory)(object)e;
+        }
+
+
+
+
+
+        public Task<TResult> ContinueWhenAll<TAntecedentResult, TResult>(
+            Task<TAntecedentResult>[] tasks,
+            Func<Task<TAntecedentResult>[], TResult> continuationFunction)
+        {
+            return ContinueWhenAll(
+                tasks,
+                continuationFunction,
+                cancellationToken: default(CancellationToken),
+                continuationOptions: default(TaskContinuationOptions),
+                scheduler: TaskScheduler.Default
+            );
+        }
+
+        public Task<TResult> ContinueWhenAll<TAntecedentResult, TResult>(
+            Task<TAntecedentResult>[] tasks,
+            Func<Task<TAntecedentResult>[], TResult> continuationFunction,
+            CancellationToken cancellationToken,
+            TaskContinuationOptions continuationOptions,
+            TaskScheduler scheduler)
         {
 
 
@@ -156,11 +183,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                              //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
 
-                             t.Result = (TResult)value;
 
-
-                             if (t.InternalYield != null)
-                                 t.InternalYield();
+                             t.InternalSetCompleteAndYield((TResult)value);
 
                              //w.terminate();
                          }
@@ -196,7 +220,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             return t;
         }
 
-        public Task ContinueWhenAll<TAntecedentResult>(Task<TAntecedentResult>[] tasks, Action<Task<TAntecedentResult>[]> continuationAction, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler)
+        public Task ContinueWhenAll<TAntecedentResult>(
+            Task<TAntecedentResult>[] tasks,
+            Action<Task<TAntecedentResult>[]> continuationAction,
+            CancellationToken cancellationToken,
+            TaskContinuationOptions continuationOptions,
+            TaskScheduler scheduler)
         {
             var t = new __Task { InternalStart = null };
 

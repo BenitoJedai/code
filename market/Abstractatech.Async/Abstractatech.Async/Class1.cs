@@ -42,6 +42,7 @@ namespace Abstractatech.Async
     {
         public static async Task<Task<int>> WebMethod2()
         {
+            //System.Runtime.CompilerServices.INotifyCompletion
             var s = new TaskCompletionSource<int>();
 
             new Thread(
