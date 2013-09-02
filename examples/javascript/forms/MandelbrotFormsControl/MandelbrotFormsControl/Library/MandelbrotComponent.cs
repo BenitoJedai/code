@@ -67,14 +67,14 @@ namespace MandelbrotFormsControl.Library
             Action Refresh = null;
 
             Refresh =
-                delegate
+                async delegate
                 {
                     if (Busy)
                         return;
 
                     Busy = true;
 
-                    Task.Factory.StartNew(
+                    var task_Result = await Task.Factory.StartNew(
                         new { bytes, DefaultWidth, DefaultHeight, shift },
                         state =>
                         {
@@ -92,54 +92,56 @@ namespace MandelbrotFormsControl.Library
                         cancellationToken: default(CancellationToken),
                         creationOptions: TaskCreationOptions.LongRunning,
                         scheduler: TaskScheduler.Default
-                    ).ContinueWith(
-                        task =>
-                        {
-                            Busy = false;
-
-                            // resized?
-                            if (bytes.Length != task.Result.buffer.Length)
-                            {
-                                // retry
-                                Refresh();
-                                return;
-                            }
-
-                            var watch2 = new Stopwatch();
-                            watch2.Start();
-
-                            var data = bitmap.LockBits(
-                                rect,
-                                System.Drawing.Imaging.ImageLockMode.WriteOnly,
-                                System.Drawing.Imaging.PixelFormat.Format32bppArgb
-                            );
-
-                            Marshal.Copy(task.Result.buffer, 0, data.Scan0, task.Result.buffer.Length);
-
-                            //for (int i = 0; i < buffer.Length; i++)
-                            //{
-                            //    Marshal.WriteInt32(
-                            //        data.Scan0,
-                            //        i * 4,
-                            //        unchecked((int)((uint)buffer[i] | 0xff000000))
-                            //    );
-                            //}
-
-
-
-                            bitmap.UnlockBits(data);
-
-                            watch2.Stop();
-
-
-                            // fullscreen 315ms!
-                            this.checkBox1.Text = " [" + task.Result.ManagedThreadId + "] " + task.Result.ElapsedMilliseconds + "ms " + DefaultWidth + "x" + DefaultHeight + " [" + Thread.CurrentThread.ManagedThreadId + "] " + watch2.ElapsedMilliseconds + "ms";
-                            this.Invalidate();
-                        },
-
-                        // GUI ?
-                        scheduler: TaskScheduler.FromCurrentSynchronizationContext()
                     );
+
+                    //.ContinueWith(
+                    //    task =>
+                    //    {
+                    Busy = false;
+
+                    // resized?
+                    if (bytes.Length != task_Result.buffer.Length)
+                    {
+                        // retry
+                        Refresh();
+                        return;
+                    }
+
+                    var watch2 = new Stopwatch();
+                    watch2.Start();
+
+                    var data = bitmap.LockBits(
+                        rect,
+                        System.Drawing.Imaging.ImageLockMode.WriteOnly,
+                        System.Drawing.Imaging.PixelFormat.Format32bppArgb
+                    );
+
+                    Marshal.Copy(task_Result.buffer, 0, data.Scan0, task_Result.buffer.Length);
+
+                    //for (int i = 0; i < buffer.Length; i++)
+                    //{
+                    //    Marshal.WriteInt32(
+                    //        data.Scan0,
+                    //        i * 4,
+                    //        unchecked((int)((uint)buffer[i] | 0xff000000))
+                    //    );
+                    //}
+
+
+
+                    bitmap.UnlockBits(data);
+
+                    watch2.Stop();
+
+
+                    // fullscreen 315ms!
+                    this.checkBox1.Text = " [" + task_Result.ManagedThreadId + "] " + task_Result.ElapsedMilliseconds + "ms " + DefaultWidth + "x" + DefaultHeight + " [" + Thread.CurrentThread.ManagedThreadId + "] " + watch2.ElapsedMilliseconds + "ms";
+                    this.Invalidate();
+                    //    },
+
+                    //    // GUI ?
+                    //    scheduler: TaskScheduler.FromCurrentSynchronizationContext()
+                    //);
 
 
 
