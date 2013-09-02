@@ -5,12 +5,17 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 {
-    // see: http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.iasyncstatemachine(v=vs.110).aspx
+    // http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.iasyncstatemachine.aspx
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.IAsyncStateMachine")]
-    internal interface __IAsyncStateMachine
+    public interface __IAsyncStateMachine
     {
+        // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.CompilerServices/IAsyncStateMachine.cs
+
         void MoveNext();
 
+
+        // does jsc know about replicas?
+        // Configures the state machine with a heap-allocated replica.
         void SetStateMachine(
             __IAsyncStateMachine stateMachine
         );

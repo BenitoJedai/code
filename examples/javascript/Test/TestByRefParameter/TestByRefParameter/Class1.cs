@@ -62,7 +62,7 @@ namespace TestByRefParameter
 
         public static void foo(ref string e)
         {
-            e = "ref " + e;
+            //e = "ref " + e;
         }
     }
 }

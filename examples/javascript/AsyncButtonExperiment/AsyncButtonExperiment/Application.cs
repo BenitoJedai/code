@@ -37,43 +37,46 @@ namespace AsyncButtonExperiment
 
             // Error	1	Cannot find all types required by the 'async' modifier. Are you targeting the wrong framework version, or missing a reference to an assembly?	x:\jsc.svn\examples\javascript\AsyncButtonExperiment\AsyncButtonExperiment\Application.cs	36	17	AsyncButtonExperiment
             new IHTMLButton { innerText = "do async work" }.AttachToDocument().WhenClicked(
-                btn =>
+                async btn =>
                 {
                     btn.disabled = true;
 
-                   Task.Factory.StartNew(
-                        new { goo = "goo " },
-                        state =>
-                        {
-                            Console.WriteLine("will do some work in the background... "
-                                + new
-                                {
-                                    System.Threading.Thread.CurrentThread.IsBackground,
-                                    System.Threading.Thread.CurrentThread.ManagedThreadId
-                                }
+                    var task = await Task.Factory.StartNew(
+                         new { goo = "goo " },
+                         state =>
+                         {
+                             Console.WriteLine("will do some work in the background... "
+                                 + new
+                                 {
+                                     System.Threading.Thread.CurrentThread.IsBackground,
+                                     System.Threading.Thread.CurrentThread.ManagedThreadId
+                                 }
 
-                            );
+                             );
 
-                            //Task.Delay
-                            Thread.Sleep(3000);
+                             //Task.Delay
+                             Thread.Sleep(3000);
 
-                          
 
-                            Console.WriteLine("will do some work in the background... done!");
 
-                            return "done";
-                        }
-                    ).ContinueWith(
-                        task =>
-                        {
-                            new IHTMLPre { innerText = task.Result };
+                             Console.WriteLine("will do some work in the background... done!");
 
-                            btn.disabled = false;
-                        },
+                             return "done";
+                         }
+                     );
 
-                        // GUI
-                        scheduler: TaskScheduler.FromCurrentSynchronizationContext()
-                    );
+
+                    //.ContinueWith(
+                    //    task =>
+                    //    {
+                    new IHTMLPre { innerText = task };
+
+                    btn.disabled = false;
+                    //    },
+
+                    //    // GUI
+                    //    scheduler: TaskScheduler.FromCurrentSynchronizationContext()
+                    //);
                 }
             );
         }
