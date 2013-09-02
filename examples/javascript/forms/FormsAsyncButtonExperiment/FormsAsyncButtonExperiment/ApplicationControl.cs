@@ -111,6 +111,8 @@ namespace FormsAsyncButtonExperiment
 #if true
         async partial void button2_Click(object sender, EventArgs e)
         {
+            // tested by x:\jsc.svn\examples\rewrite\TestSwitchWithLocalByRef\TestSwitchWithLocalByRef\Class1.cs
+
             // see also: https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201309
 
             //script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x000c] beq        +0 -2{[0x0009] ldloc.2    +1 -0} {[0x000a] ldc.i4.s   +1 -0} , Location =
