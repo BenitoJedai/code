@@ -102,6 +102,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodBase.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\CancellationToken.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskFactory.cs" />

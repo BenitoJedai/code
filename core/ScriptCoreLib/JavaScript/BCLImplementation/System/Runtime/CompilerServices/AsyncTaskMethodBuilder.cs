@@ -18,6 +18,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public static __AsyncTaskMethodBuilder Create()
         {
+            Console.WriteLine("__AsyncTaskMethodBuilder Create");
+
             return default(__AsyncTaskMethodBuilder);
         }
 
@@ -85,6 +87,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         public static __AsyncTaskMethodBuilder<TResult> Create()
         {
             // how will this work for JSC?
+            Console.WriteLine("__AsyncTaskMethodBuilder<TResult> Create");
 
             return default(__AsyncTaskMethodBuilder<TResult>);
         }
