@@ -12,7 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     {
         // x:\jsc.svn\examples\javascript\Test\TestGetAwaiter\TestGetAwaiter\Class1.cs
 
-        public bool IsCompleted { get; set; }
+        public Func<bool> InternalIsCompleted;
+        public bool IsCompleted { get { return InternalIsCompleted(); } }
 
         public TResult InternalResult;
 
@@ -33,11 +34,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.TaskAwaiter")]
     internal class __TaskAwaiter : __INotifyCompletion
     {
-        public bool IsCompleted { get; set; }
+        public Func<bool> InternalIsCompleted;
+        public bool IsCompleted { get { return InternalIsCompleted(); } }
 
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Runtime.CompilerServices.TaskAwaiter.GetResult()]
+        // http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.taskawaiter.getresult.aspx
         public void GetResult()
         {
+
         }
+
 
         public Action InternalOnCompleted;
 

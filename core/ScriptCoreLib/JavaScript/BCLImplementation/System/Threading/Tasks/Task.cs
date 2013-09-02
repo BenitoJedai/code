@@ -8,18 +8,60 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading;
+using System.Linq;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.aspx
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal class __Task
     {
+        public static Task<TResult[]> WhenAll<TResult>(params Task<TResult>[] tasks)
+        {
+            // tested by 
+            // X:\jsc.svn\examples\javascript\forms\VBAsyncExperiment\VBAsyncExperiment\ApplicationControl.vb
+
+            // script: error JSC1000: No implementation found for this native method, please implement [System.Threading.Tasks.TaskFactory.ContinueWhenAll(System.Threading.Tasks.Task[], System.Func`2[[System.Threading.Tasks.Task[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
+
+
+            return __Task.InternalFactory.ContinueWhenAll(tasks,
+                u =>
+                {
+                    // nop
+
+                    return u.Select(k => k.Result).ToArray();
+                }
+            );
+        }
+
+
         // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.getawaiter.aspx
         // !supported in: 4.5
         public __TaskAwaiter GetAwaiter()
         {
-            return default(__TaskAwaiter);
+            // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
+
+            var awaiter = new __TaskAwaiter { };
+            awaiter.InternalIsCompleted = () => this.IsCompleted;
+
+            this.InternalYield += delegate
+            {
+
+                if (awaiter.InternalOnCompleted != null)
+                    awaiter.InternalOnCompleted();
+            };
+
+            return awaiter;
+        }
+
+        public bool IsCompleted { get; internal set; }
+
+        public static __TaskFactory InternalFactory
+        {
+            get
+            {
+                return new __TaskFactory();
+            }
         }
 
 
@@ -27,7 +69,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return new TaskFactory();
+                return InternalFactory;
             }
         }
 
@@ -63,6 +105,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
 
+        public static Task Delay(int millisecondsDelay)
+        {
+            var t = new __Task { };
+
+            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                delegate
+                {
+                    t.InternalSetCompleteAndYield();
+                }
+            ).StartTimeout(millisecondsDelay);
+
+
+            return t;
+        }
+
+        public void InternalSetCompleteAndYield()
+        {
+            this.IsCompleted = true;
+
+            if (this.InternalYield != null)
+                this.InternalYield();
+        }
+
         public static implicit operator Task(__Task e)
         {
             return (Task)(object)e;
@@ -96,11 +161,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
 
             var awaiter = new __TaskAwaiter<TResult> { };
+            awaiter.InternalIsCompleted = () => this.IsCompleted;
 
             this.InternalYield += delegate
             {
                 awaiter.InternalResult = this.Result;
-                awaiter.IsCompleted = true;
 
                 if (awaiter.InternalOnCompleted != null)
                     awaiter.InternalOnCompleted();
@@ -130,7 +195,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public void InternalInitialize(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
         {
-            
+
             // what if this is a GUI task?
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
@@ -448,6 +513,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public TResult Result { get; internal set; }
 
+
+        public void InternalSetCompleteAndYield(TResult value)
+        {
+            this.Result = value;
+
+            this.InternalSetCompleteAndYield();
+        }
 
         public static implicit operator Task<TResult>(__Task<TResult> e)
         {

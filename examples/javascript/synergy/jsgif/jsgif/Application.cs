@@ -304,33 +304,31 @@ namespace jsgif
 
 
             new IHTMLButton { innerText = "encode via GIFEncoderWorker" }.AttachToDocument().WhenClicked(
-                btn =>
+                async btn =>
                 {
+                    Console.WriteLine("encoding!");
+
                     btn.disabled = true;
                     var e = new Stopwatch();
                     e.Start();
 
-                    new GIFEncoderWorker(
-                         x,
-                         y,
-                          delay: 1000 / 10,
-                         frames: frames
-                     ).Task.ContinueWith(
-                         t =>
-                         {
-                             var src = t.Result;
-
-                             Console.WriteLine("done!");
-                             Console.WriteLine(e.Elapsed);
-
-                             new IHTMLImage { src = src }.AttachToDocument();
+                    var src = await new GIFEncoderWorker(
+                          x,
+                          y,
+                           delay: 1000 / 10,
+                          frames: frames
+                      );
 
 
-                             btn.disabled = false;
-                             btn.title = new { e.Elapsed }.ToString();
-                         }
-                     );
 
+                    Console.WriteLine("done!");
+                    Console.WriteLine(e.Elapsed);
+
+                    new IHTMLImage { src = src }.AttachToDocument();
+
+
+                    btn.disabled = false;
+                    btn.title = new { e.Elapsed }.ToString();
 
                 }
             );

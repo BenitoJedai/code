@@ -73,7 +73,7 @@ namespace WebCamToGIFAnimation
                            var y = v.clientHeight;
 
                            new Timer(
-                               tt =>
+                               async tt =>
                                {
                                    var bytes = v.bytes;
 
@@ -88,30 +88,27 @@ namespace WebCamToGIFAnimation
                                    if (tt.Counter == 60)
                                    {
                                        tt.Stop();
+                                       Console.WriteLine("encoding!");
 
                                        var e = new Stopwatch();
                                        e.Start();
 
-                                       new GIFEncoderWorker(
+                                       var src = await new GIFEncoderWorker(
                                             x,
                                             y,
                                              delay: 1000 / 10,
                                             frames: frames
-                                        ).Task.ContinueWith(
-                                            t =>
-                                            {
-                                                var src = t.Result;
-
-                                                Console.WriteLine("done!");
-                                                Console.WriteLine(e.Elapsed);
-
-                                                new IHTMLImage { src = src }.AttachToDocument();
-
-
-                                                btn.disabled = false;
-                                                btn.title = new { e.Elapsed }.ToString();
-                                            }
                                         );
+
+
+                                       Console.WriteLine("done!");
+                                       Console.WriteLine(e.Elapsed);
+
+                                       new IHTMLImage { src = src }.AttachToDocument();
+
+
+                                       btn.disabled = false;
+                                       btn.title = new { e.Elapsed }.ToString();
                                    }
                                }
                            ).StartInterval(1000 / 15);

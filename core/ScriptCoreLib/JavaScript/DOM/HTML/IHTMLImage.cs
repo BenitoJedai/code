@@ -112,9 +112,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		}
 
-		/// <summary>
-		/// reloads gif animation
-		/// </summary>
+        [System.Obsolete]
 		[Script(DefineAsStatic = true)]
 		public void Reload()
 		{

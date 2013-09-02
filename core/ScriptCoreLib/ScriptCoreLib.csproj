@@ -95,6 +95,7 @@
     <Compile Include="ActionScript\flash\system\Worker.cs" />
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
+    <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\File.cs" />
