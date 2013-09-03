@@ -100,7 +100,7 @@ namespace ScriptCoreLib.Ultra.Library
         {
             // at some point in the future we may need to adapt SolutionFile as input?
 
-            Console.WriteLine("CachedFileGeneratorBase Add" + new { FileName });
+            //Console.WriteLine("CachedFileGeneratorBase Add" + new { FileName });
 
             this.Files.Add(
                 new CachedFile
