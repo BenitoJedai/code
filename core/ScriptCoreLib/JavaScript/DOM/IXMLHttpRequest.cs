@@ -13,8 +13,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 	[Script(InternalConstructor = true)]
 	public class IXMLHttpRequest //: ISink
 	{
+        // http://msdn.microsoft.com/en-us/library/ie/hh673569(v=vs.85).aspx
+        // http://www.html5rocks.com/en/tutorials/webgl/typed_arrays/
+
 		// This type was extracted from ScriptCoreLib.Net
-		
+
 		#region constructors
 		[Script(HasNoPrototype = true, ExternalTarget = "XMLHttpRequest")]
 		private class InternalXMLHttpRequest { }
@@ -286,6 +289,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 			t.StartInterval(interval);
 		}
+
+        // http://www.w3.org/TR/XMLHttpRequest2/#dom-xmlhttprequest-response
+        public object response;
 
 		public readonly int readyState;
 		public readonly string responseText;
