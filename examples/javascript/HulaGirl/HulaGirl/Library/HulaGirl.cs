@@ -26,9 +26,6 @@ namespace HulaGirl.source.js.Controls
         public IStyle Style { get { return Control.style; } }
 
 
-        //static Task<byte[]>[] frames;
-        //static byte[][] bytes;
-
         public HulaGirl(IHTMLElement e)
         {
             IHTMLImage[] Frames = new HTML.Pages.FramesImages().Images;
@@ -120,7 +117,7 @@ namespace HulaGirl.source.js.Controls
                      var bytes = await from f in Frames select f.bytes;
                      //bytes.DebuggerBreakIfMissing();
 
-                     Console.WriteLine("are we loaded yet? yes " + new { bytes.Length });
+                     //Console.WriteLine("are we loaded yet? yes " + new { bytes.Length });
 
                      //Console.WriteLine(new { bytes.Length });
 
@@ -177,9 +174,4 @@ public static class X
     {
         return Task.WhenAll(i).GetAwaiter();
     }
-
-    //public static TaskAwaiter<TResult[]> GetAwaiter<TResult>(this Task<TResult>[] i)
-    //{
-    //    return Task.WhenAll(i).GetAwaiter();
-    //}
 }

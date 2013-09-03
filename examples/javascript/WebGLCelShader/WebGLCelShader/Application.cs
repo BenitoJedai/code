@@ -10,6 +10,10 @@ using WebGLCelShader.Shaders;
 
 // upgrade to nuget?
 using THREE = WebGLCelShader.Design.THREE;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace WebGLCelShader
 {
@@ -27,29 +31,7 @@ namespace WebGLCelShader
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault page = null)
-        {
-            #region ThreeExtras
-            new WebGLCelShader.Design.THREE.__ThreeExtras().Content.With(
-               source =>
-               {
-                   source.onload +=
-                       delegate
-                       {
-                           InitializeContent(page);
-                       };
 
-               }
-           ).AttachToDocument();
-            #endregion
-
-
-      
-        }
 
         sealed class MyUniforms
         {
@@ -66,9 +48,28 @@ namespace WebGLCelShader
             public MyUniform uBaseColor = new MyUniform { type = "c", value = new THREE.Color(0xff0000) };
         }
 
-        void InitializeContent(IDefault page = null)
+
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IDefault page = null)
         {
 
+
+            InitializeContentAsync(page);
+
+        }
+
+
+        async void InitializeContentAsync(IDefault page = null)
+        {
+            await new WebGLCelShader.Design.THREE.__ThreeExtras().Content.AttachToDocument();
+
+            InitializeContent(page);
+        }
+        void InitializeContent(IDefault page = null)
+        {
 
             var size = 600;
 
@@ -256,3 +257,33 @@ namespace WebGLCelShader
 
 
 }
+
+
+public static class X
+{
+    public static void DebuggerBreakIfMissing(this object i)
+    {
+        if (i == null)
+            Debugger.Break();
+    }
+
+    public static TaskAwaiter<IHTMLScript> GetAwaiter(this IHTMLScript i)
+    {
+        var y = new TaskCompletionSource<IHTMLScript>();
+        i.onload += delegate { y.SetResult(i); };
+        return y.Task.GetAwaiter();
+    }
+
+    public static TaskAwaiter<IHTMLImage> GetAwaiter(this IHTMLImage i)
+    {
+        var y = new TaskCompletionSource<IHTMLImage>();
+        i.InvokeOnComplete(y.SetResult);
+        return y.Task.GetAwaiter();
+    }
+
+    public static TaskAwaiter<TResult[][]> GetAwaiter<TResult>(this IEnumerable<Task<TResult[]>> i)
+    {
+        return Task.WhenAll(i).GetAwaiter();
+    }
+}
+
