@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -227,54 +228,70 @@ namespace WebGLDoomByInt13h
 
             // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Cast(System.Collections.IEnumerable)]
 
+            new AppCode().body.ScriptElements().With(
+                async s =>
+                {
+                    Console.WriteLine("load em up!");
+                    await s;
+                    Console.WriteLine("load em up! done!");
 
-            new AppCode().body.querySelectorAll(IHTMLElement.HTMLElementEnum.script).Aggregate(
-                seed: default(IHTMLScript),
-                func:
-                    (seed, ss) =>
-                    {
-                        var s = (IHTMLScript)ss;
-
-                        bool getContextPatched = (page.he3d as dynamic).getContextPatched;
-
-
-                        Console.WriteLine(new { s.src, getContextPatched });
-
-                        if (seed != null)
-                            seed.onload +=
-                                delegate
-                                {
-                                    s.AttachToDocument();
-                                };
-                        else
-                            s.AttachToDocument();
-
-
-                        s.onload +=
-                            delegate
-                            {
-                                Console.WriteLine(new { s.src } + " done!");
-                            };
-
-                        return s;
-                    }
-            ).onload += delegate
-            {
-                Console.WriteLine("raise DOMContentLoaded");
-
-                new IFunction(@"
+                    new IFunction(@"
 
 
 var DOMContentLoaded_event = document.createEvent('Event')
 DOMContentLoaded_event.initEvent('DOMContentLoaded', true, true)
 window.document.dispatchEvent(DOMContentLoaded_event)
 ").apply(null);
+                }
+            );
+
+            //            new AppCode().body.querySelectorAll(IHTMLElement.HTMLElementEnum.script).Aggregate(
+            //                seed: default(IHTMLScript),
+            //                func:
+            //                    (seed, ss) =>
+            //                    {
+            //                        var s = (IHTMLScript)ss;
+
+            //                        bool getContextPatched = (page.he3d as dynamic).getContextPatched;
+
+
+            //                        Console.WriteLine(new { s.src, getContextPatched });
+
+            //                        if (seed != null)
+            //                            seed.onload +=
+            //                                delegate
+            //                                {
+            //                                    s.AttachToDocument();
+            //                                };
+            //                        else
+            //                            s.AttachToDocument();
+
+
+            //                        s.onload +=
+            //                            delegate
+            //                            {
+            //                                Console.WriteLine(new { s.src } + " done!");
+            //                            };
+
+            //                        return s;
+            //                    }
+            //            ).onload += delegate
+            //            {
+            //                Console.WriteLine("raise DOMContentLoaded");
+
+            //                new IFunction(@"
+            //
+            //
+            //var DOMContentLoaded_event = document.createEvent('Event')
+            //DOMContentLoaded_event.initEvent('DOMContentLoaded', true, true)
+            //window.document.dispatchEvent(DOMContentLoaded_event)
+            //").apply(null);
 
 
 
 
 
-            };
+            //            };
 
 
 
@@ -285,5 +302,51 @@ window.document.dispatchEvent(DOMContentLoaded_event)
         }
 
 
+    }
+}
+
+
+public static class X
+{
+    public static void DebuggerBreakIfMissing(this object i)
+    {
+        if (i == null)
+            Debugger.Break();
+    }
+
+    public static Task<IHTMLScript> ToTask(this IHTMLScript i)
+    {
+        var y = new TaskCompletionSource<IHTMLScript>();
+
+        i.onload +=
+            delegate
+            {
+                y.SetResult(i);
+            };
+
+        i.AttachToHead();
+
+        return y.Task;
+    }
+
+    public static IEnumerable<IHTMLScript> ScriptElements(this IElement i)
+    {
+        return i.querySelectorAll(IHTMLElement.HTMLElementEnum.script).Select(k => (IHTMLScript)k);
+    }
+
+    public static TaskAwaiter<IHTMLScript[]> GetAwaiter(this IEnumerable<IHTMLScript> i)
+    {
+        var script = i
+            //.Where(x => x.nodeName.ToLower() == "script")
+            .Select(x => ((IHTMLScript)x).ToTask());
+
+        var y = Task.WhenAll(script);
+
+        return y.GetAwaiter();
+    }
+
+    public static TaskAwaiter<TResult[]> GetAwaiter<TResult>(this IEnumerable<Task<TResult>> i)
+    {
+        return Task.WhenAll(i).GetAwaiter();
     }
 }
