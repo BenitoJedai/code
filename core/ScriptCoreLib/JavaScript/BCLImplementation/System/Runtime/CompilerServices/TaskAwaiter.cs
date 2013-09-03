@@ -15,17 +15,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         public Func<bool> InternalIsCompleted;
         public bool IsCompleted { get { return InternalIsCompleted(); } }
 
-        public TResult InternalResult;
+        public Func<TResult> InternalGetResult;
 
         public TResult GetResult()
         {
-            return InternalResult;
+            return InternalGetResult();
         }
 
         public Action InternalOnCompleted;
 
         public void OnCompleted(Action continuation)
         {
+            Console.WriteLine("__TaskAwaiter<TResult>.OnCompleted " + new {  IsCompleted });
+            if (IsCompleted)
+            {
+                continuation();
+                return;
+            }
+            
             InternalOnCompleted += continuation;
         }
 
@@ -49,6 +56,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void OnCompleted(Action continuation)
         {
+            Console.WriteLine("__TaskAwaiter.OnCompleted " + new { IsCompleted });
+            if (IsCompleted)
+            {
+                continuation();
+                return;
+            }
+
             InternalOnCompleted += continuation;
         }
     }

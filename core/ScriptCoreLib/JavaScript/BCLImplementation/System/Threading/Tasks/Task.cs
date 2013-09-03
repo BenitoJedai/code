@@ -16,6 +16,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal class __Task
     {
+        public static Task<TResult[]> WhenAll<TResult>(IEnumerable<Task<TResult>> tasks)
+        {
+            return WhenAll(
+                tasks.ToArray()
+            );
+        }
+
         public static Task<TResult[]> WhenAll<TResult>(params Task<TResult>[] tasks)
         {
             // tested by 
@@ -23,14 +30,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             // script: error JSC1000: No implementation found for this native method, please implement [System.Threading.Tasks.TaskFactory.ContinueWhenAll(System.Threading.Tasks.Task[], System.Func`2[[System.Threading.Tasks.Task[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
 
+            //Console.WriteLine("__Task.WhenAll " + new { tasks.Length });
 
             return __Task.InternalFactory.ContinueWhenAll(tasks,
                 u =>
                 {
+                    //Console.WriteLine("__Task.WhenAll yield " + new { tasks = tasks.Length, u = u.Length });
+
                     // nop
 
-                    return u.Select(k => k.Result).ToArray();
-                }
+                    var a = u.Select(k => k.Result).ToArray();
+
+                    //Console.WriteLine("__Task.WhenAll yield " + new { a = a.Length, Thread.CurrentThread.ManagedThreadId });
+
+                    return a;
+                },
+                cancellationToken: default(CancellationToken),
+                continuationOptions: default(TaskContinuationOptions),
+                scheduler: TaskScheduler.FromCurrentSynchronizationContext()
             );
         }
 
@@ -39,13 +56,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         // !supported in: 4.5
         public __TaskAwaiter GetAwaiter()
         {
+            Console.WriteLine("__Task.GetAwaiter");
+
             // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
 
-            var awaiter = new __TaskAwaiter { };
-            awaiter.InternalIsCompleted = () => this.IsCompleted;
+            var awaiter = new __TaskAwaiter
+            {
+                InternalIsCompleted = () => this.IsCompleted,
+            };
 
             this.InternalYield += delegate
             {
+                Console.WriteLine("__Task.GetAwaiter InternalYield");
 
                 if (awaiter.InternalOnCompleted != null)
                     awaiter.InternalOnCompleted();
@@ -91,6 +113,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         }
 
         public Action InternalStart;
+
+
+
+
+
+        public void InternalOnCompleted(Action continuation)
+        {
+            //Console.WriteLine("__Task<TResult>.InternalOnCompleted " + new { IsCompleted });
+            if (IsCompleted)
+            {
+                continuation();
+                return;
+            }
+
+            InternalYield += continuation;
+        }
+
+
         public Action InternalYield;
 
         public void Start()
@@ -160,13 +200,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         {
             // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
 
-            var awaiter = new __TaskAwaiter<TResult> { };
-            awaiter.InternalIsCompleted = () => this.IsCompleted;
+            var awaiter = new __TaskAwaiter<TResult>
+            {
+                InternalIsCompleted = () => this.IsCompleted,
+                InternalGetResult = () => this.Result
+            };
 
             this.InternalYield += delegate
             {
-                awaiter.InternalResult = this.Result;
-
                 if (awaiter.InternalOnCompleted != null)
                     awaiter.InternalOnCompleted();
             };
@@ -190,7 +231,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public __Task(Func<object, TResult> function, object state)
         {
-            InternalInitialize(function, state, default(CancellationToken), default(TaskCreationOptions), TaskScheduler.Default);
+            InternalInitialize(
+                function,
+                state,
+                default(CancellationToken),
+                default(TaskCreationOptions),
+                TaskScheduler.Default
+             );
         }
 
         public void InternalInitialize(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
@@ -288,12 +335,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                              //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
 
-                             this.Result = (TResult)value;
+                             this.InternalSetCompleteAndYield((TResult)value);
+
 
                              //w.terminate();
 
-                             if (this.InternalYield != null)
-                                 this.InternalYield();
                          }
                          #endregion
 
@@ -312,25 +358,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public Task ContinueWith(Action<Task<TResult>> continuationAction, TaskScheduler scheduler)
         {
-            //Console.WriteLine("__Task.ContinueWith");
+            //Console.WriteLine("__Task.ContinueWith " + new { scheduler });
 
             var t = new __Task { InternalStart = null };
 
-            this.InternalYield += delegate
-            {
-                //Console.WriteLine("__Task.InternalStart outer " + new { this.Result });
+            this.InternalOnCompleted(
+                delegate
+                {
+                    //Console.WriteLine("__Task.ContinueWith yield");
 
-                // inner task complete
+                    continuationAction(this);
 
-                // null means need to use worker
-
-                continuationAction(this);
-
-                //Console.WriteLine("__Task.InternalStart outer complete");
-
-                if (t.InternalYield != null)
-                    t.InternalYield();
-            };
+                    t.InternalSetCompleteAndYield();
+                }
+            );
 
             return t;
         }
@@ -362,119 +403,117 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             var t = new __Task<TNewResult> { InternalStart = null };
 
-            this.InternalYield += delegate
-            {
-                Console.WriteLine("ContinueWith " + new { this.Result, scheduler });
-
-                // what if only GUI scheduler is available?
-                if (scheduler != null)
+            this.InternalOnCompleted(
+                delegate
                 {
+                    Console.WriteLine("ContinueWith " + new { this.Result, scheduler });
 
-                    var r = continuationFunction(this);
-
-                    t.Result = r;
-
-                    //Console.WriteLine("__Task.InternalStart outer complete");
-
-                    if (t.InternalYield != null)
-                        t.InternalYield();
-
-                    return;
-                }
-
-                #region xdata___string
-                dynamic xdata___string = new object();
-
-                // how much does this slow us down?
-                // connecting to a new scope, we need a fresh copy of everything
-                // we can start with strings
-                foreach (ExpandoMember nn in Expando.Of(InternalInlineWorker.__string).GetMembers())
-                {
-                    if (nn.Value != null)
-                        xdata___string[nn.Name] = nn.Value;
-                }
-                #endregion
-
-
-                var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                       global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
-                   );
-
-                #region postMessage
-                w.postMessage(
-                    new
+                    #region what if only GUI scheduler is available?
+                    if (scheduler != null)
                     {
-                        InternalInlineWorker.InternalThreadCounter,
-                        MethodToken,
-                        MethodType,
+                        var r = continuationFunction(this);
 
-                        //state = state,
+                        t.InternalSetCompleteAndYield(r);
 
-                        // pass the result for reconstruction
-
-                        // task[0].Result
-
-                        Task = new[] { new { this.Result } },
-
-                        __string = (object)xdata___string
+                        return;
                     }
-                    ,
-                     e =>
-                     {
-                         // what kind of write backs do we expect?
-                         // for now it should be console only
+                    #endregion
 
-                         dynamic zdata = e.data;
 
-                         #region AtWrite
-                         string AtWrite = zdata.AtWrite;
+                    #region xdata___string
+                    dynamic xdata___string = new object();
 
-                         if (!string.IsNullOrEmpty(AtWrite))
-                             Console.Write(AtWrite);
-                         #endregion
+                    // how much does this slow us down?
+                    // connecting to a new scope, we need a fresh copy of everything
+                    // we can start with strings
+                    foreach (ExpandoMember nn in Expando.Of(InternalInlineWorker.__string).GetMembers())
+                    {
+                        if (nn.Value != null)
+                            xdata___string[nn.Name] = nn.Value;
+                    }
+                    #endregion
 
-                         #region __string
-                         var zdata___string = (object)zdata.__string;
-                         if (zdata___string != null)
+
+                    var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
+                           global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
+                       );
+
+                    #region postMessage
+                    w.postMessage(
+                        new
+                        {
+                            InternalInlineWorker.InternalThreadCounter,
+                            MethodToken,
+                            MethodType,
+
+                            //state = state,
+
+                            // pass the result for reconstruction
+
+                            // task[0].Result
+
+                            Task = new[] { new { this.Result } },
+
+                            __string = (object)xdata___string
+                        }
+                        ,
+                         e =>
                          {
+                             // what kind of write backs do we expect?
+                             // for now it should be console only
+
+                             dynamic zdata = e.data;
+
+                             #region AtWrite
+                             string AtWrite = zdata.AtWrite;
+
+                             if (!string.IsNullOrEmpty(AtWrite))
+                                 Console.Write(AtWrite);
+                             #endregion
+
                              #region __string
-                             dynamic target = InternalInlineWorker.__string;
-                             var m = Expando.Of(zdata___string).GetMembers();
-
-                             foreach (ExpandoMember nn in m)
+                             var zdata___string = (object)zdata.__string;
+                             if (zdata___string != null)
                              {
-                                 Console.WriteLine("Worker has sent changes " + new { nn.Name });
+                                 #region __string
+                                 dynamic target = InternalInlineWorker.__string;
+                                 var m = Expando.Of(zdata___string).GetMembers();
 
-                                 target[nn.Name] = nn.Value;
+                                 foreach (ExpandoMember nn in m)
+                                 {
+                                     Console.WriteLine("Worker has sent changes " + new { nn.Name });
+
+                                     target[nn.Name] = nn.Value;
+                                 }
+                                 #endregion
                              }
                              #endregion
+
+                             #region yield
+                             dynamic yield = zdata.yield;
+                             if ((object)yield != null)
+                             {
+
+                                 object value = yield.value;
+
+                                 //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
+
+                                 t.Result = (TNewResult)value;
+
+                                 //w.terminate();
+
+                                 if (t.InternalYield != null)
+                                     t.InternalYield();
+                             }
+                             #endregion
+
                          }
-                         #endregion
+                    );
+                    #endregion
 
-                         #region yield
-                         dynamic yield = zdata.yield;
-                         if ((object)yield != null)
-                         {
-
-                             object value = yield.value;
-
-                             //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
-
-                             t.Result = (TNewResult)value;
-
-                             //w.terminate();
-
-                             if (t.InternalYield != null)
-                                 t.InternalYield();
-                         }
-                         #endregion
-
-                     }
-                );
-                #endregion
-
-                InternalInlineWorker.InternalThreadCounter++;
-            };
+                    InternalInlineWorker.InternalThreadCounter++;
+                }
+            );
 
             return t;
         }
@@ -488,23 +527,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             var t = new __Task<TNewResult> { InternalStart = null };
 
-            this.InternalYield += delegate
-            {
-                Console.WriteLine("__Task.InternalStart outer " + new { this.Result });
+            t.InternalOnCompleted(
+                delegate
+                {
+                    Console.WriteLine("__Task.InternalStart outer " + new { this.Result });
 
-                // inner task complete
+                    // inner task complete
 
-                // null means need to use worker
+                    // null means need to use worker
 
-                var r = continuationFunction(this, state);
+                    var r = continuationFunction(this, state);
 
-                t.Result = r;
 
-                //Console.WriteLine("__Task.InternalStart outer complete");
-
-                if (t.InternalYield != null)
-                    t.InternalYield();
-            };
+                    t.InternalSetCompleteAndYield(r);
+                }
+            );
 
             return t;
         }
@@ -516,6 +553,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public void InternalSetCompleteAndYield(TResult value)
         {
+            //Console.WriteLine("__Task<TResult> InternalSetCompleteAndYield");
+
             this.Result = value;
 
             this.InternalSetCompleteAndYield();
@@ -524,6 +563,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         public static implicit operator Task<TResult>(__Task<TResult> e)
         {
             return (Task<TResult>)(object)e;
+        }
+
+        public static implicit operator __Task<TResult>(Task<TResult> e)
+        {
+            return (__Task<TResult>)(object)e;
         }
     }
 }

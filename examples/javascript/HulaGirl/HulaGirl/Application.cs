@@ -35,6 +35,10 @@ namespace HulaGirl
                 @"A string from JavaScript.",
                 value => value.ToDocumentTitle()
             );
+
+
+
+
         }
 
     }

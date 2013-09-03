@@ -2,6 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HulaGirl", "HulaGirl\HulaGirl.csproj", "{68965F3D-CB2B-4212-B248-F757A91A86F0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2B82F864-2565-470E-BE62-68C54825510F} = {2B82F864-2565-470E-BE62-68C54825510F}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{744F9E88-435F-42A7-9C03-E7F1F691DCCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsgif", "..\synergy\jsgif\jsgif\jsgif.csproj", "{2B82F864-2565-470E-BE62-68C54825510F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +20,15 @@ Global
 		{68965F3D-CB2B-4212-B248-F757A91A86F0}.Debug|x86.Build.0 = Debug|x86
 		{68965F3D-CB2B-4212-B248-F757A91A86F0}.Release|x86.ActiveCfg = Release|x86
 		{68965F3D-CB2B-4212-B248-F757A91A86F0}.Release|x86.Build.0 = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.Build.0 = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B82F864-2565-470E-BE62-68C54825510F} = {744F9E88-435F-42A7-9C03-E7F1F691DCCF}
 	EndGlobalSection
 EndGlobal

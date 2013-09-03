@@ -186,14 +186,33 @@ public class GIFEncoderWorker
         int height,
         int delay = 1000 / 15,
         int repeat = 0,
+
+        //object transparentColor = null,
+
         IEnumerable<byte[]> frames = null
         )
     {
         this.Task = System.Threading.Tasks.Task.Factory.StartNew(
-            new { width, height, delay, repeat, frames = frames.ToArray() },
+            new
+            {
+                width,
+                height,
+                delay,
+                repeat,
+                //transparentColor, 
+                frames = frames.ToArray()
+            },
             x =>
             {
-                var state = new { x.width, x.height, x.delay, x.repeat, x.frames.Length };
+                var state = new
+                {
+                    x.width,
+                    x.height,
+                    x.delay,
+                    //x.transparentColor, 
+                    x.repeat,
+                    x.frames.Length
+                };
 
                 // { state = { width = 640, height = 480, delay = 100, repeat = 0, Length = 16 } } 
                 Console.WriteLine(new { state });
@@ -202,6 +221,7 @@ public class GIFEncoderWorker
                 encoder.setSize(x.width, x.height);
                 encoder.setRepeat(x.repeat); //auto-loop
                 encoder.setDelay(x.delay);
+                //encoder.setTransparent(x.transparentColor);
                 encoder.start();
 
                 x.frames.WithEachIndex(

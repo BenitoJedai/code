@@ -54,11 +54,10 @@ namespace AsyncImageTask
                     //await y.Task;
                     // Error	1	'System.Runtime.CompilerServices.INotifyCompletion' does not contain a definition for 'IsCompleted'	X:\jsc.svn\examples\javascript\AsyncImageTask\AsyncImageTask\Application.cs	55	21	AsyncImageTask
 
-                    var j = new ImageCompletionSource(i);
 
 
-                    await j;
-                    //await i;
+                    //await j;
+                    await i;
 
 
 
@@ -70,49 +69,14 @@ namespace AsyncImageTask
     }
 }
 
-class ImageCompletionSource
-{
-    public Task<IHTMLImage> Task;
 
-    public ImageCompletionSource(IHTMLImage i)
-    {
-        var y = new TaskCompletionSource<IHTMLImage>();
-        i.InvokeOnComplete(y.SetResult);
-
-        this.Task = y.Task;
-
-    }
-
-    public static implicit operator Task<IHTMLImage>(ImageCompletionSource t)
-    {
-        return t.Task;
-    }
-}
 
 public static class X
 {
     public static TaskAwaiter<IHTMLImage> GetAwaiter(this IHTMLImage i)
     {
-        // Error	5	'System.Runtime.CompilerServices.INotifyCompletion' does not contain a definition for 'IsCompleted'	X:\jsc.svn\examples\javascript\AsyncImageTask\AsyncImageTask\Application.cs	57	21	AsyncImageTask
-
-
         var y = new TaskCompletionSource<IHTMLImage>();
         i.InvokeOnComplete(y.SetResult);
-
         return y.Task.GetAwaiter();
-
-        //return default(ITaskAwaiter<IHTMLImage>);
     }
-
-    //public interface ITaskAwaiter<TResult> 
-    //{
-    //    // Error	4	'X.XAwaiter' does not implement 'System.Runtime.CompilerServices.INotifyCompletion'	X:\jsc.svn\examples\javascript\AsyncImageTask\AsyncImageTask\Application.cs	57	21	AsyncImageTask
-
-
-    //    bool IsCompleted { get; set; }
-
-    //    void OnCompleted(Action continuation);
-
-    //    TResult GetResult();
-    //}
 }

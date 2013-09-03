@@ -85,6 +85,9 @@ namespace ScriptCoreLib.JavaScript
             // x:\jsc.svn\examples\javascript\OmniWebWorkerExperiment\OmniWebWorkerExperiment\Application.cs
             self = new IFunction("return this;").apply(null);
 
+            Uint8ClampedArray();
+
+
             // what is it?
             if (Expando.InternalIsMember(self, "document")
                 && Expando.InternalIsMember(self, "screen"))
@@ -118,7 +121,6 @@ namespace ScriptCoreLib.JavaScript
                 }
             }
 
-            Uint8ClampedArray();
 
         }
 
