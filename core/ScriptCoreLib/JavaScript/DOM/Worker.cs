@@ -253,15 +253,27 @@ namespace ScriptCoreLib.JavaScript.DOM
             __Thread.InternalCurrentThread.ManagedThreadId = InternalThreadCounter;
             __Thread.InternalCurrentThread.IsBackground = true;
 
+
             Console.WriteLine(
                 new
                 {
                     Native.worker.location.href,
-                    InternalThreadCounter,
                     MethodToken,
-                    MethodType
+                    MethodType,
+                    Thread.CurrentThread.ManagedThreadId
                 }
             );
+
+            var MethodTokenReference = IFunction.Of(MethodToken);
+
+
+            Console.WriteLine(
+                 new
+                 {
+                     MethodTokenReference,
+                     Thread.CurrentThread.ManagedThreadId
+                 }
+             );
 
             // whats the type?
 
@@ -326,11 +338,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 if (MethodType == typeof(ActionOfDedicatedWorkerGlobalScope).Name)
                 {
-                    IFunction.Of(MethodToken).apply(null, Native.worker);
+                    MethodTokenReference.apply(null, Native.worker);
                 }
                 else if (MethodType == typeof(FuncOfObjectToObject).Name)
                 {
-                    var value = IFunction.Of(MethodToken).apply(null, state);
+                    var value = MethodTokenReference.apply(null, state);
                     var yield = new { value };
 
                     //Console.WriteLine(new { yield });
@@ -344,7 +356,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     // need to reconstruct the caller task?
 
 
-                    var value = IFunction.Of(MethodToken).apply(null, TaskArray.Single());
+                    var value = MethodTokenReference.apply(null, TaskArray.Single());
                     var yield = new { value };
 
                     //Console.WriteLine(new { yield });
@@ -363,7 +375,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     var args = new object[] { TaskArray };
 
-                    var value = IFunction.Of(MethodToken).apply(
+                    var value = MethodTokenReference.apply(
                         o: null,
 
                         // watch out

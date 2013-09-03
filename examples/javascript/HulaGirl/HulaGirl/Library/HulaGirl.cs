@@ -1,18 +1,20 @@
+using HulaGirl.HTML.Images.FromAssets;
 using ScriptCoreLib;
-
-using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Controls;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Serialized;
-using ScriptCoreLib.JavaScript.DOM.HTML;
-//using ScriptCoreLib.JavaScript.DOM.XML;
-using ScriptCoreLib.JavaScript.DOM;
-
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using HulaGirl.HTML.Images.FromAssets;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace HulaGirl.source.js.Controls
 {
@@ -23,8 +25,15 @@ namespace HulaGirl.source.js.Controls
 
         public IStyle Style { get { return Control.style; } }
 
+
+        //static Task<byte[]>[] frames;
+        //static byte[][] bytes;
+
         public HulaGirl(IHTMLElement e)
         {
+            IHTMLImage[] Frames = new HTML.Pages.FramesImages().Images;
+
+
             e.insertNextSibling(Control);
 
             Control.innerHTML = "hello world (javascript) : " /* base.SpawnString*/;
@@ -86,14 +95,91 @@ namespace HulaGirl.source.js.Controls
 
 
 
+            //var bytes = frames.Sum(x => x.Length);
+            //Console.WriteLine(new { bytes });
+
+
+            // Error	4	The 'await' operator can only be used within an async method. Consider marking this method with the 'async' modifier and changing its return type to 'Task'.	X:\jsc.svn\examples\javascript\HulaGirl\HulaGirl\Library\HulaGirl.cs	89	26	HulaGirl
+            //var frames = await Task.WhenAll(Frames.Select(k => k.bytes));
+
+
+
+            new IHTMLButton { innerText = "gif" }.AttachToDocument().onclick +=
+                 async delegate
+                 {
+                     Console.WriteLine("are we loaded yet? " + new { Frames.Length });
+
+                     // Error	4	The 'await' operator can only be used within an async method. Consider marking this method with the 'async' modifier and changing its return type to 'Task'.	X:\jsc.svn\examples\javascript\HulaGirl\HulaGirl\Library\HulaGirl.cs	89	26	HulaGirl
+                     //var bytes = await Task.WhenAll(frames);
+                     //var bytes = await Task.WhenAll(Frames.Select(k => k.bytes));
+                     //byte[][] bytes = await frames;
+
+                     //frames = (from f in Frames select f.bytes).ToArray();
+                     // why do we have to use static?
+                     //bytes = await Task.WhenAll(frames);
+                     var bytes = await from f in Frames select f.bytes;
+                     //bytes.DebuggerBreakIfMissing();
+
+                     Console.WriteLine("are we loaded yet? yes " + new { bytes.Length });
+
+                     //Console.WriteLine(new { bytes.Length });
+
+
+                     var a = new { Frames.First().width, Frames.First().height };
+                     Console.WriteLine(new { a });
+
+
+
+
+
+                     var src = await new GIFEncoderWorker(
+                           a.width,
+                           a.height,
+                            delay: 1000 / 24,
+                         //transparentColor: 0x0,
+                           frames: bytes
+                       );
+
+
+
+                     Console.WriteLine("done!");
+
+                     new IHTMLImage { src = src }.AttachToDocument();
+                 };
+
+
         }
 
 
-        static IHTMLImage[] Frames = new HTML.Pages.FramesImages().Images;
 
 
     }
 
 
 
+}
+public static class X
+{
+    public static void DebuggerBreakIfMissing(this object i)
+    {
+        if (i == null)
+            Debugger.Break();
+    }
+
+    public static TaskAwaiter<IHTMLImage> GetAwaiter(this IHTMLImage i)
+    {
+        var y = new TaskCompletionSource<IHTMLImage>();
+        i.InvokeOnComplete(y.SetResult);
+        return y.Task.GetAwaiter();
+    }
+
+    public static TaskAwaiter<TResult[][]> GetAwaiter<TResult>(this IEnumerable<Task<TResult[]>> i)
+    {
+        return Task.WhenAll(i).GetAwaiter();
+    }
+
+    //public static TaskAwaiter<TResult[]> GetAwaiter<TResult>(this Task<TResult>[] i)
+    //{
+    //    return Task.WhenAll(i).GetAwaiter();
+    //}
 }

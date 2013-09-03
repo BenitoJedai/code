@@ -12,7 +12,7 @@
 
 	void start();
 	void addFrame(any canvas2d);
-
+	void setTransparent(any color);
 
 	/*async*/ void addFrame(Uint8ClampedArray canvas2d, boolean is_imageData);
 

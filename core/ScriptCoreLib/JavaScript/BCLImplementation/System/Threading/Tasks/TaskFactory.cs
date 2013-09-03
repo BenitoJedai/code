@@ -44,31 +44,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             TaskContinuationOptions continuationOptions,
             TaskScheduler scheduler)
         {
+            Console.WriteLine("ContinueWhenAll " + new { tasks.Length, scheduler, Thread.CurrentThread.ManagedThreadId });
 
 
             var t = new __Task<TResult> { InternalStart = null };
 
-            var c = 0;
+            var cstart = 0;
+            var cstop = 0;
 
+            #region ContinueWhenAll_yield
             Action ContinueWhenAll_yield = delegate
             {
                 // how can we pass array of tasks to background?
 
-                Console.WriteLine("ContinueWhenAll " + new { scheduler });
+                Console.WriteLine("ContinueWhenAll_yield " + new { scheduler });
 
                 #region GUI
                 if (scheduler != null)
                 {
-
                     var r = continuationFunction(tasks);
 
-                    t.Result = r;
-
-                    //Console.WriteLine("__Task.InternalStart outer complete");
-
-                    if (t.InternalYield != null)
-                        t.InternalYield();
-
+                    t.InternalSetCompleteAndYield(r);
                     return;
                 }
                 #endregion
@@ -196,18 +192,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                 InternalInlineWorker.InternalThreadCounter++;
             };
+            #endregion
+
 
             #region ContinueWhenAll_yield
-            foreach (Task<TAntecedentResult> item in tasks)
+            foreach (__Task<TAntecedentResult> item in tasks)
             {
+                cstart++;
+                //Console.WriteLine("ContinueWhenAll before ContinueWith " + new { cstart, tasks.Length, Thread.CurrentThread.ManagedThreadId });
+
                 item.ContinueWith(
                     task =>
                     {
-                        c++;
+                        cstop++;
+                        //Console.WriteLine("ContinueWhenAll ContinueWith yield " + new { cstop, tasks.Length, Thread.CurrentThread.ManagedThreadId });
 
-                        if (c == tasks.Length)
+
+                        if (cstop == tasks.Length)
                         {
+                            //Console.WriteLine("before ContinueWhenAll_yield");
+
                             ContinueWhenAll_yield();
+                            //Console.WriteLine("after ContinueWhenAll_yield");
                         }
                     },
 
@@ -257,7 +263,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     {
         public Task<TResult> StartNew(Func<object, TResult> function, object state)
         {
-            var x = new Task<TResult>(function, state);
+            Console.WriteLine("__TaskFactory<TResult>.StartNew");
+
+            var x = new __Task<TResult>(function, state);
 
             x.Start();
 
@@ -266,6 +274,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public Task<TResult> StartNew(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
         {
+            Console.WriteLine("__TaskFactory<TResult>.StartNew");
             var x = new __Task<TResult>();
 
             x.InternalInitialize(

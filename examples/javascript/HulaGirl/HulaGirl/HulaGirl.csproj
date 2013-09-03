@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HulaGirl</RootNamespace>
     <AssemblyName>HulaGirl</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>HulaGirl.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -34,8 +36,12 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GIFEncoder">
+      <HintPath>..\packages\GIFEncoder.1.0.0.0\lib\GIFEncoder.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -84,10 +90,6 @@
     <Reference Include="ScriptCoreLibA">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -203,17 +205,17 @@
     <Content Include="Design\Frames\hula_girl_82.png" />
     <Content Include="Design\Preview.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
 start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
 )</PostBuildEvent>
-    <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
-
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 </PreBuildEvent>
   </PropertyGroup>
 </Project>
