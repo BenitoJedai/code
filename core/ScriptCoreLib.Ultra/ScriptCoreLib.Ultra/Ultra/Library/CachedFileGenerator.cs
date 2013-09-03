@@ -120,7 +120,7 @@ namespace ScriptCoreLib.Ultra.Library
                 {
                     // if the cache still exists it's time to write the zip file
 
-                    Console.WriteLine("CachedFileGenerator AtWriteTokens" + new { Cache.Exists });
+                    //Console.WriteLine("CachedFileGenerator AtWriteTokens" + new { Cache.Exists });
 
                     if (Cache.Exists)
                         return;
@@ -134,7 +134,7 @@ namespace ScriptCoreLib.Ultra.Library
                     {
                         var RelativeFileName = item.FileName.Replace("\\", "/").SkipUntilIfAny(this.ConstructorArguments.TargetDirectory.FullName.Replace("\\", "/") + "/");
 
-                        Console.WriteLine("CachedFileGenerator AtWriteTokens" + new { RelativeFileName });
+                        //Console.WriteLine("CachedFileGenerator AtWriteTokens" + new { RelativeFileName });
 
                         zip.Add(RelativeFileName, item.Content);
                     }
