@@ -100,6 +100,8 @@ namespace ScriptCoreLib.Ultra.Library
         {
             // at some point in the future we may need to adapt SolutionFile as input?
 
+            Console.WriteLine("CachedFileGeneratorBase Add" + new { FileName });
+
             this.Files.Add(
                 new CachedFile
                 {
@@ -154,6 +156,7 @@ namespace ScriptCoreLib.Ultra.Library
                     throw;
                 }
 
+                Console.WriteLine("CachedFileGeneratorBase WriteLocalFiles" + new { item.FileName });
 
                 File.WriteAllText(item.FileName, item.Content);
             }
