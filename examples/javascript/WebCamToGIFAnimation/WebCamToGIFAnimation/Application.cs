@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using WebCamToGIFAnimation;
 using WebCamToGIFAnimation.Design;
@@ -63,7 +64,7 @@ namespace WebCamToGIFAnimation
 
                     new IHTMLButton { innerText = "record gif" }.AttachToDocument().WhenClicked(
 
-                       btn =>
+                       async btn =>
                        {
                            btn.disabled = true;
 
@@ -72,46 +73,69 @@ namespace WebCamToGIFAnimation
                            var x = v.clientWidth;
                            var y = v.clientHeight;
 
-                           new Timer(
-                               async tt =>
-                               {
-                                   var bytes = v.bytes;
-
-                                   Console.WriteLine(new { tt.Counter, bytes.Length });
-
-                                   // script: error JSC1000: No implementation found for this native method, please implement
-                                   // [System.Threading.Tasks.TaskFactory`1.
-                                   // StartNew(, System.Object, System.Threading.CancellationToken, System.Threading.Tasks.TaskCreationOptions, System.Threading.Tasks.TaskScheduler)]
-
-                                   frames.Add(bytes);
-
-                                   if (tt.Counter == 60)
-                                   {
-                                       tt.Stop();
-                                       Console.WriteLine("encoding!");
-
-                                       var e = new Stopwatch();
-                                       e.Start();
-
-                                       var src = await new GIFEncoderWorker(
-                                            x,
-                                            y,
-                                             delay: 1000 / 10,
-                                            frames: frames
-                                        );
+                           //new Timer(
+                           //    async tt =>
+                           //    {
 
 
-                                       Console.WriteLine("done!");
-                                       Console.WriteLine(e.Elapsed);
+                           btn.innerText = "rec " + new { frames.Count }.ToString();
+                           while (frames.Count < 60)
+                           {
+                               await Task.Delay(1000 / 15);
 
-                                       new IHTMLImage { src = src }.AttachToDocument();
+                               btn.innerText = new { frames.Count }.ToString();
+
+                               var bytes = v.bytes;
+
+                               Console.WriteLine(new { bytes.Length });
+
+                               // script: error JSC1000: No implementation found for this native method, please implement
+                               // [System.Threading.Tasks.TaskFactory`1.
+                               // StartNew(, System.Object, System.Threading.CancellationToken, System.Threading.Tasks.TaskCreationOptions, System.Threading.Tasks.TaskScheduler)]
+
+                               frames.Add(bytes);
+
+                           }
 
 
-                                       btn.disabled = false;
-                                       btn.title = new { e.Elapsed }.ToString();
-                                   }
-                               }
-                           ).StartInterval(1000 / 15);
+                           Console.WriteLine("encoding!");
+
+                           var e = new Stopwatch();
+                           e.Start();
+
+                           var src = await new GIFEncoderWorker(
+                               x,
+                               y,
+                                   delay: 1000 / 10,
+                               frames: frames,
+                               AtFrame:
+                                async index =>
+                                {
+                                    btn.innerText = new { index, frames.Count }.ToString();
+
+                                    if (index == frames.Count - 1)
+                                    {
+                                        btn.style.color = "blue";
+                                        await Task.Delay(800);
+                                        btn.style.color = "";
+
+                                        btn.innerText = "record gif";
+
+                                    }
+                                }
+
+
+                           );
+
+
+                           Console.WriteLine("done! " + new { e.Elapsed });
+
+                           new IHTMLImage { src = src }.AttachToDocument();
+
+
+                           btn.disabled = false;
+                           btn.title = new { e.Elapsed }.ToString();
+
                        }
                        );
                 }

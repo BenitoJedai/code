@@ -1,3 +1,5 @@
+extern alias jvm;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +17,18 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Java.Extensions;
 using ScriptCoreLibJava.Extensions;
+
+namespace java.lang.reflect
+{
+    [Script(IsNative = true)]
+    internal sealed class Method // : AccessibleObject, AnnotatedElement, GenericDeclaration, Member
+    {
+        public Class[] getExceptionTypes()
+        {
+            return null;
+        }
+    }
+}
 
 namespace ScriptCoreLib.Java
 {
@@ -326,13 +340,26 @@ namespace ScriptCoreLib.Java
         {
             var MethodThrowsList = new List<string>();
 
-            fi.ToMethod().getExceptionTypes().WithEach(
-                e =>
+
+            //Error	268	The call is ambiguous between the following methods or properties: 'java.lang.reflect.Method.getExceptionTypes()' and 'java.lang.reflect.Method.getExceptionTypes()'	X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Java\IJavaArchiveReflector.cs	329	13	ScriptCoreLib.Ultra
+
+            var Method = (java.lang.reflect.Method)(object)jvm::ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToMethod(fi);
+
+            //public Class[] getExceptionTypes();
+            //        public Class[] getExceptionTypes();
+
+            Method.getExceptionTypes().WithEach(
+                (jvm::java.lang.Class e) =>
                 {
+                    //Error	276	Argument 1: cannot convert from 'java.lang.Class [c:\util\jsc\bin\ScriptCoreLibJava.dll]' to 'java.lang.Class [C:\util\jsc\bin\ScriptCoreLibAndroid.dll]'	X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Java\IJavaArchiveReflector.cs	353	29	ScriptCoreLib.Ultra
+
+                    var t = jvm::ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToType(
+
+                        c: (jvm::java.lang.Class) e
+                    );
+
                     MethodThrowsList.Add(
-                        ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToType(
-                            e
-                        ).FullName
+                        t.FullName
                     );
                 }
             );
