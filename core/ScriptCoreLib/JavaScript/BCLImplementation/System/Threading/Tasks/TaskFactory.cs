@@ -277,7 +277,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             Console.WriteLine("__TaskFactory<TResult>.StartNew");
             var x = new __Task<TResult>();
 
-            x.InternalInitialize(
+            x.InternalInitializeInlineWorker(
                 function, state, c, o, s
             );
 

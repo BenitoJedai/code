@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading;
 using System.Linq;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
@@ -231,7 +232,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public __Task(Func<object, TResult> function, object state)
         {
-            InternalInitialize(
+            InternalInitializeInlineWorker(
                 function,
                 state,
                 default(CancellationToken),
@@ -240,7 +241,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
              );
         }
 
-        public void InternalInitialize(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
+        public void InternalInitializeInlineWorker(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
         {
 
             // what if this is a GUI task?
@@ -282,6 +283,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
                        global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
                    );
+
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201309-1/20130904-iprogress
+
+                // InternalInitializeInlineWorker { IsIProgress = false, state = [object Object] }
+                // e = (a.state instanceof PWjgSJKGsjiGudzxTfGfaA);                // jsc does not yet support is interface
+                //Action<object> OnReportAction = default(__IProgress<object>).Report;
+                //var OnReportMethod = OnReportAction.Method;                //var IsIProgress = state is __IProgress<object>;
+
+                //Console.WriteLine("InternalInitializeInlineWorker " + new { IsIProgress, state });
+
+                //if (IsIProgress)
+                //{
+                //    state = null;
+                //}
 
                 #region postMessage
                 w.postMessage(
