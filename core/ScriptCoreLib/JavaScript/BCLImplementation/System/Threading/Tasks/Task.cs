@@ -288,16 +288,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201309-1/20130904-iprogress
 
                 // InternalInitializeInlineWorker { IsIProgress = false, state = [object Object] }
-                // e = (a.state instanceof PWjgSJKGsjiGudzxTfGfaA);                // jsc does not yet support is interface
+                // e = (a.state instanceof PWjgSJKGsjiGudzxTfGfaA);
+
+                // jsc does not yet support is interface
+                // function PWjgSJKGsjiGudzxTfGfaA() {}  PWjgSJKGsjiGudzxTfGfaA.TypeName = "IProgress_1";
+                // we should add .Interfaces = []
+
                 //Action<object> OnReportAction = default(__IProgress<object>).Report;
-                //var OnReportMethod = OnReportAction.Method;                //var IsIProgress = state is __IProgress<object>;
+                //var OnReportMethod = OnReportAction.Method;
 
-                //Console.WriteLine("InternalInitializeInlineWorker " + new { IsIProgress, state });
 
-                //if (IsIProgress)
-                //{
-                //    state = null;
-                //}
+                var IsIProgress = state is __IProgress<object>;
+
+                var AsTuple2 = state as __Tuple<object, object>;
+                var IsTuple2_Item1_IsIProgress = default(bool);
+
+                if (AsTuple2 != null)
+                {
+                    IsTuple2_Item1_IsIProgress = AsTuple2.Item1 is __IProgress<object>;
+                }
+
+
+                // InternalInitializeInlineWorker: { IsIProgress = true, state = [object Object] }
+                var x = default(__IProgress<object>);
+
+                if (IsIProgress)
+                {
+                    x = (__IProgress<object>)state;
+                    state = null;
+                }
+
+                if (IsTuple2_Item1_IsIProgress)
+                {
+                    x = (__IProgress<object>)AsTuple2.Item1;
+                    AsTuple2.Item1 = null;
+                }
+
+                Console.WriteLine("InternalInitializeInlineWorker: " + new { IsIProgress, IsTuple2_Item1_IsIProgress, state });
 
                 #region postMessage
                 w.postMessage(
@@ -306,7 +333,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                         InternalInlineWorker.InternalThreadCounter,
                         MethodToken,
                         MethodType,
+
                         state = state,
+
+
+                        IsIProgress,
+                        IsTuple2_Item1_IsIProgress,
+
                         __string = (object)xdata___string
                     }
                     ,
@@ -315,13 +348,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                          // what kind of write backs do we expect?
                          // for now it should be console only
 
+
+                         //Console.WriteLine(
+                         //    "InternalInitializeInlineWorker: new message! "
+                         //    + new
+                         //    {
+                         //        data = string.Join(
+                         //           ", ",
+                         //           Expando.Of(e.data).GetMemberNames().Select(k => (string)k).ToArray()
+                         //        )
+                         //    }
+                         //);
+
+
                          dynamic zdata = e.data;
+
 
                          #region AtWrite
                          string AtWrite = zdata.AtWrite;
 
                          if (!string.IsNullOrEmpty(AtWrite))
+                         {
                              Console.Write(AtWrite);
+                         }
                          #endregion
 
                          #region __string
@@ -343,22 +392,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                          #endregion
 
                          #region yield
-                         dynamic yield = zdata.yield;
-                         if ((object)yield != null)
                          {
+                             dynamic yield = zdata.yield;
+                             if ((object)yield != null)
+                             {
 
-                             object value = yield.value;
+                                 object value = yield.value;
 
-                             //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
+                                 //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
 
-                             this.InternalSetCompleteAndYield((TResult)value);
+                                 this.InternalSetCompleteAndYield((TResult)value);
 
+                                 //w.terminate();
 
-                             //w.terminate();
-
+                             }
                          }
                          #endregion
 
+
+                         #region __IProgress_Report
+                         if (x != null)
+                         {
+                             dynamic __IProgress_Report = zdata.__IProgress_Report;
+
+                             if ((object)__IProgress_Report != null)
+                             {
+                                 object value = __IProgress_Report.value;
+
+
+
+
+                                 Console.WriteLine("InternalInitializeInlineWorker Report: " + new { __IProgress_Report = new { value } });
+
+
+                                 x.Report(value);
+                             }
+                         }
+                         #endregion
                      }
                 );
                 #endregion
