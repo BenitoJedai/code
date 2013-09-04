@@ -145,8 +145,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		}
 
 
-
-		protected override void Dispose(bool e)
+        // protected internal virtual void Dispose(bool e)
+        // Error	4	'ScriptCoreLibJava.BCLImplementation.System.Windows.Forms.__Form.Dispose(bool)': cannot change access modifiers when overriding 'protected' inherited member 'ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel.__Component.Dispose(bool)'	X:\jsc.svn\core\ScriptCoreLibJava.Windows.Forms\ScriptCoreLibJava.Windows.Forms\BCLImplementation\System\Windows\Forms\Form.cs	149	36	ScriptCoreLibJava.Windows.Forms
+        // tested by
+        // X:\jsc.svn\examples\java\forms\AppletAsyncWhenReady\AppletAsyncWhenReady\ApplicationApplet.cs
+		public override void Dispose(bool e)
 		{
 			this.InternalElement.dispose();
 		}
