@@ -14,6 +14,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			throw new NotImplementedException();
 		}
 
+        // tested by
+        // X:\jsc.svn\examples\java\forms\AppletAsyncWhenReady\AppletAsyncWhenReady\ApplicationControl.Designer.cs
+        public bool UseVisualStyleBackColor { get; set; }
+
 		public override string Text
 		{
 			get

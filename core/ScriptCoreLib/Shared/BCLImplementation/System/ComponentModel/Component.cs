@@ -12,7 +12,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
     {
         public event EventHandler Disposed;
 
-        protected virtual void Dispose(bool e)
+
+        // tested by
+        // X:\jsc.svn\examples\java\forms\AppletAsyncWhenReady\AppletAsyncWhenReady\ApplicationApplet.cs
+        public virtual void Dispose(bool e)
         {
         }
 

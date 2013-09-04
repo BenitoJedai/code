@@ -77,12 +77,13 @@ namespace ScriptCoreLib.Ultra.WebService
                 //  method: Void SetAttributeValue(System.Xml.Linq.XName, System.Object)
             }
 
-            //
-            html.AddFirst(
+            // add first not yet available!
+            //html.AddFirst(
+            html.Add(
                 new XElement("script",
                 // will jvm autoclose this element?
                     new XAttribute("src",
-                        //global::ScriptCoreLib.j
+                //global::ScriptCoreLib.j
                         "view-source"), " "
                 )
             );

@@ -18,7 +18,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		public object Tag { get; set; }
 
-		protected override void Dispose(bool e)
+        // tested by
+        // / X:\jsc.svn\examples\java\forms\AppletAsyncWhenReady\AppletAsyncWhenReady\ApplicationApplet.cs
+		public override void Dispose(bool e)
 		{
 			this.Enabled = false;
 		}

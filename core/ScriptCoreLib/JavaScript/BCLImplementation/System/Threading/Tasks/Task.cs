@@ -553,6 +553,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public void InternalSetCompleteAndYield(TResult value)
         {
+
+            // or throw?
+            if (IsCompleted)
+                return;
+
+            // http://stackoverflow.com/questions/12100022/taskcompletionsource-when-to-use-setresult-versus-trysetresult-etc
+
             //Console.WriteLine("__Task<TResult> InternalSetCompleteAndYield");
 
             this.Result = value;
