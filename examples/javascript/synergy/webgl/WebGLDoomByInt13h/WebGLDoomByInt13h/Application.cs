@@ -189,7 +189,7 @@ namespace WebGLDoomByInt13h
 
 
             // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Cast(System.Collections.IEnumerable)]
-
+            //IHTMLScriptAsyncExtensions
             new AppCode().body.ScriptElements().With(
                 async s =>
                 {
@@ -223,39 +223,4 @@ public static class X
             Debugger.Break();
     }
 
-    public static Task<IHTMLScript> ToTask(this IHTMLScript i)
-    {
-        var y = new TaskCompletionSource<IHTMLScript>();
-
-        i.onload +=
-            delegate
-            {
-                y.SetResult(i);
-            };
-
-        i.AttachToHead();
-
-        return y.Task;
-    }
-
-    public static IEnumerable<IHTMLScript> ScriptElements(this IElement i)
-    {
-        return i.querySelectorAll(IHTMLElement.HTMLElementEnum.script).Select(k => (IHTMLScript)k);
-    }
-
-    public static TaskAwaiter<IHTMLScript[]> GetAwaiter(this IEnumerable<IHTMLScript> i)
-    {
-        var script = i
-            //.Where(x => x.nodeName.ToLower() == "script")
-            .Select(x => ((IHTMLScript)x).ToTask());
-
-        var y = Task.WhenAll(script);
-
-        return y.GetAwaiter();
-    }
-
-    public static TaskAwaiter<TResult[]> GetAwaiter<TResult>(this IEnumerable<Task<TResult>> i)
-    {
-        return Task.WhenAll(i).GetAwaiter();
-    }
 }
