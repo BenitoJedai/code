@@ -101,8 +101,10 @@
     <Compile Include="JavaScript\BCLImplementation\System\IO\File.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSound.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Progress.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodBase.cs" />
+    <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\CancellationToken.cs" />
