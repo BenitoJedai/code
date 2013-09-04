@@ -73,10 +73,10 @@ namespace AsyncImageTask
 
 public static class X
 {
-    public static TaskAwaiter<IHTMLImage> GetAwaiter(this IHTMLImage i)
-    {
-        var y = new TaskCompletionSource<IHTMLImage>();
-        i.InvokeOnComplete(y.SetResult);
-        return y.Task.GetAwaiter();
-    }
+    //public static TaskAwaiter<IHTMLImage> GetAwaiter(this IHTMLImage i)
+    //{
+    //    var y = new TaskCompletionSource<IHTMLImage>();
+    //    i.InvokeOnComplete(y.SetResult);
+    //    return y.Task.GetAwaiter();
+    //}
 }

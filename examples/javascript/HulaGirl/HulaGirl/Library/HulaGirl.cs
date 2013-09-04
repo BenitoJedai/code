@@ -1,5 +1,7 @@
 using HulaGirl.HTML.Images.FromAssets;
 using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
@@ -101,9 +103,15 @@ namespace HulaGirl.source.js.Controls
 
 
 
-            new IHTMLButton { innerText = "gif" }.AttachToDocument().onclick +=
-                 async delegate
+            new IHTMLButton { innerText = "gif" }.AttachToDocument().WhenClicked(
+                 async xbtn =>
                  {
+                     Action<int> y = xindex =>
+                            {
+                                xbtn.innerText = new { xindex, Frames.Length }.ToString();
+
+                            };
+
                      Console.WriteLine("are we loaded yet? " + new { Frames.Length });
 
                      // Error	4	The 'await' operator can only be used within an async method. Consider marking this method with the 'async' modifier and changing its return type to 'Task'.	X:\jsc.svn\examples\javascript\HulaGirl\HulaGirl\Library\HulaGirl.cs	89	26	HulaGirl
@@ -114,6 +122,8 @@ namespace HulaGirl.source.js.Controls
                      //frames = (from f in Frames select f.bytes).ToArray();
                      // why do we have to use static?
                      //bytes = await Task.WhenAll(frames);
+
+                     // Error	5	Cannot await 'System.Collections.Generic.IEnumerable<System.Threading.Tasks.Task<byte[]>>'	X:\jsc.svn\examples\javascript\HulaGirl\HulaGirl\Library\HulaGirl.cs	117	34	HulaGirl
                      var bytes = await from f in Frames select f.bytes;
                      //bytes.DebuggerBreakIfMissing();
 
@@ -122,8 +132,11 @@ namespace HulaGirl.source.js.Controls
                      //Console.WriteLine(new { bytes.Length });
 
 
+
                      var a = new { Frames.First().width, Frames.First().height };
                      Console.WriteLine(new { a });
+
+
 
 
 
@@ -135,6 +148,8 @@ namespace HulaGirl.source.js.Controls
                             delay: 1000 / 24,
                          //transparentColor: 0x0,
                            frames: bytes
+                         ,
+                           AtFrame: y
                        );
 
 
@@ -142,7 +157,8 @@ namespace HulaGirl.source.js.Controls
                      Console.WriteLine("done!");
 
                      new IHTMLImage { src = src }.AttachToDocument();
-                 };
+                 }
+                 );
 
 
         }
@@ -163,15 +179,5 @@ public static class X
             Debugger.Break();
     }
 
-    public static TaskAwaiter<IHTMLImage> GetAwaiter(this IHTMLImage i)
-    {
-        var y = new TaskCompletionSource<IHTMLImage>();
-        i.InvokeOnComplete(y.SetResult);
-        return y.Task.GetAwaiter();
-    }
 
-    public static TaskAwaiter<TResult[][]> GetAwaiter<TResult>(this IEnumerable<Task<TResult[]>> i)
-    {
-        return Task.WhenAll(i).GetAwaiter();
-    }
 }
