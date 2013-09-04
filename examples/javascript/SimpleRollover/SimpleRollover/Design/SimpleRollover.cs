@@ -18,6 +18,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 using Math = System.Math;
 using System.Linq;
+using System;
 
 
 namespace SimpleRollover.js
@@ -206,9 +207,9 @@ namespace SimpleRollover.js
 
             var ad = new IHTMLDiv(
                             new IHTMLSpan(
-                                 AnimateCharacterColors( 
+                                 AnimateCharacterColors(
                                 "this application was written in c# and then translated to javascript by jsc to run in your browser"
-                                 ) 
+                                 )
                             ),
                             new IHTMLAnchor("http://zproxy.wordpress.com", "visit blog"),
                             new IHTMLAnchor("http://jsc.sf.net", "get more examples"),
@@ -342,7 +343,7 @@ namespace SimpleRollover.js
             );
 
             sheet.AddRule(".special1 img", "border: 0", 0);
-            sheet.AddRule(".special1:hover", "background: url(" +  new global::SimpleRollover.HTML.Images.FromAssets.Untitled_3().src + ") repeat-x", 1);
+            sheet.AddRule(".special1:hover", "background: url(" + new global::SimpleRollover.HTML.Images.FromAssets.Untitled_3().src + ") repeat-x", 1);
 
             sheet.AddRule(".special1 .hot").style.display = IStyle.DisplayEnum.none;
             sheet.AddRule(".special1:hover .hot").style.display = IStyle.DisplayEnum.inline;
@@ -351,7 +352,7 @@ namespace SimpleRollover.js
             sheet.AddRule(".special1:hover .cold", "display: none;", 1);
 
 
-            var states = new XState [] {}.AsEnumerable();
+            var states = new XState[] { }.AsEnumerable();
 
             //    new XState { 
             //        Show = default(System.Action), 
@@ -360,107 +361,110 @@ namespace SimpleRollover.js
             //}.Where(p => false);
 
 
-            ParamsAction<string> Spawn =
-                i =>
-                    ((IHTMLImage)i[0]).InvokeOnComplete(cold =>
-                    ((IHTMLImage)i[1]).InvokeOnComplete(hot =>
-                         {
-                             cold.className = "cold";
-                             hot.className = "hot";
+            Action<IHTMLImage, IHTMLImage, string> Spawn =
+                async (icold, ihot, i2) =>
+                {
+                    var cold = await icold;
+                    var hot = await ihot;
+
+                    //((IHTMLImage)i[0]).InvokeOnComplete(cold =>
+                    //((IHTMLImage)i[1]).InvokeOnComplete(hot =>
+                    //     {
+                    cold.className = "cold";
+                    hot.className = "hot";
 
 
-                             var btn = new IHTMLButton()
-                                 {
-                                     className = "special1"
-                                 };
+                    var btn = new IHTMLButton()
+                        {
+                            className = "special1"
+                        };
 
-                             btn.appendChild(cold, hot);
+                    btn.appendChild(cold, hot);
 
-                             var content = new IHTMLElement(IHTMLElement.HTMLElementEnum.pre);
+                    var content = new IHTMLElement(IHTMLElement.HTMLElementEnum.pre);
 
-                             content.innerHTML = "...";
-                             content.className = "content1";
+                    content.innerHTML = "...";
+                    content.className = "content1";
 
-                             var tween = new TweenDataDouble();
-                             var tween_max = 16;
+                    var tween = new TweenDataDouble();
+                    var tween_max = 16;
 
-                             tween.ValueChanged +=
-                                 delegate
-                                 {
-                                     content.style.Opacity = tween.Value / tween_max;
-                                     content.style.height = tween.Value + "em";
+                    tween.ValueChanged +=
+                        delegate
+                        {
+                            content.style.Opacity = tween.Value / tween_max;
+                            content.style.height = tween.Value + "em";
 
-                                     content.style.overflow = IStyle.OverflowEnum.hidden;
+                            content.style.overflow = IStyle.OverflowEnum.hidden;
 
-                                 };
+                        };
 
-                             tween.Done += delegate
-                             {
-                                 if (tween.Value > 0)
-                                     content.style.overflow = IStyle.OverflowEnum.auto;
-                             };
+                    tween.Done += delegate
+                    {
+                        if (tween.Value > 0)
+                            content.style.overflow = IStyle.OverflowEnum.auto;
+                    };
 
-                             tween.Value = 0;
+                    tween.Value = 0;
 
-                             var state = new XState
+                    var state = new XState
+                       {
+                           Show = (System.Action)(() =>
+                                               {
+                                                   tween.Value = tween_max;
+                                               }
+                           ),
+                           Hide = (System.Action)(() => tween.Value = 0),
+                           Selected = false
+                       };
+
+                    //try
+                    //{
+                    //    new IXMLHttpRequest(HTTPMethodEnum.GET, i[2],
+                    //       request => content.innerHTML = request.responseText
+                    //    );
+                    //}
+                    //catch
+                    //{
+                    content.innerText = i2;
+                    //}
+
+                    states = states.Concat(new[] { state });
+
+                    btn.onclick +=
+                        delegate
+                        {
+                            foreach (var v in states)
+                            {
+                                if (v == state)
                                 {
-                                    Show = (System.Action)(() =>
-                                                        {
-                                                            tween.Value = tween_max;
-                                                        }
-                                    ),
-                                    Hide = (System.Action)(() => tween.Value = 0),
-                                    Selected = false
-                                };
 
-                             //try
-                             //{
-                             //    new IXMLHttpRequest(HTTPMethodEnum.GET, i[2],
-                             //       request => content.innerHTML = request.responseText
-                             //    );
-                             //}
-                             //catch
-                             //{
-                                 content.innerText = i[2];
-                             //}
+                                    v.Selected = !v.Selected;
 
-                             states = states.Concat(new[] { state });
+                                    if (v.Selected)
+                                    {
+                                        v.Show();
+                                    }
+                                    else
+                                    {
+                                        v.Hide();
+                                    }
 
-                             btn.onclick +=
-                                 delegate
-                                 {
-                                     foreach (var v in states)
-                                     {
-                                         if (v == state)
-                                         {
+                                }
+                                else
+                                {
+                                    v.Selected = false;
+                                    v.Hide();
+                                }
+                            }
+                        };
 
-                                             v.Selected = !v.Selected;
-
-                                             if (v.Selected)
-                                             {
-                                                 v.Show();
-                                             }
-                                             else
-                                             {
-                                                 v.Hide();
-                                             }
-
-                                         }
-                                         else
-                                         {
-                                             v.Selected = false;
-                                             v.Hide();
-                                         }
-                                     }
-                                 };
-
-                             u.appendChild(btn, content);
+                    u.appendChild(btn, content);
 
 
 
 
-                         }
-                    ));
+                };
 
 
             SpawnCursor();
@@ -469,15 +473,15 @@ namespace SimpleRollover.js
             u.AttachToDocument();
 
             Spawn(
-                new global::SimpleRollover.HTML.Images.FromAssets.Untitled_1_03().src,
-                new global::SimpleRollover.HTML.Images.FromAssets.Untitled_2_03().src,
+                new global::SimpleRollover.HTML.Images.FromAssets.Untitled_1_03(),
+                new global::SimpleRollover.HTML.Images.FromAssets.Untitled_2_03(),
                 "This application was written in C#."
             );
 
             Spawn(
-                new global::SimpleRollover.HTML.Images.FromAssets.Untitled_1_07().src,
-                new global::SimpleRollover.HTML.Images.FromAssets.Untitled_2_07().src,
-                
+                new global::SimpleRollover.HTML.Images.FromAssets.Untitled_1_07(),
+                new global::SimpleRollover.HTML.Images.FromAssets.Untitled_2_07(),
+
                  "This application was cross compiled into JavaScript."
             );
 
@@ -657,7 +661,7 @@ namespace SimpleRollover.js
 
 
 
-        
+
     }
 
 }
