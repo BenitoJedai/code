@@ -27,7 +27,7 @@ namespace WebApplicationWindowMessaging
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             if (Native.Document.location.hash == "")
             {
@@ -52,28 +52,24 @@ namespace WebApplicationWindowMessaging
 
                 var i = 3;
 
-                new IHTMLButton { innerText = "new child popup window" }.With(
+                new IHTMLButton { innerText = "new child popup window" }.WhenClicked(
                     btn =>
                     {
-                        btn.onclick +=
+                        var w = Native.window.open(
+                            "#/child" + i,
+                            "_blank",
+                            400,
+                            300,
+                            false
+                        );
+                        w.focus();
+
+                        i++;
+                        w.onload +=
                             delegate
                             {
-                                var w = Native.Window.open(
-                                    "#/child" + i,
-                                    "_blank",
-                                    400,
-                                    300,
-                                    false
-                                );
-                                w.focus();
+                                w.postMessage("hi from " + Native.Document.location.hash);
 
-                                i++;
-                                w.onload +=
-                                    delegate
-                                    {
-                                        w.postMessage("hi from " + Native.Document.location.hash);
-
-                                    };
                             };
                     }
                 ).AttachToDocument();
@@ -85,7 +81,7 @@ namespace WebApplicationWindowMessaging
                         btn.onclick +=
                             delegate
                             {
-                                var w = Native.Window.open(
+                                var w = Native.window.open(
                                     "#/child" + i,
                                     "_blank"
                                 );
@@ -108,7 +104,7 @@ namespace WebApplicationWindowMessaging
                 page.Content.innerText = Native.Document.location.hash;
 
 
-                Native.Window.opener.With(
+                Native.window.opener.With(
                    parent =>
                    {
 
@@ -126,11 +122,11 @@ namespace WebApplicationWindowMessaging
                    }
                );
 
-                Native.Window.parent.With(
+                Native.window.parent.With(
                     parent =>
                     {
                         // not talking to self
-                        if (parent == Native.Window)
+                        if (parent == Native.window)
                             return;
 
                         new IHTMLButton { innerText = "send parent a message" }.With(
@@ -163,7 +159,7 @@ namespace WebApplicationWindowMessaging
 
             }
 
-            Native.Window.onmessage +=
+            Native.window.onmessage +=
                 e =>
                 {
                     new IHTMLButton { innerText = e.data + " (click to reply)" }.With(

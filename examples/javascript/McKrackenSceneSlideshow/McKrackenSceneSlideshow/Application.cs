@@ -26,7 +26,7 @@ namespace McKrackenSceneSlideshow
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             new NatureBoy.js.Class6().Initialize();
 

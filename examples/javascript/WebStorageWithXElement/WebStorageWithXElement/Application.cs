@@ -27,7 +27,7 @@ namespace WebStorageWithXElement
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             //var localStorage = Native.Window.localStorage;
             //string foo = getfoo();
@@ -81,7 +81,7 @@ namespace WebStorageWithXElement
     {
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            var value = Native.Window.localStorage[binder.Name];
+            var value = Native.window.localStorage[binder.Name];
 
             result = value;
 
@@ -90,7 +90,7 @@ namespace WebStorageWithXElement
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            Native.Window.localStorage[binder.Name] = value + "";
+            Native.window.localStorage[binder.Name] = value + "";
             return true;
         }
     }
