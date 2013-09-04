@@ -47,43 +47,59 @@ namespace AppletAsyncWhenReady
        );
 
 
-            applet.With(
-               async delegate
-               {
-                   Console.WriteLine("before await");
+            Action bind = null;
 
-                   var e = new Stopwatch();
+            //async {}
 
-                   e.Start();
-
-                   ILocalTasks loc = await applet;
-
-                   Console.WriteLine("after await " + e.ElapsedMilliseconds);
-
-                   //RewriteToAssembly error: System.ArgumentNullException: Value cannot be null.
-                   //Parameter name: namedProperties[0]
-                   //   at System.Reflection.Emit.CustomAttributeBuilder.InitCustomAttributeBuilder(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues, FieldInfo[] namedFields, Object[] fieldValues)
-                   //   at System.Reflection.Emit.CustomAttributeBuilder..ctor(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues)
-                   //   at jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins.IDLCompiler.<>c__DisplayClass52.<>c__DisplayClass60.<>c__DisplayClass69.<>c__DisplayClass6b.<Define>b__48(IDLParserToken )
+            bind = async delegate
+            {
 
 
-                   loc.WithButton1(
-                       async content_button1_click =>
-                       {
-                           // should only work once?
-                           var x = await content_button1_click;
+                //applet.With(
+                //   async delegate
+                //   {
+                Console.WriteLine("before await");
+
+                var e = new Stopwatch();
+
+                e.Start();
+
+                ILocalTasks loc = await applet;
+
+                Console.WriteLine("after await " + e.ElapsedMilliseconds);
+
+                //RewriteToAssembly error: System.ArgumentNullException: Value cannot be null.
+                //Parameter name: namedProperties[0]
+                //   at System.Reflection.Emit.CustomAttributeBuilder.InitCustomAttributeBuilder(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues, FieldInfo[] namedFields, Object[] fieldValues)
+                //   at System.Reflection.Emit.CustomAttributeBuilder..ctor(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues)
+                //   at jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins.IDLCompiler.<>c__DisplayClass52.<>c__DisplayClass60.<>c__DisplayClass69.<>c__DisplayClass6b.<Define>b__48(IDLParserToken )
 
 
-                           Console.WriteLine("at content_button1_click " + new { x });
+                loc.WithButton1(
+                    async content_button1_click =>
+                    {
+                        // should only work once?
+                        var x = await content_button1_click;
 
-                       }
-                   );
+
+                        Console.WriteLine("at content_button1_click " + new { x });
+
+                        Native.window.alert("at content_button1_click " + new { x });
+
+                        bind();
+                    }
+                );
 
 
 
 
-               }
-           );
+                //    }
+                //);
+            };
+
+
+            bind();
+
 
             applet.AutoSizeAppletTo(page.ContentSize);
             applet.AttachAppletTo(page.Content);

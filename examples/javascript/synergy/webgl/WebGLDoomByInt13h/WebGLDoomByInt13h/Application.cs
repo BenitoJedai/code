@@ -60,24 +60,6 @@ namespace WebGLDoomByInt13h
 
 
 
-
-            //{
-            //    IFunction createElement = (Native.document as dynamic).createElement;
-
-            //    Func<string, object> patched_createElement =
-            //        (x) =>
-            //        {
-
-            //            Console.WriteLine("at patched_createElement " + new { x });
-
-            //            return createElement.apply(Native.document,
-            //                x
-            //            );
-            //        };
-
-            //    (Native.document as dynamic).createElement = (IFunction)patched_createElement;
-            //}
-
             page.he3d.style.border = "2px solid red";
             page.v.onmouseover +=
                 delegate
@@ -116,27 +98,7 @@ namespace WebGLDoomByInt13h
             Console.WriteLine("patching... done");
             //};
 
-            //doPatch();
-
-            //var xxx = new { page.he3d, page.v, page.container };
-
-
-            //Native.window.onframe +=
-            //    delegate
-            //    {
-            //        bool getContextPatched = (page.he3d as dynamic).getContextPatched;
-            //        if (getContextPatched)
-            //            return;
-
-            //        Console.WriteLine(new { same = page.he3d == he3d });
-
-            //        page.output.Add(xxx.container);
-            //        //doPatch();
-
-            //        Debugger.Break();
-            //    };
-
-
+    
 
 
             Native.window.navigator.getUserMedia(
@@ -245,59 +207,6 @@ window.document.dispatchEvent(DOMContentLoaded_event)
                 }
             );
 
-            //            new AppCode().body.querySelectorAll(IHTMLElement.HTMLElementEnum.script).Aggregate(
-            //                seed: default(IHTMLScript),
-            //                func:
-            //                    (seed, ss) =>
-            //                    {
-            //                        var s = (IHTMLScript)ss;
-
-            //                        bool getContextPatched = (page.he3d as dynamic).getContextPatched;
-
-
-            //                        Console.WriteLine(new { s.src, getContextPatched });
-
-            //                        if (seed != null)
-            //                            seed.onload +=
-            //                                delegate
-            //                                {
-            //                                    s.AttachToDocument();
-            //                                };
-            //                        else
-            //                            s.AttachToDocument();
-
-
-            //                        s.onload +=
-            //                            delegate
-            //                            {
-            //                                Console.WriteLine(new { s.src } + " done!");
-            //                            };
-
-            //                        return s;
-            //                    }
-            //            ).onload += delegate
-            //            {
-            //                Console.WriteLine("raise DOMContentLoaded");
-
-            //                new IFunction(@"
-            //
-            //
-            //var DOMContentLoaded_event = document.createEvent('Event')
-            //DOMContentLoaded_event.initEvent('DOMContentLoaded', true, true)
-            //window.document.dispatchEvent(DOMContentLoaded_event)
-            //").apply(null);
-
-
-
-
-
-            //            };
-
-
-
-
-
-            //document.addEventListener('DOMContentLoaded', he3d.load, false);
 
         }
 
