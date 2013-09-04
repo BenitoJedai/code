@@ -316,7 +316,14 @@ namespace jsgif
                           x,
                           y,
                            delay: 1000 / 10,
-                          frames: frames
+                          frames: frames,
+
+                          AtFrame:
+                            index =>
+                            {
+                                btn.innerText = new { index, frames.Count }.ToString();
+
+                            }
                       );
 
 
