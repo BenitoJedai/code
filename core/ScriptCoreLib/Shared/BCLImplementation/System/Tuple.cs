@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(ImplementsViaAssemblyQualifiedName = "System.Tuple, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")]
-    internal static class __Tuple
+    public static class __Tuple
     {
         public static __Tuple<T1, T2> Create<T1, T2>(T1 item1, T2 item2)
         {
@@ -16,7 +16,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
     //[Script(ImplementsViaAssemblyQualifiedName = "System.Tuple`2, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")]
     [Script(Implements = typeof(Tuple<,>))]
-    internal class __Tuple<T1, T2>
+    public class __Tuple<T1, T2>
     {
         public __Tuple(T1 item1, T2 item2)
         {
