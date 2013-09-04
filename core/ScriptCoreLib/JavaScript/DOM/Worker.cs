@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 using System.Diagnostics;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -220,7 +221,11 @@ namespace ScriptCoreLib.JavaScript.DOM
              object data___string,
               string MethodToken,
             string MethodType,
+
             object state,
+            bool IsIProgress,
+            bool IsTuple2_Item1_IsIProgress,
+
             __Task<object>[] TaskArray
             )
         {
@@ -255,28 +260,61 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
             Console.WriteLine(
+                "__worker_onfirstmessage: " +
                 new
                 {
                     Native.worker.location.href,
                     MethodToken,
                     MethodType,
-                    Thread.CurrentThread.ManagedThreadId
+
+                    IsIProgress,
+                    IsTuple2_Item1_IsIProgress,
+
+                    Thread.CurrentThread.ManagedThreadId,
+                    state
                 }
             );
 
             var MethodTokenReference = IFunction.Of(MethodToken);
 
 
-            Console.WriteLine(
-                 new
-                 {
-                     MethodTokenReference,
-                     Thread.CurrentThread.ManagedThreadId
-                 }
-             );
+            //Console.WriteLine(
+            //     new
+            //     {
+            //         MethodTokenReference,
+            //         Thread.CurrentThread.ManagedThreadId
+            //     }
+            // );
 
             // whats the type?
 
+            Func<__Progress<object>> CreateProgress =
+                () => new __Progress<object>(
+                    value =>
+                    {
+                        //Console.WriteLine("__IProgress_Report " + new { value });
+
+                        dynamic zdata = new object();
+
+                        zdata.__IProgress_Report = new { value };
+
+                        foreach (MessagePort port in e.ports)
+                        {
+                            port.postMessage((object)zdata, new MessagePort[0]);
+                        }
+                    }
+                );
+
+
+            if (IsIProgress)
+                state = CreateProgress();
+
+            if (IsTuple2_Item1_IsIProgress)
+            {
+                var xx = ((__Tuple<object, object>)state);
+
+                xx.Item1 = CreateProgress();
+            }
 
 
             #region __string
@@ -342,6 +380,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
                 else if (MethodType == typeof(FuncOfObjectToObject).Name)
                 {
+                    //Console.WriteLine("as FuncOfObjectToObject");
+
                     var value = MethodTokenReference.apply(null, state);
                     var yield = new { value };
 
@@ -444,6 +484,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                             string MethodToken = e_data.MethodToken;
                             string MethodType = e_data.MethodType;
 
+                            bool IsIProgress = e_data.IsIProgress;
+                            bool IsTuple2_Item1_IsIProgress = e_data.IsTuple2_Item1_IsIProgress;
+
 
                             // used byTask.ctor 
                             object state = e_data.state;
@@ -459,6 +502,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                             // used by ContinueWith
 
                             // jsc, why cant i do arrays?
+
+
+                            #region TaskArray
                             var __TaskArray = (object[])(object)e_data.TaskArray;
 
                             //Console.WriteLine(new { __TaskArray });
@@ -479,7 +525,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 ).ToArray();
 
                             }
+                            #endregion
+
                             //var task = new __Task<object> { Result  = ResuWot };
+
 
 
                             // 3 dynamic uses messes up jsc? why?
@@ -490,7 +539,11 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 data___string,
                                 MethodToken,
                                 MethodType,
+
                                 state,
+                                IsIProgress,
+                                IsTuple2_Item1_IsIProgress,
+
                                 TaskArray
                                 );
                         };

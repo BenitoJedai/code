@@ -10,9 +10,6 @@ namespace AsyncWithProgressExperiment
     {
         public static void Main(string[] args)
         {
-            Action<object> OnReportAction = default(__IProgress<object>).Report;
-            var OnReportMethod = OnReportAction.Method;
-
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

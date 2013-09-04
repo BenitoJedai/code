@@ -47,6 +47,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             // fake sleep. keep cpu busy!
 
+            Console.WriteLine("sleep " + new { ms, Thread.CurrentThread.ManagedThreadId });
+
             var e = new Stopwatch();
             e.Start();
 
@@ -55,6 +57,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 {
                     Thread.Yield();
                 }
+
+            Console.WriteLine("end of sleep " + new { ms, e.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId });
         }
 
 
