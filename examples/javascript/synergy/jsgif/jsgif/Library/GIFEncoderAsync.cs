@@ -9,6 +9,7 @@ using System.Text;
 using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 
 [Description("This is the first synergy javascript component we wrapped into a worker")]
@@ -189,21 +190,40 @@ public class GIFEncoderWorker
 
         //object transparentColor = null,
 
-        IEnumerable<byte[]> frames = null
+        IEnumerable<byte[]> frames = null,
+
+        Action<int> AtFrame = null
         )
     {
+        var progress = (new Progress<int>(
+             x =>
+             {
+                 Console.WriteLine("DOM Progress: " + new { x, Thread.CurrentThread.ManagedThreadId });
+
+                 if (AtFrame != null)
+                     AtFrame(x);
+             }
+          ) as IProgress<int>);
+
+
         this.Task = System.Threading.Tasks.Task.Factory.StartNew(
-            new
+             Tuple.Create(progress,
+                    new
+                    {
+                        width,
+                        height,
+                        delay,
+                        repeat,
+                        //transparentColor, 
+                        frames = frames.ToArray()
+                    }
+                )
+            ,
+            xx =>
             {
-                width,
-                height,
-                delay,
-                repeat,
-                //transparentColor, 
-                frames = frames.ToArray()
-            },
-            x =>
-            {
+                Action<int> yield = xx.Item1.Report;
+
+                var x = xx.Item2;
                 var state = new
                 {
                     x.width,
@@ -229,7 +249,10 @@ public class GIFEncoderWorker
                     {
                         Console.WriteLine("addFrame " + new { index });
 
+
                         encoder.addFrame((Uint8ClampedArray)(object)frame, true);
+
+                        yield(index);
                     }
                 );
 
