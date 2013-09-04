@@ -38,6 +38,11 @@ namespace ScriptCoreLib.Ultra.Studio
             this.Name = "VisualCSharpProject1";
             this.Description = "Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net";
             this.Company = "jsc-solutions.net";
+
+            this.NuGetReferences.Add(
+                new package { id = "ScriptCoreLib.Async" }
+            );
+
         }
 
         public string SolutionFileName

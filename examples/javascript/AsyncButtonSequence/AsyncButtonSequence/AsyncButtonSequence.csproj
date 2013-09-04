@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{88C3C260-D1DA-4FB3-A53D-79462913E80C}</ProjectGuid>
+    <ProjectGuid>{EAF6F003-ADD3-4F42-BA87-8B61D29864FA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib</RootNamespace>
-    <AssemblyName>ScriptCoreLib.Async</AssemblyName>
+    <RootNamespace>AsyncButtonSequence</RootNamespace>
+    <AssemblyName>AsyncButtonSequence</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ScriptCoreLib.Async.Program</StartupObject>
+    <StartupObject>AsyncButtonSequence.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -116,14 +116,15 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ScriptCoreLib.Async.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ScriptCoreLib.Async.AssetsLibrary.dll</HintPath>
+    
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="AsyncButtonSequence.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AsyncButtonSequence.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript\DOM\HTML\IHTMLButtonAsyncExtensions.cs" />
-    <Compile Include="JavaScript\DOM\HTML\IHTMLImageAsyncExtensions.cs" />
-    <Compile Include="JavaScript\DOM\HTML\IHTMLScriptAsyncExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
@@ -137,7 +138,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
+    <PostBuildEvent>
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>

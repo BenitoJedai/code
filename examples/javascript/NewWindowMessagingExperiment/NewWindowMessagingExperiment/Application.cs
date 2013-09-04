@@ -30,7 +30,7 @@ namespace NewWindowMessagingExperiment
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/2013
 
-            Native.Window.onmessage +=
+            Native.window.onmessage +=
                m =>
                {
                    // { data = hi from newwindow handler, origin = chrome-extension://cbbhdbeoonaodjnocnepmnidolnhaepp }
@@ -56,9 +56,9 @@ namespace NewWindowMessagingExperiment
                        {
                            Console.WriteLine(new { x });
 
-                           var data = Native.Window.escape(x.ToString());
+                           var data = Native.window.escape(x.ToString());
 
-                           var w = Native.Window.open("http://hack-wtf-postmessage/" + data);
+                           var w = Native.window.open("http://hack-wtf-postmessage/" + data);
                        };
 
 
