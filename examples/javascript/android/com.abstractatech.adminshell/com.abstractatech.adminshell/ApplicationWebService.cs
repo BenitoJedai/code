@@ -123,11 +123,16 @@ namespace com.abstractatech.adminshell
                     AuthorizationLiteralCredentials,
                     Host,
                     h.Context.Request.UserHostAddress,
+                    h.Context.Request.HttpMethod,
+                    h.Context.Request.Path,
                 }.ToString());
 
             var a = h.Applications.FirstOrDefault(k => k.TypeName == "a");
 
-            if (h.Context.Request.Path == "/a")
+            var Application = h.Context.Request.Headers["X-Application"];
+
+            //if (h.Context.Request.Path == "/a")
+            if (Application == a.TypeName)
             {
                 var OK = false;
 
@@ -164,6 +169,11 @@ namespace com.abstractatech.adminshell
                     h.Context.Response.SetCookie(
                         new System.Web.HttpCookie("foo", "bar")
                     );
+
+                    //  { Length = 2211910 }
+                    //h.Context.Response.Write(
+                    //    "/* encrypted */".PadLeft(0x2F2F2F)
+                    //);
 
                     h.WriteSource(a);
                     h.CompleteRequest();
