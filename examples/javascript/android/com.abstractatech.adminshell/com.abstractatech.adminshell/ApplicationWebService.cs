@@ -259,6 +259,9 @@ namespace com.abstractatech.adminshell
 
     class AndroidApplicationWebServiceMulticast : Component
     {
+        // 2890:02:01 RewriteToAssembly error: System.TypeLoadException: Method 'onBind' in type 'foo.NotifyService'
+        // from assembly 'com.abstractatech.adminshell.ApplicationWebService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+
         WifiManager wifi;
         WifiManager.MulticastLock multicastLock;
 

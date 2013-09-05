@@ -124,6 +124,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLImageAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLScriptAsyncExtensions.cs" />
+    <Compile Include="JavaScript\DOM\IXMLHttpRequestAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\WorkerAsyncExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
