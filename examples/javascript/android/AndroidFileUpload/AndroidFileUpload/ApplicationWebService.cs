@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Linq;
 
@@ -25,7 +26,14 @@ namespace AndroidFileUpload
             y(e);
         }
 
+#if FUTURE
+        public async Task<string> SendTheFile(string file, byte[] bytes)
+        {
 
+
+            return "foo";
+        }
+#endif
 
         public void InternalHandler(WebServiceHandler h)
         {
@@ -54,7 +62,7 @@ namespace AndroidFileUpload
                         new { item.ContentType, item.FileName, item.ContentLength, bytes.Length }
                     );
 
-          
+
 
                 }
 

@@ -63,11 +63,19 @@ namespace AndroidFileUpload
                 };
 
             Native.Document.body.ondrop +=
-                evt =>
+                async evt =>
                 {
                     //if (evt.dataTransfer == null)
                     //    return;
 
+
+                    // let's disable other handlers
+                    //evt.dataTransfer = null;
+
+                    evt.stopPropagation();
+                    evt.stopImmediatePropagation();
+
+                    evt.preventDefault();
 
 
                     page.Header.style.color = JSColor.None;
@@ -104,26 +112,23 @@ namespace AndroidFileUpload
 
                     xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/upload");
 
-                    xhr.InvokeOnComplete(
-                        delegate
-                        {
-                            SystemSounds.Beep.Play();
+                    //xhr.InvokeOnComplete(
+                    //    delegate
+                    //    {
+                    //        SystemSounds.Beep.Play();
 
-                        }
-                    );
+                    //    }
+                    //);
 
                     xhr.send(d);
+
+                    await xhr;
+
+                    SystemSounds.Beep.Play();
 
                     #endregion
 
 
-                    // let's disable other handlers
-                    //evt.dataTransfer = null;
-
-                    evt.stopPropagation();
-                    evt.stopImmediatePropagation();
-
-                    evt.preventDefault();
                 };
         }
 
