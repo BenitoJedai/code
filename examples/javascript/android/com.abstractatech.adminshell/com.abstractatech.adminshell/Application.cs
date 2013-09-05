@@ -16,6 +16,9 @@ using System.Drawing;
 using Abstractatech.JavaScript.FormAsPopup;
 using ScriptCoreLib.Ultra.WebService;
 using Abstractatech.ConsoleFormPackage.Library;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace com.abstractatech.adminshell
 {
@@ -31,6 +34,8 @@ namespace com.abstractatech.adminshell
         FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
 
 
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -44,48 +49,80 @@ namespace com.abstractatech.adminshell
 
             // or just change the base?
 
-            new IHTMLBase
-            {
-                href = "http://"
-                    + page.username.value
-                    + ":"
-                    + page.password.value
-                    + "@"
-                    + Native.document.location.host
+            //new IHTMLBase
+            //{
+            //    href = "http://"
+            //        + page.username.value
+            //        + ":"
+            //        + page.password.value
+            //        + "@"
+            //        + Native.document.location.host
 
-            }.AttachToDocument();
+            //}.AttachToDocument();
 
 
-            var s = new IHTMLScript
-            {
-                src = "/a"
-            };
+            //var s = new IHTMLScript
+            //{
+            //    src = "/a"
+            //};
 
-            // http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
-            s.onload +=
-                delegate
+            //// http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
+            //s.onload +=
+            //    delegate
+            //    {
+            //    };
+
+            //    at jsc.Languages.IL.ILTranslationExtensions.EmitToArguments.<.ctor>b__47(ILInstruction )
+
+            //var s = new IHTMLScript { src = "/a" };
+
+            page.go.With(
+                async go =>
+                //async delegate
                 {
-                    page.LoginButton.Orphanize();
-                };
+                    Console.WriteLine("click me!");
 
-            page.LoginButton.onclick +=
-                delegate
-                {
+                    await go;
+
                     page.LoginButton.style.Opacity = 0.5;
-                    s.AttachToDocument();
-                };
+                    //s.AttachToDocument();
+                    Console.WriteLine("loading secondary app");
+
+
+
+                    await typeof(a);
+                    //await new IHTMLScript { src = "/a" };
+
+
+                    Console.WriteLine("loading secondary app done");
+
+
+                    //await new IHTMLScript { src = "/a" };
+
+                    page.LoginButton.Orphanize();
+                }
+             );
 
             "Remote Web Shell".ToDocumentTitle();
+
         }
+
 
 
         public sealed class a
         {
+
+
             public readonly ApplicationWebService service = new ApplicationWebService();
 
+            static a()
+            {
+                Console.WriteLine("secondary app loaded");
+            }
 
             public a(IApp e)
             {
+                //yield(new { hello = "secondary app loaded and running!" }.ToString());
 
                 var c = new ShellWithPing.Library.ConsoleWindow
                 {
@@ -130,6 +167,85 @@ example:
         }
     }
 
+    //interface IApplication
+    //{ 
+
+    //}
+
+    static class X
+    {
+        public static TaskAwaiter<object> GetAwaiter(this Type __e)
+        {
+            Console.WriteLine(new { __e.Name });
+
+            // http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
+
+            var y = new TaskCompletionSource<object>();
+
+            return Task.Factory.StartNew(
+                new { __e.Name },
+                scope =>
+                {
+                    // http://stackoverflow.com/questions/13870853/how-to-upload-files-in-web-workers-when-formdata-is-not-defined
+                    // FormData is not defined
+                    //var f = new FormData();
+
+                    //f.append("Application", scope.Name);
+
+                    var x = new IXMLHttpRequest();
+
+
+
+
+
+                    x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/view-source",
+                        async: false,
+                        name: "public",
+                        pass: "key1555555"
+                    );
+
+
+                    // Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.
+                    x.setRequestHeader(
+                        "X-Application", scope.Name
+                    );
+
+                    x.send();
+
+                    // we could load encrypted binary blob here in background worker
+                    Console.WriteLine("loading secondary app in a moment... " + new { x.responseText.Length, Thread.CurrentThread.ManagedThreadId });
+
+
+
+                    //Console.WriteLine("loading secondary app in a moment... " + new { x.responseText.Length } + " done!");
+
+                    //y.SetResult(new { x.responseText.Length }.ToString());
+
+                    return new { x.responseText };
+                }
+            ).ContinueWith(
+                task =>
+                {
+                    var x = task.Result;
+
+                    // should we analyze? IFunction
+                    Native.window.eval(
+                        //x.responseText
+                        x.responseText
+                    );
+
+                    return (object)new { x.responseText.Length };
+                }
+                , scheduler: TaskScheduler.FromCurrentSynchronizationContext()
+            ).GetAwaiter();
+
+            //return y.Task.GetAwaiter();
+
+            //Activator.CreateInstance();
+            // can I have only the types I do not yet have?
+            //return new IHTMLScript { src = "/" + e.Name }.ToTask().GetAwaiter();
+        }
+    }
 
 
     public static class DownloadSDKFunction

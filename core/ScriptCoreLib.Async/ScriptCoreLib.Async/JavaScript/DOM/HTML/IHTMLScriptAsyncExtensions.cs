@@ -19,6 +19,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 delegate
                 {
                     y.SetResult(i);
+
+
+                    // cleanup
+                    i.Orphanize();
                 };
 
             i.AttachToHead();
@@ -29,6 +33,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public static IEnumerable<IHTMLScript> ScriptElements(this IElement i)
         {
             return i.querySelectorAll(IHTMLElement.HTMLElementEnum.script).Select(k => (IHTMLScript)k);
+        }
+
+        public static TaskAwaiter<IHTMLScript> GetAwaiter(this IHTMLScript i)
+        {
+            return i.ToTask().GetAwaiter();
         }
 
         public static TaskAwaiter<IHTMLScript[]> GetAwaiter(this IEnumerable<IHTMLScript> i)

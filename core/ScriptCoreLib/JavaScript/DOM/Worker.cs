@@ -288,6 +288,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             // whats the type?
 
+            #region CreateProgress
             Func<__Progress<object>> CreateProgress =
                 () => new __Progress<object>(
                     value =>
@@ -315,6 +316,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 xx.Item1 = CreateProgress();
             }
+            #endregion
+
 
 
             #region __string

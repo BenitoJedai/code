@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=677638
     [Script(HasNoPrototype = true, ExternalTarget = "MessageChannel")]
     public class MessageChannel
     {

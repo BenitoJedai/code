@@ -439,7 +439,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public Task ContinueWith(Action<Task<TResult>> continuationAction)
         {
-            return ContinueWith(continuationAction, default(TaskScheduler));
+            // tested by
+            // X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\Application.cs
+
+            return ContinueWith(continuationAction,
+                scheduler: TaskScheduler.FromCurrentSynchronizationContext()
+                );
         }
 
         public Task ContinueWith(Action<Task<TResult>> continuationAction, TaskScheduler scheduler)
