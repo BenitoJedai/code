@@ -37,6 +37,8 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
             if (duetime > 0)
             {
+
+
                 Native.window.setTimeout(
                     delegate
                     {
@@ -122,7 +124,16 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             Stop();
             isTimeout = true;
-            id = Native.window.setTimeout(Invoke, i);
+
+
+            // tested by
+            // X:\jsc.svn\examples\javascript\AsyncInlineWorkerDocumentExperiment\AsyncInlineWorkerDocumentExperiment\Application.cs
+
+            if (Native.window != null)
+                id = Native.window.setTimeout(Invoke, i);
+            else if (Native.worker != null)
+                id = Native.worker.setTimeout(Invoke, i);
+
         }
 
         public bool Enabled = true;
@@ -165,13 +176,13 @@ namespace ScriptCoreLib.JavaScript.Runtime
                     }
                     else
                         timer.Stop();
-                    
+
                 }, duetime, interval);
         }
 
         public static void DoAsync(System.Action h)
         {
-            new Timer(delegate { h();  }, 1, 0);
+            new Timer(delegate { h(); }, 1, 0);
 
         }
 

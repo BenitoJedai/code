@@ -21,10 +21,20 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
                         c.port1.start();
                         c.port2.start();
-                        
+
                         return c.port2;
                     }
                 ).ToArray()
+            );
+        }
+
+        public static void postMessage<X>(this MessagePort x, object message, Action<X> yield)
+        {
+            postMessage(x, message,
+                (MessageEvent e) =>
+                {
+                    yield((X)e.data);
+                }
             );
         }
 

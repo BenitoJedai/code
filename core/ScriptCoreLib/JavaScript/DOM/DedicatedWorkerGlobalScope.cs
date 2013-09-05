@@ -11,6 +11,19 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public readonly WorkerLocation location;
 
+
+
+        public int setTimeout(IFunction code, int time)
+        {
+            return default(int);
+        }
+
+        [Script(DefineAsStatic = true)]
+        internal int setTimeout(System.Action code, int time)
+        {
+            return setTimeout(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
+        }
+
     }
 
     [Script(HasNoPrototype = true)]
