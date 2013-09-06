@@ -84,22 +84,37 @@ namespace com.abstractatech.adminshell
 
                     await go;
 
-                    page.LoginButton.style.Opacity = 0.5;
-                    //s.AttachToDocument();
-                    Console.WriteLine("loading secondary app");
+                    AsyncHistoryExperiment.XState.Create(
+                        new { o = 0.5 },
+                        async state =>
+                        {
+
+
+                            page.LoginButton.style.Opacity = 0.5;
+                            //s.AttachToDocument();
+                            Console.WriteLine("loading secondary app");
 
 
 
-                    await typeof(a);
-                    //await new IHTMLScript { src = "/a" };
+                            await typeof(a);
+                            //await new IHTMLScript { src = "/a" };
 
 
-                    Console.WriteLine("loading secondary app done");
+                            Console.WriteLine("loading secondary app done");
 
 
-                    //await new IHTMLScript { src = "/a" };
+                            //await new IHTMLScript { src = "/a" };
 
-                    page.LoginButton.Orphanize();
+                            page.LoginButton.Orphanize();
+
+
+                            await state;
+
+                            Console.WriteLine("log out!");
+
+                            page.LoginButton.AttachToDocument();
+                        }
+                    );
                 }
              );
 
@@ -174,7 +189,7 @@ example:
 
     static class X
     {
-        public static TaskAwaiter<object> GetAwaiter(this Type __e)
+        public static TaskAwaiter<Action> GetAwaiter(this Type __e)
         {
             Console.WriteLine(new { __e.Name });
 
@@ -234,7 +249,10 @@ example:
                         x.responseText
                     );
 
-                    return (object)new { x.responseText.Length };
+
+                    //script: error JSC1000: Method: LockBits, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing.__Bitmap; emmiting failed : System.NullReferenceException: Object reference not set to an instance of an object.
+
+                    return new Action(delegate { Console.WriteLine("log out in progres..."); });
                 }
                 , scheduler: TaskScheduler.FromCurrentSynchronizationContext()
             ).GetAwaiter();
