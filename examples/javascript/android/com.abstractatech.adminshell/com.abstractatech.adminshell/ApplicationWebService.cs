@@ -62,6 +62,7 @@ namespace com.abstractatech.adminshell
             {
                 // http://stackoverflow.com/questions/9062182/android-icmp-ping
 
+                // https://gist.github.com/micahasmith/5084997
                 var p = new java.lang.ProcessBuilder(new[] { "sh" }).redirectErrorStream(true).start();
 
                 var os = new DataOutputStream(p.getOutputStream());

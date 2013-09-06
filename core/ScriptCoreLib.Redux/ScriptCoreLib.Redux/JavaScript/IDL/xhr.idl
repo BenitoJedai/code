@@ -1,4 +1,5 @@
 // http://www.w3.org/TR/XMLHttpRequest2/
+// http://www.w3.org/TR/XMLHttpRequest/
 
 [Constructor,
  Constructor(html::HTMLFormElement form)]
