@@ -37,13 +37,13 @@ namespace ChromeNotificationExperiment
                 Native.Document,
                 Native.Document.location.href,
                 Native.Document.location.pathname,
-                Native.Window,
-                Native.Window.opener,
-                Native.Window.navigator.userAgent,
+                Native.window,
+                Native.window.opener,
+                Native.window.navigator.userAgent,
                 chrome.app,
                 chrome.app.runtime,
                 chrome.app.isInstalled,
-                chrome.app.window,
+                //chrome.app.window,
             });
 
             // what are we running as?e
@@ -60,8 +60,8 @@ namespace ChromeNotificationExperiment
 
                 // no HTML layout yet
 
-                if (Native.Window.opener == null)
-                    if (Native.Window.parent == Native.Window.self)
+                if (Native.window.opener == null)
+                    if (Native.window.parent == Native.window.self)
                     {
                     chrome.app.runtime.onLaunched.addListener(
                         new Action(
@@ -164,7 +164,7 @@ namespace ChromeNotificationExperiment
                                          //);
 
 
-                                         Native.Window.open("http://example.com", "_blank");
+                                         Native.window.open("http://example.com", "_blank");
                                      }
                                  )
                              );
