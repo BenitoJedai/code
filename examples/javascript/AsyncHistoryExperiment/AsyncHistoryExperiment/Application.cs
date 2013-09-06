@@ -28,6 +28,23 @@ namespace AsyncHistoryExperiment
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+
+        public static async Task<object> xflash(IHTMLButton g, int ms, JSColor c)
+        {
+            Console.WriteLine("flash 0");
+            g.style.backgroundColor = c;
+            await Task.Delay(ms);
+            Console.WriteLine("flash 100");
+            g.style.backgroundColor = JSColor.None;
+            await Task.Delay(ms);
+            Console.WriteLine("flash 200");
+
+            // script: error JSC1000: No implementation found for this native method, please implement 
+            // [System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception)]
+            return new object();
+        }
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -120,14 +137,14 @@ namespace AsyncHistoryExperiment
             //script: error JSC1000: No implementation found for this native method, please implement 
             // [System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine)]
 
-            Func<int, Task<object>> flash =
-                 async ms =>
+            Func<IHTMLButton, int, JSColor, Task<object>> flash =
+                 async (g, ms, c) =>
                  {
                      Console.WriteLine("flash 0");
-                     page.G.style.backgroundColor = JSColor.Yellow;
+                     g.style.backgroundColor = c;
                      await Task.Delay(ms);
                      Console.WriteLine("flash 100");
-                     page.G.style.backgroundColor = JSColor.None;
+                     g.style.backgroundColor = JSColor.None;
                      await Task.Delay(ms);
                      Console.WriteLine("flash 200");
 
@@ -136,6 +153,73 @@ namespace AsyncHistoryExperiment
                      return new object();
                  };
 
+
+            page.Special.onclick +=
+                delegate
+                {
+                    XState.Create(
+                        //title: btn.innerText,
+                        //url: "#" + btn.innerText,
+                             value: new { button = page.Special.id, position = 0, seed = 0 },
+                             invoke:
+                                 async state =>
+                                 {
+                                     // how can we share the scope?
+                                     // because this might be called from a .cctor
+
+                                     Native.document.title = new { state.value.button }.ToString();
+                                     var xbtn = (IHTMLButton)Native.document.getElementById(state.value.button);
+
+                                     if (state)
+                                     {
+                                         System.Media.SystemSounds.Beep.Play();
+                                         await xflash(xbtn, 250, JSColor.Cyan);
+                                         //Console.Beep();
+                                         await xflash(xbtn, 250, JSColor.Cyan);
+                                     }
+                                     var xpage = new App.FromDocument();
+
+
+
+                                     xbtn.style.color = JSColor.Blue;
+                                     xbtn.disabled = true;
+
+                                     // how long are we in this state?
+
+                                     //var value = state.value;
+
+                                     //Console.WriteLine("lets start our streaming!");
+                                     var seed = state.value.position;
+
+                                     while (state)
+                                     {
+                                         // lets make a new state 
+                                         //var position = value.position + 4;
+
+                                         //Console.WriteLine("lets start our streaming! next!");
+
+                                         state.value = new { state.value.button, position = state.value.position + 4, seed };
+                                         xbtn.innerText = new { state.value.position }.ToString();
+                                         await Task.Delay(1000);
+                                     }
+                                     // no way to get back to the state, without restarting
+
+                                     //while (!state.GetAwaiter().IsCompleted)
+
+                                     // paused!
+                                     System.Media.SystemSounds.Beep.Play();
+                                     //await flash(xbtn, 250, JSColor.Yellow);
+                                     await xflash(xbtn, 250, JSColor.Yellow);
+                                     //Console.Beep();
+                                     await xflash(xbtn, 250, JSColor.Yellow);
+                                     // should be a nop, yet wot work yets
+                                     await state;
+
+                                     xbtn.disabled = false;
+
+                                 }
+                         );
+                };
 
             page.G.onclick +=
                 async delegate
@@ -148,9 +232,9 @@ namespace AsyncHistoryExperiment
 
 
                         System.Media.SystemSounds.Beep.Play();
-                        await flash(300);
+                        await flash(page.G, 300, JSColor.Yellow);
                         //Console.Beep();
-                        await flash(300);
+                        await flash(page.G, 300, JSColor.Yellow);
 
 
                         while (actions.Where(k => k.btn.disabled).Any())
@@ -179,9 +263,9 @@ namespace AsyncHistoryExperiment
                         while (actions.Where(k => !k.btn.disabled).Any());
 
                         System.Media.SystemSounds.Beep.Play();
-                        await flash(300);
+                        await flash(page.G, 300, JSColor.Yellow);
                         //Console.Beep();
-                        await flash(300);
+                        await flash(page.G, 300, JSColor.Yellow);
 
                     }
 
@@ -205,7 +289,7 @@ namespace AsyncHistoryExperiment
 
     }
 
-    class XState
+    public class XState
     {
         public sealed class XVariation
         {
@@ -216,6 +300,9 @@ namespace AsyncHistoryExperiment
             public string invoke;
 
             public XVariation stack;
+
+            public string title;
+            public string url;
         }
 
 
@@ -233,11 +320,16 @@ namespace AsyncHistoryExperiment
                 // lets resume! { data_invoke = BwAABoL2TT6iqfiSNWZMtg }
                 Console.WriteLine("lets resume! " + new { data_invoke });
 
-                var s = new XState.XVariation<object>
-                {
-                    value = data.value,
-                    data = data
-                };
+                var s = new XState.XVariation<object>(data,
+                     delegate
+                     {
+                         Native.window.history.replaceState(
+                             data,
+                             data.title,
+                             data.url
+                         );
+                     }
+                );
 
                 IFunction.Of(data_invoke).apply(null, s);
             };
@@ -253,21 +345,86 @@ namespace AsyncHistoryExperiment
                };
         }
 
+        // Error	1	Cannot derive from 'T' because it is a type parameter	X:\jsc.svn\examples\javascript\AsyncHistoryExperiment\AsyncHistoryExperiment\Application.cs	255	38	AsyncHistoryExperiment
         public class XVariation<T>
         {
             //public int index;
 
             //public Action<XVariation<T>> invoke;
 
-            public T value;
+            readonly Action changed;
 
 
-
-            public XVariation data;
-
-            public TaskAwaiter<object> GetAwaiter()
+            public T value
             {
-                var s = new TaskCompletionSource<object>();
+                get
+                {
+                    return (T)data.value;
+                }
+                set
+                {
+                    if (this)
+                    {
+                        // we can only make a change if we are the state
+
+                        data.value = value;
+
+                        if (changed != null)
+                            changed();
+                    }
+
+
+
+
+                }
+            }
+
+
+
+            readonly XVariation data;
+            readonly TaskCompletionSource<object> s;
+            public string title { get { return this.data.title; } }
+
+            public string url { get { return this.data.url; } }
+
+            public static implicit operator bool(XVariation<T> x)
+            {
+                var state = ((XState.XVariation)Native.window.history.state);
+
+                if (state == null)
+                {
+                    if (x == null)
+                        return true;
+
+                }
+                else
+                {
+                    if (state.id == x.data.id)
+                        return true;
+                }
+
+                return false;
+            }
+
+            public XVariation(XVariation data, Action changed)
+            {
+                this.data = data;
+
+                //Native.window.history.replaceState(
+                //              value,
+                //              state.title,
+                //              state.url
+                //          );
+
+
+                //this.url = url;
+                //this.title = title;
+
+
+                this.changed = changed;
+
+
+                s = new TaskCompletionSource<object>();
 
                 //Console.WriteLine("GetAwaiter");
 
@@ -277,6 +434,8 @@ namespace AsyncHistoryExperiment
 
                 Console.WriteLine("await onpopstate " + data.id);
 
+                var done = false;
+
                 Action yield = delegate
                 {
                     Console.WriteLine("GetAwaiter done  " + data.id);
@@ -285,13 +444,13 @@ namespace AsyncHistoryExperiment
                         new object()
                     );
 
-                    s = null;
+                    done = true;
                 };
 
                 Native.window.onpopstate +=
                    e =>
                    {
-                       if (s == null)
+                       if (done)
                            return;
 
                        var state = ((XState.XVariation)Native.window.history.state);
@@ -306,6 +465,13 @@ namespace AsyncHistoryExperiment
                            return;
                        }
 
+                       if (data.id == state.id)
+                       {
+                           // reloading ongoing state?
+                           // let the old version die off while a new version is created
+                           //yield();
+                       }
+
                        if (data.stack.id == state.id)
                            yield();
 
@@ -313,8 +479,11 @@ namespace AsyncHistoryExperiment
 
 
 
-                return s.Task.GetAwaiter();
+            }
 
+            public TaskAwaiter<object> GetAwaiter()
+            {
+                return s.Task.GetAwaiter();
             }
         }
 
@@ -354,24 +523,24 @@ namespace AsyncHistoryExperiment
 
                     value = value,
                     invoke = data_invoke,
-                    //index = data_index,
 
-                    stack = state
+                    stack = state,
+
+                    title = title,
+                    url = url
                 };
 
 
-            var s = new XVariation<T>
-            {
-                //index = data_index,
-                value = value,
-                //invoke = invoke,
-
-
-                data = data
-            };
-
-
-
+            var s = new XVariation<T>(data,
+                delegate
+                {
+                    Native.window.history.replaceState(
+                        data,
+                        data.title,
+                        data.url
+                    );
+                }
+            );
 
             Console.WriteLine("pushState " + id);
 

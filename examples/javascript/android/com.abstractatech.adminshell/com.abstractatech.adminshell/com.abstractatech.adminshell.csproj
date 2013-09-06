@@ -15,7 +15,6 @@
     <StartupObject>com.abstractatech.adminshell.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <TargetFrameworkProfile />
-   
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -152,6 +151,9 @@
     <Reference Include="AndroidNotificationWebActivity.AssetsLibrary">
       <HintPath>..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\bin\staging.AssetsLibrary\AndroidNotificationWebActivity.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="AsyncHistoryExperiment.AssetsLibrary">
+      <HintPath>..\..\..\AsyncHistoryExperiment\AsyncHistoryExperiment\bin\staging.AssetsLibrary\AsyncHistoryExperiment.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.htm" />
@@ -167,6 +169,10 @@
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\AsyncHistoryExperiment\AsyncHistoryExperiment\AsyncHistoryExperiment.csproj">
+      <Project>{46a813c2-c5b6-4f84-8800-8966d730086d}</Project>
+      <Name>AsyncHistoryExperiment</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj">
       <Project>{68616df5-ad84-4d65-85c4-35bb96171391}</Project>
       <Name>AndroidNotificationWebActivity</Name>
@@ -196,5 +202,4 @@ start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument
 
 </PreBuildEvent>
   </PropertyGroup>
-
 </Project>

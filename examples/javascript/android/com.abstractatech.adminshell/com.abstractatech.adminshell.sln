@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ConsoleFormPa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSMinimizeFormToSidebar", "..\..\css\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar.csproj", "{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncHistoryExperiment", "..\..\AsyncHistoryExperiment\AsyncHistoryExperiment\AsyncHistoryExperiment.csproj", "{46A813C2-C5B6-4F84-8800-8966D730086D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -306,6 +308,31 @@ Global
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|Mixed Platforms.Build.0 = Release|x86
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|x86.ActiveCfg = Release|x86
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|x86.Build.0 = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Android|Any CPU.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Android|Mixed Platforms.Build.0 = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Android|x86.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Android|x86.Build.0 = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.AppEngine|Any CPU.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.AppEngine|Mixed Platforms.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.AppEngine|Mixed Platforms.Build.0 = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.AppEngine|x86.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.AppEngine|x86.Build.0 = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Debug|x86.ActiveCfg = Debug|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Debug|x86.Build.0 = Debug|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.PHP|Any CPU.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.PHP|x86.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.PHP|x86.Build.0 = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Release|Any CPU.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Release|x86.ActiveCfg = Release|x86
+		{46A813C2-C5B6-4F84-8800-8966D730086D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -318,5 +345,6 @@ Global
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {93B7FC15-66EF-4B8A-9718-4B1B6EBE75A9}
 		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {93B7FC15-66EF-4B8A-9718-4B1B6EBE75A9}
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678} = {93B7FC15-66EF-4B8A-9718-4B1B6EBE75A9}
+		{46A813C2-C5B6-4F84-8800-8966D730086D} = {93B7FC15-66EF-4B8A-9718-4B1B6EBE75A9}
 	EndGlobalSection
 EndGlobal
