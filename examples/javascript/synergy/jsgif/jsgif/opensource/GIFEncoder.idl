@@ -14,6 +14,10 @@
 	void addFrame(any canvas2d);
 	void setTransparent(any color);
 
+	/*
+	RewriteToAssembly error: System.NotSupportedException: Uint8ClampedArray
+	at jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins.IDLCompiler.<>c__DisplayClass53.<Define>b__2c(IDLTypeReference SourceType)
+	*/
 	/*async*/ void addFrame(Uint8ClampedArray canvas2d, boolean is_imageData);
 
 	void finish();

@@ -70,24 +70,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
              ref  TStateMachine stateMachine
         )
         //where TAwaiter : global::System.Runtime.CompilerServices.INotifyCompletion
-
-
-//script: error JSC1000: Method: <MoveNext><006c>.try, Type: AsyncButtonExperiment.Application+ctor>b__2>d__6; emmiting failed : System.ArgumentException: GenericArguments[1], 'AsyncButtonExperiment.Application+ctor>b__2>d__6', on 'Void AwaitUnsafeOnCompleted[TAwaiter,TStateMachine](TAwaiter ByRef, TStateMachine ByRef)' violates the constraint of type 'TStateMachine'. ---> System.Security.VerificationException: Method ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices.__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted: type argument 'AsyncButtonExperiment.Application+ctor>b__2>d__6' violates the constraint of type parameter 'TStateMachine'.
-
         //where TStateMachine : __IAsyncStateMachine
         {
-
-            // __AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted
-
-
             Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted");
 
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
             var zstateMachine = xstateMachine;
 
-            //Action yield = xstateMachine.MoveNext;
             Action yield = () => zstateMachine.MoveNext();
-
 
             var xawaiter = (__INotifyCompletion)(object)awaiter;
 
@@ -99,9 +89,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
                     yield();
                 }
             );
-
-        
-
         }
 
         [Obsolete]
