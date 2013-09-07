@@ -1,4 +1,6 @@
-﻿using System;
+﻿ extern alias core;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class IXMLHttpRequestEventTarget : IEventTarget
     {
         #region event onprogress
-        public event System.Action<ProgressEvent> onprogress
+        public event System.Action<core::ScriptCoreLib.JavaScript.DOM.ProgressEvent> onprogress
         {
             [Script(DefineAsStatic = true)]
             add

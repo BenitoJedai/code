@@ -137,6 +137,9 @@ namespace AsyncHistoryExperiment
             //script: error JSC1000: No implementation found for this native method, please implement 
             // [System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine)]
 
+
+            // jsc could promote such lambdas into regular scopless static methods
+            // this would help us to start scope sharing
             Func<IHTMLButton, int, JSColor, Task<object>> flash =
                  async (g, ms, c) =>
                  {
@@ -154,6 +157,42 @@ namespace AsyncHistoryExperiment
                  };
 
 
+
+            page.Bank.onclick +=
+             delegate
+             {
+                 XState.Create(
+                     //title: btn.innerText,
+                     //url: "#" + btn.innerText,
+                          value: new { button = page.Bank.id, position = 0, seed = 0 },
+                          invoke:
+                              async state =>
+                              {
+                                  // how can we share the scope?
+                                  // because this might be called from a .cctor
+
+                                  var xbtn = (IHTMLButton)Native.document.getElementById(state.value.button);
+                                  xbtn.disabled = true;
+
+                                  var Text = "Wait, there is more! 3 = 2!";
+
+                                  Native.window.onbeforeunload +=
+                                      e =>
+                                      {
+                                          if (Text != null)
+                                              e.Text = Text;
+                                      };
+
+                                  await state;
+
+                                  xbtn.disabled = false;
+                                  Text = null;
+                              }
+                      );
+             };
+
+
+
             page.Special.onclick +=
                 delegate
                 {
@@ -167,7 +206,7 @@ namespace AsyncHistoryExperiment
                                      // how can we share the scope?
                                      // because this might be called from a .cctor
 
-                                     Native.document.title = new { state.value.button }.ToString();
+                                     Native.document.title = new { state.value.position }.ToString();
                                      var xbtn = (IHTMLButton)Native.document.getElementById(state.value.button);
 
                                      if (state)
@@ -199,7 +238,8 @@ namespace AsyncHistoryExperiment
                                          //Console.WriteLine("lets start our streaming! next!");
 
                                          state.value = new { state.value.button, position = state.value.position + 4, seed };
-                                         xbtn.innerText = new { state.value.position }.ToString();
+                                         xbtn.innerText = new { state.value.position, seed }.ToString();
+                                         Native.document.title = new { state.value.position }.ToString();
                                          await Task.Delay(1000);
                                      }
                                      // no way to get back to the state, without restarting

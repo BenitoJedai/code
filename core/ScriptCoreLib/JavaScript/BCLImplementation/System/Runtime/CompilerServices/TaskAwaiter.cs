@@ -26,7 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void OnCompleted(Action continuation)
         {
-            Console.WriteLine("__TaskAwaiter<TResult>.OnCompleted " + new {  IsCompleted });
+            //Console.WriteLine("__TaskAwaiter<TResult>.OnCompleted " + new {  IsCompleted });
             if (IsCompleted)
             {
                 continuation();
@@ -56,7 +56,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void OnCompleted(Action continuation)
         {
-            Console.WriteLine("__TaskAwaiter.OnCompleted " + new { IsCompleted });
+            //Console.WriteLine("__TaskAwaiter.OnCompleted " + new { IsCompleted });
             if (IsCompleted)
             {
                 continuation();

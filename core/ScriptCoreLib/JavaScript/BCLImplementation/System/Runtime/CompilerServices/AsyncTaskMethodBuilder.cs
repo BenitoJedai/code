@@ -91,7 +91,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void SetResult(TResult result)
         {
-            Console.WriteLine("__AsyncTaskMethodBuilder.SetResult");
+            //Console.WriteLine("__AsyncTaskMethodBuilder.SetResult");
 
             Task.InternalSetCompleteAndYield(result);
         }
@@ -106,7 +106,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
           //where TStateMachine : __IAsyncStateMachine
         {
-            Console.WriteLine("__AsyncTaskMethodBuilder.Start, call MoveNext");
+            //Console.WriteLine("__AsyncTaskMethodBuilder.Start, call MoveNext");
 
             // jsc does not yet know how to dereference here
             //var x = (__IAsyncStateMachine)stateMachine;
@@ -122,7 +122,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         //where TAwaiter : global::System.Runtime.CompilerServices.INotifyCompletion
         //where TStateMachine : __IAsyncStateMachine
         {
-            Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted");
+            //Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted");
 
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
             var zstateMachine = xstateMachine;
@@ -134,7 +134,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             xawaiter.OnCompleted(
                 delegate
                 {
-                    Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted  xawaiter.OnCompleted");
+                    //Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted  xawaiter.OnCompleted");
 
                     yield();
                 }
@@ -144,7 +144,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         public static __AsyncTaskMethodBuilder<TResult> Create()
         {
             // how will this work for JSC?
-            Console.WriteLine("__AsyncTaskMethodBuilder<TResult> Create");
+            //Console.WriteLine("__AsyncTaskMethodBuilder<TResult> Create");
 
             return new __AsyncTaskMethodBuilder<TResult> { };
         }

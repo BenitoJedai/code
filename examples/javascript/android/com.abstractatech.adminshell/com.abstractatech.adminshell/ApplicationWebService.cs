@@ -21,6 +21,8 @@ namespace com.abstractatech.adminshell
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
+    /// 
+    [DesignerCategory("code")]
     public sealed class ApplicationWebService
     {
 
@@ -175,6 +177,10 @@ namespace com.abstractatech.adminshell
                     //h.Context.Response.Write(
                     //    "/* encrypted */".PadLeft(0x2F2F2F)
                     //);
+
+                    // can we encrypt it? and slow it down?
+
+                    a.DiagnosticsMakeItSlowAndAddSalt = true;
 
                     h.WriteSource(a);
                     h.CompleteRequest();

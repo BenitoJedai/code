@@ -19,6 +19,8 @@ using Abstractatech.ConsoleFormPackage.Library;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using ScriptCoreLib.JavaScript.WebGL;
+using System.IO;
 
 namespace com.abstractatech.adminshell
 {
@@ -88,9 +90,11 @@ namespace com.abstractatech.adminshell
                         new { o = 0.5 },
                         async state =>
                         {
+                            // jsc cannot share scope across time yet
+                            var xpage = new App.FromDocument();
 
 
-                            page.LoginButton.style.Opacity = 0.5;
+                            xpage.LoginButton.style.Opacity = 0.5;
                             //s.AttachToDocument();
                             Console.WriteLine("loading secondary app");
 
@@ -105,14 +109,24 @@ namespace com.abstractatech.adminshell
 
                             //await new IHTMLScript { src = "/a" };
 
-                            page.LoginButton.Orphanize();
+
+                            // jsc, you should remember the elements, once removed we may still want to talk
+                            // to them
+                            var login = xpage.LoginButton.Orphanize();
 
 
                             await state;
 
-                            Console.WriteLine("log out!");
+                            Console.WriteLine("lets clear the body and then reattach the buttons");
+                            Native.window.alert("lets clear the body and then reattach the buttons");
 
-                            page.LoginButton.AttachToDocument();
+                            Native.document.body.Clear();
+
+                            //Native.document.body.style.backgroundColor = JSColor.Red;
+
+                            //var old= Native.document.body.childNodes.Select(k => k.Orphanize()).ToArray();
+                            login.style.Opacity = 1;
+                            login.AttachToDocument();
                         }
                     );
                 }
@@ -123,7 +137,7 @@ namespace com.abstractatech.adminshell
         }
 
 
-
+        [Obsolete("jsc should rewrite nested secondary apps, by referencing the primary, to reduce any duplicate code, or both")]
         public sealed class a
         {
 
@@ -225,18 +239,73 @@ example:
                         "X-Application", scope.Name
                     );
 
+                    // what about progress?
+
+                    x.responseType = "arraybuffer";
+
+                    // http://stackoverflow.com/questions/10956574/why-might-xmlhttprequest-progressevent-lengthcomputable-be-false
+                    x.onprogress +=
+                        e =>
+                        {
+                            Console.WriteLine(new { e.loaded, e.total });
+                        };
+
+                    //x.overrideMimeType("application/octet-stream");
                     x.send();
 
+                    // can we use progress to do a lazy return
+
+                    // these browsers no longer let you use the responseType attribute when performing synchronous requests. Attempting to do so throws an NS_ERROR_DOM_INVALID_ACCESS_ERR exception. This change has been proposed to the W3C for standardization.
                     // we could load encrypted binary blob here in background worker
-                    Console.WriteLine("loading secondary app in a moment... " + new { x.responseText.Length, Thread.CurrentThread.ManagedThreadId });
+
+                    // loading secondary app in a moment... { responseType = , ManagedThreadId = 10 }
+
+                    // loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
+                    Console.WriteLine("loading secondary app in a moment... " + new { x.responseType, Thread.CurrentThread.ManagedThreadId });
+
+                    // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
+
+                    //loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
+                    // view-source:27267
+                    //loading secondary app in a moment... { Length = 4515364 } done!
 
 
+                    var response = (byte[])new Uint8ClampedArray((ArrayBuffer)x.response);
 
-                    //Console.WriteLine("loading secondary app in a moment... " + new { x.responseText.Length } + " done!");
+                    Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " decrypting...");
 
                     //y.SetResult(new { x.responseText.Length }.ToString());
+                    // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
 
-                    return new { x.responseText };
+                    var m = new MemoryStream();
+
+                    var lo = default(byte);
+                    var lo_set = false;
+
+                    foreach (var item in response)
+                    {
+                        if (lo_set)
+                        {
+                            lo_set = false;
+
+                            var hi = (byte)(item << 4);
+
+                            m.WriteByte(
+                                (byte)(lo | hi)
+                            );
+                        }
+                        else
+                        {
+                            lo = item;
+                            lo_set = true;
+                        }
+                    }
+
+                    Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " done!");
+                    // decrypted
+                    var source = Encoding.UTF8.GetString(m.ToArray());
+
+                    return new { response.Length, responseText = source };
                 }
             ).ContinueWith(
                 task =>

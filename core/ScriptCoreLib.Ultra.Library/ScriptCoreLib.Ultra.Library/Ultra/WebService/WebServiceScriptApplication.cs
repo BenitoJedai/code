@@ -40,6 +40,10 @@ namespace ScriptCoreLib.Ultra.WebService
         public string PageSource;
 
 
+        // tested by
+        // X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\ApplicationWebService.cs
+        public bool DiagnosticsMakeItSlowAndAddSalt;
+
 
         public void WriteTo(StringAction Write, bool CacheManifest = true)
         {

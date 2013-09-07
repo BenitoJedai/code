@@ -38,7 +38,12 @@ interface ArrayBufferView {
 [
     Constructor(unsigned long length),
     Constructor(Uint8ClampedArray array),
-    Constructor(octet[] array),
+
+	
+	Constructor(octet[] array),
+
+	Constructor(ArrayBuffer buffer),
+
     Constructor(ArrayBuffer buffer,
                 optional unsigned long byteOffset, optional unsigned long length)
 ]

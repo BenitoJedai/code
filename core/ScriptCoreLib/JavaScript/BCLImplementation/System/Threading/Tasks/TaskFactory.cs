@@ -263,7 +263,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     {
         public Task<TResult> StartNew(Func<object, TResult> function, object state)
         {
-            Console.WriteLine("__TaskFactory<TResult>.StartNew");
+            //Console.WriteLine("__TaskFactory<TResult>.StartNew");
 
             var x = new __Task<TResult>(function, state);
 
@@ -274,7 +274,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public Task<TResult> StartNew(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
         {
-            Console.WriteLine("__TaskFactory<TResult>.StartNew");
+            //Console.WriteLine("__TaskFactory<TResult>.StartNew");
             var x = new __Task<TResult>();
 
             x.InternalInitializeInlineWorker(
