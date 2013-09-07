@@ -8,9 +8,16 @@ namespace System.Threading.Tasks
 {
 
 
-
-    public static class TaskExtensions
+    // name clash!
+    public static class ScriptCoreLib_TaskExtensions
     {
+        [Obsolete]
+        //public static void await<T>(this Task<T> x, Action<T> y)
+        public static void ContinueWithResult<T>(this Task<T> x, Action<T> y)
+        {
+            x.ContinueWith(z => y(z.Result));
+        }
+
         sealed class InternalTaskExtensionsScope<TSource, TResult> where TSource : class
         {
             [Obsolete("Special hint for JavaScript runtime, until scope sharing is implemented..")]
@@ -21,6 +28,9 @@ namespace System.Threading.Tasks
                 return this.InternalTaskExtensionsScope_function((TSource)e);
             }
         }
+
+
+
 
         //[Obsolete]
         //public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory<TResult> that, TSource state, Func<TSource, TResult> function) where TSource : class
@@ -35,8 +45,8 @@ namespace System.Threading.Tasks
         //}
 
 
-        public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory that, 
-            TSource state, 
+        public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory that,
+            TSource state,
             Func<TSource, TResult> function) where TSource : class
         {
             if (function == null)
@@ -74,7 +84,7 @@ namespace System.Threading.Tasks
             var x = new InternalTaskExtensionsScope<TSource, TResult> { InternalTaskExtensionsScope_function = function };
 
             return Task<TResult>.Factory.StartNew(
-                x.f, 
+                x.f,
                 (object)state,
                 cancellationToken,
                 creationOptions,
