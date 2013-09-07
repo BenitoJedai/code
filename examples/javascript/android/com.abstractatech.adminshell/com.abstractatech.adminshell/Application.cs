@@ -203,7 +203,7 @@ example:
 
     static class X
     {
-        public static TaskAwaiter<Action> GetAwaiter(this Type __e)
+        public static TaskAwaiter<object> GetAwaiter(this Type __e)
         {
             Console.WriteLine(new { __e.Name });
 
@@ -211,10 +211,28 @@ example:
 
             var y = new TaskCompletionSource<object>();
 
-            return Task.Factory.StartNew(
-                new { __e.Name },
-                scope =>
+            //return 
+
+            //InternalInitializeInlineWorker Report: { __IProgress_Report = { value = [object Object] } }
+            // view-source:27346
+            //{ Name = a, loaded = 4538818, total = 4538818 } view-source:27346
+
+            // view-source:27346
+            //loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
+            // view-source:27346
+            //loading secondary app in a moment... { Length = 4538818 } decrypting...
+            // view-source:27346
+            //loading secondary app in a moment... { Length = 2269409 } done!
+
+
+            Task.Factory.StartNewWithProgress(
+                new { __e.Name, loaded = default(long), total = default(long), source = default(string) },
+
+                tuple =>
                 {
+                    var progress = tuple.Item1;
+                    var scope = tuple.Item2;
+
                     // http://stackoverflow.com/questions/13870853/how-to-upload-files-in-web-workers-when-formdata-is-not-defined
                     // FormData is not defined
                     //var f = new FormData();
@@ -223,16 +241,11 @@ example:
 
                     var x = new IXMLHttpRequest();
 
-
-
-
-
                     x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/view-source",
-                        async: false,
+                        async: true,
                         name: "public",
                         pass: "key1555555"
                     );
-
 
                     // Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.
                     x.setRequestHeader(
@@ -248,83 +261,122 @@ example:
                         e =>
                         {
                             Console.WriteLine(new { e.loaded, e.total });
+
+                            progress.Report(
+                                new { scope.Name, e.loaded, e.total, scope.source }
+                            );
+
                         };
+
+                    // await x.bytes instead ?
+                    x.InvokeOnComplete(
+                        delegate
+                        {
+
+
+                            // can we use progress to do a lazy return
+
+                            // these browsers no longer let you use the responseType attribute when performing synchronous requests. Attempting to do so throws an NS_ERROR_DOM_INVALID_ACCESS_ERR exception. This change has been proposed to the W3C for standardization.
+                            // we could load encrypted binary blob here in background worker
+
+                            // loading secondary app in a moment... { responseType = , ManagedThreadId = 10 }
+
+                            // loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
+                            Console.WriteLine("loading secondary app in a moment... " + new { x.responseType, Thread.CurrentThread.ManagedThreadId });
+
+                            // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
+
+                            //loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
+                            // view-source:27267
+                            //loading secondary app in a moment... { Length = 4515364 } done!
+
+
+                            var response = (byte[])new Uint8ClampedArray((ArrayBuffer)x.response);
+
+
+                            #region got it
+                            Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " decrypting...");
+
+                            //y.SetResult(new { x.responseText.Length }.ToString());
+                            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
+
+                            var m = new MemoryStream();
+
+                            var lo = default(byte);
+                            var lo_set = false;
+
+                            foreach (var item in response)
+                            {
+                                if (lo_set)
+                                {
+                                    lo_set = false;
+
+                                    var hi = (byte)(item << 4);
+
+                                    m.WriteByte(
+                                        (byte)(lo | hi)
+                                    );
+                                }
+                                else
+                                {
+                                    lo = item;
+                                    lo_set = true;
+                                }
+                            }
+
+                            // decrypted
+                            var source = Encoding.UTF8.GetString(m.ToArray());
+
+
+                            Console.WriteLine("loading secondary app in a moment... " + new { source.Length } + " done!");
+
+                            //return new { response.Length, responseText = source };
+
+                            #endregion
+
+
+                        }
+                    );
 
                     //x.overrideMimeType("application/octet-stream");
                     x.send();
 
-                    // can we use progress to do a lazy return
-
-                    // these browsers no longer let you use the responseType attribute when performing synchronous requests. Attempting to do so throws an NS_ERROR_DOM_INVALID_ACCESS_ERR exception. This change has been proposed to the W3C for standardization.
-                    // we could load encrypted binary blob here in background worker
-
-                    // loading secondary app in a moment... { responseType = , ManagedThreadId = 10 }
-
-                    // loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
-                    Console.WriteLine("loading secondary app in a moment... " + new { x.responseType, Thread.CurrentThread.ManagedThreadId });
-
-                    // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
-
-                    //loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
-                    // view-source:27267
-                    //loading secondary app in a moment... { Length = 4515364 } done!
 
 
-                    var response = (byte[])new Uint8ClampedArray((ArrayBuffer)x.response);
+                    // no changes yet
+                    return scope;
+                },
 
-                    Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " decrypting...");
-
-                    //y.SetResult(new { x.responseText.Length }.ToString());
-                    // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
-
-                    var m = new MemoryStream();
-
-                    var lo = default(byte);
-                    var lo_set = false;
-
-                    foreach (var item in response)
-                    {
-                        if (lo_set)
-                        {
-                            lo_set = false;
-
-                            var hi = (byte)(item << 4);
-
-                            m.WriteByte(
-                                (byte)(lo | hi)
-                            );
-                        }
-                        else
-                        {
-                            lo = item;
-                            lo_set = true;
-                        }
-                    }
-
-                    Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " done!");
-                    // decrypted
-                    var source = Encoding.UTF8.GetString(m.ToArray());
-
-                    return new { response.Length, responseText = source };
-                }
-            ).ContinueWith(
-                task =>
+                x =>
                 {
-                    var x = task.Result;
-
-                    // should we analyze? IFunction
-                    Native.window.eval(
-                        //x.responseText
-                        x.responseText
+                    Console.WriteLine(
+                        new { x.Name, x.loaded, x.total }
                     );
-
-
-                    //script: error JSC1000: Method: LockBits, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing.__Bitmap; emmiting failed : System.NullReferenceException: Object reference not set to an instance of an object.
-
-                    return new Action(delegate { Console.WriteLine("log out in progres..."); });
                 }
-                , scheduler: TaskScheduler.FromCurrentSynchronizationContext()
-            ).GetAwaiter();
+            );
+
+
+            return y.Task.GetAwaiter();
+
+
+            //.ContinueWith(
+            //    task =>
+            //    {
+            //        var x = task.Result;
+
+            //        // should we analyze? IFunction
+            //        Native.window.eval(
+            //            //x.responseText
+            //            x.responseText
+            //        );
+
+
+            //        //script: error JSC1000: Method: LockBits, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing.__Bitmap; emmiting failed : System.NullReferenceException: Object reference not set to an instance of an object.
+
+            //        return new Action(delegate { Console.WriteLine("log out in progres..."); });
+            //    }
+            //    , scheduler: TaskScheduler.FromCurrentSynchronizationContext()
+            //).GetAwaiter();
 
             //return y.Task.GetAwaiter();
 
