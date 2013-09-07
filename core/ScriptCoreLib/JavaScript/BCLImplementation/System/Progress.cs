@@ -14,6 +14,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public __Progress(Action<T> handler)
         {
+            if (handler == null)
+                throw new InvalidOperationException("__Progress handler null");
+
             this.handler = handler;
         }
 
