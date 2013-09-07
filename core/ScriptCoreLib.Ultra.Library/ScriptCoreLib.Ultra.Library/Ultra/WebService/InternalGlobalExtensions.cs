@@ -7,6 +7,9 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using System.Web;
+using System.IO;
+using System.Diagnostics;
+using System.Threading;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
@@ -301,6 +304,95 @@ namespace ScriptCoreLib.Ultra.WebService
                     }
                 );
 
+
+                #region GetFiles
+                var ff = g.GetFiles();
+
+                // jsc packages js files? not for long:P will switch to gzip at some point!
+                var app_references = app.References.Select(
+                    // why wont Single work correctly?
+                    // are we embedding one file multiple times?
+                    item => ff.First(k => k.Name == item.AssemblyFile || k.Name == item.AssemblyFile + ".js")
+                ).ToArray();
+                #endregion
+
+
+
+
+
+                // tested by
+                // X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\ApplicationWebService.cs
+                if (app.DiagnosticsMakeItSlowAndAddSalt)
+                {
+                    h.Context.Response.ContentType = "application/octet-stream";
+
+                    g.Response.AddHeader("X-DiagnosticsMakeItSlowAndAddSalt", "ok");
+
+                    var m = new MemoryStream();
+
+                    foreach (var item in app_references)
+                    {
+                        // reading from assets
+                        var bytes = File.ReadAllBytes(item.Name);
+
+                        m.Write(bytes, 0, bytes.Length);
+
+                    }
+
+                    var x = new MemoryStream();
+
+                    foreach (var item in m.ToArray())
+                    {
+                        var lo = (byte)(item & 0xf);
+                        var hi = (byte)((item & 0xf0) >> 4);
+
+                        x.WriteByte(lo);
+                        x.WriteByte(hi);
+                    }
+
+                    g.Response.AddHeader("Content-Length", "" + x.Length);
+
+                    var time = new Stopwatch();
+                    time.Start();
+
+                    Console.WriteLine("will upload " + new { x.Length });
+
+                    //will upload { Length = 4515462 }
+                    //will upload done { Length = 4515462, ElapsedMilliseconds = 8000 }
+
+                    var bytesleft = x.Length;
+
+                    foreach (var item in x.ToArray())
+                    {
+                        h.Context.Response.BinaryWrite(
+                            new[] {
+                                item
+                            }
+                        );
+
+                        // how long do we want to sleep?
+
+                        bytesleft--;
+
+                        if (bytesleft % (1024 * 40) == 0)
+                        {
+                            h.Context.Response.Flush();
+                            Console.Write(".");
+                        }
+
+                        var timetarget = 8000 - time.ElapsedMilliseconds;
+                        if (timetarget > 0)
+                        {
+                            Thread.Sleep((int)(timetarget / bytesleft));
+                        }
+                    }
+
+                    Console.WriteLine("will upload done " + new { x.Length, time.ElapsedMilliseconds });
+
+                    return;
+                }
+
+
                 #region GZipAssemblyFile
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130103
 
@@ -323,14 +415,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 g.Response.AddHeader("X-Comment", "gzip was disabled");
 
                 #region the old way
-                var ff = g.GetFiles();
 
-                // jsc packages js files? not for long:P will switch to gzip at some point!
-                var app_references = app.References.Select(
-                    // why wont Single work correctly?
-                    // are we embedding one file multiple times?
-                    item => ff.First(k => k.Name == item.AssemblyFile || k.Name == item.AssemblyFile + ".js")
-                ).ToArray();
 
                 var app_size = app_references.Sum(k => k.Length);
 

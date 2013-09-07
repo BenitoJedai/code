@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public static __AsyncVoidMethodBuilder Create()
         {
-            Console.WriteLine("__AsyncVoidMethodBuilder.Create");
+            //Console.WriteLine("__AsyncVoidMethodBuilder.Create");
 
             return new __AsyncVoidMethodBuilder { };
         }
@@ -56,7 +56,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
     //where TStateMachine : __IAsyncStateMachine
         {
-            Console.WriteLine("__AsyncVoidMethodBuilder.Start, call MoveNext");
+            //Console.WriteLine("__AsyncVoidMethodBuilder.Start, call MoveNext");
 
             // jsc does not yet know how to dereference here
             //var x = (__IAsyncStateMachine)stateMachine;
@@ -72,7 +72,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         //where TAwaiter : global::System.Runtime.CompilerServices.INotifyCompletion
         //where TStateMachine : __IAsyncStateMachine
         {
-            Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted");
+            //Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted");
 
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
             var zstateMachine = xstateMachine;
@@ -84,7 +84,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             xawaiter.OnCompleted(
                 delegate
                 {
-                    Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted  xawaiter.OnCompleted");
+                    //Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted  xawaiter.OnCompleted");
 
                     yield();
                 }

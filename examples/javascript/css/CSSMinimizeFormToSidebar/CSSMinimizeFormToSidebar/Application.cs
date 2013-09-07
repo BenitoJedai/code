@@ -41,13 +41,13 @@ namespace CSSMinimizeFormToSidebar
 
             newlayout.AddMoreText.Hide();
 
-            var newlayoutnodes = newlayout.Container.childNodes.ToArray();
+            var newlayoutnodes = newlayout.body.childNodes.ToArray();
 
             //newlayout.Sidebar.name = "Sidebar";
             // where is this guy??
             //newlayout.SidebarOverlay.name = "SidebarOverlay";
 
-            var oldcontent = Native.Document.body.childNodes.ToArray();
+            var oldcontent = Native.document.body.childNodes.ToArray();
 
             Native.Document.body.Clear();
             Native.Document.body.appendChild(newlayoutnodes);
@@ -90,6 +90,7 @@ namespace CSSMinimizeFormToSidebar
         {
             var tt = f.GetHTMLTarget();
 
+            //page.SidebarInfo.style.tr
             page.SidebarInfo.style.With(
                 (dynamic s) => s.webkitTransition = "all 0.3s linear"
             );

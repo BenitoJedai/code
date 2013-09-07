@@ -108,10 +108,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Library">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
@@ -169,6 +165,10 @@
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj">
+      <Project>{132eb43f-19b4-42ac-8025-3249b129867a}</Project>
+      <Name>ScriptCoreLib.Ultra.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\AsyncHistoryExperiment\AsyncHistoryExperiment\AsyncHistoryExperiment.csproj">
       <Project>{46a813c2-c5b6-4f84-8800-8966d730086d}</Project>
       <Name>AsyncHistoryExperiment</Name>
