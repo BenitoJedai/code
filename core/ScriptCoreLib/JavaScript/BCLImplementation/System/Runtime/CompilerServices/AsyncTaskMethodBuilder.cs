@@ -152,7 +152,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void SetException(Exception exception)
         {
-            Console.WriteLine("__AsyncTaskMethodBuilder.SetException " + new { exception.Message });
+            Console.WriteLine("__AsyncTaskMethodBuilder.SetException " + new { exception });
 
             Debugger.Break();
         }

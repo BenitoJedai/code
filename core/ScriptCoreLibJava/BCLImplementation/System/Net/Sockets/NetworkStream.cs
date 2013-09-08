@@ -39,8 +39,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
             try
             {
-                this.InternalOutputStream.close();
-                this.InternalInputStream.close();
+                if (this.InternalOutputStream != null)
+                    this.InternalOutputStream.close();
+
+                if (this.InternalInputStream != null)
+                    this.InternalInputStream.close();
             }
             catch
             {
@@ -52,7 +55,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
         {
             try
             {
-                this.InternalOutputStream.flush();
+                if (this.InternalOutputStream != null)
+                    this.InternalOutputStream.flush();
             }
             catch
             {

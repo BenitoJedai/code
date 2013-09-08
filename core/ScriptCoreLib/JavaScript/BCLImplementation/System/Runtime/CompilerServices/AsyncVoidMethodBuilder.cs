@@ -39,7 +39,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void SetException(Exception exception)
         {
-            Console.WriteLine("__AsyncVoidMethodBuilder.SetException " + new { exception.Message });
+            Console.WriteLine("__AsyncVoidMethodBuilder.SetException " + new { exception });
 
             Debugger.Break();
         }

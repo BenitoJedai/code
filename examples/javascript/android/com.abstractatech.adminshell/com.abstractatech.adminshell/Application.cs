@@ -93,6 +93,9 @@ namespace com.abstractatech.adminshell
                         new { o = 0.5, source = default(string) },
                         async state =>
                         {
+                            Console.WriteLine();
+                            Console.WriteLine("in state, add secondary app");
+
                             // jsc cannot share scope across time yet
                             var xpage = new App.FromDocument();
 
@@ -109,22 +112,25 @@ namespace com.abstractatech.adminshell
                                 state.value = new { state.value.o, source = await typeof(a) };
 #endif
 
+                            //if (state.value == null)
+                            //    Console.WriteLine("why is value null?");
+
                             if (state.value.source == null)
                             {
-                                Console.WriteLine("loading secondary app from the server");
+                                //Console.WriteLine("loading secondary app from the server");
 
                                 var source = await typeof(a);
 
-                                Console.WriteLine("lets update state");
+                                //Console.WriteLine("lets update state");
 
                                 state.value = new { state.value.o, source };
 
-                                Console.WriteLine("lets update state done");
+                                //Console.WriteLine("lets update state done");
 
                             }
                             else
                             {
-                                Console.WriteLine("loading secondary app from state");
+                                //Console.WriteLine("loading secondary app from state");
 
                             }
                             #endregion
@@ -132,13 +138,17 @@ namespace com.abstractatech.adminshell
 
                             //await new IHTMLScript { src = "/a" };
 
+                            var xsource =
+                                state.value.source;
+
+                            Console.WriteLine("in state, init secondary app");
                             Native.window.eval(
                                 //x.responseText
-                                 state.value.source
+                                 xsource
                             );
 
 
-                            Console.WriteLine("loading secondary app done");
+                            //Console.WriteLine("loading secondary app done");
 
 
                             //await new IHTMLScript { src = "/a" };
@@ -149,9 +159,10 @@ namespace com.abstractatech.adminshell
                             var login = xpage.LoginButton.Orphanize();
 
 
+                            Console.WriteLine("in state, secondary app, waiting");
                             await state;
-
-                            Console.WriteLine("lets clear the body and then reattach the buttons");
+                            Console.WriteLine("lost state, remove secondary app");
+                            //Console.WriteLine("lets clear the body and then reattach the buttons");
                             //Native.window.alert("lets clear the body and then reattach the buttons");
 
                             Native.document.body.Clear();
@@ -180,7 +191,7 @@ namespace com.abstractatech.adminshell
 
             static a()
             {
-                Console.WriteLine("secondary app loaded");
+                Console.WriteLine("secondary app eval");
             }
 
             public a(IApp e)
@@ -276,10 +287,10 @@ example:
             bar.style.backgroundColor = "red";
             bar.style.borderBottom = "1px solid darkred";
 
+            // http://stackoverflow.com/questions/9670075/css-transition-shorthand-with-multiple-properties
 
-            bar.style.With(
-              (dynamic s) => s.webkitTransition = "top 0.5s linear"
-            );
+            (bar.style as dynamic).webkitTransition = "top 0.5s linear";
+            (bar.style as dynamic).webkitTransitionProperty = "top, width";
 
 
             Task.Factory.StartNewWithProgress(
@@ -306,7 +317,7 @@ example:
 
                             var per = xx + "%";
 
-                            Console.WriteLine(new { per });
+                            //Console.WriteLine(new { per });
 
                             bar.style.width = per;
 
