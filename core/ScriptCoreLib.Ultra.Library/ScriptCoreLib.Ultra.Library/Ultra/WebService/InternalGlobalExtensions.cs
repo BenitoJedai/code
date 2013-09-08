@@ -17,7 +17,7 @@ namespace ScriptCoreLib.Ultra.WebService
     {
         class CompositeStream
         {
-            internal readonly IEnumerable<Func<Stream>> s;
+            public readonly IEnumerable<Func<Stream>> s;
 
             //        [javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:86: __this has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
             //[javac]         next_0.__this = this;
@@ -39,28 +39,36 @@ namespace ScriptCoreLib.Ultra.WebService
                 this.s = s;
             }
 
-            public IEnumerable<byte> GetBytes()
+            public IEnumerable<int> GetBytes(byte[] buffer)
             {
                 Console.WriteLine("enter GetBytes");
                 var x = this.s.GetEnumerator();
-
+                //Console.WriteLine("before MoveNext");
                 while (x.MoveNext())
                 {
+                    //Console.WriteLine("before Current");
                     var ss = x.Current();
 
                     var z = false;
+                    //Console.WriteLine("before do");
                     do
                     {
-                        var y = ss.ReadByte();
-                        z = y != -1;
+                        //Console.WriteLine("before ReadByte " + new { buffer.Length });
+                        var y = ss.Read(buffer, 0, buffer.Length);
+                        //Console.WriteLine("after ReadByte " + new { y });
+                        z = y > 0;
 
                         if (z)
                         {
-                            yield return (byte)y;
+                            //Console.WriteLine("before yield");
+                            yield return y;
+                            //Console.WriteLine("after yield");
                         }
+                        //Console.WriteLine("before re do");
                     }
                     while (z);
 
+                    //Console.WriteLine("before dispose");
                     ss.Dispose();
                 }
                 Console.WriteLine("exit GetBytes");
@@ -384,12 +392,37 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     g.Response.AddHeader("X-DiagnosticsMakeItSlowAndAddSalt", "ok");
 
+                    // var composite0 =
+                    //    new CompositeStream(
+                    //       app_references.Select(
+                    //        k =>
+                    //        {
+                    //            return new Func<Stream>(
+                    //                () =>
+                    //                {
+                    //                    Console.WriteLine("composite0: " + new { k.Name });
+                    //                    return (Stream)File.OpenRead(k.Name);
+                    //                }
+                    //            );
+                    //        }
+                    //    )
+                    //);
 
                     var composite =
                         new CompositeStream(
-                            from x in app_references
-                            select new Func<Stream>(() => File.OpenRead(x.Name))
-                        );
+                           app_references.Select(
+                            k =>
+                            {
+                                return new Func<Stream>(
+                                    () =>
+                                    {
+                                        Console.WriteLine("composite: " + new { k.Name });
+                                        return (Stream)File.OpenRead(k.Name);
+                                    }
+                                );
+                            }
+                        )
+                    );
 
                     //var m = new MemoryStream();
 
@@ -414,7 +447,19 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     //var x = new MemoryStream();
 
-                    var count = composite.GetBytes().Count();
+                    var buffer = new byte[1024 * 40];
+                    //var count = composite.GetBytes(buffer).Count();
+                    var count = 0;
+
+
+                    foreach (var y in composite.GetBytes(buffer))
+                    {
+                        count += y;
+
+                        Console.WriteLine(new { count });
+                    }
+
+                    // encrypting... { count = 58 }
 
                     Console.WriteLine("encrypting... " + new { count });
 
@@ -422,31 +467,69 @@ namespace ScriptCoreLib.Ultra.WebService
                     time.Start();
 
                     var bytesleft = count;
-                    g.Response.AddHeader("Content-Length", "" + count);
+                    g.Response.AddHeader("Content-Length", "" + (count * 2));
 
-                    foreach (var item in composite.GetBytes())
+
+                    //                    lets write DiagnosticsMakeItSlowAndAddSalt
+                    //enter DiagnosticsMakeItSlowAndAddSalt
+                    //encrypting...
+                    //enter GetBytes
+                    //exit GetBytes
+                    //encrypting... { count = 2282136 }
+                    //enter GetBytes
+
+                    // ? 
+                    // needs to work in .net then in android!
+
+                    var xbuffer = new byte[buffer.Length * 2];
+
+                    foreach (var length in composite.GetBytes(buffer))
                     {
-                        var lo = (byte)(item & 0xf);
-                        var hi = (byte)((item & 0xf0) >> 4);
-
-                        h.Context.Response.OutputStream.WriteByte(lo);
-                        h.Context.Response.OutputStream.WriteByte(hi);
-
-
-
-                        bytesleft--;
-
-                        if (bytesleft % (1024 * 40) == 0)
+                        for (int i = 0; i < length; i++)
                         {
-                            h.Context.Response.Flush();
-                            Console.Write(".");
+                            var item = buffer[i];
+
+                            var lo = (byte)(item & 0xf);
+                            var hi = (byte)((item & 0xf0) >> 4);
+
+
+                            xbuffer[i * 2 + 0] = lo;
+                            xbuffer[i * 2 + 1] = hi;
+
+                            //h.Context.Response.OutputStream.WriteByte(lo);
+                            //h.Context.Response.OutputStream.WriteByte(hi);
+
+
+
+                            bytesleft--;
+
+
+
+
                         }
+
+                        h.Context.Response.OutputStream.Write(xbuffer, 0, length * 2);
 
                         var timetarget = 8000 - time.ElapsedMilliseconds;
-                        if (timetarget > 0)
+
+                        //                 Caused by: java.lang.ArithmeticException: divide by zero
+                        //at ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions___c__DisplayClasse._InternalApplication_BeginRequest_b__7(InternalGlobalExtensions___c__DisplayClasse.java:235)
+
+                        //var ms = (int)(timetarget / bytesleft);
+
+
+
+                        h.Context.Response.Flush();
+                        Console.WriteLine("." + new
                         {
-                            Thread.Sleep((int)(timetarget / bytesleft));
-                        }
+                            bytesleft
+                            //, ms 
+                        });
+
+                        //if (timetarget > 0)
+                        //{
+                        //    Thread.Sleep(ms);
+                        //}
                     }
 
 

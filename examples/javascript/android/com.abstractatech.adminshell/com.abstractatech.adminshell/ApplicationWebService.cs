@@ -224,7 +224,10 @@ namespace com.abstractatech.adminshell
 
 
 
-
+        //public Application.a GetSecondaryApp()
+        //{ 
+        //    // ctor with args
+        //}
 
         public void DownloadSDK(WebServiceHandler h)
         {

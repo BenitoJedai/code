@@ -403,6 +403,8 @@ namespace AsyncHistoryExperiment
                 }
                 set
                 {
+
+
                     if (this)
                     {
                         // we can only make a change if we are the state
@@ -412,7 +414,10 @@ namespace AsyncHistoryExperiment
                         if (changed != null)
                             changed();
                     }
-
+                    else
+                    {
+                        Console.WriteLine("cannot modify inactive state");
+                    }
 
 
 
@@ -492,6 +497,8 @@ namespace AsyncHistoryExperiment
                    {
                        if (done)
                            return;
+
+                       Console.WriteLine("XVariation onpopstate ");
 
                        var state = ((XState.XVariation)Native.window.history.state);
 
