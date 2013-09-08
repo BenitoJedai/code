@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using java.io;
 using System.IO;
+using ScriptCoreLibJava.BCLImplementation.System.IO;
 
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
@@ -74,9 +75,36 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             // tested by X:\jsc.svn\examples\javascript\forms\android\LANClickOnce\LANClickOnce\Application.cs
             // tested by X:\jsc.svn\examples\javascript\android\DCIMCameraAppWithThumbnails\DCIMCameraAppWithThumbnails\ApplicationWebService.cs
 
+
+            ScriptCoreLibJava.BCLImplementation.System.IO.__File.InternalOpenRead =
+                path =>
+                {
+                    Console.WriteLine("InternalOpenRead " + new { path });
+
+                    var x = default(__FileStream);
+                    try
+                    {
+                        var Response = (__HttpResponse)(object)this._Context.Response;
+
+                        // assets only?
+                        var assets = Response.InternalContext.getResources().getAssets();
+
+                        var s = assets.open(path).ToNetworkStream();
+
+                        x = new __FileStream { InternalStream = s };
+                    }
+                    catch
+                    {
+                        // no file
+                    }
+                    return x;
+                };
+
+
             ScriptCoreLibJava.BCLImplementation.System.IO.__File.InternalReadAllBytes =
                 path =>
                 {
+                    // I/System.Console(17391): InternalReadAllBytes { path = ScriptCoreLib.dll.js }
                     Console.WriteLine("InternalReadAllBytes " + new { path });
 
 

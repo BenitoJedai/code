@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using java.lang;
 using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Threading
@@ -9,10 +8,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
-        public Thread InternalValue;
+        public java.lang.Thread InternalValue;
 
         [Script]
-        class RunnableHandler : Runnable
+        class RunnableHandler : java.lang.Runnable
         {
             public Action Handler;
 
@@ -22,6 +21,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
             }
         }
 
+        #region ctor
         internal __Thread()
         {
 
@@ -54,12 +54,43 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
                       }
                   );
         }
+        #endregion
+
+
+        public static implicit operator global::System.Threading.Thread(__Thread e)
+        {
+            return (global::System.Threading.Thread)(object)e;
+        }
+
+        public int ManagedThreadId
+        {
+            get
+            {
+                return (int)this.InternalValue.getId();
+            }
+        }
+
+//Implementation not found for type import :
+//type: System.Threading.Thread
+//method: System.Threading.Thread get_CurrentThread()
+//Did you forget to add the [Script] attribute?
+//Please double check the signature!
+
+
+        public static global::System.Threading.Thread CurrentThread
+        {
+            get
+            {
+                return new __Thread { InternalValue = java.lang.Thread.currentThread() };
+
+            }
+        }
 
         public static void Sleep(int millisecondsTimeout)
         {
             try
             {
-                Thread.sleep(millisecondsTimeout);
+                java.lang.Thread.sleep(millisecondsTimeout);
             }
             catch
             {

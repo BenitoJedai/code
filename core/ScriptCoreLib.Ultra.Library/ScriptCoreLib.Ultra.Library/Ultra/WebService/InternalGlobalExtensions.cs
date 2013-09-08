@@ -15,6 +15,60 @@ namespace ScriptCoreLib.Ultra.WebService
 {
     public static class InternalGlobalExtensions
     {
+        class CompositeStream
+        {
+            internal readonly IEnumerable<Func<Stream>> s;
+
+            //        [javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:86: __this has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
+            //[javac]         next_0.__this = this;
+            //[javac]               ^
+
+            //[javac] location: class ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
+            //[javac]     private static _ArrayType_12 _MoveNext__0000__lookup;
+            //[javac]                    ^
+            //[javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:86: __this has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
+            //[javac]         next_0.__this = this;
+            //[javac]               ^
+            //[javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:88: ___ has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
+            //[javac]         return next_0.___;
+            //[javac]                      ^
+            //[javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:211: __loc0 has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
+
+            public CompositeStream(IEnumerable<Func<Stream>> s)
+            {
+                this.s = s;
+            }
+
+            public IEnumerable<byte> GetBytes()
+            {
+                Console.WriteLine("enter GetBytes");
+                var x = this.s.GetEnumerator();
+
+                while (x.MoveNext())
+                {
+                    var ss = x.Current();
+
+                    var z = false;
+                    do
+                    {
+                        var y = ss.ReadByte();
+                        z = y != -1;
+
+                        if (z)
+                        {
+                            yield return (byte)y;
+                        }
+                    }
+                    while (z);
+
+                    ss.Dispose();
+                }
+                Console.WriteLine("exit GetBytes");
+            }
+        }
+
+
+
         public static InternalFileInfo ToCurrentFile(this InternalGlobal g)
         {
             var that = g.InternalApplication;
@@ -324,53 +378,61 @@ namespace ScriptCoreLib.Ultra.WebService
                 // X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\ApplicationWebService.cs
                 if (app.DiagnosticsMakeItSlowAndAddSalt)
                 {
+                    Console.WriteLine("enter DiagnosticsMakeItSlowAndAddSalt");
+
                     h.Context.Response.ContentType = "application/octet-stream";
 
                     g.Response.AddHeader("X-DiagnosticsMakeItSlowAndAddSalt", "ok");
 
-                    var m = new MemoryStream();
 
-                    foreach (var item in app_references)
-                    {
-                        // reading from assets
-                        var bytes = File.ReadAllBytes(item.Name);
+                    var composite =
+                        new CompositeStream(
+                            from x in app_references
+                            select new Func<Stream>(() => File.OpenRead(x.Name))
+                        );
 
-                        m.Write(bytes, 0, bytes.Length);
+                    //var m = new MemoryStream();
 
-                    }
+                    //foreach (var item in app_references)
+                    //{
+                    //    // reading from assets
+                    //    //                        I/System.Console(16557): InternalReadAllBytes { path = ScriptCoreLib.dll.js }
+                    //    //D/dalvikvm(16557): GC_FOR_ALLOC freed 84K, 7% free 8047K/8632K, paused 34ms, total 34ms
 
-                    var x = new MemoryStream();
+                    //    //globalandroid::java.lang.Runtime.getRuntime().totalMemory().
+                    //    Console.WriteLine("reading " + new { item.Name, m.Length });
 
-                    foreach (var item in m.ToArray())
-                    {
-                        var lo = (byte)(item & 0xf);
-                        var hi = (byte)((item & 0xf0) >> 4);
+                    //    //File.OpenRead(
+                    //    var bytes = File.ReadAllBytes(item.Name);
 
-                        x.WriteByte(lo);
-                        x.WriteByte(hi);
-                    }
+                    //    m.Write(bytes, 0, bytes.Length);
 
-                    g.Response.AddHeader("Content-Length", "" + x.Length);
+                    //    Console.WriteLine("reading done " + new { item.Name, m.Length });
+                    //}
+
+                    Console.WriteLine("encrypting... ");
+
+                    //var x = new MemoryStream();
+
+                    var count = composite.GetBytes().Count();
+
+                    Console.WriteLine("encrypting... " + new { count });
 
                     var time = new Stopwatch();
                     time.Start();
 
-                    Console.WriteLine("will upload " + new { x.Length });
+                    var bytesleft = count;
+                    g.Response.AddHeader("Content-Length", "" + count);
 
-                    //will upload { Length = 4515462 }
-                    //will upload done { Length = 4515462, ElapsedMilliseconds = 8000 }
-
-                    var bytesleft = x.Length;
-
-                    foreach (var item in x.ToArray())
+                    foreach (var item in composite.GetBytes())
                     {
-                        h.Context.Response.BinaryWrite(
-                            new[] {
-                                item
-                            }
-                        );
+                        var lo = (byte)(item & 0xf);
+                        var hi = (byte)((item & 0xf0) >> 4);
 
-                        // how long do we want to sleep?
+                        h.Context.Response.OutputStream.WriteByte(lo);
+                        h.Context.Response.OutputStream.WriteByte(hi);
+
+
 
                         bytesleft--;
 
@@ -387,7 +449,11 @@ namespace ScriptCoreLib.Ultra.WebService
                         }
                     }
 
-                    Console.WriteLine("will upload done " + new { x.Length, time.ElapsedMilliseconds });
+
+
+
+
+                    Console.WriteLine("will upload done " + new { time.ElapsedMilliseconds });
 
                     return;
                 }

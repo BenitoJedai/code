@@ -81,7 +81,8 @@ namespace foo
             var myNotification = new Notification(
                 android.R.drawable.star_on,
                 Title,
-                java.lang.System.currentTimeMillis()
+                0
+                //java.lang.System.currentTimeMillis()
             );
 
             var context = getApplicationContext();

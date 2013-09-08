@@ -16,6 +16,11 @@ namespace android.content
     {
         // members and types are to be extended by jsc at release build
 
+        public Context getBaseContext()
+        {
+            return null;
+        }
+
         public override void setTheme(int resid)
         {
         }

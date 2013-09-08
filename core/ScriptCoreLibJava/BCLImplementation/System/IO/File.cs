@@ -2,12 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
+using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
     [Script(Implements = typeof(global::System.IO.File))]
     internal class __File
     {
+        public static Func<string, FileStream> InternalOpenRead =
+            path =>
+            {
+                return null;
+            };
+
+        public static FileStream OpenRead(string path)
+        {
+            return InternalOpenRead(path);
+        }
+
         public static void Delete(string path)
         {
             new java.io.File(path).delete();

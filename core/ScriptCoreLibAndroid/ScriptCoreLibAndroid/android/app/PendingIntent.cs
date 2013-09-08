@@ -19,6 +19,12 @@ namespace android.app
         {
             throw null;
         }
+
+
+        public static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags)
+        {
+            return null;
+        }
     }
 
 }
