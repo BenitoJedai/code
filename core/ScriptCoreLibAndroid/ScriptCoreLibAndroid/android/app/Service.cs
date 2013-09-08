@@ -25,6 +25,12 @@ namespace android.app
         {
         }
 
+
+        public void stopSelf()
+        {
+        }
+
+
         public virtual IBinder onBind(Intent value)
         {
             throw null;

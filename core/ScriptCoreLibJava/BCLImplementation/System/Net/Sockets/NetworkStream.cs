@@ -9,9 +9,9 @@ using ScriptCoreLibJava.BCLImplementation.System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
-	[Script(Implements = typeof(global::System.Net.Sockets.NetworkStream))]
-	internal class __NetworkStream : __Stream
-	{
+    [Script(Implements = typeof(global::System.Net.Sockets.NetworkStream))]
+    internal class __NetworkStream : __Stream
+    {
         public global::java.io.OutputStream InternalOutputStream;
         public global::java.io.InputStream InternalInputStream;
 
@@ -33,78 +33,78 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             }
         }
 
-		public override void Close()
-		{
-			Flush();
+        public override void Close()
+        {
+            Flush();
 
-			try
-			{
-				this.InternalOutputStream.close();
-				this.InternalInputStream.close();
-			}
-			catch
-			{
+            try
+            {
+                this.InternalOutputStream.close();
+                this.InternalInputStream.close();
+            }
+            catch
+            {
                 throw;
-			}
-		}
+            }
+        }
 
-		public override void Flush()
-		{
-			try
-			{
-				this.InternalOutputStream.flush();
-			}
-			catch
-			{
+        public override void Flush()
+        {
+            try
+            {
+                this.InternalOutputStream.flush();
+            }
+            catch
+            {
                 throw;
-			}
-		}
+            }
+        }
 
-		public override long Length
-		{
-			get { throw new NotImplementedException(); }
-		}
+        public override long Length
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-		public override long Position
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public override long Position
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-		public override int Read(byte[] buffer, int offset, int count)
-		{
-			var i = -1;
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            var i = -1;
 
-			try
-			{
-				i = this.InternalInputStream.read((sbyte[])(object)buffer, offset, count);
-			}
-			catch
-			{
+            try
+            {
+                i = this.InternalInputStream.read((sbyte[])(object)buffer, offset, count);
+            }
+            catch
+            {
                 throw;
-			}
+            }
 
-			return i;
-		}
+            return i;
+        }
 
-		public override void Write(byte[] buffer, int offset, int count)
-		{
-			try
-			{
-				this.InternalOutputStream.write((sbyte[])(object)buffer, offset, count);
-			}
-			catch
-			{
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            try
+            {
+                this.InternalOutputStream.write((sbyte[])(object)buffer, offset, count);
+            }
+            catch
+            {
                 throw;
-			}
+            }
 
-		}
+        }
 
         public static implicit operator __NetworkStream(java.io.InputStream s)
         {
@@ -115,5 +115,5 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
         {
             return (NetworkStream)(object)s;
         }
-	}
+    }
 }

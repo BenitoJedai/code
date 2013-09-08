@@ -125,6 +125,7 @@
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />
     <Compile Include="BCLImplementation\System\Decimal.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\StackTrace.cs" />
+    <Compile Include="BCLImplementation\System\IO\FileStream.cs" />
     <Compile Include="BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs" />
     <Compile Include="BCLImplementation\System\Net\WebHeaderCollection.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />

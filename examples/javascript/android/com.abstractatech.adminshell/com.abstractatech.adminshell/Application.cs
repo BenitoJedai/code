@@ -86,22 +86,56 @@ namespace com.abstractatech.adminshell
 
                     await go;
 
+                    // should jsc automatically infer a secondary 
+                    // application from history api
+                    // download it and store it on the state?
                     AsyncHistoryExperiment.XState.Create(
-                        new { o = 0.5 },
+                        new { o = 0.5, source = default(string) },
                         async state =>
                         {
                             // jsc cannot share scope across time yet
                             var xpage = new App.FromDocument();
 
+                            // this is the first time we try to access it, and it is missing!
+                            if (xpage.LoginButton != null)
+                                xpage.LoginButton.style.Opacity = 0.5;
 
-                            xpage.LoginButton.style.Opacity = 0.5;
+
                             //s.AttachToDocument();
-                            Console.WriteLine("loading secondary app");
+
+                            #region source
+#if FUTURE
+                            if (state.value.source == null)
+                                state.value = new { state.value.o, source = await typeof(a) };
+#endif
+
+                            if (state.value.source == null)
+                            {
+                                Console.WriteLine("loading secondary app from the server");
+
+                                var source = await typeof(a);
+
+                                Console.WriteLine("lets update state");
+
+                                state.value = new { state.value.o, source };
+
+                                Console.WriteLine("lets update state done");
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("loading secondary app from state");
+
+                            }
+                            #endregion
 
 
-
-                            await typeof(a);
                             //await new IHTMLScript { src = "/a" };
+
+                            Native.window.eval(
+                                //x.responseText
+                                 state.value.source
+                            );
 
 
                             Console.WriteLine("loading secondary app done");
@@ -118,7 +152,7 @@ namespace com.abstractatech.adminshell
                             await state;
 
                             Console.WriteLine("lets clear the body and then reattach the buttons");
-                            Native.window.alert("lets clear the body and then reattach the buttons");
+                            //Native.window.alert("lets clear the body and then reattach the buttons");
 
                             Native.document.body.Clear();
 
@@ -180,6 +214,8 @@ example:
                 );
 
 
+                Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
                 if (Native.window.parent != Native.window.self)
                 {
                     Native.document.body.style.backgroundColor = JSColor.Transparent;
@@ -203,14 +239,23 @@ example:
 
     static class X
     {
-        public static TaskAwaiter<object> GetAwaiter(this Type __e)
+        //public static object 
+        public static TaskAwaiter<string> GetAwaiter(this Type __e)
         {
             Console.WriteLine(new { __e.Name });
 
             // http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
 
-            var y = new TaskCompletionSource<object>();
+            var y = new TaskCompletionSource<string>();
 
+            ////var ysource = Native.window.localStorage[__e.Name];
+            ////if (ysource != null)
+            ////{
+
+            ////    y.SetResult(ysource);
+
+            ////    return y.Task.GetAwaiter();
+            ////}
             //return 
 
             //InternalInitializeInlineWorker Report: { __IProgress_Report = { value = [object Object] } }
@@ -224,135 +269,205 @@ example:
             // view-source:27346
             //loading secondary app in a moment... { Length = 2269409 } done!
 
+            var bar = new IHTMLDiv { }.AttachToDocument();
+
+            bar.style.SetLocation(0, -2);
+            bar.style.height = "1px";
+            bar.style.backgroundColor = "red";
+            bar.style.borderBottom = "1px solid darkred";
+
+
+            bar.style.With(
+              (dynamic s) => s.webkitTransition = "top 0.5s linear"
+            );
+
 
             Task.Factory.StartNewWithProgress(
                 new { __e.Name, loaded = default(long), total = default(long), source = default(string) },
 
-                tuple =>
+                progress: x =>
                 {
-                    var progress = tuple.Item1;
-                    var scope = tuple.Item2;
 
-                    // http://stackoverflow.com/questions/13870853/how-to-upload-files-in-web-workers-when-formdata-is-not-defined
-                    // FormData is not defined
-                    //var f = new FormData();
 
-                    //f.append("Application", scope.Name);
-
-                    var x = new IXMLHttpRequest();
-
-                    x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/view-source",
-                        async: true,
-                        name: "public",
-                        pass: "key1555555"
-                    );
-
-                    // Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.
-                    x.setRequestHeader(
-                        "X-Application", scope.Name
-                    );
-
-                    // what about progress?
-
-                    x.responseType = "arraybuffer";
-
-                    // http://stackoverflow.com/questions/10956574/why-might-xmlhttprequest-progressevent-lengthcomputable-be-false
-                    x.onprogress +=
-                        e =>
+                    #region bar
+                    if (x.loaded > 0)
+                        if (x.total > 0)
                         {
-                            Console.WriteLine(new { e.loaded, e.total });
-
-                            progress.Report(
-                                new { scope.Name, e.loaded, e.total, scope.source }
-                            );
-
-                        };
-
-                    // await x.bytes instead ?
-                    x.InvokeOnComplete(
-                        delegate
-                        {
-
-
-                            // can we use progress to do a lazy return
-
-                            // these browsers no longer let you use the responseType attribute when performing synchronous requests. Attempting to do so throws an NS_ERROR_DOM_INVALID_ACCESS_ERR exception. This change has been proposed to the W3C for standardization.
-                            // we could load encrypted binary blob here in background worker
-
-                            // loading secondary app in a moment... { responseType = , ManagedThreadId = 10 }
-
-                            // loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
-                            Console.WriteLine("loading secondary app in a moment... " + new { x.responseType, Thread.CurrentThread.ManagedThreadId });
-
-                            // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
-
-                            //loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
-                            // view-source:27267
-                            //loading secondary app in a moment... { Length = 4515364 } done!
-
-
-                            var response = (byte[])new Uint8ClampedArray((ArrayBuffer)x.response);
-
-
-                            #region got it
-                            Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " decrypting...");
-
-                            //y.SetResult(new { x.responseText.Length }.ToString());
-                            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
-
-                            var m = new MemoryStream();
-
-                            var lo = default(byte);
-                            var lo_set = false;
-
-                            foreach (var item in response)
+                            if (x.loaded == x.total)
                             {
-                                if (lo_set)
-                                {
-                                    lo_set = false;
-
-                                    var hi = (byte)(item << 4);
-
-                                    m.WriteByte(
-                                        (byte)(lo | hi)
-                                    );
-                                }
-                                else
-                                {
-                                    lo = item;
-                                    lo_set = true;
-                                }
+                                bar.style.SetLocation(0, -2);
+                            }
+                            else
+                            {
+                                bar.style.SetLocation(0, 0);
                             }
 
-                            // decrypted
-                            var source = Encoding.UTF8.GetString(m.ToArray());
+                            var xx = 100 * x.loaded / x.total;
 
+                            var per = xx + "%";
 
-                            Console.WriteLine("loading secondary app in a moment... " + new { source.Length } + " done!");
+                            Console.WriteLine(new { per });
 
-                            //return new { response.Length, responseText = source };
-
-                            #endregion
-
+                            bar.style.width = per;
 
                         }
-                    );
-
-                    //x.overrideMimeType("application/octet-stream");
-                    x.send();
+                    #endregion
 
 
 
-                    // no changes yet
-                    return scope;
-                },
-
-                x =>
-                {
                     Console.WriteLine(
                         new { x.Name, x.loaded, x.total }
                     );
-                }
+
+                    x.source.With(
+                        source =>
+                        {
+                            //        // should we analyze? IFunction
+
+                            //Console.WriteLine("wall save source to localStorage " + new { __e.Name, source.Length });
+
+                            //Native.window.localStorage[__e.Name] = source;
+
+                            //Native.window.eval(
+                            //    //x.responseText
+                            //    source
+                            //);
+
+                            y.SetResult(source);
+                        }
+                    );
+
+                },
+
+
+                function:
+                    tuple =>
+                    {
+                        var progress = tuple.Item1;
+                        var scope = tuple.Item2;
+
+                        // http://stackoverflow.com/questions/13870853/how-to-upload-files-in-web-workers-when-formdata-is-not-defined
+                        // FormData is not defined
+                        //var f = new FormData();
+
+                        //f.append("Application", scope.Name);
+
+                        var x = new IXMLHttpRequest();
+
+                        x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/view-source",
+                            async: true,
+                            name: "public",
+                            pass: "key1555555"
+                        );
+
+                        // Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.
+                        x.setRequestHeader(
+                            "X-Application", scope.Name
+                        );
+
+                        // what about progress?
+
+                        x.responseType = "arraybuffer";
+
+                        // http://stackoverflow.com/questions/10956574/why-might-xmlhttprequest-progressevent-lengthcomputable-be-false
+
+                        var xprogress = new { scope.loaded, scope.total };
+
+                        x.onprogress +=
+                            e =>
+                            {
+                                xprogress = new { e.loaded, e.total };
+
+                                //Console.WriteLine();
+
+                                progress.Report(
+                                    new { scope.Name, xprogress.loaded, xprogress.total, scope.source }
+                                );
+
+                            };
+
+                        // await x.bytes instead ?
+                        x.InvokeOnComplete(
+                            delegate
+                            {
+
+
+                                // can we use progress to do a lazy return
+
+                                // these browsers no longer let you use the responseType attribute when performing synchronous requests. Attempting to do so throws an NS_ERROR_DOM_INVALID_ACCESS_ERR exception. This change has been proposed to the W3C for standardization.
+                                // we could load encrypted binary blob here in background worker
+
+                                // loading secondary app in a moment... { responseType = , ManagedThreadId = 10 }
+
+                                // loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
+                                Console.WriteLine("loading secondary app in a moment... " + new { x.responseType, Thread.CurrentThread.ManagedThreadId });
+
+                                // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
+
+                                //loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
+                                // view-source:27267
+                                //loading secondary app in a moment... { Length = 4515364 } done!
+
+
+                                var response = (byte[])new Uint8ClampedArray((ArrayBuffer)x.response);
+
+
+                                #region got it
+                                Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " decrypting...");
+
+                                //y.SetResult(new { x.responseText.Length }.ToString());
+                                // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
+
+                                var m = new MemoryStream();
+
+                                var lo = default(byte);
+                                var lo_set = false;
+
+                                foreach (var item in response)
+                                {
+                                    if (lo_set)
+                                    {
+                                        lo_set = false;
+
+                                        var hi = (byte)(item << 4);
+
+                                        m.WriteByte(
+                                            (byte)(lo | hi)
+                                        );
+                                    }
+                                    else
+                                    {
+                                        lo = item;
+                                        lo_set = true;
+                                    }
+                                }
+
+                                // decrypted
+                                var source = Encoding.UTF8.GetString(m.ToArray());
+
+
+                                Console.WriteLine("loading secondary app in a moment... " + new { source.Length } + " done!");
+
+                                //return new { response.Length, responseText = source };
+
+                                #endregion
+
+                                progress.Report(
+                                    new { scope.Name, xprogress.loaded, xprogress.total, source }
+                                );
+                            }
+                        );
+
+                        //x.overrideMimeType("application/octet-stream");
+                        x.send();
+
+
+
+                        // no changes yet
+                        return scope;
+                    }
+
+
             );
 
 

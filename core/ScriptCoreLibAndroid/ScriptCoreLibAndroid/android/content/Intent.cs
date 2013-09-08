@@ -13,6 +13,16 @@ namespace android.content
     [Script(IsNative = true)]
     public class Intent
     {
+        public string getStringExtra(string name)
+        {
+            return null;
+        }
+
+        public bool hasExtra(string name)
+        {
+            return false;
+        }
+
         public Intent putExtra(string name, Class value)
         {
             throw null;

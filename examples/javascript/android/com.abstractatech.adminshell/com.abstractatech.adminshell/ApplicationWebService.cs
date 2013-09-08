@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml.Linq;
-using java.io;
 using System.ComponentModel;
 using android.net.wifi;
 using java.net;
@@ -67,7 +66,7 @@ namespace com.abstractatech.adminshell
                 // https://gist.github.com/micahasmith/5084997
                 var p = new java.lang.ProcessBuilder(new[] { "sh" }).redirectErrorStream(true).start();
 
-                var os = new DataOutputStream(p.getOutputStream());
+                var os = new java.io.DataOutputStream(p.getOutputStream());
                 //os.writeBytes(e + '\n');
                 os.writeBytes(e + "\n");
                 os.flush();
@@ -77,7 +76,7 @@ namespace com.abstractatech.adminshell
                 os.flush();
 
                 // read ping replys
-                var reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                var reader = new java.io.BufferedReader(new java.io.InputStreamReader(p.getInputStream()));
                 string line = reader.readLine();
 
 
@@ -102,6 +101,12 @@ namespace com.abstractatech.adminshell
 
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
+            //I/System.Console(11600): #2 java.lang.NullPointerException
+            //I/System.Console(11600):        at com.abstractatech.adminshell.ApplicationWebService.Handler(ApplicationWebService.java:123)
+            //I/System.Console(11600):        at com.abstractatech.adminshell.Global.Serve(Global.java:93)
+            //I/System.Console(11600):        at ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions.InternalApplication_BeginRequest(InternalGlobalExtensions.java:347)
+            //I/System.Console(11600):        at com.abstractatech.adminshell.Global.Application_BeginRequest(Global.java:36)
+
             // http://tools.ietf.org/html/rfc2617#section-3.2.1
 
             var Authorization = h.Context.Request.Headers["Authorization"];
@@ -135,7 +140,22 @@ namespace com.abstractatech.adminshell
             var Application = h.Context.Request.Headers["X-Application"];
 
             //if (h.Context.Request.Path == "/a")
-            if (Application == a.TypeName)
+
+            //if (Application == a.TypeName)
+
+            //used 19ms, total 19ms
+            //used 19ms, total 19ms
+            //-byte allocation
+            //sed 17ms, total 17ms
+            //aused 19ms, total 19ms
+            //used 15ms, total 15ms
+            //used 15ms, total 15ms
+            //6-byte allocation
+            //sed 15ms, total 15ms
+            //aused 16ms, total 16ms
+            //paused 15ms, total 15ms
+
+            if (string.Equals(Application, a.TypeName))
             {
                 var OK = false;
 
@@ -182,6 +202,7 @@ namespace com.abstractatech.adminshell
 
                     a.DiagnosticsMakeItSlowAndAddSalt = true;
 
+                    Console.WriteLine("lets write DiagnosticsMakeItSlowAndAddSalt");
                     h.WriteSource(a);
                     h.CompleteRequest();
                     return;

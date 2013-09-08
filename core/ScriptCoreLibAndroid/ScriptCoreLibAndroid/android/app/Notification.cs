@@ -13,10 +13,12 @@ namespace android.app
     public class Notification
     {
         public int flags;
+        public int defaults;
 
         public static int FLAG_NO_CLEAR;
         public static int FLAG_AUTO_CANCEL;
-        
+        public static int DEFAULT_SOUND;
+
         public Notification(int icon, string tickerText, long when)
         { 
         }
