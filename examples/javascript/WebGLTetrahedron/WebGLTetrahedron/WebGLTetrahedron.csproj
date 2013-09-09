@@ -8,11 +8,11 @@
     <ProjectGuid>{E6FE25E1-547B-47DD-A4D0-F5C6CDB49784}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLLesson04</RootNamespace>
-    <AssemblyName>WebGLLesson04</AssemblyName>
+    <RootNamespace>WebGLTetrahedron</RootNamespace>
+    <AssemblyName>WebGLTetrahedron</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebGLLesson04.Program</StartupObject>
+    <StartupObject>WebGLTetrahedron.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -123,8 +123,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLLesson04.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebGLLesson04.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebGLTetrahedron.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebGLTetrahedron.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -151,7 +151,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToDev11:true
+start /WAIT /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToDev11:true
 )
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true

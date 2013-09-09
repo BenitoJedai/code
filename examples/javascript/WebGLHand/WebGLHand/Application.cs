@@ -361,7 +361,6 @@ namespace WebGLHand
             fdeg_relaxstate[3] = 11;
             fdeg_relaxstate[4] = 33;
 
-            #region requestPointerLock
             var __pointer_x = 0;
             var __pointer_y = 0;
 
@@ -387,7 +386,6 @@ namespace WebGLHand
                 {
                     Native.document.exitPointerLock();
                 };
-            #endregion
 
 
             #region drawScene
