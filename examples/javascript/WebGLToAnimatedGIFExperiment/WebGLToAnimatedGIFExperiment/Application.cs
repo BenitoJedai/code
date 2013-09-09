@@ -52,6 +52,10 @@ namespace WebGLToAnimatedGIFExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            var ani3 = new WebGLTetrahedron.Application();
+
+            ani3.gl.canvas.AttachTo(page.e1);
+
             // : ScriptComponent
             var ani2 = new WebGLEscherDrosteEffect.Application();
 
@@ -96,6 +100,7 @@ namespace WebGLToAnimatedGIFExperiment
             // jsc should link that js file once we reference it. for now its manual
 
 
+            #region activate
             Action<WebGLRenderingContext> activate =
                 context =>
                 {
@@ -128,7 +133,7 @@ namespace WebGLToAnimatedGIFExperiment
                                          Console.WriteLine("done!");
 
                                          new IHTMLImage { src = src }.AttachToDocument();
-                                    
+
                                          return;
                                      }
 
@@ -161,9 +166,12 @@ namespace WebGLToAnimatedGIFExperiment
 
                          };
                 };
+            #endregion
+
 
             activate(gl);
             activate(ani2.gl);
+            activate(ani3.gl);
 
 
 

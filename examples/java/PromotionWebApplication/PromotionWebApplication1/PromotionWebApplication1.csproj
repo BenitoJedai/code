@@ -207,12 +207,12 @@
 rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:false
 
 
-if not $(ConfigurationName)==Android (
+if $(ConfigurationName)==Android (
 start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServiceAndroid:false /AttachDebugger:false /WebServiceJavaSettings.version:36 /DisableWorkerDomain
 )
 
 
-if not $(ConfigurationName)==Release (
+if $(ConfigurationName)==Release (
 start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServiceJava:false /AttachDebugger:false /WebServiceJavaSettings.version:36 /DisableWorkerDomain
 )</PostBuildEvent>
     <PreBuildEvent>start /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /LinkedAssets:"c:\util\jsc\publish"
