@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
 using System.IO;
+using ScriptCoreLibJava.BCLImplementation.System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
@@ -12,7 +13,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
         public static Func<string, FileStream> InternalOpenRead =
             path =>
             {
-                return null;
+                java.io.FileInputStream fis = null;
+                var x =  default(FileStream);
+
+                try
+                {
+                    fis = new java.io.FileInputStream(path);
+
+                    x=new __FileStream { InternalStream = (__NetworkStream) fis};
+
+                }
+                catch
+                {
+
+                    throw;
+                }
+
+                return x;
+                    
             };
 
         public static FileStream OpenRead(string path)

@@ -78,13 +78,13 @@ namespace com.abstractatech.adminshell
 
             //var s = new IHTMLScript { src = "/a" };
 
-            page.go.With(
-                async go =>
+            page.go.WhenClicked(
+                delegate
                 //async delegate
                 {
-                    Console.WriteLine("click me!");
+                    Console.WriteLine("click!");
 
-                    await go;
+                    //await go;
 
                     // should jsc automatically infer a secondary 
                     // application from history api
@@ -182,7 +182,7 @@ namespace com.abstractatech.adminshell
         }
 
 
-        [Obsolete("jsc should rewrite nested secondary apps, by referencing the primary, to reduce any duplicate code, or both")]
+        //[Obsolete("jsc should rewrite nested secondary apps, by referencing the primary, to reduce any duplicate code, or both")]
         public sealed class a
         {
 
@@ -191,6 +191,7 @@ namespace com.abstractatech.adminshell
 
             static a()
             {
+                // this should not be visible for the default app
                 Console.WriteLine("secondary app eval");
             }
 
@@ -283,13 +284,14 @@ example:
             var bar = new IHTMLDiv { }.AttachToDocument();
 
             bar.style.SetLocation(0, -2);
-            bar.style.height = "1px";
+            bar.style.height = "3px";
             bar.style.backgroundColor = "red";
-            bar.style.borderBottom = "1px solid darkred";
+            //bar.style.borderBottom = "1px solid darkred";
 
             // http://stackoverflow.com/questions/9670075/css-transition-shorthand-with-multiple-properties
 
             (bar.style as dynamic).webkitTransition = "top 0.5s linear";
+            //(bar.style as dynamic).webkitTransitionProperty = "top, width, background-color";
             (bar.style as dynamic).webkitTransitionProperty = "top, width";
 
 
@@ -298,20 +300,20 @@ example:
 
                 progress: x =>
                 {
+                    bar.style.SetLocation(0, 0);
 
 
                     #region bar
                     if (x.loaded > 0)
                         if (x.total > 0)
                         {
-                            if (x.loaded == x.total)
-                            {
-                                bar.style.SetLocation(0, -2);
-                            }
-                            else
-                            {
-                                bar.style.SetLocation(0, 0);
-                            }
+                            //if (x.loaded == x.total)
+                            //{
+                            //}
+                            //else
+                            //{
+                            //    bar.style.SetLocation(0, 0);
+                            //}
 
                             var xx = 100 * x.loaded / x.total;
 
@@ -331,7 +333,7 @@ example:
                     );
 
                     x.source.With(
-                        source =>
+                        async source =>
                         {
                             //        // should we analyze? IFunction
 
@@ -343,6 +345,18 @@ example:
                             //    //x.responseText
                             //    source
                             //);
+
+
+                            bar.style.backgroundColor = "yellow";
+                            await Task.Delay(300);
+                            bar.style.backgroundColor = "red";
+                            await Task.Delay(300);
+                            bar.style.backgroundColor = "yellow";
+                            await Task.Delay(300);
+                            bar.style.backgroundColor = "red";
+                            await Task.Delay(300);
+                            bar.Orphanize();
+
 
                             y.SetResult(source);
                         }
@@ -384,6 +398,7 @@ example:
 
                         var xprogress = new { scope.loaded, scope.total };
 
+                        // AppEngine will not report progress
                         x.onprogress +=
                             e =>
                             {
@@ -397,10 +412,17 @@ example:
 
                             };
 
+                        Action send = async delegate
+                        {
+                            var response = await x.bytes;
+
+                        };
+
                         // await x.bytes instead ?
                         x.InvokeOnComplete(
                             delegate
                             {
+                                var response = (byte[])new Uint8ClampedArray((ArrayBuffer)x.response);
 
 
                                 // can we use progress to do a lazy return
@@ -411,7 +433,7 @@ example:
                                 // loading secondary app in a moment... { responseType = , ManagedThreadId = 10 }
 
                                 // loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
-                                Console.WriteLine("loading secondary app in a moment... " + new { x.responseType, Thread.CurrentThread.ManagedThreadId });
+                                //Console.WriteLine("loading secondary app in a moment... " + new { x.responseType, Thread.CurrentThread.ManagedThreadId });
 
                                 // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
 
@@ -420,7 +442,6 @@ example:
                                 //loading secondary app in a moment... { Length = 4515364 } done!
 
 
-                                var response = (byte[])new Uint8ClampedArray((ArrayBuffer)x.response);
 
 
                                 #region got it
@@ -445,6 +466,13 @@ example:
                                         m.WriteByte(
                                             (byte)(lo | hi)
                                         );
+
+                                        if ((m.Length % 1024 * 8) == 0)
+                                        {
+                                            progress.Report(
+                                                new { scope.Name, loaded = m.Length * 2, xprogress.total, scope.source }
+                                            );
+                                        }
                                     }
                                     else
                                     {

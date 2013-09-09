@@ -5,6 +5,8 @@ using System.Text;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Runtime;
+using System.Threading.Tasks;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -175,7 +177,26 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://jibbering.com/2002/4/httprequest.html
         // http://www.xulplanet.com/references/objref/XMLHttpRequest.html#method_getAllResponseHeaders
 
+        public Task<byte[]> bytes
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var y = new TaskCompletionSource<byte[]>();
 
+                this.InvokeOnComplete(
+                    delegate
+                    {
+                        var response = (byte[])new Uint8ClampedArray((ArrayBuffer)this.response);
+
+                        y.SetResult(response);
+
+                    }
+                   );
+
+                return y.Task;
+            }
+        }
 
 
         public string ETag
@@ -214,6 +235,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             return default(string);
         }
 
+        [Obsolete]
         public int BytesIn
         {
             [Script(DefineAsStatic = true)]
@@ -323,7 +345,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         public void overrideMimeType(string mime)
-        { 
+        {
 
         }
 
