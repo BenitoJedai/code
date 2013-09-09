@@ -51,6 +51,19 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppEngine|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\AppEngine\</OutputPath>
+    <DefineConstants>AppEngine</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  
   <ItemGroup>
     <Reference Include="Abstractatech.ConsoleFormPackage">
       <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
@@ -198,6 +211,10 @@ if $(ConfigurationName)==Android (
 
 start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:20  /FilterTo:$(SolutionDir)
 
+)
+
+if $(ConfigurationName)==AppEngine (
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:false /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget  /LinkedAssets:X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell.clrlauncher\publish
 

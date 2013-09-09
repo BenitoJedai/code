@@ -11,6 +11,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
     internal class __HttpRequest
     {
+        public string UserHostAddress { get; set; }
+
         public javax.servlet.http.HttpServletRequest InternalContext;
 
         public string Path
