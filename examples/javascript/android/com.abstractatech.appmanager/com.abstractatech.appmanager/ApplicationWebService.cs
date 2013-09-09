@@ -722,7 +722,10 @@ namespace com.abstractatech.appmanager
 
                         socket.joinGroup(InetAddress.getByName("239.1.2.3"));
                         System.Console.WriteLine("LANBroadcastListener joinGroup...");
-                        while (true)
+
+                        bool maybetrue = true;
+
+                        while (maybetrue)
                         {
                             DatagramPacket dgram = new DatagramPacket((sbyte[])(object)b, b.Length);
                             socket.receive(dgram); // blocks until a datagram is received
