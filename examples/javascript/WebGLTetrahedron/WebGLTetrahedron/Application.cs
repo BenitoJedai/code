@@ -40,6 +40,8 @@ namespace WebGLTetrahedron
 
         public Action Dispose;
 
+        public readonly WebGLRenderingContext gl = new WebGLRenderingContext(alpha: false, preserveDrawingBuffer: true);
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -48,16 +50,14 @@ namespace WebGLTetrahedron
         {
             // http://hiddenlighthouse.wordpress.com/2012/12/07/star-tetrahedron-the-star-of-david-3/
 
-            var size = 500;
+            var size = 96;
 
 
-            var gl = new WebGLRenderingContext();
 
 
             var canvas = gl.canvas.AttachToDocument();
 
-            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+
 
             canvas.width = size;
             canvas.height = size;
@@ -83,24 +83,37 @@ namespace WebGLTetrahedron
             #endregion
 
             #region AtResize
-            Action AtResize =
-                delegate
-                {
-                    gl_viewportWidth = Native.window.Width;
-                    gl_viewportHeight = Native.window.Height;
+            if (page == null)
+            {
+                Console.WriteLine("page is null");
+            }
+            else
+            {
+                Console.WriteLine("got page");
 
-                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+                Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+                canvas.style.SetLocation(0, 0, size, size);
 
-                    canvas.width = gl_viewportWidth;
-                    canvas.height = gl_viewportHeight;
-                };
+                Action AtResize =
+                    delegate
+                    {
+                        gl_viewportWidth = Native.window.Width;
+                        gl_viewportHeight = Native.window.Height;
 
-            Native.window.onresize +=
-                e =>
-                {
-                    AtResize();
-                };
-            AtResize();
+                        canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                        canvas.width = gl_viewportWidth;
+                        canvas.height = gl_viewportHeight;
+                    };
+
+                Native.window.onresize +=
+                    e =>
+                    {
+                        AtResize();
+                    };
+
+                AtResize();
+            }
             #endregion
 
 
@@ -154,7 +167,6 @@ namespace WebGLTetrahedron
 
             var pMatrix = glMatrix.mat4.create();
 
-            #region new in lesson 03
             Action mvPushMatrix = delegate
             {
                 var copy = glMatrix.mat4.create();
@@ -166,7 +178,6 @@ namespace WebGLTetrahedron
             {
                 mvMatrix = mvMatrixStack.Pop();
             };
-            #endregion
 
 
             #region setMatrixUniforms
@@ -359,7 +370,7 @@ namespace WebGLTetrahedron
 
 
 
-
+            #region requestPointerLock
             var __pointer_x = 0;
             var __pointer_y = 0;
 
@@ -385,6 +396,7 @@ namespace WebGLTetrahedron
                 {
                     Native.document.exitPointerLock();
                 };
+            #endregion
 
 
 
@@ -450,7 +462,7 @@ namespace WebGLTetrahedron
                 mvPushMatrix();
 
                 glMatrix.mat4.translate(mvMatrix, new float[] { 0f, -0.5f, -7.0f });
-             
+
 
 
                 glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, new float[] { 1f, 0, 0f });
