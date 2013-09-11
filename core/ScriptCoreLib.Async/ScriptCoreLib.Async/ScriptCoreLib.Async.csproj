@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\TaskAsyncExtensions.cs" />
+    <Compile Include="JavaScript\DOM\HistoyAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLImageAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLScriptAsyncExtensions.cs" />

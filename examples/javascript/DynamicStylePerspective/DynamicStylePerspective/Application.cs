@@ -26,7 +26,7 @@ namespace DynamicStylePerspective
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault  page)
         {
             var container = new IHTMLDiv().AttachToDocument().With(
                 e =>
@@ -87,12 +87,11 @@ namespace DynamicStylePerspective
                              //        HasMouse = false;
                              //    };
 
-                             Action loop = null;
                              var y = 0;
 
-                             loop = delegate
+
+                             Native.window.onframe += delegate
                              {
-                                 Native.Window.requestAnimationFrame += loop;
 
                                  if (!HasMouse)
                                  {
@@ -122,8 +121,6 @@ namespace DynamicStylePerspective
 
 
                              };
-
-                             Native.Window.requestAnimationFrame += loop;
 
                          };
 

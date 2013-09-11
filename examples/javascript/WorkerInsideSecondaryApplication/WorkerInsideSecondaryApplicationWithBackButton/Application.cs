@@ -26,13 +26,7 @@ using System.Runtime.CompilerServices;
 
 namespace WorkerInsideSecondaryApplicationWithBackButton
 {
-    public static class HistoyAsyncExtensions
-    {
-        public static TaskAwaiter<HistoryScope<T>> GetAwaiter<T>(this HistoryScope<T> scope)
-        {
-            return scope.TaskCompletionSource.Task.GetAwaiter();
-        }
-    }
+
 
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.

@@ -29,7 +29,7 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
     }
 
-    public static class InternalScriptApplicationSourceExtensions
+    internal static class InternalScriptApplicationSourceExtensions
     {
         public static void eval(this InternalScriptApplicationSource e)
         {
