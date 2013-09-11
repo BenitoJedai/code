@@ -119,9 +119,11 @@ namespace CSSScaleForMultipleStates
                                     f(1);
 
                                     //new zz(layout3);
-                                    source.eval();
+                                    var restore = source.eval();
 
                                     await scope;
+
+                                    restore();
 
                                     f(0.95);
 
