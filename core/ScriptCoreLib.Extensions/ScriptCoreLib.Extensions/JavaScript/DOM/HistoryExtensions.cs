@@ -218,14 +218,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-                             Native.document.title = "manual reload";
+                             //Native.document.title = "manual reload";
 
-                             Native.document.body.style.backgroundColor = "gray";
+                             //Native.document.body.style.backgroundColor = "gray";
 
 
                              //since we do not know how to unwind, restart the engines
                              // unless that stat tells us that it can unwind!
-                             //Native.document.location.reload();
+                             Native.document.location.reload();
 
                              return;
                          }
