@@ -308,12 +308,12 @@ namespace ScriptCoreLib.JavaScript.Experimental
         }
 
 
-        [Obsolete]
+        [Obsolete(@"X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\Worker.cs")]
         public static string SetInternalScriptApplicationSource(this string InternalScriptApplicationSource)
         {
-            (Native.window as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
+            (Native.self as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
 
-            Console.WriteLine(new { InternalScriptApplicationSource });
+            //Console.WriteLine(new { InternalScriptApplicationSource });
 
             return InternalScriptApplicationSource;
         }
