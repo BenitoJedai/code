@@ -13,6 +13,46 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.Experimental
 {
+    public sealed class InternalScriptApplicationReference
+    {
+        public int index;
+        public string name;
+        public int size;
+    }
+
+    [Obsolete("jsc, how many types like this do we have already? :P")]
+    public sealed class InternalScriptApplicationSource
+    {
+        public string source;
+
+        public InternalScriptApplicationReference[] references;
+
+    }
+
+    public static class InternalScriptApplicationSourceExtensions
+    {
+        public static void eval(this InternalScriptApplicationSource e)
+        {
+            var src = new Blob(e.source).ToObjectURL().SetInternalScriptApplicationSource();
+
+            var core = e.references.First().size;
+
+            e.references.WithEach(
+                k =>
+                    Console.WriteLine("eval " + new { k.index, k.name, k.size })
+            );
+
+
+            Console.WriteLine("eval " + new { core, e.source.Length });
+
+            var source = e.source.Substring(
+                core
+            );
+
+            Native.window.eval(source);
+        }
+    }
+
     [Obsolete("This wont work when rewritten. Why? Workaround is to link it in as source.")]
     internal static class X
     {
@@ -28,23 +68,24 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
         //public static object 
 
+
         // .NET 4.5!!!
-        public static TaskAwaiter<string> GetAwaiter(this Type __e)
+        public static TaskAwaiter<InternalScriptApplicationSource> GetAwaiter(this Type __e)
         {
-            Console.WriteLine(new { __e.Name });
+            //Console.WriteLine(new { __e.Name });
 
             // http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
 
-            var y = new TaskCompletionSource<string>();
+            var y = new TaskCompletionSource<InternalScriptApplicationSource>();
 
-            ////var ysource = Native.window.localStorage[__e.Name];
-            ////if (ysource != null)
-            ////{
+            //var ysource = Native.window.sessionStorage[__e.Name];
+            //if (ysource != null)
+            //{
+            //    y.SetResult(ysource);
 
-            ////    y.SetResult(ysource);
+            //    return y.Task.GetAwaiter();
+            //}
 
-            ////    return y.Task.GetAwaiter();
-            ////}
             //return 
 
             //InternalInitializeInlineWorker Report: { __IProgress_Report = { value = [object Object] } }
@@ -83,7 +124,10 @@ namespace ScriptCoreLib.JavaScript.Experimental
                     total = default(long),
                     source = default(string),
 
-                    Native.document.location.href
+                    Native.document.location.href,
+
+
+                    references = new InternalScriptApplicationReference[0]
                 },
 
                 progress: x =>
@@ -129,7 +173,8 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
                             //Console.WriteLine("wall save source to localStorage " + new { __e.Name, source.Length });
 
-                            //Native.window.localStorage[__e.Name] = source;
+                            // sessionStorage out of memory?
+                            //Native.window.sessionStorage[__e.Name] = source;
 
                             //Native.window.eval(
                             //    //x.responseText
@@ -147,8 +192,20 @@ namespace ScriptCoreLib.JavaScript.Experimental
                             await Task.Delay(300);
                             bar.Orphanize();
 
+                            //                            { index = 0, name =  ScriptCoreLib.dll.js, size = 1330538 } view-source:27530
 
-                            y.SetResult(source);
+                            // view-source:27530
+                            //{ index = 1, name =  WorkerInsideSecondaryApplicationWithBackButton.Application+x.exe.js, size = 507500 } view-source:2753
+
+
+                            y.SetResult(
+                                new InternalScriptApplicationSource
+                                {
+                                    source = source,
+                                    references = x.references
+                                }
+
+                            );
                         }
                     );
                     #endregion
@@ -214,7 +271,16 @@ namespace ScriptCoreLib.JavaScript.Experimental
                                 //Console.WriteLine();
 
                                 progress.Report(
-                                    new { scope.Name, scope.backgroundColor, xprogress.loaded, xprogress.total, scope.source, scope.href }
+                                    new
+                                    {
+                                        scope.Name,
+                                        scope.backgroundColor,
+                                        xprogress.loaded,
+                                        xprogress.total,
+                                        scope.source,
+                                        scope.href,
+                                        scope.references
+                                    }
                                 );
 
                             };
@@ -224,7 +290,49 @@ namespace ScriptCoreLib.JavaScript.Experimental
                         #region decrypt
                         Action<byte[]> decrypt = response =>
                         {
+                            var AllResponseHeaders = x.getAllResponseHeaders();
+
+                            //AllResponseHeaders = Date: Wed, 11 Sep 2013 14:31:43 GMT
+                            //X-Reference-0: ScriptCoreLib.dll.js 1330538
+                            //Server: ASP.NET Development Server/11.0.0.0
+                            //X-AspNet-Version: 4.0.30319
+                            //X-Reference-1: WorkerInsideSecondaryApplicationWithBackButton.Application+x.exe.js 487668
+                            //X-DiagnosticsMakeItSlowAndAddSalt: ok
+                            //Content-Type: application/octet-stream
+                            //Cache-Control: public
+                            //Connection: Close
+                            //Content-Length: 3636412
+                            //Expires: Wed, 11 Sep 2013 14:46:43 GMT
+
+                            var prefix = "X-Reference-";
+
+                            var references = AllResponseHeaders.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Where(k => k.StartsWith(prefix)).Select(
+                                k =>
+                                {
+                                    var text = k.Substring(prefix.Length);
+
+                                    var index = int.Parse(text.TakeUntilIfAny(":"));
+                                    var name = text.SkipUntilIfAny(":").TakeUntilLastIfAny(" ");
+                                    var size = int.Parse(text.SkipUntilIfAny(":").SkipUntilLastIfAny(" "));
+
+                                    return new InternalScriptApplicationReference
+                                    {
+                                        index = index,
+                                        name = name,
+                                        size = size
+                                    };
+                                }
+                            ).ToArray();
+
+
                             Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " decrypting...");
+
+
+
+                            //                            X-Reference-0:ScriptCoreLib.dll.js 1330538
+                            //X-Reference-1:WorkerInsideSecondaryApplicationWithBackButton.Application+x.exe.js 485234
+
+
 
                             //y.SetResult(new { x.responseText.Length }.ToString());
                             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
@@ -253,7 +361,16 @@ namespace ScriptCoreLib.JavaScript.Experimental
                                         xprogress = new { loaded, xprogress.total };
 
                                         progress.Report(
-                                            new { scope.Name, backgroundColor = "cyan", xprogress.loaded, xprogress.total, scope.source, scope.href }
+                                            new
+                                            {
+                                                scope.Name,
+                                                backgroundColor = "cyan",
+                                                xprogress.loaded,
+                                                xprogress.total,
+                                                scope.source,
+                                                scope.href,
+                                                scope.references
+                                            }
                                         );
                                     }
                                 }
@@ -273,7 +390,16 @@ namespace ScriptCoreLib.JavaScript.Experimental
                             //return new { response.Length, responseText = source };
 
                             progress.Report(
-                                new { scope.Name, backgroundColor = "green", xprogress.loaded, xprogress.total, source, scope.href }
+                                new
+                                {
+                                    scope.Name,
+                                    backgroundColor = "green",
+                                    xprogress.loaded,
+                                    xprogress.total,
+                                    source,
+                                    scope.href,
+                                    references
+                                }
                             );
 
                         };

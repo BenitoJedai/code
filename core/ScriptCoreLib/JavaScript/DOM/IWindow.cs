@@ -24,6 +24,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class IWindow : IEventTarget
     {
+        public readonly History history;
+
         //public readonly URL URL;
 
         // http://www.whatwg.org/specs/web-apps/current-work/multipage/browsers.html#the-window-object

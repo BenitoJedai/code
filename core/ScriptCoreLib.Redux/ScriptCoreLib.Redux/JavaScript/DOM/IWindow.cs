@@ -7,7 +7,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     public class IWindow : IEventTarget
     {
-        public History history;
 
         // http://caniuse.com/#search=hash
 
