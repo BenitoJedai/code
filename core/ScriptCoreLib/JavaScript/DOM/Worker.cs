@@ -70,25 +70,28 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         // capture early.
-        public static string ScriptApplicationSourceForInlineWorker = GetScriptApplicationSourceForInlineWorker();
+        //public static string ScriptApplicationSourceForInlineWorker = GetScriptApplicationSourceForInlineWorker();
 
+        [Obsolete("what if core is loaded once. how would the worker then know where it should run from?")]
         public static string GetScriptApplicationSourceForInlineWorker()
         {
             // ncaught TypeError: Cannot use 'in' operator to search for 'InternalScriptApplicationSource' in null 
 
-            if (ScriptApplicationSourceForInlineWorker == null)
+            var value = Worker.ScriptApplicationSource;
+
+            //if (ScriptApplicationSourceForInlineWorker == null)
             {
                 var x = Expando.Of(Native.self);
 
                 // by default we should be running as view-source
                 // what if we are being loaded from a blob?
 
-                ScriptApplicationSourceForInlineWorker = Worker.ScriptApplicationSource;
+                //value = Worker.ScriptApplicationSource;
 
 
                 if (x.Contains("InternalScriptApplicationSource"))
                 {
-                    ScriptApplicationSourceForInlineWorker = (string)Expando.InternalGetMember(Native.self, "InternalScriptApplicationSource");
+                    value = (string)Expando.InternalGetMember(Native.self, "InternalScriptApplicationSource");
 
                 }
 
@@ -99,12 +102,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-                ScriptApplicationSourceForInlineWorker = ScriptApplicationSourceForInlineWorker + "#worker";
+                value = value + "#worker";
 
-                Console.WriteLine("GetScriptApplicationSourceForInlineWorker " + new { ScriptApplicationSourceForInlineWorker });
             }
 
-            return ScriptApplicationSourceForInlineWorker;
+            Console.WriteLine("GetScriptApplicationSourceForInlineWorker " + new { value });
+
+            return value;
         }
 
 

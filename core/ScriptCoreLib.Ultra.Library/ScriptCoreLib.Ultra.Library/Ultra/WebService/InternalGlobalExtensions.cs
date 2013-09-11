@@ -19,20 +19,6 @@ namespace ScriptCoreLib.Ultra.WebService
         {
             public readonly IEnumerable<Func<Stream>> s;
 
-            //        [javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:86: __this has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
-            //[javac]         next_0.__this = this;
-            //[javac]               ^
-
-            //[javac] location: class ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
-            //[javac]     private static _ArrayType_12 _MoveNext__0000__lookup;
-            //[javac]                    ^
-            //[javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:86: __this has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
-            //[javac]         next_0.__this = this;
-            //[javac]               ^
-            //[javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:88: ___ has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
-            //[javac]         return next_0.___;
-            //[javac]                      ^
-            //[javac] V:\src\ExperimentalCompositeFileStream\CompositeStream__GetBytes_d__0.java:211: __loc0 has private access in ExperimentalCompositeFileStream.CompositeStream__GetBytes_d__0__MoveNext_
 
             public CompositeStream(IEnumerable<Func<Stream>> s)
             {
@@ -357,14 +343,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
 
-                app.References.WithEachIndex(
-                    (app_ref, index) =>
-                    {
-                        // will this work an all platforms?
-                        // need to test!
-                        g.Response.AddHeader("X-Assembly-" + index, app_ref.AssemblyFile);
-                    }
-                );
+
 
 
                 #region GetFiles
@@ -380,6 +359,14 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
 
+                app_references.WithEachIndex(
+                    (app_ref, index) =>
+                    {
+                        // will this work an all platforms?
+                        // need to test!
+                        g.Response.AddHeader("X-Reference-" + index, app_ref.Name + " " + app_ref.Length);
+                    }
+                );
 
 
                 // tested by
