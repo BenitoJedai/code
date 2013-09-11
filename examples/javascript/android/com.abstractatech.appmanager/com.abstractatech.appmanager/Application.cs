@@ -19,6 +19,9 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 //using Abstractatech.JavaScript.FormAsPopup;
+using com.abstractatech.adminshell;
+
+using ScriptCoreLib.JavaScript.Experimental;
 
 namespace com.abstractatech.appmanager
 {
@@ -38,72 +41,272 @@ namespace com.abstractatech.appmanager
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IBeforeLogin page)
+        public Application(com.abstractatech.appmanager.about.HTML.Pages.IApp a)
         {
             "My Appz".ToDocumentTitle();
 
+            var about = new Cookie("about");
 
 
-            new IHTMLBase
+
+            Action go = delegate
             {
-                href = "http://"
-                    + page.username.value
-                    + ":"
-                    + page.password.value
-                    + "@"
-                    + Native.document.location.host
+                AsyncHistoryExperiment.XState.Create(
+                    new { o = 0.5, source = default(string) },
+                    async state =>
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("in state, add secondary app");
 
-            }.AttachToDocument();
+                        var newbody_page = new BeforeLogin();
+
+                        // we have to restore id fields
+
+                        newbody_page.go.id = "go";
+                        newbody_page.LoginButton.id = "LoginButton";
 
 
-            var s = new IHTMLScript
-            {
-                src = "/a"
+                        var newbody = newbody_page.body;
+                        var oldbody = Native.document.body;
+
+                        Native.document.body.parentNode.insertBefore(
+                            newbody, oldbody
+                        );
+
+                        oldbody.Orphanize();
+
+
+
+                        #region source
+#if FUTURE
+                            if (state.value.source == null)
+                                state.value = new { state.value.o, source = await typeof(a) };
+#endif
+
+                        //if (state.value == null)
+                        //    Console.WriteLine("why is value null?");
+
+                        if (state.value.source == null)
+                        {
+                            //Console.WriteLine("loading secondary app from the server");
+
+                            var source = await typeof(x);
+
+                            //Console.WriteLine("lets update state");
+
+                            state.value = new { state.value.o, source };
+
+                            //Console.WriteLine("lets update state done");
+
+                        }
+                        else
+                        {
+                            //Console.WriteLine("loading secondary app from state");
+
+                        }
+                        #endregion
+
+
+                        //await new IHTMLScript { src = "/a" };
+
+
+                        Console.WriteLine("in state, init secondary app");
+
+
+                        var xsource =
+                     state.value.source;
+
+
+                        var xblob = new Blob(xsource);
+                        var xsrc = xblob.ToObjectURL();
+
+                        init(xsrc);
+
+                        // also this is where
+                        // workers need to go?
+                        await new IHTMLScript { src = xsrc };
+
+
+
+
+                        await state;
+
+
+
+                        Console.WriteLine("lost state, remove secondary app");
+
+                        Native.document.body.parentNode.insertBefore(
+                             oldbody, newbody
+                         );
+
+                        newbody.Orphanize();
+                    }
+                );
+
+
             };
 
 
-            // http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
-            s.onload +=
-                delegate
-                {
-                    page.LoginButton.Orphanize();
-                };
+            //if (about.BooleanValue)
+            //{
+            //    // only if state == null?
+            //    // only if this app is the current state
 
-            page.LoginButton.onclick +=
-                delegate
-                {
-                    page.LoginButton.style.Opacity = 0.5;
-
-
-                    Console.WriteLine("will load secondary application...");
-                    s.AttachToDocument();
-                };
-
-
-
-            #region LaunchMyAppz
-            var about = new Cookie("about");
-
-            if (!about.BooleanValue)
+            //    //go();
+            //}
+            //else
             {
-                var a = new com.abstractatech.appmanager.about.HTML.Pages.App();
-
-                a.Container.AttachToDocument();
-
                 a.LaunchMyAppz.onclick +=
                     delegate
                     {
                         about.BooleanValue = true;
 
-                        a.Container.Orphanize();
+                        go();
                     };
-
-
-                return;
             }
-            #endregion
 
 
+        }
+
+
+        static void init(string InternalScriptApplicationSource)
+        {
+            (Native.window as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
+
+            Console.WriteLine(new { InternalScriptApplicationSource });
+
+        }
+
+
+        public sealed class x
+        {
+            public readonly ApplicationWebService service = new ApplicationWebService();
+
+
+            public x(IBeforeLogin page)
+            {
+                #region login
+                page.go.WhenClicked(
+                    delegate
+                    //async delegate
+                    {
+                        Console.WriteLine("click!");
+
+                        //await go;
+
+                        // should jsc automatically infer a secondary 
+                        // application from history api
+                        // download it and store it on the state?
+                        AsyncHistoryExperiment.XState.Create(
+                            new { o = 0.5, source = default(string) },
+                            async state =>
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("in state, add secondary app");
+
+                                // jsc cannot share scope across time yet
+                                var xpage = new BeforeLogin.FromDocument();
+
+                                // this is the first time we try to access it, and it is missing!
+                                if (xpage.LoginButton != null)
+                                    xpage.LoginButton.style.Opacity = 0.5;
+
+
+                                //s.AttachToDocument();
+
+                                #region source
+#if FUTURE
+                if (state.value.source == null)
+                    state.value = new { state.value.o, source = await typeof(a) };
+#endif
+
+                                //if (state.value == null)
+                                //    Console.WriteLine("why is value null?");
+
+                                if (state.value.source == null)
+                                {
+                                    //Console.WriteLine("loading secondary app from the server");
+
+
+                                    //script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x0020] beq        +0 -2{[0x0019] ldfld      +1 -1{[0x0018] ldarg.0    +1 -0} } {[0x001e] ldc.i4.s   +1 -0} , Location =
+                                    // assembly: T:\com.abstractatech.appmanager.Application.exe
+                                    // type: com.abstractatech.adminshell.X+<>c__DisplayClassc+<<GetAwaiter>b__7>d__11, com.abstractatech.appmanager.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+                                    // offset: 0x0020
+                                    //  method:Int32 <>0200001c<>06000073<>MoveNext<0000>.try(<>0200001c<>06000073<>MoveNext, <<GetAwaiter>b__7>d__11 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Byte[]] ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Byte[]] ByRef) }
+
+                                    // com.abstractatech.adminshell.X
+                                    var source = await typeof(a);
+
+                                    //Console.WriteLine("lets update state");
+
+                                    state.value = new { state.value.o, source };
+
+                                    //Console.WriteLine("lets update state done");
+
+                                }
+                                else
+                                {
+                                    //Console.WriteLine("loading secondary app from state");
+
+                                }
+                                #endregion
+
+
+                                //await new IHTMLScript { src = "/a" };
+
+                                Console.WriteLine("in state, init secondary app");
+
+
+                                var xsource =
+                             state.value.source;
+
+
+                                var xblob = new Blob(xsource);
+                                var xsrc = xblob.ToObjectURL();
+
+                                init(xsrc);
+
+                                // also this is where
+                                // workers need to go?
+                                await new IHTMLScript { src = xsrc };
+
+                                //Native.window.eval(
+                                //    //x.responseText
+                                //    xsource
+                                //);
+
+
+                                //Console.WriteLine("loading secondary app done");
+
+
+                                //await new IHTMLScript { src = "/a" };
+
+
+                                // jsc, you should remember the elements, once removed we may still want to talk
+                                // to them
+                                var login = xpage.LoginButton.Orphanize();
+
+
+                                Console.WriteLine("in state, secondary app, waiting");
+                                await state;
+                                Console.WriteLine("lost state, remove secondary app");
+                                //Console.WriteLine("lets clear the body and then reattach the buttons");
+                                //Native.window.alert("lets clear the body and then reattach the buttons");
+
+                                Native.document.body.Clear();
+
+                                //Native.document.body.style.backgroundColor = JSColor.Red;
+
+                                //var old= Native.document.body.childNodes.Select(k => k.Orphanize()).ToArray();
+                                login.style.Opacity = 1;
+                                login.AttachToDocument();
+                            }
+                        );
+                    }
+                );
+                #endregion
+
+            }
         }
 
         public sealed class a
@@ -300,12 +503,13 @@ namespace com.abstractatech.appmanager
                             f.FormClosed +=
                                 delegate
                                 {
-                                    (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(0px)";
+                                    (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(0px) brightness(1.0)";
                                 };
 
                             f.Shown += delegate
                             {
-                                (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(4px)";
+                                ;
+                                (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(4px) brightness(0.8)";
                             };
 
                             f.Show();
@@ -318,13 +522,13 @@ namespace com.abstractatech.appmanager
                                 NotifyDocked:
                                     delegate
                                     {
-                                        (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(4px)";
+                                        (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(4px) brightness(0.8)";
                                     },
 
                                     NotifyFloat:
                                      delegate
                                      {
-                                         (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(0px)";
+                                         (__ff.HTMLTarget.style as dynamic).webkitFilter = "blur(0px)  brightness(1.0)";
                                      },
                                 SpecialCloseOnLeft: delegate
                                 {

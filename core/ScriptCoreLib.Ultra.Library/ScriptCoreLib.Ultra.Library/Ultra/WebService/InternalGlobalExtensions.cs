@@ -390,24 +390,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     h.Context.Response.ContentType = "application/octet-stream";
 
-                    g.Response.AddHeader("X-DiagnosticsMakeItSlowAndAddSalt", "ok");
 
-                    // var composite0 =
-                    //    new CompositeStream(
-                    //       app_references.Select(
-                    //        k =>
-                    //        {
-                    //            return new Func<Stream>(
-                    //                () =>
-                    //                {
-                    //                    Console.WriteLine("composite0: " + new { k.Name });
-                    //                    return (Stream)File.OpenRead(k.Name);
-                    //                }
-                    //            );
-                    //        }
-                    //    )
-                    //);
-
+                    #region composite
                     var composite =
                         new CompositeStream(
                            app_references.Select(
@@ -423,25 +407,8 @@ namespace ScriptCoreLib.Ultra.WebService
                             }
                         )
                     );
+                    #endregion
 
-                    //var m = new MemoryStream();
-
-                    //foreach (var item in app_references)
-                    //{
-                    //    // reading from assets
-                    //    //                        I/System.Console(16557): InternalReadAllBytes { path = ScriptCoreLib.dll.js }
-                    //    //D/dalvikvm(16557): GC_FOR_ALLOC freed 84K, 7% free 8047K/8632K, paused 34ms, total 34ms
-
-                    //    //globalandroid::java.lang.Runtime.getRuntime().totalMemory().
-                    //    Console.WriteLine("reading " + new { item.Name, m.Length });
-
-                    //    //File.OpenRead(
-                    //    var bytes = File.ReadAllBytes(item.Name);
-
-                    //    m.Write(bytes, 0, bytes.Length);
-
-                    //    Console.WriteLine("reading done " + new { item.Name, m.Length });
-                    //}
 
                     Console.WriteLine("encrypting... ");
 
@@ -449,6 +416,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     var buffer = new byte[1024 * 40];
                     //var count = composite.GetBytes(buffer).Count();
+
+                    #region count
                     var count = 0;
 
 
@@ -459,6 +428,8 @@ namespace ScriptCoreLib.Ultra.WebService
                         Console.WriteLine(new { count });
                     }
 
+                    #endregion
+
                     // encrypting... { count = 58 }
 
                     Console.WriteLine("encrypting... " + new { count });
@@ -467,7 +438,9 @@ namespace ScriptCoreLib.Ultra.WebService
                     time.Start();
 
                     var bytesleft = count;
+
                     g.Response.AddHeader("Content-Length", "" + (count * 2));
+                    g.Response.AddHeader("X-DiagnosticsMakeItSlowAndAddSalt", "ok");
 
 
                     //                    lets write DiagnosticsMakeItSlowAndAddSalt
@@ -509,6 +482,7 @@ namespace ScriptCoreLib.Ultra.WebService
                         }
 
                         h.Context.Response.OutputStream.Write(xbuffer, 0, length * 2);
+                        h.Context.Response.Flush();
 
                         var timetarget = 8000 - time.ElapsedMilliseconds;
 
@@ -519,7 +493,6 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
 
-                        h.Context.Response.Flush();
                         Console.WriteLine("." + new
                         {
                             bytesleft

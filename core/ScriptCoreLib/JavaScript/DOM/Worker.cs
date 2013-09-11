@@ -23,7 +23,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
 
         public const string ScriptApplicationSource = "view-source";
-        public const string ScriptApplicationSourceForInlineWorker = ScriptApplicationSource + "#worker";
+        //public const string ScriptApplicationSourceForInlineWorker = ScriptApplicationSource + "#worker";
+
+
 
         #region event onmessage
         public event System.Action<MessageEvent> onmessage
@@ -62,6 +64,50 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public class InternalInlineWorker
     {
+        static InternalInlineWorker()
+        {
+
+        }
+
+        // capture early.
+        public static string ScriptApplicationSourceForInlineWorker = GetScriptApplicationSourceForInlineWorker();
+
+        public static string GetScriptApplicationSourceForInlineWorker()
+        {
+            // ncaught TypeError: Cannot use 'in' operator to search for 'InternalScriptApplicationSource' in null 
+
+            if (ScriptApplicationSourceForInlineWorker == null)
+            {
+                var x = Expando.Of(Native.self);
+
+                // by default we should be running as view-source
+                // what if we are being loaded from a blob?
+
+                ScriptApplicationSourceForInlineWorker = Worker.ScriptApplicationSource;
+
+
+                if (x.Contains("InternalScriptApplicationSource"))
+                {
+                    ScriptApplicationSourceForInlineWorker = (string)Expando.InternalGetMember(Native.self, "InternalScriptApplicationSource");
+
+                }
+
+                // GetScriptApplicationSourceForInlineWorker { source = view-source }
+
+                // { InternalScriptApplicationSource = blob:http%3A//192.168.43.252%3A21646/b74d8ef2-5b0a-4eee-8721-2f1ad91826ee } 
+                // GetScriptApplicationSourceForInlineWorker { source = blob:http%3A//192.168.43.252%3A21646/b74d8ef2-5b0a-4eee-8721-2f1ad91826ee }
+
+
+
+                ScriptApplicationSourceForInlineWorker = ScriptApplicationSourceForInlineWorker + "#worker";
+
+                Console.WriteLine("GetScriptApplicationSourceForInlineWorker " + new { ScriptApplicationSourceForInlineWorker });
+            }
+
+            return ScriptApplicationSourceForInlineWorker;
+        }
+
+
         // WorkerGlobalScope
 
         //static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>> Handlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>>();
@@ -171,7 +217,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             InternalInlineWorker.InternalThreadCounter++;
 
             var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
+                GetScriptApplicationSourceForInlineWorker()
             );
 
             w.postMessage((object)xdata,
@@ -258,25 +304,39 @@ namespace ScriptCoreLib.JavaScript.DOM
             __Thread.InternalCurrentThread.ManagedThreadId = InternalThreadCounter;
             __Thread.InternalCurrentThread.IsBackground = true;
 
+            var MethodTokenReference = IFunction.Of(MethodToken);
+            // what if we are being called from within a secondary app?
 
             Console.WriteLine(
                 "__worker_onfirstmessage: " +
                 new
                 {
                     Native.worker.location.href,
+
                     MethodToken,
                     MethodType,
+
 
                     IsIProgress,
                     IsTuple2_Item1_IsIProgress,
 
                     Thread.CurrentThread.ManagedThreadId,
+
                     state
+
+                    //MethodTokenReference
                 }
             );
 
-            var MethodTokenReference = IFunction.Of(MethodToken);
+            if (MethodTokenReference == null)
+            {
+                // tested at
+                // X:\jsc.svn\examples\javascript\WorkerInsideSecondaryApplication\WorkerInsideSecondaryApplication\Application.cs
 
+                throw new InvalidOperationException(
+                    new { MethodToken } + " function is not available at " + new { Native.worker.location.href }
+                );
+            }
 
             //Console.WriteLine(
             //     new

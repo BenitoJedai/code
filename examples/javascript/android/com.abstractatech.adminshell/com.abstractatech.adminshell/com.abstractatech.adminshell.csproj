@@ -51,7 +51,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppEngine|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
@@ -63,7 +62,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  
   <ItemGroup>
     <Reference Include="Abstractatech.ConsoleFormPackage">
       <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
@@ -73,6 +71,10 @@
     </Reference>
     <Reference Include="Abstractatech.Multicast">
       <HintPath>..\packages\Abstractatech.Multicast.1.0.0.0\lib\Abstractatech.Multicast.dll</HintPath>
+    </Reference>
+    <Reference Include="AsyncHistoryExperiment, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AsyncHistoryExperiment.1.0.0.0\lib\AsyncHistoryExperiment.dll</HintPath>
     </Reference>
     <Reference Include="CSSMinimizeFormToSidebar">
       <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
@@ -133,6 +135,10 @@
     <Reference Include="ScriptCoreLibAndroid">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
+    <Reference Include="ShellWithPing, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ShellWithPing.1.0.0.0\lib\ShellWithPing.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -155,18 +161,15 @@
     <Reference Include="com.abstractatech.adminshell.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\com.abstractatech.adminshell.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="ShellWithPing.AssetsLibrary">
-      <HintPath>..\..\ShellWithPing\ShellWithPing\bin\staging.AssetsLibrary\ShellWithPing.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="AndroidNotificationWebActivity.AssetsLibrary">
       <HintPath>..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\bin\staging.AssetsLibrary\AndroidNotificationWebActivity.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="AsyncHistoryExperiment.AssetsLibrary">
-      <HintPath>..\..\..\AsyncHistoryExperiment\AsyncHistoryExperiment\bin\staging.AssetsLibrary\AsyncHistoryExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.htm" />
+    <Compile Include="..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs">
+      <Link>Experimental\X.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs">
       <SubType>Component</SubType>
@@ -183,26 +186,23 @@
       <Project>{132eb43f-19b4-42ac-8025-3249b129867a}</Project>
       <Name>ScriptCoreLib.Ultra.Library</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\AsyncHistoryExperiment\AsyncHistoryExperiment\AsyncHistoryExperiment.csproj">
-      <Project>{46a813c2-c5b6-4f84-8800-8966d730086d}</Project>
-      <Name>AsyncHistoryExperiment</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj">
       <Project>{68616df5-ad84-4d65-85c4-35bb96171391}</Project>
       <Name>AndroidNotificationWebActivity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ShellWithPing\ShellWithPing\ShellWithPing.csproj">
-      <Project>{0267ab63-ecec-4ecc-a3b3-853c3138a826}</Project>
-      <Name>ShellWithPing</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget /ProjectFileName:$(ProjectPath)
+
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )

@@ -127,6 +127,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLScriptAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\IXMLHttpRequestAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\WorkerAsyncExtensions.cs" />
+    <Compile Include="JavaScript\Experimental\X.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScriptCoreLib.Extensions
+namespace System.Threading.Tasks
+//namespace ScriptCoreLib.Extensions
 {
     public static class TaskAsyncExtensions
     {

@@ -33,7 +33,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void SetResult()
         {
-            Console.WriteLine("__AsyncVoidMethodBuilder.SetResult");
+            //Console.WriteLine("__AsyncVoidMethodBuilder.SetResult");
 
         }
 

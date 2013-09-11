@@ -1,3 +1,6 @@
+using Abstractatech.ConsoleFormPackage.Library;
+using Abstractatech.JavaScript.FormAsPopup;
+using com.abstractatech.adminshell.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -6,21 +9,20 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using com.abstractatech.adminshell.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
-using System.Drawing;
-using Abstractatech.JavaScript.FormAsPopup;
-using ScriptCoreLib.Ultra.WebService;
-using Abstractatech.ConsoleFormPackage.Library;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.Ultra.WebService;
+using System;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.Experimental;
+
 
 namespace com.abstractatech.adminshell
 {
@@ -36,7 +38,11 @@ namespace com.abstractatech.adminshell
         FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
 
 
+        static void init(string InternalScriptApplicationSource)
+        {
+            (Native.window as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
 
+        }
 
         /// <summary>
         /// This is a javascript application.
@@ -85,6 +91,14 @@ namespace com.abstractatech.adminshell
                     Console.WriteLine("click!");
 
                     //await go;
+
+
+                    //Action<string> init = InternalScriptApplicationSource =>
+                    //{
+                    //    (Native.window as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
+
+                    //};
+
 
                     // should jsc automatically infer a secondary 
                     // application from history api
@@ -142,10 +156,21 @@ namespace com.abstractatech.adminshell
                                 state.value.source;
 
                             Console.WriteLine("in state, init secondary app");
-                            Native.window.eval(
-                                //x.responseText
-                                 xsource
-                            );
+
+                            var xblob = new Blob(xsource);
+                            var xsrc = xblob.ToObjectURL();
+
+                            init(xsrc);
+
+                            // also this is where
+                            // workers need to go?
+                            await new IHTMLScript { src = xsrc };
+
+
+                            //Native.window.eval(
+                            //    //x.responseText
+                            //     xsource
+                            //);
 
 
                             //Console.WriteLine("loading secondary app done");
@@ -249,296 +274,6 @@ example:
 
     //}
 
-    static class X
-    {
-        //public static object 
-        public static TaskAwaiter<string> GetAwaiter(this Type __e)
-        {
-            Console.WriteLine(new { __e.Name });
-
-            // http://stackoverflow.com/questions/9713058/sending-post-data-with-a-xmlhttprequest
-
-            var y = new TaskCompletionSource<string>();
-
-            ////var ysource = Native.window.localStorage[__e.Name];
-            ////if (ysource != null)
-            ////{
-
-            ////    y.SetResult(ysource);
-
-            ////    return y.Task.GetAwaiter();
-            ////}
-            //return 
-
-            //InternalInitializeInlineWorker Report: { __IProgress_Report = { value = [object Object] } }
-            // view-source:27346
-            //{ Name = a, loaded = 4538818, total = 4538818 } view-source:27346
-
-            // view-source:27346
-            //loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
-            // view-source:27346
-            //loading secondary app in a moment... { Length = 4538818 } decrypting...
-            // view-source:27346
-            //loading secondary app in a moment... { Length = 2269409 } done!
-
-            var bar = new IHTMLDiv { }.AttachToDocument();
-
-            bar.style.SetLocation(0, -2);
-            bar.style.height = "3px";
-            bar.style.backgroundColor = "red";
-            //bar.style.borderBottom = "1px solid darkred";
-
-            // http://stackoverflow.com/questions/9670075/css-transition-shorthand-with-multiple-properties
-
-            (bar.style as dynamic).webkitTransition = "top 0.5s linear";
-            //(bar.style as dynamic).webkitTransitionProperty = "top, width, background-color";
-            (bar.style as dynamic).webkitTransitionProperty = "top, width";
-
-
-            Task.Factory.StartNewWithProgress(
-                new { __e.Name, loaded = default(long), total = default(long), source = default(string) },
-
-                progress: x =>
-                {
-                    bar.style.SetLocation(0, 0);
-
-
-                    #region bar
-                    if (x.loaded > 0)
-                        if (x.total > 0)
-                        {
-                            //if (x.loaded == x.total)
-                            //{
-                            //}
-                            //else
-                            //{
-                            //    bar.style.SetLocation(0, 0);
-                            //}
-
-                            var xx = 100 * x.loaded / x.total;
-
-                            var per = xx + "%";
-
-                            //Console.WriteLine(new { per });
-
-                            bar.style.width = per;
-
-                        }
-                    #endregion
-
-
-
-                    Console.WriteLine(
-                        new { x.Name, x.loaded, x.total }
-                    );
-
-                    x.source.With(
-                        async source =>
-                        {
-                            //        // should we analyze? IFunction
-
-                            //Console.WriteLine("wall save source to localStorage " + new { __e.Name, source.Length });
-
-                            //Native.window.localStorage[__e.Name] = source;
-
-                            //Native.window.eval(
-                            //    //x.responseText
-                            //    source
-                            //);
-
-
-                            bar.style.backgroundColor = "yellow";
-                            await Task.Delay(300);
-                            bar.style.backgroundColor = "red";
-                            await Task.Delay(300);
-                            bar.style.backgroundColor = "yellow";
-                            await Task.Delay(300);
-                            bar.style.backgroundColor = "red";
-                            await Task.Delay(300);
-                            bar.Orphanize();
-
-
-                            y.SetResult(source);
-                        }
-                    );
-
-                },
-
-
-                function:
-                    tuple =>
-                    {
-                        var progress = tuple.Item1;
-                        var scope = tuple.Item2;
-
-                        // http://stackoverflow.com/questions/13870853/how-to-upload-files-in-web-workers-when-formdata-is-not-defined
-                        // FormData is not defined
-                        //var f = new FormData();
-
-                        //f.append("Application", scope.Name);
-
-                        var x = new IXMLHttpRequest();
-
-                        x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/view-source",
-                            async: true,
-                            name: "public",
-                            pass: "key1555555"
-                        );
-
-                        // Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.
-                        x.setRequestHeader(
-                            "X-Application", scope.Name
-                        );
-
-                        // what about progress?
-
-                        x.responseType = "arraybuffer";
-
-                        // http://stackoverflow.com/questions/10956574/why-might-xmlhttprequest-progressevent-lengthcomputable-be-false
-
-                        var xprogress = new { scope.loaded, scope.total };
-
-                        // AppEngine will not report progress
-                        x.onprogress +=
-                            e =>
-                            {
-                                xprogress = new { e.loaded, e.total };
-
-                                //Console.WriteLine();
-
-                                progress.Report(
-                                    new { scope.Name, xprogress.loaded, xprogress.total, scope.source }
-                                );
-
-                            };
-
-                        Action send = async delegate
-                        {
-                            var response = await x.bytes;
-
-                        };
-
-                        // await x.bytes instead ?
-                        x.InvokeOnComplete(
-                            delegate
-                            {
-                                var response = (byte[])new Uint8ClampedArray((ArrayBuffer)x.response);
-
-
-                                // can we use progress to do a lazy return
-
-                                // these browsers no longer let you use the responseType attribute when performing synchronous requests. Attempting to do so throws an NS_ERROR_DOM_INVALID_ACCESS_ERR exception. This change has been proposed to the W3C for standardization.
-                                // we could load encrypted binary blob here in background worker
-
-                                // loading secondary app in a moment... { responseType = , ManagedThreadId = 10 }
-
-                                // loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
-                                //Console.WriteLine("loading secondary app in a moment... " + new { x.responseType, Thread.CurrentThread.ManagedThreadId });
-
-                                // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
-
-                                //loading secondary app in a moment... { responseType = arraybuffer, ManagedThreadId = 10 }
-                                // view-source:27267
-                                //loading secondary app in a moment... { Length = 4515364 } done!
-
-
-
-
-                                #region got it
-                                Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " decrypting...");
-
-                                //y.SetResult(new { x.responseText.Length }.ToString());
-                                // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
-
-                                var m = new MemoryStream();
-
-                                var lo = default(byte);
-                                var lo_set = false;
-
-                                foreach (var item in response)
-                                {
-                                    if (lo_set)
-                                    {
-                                        lo_set = false;
-
-                                        var hi = (byte)(item << 4);
-
-                                        m.WriteByte(
-                                            (byte)(lo | hi)
-                                        );
-
-                                        if ((m.Length % 1024 * 8) == 0)
-                                        {
-                                            progress.Report(
-                                                new { scope.Name, loaded = m.Length * 2, xprogress.total, scope.source }
-                                            );
-                                        }
-                                    }
-                                    else
-                                    {
-                                        lo = item;
-                                        lo_set = true;
-                                    }
-                                }
-
-                                // decrypted
-                                var source = Encoding.UTF8.GetString(m.ToArray());
-
-
-                                Console.WriteLine("loading secondary app in a moment... " + new { source.Length } + " done!");
-
-                                //return new { response.Length, responseText = source };
-
-                                #endregion
-
-                                progress.Report(
-                                    new { scope.Name, xprogress.loaded, xprogress.total, source }
-                                );
-                            }
-                        );
-
-                        //x.overrideMimeType("application/octet-stream");
-                        x.send();
-
-
-
-                        // no changes yet
-                        return scope;
-                    }
-
-
-            );
-
-
-            return y.Task.GetAwaiter();
-
-
-            //.ContinueWith(
-            //    task =>
-            //    {
-            //        var x = task.Result;
-
-            //        // should we analyze? IFunction
-            //        Native.window.eval(
-            //            //x.responseText
-            //            x.responseText
-            //        );
-
-
-            //        //script: error JSC1000: Method: LockBits, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing.__Bitmap; emmiting failed : System.NullReferenceException: Object reference not set to an instance of an object.
-
-            //        return new Action(delegate { Console.WriteLine("log out in progres..."); });
-            //    }
-            //    , scheduler: TaskScheduler.FromCurrentSynchronizationContext()
-            //).GetAwaiter();
-
-            //return y.Task.GetAwaiter();
-
-            //Activator.CreateInstance();
-            // can I have only the types I do not yet have?
-            //return new IHTMLScript { src = "/" + e.Name }.ToTask().GetAwaiter();
-        }
-    }
 
 
     public static class DownloadSDKFunction

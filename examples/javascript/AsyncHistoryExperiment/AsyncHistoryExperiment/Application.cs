@@ -349,40 +349,82 @@ namespace AsyncHistoryExperiment
 
         static XState()
         {
-            Action<XState.XVariation> invoke = null;
+            #region invoke
+            Action<XState.XVariation> atpopstate = null;
 
-            invoke = data =>
+            atpopstate = data =>
             {
-                data.stack.With(invoke);
+                Console.WriteLine("atpopstate " + new { data.id });
+
+                data.stack.With(atpopstate);
 
                 var data_invoke = data.invoke;
 
-                // lets resume! { data_invoke = BwAABoL2TT6iqfiSNWZMtg }
-                Console.WriteLine("lets resume! " + new { data_invoke });
 
-                var s = new XState.XVariation<object>(data,
-                     delegate
-                     {
-                         Native.window.history.replaceState(
-                             data,
-                             data.title,
-                             data.url
-                         );
-                     }
-                );
+                new Timer(
+                    t =>
+                    {
+                        Console.WriteLine("can we resume yet?" + new { data.id, data_invoke, t.Counter });
 
-                IFunction.Of(data_invoke).apply(null, s);
+                        var f = IFunction.Of(data_invoke);
+
+                        if (f != null)
+                        {
+                            Console.WriteLine("can we resume yet? yes!" + new { data.id, data_invoke, t.Counter });
+
+                            t.Stop();
+
+
+                            Console.WriteLine("lets resume! " + new { data.id, data_invoke });
+
+                            var s = new XState.XVariation<object>(data,
+                                    delegate
+                                    {
+                                        Native.window.history.replaceState(
+                                            data,
+                                            data.title,
+                                            data.url
+                                        );
+                                    }
+                            )
+                            {
+                                caller = "XState .cctor onpopstate"
+                            };
+
+
+                            f.apply(null, s);
+
+                            return;
+                        }
+
+                        Console.WriteLine("cannot resume yet! lets wait for " + new { data.id, data_invoke, t.Counter });
+                    }
+                ).StartInterval(100);
+
+
             };
+            #endregion
 
-            Native.window.onpopstate +=
-               e =>
-               {
-                   Console.WriteLine("onpopstate!");
+            #region onpopstate
+            if (Native.window != null)
+            {
+                Native.window.onpopstate +=
+                   e =>
+                   {
+                       //Console.WriteLine("onpopstate!");
 
-                   var state = ((XState.XVariation)Native.window.history.state);
+                       var state = ((XState.XVariation)Native.window.history.state);
+                       if (state == null)
+                           return;
 
-                   state.With(invoke);
-               };
+
+                       Console.WriteLine("onpopstate, restore state, is default app already loaded? " + new { same = Native.window.history.state == e.state });
+
+                       atpopstate(state);
+                   };
+            }
+            #endregion
+
         }
 
         // Error	1	Cannot derive from 'T' because it is a type parameter	X:\jsc.svn\examples\javascript\AsyncHistoryExperiment\AsyncHistoryExperiment\Application.cs	255	38	AsyncHistoryExperiment
@@ -424,7 +466,7 @@ namespace AsyncHistoryExperiment
                 }
             }
 
-
+            public string caller;
 
             readonly XVariation data;
             readonly TaskCompletionSource<object> s;
@@ -544,8 +586,13 @@ namespace AsyncHistoryExperiment
             );
         }
 
+
+
         public static XVariation<T> Create<T>(
-            string title, string url, T value, Action<XVariation<T>> invoke)
+            string title,
+            string url,
+            T value,
+            Action<XVariation<T>> invoke)
         {
             var state = ((XState.XVariation)Native.window.history.state);
 
@@ -555,13 +602,17 @@ namespace AsyncHistoryExperiment
             var data_invoke = ((__MethodInfo)invoke.Method).MethodToken;
 
 
+            #region id
             var id = "";
 
             if (state != null)
                 id = state.id;
 
             id += ":" + new Random().Next().ToString("x8");
+            #endregion
 
+
+            #region data
             var data =
                 new XVariation
                 {
@@ -579,7 +630,7 @@ namespace AsyncHistoryExperiment
 
 
             var s = new XVariation<T>(data,
-                delegate
+                changed: delegate
                 {
                     Native.window.history.replaceState(
                         data,
@@ -587,18 +638,25 @@ namespace AsyncHistoryExperiment
                         data.url
                     );
                 }
-            );
+            )
+            {
+                caller = "XState.Create after pushState"
+            };
+            #endregion
 
-            Console.WriteLine("pushState " + id);
+            var isnull = Native.window.history.state == null;
+
+            Console.WriteLine("pushState " + new { id, isnull });
+
 
             Native.window.history.pushState(
-                data: data
+                data: data,
+                title: title,
+                url: url
+            );
 
-
-                , title: title, url: url
-                );
-
-            invoke(s);
+            if (!isnull)
+                invoke(s);
 
             return s;
         }

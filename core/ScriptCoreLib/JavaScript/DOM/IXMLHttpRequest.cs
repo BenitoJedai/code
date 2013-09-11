@@ -184,6 +184,10 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 var y = new TaskCompletionSource<byte[]>();
 
+                // tested by
+                // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs
+
+
                 this.InvokeOnComplete(
                     delegate
                     {
@@ -193,6 +197,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     }
                    );
+
+                this.responseType = "arraybuffer";
+                this.send();
+
 
                 return y.Task;
             }
