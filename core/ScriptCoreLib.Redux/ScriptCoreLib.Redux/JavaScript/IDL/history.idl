@@ -6,8 +6,12 @@ interface History {
   void go(optional long delta);
   void back();
   void forward();
+
   void pushState(any data, DOMString title, optional DOMString url);
+  void pushState(any data);
+
   void replaceState(any data, DOMString title, optional DOMString url);
+  void replaceState(any data);
 };
 
 interface Location {

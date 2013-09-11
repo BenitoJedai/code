@@ -6,6 +6,7 @@ using ScriptCoreLib.Shared;
 using ScriptCoreLib;
 using System;
 using ScriptCoreLib.JavaScript.BCLImplementation.System;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -97,6 +98,45 @@ namespace ScriptCoreLib.JavaScript.DOM
             // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
 
             return Expando.Of(Native.self).GetMember<IFunction>(name);
+        }
+
+        public static Task<IFunction> ByName(string name, object target = null)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\WorkerInsideSecondaryApplication\WorkerInsideSecondaryApplicationWithStateReplaceTwice\Application.cs
+
+            if (target == null)
+                target = Native.self;
+
+            var x = new TaskCompletionSource<IFunction>();
+
+            Action y = delegate
+            {
+                if (Expando.InternalIsMember(target, name))
+                {
+                    // should wo typecheck that member?
+                    var f = (IFunction)Expando.InternalGetMember(target, name);
+
+                    x.SetResult(f);
+                }
+            };
+
+            y();
+
+            if (!x.Task.IsCompleted)
+            {
+                new Timer(
+                    t =>
+                    {
+                        y();
+
+                        if (x.Task.IsCompleted)
+                            t.Stop();
+                    }
+                ).StartInterval(15);
+            }
+
+            return x.Task;
         }
 
         public static IFunction Of(System.Action h)
