@@ -195,6 +195,7 @@ namespace CSSScaleForMultipleStates
 
                                     Native.window.history.pushState(source, go);
 
+                                    button.disabled = false;
                                 }
                             );
 
@@ -216,7 +217,7 @@ namespace CSSScaleForMultipleStates
                 };
         }
 
- 
+
 
         sealed class zz
         {
