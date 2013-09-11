@@ -110,7 +110,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                 var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                       global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
+                    InternalInlineWorker.GetScriptApplicationSourceForInlineWorker()
+                       //global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
                    );
 
                 var TaskArray = tasks.Select(k => new { k.Result }).ToArray();

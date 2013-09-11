@@ -8,10 +8,31 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 namespace ScriptCoreLib.JavaScript.DOM
 {
 
+    [Script(HasNoPrototype = true, ExternalTarget = "URL")]
+    // static class?
+    public class URL
+    {
+        // http://dev.w3.org/2006/webapi/FileAPI/#url
+
+        [Script(ExternalTarget = "URL.createObjectURL")]
+        public static string createObjectURL(Blob blob)
+        {
+            return default(string);
+        }
+    }
 
     [Script(InternalConstructor = true)]
     public class IWindow : IEventTarget
     {
+        //public readonly URL URL;
+
+        // http://www.whatwg.org/specs/web-apps/current-work/multipage/browsers.html#the-window-object
+        public IWindow parent;
+        public IWindow opener;
+        public IWindow top;
+        public IWindow self;
+        public IWindow window;
+
         #region event onmessage
         public event System.Action<MessageEvent> onmessage
         {
@@ -51,7 +72,6 @@ namespace ScriptCoreLib.JavaScript.DOM
         public string defaultStatus;
 
         public IHTMLDocument document;
-        public IWindow opener;
 
         public void alert<T>(T a0) { }
 

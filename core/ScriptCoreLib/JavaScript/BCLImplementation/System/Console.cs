@@ -99,11 +99,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
             [Script(OptimizedCode = @"
+
+    if (w0)
+    {
             if (w0['dump'] != void(0))
                 w0.dump(e0);
 
 			if (w0['console'] != void(0))
                 w0.console.log(e0);
+    }
+
             ")]
             internal static void InternalDump(object w0, object e0) { }
 

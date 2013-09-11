@@ -41,6 +41,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.ConsoleFormPackage">
+      <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
+    </Reference>
     <Reference Include="Abstractatech.JavaScript.ASCIIStyledLoadAnimation">
       <HintPath>..\packages\Abstractatech.JavaScript.ASCIIStyledLoadAnimation.1.0.0.0\lib\Abstractatech.JavaScript.ASCIIStyledLoadAnimation.dll</HintPath>
     </Reference>
@@ -53,6 +56,13 @@
     </Reference>
     <Reference Include="Abstractatech.Multicast">
       <HintPath>..\packages\Abstractatech.Multicast.1.0.0.0\lib\Abstractatech.Multicast.dll</HintPath>
+    </Reference>
+    <Reference Include="AsyncHistoryExperiment">
+      <HintPath>..\packages\AsyncHistoryExperiment.1.0.0.0\lib\AsyncHistoryExperiment.dll</HintPath>
+    </Reference>
+    <Reference Include="com.abstractatech.adminshell, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\com.abstractatech.adminshell.1.0.0.0\lib\com.abstractatech.adminshell.dll</HintPath>
     </Reference>
     <Reference Include="CSSMinimizeFormToSidebar">
       <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
@@ -74,6 +84,9 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
@@ -115,6 +128,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
+    <Reference Include="ShellWithPing">
+      <HintPath>..\packages\ShellWithPing.1.0.0.0\lib\ShellWithPing.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -151,6 +167,9 @@
     <Content Include="Design\BeforeLogin.htm" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs">
+      <Link>Experimental\X.cs</Link>
+    </Compile>
     <Compile Include="AtInstall.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs">
@@ -182,7 +201,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Design\Promotion3D_PAN.skp" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

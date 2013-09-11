@@ -67,7 +67,21 @@ namespace ScriptCoreLib.JavaScript
         }
 
         // dynamic ?
-        public static object self;
+        static object __self;
+
+        public static object self
+        {
+            get
+            {
+                if (__self == null)
+                {
+                    // x:\jsc.svn\examples\javascript\OmniWebWorkerExperiment\OmniWebWorkerExperiment\Application.cs
+                    __self = new IFunction("return this;").apply(null);
+                }
+
+                return __self;
+            }
+        }
 
         static public IWindow window;
 
@@ -82,8 +96,7 @@ namespace ScriptCoreLib.JavaScript
 
         static Native()
         {
-            // x:\jsc.svn\examples\javascript\OmniWebWorkerExperiment\OmniWebWorkerExperiment\Application.cs
-            self = new IFunction("return this;").apply(null);
+
 
             Uint8ClampedArray();
 

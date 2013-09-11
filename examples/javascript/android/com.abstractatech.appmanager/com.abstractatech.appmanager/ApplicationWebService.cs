@@ -347,9 +347,12 @@ namespace com.abstractatech.appmanager
                 }.ToString());
 
             #region /a
-            var a = h.Applications.FirstOrDefault(k => k.TypeName == "a");
 
-            if (h.Context.Request.Path == "/a")
+
+            var ApplicationTypeName = h.Context.Request.Headers["X-Application"];
+            var Application = h.Applications.FirstOrDefault(k => k.TypeName == ApplicationTypeName);
+
+            if (Application != null)
             {
                 // var OK = true;
                 var OK = false; // chrome webview cannot do 401 unless provided
@@ -380,7 +383,7 @@ namespace com.abstractatech.appmanager
 
 
 
-                    h.Context.Response.ContentType = "text/javascript";
+                    //h.Context.Response.ContentType = "text/javascript";
                     h.Context.Response.AddHeader("Cache-Control", "max-age=2592000");
 
 
@@ -392,7 +395,13 @@ namespace com.abstractatech.appmanager
                         new System.Web.HttpCookie("foo", "bar")
                     );
 
-                    h.WriteSource(a);
+
+
+                    Application.DiagnosticsMakeItSlowAndAddSalt = true;
+
+                    System.Console.WriteLine("lets write DiagnosticsMakeItSlowAndAddSalt");
+                    h.WriteSource(Application);
+
                     h.CompleteRequest();
                     return;
                 }

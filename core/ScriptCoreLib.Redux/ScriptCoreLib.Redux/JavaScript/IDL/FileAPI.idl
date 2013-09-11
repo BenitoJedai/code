@@ -1,10 +1,23 @@
   // http://www.w3.org/TR/FileAPI/
-  
+  // http://dev.w3.org/2006/webapi/FileAPI/
+
+
+
+
+
+
   interface FileList {
       getter File? item(unsigned long index);
       readonly attribute unsigned long length;
     };
 
+
+
+
+    [Constructor, 
+     //Constructor(sequence<(ArrayBuffer or ArrayBufferView or Blob or DOMString)> blobParts, optional BlobPropertyBag options)] 
+     Constructor(sequence<DOMString> blobParts)
+	] 
 	 interface Blob {
       
       readonly attribute unsigned long long size;
@@ -71,7 +84,9 @@
 	  DOMString readAsDataURL(Blob blob);
 	};
 
-	partial interface URL {
+	//partial 
+		
+	interface URL {
 
 	    static DOMString createObjectURL(Blob blob);
 	    static void revokeObjectURL(DOMString url);

@@ -12,7 +12,7 @@ namespace CLRJVMConsole
 {
     sealed class FooAttribute : Attribute
     {
-       
+
     }
 
     [Foo]
@@ -53,22 +53,22 @@ namespace CLRJVMConsole
 
         private static void ShowAnnotations()
         {
-            try
-            {
-                var x = new Bar();
+            //try
+            //{
+            //    var x = new Bar();
 
-                var t = x.GetType();
-                var c = t.ToClass();
+            //    var t = x.GetType();
+            //    var c = t.ToClass();
 
-                foreach (var item in c.getAnnotations())
-                {
-                    Console.WriteLine("@" + item.annotationType().ToType().FullName);
-                }
-            }
-            catch
-            {
+            //    foreach (var item in c.getAnnotations())
+            //    {
+            //        Console.WriteLine("@" + item.annotationType().ToType().FullName);
+            //    }
+            //}
+            //catch
+            //{
 
-            }
+            //}
         }
     }
 

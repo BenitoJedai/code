@@ -44,12 +44,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
-        // http://www.whatwg.org/specs/web-apps/current-work/multipage/browsers.html#the-window-object
-        public IWindow parent;
-        public IWindow opener;
-        public IWindow top;
-        public IWindow self;
-        public IWindow window;
+ 
 
         public void postMessage(object message, object[] transfer, string targetOrigin = "*")
         {

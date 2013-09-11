@@ -57,7 +57,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         // !supported in: 4.5
         public __TaskAwaiter GetAwaiter()
         {
-            Console.WriteLine("__Task.GetAwaiter");
+            //Console.WriteLine("__Task.GetAwaiter");
 
             // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
 
@@ -68,7 +68,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             this.InternalYield += delegate
             {
-                Console.WriteLine("__Task.GetAwaiter InternalYield");
+                //Console.WriteLine("__Task.GetAwaiter InternalYield");
 
                 if (awaiter.InternalOnCompleted != null)
                     awaiter.InternalOnCompleted();
@@ -281,7 +281,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                 var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                       global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
+                    InternalInlineWorker.GetScriptApplicationSourceForInlineWorker()
+                    //global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
                    );
 
 
@@ -422,7 +423,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
 
-                                 Console.WriteLine("InternalInitializeInlineWorker Report: " + new { __IProgress_Report = new { value } });
+                                 //Console.WriteLine("InternalInitializeInlineWorker Report: " + new { __IProgress_Report = new { value } });
 
 
                                  x.Report(value);
@@ -526,7 +527,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                     var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                           global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
+                    InternalInlineWorker.GetScriptApplicationSourceForInlineWorker()
+                        //global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
                        );
 
                     #region postMessage
