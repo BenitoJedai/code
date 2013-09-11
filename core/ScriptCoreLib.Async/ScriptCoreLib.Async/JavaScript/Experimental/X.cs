@@ -31,9 +31,15 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
     internal static class InternalScriptApplicationSourceExtensions
     {
-        public static void eval(this InternalScriptApplicationSource e)
+        public static Action eval(this InternalScriptApplicationSource e)
         {
-            var src = new Blob(e.source).ToObjectURL().SetInternalScriptApplicationSource();
+            var src = new Blob(e.source).ToObjectURL();
+
+            //.SetInternalScriptApplicationSource();
+
+            object old = (Native.self as dynamic).InternalScriptApplicationSource;
+
+            (Native.self as dynamic).InternalScriptApplicationSource = src;
 
             var core = e.references.First().size;
 
@@ -50,6 +56,15 @@ namespace ScriptCoreLib.JavaScript.Experimental
             );
 
             Native.window.eval(source);
+
+            return delegate
+            {
+                // hacky way to restore
+                if (old != null)
+                    (Native.self as dynamic).InternalScriptApplicationSource = old;
+                else
+                    (Native.self as dynamic).InternalScriptApplicationSource = Native.document.location + "view-source";
+            };
         }
     }
 
