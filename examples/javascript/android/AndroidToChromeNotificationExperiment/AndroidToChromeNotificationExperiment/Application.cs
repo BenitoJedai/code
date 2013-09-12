@@ -118,7 +118,7 @@ namespace AndroidToChromeNotificationExperiment
             //E/Web Console(17596): Uncaught ReferenceError: chrome is not defined at http://192.168.1.103:13734/view-source:32745
 
             #region switch to chrome AppWindow
-            if (Expando.InternalIsMember(Native.Window, "chrome"))
+            if (Expando.InternalIsMember(Native.window, "chrome"))
                 if (chrome.app.runtime != null)
                 {
 
@@ -133,8 +133,8 @@ namespace AndroidToChromeNotificationExperiment
 
                     // no HTML layout yet
 
-                    if (Native.Window.opener == null)
-                        if (Native.Window.parent == Native.Window.self)
+                    if (Native.window.opener == null)
+                        if (Native.window.parent == Native.window.self)
                         {
 
 
@@ -511,7 +511,9 @@ namespace AndroidToChromeNotificationExperiment
                     Console.WriteLine(Native.Document.documentElement.AsXElement());
 
                     // if we are in a window lets add layout
-                    page = new IApp();
+                    // Error	6	Cannot create an instance of the abstract class or interface 'AndroidToChromeNotificationExperiment.HTML.Pages.IApp'	X:\jsc.svn\examples\javascript\android\AndroidToChromeNotificationExperiment\AndroidToChromeNotificationExperiment\Application.cs	514	28	AndroidToChromeNotificationExperiment
+
+                    page = new App();
 
                     page.AsNode().With(
                         n =>
@@ -536,7 +538,7 @@ namespace AndroidToChromeNotificationExperiment
                         {
                             notify("Primary Title", "Primary message to display", delegate
                             {
-                                Native.Window.open("http://example.com", "_blank");
+                                Native.window.open("http://example.com", "_blank");
 
 
                             });
