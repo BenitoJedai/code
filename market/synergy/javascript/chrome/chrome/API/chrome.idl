@@ -97,6 +97,7 @@ interface NotificationsModule
 
 	void create(string notificationId, any options, function callback);
 	void update(string notificationId, any options, function callback);
+	void clear(string notificationId, function callback);
 };
 
 

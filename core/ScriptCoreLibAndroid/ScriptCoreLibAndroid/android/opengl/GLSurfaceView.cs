@@ -12,7 +12,7 @@ namespace android.opengl
 {
     // http://developer.android.com/reference/android/opengl/GLSurfaceView.html
     [Script(IsNative = true)]
-    public class GLSurfaceView
+    public class GLSurfaceView : SurfaceView
     {
         // http://developer.android.com/reference/android/opengl/GLSurfaceView.Renderer.html
         [Script(IsNative = true)]
@@ -27,7 +27,9 @@ namespace android.opengl
         }
 
         public GLSurfaceView(Context context)
+            : base(context)
         {
+
         }
 
         public void setRenderer(GLSurfaceView.Renderer renderer)

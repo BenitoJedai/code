@@ -41,7 +41,7 @@ namespace com.abstractatech.gamification.gir
             page.idle.style.Opacity = 1;
             page.talk.style.Opacity = 0;
 
-            Native.Window.requestAnimationFrame +=
+            Native.window.requestAnimationFrame +=
                 delegate
                 {
                     IHTMLAudio snd = null;
@@ -192,7 +192,7 @@ namespace com.abstractatech.gamification.gir
                        };
 
 
-                    Native.Window.onblur +=
+                    Native.window.onblur +=
                        delegate
                        {
                            play();

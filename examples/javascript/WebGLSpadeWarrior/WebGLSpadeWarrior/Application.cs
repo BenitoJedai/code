@@ -52,6 +52,7 @@ namespace WebGLSpadeWarrior
             else
             {
                 Native.window.document.body.style.backgroundColor = JSColor.Black;
+                Native.window.document.body.style.color = JSColor.Yellow;
             }
 
             //page.PageContainer.style.color = Color.Blue;

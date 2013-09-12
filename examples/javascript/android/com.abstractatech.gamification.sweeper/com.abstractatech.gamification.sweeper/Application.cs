@@ -37,8 +37,8 @@ namespace com.abstractatech.gamification.sweeper
             var oldY = 0;
             Action Create = delegate
             {
-                var ButtonsX = ((int)Math.Floor(Native.Window.Width / (MineSweeper.js.MineSweeperControl.ButtonSize * 2.0))) - 2;
-                var ButtonsY = ((int)Math.Floor(Native.Window.Height / (MineSweeper.js.MineSweeperControl.ButtonSize * 2.0))) - 3;
+                var ButtonsX = ((int)Math.Floor(Native.window.Width / (MineSweeper.js.MineSweeperControl.ButtonSize * 2.0))) - 2;
+                var ButtonsY = ((int)Math.Floor(Native.window.Height / (MineSweeper.js.MineSweeperControl.ButtonSize * 2.0))) - 3;
 
                 if (ButtonsX == oldX)
                     if (ButtonsY == oldY)
@@ -69,7 +69,7 @@ namespace com.abstractatech.gamification.sweeper
 
             Create();
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     Create();
