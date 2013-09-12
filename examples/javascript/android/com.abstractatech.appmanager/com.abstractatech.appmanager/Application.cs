@@ -44,60 +44,125 @@ namespace com.abstractatech.appmanager
         {
             "My Appz".ToDocumentTitle();
 
-    
-
-            #region go
-            Action<HistoryScope<InternalScriptApplicationSource>> go =
-                async
-                  scope =>
-                {
-                    var source = scope.state;
-
-                    #region layout
-
-
-                    var newbody_page = new BeforeLogin();
-
-                    // we have to restore id fields
-
-                    newbody_page.go.id = "go";
-                    newbody_page.LoginButton.id = "LoginButton";
-
-
-                    var newbody = newbody_page.body;
-                    var oldbody = Native.document.body;
-
-                    Native.document.body.parentNode.insertBefore(
-                        newbody, oldbody
-                    );
-
-                    oldbody.Orphanize();
-
-                    #endregion
-
-                    var restore = source.eval();
-
-                };
-            #endregion
-
             a.LaunchMyAppz.WhenClicked(
+             delegate
+             {
+                 Console.WriteLine("LaunchMyAppz click");
 
-                async button =>
-                {
-                    Console.WriteLine("click!");
+                 Native.window.history.pushState(
+                     "too big to store",
+                     async scope =>
+                     {
+                         Console.WriteLine("LaunchMyAppz state loading");
 
-                    button.disabled = true;
-                    //button.style.Opacity = 0.5;
+                         var xpage = new com.abstractatech.appmanager.about.HTML.Pages.App.FromDocument();
+                         //Error	247	'com.abstractatech.appmanager.HTML.Pages.IApp' does not contain a definition for 'LaunchMyAppz' and no extension method 'LaunchMyAppz' accepting a first argument of type 'com.abstractatech.appmanager.HTML.Pages.IApp' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\javascript\android\com.abstractatech.appmanager\com.abstractatech.appmanager\Application.cs	55	45	com.abstractatech.appmanager
 
-                    var source = await typeof(x);
+                         var button = xpage.LaunchMyAppz;
 
-                    // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
-                    Native.window.history.pushState(source, go);
+                         button.disabled = true;
+                         button.style.Opacity = 0.5;
 
-                    //button.style.Opacity = 1;
-                    button.disabled = false;
-                }
-            );
+                         {
+                             var source = await typeof(x);
+
+
+                             #region layout
+
+
+                             var newbody_page = new BeforeLogin();
+
+                             // we have to restore id fields
+
+                             newbody_page.go.id = "go";
+                             newbody_page.LoginButton.id = "LoginButton";
+
+
+                             var newbody = newbody_page.body;
+                             var oldbody = Native.document.body;
+
+                             Native.document.body.parentNode.insertBefore(
+                                 newbody, oldbody
+                             );
+
+                             oldbody.Orphanize();
+
+                             #endregion
+
+                             Console.WriteLine("LaunchMyAppz state before eval");
+
+                             var restore = source.eval();
+
+                             Console.WriteLine("LaunchMyAppz state after eval");
+
+
+                             // do we know how to unwind? if not reload
+
+                             //await scope;
+                             //restore();
+                         }
+
+                         //button.style.Opacity = 1;
+                         //button.disabled = false;
+                     }
+                 );
+
+
+             }
+          );
+
+            //#region go
+            //Action<HistoryScope<InternalScriptApplicationSource>> go =
+            //    async
+            //      scope =>
+            //    {
+            //        var source = scope.state;
+
+            //        #region layout
+
+
+            //        var newbody_page = new BeforeLogin();
+
+            //        // we have to restore id fields
+
+            //        newbody_page.go.id = "go";
+            //        newbody_page.LoginButton.id = "LoginButton";
+
+
+            //        var newbody = newbody_page.body;
+            //        var oldbody = Native.document.body;
+
+            //        Native.document.body.parentNode.insertBefore(
+            //            newbody, oldbody
+            //        );
+
+            //        oldbody.Orphanize();
+
+            //        #endregion
+
+            //        var restore = source.eval();
+
+            //    };
+            //#endregion
+
+            //a.LaunchMyAppz.WhenClicked(
+
+            //    async button =>
+            //    {
+            //        Console.WriteLine("click!");
+
+            //        button.disabled = true;
+            //        //button.style.Opacity = 0.5;
+
+            //        var source = await typeof(x);
+
+            //        // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
+            //        Native.window.history.pushState(source, go);
+
+            //        //button.style.Opacity = 1;
+            //        button.disabled = false;
+            //    }
+            //);
 
 
         }
@@ -108,40 +173,77 @@ namespace com.abstractatech.appmanager
         {
             public readonly ApplicationWebService service = new ApplicationWebService();
 
+            static x()
+            {
+                Console.WriteLine("typeof(x) is now available");
+            }
+
 
             public x(IBeforeLogin page)
             {
 
                 Console.WriteLine("click!");
 
-                #region go
-                Action<HistoryScope<InternalScriptApplicationSource>> go =
-                    async
-                      scope =>
-                    {
-                        var source = scope.state;
-
-
-                        var restore = source.eval();
-
-                    };
-                #endregion
-
                 page.go.WhenClicked(
-                    async button =>
-                    {
-                        button.disabled = true;
-                        button.style.Opacity = 0.5;
+                   delegate
+                   {
+                       Native.window.history.pushState(
+                           "too big to store",
+                           async scope =>
+                           {
+                               var xpage = new BeforeLogin.FromDocument();
+                               var button = xpage.go;
 
-                        var source = await typeof(a);
+                               button.disabled = true;
+                               button.style.Opacity = 0.5;
+
+                               {
+                                   var source = await typeof(a);
+                                   var restore = source.eval();
+
+                                   // do we know how to unwind? if not reload
+
+                                   //await scope;
+                                   //restore();
+                               }
+
+                               //button.style.Opacity = 1;
+                               //button.disabled = false;
+                           }
+                       );
 
 
-                        Native.window.history.pushState(source, go);
+                   }
+                );
 
-                        button.style.Opacity = 1;
-                        button.disabled = false;
-                    }
-               );
+                // #region go
+                // Action<HistoryScope<InternalScriptApplicationSource>> go =
+                //     async
+                //       scope =>
+                //     {
+                //         var source = scope.state;
+
+
+                //         var restore = source.eval();
+
+                //     };
+                // #endregion
+
+                // page.go.WhenClicked(
+                //     async button =>
+                //     {
+                //         button.disabled = true;
+                //         button.style.Opacity = 0.5;
+
+                //         var source = await typeof(a);
+
+                //         // too big to store?
+                //         Native.window.history.pushState(source, go);
+
+                //         button.style.Opacity = 1;
+                //         button.disabled = false;
+                //     }
+                //);
 
 
 
@@ -153,7 +255,10 @@ namespace com.abstractatech.appmanager
         {
             public readonly ApplicationWebService service = new ApplicationWebService();
 
-
+            static a()
+            {
+                Console.WriteLine("typeof(a) is now available");
+            }
             public a(IBeforeLogin ee)
             {
                 //FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;

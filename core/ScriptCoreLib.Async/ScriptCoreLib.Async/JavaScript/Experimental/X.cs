@@ -175,9 +175,12 @@ namespace ScriptCoreLib.JavaScript.Experimental
                             //    bar.style.SetLocation(0, 0);
                             //}
 
-                            var xx = 100 * x.loaded / x.total;
+                            var xx = (int)(100 * x.loaded / x.total);
 
-                            var per = xx + "%";
+                            ;
+                            // 
+                            // 3% is the minimum we want to show
+                            var per = Math.Max(3, xx) + "%";
 
                             //Console.WriteLine(new { per, x.loaded, x.total, x.backgroundColor });
 

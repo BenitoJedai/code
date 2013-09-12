@@ -107,7 +107,7 @@ namespace com.abstractatech.adminshell
             static a()
             {
                 // this should not be visible for the default app
-                Console.WriteLine("secondary app eval");
+                Console.WriteLine("typeof(a) is now available");
             }
 
             public a(IApp e)

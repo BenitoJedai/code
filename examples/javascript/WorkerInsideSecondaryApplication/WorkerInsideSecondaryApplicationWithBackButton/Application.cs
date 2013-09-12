@@ -593,7 +593,7 @@ namespace WorkerInsideSecondaryApplicationWithBackButton
                             ////await new IHTMLScript { src = src };
                             //Native.window.eval(source);
 
-                            source.eval();
+                            var restore = source.eval();
 
 
 #if FUTURE
@@ -601,6 +601,8 @@ namespace WorkerInsideSecondaryApplicationWithBackButton
 #endif
 
                             await scope;
+
+                            restore();
 
                             Native.document.body.parentNode.replaceChild(
                                 oldbody,
@@ -624,6 +626,7 @@ namespace WorkerInsideSecondaryApplicationWithBackButton
 
                             Native.window.history.pushState(source, go);
 
+                            button.disabled = false;
                         }
                     );
 
