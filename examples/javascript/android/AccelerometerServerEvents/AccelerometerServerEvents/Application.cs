@@ -32,11 +32,12 @@ namespace AccelerometerServerEvents
             var y = page.ThePath_y;
             var x = page.ThePath_x;
             var z = page.ThePath_z;
+            var calm = page.ThePath_calm;
 
 
 
             var history =
-                new { x = 0.0, y = 0.0, z = 0.0 }.ToEmptyList();
+                new { x = 0.0, y = 0.0, z = 0.0, calm = 0.0 }.ToEmptyList();
 
 
             50.Times(
@@ -44,7 +45,7 @@ namespace AccelerometerServerEvents
                 {
                     history.Add(
                         // vec2?
-                       new { x = 0.0, y = 0.0, z = 0.0 }
+                       new { x = 0.0, y = 0.0, z = 0.0, calm = 0.0 }
                    );
 
                 }
@@ -57,9 +58,19 @@ namespace AccelerometerServerEvents
             new ScriptCoreLib.JavaScript.Runtime.Timer(
                 delegate
                 {
+                    var last = history.Last();
+
+
+                    var __calm =
+                        Math.Abs(last.x - movementX)
+                        + Math.Abs(last.y - movementY)
+                        + Math.Abs(last.z - movementZ);
+
+
+
                     history.Add(
                         // vec2?
-                        new { x = movementX, y = movementY, z = movementZ }
+                        new { x = movementX, y = movementY, z = movementZ, calm = __calm }
                             );
 
                     //movementX = 0;
@@ -76,6 +87,8 @@ namespace AccelerometerServerEvents
                     var yw = new StringBuilder().Append("M10,300 ");
                     var zw = new StringBuilder().Append("M10,400 ");
 
+                    var cw = new StringBuilder().Append("M10,400 ");
+
 
                     history.WithEachIndex(
                         (p, i) =>
@@ -84,6 +97,7 @@ namespace AccelerometerServerEvents
                             yw.Append(" L" + (10 + 2 * i) + "," + (p.y + 300));
                             zw.Append(" L" + (10 + 2 * i) + "," + (p.z + 400));
 
+                            cw.Append(" L" + (10 + 2 * i) + "," + (p.calm + 100));
                         }
                     );
 
@@ -91,11 +105,14 @@ namespace AccelerometerServerEvents
                     yw.Append(" L" + (10 + 2 * history.Count) + "," + (301));
                     zw.Append(" L" + (10 + 2 * history.Count) + "," + (401));
 
+                    cw.Append(" L" + (10 + 2 * history.Count) + "," + (101));
+
                     //Console.WriteLine(new { xw, yw });
 
                     y.d = yw.ToString();
                     x.d = xw.ToString();
                     z.d = zw.ToString();
+                    calm.d = cw.ToString();
                 }
             ).StartInterval(1000 / 10);
 

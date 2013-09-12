@@ -11,6 +11,9 @@ namespace android.content
     [Script(IsNative = true)]
     public abstract class Context
     {
+        public static readonly string SENSOR_SERVICE;
+
+
         public const int MODE_PRIVATE = 0;
 
         public static string WIFI_SERVICE;
