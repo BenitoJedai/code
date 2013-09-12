@@ -238,6 +238,9 @@ namespace jsc.Library
 
         public static implicit operator Func<TKey, TValue>(VirtualDictionary<TKey, TValue> e)
         {
+            if (e == null)
+                return null;
+
             return k => e[k];
         }
 
