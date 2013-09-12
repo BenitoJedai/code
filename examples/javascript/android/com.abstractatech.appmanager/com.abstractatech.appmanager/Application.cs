@@ -20,7 +20,6 @@ using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 //using Abstractatech.JavaScript.FormAsPopup;
 using com.abstractatech.adminshell;
-
 using ScriptCoreLib.JavaScript.Experimental;
 
 namespace com.abstractatech.appmanager
@@ -45,137 +44,64 @@ namespace com.abstractatech.appmanager
         {
             "My Appz".ToDocumentTitle();
 
-            var about = new Cookie("about");
+    
+
+            #region go
+            Action<HistoryScope<InternalScriptApplicationSource>> go =
+                async
+                  scope =>
+                {
+                    var source = scope.state;
+
+                    #region layout
 
 
+                    var newbody_page = new BeforeLogin();
 
-            Action go = delegate
-            {
-                AsyncHistoryExperiment.XState.Create(
-                    new { o = 0.5, source = default(string) },
-                    async state =>
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("in state, add secondary app");
+                    // we have to restore id fields
 
-                        var newbody_page = new BeforeLogin();
-
-                        // we have to restore id fields
-
-                        newbody_page.go.id = "go";
-                        newbody_page.LoginButton.id = "LoginButton";
+                    newbody_page.go.id = "go";
+                    newbody_page.LoginButton.id = "LoginButton";
 
 
-                        var newbody = newbody_page.body;
-                        var oldbody = Native.document.body;
+                    var newbody = newbody_page.body;
+                    var oldbody = Native.document.body;
 
-                        Native.document.body.parentNode.insertBefore(
-                            newbody, oldbody
-                        );
+                    Native.document.body.parentNode.insertBefore(
+                        newbody, oldbody
+                    );
 
-                        oldbody.Orphanize();
+                    oldbody.Orphanize();
 
+                    #endregion
 
+                    var restore = source.eval();
 
-                        #region source
-#if FUTURE
-                            if (state.value.source == null)
-                                state.value = new { state.value.o, source = await typeof(a) };
-#endif
+                };
+            #endregion
 
-                        //if (state.value == null)
-                        //    Console.WriteLine("why is value null?");
+            a.LaunchMyAppz.WhenClicked(
 
-                        if (state.value.source == null)
-                        {
-                            //Console.WriteLine("loading secondary app from the server");
+                async button =>
+                {
+                    Console.WriteLine("click!");
 
-                            var source = await typeof(x);
+                    button.disabled = true;
+                    //button.style.Opacity = 0.5;
 
-                            //Console.WriteLine("lets update state");
+                    var source = await typeof(x);
 
-                            state.value = new { state.value.o, source };
+                    // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
+                    Native.window.history.pushState(source, go);
 
-                            //Console.WriteLine("lets update state done");
-
-                        }
-                        else
-                        {
-                            //Console.WriteLine("loading secondary app from state");
-
-                        }
-                        #endregion
-
-
-                        //await new IHTMLScript { src = "/a" };
-
-
-                        Console.WriteLine("in state, init secondary app");
-
-
-                        var xsource =
-                     state.value.source;
-
-
-                        var xblob = new Blob(xsource);
-                        var xsrc = xblob.ToObjectURL();
-
-                        init(xsrc);
-
-                        // also this is where
-                        // workers need to go?
-                        await new IHTMLScript { src = xsrc };
-
-
-
-
-                        await state;
-
-
-
-                        Console.WriteLine("lost state, remove secondary app");
-
-                        Native.document.body.parentNode.insertBefore(
-                             oldbody, newbody
-                         );
-
-                        newbody.Orphanize();
-                    }
-                );
-
-
-            };
-
-
-            //if (about.BooleanValue)
-            //{
-            //    // only if state == null?
-            //    // only if this app is the current state
-
-            //    //go();
-            //}
-            //else
-            {
-                a.LaunchMyAppz.onclick +=
-                    delegate
-                    {
-                        about.BooleanValue = true;
-
-                        go();
-                    };
-            }
+                    //button.style.Opacity = 1;
+                    button.disabled = false;
+                }
+            );
 
 
         }
 
-
-        static void init(string InternalScriptApplicationSource)
-        {
-            (Native.window as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
-
-            Console.WriteLine(new { InternalScriptApplicationSource });
-
-        }
 
 
         public sealed class x
@@ -185,126 +111,40 @@ namespace com.abstractatech.appmanager
 
             public x(IBeforeLogin page)
             {
-                #region login
-                page.go.WhenClicked(
-                    delegate
-                    //async delegate
+
+                Console.WriteLine("click!");
+
+                #region go
+                Action<HistoryScope<InternalScriptApplicationSource>> go =
+                    async
+                      scope =>
                     {
-                        Console.WriteLine("click!");
-
-                        //await go;
-
-                        // should jsc automatically infer a secondary 
-                        // application from history api
-                        // download it and store it on the state?
-                        AsyncHistoryExperiment.XState.Create(
-                            new { o = 0.5, source = default(string) },
-                            async state =>
-                            {
-                                Console.WriteLine();
-                                Console.WriteLine("in state, add secondary app");
-
-                                // jsc cannot share scope across time yet
-                                var xpage = new BeforeLogin.FromDocument();
-
-                                // this is the first time we try to access it, and it is missing!
-                                if (xpage.LoginButton != null)
-                                    xpage.LoginButton.style.Opacity = 0.5;
+                        var source = scope.state;
 
 
-                                //s.AttachToDocument();
+                        var restore = source.eval();
 
-                                #region source
-#if FUTURE
-                if (state.value.source == null)
-                    state.value = new { state.value.o, source = await typeof(a) };
-#endif
-
-                                //if (state.value == null)
-                                //    Console.WriteLine("why is value null?");
-
-                                if (state.value.source == null)
-                                {
-                                    //Console.WriteLine("loading secondary app from the server");
-
-
-                                    //script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x0020] beq        +0 -2{[0x0019] ldfld      +1 -1{[0x0018] ldarg.0    +1 -0} } {[0x001e] ldc.i4.s   +1 -0} , Location =
-                                    // assembly: T:\com.abstractatech.appmanager.Application.exe
-                                    // type: com.abstractatech.adminshell.X+<>c__DisplayClassc+<<GetAwaiter>b__7>d__11, com.abstractatech.appmanager.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-                                    // offset: 0x0020
-                                    //  method:Int32 <>0200001c<>06000073<>MoveNext<0000>.try(<>0200001c<>06000073<>MoveNext, <<GetAwaiter>b__7>d__11 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Byte[]] ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Byte[]] ByRef) }
-
-                                    // com.abstractatech.adminshell.X
-                                    var source = await typeof(a);
-
-                                    //Console.WriteLine("lets update state");
-
-                                    state.value = new { state.value.o, source };
-
-                                    //Console.WriteLine("lets update state done");
-
-                                }
-                                else
-                                {
-                                    //Console.WriteLine("loading secondary app from state");
-
-                                }
-                                #endregion
-
-
-                                //await new IHTMLScript { src = "/a" };
-
-                                Console.WriteLine("in state, init secondary app");
-
-
-                                var xsource =
-                             state.value.source;
-
-
-                                var xblob = new Blob(xsource);
-                                var xsrc = xblob.ToObjectURL();
-
-                                init(xsrc);
-
-                                // also this is where
-                                // workers need to go?
-                                await new IHTMLScript { src = xsrc };
-
-                                //Native.window.eval(
-                                //    //x.responseText
-                                //    xsource
-                                //);
-
-
-                                //Console.WriteLine("loading secondary app done");
-
-
-                                //await new IHTMLScript { src = "/a" };
-
-
-                                // jsc, you should remember the elements, once removed we may still want to talk
-                                // to them
-                                var login = xpage.LoginButton.Orphanize();
-
-
-                                Console.WriteLine("in state, secondary app, waiting");
-                                await state;
-                                Console.WriteLine("lost state, remove secondary app");
-                                //Console.WriteLine("lets clear the body and then reattach the buttons");
-                                //Native.window.alert("lets clear the body and then reattach the buttons");
-
-                                Native.document.body.Clear();
-
-                                //Native.document.body.style.backgroundColor = JSColor.Red;
-
-                                //var old= Native.document.body.childNodes.Select(k => k.Orphanize()).ToArray();
-                                login.style.Opacity = 1;
-                                login.AttachToDocument();
-                            }
-                        );
-                    }
-                );
+                    };
                 #endregion
+
+                page.go.WhenClicked(
+                    async button =>
+                    {
+                        button.disabled = true;
+                        button.style.Opacity = 0.5;
+
+                        var source = await typeof(a);
+
+
+                        Native.window.history.pushState(source, go);
+
+                        button.style.Opacity = 1;
+                        button.disabled = false;
+                    }
+               );
+
+
+
 
             }
         }

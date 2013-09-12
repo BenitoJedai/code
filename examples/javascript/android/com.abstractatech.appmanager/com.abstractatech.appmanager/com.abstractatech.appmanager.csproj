@@ -57,9 +57,6 @@
     <Reference Include="Abstractatech.Multicast">
       <HintPath>..\packages\Abstractatech.Multicast.1.0.0.0\lib\Abstractatech.Multicast.dll</HintPath>
     </Reference>
-    <Reference Include="AsyncHistoryExperiment">
-      <HintPath>..\packages\AsyncHistoryExperiment.1.0.0.0\lib\AsyncHistoryExperiment.dll</HintPath>
-    </Reference>
     <Reference Include="com.abstractatech.adminshell, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\com.abstractatech.adminshell.1.0.0.0\lib\com.abstractatech.adminshell.dll</HintPath>

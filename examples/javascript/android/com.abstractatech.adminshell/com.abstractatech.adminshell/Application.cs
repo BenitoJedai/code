@@ -55,150 +55,40 @@ namespace com.abstractatech.adminshell
             //new ConsoleForm().InitializeConsoleFormWriter().Show();
 
 
-            // or just change the base?
-
-            //new IHTMLBase
-            //{
-            //    href = "http://"
-            //        + page.username.value
-            //        + ":"
-            //        + page.password.value
-            //        + "@"
-            //        + Native.document.location.host
-
-            //}.AttachToDocument();
+            #region go
+            Action<HistoryScope<InternalScriptApplicationSource>> go =
+                async
+                  scope =>
+                {
+                    var source = scope.state;
 
 
-            //var s = new IHTMLScript
-            //{
-            //    src = "/a"
-            //};
+                    new App.FromDocument().LoginButton.Orphanize();
 
-            //// http://stackoverflow.com/questions/538745/how-to-tell-if-a-script-tag-failed-to-load
-            //s.onload +=
-            //    delegate
-            //    {
-            //    };
+                    var restore = source.eval();
 
-            //    at jsc.Languages.IL.ILTranslationExtensions.EmitToArguments.<.ctor>b__47(ILInstruction )
+                };
+            #endregion
 
-            //var s = new IHTMLScript { src = "/a" };
 
             page.go.WhenClicked(
-                delegate
+                async button =>
                 //async delegate
                 {
                     Console.WriteLine("click!");
 
-                    //await go;
+                    button.disabled = true;
+                    button.style.Opacity = 0.5;
+
+                    var source = await typeof(a);
 
 
-                    //Action<string> init = InternalScriptApplicationSource =>
-                    //{
-                    //    (Native.window as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
+                    Native.window.history.pushState(source, go);
 
-                    //};
-
-
-                    // should jsc automatically infer a secondary 
-                    // application from history api
-                    // download it and store it on the state?
-                    AsyncHistoryExperiment.XState.Create(
-                        new { o = 0.5, source = default(string) },
-                        async state =>
-                        {
-                            Console.WriteLine();
-                            Console.WriteLine("in state, add secondary app");
-
-                            // jsc cannot share scope across time yet
-                            var xpage = new App.FromDocument();
-
-                            // this is the first time we try to access it, and it is missing!
-                            if (xpage.LoginButton != null)
-                                xpage.LoginButton.style.Opacity = 0.5;
+                    button.style.Opacity = 1;
+                    button.disabled = false;
 
 
-                            //s.AttachToDocument();
-
-                            #region source
-#if FUTURE
-                            if (state.value.source == null)
-                                state.value = new { state.value.o, source = await typeof(a) };
-#endif
-
-                            //if (state.value == null)
-                            //    Console.WriteLine("why is value null?");
-
-                            if (state.value.source == null)
-                            {
-                                //Console.WriteLine("loading secondary app from the server");
-
-                                var source = await typeof(a);
-
-                                //Console.WriteLine("lets update state");
-
-                                state.value = new { state.value.o, source };
-
-                                //Console.WriteLine("lets update state done");
-
-                            }
-                            else
-                            {
-                                //Console.WriteLine("loading secondary app from state");
-
-                            }
-                            #endregion
-
-
-                            //await new IHTMLScript { src = "/a" };
-
-                            var xsource =
-                                state.value.source;
-
-                            Console.WriteLine("in state, init secondary app");
-
-                            var xblob = new Blob(xsource);
-                            var xsrc = xblob.ToObjectURL();
-
-                            init(xsrc);
-
-                            // also this is where
-                            // workers need to go?
-                            await new IHTMLScript { src = xsrc };
-
-
-                            //Native.window.eval(
-                            //    //x.responseText
-                            //     xsource
-                            //);
-
-
-                            //Console.WriteLine("loading secondary app done");
-
-
-                            //await new IHTMLScript { src = "/a" };
-
-
-                            // jsc, you should remember the elements, once removed we may still want to talk
-                            // to them
-                            var login = xpage.LoginButton.Orphanize();
-
-
-                            Console.WriteLine("in state, secondary app, waiting");
-                            await state;
-                            Console.WriteLine("lost state, remove secondary app");
-                            //Console.WriteLine("lets clear the body and then reattach the buttons");
-                            //Native.window.alert("lets clear the body and then reattach the buttons");
-
-                            Native.document.body.Clear();
-
-                            //Native.document.body.style.backgroundColor = JSColor.Red;
-
-                            //var old= Native.document.body.childNodes.Select(k => k.Orphanize()).ToArray();
-                            login.style.Opacity = 1;
-                            login.AttachToDocument();
-                        }
-                    );
                 }
              );
 

@@ -41,7 +41,19 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
             (Native.self as dynamic).InternalScriptApplicationSource = src;
 
-            var core = e.references.First().size;
+            var core = e.references.First(k => k.index == 0).size;
+
+            //            eval { index = 2, name =  ScriptCoreLib.Windows.Forms.dll.js, size = 586774 }
+            // view-source:27522
+            //eval { index = 0, name =  ScriptCoreLib.dll.js, size = 1325900 }
+            // view-source:27522
+            //eval { index = 1, name =  ScriptCoreLib.Drawing.dll.js, size = 54215 }
+            // view-source:27522
+            //eval { index = 3, name =  com.abstractatech.adminshell.Application+a.exe.js, size = 384908 }
+            // view-source:27522
+            //eval { core = 586774, Length = 2351797 }
+
+
 
             e.references.WithEach(
                 k =>
@@ -117,6 +129,7 @@ namespace ScriptCoreLib.JavaScript.Experimental
             var bar = new IHTMLDiv { }.AttachToDocument();
 
             bar.style.SetLocation(0, -2);
+            bar.style.position = IStyle.PositionEnum.@fixed;
             bar.style.height = "3px";
             bar.style.backgroundColor = "red";
             //bar.style.borderBottom = "1px solid darkred";
@@ -147,7 +160,7 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
                 progress: x =>
                 {
-                    bar.style.SetLocation(0, 0);
+                    bar.style.top = "0px";
 
 
                     #region bar
@@ -449,7 +462,14 @@ namespace ScriptCoreLib.JavaScript.Experimental
         }
 
 
-        [Obsolete(@"X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\Worker.cs")]
+        [Obsolete(@"
+X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\Worker.cs 
+
+jsc, can you refactor this to be a static function property, 
+a program about a program, this is what we do with nuget releases,
+in a way this in itself is an example of the chat with the compiler
+
+")]
         public static string SetInternalScriptApplicationSource(this string InternalScriptApplicationSource)
         {
             (Native.self as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;

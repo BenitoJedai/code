@@ -355,7 +355,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                 invoke = new { function = MethodToken, arguments = new object[] { state } }
             };
 
+            // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
+            Console.WriteLine("pushState before: " + new { Native.window.history.length });
+
             Native.window.history.pushState(data);
+
+            Console.WriteLine("pushState after: " + new { Native.window.history.length });
+
 
             #region __unwind
             TaskCompletionSource<HistoryScope<T>> __unwind = null;
