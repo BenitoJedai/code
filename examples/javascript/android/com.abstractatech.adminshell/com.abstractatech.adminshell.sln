@@ -5,19 +5,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.adminshel
 	ProjectSection(ProjectDependencies) = postProject
 		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {3D035C03-5D69-452B-9022-0269DBD26D8B}
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {88C3C260-D1DA-4FB3-A53D-79462913E80C}
+		{0267AB63-ECEC-4ECC-A3B3-853C3138A826} = {0267AB63-ECEC-4ECC-A3B3-853C3138A826}
 		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678} = {62A19ED1-E8BE-44A1-8990-28EBC8A7A678}
 		{327F22EB-51F3-4545-A839-F79005C69D8B} = {327F22EB-51F3-4545-A839-F79005C69D8B}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellWithPing", "..\ShellWithPing\ShellWithPing\ShellWithPing.csproj", "{0267AB63-ECEC-4ECC-A3B3-853C3138A826}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1B5B1311-BCE1-4485-9E61-AC307C0DC5B4}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidNotificationWebActivity", "..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj", "{68616DF5-AD84-4D65-85C4-35BB96171391}"
 EndProject
