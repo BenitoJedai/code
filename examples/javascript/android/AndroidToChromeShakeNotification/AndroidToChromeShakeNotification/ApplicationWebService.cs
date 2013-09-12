@@ -19,6 +19,7 @@ namespace AndroidToChromeShakeNotification
     /// </summary>
     public sealed class ApplicationWebService
     {
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
@@ -26,14 +27,12 @@ namespace AndroidToChromeShakeNotification
         /// <param name="y">A callback to javascript.</param>
         public void DoActivateDetection(string e, Action<string> yield)
         {
-            double qx = 0.0, qy = 0.0, qz = 0.0;
-            var sw = new Stopwatch();
 
 
 
-            #region Send
+            #region MulticastSend
             int c = 0;
-            Action<string, string, string, string> Send = (string reason, string data, string preview, string nn) =>
+            Action<string, string, string, string> MulticastSend = (string reason, string data, string preview, string nn) =>
             {
                 /// http://www.daniweb.com/software-development/java/threads/424998/udp-client-server-in-java
 
@@ -74,6 +73,32 @@ namespace AndroidToChromeShakeNotification
                 }.Start();
             };
             #endregion
+
+            AtShake.Register(
+                delegate
+                {
+                    MulticastSend(
+                        "shake",
+                        "Visit me at 127.0.0.1:80",
+                        "",
+                        "foo.bar.shake"
+                    );
+                }
+            );
+
+
+
+        }
+
+    }
+
+    internal static class AtShake
+    {
+        public static void Register(Action AtShake)
+        {
+
+            double qx = 0.0, qy = 0.0, qz = 0.0;
+            var sw = new Stopwatch();
 
             var FilterToShakePerSecond = new Stopwatch();
 
@@ -123,12 +148,8 @@ namespace AndroidToChromeShakeNotification
                             if (!FilterToShakePerSecond.IsRunning)
                             {
                                 // send one without image too...
-                                Send(
-                                    "shake",
-                                    "Visit me at 127.0.0.1:80",
-                                    "",
-                                    "foo.bar.shake"
-                                );
+                                AtShake();
+
 
                                 FilterToShakePerSecond.Start();
                             }
@@ -174,37 +195,35 @@ namespace AndroidToChromeShakeNotification
                 }
             );
             #endregion
-
         }
 
-    }
-
-    class MySensorEventListener : SensorEventListener
-    {
-        public Action<float, float, float> onaccelerometer;
-
-        public void onAccuracyChanged(Sensor sensor, int accuracy)
+        class MySensorEventListener : SensorEventListener
         {
+            public Action<float, float, float> onaccelerometer;
 
-        }
-        public void onSensorChanged(SensorEvent e)
-        {
-
-            // check sensor type
-            //if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-            if (e.sensor.getType() == Sensor.TYPE_ORIENTATION)
+            public void onAccuracyChanged(Sensor sensor, int accuracy)
             {
-                //                values[0]: Azimuth - (the compass bearing east of magnetic north)
-                //values[1]: Pitch, rotation around x-axis (is the phone leaning forward or back)
-                //values[2]: Roll, rotation around y-axis (is the phone leaning over on its left or right side)
 
-                // this is different than the browser device orientation.
-                float x = e.values[0];
-                float y = e.values[1];
-                float z = e.values[2];
+            }
+            public void onSensorChanged(SensorEvent e)
+            {
 
-                if (onaccelerometer != null)
-                    onaccelerometer(x, y, z);
+                // check sensor type
+                //if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+                if (e.sensor.getType() == Sensor.TYPE_ORIENTATION)
+                {
+                    //                values[0]: Azimuth - (the compass bearing east of magnetic north)
+                    //values[1]: Pitch, rotation around x-axis (is the phone leaning forward or back)
+                    //values[2]: Roll, rotation around y-axis (is the phone leaning over on its left or right side)
+
+                    // this is different than the browser device orientation.
+                    float x = e.values[0];
+                    float y = e.values[1];
+                    float z = e.values[2];
+
+                    if (onaccelerometer != null)
+                        onaccelerometer(x, y, z);
+                }
             }
         }
     }

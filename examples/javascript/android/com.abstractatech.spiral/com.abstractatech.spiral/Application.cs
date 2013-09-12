@@ -96,37 +96,24 @@ namespace com.abstractatech.spiral
                     return;
                 }
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                canvas.width = Native.window.Width;
+                canvas.height = Native.window.Height;
 
-                this.onresize(Native.Window.Width, Native.Window.Height);
+                this.onresize(Native.window.Width, Native.window.Height);
             };
 
             AtResize();
 
-            Native.Window.onresize += delegate
+            Native.window.onresize += delegate
             {
                 AtResize();
             };
             #endregion
 
 
-            #region loop
-            Action loop = null;
+          
 
-            loop = delegate
-            {
-                if (IsDisposed)
-                    return;
-
-                this.onframe();
-
-                Native.Window.requestAnimationFrame += loop;
-
-            };
-
-            Native.Window.requestAnimationFrame += loop;
-            #endregion
+            Native.window.onframe += delegate { this.onframe(); };
 
 
             #region requestFullscreen
@@ -148,8 +135,8 @@ namespace com.abstractatech.spiral
             Native.Document.onmousemove +=
                 e =>
                 {
-                    s.ucolor_1 = e.CursorX / Native.Window.Width;
-                    s.ucolor_2 = e.CursorY / Native.Window.Height;
+                    s.ucolor_1 = e.CursorX / Native.window.Width;
+                    s.ucolor_2 = e.CursorY / Native.window.Height;
                 };
 
         }

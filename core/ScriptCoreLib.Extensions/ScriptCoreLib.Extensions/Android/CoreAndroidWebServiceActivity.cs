@@ -30,5 +30,24 @@ namespace ScriptCoreLib.Android
 
 
         public static FrameLayout InternalFloatContainer;
+
+
+        public event Action AtResume;
+        protected override void onResume()
+        {
+            base.onResume();
+
+            if (AtResume != null)
+                AtResume();
+        }
+
+        public event Action AtPause;
+        protected override void onPause()
+        {
+            base.onPause();
+
+            if (AtPause != null)
+                AtPause();
+        }
     }
 }

@@ -17,6 +17,14 @@ namespace android.app
     {
         public static int RESULT_OK;
 
+        protected virtual void onResume()
+        { 
+        }
+
+        protected virtual void onPause()
+        {
+        }
+
         public virtual void onLowMemory()
         { 
         

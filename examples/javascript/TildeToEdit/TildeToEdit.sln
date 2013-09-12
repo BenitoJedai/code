@@ -2,8 +2,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TildeToEdit", "TildeToEdit\TildeToEdit.csproj", "{6E95E510-8C9A-4A40-8A68-2B060709ED20}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {9122FB76-35CE-41C7-8894-4E58D1BA94BD}
+		{979239DB-60D4-45A3-A236-27F2D984AE17} = {979239DB-60D4-45A3-A236-27F2D984AE17}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticsConsole", "..\DiagnosticsConsole\DiagnosticsConsole\DiagnosticsConsole.csproj", "{979239DB-60D4-45A3-A236-27F2D984AE17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.TextEditor", "..\..\..\market\Abstractatech.JavaScript.TextEditor\Abstractatech.JavaScript.TextEditor\Abstractatech.JavaScript.TextEditor.csproj", "{9122FB76-35CE-41C7-8894-4E58D1BA94BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{8C157C7B-0D6E-4522-BD18-A00E0162DE32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +27,16 @@ Global
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Debug|x86.Build.0 = Debug|x86
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Release|x86.ActiveCfg = Release|x86
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Release|x86.Build.0 = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Debug|x86.ActiveCfg = Debug|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Debug|x86.Build.0 = Debug|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.ActiveCfg = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{979239DB-60D4-45A3-A236-27F2D984AE17} = {8C157C7B-0D6E-4522-BD18-A00E0162DE32}
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {8C157C7B-0D6E-4522-BD18-A00E0162DE32}
 	EndGlobalSection
 EndGlobal

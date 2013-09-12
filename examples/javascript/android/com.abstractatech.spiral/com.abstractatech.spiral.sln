@@ -2,8 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.spiral", "com.abstractatech.spiral\com.abstractatech.spiral.csproj", "{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969} = {6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpiral", "..\..\WebGLSpiral\WebGLSpiral\WebGLSpiral.csproj", "{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{1580E6B7-9480-4DB5-9347-BE1010052169}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,5 +32,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6BE0FE6F-5EA4-40A5-8938-FF7C3B5D0969} = {1580E6B7-9480-4DB5-9347-BE1010052169}
 	EndGlobalSection
 EndGlobal

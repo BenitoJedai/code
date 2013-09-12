@@ -488,7 +488,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             Console.WriteLine("DesignMode switched on... for now..");
 
-            Native.Window.requestAnimationFrame +=
+            Native.window.requestAnimationFrame +=
                 delegate
                 {
                     var CurrentInternalDocument = this.InternalDocument;
@@ -503,7 +503,7 @@ namespace ScriptCoreLib.JavaScript.Controls
                             //Console.WriteLine("onload " + new { Frame.src, Frame.contentWindow.document.location.href, x });
 
 
-                            Native.Window.requestAnimationFrame +=
+                            Native.window.requestAnimationFrame +=
                                delegate
                                {
                                    // restore content
@@ -757,7 +757,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         {
             if (InternalDocument.body == null)
             {
-                Native.Window.setTimeout(IFunction.OfDelegate(
+                Native.window.setTimeout(IFunction.OfDelegate(
                     new System.Action(
                         delegate
                         {

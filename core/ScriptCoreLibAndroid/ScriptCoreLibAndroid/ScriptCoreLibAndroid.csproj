@@ -804,6 +804,7 @@
     <Compile Include="android\os\Bundle.cs" />
     <Compile Include="android\view\InputEvent.cs" />
     <Compile Include="android\view\Gravity.cs" />
+    <Compile Include="android\view\SurfaceView.cs" />
     <Compile Include="android\view\ViewParent.cs" />
     <Compile Include="android\view\WindowManager.cs" />
     <Compile Include="android\view\ViewManager.cs" />
