@@ -62,8 +62,8 @@ namespace Toolbar.JavaScript
             pos.X = pos.X.Max(0);
             pos.Y = pos.Y.Max(0);
 
-            pos.X = pos.X.Min(Native.Window.Width - (Size.X + 2));
-            pos.Y = pos.Y.Min(Native.Window.Height - (Size.Y + 2));
+            pos.X = pos.X.Min(Native.window.Width - (Size.X + 2));
+            pos.Y = pos.Y.Min(Native.window.Height - (Size.Y + 2));
 
             this.Control.style.SetLocation(pos.X, pos.Y);
         }

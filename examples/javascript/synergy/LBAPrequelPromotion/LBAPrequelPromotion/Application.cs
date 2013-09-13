@@ -140,7 +140,7 @@ namespace LBAPrequelPromotion
                                   AtKeyCode(e.KeyCode);
                               };
 
-                          Native.Window.onorientationchange +=
+                          Native.window.onorientationchange +=
                               delegate
                               {
                                   Toggle();
@@ -296,7 +296,7 @@ namespace LBAPrequelPromotion
                           loop();
                           #endregion
 
-                          Native.Window.onscroll +=
+                          Native.window.onscroll +=
                               e =>
                               {
                                   if (e.Element != Native.Document)
@@ -305,7 +305,7 @@ namespace LBAPrequelPromotion
                                   e.preventDefault();
                                   e.stopPropagation();
 
-                                  Native.Window.scrollTo(0, 0);
+                                  Native.window.scrollTo(0, 0);
                               };
 
 

@@ -119,7 +119,7 @@ namespace ThreeDStuff.js
 
 
 
-            infoc.style.SetLocation(4, 4, Native.Window.Width - 8, 0);
+            infoc.style.SetLocation(4, 4, Native.window.Width - 8, 0);
             infoc.style.height = "auto";
             info.style.Float = IStyle.FloatEnum.right;
 
@@ -197,16 +197,16 @@ namespace ThreeDStuff.js
             Action onresize =
                 delegate
                 {
-                    infoc.style.SetLocation(4, 4, Native.Window.Width - 8, 0);
+                    infoc.style.SetLocation(4, 4, Native.window.Width - 8, 0);
                     infoc.style.height = "auto";
 
-                    var rect = Rectangle.Of(0, 0, Native.Window.Width, Native.Window.Height);
+                    var rect = Rectangle.Of(0, 0, Native.window.Width, Native.window.Height);
 
                     arena.SetLocation(rect);
                     PauseFog.style.SetLocation(rect);
                 };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 ev =>
                 {
                     onresize();
@@ -1127,12 +1127,12 @@ namespace ThreeDStuff.js
 
 
                             var toolbar_size = new Point(96, 32);
-                            var toolbar_pos = new Point(8, Native.Window.Height - toolbar_size.Y - 8);
+                            var toolbar_pos = new Point(8, Native.window.Height - toolbar_size.Y - 8);
 
                             Console.WriteLine("toolbar!");
                             var toolbar = ToolbarDialog.CreateToolbar(toolbar_pos, toolbar_size, toolbar_color);
 
-                            Native.Window.onresize +=
+                            Native.window.onresize +=
                                 delegate
                                 {
                                     infotoolbar.ApplyPosition();
