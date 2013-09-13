@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,13 +57,13 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>:: nuget
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly  /EntryPointAssembly:"$(TargetPath)" /AssemblyMerge:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" 
+rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly  /EntryPointAssembly:"$(TargetPath)" /AssemblyMerge:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" 
 
 :: nuget for js
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly  /EntryPointAssembly:"$(TargetPath)" /AssemblyMerge:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).ZRewrite$(TargetExt)"  /EnableSwitchRewrite:true
+start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly  /EntryPointAssembly:"$(TargetPath)" /AssemblyMerge:"$(TargetPath)" /Output:"X.JSRewrite$(TargetExt)"  /EnableSwitchRewrite:true
 
 :: app for js
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly  /EntryPointAssembly:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /AssemblyMerge:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /Output:"$(TargetDir)$(TargetName).XRewrite$(TargetExt)" /EnableSwitchRewrite:true</PostBuildEvent>
+rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly  /EntryPointAssembly:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /AssemblyMerge:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /Output:"$(TargetDir)$(TargetName).XRewrite$(TargetExt)" /EnableSwitchRewrite:true</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -17,6 +17,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal class __Task
     {
+        public void Wait()
+        {
+            throw new NotImplementedException();
+        }
+
         public static Task<TResult[]> WhenAll<TResult>(IEnumerable<Task<TResult>> tasks)
         {
             return WhenAll(
