@@ -48,9 +48,9 @@ namespace AsyncButtonSequence
 
                     await page.Button3;
 
-                    // not working yet?
-                    //for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < 4; i++)
                     {
+                        Native.document.title = new { i }.ToString();
 
                         page.Button1.style.color = "green";
                         page.Button2.style.color = "green";
