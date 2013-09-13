@@ -26,6 +26,21 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return y.Task.GetAwaiter();
         }
 
+        public static IHTMLButton WhenClicked(this IHTMLButton e, Func<IHTMLButton, Task> h)
+        {
+            e.onclick +=
+                async delegate
+                {
 
+                    e.disabled = true;
+
+                    await h(e);
+
+                    e.disabled = false;
+
+                };
+
+            return e;
+        }
     }
 }
