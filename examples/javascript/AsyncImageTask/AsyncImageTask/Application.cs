@@ -35,11 +35,8 @@ namespace AsyncImageTask
             new IHTMLButton("load it").AttachToDocument().WhenClicked(
                 async btn =>
                 {
-                    btn.disabled = true;
-
-
                     // slow it down
-                    //await Task.Delay(333);
+                   await Task.Delay(333);
 
                     var i = new HTML.Images.FromAssets.jsc();
 
@@ -61,7 +58,6 @@ namespace AsyncImageTask
 
 
 
-                    btn.disabled = false;
                 }
             );
         }
@@ -70,13 +66,3 @@ namespace AsyncImageTask
 }
 
 
-
-public static class X
-{
-    //public static TaskAwaiter<IHTMLImage> GetAwaiter(this IHTMLImage i)
-    //{
-    //    var y = new TaskCompletionSource<IHTMLImage>();
-    //    i.InvokeOnComplete(y.SetResult);
-    //    return y.Task.GetAwaiter();
-    //}
-}

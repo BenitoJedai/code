@@ -42,20 +42,9 @@ namespace AsyncButtonExperiment
             new IHTMLButton { innerText = "do async work" }.AttachToDocument().WhenClicked(
                 async btn =>
                 {
-
-                    //var AtClick = new TaskCompletionSource<IHTMLButton>();
-
-                    //btn.WhenClicked(AtClick.SetResult);
-
-                    //await AtClick.Task;
-
-
-                    btn.disabled = true;
-
-
-                    Console.WriteLine("delay... ");
+                    btn.innerText = ("delay... ");
                     await Task.Delay(50);
-                    Console.WriteLine("delay... done");
+                    btn.innerText = ("delay... done");
 
                     var task = await Task.Factory.StartNew(
                         new { goo = "goo " },
@@ -81,9 +70,8 @@ namespace AsyncButtonExperiment
                         }
                     );
 
-                    new IHTMLPre { innerText = task }.AttachToDocument();
+                    btn.innerText = new { task }.ToString();
 
-                    btn.disabled = false;
 
                 }
             );

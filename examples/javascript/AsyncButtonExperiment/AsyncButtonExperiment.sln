@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncButtonExperiment", "AsyncButtonExperiment\AsyncButtonExperiment.csproj", "{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{0653418B-5C5E-4D87-92E5-633BEB7B6FF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,8 +17,15 @@ Global
 		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Debug|x86.Build.0 = Debug|x86
 		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Release|x86.ActiveCfg = Release|x86
 		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Release|x86.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.Build.0 = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {0653418B-5C5E-4D87-92E5-633BEB7B6FF2}
 	EndGlobalSection
 EndGlobal
