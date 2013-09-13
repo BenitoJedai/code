@@ -33,7 +33,9 @@ namespace ScriptCoreLib.JavaScript.Experimental
     {
         public static Action eval(this InternalScriptApplicationSource e)
         {
-            var src = new Blob(e.source).ToObjectURL();
+            var blob = new Blob(e.source);
+
+            var src = blob.ToObjectURL();
 
             //.SetInternalScriptApplicationSource();
 

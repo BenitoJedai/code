@@ -15,7 +15,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
-        public Blob(string e)
+        public Blob(params string[] e)
         {
 
         }
