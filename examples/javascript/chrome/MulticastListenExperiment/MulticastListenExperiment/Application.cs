@@ -47,57 +47,57 @@ namespace MulticastListenExperiment
 
                 // no HTML layout yet
 
-                if (Native.Window.opener == null)
-                    if (Native.Window.parent == Native.Window.self)
+                if (Native.window.opener == null)
+                    if (Native.window.parent == Native.window.self)
                     {
-                    chrome.app.runtime.onLaunched.addListener(
-                        new Action(
-                            delegate
-                            {
-                                // runtime will launch only once?
+                        chrome.app.runtime.onLaunched.addListener(
+                            new Action(
+                                delegate
+                                {
+                                    // runtime will launch only once?
 
-                                // http://developer.chrome.com/apps/app.window.html
-                                // do we even need index?
+                                    // http://developer.chrome.com/apps/app.window.html
+                                    // do we even need index?
 
-                                // https://code.google.com/p/chromium/issues/detail?id=148857
-                                // https://developer.mozilla.org/en-US/docs/data_URIs
+                                    // https://code.google.com/p/chromium/issues/detail?id=148857
+                                    // https://developer.mozilla.org/en-US/docs/data_URIs
 
-                                // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
-                                chrome.app.window.create(
-                                    Native.Document.location.pathname,
-                                    null,
-                                    new Action<AppWindow>(
-                                        appwindow =>
-                                        {
-                                            // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+                                    // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
+                                    chrome.app.window.create(
+                                        Native.Document.location.pathname,
+                                        null,
+                                        new Action<AppWindow>(
+                                            appwindow =>
+                                            {
+                                                // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
-                                            Console.WriteLine("appwindow loading... " + new { appwindow });
-                                            Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
-
-
-                                            appwindow.contentWindow.onload +=
-                                                delegate
-                                                {
-                                                    Console.WriteLine("appwindow contentWindow onload");
+                                                Console.WriteLine("appwindow loading... " + new { appwindow });
+                                                Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
 
 
-                                                    //new IHTMLButton("dynamic").AttachTo(
-                                                    //    appwindow.contentWindow.document.body
-                                                    //);
+                                                appwindow.contentWindow.onload +=
+                                                    delegate
+                                                    {
+                                                        Console.WriteLine("appwindow contentWindow onload");
 
 
-                                                };
+                                                        //new IHTMLButton("dynamic").AttachTo(
+                                                        //    appwindow.contentWindow.document.body
+                                                        //);
 
-                                            //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
-                                        }
-                                    )
-                                );
-                            }
-                        )
-                    );
-                    return;
-                }
+                                                    };
+
+                                                //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                            }
+                                        )
+                                    );
+                                }
+                            )
+                        );
+                        return;
+                    }
 
                 // if we are in a window lets add layout
                 new App().Container.AttachToDocument();
@@ -318,7 +318,7 @@ namespace MulticastListenExperiment
             IHTMLElement.HTMLElementEnum.hr.AttachToDocument();
 
             Action<CreateInfo> atcreate =
-                socket =>
+                async socket =>
                 {
                     //var x = Expando.Of(socket);
 
@@ -368,59 +368,37 @@ namespace MulticastListenExperiment
                     );
                     #endregion
 
-                    Action<int> at_setMulticastTimeToLive =
-                        value_setMulticastTimeToLive =>
-                        {
-                            new IHTMLDiv { innerText = new { value_setMulticastTimeToLive }.ToString() }.AttachToDocument();
 
-                            Action<int> at_bind =
-                                value_bind =>
-                                {
-                                    new IHTMLDiv { innerText = new { value_bind }.ToString() }.AttachToDocument();
+                    var value_setMulticastTimeToLive = await chrome.socket.setMulticastTimeToLiveAsync(socket.socketId);
 
-                                    chrome.socket.joinGroup(socketId, "239.1.2.3", 
-                                    
-                                        callback: new  Action<int> (
-                                             value_joinGroup =>
-                                            {
-                                                new IHTMLDiv { innerText = new { value_joinGroup }.ToString() }.AttachToDocument();
+                    new IHTMLDiv { innerText = new { value_setMulticastTimeToLive }.ToString() }.AttachToDocument();
 
 
-                                                Action poll = null;
+                    var value_bind = await chrome.socket.bindAsync(socketId, "0.0.0.0", 40404);
 
-                                                poll = delegate
-                                                {
-                                                    chrome.socket.recvFrom(socketId,
-                                                        1048576,
+                    new IHTMLDiv { innerText = new { value_bind }.ToString() }.AttachToDocument();
 
-                                                        callback: new Action<RecvFromInfo>(
-                                                            result =>
-                                                            {
-                                                                new IHTMLDiv { innerText = new { result.resultCode }.ToString() }.AttachToDocument();
+                    var value_joinGroup = await chrome.socket.joinGroupAsync(socketId, "239.1.2.3");
 
 
-                                                                if (result.resultCode < 0)
-                                                                    return;
+                    new IHTMLDiv { innerText = new { value_joinGroup }.ToString() }.AttachToDocument();
 
-                                                                new IHTMLDiv { innerText = new { result.data.byteLength }.ToString() }.AttachToDocument();
+                    var forever = true;
 
-                                                                poll();
-                                                            }
-                                                        )
-                                                    );
-                                                };
+                    while (forever)
+                    {
+                        var result = await chrome.socket.recvFromAsync(socketId, 1048576);
 
-                                                poll();
-                                            }
-                                        )
-                                    );
-                                };
+                        new IHTMLDiv { innerText = new { result.resultCode }.ToString() }.AttachToDocument();
 
-                            chrome.socket.bind(socketId, "0.0.0.0", 40404, at_bind);
 
-                        };
+                        if (result.resultCode < 0)
+                            return;
 
-                    chrome.socket.setMulticastTimeToLive(socket.socketId, 30, at_setMulticastTimeToLive);
+                        new IHTMLDiv { innerText = new { result.data.byteLength }.ToString() }.AttachToDocument();
+
+                    }
+
                 };
 
             // https://code.google.com/p/chromium/issues/detail?id=246872

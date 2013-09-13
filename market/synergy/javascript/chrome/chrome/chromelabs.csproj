@@ -126,6 +126,7 @@
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="API\NotificationOptions.cs" />
+    <Compile Include="Extensions\SocketModuleExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
