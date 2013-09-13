@@ -10,12 +10,11 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-#if false
     public static class HistoryExtensions
     {
         static HistoryExtensions()
         {
-    #region onpopstate
+            #region onpopstate
 
             //var previous_Count = -1;
 
@@ -36,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                          var x_history_state = new Stack<Func<Task<Func<bool>>>>();
                          var x_e_state = new Stack<Func<Task<Func<bool>>>>();
 
-    #region y
+                         #region y
                          Action<Stack<Func<Task<Func<bool>>>>, object> y = null;
 
                          y = (x, xstate) =>
@@ -57,7 +56,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                              object arg0 = ((object[])arguments)[0];
 
 
-    #region __unwind
+                             #region __unwind
                              TaskCompletionSource<HistoryScope<object>> __unwind = null;
 
                              Func<TaskCompletionSource<HistoryScope<object>>> __get_unwind =
@@ -158,7 +157,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                          //HistoryExtensions onpopstate { state = , e = { state = 0 }, history = { state = 0 }, Count = 1 }
 
 
-    #region did we just move backward
+                         #region did we just move backward
                          if ((HistoryScope.inline_unwind.Count - 1) == x_history_state.Count)
                          {
                              // Application onpopstate { e = { state = 0 }, history = { state = 1 }, Count = 0 }
@@ -188,7 +187,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                          // HistoryExtensions onpopstate { state = [object Object], e = { state = 1 }, history = { state = 1 }, Count = 0 }
 
 
-    #region did we just move forward?
+                         #region did we just move forward?
                          if ((HistoryScope.inline_unwind.Count + 1) == x_history_state.Count)
                          {
                              Console.WriteLine(" did we just move forward?");
@@ -296,7 +295,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             Native.window.history.replaceState(data);
 
-    #region __unwind
+            #region __unwind
             TaskCompletionSource<HistoryScope<T>> __unwind = null;
 
             Func<TaskCompletionSource<HistoryScope<T>>> __get_unwind =
@@ -362,7 +361,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             Console.WriteLine("pushState after: " + new { Native.window.history.length });
 
 
-    #region __unwind
+            #region __unwind
             TaskCompletionSource<HistoryScope<T>> __unwind = null;
 
             Func<TaskCompletionSource<HistoryScope<T>>> __get_unwind =
@@ -401,5 +400,4 @@ namespace ScriptCoreLib.JavaScript.DOM
             Console.WriteLine("pushState: " + new { HistoryScope.inline_unwind.Count });
         }
     }
-#endif
 }
