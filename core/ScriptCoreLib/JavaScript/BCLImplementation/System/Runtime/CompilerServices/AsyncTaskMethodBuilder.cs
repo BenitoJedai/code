@@ -16,25 +16,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 #endif
     internal class __AsyncTaskMethodBuilder : __IAsyncMethodBuilder
     {
-        public __Task Task { get; set; }
+        public __TaskCompletionSource<object> InternalTask = new __TaskCompletionSource<object>();
+
+        public __Task Task { get { return InternalTask.InternalTask; } }
+
 
         public static __AsyncTaskMethodBuilder Create()
         {
-            Console.WriteLine("__AsyncTaskMethodBuilder Create");
+            //Console.WriteLine("__AsyncTaskMethodBuilder Create");
 
-            return default(__AsyncTaskMethodBuilder);
+            return new __AsyncTaskMethodBuilder();
         }
 
         public void Start<TStateMachine>(
-            ref  TStateMachine stateMachine
-        )
-        // script: error JSC1000: Method: FooAsync, Type: VBAsyncExperiment.ApplicationControl; emmiting failed : System.ArgumentException: GenericArguments[0], 'VBAsyncExperiment.ApplicationControl+VB$StateMachine_3_FooAsync', on 'Void Start[TStateMachine](TStateMachine ByRef)' violates the constraint of type 'TStateMachine'. ---> System.Security.VerificationException: Method ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.Start: type argument 'VBAsyncExperiment.ApplicationControl+VB$StateMachine_3_FooAsync' violates the constraint of type parameter 'TStateMachine'.
-        //where TStateMachine : __IAsyncStateMachine
-        {
-            // we need ref support in JSC!
-            Console.WriteLine("__AsyncTaskMethodBuilder Start");
+              ref  TStateMachine stateMachine
+             )
+        // script: error JSC1000: Method: <.ctor>b__2, Type: AsyncButtonExperiment.Application; emmiting failed : System.ArgumentException: GenericArguments[0], 'AsyncButtonExperiment.Application+ctor>b__2>d__6', 
+        // on 'Void Start[TStateMachine](TStateMachine ByRef)' violates the constraint of type 'TStateMachine'. ---> System.Security.VerificationException: 
+        // Method ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices.__AsyncVoidMethodBuilder.Start: 
+        // type argument 'AsyncButtonExperiment.Application+ctor>b__2>d__6' violates the constraint of type parameter 'TStateMachine'.
 
+             //where TStateMachine : __IAsyncStateMachine
+        {
+            //Console.WriteLine("__AsyncTaskMethodBuilder.Start, call MoveNext");
+
+            // jsc does not yet know how to dereference here
+            //var x = (__IAsyncStateMachine)stateMachine;
+            var xstateMachine = (__IAsyncStateMachine)stateMachine;
+            xstateMachine.MoveNext();
         }
+
 
         public void SetStateMachine(
                __IAsyncStateMachine stateMachine
@@ -45,14 +56,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void SetResult()
         {
-
+            Task.InternalSetCompleteAndYield();
         }
 
         public void SetException(
             Exception exception
         )
         {
-
+            Debugger.Break();
         }
 
         public void AwaitOnCompleted<TAwaiter, TStateMachine>(
@@ -63,14 +74,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             Console.WriteLine("__AsyncTaskMethodBuilder AwaitOnCompleted");
         }
 
-
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(
-            ref  TAwaiter awaiter,
-            ref  TStateMachine stateMachine
-)
+                   ref  TAwaiter awaiter,
+                   ref  TStateMachine stateMachine
+              )
+        //where TAwaiter : global::System.Runtime.CompilerServices.INotifyCompletion
+        //where TStateMachine : __IAsyncStateMachine
         {
-            Console.WriteLine("__AsyncTaskMethodBuilder AwaitUnsafeOnCompleted");
+            //Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted");
+
+            var xstateMachine = (__IAsyncStateMachine)stateMachine;
+            var zstateMachine = xstateMachine;
+
+            Action yield = () => zstateMachine.MoveNext();
+
+            var xawaiter = (__INotifyCompletion)(object)awaiter;
+
+            xawaiter.OnCompleted(
+                delegate
+                {
+                    //Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted  xawaiter.OnCompleted");
+
+                    yield();
+                }
+            );
         }
+
 
         public void PreBoxInitialization()
         {
@@ -91,8 +120,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public void SetResult(TResult result)
         {
-            //Console.WriteLine("__AsyncTaskMethodBuilder.SetResult");
-
             Task.InternalSetCompleteAndYield(result);
         }
 
@@ -143,7 +170,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public static __AsyncTaskMethodBuilder<TResult> Create()
         {
-            // how will this work for JSC?
             //Console.WriteLine("__AsyncTaskMethodBuilder<TResult> Create");
 
             return new __AsyncTaskMethodBuilder<TResult> { };
