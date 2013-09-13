@@ -10,6 +10,15 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public readonly ulong size;
 
+        public Blob()
+        {
+
+        }
+
+        public Blob(string e)
+        {
+
+        }
     }
 
     [Script]
