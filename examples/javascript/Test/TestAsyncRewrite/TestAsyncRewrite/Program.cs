@@ -6,6 +6,21 @@ using System.Threading.Tasks;
 
 namespace TestAsyncRewrite
 {
+    //struct foo
+    //{
+    //    public int x;
+    //}
+
+    //static class X
+    //{
+    //    public static void WriteHashCode<T>(ref T x)
+    //    {
+    //        var HashCode = x.GetHashCode();
+
+    //        Console.WriteLine(new { HashCode });
+    //    }
+
+    //}
     class Program
     {
 
@@ -25,12 +40,27 @@ namespace TestAsyncRewrite
 
 
 
-
         static void Main(string[] args)
         {
             //enter goo
             //exit goo
             //exit Main
+
+            //foo foo1;
+            //foo1.x = 7;
+            //X.WriteHashCode(ref foo1);
+
+            //foo foo2 = foo1;
+            //foo1.x = 2;
+            //X.WriteHashCode(ref foo1);
+            //X.WriteHashCode(ref foo2);
+
+            ////{ HashCode = 346948955 }
+            ////{ HashCode = 346948958 }
+            ////{ HashCode = 346948955 }
+
+
+            //Console.WriteLine(new { foo2.x });
 
 
             goo().Wait();
@@ -42,9 +72,9 @@ namespace TestAsyncRewrite
 
         public async static Task goo()
         {
-            Console.WriteLine("enter goo");
+            //Console.WriteLine("enter goo");
 
-            await Task.Delay(100);
+            //await Task.Delay(100);
 
             Console.WriteLine("exit goo");
         }
