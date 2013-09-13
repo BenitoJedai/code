@@ -29,7 +29,7 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
     }
 
-    internal static class InternalScriptApplicationSourceExtensions
+    public static class InternalScriptApplicationSourceExtensions
     {
         public static Action eval(this InternalScriptApplicationSource e)
         {
@@ -81,7 +81,7 @@ namespace ScriptCoreLib.JavaScript.Experimental
     }
 
     [Obsolete("This wont work when rewritten. Why? Workaround is to link it in as source.")]
-    internal static class X
+    public static class X
     {
         // tested by
         // X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\Application.cs

@@ -98,7 +98,6 @@
     <Compile Include="JavaScript\Components\ApplicationComponent.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="JavaScript\DOM\HistoryExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\CharExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilderExtensions.cs" />
