@@ -7,6 +7,7 @@ namespace ScriptCoreLib.Ultra.IDL
 {
     public class IDLMemberMethod : IDLMember
     {
+        public IDLParserToken KeywordAsync;
         public IDLParserToken KeywordStatic;
         public IDLParserToken KeywordGetter;
         public IDLParserToken KeywordSetter;

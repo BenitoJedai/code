@@ -1,0 +1,311 @@
+﻿// c
+
+// http://developer.chrome.com/extensions/bookmarks.html
+
+interface chrome.ChromeEventTarget
+{
+	void addListener(function callback);
+};
+
+// static or module?
+interface chrome.notifications
+{
+	static attribute chrome.ChromeEventTarget onClosed;
+	static attribute chrome.ChromeEventTarget onClicked;
+	static attribute chrome.ChromeEventTarget onButtonClicked;
+	
+
+	async static void create(string notificationId, any options, function<string> callback);
+	async static void update(string notificationId, any options, function<boolean> callback);
+
+	static void clear(string notificationId, function callback);
+};
+
+//// does this type even exist?
+interface chrome.app
+{
+	// http://developer.chrome.com/trunk/apps/app.window.html
+
+	// https://code.google.com/p/chromium/issues/detail?id=129960
+	// this does not seem to work at all
+	static attribute boolean        isInstalled;
+};
+
+
+// http://dev.chromium.org/developers/design-documents/aura/aura-and-shell-dependencies
+// http://stackoverflow.com/questions/16255325/what-does-only-supported-in-ash-mean
+// http://developer.chrome.com/apps/app.window.html
+interface chrome.app.window
+{
+	static chrome.AppWindow current();
+
+
+	async static void create(string url, any options, function<chrome.AppWindow> callback);
+};
+
+
+// http://developer.chrome.com/trunk/apps/app.window.html#type-AppWindow
+// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
+//[Constructor]
+interface chrome.AppWindow 
+{
+
+	void close();
+	void restore();
+	void moveTo();
+	void clearAttention();
+	void minimize();
+	void drawAttention();
+	void focus();
+	void resizeTo();
+	void maximize();
+
+	readonly attribute WindowProxy? contentWindow;
+
+
+	attribute chrome.ChromeEventTarget onBoundsChanged;
+	attribute chrome.ChromeEventTarget onClosed;
+	attribute chrome.ChromeEventTarget onFullscreened;
+	attribute chrome.ChromeEventTarget onMaximized;
+	attribute chrome.ChromeEventTarget onMinimized;
+	attribute chrome.ChromeEventTarget onRestored;
+
+};
+
+
+// http://developer.chrome.com/trunk/apps/app.runtime.html
+interface chrome.app.runtime
+{
+	static attribute string        id  ;
+
+	static attribute chrome.ChromeEventTarget onLaunched;
+	static attribute chrome.ChromeEventTarget onRestarted;
+
+
+};
+
+interface chrome.CreateInfo 
+{
+	attribute long socketId;
+};
+
+interface chrome.WriteInfo 
+{
+	attribute long bytesWritten;
+};
+
+interface chrome.ReadInfo 
+{
+	attribute long resultCode;
+	attribute ArrayBufferView data;
+};
+
+interface chrome.RecvFromInfo 
+{
+	attribute long resultCode;
+	attribute long port;
+	attribute DOMString address;
+	attribute ArrayBuffer data;
+};
+
+
+interface chrome.socket
+{
+
+	// http://developer.chrome.com/trunk/apps/socket.html#method-listen
+
+	static void listen (int socketId, string address, int port, int backlog, function callback);
+	static void accept(int socketId, function callback);
+	// void create(SocketType type, CreateOptions options, function callback);
+	async static void create(string type, any options, function<chrome.CreateInfo> callback);
+
+	async static void setMulticastTimeToLive(int socketId, int ttl, function<int> callback);
+
+	async static void bind(int socketId, string address, int port, function<int> callback);
+
+	async static void joinGroup(int socketId, string address, function<int> callback);
+	async static void recvFrom(int socketId, int bufferSize, function<chrome.RecvFromInfo> callback);
+
+	async static void sendTo(int socketId, any data, string address, int port, function<chrome.WriteInfo> callback);
+
+};
+
+
+//
+////module chrome
+//interface chrome
+//{ 
+//	static attribute WebstoreModule			webstore;
+//	static attribute AppModule				app;
+//	static attribute BookmarksModule        bookmarks;
+//	static attribute SocketModule			socket;
+//	static attribute NotificationsModule    notifications;
+//	static attribute TabsModule				tabs;
+//	static attribute RuntimeModule			runtime;
+//
+//	// can jsc help us define it inline?
+//	//static attribute storage {
+//	//	attribute ChromeEventTarget onChanged;
+//	//};
+//
+//	static attribute chrome.__storage		storage;
+//
+//};
+//
+//
+//
+//
+
+//
+//interface chrome.StorageArea
+//{
+//	void get(string key, function callback);
+//	void getBytesInUse(string key, function callback);
+//	void remove(string key, function callback);
+//	void clear(function callback);
+//
+//	// set({'value': theValue},
+//	void set(object items, function callback);
+//};
+//
+//
+//// http://developer.chrome.com/apps/storage.html
+//interface chrome.__storage
+//{
+//	// tested by X:\jsc.internal.svn\examples\javascript\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+//
+//	attribute chrome.StorageArea sync;
+//	attribute chrome.StorageArea local;
+//
+//	attribute ChromeEventTarget onChanged;
+//};
+//
+//// http://developer.chrome.com/apps/runtime.html
+//interface RuntimeModule
+//{
+//
+//
+//	// http://stackoverflow.com/questions/2963260/how-do-i-auto-reload-a-chrome-extension-im-developing
+//	void reload();
+//
+//	void getPackageDirectoryEntry(function callback);
+//
+//	attribute ChromeEventTarget onStartup;
+//	attribute ChromeEventTarget onInstalled;
+//	attribute ChromeEventTarget onSuspend;
+//	attribute ChromeEventTarget onSuspendCanceled;
+//	attribute ChromeEventTarget onUpdateAvailable;
+//	attribute ChromeEventTarget onConnect;
+//	attribute ChromeEventTarget onConnectExternal;
+//	attribute ChromeEventTarget onMessage;
+//	attribute ChromeEventTarget onMessageExternal;
+//	attribute ChromeEventTarget onRestartRequired;
+//};
+//
+//
+//
+//interface Tab
+//{
+//	attribute int        id  ;
+//	attribute int        windowId ;
+//
+//};
+//
+//interface TabsModule
+//{
+//	void create(any createProperties, function callback);
+//};
+//
+
+//
+//
+//
+//
+
+
+
+
+
+
+//
+//
+//
+//
+//// http://developer.chrome.com/trunk/apps/socket.html#type-SocketInfo
+//// Obsolete?
+//[Constructor]
+//interface SocketInfo 
+//{
+//	attribute DOMString peerAddress;
+//	attribute long peerPort;
+//
+//	attribute DOMString localAddress;
+//	attribute long localPort;
+//
+//	attribute boolean connected;
+//};
+//
+//// http://developer.chrome.com/trunk/apps/socket.html#type-NetworkInterface
+//[Constructor]
+//interface NetworkInterface 
+//{
+//	attribute DOMString name ;
+//	attribute DOMString address ;
+//};
+//
+
+//
+//[Constructor]
+//interface AcceptInfo 
+//{
+//	attribute long resultCode;
+//	attribute long socketId;
+//};
+//
+
+//
+//
+//
+//
+//
+//
+//
+//
+//// does this type even exist?
+//interface WebstoreModule
+//{
+//	// https://developers.google.com/chrome/web-store/docs/inline_installation
+//	void install(string url, function successCallback, function failureCallback);
+//
+//};
+//
+
+
+//
+//
+//
+//
+//interface BookmarksModule
+//{
+//	void getTree(function callback);
+//};
+//
+//
+//
+
+//
+//
+//
+//// does this type use namespace?
+//[Constructor]
+//interface BookmarkTreeNode 
+//{
+//	attribute long index;
+//	attribute DOMString title;
+//	attribute DOMString url;
+//	attribute DOMString id;
+//	attribute DOMString parentId;
+//	attribute BookmarkTreeNode[] children;
+//
+//
+//};

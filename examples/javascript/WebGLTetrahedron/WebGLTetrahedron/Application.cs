@@ -55,7 +55,10 @@ namespace WebGLTetrahedron
 
 
 
-            var canvas = gl.canvas.AttachToDocument();
+            var canvas = gl.canvas;
+
+            if (page != null)
+                canvas.AttachToDocument();
 
 
 

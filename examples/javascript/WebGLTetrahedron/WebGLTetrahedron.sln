@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLTetrahedron", "WebGLTetrahedron\WebGLTetrahedron.csproj", "{E6FE25E1-547B-47DD-A4D0-F5C6CDB49784}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7C0B6A91-F338-41A2-8879-E2E837D6D454} = {7C0B6A91-F338-41A2-8879-E2E837D6D454}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glMatrixLibrary", "..\..\..\market\synergy\javascript\glMatrixLibrary\glMatrixLibrary\glMatrixLibrary.csproj", "{7C0B6A91-F338-41A2-8879-E2E837D6D454}"
 EndProject

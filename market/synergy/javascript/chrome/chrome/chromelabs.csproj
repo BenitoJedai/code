@@ -8,7 +8,7 @@
     <ProjectGuid>{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>chromelabs</RootNamespace>
+    <RootNamespace>chrome</RootNamespace>
     <AssemblyName>chromelabs</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -118,24 +118,26 @@
     <Reference Include="UIAutomationTypes" />
     <Reference Include="chromelabs.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\chromelabs.AssetsLibrary.dll</HintPath>
+      <Aliases>global</Aliases>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="API\chrome.idl" />
-    <Content Include="API\chrome.htm" />
-    <Content Include="Design\App.css" />
-    <Content Include="Design\App.htm" />
-    <Compile Include="API\NotificationOptions.cs" />
-    <Compile Include="Extensions\SocketModuleExtensions.cs" />
+    <Content Include="chrome.idl" />
+    <Content Include="chrome.htm">
+      <DependentUpon>chrome.idl</DependentUpon>
+    </Content>
+    <Content Include="Diagnostics\Design\App.css" />
+    <Content Include="Diagnostics\Design\App.htm" />
+    <Compile Include="chrome.cs">
+      <DependentUpon>chrome.idl</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationWebService.cs" />
-    <Compile Include="Application.cs" />
-    <Compile Include="Program.cs">
+    <Compile Include="Diagnostics\ApplicationWebService.cs" />
+    <Compile Include="Diagnostics\Application.cs" />
+    <Compile Include="Diagnostics\Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

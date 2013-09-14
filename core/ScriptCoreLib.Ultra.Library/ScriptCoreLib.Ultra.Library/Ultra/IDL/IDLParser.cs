@@ -337,6 +337,17 @@ namespace ScriptCoreLib.Ultra.IDL
                          pp = AnnotationArray.Symbols.Item2.SkipTo();
                      }
 
+
+                     #region async
+                     var KeywordAsync = default(IDLParserToken);
+                     if (pp.Text == "async")
+                     {
+                         KeywordAsync = pp;
+                         pp = pp.SkipTo();
+                     }
+                     #endregion
+
+
                      #region static
                      var KeywordStatic = default(IDLParserToken);
                      if (pp.Text == "static")
@@ -420,7 +431,8 @@ namespace ScriptCoreLib.Ultra.IDL
                          KeywordGetter,
                          KeywordSetter,
                          KeywordDeleter,
-                         KeywordStatic
+                         KeywordStatic,
+                         KeywordAsync
                      );
 
                      i.Members.Add(Method);
@@ -447,7 +459,8 @@ namespace ScriptCoreLib.Ultra.IDL
             IDLParserToken KeywordGetter,
             IDLParserToken KeywordSetter,
             IDLParserToken KeywordDeleter,
-            IDLParserToken KeywordStatic
+            IDLParserToken KeywordStatic,
+            IDLParserToken KeywordAsync
             )
         {
             var Type = default(IDLTypeReference);
@@ -512,6 +525,7 @@ namespace ScriptCoreLib.Ultra.IDL
                 KeywordGetter = KeywordGetter,
                 KeywordSetter = KeywordSetter,
                 KeywordStatic = KeywordStatic,
+                KeywordAsync = KeywordAsync,
 
                 Name = Name
             };

@@ -1,3 +1,4 @@
+
 using chromelabs.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
@@ -11,6 +12,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+
 
 namespace chromelabs
 {
@@ -28,16 +30,16 @@ namespace chromelabs
         public Application(IApp page)
         {
             // Error	1	Ambiguity between 'chrome.webstore' and 'chrome.webstore'	X:\jsc.svn\market\synergy\javascript\chrome\chrome\Application.cs	30	28	chrome
-            chrome.webstore.install(
-                "",
-                successCallback: null,
-                failureCallback: null
-            );
+            //chrome.webstore.install(
+            //    "",
+            //    successCallback: null,
+            //    failureCallback: null
+            //);
 
-            Console.WriteLine(new { chrome.app.isInstalled });
+            //Console.WriteLine(new { chrome.app.isInstalled });
 
 
-            
+
 
             //w.i
 
