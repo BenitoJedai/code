@@ -312,7 +312,7 @@ namespace MulticastListenExperiment
             // suggest: HTMLElements
             IHTMLElement.HTMLElementEnum.hr.AttachToDocument();
 
-            Action docreate =
+            Action doudp =
                 async delegate
                 {
 
@@ -397,7 +397,7 @@ namespace MulticastListenExperiment
             // chrome.socket is not available: 'socket' is only allowed for packaged apps, and this is a legacy packaged app. 
 
 
-            docreate();
+            doudp();
 
         }
 
