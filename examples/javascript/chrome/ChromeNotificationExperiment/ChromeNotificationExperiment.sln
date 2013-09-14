@@ -2,8 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeNotificationExperiment", "ChromeNotificationExperiment\ChromeNotificationExperiment.csproj", "{0D736B38-1399-47C6-993F-4916BAD03990}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{F41E241A-E54E-4C18-A05B-56E4CFD61582}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,5 +27,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {F41E241A-E54E-4C18-A05B-56E4CFD61582}
 	EndGlobalSection
 EndGlobal

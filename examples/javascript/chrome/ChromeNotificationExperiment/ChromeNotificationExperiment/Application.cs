@@ -12,15 +12,33 @@ using System.Text;
 using System.Xml.Linq;
 using ChromeNotificationExperiment.Design;
 using ChromeNotificationExperiment.HTML.Pages;
+using System.Threading.Tasks;
+using ScriptCoreLib.JavaScript.Runtime;
+using chrome;
+using ScriptCoreLib.JavaScript.WebGL;
+using WebGLSpiral.Shaders;
 
 namespace ChromeNotificationExperiment
 {
+    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using System.Diagnostics;
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     public sealed class Application
+        : ISurface
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
+
+
+        #region ISurface
+        public event Action onframe;
+
+        public event Action<int, int> onresize;
+
+        public event Action<gl> onsurface;
+        #endregion
+
 
         /// <summary>
         /// This is a javascript application.
@@ -40,9 +58,9 @@ namespace ChromeNotificationExperiment
                 Native.window,
                 Native.window.opener,
                 Native.window.navigator.userAgent,
-                chrome.app,
-                chrome.app.runtime,
-                chrome.app.isInstalled,
+                //chrome.app,
+                //chrome.app.runtime,
+                //chrome.app.isInstalled,
                 //chrome.app.window,
             });
 
@@ -53,7 +71,9 @@ namespace ChromeNotificationExperiment
 
 
             #region switch to chrome AppWindow
-            if (chrome.app.runtime != null)
+
+            //var ischrome = typeof(chrome.app.runtime) != null;
+            if (Expando.InternalIsMember(Native.self, "chrome"))
             {
                 //The JavaScript context calling chrome.app.window.current() has no associated AppWindow. 
                 //Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
@@ -63,54 +83,59 @@ namespace ChromeNotificationExperiment
                 if (Native.window.opener == null)
                     if (Native.window.parent == Native.window.self)
                     {
-                    chrome.app.runtime.onLaunched.addListener(
-                        new Action(
-                            delegate
-                            {
-                                // runtime will launch only once?
+                        chrome.app.runtime.onLaunched.addListener(
+                            new Action(
+                                async delegate
+                                {
+                                    // runtime will launch only once?
 
-                                // http://developer.chrome.com/apps/app.window.html
-                                // do we even need index?
+                                    // http://developer.chrome.com/apps/app.window.html
+                                    // do we even need index?
 
-                                // https://code.google.com/p/chromium/issues/detail?id=148857
-                                // https://developer.mozilla.org/en-US/docs/data_URIs
+                                    // https://code.google.com/p/chromium/issues/detail?id=148857
+                                    // https://developer.mozilla.org/en-US/docs/data_URIs
 
-                                // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
-                                chrome.app.window.create(
-                                    Native.Document.location.pathname,
-                                    null,
-                                    new Action<AppWindow>(
-                                        appwindow =>
+                                    // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
+                                    var appwindow = await chrome.app.window.create(
+
+                                        url: Native.Document.location.pathname,
+                                        options: null
+                                    );
+
+                                    //Native.Document.location.pathname,
+                                    //null,
+                                    //new Action<AppWindow>(
+                                    //    appwindow =>
+                                    //{
+                                    // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                    Console.WriteLine("appwindow loading... " + new { appwindow });
+                                    Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
+
+
+                                    appwindow.contentWindow.onload +=
+                                        delegate
                                         {
-                                            // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
-
-                                            Console.WriteLine("appwindow loading... " + new { appwindow });
-                                            Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
+                                            Console.WriteLine("appwindow contentWindow onload");
 
 
-                                            appwindow.contentWindow.onload +=
-                                                delegate
-                                                {
-                                                    Console.WriteLine("appwindow contentWindow onload");
+                                            //new IHTMLButton("dynamic").AttachTo(
+                                            //    appwindow.contentWindow.document.body
+                                            //);
 
 
-                                                    //new IHTMLButton("dynamic").AttachTo(
-                                                    //    appwindow.contentWindow.document.body
-                                                    //);
+                                        };
 
+                                    //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
-                                                };
-
-                                            //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
-
-                                        }
-                                    )
-                                );
-                            }
-                        )
-                    );
-                    return;
-                }
+                                    //}
+                                    //    )
+                                    //);
+                                }
+                            )
+                        );
+                        return;
+                    }
 
                 // if we are in a window lets add layout
                 new App().Container.AttachToDocument();
@@ -120,71 +145,135 @@ namespace ChromeNotificationExperiment
 
             var c = 0;
 
+            var gl = new WebGLRenderingContext(alpha: false, preserveDrawingBuffer: true);
+
+            gl.canvas.width = 96;
+            gl.canvas.height = 96;
+
+            var s = new SpiralSurface(this);
+
+            this.onsurface(gl);
+            this.onresize(gl.canvas.width, gl.canvas.height);
+
+            var st = new Stopwatch();
+            st.Start();
+
+            Native.window.onframe += delegate
+            {
+                s.ucolor_1 = (float)Math.Sin(st.ElapsedMilliseconds * 0.001) * 0.5f + 0.5f;
+
+                this.onframe();
+            };
+
+            new Notification
+            {
+                Title = "ChromeNotificationExperiment",
+                Message = "activated!",
+                IconCanvas = new WebGLTetrahedron.Application().gl.canvas
+            };
+
+            #region notify  with spiral
+            new IHTMLButton { innerText = "notify with WebGLTetrahedron" }.AttachToDocument().WhenClicked(
+             async delegate
+             {
+                 var n = new Notification
+                 {
+                     Title = "WebGLTetrahedron",
+                     Message = "energy!",
+                     IconCanvas = new WebGLTetrahedron.Application().gl.canvas
+                 };
+
+                 n.Clicked +=
+                     delegate
+                     {
+                         Console.WriteLine("Clicked");
+                     };
+
+                 n.Closed +=
+                     byUser =>
+                     {
+                         Console.WriteLine("Closed " + new { byUser });
+                     };
+
+
+
+             }
+            );
+            #endregion
+
+            #region notify  with spiral
+            new IHTMLButton { innerText = "notify with spiral" }.AttachToDocument().WhenClicked(
+             async delegate
+             {
+                 c++;
+
+                 var n = new Notification
+                 {
+                     Message = "Primary message to display",
+                     IconCanvas = gl.canvas
+                 };
+
+                 n.Clicked +=
+                     delegate
+                     {
+                         Console.WriteLine("Clicked");
+                     };
+
+                 n.Closed +=
+                     byUser =>
+                     {
+                         Console.WriteLine("Closed " + new { byUser });
+                     };
+
+
+
+             }
+            );
+            #endregion
+
+
+            #region notify 2
+            new IHTMLButton { innerText = "notify 2" }.AttachToDocument().WhenClicked(
+             async delegate
+             {
+                 c++;
+
+                 var n = new Notification("foo" + c,
+                    message: "Primary message to display"
+                 );
+
+                 n.Clicked +=
+                     delegate
+                     {
+                         Console.WriteLine("Clicked");
+                     };
+
+                 n.Closed +=
+                     byUser =>
+                     {
+                         Console.WriteLine("Closed " + new { byUser });
+                     };
+
+
+                 n.Message = "Primary message to display [3]";
+                 await Task.Delay(500);
+                 n.Message = "Primary message to display [2]";
+                 await Task.Delay(500);
+                 n.Message = "Primary message to display [1]";
+             }
+            );
+            #endregion
+
+
             #region notify
             new IHTMLButton { innerText = "notify" }.AttachToDocument().WhenClicked(
-                delegate
+                async delegate
                 {
-                    Action<string> callback =
-                        notificationId =>
-                        {
-
-                            Console.WriteLine("create " + new { notificationId });
-
-                            chrome.notifications.onClosed.addListener(
-                                new Action<string, bool>(
-                                    (__notificationId, __byUser) =>
-                                    {
-                                        Console.WriteLine("onClosed " + new { __notificationId, __byUser });
-                                    }
-                                )
-                            );
-
-                            chrome.notifications.onClicked.addListener(
-                                 new Action<string>(
-                                     (__notificationId) =>
-                                     {
-                                         Console.WriteLine("onClicked " + new { __notificationId });
-
-
-
-                                         // 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
-
-                                         //dynamic createProperties = new object();
-
-                                         //createProperties.url = "http://example.com";
-
-                                         //chrome.tabs.create(createProperties,
-
-                                         //   new Action<Tab>(
-                                         //       tab =>
-                                         //       {
-                                         //           Console.WriteLine("tab " + new { tab.id, tab.windowId });
-                                         //       }
-                                         //   )
-                                         //);
-
-
-                                         Native.window.open("http://example.com", "_blank");
-                                     }
-                                 )
-                             );
-
-
-                            chrome.notifications.onButtonClicked.addListener(
-                                 new Action<string, int>(
-                                     (__notificationId, __buttonIndex) =>
-                                     {
-                                         Console.WriteLine("onButtonClicked " + new { __notificationId });
-                                     }
-                                 )
-                             );
-
-                        };
-
-
                     // http://developer.chrome.com/extensions/notifications.html#type-NotificationOptions
                     c++;
-                    chrome.notifications.create(
+
+                    //default(TaskCompletionSource<string>).SetResult
+                    var notificationId = await chrome.notifications.create(
                         "foo" + c,
                         new NotificationOptions
                         {
@@ -196,9 +285,62 @@ namespace ChromeNotificationExperiment
                             iconUrl = "assets/ScriptCoreLib/jsc.png"
                             //Invalid value for argument 2. Property 'iconUrl': Property is required. 
                             // Unable to download all specified images. 
-                        },
-                        callback
+                        }
                     );
+
+
+
+                    Console.WriteLine("create " + new { notificationId });
+
+                    chrome.notifications.onClosed.addListener(
+                        new Action<string, bool>(
+                            (__notificationId, __byUser) =>
+                            {
+                                Console.WriteLine("onClosed " + new { __notificationId, __byUser });
+                            }
+                        )
+                    );
+
+                    chrome.notifications.onClicked.addListener(
+                            new Action<string>(
+                                (__notificationId) =>
+                                {
+                                    Console.WriteLine("onClicked " + new { __notificationId });
+
+
+
+                                    // 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
+
+                                    //dynamic createProperties = new object();
+
+                                    //createProperties.url = "http://example.com";
+
+                                    //chrome.tabs.create(createProperties,
+
+                                    //   new Action<Tab>(
+                                    //       tab =>
+                                    //       {
+                                    //           Console.WriteLine("tab " + new { tab.id, tab.windowId });
+                                    //       }
+                                    //   )
+                                    //);
+
+
+                                    Native.window.open("http://example.com", "_blank");
+                                }
+                            )
+                        );
+
+
+                    chrome.notifications.onButtonClicked.addListener(
+                            new Action<string, int>(
+                                (__notificationId, __buttonIndex) =>
+                                {
+                                    Console.WriteLine("onButtonClicked " + new { __notificationId });
+                                }
+                            )
+                        );
+
 
 
                 }

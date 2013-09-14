@@ -40,7 +40,7 @@ namespace MulticastListenExperiment
 
 
             #region switch to chrome AppWindow
-            if (chrome.app.runtime != null)
+            //if (chrome.app.runtime != null)
             {
                 //The JavaScript context calling chrome.app.window.current() has no associated AppWindow. 
                 //Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
@@ -52,7 +52,7 @@ namespace MulticastListenExperiment
                     {
                         chrome.app.runtime.onLaunched.addListener(
                             new Action(
-                                delegate
+                                async delegate
                                 {
                                     // runtime will launch only once?
 
@@ -63,36 +63,31 @@ namespace MulticastListenExperiment
                                     // https://developer.mozilla.org/en-US/docs/data_URIs
 
                                     // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
-                                    chrome.app.window.create(
-                                        Native.Document.location.pathname,
-                                        null,
-                                        new Action<AppWindow>(
-                                            appwindow =>
-                                            {
-                                                // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
-
-                                                Console.WriteLine("appwindow loading... " + new { appwindow });
-                                                Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
+                                    var appwindow = await chrome.app.window.create(Native.Document.location.pathname, null);
 
 
-                                                appwindow.contentWindow.onload +=
-                                                    delegate
-                                                    {
-                                                        Console.WriteLine("appwindow contentWindow onload");
+                                    // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+                                    Console.WriteLine("appwindow loading... " + new { appwindow });
+                                    Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
 
 
-                                                        //new IHTMLButton("dynamic").AttachTo(
-                                                        //    appwindow.contentWindow.document.body
-                                                        //);
+                                    appwindow.contentWindow.onload +=
+                                        delegate
+                                        {
+                                            Console.WriteLine("appwindow contentWindow onload");
 
 
-                                                    };
+                                            //new IHTMLButton("dynamic").AttachTo(
+                                            //    appwindow.contentWindow.document.body
+                                            //);
 
-                                                //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
-                                            }
-                                        )
-                                    );
+                                        };
+
+                                    //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+
+
                                 }
                             )
                         );
@@ -317,9 +312,12 @@ namespace MulticastListenExperiment
             // suggest: HTMLElements
             IHTMLElement.HTMLElementEnum.hr.AttachToDocument();
 
-            Action<CreateInfo> atcreate =
-                async socket =>
+            Action docreate =
+                async delegate
                 {
+
+                    var socket = await chrome.socket.create("udp", new object());
+
                     //var x = Expando.Of(socket);
 
                     //new IHTMLDiv { innerText = new { x.constructor }.ToString() }.AttachToDocument();
@@ -339,7 +337,7 @@ namespace MulticastListenExperiment
 
                     #region send data
                     new IHTMLButton { innerText = "send data" }.AttachToDocument().WhenClicked(
-                        delegate
+                        async delegate
                         {
                             var data = new ScriptCoreLib.JavaScript.WebGL.Uint8Array(
                                 40, 41, 42
@@ -348,37 +346,30 @@ namespace MulticastListenExperiment
                             // Uncaught Error: Invocation of form socket.sendTo(object, string, integer, function) 
                             // doesn't match definition socket.sendTo(integer socketId, binary data, string address, integer port, function callback) 
 
-                            chrome.socket.sendTo(
+                            var result = await chrome.socket.sendTo(
                                 socketId,
                                 data.buffer,
                                 "239.1.2.3",
-                                40404,
-
-                                callback:
-                                new Action<WriteInfo>(
-                                    result =>
-                                    {
-                                        new IHTMLDiv { innerText = new { result.bytesWritten }.ToString() }.AttachToDocument();
-                                    }
-                                )
+                                40404
                             );
 
+                            new IHTMLDiv { innerText = new { result.bytesWritten }.ToString() }.AttachToDocument();
 
                         }
                     );
                     #endregion
 
 
-                    var value_setMulticastTimeToLive = await chrome.socket.setMulticastTimeToLiveAsync(socket.socketId);
+                    var value_setMulticastTimeToLive = await chrome.socket.setMulticastTimeToLive(socket.socketId, 30);
 
                     new IHTMLDiv { innerText = new { value_setMulticastTimeToLive }.ToString() }.AttachToDocument();
 
 
-                    var value_bind = await chrome.socket.bindAsync(socketId, "0.0.0.0", 40404);
+                    var value_bind = await chrome.socket.bind(socketId, "0.0.0.0", 40404);
 
                     new IHTMLDiv { innerText = new { value_bind }.ToString() }.AttachToDocument();
 
-                    var value_joinGroup = await chrome.socket.joinGroupAsync(socketId, "239.1.2.3");
+                    var value_joinGroup = await chrome.socket.joinGroup(socketId, "239.1.2.3");
 
 
                     new IHTMLDiv { innerText = new { value_joinGroup }.ToString() }.AttachToDocument();
@@ -387,7 +378,7 @@ namespace MulticastListenExperiment
 
                     while (forever)
                     {
-                        var result = await chrome.socket.recvFromAsync(socketId, 1048576);
+                        var result = await chrome.socket.recvFrom(socketId, 1048576);
 
                         new IHTMLDiv { innerText = new { result.resultCode }.ToString() }.AttachToDocument();
 
@@ -404,7 +395,9 @@ namespace MulticastListenExperiment
             // https://code.google.com/p/chromium/issues/detail?id=246872
             // chrome.socket is not available: 'socket' requires a different Feature that is not present. 
             // chrome.socket is not available: 'socket' is only allowed for packaged apps, and this is a legacy packaged app. 
-            chrome.socket.create("udp", new object(), atcreate);
+
+
+            docreate();
 
         }
 

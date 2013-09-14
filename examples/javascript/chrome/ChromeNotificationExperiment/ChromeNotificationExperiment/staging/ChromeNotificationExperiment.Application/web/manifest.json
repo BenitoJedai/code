@@ -1,24 +1,24 @@
+
 {
 "manifest_version": 2,
   "name": "ChromeNotificationExperiment",
   "description": "ChromeNotificationExperiment",
-  "version": "8",
+  "version": "12",
  "minimum_chrome_version": "27",
   "offline_enabled": true,
 
   "app": {
 
 	"background": {
-      "scripts": ["main.js"]
+      "scripts": ["view-source"]
     }
   },
   "icons": {
-    "16": "Preview16.png",
-    "128": "Preview128.png"
   },
   
-  
+
   "permissions": [
+  "webview",
   "fullscreen",
   "pointerLock",
     "unlimitedStorage",

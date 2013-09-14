@@ -39,6 +39,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -119,9 +122,6 @@
     <Reference Include="MulticastListenExperiment.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\MulticastListenExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="chromelabs.AssetsLibrary">
-      <HintPath>..\..\..\..\..\market\synergy\javascript\chrome\chrome\bin\staging.AssetsLibrary\chromelabs.AssetsLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -132,24 +132,19 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="staging\MulticastListenExperiment.ApplicationWebService\staging.net.debug\Preview128.png">
+    <Content Include="staging\MulticastListenExperiment.Application\web\Preview128.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="staging\MulticastListenExperiment.ApplicationWebService\staging.net.debug\Preview16.png">
+    <Content Include="staging\MulticastListenExperiment.Application\web\Preview16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="staging\MulticastListenExperiment.ApplicationWebService\staging.net.debug\manifest.json">
+    <None Include="packages.config" />
+    <None Include="staging\MulticastListenExperiment.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj">
-      <Project>{6c8f3c29-10f3-432b-b0e4-14c8ea3c79d7}</Project>
-      <Name>chromelabs</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -157,10 +152,7 @@
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
-    <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
-
-            </PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		</PreBuildEvent>
   </PropertyGroup>
 </Project>
