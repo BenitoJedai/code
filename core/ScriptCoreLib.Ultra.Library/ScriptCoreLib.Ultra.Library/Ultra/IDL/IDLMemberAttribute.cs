@@ -7,6 +7,7 @@ namespace ScriptCoreLib.Ultra.IDL
 {
     public class IDLMemberAttribute : IDLMember
     {
+        public IDLParserToken KeywordEvent;
         public IDLParserToken KeywordStatic;
         public IDLParserToken KeywordReadOnly;
 

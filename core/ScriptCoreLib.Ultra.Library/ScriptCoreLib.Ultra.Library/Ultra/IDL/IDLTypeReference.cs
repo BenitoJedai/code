@@ -29,8 +29,11 @@ namespace ScriptCoreLib.Ultra.IDL
             if (obj is IDLTypeReference)
             {
                 var x = obj as IDLTypeReference;
+                var xx = x.ToString();
+                var yy = this.ToString();
 
-                return x.ToString() == this.ToString();
+                //Console.WriteLine(new { xx, yy });
+                return xx == yy;
             }
 
             return false;
@@ -101,5 +104,7 @@ namespace ScriptCoreLib.Ultra.IDL
                 return Name;
             }
         }
+
+    
     }
 }

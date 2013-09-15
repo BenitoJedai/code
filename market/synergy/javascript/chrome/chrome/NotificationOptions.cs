@@ -136,8 +136,9 @@ namespace chrome
                 {
 
                     #region Closed
-                    chrome.notifications.onClosed.addListener(
-                         new Action<string, bool>(
+                    //chrome.notifications.onClosed.addListener(
+                    chrome.notifications.Closed +=
+                        //new Action<string, bool>(
                              (__notificationId, __byUser) =>
                              {
                                  if (__notificationId != this.Key)
@@ -149,46 +150,45 @@ namespace chrome
                                      this.Closed(__byUser);
 
                                  //Console.WriteLine("onClosed " + new { __notificationId, __byUser });
-                             }
-                         )
-                     );
+                             };
+                    //    )
+                    //);
 
                     #endregion
 
                     #region Clicked
-                    chrome.notifications.onClicked.addListener(
-                            new Action<string>(
-                                (__notificationId) =>
-                                {
-                                    if (__notificationId != this.Key)
-                                        return;
+                    chrome.notifications.Clicked +=
+                        (__notificationId) =>
+                        {
+                            if (__notificationId != this.Key)
+                                return;
 
-                                    //Console.WriteLine("onClicked " + new { __notificationId });
+                            //Console.WriteLine("onClicked " + new { __notificationId });
 
-                                    if (this.Clicked != null)
-                                        this.Clicked();
+                            if (this.Clicked != null)
+                                this.Clicked();
 
-                                    // 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
+                            // 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
 
-                                    //dynamic createProperties = new object();
+                            //dynamic createProperties = new object();
 
-                                    //createProperties.url = "http://example.com";
+                            //createProperties.url = "http://example.com";
 
-                                    //chrome.tabs.create(createProperties,
+                            //chrome.tabs.create(createProperties,
 
-                                    //   new Action<Tab>(
-                                    //       tab =>
-                                    //       {
-                                    //           Console.WriteLine("tab " + new { tab.id, tab.windowId });
-                                    //       }
-                                    //   )
-                                    //);
+                            //   new Action<Tab>(
+                            //       tab =>
+                            //       {
+                            //           Console.WriteLine("tab " + new { tab.id, tab.windowId });
+                            //       }
+                            //   )
+                            //);
 
 
-                                    //Native.window.open("http://example.com", "_blank");
-                                }
-                            )
-                        );
+                            //Native.window.open("http://example.com", "_blank");
+                        };
+                    //    )
+                    //);
                     #endregion
 
 

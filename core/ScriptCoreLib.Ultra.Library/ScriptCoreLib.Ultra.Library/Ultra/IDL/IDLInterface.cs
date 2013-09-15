@@ -10,6 +10,13 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public IDLParserToken Keyword;
         public IDLParserToken Name;
+
+
+        public readonly List<IDLTypeReference> GenericDefinitionParameters = new List<IDLTypeReference>();
+        public readonly IDLParserTokenPair GenericDefinitionParameterSymbols = new IDLParserTokenPair();
+
+
+
         public IDLParserToken BaseType;
 
         public IDLParserToken Terminator;

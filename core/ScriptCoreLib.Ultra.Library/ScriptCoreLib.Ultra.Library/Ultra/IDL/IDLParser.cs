@@ -262,6 +262,36 @@ namespace ScriptCoreLib.Ultra.IDL
 
                     }
 
+                    #region generic definition
+                    if (pp.Text == "<")
+                    {
+                        i.GenericDefinitionParameterSymbols.Item1 = pp;
+                        i.GenericDefinitionParameterSymbols.Item2 = i.GenericDefinitionParameterSymbols.Item1.UntilSelected(
+                            ipp =>
+                            {
+                                if (ipp.Text != ">")
+                                {
+                                    if (i.GenericDefinitionParameters.Count > 0)
+                                    {
+                                        ipp.AssertSymbol(",");
+                                    }
+
+                                    var rr = ToTypeReference(ipp.SkipTo());
+
+                                    i.GenericDefinitionParameters.Add(rr);
+
+                                    return rr.Terminator.SkipTo();
+                                }
+
+                                return ipp;
+                            }
+                        ).AssertSymbol(">");
+
+                        pp = i.GenericDefinitionParameterSymbols.Item2.SkipTo();
+                    }
+                    #endregion
+
+
                     return pp;
                 }
             ).AssertSymbol("{");
@@ -347,6 +377,14 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
                      #endregion
 
+                     #region event
+                     var KeywordEvent = default(IDLParserToken);
+                     if (pp.Text == "event")
+                     {
+                         KeywordEvent = pp;
+                         pp = pp.SkipTo();
+                     }
+                     #endregion
 
                      #region static
                      var KeywordStatic = default(IDLParserToken);
@@ -371,6 +409,7 @@ namespace ScriptCoreLib.Ultra.IDL
 
                          var a = new IDLMemberAttribute
                          {
+                             KeywordEvent = KeywordEvent,
                              KeywordStatic = KeywordStatic,
                              KeywordReadOnly = KeywordReadOnly,
                              Keyword = Keyword,
