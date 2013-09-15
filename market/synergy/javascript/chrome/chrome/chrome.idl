@@ -116,7 +116,7 @@ interface chrome.app.runtime
 
 interface chrome.CreateInfo 
 {
-	attribute long socketId;
+	attribute chrome.socketId socketId;
 };
 
 interface chrome.WriteInfo 
@@ -127,7 +127,7 @@ interface chrome.WriteInfo
 interface chrome.ReadInfo 
 {
 	attribute long resultCode;
-	attribute ArrayBufferView data;
+	attribute ArrayBuffer data;
 };
 
 interface chrome.RecvFromInfo 
@@ -142,33 +142,49 @@ interface chrome.RecvFromInfo
 interface chrome.AcceptInfo 
 {
 	attribute long resultCode;
-	attribute long socketId;
+	attribute chrome.socketId socketId;
 };
 
+
+interface chrome.socketId 
+	// make it an enum	
+	//: int 
+{ 
+
+};
 
 interface chrome.socket
 {
 
 	// http://developer.chrome.com/trunk/apps/socket.html#method-listen
 
-	async static void listen (int socketId, string address, int port, int backlog, function<int> callback);
-	async static void accept(int socketId, function<chrome.AcceptInfo> callback);
+	async static extension void listen (chrome.socketId socketId, string address, int port, int backlog, function<int> callback);
+	async static extension void accept(chrome.socketId socketId, function<chrome.AcceptInfo> callback);
 	// void create(SocketType type, CreateOptions options, function callback);
 	async static void create(string type, any options, function<chrome.CreateInfo> callback);
 
-	async static void setMulticastTimeToLive(int socketId, int ttl, function<int> callback);
+	static extension void destroy(chrome.socketId socketId);
 
-	async static void bind(int socketId, string address, int port, function<int> callback);
 
-	async static void joinGroup(int socketId, string address, function<int> callback);
-	async static void recvFrom(int socketId, int bufferSize, function<chrome.RecvFromInfo> callback);
+	async static extension void setMulticastTimeToLive(chrome.socketId socketId, int ttl, function<int> callback);
 
-	async static void sendTo(int socketId, any data, string address, int port, function<chrome.WriteInfo> callback);
+	async static extension void bind(chrome.socketId socketId, string address, int port, function<int> callback);
+
+	async static extension void joinGroup(chrome.socketId socketId, string address, function<int> callback);
+	async static extension void recvFrom(chrome.socketId socketId, int bufferSize, function<chrome.RecvFromInfo> callback);
+
+	async static extension void sendTo(chrome.socketId socketId, any data, string address, int port, function<chrome.WriteInfo> callback);
 
 
 	// this looks like a property!
 	// Task<NetworkInterface[]> NetworkList
 	async static void getNetworkList(function<sequence<chrome.NetworkInterface>> callback);
+
+	async static extension void read(chrome.socketId socketId, function<chrome.ReadInfo> callback);
+	async static extension void read(chrome.socketId socketId, int bufferSize, function<chrome.ReadInfo> callback);
+
+
+	async static extension void write(chrome.socketId socketId, ArrayBuffer data, function<chrome.WriteInfo> callback);
 };
 
 // http://developer.chrome.com/trunk/apps/socket.html#type-NetworkInterface

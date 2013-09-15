@@ -80,10 +80,11 @@ namespace chrome
 
         public static List<Notification> AllNotifications = new List<Notification>();
 
+        public static string DefaultTitle = "my.jsc-solutions.net";
+
         public Notification(
             string notificationId = null,
-
-                string title = "my.jsc-solutions.net",
+                string title = null,
 
                 string message = "",
 
@@ -92,6 +93,8 @@ namespace chrome
 
             )
         {
+            if (title == null)
+                title = DefaultTitle;
 
             if (notificationId == null)
                 notificationId = "Notification#" + AllNotifications.Count;
