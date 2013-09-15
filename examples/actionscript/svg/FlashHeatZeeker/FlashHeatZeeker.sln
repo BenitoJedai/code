@@ -5,13 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker", "FlashHea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarling", "FlashHeatZeekerWithStarling\FlashHeatZeekerWithStarling.csproj", "{F24A122C-5D7A-4E73-837F-7F421FCE7442}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A761C1F0-D669-4A84-82B2-97E9C314096C}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeekerWithStarlingT28", "FlashHeatZeekerWithStarlingT28\FlashHeatZeekerWithStarlingT28.csproj", "{6A9C63B0-7FBD-4926-8D0C-6AAE1794071A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{9BFB9159-6D39-40BF-B52E-714B0E6ABCE0}"
@@ -55,6 +48,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.StarlingSetup", "FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj", "{F6418CC1-5B0B-4D49-AFBB-C69DDBF1077B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitPed", "FlashHeatZeeker.UnitPed\FlashHeatZeeker.UnitPed.csproj", "{28B82C3C-E90A-42A9-80C2-71BC99E91592}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0AB27151-12CD-4377-AE76-16E6F0F72580} = {0AB27151-12CD-4377-AE76-16E6F0F72580}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitJeep", "FlashHeatZeeker.UnitJeep\FlashHeatZeeker.UnitJeep.csproj", "{44E16D3A-A6AF-4156-B663-AEDDF9CBC766}"
 EndProject

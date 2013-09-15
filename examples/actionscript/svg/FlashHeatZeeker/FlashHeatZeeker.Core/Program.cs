@@ -11,16 +11,16 @@ namespace FlashHeatZeeker.Core
     {
         public static void Main(string[] args)
         {
-#if DEBUG
-#if X
+//#if DEBUG
+//#if X
 
-			DesktopAvalonExtensions.Launch(
-				() => new ApplicationCanvas()
-			);
-#endif
-#else
+//            DesktopAvalonExtensions.Launch(
+//                () => new ApplicationCanvas()
+//            );
+//#endif
+//#else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
-#endif
+//#endif
         }
 
     }

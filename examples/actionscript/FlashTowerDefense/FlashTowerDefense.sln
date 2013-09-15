@@ -6,6 +6,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Assets", "FlashTowerDefense.Assets\FlashTowerDefense.Assets.csproj", "{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefenseApp", "FlashTowerDefenseApp\FlashTowerDefenseApp.csproj", "{1F644ADB-93E1-4611-8AF7-BBF5127219C6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A7DC38D5-05C5-4449-A92C-BD651D67BDF2} = {A7DC38D5-05C5-4449-A92C-BD651D67BDF2}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mochi", "..\..\..\market\synergy\mochi\mochi\mochi.csproj", "{A7DC38D5-05C5-4449-A92C-BD651D67BDF2}"
 EndProject
