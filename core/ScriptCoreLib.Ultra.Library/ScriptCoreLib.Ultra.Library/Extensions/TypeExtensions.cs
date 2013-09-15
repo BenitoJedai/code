@@ -40,6 +40,16 @@ namespace ScriptCoreLib.Extensions
             return t;
         }
 
+        public static Type TryMakeGenericType(this Type t, Type[] a)
+        {
+            
+            if (t != null)
+                if (t.IsGenericType)
+                    if (t.IsGenericTypeDefinition)
+                        return t.MakeGenericType(a);
+
+            return t;
+        }
 
 
 
