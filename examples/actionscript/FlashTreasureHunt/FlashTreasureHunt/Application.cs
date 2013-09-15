@@ -20,9 +20,7 @@ namespace FlashTreasureHunt
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
-        public readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
         /// This is a javascript application.
@@ -30,6 +28,24 @@ namespace FlashTreasureHunt
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                ChromeTCPServer.TheServer.Invoke(
+                    AppSource.Text
+                );
+
+
+                return;
+            }
+
+
+            ApplicationSprite sprite = new ApplicationSprite();
+
+
             // Initialize ApplicationSprite
             sprite.AttachSpriteToDocument();
 
