@@ -156,7 +156,7 @@ namespace ScriptCoreLib.Ultra.Library
                     throw;
                 }
 
-                Console.WriteLine("CachedFileGeneratorBase WriteLocalFiles" + new { item.FileName });
+                //Console.WriteLine("CachedFileGeneratorBase WriteLocalFiles" + new { item.FileName });
 
                 File.WriteAllText(item.FileName, item.Content);
             }
