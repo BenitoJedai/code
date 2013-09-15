@@ -30,8 +30,22 @@ namespace Flare3DWaterShips
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                ChromeTCPServer.TheServer.Invoke(
+                    AppSource.Text
+                );
+
+
+                return;
+            }
+
             // Initialize ApplicationSprite
-            sprite.AttachSpriteTo(page.Content);
+            sprite.AttachSpriteToDocument();
 
             var TellServerWhichFilesFlashWantsToLoad = new[] {
                 //"assets/Flare3DWaterShips/ship.zf3d",

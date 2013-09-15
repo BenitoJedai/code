@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Flare3DWaterShips</RootNamespace>
     <AssemblyName>Flare3DWaterShips</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>Flare3DWaterShips.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -34,8 +36,15 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chrome Web Server">
+      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+    </Reference>
     <Reference Include="Flare3DWaterShipComponent">
       <HintPath>..\packages\Flare3DWaterShipComponent.1.0.0.0\lib\Flare3DWaterShipComponent.dll</HintPath>
     </Reference>
@@ -59,6 +68,9 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
@@ -129,6 +141,7 @@
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\highlights.png" />
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\normalmap.jpg" />
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\skybox.png" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -141,7 +154,11 @@
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\particles.zf3d" />
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\water.pbj" />
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\water.pbk" />
+    <None Include="staging\Flare3DWaterShips.Application\web\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
