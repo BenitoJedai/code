@@ -2,9 +2,9 @@
 
 // http://developer.chrome.com/extensions/bookmarks.html
 
-interface chrome.ChromeEventTarget<T, T2>
+interface chrome.ChromeEventTarget<T, T2, T3>
 {
-	void addListener(function<T, T2> callback);
+	void addListener(function<T, T2, T3> callback);
 };
 
 
@@ -25,29 +25,30 @@ interface chrome.notifications
 	static void clear(string notificationId, function callback);
 };
 
-//// http://developer.chrome.com/apps/runtime.html
-//interface chrome.runtime
-//{
-//
-//
-//	// http://stackoverflow.com/questions/2963260/how-do-i-auto-reload-a-chrome-extension-im-developing
-//	static void reload();
-//
-//	async static void getPackageDirectoryEntry(function<any> callback);
-//
-//	static attribute ChromeEventTarget onStartup;
-//	static attribute ChromeEventTarget onInstalled;
-//	static attribute ChromeEventTarget onSuspend;
-//	static attribute ChromeEventTarget onSuspendCanceled;
-//	static attribute ChromeEventTarget onUpdateAvailable;
-//	static attribute ChromeEventTarget onConnect;
-//	static attribute ChromeEventTarget onConnectExternal;
-//	static attribute ChromeEventTarget onMessage;
-//	static attribute ChromeEventTarget onMessageExternal;
-//	static attribute ChromeEventTarget onRestartRequired;
-//};
-//
-//// does this type even exist?
+// http://developer.chrome.com/apps/runtime.html
+interface chrome.runtime
+{
+
+
+	// http://stackoverflow.com/questions/2963260/how-do-i-auto-reload-a-chrome-extension-im-developing
+	static void reload();
+
+	async static void getPackageDirectoryEntry(function<any> callback);
+
+	event static attribute chrome.ChromeEventTarget onStartup;
+	event static attribute chrome.ChromeEventTarget onInstalled;
+	event static attribute chrome.ChromeEventTarget onSuspend;
+	event static attribute chrome.ChromeEventTarget onSuspendCanceled;
+	event static attribute chrome.ChromeEventTarget<any> onUpdateAvailable;
+
+	event static attribute chrome.ChromeEventTarget<any> onConnect;
+	event static attribute chrome.ChromeEventTarget<any> onConnectExternal;
+
+	event static attribute chrome.ChromeEventTarget<any, any, any> onMessage;
+	event static attribute chrome.ChromeEventTarget<any, any, any> onMessageExternal;
+	event static attribute chrome.ChromeEventTarget<any> onRestartRequired;
+};
+
 interface chrome.app
 {
 	// http://developer.chrome.com/trunk/apps/app.window.html
@@ -112,55 +113,70 @@ interface chrome.app.runtime
 
 };
 
-//
-//interface chrome.CreateInfo 
-//{
-//	attribute long socketId;
-//};
-//
-//interface chrome.WriteInfo 
-//{
-//	attribute long bytesWritten;
-//};
-//
-//interface chrome.ReadInfo 
-//{
-//	attribute long resultCode;
-//	attribute ArrayBufferView data;
-//};
-//
-//interface chrome.RecvFromInfo 
-//{
-//	attribute long resultCode;
-//	attribute long port;
-//	attribute DOMString address;
-//	attribute ArrayBuffer data;
-//};
-//
-//
-//interface chrome.socket
-//{
-//
-//	// http://developer.chrome.com/trunk/apps/socket.html#method-listen
-//
-//	static void listen (int socketId, string address, int port, int backlog, function callback);
-//	static void accept(int socketId, function callback);
-//	// void create(SocketType type, CreateOptions options, function callback);
-//	async static void create(string type, any options, function<chrome.CreateInfo> callback);
-//
-//	async static void setMulticastTimeToLive(int socketId, int ttl, function<int> callback);
-//
-//	async static void bind(int socketId, string address, int port, function<int> callback);
-//
-//	async static void joinGroup(int socketId, string address, function<int> callback);
-//	async static void recvFrom(int socketId, int bufferSize, function<chrome.RecvFromInfo> callback);
-//
-//	async static void sendTo(int socketId, any data, string address, int port, function<chrome.WriteInfo> callback);
-//
-//};
+
+interface chrome.CreateInfo 
+{
+	attribute long socketId;
+};
+
+interface chrome.WriteInfo 
+{
+	attribute long bytesWritten;
+};
+
+interface chrome.ReadInfo 
+{
+	attribute long resultCode;
+	attribute ArrayBufferView data;
+};
+
+interface chrome.RecvFromInfo 
+{
+	attribute long resultCode;
+	attribute long port;
+	attribute DOMString address;
+	attribute ArrayBuffer data;
+};
 
 
+interface chrome.AcceptInfo 
+{
+	attribute long resultCode;
+	attribute long socketId;
+};
 
+
+interface chrome.socket
+{
+
+	// http://developer.chrome.com/trunk/apps/socket.html#method-listen
+
+	async static void listen (int socketId, string address, int port, int backlog, function<int> callback);
+	async static void accept(int socketId, function<chrome.AcceptInfo> callback);
+	// void create(SocketType type, CreateOptions options, function callback);
+	async static void create(string type, any options, function<chrome.CreateInfo> callback);
+
+	async static void setMulticastTimeToLive(int socketId, int ttl, function<int> callback);
+
+	async static void bind(int socketId, string address, int port, function<int> callback);
+
+	async static void joinGroup(int socketId, string address, function<int> callback);
+	async static void recvFrom(int socketId, int bufferSize, function<chrome.RecvFromInfo> callback);
+
+	async static void sendTo(int socketId, any data, string address, int port, function<chrome.WriteInfo> callback);
+
+
+	// this looks like a property!
+	// Task<NetworkInterface[]> NetworkList
+	async static void getNetworkList(function<sequence<chrome.NetworkInterface>> callback);
+};
+
+// http://developer.chrome.com/trunk/apps/socket.html#type-NetworkInterface
+interface chrome.NetworkInterface 
+{
+	attribute DOMString name ;
+	attribute DOMString address ;
+};
 
 
 
@@ -267,23 +283,9 @@ interface chrome.app.runtime
 //	attribute boolean connected;
 //};
 //
-//// http://developer.chrome.com/trunk/apps/socket.html#type-NetworkInterface
-//[Constructor]
-//interface NetworkInterface 
-//{
-//	attribute DOMString name ;
-//	attribute DOMString address ;
-//};
-//
 
-//
-//[Constructor]
-//interface AcceptInfo 
-//{
-//	attribute long resultCode;
-//	attribute long socketId;
-//};
-//
+
+
 
 //
 //

@@ -1,4 +1,6 @@
-﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+﻿using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +45,7 @@ namespace chrome
 
         public bool IsClosed { get; private set; }
 
-
+        #region IconCanvas
         IHTMLCanvas _IconCanvas;
         Action _IconCanvasSync;
 
@@ -74,6 +76,7 @@ namespace chrome
 
             }
         }
+        #endregion
 
         public static List<Notification> AllNotifications = new List<Notification>();
 
@@ -102,98 +105,122 @@ namespace chrome
 
             this.IsClosed = false;
 
-            this.update = async delegate
+            this.update = delegate
             {
-                var wasUpdated = await chrome.notifications.update(
-                    this.Key,
-                    new NotificationOptions
-                    {
-                        title = _title,
-                        message = _message,
-                        type = type,
-                        iconUrl = _iconUrl
-                    }
-                );
 
-                Console.WriteLine(new { Key, wasUpdated });
             };
 
+            // wait for any property initialization
 
-            // tested by
-            // X:\jsc.svn\examples\javascript\chrome\ChromeNotificationExperiment\ChromeNotificationExperiment\Application.cs
-
-            chrome.notifications.create(
-                this.Key,
-                new NotificationOptions
-                {
-                    title = _title,
-                    message = _message,
-                    type = type,
-                    iconUrl = _iconUrl
-                }
-            ).GetAwaiter().OnCompleted(
+            //Console.WriteLine("before Delay");
+            Task.Delay(1).GetAwaiter().OnCompleted(
                 delegate
                 {
+                    //Console.WriteLine("at Delay");
 
-                    #region Closed
-                    //chrome.notifications.onClosed.addListener(
-                    chrome.notifications.Closed +=
-                        //new Action<string, bool>(
-                             (__notificationId, __byUser) =>
-                             {
-                                 if (__notificationId != this.Key)
-                                     return;
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\chrome\ChromeNotificationExperiment\ChromeNotificationExperiment\Application.cs
+                    var doupdate = false;
 
-                                 IsClosed = true;
+                    this.update = delegate
+                    {
+                        doupdate = true;
 
-                                 if (this.Closed != null)
-                                     this.Closed(__byUser);
+                    };
 
-                                 //Console.WriteLine("onClosed " + new { __notificationId, __byUser });
-                             };
-                    //    )
-                    //);
-
-                    #endregion
-
-                    #region Clicked
-                    chrome.notifications.Clicked +=
-                        (__notificationId) =>
+                    chrome.notifications.create(
+                        this.Key,
+                        new NotificationOptions
                         {
-                            if (__notificationId != this.Key)
-                                return;
+                            title = this._title,
+                            message = this._message,
+                            type = type,
+                            iconUrl = this._iconUrl
+                        }
+                    ).GetAwaiter().OnCompleted(
+                        delegate
+                        {
 
-                            //Console.WriteLine("onClicked " + new { __notificationId });
+                            #region Closed
+                            //chrome.notifications.onClosed.addListener(
+                            chrome.notifications.Closed +=
+                                //new Action<string, bool>(
+                                     (__notificationId, __byUser) =>
+                                     {
+                                         if (__notificationId != this.Key)
+                                             return;
 
-                            if (this.Clicked != null)
-                                this.Clicked();
+                                         IsClosed = true;
 
-                            // 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
+                                         if (this.Closed != null)
+                                             this.Closed(__byUser);
 
-                            //dynamic createProperties = new object();
-
-                            //createProperties.url = "http://example.com";
-
-                            //chrome.tabs.create(createProperties,
-
-                            //   new Action<Tab>(
-                            //       tab =>
-                            //       {
-                            //           Console.WriteLine("tab " + new { tab.id, tab.windowId });
-                            //       }
-                            //   )
+                                         //Console.WriteLine("onClosed " + new { __notificationId, __byUser });
+                                     };
+                            //    )
                             //);
 
+                            #endregion
 
-                            //Native.window.open("http://example.com", "_blank");
-                        };
-                    //    )
-                    //);
-                    #endregion
+                            #region Clicked
+                            chrome.notifications.Clicked +=
+                                (__notificationId) =>
+                                {
+                                    if (__notificationId != this.Key)
+                                        return;
+
+                                    //Console.WriteLine("onClicked " + new { __notificationId });
+
+                                    if (this.Clicked != null)
+                                        this.Clicked();
+
+                                    // 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
+
+                                    //dynamic createProperties = new object();
+
+                                    //createProperties.url = "http://example.com";
+
+                                    //chrome.tabs.create(createProperties,
+
+                                    //   new Action<Tab>(
+                                    //       tab =>
+                                    //       {
+                                    //           Console.WriteLine("tab " + new { tab.id, tab.windowId });
+                                    //       }
+                                    //   )
+                                    //);
 
 
+                                    //Native.window.open("http://example.com", "_blank");
+                                };
+                            //    )
+                            //);
+                            #endregion
+
+                            this.update = async delegate
+                            {
+                                var wasUpdated = await chrome.notifications.update(
+                                    this.Key,
+                                    new NotificationOptions
+                                    {
+                                        title = this._title,
+                                        message = this._message,
+                                        type = type,
+                                        iconUrl = this._iconUrl
+                                    }
+                                );
+
+                                Console.WriteLine(new { Key, wasUpdated });
+                            };
+
+                            if (doupdate)
+                                this.update();
+
+                        }
+                    );
                 }
-            );
+                );
+
         }
 
     }
