@@ -50,8 +50,7 @@ namespace MulticastListenExperiment
                 if (Native.window.opener == null)
                     if (Native.window.parent == Native.window.self)
                     {
-                        chrome.app.runtime.onLaunched.addListener(
-                            new Action(
+                        chrome.app.runtime.Launched +=
                                 async delegate
                                 {
                                     // runtime will launch only once?
@@ -85,12 +84,8 @@ namespace MulticastListenExperiment
 
                                         };
 
-                                    //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
+                                };
 
-
-                                }
-                            )
-                        );
                         return;
                     }
 
