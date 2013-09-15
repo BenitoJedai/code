@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FlashHeatZeeker.PlayerIOIntegrationBeta2</RootNamespace>
     <AssemblyName>FlashHeatZeeker.PlayerIOIntegrationBeta2</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>FlashHeatZeeker.PlayerIOIntegrationBeta2.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHerokuPHP|x86'">
     <OutputPath>bin\x86\ReleaseHerokuPHP\</OutputPath>
@@ -45,6 +48,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android|x86'">
     <OutputPath>bin\x86\Android\</OutputPath>
@@ -54,6 +58,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Abstractatech.ActionScript.Audio, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -72,9 +77,11 @@
     <Reference Include="box2dflash">
       <HintPath>..\packages\box2dflash.1.0.0.0\lib\box2dflash.dll</HintPath>
     </Reference>
-    <Reference Include="Chrome Web Store.dll, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll.dll</HintPath>
+    <Reference Include="Chrome Web Server">
+      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
     </Reference>
     <Reference Include="FlashHeatZeeker.Core">
       <HintPath>..\packages\FlashHeatZeeker.Core.1.0.0.0\lib\FlashHeatZeeker.Core.dll</HintPath>
@@ -172,6 +179,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
@@ -267,8 +277,15 @@
     <Content Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\Screenshot440x280.png" />
     <Content Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\ScreenshotHD1.png" />
     <Content Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\ScreenshotHD2.jpg" />
+    <Content Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.Application\Preview128.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.Application\Preview16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\manifest.jsonx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -277,6 +294,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\manifest.webapp" />
+    <None Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.Application\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

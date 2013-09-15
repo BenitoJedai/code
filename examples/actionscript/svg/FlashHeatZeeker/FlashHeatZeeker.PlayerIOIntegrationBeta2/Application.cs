@@ -49,8 +49,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                 + new
                 {
                     Native.Document.location.href,
-                    Native.Window.parent,
-                    Native.Window.opener
+                    Native.window.parent,
+                    Native.window.opener
                 }
             );
 
@@ -65,12 +65,12 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                    embed =>
                    {
                        embed.style.SetLocation(0, 0);
-                       embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                       embed.style.SetSize(Native.window.Width, Native.window.Height);
 
-                       Native.Window.onresize +=
+                       Native.window.onresize +=
                            delegate
                            {
-                               embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                               embed.style.SetSize(Native.window.Width, Native.window.Height);
                            };
                    }
                );
