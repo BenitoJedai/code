@@ -1,0 +1,33 @@
+
+{
+"manifest_version": 2,
+  "name": "FlashHeatZeeker.UnitPedControl",
+  "description": "FlashHeatZeeker.UnitPedControl",
+  "version": "12",
+ "minimum_chrome_version": "27",
+  "offline_enabled": true,
+
+  "app": {
+
+	"background": {
+	  "persistent": true,
+      "scripts": ["view-source"]
+    }
+  },
+  "icons": {
+  },
+  
+
+  "permissions": [
+  "webview",
+  "fullscreen",
+  "pointerLock",
+    "unlimitedStorage",
+	    "notifications",
+		    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership", "tcp-connect", "tcp-listen"]
+    }
+  ]
+
+}

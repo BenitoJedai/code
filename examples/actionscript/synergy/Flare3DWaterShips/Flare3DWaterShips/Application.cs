@@ -1,3 +1,4 @@
+using chrome;
 using Flare3DWaterShips.Design;
 using Flare3DWaterShips.HTML.Pages;
 using ScriptCoreLib;
@@ -30,12 +31,14 @@ namespace Flare3DWaterShips
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region TheServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
             object self_chrome_socket = self_chrome.socket;
 
             if (self_chrome_socket != null)
             {
+                Notification.DefaultTitle = "Flare3DWaterShips";
                 ChromeTCPServer.TheServer.Invoke(
                     AppSource.Text
                 );
@@ -43,6 +46,8 @@ namespace Flare3DWaterShips
 
                 return;
             }
+            #endregion
+
 
             // Initialize ApplicationSprite
             sprite.AttachSpriteToDocument();
