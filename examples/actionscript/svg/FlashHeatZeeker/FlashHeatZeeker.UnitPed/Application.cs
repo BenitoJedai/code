@@ -31,18 +31,18 @@ namespace FlashHeatZeeker.UnitPed
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            sprite.wmode();
+            //sprite.wmode();
 
             sprite.AttachSpriteToDocument().With(
                    embed =>
                    {
                        embed.style.SetLocation(0, 0);
-                       embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                       embed.style.SetSize(Native.window.Width, Native.window.Height);
 
-                       Native.Window.onresize +=
+                       Native.window.onresize +=
                            delegate
                            {
-                               embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                               embed.style.SetSize(Native.window.Width, Native.window.Height);
                            };
                    }
                );

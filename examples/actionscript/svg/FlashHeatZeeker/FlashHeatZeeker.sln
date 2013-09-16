@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.PlayerIOInt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.PlayerIOServer", "FlashHeatZeeker.PlayerIOServer\FlashHeatZeeker.PlayerIOServer.csproj", "{BABA968B-41D7-4B0E-AFB9-DFA37307C833}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Market", "Market", "{599F2D93-A905-438E-8896-965B4EC9015D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{599F2D93-A905-438E-8896-965B4EC9015D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ConsoleFormPackage", "..\..\..\..\market\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage.csproj", "{3D035C03-5D69-452B-9022-0269DBD26D8B}"
 EndProject
@@ -46,10 +46,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.CoreAudio", "FlashHeatZeeker.CoreAudio\FlashHeatZeeker.CoreAudio.csproj", "{C8F78217-D723-4E69-BE48-D40814DCDB76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.StarlingSetup", "FlashHeatZeeker.StarlingSetup\FlashHeatZeeker.StarlingSetup.csproj", "{F6418CC1-5B0B-4D49-AFBB-C69DDBF1077B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {6193012A-2B4F-4FB9-BC0A-42C3D75BF815}
+		{0AB27151-12CD-4377-AE76-16E6F0F72580} = {0AB27151-12CD-4377-AE76-16E6F0F72580}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitPed", "FlashHeatZeeker.UnitPed\FlashHeatZeeker.UnitPed.csproj", "{28B82C3C-E90A-42A9-80C2-71BC99E91592}"
 	ProjectSection(ProjectDependencies) = postProject
+		{E90AF106-0535-4F20-9390-2536A8E4DEB7} = {E90AF106-0535-4F20-9390-2536A8E4DEB7}
 		{0AB27151-12CD-4377-AE76-16E6F0F72580} = {0AB27151-12CD-4377-AE76-16E6F0F72580}
+		{F6418CC1-5B0B-4D49-AFBB-C69DDBF1077B} = {F6418CC1-5B0B-4D49-AFBB-C69DDBF1077B}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.UnitJeep", "FlashHeatZeeker.UnitJeep\FlashHeatZeeker.UnitJeep.csproj", "{44E16D3A-A6AF-4156-B663-AEDDF9CBC766}"
@@ -73,6 +79,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.TestDrivers", "FlashHeatZeeker.TestDrivers\FlashHeatZeeker.TestDrivers.csproj", "{25E47B7D-5F39-4A35-A5D0-49952123A81A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.CorePhysics", "FlashHeatZeeker.CorePhysics\FlashHeatZeeker.CorePhysics.csproj", "{E90AF106-0535-4F20-9390-2536A8E4DEB7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0AB27151-12CD-4377-AE76-16E6F0F72580} = {0AB27151-12CD-4377-AE76-16E6F0F72580}
+		{F6418CC1-5B0B-4D49-AFBB-C69DDBF1077B} = {F6418CC1-5B0B-4D49-AFBB-C69DDBF1077B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.TestDriversTouch", "FlashHeatZeeker.TestDriversTouch\FlashHeatZeeker.TestDriversTouch.csproj", "{B03914D1-BD0F-4DB4-92FB-A24CA7F70B59}"
 EndProject
@@ -131,6 +141,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashHeatZeeker.PlayerIOBot", "FlashHeatZeeker.PlayerIOBot\FlashHeatZeeker.PlayerIOBot.csproj", "{61E37ADB-F882-462F-80C2-1584051076D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "box2dflash", "..\..\..\..\market\synergy\box2dflash\box2dflash\box2dflash.csproj", "{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\..\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj", "{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "starling", "..\..\..\..\market\synergy\starling\starling\starling.csproj", "{C1F13666-5C65-41F7-8A00-D0F03679931C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlashHeatZeeker", "FlashHeatZeeker", "{2F51D01E-D4C7-4CA7-A882-E1B98C7E4ED4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{614C91BB-2F7F-4AEE-956B-1EC9356A5C4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1176,6 +1194,46 @@ Global
 		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
 		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
 		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Android|Any CPU.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Android|Mixed Platforms.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Android|x86.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Android|x86.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.ActiveCfg = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.Build.0 = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|Any CPU.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|Mixed Platforms.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.ReleaseHerokuPHP|Any CPU.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.ReleaseHerokuPHP|Mixed Platforms.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Android|Any CPU.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Android|Mixed Platforms.Build.0 = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Android|x86.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Android|x86.Build.0 = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Debug|x86.ActiveCfg = Debug|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Debug|x86.Build.0 = Debug|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Release|Any CPU.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Release|x86.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Release|x86.Build.0 = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.ReleaseHerokuPHP|Any CPU.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.ReleaseHerokuPHP|Mixed Platforms.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.ReleaseHerokuPHP|Mixed Platforms.Build.0 = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.ReleaseHerokuPHP|x86.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.ReleaseHerokuPHP|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1207,5 +1265,13 @@ Global
 		{3F3896D2-07AB-4DFB-87E3-6139E5D40028} = {599F2D93-A905-438E-8896-965B4EC9015D}
 		{919A6834-7BA5-489D-B8D7-A062E056E5A3} = {599F2D93-A905-438E-8896-965B4EC9015D}
 		{4E919D6B-0B3B-4B77-8F15-79B6E39C742C} = {599F2D93-A905-438E-8896-965B4EC9015D}
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {599F2D93-A905-438E-8896-965B4EC9015D}
+		{C1F13666-5C65-41F7-8A00-D0F03679931C} = {599F2D93-A905-438E-8896-965B4EC9015D}
+		{599F2D93-A905-438E-8896-965B4EC9015D} = {2F51D01E-D4C7-4CA7-A882-E1B98C7E4ED4}
+		{614C91BB-2F7F-4AEE-956B-1EC9356A5C4E} = {2F51D01E-D4C7-4CA7-A882-E1B98C7E4ED4}
+		{28B82C3C-E90A-42A9-80C2-71BC99E91592} = {2F51D01E-D4C7-4CA7-A882-E1B98C7E4ED4}
+		{0AB27151-12CD-4377-AE76-16E6F0F72580} = {614C91BB-2F7F-4AEE-956B-1EC9356A5C4E}
+		{E90AF106-0535-4F20-9390-2536A8E4DEB7} = {614C91BB-2F7F-4AEE-956B-1EC9356A5C4E}
+		{F6418CC1-5B0B-4D49-AFBB-C69DDBF1077B} = {614C91BB-2F7F-4AEE-956B-1EC9356A5C4E}
 	EndGlobalSection
 EndGlobal

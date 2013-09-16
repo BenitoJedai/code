@@ -61,6 +61,9 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="net.hires.debug">
+      <HintPath>..\packages\net.hires.debug.1.0.0.0\lib\net.hires.debug.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -111,7 +114,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
-    <Reference Include="starling">
+    <Reference Include="starling, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\starling.1.0.0.0\lib\starling.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -168,7 +172,6 @@
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_stand.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_shadow.svg" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
