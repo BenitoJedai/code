@@ -81,12 +81,12 @@ namespace FlashHeatZeeker.CoreAudio
 
                 f.LocationChanged += delegate
                 {
-                    var max = (Native.Window.Width - f.Width) / 2.0;
+                    var max = (Native.window.Width - f.Width) / 2.0;
 
                     var right = f.Left / max;
-                    var left = (Native.Window.Width - f.Right) / max;
+                    var left = (Native.window.Width - f.Right) / max;
 
-                    var top = f.Top / (Native.Window.Height - f.Height);
+                    var top = f.Top / (Native.window.Height - f.Height);
 
                     this.SetMasterVolume("" + top);
                     this.SetLeftVolume("" + left);
