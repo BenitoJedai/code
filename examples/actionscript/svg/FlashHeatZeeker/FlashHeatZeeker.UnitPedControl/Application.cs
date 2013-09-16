@@ -1,3 +1,4 @@
+using chrome;
 using FlashHeatZeeker.UnitPedControl.Design;
 using FlashHeatZeeker.UnitPedControl.HTML.Pages;
 using ScriptCoreLib;
@@ -31,7 +32,23 @@ namespace FlashHeatZeeker.UnitPedControl
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            //sprite.wmode();
+            #region TheServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                Notification.DefaultTitle = "Flare3DWaterShips";
+                ChromeTCPServer.TheServer.Invoke(
+                    AppSource.Text
+                );
+
+
+                return;
+            }
+            #endregion
+
 
             sprite.AttachSpriteToDocument().With(
                    embed =>
@@ -51,24 +68,4 @@ namespace FlashHeatZeeker.UnitPedControl
     }
 
 
-    public static class XX
-    {
-
-
-        public static void wmode(this Sprite s, string value = "direct")
-        {
-            var x = s.ToHTMLElement();
-
-            var p = x.parentNode;
-            if (p != null)
-            {
-                // if we continue, element will be reloaded!
-                return;
-            }
-
-            x.setAttribute("wmode", value);
-
-
-        }
-    }
 }
