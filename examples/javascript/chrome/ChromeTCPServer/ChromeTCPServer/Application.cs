@@ -19,6 +19,7 @@ using System.Diagnostics;
 using ScriptCoreLib.JavaScript.WebGL;
 using System.IO;
 using ScriptCoreLib.JavaScript.Runtime;
+using System.Threading;
 
 namespace ChromeTCPServer
 {
@@ -56,10 +57,233 @@ namespace ChromeTCPServer
 
     }
 
+
+    sealed class x
+    {
+        public string path;
+        public string PageSource;
+        public byte[] write;
+    }
+
     public static class TheServer
     {
+
+
+
+
+        #region MulticastSend
+        static int MulticastSend_c = 0;
+        // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\Java\InternalAndroidWebServiceActivity.cs
+        static void MulticastSend(string reason, string data, string preview, string nn)
+        {
+            /// http://www.daniweb.com/software-development/java/threads/424998/udp-client-server-in-java
+
+            MulticastSend_c++;
+
+            //var n = c + " hello world";
+            var message =
+                new XElement("string",
+                    new XAttribute("reason", reason),
+                    new XAttribute("c", "" + MulticastSend_c),
+                    new XAttribute("preview", preview),
+                    new XAttribute("n", nn),
+                    data
+                ).ToString();
+
+            Console.WriteLine(new { message });
+
+            Action x = async delegate
+            {
+                var socket = await chrome.socket.create("udp", new object());
+
+                var port = new Random().Next(16000, 40000);
+                socket.socketId.bind("0.0.0.0", port);
+
+
+                // http://stackoverflow.com/questions/12253507/how-can-chrome-socket-be-used-for-broadcasting-or-multicasting
+                // To send multicast packets all you need to do is bind to a local interface (0.0.0.0 with a random port works, as you've discovered), and then address a packet to the correct group/port (which is what sendTo will do).
+
+                var xmessage = message.ToString();
+
+                Console.WriteLine(new { socket.socketId, port, xmessage });
+
+                var bytes = Encoding.UTF8.GetBytes(xmessage);
+                var xdata = new Uint8ClampedArray(bytes);
+
+
+                // Uncaught Error: Invocation of form socket.sendTo(object, string, integer, function) 
+                // doesn't match definition socket.sendTo(integer socketId, binary data, string address, integer port, function callback) 
+
+                // https://code.google.com/p/chromium/issues/detail?id=253304
+
+                // { socketId = 68, bytesWritten = -15 } 
+                var result = await socket.socketId.sendTo(
+                    xdata.buffer,
+                    "239.1.2.3",
+                    40404
+                );
+                Console.WriteLine(new { socket.socketId, result.bytesWritten });
+
+                socket.socketId.destroy();
+            };
+
+            x();
+
+            //new Thread(
+            //    delegate()
+            //    {
+            //        try
+            //        {
+            //            var socket = new DatagramSocket(); //construct a datagram socket and binds it to the available port and the localhos
+            //            byte[] b = Encoding.UTF8.GetBytes(message.ToString());    //creates a variable b of type byte
+            //            var dgram = new DatagramPacket((sbyte[])(object)b, b.Length, InetAddress.getByName("239.1.2.3"), 40404);//sends the packet details, length of the packet,destination address and the port number as parameters to the DatagramPacket  
+
+            //            socket.send(dgram); //send the datagram packet from this port
+            //        }
+            //        catch
+            //        {
+            //            System.Console.WriteLine("server error");
+            //        }
+            //    }
+            //)
+            //{
+
+            //    Name = "server"
+            //}.Start();
+        }
+        #endregion
+
+
+        static x z(Tuple<IProgress<x>, x> scope)
+        {
+            var path = scope.Item2.path;
+
+            Console.WriteLine("at StartNewWithProgress: " + new { scope.Item2.path, Thread.CurrentThread.ManagedThreadId });
+
+            Action<byte[]> WriteBytes =
+                bytes =>
+                {
+                    scope.Item1.Report(
+                        new x { path = scope.Item2.path, PageSource = default(string), write = bytes }
+                    );
+                };
+
+            //                                02000054 ChromeTCPServer.TheServer+<>c__DisplayClass1b+<<Invoke>b__14>d__43+<>MoveNext
+            //script: error JSC1000:
+            //error:
+            //  statement cannot be a load instruction (or is it a bug?)
+            //  [0x00d0] ldarg.0    +1 -0
+
+
+            #region y
+            Func<Task> y = async delegate
+            {
+                //nn.Title = "before bytes";
+
+                //Console.WriteLine(new { path } + " before bytes");
+                var xhr = new IXMLHttpRequest();
+                var asset = scope.Item2.path.Substring(1);
+                //Console.WriteLine(new { asset });
+
+                xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.GET, asset);
+                var xbytes = await xhr.bytes;
+                Console.WriteLine(new { asset, xbytes.Length, Thread.CurrentThread.ManagedThreadId } + " after bytes");
+                //nn.Title = "after bytes";
+
+                {
+                    var outputString = "HTTP/1.0 200 OK\r\nConnection: close\r\n\r\n";
+                    var bytes = Encoding.UTF8.GetBytes(outputString);
+                    //var xx = new Uint8ClampedArray(bytes);
+
+                    //nn.Title = "before headers";
+                    //await socketId.write(
+                    //     xx.buffer
+                    //);
+
+                    WriteBytes(bytes);
+                }
+                //nn.Title = "after headers";
+                //Console.WriteLine(new { path } + " after headers");
+
+                WriteBytes(xbytes);
+
+                {
+                    //var xx = new Uint8ClampedArray(xbytes);
+
+
+
+
+                    //var yy = await socketId.write(
+                    //     xx.buffer
+                    //);
+                    ////Console.WriteLine(new { path } + " after response");
+
+                    //return yy;
+                }
+                //nn.Title = "done!";
+
+                WriteBytes(null);
+
+                //return null;
+            };
+            #endregion
+
+
+            if (path == "/favicon.ico")
+            {
+                var outputString = "HTTP/1.0 404 go away\r\nConnection: close\r\n\r\n";
+
+                var bytes = Encoding.UTF8.GetBytes(outputString);
+                //var xx = new Uint8ClampedArray(bytes);
+                WriteBytes(bytes);
+                WriteBytes(null);
+
+                //return socketId.write(
+                //      xx.buffer
+                //  );
+            }
+            else if (path == "/")
+            {
+                #region /
+
+                // wont work for web worker?
+                //var xpage = XElement.Parse(PageSource);
+                //xpage.Add(new XElement("script", new XAttribute("src", "view-source"), " "));
+
+                //WriteString, 
+                var outputString = "HTTP/1.0 200 OK\r\nConnection: close\r\n\r\n"
+                    + scope.Item2.PageSource + "<script src='view-source'> </script>";
+
+                //WriteString(output);
+
+
+                var bytes = Encoding.UTF8.GetBytes(outputString);
+                //var xx = new Uint8ClampedArray(bytes);
+
+                //return socketId.write(
+                //      xx.buffer
+                //  );
+
+                WriteBytes(bytes);
+                WriteBytes(null);
+
+                #endregion
+            }
+            else
+            {
+                y();
+            }
+
+            // jsc cannot return task just yet, use progress instead
+            return scope.Item2;
+        }
+
         public static void Invoke(string PageSource)
         {
+            // https://code.google.com/p/chromium/issues/detail?id=179940
+            // https://github.com/GoogleChrome/chrome-app-samples/blob/master/websocket-server/http.js
+
+            #region chrome.runtime
             chrome.app.runtime.Restarted +=
           delegate
           {
@@ -99,6 +323,7 @@ namespace ChromeTCPServer
                         Message = "Suspend! " + new { t.ElapsedMilliseconds }
                     };
                 };
+            #endregion
 
             //            getNetworkList: 
             //{ name = {CE7A76DF-BCB0-4C3B-8466-D712A03F10A0}, address = fe80::55cc:63eb:5b4:60b4 }
@@ -117,7 +342,7 @@ namespace ChromeTCPServer
 
 
 
-
+            #region GetAddresss
             Func<NetworkInterface[], string> GetAddresss =
                 n =>
                 {
@@ -130,11 +355,13 @@ namespace ChromeTCPServer
 
                     return "127.0.0.1";
                 };
+            #endregion
+
 
             //Func<string, Func<string, Task<chrome.WriteInfo>>, Func<byte[], Task<chrome.WriteInfo>>, Task<object>> Handler =
 
             #region Handler
-            Func<string, chrome.socketId, Task<WriteInfo>> Handler =
+            Func<string, chrome.socketId, Task<string>> Handler =
                 (RequestLine, socketId) =>
                 {
                     //var x = new TaskCompletionSource<object>();
@@ -154,86 +381,51 @@ namespace ChromeTCPServer
                     //    Title = "ChromeTCPServer"
                     //};
 
-                    if (path == "/favicon.ico")
-                    {
-                        var outputString = "HTTP/1.0 404 go away\r\nConnection: close\r\n\r\n";
-
-                        var bytes = Encoding.UTF8.GetBytes(outputString);
-                        var xx = new Uint8ClampedArray(bytes);
-
-                        return socketId.write(
-                              xx.buffer
-                          );
-                    }
-
-                    #region /
-                    if (path == "/")
-                    {
-                        var xpage = XElement.Parse(PageSource);
-
-                        xpage.Add(new XElement("script", new XAttribute("src", "view-source"), " "));
-
-                        //WriteString, 
-                        var outputString = "HTTP/1.0 200 OK\r\nConnection: close\r\n\r\n"
-                            + xpage.ToString();
-
-                        //WriteString(output);
 
 
-                        var bytes = Encoding.UTF8.GetBytes(outputString);
-                        var xx = new Uint8ClampedArray(bytes);
+                    Console.WriteLine("before StartNewWithProgress: " + new { path, Thread.CurrentThread.ManagedThreadId });
 
-                        return socketId.write(
-                              xx.buffer
-                          );
-                    }
-                    #endregion
+                    var yyy = new TaskCompletionSource<string>();
 
 
-                    Func<Task<WriteInfo>> y = async delegate
-                    {
-                        //nn.Title = "before bytes";
+                    Task.Factory.StartNewWithProgress(
+                        new x { path = path, PageSource = PageSource, write = default(byte[]) },
 
-                        //Console.WriteLine(new { path } + " before bytes");
-                        var xhr = new IXMLHttpRequest();
-                        var asset = path.Substring(1);
-                        //Console.WriteLine(new { asset });
+                        function: z,
 
-                        xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.GET, asset);
-                        var xbytes = await xhr.bytes;
-                        Console.WriteLine(new { path, xbytes.Length } + " after bytes");
-                        //nn.Title = "after bytes";
+                        progress:
+                            state =>
+                            {
+                                if (state.write == null)
+                                {
+                                    Console.WriteLine("progress done StartNewWithProgress: " + new { state.path, Thread.CurrentThread.ManagedThreadId });
 
-                        {
-                            var outputString = "HTTP/1.0 200 OK\r\nConnection: close\r\n\r\n";
-                            var bytes = Encoding.UTF8.GetBytes(outputString);
-                            var xx = new Uint8ClampedArray(bytes);
+                                    yyy.SetResult(state.path);
+                                    return;
+                                }
 
-                            //nn.Title = "before headers";
-                            await socketId.write(
-                                 xx.buffer
-                            );
-                        }
-                        //nn.Title = "after headers";
-                        //Console.WriteLine(new { path } + " after headers");
 
-                        {
-                            var xx = new Uint8ClampedArray(xbytes);
+                                Console.WriteLine("progress StartNewWithProgress: " + new { state.path, state.write.Length, Thread.CurrentThread.ManagedThreadId });
 
-                            var yy = await socketId.write(
-                                 xx.buffer
-                            );
-                            //Console.WriteLine(new { path } + " after response");
 
-                            return yy;
-                        }
-                        //nn.Title = "done!";
-                    };
+                                var xx = new Uint8ClampedArray(state.write);
 
-                    return y();
+                                //nn.Title = "before headers";
+                                socketId.write(
+                                     xx.buffer
+                                );
+                            }
+                    );
+
+
+
+
+
+                    return yyy.Task;
                 };
             #endregion
 
+            #region doaccept
             Action<chrome.AcceptInfo> doaccept =
                 async accept =>
                 {
@@ -283,13 +475,18 @@ namespace ChromeTCPServer
                     var Request = new StringReader(input);
                     var RequestLine = Request.ReadLine();
 
+                    var HandlerStopwatch = new Stopwatch();
+                    HandlerStopwatch.Start();
+
                     //Console.WriteLine("accept before handler " + new { accept.socketId });
                     var xxx = Handler(RequestLine, accept.socketId);
                     await xxx;
 
-                    //Console.WriteLine("accept exit " + new { accept.socketId });
+                    Console.WriteLine("accept exit " + new { accept.socketId, HandlerStopwatch.ElapsedMilliseconds });
                     accept.socketId.destroy();
                 };
+            #endregion
+
 
             chrome.socket.getNetworkList().ContinueWithResult(
                async
@@ -343,35 +540,77 @@ namespace ChromeTCPServer
 
                        var nn = new Notification
                        {
-                           Message = new { uri }.ToString(),
+                           //Message = new { uri }.ToString(),
+                           Message = uri,
                        };
 
+
+                       Action advertise = delegate
+                       {
+                           var visitme = "Visit me at " + address + ":" + port;
+
+
+
+                           // send one without image too...
+                           MulticastSend(
+                               "",
+                               visitme,
+                               "",
+                               Notification.DefaultTitle
+                           );
+
+                           var preview = new IHTMLImage { src = Notification.DefaultIconUrl }.toDataURL();
+
+                           MulticastSend(
+                                "",
+                               visitme,
+                                preview,
+                               Notification.DefaultTitle
+                            );
+
+                       };
 
 
                        nn.Clicked +=
                            delegate
                            {
+                               advertise();
+
                                Native.window.open(uri);
                            };
 
                        chrome.app.runtime.Launched +=
                             delegate
                             {
+                                advertise();
+
                                 Native.window.open(uri);
                             };
 
 
                        var forever = true;
 
+                       var accept_gap = new Stopwatch();
+
                        while (forever)
                        {
-                           Console.WriteLine("before accept");
+                           Console.WriteLine("before accept " + new { accept_gap.ElapsedMilliseconds });
                            var accept = await i.socketId.accept();
+                           accept_gap.Restart();
 
                            // https://code.google.com/p/chromium/issues/detail?id=170595
                            //await Task.Delay(1000);
 
+                           //var delayaccept = accept;
+
+                           //Task.Delay(50).GetAwaiter().OnCompleted(
+                           //    delegate
+                           //    {
+                           //Console.WriteLine("before accept " + new { delayaccept.socketId });
                            doaccept(accept);
+                           //    }
+                           //);
+
                        }
                    }
 

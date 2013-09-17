@@ -161,6 +161,12 @@ interface chrome.socket
 	async static extension void listen (chrome.socketId socketId, string address, int port, int backlog, function<int> callback);
 	async static extension void accept(chrome.socketId socketId, function<chrome.AcceptInfo> callback);
 	// void create(SocketType type, CreateOptions options, function callback);
+
+	// https://code.google.com/p/chromium/issues/detail?id=246872
+	// http://src.chromium.org/svn/branches/1229_12/src/chrome/common/extensions/docs/apps/socket.html#type-socket.CreateOptions
+	// https://code.google.com/p/chromium/issues/detail?id=173533
+	// https://groups.google.com/a/chromium.org/forum/#!topic/chromium-discuss/AMitTmWh09Q
+	// http://src.chromium.org/viewvc/chrome/trunk/src/net/socket/server_socket.h?revision=210146&pathrev=210147
 	async static void create(string type, any options, function<chrome.CreateInfo> callback);
 
 	static extension void destroy(chrome.socketId socketId);

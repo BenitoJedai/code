@@ -35,9 +35,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         // error-unknownApplication
         // Error 404
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        //public readonly ApplicationWebService service = new ApplicationWebService();
 
-        public readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
         /// This is a javascript application.
@@ -52,7 +51,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
             if (self_chrome_socket != null)
             {
-                chrome.Notification.DefaultTitle = "FlashHeatZeeker";
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                chrome.Notification.DefaultTitle = "Operation «Heat Zeeker»";
                 ChromeTCPServer.TheServer.Invoke(
                     AppSource.Text
                 );
@@ -65,6 +65,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
 
 
+            ApplicationSprite sprite = new ApplicationSprite();
 
 
             //sprite.wmode();
@@ -86,15 +87,15 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
             "Operation «Heat Zeeker»".ToDocumentTitle();
 
-            try
-            {
-                //Console.WriteLine(new { chrome.app.isInstalled });
+            //try
+            //{
+            //    //Console.WriteLine(new { chrome.app.isInstalled });
 
-            }
-            catch
-            {
-                Console.WriteLine("error, not in chrome?");
-            }
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("error, not in chrome?");
+            //}
 
         }
 
