@@ -81,6 +81,7 @@ namespace chrome
         public static List<Notification> AllNotifications = new List<Notification>();
 
         public static string DefaultTitle = "my.jsc-solutions.net";
+        public static string DefaultIconUrl = "assets/ScriptCoreLib/jsc.png";
 
         public Notification(
             string notificationId = null,
@@ -89,12 +90,15 @@ namespace chrome
                 string message = "",
 
                 string type = "basic",
-                 string iconUrl = "assets/ScriptCoreLib/jsc.png"
+                 string iconUrl =  null
 
             )
         {
             if (title == null)
                 title = DefaultTitle;
+
+            if (iconUrl == null)
+                iconUrl = DefaultIconUrl;
 
             if (notificationId == null)
                 notificationId = "Notification#" + AllNotifications.Count;

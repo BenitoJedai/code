@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using MulticastListenExperiment.Design;
 using MulticastListenExperiment.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
+using chrome;
 
 namespace MulticastListenExperiment
 {
@@ -341,8 +342,7 @@ namespace MulticastListenExperiment
                             // Uncaught Error: Invocation of form socket.sendTo(object, string, integer, function) 
                             // doesn't match definition socket.sendTo(integer socketId, binary data, string address, integer port, function callback) 
 
-                            var result = await chrome.socket.sendTo(
-                                socketId,
+                            var result = await socketId.sendTo(
                                 data.buffer,
                                 "239.1.2.3",
                                 40404
@@ -355,16 +355,16 @@ namespace MulticastListenExperiment
                     #endregion
 
 
-                    var value_setMulticastTimeToLive = await chrome.socket.setMulticastTimeToLive(socket.socketId, 30);
+                    var value_setMulticastTimeToLive = await socketId.setMulticastTimeToLive(30);
 
                     new IHTMLDiv { innerText = new { value_setMulticastTimeToLive }.ToString() }.AttachToDocument();
 
 
-                    var value_bind = await chrome.socket.bind(socketId, "0.0.0.0", 40404);
+                    var value_bind = await socketId.bind("0.0.0.0", 40404);
 
                     new IHTMLDiv { innerText = new { value_bind }.ToString() }.AttachToDocument();
 
-                    var value_joinGroup = await chrome.socket.joinGroup(socketId, "239.1.2.3");
+                    var value_joinGroup = await socketId.joinGroup("239.1.2.3");
 
 
                     new IHTMLDiv { innerText = new { value_joinGroup }.ToString() }.AttachToDocument();
@@ -373,7 +373,7 @@ namespace MulticastListenExperiment
 
                     while (forever)
                     {
-                        var result = await chrome.socket.recvFrom(socketId, 1048576);
+                        var result = await socketId.recvFrom(1048576);
 
                         new IHTMLDiv { innerText = new { result.resultCode }.ToString() }.AttachToDocument();
 
