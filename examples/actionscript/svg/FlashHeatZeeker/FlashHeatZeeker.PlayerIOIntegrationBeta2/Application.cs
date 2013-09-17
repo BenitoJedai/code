@@ -37,6 +37,12 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
         //public readonly ApplicationWebService service = new ApplicationWebService();
 
+        // https://groups.google.com/a/chromium.org/forum/#!msg/chromium-extensions/3sXvdfb5qk8/iMteKuIawcUJ
+        // An error occurred: Failed to process your item.
+        // background subsection of app section is not supported.
+
+        // * New packaged apps are currently able to be searched and browsed in the Chrome Web Store by Windows and Chrome OS users on Chrome's developer channel. Users on other OSs and Chrome channels can view and install the app via a direct link.
+
 
         /// <summary>
         /// This is a javascript application.
@@ -62,7 +68,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
             }
             #endregion
 
-
+            // Your item is in the process of being published and may take up to 60 minutes to appear in the Chrome Web Store. 
+            // https://chrome.google.com/webstore/detail/cpcgbahhjcobocclaolehaffhpfonofe/publish-delayed
 
 
             ApplicationSprite sprite = new ApplicationSprite();

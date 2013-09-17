@@ -115,10 +115,12 @@ namespace WebGLToAnimatedGIFExperiment
 
                              var frames = new List<byte[]>();
 
+                             var framecount = 240;
+
                              new ScriptCoreLib.JavaScript.Runtime.Timer(
                                  async t =>
                                  {
-                                     if (t.Counter == 60)
+                                     if (t.Counter == framecount)
                                      {
                                          Console.WriteLine("GIFEncoderWorker!");
 
@@ -137,7 +139,7 @@ namespace WebGLToAnimatedGIFExperiment
                                          return;
                                      }
 
-                                     if (t.Counter >= 60)
+                                     if (t.Counter >= framecount)
                                      {
                                          c0.bytes = frames[t.Counter % frames.Count];
 
