@@ -20,6 +20,7 @@ using ScriptCoreLib.JavaScript.WebGL;
 using System.IO;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace ChromeTCPServer
 {
@@ -153,6 +154,7 @@ namespace ChromeTCPServer
         }
         #endregion
 
+        //static Dictionary<string, byte[]> CachedFiles = new Dictionary<string, byte[]>();
 
         static x z(Tuple<IProgress<x>, x> scope)
         {
@@ -180,51 +182,46 @@ namespace ChromeTCPServer
             {
                 //nn.Title = "before bytes";
 
+                var xbytes = default(byte[]);
+                var asset = scope.Item2.path.Substring(1);
+
+                //if (CachedFiles.ContainsKey(asset))
+                //{
+                //    xbytes = CachedFiles[asset];
+                //}
+                //else
+                //{
+
                 //Console.WriteLine(new { path } + " before bytes");
                 var xhr = new IXMLHttpRequest();
-                var asset = scope.Item2.path.Substring(1);
                 //Console.WriteLine(new { asset });
 
                 xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.GET, asset);
-                var xbytes = await xhr.bytes;
+                xbytes = await xhr.bytes;
+
+                //    CachedFiles[asset] = xbytes;
+                //}
+
                 Console.WriteLine(new { asset, xbytes.Length, Thread.CurrentThread.ManagedThreadId } + " after bytes");
                 //nn.Title = "after bytes";
 
                 {
-                    var outputString = "HTTP/1.0 200 OK\r\nConnection: close\r\n\r\n";
-                    var bytes = Encoding.UTF8.GetBytes(outputString);
-                    //var xx = new Uint8ClampedArray(bytes);
+                    var o = new StringBuilder();
 
-                    //nn.Title = "before headers";
-                    //await socketId.write(
-                    //     xx.buffer
-                    //);
+                    o.AppendLine("HTTP/1.0 200 OK");
+                    o.AppendLine("Connection: close");
+                    o.AppendLine("Content-Length: " + xbytes.Length);
+                    o.AppendLine();
+
+
+                    var bytes = Encoding.UTF8.GetBytes(o.ToString());
 
                     WriteBytes(bytes);
                 }
-                //nn.Title = "after headers";
-                //Console.WriteLine(new { path } + " after headers");
 
                 WriteBytes(xbytes);
-
-                {
-                    //var xx = new Uint8ClampedArray(xbytes);
-
-
-
-
-                    //var yy = await socketId.write(
-                    //     xx.buffer
-                    //);
-                    ////Console.WriteLine(new { path } + " after response");
-
-                    //return yy;
-                }
-                //nn.Title = "done!";
-
                 WriteBytes(null);
 
-                //return null;
             };
             #endregion
 
@@ -237,10 +234,6 @@ namespace ChromeTCPServer
                 //var xx = new Uint8ClampedArray(bytes);
                 WriteBytes(bytes);
                 WriteBytes(null);
-
-                //return socketId.write(
-                //      xx.buffer
-                //  );
             }
             else if (path == "/")
             {
@@ -258,11 +251,6 @@ namespace ChromeTCPServer
 
 
                 var bytes = Encoding.UTF8.GetBytes(outputString);
-                //var xx = new Uint8ClampedArray(bytes);
-
-                //return socketId.write(
-                //      xx.buffer
-                //  );
 
                 WriteBytes(bytes);
                 WriteBytes(null);
@@ -318,10 +306,16 @@ namespace ChromeTCPServer
             chrome.runtime.Suspend +=
                 delegate
                 {
-                    new Notification
+                    var n = new Notification
                     {
                         Message = "Suspend! " + new { t.ElapsedMilliseconds }
                     };
+
+                    n.Clicked += delegate
+                    {
+                        runtime.reload();
+                    };
+
                 };
             #endregion
 
@@ -369,9 +363,9 @@ namespace ChromeTCPServer
 
                     var path = RequestLine.SkipUntilIfAny(" ").TakeUntilIfAny(" ");
 
-                    Console.WriteLine(
-                        new { path }
-                    );
+                    //Console.WriteLine(
+                    //    new { path }
+                    //);
 
                     //{ RequestLine = GET /view-source HTTP/1.1, path = /view-source } 
 
@@ -383,7 +377,7 @@ namespace ChromeTCPServer
 
 
 
-                    Console.WriteLine("before StartNewWithProgress: " + new { path, Thread.CurrentThread.ManagedThreadId });
+                    //Console.WriteLine("before StartNewWithProgress: " + new { path, Thread.CurrentThread.ManagedThreadId });
 
                     var yyy = new TaskCompletionSource<string>();
 
@@ -442,7 +436,7 @@ namespace ChromeTCPServer
                     var read = await accept.socketId.read();
 
                     // { read = { resultCode = 370 } } 
-                    //Console.WriteLine(new { read = new { read.resultCode } });
+                    Console.WriteLine(new { read = new { read.resultCode } });
 
 
 
@@ -472,15 +466,24 @@ namespace ChromeTCPServer
 
                     //GET /favicon.ico HTTP/1.1
 
-                    var Request = new StringReader(input);
-                    var RequestLine = Request.ReadLine();
-
                     var HandlerStopwatch = new Stopwatch();
                     HandlerStopwatch.Start();
 
-                    //Console.WriteLine("accept before handler " + new { accept.socketId });
-                    var xxx = Handler(RequestLine, accept.socketId);
-                    await xxx;
+                    if (string.IsNullOrEmpty(input))
+                    {
+                        // ??
+                    }
+                    else
+                    {
+                        var Request = new StringReader(input);
+                        var RequestLine = Request.ReadLine();
+
+
+
+                        //Console.WriteLine("accept before handler " + new { accept.socketId });
+                        var xxx = Handler(RequestLine, accept.socketId);
+                        await xxx;
+                    }
 
                     Console.WriteLine("accept exit " + new { accept.socketId, HandlerStopwatch.ElapsedMilliseconds });
                     accept.socketId.destroy();
@@ -545,6 +548,7 @@ namespace ChromeTCPServer
                        };
 
 
+                       #region advertise
                        Action advertise = delegate
                        {
                            var visitme = "Visit me at " + address + ":" + port;
@@ -559,16 +563,22 @@ namespace ChromeTCPServer
                                Notification.DefaultTitle
                            );
 
-                           var preview = new IHTMLImage { src = Notification.DefaultIconUrl }.toDataURL();
+                           new IHTMLImage { src = Notification.DefaultIconUrl }.InvokeOnComplete(
+                               preview =>
+                               {
+                                   MulticastSend(
+                                        "",
+                                       visitme,
+                                        preview.toDataURL(),
+                                       Notification.DefaultTitle
+                                    );
 
-                           MulticastSend(
-                                "",
-                               visitme,
-                                preview,
-                               Notification.DefaultTitle
-                            );
+                               }
+                           );
 
                        };
+                       #endregion
+
 
 
                        nn.Clicked +=
@@ -594,22 +604,22 @@ namespace ChromeTCPServer
 
                        while (forever)
                        {
-                           Console.WriteLine("before accept " + new { accept_gap.ElapsedMilliseconds });
+                           Console.WriteLine("before accept gap: " + new { accept_gap.ElapsedMilliseconds });
                            var accept = await i.socketId.accept();
                            accept_gap.Restart();
 
                            // https://code.google.com/p/chromium/issues/detail?id=170595
                            //await Task.Delay(1000);
 
-                           //var delayaccept = accept;
+                           var delayaccept = accept;
 
-                           //Task.Delay(50).GetAwaiter().OnCompleted(
-                           //    delegate
-                           //    {
-                           //Console.WriteLine("before accept " + new { delayaccept.socketId });
-                           doaccept(accept);
-                           //    }
-                           //);
+                           Task.Delay(111).GetAwaiter().OnCompleted(
+                               delegate
+                               {
+                                   Console.WriteLine("at accept " + new { delayaccept.socketId });
+                                   doaccept(delayaccept);
+                               }
+                           );
 
                        }
                    }
