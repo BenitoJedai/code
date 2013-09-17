@@ -218,6 +218,7 @@
     </Compile>
     <Content Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhztd.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

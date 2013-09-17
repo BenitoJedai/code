@@ -45,6 +45,17 @@ namespace MultitouchFingerTools.FlashLAN
         public const int DefaultWidth = 640;
         public const int DefaultHeight = 480;
 
+        // AIR based chrome-to-android multicast experiment
+        // c:\util\android-sdk-windows\tools\ddms.bat
+
+        // An unexpected error occurred. Please try again later.
+        // Your application has been saved.
+
+        // Your application has been published. It can take several hours until it is available throughout Google Play.
+
+        // jbkfablianinjaengnkbmgbaigkjhfmi
+        // air.com.abstractatech.gamification.mft
+
         public ApplicationCanvas()
         {
 
