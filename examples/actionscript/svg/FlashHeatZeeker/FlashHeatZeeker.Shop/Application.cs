@@ -60,12 +60,12 @@ namespace FlashHeatZeeker.Shop
                    embed =>
                    {
                        embed.style.SetLocation(0, 0);
-                       embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                       embed.style.SetSize(Native.window.Width, Native.window.Height);
 
-                       Native.Window.onresize +=
+                       Native.window.onresize +=
                            delegate
                            {
-                               embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                               embed.style.SetSize(Native.window.Width, Native.window.Height);
                            };
                    }
                );
@@ -77,13 +77,13 @@ namespace FlashHeatZeeker.Shop
 
             con.Show();
 
-            con.Left = Native.Window.Width - con.Width;
+            con.Left = Native.window.Width - con.Width;
             con.Top = 0;
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                   delegate
                   {
-                      con.Left = Native.Window.Width - con.Width;
+                      con.Left = Native.window.Width - con.Width;
                       con.Top = 0;
                   };
 

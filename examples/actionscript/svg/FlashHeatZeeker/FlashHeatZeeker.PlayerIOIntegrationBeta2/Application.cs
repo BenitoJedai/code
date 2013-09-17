@@ -45,21 +45,29 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            Console.WriteLine("Application "
-                + new
-                {
-                    Native.Document.location.href,
-                    Native.window.parent,
-                    Native.window.opener
-                }
-            );
+            #region TheServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultTitle = "FlashHeatZeeker";
+                ChromeTCPServer.TheServer.Invoke(
+                    AppSource.Text
+                );
+
+
+                return;
+            }
+            #endregion
 
 
 
 
 
 
-            sprite.wmode();
+            //sprite.wmode();
 
             sprite.AttachSpriteToDocument().With(
                    embed =>
