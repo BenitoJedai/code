@@ -136,7 +136,6 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         public readonly div Control = new div();
     }
 
-    [Script]
     public class FrameInfo
     {
         public string Source;
@@ -163,7 +162,6 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         public int OffsetY;
     }
 
-    [Script]
     public class DudeAnimationInfo
     {
         public FrameInfo[] Frames_Stand;
@@ -186,7 +184,6 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         }
     }
 
-    [Script]
     public class Dude2 : DudeBase
     {
         public readonly DudeAnimationInfo AnimationInfo = new DudeAnimationInfo();
@@ -439,8 +436,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         }
 
 
-        #region
-        [Script]
+        #region ZoomInfo
         public class ZoomInfo
         {
             public event Action Changed;

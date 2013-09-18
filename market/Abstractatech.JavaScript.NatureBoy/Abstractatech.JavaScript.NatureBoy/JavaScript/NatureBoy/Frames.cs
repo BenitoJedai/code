@@ -16,13 +16,12 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         // http://www.wolf3d.co.uk/enemies.html
 
 
-        static IHTMLImage[] __Dude5Images = new Dude5Images().Images;
-        static IHTMLImage[] __Dude6Images = new Dude6Images().Images;
 
         public static FrameInfo[] WolfSoldier
         {
             get
             {
+                IHTMLImage[] __Dude5Images = new Dude5Images().Images;
                 return
 
                       8.Range(i => 114 + (i + 6) % 8)
@@ -43,6 +42,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         {
             get
             {
+                IHTMLImage[] __Dude5Images = new Dude5Images().Images;
                 return 4.Range(
                     j =>
                         8.Range(i => (122 + j * 8) + (i + 6) % 8)
@@ -63,6 +63,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         {
             get
             {
+                IHTMLImage[] __Dude6Images = new Dude6Images().Images;
                 return
 
                        8.Range(i => 244 + (i + 6) % 8)
@@ -82,6 +83,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         {
             get
             {
+                IHTMLImage[] __Dude6Images = new Dude6Images().Images;
                 return 4.Range(
                     j =>
                         8.Range(i => (252 + j * 8) + (i + 6) % 8)

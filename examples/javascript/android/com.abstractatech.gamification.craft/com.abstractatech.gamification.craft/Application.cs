@@ -36,6 +36,26 @@ namespace com.abstractatech.gamification.craft
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region TheServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultTitle = "Craft";
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                ChromeTCPServer.TheServer.Invoke(
+                    AppSource.Text
+                );
+
+
+                return;
+            }
+            #endregion
+
+
+
             // Process com.abstractatech.gamification.craft (pid 1456) has died.
             // http://stackoverflow.com/questions/7316680/process-has-died
 
@@ -49,6 +69,30 @@ namespace com.abstractatech.gamification.craft
             // why does this not work??
             (page.body.style as dynamic).cursor = cursor;
             (page.Preview.style as dynamic).cursor = "url('" + new guantlet().src + "'), auto";
+            (page.Avatar.style as dynamic).cursor = "url('" + new guantlet().src + "'), auto";
+
+            // http://www.effectgames.com/effect/article.psp.html/joe/Old_School_Color_Cycling_with_HTML5
+            // http://www.effectgames.com/demos/canvascycle/
+            // http://productforums.google.com/forum/#!topic/chrome/hgxRgmT0INY
+            // http://www.boutell.com/newfaq/creating/midi.html
+            //new com.abstractatech.gamification.craft.HTML.Audio.FromAssets.intro().AttachToHead().play();
+
+            // http://www.javascripter.net/faq/sound/play.htm
+
+            new HTML.Audio.FromAssets.IntroWarII { loop = true, volume = 0.5 }.play();
+
+            //new IHTMLObject
+            //{
+            //    data =
+            //        new com.abstractatech.gamification.craft.HTML.Audio.FromAssets.intro().src
+            //}.AttachToHead();
+
+            //            <object data="mysong.mid">
+            //<param name="loop" value="10"/>
+            //If you're seeing this, you don't have a MIDI player
+            //on your computer.
+            //</object>
+
 
             // IStyleSheet.Default.AddRule("body", "cursor: url('" + new cursor().src + "'), auto;", 0);
             // 

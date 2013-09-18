@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Na
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentalPaletteCycler", "ExperimentalPaletteCycler\ExperimentalPaletteCycler.csproj", "{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -112,6 +114,26 @@ Global
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Any CPU.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Mixed Platforms.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|x86.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|x86.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.ActiveCfg = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.Build.0 = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.PHP|Any CPU.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.PHP|x86.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.PHP|x86.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Any CPU.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

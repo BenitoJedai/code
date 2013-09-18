@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>com.abstractatech.gamification.craft</RootNamespace>
     <AssemblyName>com.abstractatech.gamification.craft</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>com.abstractatech.gamification.craft.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -34,8 +36,15 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chrome Web Server">
+      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -53,6 +62,9 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
@@ -119,6 +131,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Audio\music\intro.mid" />
+    <Content Include="Audio\music\IntroWarII.mp3" />
     <Content Include="Audio\music\Warcraft1_TitleTheme.mid" />
     <Content Include="Audio\orc\Opissed1.wav" />
     <Content Include="Audio\orc\Opissed2.wav" />
@@ -135,6 +148,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Cursors\guantlet.cur" />
+    <Content Include="Design\Avatar.png" />
     <Content Include="Design\Preview.png" />
     <Content Include="Cursors\severed.cur" />
     <Content Include="kennedy.greg-at-gmail.com\warcraft\dungeon1.png" />
@@ -159,7 +173,14 @@
     <Content Include="kennedy.greg-at-gmail.com\warcraft\swamp5.png" />
     <Content Include="kennedy.greg-at-gmail.com\warcraft\swamp6.png" />
     <Content Include="kennedy.greg-at-gmail.com\warcraft\swamp7.png" />
+    <Content Include="staging\com.abstractatech.gamification.craft.Application\web\Preview128.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="staging\com.abstractatech.gamification.craft.Application\web\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Textures\" />
