@@ -36,7 +36,7 @@ namespace SinePlasmaApplet
 
             if (self_chrome_socket != null)
             {
-                chrome.Notification.DefaultTitle = "Flare3DWaterShips";
+                chrome.Notification.DefaultTitle = "SinePlasmaApplet";
                 ChromeTCPServer.TheServer.Invoke(
                     DefaultSource.Text
                 );
