@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ButterFlyWithInteractiveInt32Offset.Library;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,9 +19,26 @@ namespace ButterFlyWithInteractiveInt32Offset.Library
             InitializeComponent();
         }
     }
+}
 
-    public static class X
+namespace ScriptCoreLib.Extensions
+{
+
+    public static class XInteractiveInt32Form
     {
+        //public static readonly ApplicationWebService service = new ApplicationWebService();
+
+        public class Service
+        {
+            public Action<string, string, Action<string>> File_ReadLine;
+            public Action<string, string, string, Action<string>> File_WriteLine;
+        }
+
+        public static Service service = new Service();
+
+
+
+
         static List<InteractiveInt32Form> lookup = new List<InteractiveInt32Form>();
 
         public static int ToInteractiveInt32Form(this int e,
@@ -31,24 +49,61 @@ namespace ButterFlyWithInteractiveInt32Offset.Library
 
             )
         {
+            var key = CallerFilePath + ":" + CallerLineNumber;
+
             var f = lookup.FirstOrDefault(
                 k =>
                 {
-                    return k.label1.Text == CallerFilePath && k.label2.Text == "" + CallerLineNumber;
+                    return k.label1.Text == key;
                 }
             );
 
             if (f == null)
             {
                 f = new InteractiveInt32Form { };
-                f.label1.Text = CallerFilePath;
-                f.label2.Text = "" + CallerLineNumber;
+                f.label1.Text = key;
+
+
+
                 f.label3.Text = CallerMemberName;
 
                 f.textBox1.Text = "" + e;
                 f.Show();
 
                 lookup.Add(f);
+
+                if (service.File_ReadLine != null)
+                    service.File_ReadLine(CallerFilePath, "" + CallerLineNumber,
+                       x =>
+                       {
+                           f.label2.Text = x;
+
+                           f.textBox1.TextChanged +=
+                               delegate
+                               {
+                                   f.label2.Text = x.Replace("" + e, f.textBox1.Text).Replace("default(int)", f.textBox1.Text);
+
+                                   f.button1.Enabled = true;
+                               };
+
+                           f.button1.Click +=
+                               delegate
+                               {
+                                   f.button1.Enabled = false;
+
+                                   if (service.File_WriteLine != null)
+                                       service.File_WriteLine(
+                                           CallerFilePath, "" + CallerLineNumber,
+                                           f.label2.Text,
+                                           y =>
+                                           {
+
+                                           }
+                                       );
+
+                               };
+                       }
+                   );
             }
 
             e = int.Parse(f.textBox1.Text);

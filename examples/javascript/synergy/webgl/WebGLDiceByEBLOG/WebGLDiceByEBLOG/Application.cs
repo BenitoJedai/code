@@ -86,11 +86,7 @@ namespace WebGLDiceByEBLOG
 
             //var camera = new THREE.OrthographicCamera(-w / 2, w / 2, h / 2, -h / 2, 1, 1000);
             var camera = new THREE.PerspectiveCamera(60, w / (double)h, 0.1, 1000);
-            camera.position.set(
-                0,
-                50,
-                0
-            );
+
 
             camera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -314,7 +310,12 @@ namespace WebGLDiceByEBLOG
                     target.y = Math.Cos(phi);
                     target.z = Math.Sin(phi) * Math.Sin(theta);
 
-
+                    //XInteractiveInt32Form.ToInteractiveInt32Form(
+                    camera.position.set(
+                        x: 0,
+                        y: 50.ToInteractiveInt32Form(),
+                        z: 0
+                   );
 
                     #region updatePhysics();
                     //物理エンジンの時間を進める
@@ -538,12 +539,12 @@ namespace WebGLDiceByEBLOG
 
 
             #region camera rotation
-            Native.document.body.onmousemove +=
+            renderer.domElement.onmousemove +=
                 e =>
                 {
                     e.preventDefault();
 
-                    if (Native.document.pointerLockElement == Native.document.body)
+                    if (Native.document.pointerLockElement == renderer.domElement)
                     {
                         drag = true;
                         lon += e.movementX * 0.1;
@@ -554,26 +555,26 @@ namespace WebGLDiceByEBLOG
                 };
 
 
-            Native.document.body.onmouseup +=
+            renderer.domElement.onmouseup +=
               e =>
               {
                   drag = Native.document.pointerLockElement != null;
                   e.preventDefault();
               };
 
-            Native.document.body.onmousedown +=
+            renderer.domElement.onmousedown +=
                 e =>
                 {
                     //e.CaptureMouse();
 
                     drag = true;
                     e.preventDefault();
-                    Native.document.body.requestPointerLock();
+                    renderer.domElement.requestPointerLock();
 
                 };
 
 
-            Native.document.body.ondblclick +=
+            renderer.domElement.ondblclick +=
                 e =>
                 {
                     e.preventDefault();
