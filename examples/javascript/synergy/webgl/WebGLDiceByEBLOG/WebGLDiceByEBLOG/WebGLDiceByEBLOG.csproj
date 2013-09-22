@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLDiceByEBLOG</RootNamespace>
     <AssemblyName>WebGLDiceByEBLOG</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>WebGLDiceByEBLOG.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -34,8 +36,12 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ButterFlyWithInteractiveInt32Offset">
+      <HintPath>..\packages\ButterFlyWithInteractiveInt32Offset.1.0.0.0\lib\ButterFlyWithInteractiveInt32Offset.dll</HintPath>
+    </Reference>
     <Reference Include="CANNON">
       <HintPath>..\packages\CANNON.1.0.0.0\lib\CANNON.dll</HintPath>
     </Reference>
@@ -142,6 +148,7 @@
     <Content Include="Textures\num2.png" />
     <Content Include="Textures\num4.png" />
     <Content Include="Textures\num1.png" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

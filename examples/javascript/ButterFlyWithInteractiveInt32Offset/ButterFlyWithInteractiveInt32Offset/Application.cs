@@ -25,8 +25,11 @@ namespace ButterFlyWithInteractiveInt32Offset
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
+            XInteractiveInt32Form.service.File_ReadLine = service.File_ReadLine;
+            XInteractiveInt32Form.service.File_WriteLine = service.File_WriteLine;
+
             new ButterFlyWithInteractiveInt32Offset.Library.Butterfly(page.PageContainer);
 
             //Native.Document.body.onclick +=

@@ -1,5 +1,6 @@
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -105,7 +106,7 @@ Click to capture pointer lock and see how the butterfly warps from left to right
                             e.style.backgroundPosition = x + "px " + y + "px";
 
                             overlay.style.SetLocation(
-                                x + default(int).ToInteractiveInt32Form(),
+                                x + 45.ToInteractiveInt32Form(),
                                 y + default(int).ToInteractiveInt32Form()
                             );
 
@@ -117,10 +118,10 @@ Click to capture pointer lock and see how the butterfly warps from left to right
                     {
                         update();
 
-                        Native.Window.requestAnimationFrame += loop;
+                        Native.window.requestAnimationFrame += loop;
                     };
 
-                    Native.Window.requestAnimationFrame += loop;
+                    Native.window.requestAnimationFrame += loop;
 
                     e.onmousemove +=
                         delegate(IEvent i)
@@ -140,13 +141,13 @@ Click to capture pointer lock and see how the butterfly warps from left to right
                             }
 
                             if (x < -img.width / 2)
-                                x += Native.Window.Width;
+                                x += Native.window.Width;
 
                             if (y < -img.height / 2)
-                                y += Native.Window.Height;
+                                y += Native.window.Height;
 
-                            x = x % Native.Window.Width;
-                            y = y % Native.Window.Height;
+                            x = x % Native.window.Width;
+                            y = y % Native.window.Height;
                             #endregion
 
 

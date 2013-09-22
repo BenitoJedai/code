@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\..\mar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{DC4F33E2-22D8-415C-9007-3890F6A8CD55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButterFlyWithInteractiveInt32Offset", "..\..\..\ButterFlyWithInteractiveInt32Offset\ButterFlyWithInteractiveInt32Offset\ButterFlyWithInteractiveInt32Offset.csproj", "{8A11634A-BB26-4F7A-BB7F-0501AEB04522}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -31,6 +33,10 @@ Global
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|x86.Build.0 = Debug|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.ActiveCfg = Release|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.Build.0 = Release|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Debug|x86.ActiveCfg = Debug|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Debug|x86.Build.0 = Debug|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Release|x86.ActiveCfg = Release|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,5 +44,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {DC4F33E2-22D8-415C-9007-3890F6A8CD55}
 		{4FFD0992-0097-4C06-9362-19846B399732} = {DC4F33E2-22D8-415C-9007-3890F6A8CD55}
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522} = {DC4F33E2-22D8-415C-9007-3890F6A8CD55}
 	EndGlobalSection
 EndGlobal

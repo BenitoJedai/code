@@ -2,6 +2,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -23,5 +24,29 @@ namespace ButterFlyWithInteractiveInt32Offset
             y(e);
         }
 
+
+        public void File_ReadLine(string CallerFilePath, string CallerLineNumber, Action<string> y)
+        {
+            Console.WriteLine(new { CallerFilePath, CallerLineNumber });
+
+            y(File.ReadAllLines(CallerFilePath)[int.Parse(CallerLineNumber) - 1]);
+
+        }
+
+        public void File_WriteLine(
+            string CallerFilePath,
+            string CallerLineNumber,
+
+            string value, Action<string> y)
+        {
+            Console.WriteLine(new { CallerFilePath, CallerLineNumber, value });
+            var Lines = File.ReadAllLines(CallerFilePath);
+
+            Lines[int.Parse(CallerLineNumber) - 1] = value;
+
+            File.WriteAllLines(CallerFilePath, Lines);
+
+
+        }
     }
 }
