@@ -139,7 +139,12 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
                                  var cylinder = new THREE.CylinderGeometry(size, 0.1, child.position.length(), 6);
 
-                                  cylinder.applyMatrix(new THREE.Matrix4().makeRotationFromEuler(new THREE.Vector3(Math.PI / 2, 0, 0)));
+                                 // ERROR: Matrix's .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.
+                                 cylinder.applyMatrix(
+                                     new THREE.Matrix4().makeRotationFromEuler(
+                                        new THREE.Euler(Math.PI / 2, 0, 0)
+                                     )
+                                 );
 
                                  cylinder.applyMatrix(new THREE.Matrix4().setPosition(new THREE.Vector3(0, 0, 0.5 * child.position.length())));
                                  var mesh = new THREE.Mesh(cylinder, pmaterial);
@@ -156,10 +161,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                          #region render
 
 
-                         Action render = null;
-
-
-                         render = delegate
+                         Native.window.onframe += delegate
                          {
                              Func<long> Date_now = () => (long)new IFunction("return Date.now();").apply(null);
 
@@ -238,13 +240,9 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                                  renderer.render(scene, camera);
                              }
 
-                             Native.window.requestAnimationFrame += render;
                          };
                          #endregion
 
-                         Native.window.requestAnimationFrame += render;
-
-                         Console.WriteLine("requestAnimationFrame ready!");
                      }
                 )
             );

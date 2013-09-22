@@ -74,7 +74,6 @@ namespace AsyncNestedTaskDelay
                 {
                     new IHTMLPre { innerText = "get b" }.AttachToDocument();
 
-                    //await Task.Delay(120);
                     await 120;
 
                     return "b";

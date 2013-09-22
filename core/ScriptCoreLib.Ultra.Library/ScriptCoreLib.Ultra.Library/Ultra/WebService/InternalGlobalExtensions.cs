@@ -25,6 +25,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 this.s = s;
             }
 
+#if JAVA_SUPPORTS_YIELD
             public IEnumerable<int> GetBytes(byte[] buffer)
             {
                 Console.WriteLine("enter GetBytes");
@@ -59,6 +60,28 @@ namespace ScriptCoreLib.Ultra.WebService
                 }
                 Console.WriteLine("exit GetBytes");
             }
+#else
+            public IEnumerable<int> GetBytes(byte[] buffer)
+            {
+                return this.s.Select(
+                    x =>
+                    {
+                        var ss = x();
+
+
+                        // Error	11	'System.Func<System.IO.Stream>' does not contain a definition for 'Read' and no extension method 'Read' accepting a first argument of type 'System.Func<System.IO.Stream>' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs	70	36	ScriptCoreLib.Ultra.Library
+
+
+                        var y = ss.Read(buffer, 0, buffer.Length);
+                        //Console.WriteLine("after ReadByte " + new { y });
+                        var z = y > 0;
+
+                        return y;
+                    }
+                );
+            }
+#endif
+
         }
 
 

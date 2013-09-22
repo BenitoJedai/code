@@ -531,10 +531,12 @@ namespace ChromeTCPServer
 
                    var i = await socket.create("tcp", new object { });
 
-                   Console.WriteLine(new { i.socketId, uri });
-
-                   // https://code.google.com/p/chromium/issues/detail?id=253304
                    var listen = await i.socketId.listen(address, port, 50);
+
+
+                   //Console.WriteLine(new { i.socketId, uri });
+
+                   //// https://code.google.com/p/chromium/issues/detail?id=253304
 
                    Console.WriteLine(new { listen });
                    //{ listen = -1 } 

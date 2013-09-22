@@ -45,20 +45,31 @@ interface CANNON.Quaternion
 };
 
 
+interface CANNON.EventTarget
+{
+	void addEventListener(string e, function f);
+};
+
 [Constructor(double mass, any sphereShape, any physicsMaterial),
 	Constructor(double mass, any sphereShape)]
-interface CANNON.RigidBody 
+interface CANNON.RigidBody : CANNON.EventTarget
 { 
+	// event sleepy
+
 	attribute CANNON.Quaternion        quaternion;
 	attribute CANNON.Vec3        position;
 	attribute CANNON.Vec3        velocity;
+	attribute CANNON.Vec3        angularVelocity;
 
 	attribute double        linearDamping;
 	attribute double        angularDamping;
+	attribute double        sleepSpeedLimit;
+	attribute double        sleepTimeLimit;
 
 	attribute boolean        useQuaternion;
 	attribute boolean        castShadow;
 	attribute boolean        receiveShadow;
+	attribute boolean        allowSleep;
 
 };
 
@@ -82,6 +93,7 @@ interface CANNON.World
 
 	attribute long        quatNormalizeSkip;
 	attribute boolean        quatNormalizeFast;
+	attribute boolean        allowSleep;
 
 	attribute /* NaiveBroadphase */ any        broadphase;
 
@@ -101,7 +113,7 @@ interface CANNON.Vec3
 	attribute double z;
 
 	void set(double x, double y, double z);
-	void copy(any xyz);
+	CANNON.Vec3  copy(any xyz);
 };
 
 [Constructor(any x)]
