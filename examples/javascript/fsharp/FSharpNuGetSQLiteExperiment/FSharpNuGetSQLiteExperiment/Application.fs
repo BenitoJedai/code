@@ -65,10 +65,10 @@ namespace FSharpNuGetSQLiteExperiment
 
                 p.Add(value);
 
-
-                ScriptCoreLib.JavaScript.Extensions.Extensions.AttachToDocument(
-                    p
-                ) |> ignore
+//
+//                ScriptCoreLib.JavaScript.Extensions.Extensions.AttachToDocument(
+//                    p.AsNode()
+//                ) |> ignore
 
                 ()
 

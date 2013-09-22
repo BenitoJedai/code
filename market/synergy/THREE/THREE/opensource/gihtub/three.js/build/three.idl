@@ -83,6 +83,8 @@ interface THREE.Camera : THREE.Object3D
 	attribute THREE.Matrix4  projectionMatrix;
 
 	void lookAt(THREE.Vector3 target);
+	void lookAt(any target);
+
 };
 
 [Constructor(double  left, double right, double top, double bottom, double near, double far)]
@@ -250,6 +252,11 @@ interface THREE.Vector2
 
 
 [Constructor(), Constructor(double x, double y, double z)]
+interface THREE.Euler 
+{ 
+};
+
+[Constructor(), Constructor(double x, double y, double z)]
 interface THREE.Vector3 
 { 
 	attribute double x; 
@@ -274,6 +281,16 @@ interface THREE.Vector3
 
 };
 
+[Constructor(), Constructor(double x, double y, double z, double q)]
+interface THREE.Vector4 
+{ 
+		attribute double x; 
+	attribute double y;
+	attribute double z;
+
+	 THREE.Vector4 applyMatrix4( THREE.Matrix4 m);
+};
+
 [Constructor()]
 interface THREE.Matrix4 
 { 
@@ -283,8 +300,9 @@ interface THREE.Matrix4
 	// https://github.com/chandlerprall/Physijs/issues/91
 	// stop breaking your library guys!
 	// tested by X:\jsc.svn\examples\javascript\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\Application.cs
-	any setRotationFromEuler(any vec3);
-	any makeRotationFromEuler(any vec3);
+	// yay. hit again. 2013-09-22
+	any setRotationFromEuler(THREE.Euler vec3);
+	any makeRotationFromEuler(THREE.Euler vec3);
 
 
 	THREE.Matrix4 makeTranslation(double x, double y, double z);
@@ -307,11 +325,16 @@ interface THREE.Object3D
 	attribute long        id;
 
 
+	attribute THREE.Matrix4  matrix;
+	attribute THREE.Matrix4  matrixWorld;
+
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  rotation;
+	attribute THREE.Quaternion  quaternion;
 
 	void add(any mesh);
 };
+
 
 
 [Constructor(any geometry, any material)]

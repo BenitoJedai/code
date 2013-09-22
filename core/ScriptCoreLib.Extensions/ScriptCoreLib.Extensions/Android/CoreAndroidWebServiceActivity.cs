@@ -49,5 +49,15 @@ namespace ScriptCoreLib.Android
             if (AtPause != null)
                 AtPause();
         }
+
+        public event Action<android.content.Intent> AtNewIntent;
+        protected override void onNewIntent(android.content.Intent value)
+        {
+            base.onNewIntent(value);
+
+            if (AtNewIntent != null)
+                AtNewIntent(value);
+        }
+
     }
 }

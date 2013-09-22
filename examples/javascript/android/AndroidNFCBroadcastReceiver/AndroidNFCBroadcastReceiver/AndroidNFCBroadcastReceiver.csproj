@@ -8,11 +8,11 @@
     <ProjectGuid>{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLDiceByEBLOG</RootNamespace>
-    <AssemblyName>WebGLDiceByEBLOG</AssemblyName>
+    <RootNamespace>AndroidNFCBroadcastReceiver</RootNamespace>
+    <AssemblyName>AndroidNFCBroadcastReceiver</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebGLDiceByEBLOG.Program</StartupObject>
+    <StartupObject>AndroidNFCBroadcastReceiver.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,9 +36,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CANNON">
-      <HintPath>..\packages\CANNON.1.0.0.0\lib\CANNON.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -93,9 +90,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -110,23 +106,24 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="THREE">
-      <HintPath>..\packages\THREE.1.0.0.0\lib\THREE.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLDiceByEBLOG.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebGLDiceByEBLOG.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidNFCBroadcastReceiver.AssetsLibrary">
+      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\AndroidNFCBroadcastReceiver\bin\staging.AssetsLibrary\AndroidNFCBroadcastReceiver.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
-      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="AndroidNFCBroadcastReceiver.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidNFCBroadcastReceiver.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtDiscovered.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
@@ -135,16 +132,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\background.png" />
-    <Content Include="Textures\num3.png" />
-    <Content Include="Textures\num5.png" />
-    <Content Include="Textures\num6.png" />
-    <Content Include="Textures\num2.png" />
-    <Content Include="Textures\num4.png" />
-    <Content Include="Textures\num1.png" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

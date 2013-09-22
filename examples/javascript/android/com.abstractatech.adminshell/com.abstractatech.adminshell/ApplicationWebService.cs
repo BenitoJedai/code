@@ -24,6 +24,7 @@ namespace com.abstractatech.adminshell
     [DesignerCategory("code")]
     public sealed class ApplicationWebService
     {
+        // http://zadjhu.blogspot.com/2013/03/android-jellybean-does-not-allocate.html
 
         public void ShellAsync(string e, Action<string> y)
         {

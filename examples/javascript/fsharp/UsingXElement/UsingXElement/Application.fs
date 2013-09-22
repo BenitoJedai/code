@@ -19,7 +19,7 @@ namespace UsingXElement
     /// This type will run as JavaScript.
     /// </summary>
     [<Sealed>]
-    type internal Application(page : IDefaultPage) as me = 
+    type internal Application(page : IDefault ) as me = 
         let this = me
         do ()
         let service = new ApplicationWebService()
