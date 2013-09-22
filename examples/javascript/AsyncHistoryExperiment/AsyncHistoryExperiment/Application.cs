@@ -329,6 +329,7 @@ namespace AsyncHistoryExperiment
 
     }
 
+    [Obsolete]
     public class XState
     {
         public sealed class XVariation
