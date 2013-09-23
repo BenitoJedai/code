@@ -22,7 +22,9 @@ namespace AndroidNFCExperiment
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
-
+            // enter WebMethod2 { ManagedThreadId = 2033 }
+            // we should marshal the callback to the correct thread.
+            Console.WriteLine("enter WebMethod2 " + new { Thread.CurrentThread.ManagedThreadId });
 
             // Send it back to the caller.
             y(e);
@@ -35,7 +37,9 @@ namespace AndroidNFCExperiment
 
         static ApplicationWebService()
         {
-            Console.WriteLine("enter ApplicationWebService");
+            //  enter ApplicationWebService { ManagedThreadId = 2029 }
+            Console.WriteLine("enter ApplicationWebService " + new { Thread.CurrentThread.ManagedThreadId });
+
 
 
             Console.WriteLine("before NfcAdapter");
@@ -213,7 +217,7 @@ namespace AndroidNFCExperiment
                                        {
                                            var id = (byte[])(object)tag.getId();
 
-                                           Console.WriteLine("AtNewIntent " + new { action, current, id = id.ToHexString() });
+                                           Console.WriteLine("AtNewIntent " + new { action, current, id = id.ToHexString(), Thread.CurrentThread.ManagedThreadId });
 
                                            //I/System.Console(32331): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG, p = TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef], id = fdccd727, tech = android.nfc.tech.MifareClassic }
                                            //I/System.Console(32331): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG, p = TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef], id = fdccd727, tech = android.nfc.tech.NfcA }
