@@ -7,8 +7,10 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using WebServiceLatencyBenchmarker.HTML.Pages;
 
@@ -28,23 +30,23 @@ namespace WebServiceLatencyBenchmarker
         public Application(IDefault page)
         {
             @"Hello world".ToDocumentTitle();
-            var host = Native.Document.location.host;
+
+            var host = Native.document.location.host;
 
             WriteLine("Pinging host [" + host + "]:");
 
-            Action Do = null;
 
-            Do = delegate
+            Action loop = async delegate
             {
-                Continue(host,
-                    delegate
-                    {
-                        Do();
-                    }
-                );
+                var forever = true;
+
+                while (forever)
+                    await Continue(host);
+
             };
 
-            Do();
+            loop();
+
 
             bool once = false;
 
@@ -66,31 +68,23 @@ namespace WebServiceLatencyBenchmarker
 
         int Counter = 0;
 
-        void Continue(string host, Action done)
+        async Task Continue(string host)
         {
-            var Now = DateTime.Now;
+            var Delay = new Stopwatch();
+            Delay.Start();
 
             Counter++;
 
             // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value =>
-                {
-                    var Later = DateTime.Now;
+            await service.Yield();
 
-                    var Delay = Later - Now;
-                    var DelayString = "" + Convert.ToInt32(Delay.TotalMilliseconds) + "ms";
+            var DelayString = "" + Convert.ToInt32(Delay.ElapsedMilliseconds) + "ms";
 
-                    // jsc: this will cause an if block which is not supported just yet
-                    // new IHTMLDiv { innerText = "" + NowString }.AttachToDocument();
+            // jsc: this will cause an if block which is not supported just yet
+            // new IHTMLDiv { innerText = "" + NowString }.AttachToDocument();
 
-                    WriteLine("Reply #" + Counter + " from " + host + " time=" + DelayString);
+            WriteLine("Reply #" + Counter + " from " + host + " time=" + DelayString);
 
-                    if (done != null)
-                        done();
-                }
-            );
         }
 
     }
