@@ -23,6 +23,10 @@ namespace ScriptCoreLib.Ultra.WebService
 
 		public static void ApplyTo(InternalWebMethodWorker that, InternalWebMethodInfo target)
 		{
+            //Console.WriteLine("InternalWebMethodWorker");
+
+            // WriteXDocument Results null
+
 			target.Results = that.ToArray();
 		}
 	}

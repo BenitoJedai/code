@@ -892,8 +892,16 @@ namespace ScriptCoreLib.Ultra.WebService
 
             Write("<document>");
 
-            if (WebMethod.Results != null)
+
+
+            if (WebMethod.Results == null)
             {
+                //Console.WriteLine("WriteXDocument Results null");
+            }
+            else
+            {
+                //Console.WriteLine("WriteXDocument Results " + new { WebMethod.Results.Length });
+
                 foreach (var item in WebMethod.Results)
                 {
                     Write("<" + item.Name + ">");
@@ -922,6 +930,20 @@ namespace ScriptCoreLib.Ultra.WebService
                     Write("</" + item.Name + ">");
 
                 }
+            }
+
+            if (WebMethod.TaskComplete)
+            {
+                Write("<TaskComplete>");
+
+                if (WebMethod.TaskResult != null)
+                {
+                    Write("<TaskResult>");
+                    Write(escapeXML(WebMethod.TaskResult));
+                    Write("</TaskResult>");
+                }
+
+                Write("</TaskComplete>");
             }
 
             Write("</document>");

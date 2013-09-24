@@ -29,18 +29,49 @@ namespace AsyncWebMethod
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            service.With(
-                async s =>
+            new IHTMLButton { innerText = "invoke with result" }.AttachToDocument().WhenClicked(
+                async delegate
                 {
 
                     new IHTMLPre { "will call service" }.AttachToDocument();
 
-                    var y = await service.WebMethod4("goo");
+                    // <document><TaskComplete><TaskResult>{ e = goo }</TaskResult></TaskComplete></document>
+                    var y = await service.WebMethod4("goo",
+
+                        x =>
+                        {
+                            new IHTMLPre { "yield! " + new { x } }.AttachToDocument();
+                            //new IHTMLPre { "yield!" }.AttachToDocument();
+                        }
+                    );
 
                     new IHTMLPre { "will call service done" }.AttachToDocument();
 
+
                 }
             );
+
+            new IHTMLButton { innerText = "invoke" }.AttachToDocument().WhenClicked(
+                 async delegate
+                 {
+
+                     new IHTMLPre { "will call service" }.AttachToDocument();
+
+                     // <document><TaskComplete><TaskResult>{ e = goo }</TaskResult></TaskComplete></document>
+                     await service.WebMethod8("goo",
+
+                         x =>
+                         {
+                             new IHTMLPre { "yield! " + new { x } }.AttachToDocument();
+                             //new IHTMLPre { "yield!" }.AttachToDocument();
+                         }
+                     );
+
+                     new IHTMLPre { "will call service done" }.AttachToDocument();
+
+
+                 }
+             );
         }
 
     }
