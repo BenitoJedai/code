@@ -62,6 +62,52 @@ namespace WebMethodXElementTransferExperiment
             y(data);
         }
 
+
+        //            WebMethodXElementTransferExperiment.ApplicationWebService.exe!WebMethodXElementTransferExperiment.Global.Invoke() + 0x1ec bytes	
+        //>	ScriptCoreLib.Ultra.Library.dll!ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions.InternalApplication_BeginRequest(ScriptCoreLib.Ultra.WebService.InternalGlobal g) + 0x93f bytes	
+        //    WebMethodXElementTransferExperiment.ApplicationWebService.exe!WebMethodXElementTransferExperiment.Global.Application_BeginRequest() + 0x23 bytes	
+
+
+
+        public async Task<data> WebMethod2Async(data e)
+        {
+            // Send it back to the caller.
+            var data = new data { text = "hi!" };
+
+            data.asyncyield =
+                // we only need async
+                // to be able to return the value
+                // cannot await on server side just yet
+                async state =>
+                {
+                    // Warning	2	This async method lacks 'await' operators and will run synchronously. 
+                    // Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.	X:\jsc.svn\examples\javascript\WebMethodXElementTransferExperiment\WebMethodXElementTransferExperiment\ApplicationWebService.cs	27	17	WebMethodXElementTransferExperiment
+
+                    // does the server side support async?
+                    // or do we have only one thread?
+
+                    // make this async! wont work yet!!!
+                    //await Task.Delay(600);
+                    Thread.Sleep(600);
+
+                    return new data { text = "hi from asyncyield! " + new { state.text } };
+                };
+
+            data.yield =
+                (state, yy) =>
+                {
+                    // scope not shared
+                    Console.WriteLine("time to continue?");
+
+                    yy(
+                        new data { text = "hi from yield! " + new { state.text } }
+                    );
+                };
+
+            return data;
+        }
+
+
         public void InternalWebServiceInvoke(string yield_MethodToken, data arg0, data_yield y)
         {
             // yield_MethodToken needs security to only allow
@@ -86,6 +132,8 @@ namespace WebMethodXElementTransferExperiment
 
             Console.WriteLine("InternalWebServiceInvokeAsync " + new { asyncyield_MethodToken });
 
+
+            // how would other platforms do this?
             var asyncyield = (MethodInfo)typeof(ApplicationWebService).Module.ResolveMethod(int.Parse(asyncyield_MethodToken));
 
             //Object of type 'System.Action`1[WebMethodXElementTransferExperiment.data]' cannot be converted to type 'WebMethodXElementTransferExperiment.data_yield'.

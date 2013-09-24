@@ -267,52 +267,50 @@ namespace WebMethodXElementTransferExperiment
 
             #region invoke service.WebMethod2
             new IHTMLButton { innerText = "invoke service.WebMethod2 asyncinvoke await" }.AttachToDocument().WhenClicked(
-                btn =>
+                async btn =>
                 {
-                    service.WebMethod2(
-                        new data { text = "calling service" },
-                        async (value, y) =>
-                        {
-                            //new { value.text }.ToString().ToDocumentTitle();
-
-                            Native.document.body.Add(value);
-
-
-                            #region fix it, this needs to be done by jsc every time
-                            if (value.asyncyield_MethodToken != null)
-                                if (value.asyncyield == null)
-                                {
-                                    var zMethodToken = value.asyncyield_MethodToken;
-                                    value.asyncyield_MethodToken = null;
-
-                                    value.asyncyield = (zstate) =>
-                                    {
-                                        var ret = new TaskCompletionSource<data>();
-
-                                        service.InternalWebServiceInvokeAsync(
-                                            zMethodToken,
-                                            zstate,
-                                            zyield =>
-                                            {
-                                                ret.SetResult(zyield);
-                                            }
-                                        );
-
-                                        return ret.Task;
-                                    };
-                                }
-                            #endregion
-
-
-                            var yvalue = await value.asyncyield(
-                                 new data { text = "calling the asyncyield await" }
-                            );
-
-
-                            Native.document.body.Add(yvalue);
-
-                        }
+                    var value = await service.WebMethod2Async(
+                        new data { text = "calling service" }
                     );
+
+
+
+                    Native.document.body.Add(value);
+
+
+                    #region fix it, this needs to be done by jsc every time
+                    if (value.asyncyield_MethodToken != null)
+                        if (value.asyncyield == null)
+                        {
+                            var zMethodToken = value.asyncyield_MethodToken;
+                            value.asyncyield_MethodToken = null;
+
+                            value.asyncyield = (zstate) =>
+                            {
+                                var ret = new TaskCompletionSource<data>();
+
+                                service.InternalWebServiceInvokeAsync(
+                                    zMethodToken,
+                                    zstate,
+                                    zyield =>
+                                    {
+                                        ret.SetResult(zyield);
+                                    }
+                                );
+
+                                return ret.Task;
+                            };
+                        }
+                    #endregion
+
+
+                    var yvalue = await value.asyncyield(
+                         new data { text = "calling the asyncyield await" }
+                    );
+
+
+                    Native.document.body.Add(yvalue);
+
                 }
             );
             #endregion
