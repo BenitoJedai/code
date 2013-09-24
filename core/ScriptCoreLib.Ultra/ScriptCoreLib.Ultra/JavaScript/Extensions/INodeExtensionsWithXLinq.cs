@@ -11,67 +11,69 @@ using ScriptCoreLib.Delegates;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
-	/// <summary>
-	/// Using these extensions will inject XLinq libraries into the compilation.
-	/// </summary>
-	public static class INodeExtensionsWithXLinq
-	{
-		/// <summary>
-		/// Converts XML to HTML and appends all created nodes to the container.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <param name="value"></param>
-		public static void Add(this INode e, XElement value)
-		{
-			var c = default(IHTMLDiv);
-
-			if (e.ownerDocument != null)
-			{
-				c = (IHTMLDiv)e.ownerDocument.createElement("div");
-			}
-			else
-			{
-				c = new IHTMLDiv();
-			}
-
-			c.innerHTML = value.ToString();
-
-			e.appendChild(c.firstChild);
-		}
+    /// <summary>
+    /// Using these extensions will inject XLinq libraries into the compilation.
+    /// </summary>
+    public static class INodeExtensionsWithXLinq
+    {
 
 
+        /// <summary>
+        /// Converts XML to HTML and appends all created nodes to the container.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="value"></param>
+        public static void Add(this INode e, XElement value)
+        {
+            var c = default(IHTMLDiv);
 
-		public static void Add(this INode e, Action<XElementAction> factory)
-		{
-			factory(e.Add);
-		}
+            if (e.ownerDocument != null)
+            {
+                c = (IHTMLDiv)e.ownerDocument.createElement("div");
+            }
+            else
+            {
+                c = new IHTMLDiv();
+            }
+
+            c.innerHTML = value.ToString();
+
+            e.appendChild(c.firstChild);
+        }
 
 
-		public static void WithContent(this IHTMLIFrame that, Action<IHTMLBody> y)
-		{
-			that.WhenDocumentReady(
-				d =>
-				{
-					d.WithContent();
-					d.WhenContentReady(y);
-				}
-			);
-		}
 
-		public static IHTMLDocument WithContent(this IHTMLDocument document, params object[] content)
-		{
-			document.open("text/html", "replace");
+        public static void Add(this INode e, Action<XElementAction> factory)
+        {
+            factory(e.Add);
+        }
 
-			var doc = new XElement("body");
 
-			doc.Add(new XAttribute("style", "border: 0; margin: 0; padding: 0;"));
+        public static void WithContent(this IHTMLIFrame that, Action<IHTMLBody> y)
+        {
+            that.WhenDocumentReady(
+                d =>
+                {
+                    d.WithContent();
+                    d.WhenContentReady(y);
+                }
+            );
+        }
 
-			doc.Add(content);
+        public static IHTMLDocument WithContent(this IHTMLDocument document, params object[] content)
+        {
+            document.open("text/html", "replace");
 
-			document.write(doc.ToString());
-			document.close();
+            var doc = new XElement("body");
 
-			return document;
-		}
-	}
+            doc.Add(new XAttribute("style", "border: 0; margin: 0; padding: 0;"));
+
+            doc.Add(content);
+
+            document.write(doc.ToString());
+            document.close();
+
+            return document;
+        }
+    }
 }
