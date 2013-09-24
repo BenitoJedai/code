@@ -12,6 +12,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             get;
         }
 
+        public virtual int MetadataToken
+        {
+            get
+            {
+                // see also>
+                // X:\jsc.svn\examples\javascript\WebMethodXElementTransferExperiment\WebMethodXElementTransferExperiment\ApplicationWebService.cs
+
+                // do we know our tokens?
+                return 0;
+            }
+        }
+
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Reflection.MethodInfo.op_Equality(System.Reflection.MethodInfo, System.Reflection.MethodInfo)]
 
         public abstract object[] GetCustomAttributes(Type x, bool inherit);
