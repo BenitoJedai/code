@@ -3,6 +3,7 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace WebServiceLatencyBenchmarker
@@ -12,15 +13,10 @@ namespace WebServiceLatencyBenchmarker
     /// </summary>
     public sealed class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript. JSC supports string data type for all platforms.</param>
-        /// <param name="y">A callback to javascript. In the future all platforms will allow Action&lt;XElementConvertable&gt; delegates.</param>
-        public void WebMethod2(string e, StringAction y)
+
+        public async Task Yield()
         {
-            // Send it back to the caller.
-            y(e);
+
         }
 
     }

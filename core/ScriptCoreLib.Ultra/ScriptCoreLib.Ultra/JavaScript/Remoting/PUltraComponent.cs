@@ -7,6 +7,7 @@ using System.Collections;
 
 namespace ScriptCoreLib.JavaScript.Remoting
 {
+    [Obsolete]
 	public abstract class PUltraComponent
 	{
 		public object Tag { get; set; }
