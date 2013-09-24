@@ -9,7 +9,8 @@ namespace ScriptCoreLib.Library
 {
     public static partial class StringConversions
     {
-        // used by JVM/CLR X:\jsc.internal.svn\compiler\jsc.internal\jsc.internal\meta\Library\ILStringConversions.cs
+        // used by JVM/CLR 
+        // X:\jsc.internal.svn\compiler\jsc.internal\jsc.internal\meta\Library\ILStringConversions.cs
 
         public static string UTF8FromBase64StringOrDefault(string e)
         {

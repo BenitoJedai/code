@@ -6,40 +6,46 @@ using System.Reflection;
 
 namespace ScriptCoreLib.Ultra.Reflection
 {
-	public class ConversionPattern
-	{
-		public readonly MethodInfo LocalToTarget;
-		public readonly MethodInfo TargetToLocal;
+    public class ConversionPattern
+    {
+        public readonly MethodInfo LocalToTarget;
+        public readonly MethodInfo TargetToLocal;
 
-		public ConversionPattern(Type LocalType, Type TargetType)
-		{
+        public ConversionPattern(Type LocalType, Type TargetType)
+        {
+            // X:\jsc.svn\examples\javascript\async\AsyncWebMethod\AsyncWebMethod\ApplicationWebService.cs
 
-			Func<Type[], IEnumerable<MethodInfo>> f = z =>
-				from m in LocalType.GetMethods(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public)
-				let p = m.GetParameters()
-				where p.Length == 1
-				let r = m.ReturnType
-				let a = p[0].ParameterType
-				where new[] { r, a }.SequenceEqual(z)
-				select m;
+            //Console.WriteLine("ConversionPattern " + new { LocalType, TargetType });
 
-			this.TargetToLocal = f(new[] { LocalType, TargetType }).FirstOrDefault();
-			this.LocalToTarget = f(new[] { TargetType, LocalType }).FirstOrDefault();
-		}
+            Func<Type[], IEnumerable<MethodInfo>> f = z =>
+                from m in LocalType.GetMethods(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Public)
+                let p = m.GetParameters()
+                where p.Length == 1
+                let r = m.ReturnType
+                let a = p[0].ParameterType
+                where new[] { r, a }.SequenceEqual(z)
+                select m;
 
-		public bool IsValid
-		{
-			get
-			{
-				if (this.TargetToLocal == null)
-					return false;
+            this.TargetToLocal = f(new[] { LocalType, TargetType }).FirstOrDefault();
+            this.LocalToTarget = f(new[] { TargetType, LocalType }).FirstOrDefault();
 
-				if (this.LocalToTarget == null)
-					return false;
 
-				return true;
-			}
+            //Console.WriteLine("ConversionPattern " + new { LocalType, TargetType, IsValid });
+        }
 
-		}
-	}
+        public bool IsValid
+        {
+            get
+            {
+                if (this.TargetToLocal == null)
+                    return false;
+
+                if (this.LocalToTarget == null)
+                    return false;
+
+                return true;
+            }
+
+        }
+    }
 }
