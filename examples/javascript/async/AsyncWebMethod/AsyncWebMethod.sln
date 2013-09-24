@@ -3,16 +3,51 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncWebMethod", "AsyncWebMethod\AsyncWebMethod.csproj", "{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Assets|Mixed Platforms = Assets|Mixed Platforms
+		Assets|x86 = Assets|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Assets|Any CPU.ActiveCfg = Release|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Assets|x86.ActiveCfg = Release|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Assets|x86.Build.0 = Release|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Debug|x86.ActiveCfg = Debug|x86
 		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Debug|x86.Build.0 = Debug|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Release|Any CPU.ActiveCfg = Release|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Release|x86.ActiveCfg = Release|x86
 		{A1CDBB5C-45EC-444F-854C-F54929FBC1A4}.Release|x86.Build.0 = Release|x86
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Mixed Platforms.Build.0 = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|x86.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

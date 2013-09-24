@@ -12,55 +12,36 @@ namespace AsyncWebMethod
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed partial class ApplicationWebService
     {
+        // what about sending bytes?
+        // what about Stream ?
+        // what about file upload?
+        // what about events?
+        // what about intefaces?
 
-        public void WebMethod4(string e, Action<string> y)
+        public async Task<string> WebMethod4(string e, Action<string> y)
         {
-            Console.WriteLine("enter WebMethod4");
-            var t = InternalWebMethod4(e);
+            y("event stream!");
 
-            // RunSynchronously may not be called on a task not bound to a delegate, such as the task returned from an asynchronous method.
-            t.ContinueWith(
-                task =>
-                {
-                    y(task.Result);
-                }
-            );
-
-            if (!t.IsCompleted)
-                throw new InvalidOperationException();
-
-            Console.WriteLine("exit WebMethod4");
-        }
-
-
-        public async Task<string> InternalWebMethod4(string e)
-        {
             Console.WriteLine("delay");
             Thread.Sleep(1000);
 
             Console.WriteLine("delay done");
             return new { e }.ToString();
         }
-    }
 
-    public static class X
-    {
 
-        // jsc should support Task and MessageChannels via eventsource
-        public static Task<string> WebMethod4(this ApplicationWebService service, string e)
+        public async Task WebMethod8(string e, Action<string> y)
         {
-            var x = new TaskCompletionSource<string>();
+            y("event stream!");
 
-            service.WebMethod4(e,
-                value =>
-                {
-                    x.SetResult(value);
-                }
-            );
+            Console.WriteLine("delay");
+            Thread.Sleep(1000);
 
-            return x.Task;
+            Console.WriteLine("delay done");
         }
     }
+
+
 }

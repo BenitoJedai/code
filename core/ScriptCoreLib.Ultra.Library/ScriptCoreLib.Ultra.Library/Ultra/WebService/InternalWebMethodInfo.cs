@@ -9,105 +9,129 @@ using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
-	public class InternalWebMethodInfo
-	{
-		// whats up with const support jsc.meta?
+    public class InternalWebMethodInfo
+    {
+        // whats up with const support jsc.meta?
 
-		public static string QueryKey = "WebMethod";
+        public static string QueryKey = "WebMethod";
 
-		public string Name;
-		public string TypeFullName;
+        public string Name;
+        public string TypeFullName;
 
-		public string MetadataToken;
-
-
-		public InternalWebMethodParameterInfo[] Parameters;
-
-		public ArrayList InternalParameters;
-
-		public static void AddParameter(InternalWebMethodInfo that, string Name, string Value)
-		{
-			if (that.InternalParameters == null)
-				that.InternalParameters = new ArrayList();
-
-			var n = new InternalWebMethodParameterInfo
-			{
-				Name = Name,
-				Value = Value
-			};
-
-			that.InternalParameters.Add(n);
-
-			that.Parameters = (InternalWebMethodParameterInfo[])that.InternalParameters.ToArray(typeof(InternalWebMethodParameterInfo));
-		}
-
-		public InternalWebMethodInfo[] Results;
-
-		public string ToQueryString()
-		{
-			return "?" + QueryKey + "=" + MetadataToken;
-		}
-
-		public static InternalWebMethodInfo First(InternalWebMethodInfo[] e, string MetadataToken)
-		{
-			var k = default(InternalWebMethodInfo);
-
-			if (!string.IsNullOrEmpty(MetadataToken))
-				foreach (var item in e)
-				{
-					if (item.MetadataToken == MetadataToken)
-					{
-						k = item;
-						break;
-					}
-				}
-
-			return k;
-		}
-
-		public static string GetParameterValue(InternalWebMethodInfo that, string name)
-		{
-			var r = default(string);
-
-			//Console.WriteLine("GetParameterValue: name: " + name);
+        public string MetadataToken;
 
 
-			foreach (var item in that.Parameters)
-			{
-				//Console.WriteLine("GetParameterValue: item.name: " + item.Name);
+        public InternalWebMethodParameterInfo[] Parameters;
 
-				if (item.Name == name)
-				{
-					//Console.WriteLine("GetParameterValue: item.value: " + item.Value);
+        public ArrayList InternalParameters;
 
-					r = item.Value;
-					break;
-				}
-			}
+        public static void SetResult(InternalWebMethodInfo that)
+        {
+            that.TaskComplete = true;
+        }
 
-			return r;
-		}
+        public static void SetResult(string TaskResult, InternalWebMethodInfo that)
+        {
+            // called by
+            // x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WebService.cs
 
-		public void LoadParameters(HttpContext c)
-		{
-			foreach (var Parameter in this.Parameters)
-			{
-				if (Parameter.IsDelegate)
-				{
-				}
-				else
-				{
-					//WriteFormKeysToConsole(c);
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201309-1/20130924-async-web-service
 
-					// do we support null parameters?
-					var value = "";
+            that.TaskResult = TaskResult;
 
-					//Console.WriteLine("LoadParameters: name: " + Parameter.Name);
+            SetResult(that);
+        }
 
-					var key = "_" + this.MetadataToken + "_" + Parameter.Name;
+        public static void AddParameter(InternalWebMethodInfo that, string Name, string Value)
+        {
+            if (that.InternalParameters == null)
+                that.InternalParameters = new ArrayList();
 
-					//Console.WriteLine("LoadParameters: key: " + key);
-					var value_Form = c.Request.Form[key];
+            var n = new InternalWebMethodParameterInfo
+            {
+                Name = Name,
+                Value = Value
+            };
+
+            that.InternalParameters.Add(n);
+
+            that.Parameters = (InternalWebMethodParameterInfo[])that.InternalParameters.ToArray(
+                typeof(InternalWebMethodParameterInfo)
+            );
+        }
+
+
+        public bool TaskComplete;
+        public string TaskResult;
+
+        // methods called
+        public InternalWebMethodInfo[] Results;
+
+        public string ToQueryString()
+        {
+            return "?" + QueryKey + "=" + MetadataToken;
+        }
+
+        public static InternalWebMethodInfo First(InternalWebMethodInfo[] e, string MetadataToken)
+        {
+            var k = default(InternalWebMethodInfo);
+
+            if (!string.IsNullOrEmpty(MetadataToken))
+                foreach (var item in e)
+                {
+                    if (item.MetadataToken == MetadataToken)
+                    {
+                        k = item;
+                        break;
+                    }
+                }
+
+            return k;
+        }
+
+        public static string GetParameterValue(InternalWebMethodInfo that, string name)
+        {
+            var r = default(string);
+
+            //Console.WriteLine("GetParameterValue: name: " + name);
+
+
+            foreach (var item in that.Parameters)
+            {
+                //Console.WriteLine("GetParameterValue: item.name: " + item.Name);
+
+                if (item.Name == name)
+                {
+                    //Console.WriteLine("GetParameterValue: item.value: " + item.Value);
+
+                    r = item.Value;
+                    break;
+                }
+            }
+
+            return r;
+        }
+
+        public void LoadParameters(HttpContext c)
+        {
+            foreach (var Parameter in this.Parameters)
+            {
+                if (Parameter.IsDelegate)
+                {
+                }
+                else
+                {
+                    //WriteFormKeysToConsole(c);
+
+                    // do we support null parameters?
+                    var value = "";
+
+                    //Console.WriteLine("LoadParameters: name: " + Parameter.Name);
+
+                    var key = "_" + this.MetadataToken + "_" + Parameter.Name;
+
+                    //Console.WriteLine("LoadParameters: key: " + key);
+                    var value_Form = c.Request.Form[key];
 
                     if (null != value_Form)
                     {
@@ -115,12 +139,12 @@ namespace ScriptCoreLib.Ultra.WebService
                     }
 
 
-					//Console.WriteLine("LoadParameters: value: " + value);
+                    //Console.WriteLine("LoadParameters: value: " + value);
 
-					Parameter.Value = value.FromXMLString();
-				}
-			}
-		}
+                    Parameter.Value = value.FromXMLString();
+                }
+            }
+        }
 
         public static string InternalURLDecode(string Value)
         {
@@ -137,13 +161,13 @@ namespace ScriptCoreLib.Ultra.WebService
             return Value;
         }
 
-		private static void WriteFormKeysToConsole(HttpContext c)
-		{
-			foreach (var item in c.Request.Form.AllKeys)
-			{
-				Console.WriteLine("WriteFormKeysToConsole: existing key: " + item);
-			}
-		}
-	}
+        private static void WriteFormKeysToConsole(HttpContext c)
+        {
+            foreach (var item in c.Request.Form.AllKeys)
+            {
+                Console.WriteLine("WriteFormKeysToConsole: existing key: " + item);
+            }
+        }
+    }
 
 }
