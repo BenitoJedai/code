@@ -893,22 +893,36 @@ namespace ScriptCoreLib.Ultra.WebService
             Write("<document>");
 
             if (WebMethod.Results != null)
+            {
                 foreach (var item in WebMethod.Results)
                 {
                     Write("<" + item.Name + ">");
 
                     if (item.Parameters != null)
+                    {
                         foreach (var p in item.Parameters)
                         {
-                            Write("<" + p.Name + ">");
-                            Write(escapeXML(p.Value));
-                            Write("</" + p.Name + ">");
+
+                            if (p.Value == null)
+                            {
+                                // no parameter?
+                                // X:\jsc.svn\examples\javascript\WebMethodXElementTransferExperiment\WebMethodXElementTransferExperiment\ApplicationWebService.cs
+                            }
+                            else
+                            {
+                                Write("<" + p.Name + ">");
+                                Write(escapeXML(p.Value));
+                                Write("</" + p.Name + ">");
+                            }
+
 
                         }
+                    }
 
                     Write("</" + item.Name + ">");
 
                 }
+            }
 
             Write("</document>");
 
