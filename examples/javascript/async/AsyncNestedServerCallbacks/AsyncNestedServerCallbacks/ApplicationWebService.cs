@@ -26,6 +26,8 @@ namespace AsyncNestedServerCallbacks
             y(e);
         }
 
+
+        // what about two way communication?
         public Task<XElement> FooButton
         {
             get
