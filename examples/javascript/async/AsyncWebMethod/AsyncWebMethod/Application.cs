@@ -29,25 +29,17 @@ namespace AsyncWebMethod
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-
             service.With(
                 async s =>
                 {
 
-                    Console.WriteLine("will call service");
+                    new IHTMLPre { "will call service" }.AttachToDocument();
 
                     var y = await service.WebMethod4("goo");
 
-                    Console.WriteLine("will call service done");
+                    new IHTMLPre { "will call service done" }.AttachToDocument();
 
                 }
-            );
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
             );
         }
 

@@ -16,6 +16,9 @@ namespace WebMethodXElementTransferExperiment
     /// </summary>
     public sealed class ApplicationWebService
     {
+        /// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201309-1/20130924-async-web-service
+        /// 
+        /// 
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>

@@ -14,54 +14,34 @@ namespace AsyncWebMethod
     /// </summary>
     public sealed class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
 
-
-        public void WebMethod4(string e
-        #region compiler generated
-, Action<string> y)
+        public void WebMethod4(string e, Action<string> y)
         {
             Console.WriteLine("enter WebMethod4");
             var t = InternalWebMethod4(e);
-
-            var x = new AutoResetEvent(false);
 
             // RunSynchronously may not be called on a task not bound to a delegate, such as the task returned from an asynchronous method.
             t.ContinueWith(
                 task =>
                 {
                     y(task.Result);
-
-                    x.Set();
                 }
             );
 
-            x.WaitOne();
+            if (!t.IsCompleted)
+                throw new InvalidOperationException();
 
             Console.WriteLine("exit WebMethod4");
         }
 
 
-        public async Task<string> InternalWebMethod4(string e
-        #endregion
-)
+        public async Task<string> InternalWebMethod4(string e)
         {
             Console.WriteLine("delay");
             Thread.Sleep(1000);
 
             Console.WriteLine("delay done");
             return new { e }.ToString();
-
-
         }
     }
 
