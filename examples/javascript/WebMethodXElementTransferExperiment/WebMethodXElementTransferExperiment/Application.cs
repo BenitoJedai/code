@@ -208,6 +208,114 @@ namespace WebMethodXElementTransferExperiment
             );
             #endregion
 
+            #region invoke service.WebMethod2
+            new IHTMLButton { innerText = "invoke service.WebMethod2 asyncinvoke ContinueWithResult" }.AttachToDocument().WhenClicked(
+                btn =>
+                {
+                    service.WebMethod2(
+                        new data { text = "calling service" },
+                        (value, y) =>
+                        {
+                            //new { value.text }.ToString().ToDocumentTitle();
+
+                            Native.document.body.Add(value);
+
+
+                            #region fix it, this needs to be done by jsc every time
+                            if (value.asyncyield_MethodToken != null)
+                                if (value.asyncyield == null)
+                                {
+                                    var zMethodToken = value.asyncyield_MethodToken;
+                                    value.asyncyield_MethodToken = null;
+
+                                    value.asyncyield = (zstate) =>
+                                    {
+                                        var ret = new TaskCompletionSource<data>();
+
+                                        service.InternalWebServiceInvokeAsync(
+                                            zMethodToken,
+                                            zstate,
+                                            zyield =>
+                                            {
+                                                ret.SetResult(zyield);
+                                            }
+                                        );
+
+                                        return ret.Task;
+                                    };
+                                }
+                            #endregion
+
+
+                            var t = value.asyncyield(
+                                 new data { text = "calling the asyncyield ContinueWithResult" }
+                            );
+
+                            t.ContinueWithResult(
+                                yvalue =>
+                                {
+                                    Native.document.body.Add(yvalue);
+                                }
+                            );
+
+                        }
+                    );
+                }
+            );
+            #endregion
+
+
+            #region invoke service.WebMethod2
+            new IHTMLButton { innerText = "invoke service.WebMethod2 asyncinvoke await" }.AttachToDocument().WhenClicked(
+                btn =>
+                {
+                    service.WebMethod2(
+                        new data { text = "calling service" },
+                        async (value, y) =>
+                        {
+                            //new { value.text }.ToString().ToDocumentTitle();
+
+                            Native.document.body.Add(value);
+
+
+                            #region fix it, this needs to be done by jsc every time
+                            if (value.asyncyield_MethodToken != null)
+                                if (value.asyncyield == null)
+                                {
+                                    var zMethodToken = value.asyncyield_MethodToken;
+                                    value.asyncyield_MethodToken = null;
+
+                                    value.asyncyield = (zstate) =>
+                                    {
+                                        var ret = new TaskCompletionSource<data>();
+
+                                        service.InternalWebServiceInvokeAsync(
+                                            zMethodToken,
+                                            zstate,
+                                            zyield =>
+                                            {
+                                                ret.SetResult(zyield);
+                                            }
+                                        );
+
+                                        return ret.Task;
+                                    };
+                                }
+                            #endregion
+
+
+                            var yvalue = await value.asyncyield(
+                                 new data { text = "calling the asyncyield await" }
+                            );
+
+
+                            Native.document.body.Add(yvalue);
+
+                        }
+                    );
+                }
+            );
+            #endregion
         }
 
     }
