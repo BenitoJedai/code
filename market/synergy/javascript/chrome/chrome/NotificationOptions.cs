@@ -90,10 +90,12 @@ namespace chrome
                 string message = "",
 
                 string type = "basic",
-                 string iconUrl =  null
+                 string iconUrl = null
 
             )
         {
+            //Console.WriteLine("Notification .ctor");
+
             if (title == null)
                 title = DefaultTitle;
 
@@ -123,7 +125,7 @@ namespace chrome
             Task.Delay(1).GetAwaiter().OnCompleted(
                 delegate
                 {
-                    //Console.WriteLine("at Delay");
+                    Console.WriteLine("at Delay " + new { this._title, this._message });
 
                     // tested by
                     // X:\jsc.svn\examples\javascript\chrome\ChromeNotificationExperiment\ChromeNotificationExperiment\Application.cs
@@ -225,6 +227,10 @@ namespace chrome
 
                         }
                     );
+
+                    Console.WriteLine(
+                        new { chrome.runtime.lastError, chrome.runtime.id }
+                        );
                 }
                 );
 

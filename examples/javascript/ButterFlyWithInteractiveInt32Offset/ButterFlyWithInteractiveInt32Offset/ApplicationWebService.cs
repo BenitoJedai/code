@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ButterFlyWithInteractiveInt32Offset
@@ -13,23 +14,13 @@ namespace ButterFlyWithInteractiveInt32Offset
     /// </summary>
     public sealed class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript. JSC supports string data type for all platforms.</param>
-        /// <param name="y">A callback to javascript. In the future all platforms will allow Action&lt;XElementConvertable&gt; delegates.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
+      
 
-
-        public void File_ReadLine(string CallerFilePath, string CallerLineNumber, Action<string> y)
+        public async Task<string> File_ReadLine(string CallerFilePath, string CallerLineNumber)
         {
             Console.WriteLine(new { CallerFilePath, CallerLineNumber });
 
-            y(File.ReadAllLines(CallerFilePath)[int.Parse(CallerLineNumber) - 1]);
+            return (File.ReadAllLines(CallerFilePath)[int.Parse(CallerLineNumber) - 1]);
 
         }
 
@@ -37,7 +28,7 @@ namespace ButterFlyWithInteractiveInt32Offset
             string CallerFilePath,
             string CallerLineNumber,
 
-            string value, Action<string> y)
+            string value)
         {
             Console.WriteLine(new { CallerFilePath, CallerLineNumber, value });
             var Lines = File.ReadAllLines(CallerFilePath);

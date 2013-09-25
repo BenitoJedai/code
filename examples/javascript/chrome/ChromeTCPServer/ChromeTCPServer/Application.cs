@@ -41,18 +41,16 @@ namespace ChromeTCPServer
             dynamic self_chrome = self.chrome;
             object self_chrome_socket = self_chrome.socket;
 
-            if (self_chrome_socket == null)
+            if (self_chrome_socket != null)
             {
-                Native.document.body.style.backgroundColor = "cyan";
-
-
+                Notification.DefaultTitle = "ChromeTCPServer";
+                TheServer.Invoke(AppSource.Text);
 
                 return;
             }
 
-            Notification.DefaultTitle = "ChromeTCPServer";
-
-            TheServer.Invoke(AppSource.Text);
+            Native.document.body.style.backgroundColor = "cyan";
+      
 
         }
 
