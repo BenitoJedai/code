@@ -27,7 +27,7 @@ namespace AndroidEnvironmentWebActivity
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
 
             #region pre
@@ -144,10 +144,17 @@ namespace AndroidEnvironmentWebActivity
             f("Environment_getExternalStorageState", "", service.Environment_getExternalStorageState, pre);
             f("Environment_getRootDirectory", "", service.Environment_getRootDirectory, browse);
 
-            // new IHTMLButton("Environment_getDataDirectory").AttachToDocument().onclick +=
-            //     e =>  service.Environment_getDataDirectory("",
-            //             value => new IHTMLPre { innerText = value }.AttachToDocument()
-            // );
+            new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+            new IHTMLButton("Environment_getDataDirectory").AttachToDocument().WhenClicked(
+                async delegate
+                {
+                    var value = await service.Environment_getDataDirectoryAsync();
+
+                    new IHTMLPre { innerText = value }.AttachToDocument();
+                }
+            );
+
 
             // new IHTMLButton("Environment_getDownloadCacheDirectory").AttachToDocument().onclick +=
             //    e => service.Environment_getDownloadCacheDirectory("",

@@ -33,6 +33,9 @@ namespace ScriptCoreLib.JavaScript.Experimental
     {
         public static Action eval(this InternalScriptApplicationSource e)
         {
+            Console.WriteLine("eval total " + new { e.source.Length });
+
+
             var blob = new Blob(e.source);
 
             var src = blob.ToObjectURL();
@@ -63,11 +66,18 @@ namespace ScriptCoreLib.JavaScript.Experimental
             );
 
 
-            Console.WriteLine("eval " + new { core, e.source.Length });
+            // eval { Length = 0 }
+
+
 
             var source = e.source.Substring(
                 core
             );
+
+            Console.WriteLine("eval substring " + new { source.Length });
+
+            Console.WriteLine(source);
+
 
             Native.window.eval(source);
 

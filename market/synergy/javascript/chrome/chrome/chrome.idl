@@ -51,7 +51,11 @@ interface chrome.tabs
 	event static attribute chrome.ChromeEventTarget<int, int> onReplaced;
 
 	async static void create(any createProperties, function<chrome.Tab> callback);
-	
+
+	//static extension runtime.Port chrome.tabs.connect(chrome.TabIdInteger tabId, object connectInfo)
+	static extension chrome.Port connect(chrome.TabIdInteger tabId, any connectInfo);
+	static extension chrome.Port connect(chrome.TabIdInteger tabId);
+
 	async static void get(int tabId, function<chrome.Tab> callback);
 
 	async static void getCurrent(function<chrome.Tab> callback);
@@ -60,6 +64,20 @@ interface chrome.tabs
 
 	async static extension void executeScript(chrome.TabIdInteger tabId, any details, function<any> callback);
 	async static extension void insertCSS(chrome.TabIdInteger tabId, any details, function callback);
+};
+
+// http://developer.chrome.com/extensions/pageAction.html#method-show
+interface chrome.pageAction 
+{
+	event static attribute chrome.ChromeEventTarget<chrome.Tab> onClicked;
+
+	static extension void show(chrome.TabIdInteger tabId);
+	static extension void hide(chrome.TabIdInteger tabId);
+
+	static  void setPopup(any details);
+	static  void setIcon(any details, function callback);
+	static  void setTitle(any details);
+	//static extension void setTitle({tabId, title} details);
 };
 
 
@@ -88,6 +106,9 @@ interface chrome.runtime
 	static void reload();
 
 	async static void getPackageDirectoryEntry(function<any> callback);
+	//async static void postMessage(string id, any message, function<any> callback);
+
+	 static chrome.Port connect(string id);
 
 	event static attribute chrome.ChromeEventTarget onStartup;
 	event static attribute chrome.ChromeEventTarget onInstalled;
@@ -96,12 +117,30 @@ interface chrome.runtime
 	event static attribute chrome.ChromeEventTarget<any> onUpdateAvailable;
 
 	event static attribute chrome.ChromeEventTarget<any> onConnect;
-	event static attribute chrome.ChromeEventTarget<any> onConnectExternal;
+	event static attribute chrome.ChromeEventTarget<chrome.Port> onConnectExternal;
 
 	event static attribute chrome.ChromeEventTarget<any, any, any> onMessage;
 	event static attribute chrome.ChromeEventTarget<any, any, any> onMessageExternal;
 	event static attribute chrome.ChromeEventTarget<any> onRestartRequired;
 };
+
+// http://developer.chrome.com/extensions/runtime.html#type-Port
+interface chrome.Port 
+{
+	attribute string name;
+
+	attribute chrome.ChromeEventTarget onDisconnect;
+	attribute chrome.ChromeEventTarget onMessage ;
+	attribute chrome.MessageSender sender;
+
+	void postMessage(any message);
+};
+
+interface chrome.MessageSender 
+{
+	attribute string id;
+};
+
 
 interface chrome.app
 {
@@ -111,6 +150,8 @@ interface chrome.app
 	// this does not seem to work at all
 	static attribute boolean        isInstalled;
 };
+
+
 
 
 // http://dev.chromium.org/developers/design-documents/aura/aura-and-shell-dependencies

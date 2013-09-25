@@ -50,8 +50,36 @@ namespace ChromeTCPServer
             }
 
             Native.document.body.style.backgroundColor = "cyan";
-      
 
+            Native.window.onmessage +=
+                e =>
+                {
+                    Console.WriteLine("onmessage " + new { e.data });
+
+                };
+
+            // http://developer.chrome.com/extensions/messaging.html
+
+            chrome.runtime.ConnectExternal +=
+                port =>
+                {
+                    Console.WriteLine("ConnectExternal " + new { port.sender.id });
+
+                    port.onMessage.addListener(
+                        new Action<object>(
+                            message =>
+                            {
+                                Console.WriteLine("onMessage " + new { message });
+
+                                port.postMessage(
+                                    new { hello = "world" }
+                                );
+                            }
+                        )
+                    );
+
+
+                };
         }
 
     }
