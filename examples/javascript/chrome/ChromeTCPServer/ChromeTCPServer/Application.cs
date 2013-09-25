@@ -46,6 +46,55 @@ namespace ChromeTCPServer
                 Notification.DefaultTitle = "ChromeTCPServer";
                 TheServer.Invoke(AppSource.Text);
 
+                // http://developer.chrome.com/extensions/messaging.html
+
+                chrome.runtime.MessageExternal +=
+                    delegate
+                    {
+                        Console.WriteLine("MessageExternal");
+
+                    };
+
+                chrome.runtime.Message +=
+                  delegate
+                  {
+                      Console.WriteLine("Message");
+
+                  };
+
+                chrome.runtime.Connect +=
+               delegate
+               {
+                   Console.WriteLine("Connect");
+
+               };
+
+                chrome.runtime.ConnectExternal +=
+                    port =>
+                    {
+                        Console.WriteLine("ConnectExternal " + new { port.sender.id });
+
+                        //                        ConnectExternal { id = aemlnmcokphbneegoefdckonejmknohh }
+                        // view-source:27562
+                        //onMessage { message = [object Object] }
+
+
+                        port.onMessage.addListener(
+                            new Action<object>(
+                                message =>
+                                {
+                                    Console.WriteLine("ConnectExternal onMessage " + new { message });
+
+                                    port.postMessage(
+                                        new { hello = "world" }
+                                    );
+                                }
+                            )
+                        );
+
+
+                    };
+
                 return;
             }
 
@@ -58,28 +107,7 @@ namespace ChromeTCPServer
 
                 };
 
-            // http://developer.chrome.com/extensions/messaging.html
 
-            chrome.runtime.ConnectExternal +=
-                port =>
-                {
-                    Console.WriteLine("ConnectExternal " + new { port.sender.id });
-
-                    port.onMessage.addListener(
-                        new Action<object>(
-                            message =>
-                            {
-                                Console.WriteLine("onMessage " + new { message });
-
-                                port.postMessage(
-                                    new { hello = "world" }
-                                );
-                            }
-                        )
-                    );
-
-
-                };
         }
 
     }
