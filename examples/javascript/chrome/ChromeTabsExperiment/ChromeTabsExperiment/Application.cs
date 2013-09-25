@@ -341,24 +341,28 @@ namespace ChromeTabsExperiment
                 //    Message = "extension!"
                 //};
 
-                Console.WriteLine("loading ChromeTabsExperiment... done!");
 
                 var slave = "fkgibadjpabiongmgoeomdbcefhabmah";
                 // http://stackoverflow.com/questions/13921970/google-chrome-socket-api-in-extensions
                 // No, extensions do not have access to the socket API, and they aren't likely to ever get it.
 
+                Console.WriteLine("connect " + new { slave });
                 chrome.runtime.connect(slave).With(
                     port =>
                     {
-                        Console.WriteLine("connect done");
+                        Console.WriteLine("connect done " + new { slave });
 
                         port.onMessage.addListener(
                               new Action<object>(
                                   message =>
                                   {
-                                      Console.WriteLine("onMessage " + new { message });
+                                      Console.WriteLine("connect onMessage " + new { message });
 
-
+                                      var nn = new chrome.Notification
+                                      {
+                                          Title = "hybrid app signal!",
+                                          Message = new { message }.ToString(),
+                                      };
                                   }
                               )
                           );
@@ -367,7 +371,7 @@ namespace ChromeTabsExperiment
                                          new { hello = "slave" }
                                      );
 
-                        Console.WriteLine("connect done, posted!");
+                        Console.WriteLine("connect posted " + new { slave });
                     }
                 );
 
@@ -402,7 +406,7 @@ namespace ChromeTabsExperiment
 
                 };
 
-
+            #region onxmessage
             var xst = new Stopwatch();
 
             xst.Start();
@@ -426,6 +430,8 @@ namespace ChromeTabsExperiment
 
 
             (Native.self as dynamic).onxmessage = onxmessage;
+            #endregion
+
 
             //chrome.runtime.Message +=
         }

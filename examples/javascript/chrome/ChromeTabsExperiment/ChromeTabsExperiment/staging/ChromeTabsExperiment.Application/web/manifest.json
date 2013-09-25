@@ -10,6 +10,12 @@
   "options_page": "Application.htm",
  
 
+   "externally_connectable": {
+    "ids": [
+      "*"
+		]
+	},
+
  "page_action": {
      "default_icon": "assets/ScriptCoreLib/jsc.png"
 	 },

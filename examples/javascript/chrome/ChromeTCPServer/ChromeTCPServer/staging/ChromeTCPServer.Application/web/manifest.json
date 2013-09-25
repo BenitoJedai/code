@@ -7,6 +7,12 @@
  "minimum_chrome_version": "27",
   "offline_enabled": true,
 
+     "externally_connectable": {
+    "ids": [
+      "*"
+		]
+	},
+
   "app": {
 
 	"background": {
@@ -19,6 +25,7 @@
   
 
   "permissions": [
+  "<all_urls>",
   "webview",
   "fullscreen",
   "pointerLock",
