@@ -65,7 +65,9 @@ namespace com.abstractatech.adminshell
 
                     new App.FromDocument().LoginButton.Orphanize();
 
+                    Console.WriteLine("eval a...");
                     var restore = source.eval();
+                    Console.WriteLine("eval a... done");
 
                 };
             #endregion
@@ -80,9 +82,11 @@ namespace com.abstractatech.adminshell
                     button.disabled = true;
                     button.style.Opacity = 0.5;
 
+                    Console.WriteLine("loading a...");
                     var source = await typeof(a);
+                    Console.WriteLine("loading a... done");
 
-
+                    Native.window.alert("will switch to new state!");
                     Native.window.history.pushState(source, go);
 
                     button.style.Opacity = 1;

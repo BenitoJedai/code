@@ -19,17 +19,7 @@ namespace ShellWithPing
     /// </summary>
     public sealed partial class ApplicationWebService : Component, PING
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
-
+    
         // jsc cannot see explicit interfaces just yet.
         public void PING_InvokeAsync(string host, Action<string> y)
         {

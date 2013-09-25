@@ -13,6 +13,7 @@ namespace AndroidEnvironmentWebActivity
 {
 
     using ystring = Action<string>;
+    using System.Threading.Tasks;
 
     public delegate void Environment_DIRECTORY_callback(
         string DIRECTORY_MUSIC,
@@ -33,6 +34,35 @@ namespace AndroidEnvironmentWebActivity
     {
         // could we expose property Environment and have client build a
         // more complex call graph?
+
+
+        //        01cc:02:01 007a:0146 AndroidEnvironmentWebActivity.ApplicationWebService.AndroidActivity define AndroidEnvironmentWebActivity.ApplicationWebService::AndroidEnvironmentWebActivity.ApplicationWebService+<Environment_getDataDirectory>d__0+<>MoveNext
+        //01cc:02:01 RewriteToAssembly error: System.ArgumentException: Duplicate type name within an assembly.
+        //   at System.Reflection.Emit.TypeBuilder.DefineType(RuntimeModule module, String fullname, Int32 tkParent, TypeAttributes attributes, Int32 tkEnclosingType, Int32[] interfaceTokens)
+        //   at System.Reflection.Emit.TypeBuilder.Init(String fullname, TypeAttributes attr, Type parent, Type[] interfaces, ModuleBuilder module, PackingSize iPackingSize, Int32 iTypeSize, TypeBuilder enclosingType)
+        //   at System.Reflection.Emit.TypeBuilder.DefineNestedType(String name, TypeAttributes attr)
+
+        //0001 02000010 AndroidEnvironmentWebActivity.Activities.ApplicationWebServiceActivity+<>c__DisplayClass13+<>c__DisplayClass18+<>c__DisplayClass1a
+
+
+        // Implementation not found for type import :
+        // type: System.Threading.Tasks.Task`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+        // method: System.String get_Result()
+        // Did you forget to add the [Script] attribute?
+        // Please double check the signature!
+
+        // assembly: W:\staging\clr\AndroidEnvironmentWebActivity.ApplicationWebService.AndroidActivity.dll
+        // type: AndroidEnvironmentWebActivity.Global, AndroidEnvironmentWebActivity.ApplicationWebService.AndroidActivity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x0029
+        //  method:Void Invoke(ScriptCoreLib.Ultra.WebService.InternalWebMethodInfo)
+        //System.NotSupportedException:
+
+
+        public async Task<string> Environment_getDataDirectoryAsync()
+        {
+            return android.os.Environment.getDataDirectory().getAbsolutePath();
+        }
+
 
         public void Environment_getDataDirectory(string e, Action<string> y)
         {

@@ -74,7 +74,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
                         var y = ss.Read(buffer, 0, buffer.Length);
                         //Console.WriteLine("after ReadByte " + new { y });
-                        var z = y > 0;
+                        //var z = y > 0;
 
                         return y;
                     }

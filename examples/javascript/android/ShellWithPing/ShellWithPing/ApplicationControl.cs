@@ -40,8 +40,10 @@ namespace ShellWithPing
 
             c.Show();
 
+            //System.Console.In.ReadLineAsync();
+
             c.AtCommand +=
-                (x, y) =>
+                async (x, y) =>
                 {
                     if (x.StartsWith("bing "))
                     {
