@@ -1,5 +1,5 @@
 ﻿// c
-
+// http://developer.chrome.com/apps/api_index.html
 // http://developer.chrome.com/extensions/bookmarks.html
 
 interface chrome.ChromeEventTarget<T, T2, T3>
@@ -9,6 +9,58 @@ interface chrome.ChromeEventTarget<T, T2, T3>
 
 
 
+
+// http://developer.chrome.com/extensions/tabs.html#type-Tab
+interface chrome.TabIdInteger
+{
+};
+
+interface chrome.Tab
+{
+	attribute chrome.TabIdInteger        id  ;
+	attribute int        windowId ;
+
+	attribute string        url;
+	attribute string        title;
+	attribute string        status;
+};
+
+
+// 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
+
+// There were warnings when trying to install this extension:
+//'fullscreen' is only allowed for packaged apps, and this is a extension.
+//'pointerLock' is only allowed for packaged apps, and this is a extension.
+//'socket' is only allowed for packaged apps, and this is a extension.
+//'webview' is only allowed for packaged apps, and this is a extension.
+interface chrome.tabs
+{
+	// http://stackoverflow.com/questions/6497548/chrome-extension-make-it-run-every-page-load
+
+	event static attribute chrome.ChromeEventTarget<chrome.Tab> onCreated;
+	event static attribute chrome.ChromeEventTarget<int, any, chrome.Tab> onUpdated;
+	event static attribute chrome.ChromeEventTarget<int, any> onMoved;
+
+	event static attribute chrome.ChromeEventTarget<any> onActivated;
+	//event static attribute chrome.ChromeEventTarget<{tabId, windowId}> onActivated;
+
+	event static attribute chrome.ChromeEventTarget<any> onHighlighted;
+	event static attribute chrome.ChromeEventTarget<int, any> onDetached;
+	event static attribute chrome.ChromeEventTarget<int, any> onAttached;
+	event static attribute chrome.ChromeEventTarget<int, any> onRemoved;
+	event static attribute chrome.ChromeEventTarget<int, int> onReplaced;
+
+	async static void create(any createProperties, function<chrome.Tab> callback);
+	
+	async static void get(int tabId, function<chrome.Tab> callback);
+
+	async static void getCurrent(function<chrome.Tab> callback);
+	async static extension void sendMessage(chrome.TabIdInteger tabId, any message, function<any> callback);
+	async static extension void duplicate(chrome.TabIdInteger tabId, function<chrome.Tab> callback);
+
+	async static extension void executeScript(chrome.TabIdInteger tabId, any details, function<any> callback);
+	async static extension void insertCSS(chrome.TabIdInteger tabId, any details, function callback);
+};
 
 
 // static or module?
@@ -28,8 +80,10 @@ interface chrome.notifications
 // http://developer.chrome.com/apps/runtime.html
 interface chrome.runtime
 {
+	static attribute string        lastError;
+	static attribute string        id;
 
-
+	
 	// http://stackoverflow.com/questions/2963260/how-do-i-auto-reload-a-chrome-extension-im-developing
 	static void reload();
 
@@ -220,7 +274,6 @@ interface chrome.NetworkInterface
 //	static attribute BookmarksModule        bookmarks;
 //	static attribute SocketModule			socket;
 //	static attribute NotificationsModule    notifications;
-//	static attribute TabsModule				tabs;
 //	static attribute RuntimeModule			runtime;
 //
 //	// can jsc help us define it inline?
@@ -261,21 +314,6 @@ interface chrome.NetworkInterface
 //};
 //
 
-//
-//
-//
-//interface Tab
-//{
-//	attribute int        id  ;
-//	attribute int        windowId ;
-//
-//};
-//
-//interface TabsModule
-//{
-//	void create(any createProperties, function callback);
-//};
-//
 
 //
 //

@@ -30,8 +30,8 @@ namespace ScriptCoreLib.Extensions
 
         public class Service
         {
-            public Action<string, string, Action<string>> File_ReadLine;
-            public Action<string, string, string, Action<string>> File_WriteLine;
+            public Func<string, string, Task<string>> File_ReadLine;
+            public Action<string, string, string> File_WriteLine;
         }
 
         public static Service service = new Service();
@@ -72,38 +72,40 @@ namespace ScriptCoreLib.Extensions
 
                 lookup.Add(f);
 
-                if (service.File_ReadLine != null)
-                    service.File_ReadLine(CallerFilePath, "" + CallerLineNumber,
-                       x =>
-                       {
-                           f.label2.Text = x;
+                service.File_ReadLine.With(
+                    File_ReadLine =>
+                    {
+                        File_ReadLine(CallerFilePath, "" + CallerLineNumber).ContinueWithResult(
+                            x =>
+                            {
 
-                           f.textBox1.TextChanged +=
-                               delegate
-                               {
-                                   f.label2.Text = x.Replace("" + e, f.textBox1.Text).Replace("default(int)", f.textBox1.Text);
+                                f.label2.Text = x;
 
-                                   f.button1.Enabled = true;
-                               };
+                                f.textBox1.TextChanged +=
+                                    delegate
+                                    {
+                                        f.label2.Text = x.Replace("" + e, f.textBox1.Text).Replace("default(int)", f.textBox1.Text);
 
-                           f.button1.Click +=
-                               delegate
-                               {
-                                   f.button1.Enabled = false;
+                                        f.button1.Enabled = true;
+                                    };
 
-                                   if (service.File_WriteLine != null)
-                                       service.File_WriteLine(
-                                           CallerFilePath, "" + CallerLineNumber,
-                                           f.label2.Text,
-                                           y =>
-                                           {
+                                f.button1.Click +=
+                                    delegate
+                                    {
+                                        f.button1.Enabled = false;
 
-                                           }
-                                       );
+                                        if (service.File_WriteLine != null)
+                                            service.File_WriteLine(
+                                                CallerFilePath, "" + CallerLineNumber,
+                                                f.label2.Text
+                                            );
 
-                               };
-                       }
-                   );
+                                    };
+                            }
+                        );
+
+                    }
+                 );
             }
 
             e = int.Parse(f.textBox1.Text);
