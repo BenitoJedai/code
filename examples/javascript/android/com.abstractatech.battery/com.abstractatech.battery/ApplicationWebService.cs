@@ -5,6 +5,7 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace com.abstractatech.battery
@@ -27,29 +28,28 @@ namespace com.abstractatech.battery
         // intent is returned.
 
 
-        public void batteryStatus(Action<string> y)
+        public Task<string> batteryStatus()
         {
             Console.WriteLine("enter batteryStatus");
+
+#if DEBUG
+            return Task.FromResult("" + 0.5);
+#else
             var ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-            global::ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.With(
-                context =>
-                {
-                    context.registerReceiver(null, ifilter).With(
-                        batteryStatus =>
-                        {
+            var batteryStatus = global::ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.registerReceiver(null, ifilter);
 
-                            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-                            float batteryPct = level / (float)scale;
-                            Console.WriteLine(new { batteryPct });
-                            y("" + batteryPct);
-                        }
-                    );
-                }
-            );
-            Console.WriteLine("exit batteryStatus");
+            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+            float batteryPct = level / (float)scale;
+
+            Console.WriteLine(new { batteryPct });
+
+            return Task.FromResult("" + batteryPct);
+#endif
+
         }
 
         // jsc please implement other datatypes :)
