@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 
@@ -30,19 +31,19 @@ namespace ReinstallNotification.Activities
                 var last_id = "";
 
                 #region async_poll_oninstall
-                var loop_index = 0;
-                Action loop = null;
-
-                loop = delegate
+                Action invoke = async delegate
                 {
-                    loop_index++;
+                    //loop_index++;
 
                     //talk.innerText = "#" + loop_index + " " + new { last_id };
 
-                    new ScriptCoreLib.JavaScript.Runtime.Timer(
-                        delegate
-                        {
-                            this.applicationWebService1.async_poll_oninstall(
+                    var poll = true;
+
+                    while (poll)
+                    {
+                        await Task.Delay(150);
+
+                        var id = await this.applicationWebService1.poll_oninstall(
                                 last_id: last_id,
                                 yield: xml =>
                                 {
@@ -51,23 +52,19 @@ namespace ReinstallNotification.Activities
                                     var packageName = xml.Attribute("packageName").Value;
 
                                     value(packageName);
-                                },
-                                yield_last_id:
-                                    id =>
-                                    {
-                                        // in stream mode this make a while to reach here
-                                        last_id = id;
-
-                                        // this would cause stackoverflow, yet since we are in 
-                                        // clent-server "tail" call it aint.
-                                        loop();
-                                    }
+                                }
                             );
-                        }
-                    ).StartTimeout(150);
+
+                        // in stream mode this make a while to reach here
+                        last_id = id;
+
+                        // this would cause stackoverflow, yet since we are in 
+                        // clent-server "tail" call it aint.
+                    }
+
                 };
 
-                loop();
+                invoke();
                 #endregion
             }
             remove
@@ -78,15 +75,6 @@ namespace ReinstallNotification.Activities
 
     }
 
-    public static class ApplicationWebServiceClientSideExtensions
-    {
-        public static void async_poll_oninstall(
-            this ApplicationWebService service,
-            string last_id, Action<XElement> yield, Action<string> yield_last_id)
-        {
-            // fallback
-            service.poll_oninstall(last_id, yield, yield_last_id);
-        }
-    }
+
 
 }

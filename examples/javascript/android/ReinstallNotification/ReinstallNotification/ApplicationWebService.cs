@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 
@@ -49,6 +50,15 @@ namespace ReinstallNotification.Activities
 
         // jsc could upgrade this method to use EventSource?
         // async yield?
+        public Task<string> poll_oninstall(string last_id, Action<XElement> yield)
+        {
+            var c = new TaskCompletionSource<string>();
+
+            poll_oninstall(last_id, yield, c.SetResult);
+
+            return c.Task;
+        }
+
         public void poll_oninstall(string last_id, Action<XElement> yield, Action<string> yield_last_id)
         {
             Console.WriteLine("enter poll_oninstall " + new { last_id });
