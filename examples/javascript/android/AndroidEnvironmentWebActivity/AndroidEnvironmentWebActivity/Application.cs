@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using AndroidEnvironmentWebActivity.Design;
 using AndroidEnvironmentWebActivity.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
+using System.Threading.Tasks;
 
 namespace AndroidEnvironmentWebActivity
 {
@@ -112,9 +113,36 @@ namespace AndroidEnvironmentWebActivity
                 };
             #endregion
 
-            f("Environment_getDataDirectory", "", service.Environment_getDataDirectory, browse);
-            f("Environment_getDownloadCacheDirectory", "", service.Environment_getDownloadCacheDirectory, browse);
-            f("Environment_getExternalStorageDirectory", "", service.Environment_getExternalStorageDirectory, browse);
+            #region ff
+            Action<string, Func<Task<string>>, Func<string, IHTMLDiv, IHTMLElement>> ff =
+                (text, c, y) =>
+                {
+                    var btn = new IHTMLButton(text).AttachToDocument();
+                    var output = new IHTMLDiv().AttachToDocument();
+
+                    btn.WhenClicked(
+                        async e =>
+                        {
+                            btn.style.color = JSColor.Red;
+
+                            output.Clear();
+
+                            var value = await c();
+
+                            btn.style.color = JSColor.Blue;
+
+
+                            y(value, output);
+                        }
+                     );
+                };
+            #endregion
+
+            ff("Environment_getDataDirectory", () => service.Environment_getDataDirectory(), browse);
+            ff("Environment_getDownloadCacheDirectory", () => service.Environment_getDownloadCacheDirectory(), browse);
+            ff("Environment_getExternalStorageDirectory", () => service.Environment_getExternalStorageDirectory(), browse);
+            ff("Environment_getExternalStorageState", () => service.Environment_getExternalStorageState(), pre);
+            ff("Environment_getRootDirectory", () => service.Environment_getRootDirectory(), browse);
 
             service.Environment_DIRECTORY("",
                 (
@@ -141,20 +169,11 @@ namespace AndroidEnvironmentWebActivity
                 }
             );
 
-            f("Environment_getExternalStorageState", "", service.Environment_getExternalStorageState, pre);
-            f("Environment_getRootDirectory", "", service.Environment_getRootDirectory, browse);
+
 
             new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
 
-            new IHTMLButton("Environment_getDataDirectory").AttachToDocument().WhenClicked(
-                async delegate
-                {
-                    var value = await service.Environment_getDataDirectoryAsync();
-
-                    new IHTMLPre { innerText = value }.AttachToDocument();
-                }
-            );
-
+          
 
             // new IHTMLButton("Environment_getDownloadCacheDirectory").AttachToDocument().onclick +=
             //    e => service.Environment_getDownloadCacheDirectory("",

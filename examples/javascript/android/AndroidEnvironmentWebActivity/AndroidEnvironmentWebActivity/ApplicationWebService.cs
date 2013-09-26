@@ -8,12 +8,11 @@ using android.os;
 using android.widget;
 using java.io;
 using ScriptCoreLib.Ultra.WebService;
+using System.Threading.Tasks;
 
 namespace AndroidEnvironmentWebActivity
 {
 
-    using ystring = Action<string>;
-    using System.Threading.Tasks;
 
     public delegate void Environment_DIRECTORY_callback(
         string DIRECTORY_MUSIC,
@@ -32,6 +31,8 @@ namespace AndroidEnvironmentWebActivity
     /// </summary>
     public sealed class ApplicationWebService
     {
+        // jsc, when can we start sending async interfaces?
+
         // could we expose property Environment and have client build a
         // more complex call graph?
 
@@ -58,29 +59,38 @@ namespace AndroidEnvironmentWebActivity
         //System.NotSupportedException:
 
 
-        public async Task<string> Environment_getDataDirectoryAsync()
+        public Task<string> Environment_getExternalStorageState()
         {
-            return android.os.Environment.getDataDirectory().getAbsolutePath();
+            return Task.FromResult(
+                android.os.Environment.getExternalStorageState()
+            );
+        }
+
+        public Task<string> Environment_getRootDirectory()
+        {
+            return Task.FromResult(
+                android.os.Environment.getRootDirectory().getAbsolutePath()
+            );
         }
 
 
-        public void Environment_getDataDirectory(string e, Action<string> y)
+        public Task<string> Environment_getDataDirectory()
         {
-            y(
+            return Task.FromResult(
                 android.os.Environment.getDataDirectory().getAbsolutePath()
             );
         }
 
-        public void Environment_getDownloadCacheDirectory(string e, Action<string> y)
+        public Task<string> Environment_getDownloadCacheDirectory()
         {
-            y(
+            return Task.FromResult(
                 android.os.Environment.getDownloadCacheDirectory().getAbsolutePath()
             );
         }
 
-        public void Environment_getExternalStorageDirectory(string e, Action<string> y)
+        public Task<string> Environment_getExternalStorageDirectory()
         {
-            y(
+            return Task.FromResult(
                 android.os.Environment.getExternalStorageDirectory().getAbsolutePath()
             );
         }
@@ -109,22 +119,9 @@ namespace AndroidEnvironmentWebActivity
             );
         }
 
-        public void Environment_getExternalStorageState(string DIRECTORY, Action<string> y)
-        {
-            y(
-                android.os.Environment.getExternalStorageState()
-            );
-        }
-
-        public void Environment_getRootDirectory(string DIRECTORY, Action<string> y)
-        {
-            y(
-                android.os.Environment.getRootDirectory().getAbsolutePath()
-            );
-        }
 
 
-        public void File_list(string path, ystring ydirectory, ystring yfile)
+        public void File_list(string path, Action<string> ydirectory, Action<string> yfile)
         {
             var f = new File(path);
 

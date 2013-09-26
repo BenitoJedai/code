@@ -84,6 +84,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public bool IsCompleted { get; internal set; }
 
+        public static Task<TResult> FromResult<TResult>(TResult result)
+        {
+            var t = new __Task<TResult>();
+
+            t.InternalSetCompleteAndYield(result);
+
+            return t;
+        }
+
         public static __TaskFactory InternalFactory
         {
             get
