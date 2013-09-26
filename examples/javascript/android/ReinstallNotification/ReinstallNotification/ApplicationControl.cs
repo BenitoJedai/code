@@ -16,10 +16,23 @@ namespace ReinstallNotification.Activities
             this.InitializeComponent();
         }
 
+        public Action Notify = delegate { };
+
         private void applicationWebServiceWithEvents1_oninstall(string packageName)
         {
             Console.WriteLine("applicationWebServiceWithEvents1_oninstall " + new { packageName });
-            MessageBox.Show(new { packageName }.ToString());
+
+            // wont work within chrome.webview
+            Notify();
+
+            comboBox1.Items.Add(packageName);
+
+            //MessageBox.Show(new { packageName }.ToString());
+        }
+
+        private void ApplicationControl_Load(object sender, EventArgs e)
+        {
+
         }
 
     }

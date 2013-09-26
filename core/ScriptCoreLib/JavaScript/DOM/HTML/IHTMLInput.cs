@@ -163,5 +163,18 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // http://www.w3.org/TR/html-markup/spec.html
         public int selectionStart;
         public int selectionEnd;
+
+
+        public static implicit operator bool(IHTMLInput i)
+        {
+            if (i.type == HTMLInputTypeEnum.checkbox)
+            {
+                // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+
+                return i.@checked;
+            }
+
+            return false;
+        }
     }
 }

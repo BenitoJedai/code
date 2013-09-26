@@ -15,11 +15,9 @@ namespace WebServiceAsComponentExperiment
             this.InitializeComponent();
         }
 
-        private void button1_Click(object sender, System.EventArgs e)
+        private async void button1_Click(object sender, System.EventArgs e)
         {
-            applicationWebService1.WebMethod2("foo",
-                x => MessageBox.Show(x)
-            );
+            MessageBox.Show(await applicationWebService1.WebMethod2("foo"));
         }
 
     }

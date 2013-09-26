@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace WebServiceAsComponentExperiment
@@ -18,10 +19,10 @@ namespace WebServiceAsComponentExperiment
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public async Task<string> WebMethod2(string e)
         {
             // Send it back to the caller.
-            y(e + " via server");
+            return (e + " via server");
         }
 
     }

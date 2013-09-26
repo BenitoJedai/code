@@ -4,6 +4,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -474,6 +475,25 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+        // http://social.msdn.microsoft.com/Forums/en-US/30f3339c-5e04-4aa8-9a09-9be72d9d9a1b/how-can-you-use-await-with-existing-events
+        public Task requestAnimationFrameAsync
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var x = new TaskCompletionSource<object>();
+
+                // tested by
+                // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+                this.requestAnimationFrame +=
+                    delegate
+                    {
+                        x.SetResult(null);
+                    };
+
+                return x.Task;
+            }
+        }
 
         public event System.Action requestAnimationFrame
         {
@@ -497,7 +517,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // what do name every frame yield? as uses enterFrame, onframe seems decent
         // should it be part of extensions?
         // there are no extension events yet
-        public event System.Action onframe
+        public event System.Action<int> onframe
         {
             [Script(DefineAsStatic = true)]
             add
@@ -507,11 +527,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 System.Action loop = null;
 
+                int c = 0;
 
                 loop = delegate
                 {
                     // exception would stop the loop?
-                    value();
+                    value(c);
+                    c++;
 
                     this.requestAnimationFrame += loop;
                 };

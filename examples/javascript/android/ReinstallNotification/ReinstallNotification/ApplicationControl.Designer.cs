@@ -22,6 +22,7 @@ namespace ReinstallNotification.Activities
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.applicationWebServiceWithEvents1 = new ReinstallNotification.Activities.ApplicationWebService_oninstall();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // checkBox1
@@ -73,14 +74,24 @@ namespace ReinstallNotification.Activities
             // 
             this.applicationWebServiceWithEvents1.oninstall += new System.Action<string>(this.applicationWebServiceWithEvents1_oninstall);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(49, 139);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(351, 21);
+            this.comboBox1.TabIndex = 4;
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(400, 300);
+            this.Size = new System.Drawing.Size(449, 300);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,6 +112,7 @@ namespace ReinstallNotification.Activities
         private CheckBox checkBox3;
         private CheckBox checkBox4;
         private ApplicationWebService_oninstall applicationWebServiceWithEvents1;
+        private ComboBox comboBox1;
 
     }
 }

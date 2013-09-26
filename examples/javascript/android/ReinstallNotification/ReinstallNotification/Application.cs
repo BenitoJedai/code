@@ -1,4 +1,5 @@
 using ReinstallNotification.Design;
+using ReinstallNotification.HTML.Audio.FromAssets;
 using ReinstallNotification.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
@@ -30,10 +31,15 @@ namespace ReinstallNotification.Activities
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            content.Notify =
+                delegate
+                {
+                    new NewApplicationInstalled().play();
+                };
             content.AttachControlTo(page.Content);
             content.AutoSizeControlTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
-      
+
         }
 
     }
