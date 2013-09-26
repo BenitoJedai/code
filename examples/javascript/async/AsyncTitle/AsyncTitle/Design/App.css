@@ -1,0 +1,12 @@
+h1 { color: blue; }
+
+      /*http://demosthenes.info/blog/615/CSS-Tricks-Proof-That-You-Can-Style-Absolutely-Anything-On-A-Web-Page#footer*/
+        head, title {
+            display: block;
+        }
+
+        title {
+            color: white;
+            background-color: black;
+            padding: 0.2em;
+        }

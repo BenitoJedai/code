@@ -51,6 +51,7 @@ using ScriptCoreLib.Shared;
     ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
     ScriptTypeFilter(ScriptType.PHP, "*.Shared"),
 
+    ScriptTypeFilter(ScriptType.Java, "*.Java.BCLImplementation"),
     ScriptTypeFilter(ScriptType.Java, "*.Shared.BCLImplementation"),
 
     ScriptTypeFilter(ScriptType.ActionScript, "*.Extensions"),

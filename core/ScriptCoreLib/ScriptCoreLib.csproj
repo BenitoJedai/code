@@ -106,6 +106,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="JavaScript\DOM\History.cs" />
     <Compile Include="JavaScript\DOM\ProgressEvent.cs" />
+    <Compile Include="Java\BCLImplementation\System\Threading\Tasks\Task.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
@@ -1006,7 +1007,6 @@
     <Folder Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
-    <Folder Include="Java\BCLImplementation\System\" />
     <Folder Include="PHP\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
