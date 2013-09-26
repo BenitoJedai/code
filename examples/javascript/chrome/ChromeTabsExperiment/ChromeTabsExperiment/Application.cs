@@ -53,6 +53,10 @@ namespace ChromeTabsExperiment
                 //---------------------------
 
 
+                Action<Tab> pageActionClick = delegate
+                {
+                };
+
                 Console.WriteLine("loading ChromeTabsExperiment...");
 
                 chrome.Notification.DefaultTitle = "ChromeTabsExperiment";
@@ -291,11 +295,18 @@ namespace ChromeTabsExperiment
                                             if (xtab.id != tab.id)
                                                 return;
 
+                                            // let extension call app
+                                            // which in turn can call
+                                            // udp android
+                                            pageActionClick(tab);
 
-                                            tab.id.hide();
+                                            if (inject != null)
+                                            {
+                                                tab.id.hide();
 
-                                            inject();
-                                            inject = null;
+                                                inject();
+                                                inject = null;
+                                            }
                                         };
 
                                     //tab.id.setTitle(
@@ -371,6 +382,15 @@ namespace ChromeTabsExperiment
                                          new { hello = "slave" }
                                      );
 
+
+                        pageActionClick +=
+                            tab =>
+                            {
+                                port.postMessage(
+                                   new { tab.id }
+                               );
+                            };
+
                         Console.WriteLine("connect posted " + new { slave });
                     }
                 );
@@ -432,6 +452,47 @@ namespace ChromeTabsExperiment
             (Native.self as dynamic).onxmessage = onxmessage;
             #endregion
 
+            // http://slashdot.org/
+            //<iframe id="google_ads_iframe_243358" name="google_ads_iframe_243358"
+
+            Native.document.getElementsByTagName("iframe").WithEach(
+                iframe =>
+                {
+                    if (iframe.name.StartsWith("google_ads"))
+                    {
+                        iframe.style.Opacity = 0.3;
+                        return;
+                    }
+
+                    // aswift
+                    if (iframe.name.StartsWith("aswift"))
+                    {
+                        iframe.style.Opacity = 0.3;
+                        return;
+                    }
+
+                    // "<iframe width="300" height="250" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe>"
+
+
+                    //<div id="rightCol" role="complementary" aria-label="Reminders, people you may know, and ads"><
+
+                }
+            );
+
+            Native.document.getElementsByTagName("div").WithEach(
+                 x =>
+                 {
+
+                     if (x.attributes.Any(a => a.value == "Reminders, people you may know, and ads"))
+                     {
+                         x.style.Opacity = 0.3;
+                         return;
+                     }
+
+                     //<div id="rightCol" role="complementary" aria-label="Reminders, people you may know, and ads"><
+
+                 }
+             );
 
             //chrome.runtime.Message +=
         }

@@ -85,6 +85,12 @@ namespace ChromeTCPServer
                                 {
                                     Console.WriteLine("ConnectExternal onMessage " + new { message });
 
+                                    var nn = new chrome.Notification
+                                    {
+                                        Title = "hybrid extension signal!",
+                                        Message = new { message }.ToString(),
+                                    };
+
                                     port.postMessage(
                                         new { hello = "world" }
                                     );
