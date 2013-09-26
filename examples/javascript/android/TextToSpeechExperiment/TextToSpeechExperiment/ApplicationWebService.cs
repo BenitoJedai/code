@@ -5,6 +5,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace TextToSpeechExperiment
@@ -19,7 +20,7 @@ namespace TextToSpeechExperiment
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public Task TextToSpeechSpeak(string e)
         {
             if (mTts == null)
             {
@@ -44,8 +45,9 @@ namespace TextToSpeechExperiment
             Console.WriteLine("speak " + new { e });
             mTts.speak(e, TextToSpeech.QUEUE_FLUSH, null);
 
-            // Send it back to the caller.
-            y(e);
+
+
+            return Task.FromResult(default(object));
         }
 
 

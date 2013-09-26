@@ -53,23 +53,23 @@ namespace com.abstractatech.battery
                     page.gauge_layer1.style.transform = transform;
                 };
 
-#if DEBUG
-            set(0.3);
+            //#if DEBUG
+            //            set(0.3);
 
-            Native.Window.onfocus +=
-                delegate
-                {
-                    set(1);
+            //            Native.Window.onfocus +=
+            //                delegate
+            //                {
+            //                    set(1);
 
-                };
+            //                };
 
-            Native.Window.onblur +=
-                delegate
-                {
-                    set(0);
+            //            Native.Window.onblur +=
+            //                delegate
+            //                {
+            //                    set(0);
 
-                };
-#else
+            //                };
+            //#else
             // it can get stuck. the dom might not represent the value we are setting if it is the same?
             //set(1);
             set(0);
@@ -79,14 +79,11 @@ namespace com.abstractatech.battery
             //(page.gauge_layer1.style as dynamic).transition = "-webkit-transform 0.7s ease-in";
 
 
-            Action batteryStatus = delegate
+            Action batteryStatus = async delegate
             {
-                service.batteryStatus(
-                    batteryPct =>
-                    {
-                        set(System.Convert.ToDouble(batteryPct));
-                    }
-                );
+                var batteryPct = await service.batteryStatus();
+
+                set(System.Convert.ToDouble(batteryPct));
             };
 
 
@@ -98,7 +95,7 @@ namespace com.abstractatech.battery
             ).StartInterval(15000);
 
             batteryStatus();
-#endif
+            //#endif
 
             "Battery".ToDocumentTitle();
         }
