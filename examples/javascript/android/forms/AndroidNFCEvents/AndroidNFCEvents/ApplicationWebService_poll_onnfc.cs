@@ -1,52 +1,136 @@
+﻿using android.app;
 using android.content;
-using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
-using ScriptCoreLib.Extensions;
-using System;
-using System.Linq;
-using System.Xml.Linq;
-using ScriptCoreLibJava.Extensions;
-using android.app;
 using android.nfc;
-using ScriptCoreLib.Ultra.WebService;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using ScriptCoreLibJava.Extensions;
+using ScriptCoreLib.Extensions;
+using System.Xml.Linq;
+using System.Diagnostics;
 
-namespace AndroidNFCExperiment
+namespace AndroidNFCEvents
 {
-    public sealed class ApplicationWebService
+    public static class ApplicationWebService_poll_onnfc
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // enter WebMethod2 { ManagedThreadId = 2033 }
-            // we should marshal the callback to the correct thread.
-            Console.WriteLine("enter WebMethod2 " + new { Thread.CurrentThread.ManagedThreadId });
+        // inspired by
+        // X:\jsc.svn\examples\javascript\android\forms\ReinstallNotification\ReinstallNotification\AtInstall.cs
 
-            // Send it back to the caller.
-            y(e);
+        public static List<string> History = new List<string>();
+
+        public static void poll_onnfc(
+         string last_id,
+         Action<XElement> yield,
+         Action<string> yield_last_id,
+         int sync_SelectContentUpdates_timeout = 5000,
+         int sync_SelectContentUpdates_waitmin = 10,
+         int sync_SelectContentUpdates_waitrandom = 30
+         )
+        {
+            Console.WriteLine("enter poll_onnfc " + new { last_id });
+
+            if (last_id == "")
+            {
+                yield_last_id("" + ApplicationWebService_poll_onnfc.History.Count);
+                return;
+            }
+
+
+
+            var int_last_id = int.Parse(last_id);
+
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var random = new Random();
+
+
+            // will this compile?
+
+
+            while (sw.IsRunning)
+            {
+                var id = int_last_id;
+
+                //sync.SelectTransaction(
+                //    nid => id = (int)nid
+                //);
+
+                id = ApplicationWebService_poll_onnfc.History.Count;
+
+
+                //                type: System.Random
+                //method: Int32 Next(Int32)
+                var wait = sync_SelectContentUpdates_waitmin
+                    + random.Next(0, sync_SelectContentUpdates_waitrandom);
+
+                //Console.WriteLine("SelectTransaction " + new { id, int_last_id, sw.ElapsedMilliseconds });
+                if (id == int_last_id)
+                {
+                    Thread.Sleep(wait);
+                }
+                else
+                {
+                    // dont stop reading...
+                    //sw.Stop();
+
+                    //var value = new PointerSyncQueries.SelectContentUpdates
+                    //{
+                    //    FromTransaction = int_last_id,
+                    //    ToTransaction = (int)id
+                    //};
+
+                    //sync.SelectContentUpdates(
+                    //    value: value,
+                    //    yield: message =>
+                    //    {
+
+                    //        yield(XElement.Parse(message));
+                    //    }
+                    //);
+
+                    Console.WriteLine("raise oninstall " + new { int_last_id, id });
+
+                    ApplicationWebService_poll_onnfc.History.ToArray().Skip(int_last_id).Take(id - int_last_id).WithEach(
+                        xid =>
+                        {
+                            var xml = new XElement("ApplicationWebService_poll_onnfc",
+                                new XAttribute("id", xid
+                                    )
+                            );
+
+                            // raise oninstall { int_last_id = 1, id = 2 }
+
+                            Console.WriteLine("yield " + new { xml });
+                            yield(xml);
+
+                            // force end of stream for now.
+                            // as we are not using event stream yet
+                            sw.Stop();
+                        }
+                    );
+
+                    int_last_id = (int)id;
+                }
+
+                if (sw.ElapsedMilliseconds >= sync_SelectContentUpdates_timeout)
+                    sw.Stop();
+            }
+
+            yield_last_id("" + int_last_id);
         }
 
-        public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
-        {
-            Console.WriteLine("ApplicationWebService handler");
-        }
 
-        static ApplicationWebService()
+        static ApplicationWebService_poll_onnfc()
         {
             // http://lifehacker.com/run-an-action-when-you-remove-your-phone-from-an-nfc-ta-1208446359
             // https://groups.google.com/forum/#!topic/android-developers/8-17f6ZLYJY
 
             //  enter ApplicationWebService { ManagedThreadId = 2029 }
-            Console.WriteLine("enter ApplicationWebService " + new { Thread.CurrentThread.ManagedThreadId });
-
-
-
-            Console.WriteLine("before NfcAdapter");
-
+            Console.WriteLine("enter ApplicationWebService_poll_onnfc " + new { Thread.CurrentThread.ManagedThreadId });
 
             // http://mobile.tutsplus.com/tutorials/android/reading-nfc-tags-with-android/
             // http://stackoverflow.com/questions/10848134/android-on-nfc-read-close-activity-not-the-main-activity
@@ -147,7 +231,9 @@ namespace AndroidNFCExperiment
             //I/CalendarProvider2(17732): Sending notification intent: Intent { act=android.intent.action.PROVIDER_CHANGED dat=content://com.android.calendar }
             //W/ContentResolver(17732): Failed to get type for: content://com.android.calendar (Unknown URL content://com.android.calendar)
 
-
+//            D/NativeNfcTag(  747): Check NDEF Failed - status = 255
+//D/NfcDispatcher(  747): dispatch tag: TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.NdefFormatable] message: null
+//I/NfcDispatcher(  747): no match
             activity.AtNewIntent +=
                 i =>
                 {
@@ -157,7 +243,7 @@ namespace AndroidNFCExperiment
 
                     //I/System.Console(25300): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED }
 
-                    if (action == "android.nfc.action.TECH_DISCOVERED")
+                    if (action == NfcAdapter.ACTION_TECH_DISCOVERED)
                     {
                         //                    U:\src\AndroidNFCExperiment\ApplicationWebService___c__DisplayClass4.java:93: <identifier> expected
                         //private static Tag _<.cctor>b__0_Isinst_0064(Object _0064)
@@ -221,6 +307,10 @@ namespace AndroidNFCExperiment
                                            var id = (byte[])(object)tag.getId();
 
                                            Console.WriteLine("AtNewIntent " + new { action, current, id = id.ToHexString(), Thread.CurrentThread.ManagedThreadId });
+
+                                           History.Add(
+                                                id.ToHexString()
+                                            );
 
                                            //I/System.Console(32331): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG, p = TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef], id = fdccd727, tech = android.nfc.tech.MifareClassic }
                                            //I/System.Console(32331): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG, p = TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef], id = fdccd727, tech = android.nfc.tech.NfcA }
@@ -333,10 +423,14 @@ namespace AndroidNFCExperiment
             activity.AtResume +=
                 delegate
                 {
+                    Console.WriteLine();
+                    Console.WriteLine();
                     Console.WriteLine("AtResume");
                     adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
                 };
 
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("before enableForegroundDispatch");
             adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
 
@@ -344,6 +438,8 @@ namespace AndroidNFCExperiment
             activity.AtPause +=
                delegate
                {
+                   Console.WriteLine();
+                   Console.WriteLine();
                    Console.WriteLine("AtPause");
                    adapter.disableForegroundDispatch(activity);
                };
