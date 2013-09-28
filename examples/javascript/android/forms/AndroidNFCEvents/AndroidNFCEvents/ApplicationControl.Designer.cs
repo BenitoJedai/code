@@ -21,9 +21,12 @@ namespace AndroidNFCEvents
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.applicationControl_onnfc1 = new AndroidNFCEvents.ApplicationControl_onnfc();
             this.applicationWebService1 = new AndroidNFCEvents.ApplicationWebService();
-            this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // checkBox3
@@ -67,12 +70,6 @@ namespace AndroidNFCEvents
             this.listBox1.Size = new System.Drawing.Size(324, 108);
             this.listBox1.TabIndex = 10;
             // 
-            // applicationControl_onnfc1
-            // 
-            this.applicationControl_onnfc1.service = this.applicationWebService1;
-            this.applicationControl_onnfc1.onnfc_syncframe += new System.Action<int>(this.applicationControl_onnfc1_onnfc_syncframe);
-            this.applicationControl_onnfc1.onnfc += new System.Action<string>(this.applicationControl_onnfc1_onnfc);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -82,8 +79,44 @@ namespace AndroidNFCEvents
             this.label1.TabIndex = 11;
             this.label1.Text = "label1";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(17, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(245, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "If the app looses focus, it may need to be restarted";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 41);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(188, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Nexus has NFC reader at back bottom";
+            // 
+            // applicationControl_onnfc1
+            // 
+            this.applicationControl_onnfc1.service = this.applicationWebService1;
+            this.applicationControl_onnfc1.onnfc_syncframe += new System.Action<int>(this.applicationControl_onnfc1_onnfc_syncframe);
+            this.applicationControl_onnfc1.onnfc += new System.Action<string>(this.applicationControl_onnfc1_onnfc);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 66);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(179, 13);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Make sure your device enables NFC";
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.checkBox3);
@@ -113,6 +146,9 @@ namespace AndroidNFCEvents
         private ListBox listBox1;
         private ApplicationWebService applicationWebService1;
         private Label label1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
 
     }
 }

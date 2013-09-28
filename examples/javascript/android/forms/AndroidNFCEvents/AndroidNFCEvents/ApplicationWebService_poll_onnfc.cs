@@ -231,9 +231,9 @@ namespace AndroidNFCEvents
             //I/CalendarProvider2(17732): Sending notification intent: Intent { act=android.intent.action.PROVIDER_CHANGED dat=content://com.android.calendar }
             //W/ContentResolver(17732): Failed to get type for: content://com.android.calendar (Unknown URL content://com.android.calendar)
 
-//            D/NativeNfcTag(  747): Check NDEF Failed - status = 255
-//D/NfcDispatcher(  747): dispatch tag: TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.NdefFormatable] message: null
-//I/NfcDispatcher(  747): no match
+            //            D/NativeNfcTag(  747): Check NDEF Failed - status = 255
+            //D/NfcDispatcher(  747): dispatch tag: TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.NdefFormatable] message: null
+            //I/NfcDispatcher(  747): no match
             activity.AtNewIntent +=
                 i =>
                 {
@@ -426,6 +426,7 @@ namespace AndroidNFCEvents
                     Console.WriteLine();
                     Console.WriteLine();
                     Console.WriteLine("AtResume");
+                    Console.WriteLine();
                     adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
                 };
 
