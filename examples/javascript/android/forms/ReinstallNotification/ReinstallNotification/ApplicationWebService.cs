@@ -27,19 +27,6 @@ namespace ReinstallNotification.Activities
         // http://stackoverflow.com/questions/7470314/receiving-package-install-and-uninstall-events
 
 
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            Console.WriteLine("AtInstall event registered!");
-
-            // Send it back to the caller.
-            y(e);
-        }
-
 
 
         #region poll_oninstall
