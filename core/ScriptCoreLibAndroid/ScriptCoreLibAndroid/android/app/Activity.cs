@@ -15,10 +15,15 @@ namespace android.app
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper
     {
+        protected virtual void onNewIntent(android.content.Intent value)
+        {
+
+        }
+
         public static int RESULT_OK;
 
         protected virtual void onResume()
-        { 
+        {
         }
 
         protected virtual void onPause()
@@ -26,8 +31,8 @@ namespace android.app
         }
 
         public virtual void onLowMemory()
-        { 
-        
+        {
+
         }
 
         public void sendBroadcast(Intent intent)

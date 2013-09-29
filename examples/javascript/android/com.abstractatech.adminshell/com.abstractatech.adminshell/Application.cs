@@ -44,6 +44,10 @@ namespace com.abstractatech.adminshell
 
         }
 
+
+        public readonly ApplicationControl control = new ApplicationControl();
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -54,22 +58,31 @@ namespace com.abstractatech.adminshell
 
             //new ConsoleForm().InitializeConsoleFormWriter().Show();
 
+            control.nfc.onnfc +=
+                nfcid =>
+                {
+                    page.username.value = nfcid;
+                };
 
             #region go
             Action<HistoryScope<InternalScriptApplicationSource>> go =
-                async
+                //async
                   scope =>
-                {
-                    var source = scope.state;
+                  {
+                      var source = scope.state;
 
 
-                    new App.FromDocument().LoginButton.Orphanize();
+                      new App.FromDocument().LoginButton.Orphanize();
 
-                    Console.WriteLine("eval a...");
-                    var restore = source.eval();
-                    Console.WriteLine("eval a... done");
+                      Console.WriteLine("eval a...");
+                      var restore = source.eval();
+                      Console.WriteLine("eval a... done");
 
-                };
+                      //await scope;
+
+                      //Native.window.alert("go back?");
+
+                  };
             #endregion
 
 
@@ -86,7 +99,6 @@ namespace com.abstractatech.adminshell
                     var source = await typeof(a);
                     Console.WriteLine("loading a... done");
 
-                    Native.window.alert("will switch to new state!");
                     Native.window.history.pushState(source, go);
 
                     button.style.Opacity = 1;

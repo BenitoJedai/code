@@ -14,6 +14,7 @@ using android.net.wifi;
 using java.net;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace com.abstractatech.adminshell
 {
@@ -22,8 +23,32 @@ namespace com.abstractatech.adminshell
     /// </summary>
     /// 
     [DesignerCategory("code")]
-    public sealed class ApplicationWebService
+    public sealed class ApplicationWebService :
+        AndroidNFCEvents.IApplicationWebService_poll_onnfc
     {
+ //      at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__NetworkStream.get_Length(__NetworkStream.java:84)
+ //at ScriptCoreLibJava.BCLImplementation.System.IO.__FileStream.get_Length(__FileStream.java:27)
+
+        public Task<string> poll_onnfc(string last_id, Action<XElement> yield)
+        {
+#if DEBUG
+            Thread.Sleep(500);
+
+            return Task.FromResult(last_id);
+#else
+
+            var c = new TaskCompletionSource<string>();
+
+            AndroidNFCEvents.ApplicationWebService_poll_onnfc.poll_onnfc(
+                last_id, yield, c.SetResult
+            );
+
+            return c.Task;
+#endif
+        }
+
+
+
         // http://zadjhu.blogspot.com/2013/03/android-jellybean-does-not-allocate.html
 
         public void ShellAsync(string e, Action<string> y)
