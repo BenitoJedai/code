@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.adminshell", "com.abstractatech.adminshell\com.abstractatech.adminshell.csproj", "{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {3D035C03-5D69-452B-9022-0269DBD26D8B}
@@ -8,7 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.adminshel
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826} = {0267AB63-ECEC-4ECC-A3B3-853C3138A826}
 		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678} = {62A19ED1-E8BE-44A1-8990-28EBC8A7A678}
-		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
 		{327F22EB-51F3-4545-A839-F79005C69D8B} = {327F22EB-51F3-4545-A839-F79005C69D8B}
 	EndProjectSection
 EndProject
@@ -29,7 +28,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {132EB43F-19B4-42AC-8025-3249B129867A}
-		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ConsoleFormPackage", "..\..\..\..\market\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage.csproj", "{3D035C03-5D69-452B-9022-0269DBD26D8B}"
@@ -53,11 +51,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merge", "merge", "{5DA0EBDF-895D-4948-A49B-D660548389EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Forms.KeepLocationInSettings", "..\..\..\..\market\Abstractatech.Forms.KeepLocationInSettings\Abstractatech.Forms.KeepLocationInSettings\Abstractatech.Forms.KeepLocationInSettings.csproj", "{418C7EFC-CF27-44F6-808B-467B45E5948E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{132EB43F-19B4-42AC-8025-3249B129867A} = {132EB43F-19B4-42AC-8025-3249B129867A}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidNFCEvents", "..\forms\AndroidNFCEvents\AndroidNFCEvents\AndroidNFCEvents.csproj", "{A3386105-0C94-4510-8EAF-505595F00DC1}"
 EndProject
@@ -527,36 +520,6 @@ Global
 		{418C7EFC-CF27-44F6-808B-467B45E5948E}.Release|Mixed Platforms.Build.0 = Release|x86
 		{418C7EFC-CF27-44F6-808B-467B45E5948E}.Release|x86.ActiveCfg = Release|x86
 		{418C7EFC-CF27-44F6-808B-467B45E5948E}.Release|x86.Build.0 = Release|x86
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|x86.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Any CPU.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Any CPU.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Mixed Platforms.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Mixed Platforms.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|x86.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Any CPU.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Any CPU.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Mixed Platforms.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Mixed Platforms.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|x86.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.ActiveCfg = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.Build.0 = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|x86.ActiveCfg = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
 		{A3386105-0C94-4510-8EAF-505595F00DC1}.Android|Any CPU.ActiveCfg = Release|x86
 		{A3386105-0C94-4510-8EAF-505595F00DC1}.Android|Mixed Platforms.ActiveCfg = Release|x86
 		{A3386105-0C94-4510-8EAF-505595F00DC1}.Android|Mixed Platforms.Build.0 = Release|x86
@@ -605,7 +568,6 @@ Global
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {5DA0EBDF-895D-4948-A49B-D660548389EB}
 		{C44C5C6C-1C88-4176-B0CA-1FDB1FE6EFE8} = {5DA0EBDF-895D-4948-A49B-D660548389EB}
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {5DA0EBDF-895D-4948-A49B-D660548389EB}
-		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {5DA0EBDF-895D-4948-A49B-D660548389EB}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {C44C5C6C-1C88-4176-B0CA-1FDB1FE6EFE8}
 		{053C4547-E32B-458E-B295-1E3640BE96E9} = {C44C5C6C-1C88-4176-B0CA-1FDB1FE6EFE8}
 	EndGlobalSection

@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using DragIntoCRX.Design;
 using DragIntoCRX.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
+using System.IO;
 
 namespace DragIntoCRX
 {
@@ -227,13 +228,12 @@ Could post message to see if we are being hosted in an iframe.
 
                 PackageAsApplication(
                     source,
-                    XElement.Parse(new App.XMLSourceSource().Text),
+                    XElement.Parse(AppSource.Text),
                     data =>
                     {
                         var bytes = Encoding.ASCII.GetBytes(data);
                         var data64 = System.Convert.ToBase64String(bytes);
 
-                        #region ondragstart
                         page.DragHTM.style.color = JSColor.Blue;
                         page.DragHTM.ondragstart +=
                                 e =>
@@ -247,17 +247,54 @@ Could post message to see if we are being hosted in an iframe.
 
 
 
-                                    e.dataTransfer.setData("DownloadURL", "application/octet-stream:DragIntoCRX.htm:data:application/octet-stream;base64," + data64);
+                                    e.dataTransfer.setData(
+                                        "DownloadURL",
+                                        "application/octet-stream:DragIntoCRX.htm:data:application/octet-stream;base64," + data64
+                                    );
                                 };
 
-                        page.DragHtmlSource.style.color = JSColor.Blue;
-                        page.DragHtmlSource.ondragstart +=
-                                e =>
+
+
+                        new IXMLHttpRequest().With(
+                            //async
+                                xhr =>
                                 {
-                                    e.dataTransfer.setData("text/html", data);
-                                };
-                        #endregion
+                                    //Console.WriteLine(new { asset });
 
+                                    xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.GET, new HTML.Images.FromAssets.tumblr_mns24ruzRq1qzt4vjo1_500().src);
+
+                                    //var gifbytes = await 
+
+                                    xhr.bytes.ContinueWith(
+                                        task =>
+                                        {
+                                            var gifbytes = task.Result;
+
+                                            var zbytes = new MemoryStream();
+
+                                            Console.WriteLine("gifbytes " + gifbytes.Length);
+                                            Console.WriteLine("bytes " + bytes.Length);
+
+                                            zbytes.Write(gifbytes, 0, gifbytes.Length);
+                                            zbytes.Write(bytes, 0, bytes.Length);
+
+                                            var gifdata64 = System.Convert.ToBase64String(zbytes.ToArray());
+                                            Console.WriteLine("gifdata64 " + gifdata64.Length);
+
+                                            page.Drag_into_GIF.disabled = false;
+                                            page.Drag_into_GIF.ondragstart +=
+                                                e =>
+                                                {
+                                                    e.dataTransfer.setData(
+                                                       "DownloadURL",
+                                                       "application/octet-stream:special.gif:data:application/octet-stream;base64," + gifdata64
+                                                   );
+                                                };
+                                        }
+                                );
+
+                                }
+                        );
 
                     }
                 );
