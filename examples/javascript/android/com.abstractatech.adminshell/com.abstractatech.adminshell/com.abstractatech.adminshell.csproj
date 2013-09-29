@@ -71,6 +71,9 @@
     <Reference Include="Abstractatech.Multicast">
       <HintPath>..\packages\Abstractatech.Multicast.1.0.0.0\lib\Abstractatech.Multicast.dll</HintPath>
     </Reference>
+    <Reference Include="AndroidNFCEvents">
+      <HintPath>..\packages\AndroidNFCEvents.1.0.0.0\lib\AndroidNFCEvents.dll</HintPath>
+    </Reference>
     <Reference Include="CSSMinimizeFormToSidebar">
       <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
     </Reference>

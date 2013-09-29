@@ -11,7 +11,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.MemoryStream))]
 	internal class __MemoryStream : __Stream
 	{
-		internal string Buffer = "";
+        // soon to be out of date?
+		internal string InternalBuffer = "";
 
 		public __MemoryStream()
 			: this(null)
@@ -37,7 +38,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 			if (this.Position >= this.Length)
 				return -1;
 
-			var x = (byte)(this.Buffer[(int)this.Position] & 0xff);
+			var x = (byte)(this.InternalBuffer[(int)this.Position] & 0xff);
 
 			this.Position++;
 
@@ -50,7 +51,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 				throw new NotImplementedException();
 
 
-			this.Buffer += __String.FromCharCode(value & 0xff);
+			this.InternalBuffer += __String.FromCharCode(value & 0xff);
 			this.Position++;
 
 		}
@@ -65,7 +66,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 				if (i >= this.Length)
 					break;
 
-				buffer[i + offset] = (byte)(this.Buffer[i + p] & 0xff);
+				buffer[i + offset] = (byte)(this.InternalBuffer[i + p] & 0xff);
 
 				c++;
 			}
@@ -83,7 +84,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 
 			for (int i = 0; i < count; i++)
 			{
-				this.Buffer += __String.FromCharCode(buffer[offset + i]);
+				this.InternalBuffer += __String.FromCharCode(buffer[offset + i]);
 			}
 
 			this.Position += count;
@@ -95,7 +96,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 
 			for (int i = 0; i < this.Length; i++)
 			{
-				a[i] = (byte)(this.Buffer[i] & 0xff);
+				a[i] = (byte)(this.InternalBuffer[i] & 0xff);
 			}
 
 			return a;
@@ -103,7 +104,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 
 		public override long Length
 		{
-			get { return Buffer.Length; }
+			get { return InternalBuffer.Length; }
 		}
 
 		public override long Position { get; set; }
