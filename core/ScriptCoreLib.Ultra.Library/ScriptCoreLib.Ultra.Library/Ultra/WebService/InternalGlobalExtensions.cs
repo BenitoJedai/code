@@ -63,7 +63,7 @@ namespace ScriptCoreLib.Ultra.WebService
 #else
             public IEnumerable<int> GetBytes(byte[] buffer)
             {
-                return this.s.Select(
+                return this.s.SelectMany(
                     x =>
                     {
                         var ss = x();
@@ -71,12 +71,17 @@ namespace ScriptCoreLib.Ultra.WebService
 
                         // Error	11	'System.Func<System.IO.Stream>' does not contain a definition for 'Read' and no extension method 'Read' accepting a first argument of type 'System.Func<System.IO.Stream>' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs	70	36	ScriptCoreLib.Ultra.Library
 
+                        var blocks = 1 + (int)(
+                            ss.Length / buffer.Length
+                        );
 
-                        var y = ss.Read(buffer, 0, buffer.Length);
+                        //var y = ss.Read(buffer, 0, buffer.Length);
                         //Console.WriteLine("after ReadByte " + new { y });
                         //var z = y > 0;
 
-                        return y;
+                        return Enumerable.Range(0, blocks).Select(
+                            i => ss.Read(buffer, 0, buffer.Length)
+                        );
                     }
                 );
             }
@@ -442,7 +447,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     // encrypting... { count = 58 }
 
-                    Console.WriteLine("encrypting... " + new { count });
+                    Console.WriteLine("encrypting by splitting bytes... " + new { count });
 
                     var time = new Stopwatch();
                     time.Start();
@@ -468,6 +473,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     foreach (var length in composite.GetBytes(buffer))
                     {
+                        Console.WriteLine("before flush of " + new { length });
+
                         for (int i = 0; i < length; i++)
                         {
                             var item = buffer[i];

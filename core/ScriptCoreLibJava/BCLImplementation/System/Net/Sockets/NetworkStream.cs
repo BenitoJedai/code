@@ -66,7 +66,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
         public override long Length
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var i = 0;
+
+                try
+                {
+                    i = this.InternalInputStream.available();
+                }
+                catch
+                {
+                }
+
+                return i;
+            }
         }
 
         public override long Position

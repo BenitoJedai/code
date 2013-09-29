@@ -40,6 +40,22 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
             var src = blob.ToObjectURL();
 
+            Console.WriteLine(new { src });
+            //eval total { Length = 2375680 }
+            // view-source:27603
+            //ToObjectURL
+            // view-source:27603
+            //eval { index = 2, name =  ScriptCoreLib.Windows.Forms.dll.js, size = 595965 }
+            // view-source:27603
+            //eval { index = 0, name =  ScriptCoreLib.dll.js, size = 1338946 }
+            // view-source:27603
+            //eval { index = 1, name =  ScriptCoreLib.Drawing.dll.js, size = 54667 }
+            // view-source:27603
+            //eval { index = 3, name =  com.abstractatech.adminshell.Application+a.exe.js, size = 457444 }
+            // view-source:27603
+            //eval substring { Length = 1036734 }
+
+
             //.SetInternalScriptApplicationSource();
 
             object old = (Native.self as dynamic).InternalScriptApplicationSource;
@@ -76,9 +92,10 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
             Console.WriteLine("eval substring " + new { source.Length });
 
-            Console.WriteLine(source);
+            //Console.WriteLine(source);
 
 
+            //Native.window.eval(e.source);
             Native.window.eval(source);
 
             return delegate

@@ -16,6 +16,15 @@ namespace AndroidNFCEvents
 {
     public static class ApplicationWebService_poll_onnfc
     {
+        //        { TargetMethod = Void poll_onnfc(System.String, System.Action`1[System.Xml.Linq.XElement], System.Action`1[System.String], Int32, Int32, Int32), DeclaringType = AndroidNFCEvents.ApplicationWebService_poll_onnfc, Location =
+        // assembly: X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\bin\Android\com.abstractatech.adminshell.exe
+        // type: com.abstractatech.adminshell.ApplicationWebService, com.abstractatech.adminshell, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x001e
+        //  method:System.Threading.Tasks.Task`1[System.String] poll_onnfc(System.String, System.Action`1[System.Xml.Linq.XElement]) }
+        //1d24:02:01 RewriteToAssembly error: System.MissingMethodException: Method not found: 'System.Object android.os.Bundle.get(System.String)'.
+
+
+
         // inspired by
         // X:\jsc.svn\examples\javascript\android\forms\ReinstallNotification\ReinstallNotification\AtInstall.cs
 
