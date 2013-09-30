@@ -5,7 +5,7 @@ using java.util;
 
 namespace java.util
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/util/AbstractSet.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/AbstractSet.html
 	[Script(IsNative = true)]
 	public abstract class AbstractSet : AbstractCollection
 	{
