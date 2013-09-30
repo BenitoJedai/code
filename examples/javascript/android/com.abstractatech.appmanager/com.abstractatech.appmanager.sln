@@ -1,13 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.appmanager", "com.abstractatech.appmanager\com.abstractatech.appmanager.csproj", "{B20451B6-4E24-4287-A475-0AB6A1B9560B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {5EC1743F-043B-44E8-A635-72331EEE81D8}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {B8D28279-57CD-4163-86F9-1DFDF540B58B}
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3} = {11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678} = {62A19ED1-E8BE-44A1-8990-28EBC8A7A678}
-		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
 		{327F22EB-51F3-4545-A839-F79005C69D8B} = {327F22EB-51F3-4545-A839-F79005C69D8B}
 	EndProjectSection
 EndProject
@@ -34,8 +33,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.adminshell", "..\com.abstractatech.adminshell\com.abstractatech.adminshell\com.abstractatech.adminshell.csproj", "{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merge", "merge", "{02DADC89-BAA1-45A5-95EF-4F3635252531}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -290,31 +287,6 @@ Global
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|Mixed Platforms.Build.0 = Release|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|x86.ActiveCfg = Release|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|x86.Build.0 = Release|x86
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|x86.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Any CPU.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Any CPU.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Mixed Platforms.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Mixed Platforms.Build.0 = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|x86.ActiveCfg = Android|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.ActiveCfg = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.Build.0 = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|x86.ActiveCfg = PHP|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -328,6 +300,5 @@ Global
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3} = {BFA237DD-2006-4B88-B5A8-F2A6049B5FDA}
 		{02DADC89-BAA1-45A5-95EF-4F3635252531} = {BFA237DD-2006-4B88-B5A8-F2A6049B5FDA}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {4968A734-4B28-4F51-9B67-B80EB85CA200}
-		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {02DADC89-BAA1-45A5-95EF-4F3635252531}
 	EndGlobalSection
 EndGlobal

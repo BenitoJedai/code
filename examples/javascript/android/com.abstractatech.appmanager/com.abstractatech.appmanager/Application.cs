@@ -29,6 +29,8 @@ namespace com.abstractatech.appmanager
     /// </summary>
     public sealed class Application
     {
+
+
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         com.abstractatech.appmanager.Assets.Publish ref0;
@@ -43,6 +45,7 @@ namespace com.abstractatech.appmanager
         public Application(com.abstractatech.appmanager.about.HTML.Pages.IApp a)
         {
             "My Appz".ToDocumentTitle();
+
 
             a.LaunchMyAppz.WhenClicked(
              delegate
@@ -178,11 +181,19 @@ namespace com.abstractatech.appmanager
                 Console.WriteLine("typeof(x) is now available");
             }
 
+            public readonly ApplicationControl control = new ApplicationControl();
 
             public x(IBeforeLogin page)
             {
 
                 Console.WriteLine("click!");
+
+
+                control.nfc.onnfc +=
+                 nfcid =>
+                 {
+                     page.username.value = nfcid;
+                 };
 
                 page.go.WhenClicked(
                    delegate
@@ -439,7 +450,7 @@ namespace com.abstractatech.appmanager
 
 
                             Console.WriteLine(new { label });
-                            var content = new ApplicationControl();
+                            var content = new windows.ApplicationControl();
 
 
                             var f = new Form { Text = label, ShowIcon = false };
