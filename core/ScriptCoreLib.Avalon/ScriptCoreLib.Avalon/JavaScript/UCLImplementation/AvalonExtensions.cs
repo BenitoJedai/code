@@ -91,7 +91,8 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
                 e,
                 r =>
                 {
-                    var m = new __MemoryStream { Buffer = r.responseText };
+                    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.cs
+                    var m = new __MemoryStream { InternalBuffer = r.responseText };
 
                     h((MemoryStream)(object)m);
                 }
