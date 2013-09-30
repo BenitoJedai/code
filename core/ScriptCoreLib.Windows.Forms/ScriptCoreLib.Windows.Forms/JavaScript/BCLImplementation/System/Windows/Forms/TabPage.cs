@@ -69,6 +69,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Li.style.Float = IStyle.FloatEnum.left;
 
             this.__isSelected = true;
+
+            // 2013-09-30
+            // Error	5	The type 'System.Xml.Linq.XElement' is defined in 
+            // an assembly that is not referenced. You must add a
+            // reference to assembly 'System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.	X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\TabPage.cs	72	13	ScriptCoreLib.Windows.Forms
+
             Li.appendChild(__tabButton);
             Li.style.Float = IStyle.FloatEnum.left;
 
