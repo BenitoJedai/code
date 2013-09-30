@@ -21,77 +21,11 @@ using java.net;
 using android.net.wifi;
 using System.IO;
 using java.io;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace com.abstractatech.appmanager
 {
-    class AtWebServiceDiscoveryArguments
-    {
-        public int port;
-    }
-
-    // http://developer.android.com/reference/android/content/BroadcastReceiver.html
-    [IntentFilter(Action = "ScriptCoreLib.Android.CoreAndroidWebServiceActivity.AtWebServiceDiscovery")]
-    public class AtWebServiceDiscovery : BroadcastReceiver
-    {
-        public static Thread XCallback;
-
-        public override void onReceive(Context c, Intent data)
-        {
-            //            I/System.Console(17864): setResult { port = 5781 }
-            //I/System.Console(18183): AtWebServiceDiscovery: { port = 5781, extras = Bundle[{port=5781}] }
-
-            var port = 0;
-            var CallbackToken = 0;
-
-            Bundle extras = null;
-
-            if (data != null)
-            {
-                extras = data.getExtras();
-
-                //I/System.Console(14280): startActivityForResult: { packageName = com.abstractatech.adminshell, name = com.abstractatech.adminshell.ApplicationWebServiceActivity }
-                //I/System.Console(14280): ActivityResult: { packageName = com.abstractatech.adminshell, port = 0, resultCode = 0, requestCode = 1, extras =  }
-
-                if (extras != null)
-                {
-                    if (extras.containsKey("port"))
-                        port = extras.getInt("port");
-
-                    if (extras.containsKey("CallbackToken"))
-                        CallbackToken = extras.getInt("CallbackToken");
-                }
-            }
-
-
-            //System.Console.WriteLine("AtWebServiceDiscovery");
-
-            // I/System.Console(18971): AtWebServiceDiscovery: { port = 16846, CallbackToken = 1554743048 }
-
-            System.Console.WriteLine(
-                "AtWebServiceDiscovery: " + new { port, CallbackToken }
-            );
-
-            if (XCallback != null)
-            {
-                XCallback.Start(
-                    new AtWebServiceDiscoveryArguments { port = port }
-                );
-                XCallback = null;
-            }
-        }
-    }
-
-    public delegate void yield_ACTION_MAIN(
-        string packageName,
-        string name,
-        string IsCoreAndroidWebServiceActivity = "",
-
-        string label = ""
-
-
-
-    );
-
 
 
 
@@ -99,8 +33,33 @@ namespace com.abstractatech.appmanager
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed class ApplicationWebService : Component,
+        AndroidNFCEvents.IApplicationWebService_poll_onnfc
     {
+        //      at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__NetworkStream.get_Length(__NetworkStream.java:84)
+        //at ScriptCoreLibJava.BCLImplementation.System.IO.__FileStream.get_Length(__FileStream.java:27)
+
+        public Task<string> poll_onnfc(string last_id, Action<XElement> yield)
+        {
+#if DEBUG
+            Thread.Sleep(500);
+
+            return Task.FromResult(last_id);
+#else
+
+            var c = new TaskCompletionSource<string>();
+
+            AndroidNFCEvents.ApplicationWebService_poll_onnfc.poll_onnfc(
+                last_id, yield, c.SetResult
+            );
+
+            return c.Task;
+#endif
+        }
+
+
+
+
         AtWebServiceDiscovery ref0;
 
         public void queryIntentActivities(
@@ -690,6 +649,84 @@ namespace com.abstractatech.appmanager
 
 
     }
+
+
+
+
+
+
+
+
+    class AtWebServiceDiscoveryArguments
+    {
+        public int port;
+    }
+
+    // http://developer.android.com/reference/android/content/BroadcastReceiver.html
+    [IntentFilter(Action = "ScriptCoreLib.Android.CoreAndroidWebServiceActivity.AtWebServiceDiscovery")]
+    public class AtWebServiceDiscovery : BroadcastReceiver
+    {
+        public static Thread XCallback;
+
+        public override void onReceive(Context c, Intent data)
+        {
+            //            I/System.Console(17864): setResult { port = 5781 }
+            //I/System.Console(18183): AtWebServiceDiscovery: { port = 5781, extras = Bundle[{port=5781}] }
+
+            var port = 0;
+            var CallbackToken = 0;
+
+            Bundle extras = null;
+
+            if (data != null)
+            {
+                extras = data.getExtras();
+
+                //I/System.Console(14280): startActivityForResult: { packageName = com.abstractatech.adminshell, name = com.abstractatech.adminshell.ApplicationWebServiceActivity }
+                //I/System.Console(14280): ActivityResult: { packageName = com.abstractatech.adminshell, port = 0, resultCode = 0, requestCode = 1, extras =  }
+
+                if (extras != null)
+                {
+                    if (extras.containsKey("port"))
+                        port = extras.getInt("port");
+
+                    if (extras.containsKey("CallbackToken"))
+                        CallbackToken = extras.getInt("CallbackToken");
+                }
+            }
+
+
+            //System.Console.WriteLine("AtWebServiceDiscovery");
+
+            // I/System.Console(18971): AtWebServiceDiscovery: { port = 16846, CallbackToken = 1554743048 }
+
+            System.Console.WriteLine(
+                "AtWebServiceDiscovery: " + new { port, CallbackToken }
+            );
+
+            if (XCallback != null)
+            {
+                XCallback.Start(
+                    new AtWebServiceDiscoveryArguments { port = port }
+                );
+                XCallback = null;
+            }
+        }
+    }
+
+    public delegate void yield_ACTION_MAIN(
+        string packageName,
+        string name,
+        string IsCoreAndroidWebServiceActivity = "",
+
+        string label = ""
+
+
+
+    );
+
+
+
 
 
     class AndroidApplicationWebServiceMulticast : System.ComponentModel.Component

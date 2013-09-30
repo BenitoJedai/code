@@ -57,6 +57,9 @@
     <Reference Include="Abstractatech.Multicast">
       <HintPath>..\packages\Abstractatech.Multicast.1.0.0.0\lib\Abstractatech.Multicast.dll</HintPath>
     </Reference>
+    <Reference Include="AndroidNFCEvents">
+      <HintPath>..\packages\AndroidNFCEvents.1.0.0.0\lib\AndroidNFCEvents.dll</HintPath>
+    </Reference>
     <Reference Include="com.abstractatech.adminshell, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\com.abstractatech.adminshell.1.0.0.0\lib\com.abstractatech.adminshell.dll</HintPath>
@@ -164,8 +167,11 @@
     <Content Include="Design\BeforeLogin.htm" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs">
-      <Link>Experimental\X.cs</Link>
+    <Compile Include="ApplicationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ApplicationControl.Designer.cs">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <Compile Include="AtInstall.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -202,10 +208,15 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ApplicationControl.resx">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Release (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:22
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:30
 )</PostBuildEvent>
     <PreBuildEvent>
 
