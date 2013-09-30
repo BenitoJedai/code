@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.MemoryStream))]
 	internal class __MemoryStream : __Stream
 	{
+        // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\UCLImplementation\AvalonExtensions.cs
         // soon to be out of date?
 		internal string InternalBuffer = "";
 
