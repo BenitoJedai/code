@@ -78,6 +78,7 @@ namespace com.abstractatech.appmanager
                              // we have to restore id fields
 
                              newbody_page.go.id = "go";
+                             newbody_page.username.id = "username";
                              newbody_page.LoginButton.id = "LoginButton";
 
 
@@ -114,58 +115,6 @@ namespace com.abstractatech.appmanager
              }
           );
 
-            //#region go
-            //Action<HistoryScope<InternalScriptApplicationSource>> go =
-            //    async
-            //      scope =>
-            //    {
-            //        var source = scope.state;
-
-            //        #region layout
-
-
-            //        var newbody_page = new BeforeLogin();
-
-            //        // we have to restore id fields
-
-            //        newbody_page.go.id = "go";
-            //        newbody_page.LoginButton.id = "LoginButton";
-
-
-            //        var newbody = newbody_page.body;
-            //        var oldbody = Native.document.body;
-
-            //        Native.document.body.parentNode.insertBefore(
-            //            newbody, oldbody
-            //        );
-
-            //        oldbody.Orphanize();
-
-            //        #endregion
-
-            //        var restore = source.eval();
-
-            //    };
-            //#endregion
-
-            //a.LaunchMyAppz.WhenClicked(
-
-            //    async button =>
-            //    {
-            //        Console.WriteLine("click!");
-
-            //        button.disabled = true;
-            //        //button.style.Opacity = 0.5;
-
-            //        var source = await typeof(x);
-
-            //        // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
-            //        Native.window.history.pushState(source, go);
-
-            //        //button.style.Opacity = 1;
-            //        button.disabled = false;
-            //    }
-            //);
 
 
         }
@@ -192,7 +141,9 @@ namespace com.abstractatech.appmanager
                 control.nfc.onnfc +=
                  nfcid =>
                  {
-                     page.username.value = nfcid;
+                     var xpage = new BeforeLogin.FromDocument();
+
+                     xpage.username.value = nfcid;
                  };
 
                 page.go.WhenClicked(
