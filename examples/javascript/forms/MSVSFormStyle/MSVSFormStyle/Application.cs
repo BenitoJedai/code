@@ -213,7 +213,7 @@ namespace MSVSFormStyle
 
                         PackageAsApplication(
                              source,
-                             XElement.Parse(new App.XMLSourceSource().Text),
+                             XElement.Parse(AppSource.Text),
                              data =>
                              {
                                  var bytes = Encoding.ASCII.GetBytes(data);
