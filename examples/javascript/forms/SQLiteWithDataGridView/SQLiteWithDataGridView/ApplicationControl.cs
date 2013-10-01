@@ -14,6 +14,18 @@ namespace SQLiteWithDataGridView
 {
     public partial class ApplicationControl : UserControl
     {
+//2658:02:01 00ad:01c7 SQLiteWithDataGridView.Application define Abstractatech.JavaScript.FormAsPopup::ScriptCoreLib.JavaScript.Extensions.X+<>c__DisplayClass1
+//{ trace = X:\jsc.internal.svn\compiler\jsc\Languages\IL\ILTranslationExtensions.EmitToArguments.cs, TargetMethod = ScriptCoreLib.JavaScript.DOM.IWindow postMessage(ScriptCoreLib.JavaScript.DOM.IWindow, System.Xml.Linq.XElement, System.Action`1[System.Xml.Linq.XElement]), DeclaringType = ScriptCoreLib.JavaScript.Extensions.X, Location =
+// assembly: Y:\SQLiteWithDataGridView.Application\Abstractatech.JavaScript.FormAsPopup.dll
+// type: ScriptCoreLib.JavaScript.Extensions.FormAsPopupExtensionsForConsoleFormPackageMediator, Abstractatech.JavaScript.FormAsPopup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// offset: 0x00f4
+//  method:Void .cctor(), ex = System.InvalidOperationException: Renew any references. TargetField can not be null. { Location =
+// assembly: Y:\SQLiteWithDataGridView.Application\Abstractatech.JavaScript.FormAsPopup.dll
+// type: ScriptCoreLib.JavaScript.Extensions.X, Abstractatech.JavaScript.FormAsPopup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// offset: 0x004d
+//  method:ScriptCoreLib.JavaScript.DOM.IWindow postMessage(ScriptCoreLib.JavaScript.DOM.IWindow, System.Xml.Linq.XElement, System.Action`1[System.Xml.Linq.XElement]) }
+//   at jsc.Languages.IL.ILTranslationExtensions.EmitToArguments.<.ctor>b__47(ILInstruction )
+
         public ApplicationControl()
         {
             this.InitializeComponent();

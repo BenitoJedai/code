@@ -92,9 +92,6 @@
     <Reference Include="Abstractatech.ConsoleFormPackage">
       <HintPath>..\packages\Abstractatech.ConsoleFormPackage.1.0.0.0\lib\Abstractatech.ConsoleFormPackage.dll</HintPath>
     </Reference>
-    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
-      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
-    </Reference>
     <Reference Include="CSSMinimizeFormToSidebar">
       <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
     </Reference>

@@ -13,6 +13,17 @@ namespace FormsDropFileIntoSQLite
     /// </summary>
     public sealed partial class ApplicationWebService : Component
     {
+
+//no implementation for System.IO.FileSystemInfo 1f0e8db5-8f52-3360-8a47-9d3dc3a5acaf
+//script: error JSC1000: No implementation found for this native method, please implement [System.IO.FileSystemInfo.get_Extension()]
+//script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+//script: error JSC1000: error at FormsDropFileIntoSQLite.ApplicationControl.<dataGridView1_DragDrop>b__2,
+// assembly: V:\FormsDropFileIntoSQLite.Application.exe
+// type: FormsDropFileIntoSQLite.ApplicationControl, FormsDropFileIntoSQLite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// offset: 0x001f
+//  method:Void <dataGridView1_DragDrop>b__2(System.String)
+//*** Compiler cannot continue... press enter to quit.
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
