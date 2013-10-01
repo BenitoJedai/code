@@ -29,6 +29,17 @@ namespace CSS3DMeetsFormsWithWebGL
     /// </summary>
     public sealed class Application
     {
+ //       { trace = X:\jsc.internal.svn\compiler\jsc\Languages\IL\ILTranslationExtensions.EmitToArguments.cs, TargetMethod = Void PopupInsteadOfClosing(System.Windows.Forms.Form), DeclaringType = Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions, Location =
+ //assembly: X:\jsc.svn\examples\javascript\CSS3DMeetsFormsWithWebGL\CSS3DMeetsFormsWithWebGL\bin\Debug\CSS3DMeetsFormsWithWebGL.exe
+ //type: CSS3DMeetsFormsWithWebGL.ApplicationContent+<>c__DisplayClass23, CSS3DMeetsFormsWithWebGL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ //offset: 0x0010
+ // method:Void <InitializeContent>b__18(System.Windows.Forms.Form), ex = System.InvalidOperationException: Renew any references. TargetField can not be null. { Location =
+ //assembly: X:\jsc.svn\examples\javascript\CSS3DMeetsFormsWithWebGL\CSS3DMeetsFormsWithWebGL\bin\Debug\Abstractatech.JavaScript.FormAsPopup.dll
+ //type: Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions+<>c__DisplayClass6, Abstractatech.JavaScript.FormAsPopup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ //offset: 0x0021
+ // method:Void <PopupInsteadOfClosing>b__0() }
+ //  at jsc.Languages.IL.ILTranslationExtensions.EmitToArguments.<.ctor>b__47(ILInstruction )
+
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteConsoleExperiment", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellWithPing", "..\..\android\ShellWithPing\ShellWithPing\ShellWithPing.csproj", "{0267AB63-ECEC-4ECC-A3B3-853C3138A826}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{993A5443-BDB6-4611-BCBE-CDBC44C527FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|x86 = Android|x86
@@ -37,5 +39,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0267AB63-ECEC-4ECC-A3B3-853C3138A826} = {993A5443-BDB6-4611-BCBE-CDBC44C527FA}
 	EndGlobalSection
 EndGlobal
