@@ -8,6 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PassportVerification
 {
@@ -26,72 +28,63 @@ namespace PassportVerification
             // do CPU-bound work on a background thread.	
 
 
-            //button1.Enabled = false;
+            button1.Enabled = false;
 
-            //Func<System.Threading.Tasks.Task> countdown = async delegate
-            //{
-            //    // http://blogs.msdn.com/b/pfxteam/archive/2011/01/13/10115642.aspx
+            panel1.BackColor = Color.FromArgb(0, 0, 0);
+            label1.ForeColor = Color.FromArgb(0xff, 0xff, 0);
+            label1.Text = "?";
+
+            await Task.Delay(11);
+
+            var x = await this.applicationWebService1.dokumendi_kehtivuse_kontroll(this.textBox1.Text);
+
+            //            ---------------------------
+
+            //---------------------------
+            //Dokumenti X ei ole v&auml;lja antud.
+            //---------------------------
+            //OK   
+            //---------------------------
+
+            //---------------------------
+            //Dokument AA0000075 on kehtiv.
+            //---------------------------
+            //OK   
+            //---------------------------
 
 
-            //    button1.Text = "Please wait 3...";
+            var xx = x.Replace("&auml;", "ä");
 
-            await TimeSpan.FromSeconds(1);
+            //MessageBox.Show(xx);
 
-            NewMethod();
+            var valid = x.Contains("on kehtiv");
 
-            await TimeSpan.FromSeconds(1);
-
-            button1.Text = "Please wait 1...";
-
-            //    await TimeSpan.FromSeconds(1);
-            //};
-
-            //await countdown();
-
-            //button1.Text = "Connecting...";
-            //// refresh?
-            ////await System.Threading.Tasks.Task.Yield();
-
-            //// Error	1	'PassportVerification.AsyncApplicationWebService.WebMethod2(string, System.Action<string>)' 
-            //// does not return a Task and cannot be awaited. Consider changing 
-            //// it to return Task.	
-
-            //await this.asyncApplicationWebService1.WebMethod2(
-            //    this.textBox1.Text,
-            //    x => MessageBox.Show(x)
-            //);
+            if (valid)
+            {
+                panel1.BackColor = Color.FromArgb(0, 0x7f, 0);
+                label1.ForeColor = Color.FromArgb(0xff, 0xff, 0);
+            }
+            else
+            {
+                panel1.BackColor = Color.FromArgb(0x7f, 0, 0);
+                label1.ForeColor = Color.FromArgb(0xff, 0xff, 0);
+            }
+            label1.Text = xx;
 
             //button1.Text = "Verify";
 
-            //button1.Enabled = true;
+            button1.Enabled = true;
+
         }
 
-        int ii;
-        private void NewMethod()
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            button1.Text = "Please wait 2..." + ii++;
+            panel1.BackColor = Color.FromArgb(0, 0, 0);
+            label1.ForeColor = Color.FromArgb(0xff, 0xff, 0xff);
         }
+
 
     }
 
-    static class X
-    {
-        public static TaskAwaiter<object> GetAwaiter(this TimeSpan timeSpan)
-        {
-            var s = new System.Threading.Tasks.TaskCompletionSource<object>();
-            var t = new Timer();
 
-            t.Interval = (int)timeSpan.TotalMilliseconds;
-
-            t.Tick += delegate
-            {
-                t.Stop();
-                s.SetResult(null);
-            };
-
-            t.Start();
-
-            return s.Task.GetAwaiter();
-        }
-    }
 }
