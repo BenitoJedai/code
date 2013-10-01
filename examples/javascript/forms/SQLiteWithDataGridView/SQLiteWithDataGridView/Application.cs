@@ -27,11 +27,25 @@ namespace SQLiteWithDataGridView
 
         public readonly ApplicationControl content = new ApplicationControl();
 
+        //15f8:02:01 004d:0129 SQLiteWithDataGridView.Application define interface CSSMinimizeFormToSidebar::CSSMinimizeFormToSidebar.HTML.Pages.IApp
+        //{ Location =
+        // assembly: Y:\SQLiteWithDataGridView.Application\CSSMinimizeFormToSidebar.dll
+        // type: CSSMinimizeFormToSidebar.ApplicationExtension, CSSMinimizeFormToSidebar, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x0043
+        //  method:CSSMinimizeFormToSidebar.HTML.Pages.IApp InitializeSidebarBehaviour(System.Windows.Forms.Form, Boolean) }
+        //{ trace = X:\jsc.internal.svn\compiler\jsc\Languages\IL\ILTranslationExtensions.EmitToArguments.cs, TargetMethod = CSSMinimizeFormToSidebar.HTML.Pages.IApp InitializeSidebarBehaviour(System.Windows.Forms.Form, Boolean), DeclaringType = CSSMinimizeFormToSidebar.ApplicationExtension, Location =
+        // assembly: X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\bin\x86\ASPNET\SQLiteWithDataGridView.exe
+        // type: SQLiteWithDataGridView.Application+<>c__DisplayClass4, SQLiteWithDataGridView, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x001c
+        //  method:Void <.ctor>b__0(SQLiteWithDataGridView.Library.GridForm), ex = System.MissingMethodException: Method not found: 'Void ScriptCoreLib.JavaScript.Extensions.INodeExtensions.Clear(ScriptCoreLib.JavaScript.DOM.INode)'.
+        //   at System.ModuleHandle.ResolveMethod(RuntimeModule module, Int32 methodToken, IntPtr* typeInstArgs, Int32 typeInstCount, IntPtr* methodInstArgs, Int32 methodInstCount)
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             content.label1.Text = Native.Document.location.href;
 
@@ -46,9 +60,9 @@ namespace SQLiteWithDataGridView
 
 
             content.con.Left = 0;
-            content.con.Top = Native.Window.Height - content.con.Height;
+            content.con.Top = Native.window.Height - content.con.Height;
             content.con.Opacity = 0.7;
-            content.con.PopupInsteadOfClosing();
+            //content.con.PopupInsteadOfClosing();
 
 
             var once = false;
@@ -59,7 +73,7 @@ namespace SQLiteWithDataGridView
                     if (once)
                     {
 
-                        f.PopupInsteadOfClosing(HandleFormClosing: false);
+                        //f.PopupInsteadOfClosing(HandleFormClosing: false);
                     }
                     else
                     {
