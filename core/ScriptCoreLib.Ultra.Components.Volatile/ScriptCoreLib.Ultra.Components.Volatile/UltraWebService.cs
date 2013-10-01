@@ -24,12 +24,6 @@ namespace ScriptCoreLib.Ultra.Components.Volatile
 			}
 		}
 
-#if DEBUG
-		[Description("This method cannot be translated to java or php and is to be used only for feature discovery.")]
-		public void LaunchJSCSolutionsNETCarouselProgram()
-		{
-		}
-#endif
 
 	}
 }

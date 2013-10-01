@@ -17,6 +17,9 @@ namespace ScriptCoreLib.Avalon
     [Description("Displays a centered image with sattelite spinning images. For example jsc spinning logo.")]
     public class ImageCarouselCanvas : ISupportsContainer
     {
+        public double step = 0.0002;
+
+
         public const int DefaultWidth = 400;
         public const int DefaultHeight = 400;
 
@@ -104,7 +107,6 @@ namespace ScriptCoreLib.Avalon
             var size = 64;
 
 
-            var step = 0.0002;
 
             Action<DispatcherTimer> AtAnimation = delegate { };
 

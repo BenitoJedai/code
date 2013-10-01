@@ -304,9 +304,9 @@ namespace AmiNET110
         public static void ToWindowText(this Type e, string s)
         {
             if (string.IsNullOrEmpty(s))
-                Native.Window.document.title = e.Name;
+                Native.window.document.title = e.Name;
             else
-                Native.Window.document.title = e.Name + " - " + s;
+                Native.window.document.title = e.Name + " - " + s;
         }
 
         public static void ToWindowText(this Type e)
