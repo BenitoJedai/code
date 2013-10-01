@@ -21,7 +21,6 @@ namespace PassportVerification
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationControl content = new ApplicationControl();
 
@@ -33,12 +32,7 @@ namespace PassportVerification
         {
             content.AttachControlTo(page.Content);
             content.AutoSizeControlTo(page.ContentSize);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
     }

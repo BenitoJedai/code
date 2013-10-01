@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace PassportVerification
+namespace com.abstractatech.ee.gov.verify
 {
     public partial class ApplicationWebService
     {

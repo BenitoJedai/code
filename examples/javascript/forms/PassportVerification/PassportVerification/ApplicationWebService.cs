@@ -9,23 +9,32 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace PassportVerification
+namespace com.abstractatech.ee.gov.verify
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
     public sealed partial class ApplicationWebService : Component
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+
+        //arg[0] is typeof System.Drawing.ContentAlignment
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.Label.set_TextAlign(System.Drawing.ContentAlignment)]
+        //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+        //script: error JSC1000: error at PassportVerification.ApplicationControl.InitializeComponent,
+        // assembly: V:\PassportVerification.Application.exe
+        // type: PassportVerification.ApplicationControl, PassportVerification.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x029c
+        //  method:Void InitializeComponent()
+
+        public Task<string> dokumendi_kehtivuse_kontroll(string e)
         {
+            if (string.IsNullOrEmpty(e))
+                return Task.FromResult("");
+
             var c = new WebClient();
             var v = new NameValueCollection();
             var a = "http://www.politsei.ee/et/teenused/e-paringud/dokumendi-kehtivuse-kontroll/";
@@ -42,10 +51,10 @@ namespace PassportVerification
 
             var csrf = x.SkipUntilOrEmpty("<input type=\"hidden\" name=\"csrf\" value=\"").TakeUntilOrEmpty("\"");
 
-//cmd:request
-//csrf:PRVXhlghqbVc8ZI7y9R5BnsMNh4sCwnklWKClE2DozCAo/KdBk0N7g==
-//docNumber:FOO
-//subButton:Esita päring
+            //cmd:request
+            //csrf:PRVXhlghqbVc8ZI7y9R5BnsMNh4sCwnklWKClE2DozCAo/KdBk0N7g==
+            //docNumber:FOO
+            //subButton:Esita päring
 
             v["cmd"] = "request";
             v["csrf"] = csrf;
@@ -54,26 +63,18 @@ namespace PassportVerification
 
             var r = c.UploadValues(a, v);
             var rr = Encoding.UTF8.GetString(r);
-            var rx = rr.SkipUntilOrEmpty("<form name=\"reqForm\" method=\"post\" action=\"\">").SkipUntilOrEmpty("<br/>").TakeUntilOrEmpty("</div>");
+            var rx = rr
+                .SkipUntilOrEmpty("<form name=\"reqForm\" method=\"post\" action=\"\">")
+                .SkipUntilOrEmpty("<br/>")
+                .TakeUntilOrEmpty("</div>")
+                .Trim();
 
 
             // Send it back to the caller.
-            y(rx);
+            return Task.FromResult(rx);
         }
 
-        public static string Host;
-        public static string Port;
 
-        public void Handler(WebServiceHandler h)
-        {
-            Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":");
-            Port = h.Context.Request.Headers["Host"].SkipUntilIfAny(":");
-
-            if (h.Context.Request.Path == "/request")
-            {
-
-            }
-        }
     }
 
 
