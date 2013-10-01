@@ -16,11 +16,25 @@ Partial Public Class ApplicationControl
 
 
     Private Async Sub Button2_Click(sender As Object, e As System.EventArgs) Handles Button2.Click
+
+        Button2.Enabled = False
+
         Await FooAsync()
+
+        Button2.Enabled = True
 
     End Sub
 
 
+    'script: error JSC1000:
+    'error:
+    '  statement cannot be a load instruction (or is it a bug?)
+    '  [0x0000] ldarg.s    +1 -0
+
+    ' assembly: V:\VBAsyncExperiment.Application.exe
+    ' type: VBAsyncExperiment.ApplicationControl+VB$StateMachine_0_Button2_Click+<MoveNext>06000020, VBAsyncExperiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+    ' offset: 0x0000
+    '  method:Int32 <00b6> ldarg.0(<MoveNext>06000020, VB$StateMachine_0_Button2_Click ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef)
 
     Async Function FooAsync() As Task
         ' http://blogs.msdn.com/b/pfxteam/archive/2012/09/11/forking-in-async-methods.aspx
