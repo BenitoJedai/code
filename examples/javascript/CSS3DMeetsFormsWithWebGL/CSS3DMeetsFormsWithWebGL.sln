@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSS3DMeetsFormsWithWebGL", "CSS3DMeetsFormsWithWebGL\CSS3DMeetsFormsWithWebGL.csproj", "{059E81C4-42A0-485F-AACD-CD03BE990E0B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678} = {62A19ED1-E8BE-44A1-8990-28EBC8A7A678}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonBrowserLogos", "..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj", "{1E159C6B-6A83-491D-9B06-00465A5DBB30}"
 EndProject

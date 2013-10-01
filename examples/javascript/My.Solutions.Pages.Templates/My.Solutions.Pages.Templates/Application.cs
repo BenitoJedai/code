@@ -31,86 +31,16 @@ namespace My.Solutions.Pages.Templates
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
+            //            1b90:01:01 0046:0009 My.Solutions.Pages.Templates.Application create interface WebGLDopamineMolecule.AssetsLibrary::WebGLDopamineMolecule.HTML.Pages.IDefault
+            //{ Location =
+            // assembly: X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\bin\Debug\WebGLDopamineMolecule.exe
+            // type: WebGLDopamineMolecule.Application, WebGLDopamineMolecule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x0587
+            //  method:Void .ctor(WebGLDopamineMolecule.HTML.Pages.IDefault) }
+            //1b90:01:01 RewriteToAssembly error: System.MissingMethodException: Method not found: 'Void ScriptCoreLib.JavaScript.DOM.IWindow.add_onframe(System.Action)'.
+
             glMatrix ref1;
             THREE.Color ref0;
-
-            #region switch to chrome AppWindow
-            if (Expando.InternalIsMember(Native.window, "chrome"))
-                if (chrome.app.runtime != null)
-                {
-
-
-
-
-
-                    Console.WriteLine("Application switch to chrome AppWindow");
-
-                    //The JavaScript context calling chrome.app.window.current() has no associated AppWindow. 
-                    //Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
-
-                    // no HTML layout yet
-
-                    if (Native.window.opener == null)
-                        if (Native.window.parent == Native.window.self)
-                        {
-                            chrome.app.runtime.onLaunched.addListener(
-                                new Action(
-                                    delegate
-                                    {
-                                        // runtime will launch only once?
-
-                                        // http://developer.chrome.com/apps/app.window.html
-                                        // do we even need index?
-
-                                        // https://code.google.com/p/chromium/issues/detail?id=148857
-                                        // https://developer.mozilla.org/en-US/docs/data_URIs
-
-                                        // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
-                                        chrome.app.window.create(
-                                            Native.Document.location.pathname,
-                                            null,
-                                            new Action<AppWindow>(
-                                                appwindow =>
-                                                {
-                                                    // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
-
-                                                    Console.WriteLine("appwindow loading... " + new { appwindow });
-                                                    Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
-
-
-                                                    appwindow.contentWindow.onload +=
-                                                        delegate
-                                                        {
-                                                            Console.WriteLine("appwindow contentWindow onload");
-
-
-                                                            //new IHTMLButton("dynamic").AttachTo(
-                                                            //    appwindow.contentWindow.document.body
-                                                            //);
-
-
-                                                        };
-
-                                                    //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
-
-                                                }
-                                            )
-                                        );
-                                    }
-                                )
-                            );
-                            return;
-                        }
-
-                    // if we are in a window lets add layout
-
-
-                    var newbody = new Default().Container;
-                    newbody.childNodes.WithEach(k => k.AttachToDocument());
-                    newbody.attributes.WithEach(k => Native.document.body.setAttribute(k.name, k.value));
-
-                }
-            #endregion
 
 
             var h = Native.document.location.hash;

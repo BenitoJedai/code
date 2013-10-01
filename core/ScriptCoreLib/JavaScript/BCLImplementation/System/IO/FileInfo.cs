@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
     [Script(Implements = typeof(global::System.IO.FileInfo))]
-    public class __FileInfo
+    public class __FileInfo : __FileSystemInfo
     {
         public ScriptCoreLib.JavaScript.DOM.File InternalFile;
 
