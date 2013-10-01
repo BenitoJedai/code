@@ -20,18 +20,6 @@ namespace ScriptCoreLib.Ultra.Components.Volatile
 			Native.document.title = "ScriptCoreLib.Ultra.Components.Volatile";
 
 
-			a.JSCSolutionsNETCarouselProgram.With(
-				k =>
-				{
-					k.disabled = false;
-
-					k.onclick +=
-						delegate
-						{
-							new UltraWebService().LaunchJSCSolutionsNETCarouselProgram();
-						};
-				}
-			);
 
 			
 		}
