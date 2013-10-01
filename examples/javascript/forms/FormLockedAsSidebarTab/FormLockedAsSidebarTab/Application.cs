@@ -87,7 +87,7 @@ namespace FormLockedAsSidebarTab
                 f.MoveTo(16, 16);
                 f.SizeTo(
                     f.Width,
-                    f.Height.Min(Native.Window.Height - 32)
+                    f.Height.Min(Native.window.Height - 32)
                 );
             };
 
@@ -107,7 +107,7 @@ namespace FormLockedAsSidebarTab
             //    }
             //).StartInterval();
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();
