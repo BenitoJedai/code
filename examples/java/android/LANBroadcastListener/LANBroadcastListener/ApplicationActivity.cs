@@ -113,13 +113,28 @@ namespace LANBroadcastListener.Activities
 
                         // https://code.google.com/p/android/issues/detail?id=40003
 
-                        MulticastSocket socket = new MulticastSocket(40404); // must bind receive side
+                        var port = 40404;
+
+                        MulticastSocket socket = new MulticastSocket(port); // must bind receive side
                         socket.setBroadcast(true);
                         socket.setReuseAddress(true);
                         socket.setTimeToLive(30);
                         socket.setReceiveBufferSize(0x100);
+                        
+                        // https://code.google.com/p/android/issues/detail?id=40003
+                        // http://stackoverflow.com/questions/6550618/multicast-support-on-android-in-hotspot-tethering-mode
+                        // http://www.massapi.com/class/java/net/InetSocketAddress.java.html
+                        // http://www.javadocexamples.com/java/net/MulticastSocket/joinGroup(SocketAddress%20mcastaddr,NetworkInterface%20netIf).html
+                        // http://grokbase.com/t/hadoop/common-issues/117jsjk8d7/jira-created-hadoop-7472-rpc-client-should-deal-with-the-ip-address-changes
 
-                        socket.joinGroup(InetAddress.getByName("239.1.2.3"));
+                        var group = InetAddress.getByName("239.1.2.3");
+                        var groupSockAddr = new InetSocketAddress(group, port);
+
+                        // what lan interfaces do we have?
+                        socket.joinGroup(groupSockAddr,
+                            NetworkInterface.getByName("wlan0")
+                        );
+
                         System.Console.WriteLine("LANBroadcastListener joinGroup...");
                         while (true)
                         {

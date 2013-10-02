@@ -206,6 +206,8 @@ namespace NatureBoy.js
             Container.style.SetSize(ViewSize.Width, ViewSize.Height + 22);
             Container.KeepInCenter();
 
+            Container.MakeCSSShaderCrumple();
+
             var Wallpaper = new IHTMLDiv().AttachTo(Container);
             Wallpaper.style.SetSize(ViewSize.Width, ViewSize.Height + 22);
 
@@ -480,6 +482,7 @@ namespace NatureBoy.js
 
                     System.Console.WriteLine("done walking in " + CurrentFrame.Name + " at " + dude.CurrentLocation);
 
+                    // Doors null?
                     if (TryToChangeRooms(Doors.FirstOrDefault(d => d.Condition())))
                         return;
 

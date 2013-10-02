@@ -10,8 +10,8 @@ namespace com.abstractatech.gamification.fth
     public sealed class ApplicationSprite :
         Sprite
     {
-        public const int DefaultWidth = FlashTreasureHunt.ActionScript.FlashTreasureHunt.DefaultControlWidth;
-        public const int DefaultHeight = FlashTreasureHunt.ActionScript.FlashTreasureHunt.DefaultControlHeight;
+        public const int DefaultWidth = global::FlashTreasureHunt.ActionScript.FlashTreasureHunt.DefaultControlWidth;
+        public const int DefaultHeight = global::FlashTreasureHunt.ActionScript.FlashTreasureHunt.DefaultControlHeight;
 
         Sprite InternalContent;
 

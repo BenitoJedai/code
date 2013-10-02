@@ -334,7 +334,7 @@ namespace CSSTransform3DFPSExperiment
 
 
             #region loop
-            Action loop = delegate
+            Native.window.onframe += delegate
             {
                 // is external target working bot ways?
                 //window.speed = window.speed;
@@ -417,7 +417,6 @@ namespace CSSTransform3DFPSExperiment
             };
 
 
-            loop.AtAnimationFrame();
             #endregion
 
         }
@@ -528,18 +527,6 @@ namespace CSSTransform3DFPSExperiment
 
     static class X
     {
-        public static void AtAnimationFrame(this Action e)
-        {
-            Action x = null;
 
-            x = delegate
-            {
-                e();
-                Native.Window.requestAnimationFrame += x;
-
-            };
-
-            Native.Window.requestAnimationFrame += x;
-        }
     }
 }
