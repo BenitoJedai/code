@@ -88,10 +88,7 @@ namespace CSSShaderSphereSimple
 
                 #region WhileDragging
 
-
-                Action WhileDragging = null;
-
-                WhileDragging = delegate
+                Native.window.onframe += delegate
                 {
                     if (f.Capture)
                     {
@@ -104,21 +101,11 @@ namespace CSSShaderSphereSimple
                         f.Text = "CSS filter shader";
 
                     }
-                    Native.window.requestAnimationFrame += WhileDragging;
                 };
-                Native.window.requestAnimationFrame += WhileDragging;
                 #endregion
 
 
-                //var pp = new MandelbrotFormsControl.Library.MandelbrotComponent();
-                //var pp = new XPlasma();
-                //Native.Window.requestAnimationFrame += delegate
-                //{
-                //    f.Controls.Add(pp);
-
-                //};
-
-
+             
                 return f;
             };
 
@@ -130,12 +117,7 @@ namespace CSSShaderSphereSimple
             var pf = q();
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
     }

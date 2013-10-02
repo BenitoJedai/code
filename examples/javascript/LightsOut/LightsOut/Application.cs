@@ -30,12 +30,7 @@ namespace LightsOut
         {
             new LightsOut.js.LightsOut2FullScreen();
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+     
         }
 
     }

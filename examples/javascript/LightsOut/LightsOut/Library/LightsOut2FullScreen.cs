@@ -75,6 +75,10 @@ namespace LightsOut.js
 
             canvas.className = "canvas";
 
+
+            // does it work???
+            canvas.MakeCSSShaderCrumple();
+
             canvas.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.backgroundColor = Color.Black;
 
