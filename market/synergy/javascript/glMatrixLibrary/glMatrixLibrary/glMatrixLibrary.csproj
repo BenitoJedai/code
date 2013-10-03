@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7C0B6A91-F338-41A2-8879-E2E837D6D454}</ProjectGuid>
+    <ProjectGuid>{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>glMatrixLibrary</RootNamespace>
