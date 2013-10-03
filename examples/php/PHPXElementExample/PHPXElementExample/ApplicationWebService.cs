@@ -3,6 +3,7 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace PHPXElementExample
@@ -13,26 +14,27 @@ namespace PHPXElementExample
     public sealed class ApplicationWebService
     {
 
-        public void Key_onchange(string Key, string Value, Action<XElement> y)
+        public Task<XElement> Key_onchange(string Key, string Value)
         {
-            y(
-                new XElement("KeyValuePair",
-                    new XAttribute("Key", Key),
-                    new XElement("Value", Value)
-                )     
-            );
-        }
-
-
-        public void Value_onchange(string Key, string Value, Action<XElement> y)
-        {
-            y(
+            return Task.FromResult(
                 new XElement("KeyValuePair",
                     new XAttribute("Key", Key),
                     new XElement("Value", Value)
                 )
             );
         }
+
+
+        public Task<XElement> Value_onchange(string Key, string Value)
+        {
+            return Task.FromResult(
+                new XElement("KeyValuePair",
+                    new XAttribute("Key", Key),
+                    new XElement("Value", Value)
+                )
+            );
+        }
+
 
         public void Result_onchange(string doc_xml, Action<string, string> y)
         {

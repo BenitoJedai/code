@@ -30,7 +30,7 @@ namespace PHPWiki
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page)
+        public Application(IDefault page)
         {
             Func<Action> AtEdit =
                 delegate
@@ -59,19 +59,25 @@ namespace PHPWiki
                         "Save Changes And Refresh",
                         delegate
                         {
+                            Console.WriteLine("Save Changes And Refresh ... ");
+
                             SaveChanges.Button.disabled = true;
                             service.SaveChanges(
                                 Native.Document.location.pathname,
                                 XElement.Parse("<div>" + Editor.InnerHTML + "</div>"),
                                 delegate
                                 {
+
                                     // refresh
                                     // does not work for hash tags
                                     //Native.Document.location = Native.Document.location;
 
-                                    Native.Document.location.replace(
+                                    var href =
                                         Native.Document.location.ToString().TakeUntilIfAny("#")
-                                    );
+                                        ;
+                                    Console.WriteLine("Save Changes And Refresh ... done! " + new { href });
+
+                                    Native.Document.location.replace(href);
                                 }
                             );
                         }
@@ -93,7 +99,7 @@ namespace PHPWiki
             page.Edit.onclick +=
                 delegate
                 {
-                    Native.Window.history.pushState(
+                    Native.window.history.pushState(
                        data: "",
                        title: "edit",
                        url: "#edit"
@@ -101,7 +107,7 @@ namespace PHPWiki
 
                     var revert = AtEdit();
 
-                    Native.Window.window.onpopstate +=
+                    Native.window.window.onpopstate +=
                      e =>
                      {
                          if (revert != null)
@@ -122,7 +128,7 @@ namespace PHPWiki
             //        Native.Document.body.requestFullscreen();
             //    };
 
-         
+
         }
 
     }

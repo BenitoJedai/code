@@ -17,6 +17,7 @@ namespace PHPWiki
     /// </summary>
     public sealed class ApplicationWebService
     {
+        // Fatal error: Call to a member function _ae7686222de9fe3bad0c1ab5daa69519_6000bb3() on a non-object in B:\inc\PHPWiki.ApplicationWebService.exe\class.PHPWiki.ApplicationWebService.php on line 101
 
         public void CountItems(string e, Action<string> y)
         {
@@ -97,6 +98,7 @@ namespace PHPWiki
                 Key = "/";
 
 
+            //         $element2->_ae7686222de9fe3bad0c1ab5daa69519_6000bb3(_54ab04ba467ed232b7f5d1fcb949e03c_6000bc9("div"))->_ae7686222de9fe3bad0c1ab5daa69519_6000bb3(_54ab04ba467ed232b7f5d1fcb949e03c_6000bc9("h1"))->_96b56dc7b8f4203e82a367dae19437d4_6000bc0($string1);
             var xml = XElement.Parse(Other.PageSource);
 
             //Console.WriteLine("Other.PageSource:");
@@ -106,7 +108,7 @@ namespace PHPWiki
             //Console.WriteLine("xml:");
             //Console.WriteLine(xml.ToString());
 
-            xml.Element("div").Element("h1").Value = Key;
+            xml.Element("body").Element("div").Element("h1").Value = Key;
             //xml.Element("div").Value = "Hello world";
 
             var Revision = "<div>Hello world, <a href='other page#foo'>other page</a></div>";
@@ -131,7 +133,7 @@ namespace PHPWiki
             //Console.WriteLine("Revision_xml:");
             //Console.WriteLine(Revision_xml.ToString());
 
-            xml.Element("output").Add(Revision_xml);
+            xml.Element("body").Element("output").Add(Revision_xml);
 
             //xml.Element("h3").Value = h.Context.Request.UserAgent;
             //xml.Element("h3").Value = h.Context.Request.Headers["User-Agent"];

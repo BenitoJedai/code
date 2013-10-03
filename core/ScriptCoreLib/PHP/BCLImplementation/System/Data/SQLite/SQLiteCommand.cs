@@ -98,7 +98,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
                 var args = values.ToArray();
 
-                Console.WriteLine("we have InternalParameters for " + new { sql, types, args = Native.DumpToString(args) });
+                //Console.WriteLine("we have InternalParameters for " + new { sql, types, args = Native.DumpToString(args) });
 
 
                 this.InternalPreparedStatement.bind_param_array(types, args);
@@ -166,7 +166,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
                 s.store_result();
 
-                Console.WriteLine("ExecuteReader: " + new { this.InternalPreparedStatement.num_rows, this.InternalPreparedStatement.field_count });
+                //Console.WriteLine("ExecuteReader: " + new { this.InternalPreparedStatement.num_rows, this.InternalPreparedStatement.field_count });
             }
             else
             {
