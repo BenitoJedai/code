@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -8,6 +9,17 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpResponse))]
     internal class __HttpResponse
     {
+        public Stream OutputStream
+        {
+            get
+            {
+                // not yet
+                // affected
+                // X:\jsc.svn\examples\php\PHPXElementExample\PHPXElementExample\ApplicationWebService.cs
+
+                return null;
+            }
+        }
 
         public int StatusCode
         {

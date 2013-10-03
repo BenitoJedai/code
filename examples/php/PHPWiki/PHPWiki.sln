@@ -2,6 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHPWiki", "PHPWiki\PHPWiki.csproj", "{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {9122FB76-35CE-41C7-8894-4E58D1BA94BD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.TextEditor", "..\..\..\market\Abstractatech.JavaScript.TextEditor\Abstractatech.JavaScript.TextEditor\Abstractatech.JavaScript.TextEditor.csproj", "{9122FB76-35CE-41C7-8894-4E58D1BA94BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{278AB7AE-A4BF-4742-A2F5-65A3CE2B7CF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,8 +29,21 @@ Global
 		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.PHP|x86.Build.0 = PHP|x86
 		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Release|x86.ActiveCfg = Release|x86
 		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Release|x86.Build.0 = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Android|x86.ActiveCfg = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Android|x86.Build.0 = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.AppEngine|x86.ActiveCfg = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.AppEngine|x86.Build.0 = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Debug|x86.ActiveCfg = Debug|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Debug|x86.Build.0 = Debug|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.PHP|x86.ActiveCfg = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.PHP|x86.Build.0 = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.ActiveCfg = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {278AB7AE-A4BF-4742-A2F5-65A3CE2B7CF9}
 	EndGlobalSection
 EndGlobal
