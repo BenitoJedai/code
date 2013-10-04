@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>jsc.meta</name>
+    </assembly>
+    <members>
+        <member name="F:jsc.meta.Commands.Extend.ExtendToAvalonEverywhere.javascript">
+            <summary>
+            Setting this field to false disables javascript generation.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Extend.ExtendToAvalonEverywhere.flashplayer">
+            <summary>
+            The swf file shall be converted to an exe file.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Extend.ExtendToNativeConsole.Builder.context">
+            <summary>
+            The context shall contain all the input parameters
+            we have acted upon thus so far
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Extend.ExtendToNativeConsole.Builder.assembly">
+            <summary>
+            This is the assembly which we will need to translate
+            to a native console application.
+            
+            It should have been loaded from the staging area.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Extend.ExtendToWindowsFormsEverywhere.javascript">
+            <summary>
+            Setting this field to false disables javascript generation.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Extend.ExtendToWindowsFormsEverywhere.javafusion">
+            <summary>
+            When set to true the jar file is appended to the exe file
+            thus creating a dual launchable. This option can be used
+            if there is only one jar file. With multiple jar files
+            this approach needs a special classloader.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Reference.ReferenceUltraSource.ReferenceUltraSource.SelectAll">
+            <summary>
+            While true any html in the solution is selected as UltraSource input.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Reference.ReferenceUltraSource.ReferenceUltraSource.LinkedAssets">
+            <summary>
+            The Browser Application may want to link some files as static assets
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Reference.ReferenceJavaScriptDocument.IsMerge">
+            <summary>
+            This assembly is to be merged and rewritten.
+            
+            This will be always the case. :) Then we can generate more than needed. And the user chooses
+            from what has been made available.
+            
+            Should always be on!
+            </summary>
+        </member>
+        <member name="T:jsc.meta.Commands.Reference.ReferenceTextComponent">
+            <summary>
+            So how do we go about using this command?
+            
+            Use these steps to use this command:
+            1. Add project folder "MyContent.TextComponent"
+            2. Add a few named .txt files with content in it
+            3. Add a prebuild event - C:\util\jsc\bin\jsc.meta.exe ReferenceTextComponent /ProjectFileName:"$(ProjectPath)" /IsComponent:false
+            4. Rebuild and also allow to reload your project
+            5. Check for a new referenced assembly
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Reference.ReferenceTextComponent.ProjectFileName">
+            <summary>
+            This is this csproj file. We should also support VB project file
+            as they should really not be that different.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Reference.ReferenceTextComponent.IsComponent">
+            <summary>
+            The generated type will inherit from global::System.ComponentModel.Component
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Reference.ReferenceTextComponent.ImplementToString">
+            <summary>
+            We would need StringBuilder which may or may not be available
+            on the target platform
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Reference.ReferenceWaveComponent.ProjectFileName">
+            <summary>
+            This is this csproj file. We should also support VB project file
+            as they should really not be that different.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Reference.ReferenceWaveComponent.IsComponent">
+            <summary>
+            The generated type will inherit from global::System.ComponentModel.Component
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.BCLImplementationMergeAssemblies">
+            <summary>
+            These assemblies will be searched for BCLImplementations
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.merge">
+            <summary>
+            Types within these assemblies will be merged to the new primary assembly
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.AssemblyMerge">
+            <summary>
+            Multiple assemblies can be merged into single assembly. No types from these assemblies shall be omitted.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.obfuscate">
+            <summary>
+            We can provide obfuscation features. Simply by renaming all
+            methods would do. We could also make the IL harder for disassamblers
+            like reflector.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.PrimaryTypesWithAssets">
+            <summary>
+            If this flag was set, every assembly referenced by a referenced type is inspected for assets.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.DisableIsMarkedForMerge">
+            <summary>
+            By setting this argument to true, assemblies which are marked with
+            [Obfuscation(Feature = "merge")]
+            no longer get merged.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.DisableShouldCopyAssemblyByPrimaryTypes">
+            <summary>
+            If disabled a primary type in a mergeable assembly does not mean other types need to be merged
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.EnableDelayedFileMove">
+            <summary>
+            To rewrite a loaded module this flag must be set.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToAssembly.EntryPoint">
+            <summary>
+            When a method is found with this name it is made an entrypoint.
+            </summary>
+        </member>
+        <member name="M:jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsService.BeginRequest(System.Web.HttpApplication,System.Type)">
+            <summary>
+            This method is to be used within ASP.NET Web Application
+            to enable Ultra Application features, where javascript, flash, java and
+            serverside will have seamless integration.
+            
+            jsc. meta could recompile that ASP.NET Web Application at a later
+            stage for other platforms. Other platforms cannot run jsc at runtime
+            thus this method need to be erased and replaced with the actual results.
+            </summary>
+            <param name="Context"></param>
+            <param name="PrimaryApplication"></param>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.DisableWebServiceTypeMerge">
+            <summary>
+            Server side debugging scenario is enabled by setting DisableWebServiceTypeMerge to true.
+            One can now insert Debug.Break statements into the WebService class and the original
+            assembly will be used.
+            </summary>
+        </member>
+        <member name="E:jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.AtWebServiceReady">
+            <summary>
+            Rewrite was done at runtime and the caller wants to start using the new
+            component once it is ready.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate.RewriteToMVSProjectTemplate.ProjectFileName">
+            <summary>
+            If there is no project file we could also do a IL to C# compilation...
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate.RewriteToMVSProjectTemplate.Assembly">
+            <summary>
+            We need to know the title, description and the company.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate.RewriteToMVSProjectTemplate.UserProjectTemplates">
+            <summary>
+            Either be it under My Documents or a full path where to create the new template.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToUltraLibrary.RewriteToUltraLibrary.PrimaryProject">
+            <summary>
+            At runtime we cannot see the unreferenced assemblies. For now we just also load the project file to get additional intel.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Commands.Rewrite.RewriteToUltraLibrary.RewriteToUltraLibrary.DisableIsMarkedForMerge">
+            <summary>
+            If we a library is being generated, then all types should be in it.
+            </summary>
+        </member>
+        <member name="T:jsc.meta.Dialogs.WebServiceLauncherDialog">
+            <summary>
+            Interaction logic for WebServiceLauncherDialog.xaml
+            </summary>
+            <summary>
+            WebServiceLauncherDialog
+            </summary>
+        </member>
+        <member name="M:jsc.meta.Dialogs.WebServiceLauncherDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:jsc.meta.Library.CodeTrace.CodeTraceAction">
+            <summary>
+            Experimentally it is suggested to name an instance to "ʘ".
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:jsc.meta.Library.CodeTrace.CodeTraceExtensions.ToCodeTrace(System.IO.FileInfo,System.Action{jsc.meta.Library.CodeTrace.CodeTraceAction})">
+            <summary>
+            Will build a strongly typed assembly which will replay the traced code. To be used for debugging and IL rewrite research.
+            
+            See W:\jsc.svn\examples\rewrite\ScriptCoreLib.IDocument\ScriptCoreLib.IDocument\Class1.cs for example.
+            
+            Fixme: TypeBuilder and MethodBuilder classes should be interned automatically for this to be 
+            useful in jsc.meta.
+            
+            So when the boundaries between _ct_ is being crossed those types will be saved only to be reused later.
+            </summary>
+            <param name="target"></param>
+            <param name="h"></param>
+        </member>
+        <member name="T:jsc.meta.Library.Mashups.LocationAttribute">
+            <summary>
+            A DNS name where the client will be able to access this method
+            </summary>
+        </member>
+        <member name="M:jsc.meta.Library.ScriptResourceWriter.Add(System.String,System.Byte[])">
+            <summary>
+            Long paths are not good. ASP.NET will fault.
+            <example> var AssetPath = "assets/" + DefaultNamespace + "/" + name + Extension;</example>
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="F:InternalPopupWebView.XTouchInfo.firstX">
+            The state of the window.
+        </member>
+        <member name="F:InternalPopupWebView.XTouchInfo.firstY">
+            The state of the window.
+        </member>
+        <member name="F:InternalPopupWebView.XTouchInfo.lastX">
+            The state of the window.
+        </member>
+        <member name="F:InternalPopupWebView.XTouchInfo.lastY">
+            The state of the window.
+        </member>
+        <member name="F:InternalPopupWebView.XTouchInfo.moving">
+            Whether we're past the move threshold already.
+        </member>
+        <member name="M:jsc.meta.Library.Templates.PHP.PHPWebServiceProvider.PHPWebServiceProvider_Serve">
+            <summary>
+            This method is to be called in the index.php
+            </summary>
+        </member>
+        <member name="M:jsc.meta.Library.VolumeFunctions.VolumeFunctionsExtensions.ToVirtualDriveToDirectory.FromVirtual(System.IO.FileInfo)">
+            <summary>
+            When Virtual path goes out of scope you may need a real path instead.
+            </summary>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="E:jsc.meta.Library.VolumeFunctions.VolumeFunctionsExtensions.ToVirtualDriveToDirectory.AtApplyVirtualDirectory">
+            <summary>
+            Current running process may want to register a cleanup to aviod unclaimed drivers on termination.
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Library.Web.BasicWebCrawler.Method">
+            <summary>
+            http://www.w3.org/Protocols/HTTP/1.0/draft-ietf-http-spec.html#Method
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Library.Web.BasicWebCrawler.CoralEnabled">
+            <summary>
+            http://www.coralcdn.org/
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Library.Web.WSDLProvider.IsMetadata">
+            <summary>
+            The request was made for "WSDL/$metadata"
+            </summary>
+        </member>
+        <member name="F:jsc.meta.Library.Web.WSDLProvider.Payload">
+            <summary>
+            The request was made as HTTP POST
+            </summary>
+        </member>
+        <member name="M:jsc.meta.Library.WriteToProvider.DefineWriteToMethod(System.Reflection.Emit.TypeBuilder,System.Collections.Generic.IEnumerable{System.Reflection.Emit.FieldBuilder})">
+            <summary>
+            Creates a WriteToArguments nested type and creates a method which will
+            stream all fields to the handler
+            </summary>
+            <param name="t"></param>
+            <param name="f"></param>
+        </member>
+        <member name="M:jsc.meta.Library.MyExtensions.DefinesTypes(System.IO.DirectoryInfo,System.Type[])">
+            <summary>
+            All referenced types including their defining assemblies will be copied
+            to the target possibily the staging area
+            </summary>
+            <param name="target"></param>
+            <param name="z"></param>
+        </member>
+        <member name="M:jsc.meta.Tools.ToolsExtensions.ToJavaScript(System.IO.FileInfo,System.Action{System.String})">
+            <summary>
+            The target library is prepared to be compiled into
+            javascript by jsc.
+            </summary>
+            <param name="TargetAssembly"></param>
+        </member>
+    </members>
+</doc>
