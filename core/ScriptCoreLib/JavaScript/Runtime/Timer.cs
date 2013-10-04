@@ -40,7 +40,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             {
 
 
-                setTimeout(
+                Native.setTimeout(
                     delegate
                     {
                         if (interval > 0)
@@ -59,46 +59,10 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         }
 
-        static int setTimeout(Action yield, int ms)
-        {
-            if (Native.window != null)
-                return Native.window.setTimeout(yield, ms);
 
-            return Native.worker.setTimeout(yield, ms);
-        }
-
-        static int setInterval(Action yield, int ms)
-        {
-            if (Native.window != null)
-                return Native.window.setInterval(yield, ms);
-
-            return Native.worker.setInterval(yield, ms);
-        }
 
 
         // static method for enum?
-        static void clearTimeout(int i)
-        {
-            if (Native.window != null)
-            {
-                Native.window.clearTimeout(i);
-                return;
-            }
-
-            Native.worker.clearTimeout(i);
-        }
-
-        static void clearInterval(int i)
-        {
-            if (Native.window != null)
-            {
-                Native.window.clearInterval(i);
-                return;
-            }
-
-            Native.worker.clearInterval(i);
-        }
-
 
         public bool TimeToLiveExceeded
         {
@@ -154,7 +118,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             Stop();
             isInterval = true;
-            id = setInterval(Invoke, i);
+            id = Native.setInterval(Invoke, i);
         }
 
         public void StartTimeout()
@@ -171,7 +135,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             // tested by
             // X:\jsc.svn\examples\javascript\AsyncInlineWorkerDocumentExperiment\AsyncInlineWorkerDocumentExperiment\Application.cs
 
-            id = setTimeout(Invoke, i);
+            id = Native.setTimeout(Invoke, i);
 
         }
 
@@ -188,10 +152,10 @@ namespace ScriptCoreLib.JavaScript.Runtime
         public void Stop()
         {
             if (isTimeout)
-                clearTimeout(id);
+                Native.clearTimeout(id);
 
             if (isInterval)
-                clearInterval(id);
+                Native.clearInterval(id);
 
             isInterval = false;
             isTimeout = false;

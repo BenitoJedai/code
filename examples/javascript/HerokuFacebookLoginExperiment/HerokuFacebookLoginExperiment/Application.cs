@@ -148,7 +148,7 @@ namespace HerokuFacebookLoginExperiment
                             page.FacebookLogout.Hide();
                         }
 
-                        Native.Window.opener.With(
+                        Native.window.opener.With(
                              opener => opener.postMessage(xml.ToString())
                          );
 
@@ -163,10 +163,12 @@ namespace HerokuFacebookLoginExperiment
                                 Console.WriteLine(new { ack_data });
 
                                 // allow the sound to complete..
-                                Native.Window.setTimeout(
+
+                                
+                                Native.window.setTimeout(
                                     delegate
                                     {
-                                        Native.Window.close();
+                                        Native.window.close();
                                     },
                                     300
                                 );
@@ -183,10 +185,10 @@ namespace HerokuFacebookLoginExperiment
                             {
 
                                 // allow the sound to complete..
-                                Native.Window.setTimeout(
+                                Native.window.setTimeout(
                                     delegate
                                     {
-                                        Native.Window.close();
+                                        Native.window.close();
                                     },
                                     300
                                 );
@@ -256,7 +258,7 @@ namespace HerokuFacebookLoginExperiment
             };
             #endregion
 
-            Native.Window.onmessage +=
+            Native.window.onmessage +=
                 e =>
                 {
                     Console.WriteLine("onmessage: " + e.data);
@@ -284,7 +286,7 @@ namespace HerokuFacebookLoginExperiment
                 );
 
 
-            Native.Window.opener.With(
+            Native.window.opener.With(
                 opener =>
                 {
                     opener.postMessage(

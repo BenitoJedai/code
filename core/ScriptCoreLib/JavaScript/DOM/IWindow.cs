@@ -167,7 +167,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        internal int setTimeout(System.Action code, int time)
+        //internal 
+        public int setTimeout(System.Action code, int time)
         {
             return setTimeout(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
         }
@@ -185,7 +186,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        internal int setInterval(System.Action code, int time)
+        //internal 
+        public
+            int setInterval(System.Action code, int time)
         {
             return setInterval(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
         }
