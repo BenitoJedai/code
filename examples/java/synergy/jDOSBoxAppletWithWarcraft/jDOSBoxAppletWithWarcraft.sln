@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jDOSBoxAppletWithWarcraft", "jDOSBoxAppletWithWarcraft\jDOSBoxAppletWithWarcraft.csproj", "{AA11540B-7B1A-4BAD-8F0B-5F14982498D2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A0A72609-60E7-42AE-920B-E2A84A340633} = {A0A72609-60E7-42AE-920B-E2A84A340633}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jDOSBoxHybridExperiment", "..\..\..\..\..\jsc.svn\examples\java\synergy\jDOSBoxHybridExperiment\jDOSBoxHybridExperiment\jDOSBoxHybridExperiment.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{3B6D9369-53C9-4710-AAEF-431D1C2A7824}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|x86 = Android|x86
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA11540B-7B1A-4BAD-8F0B-5F14982498D2}.Android|x86.ActiveCfg = Android|x86
+		{AA11540B-7B1A-4BAD-8F0B-5F14982498D2}.Android|x86.Build.0 = Android|x86
+		{AA11540B-7B1A-4BAD-8F0B-5F14982498D2}.Debug|x86.ActiveCfg = Debug|x86
+		{AA11540B-7B1A-4BAD-8F0B-5F14982498D2}.Debug|x86.Build.0 = Debug|x86
+		{AA11540B-7B1A-4BAD-8F0B-5F14982498D2}.Release|x86.ActiveCfg = Release|x86
+		{AA11540B-7B1A-4BAD-8F0B-5F14982498D2}.Release|x86.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|x86.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.Build.0 = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A0A72609-60E7-42AE-920B-E2A84A340633} = {3B6D9369-53C9-4710-AAEF-431D1C2A7824}
+	EndGlobalSection
+EndGlobal
