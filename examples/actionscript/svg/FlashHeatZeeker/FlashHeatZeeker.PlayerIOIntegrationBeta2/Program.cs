@@ -12,6 +12,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
     {
         public static void Main(string[] args)
         {
+            //Method not found: 'Void starling.core.Starling..ctor(ScriptCoreLib.ActionScript.Class, ScriptCoreLib.ActionScript.flash.display.Stage, ScriptCoreLib.ActionScript.flash.geom.Rectangle, ScriptCoreLib.ActionScript.flash.display.Stage3D, System.String, System.String)'.
+
             #region player.io dev server
 #if DEBUG
             new Thread(
@@ -19,7 +21,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                 {
                     Thread.Sleep(1000);
 
-                    PlayerIO.DevelopmentServer.Server.StartWithDebugging();
+                    if (System.Windows.Forms.MessageBox.Show("Start player.io dev server?", "", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                        PlayerIO.DevelopmentServer.Server.StartWithDebugging();
                 }
             )
             {

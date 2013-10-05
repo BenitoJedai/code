@@ -40,7 +40,8 @@ namespace ChromeTCPServerWithFrameNone
 
             if (self_chrome_socket != null)
             {
-                // Form as AppWindow
+                chrome.Notification.DefaultTitle = "ChromeTCPServerWithFrameNone";
+
 
 
                 #region __Form
@@ -270,7 +271,6 @@ namespace ChromeTCPServerWithFrameNone
                 #endregion
 
 
-                chrome.Notification.DefaultTitle = "ChromeTCPServerWithFrameNone";
                 ChromeTCPServer.TheServer.Invoke(AppSource.Text,
                     async uri =>
                     {
