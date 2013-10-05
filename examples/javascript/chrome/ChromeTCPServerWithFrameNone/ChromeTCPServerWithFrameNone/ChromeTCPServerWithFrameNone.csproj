@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F9D36A8E-E5FC-448F-9DA1-41BC72BBEA8D}</ProjectGuid>
+    <ProjectGuid>{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChromeTCPServer</RootNamespace>
-    <AssemblyName>ChromeTCPServer</AssemblyName>
+    <RootNamespace>ChromeTCPServerWithFrameNone</RootNamespace>
+    <AssemblyName>ChromeTCPServerWithFrameNone</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ChromeTCPServer.Program</StartupObject>
+    <StartupObject>ChromeTCPServerWithFrameNone.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -39,6 +39,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chrome Web Server">
+      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+    </Reference>
     <Reference Include="Chrome Web Store">
       <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
     </Reference>
@@ -119,8 +122,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ChromeTCPServer.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ChromeTCPServer.AssetsLibrary.dll</HintPath>
+    <Reference Include="ChromeTCPServerWithFrameNone.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeTCPServerWithFrameNone.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
@@ -137,15 +140,13 @@
     </Compile>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\ChromeTCPServer.Application\web\manifest.json">
+    <None Include="staging\ChromeTCPServerWithFrameNone.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget /PackageID:"Chrome.Web.Server" /OutputName:"Chrome Web Server" /ProjectFileName:"$(ProjectPath)"
-
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>
