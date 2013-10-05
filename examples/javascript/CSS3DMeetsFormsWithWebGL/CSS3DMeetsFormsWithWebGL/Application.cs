@@ -673,12 +673,15 @@ namespace CSS3DMeetsFormsWithWebGL
                     {
                         if (once)
                         {
+#if DOESITWORK
                             Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensions.PopupInsteadOfClosing(f);
+#endif
 
                             return;
                         }
 
                         once = true;
+
                         //f.DisableFormClosingHandler = true;
 
                         global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
@@ -717,13 +720,13 @@ namespace CSS3DMeetsFormsWithWebGL
         }
     }
 
-    //sealed class __IsometricTycoonViewWithToolbar
-    //{
-    //    public __IsometricTycoonViewWithToolbar(global::IsometricTycoonViewWithToolbar.HTML.Pages.IDefault page)
-    //    {
-    //        new global::IsometricTycoonViewWithToolbar.Application(page);
-    //    }
-    //}
+    sealed class __IsometricTycoonViewWithToolbar
+    {
+        public __IsometricTycoonViewWithToolbar(global::IsometricTycoonViewWithToolbar.HTML.Pages.IDefault page)
+        {
+            new global::IsometricTycoonViewWithToolbar.Application(page);
+        }
+    }
 
     sealed class __McKrackenFirstRoom
     {

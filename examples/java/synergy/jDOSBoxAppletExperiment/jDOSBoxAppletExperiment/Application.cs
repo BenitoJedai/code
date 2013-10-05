@@ -49,7 +49,7 @@ namespace jDOSBoxAppletExperiment
             
 
                     applet.__MainApplet_keyPressed("" + KeyCode, "" + KeyChar,
-                        message => Native.Window.alert(message)
+                        message => Native.window.alert(message)
                     );
                 };
 
@@ -67,7 +67,7 @@ namespace jDOSBoxAppletExperiment
 
 
                     applet.__MainApplet_keyReleased("" + KeyCode, "" + KeyChar,
-                        message => Native.Window.alert(message)
+                        message => Native.window.alert(message)
                     );
                 };
 

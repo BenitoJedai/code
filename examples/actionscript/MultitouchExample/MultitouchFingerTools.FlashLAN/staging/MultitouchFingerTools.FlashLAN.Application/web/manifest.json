@@ -3,7 +3,7 @@
 "manifest_version": 2,
   "name": "MultitouchFingerTools.FlashLAN",
   "description": "MultitouchFingerTools.FlashLAN",
-  "version": "12",
+  "version": "14",
  "minimum_chrome_version": "27",
   "offline_enabled": true,
 
