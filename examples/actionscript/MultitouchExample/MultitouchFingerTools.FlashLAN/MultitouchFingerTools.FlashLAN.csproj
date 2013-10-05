@@ -138,9 +138,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Assets.htm" />
-    <Content Include="Design\Default.htm" />
+    <Content Include="Design\App.htm" />
     <Compile Include="ApplicationCanvas.cs" />
     <Compile Include="ApplicationCanvas.Session.cs" />
+    <Compile Include="ApplicationSprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>

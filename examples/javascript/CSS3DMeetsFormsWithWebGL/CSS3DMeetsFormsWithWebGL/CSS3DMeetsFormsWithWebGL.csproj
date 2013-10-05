@@ -54,9 +54,6 @@
     <Reference Include="Abstractatech.Avalon.PromotionBrandIntro">
       <HintPath>..\packages\Abstractatech.Avalon.PromotionBrandIntro.1.0.0.0\lib\Abstractatech.Avalon.PromotionBrandIntro.dll</HintPath>
     </Reference>
-    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
-      <HintPath>..\..\..\..\..\jsc.internal.svn\core\com.abstractatech.web\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
-    </Reference>
     <Reference Include="CSSMinimizeFormToSidebar">
       <HintPath>..\packages\CSSMinimizeFormToSidebar.1.0.0.0\lib\CSSMinimizeFormToSidebar.dll</HintPath>
     </Reference>
@@ -162,6 +159,9 @@
     <Reference Include="InteractiveTransformA.AssetsLibrary">
       <HintPath>..\..\Avalon\InteractiveTransformA\InteractiveTransformA\bin\staging.AssetsLibrary\InteractiveTransformA.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="IsometricTycoonViewWithToolbar.AssetsLibrary">
+      <HintPath>..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\bin\staging.AssetsLibrary\IsometricTycoonViewWithToolbar.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\boxf1.png" />
@@ -245,6 +245,10 @@
     <ProjectReference Include="..\..\ImpAdventures\ImpAdventures\ImpAdventures.csproj">
       <Project>{9c79ddc9-74db-4f8a-84e8-91744d007ab4}</Project>
       <Name>ImpAdventures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar.csproj">
+      <Project>{a28a2898-d11b-4027-b5fe-2a911cc5d66f}</Project>
+      <Name>IsometricTycoonViewWithToolbar</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\McKrackenFirstRoom\McKrackenFirstRoom\McKrackenFirstRoom.csproj">
       <Project>{7de9714d-6403-4e7c-a1a1-10e7206df46a}</Project>

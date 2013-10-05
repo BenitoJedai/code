@@ -411,6 +411,15 @@ namespace NatureBoy.js
                 };
             #endregion
 
+            Console.WriteLine(new { Doors = Doors.Length });
+
+            Doors.WithEachIndex(
+                (x, index) =>
+                {
+                    Console.WriteLine(new { index, x });
+                    Console.WriteLine(new { index, x.Condition });
+                }
+            );
 
 
             var ChangeRoom = new ChangeRoom { autobuffer = true };
@@ -420,6 +429,7 @@ namespace NatureBoy.js
             var Argh_Disabled = false;
             var Argh_VolumeMultiplier = 1.0;
 
+            #region Argh_Stereo
             Action<double, double> Argh_Stereo =
                 (volume, balance) =>
                 {
@@ -444,7 +454,9 @@ namespace NatureBoy.js
                     new Timer(t => Argh_Disabled = false).StartTimeout(800);
                     new Timer(t => Argh_VolumeMultiplier = 1).StartTimeout(5000);
                 };
+            #endregion
 
+            #region PrintText
             Action<string, Action> PrintText =
                 (text, done) =>
                 {
@@ -468,6 +480,7 @@ namespace NatureBoy.js
                         }, done
                     );
                 };
+            #endregion
 
             Action<string, Action> PrintRandomText =
                 (text, done) => PrintText(text.Split(LoadedScene.TextDelimiter).Randomize().First(), done);
@@ -482,8 +495,12 @@ namespace NatureBoy.js
 
                     System.Console.WriteLine("done walking in " + CurrentFrame.Name + " at " + dude.CurrentLocation);
 
+                    var xFirstOrDefault = Doors.FirstOrDefault(d => d.Condition());
+
+                    System.Console.WriteLine("done walking in " + new { xFirstOrDefault });
+
                     // Doors null?
-                    if (TryToChangeRooms(Doors.FirstOrDefault(d => d.Condition())))
+                    if (TryToChangeRooms(xFirstOrDefault))
                         return;
 
 
@@ -575,6 +592,7 @@ namespace NatureBoy.js
             var pointer_x = 0;
             var pointer_y = 0;
 
+            #region onmousemove
             Container.onmousemove +=
                 ev =>
                 {
@@ -602,6 +620,9 @@ namespace NatureBoy.js
                         }
                     }
                 };
+            #endregion
+
+            #region ontouchstart
             Container.ontouchstart +=
                 ev =>
                 {
@@ -623,7 +644,9 @@ namespace NatureBoy.js
                         dude.WalkTo(ev_OffsetPosition);
                     }
                 };
+            #endregion
 
+            #region onclick
             Container.onclick +=
                 ev =>
                 {
@@ -659,6 +682,8 @@ namespace NatureBoy.js
                         dude.WalkTo(ev.OffsetPosition);
                     }
                 };
+            #endregion
+
 
 
             //GroundOverlay.onclick +=

@@ -8,22 +8,7 @@ using System.Xml.Linq;
 
 namespace CSS3DMeetsFormsWithWebGL
 {
-    //static class X
-    //{
-    //    public static T FirstOrDefault<T>(this T[] source, Func<T, bool> f)
-    //    {
-    //        var r = default(T);
-    //        foreach (var item in source)
-    //        {
-    //            if (f(item))
-    //            {
-    //                r = item;
-    //                break;
-    //            }
-    //        }
-    //        return r;
-    //    }
-    //}
+
 
 
     /// <summary>
@@ -101,43 +86,49 @@ namespace CSS3DMeetsFormsWithWebGL
             {
                 h.Context.Response.ContentType = "text/javascript";
 
-                // Accept-Encoding: gzip,deflate,sdch
-                foreach (var item in app.client.References)
-                {
-                    h.Context.Response.Write("/* " + new { item.AssemblyFile, bytes = 1 } + " */\r\n");
-                }
+                //// Accept-Encoding: gzip,deflate,sdch
+                //foreach (var item in app.client.References)
+                //{
+                //    h.Context.Response.Write("/* " + new { item.AssemblyFile, bytes = 1 } + " */\r\n");
+                //}
 
-                foreach (var item in app.client.References)
-                {
-                    // asp.net needs absolute paths
-                    h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
-                }
+                //foreach (var item in app.client.References)
+                //{
+                //    // asp.net needs absolute paths
+                //    //h.Context.Response.WriteFile("/" + item.AssemblyFile + ".js");
 
+                //    // what if it does not exist?
+                //    h.Context.Response.WriteFile(item.AssemblyFile + ".js");
+                //}
+
+                h.WriteSource(app.client);
                 h.CompleteRequest();
                 return;
             }
             #endregion
 
+            if (app.client != null)
+            {
+
+                h.Context.Response.ContentType = "text/html";
+
+                var xml = XElement.Parse(app.client.PageSource);
+
+                xml.Add(
+                     new XElement("script",
+                         new XAttribute("src", app.path + "/view-source"),
+
+                         // android otherwise closes the tag?
+                         " "
+                     )
+                 );
 
 
-            h.Context.Response.ContentType = "text/html";
 
-            var xml = XElement.Parse(app.client.PageSource);
+                h.Context.Response.Write(xml.ToString());
 
-            xml.Add(
-                 new XElement("script",
-                     new XAttribute("src", app.path + "/view-source"),
-
-                     // android otherwise closes the tag?
-                     " "
-                 )
-             );
-
-
-
-            h.Context.Response.Write(xml.ToString());
-
-            h.CompleteRequest();
+                h.CompleteRequest();
+            }
         }
     }
 }
