@@ -600,7 +600,9 @@ namespace ChromeTCPServer
 
                    var i = await socket.create("tcp", new object { });
 
-                   var listen = await i.socketId.listen(address, port, 50);
+                   // https://code.google.com/p/ssh-persistent-tunnel/issues/detail?id=6
+                   //var listen = await i.socketId.listen(address, port, 50);
+                   var listen = await i.socketId.listen("0.0.0.0", port, 50);
 
 
                    //Console.WriteLine(new { i.socketId, uri });

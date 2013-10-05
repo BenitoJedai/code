@@ -6,6 +6,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using chrome;
+
+// since the developer 
+// added us via jsc market
+// and is using a namespace indicates they want our features
+namespace ScriptCoreLib.JavaScript.Extensions
+{
+    public static class ChromeNotificationExtensions
+    {
+        public static Notification ToNotification(this string Message)
+        {
+            return new Notification
+            {
+                Message = Message
+            };
+        }
+    }
+}
+
 
 namespace chrome
 {
@@ -236,5 +255,17 @@ namespace chrome
 
         }
 
+
+        public static implicit operator Task(Notification n)
+        {
+            var x = new TaskCompletionSource<object>();
+
+            n.Clicked += delegate
+            {
+                x.SetResult(null);
+            };
+
+            return x.Task;
+        }
     }
 }

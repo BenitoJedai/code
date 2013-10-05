@@ -303,6 +303,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                //Console.WriteLine("set_Size");
                 this.SetBounds(this.x, this.y, value.Width, value.Height, BoundsSpecified.Size);
             }
         }
@@ -418,6 +419,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             #endregion
 
+            #region min max
             if (this.MinimumSize.Width > 0)
                 width = Math.Max(this.MinimumSize.Width, width);
 
@@ -430,6 +432,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (this.MaximumSize.Height > 0)
                 height = Math.Min(this.MaximumSize.Height, height);
+            #endregion
+
 
 
             var _x = (this.x != x);
@@ -491,18 +495,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 this.OnLocationChanged(null);
             }
+
+            Console.WriteLine("before InternalClientSizeChanged " + new { flag2 });
             if (flag2)
             {
                 //throw new Exception("Html element not set: " + this.Name);
 
                 this.HTMLTargetRef.style.SetSize(width, height);
 
-                Native.window.requestAnimationFrame +=
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131005-chrome-frame-server
+                // chrome app? may not have render frames
+                Native.setTimeout(
                   delegate
                   {
                       InternalClientSizeChanged();
 
-                  };
+                  },
+                  1
+                );
             }
 
 
@@ -510,6 +520,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void InternalClientSizeChanged()
         {
+            Console.WriteLine("at InternalClientSizeChanged");
+
             this.clientWidth = this.HTMLTargetContainerRef.clientWidth;
             this.clientHeight = this.HTMLTargetContainerRef.clientHeight;
 
@@ -690,6 +702,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void InternalOnSizeChanged()
         {
+            Console.WriteLine("at InternalOnSizeChanged");
+
+
             this.OnResize(null);
 
             if (SizeChanged != null)

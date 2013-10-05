@@ -24,6 +24,8 @@ namespace MSVSFormStyle
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -76,7 +78,7 @@ namespace MSVSFormStyle
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(45, 237);
+            this.button6.Location = new System.Drawing.Point(45, 313);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(211, 27);
             this.button6.TabIndex = 5;
@@ -86,7 +88,7 @@ namespace MSVSFormStyle
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(45, 284);
+            this.button7.Location = new System.Drawing.Point(45, 365);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(211, 27);
             this.button7.TabIndex = 6;
@@ -94,9 +96,29 @@ namespace MSVSFormStyle
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(45, 223);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(211, 27);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "new tycoon Form()";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(45, 256);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(211, 27);
+            this.button9.TabIndex = 8;
+            this.button9.Text = "new Heat Zeeker Form()";
+            this.button9.UseVisualStyleBackColor = true;
+            // 
             // ApplicationControl
             // 
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -105,7 +127,7 @@ namespace MSVSFormStyle
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(400, 391);
+            this.Size = new System.Drawing.Size(400, 427);
             this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
 
@@ -127,6 +149,8 @@ namespace MSVSFormStyle
         public Button button5;
         public Button button6;
         public Button button7;
+        public Button button8;
+        public Button button9;
 
     }
 }

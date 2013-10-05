@@ -118,6 +118,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public static Action<__WebBrowser> InitializeInternalElement =
             that =>
             {
+                // tested by?
+                // X:\jsc.svn\examples\javascript\chrome\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
+                // X:\jsc.svn\examples\javascript\chrome\ChromeFormsWebBrowserExperiment\ChromeFormsWebBrowserExperiment\Application.cs
+
                 // Refused to frame 'http://example.com/' because it violates the following Content Security Policy directive: "frame-src 'self' data: chrome-extension-resource:".
 
                 that.InternalElement = new IHTMLIFrame
