@@ -1,3 +1,7 @@
+using chrome;
+using ChromeTCPServer;
+using ChromeTCPServer.Design;
+using ChromeTCPServer.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -6,21 +10,17 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.WebGL;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
-using ChromeTCPServer;
-using ChromeTCPServer.Design;
-using ChromeTCPServer.HTML.Pages;
-using chrome;
-using System.Diagnostics;
-using ScriptCoreLib.JavaScript.WebGL;
-using System.IO;
-using ScriptCoreLib.JavaScript.Runtime;
 using System.Threading;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ChromeTCPServer
 {
@@ -47,7 +47,7 @@ namespace ChromeTCPServer
                 TheServer.Invoke(AppSource.Text);
 
                 // http://developer.chrome.com/extensions/messaging.html
-
+                #region more
                 chrome.runtime.MessageExternal +=
                     delegate
                     {
@@ -100,6 +100,8 @@ namespace ChromeTCPServer
 
 
                     };
+                #endregion
+
 
                 return;
             }
@@ -326,8 +328,15 @@ namespace ChromeTCPServer
             return scope.Item2;
         }
 
-        public static void Invoke(string PageSource)
+        public static void Invoke(
+            string PageSource,
+            Action<string> open = null
+            )
         {
+
+            if (open == null)
+                open = (u) => Native.window.open(u);
+
             // https://code.google.com/p/chromium/issues/detail?id=179940
             // https://github.com/GoogleChrome/chrome-app-samples/blob/master/websocket-server/http.js
 
@@ -648,7 +657,7 @@ namespace ChromeTCPServer
                            {
                                advertise();
 
-                               Native.window.open(uri);
+                               open(uri);
                            };
 
                        chrome.app.runtime.Launched +=
@@ -656,7 +665,7 @@ namespace ChromeTCPServer
                             {
                                 advertise();
 
-                                Native.window.open(uri);
+                                open(uri);
                             };
 
 

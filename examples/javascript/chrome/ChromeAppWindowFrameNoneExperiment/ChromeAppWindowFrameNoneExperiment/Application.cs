@@ -273,6 +273,7 @@ namespace ChromeAppWindowFrameNoneExperiment
             //FormStyler.AtFormCreated = FormStyler.LikeWindows3;
             FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
 
+            #region new Form
             var xf = new Form();
             content.BackColor = System.Drawing.Color.Transparent;
             xf.Controls.Add(content);
@@ -320,6 +321,8 @@ namespace ChromeAppWindowFrameNoneExperiment
                 };
 
             new Abstractatech.ConsoleFormPackage.Library.ConsoleForm { }.InitializeConsoleFormWriter().Show();
+            #endregion
+
             Console.WriteLine("hello console!");
 
 
