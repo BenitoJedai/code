@@ -46,8 +46,9 @@ namespace SQLiteWithDataGridView
 
         private void Table001_Click(object sender, System.EventArgs e)
         {
-            var f = new GridForm { service = this.applicationWebService1 };
+            var f = new GridForm {  };
 
+            f.xservice.ParentContentKey = "";
 
             f.Show();
 
