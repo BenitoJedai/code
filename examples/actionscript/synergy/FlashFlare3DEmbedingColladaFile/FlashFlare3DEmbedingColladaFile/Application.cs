@@ -1,5 +1,9 @@
-using Flare3DMeetsStarlingExperiment.Design;
-using Flare3DMeetsStarlingExperiment.HTML.Pages;
+using flare.basic;
+using flare.core;
+using Flare3DWaterShipComponent;
+using FlashFlare3DEmbedingColladaFile;
+using FlashFlare3DEmbedingColladaFile.Design;
+using FlashFlare3DEmbedingColladaFile.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
@@ -14,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace Flare3DMeetsStarlingExperiment
+namespace FlashFlare3DEmbedingColladaFile
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -23,6 +27,7 @@ namespace Flare3DMeetsStarlingExperiment
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        public readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
         /// This is a javascript application.
@@ -30,24 +35,15 @@ namespace Flare3DMeetsStarlingExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-
-            var sprite = new ApplicationSprite();
-            sprite.AttachSpriteToDocument().With(
-                   embed =>
-                   {
-                       embed.style.SetLocation(0, 0);
-                       embed.style.SetSize(Native.window.Width, Native.window.Height);
-
-                       Native.window.onresize +=
-                           delegate
-                           {
-                               embed.style.SetSize(Native.window.Width, Native.window.Height);
-                           };
-                   }
-               );
+            // Initialize ApplicationSprite
+            sprite.AttachSpriteTo(page.Content);
+            @"Hello world".ToDocumentTitle();
+            // Send data from JavaScript to the server tier
+            service.WebMethod2(
+                @"A string from JavaScript.",
+                value => value.ToDocumentTitle()
+            );
         }
 
     }
-
-
 }

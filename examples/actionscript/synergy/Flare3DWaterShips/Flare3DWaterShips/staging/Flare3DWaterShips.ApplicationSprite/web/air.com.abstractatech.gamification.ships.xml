@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/3.7">
-  <id>Flare3DMeetsStarlingExperiment</id>
+<application xmlns="http://ns.adobe.com/air/application/3.9">
+  <id>com.abstractatech.gamification.ships</id>
   <versionNumber>1.0.1</versionNumber>
-  <filename>Flare3DMeetsStarlingExperiment</filename>
-  <name>Flare3DMeetsStarlingExperiment</name>
+  <filename>Flare3DWaterShips</filename>
+  <name>Flare3DWaterShips</name>
   <description>
-    <text xml:lang="en">Flare3DMeetsStarlingExperiment</text>
+    <text xml:lang="en">Flare3DWaterShips</text>
   </description>
   <copyright>abstractatech.com</copyright>
   <initialWindow>
-    <title>Flare3DMeetsStarlingExperiment</title>
+    <title>Flare3DWaterShips</title>
     <content>
-      Flare3DMeetsStarlingExperiment.ApplicationSprite.swf
+      Flare3DWaterShips.ApplicationSprite.swf
     </content>
 
     <autoOrients>false</autoOrients>
     <renderMode>direct</renderMode>
-    <depthAndStencil>true</depthAndStencil>
-    
     <fullScreen>false</fullScreen>
     <visible>true</visible>
     <aspectRatio>landscape</aspectRatio>
@@ -39,6 +37,7 @@
 
 
   </icon>
+
 
 
 </application>
