@@ -17,12 +17,27 @@ namespace Flare3DWaterShips
 {
     public sealed class ApplicationSprite : Sprite
     {
+        //    SecurityError: Error #2148: SWF file file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf cannot access local resource file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/assets/Flare3DWaterShips/particles.zf3d. Only local-with-filesystem and trusted local SWF files may access local resources.
+        //at flash.net::URLStream/load()
+        //at flare.loaders::Flare3DLoader/load()[Z:\projects\flare3d 2.5\src\flare\loaders\Flare3DLoader.as:100]
+        //at Flare3DWaterShips::ApplicationSprite()[V:\web\Flare3DWaterShips\ApplicationSprite.as:171]
+
+        //SecurityError: Error #2148: SWF file file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf cannot access local resource file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf/[[DYNAMIC]]/14. Only local-with-filesystem and trusted local SWF files may access local resources.
+        //    at flash.display::Loader/get content()
+        //    at flare.core::Texture3D/completeEvent()[Z:\projects\flare3d 2.5\src\flare\core\Texture3D.as:496]
+
+    //    SecurityError: Error #2148: SWF file file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf cannot access local resource file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf/[[DYNAMIC]]/15. Only local-with-filesystem and trusted local SWF files may access local resources.
+    //at flash.display::Loader/get content()
+    //at flare.core::Texture3D/completeEvent()[Z:\projects\flare3d 2.5\src\flare\core\Texture3D.as:496]
+
         // flsl ocean shader.
         const int oceanGridSize = 64;
 
         private BitmapData bmp = new BitmapData(oceanGridSize, oceanGridSize, false);
         private Point point0 = new Point();
         private Point point1 = new Point();
+
+        // AIR does not yet show anything. why
 
         public ApplicationSprite()
         {
@@ -45,31 +60,38 @@ namespace Flare3DWaterShips
             var Ocean = KnownEmbeddedResources.Default["assets/Flare3DWaterShips/ocean07.flsl.compiled"];
             var oceanShader = new FLSLMaterial("oceanShader", Ocean.ToByteArrayAsset());
             var oceanShader_params = oceanShader.@params as dynamic;
-            oceanShader_params.skyMap.value = new Texture3D("assets/Flare3DWaterShips/highlights.png", false, Texture3D.FORMAT_CUBEMAP);
-            oceanShader_params.normalMap.value = new Texture3D("assets/Flare3DWaterShips/normalmap.jpg");
+
+            // http://www.flare3d.com/docs/flare/core/Texture3D.html
+            // http://wiki.flare3d.com/index.php?title=FLAR_Toolkit_integration
+            oceanShader_params.skyMap.value = new Texture3D(
+                KnownEmbeddedResources.Default[
+                "assets/Flare3DWaterShips/highlights.png"
+                ].ToBitmapAsset(), false, Texture3D.FORMAT_CUBEMAP);
+            oceanShader_params.normalMap.value = new Texture3D(
+                KnownEmbeddedResources.Default["assets/Flare3DWaterShips/normalmap.jpg"].ToBitmapAsset());
             oceanShader_params.mirrorMap.value = mirror;
             #endregion
 
+            // http://www.flare3d.com/support/index.php?topic=142.0
+
             var water = new Plane("water", 3000, 3000, oceanGridSize - 1, oceanShader, "+xz");
-            var skybox = new SkyBox("assets/Flare3DWaterShips/skybox.png", SkyBox.HORIZONTAL_CROSS, null, 1);
+            var skybox = new SkyBox(
+
+                KnownEmbeddedResources.Default["assets/Flare3DWaterShips/skybox.png"].ToBitmapAsset(), SkyBox.HORIZONTAL_CROSS, null, 1);
 
             // http://www.flare3d.com/support/index.php?topic=63.0
             // http://www.flare3d.com/docs/tutorials/loadFromBytes/
             var ship0 = new Flare3DWaterShipComponent.ship();
-            ship0.load();
 
             // how to make it safe to provide 3rd party assetslibrary builder
             // code templates? which can be selected by KnownEmbeddedResources pattern match?
             // class XFileTemplate<T> where T like foo "*.zf3d"
 
             var ship1 = new Flare3DWaterShipComponent.ship();
-            ship1.load();
             ship1.x = 40;
             ship1.y = 10;
 
-
-            var particles = new Flare3DLoader("assets/Flare3DWaterShips/particles.zf3d");
-            particles.load();
+            var particles = new particles();
 
             #region initWaves():
             var bytes = new ByteArray();
@@ -186,5 +208,14 @@ namespace Flare3DWaterShips
 
 
 
+    }
+
+    public class particles : Flare3DLoader
+    {
+        public particles()
+            : base(KnownEmbeddedResources.Default["assets/Flare3DWaterShips/particles.zf3d"])
+        {
+            this.load();
+        }
     }
 }

@@ -1,8 +1,6 @@
 echo off
 rem http://help.adobe.com/en_US/flex/mobileapps/WS19f279b149e7481c-24dc70c812b9cbf7285-8000.html
 rem http://forum.starling-framework.org/topic/wrong-wmode-with-adobeair-32-desktop
-rem call build.bat
+rem call createapk.bat
 
-
-
-C:\util\air3-9_sdk_sa_win\bin\adl  ApplicationSprite.xml  -profile mobileDevice -screensize 680x762:680x800
+"C:\util\android-sdk-windows\platform-tools\adb.exe"  install -r air.com.abstractatech.gamification.mft.apk
