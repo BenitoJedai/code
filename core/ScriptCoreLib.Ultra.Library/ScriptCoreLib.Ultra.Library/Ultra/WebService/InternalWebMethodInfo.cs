@@ -93,57 +93,50 @@ namespace ScriptCoreLib.Ultra.WebService
         {
             var r = default(string);
 
-            //Console.WriteLine("GetParameterValue: name: " + name);
+            Console.WriteLine("GetParameterValue: " + new { name, that.Parameters.Length });
 
 
-            foreach (var item in that.Parameters)
+            // do we support null parameters?
+            var value = default(string);
+
+            //Console.WriteLine("LoadParameters: name: " + Parameter.Name);
+
+            var key = "_" + that.MetadataToken + "_" + name;
+
+            //Console.WriteLine("LoadParameters: key: " + key);
+            var value_Form = that.InternalContext.Request.Form[key];
+
+            if (null != value_Form)
             {
-                //Console.WriteLine("GetParameterValue: item.name: " + item.Name);
-
-                if (item.Name == name)
-                {
-                    //Console.WriteLine("GetParameterValue: item.value: " + item.Value);
-
-                    r = item.Value;
-                    break;
-                }
+                value = value_Form;
             }
+
+
+            //Console.WriteLine("LoadParameters: value: " + value);
+
+            //Parameter.Value = value.FromXMLString();
+            r = value.FromXMLString();
 
             return r;
         }
 
+        public HttpContext InternalContext;
         public void LoadParameters(HttpContext c)
         {
-            foreach (var Parameter in this.Parameters)
-            {
-                if (Parameter.IsDelegate)
-                {
-                }
-                else
-                {
-                    //WriteFormKeysToConsole(c);
+            this.InternalContext = c;
 
-                    // do we support null parameters?
-                    var value = "";
+            //foreach (var Parameter in this.Parameters)
+            //{
+            //    if (Parameter.IsDelegate)
+            //    {
+            //    }
+            //    else
+            //    {
+            //        //WriteFormKeysToConsole(c);
 
-                    //Console.WriteLine("LoadParameters: name: " + Parameter.Name);
-
-                    var key = "_" + this.MetadataToken + "_" + Parameter.Name;
-
-                    //Console.WriteLine("LoadParameters: key: " + key);
-                    var value_Form = c.Request.Form[key];
-
-                    if (null != value_Form)
-                    {
-                        value = value_Form;
-                    }
-
-
-                    //Console.WriteLine("LoadParameters: value: " + value);
-
-                    Parameter.Value = value.FromXMLString();
-                }
-            }
+      
+            //    }
+            //}
         }
 
         public static string InternalURLDecode(string Value)

@@ -1,10 +1,12 @@
 using net.hires.debug;
+using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
 
 namespace FlashTreasureHunt
 {
+    //[SWF(frameRate = 60)]
     public sealed class ApplicationSprite :
 
         FlashTreasureHunt.ActionScript.FlashTreasureHunt
