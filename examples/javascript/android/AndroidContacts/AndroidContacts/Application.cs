@@ -18,9 +18,8 @@ namespace AndroidContacts
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -29,15 +28,12 @@ namespace AndroidContacts
         public Application(IApp page)
         {
             @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.GetContacts(
-                @"A string from JavaScript.",
-                (
+
+            y = (
                     string id,
                     string name,
                     string email,
                     string gravatar
-
                     ) =>
                 {
 
@@ -48,8 +44,15 @@ namespace AndroidContacts
 
                     n.Container.AttachToDocument();
 
+                };
+
+            page.GetContacts.WhenClicked(
+                async delegate
+                {
+                    await GetContacts();
                 }
             );
+
         }
 
     }

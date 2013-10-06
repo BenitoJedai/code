@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using System.Threading.Tasks;
 
 namespace AndroidContacts
 {
@@ -23,15 +24,12 @@ namespace AndroidContacts
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void GetContacts(string e,
-            AtContact y)
+        public AtContact y;
+
+
+        public Task GetContacts()
         {
 #if Android
             // http://www.higherpass.com/Android/Tutorials/Working-With-Android-Contacts/
@@ -107,6 +105,8 @@ namespace AndroidContacts
 
             // Send it back to the caller.
             //y(e);
+
+            return Task.FromResult(default(object));
         }
 
     }

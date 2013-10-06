@@ -10,98 +10,43 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace SQLiteWithDataGridView
 {
-    public interface IApplicationWebService
+   
+
+
+
+    public sealed partial class ApplicationWebService : Component
     {
-        // __grid_SelectContent
-
-        void __grid_SelectContent(
-         string e,
-         Action<string, string, string, string> y,
-            /* int? */ string ParentContentKey,
-         Action<string> AtTransactionKey = null,
-         Action<string> AtError = null,
-         Action<string> AtConsole = null
-         );
-
-        // GridExample_UpdateItem
-
-        void GridExample_UpdateItem(
-
-                string ContentKey,
-                string ContentValue,
-                string ContentComment,
-
-                 Action<string> AtTransactionKey = null,
-
-                Action<string> AtConsole = null
-            );
-
-        void GridExample_GetTransactionKeyFor(
-            string e,
-
-            Action<string> y,
-            Action<string> AtConsole = null);
-
-        void GridExample_AddItem(
-            string ContentValue,
-            string ContentComment,
-            /* int? */ string ParentContentKey,
-
-            Action<string> AtContentReferenceKey,
-
-            Action<string> AtConsole = null
-
-            );
-
-        void GridExample_EnumerateItemsChangedBetweenTransactions(
-            /* int? */ string ParentContentKey,
-
-
-            string FromTransaction,
-            string ToTransaction,
-            Action<string, string, string, string> AtContent,
-            Action<string> done,
-
-                Action<string> AtConsole = null
-
-        );
-
-    }
-    /// <summary>
-    /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
-    /// </summary>
-    public sealed partial class ApplicationWebService : Component,
-        IApplicationWebService
-    {
-        public TheGridTable grid
+        private static TheGridTable grid
         {
 
             get
             {
                 // http://stackoverflow.com/questions/1645661/turn-off-warnings-and-errors-on-php-mysql
 
-                return new TheGridTable().With(
-                    x =>
-                    {
-                        var DataSource = "SQLiteWithDataGridView7.sqlite";
+                var x = new TheGridTable();
 
-                        x.csb_write.DataSource = DataSource;
-                        Credentials.partial_ApplyRestrictedCredentials(x.csb_write);
+                {
+                    var DataSource = "SQLiteWithDataGridView7.sqlite";
 
-                        x.csb.DataSource = DataSource;
-                        x.csb.ReadOnly = true;
-                        // this was expensive to figure out!
-                        Credentials.partial_ApplyRestrictedCredentials(x.csb);
+                    x.csb_write.DataSource = DataSource;
+                    Credentials.partial_ApplyRestrictedCredentials(x.csb_write);
 
-                        x.csb_admin.DataSource = DataSource;
-                        Credentials.partial_ApplyRestrictedCredentials(x.csb_admin, true);
-                        x.Create();
-                    }
-                );
+                    x.csb.DataSource = DataSource;
+                    x.csb.ReadOnly = true;
+                    // this was expensive to figure out!
+                    Credentials.partial_ApplyRestrictedCredentials(x.csb);
+
+                    x.csb_admin.DataSource = DataSource;
+                    Credentials.partial_ApplyRestrictedCredentials(x.csb_admin, true);
+                    x.Create();
+                }
+
+                return x;
             }
         }
 
@@ -110,7 +55,7 @@ namespace SQLiteWithDataGridView
 
         public static partial class Credentials
         {
-            public static  void partial_ApplyAdministratorCredentials(SQLiteConnectionStringBuilder b)
+            public static void partial_ApplyAdministratorCredentials(SQLiteConnectionStringBuilder b)
             {
                 ApplyAdministratorCredentials(b);
             }
@@ -118,7 +63,7 @@ namespace SQLiteWithDataGridView
             static partial void ApplyAdministratorCredentials(SQLiteConnectionStringBuilder b);
 
 
-            public static  void partial_ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false)
+            public static void partial_ApplyRestrictedCredentials(SQLiteConnectionStringBuilder b, bool admin = false)
             {
                 ApplyRestrictedCredentials(b, admin);
             }
@@ -127,14 +72,19 @@ namespace SQLiteWithDataGridView
         }
 
 
+        public Action<string> AtConsole = null;
+
+        // why cant this be null?
+        public /* int? */ string ParentContentKey;
+
         public void GridExample_GetTransactionKeyFor(
             string e,
 
-            Action<string> y,
-            Action<string> AtConsole = null)
+            Action<string> y)
         {
             var x = new __ConsoleToDatabaseWriter(AtConsole);
-            this.grid.SelectTransactionKey(
+
+            grid.SelectTransactionKey(
                 ContentKey =>
                 {
                     y("" + ContentKey);
@@ -147,11 +97,8 @@ namespace SQLiteWithDataGridView
         public void GridExample_AddItem(
             string ContentValue,
             string ContentComment,
-            /* int? */ string ParentContentKey,
 
-            Action<string> AtContentReferenceKey,
-
-            Action<string> AtConsole = null
+            Action<string> AtContentReferenceKey
 
             )
         {
@@ -177,13 +124,13 @@ namespace SQLiteWithDataGridView
                     var ContentReferenceKey = ContentReferenceKeyLong.ToString();
                     //var ContentReferenceKey = ((object)ContentReferenceKeyLong).ToString();
 
-                    this.grid.InsertLog(
+                    grid.InsertLog(
                          new TheGridTableQueries.InsertLog { ContentKey = (int)ContentReferenceKeyLong, ContentComment = "AddItem" }
                      );
 
                     if (ParentContentKey != "")
                     {
-                        this.grid.InsertLog(
+                        grid.InsertLog(
                            new TheGridTableQueries.InsertLog { ContentKey = int.Parse(ParentContentKey), ContentComment = "ChildAdded" }
                        );
 
@@ -204,9 +151,7 @@ namespace SQLiteWithDataGridView
                 string ContentValue,
                 string ContentComment,
 
-                 Action<string> AtTransactionKey = null,
-
-                Action<string> AtConsole = null
+                 Action<string> AtTransactionKey = null
             )
         {
             var x = new __ConsoleToDatabaseWriter(AtConsole);
@@ -224,7 +169,7 @@ namespace SQLiteWithDataGridView
             );
 
 
-            this.grid.InsertLog(
+            grid.InsertLog(
                 new TheGridTableQueries.InsertLog { ContentKey = iContentKey, ContentComment = "UpdateItem" }
             );
 
@@ -239,16 +184,12 @@ namespace SQLiteWithDataGridView
 
 
 
-        public void GridExample_EnumerateItemsChangedBetweenTransactions(
-            /* int? */ string ParentContentKey,
+        public Task GridExample_EnumerateItemsChangedBetweenTransactions(
 
 
             string FromTransaction,
             string ToTransaction,
-            Action<string, string, string, string> AtContent,
-            Action<string> done,
-
-                Action<string> AtConsole = null
+            Action<string, string, string, string> AtContent
 
         )
         {
@@ -289,7 +230,8 @@ namespace SQLiteWithDataGridView
             x.Dispose();
 
             // why does jsc not support parameterless yields?
-            done("");
+
+            return Task.FromResult(default(object));
         }
 
 
@@ -298,10 +240,8 @@ namespace SQLiteWithDataGridView
         public void __grid_SelectContent(
             string e,
             Action<string, string, string, string> y,
-            /* int? */ string ParentContentKey,
             Action<string> AtTransactionKey = null,
-            Action<string> AtError = null,
-            Action<string> AtConsole = null
+            Action<string> AtError = null
             )
         {
             //ScriptCoreLib.PHP.Native.API.error_reporting(0);
@@ -317,7 +257,7 @@ namespace SQLiteWithDataGridView
 
             try
             {
-                InternalSelectContent(y, ParentContentKey, AtTransactionKey);
+                InternalSelectContent(y, AtTransactionKey);
 
             }
             catch (Exception ex)
@@ -330,7 +270,8 @@ namespace SQLiteWithDataGridView
             x.Dispose();
         }
 
-        private void InternalSelectContent(Action<string, string, string, string> y, string ParentContentKey, Action<string> AtTransactionKey)
+        private void InternalSelectContent(Action<string, string, string, string> y,
+            Action<string> AtTransactionKey)
         {
             Console.WriteLine("enter InternalSelectContent");
 
@@ -339,7 +280,7 @@ namespace SQLiteWithDataGridView
 
             Console.WriteLine(new { xParentContentKey });
 
-            this.grid.SelectContent(
+            grid.SelectContent(
                 new TheGridTableQueries.SelectContent
                 {
                     ParentContentKey1 = xParentContentKey,

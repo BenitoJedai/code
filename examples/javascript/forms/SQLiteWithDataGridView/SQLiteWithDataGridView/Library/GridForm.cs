@@ -19,26 +19,29 @@ namespace SQLiteWithDataGridView.Library
 
         }
 
-        public string ParentContentKey = "";
+        //public string ParentContentKey = "";
 
         //public ApplicationWebService service;
 
-        public IApplicationWebService service;
+        //public IApplicationWebService service;
 
         private void Form1_Load(object sender, EventArgs e)
         {
             if (this.Owner != null)
-                this.Text = this.Owner.Text + "/" + ParentContentKey;
+                this.Text = this.Owner.Text + "/" + xservice.ParentContentKey;
             else
                 this.Text = "/";
 
-            this.label4.Text = ParentContentKey;
+            this.label4.Text = xservice.ParentContentKey;
 
             dataGridView1.Enabled = false;
 
+
+            this.xservice.AtConsole = Console.Write;
+
             Console.WriteLine("service.__grid_SelectContent");
             InternalCellValueChanged = true;
-            service.__grid_SelectContent("",
+            xservice.__grid_SelectContent("",
                 (ContentKey, ContentValue, ContentComment, ContentChildren) =>
                 {
                     var r = new DataGridViewRow();
@@ -66,7 +69,7 @@ namespace SQLiteWithDataGridView.Library
                     dataGridView1.Rows.Add(r);
 
                 },
-                ParentContentKey: ParentContentKey,
+                //ParentContentKey: ParentContentKey,
                 AtTransactionKey: value =>
                 {
                     LocalTransactionKey = value;
@@ -95,9 +98,7 @@ namespace SQLiteWithDataGridView.Library
 
                     SystemSounds.Beep.Play();
                     f.Show();
-                },
-
-                AtConsole: Console.Write
+                }
             );
         }
 
@@ -144,10 +145,10 @@ namespace SQLiteWithDataGridView.Library
                 var st = new Stopwatch();
                 st.Start();
 
-                service.GridExample_AddItem(
+                xservice.GridExample_AddItem(
                     ContentValue,
                     ContentComment,
-                    ParentContentKey,
+                    //ParentContentKey,
                     AtContentReferenceKey: LastInsertRowId =>
                     {
                         st.Stop();
@@ -161,9 +162,7 @@ namespace SQLiteWithDataGridView.Library
                         //i++;
 
                         //LocalTransactionKey = i.ToString();
-                    },
-
-                    AtConsole: Console.Write
+                    }
                 );
                 Console.WriteLine("service.GridExample_AddItem...");
                 #endregion
@@ -190,7 +189,7 @@ namespace SQLiteWithDataGridView.Library
                 st.Start();
 
                 Console.WriteLine("service.GridExample_UpdateItem...");
-                service.GridExample_UpdateItem(
+                xservice.GridExample_UpdateItem(
                     ContentKey,
                     ContentValue,
                     ContentComment,
@@ -205,9 +204,7 @@ namespace SQLiteWithDataGridView.Library
                         //i++;
 
                         //LocalTransactionKey = i.ToString();
-                    },
-
-                    AtConsole: Console.Write
+                    }
                 );
 
             }
@@ -223,10 +220,13 @@ namespace SQLiteWithDataGridView.Library
             var f = new GridForm
             {
                 Owner = this,
-                service = service,
-                ParentContentKey = ContentKey,
+                //service = service,
+                //ParentContentKey = ContentKey,
                 StartPosition = FormStartPosition.Manual
             };
+
+            f.xservice.ParentContentKey = ContentKey;
+
             f.Location = new Point(this.Left, this.Top + 32);
 
             f.Show();
@@ -246,7 +246,7 @@ namespace SQLiteWithDataGridView.Library
             st.Start();
 
             Action<string> AtServerTransactionKey =
-                ServerTransactionKey =>
+                async ServerTransactionKey =>
                 {
                     label2.Text = ServerTransactionKey;
 
@@ -268,26 +268,19 @@ namespace SQLiteWithDataGridView.Library
                         #endregion
 
 
-                        Action<string> done = delegate
-                        {
-                            LocalTransactionKey = ServerTransactionKey;
-                            label2.Text = ServerTransactionKey;
-                            label2.ForeColor = Color.Black;
-
-                            if (checkBox1.Checked)
-                                timer1.Start();
-                        };
-
-                        service.GridExample_EnumerateItemsChangedBetweenTransactions(
-                            //TableName,
-                            ParentContentKey,
+                
+                        await xservice.GridExample_EnumerateItemsChangedBetweenTransactions(
                             LocalTransactionKey,
                             ServerTransactionKey,
-                            AtContent: AtContentKey,
-                            done: done,
-
-                            AtConsole: Console.Write
+                            AtContent: AtContentKey
                         );
+
+                        LocalTransactionKey = ServerTransactionKey;
+                        label2.Text = ServerTransactionKey;
+                        label2.ForeColor = Color.Black;
+
+                        if (checkBox1.Checked)
+                            timer1.Start();
 
                         // we need updates!
                         return;
@@ -300,10 +293,9 @@ namespace SQLiteWithDataGridView.Library
 
             //Console.WriteLine("#" + TimerCounter + " service.GridExample_GetTransactionKeyFor");
 
-            service.GridExample_GetTransactionKeyFor(
+            xservice.GridExample_GetTransactionKeyFor(
                 e: "",
-                y: AtServerTransactionKey,
-                AtConsole: Console.Write
+                y: AtServerTransactionKey
             );
         }
 

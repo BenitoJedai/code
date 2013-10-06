@@ -46,6 +46,7 @@ namespace SQLiteWithDataGridView.Library
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.xservice = new SQLiteWithDataGridView.ApplicationWebService();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -229,5 +230,6 @@ namespace SQLiteWithDataGridView.Library
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.Label label5;
+        public ApplicationWebService xservice;
     }
 }

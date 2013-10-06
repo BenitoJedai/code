@@ -29,7 +29,6 @@ namespace SQLiteWithDataGridView
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.Table001 = new System.Windows.Forms.Button();
-            this.applicationWebService1 = new SQLiteWithDataGridView.ApplicationWebService();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -75,7 +74,6 @@ namespace SQLiteWithDataGridView
             this.PerformLayout();
 
         }
-        private ApplicationWebService applicationWebService1;
         private Panel panel1;
         private Button Table001;
         public Label label1;
